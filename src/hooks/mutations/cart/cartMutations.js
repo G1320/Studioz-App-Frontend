@@ -129,7 +129,7 @@ export const useRemoveItemFromCartMutation = () => {
                 .catch((error) => handleError(error));
             } else {
               const cart = getLocalOfflineCart() || [];
-              cart.push(itemId);
+              cart.push(variables);
               setLocalOfflineCart(cart);
               return cart;
             }
