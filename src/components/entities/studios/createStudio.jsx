@@ -11,6 +11,8 @@ const CreateStudio = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (formData) => {
+    formData.galleryImages = formData.galleryImages.split(',');
+
     createStudioMutation.mutate({ userId: user?._id, newStudio: formData });
     navigate('/');
   };
@@ -95,7 +97,13 @@ const CreateStudio = () => {
     },
     { name: 'city', label: 'City', type: 'text' },
     { name: 'address', label: 'Address', type: 'text' },
-    { name: 'imgUrl', label: 'Image URL', type: 'text' },
+    { name: 'imgUrl', label: 'Cover Photo URL', type: 'text' },
+    {
+      name: 'galleryImages',
+      label: 'Gallery Images (comma-separated URLs)',
+      type: 'text',
+    },
+
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' },
     { name: 'isSmokingAllowed', label: 'Smoking Allowed', type: 'checkbox' },
     { name: 'isWheelchairAccessible', label: 'Wheelchair Accessible', type: 'checkbox' },
