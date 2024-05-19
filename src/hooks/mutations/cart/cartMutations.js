@@ -26,12 +26,12 @@ export const useAddItemToCartMutation = () => {
   };
 
   return useMutation({
-    mutationFn: (item) => {
+    mutationFn: (itemId) => {
       if (user) {
-        return addItemToCart(user?._id, item);
+        return addItemToCart(user?._id, itemId);
       } else {
         const cart = getLocalOfflineCart() || [];
-        cart.push(item);
+        cart.push(itemId);
         setLocalOfflineCart(cart);
         return cart;
       }
@@ -123,9 +123,16 @@ export const useRemoveItemFromCartMutation = () => {
         action: {
           label: 'Undo',
           onClick: () => {
-            addItemToCart(user._id, variables)
-              .then(() => invalidateQueries())
-              .catch((error) => handleError(error));
+            if (user) {
+              return addItemToCart(user._id, variables)
+                .then(() => invalidateQueries())
+                .catch((error) => handleError(error));
+            } else {
+              const cart = getLocalOfflineCart() || [];
+              cart.push(itemId);
+              setLocalOfflineCart(cart);
+              return cart;
+            }
           },
         },
       });
