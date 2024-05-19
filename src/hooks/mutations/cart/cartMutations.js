@@ -131,6 +131,7 @@ export const useRemoveItemFromCartMutation = () => {
               const cart = getLocalOfflineCart() || [];
               cart.push(variables);
               setLocalOfflineCart(cart);
+              setOfflineCart(cart);
               return cart;
             }
           },
