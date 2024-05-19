@@ -5,7 +5,7 @@ import { refreshAccessToken } from './auth-service';
 
 const BASE_URL =
   import.meta.env.VITE_NODE_ENV === 'production'
-    ? 'https://studios-app-backend.onrender.com/api'
+    ? 'https://studioz-backend.onrender.com/api'
     : 'http://localhost:3003/api';
 
 const axios = Axios.create({
