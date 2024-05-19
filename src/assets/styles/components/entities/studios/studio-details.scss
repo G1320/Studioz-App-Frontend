@@ -1,0 +1,21 @@
+.studio-details{
+.preview.studio-preview{
+    max-height: max-content;
+    gap: 0.5rem;
+    img{
+      width: 100%;
+      max-width: 1200px;
+   }
+   button{
+    display: none;
+   }
+}   
+ &.studio-items-list{
+        .add-to-studio{
+            display: none;
+        }
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 2px solid red;
+    }
+}

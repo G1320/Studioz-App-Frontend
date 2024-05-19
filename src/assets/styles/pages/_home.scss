@@ -1,0 +1,17 @@
+.home {
+    display: grid;
+    padding:0.5rem 2rem;
+     h1{
+         align-self: center ;
+         cursor: pointer;
+         &:first-of-type:not(.hero-header){
+             padding: 10px;
+             height: 36px;
+            align-self: center;
+            justify-self: start;
+        }
+        &:hover{
+            text-shadow: 0 0 12px #bdeeff;
+        }
+    }
+}

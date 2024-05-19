@@ -1,0 +1,7 @@
+main {
+    height: 100%;
+    max-width: 2300px;
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: max-content 1fr;
+}

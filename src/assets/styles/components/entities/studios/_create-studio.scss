@@ -1,0 +1,25 @@
+.select-wrapper{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 0.23fr 1fr;
+    justify-content: start;
+    text-align: left;
+    label {
+        justify-self: start;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.checkbox-wrapper{
+    display: grid;
+    grid-template-columns: 1fr ;
+    gap: 1rem;
+    justify-content: start;
+    text-align: left;
+    label {
+        justify-self: start;
+        display: flex;
+        align-items: center;
+    }
+}

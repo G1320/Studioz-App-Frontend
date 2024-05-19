@@ -1,0 +1,15 @@
+.navbar{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+div{
+    display: flex;
+    place-items: center;
+}
+    *{
+        max-width: 100%;
+    }
+
+    img{
+        max-height: 30px;
+    }
+}
