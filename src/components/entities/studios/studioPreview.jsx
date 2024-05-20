@@ -16,7 +16,7 @@ const StudioPreview = ({ studio = null }) => {
       key={studio?._id}
       className="preview studio-preview"
     >
-      <img src={studio?.imgUrl} alt={studio?.name} />
+      <img src={studio?.coverImage} alt={studio?.name} />
       <div>
         <h2>{studio?.name}</h2>
         <p>{studio?.city}</p>

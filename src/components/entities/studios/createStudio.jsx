@@ -3,77 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import GenericForm from '../../common/forms/genericForm';
 import { getLocalUser } from '../../../services/user-service';
 
+import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
+
 import { useCreateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
+import ImageUploader from '../../common/imageUploader/imageUploader';
+import { uploadImage } from '../../../services/image-upload-service';
+import { toast } from 'sonner';
+import { set } from 'react-hook-form';
 
 const CreateStudio = () => {
   const user = getLocalUser();
   const createStudioMutation = useCreateStudioMutation();
   const navigate = useNavigate();
 
-  const handleSubmit = async (formData) => {
-    formData.galleryImages = formData.galleryImages.split(',');
-
-    createStudioMutation.mutate({ userId: user?._id, newStudio: formData });
-    navigate('/');
-  };
-
-  const musicSubCategories = [
-    'Music Production',
-    'Podcast Recording',
-    'Audio Engineering',
-    'Film Sound',
-    'Voiceover',
-    'Live Recording',
-    'Mastering',
-    'Mixing',
-    'Remote Collaboration',
-    'Virtual Reality',
-    'Live Streaming',
-    'ADR (Automated Dialogue Replacement)',
-    'Foley',
-    'Sound Design',
-    'Field Recording',
-    'Post Production',
-    'Audio Restoration',
-    'Educational',
-    'Commercial',
-    'Personal Studio',
-  ];
-
-  const videoAndPhotographySubCategories = [
-    'Film Production',
-    'Photography Studio',
-    'Video Editing',
-    'Cinematography',
-    'Commercial Photography',
-    'Documentary Production',
-    'Wedding Photography',
-    'Portrait Photography',
-    'Fashion Photography',
-    'Event Videography',
-    'Music Video Production',
-    'Drone Photography/Videography',
-    'Green Screen Studio',
-    'Food Photography',
-    'Product Photography',
-    'Studio Rental',
-    'Video Animation',
-    'Virtual Tour Creation',
-    '360° Photography/Videography',
-    'Headshot Photography',
-    'Real Estate Photography/Videography',
-    'Corporate Videography',
-    'Artistic Photography',
-    'Educational Videos',
-    'Travel Photography/Videography',
-    'Video Game Streaming Setup',
-    'Video Blogging',
-    'Stock Photography/Videography',
-    'Visual Effects',
-    'Stop Motion Animation',
-  ];
-
   const [selectedCategory, setSelectedCategory] = useState('Music');
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [coverImage, setCoverImage] = useState('');
+
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
   };
@@ -97,12 +43,6 @@ const CreateStudio = () => {
     },
     { name: 'city', label: 'City', type: 'text' },
     { name: 'address', label: 'Address', type: 'text' },
-    { name: 'imgUrl', label: 'Cover Photo URL', type: 'text' },
-    {
-      name: 'galleryImages',
-      label: 'Gallery Images (comma-separated URLs)',
-      type: 'text',
-    },
 
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' },
     { name: 'isSmokingAllowed', label: 'Smoking Allowed', type: 'checkbox' },
@@ -110,13 +50,43 @@ const CreateStudio = () => {
     { name: 'isSelfService', label: 'Self service', type: 'checkbox' },
   ];
 
+  const handleSubmit = async (formData) => {
+    formData.galleryImages = galleryImages;
+    formData.coverImage = coverImage;
+
+    createStudioMutation.mutate({ userId: user?._id, newStudio: formData });
+    navigate('/');
+  };
+
+  const handleImageUpload = async (files) => {
+    const results = await Promise.all(files.map(async (file) => await uploadImage(file)));
+
+    const imageUrls = results.map((result) => result.secure_url);
+
+    if (files.length === 1) {
+      setCoverImage(imageUrls[0]);
+      return toast.success('Cover image uploaded successfully');
+    }
+    setGalleryImages(imageUrls);
+    toast.success('Gallery images uploaded successfully');
+  };
+
   return (
-    <GenericForm
-      title="Create Studio"
-      fields={fields}
-      onSubmit={handleSubmit}
-      onCategoryChange={handleCategoryChange}
-    />
+    <>
+      {' '}
+      <div className="preview">
+        <div>
+          <ImageUploader onImageUpload={handleImageUpload} />
+          <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
+        </div>
+      </div>
+      <GenericForm
+        title="Create Studio"
+        fields={fields}
+        onSubmit={handleSubmit}
+        onCategoryChange={handleCategoryChange}
+      />
+    </>
   );
 };
 
