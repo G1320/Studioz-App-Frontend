@@ -24,13 +24,33 @@
     }
 }
 
-.preview{
-gap: 0.5rem;    
-min-width: 250px;
-.icon{
+
+.create-studio{
+    display: grid;
     margin: auto;
-}
-img{
-    max-width: 275px;
-}
+    padding:  2rem;
+    gap: 1rem;
+
+    .image-uploader{
+        padding: 1rem;
+    }
+    .preview{
+        gap: 1rem;    
+        min-width: 250px;
+        max-width: max-content;
+        height: max-content;
+        .icon{
+            margin: auto;
+        }
+        img{
+            max-width: 275px;
+            place-items: center;
+    min-height: 215px;
+    padding: 0;
+    box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
+    border: 2px solid #cccccc;
+    border-radius: 8px;
+    transition: 200ms;
+        }
+    }
 }

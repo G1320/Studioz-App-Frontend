@@ -23,26 +23,22 @@ const ImageUploader = ({ onImageUpload, multiple = true }) => {
 
   return (
     <div>
-      <div {...getRootProps()}>
+      <div className="image-uploader preview" {...getRootProps()}>
         <input {...getInputProps()} />
-        {isDragActive ? (
-          <div>
+        <div>
+          {isDragActive ? (
             <p>Drop the files here ...</p>
-          </div>
-        ) : (
-          <div>
+          ) : (
             <p>Drag 'n' drop some files here, or click to select files</p>
-          </div>
-        )}
-        {preview ? (
-          <div className="preview">
-            <img className="preview" src={preview} alt="preview" />{' '}
-          </div>
-        ) : (
-          <div className="preview">
-            <UploadFileIcon className="icon" />
-          </div>
-        )}
+          )}
+          {preview ? (
+            <img src={preview} alt="preview" />
+          ) : (
+            <div className="preview">
+              <UploadFileIcon className="icon" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

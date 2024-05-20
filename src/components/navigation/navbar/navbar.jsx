@@ -13,7 +13,7 @@ export function Navbar() {
 
   return (
     <nav className="navbar">
-      <div onClick={() => handleNavigate('/store')}>Services</div>
+      <div onClick={() => navigate('/store')}>Services</div>
       <div onClick={() => handleNavigate('/wishlists')}>Wishlists</div>
       <div onClick={() => handleNavigate('/create-studio')}>Create</div>
     </nav>

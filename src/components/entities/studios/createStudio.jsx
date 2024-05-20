@@ -72,21 +72,16 @@ const CreateStudio = () => {
   };
 
   return (
-    <>
-      {' '}
-      <div className="preview">
-        <div>
-          <ImageUploader onImageUpload={handleImageUpload} />
-          <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
-        </div>
-      </div>
+    <section className="create-studio">
+      <ImageUploader onImageUpload={handleImageUpload} />
+      <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
       <GenericForm
         title="Create Studio"
         fields={fields}
         onSubmit={handleSubmit}
         onCategoryChange={handleCategoryChange}
       />
-    </>
+    </section>
   );
 };
 
