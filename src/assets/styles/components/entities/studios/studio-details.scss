@@ -1,5 +1,8 @@
-.studio-details{
-.preview.studio-preview{
+.studio-details{  
+    .items{
+        width: 100%;
+    }
+   .preview.studio-preview{
     max-height: max-content;
     gap: 0.5rem;
     img{
@@ -8,12 +11,10 @@
    }
    button{
     display: none;
-   }
-}   
- &.studio-items-list{
-        .add-to-studio{
-            display: none;
-        }
+     }
+    }   
+   &.studio-items-list{
+        
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         border: 2px solid red;

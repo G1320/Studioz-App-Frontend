@@ -9,14 +9,14 @@ const StudioPreview = ({ studio = null }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [currImage, setCurrImage] = useState(null);
+  const [currCoverImage, setCurrCoverImage] = useState(null);
 
   const handleImageChange = (image) => {
-    setCurrImage(image);
+    setCurrCoverImage(image);
   };
 
   useEffect(() => {
-    setCurrImage(studio?.coverImage);
+    setCurrCoverImage(studio?.coverImage);
   }, [studio]);
 
   const isStudiosPath = location.pathname.includes('studio');
@@ -24,7 +24,7 @@ const StudioPreview = ({ studio = null }) => {
   const renderItem = (image, index) => (
     <img
       onClick={() => handleImageChange(image)}
-      className="gallery-image preview"
+      className="preview gallery-image "
       key={index}
       src={image}
       alt={studio.name}
@@ -37,7 +37,7 @@ const StudioPreview = ({ studio = null }) => {
       key={studio?._id}
       className="preview studio-preview"
     >
-      <img src={currImage} alt={studio?.name} />
+      <img src={currCoverImage} alt={studio?.name} />
 
       {isStudiosPath && studio?.galleryImages && studio.galleryImages.length > 0 && (
         <>

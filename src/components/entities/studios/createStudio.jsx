@@ -62,6 +62,7 @@ const CreateStudio = () => {
     const results = await Promise.all(files.map(async (file) => await uploadImage(file)));
 
     const imageUrls = results.map((result) => result.secure_url);
+    console.log('imageUrls: ', imageUrls);
 
     if (files.length === 1) {
       setCoverImage(imageUrls[0]);
