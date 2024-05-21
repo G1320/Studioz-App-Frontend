@@ -39,10 +39,10 @@ const StudioPreview = ({ studio = null }) => {
     >
       <img src={currCoverImage} alt={studio?.name} />
 
-      {isStudiosPath && studio?.galleryImages && studio.galleryImages.length > 0 && (
+      {isStudiosPath && studio?.galleryImages && studio?.galleryImages.length > 0 && (
         <>
           <GenericList
-            data={studio.galleryImages}
+            data={studio?.galleryImages}
             renderItem={renderItem}
             className={'gallery-images-list'}
           />
