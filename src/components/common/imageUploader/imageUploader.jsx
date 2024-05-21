@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 
 const ImageUploader = ({ onImageUpload, multiple = true }) => {
   const [preview, setPreview] = useState(null);
@@ -27,9 +28,9 @@ const ImageUploader = ({ onImageUpload, multiple = true }) => {
         <input {...getInputProps()} />
         <div>
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <ArrowDropDownCircleIcon className="icon" />
           ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <small>{multiple ? 'Drop a few gallery photos here' : 'Drop a cover photo here'}</small>
           )}
           {preview ? (
             <img src={preview} alt="preview" />

@@ -16,19 +16,23 @@ const Home = ({ studios, items }) => {
     <section className="home">
       <Hero></Hero>
       <h1 onClick={() => navigate('/studios/music/recording')}>
-        Check out our latest Recording Studios
+        Check out our latest Recording Studioz
       </h1>
       <GenericCarousel
-        data={studios}
+        data={studios?.slice(0, 6)}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
       />
       <h1 onClick={() => navigate('/studios/music/mastering')}>Browse the Mastering collection</h1>
-      <StudiosList studios={studios} />
-      <h1 onClick={() => navigate('/services/music/mastering')}>
-        Polish you tracks with professional Mastering
+      <StudiosList studios={studios?.slice(0, 6)} />
+      <h1 onClick={() => navigate('/services/music/mixing')}>
+        Polish you tracks with professional Mixing
       </h1>
-      <GenericCarousel data={items} className="items-carousel" renderItem={itemRenderItem} />
+      <GenericCarousel
+        data={items?.slice(0, 12)}
+        className="items-carousel"
+        renderItem={itemRenderItem}
+      />
     </section>
   );
 };

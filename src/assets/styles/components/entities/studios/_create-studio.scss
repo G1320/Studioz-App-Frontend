@@ -22,29 +22,33 @@
         display: flex;
         align-items: center;
     }
-}
+   }
 
 
-.create-studio{
+   .create-studio{
     display: grid;
     margin: auto;
     padding:  2rem;
     gap: 1rem;
-
     .image-uploader{
+        cursor: pointer;
         padding: 1rem;
-    }
+     max-width: 616px;  
+     }
     .preview{
         gap: 1rem;    
         min-width: 250px;
-        max-width: max-content;
         height: max-content;
+        small{
+            min-width: 250px;
+        }
         .icon{
             margin: auto;
+            min-width: 250px;
         }
         img{
-            max-width: 275px;
             place-items: center;
+            width: 310px;
     min-height: 215px;
     padding: 0;
     box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);

@@ -2,7 +2,19 @@
   max-height:380px ;
   min-height: 340px;
   height: 100%;
+
+  .gallery-images-list{
+    
+    grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)) ;
+
+
+      img {
+        min-height: 100px !important;
+      }   
+    
+  }
+
     img{
         align-self: start;
-      }
-}
+        cursor: pointer;
+      }}

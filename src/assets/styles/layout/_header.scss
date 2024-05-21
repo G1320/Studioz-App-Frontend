@@ -15,16 +15,15 @@ header{
 
   
    .navbar{
-    width: 100%;
-    max-width: 232px;
     justify-self: start;
    grid-column: 2/4;
    grid-row: 1;
    display: flex;
    align-self: end;
-   justify-content: space-between;
    justify-items: start;
-
+div{
+  margin-inline-start: 1rem;
+}
    }
 
    .login, .logout{

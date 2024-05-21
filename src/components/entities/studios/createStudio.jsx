@@ -73,8 +73,8 @@ const CreateStudio = () => {
 
   return (
     <section className="create-studio">
-      <ImageUploader onImageUpload={handleImageUpload} />
       <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
+      <ImageUploader onImageUpload={handleImageUpload} />
       <GenericForm
         title="Create Studio"
         fields={fields}

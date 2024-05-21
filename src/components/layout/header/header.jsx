@@ -27,7 +27,7 @@ const header = ({ filteredItems = null }) => {
         </>
       )}
       <h1>
-        <Link to="/">Studios</Link>
+        <Link to="/">Studioz</Link>
       </h1>
       <CartItemsList cartItems={cartItems || filteredItems} isDropdown={true} />
       <Navbar />
