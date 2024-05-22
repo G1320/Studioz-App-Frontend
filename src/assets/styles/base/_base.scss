@@ -87,6 +87,8 @@
     border-radius: 50%;
   }
 
+  
+
 
 
   .preview{
@@ -144,6 +146,9 @@
   gap: 0.5rem;
  }
 
+
+
+
   .generic-list{
     display: grid;
     max-width: 100%;
@@ -154,7 +159,25 @@
     article{
       cursor: pointer;
     }
+    .image-gallery-list{
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) ;
+  
+    }
   }
+
+  .image-gallery-container {
+    display: grid !important;    
+   }
+  
+   .gallery-images-list{
+     grid-template-columns:repeat(auto-fit, minmax(40px, 1fr)) ;
+     grid-template-rows: 40px;
+     img:not(.cover-image) {
+         min-height: 40px;
+         max-width: 116px !important;
+         cursor: pointer;
+       }   
+   }
 
 .generic-form{
      width: 100%;

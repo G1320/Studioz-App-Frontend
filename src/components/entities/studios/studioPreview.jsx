@@ -1,35 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../../common/buttons/genericButton';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import GenericList from '../../common/lists/genericList';
+import GenericImageGallery from '../../common/imageGallery/genericImageGallery';
 
 const StudioPreview = ({ studio = null }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [currCoverImage, setCurrCoverImage] = useState(null);
-
-  const handleImageChange = (image) => {
-    setCurrCoverImage(image);
-  };
-
-  useEffect(() => {
-    setCurrCoverImage(studio?.coverImage);
-  }, [studio]);
-
-  const isStudiosPath = location.pathname.includes('studio');
-
-  const renderItem = (image, index) => (
-    <img
-      onClick={() => handleImageChange(image)}
-      className="preview gallery-image "
-      key={index}
-      src={image}
-      alt={studio.name}
-    />
-  );
+  const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
   return (
     <article
@@ -37,18 +16,12 @@ const StudioPreview = ({ studio = null }) => {
       key={studio?._id}
       className="preview studio-preview"
     >
-      <img src={currCoverImage} alt={studio?.name} />
-
-      {isStudiosPath && studio?.galleryImages && studio?.galleryImages.length > 0 && (
-        <>
-          <GenericList
-            data={studio?.galleryImages}
-            renderItem={renderItem}
-            className={'gallery-images-list'}
-          />
-          <Button onClick={() => navigate(`/edit-studio/${studio?._id}`)}>Edit Studio</Button>
-        </>
-      )}
+      <GenericImageGallery
+        entity={studio}
+        coverImage={studio?.coverImage}
+        galleryImages={studio?.galleryImages}
+        isGalleryImagesShown={isStudioPath}
+      />
       <div>
         <h2>{studio?.name}</h2>
         <p>{studio?.city}</p>
@@ -57,10 +30,8 @@ const StudioPreview = ({ studio = null }) => {
       <div className="options-wrapper">
         <ChairIcon />
         <p> {studio?.maxOccupancy || 0}</p>
-
         <SmokingRooms />
         <p>{studio?.isSmokingAllowed ? <Check /> : <Close />}</p>
-
         <Accessible />
         <p>{studio?.isWheelchairAccessible ? <Check /> : <Close />}</p>
       </div>

@@ -8,9 +8,9 @@ const Hero = () => {
     <section onClick={() => navigate('/studios/music')} className="hero">
       <div className="preview">
         <div className="hero-text-wrapper">
-          <h1 className="hero-header">With Studios.com, finding the perfect Studio is effortless. </h1>
+          <h1 className="hero-header">With Studioz.co.il, finding the perfect Studio is effortless. </h1>
           <p>
-            Browse a curated selection of top-tier studios, book sessions seamlessly, and elevate your
+            Browse our curated selection of top-tier studios, book sessions seamlessly, and elevate your
             sound with ease.
           </p>
         </div>

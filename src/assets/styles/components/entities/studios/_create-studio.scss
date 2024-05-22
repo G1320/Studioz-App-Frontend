@@ -11,7 +11,7 @@
     }
 }
 
-.checkbox-wrapper{
+  .checkbox-wrapper{
     display: grid;
     grid-template-columns: 1fr ;
     gap: 1rem;
@@ -31,25 +31,22 @@
     padding:  2rem;
     gap: 1rem;
     .image-uploader{
+     div{
+    height: 100%;
+    }
+
         cursor: pointer;
         padding: 1rem;
-     max-width: 616px;  
      }
     .preview{
         gap: 1rem;    
-        min-width: 250px;
-        height: max-content;
-        small{
-            min-width: 250px;
-        }
-        .icon{
-            margin: auto;
-            min-width: 250px;
+        small, .icon{
+            width: 250px;
         }
         img{
-            place-items: center;
-            width: 310px;
-    min-height: 215px;
+            width: 250px;
+            max-width: 250px;
+            height: 100%;
     padding: 0;
     box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
     border: 2px solid #cccccc;

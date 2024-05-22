@@ -1,7 +1,11 @@
 main {
+    display: grid;
     height: 100%;
     max-width: 2300px;
-    display: grid;
+    padding: 0.5rem 2rem;
+    justify-content: center;
+    
     gap: 1rem;
     grid-template-rows: max-content 1fr;
+    
 }

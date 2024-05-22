@@ -3,17 +3,8 @@
   min-height: 340px;
   height: 100%;
 
-  .gallery-images-list{
-    
-    grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)) ;
+  .image-gallery-container{
+  align-self: start; 
 
-      img {
-        min-height: 100px !important;
-      }   
-    
   }
-
-    img{
-        align-self: start;
-        cursor: pointer;
-      }}
+   }

@@ -9,7 +9,6 @@ import { useCreateStudioMutation } from '../../../hooks/mutations/studios/studio
 import ImageUploader from '../../common/imageUploader/imageUploader';
 import { uploadImage } from '../../../services/image-upload-service';
 import { toast } from 'sonner';
-import { set } from 'react-hook-form';
 
 const CreateStudio = () => {
   const user = getLocalUser();
@@ -75,7 +74,11 @@ const CreateStudio = () => {
   return (
     <section className="create-studio">
       <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
-      <ImageUploader onImageUpload={handleImageUpload} />
+      <ImageUploader
+        onImageUpload={handleImageUpload}
+        galleryImages={galleryImages}
+        isCoverShown={false}
+      />
       <GenericForm
         title="Create Studio"
         fields={fields}
