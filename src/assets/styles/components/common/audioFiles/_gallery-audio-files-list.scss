@@ -1,0 +1,5 @@
+.gallery-audio-files-list {
+    place-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    // gap: 4rem;
+}

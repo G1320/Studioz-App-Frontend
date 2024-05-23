@@ -2,7 +2,7 @@ const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${
   import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
 }/upload`;
 
-export const uploadImage = async (file) => {
+export const uploadFile = async (file) => {
   try {
     const formData = new FormData();
 

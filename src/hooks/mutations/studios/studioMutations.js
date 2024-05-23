@@ -28,7 +28,7 @@ export const useUpdateStudioMutation = (studioId) => {
   };
 
   return useMutation({
-    mutationFn: (newStudio) => updateStudio(studioId, newStudio),
+    mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
     onSuccess: (data, variables) => {
       invalidateQueries();
       toast.success('Studio updated');

@@ -4,7 +4,7 @@ import GenericForm from '../../common/forms/genericForm';
 import { useUpdateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
 import { useStudio } from '../../../hooks/dataFetching/useStudio';
 import ImageUploader from '../../common/imageUploader/imageUploader';
-import { uploadImage } from '../../../services/image-upload-service';
+import { uploadFile } from '../../../services/file-upload-service';
 import { toast } from 'sonner';
 import { getLocalUser } from '../../../services/user-service';
 import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
@@ -13,7 +13,10 @@ const EditStudio = () => {
   const user = getLocalUser();
   const navigate = useNavigate();
   const { studioId } = useParams();
-  const { data: studio } = useStudio(studioId);
+  const { data } = useStudio(studioId);
+
+  const studio = data?.currStudio;
+
   const updateStudioMutation = useUpdateStudioMutation(studioId);
 
   const [selectedCategory, setSelectedCategory] = useState('Music');
@@ -45,7 +48,7 @@ const EditStudio = () => {
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music' ? 'Music' : 'Photo / Video ',
+      label: selectedCategory === 'Music' ? 'Music Subcategory' : 'Photo / Video Subcategory',
       type: 'select',
       options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories,
       value: studio?.subCategory,
@@ -65,7 +68,7 @@ const EditStudio = () => {
       type: 'checkbox',
       value: studio?.isWheelchairAccessible,
     },
-    { name: 'isSelfService', label: 'Self service', type: 'checkbox', value: studio?.isSelfService },
+    { name: 'isSelfService', label: 'Self Service', type: 'checkbox', value: studio?.isSelfService },
   ];
 
   const handleSubmit = async (formData) => {
@@ -77,10 +80,8 @@ const EditStudio = () => {
   };
 
   const handleImageUpload = async (files) => {
-    const results = await Promise.all(files.map(async (file) => await uploadImage(file)));
-
+    const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
     const imageUrls = results.map((result) => result.secure_url);
-    console.log('imageUrls: ', imageUrls);
 
     if (files.length === 1) {
       setCoverImage(imageUrls[0]);
@@ -92,8 +93,13 @@ const EditStudio = () => {
 
   return (
     <section className="edit-studio">
-      <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
-      <ImageUploader onImageUpload={handleImageUpload} />
+      <ImageUploader onImageUpload={handleImageUpload} multiple={false} isCoverShown={true} />
+      <ImageUploader
+        onImageUpload={handleImageUpload}
+        multiple={true}
+        galleryImages={galleryImages}
+        isCoverShown={false}
+      />
       <GenericForm
         title="Edit Studio"
         fields={fields}

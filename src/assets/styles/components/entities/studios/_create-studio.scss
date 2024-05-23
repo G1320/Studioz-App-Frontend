@@ -23,35 +23,13 @@
         align-items: center;
     }
    }
-
-
    .create-studio{
     display: grid;
     margin: auto;
+    width: 680px;
+
+min-width: 500px;
     padding:  2rem;
     gap: 1rem;
-    .image-uploader{
-     div{
-    height: 100%;
-    }
-
-        cursor: pointer;
-        padding: 1rem;
-     }
-    .preview{
-        gap: 1rem;    
-        small, .icon{
-            width: 250px;
-        }
-        img{
-            width: 250px;
-            max-width: 250px;
-            height: 100%;
-    padding: 0;
-    box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
-    border: 2px solid #cccccc;
-    border-radius: 8px;
-    transition: 200ms;
-        }
-    }
+   
 }

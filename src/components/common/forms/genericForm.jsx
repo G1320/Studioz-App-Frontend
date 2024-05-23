@@ -56,6 +56,7 @@ const GenericForm = ({ title, fields, onSubmit, className, btnTxt = 'Submit', on
                 <TextField
                   id={field.name}
                   label={field.label}
+                  defaultValue={field.value}
                   variant="outlined"
                   multiline
                   rows={4}
@@ -68,6 +69,7 @@ const GenericForm = ({ title, fields, onSubmit, className, btnTxt = 'Submit', on
                 <TextField
                   id={field.name}
                   label={field.label}
+                  defaultValue={field.value}
                   variant="outlined"
                   type={field.type}
                   {...register(field.name)}

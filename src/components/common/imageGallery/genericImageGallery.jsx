@@ -31,12 +31,16 @@ const GenericImageGallery = ({
   );
 
   return (
-    <div className="image-gallery-container">
+    <div className="file-gallery-container image-gallery-container">
       {isCoverShown && currCoverImage && (
         <img src={currCoverImage} alt="Cover" className="cover-image " />
       )}
       {isGalleryImagesShown && galleryImages && galleryImages.length > 0 && (
-        <GenericList data={galleryImages} renderItem={renderItem} className="gallery-images-list " />
+        <GenericList
+          data={galleryImages}
+          renderItem={renderItem}
+          className="files-list gallery-images-list "
+        />
       )}
     </div>
   );

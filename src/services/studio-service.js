@@ -34,8 +34,9 @@ export const getStudios = async (params = {}) => {
 };
 
 export const updateStudio = async (studioId, updatedData) => {
+  const { updatedStudio } = updatedData;
   try {
-    return await httpService.put(`${studioEndpoint}/${studioId}`, updatedData);
+    return await httpService.put(`${studioEndpoint}/${studioId}`, updatedStudio);
   } catch (error) {
     console.error(error);
     throw error;

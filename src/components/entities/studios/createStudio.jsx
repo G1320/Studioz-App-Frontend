@@ -7,8 +7,9 @@ import { musicSubCategories, videoAndPhotographySubCategories } from '../../../c
 
 import { useCreateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
 import ImageUploader from '../../common/imageUploader/imageUploader';
-import { uploadImage } from '../../../services/image-upload-service';
+import { uploadFile } from '../../../services/file-upload-service';
 import { toast } from 'sonner';
+import AudioUploader from '../../common/audioUploader/audioUploader';
 
 const CreateStudio = () => {
   const user = getLocalUser();
@@ -18,6 +19,8 @@ const CreateStudio = () => {
   const [selectedCategory, setSelectedCategory] = useState('Music');
   const [galleryImages, setGalleryImages] = useState([]);
   const [coverImage, setCoverImage] = useState('');
+  const [audioFiles, setAudioFiles] = useState([]);
+  const [coverAudio, setCoverAudio] = useState('');
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
@@ -52,16 +55,17 @@ const CreateStudio = () => {
   const handleSubmit = async (formData) => {
     formData.galleryImages = galleryImages;
     formData.coverImage = coverImage;
+    formData.coverAudio = coverAudio;
+    formData.audioFiles = audioFiles;
 
     createStudioMutation.mutate({ userId: user?._id, newStudio: formData });
     navigate('/');
   };
 
   const handleImageUpload = async (files) => {
-    const results = await Promise.all(files.map(async (file) => await uploadImage(file)));
+    const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
 
     const imageUrls = results.map((result) => result.secure_url);
-    console.log('imageUrls: ', imageUrls);
 
     if (files.length === 1) {
       setCoverImage(imageUrls[0]);
@@ -69,6 +73,19 @@ const CreateStudio = () => {
     }
     setGalleryImages(imageUrls);
     toast.success('Gallery images uploaded successfully');
+  };
+
+  const handleAudioUpload = async (files) => {
+    const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
+
+    const audioUrls = results.map((result) => result.secure_url);
+
+    if (files.length === 1) {
+      setCoverAudio(audioUrls[0]);
+      return toast.success('Cover audio uploaded successfully');
+    }
+    setAudioFiles(audioUrls);
+    toast.success('Gallery audio uploaded successfully');
   };
 
   return (
@@ -79,6 +96,8 @@ const CreateStudio = () => {
         galleryImages={galleryImages}
         isCoverShown={false}
       />
+      <AudioUploader onAudioUpload={handleAudioUpload} multiple={false} />
+      <AudioUploader onAudioUpload={handleAudioUpload} audioFiles={audioFiles} isCoverShown={false} />
       <GenericForm
         title="Create Studio"
         fields={fields}

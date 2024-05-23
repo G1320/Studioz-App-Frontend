@@ -4,13 +4,19 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { toast } from 'sonner';
 import GenericImageGallery from '../imageGallery/genericImageGallery';
+import GenericAudioGallery from '../audioGallery/genericAudioGallery';
 
 const validMimeTypes = {
-  'image/png': ['.png'],
-  'image/jpeg': ['.jpeg', '.jpg'],
+  'audio/mpeg': ['.mp3'],
+  'audio/wav': ['.wav'],
+  'audio/ogg': ['.ogg'],
+  'audio/flac': ['.flac'],
+  'audio/aac': ['.aac'],
+  'audio/mp4': ['.m4a'],
+  'audio/x-ms-wma': ['.wma'],
 };
 
-const ImageUploader = ({ isCoverShown, onImageUpload, multiple = true, galleryImages = null }) => {
+const AudioUploader = ({ isCoverShown, onAudioUpload, multiple = true, audioFiles = null }) => {
   const [preview, setPreview] = useState(null);
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -54,14 +60,14 @@ const ImageUploader = ({ isCoverShown, onImageUpload, multiple = true, galleryIm
         const fileReader = new FileReader();
         fileReader.onloadend = () => {
           setPreview(fileReader.result);
-          onImageUpload(acceptedFiles);
+          onAudioUpload(acceptedFiles);
         };
         fileReader.readAsDataURL(acceptedFiles[0]);
       }
 
       showErrorMessages(newErrors);
     },
-    [onImageUpload]
+    [onAudioUpload]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -79,7 +85,7 @@ const ImageUploader = ({ isCoverShown, onImageUpload, multiple = true, galleryIm
   return (
     <div>
       <div
-        className={`file-uploader image-uploader preview ${multiple ? 'multiple' : ''}`}
+        className={`file-uploader audio-uploader preview ${multiple ? 'multiple' : ''}`}
         {...getRootProps()}
       >
         <input {...getInputProps()} />
@@ -87,10 +93,12 @@ const ImageUploader = ({ isCoverShown, onImageUpload, multiple = true, galleryIm
           {isDragActive ? (
             <ArrowDropDownCircleIcon className="icon" />
           ) : (
-            <small>{multiple ? 'Drop a few gallery photos here' : 'Drop a cover photo here'}</small>
+            <small>
+              {multiple ? 'Drop a few extra audio files here' : 'Drop your main audio file here'}
+            </small>
           )}
           {preview ? (
-            <img src={preview} alt="preview" />
+            <audio src={preview} controls className=" gallery-audio-file " />
           ) : (
             <div className="preview">
               <UploadFileIcon className="icon" />
@@ -98,16 +106,16 @@ const ImageUploader = ({ isCoverShown, onImageUpload, multiple = true, galleryIm
           )}
         </div>
       </div>
-      <GenericImageGallery
+      <GenericAudioGallery
         isCoverShown={isCoverShown}
-        isGalleryImagesShown={true}
-        coverImage={preview}
-        galleryImages={galleryImages}
-        className="image-upload-image-gallery"
-        onSetPreviewImage={handleSetPreviewImage}
+        isAudioFilesShown={true}
+        coverAudioFile={preview}
+        audioFiles={audioFiles}
+        className="audio-upload-audio-files-gallery"
+        onSetPreviewAudioFile={handleSetPreviewImage}
       />
     </div>
   );
 };
 
-export default ImageUploader;
+export default AudioUploader;
