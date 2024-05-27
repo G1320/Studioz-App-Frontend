@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import GenericImageGallery from '../../common/imageGallery/genericImageGallery';
+import GenericAudioGallery from '../../common/audioGallery/genericAudioGallery';
 
 const StudioPreview = ({ studio = null }) => {
   const navigate = useNavigate();
@@ -21,6 +22,11 @@ const StudioPreview = ({ studio = null }) => {
         coverImage={studio?.coverImage}
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={isStudioPath}
+      />
+      <GenericAudioGallery
+        coverAudio={studio?.coverAudioFile}
+        audioFiles={studio?.galleryAudioFiles}
+        isAudioFilesShown={isStudioPath}
       />
       <div>
         <h2>{studio?.name}</h2>

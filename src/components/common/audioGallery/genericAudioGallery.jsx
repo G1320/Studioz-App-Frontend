@@ -20,16 +20,16 @@ const GenericAudioGallery = ({
   }, [coverAudioFile]);
 
   const renderItem = (audioFile, index) => (
-    <div className=" preview gallery-audio-file" key={index}>
-      {/* <audio className="preview gallery-audio-file" src={audioFile} controls /> */}
-      <p onClick={() => handleAudioFileChange(audioFile)} className="select-audio-button">
-        {index}# Preview
-      </p>
+    <div className="  gallery-audio-file" key={index}>
+      <audio className=" gallery-audio-file" src={audioFile} controls />
+      {/* <small onClick={() => handleAudioFileChange(audioFile)} className="select-audio-button">
+        Preview {index}#
+      </small> */}
     </div>
   );
 
   return (
-    <div className="audioFile-gallery-container">
+    <div className="file-gallery-container audio-file-gallery-container">
       {isCoverShown && currCoverAudioFile && (
         <audio src={currCoverAudioFile} className="cover-audioFile " controls />
       )}

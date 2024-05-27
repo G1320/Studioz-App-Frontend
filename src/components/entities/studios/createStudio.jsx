@@ -19,8 +19,8 @@ const CreateStudio = () => {
   const [selectedCategory, setSelectedCategory] = useState('Music');
   const [galleryImages, setGalleryImages] = useState([]);
   const [coverImage, setCoverImage] = useState('');
-  const [audioFiles, setAudioFiles] = useState([]);
-  const [coverAudio, setCoverAudio] = useState('');
+  const [galleryAudioFiles, setGalleryAudioFiles] = useState([]);
+  const [coverAudioFile, setCoverAudioFile] = useState('');
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
@@ -55,8 +55,8 @@ const CreateStudio = () => {
   const handleSubmit = async (formData) => {
     formData.galleryImages = galleryImages;
     formData.coverImage = coverImage;
-    formData.coverAudio = coverAudio;
-    formData.audioFiles = audioFiles;
+    formData.coverAudioFile = coverAudioFile;
+    formData.galleryAudioFiles = galleryAudioFiles;
 
     createStudioMutation.mutate({ userId: user?._id, newStudio: formData });
     navigate('/');
@@ -81,10 +81,10 @@ const CreateStudio = () => {
     const audioUrls = results.map((result) => result.secure_url);
 
     if (files.length === 1) {
-      setCoverAudio(audioUrls[0]);
+      setCoverAudioFile(audioUrls[0]);
       return toast.success('Cover audio uploaded successfully');
     }
-    setAudioFiles(audioUrls);
+    setGalleryAudioFiles(audioUrls);
     toast.success('Gallery audio uploaded successfully');
   };
 
@@ -95,9 +95,14 @@ const CreateStudio = () => {
         onImageUpload={handleImageUpload}
         galleryImages={galleryImages}
         isCoverShown={false}
+        isGalleryShown={false}
       />
-      <AudioUploader onAudioUpload={handleAudioUpload} multiple={false} />
-      <AudioUploader onAudioUpload={handleAudioUpload} audioFiles={audioFiles} isCoverShown={false} />
+      <AudioUploader onAudioUpload={handleAudioUpload} multiple={false} isGalleryShown={false} />
+      <AudioUploader
+        onAudioUpload={handleAudioUpload}
+        audioFiles={galleryAudioFiles}
+        isCoverShown={false}
+      />
       <GenericForm
         title="Create Studio"
         fields={fields}

@@ -1,5 +1,7 @@
 .gallery-audio-file:is(:only-child){
     min-height: max-content;
-    padding:1rem 2rem;
+    small{
+        width: max-content;
+    }
 }
 

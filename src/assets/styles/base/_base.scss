@@ -148,6 +148,8 @@
 
   .generic-list{
     display: grid;
+    width: fit-content;
+
     max-width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
@@ -160,7 +162,7 @@
 
   .file-gallery-container {
     display: grid !important;    
-    
+    width: 100%;
    }
   
    .files-list{
@@ -184,21 +186,23 @@
        cursor: pointer;
        padding: 1rem;
     }
+
+
    .preview{
     
        gap: 1rem;    
        small, .icon{
            width: 250px;
        }
-       img{
+       img:not(.hero img, .cover-image ){
            width: 250px;
            max-width: 250px;
            height: 100%;
-   padding: 0;
-   box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
-   border: 2px solid #cccccc;
-   border-radius: 8px;
-   transition: 200ms;
+      padding: 0;
+       box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
+      border: 2px solid #cccccc;
+      border-radius: 8px;
+      transition: 200ms;
        }
    }
 

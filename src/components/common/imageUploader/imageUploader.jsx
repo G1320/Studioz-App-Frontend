@@ -10,7 +10,12 @@ const validMimeTypes = {
   'image/jpeg': ['.jpeg', '.jpg'],
 };
 
-const ImageUploader = ({ isCoverShown, onImageUpload, multiple = true, galleryImages = null }) => {
+const ImageUploader = ({
+  isCoverShown = false,
+  onImageUpload,
+  multiple = true,
+  galleryImages = null,
+}) => {
   const [preview, setPreview] = useState(null);
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

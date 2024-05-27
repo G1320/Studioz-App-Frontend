@@ -16,7 +16,7 @@ const validMimeTypes = {
   'audio/x-ms-wma': ['.wma'],
 };
 
-const AudioUploader = ({ isCoverShown, onAudioUpload, multiple = true, audioFiles = null }) => {
+const AudioUploader = ({ isCoverShown = false, onAudioUpload, multiple = true, audioFiles = null }) => {
   const [preview, setPreview] = useState(null);
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
