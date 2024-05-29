@@ -6,7 +6,7 @@
     max-height: max-content;
     gap: 0.5rem;
     img{
-      width: 100%;
+      width: calc(100% + 1rem);
       max-width: 1200px;
    }
    button{

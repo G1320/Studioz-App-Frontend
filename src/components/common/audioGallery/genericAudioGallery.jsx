@@ -8,15 +8,15 @@ const GenericAudioGallery = ({
   audioFiles,
   onSetPreviewAudioFile,
 }) => {
-  const [currCoverAudioFile, setCurrCoverAudioFile] = useState(coverAudioFile);
+  const [preview, setPreview] = useState(coverAudioFile);
 
   const handleAudioFileChange = (audioFile) => {
-    setCurrCoverAudioFile(audioFile);
+    setPreview(audioFile);
     if (onSetPreviewAudioFile) onSetPreviewAudioFile(audioFile);
   };
 
   useEffect(() => {
-    setCurrCoverAudioFile(coverAudioFile);
+    setPreview(coverAudioFile);
   }, [coverAudioFile]);
 
   const renderItem = (audioFile, index) => (
@@ -30,9 +30,7 @@ const GenericAudioGallery = ({
 
   return (
     <div className="file-gallery-container audio-file-gallery-container">
-      {isCoverShown && currCoverAudioFile && (
-        <audio src={currCoverAudioFile} className="cover-audioFile " controls />
-      )}
+      {isCoverShown && preview && <audio src={preview} className="cover-audioFile " controls />}
       {isAudioFilesShown && audioFiles && audioFiles.length > 0 && (
         <GenericList data={audioFiles} renderItem={renderItem} className="gallery-audio-files-list " />
       )}

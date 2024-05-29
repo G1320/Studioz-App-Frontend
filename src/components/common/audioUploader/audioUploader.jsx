@@ -3,7 +3,6 @@ import { useDropzone } from 'react-dropzone';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { toast } from 'sonner';
-import GenericImageGallery from '../imageGallery/genericImageGallery';
 import GenericAudioGallery from '../audioGallery/genericAudioGallery';
 
 const validMimeTypes = {
@@ -18,7 +17,6 @@ const validMimeTypes = {
 
 const AudioUploader = ({ isCoverShown = false, onAudioUpload, multiple = true, audioFiles = null }) => {
   const [preview, setPreview] = useState(null);
-
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const showErrorMessages = async (errors) => {
@@ -59,8 +57,10 @@ const AudioUploader = ({ isCoverShown = false, onAudioUpload, multiple = true, a
       if (acceptedFiles.length > 0) {
         const fileReader = new FileReader();
         fileReader.onloadend = () => {
-          setPreview(fileReader.result);
-          onAudioUpload(acceptedFiles);
+          if (acceptedFiles.length === 1) {
+            setPreview(fileReader.result);
+          }
+          onAudioUpload(acceptedFiles, 'audio');
         };
         fileReader.readAsDataURL(acceptedFiles[0]);
       }
@@ -78,8 +78,8 @@ const AudioUploader = ({ isCoverShown = false, onAudioUpload, multiple = true, a
     maxSize: 9 * 1024 * 1024,
   });
 
-  const handleSetPreviewImage = (image) => {
-    setPreview(image);
+  const handleSetPreviewAudioFile = (audioFile) => {
+    setPreview(audioFile);
   };
 
   return (
@@ -93,9 +93,7 @@ const AudioUploader = ({ isCoverShown = false, onAudioUpload, multiple = true, a
           {isDragActive ? (
             <ArrowDropDownCircleIcon className="icon" />
           ) : (
-            <small>
-              {multiple ? 'Drop a few extra audio files here' : 'Drop your main audio file here'}
-            </small>
+            <small>{multiple ? 'Drop a few  audio files here' : 'Drop your main audio file here'}</small>
           )}
           {preview ? (
             <audio src={preview} controls className=" gallery-audio-file " />
@@ -112,7 +110,7 @@ const AudioUploader = ({ isCoverShown = false, onAudioUpload, multiple = true, a
         coverAudioFile={preview}
         audioFiles={audioFiles}
         className="audio-upload-audio-files-gallery"
-        onSetPreviewAudioFile={handleSetPreviewImage}
+        onSetPreviewAudioFile={handleSetPreviewAudioFile}
       />
     </div>
   );

@@ -13,9 +13,9 @@ export function Navbar() {
 
   return (
     <nav className="navbar">
-      <div onClick={() => navigate('/store')}>Services</div>
-      <div onClick={() => handleNavigate('/wishlists')}>Wishlists</div>
-      <div onClick={() => handleNavigate('/create-studio')}>Create</div>
+      <a onClick={() => navigate('/store')}>Services</a>
+      <a onClick={() => handleNavigate('/wishlists')}>Wishlists</a>
+      <a onClick={() => handleNavigate('/create-studio')}>Create</a>
     </nav>
   );
 }

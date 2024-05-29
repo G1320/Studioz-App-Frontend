@@ -59,7 +59,7 @@ const ImageUploader = ({
         const fileReader = new FileReader();
         fileReader.onloadend = () => {
           setPreview(fileReader.result);
-          onImageUpload(acceptedFiles);
+          onImageUpload(acceptedFiles, 'image');
         };
         fileReader.readAsDataURL(acceptedFiles[0]);
       }
@@ -92,7 +92,7 @@ const ImageUploader = ({
           {isDragActive ? (
             <ArrowDropDownCircleIcon className="icon" />
           ) : (
-            <small>{multiple ? 'Drop a few gallery photos here' : 'Drop a cover photo here'}</small>
+            <small>{multiple ? 'Drop a few photos here' : 'Drop a cover photo here'}</small>
           )}
           {preview ? (
             <img src={preview} alt="preview" />

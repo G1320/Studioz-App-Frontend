@@ -18,9 +18,7 @@ const CreateStudio = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('Music');
   const [galleryImages, setGalleryImages] = useState([]);
-  const [coverImage, setCoverImage] = useState('');
   const [galleryAudioFiles, setGalleryAudioFiles] = useState([]);
-  const [coverAudioFile, setCoverAudioFile] = useState('');
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
@@ -53,53 +51,46 @@ const CreateStudio = () => {
   ];
 
   const handleSubmit = async (formData) => {
+    formData.coverImage = galleryImages[0];
     formData.galleryImages = galleryImages;
-    formData.coverImage = coverImage;
-    formData.coverAudioFile = coverAudioFile;
+    formData.coverAudioFile = galleryAudioFiles[0];
     formData.galleryAudioFiles = galleryAudioFiles;
 
     createStudioMutation.mutate({ userId: user?._id, newStudio: formData });
     navigate('/');
   };
 
-  const handleImageUpload = async (files) => {
+  const handleFileUpload = async (files, type) => {
     const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
 
-    const imageUrls = results.map((result) => result.secure_url);
+    const fileUrls = results.map((result) => result.secure_url);
 
-    if (files.length === 1) {
-      setCoverImage(imageUrls[0]);
-      return toast.success('Cover image uploaded successfully');
+    if (type === 'image') {
+      if (files.length === 1) {
+        setCoverImage(fileUrls[0]);
+        return toast.success('Cover image uploaded successfully');
+      }
+      setGalleryImages(fileUrls);
+      toast.success('Image files uploaded successfully');
+    } else if (type === 'audio') {
+      if (files.length === 1) {
+        return toast.success('Cover audio uploaded successfully');
+      }
+      setGalleryAudioFiles(fileUrls);
+      toast.success('Audio files uploaded successfully');
     }
-    setGalleryImages(imageUrls);
-    toast.success('Gallery images uploaded successfully');
-  };
-
-  const handleAudioUpload = async (files) => {
-    const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
-
-    const audioUrls = results.map((result) => result.secure_url);
-
-    if (files.length === 1) {
-      setCoverAudioFile(audioUrls[0]);
-      return toast.success('Cover audio uploaded successfully');
-    }
-    setGalleryAudioFiles(audioUrls);
-    toast.success('Gallery audio uploaded successfully');
   };
 
   return (
     <section className="create-studio">
-      <ImageUploader onImageUpload={handleImageUpload} multiple={false} />
       <ImageUploader
-        onImageUpload={handleImageUpload}
+        onImageUpload={handleFileUpload}
         galleryImages={galleryImages}
         isCoverShown={false}
         isGalleryShown={false}
       />
-      <AudioUploader onAudioUpload={handleAudioUpload} multiple={false} isGalleryShown={false} />
       <AudioUploader
-        onAudioUpload={handleAudioUpload}
+        onAudioUpload={handleFileUpload}
         audioFiles={galleryAudioFiles}
         isCoverShown={false}
       />

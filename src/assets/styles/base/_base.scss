@@ -56,13 +56,16 @@
     .slick-slider{
       height: 100%;
       padding: 0;
-    }
+  }
     .slick-track{
-      display: flex;
+      display: flex !important;
       gap: 1rem;
       .slick-slide{
         cursor: pointer;
         margin: 0.5rem 0;
+        // height: 100% !important;
+        height: inherit !important;
+
         &:hover{
           box-shadow:  0 0 5px 4px rgba(255, 255, 255, 0.132);
 }
@@ -148,7 +151,7 @@
 
   .generic-list{
     display: grid;
-    width: fit-content;
+    // width: fit-content;
 
     max-width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -189,10 +192,13 @@
 
 
    .preview{
-    
        gap: 1rem;    
+
        small, .icon{
            width: 250px;
+       }
+       img.cover-image {
+        width: calc(100% + 1rem);
        }
        img:not(.hero img, .cover-image ){
            width: 250px;
