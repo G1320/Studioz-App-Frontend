@@ -31,6 +31,8 @@ const ItemPreview = ({ item, onAddItemToCart, wishlists }) => {
     }
   };
 
+  const isWishListsPath = window.location.pathname.includes('/wishlists');
+
   const renderItem = (wishlist) => (
     <WishlistPreview
       wishlist={wishlist}
@@ -48,16 +50,19 @@ const ItemPreview = ({ item, onAddItemToCart, wishlists }) => {
       </div>
       <small>{item?.studioName}</small>
       <p>{item?.description}</p>
-      <GenericMuiDropdown
-        data={wishlists}
-        renderItem={renderItem}
-        className="item-details-wishlists-dropdown"
-        title="Add to Wishlist"
-      />
+
+      {!isWishListsPath && (
+        <GenericMuiDropdown
+          data={wishlists}
+          renderItem={renderItem}
+          className="item-details-wishlists-dropdown"
+          title="Add to Wishlist"
+        />
+      )}
 
       {wishlistId && (
         <Button
-          className="add-to-wishlist-button"
+          className="remove-from-wishlist-button"
           onClick={() => handleRemoveItemFromWishlist(item?._id)}
         >
           Remove from Wishlist
