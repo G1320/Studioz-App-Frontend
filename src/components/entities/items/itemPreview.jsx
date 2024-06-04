@@ -10,17 +10,21 @@ import {
 import WishlistPreview from '../wishlists/wishlistPreview';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { useUserContext } from '../../../contexts/UserContext';
+import { useAddItemToCartMutation } from '../../../hooks/mutations/cart/cartMutations';
 
-const ItemPreview = ({ item, onAddItemToCart, wishlists }) => {
+const ItemPreview = ({ item, wishlists }) => {
   const navigate = useNavigate();
   const user = useUserContext();
   const { studioId, wishlistId } = useParams();
+  console.log('wishlists: ', wishlists);
 
-  const AddItemToWishlistMutation = useAddItemToWishlistMutation(item?._id);
+  const addItemToCartMutation = useAddItemToCartMutation(user?._id);
+  const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id);
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId);
 
-  const handleAddItemToWishlist = async (wishlistId) => AddItemToWishlistMutation.mutate(wishlistId);
+  const handleAddItemToCart = (item) => addItemToCartMutation.mutate(item);
+  const handleAddItemToWishlist = async (wishlistId) => addItemToWishlistMutation.mutate(wishlistId);
   const handleRemoveItemFromStudio = async () => removeItemFromStudioMutation.mutate(item?._id);
   const handleRemoveItemFromWishlist = async (itemId) => removeItemFromWishlistMutation.mutate(itemId);
 
@@ -30,8 +34,6 @@ const ItemPreview = ({ item, onAddItemToCart, wishlists }) => {
       navigate(`/item/${item._id}`);
     }
   };
-
-  const isWishListsPath = window.location.pathname.includes('/wishlists');
 
   const renderItem = (wishlist) => (
     <WishlistPreview
@@ -51,7 +53,14 @@ const ItemPreview = ({ item, onAddItemToCart, wishlists }) => {
       <small>{item?.studioName}</small>
       <p>{item?.description}</p>
 
-      {!isWishListsPath && (
+      {wishlistId ? (
+        <Button
+          className="remove-from-wishlist-button"
+          onClick={() => handleRemoveItemFromWishlist(item?._id)}
+        >
+          Remove from Wishlist
+        </Button>
+      ) : (
         <GenericMuiDropdown
           data={wishlists}
           renderItem={renderItem}
@@ -60,26 +69,15 @@ const ItemPreview = ({ item, onAddItemToCart, wishlists }) => {
         />
       )}
 
-      {wishlistId && (
-        <Button
-          className="remove-from-wishlist-button"
-          onClick={() => handleRemoveItemFromWishlist(item?._id)}
-        >
-          Remove from Wishlist
-        </Button>
-      )}
-
       {studioId && user.isAdmin && (
         <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio">
           Remove from Studio
         </Button>
       )}
 
-      {onAddItemToCart && (
-        <Button className="add-to-cart-button" onClick={() => onAddItemToCart(item?._id)}>
-          Add to Cart{' '}
-        </Button>
-      )}
+      <Button className="add-to-cart-button" onClick={() => handleAddItemToCart(item?._id)}>
+        Add to Cart{' '}
+      </Button>
     </article>
   );
 };

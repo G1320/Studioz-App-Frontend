@@ -16,7 +16,7 @@ const Services = ({ items }) => {
     }
   });
   return (
-    <section className="items-page">
+    <section className="services-page">
       <Hero></Hero>
       <ItemsList items={filteredItems} />
     </section>

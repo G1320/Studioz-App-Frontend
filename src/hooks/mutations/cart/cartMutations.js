@@ -29,12 +29,12 @@ export const useAddItemToCartMutation = () => {
     mutationFn: (itemId) => {
       if (user) {
         return addItemToCart(user?._id, itemId);
-      } else {
-        const cart = getLocalOfflineCart() || [];
-        cart.push(itemId);
-        setLocalOfflineCart(cart);
-        return cart;
       }
+      const cart = getLocalOfflineCart() || [];
+      cart.push(itemId);
+      setLocalOfflineCart(cart);
+      setOfflineCart(cart);
+      return cart;
     },
     onSuccess: (data, variables) => {
       invalidateQueries();
@@ -46,15 +46,14 @@ export const useAddItemToCartMutation = () => {
               return removeItemFromCart(user?._id, variables)
                 .then(() => invalidateQueries())
                 .catch((error) => handleError(error));
-            } else {
-              const cart = getLocalOfflineCart() || [];
-              const index = cart.findIndex((item) => item === variables);
-              if (index !== -1) {
-                const updatedCart = [...cart.slice(0, index), ...cart.slice(index + 1)];
-                setLocalOfflineCart(updatedCart);
-                setOfflineCart(updatedCart);
-                return updatedCart;
-              }
+            }
+            const cart = getLocalOfflineCart() || [];
+            const index = cart.findIndex((item) => item === variables);
+            if (index !== -1) {
+              const updatedCart = [...cart.slice(0, index), ...cart.slice(index + 1)];
+              setLocalOfflineCart(updatedCart);
+              setOfflineCart(updatedCart);
+              return updatedCart;
             }
           },
         },
@@ -106,15 +105,14 @@ export const useRemoveItemFromCartMutation = () => {
     mutationFn: (itemId) => {
       if (user) {
         return removeItemFromCart(user?._id, itemId);
-      } else {
-        const cart = getLocalOfflineCart() || [];
-        const index = cart.findIndex((item) => item === itemId);
-        if (index !== -1) {
-          const updatedCart = [...cart.slice(0, index), ...cart.slice(index + 1)];
-          setLocalOfflineCart(updatedCart);
-          setOfflineCart(updatedCart);
-          return updatedCart;
-        }
+      }
+      const cart = getLocalOfflineCart() || [];
+      const index = cart.findIndex((item) => item === itemId);
+      if (index !== -1) {
+        const updatedCart = [...cart.slice(0, index), ...cart.slice(index + 1)];
+        setLocalOfflineCart(updatedCart);
+        setOfflineCart(updatedCart);
+        return updatedCart;
       }
     },
     onSuccess: (data, variables) => {
@@ -127,13 +125,12 @@ export const useRemoveItemFromCartMutation = () => {
               return addItemToCart(user._id, variables)
                 .then(() => invalidateQueries())
                 .catch((error) => handleError(error));
-            } else {
-              const cart = getLocalOfflineCart() || [];
-              cart.push(variables);
-              setLocalOfflineCart(cart);
-              setOfflineCart(cart);
-              return cart;
             }
+            const cart = getLocalOfflineCart() || [];
+            cart.push(variables);
+            setLocalOfflineCart(cart);
+            setOfflineCart(cart);
+            return cart;
           },
         },
       });
@@ -146,20 +143,28 @@ export const useDeleteUserCartMutation = () => {
   const user = getLocalUser();
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
+  const { offlineCart, setOfflineCart } = useOfflineCartContext();
 
   const invalidateQueries = () => {
-    queryClient.invalidateQueries(['cart', user._id]);
+    queryClient.invalidateQueries(['cart', user?._id]);
   };
 
   return useMutation({
-    mutationFn: () => deleteUserCart(user._id),
+    mutationFn: () => {
+      if (!user) {
+        setLocalOfflineCart([]);
+        setOfflineCart([]);
+        return [];
+      }
+      deleteUserCart(user?._id);
+    },
     onSuccess: (data, variables) => {
       invalidateQueries();
       toast.success('Cart cleared', {
         action: {
           label: 'Undo',
           onClick: () => {
-            addItemsToCart(user._id, data)
+            addItemsToCart(user?._id, data)
               .then(() => invalidateQueries())
               .catch((error) => handleError(error));
           },

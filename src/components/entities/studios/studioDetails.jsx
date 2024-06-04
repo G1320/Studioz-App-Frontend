@@ -4,7 +4,6 @@ import { useStudio } from '../../../hooks/dataFetching/useStudio';
 import ItemPreview from '../items/itemPreview';
 import ItemsList from '../items/itemsList';
 import Button from '../../common/buttons/genericButton';
-import { useAddItemToCartMutation } from '../../../hooks/mutations/cart/cartMutations';
 import { getLocalUser } from '../../../services/user-service';
 import { useAddStudioToWishlistMutation } from '../../../hooks/mutations/wishlists/wishlistMutations';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
@@ -21,7 +20,6 @@ const StudioDetails = ({ items = null }) => {
   const { data: studioObj } = useStudio(studioId);
   const { data: wishlists } = useWishlists(user?._id);
 
-  const addItemToCartMutation = useAddItemToCartMutation(user?._id);
   const addItemToWishlistMutation = useAddStudioToWishlistMutation(studioId);
 
   useEffect(() => {
@@ -33,15 +31,11 @@ const StudioDetails = ({ items = null }) => {
     }
   }, [studioObj, items]);
 
-  const handleAddItemToCart = (item) => addItemToCartMutation.mutate(item);
-
   const handleAddItemToWishlist = async (wishlistId) => addItemToWishlistMutation.mutate(wishlistId);
 
   const handleGoToEdit = (studioId) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
 
-  const renderItem = (item) => (
-    <ItemPreview item={item} key={item._id} onAddItemToCart={handleAddItemToCart} />
-  );
+  const renderItem = (item) => <ItemPreview item={item} key={item._id} />;
 
   const dropdownRenderItem = (wishlist) => (
     <WishlistPreview

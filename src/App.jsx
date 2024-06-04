@@ -44,7 +44,6 @@ function App() {
   return (
     <>
       <Header filteredItems={filteredItems} />
-
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home studios={studios} items={items} />} />

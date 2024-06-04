@@ -16,9 +16,7 @@ export const uploadFile = async (file) => {
       body: formData,
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to upload image');
-    }
+    if (!response.ok) throw new Error('Failed to upload image');
 
     return await response.json();
   } catch (error) {

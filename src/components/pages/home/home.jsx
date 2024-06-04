@@ -5,12 +5,16 @@ import StudioPreview from '../../entities/studios/studioPreview';
 import ItemPreview from '../../entities/items/itemPreview';
 import GenericCarousel from '../../common/lists/genericSlickCarousel';
 import { useNavigate } from 'react-router-dom';
+import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
+import { useUserContext } from '../../../contexts/UserContext';
 
 const Home = ({ studios, items }) => {
   const navigate = useNavigate();
+  const { user } = useUserContext();
+  const { data: wishlists } = useWishlists(user?._id);
 
   const studioRenderItem = (studio) => <StudioPreview studio={studio} />;
-  const itemRenderItem = (item) => <ItemPreview item={item} />;
+  const itemRenderItem = (item) => <ItemPreview item={item} wishlists={wishlists} key={item._id} />;
 
   return (
     <section className="home">

@@ -14,9 +14,9 @@ import { useOfflineCartContext } from '../../../contexts/OfflineCartContext';
 import { useUserContext } from '../../../contexts/UserContext';
 
 const CartItemsList = ({ cartItems, isDropdown = false, isMultiSelect = false }) => {
+  const { user } = useUserContext();
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
   const deleteUserCartMutation = useDeleteUserCartMutation();
-  const { user } = useUserContext();
   const { offlineCart, setOfflineCart } = useOfflineCartContext();
 
   const totalPrice = calculateTotalPrice(cartItems);
@@ -25,9 +25,9 @@ const CartItemsList = ({ cartItems, isDropdown = false, isMultiSelect = false })
 
   const handleRemoveFromCart = (item) => {
     if (user) {
-      setOfflineCart(offlineCart.filter((cartItem) => cartItem !== item._id));
+      setOfflineCart(offlineCart.filter((cartItem) => cartItem !== item?._id));
     }
-    removeItemFromCartMutation.mutate(item._id);
+    removeItemFromCartMutation.mutate(item?._id);
   };
 
   const handleClearCart = () => {
@@ -36,13 +36,13 @@ const CartItemsList = ({ cartItems, isDropdown = false, isMultiSelect = false })
   };
 
   const renderItem = isMultiSelect
-    ? (item) => <GenericMultiDropdownEntryPreview entry={item} key={item._id} />
+    ? (item) => <GenericMultiDropdownEntryPreview entry={item} key={item?._id} />
     : (item) => (
         <CartItemPreview
           item={item}
-          quantity={itemQuantityMap?.get(item._id)}
+          quantity={itemQuantityMap?.get(item?._id)}
           onRemoveFromCart={handleRemoveFromCart}
-          key={item._id}
+          key={item?._id}
         />
       );
 
