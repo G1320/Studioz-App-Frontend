@@ -34,6 +34,7 @@ const StudioDetails = ({ items = null }) => {
   const handleAddItemToWishlist = async (wishlistId) => addItemToWishlistMutation.mutate(wishlistId);
 
   const handleGoToEdit = (studioId) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
+  const handlePagination = (nextId) => (nextId ? navigate(`/studio/${nextId}`) : null);
 
   const renderItem = (item) => <ItemPreview item={item} key={item._id} />;
 
@@ -58,6 +59,8 @@ const StudioDetails = ({ items = null }) => {
             title="Add to Wishlist"
           />
           <Button onClick={() => handleGoToEdit(studioObj?.currStudio?._id)}>Edit</Button>
+          <Button onClick={() => handlePagination(studioObj?.prevStudio?._id)}>Prev</Button>
+          <Button onClick={() => handlePagination(studioObj?.nextStudio?._id)}>Next</Button>
 
           {user && (
             <Button

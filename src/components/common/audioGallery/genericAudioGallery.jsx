@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GenericList from '../lists/genericList';
+import ReactAudioPlayer from 'react-audio-player';
 
 const GenericAudioGallery = ({
   isAudioFilesShown = false,
@@ -21,7 +22,7 @@ const GenericAudioGallery = ({
 
   const renderItem = (audioFile, index) => (
     <div className="  gallery-audio-file" key={index}>
-      <audio className=" gallery-audio-file" src={audioFile} controls />
+      <audio src={audioFile} controls />
       {/* <small onClick={() => handleAudioFileChange(audioFile)} className="select-audio-button">
         Preview {index}#
       </small> */}

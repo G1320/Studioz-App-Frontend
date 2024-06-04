@@ -169,8 +169,9 @@
    }
   
    .files-list{
-     grid-template-columns:repeat(auto-fit, minmax(40px, 1fr)) ;
-     grid-template-rows: 40px;
+     display: flex;
+     
+     justify-content: start;
      img:not(.cover-image) {
          min-height: 40px;
          max-width: 116px !important;

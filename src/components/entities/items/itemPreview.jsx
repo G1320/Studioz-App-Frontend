@@ -16,12 +16,11 @@ const ItemPreview = ({ item, wishlists }) => {
   const navigate = useNavigate();
   const user = useUserContext();
   const { studioId, wishlistId } = useParams();
-  console.log('wishlists: ', wishlists);
 
   const addItemToCartMutation = useAddItemToCartMutation(user?._id);
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id);
-  const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId);
+  const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId);
 
   const handleAddItemToCart = (item) => addItemToCartMutation.mutate(item);
   const handleAddItemToWishlist = async (wishlistId) => addItemToWishlistMutation.mutate(wishlistId);
@@ -76,7 +75,7 @@ const ItemPreview = ({ item, wishlists }) => {
       )}
 
       <Button className="add-to-cart-button" onClick={() => handleAddItemToCart(item?._id)}>
-        Add to Cart{' '}
+        Add to Cart
       </Button>
     </article>
   );

@@ -1,7 +1,20 @@
-.gallery-audio-file:is(:only-child){
-    min-height: max-content;
-    small{
-        width: max-content;
+.gallery-audio-file{
+    width: 100%;
+        audio{
+    width: 250px;
+        min-width: 230px;
+        max-width: 350px;
+        margin: auto;
     }
+    &:is(:only-child){
+        min-height: max-content;
+        small{
+            width: max-content;
+        }
+    }
+
 }
+
+
+
 
