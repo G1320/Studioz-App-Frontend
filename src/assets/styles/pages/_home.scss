@@ -1,5 +1,9 @@
 .home {
     display: grid;
+    .generic-carousel:is(:last-of-type){
+        margin-block: 1rem;
+
+    }
      h1{
          align-self: center ;
          cursor: pointer;

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* Projects */
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    /* Language and Environment */
+    "target": "es5",                                
+    "lib": ["dom","dom.iterable", "esnext"],
+    "jsx": "react-jsx",
+    "allowJs": true,
+   
+    /* Modules */
+    "module": "esnext",     
+    "allowImportingTsExtensions": true,      
+    "allowSyntheticDefaultImports": true,   
+    /* Bundler mode */
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "outDir": "./dist",                                 
+    "esModuleInterop": true,                            
+    "forceConsistentCasingInFileNames": true,      
+         
+    /* Type Checking */
+    "strict": true,                                    
+    "skipLibCheck": true ,                        
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"] 
+}
