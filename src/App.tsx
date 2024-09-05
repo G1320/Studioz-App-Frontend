@@ -22,6 +22,7 @@ import { useStudios } from './hooks/dataFetching/useStudios';
 
 import { Toaster } from 'sonner';
 import { useOfflineCartContext } from './contexts/OfflineCartContext';
+import Footer from './components/layout/footer/footer';
 // import Footer from './components/layout/footer/footer';
 
 function App() {
@@ -63,7 +64,7 @@ function App() {
           <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems} />} />
         </Routes>
       </main>
-      {/* <Footer /> */}
+      <Footer />
       <Toaster richColors />
     </>
   );

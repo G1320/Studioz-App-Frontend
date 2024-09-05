@@ -1,18 +1,21 @@
 .home {
     display: grid;
-    .generic-carousel:is(:last-of-type){
-        margin-block: 1rem;
+    gap: 1rem;
 
+    .generic-carousel{
+        margin-block-end: 0.5rem;
     }
-     h1{
-         align-self: center ;
-         cursor: pointer;
-         &:first-of-type:not(.hero-header){
-             padding: 10px;
-             height: 36px;
-            align-self: center;
-            justify-self: start;
+    .generic-carousel:is(:last-of-type){
+            margin-block: 0.5rem;
         }
+     h1{
+         max-width: max-content;
+         place-self: center;
+         cursor: pointer;
+         &.hero-header,
+         &:first-of-type:not(.hero-header) {
+           justify-self: start;
+         }
         &:hover{
             text-shadow: 0 0 12px #bdeeff;
         }

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { getLocalUser } from '../../../services/user-service';
 import GenericForm, { FieldType } from '../../common/forms/genericForm';
 
@@ -7,11 +6,8 @@ import { Wishlist } from '../../../../../shared/types';
 
 const CreateWishlist = () => {
   const user = getLocalUser();
-  const navigate = useNavigate();
 
   const createWishlistMutation = useCreateWishlistMutation(user?._id ||'');
-
- 
 
   const handleSubmit = async (formData: Record<string, any>) => {
     const updatedWishlist: Wishlist = {
@@ -19,7 +15,6 @@ const CreateWishlist = () => {
     } as Wishlist;
     
     createWishlistMutation.mutate(updatedWishlist);
-    navigate('/wishlists');
   };
 
   const fields = [

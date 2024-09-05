@@ -32,7 +32,7 @@ const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
   const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
   const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item._id);
 
-  const handleClick = (e: MouseEvent<HTMLElement>) => {
+  const handleArticleClicked = (e: MouseEvent<HTMLElement>) => {
     if ((e.target as HTMLElement).nodeName !== 'BUTTON') {
       navigate(`/item/${item._id}`);
     }
@@ -47,7 +47,7 @@ const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
   );
 
   return (
-    <article onClick={handleClick} key={item._id} className="preview item-preview">
+    <article onClick={handleArticleClicked} key={item._id} className="preview item-preview">
       <div>
         <h2>{item.name}</h2>
         {item.inStock && <small>In Stock</small>}
@@ -63,7 +63,7 @@ const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
         >
           Remove from Wishlist
         </Button>
-      ) : (
+      ) : user?._id  && ( 
         <GenericMuiDropdown
           data={wishlists}
           renderItem={renderItem}

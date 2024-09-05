@@ -1,15 +1,33 @@
 .studio-preview{
-  min-height: 340px;
   display: grid;
+  min-height: 340px;
+  width: calc(100% - 2rem);
   padding: 0 0.5rem 0.5rem 0.5rem;
-  // grid-template-rows: repeat(4,1fr);
+  margin: 0.5rem;
+  gap: 1rem;
   h2{
     max-height: 24px;
     place-content: center;
+    white-space: nowrap;
+    
+  }
+  small {
+    white-space: nowrap;
+    max-width: max-content;
+  }
+  p{
+    min-height: 72px;
+    width: 100%;
+  text-overflow: ellipsis;
+   overflow: hidden;
+   display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:3 ;
   }
  img{
-  width: calc(100% + 1rem);
-place-self: center;
+  min-height: 24px;
+  max-width: calc(100% + 1rem);
+   place-self: center;
  }
   
 

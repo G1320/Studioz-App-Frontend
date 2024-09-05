@@ -28,14 +28,16 @@ const StudioPreview:React.FC<StudioPreviewProps> = ({ studio = null }) => {
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={isStudioPath}
       />
+      {isStudioPath && (
       <GenericAudioGallery
         coverAudioFile={studio?.coverAudioFile}
         audioFiles={studio?.galleryAudioFiles}
         isAudioFilesShown={isStudioPath}
-      />
+        />
+        )}
       <div>
         <h2>{studio?.name}</h2>
-        <p>{studio?.city}</p>
+        <small>{studio?.city}</small>
       </div>
       <p>{studio?.description}</p>
       <div className="options-wrapper">

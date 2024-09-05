@@ -1,5 +1,13 @@
 import { Item } from '../../../shared/types';
 
+import {Cart} from '../../../shared/types';
+import { setLocalOfflineCart } from '../services/cart-service';
+
+export const updateOfflineCart = (cart: Cart, setOfflineCartContext: (cart: Cart) => void) => {
+  setLocalOfflineCart(cart);
+  setOfflineCartContext(cart);
+};
+
 export const calculateTotalPrice = (items: Item[]) => {
   return items?.filter((item): item is Item & { price: number } => item.price !== undefined).reduce((acc, item) => acc + item?.price, 0).toFixed(2);
 };

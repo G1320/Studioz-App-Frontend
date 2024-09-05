@@ -2,9 +2,6 @@ import React from 'react';
 import GenericList from '../../common/lists/genericList';
 import StudioPreview from './studioPreview';
 import { Studio } from '../../../../../shared/types';
-
-
-
 interface StudiosListProps {
   studios: Studio[];
 }

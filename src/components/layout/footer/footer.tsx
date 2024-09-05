@@ -5,28 +5,22 @@ const Footer = () => {
     <footer>
       <div className="footer-content">
         <div className="footer-section">
-          <h3>About Us</h3>
-          <p>Studioz: Your one-stop shop for creative tools and inspiration.</p>
-        </div>
-        <div className="footer-section">
-          <h3>Quick Links</h3>
           <ul>
             <li>
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/products">Products</Link>
+              <Link to="/services">Services</Link>
             </li>
             <li>
-              <Link to="/blog">Blog</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
+              <Link to="/create-studio">List your Studio</Link>
             </li>
           </ul>
         </div>
         <div className="footer-section">
-          <h3>Connect</h3>
+          <p>Studioz.co.il - Your one-stop shop for creative tools and inspiration.</p>
+        </div>
+        <div className="footer-section">
           <div className="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
               FB
@@ -42,6 +36,7 @@ const Footer = () => {
       </div>
       <div className="footer-bottom">
         <p>&copy; 2024 Studioz. All rights reserved.</p>
+        <hr />
       </div>
     </footer>
   );

@@ -19,7 +19,7 @@ export const addItemToCart = async (userId: string, itemId: string): Promise<Car
   }
 };
 
-export const addItemsToCart = async (userId: string, items: CartItem[]): Promise<Cart> => {
+export const addItemsToCart = async (userId: string, items: CartItem[]): Promise<CartItem[]> => {
   if (!items || items.length === 0) throw new Error('Items are required');
   try {
     return await httpService.post(`${cartEndpoint}/${userId}/add-items-to-cart`, { items });
@@ -38,7 +38,7 @@ export const removeItemFromCart = async (userId: string, itemId: string): Promis
   }
 };
 
-export const removeItemsFromCart = async (userId: string, items: string[]): Promise<Item[]> => {
+export const removeItemsFromCart = async (userId: string, items: CartItem[]): Promise<CartItem[]> => {
   try {
     return await httpService.delete(`${cartEndpoint}/${userId}/remove-items-from-cart`, { items });
   } catch (error: unknown) {

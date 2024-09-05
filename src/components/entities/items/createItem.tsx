@@ -1,21 +1,16 @@
 import  { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import GenericForm, { FieldType } from '../../common/forms/genericForm';
 import { useCreateItemMutation } from '../../../hooks/mutations/items/itemMutations';
 import { Item } from '../../../../../shared/types';
 
 const CreateItem = () => {
-  const navigate = useNavigate();
   const { studioName = '', studioId } = useParams();
-  const createItemMutation = useCreateItemMutation();
+  const createItemMutation = useCreateItemMutation(studioId || '');
 
   const handleSubmit = async (formData: Record<string, any>) => {
-
     createItemMutation.mutate({ ...formData, studioId, studioName } as Item);
-    navigate(`/studio/${studioId}`);
   };
-
-  
 
   const musicSubCategories = [
     'Music Production',

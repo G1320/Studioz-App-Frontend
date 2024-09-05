@@ -1,16 +1,14 @@
 import  { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import GenericForm, { FieldType } from '../../common/forms/genericForm';
 import { getLocalUser } from '../../../services/user-service';
 
 import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
 
 import { useCreateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
-import ImageUploader from '../../common/imageUploader/imageUploader';
 import { uploadFile } from '../../../services/file-upload-service';
 import { toast } from 'sonner';
-import AudioUploader from '../../common/audioUploader/audioUploader';
 import { Studio } from '../../../../../shared/types';
+import FileUploader from '../../common/fileUploader/fileUploader';
 
 interface FormData {
   coverImage?: string;
@@ -22,7 +20,6 @@ interface FormData {
 const CreateStudio = () => {
   const user = getLocalUser();
   const createStudioMutation = useCreateStudioMutation();
-  const navigate = useNavigate();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('Music');
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
@@ -65,7 +62,6 @@ const CreateStudio = () => {
     formData.galleryAudioFiles = galleryAudioFiles;
 
     createStudioMutation.mutate({ userId: user?._id || '', newStudio: formData as Studio });
-    navigate('/');
   };
 
   const handleFileUpload = async (files: File[], type: string) => {
@@ -74,10 +70,6 @@ const CreateStudio = () => {
     const fileUrls = results.map((result) => result.secure_url);
 
     if (type === 'image') {
-      // if (files.length === 1) {
-      //   setCoverImage(fileUrls[0]);
-      //   return toast.success('Cover image uploaded successfully');
-      // }
       setGalleryImages(fileUrls);
       toast.success('Image files uploaded successfully');
     } else if (type === 'audio') {
@@ -91,16 +83,17 @@ const CreateStudio = () => {
 
   return (
     <section className="create-studio">
-      <h1>Create a new Studio</h1>
-      <ImageUploader
-        onImageUpload={handleFileUpload}
-        galleryImages={galleryImages}
+      <h1>Create a new listing</h1>
+      <FileUploader
+        fileType='image'
+        onFileUpload={handleFileUpload}
+        galleryFiles={galleryImages}
         isCoverShown={false}
-        isGalleryShown={false}
       />
-      <AudioUploader
-        onAudioUpload={handleFileUpload}
-        audioFiles={galleryAudioFiles}
+      <FileUploader
+        fileType='audio'
+        onFileUpload={handleFileUpload}
+        galleryFiles={galleryAudioFiles}
         isCoverShown={false}
       />
       <GenericForm fields={fields} onSubmit={handleSubmit} onCategoryChange={handleCategoryChange} />

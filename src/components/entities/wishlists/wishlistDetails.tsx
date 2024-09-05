@@ -46,7 +46,6 @@ const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
       wishlistObj.currWishlist?.items?.some((wishlistItem:WishlistItem) => wishlistItem.itemId === item._id)
       );
       
-      console.log('filteredItems: ', filteredItems);
       // Filter studios based on studioIds which are also present in the current wishlist
       const filteredStudios = allStudios.filter((studio) =>
         wishlistObj.currWishlist?.studios?.some((wishlistStudio) => wishlistStudio === studio._id)

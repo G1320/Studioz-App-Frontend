@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { PropagateLoader } from 'react-spinners';
+
 import GenericList from '../lists/genericList';
+import { useLocation } from 'react-router-dom';
 
 interface GenericImageGalleryProps {
   isGalleryImagesShown?: boolean;
@@ -20,6 +23,9 @@ const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   onSetPreviewImage,
 }) => {
   const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
+  const location = useLocation();
+
+  const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
   const handleImageChange = (image: string) => {
     setCurrCoverImage(image);
@@ -30,7 +36,15 @@ const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
     setCurrCoverImage(coverImage);
   }, [coverImage]);
 
-  const renderItem = (image: string, index: number) => (
+  const renderItem = (image: string, index: number) =>  {
+    if (!coverImage && isStudioPath  ) {
+      return <PropagateLoader
+      className="loader"
+      speedMultiplier={1.25}
+      color="#fcfcfc"
+      size={24}
+    />
+    } return (
     <img
       onClick={() => handleImageChange(image)}
       className="preview gallery-image"
@@ -38,7 +52,16 @@ const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
       src={image}
       alt={entity?.name}
     />
-  );
+  )};
+
+  if (!coverImage && isStudioPath) {
+    return <PropagateLoader
+    className="loader"
+    speedMultiplier={1.25}
+    color="#fcfcfc"
+    size={24}
+  />
+  }
 
   return (
     <div className="file-gallery-container image-gallery-container">

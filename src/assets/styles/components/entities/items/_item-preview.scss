@@ -1,8 +1,16 @@
 .item-preview{
     padding: 0.5rem;
+    margin: 0.5rem;
     height: 240px;
     small{
         width: max-content;
+    }
+    p{
+    text-overflow: ellipsis;
+   overflow: hidden;
+   display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:3 ;
     }
     .add-to-cart-button{
         background-color: $color-primary;

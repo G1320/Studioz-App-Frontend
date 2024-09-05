@@ -1,206 +1,110 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useErrorHandling from '../../ErrorAndSuccessHandling/useErrorHandling';
 import {
   createItem,
-  addItemToStudio,
-  addItemToWishlist,
   deleteItem,
   updateItem,
+  addItemToStudio,
+  addItemToWishlist,
   removeItemFromStudio,
   removeItemFromWishlist,
 } from '../../../services/item-service';
 
 import { Item } from '../../../../../shared/types';
-import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { useInvalidateQueries } from '../../utils/useInvalidateQueries';
+import { useMutationHandler } from '../../utils/useMutationHandler';
 
-export const useCreateItemMutation = () => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+export const useCreateItemMutation = (studioId: string) => {
+  const navigate = useNavigate();
 
-  return useMutation<Item,Error,Item>({
+  return useMutationHandler<Item, Item>({
     mutationFn: (newItem) => createItem(newItem),
-    onSuccess: (data, _variables) => {
-      queryClient.invalidateQueries({queryKey:['items']});
-      toast.success('Item created', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            deleteItem(data._id)
-              .then(() => queryClient.invalidateQueries({queryKey:['items']}))
-              .catch((error) => handleError(error));
-          },
-        },
-      });
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Item created',
+    invalidateQueries: [
+      { queryKey: 'items' },
+      { queryKey: 'studio', targetId: studioId },
+    ],
+    undoAction: (_variables, data) => deleteItem(data._id),
+    onSuccess: () => navigate(`/studio/${studioId}`),
   });
 };
 
 export const useDeleteItemMutation = () => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+  const navigate = useNavigate();
 
-  const invalidateQueries = () => {
-    // queryClient.invalidateQueries({queryKey:['item', variables]});
-    queryClient.invalidateQueries({queryKey:['item']});
-    queryClient.invalidateQueries({queryKey:['items']});
-  };
+  const invalidateQueries = useInvalidateQueries<Item>((item) => [
+    { queryKey: 'items' },
+    { queryKey: 'studios' },
+    { queryKey: 'studio', targetId: item?.studioId },
+  ]);
 
-  return useMutation<Item, Error, string>({
-    mutationFn: (itemId:string) => deleteItem(itemId),
+  return useMutationHandler<Item, string>({
+    mutationFn: (itemId) => deleteItem(itemId),
+    successMessage: 'Item deleted',
+    invalidateQueries: [], 
+    undoAction: (_variables, data) => createItem(data),
     onSuccess: (data, _variables) => {
-      invalidateQueries();
-      toast.success('Item deleted', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            createItem(data)
-              .then(() => invalidateQueries())
-              .catch((error) => handleError(error));
-          },
-        },
-      });
+      invalidateQueries(data);
+      navigate(`/studio/${data.studioId}`);
     },
-    onError: (error) => handleError(error),
   });
 };
 
-export const useUpdateItemMutation = (itemId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+export const useUpdateItemMutation = (itemId: string) => {
+  const navigate = useNavigate();
 
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey:['item', itemId]});
-    queryClient.invalidateQueries({queryKey:['items']});
-  };
-
-  return useMutation<Item, Error, Item>({
+  return useMutationHandler<Item, Item>({
     mutationFn: (newItem) => updateItem(itemId, newItem),
-    onSuccess: (data, _variables) => {
-      invalidateQueries();
-      toast.success('Item updated', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            updateItem(itemId, data)
-              .then(() => invalidateQueries())
-              .catch((error) => handleError(error));
-          },
-        },
-      });
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Item updated',
+    invalidateQueries: [{ queryKey: 'items' }],
+    undoAction: (_variables, data) => updateItem(itemId, data),
+    onSuccess: (data, _variables) => navigate(`/studio/${data.studioId}`),
+
   });
 };
 
-export const useAddItemToStudioMutation = (studioId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
-
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey:['studioItems', studioId]});
-    queryClient.invalidateQueries({queryKey:['studio', studioId]});
-  };
-
-  return useMutation<Item, Error, string>({
+export const useAddItemToStudioMutation = (studioId: string) => {
+  return useMutationHandler<Item, string>({
     mutationFn: (itemId) => addItemToStudio(studioId, itemId),
-    onSuccess: (_data, variables) => {
-      invalidateQueries();
-      toast.success('Item added to studio', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            removeItemFromStudio(studioId, variables)
-              .then(() => invalidateQueries())
-              .catch((error) => handleError(error));
-          },
-        },
-      });
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Item added to studio',
+    invalidateQueries: [{ queryKey: 'studioItems', targetId: studioId }],
+    undoAction: (variables, _data) => removeItemFromStudio(studioId, variables),
   });
 };
 
-export const useRemoveItemFromStudioMutation = (studioId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+export const useRemoveItemFromStudioMutation = (studioId: string) => {
+  const navigate = useNavigate();
 
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey:['studioItems', studioId]});
-    queryClient.invalidateQueries({queryKey:['studio', studioId]});
-  };
-
-  return useMutation<Item, Error, string>({
+  return useMutationHandler<Item, string>({
     mutationFn: (itemId) => removeItemFromStudio(studioId, itemId),
-    onSuccess: (_data, variables) => {
-      invalidateQueries();
-      toast.success('Item removed from studio', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            addItemToStudio(studioId, variables)
-              .then(() => invalidateQueries())
-              .catch((error) => handleError(error));
-          },
-        },
-      });
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Item removed from studio',
+    invalidateQueries: [{ queryKey: 'studioItems', targetId: studioId }],
+    undoAction: (variables, _data) => addItemToStudio(studioId, variables),
+    onSuccess: () => navigate(`/studio/${studioId}`),
   });
 };
 
-export const useAddItemToWishlistMutation = (itemId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+export const useAddItemToWishlistMutation = (itemId: string) => {
+  const invalidateQueries = useInvalidateQueries<string>((wishlistId) => [
+    { queryKey: 'wishlistItems', targetId: wishlistId },
+  ]);
 
-  const invalidateQueries = (variables:string) => {
-    queryClient.invalidateQueries({queryKey:['wishlistItems', variables]});
-    queryClient.invalidateQueries({queryKey:['wishlist', variables]});
-  };
-
-  return useMutation<Item, Error, string>({
-    mutationFn: (wishlistId) => addItemToWishlist(wishlistId, itemId),
-    onSuccess: (_data, variables) => {
-      invalidateQueries(variables);
-      toast.success('Item added to wishlist', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            removeItemFromWishlist(variables, itemId)
-              .then(() => invalidateQueries(variables))
-              .catch((error) => handleError(error));
-          },
-        },
-      });
+  return useMutationHandler<Item, string>({
+    mutationFn: (wishlistId: string) => addItemToWishlist(wishlistId, itemId),
+    successMessage: 'Item added to wishlist',
+    invalidateQueries: [],
+    undoAction: async (variables, _data) => {
+      invalidateQueries(variables)
+      return await removeItemFromWishlist(variables, itemId);
     },
-    onError: (error) => handleError(error),
+    onSuccess: (_data, variables) => invalidateQueries(variables)
   });
 };
 
-export const useRemoveItemFromWishlistMutation = (wishlistId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
-
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey:['wishlistItems', wishlistId]});
-    queryClient.invalidateQueries({queryKey:['wishlist', wishlistId]});
-  };
-
-  return useMutation<Item, Error, string>({
+export const useRemoveItemFromWishlistMutation = (wishlistId: string) => {
+  return useMutationHandler<Item, string>({
     mutationFn: (itemId) => removeItemFromWishlist(wishlistId, itemId),
-    onSuccess: (_data, variables) => {
-      invalidateQueries();
-      toast.success('Item removed from wishlist', {
-        action: {
-          label: 'Undo',
-          onClick: () => {
-            addItemToWishlist(wishlistId, variables)
-              .then(() => invalidateQueries())
-              .catch((error) => handleError(error));
-          },
-        },
-      });
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Item removed from wishlist',
+    invalidateQueries: [{ queryKey: 'wishlistItems', targetId: wishlistId }],
+    undoAction: (variables, _data) => addItemToWishlist(wishlistId, variables),
   });
 };

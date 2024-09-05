@@ -1,8 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import React from 'react';
 import Button from '../common/buttons/genericButton';
 
-const LogoutButton: React.FC = () => {
+const LogoutButton = () => {
   const { logout, isAuthenticated } = useAuth0();
 
   const handleLogout = () => {

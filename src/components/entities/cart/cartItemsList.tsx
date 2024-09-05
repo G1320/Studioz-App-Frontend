@@ -4,11 +4,9 @@ import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDropdownEntryPreview';
 import CartItemPreview from './cartItemPreview';
 import {
-  // useDeleteUserCartMutation,
   useRemoveItemFromCartMutation,
 } from '../../../hooks/mutations/cart/cartMutations';
 import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '../../../utils/cartUtils';
-// import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 
 import { Item } from '../../../../../shared/types';

@@ -1,9 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useErrorHandling from '../../ErrorAndSuccessHandling/useErrorHandling';
-import { toast } from 'sonner';
 
+import { useMutationHandler } from '../../utils/useMutationHandler';
 import { createStudio, updateStudio } from '../../../services/studio-service';
 import { Studio } from '../../../../../shared/types';
+import { useNavigate } from 'react-router-dom';
 
 type CreateStudioVariables = {
   userId: string;
@@ -11,34 +10,26 @@ type CreateStudioVariables = {
 };
 
 export const useCreateStudioMutation = () => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+  const navigate = useNavigate();
 
-  return useMutation<Studio, Error, CreateStudioVariables>({
+  return useMutationHandler<Studio, CreateStudioVariables>({
     mutationFn: ({ userId, newStudio }) => createStudio(userId, newStudio),
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:['studios']});
-      toast.success('Studio created');
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Studio created',
+    invalidateQueries: [{ queryKey: 'studios' }],
+    onSuccess: () =>  navigate('/'),
   });
 };
 
-export const useUpdateStudioMutation = (studioId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+export const useUpdateStudioMutation = (studioId: string) => {
+  const navigate = useNavigate();
 
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey:['studio', studioId]});
-    queryClient.invalidateQueries({queryKey:['studios']});
-  };
-
-  return useMutation<Studio,Error,Studio>({
+  return useMutationHandler<Studio, Studio>({
     mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
-    onSuccess: (_data, _variables) => {
-      invalidateQueries();
-      toast.success('Studio updated');
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Studio updated',
+    invalidateQueries: [
+      { queryKey: 'studio', targetId: studioId },
+      { queryKey: 'studios' },
+    ],
+    onSuccess: () => navigate(`/Studio/${studioId}`),
   });
 };

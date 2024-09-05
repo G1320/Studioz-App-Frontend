@@ -1,71 +1,46 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useErrorHandling from '../../ErrorAndSuccessHandling/useErrorHandling';
-import {
-  addStudioToWishlist,
-  createWishlistAndAddToUser,
-  deleteWishlist,
-} from '../../../services/wishlist-service';
-import { updateWishlist } from '../../../services/wishlist-service';
-import { toast } from 'sonner';
 
+import { useNavigate } from 'react-router-dom';
+import { useMutationHandler } from '../../utils/useMutationHandler';
+import { addStudioToWishlist, createWishlistAndAddToUser, deleteWishlist, updateWishlist } from '../../../services/wishlist-service';
 import Wishlist from '../../../../../shared/types/wishlist';
+import { useInvalidateQueries } from '../../utils/useInvalidateQueries';
 
-export const useCreateWishlistMutation = (userId:string) => {
-  const handleError = useErrorHandling();
-  const queryClient = useQueryClient();
+export const useCreateWishlistMutation = (userId: string) => {
+  const navigate = useNavigate();
 
-  return useMutation<Wishlist, Error, Wishlist>({
+  return useMutationHandler<Wishlist, Wishlist>({
     mutationFn: (newWishlist) => createWishlistAndAddToUser(userId, newWishlist),
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:['wishlists', userId]});
-      toast.success('Wishlist created');
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Wishlist created',
+    invalidateQueries: [{ queryKey: 'wishlists', targetId: userId }],
+    onSuccess: () => navigate('/wishlists'),
   });
 };
 
-export const useDeleteWishlistMutation = (userId:string) => {
-  const handleError = useErrorHandling();
-  const queryClient = useQueryClient();
-
-  return useMutation<Wishlist,Error, string>({
+export const useDeleteWishlistMutation = (userId: string) => {
+  return useMutationHandler<Wishlist, string>({
     mutationFn: (wishlistId) => deleteWishlist(userId, wishlistId),
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({queryKey:['wishlists', variables]});
-      toast.success('Wishlist deleted');
-    },
-    onError: (error) => handleError(error),
+    successMessage: 'Wishlist deleted',
+    invalidateQueries: [{ queryKey: 'wishlists', targetId: userId }],
   });
 };
 
-export const useUpdateWishlistMutation = (wishlistId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
-
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey:['wishlist', wishlistId]});
-  };
-
-  return useMutation<Wishlist,Error, Wishlist>({
-    mutationFn: (newWishlist) => updateWishlist(wishlistId, newWishlist),
-    onSuccess: (_data, _variables) => {
-      invalidateQueries();
-      toast.success('Wishlist updated');
-    },
-    onError: (error) => handleError(error),
+export const useUpdateWishlistMutation = (wishlistId: string) => {
+  return useMutationHandler<Wishlist, Wishlist>({
+    mutationFn: (updatedWishlist) => updateWishlist(wishlistId, updatedWishlist),
+    successMessage: 'Wishlist updated',
+    invalidateQueries: [{ queryKey: 'wishlist', targetId: wishlistId }],
   });
 };
 
-export const useAddStudioToWishlistMutation = (studioId:string) => {
-  const queryClient = useQueryClient();
-  const handleError = useErrorHandling();
+export const useAddStudioToWishlistMutation = (studioId: string) => {
+  const invalidateQueries = useInvalidateQueries<string>((wishlistId) => [
+    { queryKey: 'wishlistItems', targetId: wishlistId },
+  ]);
 
-  return useMutation<Wishlist,Error, string>({
-    mutationFn: (wishlistId:string) => addStudioToWishlist(studioId, wishlistId),
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({queryKey:['wishlist', variables]});
-      toast.success('Studio added to wishlist');
-    },
-    onError: (error) => handleError(error),
+  return useMutationHandler<Wishlist, string>({
+    mutationFn: (wishlistId) => addStudioToWishlist(studioId, wishlistId),
+    successMessage: 'Studio added to wishlist',
+    invalidateQueries: [], 
+    onSuccess: (_data, variables) => invalidateQueries(variables),
   });
 };

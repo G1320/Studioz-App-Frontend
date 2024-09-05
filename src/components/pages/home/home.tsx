@@ -1,10 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Hero from '../../layout/hero/hero';
 import StudiosList from '../../entities/studios/studiosList';
 import StudioPreview from '../../entities/studios/studioPreview';
 import ItemPreview from '../../entities/items/itemPreview';
 import GenericCarousel from '../../common/lists/genericSlickCarousel';
-import { useNavigate } from 'react-router-dom';
 import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import { useUserContext } from '../../../contexts/UserContext';
 import { Item } from '../../../../../shared/types';
@@ -18,14 +18,14 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ studios, items }) => {
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const { data: wishlists = [] } = useWishlists(user?._id ?? '');
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
 
   const studioRenderItem = (studio:Studio) => <StudioPreview studio={studio} />;
   const itemRenderItem = (item:Item) => <ItemPreview item={item} wishlists={wishlists} key={item._id} />;
 
   return (
     <section className="home">
-      <Hero></Hero>
+      <Hero/>
       <h1 onClick={() => navigate('/studios/music/recording')}>
         Check out our latest Recording Studioz
       </h1>
@@ -37,7 +37,7 @@ const Home: React.FC<HomeProps> = ({ studios, items }) => {
       <h1 onClick={() => navigate('/studios/music/mixing')}>Browse the Mixing collection</h1>
       <StudiosList studios={studios?.slice(0, 6)} />
       <h1 onClick={() => navigate('/services/music/mastering')}>
-        Polish you tracks with professional Mixing
+        Try out our Mastering collection
       </h1>
       <GenericCarousel
         data={items?.slice(0, 12)}

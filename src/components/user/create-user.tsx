@@ -1,6 +1,6 @@
 import { register } from '../../services/auth-service';
 import GenericForm from '../common/forms/genericForm';
-import useErrorHandling from '../../hooks/ErrorAndSuccessHandling/useErrorHandling';
+import useErrorHandling from '../../hooks/errorAndSuccessHandling/useErrorHandling';
 import { User } from '../../../../shared/types';
 
 type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';

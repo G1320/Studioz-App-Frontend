@@ -31,8 +31,7 @@ const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
       const filtered = items.filter((item) =>
       studioObj.currStudio.items.some((studioItem) => studioItem.itemId === item._id)
       );
-      console.log('studioObj.currStudio: ', studioObj.currStudio);
-      console.log('filtered: ', filtered);
+    
       setFilteredItems(filtered);
     }
   }, [studioObj, items]);
@@ -57,25 +56,29 @@ const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
 
       <div>
         <section className="details-buttons item-details-buttons">
-          <GenericMuiDropdown
-            data={wishlists}
-            renderItem={dropdownRenderItem}
-            className="item-details-wishlists-dropdown"
-            title="Add to Wishlist"
-          />
+          <div>
           <Button onClick={() => handleGoToEdit(studioObj?.currStudio?._id||'')}>Edit</Button>
           <Button onClick={() => handlePagination(studioObj?.prevStudio?._id||'')}>Prev</Button>
           <Button onClick={() => handlePagination(studioObj?.nextStudio?._id||'')}>Next</Button>
-
+          </div>
+<div>
+  
+          <GenericMuiDropdown
+            data={wishlists}
+            renderItem={dropdownRenderItem}
+            className="item-details-wishlists-dropdown add-button"
+            title="Add to Wishlist"
+            />
           {user && (
-            <Button
-              onClick={() =>
-                navigate(`/create-item/${studioObj?.currStudio.name}/${studioObj?.currStudio._id}`)
-              }
+            <Button className='add-button'
+            onClick={() =>
+              navigate(`/create-item/${studioObj?.currStudio.name}/${studioObj?.currStudio._id}`)
+            }
             >
               Add new Service
             </Button>
           )}
+          </div>
         </section>
       </div>
       <ItemsList items={filteredItems} className="studio-items-list" />

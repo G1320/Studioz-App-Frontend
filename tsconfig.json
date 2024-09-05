@@ -7,7 +7,6 @@
     "lib": ["dom","dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "allowJs": true,
-   
     /* Modules */
     "module": "esnext",     
     "allowImportingTsExtensions": true,      
@@ -21,7 +20,6 @@
     "outDir": "./dist",                                 
     "esModuleInterop": true,                            
     "forceConsistentCasingInFileNames": true,      
-         
     /* Type Checking */
     "strict": true,                                    
     "skipLibCheck": true ,                        

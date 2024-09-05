@@ -13,7 +13,7 @@ interface ItemListProps {
 
 const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) => {
   const user = getLocalUser();
-  const { data: wishlists = [] } = useWishlists(user?._id ?? '');
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
 
   const renderItem = (item: Item) => (
     <ItemPreview item={item} key={item.name} wishlists={wishlists} />

@@ -1,17 +1,16 @@
 import  { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import GenericForm, {FieldType} from '../../common/forms/genericForm';
 import { useUpdateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
 import { useStudio } from '../../../hooks/dataFetching/useStudio';
-import ImageUploader from '../../common/imageUploader/imageUploader';
 import { uploadFile } from '../../../services/file-upload-service';
 import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
 import { Studio } from '../../../../../shared/types';
 import { toast } from 'sonner';
+import FileUploader from '../../common/fileUploader/fileUploader';
 
 
 const EditStudio = () => {
-  const navigate = useNavigate();
   const { studioId } = useParams();
   const { data } = useStudio(studioId ||'');
 
@@ -76,7 +75,6 @@ const EditStudio = () => {
     formData.coverImage = coverImage;
 
     updateStudioMutation.mutate(formData as Studio);
-    navigate(`/Studio/${studioId}`);
   };
 
   const handleImageUpload = async (files: File[]) => {
@@ -93,11 +91,12 @@ const EditStudio = () => {
 
   return (
     <section className="edit-studio">
-      <ImageUploader onImageUpload={handleImageUpload} multiple={false} isCoverShown={true} />
-      <ImageUploader
-        onImageUpload={handleImageUpload}
+      <FileUploader fileType='image' onFileUpload={handleImageUpload} multiple={false} isCoverShown={true} />
+      <FileUploader
+      fileType='image'
+        onFileUpload={handleImageUpload}
         multiple={true}
-        galleryImages={galleryImages}
+        galleryFiles={galleryImages}
         isCoverShown={false}
       />
       <GenericForm

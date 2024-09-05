@@ -1,18 +1,19 @@
-import  { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { toast } from 'sonner';
 import GenericImageGallery from '../imageGallery/genericImageGallery';
+import GenericAudioGallery from '../audioGallery/genericAudioGallery';
 
-type OnImageUploadType = (files: File[], type: string) => void;
+type OnFileUploadType = (files: File[], type: string) => void;
 
-interface ImageUploaderProps {
+interface FileUploaderProps {
+  fileType: 'audio' | 'image';
   isCoverShown?: boolean;
-  isGalleryShown?: boolean;
-  onImageUpload: OnImageUploadType;
+  onFileUpload: OnFileUploadType;
   multiple?: boolean;
-  galleryImages?: string[];
+  galleryFiles?: string[];
 }
 
 interface FileRejection {
@@ -28,19 +29,24 @@ interface DropzoneError {
 const validMimeTypes: { [key: string]: string[] } = {
   'image/png': ['.png'],
   'image/jpeg': ['.jpeg', '.jpg'],
+  'audio/mpeg': ['.mp3'],
+  'audio/wav': ['.wav'],
+  'audio/ogg': ['.ogg'],
+  'audio/flac': ['.flac'],
 };
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({
+const FileUploader: React.FC<FileUploaderProps> = ({
+  fileType,
   isCoverShown = false,
-  onImageUpload,
+  onFileUpload,
   multiple = true,
-  galleryImages = [],
+  galleryFiles = [],
 }) => {
   const [preview, setPreview] = useState<string>('');
 
-  const delay = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const showErrorMessages = async (errors:string[]) => {
+  const showErrorMessages = async (errors: string[]) => {
     for (const error of errors) {
       toast.error(error);
       await delay(700);
@@ -48,29 +54,25 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   const onDrop = useCallback(
-    (acceptedFiles:File[], fileRejections:FileRejection[]) => {
+    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const newErrors: string[] = [];
-      // Validate accepted files
+      
       acceptedFiles.forEach((file) => {
         const extension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
         if (!Object.keys(validMimeTypes).includes(file.type)) {
           newErrors.push(`Skipped "${file.name}" because it is not a valid MIME type.`);
         }
-        if (!validMimeTypes[file.type].includes(extension)) {
+        if (!validMimeTypes[file.type]?.includes(extension)) {
           newErrors.push(`Skipped "${file.name}" because an invalid file extension was provided.`);
         }
       });
 
-      // Handle rejected files
-      fileRejections.forEach((rejection) => {
-        const { file, errors } = rejection;
+      fileRejections.forEach(({ file, errors }) => {
         errors.forEach((error) => {
           if (error.code === 'file-too-large') {
             newErrors.push(`Skipped "${file.name}" because it is larger than 9MB.`);
-          } else if (error.code === 'file-invalid-type') {
-            newErrors.push(`Skipped "${file.name}" because it is not a valid file type.`);
           } else {
-            newErrors.push(`Skipped "${file.name}" because of unknown error: ${error.message}.`);
+            newErrors.push(`Skipped "${file.name}" due to error: ${error.message}.`);
           }
         });
       });
@@ -78,15 +80,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       if (acceptedFiles.length > 0) {
         const fileReader = new FileReader();
         fileReader.onloadend = () => {
-          setPreview(fileReader?.result as string);
-          onImageUpload(acceptedFiles, 'image');
+          setPreview(fileReader.result as string);
+          onFileUpload(acceptedFiles, fileType);
         };
         fileReader.readAsDataURL(acceptedFiles[0]);
       }
 
       showErrorMessages(newErrors);
     },
-    [onImageUpload]
+    [onFileUpload, fileType]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -97,25 +99,24 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     maxSize: 9 * 1024 * 1024,
   });
 
-  const handleSetPreviewImage = (image:string) => {
-    setPreview(image);
-  };
+  const handleSetPreviewFile = (file: string) => setPreview(file);
 
   return (
     <div>
-      <div
-        className={`file-uploader image-uploader preview ${multiple ? 'multiple' : ''}`}
-        {...getRootProps()}
-      >
+      <div className={`file-uploader ${fileType}-uploader preview ${multiple ? 'multiple' : ''}` } {...getRootProps()}>
         <input {...getInputProps()} />
         <div>
           {isDragActive ? (
             <ArrowDropDownCircleIcon className="icon" />
           ) : (
-            <small>{multiple ? 'Drop a few photos here' : 'Drop a cover photo here'}</small>
+            <small>{multiple ? `Drop ${fileType} files here` : `Drop your main ${fileType} file here`}</small>
           )}
           {preview ? (
-            <img src={preview} alt="preview" />
+            fileType === 'image' ? (
+              <img src={preview} alt="preview" />
+            ) : (
+              <audio src={preview} controls className="gallery-audio-file" />
+            )
           ) : (
             <div className="preview">
               <UploadFileIcon className="icon" />
@@ -123,16 +124,25 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           )}
         </div>
       </div>
-      <GenericImageGallery
-        isCoverShown={isCoverShown}
-        isGalleryImagesShown={true}
-        coverImage={preview}
-        galleryImages={galleryImages}
-        className="image-upload-image-gallery"
-        onSetPreviewImage={handleSetPreviewImage}
-      />
+      {fileType === 'image' ? (
+        <GenericImageGallery
+          isCoverShown={isCoverShown}
+          isGalleryImagesShown={true}
+          coverImage={preview}
+          galleryImages={galleryFiles}
+          onSetPreviewImage={handleSetPreviewFile}
+        />
+      ) : (
+        <GenericAudioGallery
+          isCoverShown={isCoverShown}
+          isAudioFilesShown={true}
+          coverAudioFile={preview}
+          audioFiles={galleryFiles}
+          onSetPreviewAudioFile={handleSetPreviewFile}
+        />
+      )}
     </div>
   );
 };
 
-export default ImageUploader;
+export default FileUploader;
