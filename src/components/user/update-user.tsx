@@ -55,7 +55,6 @@ interface Field {
       handleError(new Error("User ID is missing"));
       return;
     }
-
     try {
       await updateUser(formData.id, formData);
       navigate('/read');

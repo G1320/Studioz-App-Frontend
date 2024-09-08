@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getUserCart } from '../../services/cart-service';
-import {  Item } from '../../../../shared/types';
+import {  Item } from '../../types/index';
 
 export const useCart = (userId: string) => {
   const queryClient = useQueryClient();

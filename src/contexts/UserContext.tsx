@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { getLocalUser } from '../services/user-service';
-import User from '../../../shared/types/user';
+import {User} from '../types/index';
 
 interface UserContextType {
   user: User | null;
@@ -16,7 +16,9 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState(getLocalUser());
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{ user, setUser }}>
+          {children}
+       </UserContext.Provider>;
 };
 
 

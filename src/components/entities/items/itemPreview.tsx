@@ -6,11 +6,12 @@ import {
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation,
 } from '../../../hooks/mutations/items/itemMutations';
+
 import WishlistPreview from '../wishlists/wishlistPreview';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { useUserContext } from '../../../contexts/UserContext';
 import { useAddItemToCartMutation } from '../../../hooks/mutations/cart/cartMutations';
-import { Item, Wishlist } from '../../../../../shared/types';
+import { Item, Wishlist } from '../../../types/index';
 
 interface ItemPreviewProps {
   item: Item;
@@ -18,14 +19,14 @@ interface ItemPreviewProps {
 }
 
 const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
-  const navigate = useNavigate();
   const { studioId, wishlistId } = useParams<{ studioId: string; wishlistId: string }>();
+  const navigate = useNavigate();
   const { user } = useUserContext();
 
   const addItemToCartMutation = useAddItemToCartMutation();
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
-  const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId ?? '');
-  const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId ?? '');
+  const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
+  const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');
 
   const handleAddItemToCart = () => addItemToCartMutation.mutate(item._id);
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
@@ -48,10 +49,12 @@ const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
 
   return (
     <article onClick={handleArticleClicked} key={item._id} className="preview item-preview">
-      <div>
+      <div className='title-availability-container'>
         <h2>{item.name}</h2>
+        <div className='availability-container'>
         {item.inStock && <small>In Stock</small>}
         <small>${item.price}</small>
+        </div>
       </div>
       <small>{item.studioName}</small>
       <p>{item.description}</p>

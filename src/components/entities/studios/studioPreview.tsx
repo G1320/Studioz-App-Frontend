@@ -4,7 +4,7 @@ import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import GenericImageGallery from '../../common/imageGallery/genericImageGallery';
 import GenericAudioGallery from '../../common/audioGallery/genericAudioGallery';
-import { Studio } from '../../../../../shared/types';
+import { Studio } from '../../../types/index';
 
 interface StudioPreviewProps {
   studio: Studio | null;

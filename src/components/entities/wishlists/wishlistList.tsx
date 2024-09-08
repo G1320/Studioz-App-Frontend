@@ -6,7 +6,7 @@ import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDro
 import { getLocalUser } from '../../../services/user-service';
 import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
-import { Wishlist } from '../../../../../shared/types';
+import { Wishlist } from '../../../types/index';
 
 interface WishlistListProps {
   isDropdown?: boolean;
@@ -16,11 +16,11 @@ interface WishlistListProps {
 const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, isMultiSelect = false }) => {
   const user = getLocalUser();
 
-  const { data: wishlists = [] } = useWishlists(user?._id ?? '');
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
 
-  const renderItem = isMultiSelect
-    ? (wishlist:Wishlist) => <GenericMultiDropdownEntryPreview entry={wishlist} key={wishlist?._id} />
-    : (wishlist:Wishlist) => <WishlistPreview wishlist={wishlist} key={wishlist?._id} />;
+  const renderItem = (wishlist:Wishlist) => isMultiSelect
+    ? <GenericMultiDropdownEntryPreview entry={wishlist} key={wishlist?._id} />
+    : <WishlistPreview wishlist={wishlist} key={wishlist?._id} />;
 
   return (
     <section className="wishlists">

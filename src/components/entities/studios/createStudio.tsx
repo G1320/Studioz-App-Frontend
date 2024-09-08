@@ -7,7 +7,7 @@ import { musicSubCategories, videoAndPhotographySubCategories } from '../../../c
 import { useCreateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
 import { uploadFile } from '../../../services/file-upload-service';
 import { toast } from 'sonner';
-import { Studio } from '../../../../../shared/types';
+import { Studio } from '../../../types/index';
 import FileUploader from '../../common/fileUploader/fileUploader';
 
 interface FormData {

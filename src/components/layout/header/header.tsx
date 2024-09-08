@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Navbar } from '../../navigation/navbar/navbar';
 import CartItemsList from '../../entities/cart/cartItemsList';
 import Profile from '../../auth/profile';
@@ -7,8 +8,7 @@ import LogoutButton from '../../auth/logout-button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUserContext } from '../../../contexts/UserContext';
 import { useCart } from '../../../hooks/dataFetching/useCart';
-import { Link } from 'react-router-dom';
-import {  Item } from '../../../../../shared/types';
+import { Item } from '../../../types/index';
 
 interface HeaderProps{
   filteredItems?: Item[];

@@ -1,15 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import GenericList from '../../common/lists/genericList';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDropdownEntryPreview';
 import CartItemPreview from './cartItemPreview';
-import {
-  useRemoveItemFromCartMutation,
-} from '../../../hooks/mutations/cart/cartMutations';
+import {useRemoveItemFromCartMutation} from '../../../hooks/mutations/cart/cartMutations';
 import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '../../../utils/cartUtils';
-import { Link } from 'react-router-dom';
-
-import { Item } from '../../../../../shared/types';
+import { Item } from '../../../types/index';
 
 interface CartItemsListProps {
   items: Item[];
@@ -33,16 +30,14 @@ const CartItemsList: React.FC<CartItemsListProps> = ({ items, isDropdown = false
   //   deleteUserCartMutation.mutate();
   // };
 
-  const renderItem = isMultiSelect
-    ? (item:Item) => <GenericMultiDropdownEntryPreview entry={item} key={item?._id} />
-    : (item:Item) => (
-        <CartItemPreview
-          item={item}
-          quantity={itemQuantityMap?.get(item?._id) || 0}
-          onRemoveFromCart={handleRemoveFromCart}
-          key={item?._id}
-        />
-      );
+  const renderItem = (item: Item) => isMultiSelect
+   ? <GenericMultiDropdownEntryPreview entry={item} key={item?._id} />
+   : <CartItemPreview
+      item={item}
+      quantity={itemQuantityMap?.get(item?._id) || 0}
+      onRemoveFromCart={handleRemoveFromCart}
+      key={item?._id}
+    />;
 
   return (
     <section className="cart">
@@ -51,14 +46,12 @@ const CartItemsList: React.FC<CartItemsListProps> = ({ items, isDropdown = false
       </Link>
 
       {isDropdown ? (
-        <>
           <GenericMuiDropdown
             data={uniqueItems}
             renderItem={renderItem}
             className="cart-list"
             title={`Cart (${items?.length || 0})`}
           />
-        </>
       ) : (
         <>
           {/* <button className="clear-cart" onClick={handleClearCart}>

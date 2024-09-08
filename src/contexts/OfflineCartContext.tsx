@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext,ReactNode } from 'react';
 import { getLocalOfflineCart } from '../services/cart-service';
-import Cart from '../../../shared/types/cart';
+import {Cart} from '../types/index';
 
 interface OfflineCartContextType {
   offlineCartContext: Cart;

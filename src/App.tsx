@@ -23,7 +23,7 @@ import { useStudios } from './hooks/dataFetching/useStudios';
 import { Toaster } from 'sonner';
 import { useOfflineCartContext } from './contexts/OfflineCartContext';
 import Footer from './components/layout/footer/footer';
-// import Footer from './components/layout/footer/footer';
+import ScrollToTop from './components/utility/scrollTop';
 
 function App() {
   const { data: items } = useItems();
@@ -45,6 +45,7 @@ function App() {
     <>
       <Header filteredItems={offlineCartFilteredItems} />
       <main className="main-content">
+       <ScrollToTop>
         <Routes>
           <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
           <Route path="/store" element={<Store items={items ||[]} />} />
@@ -63,6 +64,7 @@ function App() {
           <Route path="/item/:itemId" element={<ItemDetails />} />
           <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems} />} />
         </Routes>
+      </ScrollToTop>
       </main>
       <Footer />
       <Toaster richColors />

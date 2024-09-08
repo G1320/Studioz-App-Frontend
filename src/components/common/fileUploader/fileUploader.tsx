@@ -70,7 +70,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       fileRejections.forEach(({ file, errors }) => {
         errors.forEach((error) => {
           if (error.code === 'file-too-large') {
-            newErrors.push(`Skipped "${file.name}" because it is larger than 9MB.`);
+            newErrors.push(`Skipped "${file.name}" because it is larger than the maximum 9MB allowed.`);
           } else {
             newErrors.push(`Skipped "${file.name}" due to error: ${error.message}.`);
           }
@@ -102,7 +102,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   const handleSetPreviewFile = (file: string) => setPreview(file);
 
   return (
-    <div>
+    <article>
       <div className={`file-uploader ${fileType}-uploader preview ${multiple ? 'multiple' : ''}` } {...getRootProps()}>
         <input {...getInputProps()} />
         <div>
@@ -141,7 +141,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           onSetPreviewAudioFile={handleSetPreviewFile}
         />
       )}
-    </div>
+    </article>
   );
 };
 

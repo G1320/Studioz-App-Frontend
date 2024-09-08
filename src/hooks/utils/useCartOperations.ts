@@ -1,9 +1,9 @@
 import { getLocalOfflineCart } from '../../services/cart-service';
 import { getLocalUser } from '../../services/user-service';
 import { useOfflineCartContext } from '../../contexts/OfflineCartContext';
-import { Cart } from '../../../../shared/types';
-import { addItemToCart, addItemsToCart, deleteUserCart, removeItemFromCart, removeItemsFromCart, updateUserCart } from '../../services/cart-service';
+import { Cart } from '../../types/index';
 import {  updateOfflineCart } from '../../utils/cartUtils' ;
+import * as cartService from '../../services/cart-service';
 
 const useCartOperations = () => {
   const user = getLocalUser();
@@ -11,7 +11,7 @@ const useCartOperations = () => {
 
   const addItem = async (itemId: string) => {
     if (user && user._id) {
-      return addItemToCart(user._id, itemId);
+      return cartService.addItemToCart(user._id, itemId);
     }
 
     const cart = getLocalOfflineCart() || { items: [] };
@@ -22,7 +22,7 @@ const useCartOperations = () => {
 
   const removeItem = async (itemId: string) => {
     if (user && user._id) {
-      return removeItemFromCart(user._id, itemId);
+      return cartService.removeItemFromCart(user._id, itemId);
     }
 
     const cart = getLocalOfflineCart() || { items: [] };
@@ -36,21 +36,21 @@ const useCartOperations = () => {
 
   const addItems = async (items: string[]) => {
     if (user && user._id) {
-      return addItemsToCart(user._id, items);
+      return cartService.addItemsToCart(user._id, items);
     }
     throw new Error('User must be logged in to add items to the cart.');
   };
 
   const removeItems = async (items: string[]) => {
     if (user && user._id) {
-      return removeItemsFromCart(user._id, items);
+      return cartService.removeItemsFromCart(user._id, items);
     }
     throw new Error('User must be logged in to remove items from the cart.');
   };
 
   const clearCart = async () => {
     if (user && user._id) {
-      await deleteUserCart(user._id);
+      await cartService.deleteUserCart(user._id);
     }
     updateOfflineCart({ items: [] }, setOfflineCartContext);
     return [];
@@ -58,7 +58,7 @@ const useCartOperations = () => {
 
   const updateCart = async (newCart: Cart) => {
     if (user && user._id) {
-      return updateUserCart(user._id, newCart);
+      return cartService.updateUserCart(user._id, newCart);
     }
     throw new Error('User is not authenticated');
   };

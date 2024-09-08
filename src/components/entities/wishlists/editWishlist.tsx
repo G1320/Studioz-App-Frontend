@@ -42,7 +42,7 @@ import GenericForm from '../../common/forms/genericForm';
 import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import { useUpdateWishlistMutation } from '../../../hooks/mutations/wishlists/wishlistMutations';
 import { getLocalUser } from '../../../services/user-service';
-import { Wishlist } from '../../../../../shared/types'; 
+import { Wishlist } from '../../../types/index'; 
 
 import { FieldType } from '../../common/forms/genericForm';
 
@@ -51,7 +51,7 @@ import { FieldType } from '../../common/forms/genericForm';
   const user = getLocalUser();
   const navigate = useNavigate();
   const { wishlistId } = useParams<{ wishlistId: string }>();
-  const { data: wishlists = [] } = useWishlists(user?._id ?? '');
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
 
   const wishlist = wishlists.find((wishlist) => wishlist._id === wishlistId);
 

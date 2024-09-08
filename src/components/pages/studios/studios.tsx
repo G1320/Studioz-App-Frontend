@@ -2,7 +2,7 @@ import React from 'react';
 import StudiosList from '../../entities/studios/studiosList';
 import Hero from '../../layout/hero/hero';
 import { useParams } from 'react-router-dom';
-import { Studio } from '../../../../../shared/types';
+import { Studio } from '../../../types/index';
 
 interface StudiosProps {
   studios: Studio[];

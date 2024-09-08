@@ -9,7 +9,7 @@ import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import WishlistPreview from '../wishlists/wishlistPreview';
 import StudioPreview from './studioPreview';
-import { Item,  Wishlist } from '../../../../../shared/types';
+import { Item,  Wishlist } from '../../../types/index';
 
 interface StudioDetailsProps {
   items: Item[];
@@ -31,13 +31,11 @@ const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
       const filtered = items.filter((item) =>
       studioObj.currStudio.items.some((studioItem) => studioItem.itemId === item._id)
       );
-    
       setFilteredItems(filtered);
     }
   }, [studioObj, items]);
 
   const handleAddItemToWishlist = async (wishlistId:string) => addItemToWishlistMutation.mutate(wishlistId);
-
   const handleGoToEdit = (studioId:string) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
   const handlePagination = (nextId:string) => (nextId ? navigate(`/studio/${nextId}`) : null);
 
@@ -61,8 +59,7 @@ const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
           <Button onClick={() => handlePagination(studioObj?.prevStudio?._id||'')}>Prev</Button>
           <Button onClick={() => handlePagination(studioObj?.nextStudio?._id||'')}>Next</Button>
           </div>
-<div>
-  
+          <div>
           <GenericMuiDropdown
             data={wishlists}
             renderItem={dropdownRenderItem}

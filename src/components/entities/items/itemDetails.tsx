@@ -12,34 +12,28 @@ import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import WishlistPreview from '../wishlists/wishlistPreview';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import ItemPreview from './itemPreview';
-import {  Wishlist } from '../../../../../shared/types';
+import {  Wishlist } from '../../../types/index';
 
 const ItemDetails: React.FC = () => {
   const user = getLocalUser();
   const navigate = useNavigate();
   const { itemId } = useParams(); 
   const { data: item } = useItem(itemId || '');
-  const { data: wishlists } = useWishlists(user?._id ?? '');
+  const { data: wishlists } = useWishlists(user?._id || '');
 
   const deleteItemMutation = useDeleteItemMutation();
   const addItemToWishlistMutation = useAddItemToWishlistMutation(itemId||'');
 
   const handleAddItemToWishlist = async (wishlistId: string) => {
-    if (wishlistId) {
-      addItemToWishlistMutation.mutate(wishlistId);
-    }
+    if (wishlistId)  addItemToWishlistMutation.mutate(wishlistId);
   };
 
   const handleEditBtnClicked = () => {
-    if (itemId) {
-      navigate(`/edit-item/${itemId}`);
-    }
+    if (itemId) navigate(`/edit-item/${itemId}`);
   };
 
   const handleDeleteBtnClicked = async () => {
-    if (itemId) {
-      deleteItemMutation.mutate(itemId);
-    }
+    if (itemId) deleteItemMutation.mutate(itemId);
   };
 
   const renderItem = (wishlist: Wishlist) => (
@@ -53,14 +47,14 @@ const ItemDetails: React.FC = () => {
   return (
     <section className="item-details">
   {item ? (
-        <ItemPreview item={item} wishlists={wishlists ?? []} />
+        <ItemPreview item={item} wishlists={wishlists || []} />
       ) : (
         <p>Loading...</p>
-      )}      <section className="details-buttons item-details-buttons">
+      )} <section className="details-buttons item-details-buttons">
         <Button onClick={handleDeleteBtnClicked}>Del</Button>
         <Button onClick={handleEditBtnClicked}>Edit</Button>
         <GenericMuiDropdown
-          data={wishlists ?? []}
+          data={wishlists || []}
           renderItem={renderItem}
           className="item-details-wishlists-dropdown"
           title="Wishlists"

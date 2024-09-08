@@ -1,6 +1,4 @@
-import { Item } from '../../../shared/types';
-
-import {Cart} from '../../../shared/types';
+import { Item,Cart } from '../types/index';
 import { setLocalOfflineCart } from '../services/cart-service';
 
 export const updateOfflineCart = (cart: Cart, setOfflineCartContext: (cart: Cart) => void) => {

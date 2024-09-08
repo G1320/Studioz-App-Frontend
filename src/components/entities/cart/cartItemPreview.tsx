@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../common/buttons/genericButton';
 import { useNavigate } from 'react-router-dom';
-import { Item } from '../../../../../shared/types';
+import { Item } from '../../../types/index';
 
 interface CartItemPreviewProps {
   item: Item;

@@ -9,7 +9,7 @@ import { useAddItemsToCartMutation } from '../../../hooks/mutations/cart/cartMut
 import { toast } from 'sonner';
 import { useDeleteWishlistMutation } from '../../../hooks/mutations/wishlists/wishlistMutations';
 import StudiosList from '../studios/studiosList';
-import { Item, Studio, WishlistItem } from '../../../../../shared/types';
+import { Item, Studio, WishlistItem } from '../../../types/index';
 
 interface WishlistDetailsProps {
   items?: Item[] | null;
@@ -22,7 +22,8 @@ const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
 
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [filteredStudios, setFilteredStudios] = useState<Studio[]>([]);
-  const { data: allStudios = [] } = useStudios();
+
+  const { data: studios = [] } = useStudios();
   const { data: wishlistObj  } = useWishlist(user?._id ||'', wishlistId || '');
   const addItemsToCartMutation = useAddItemsToCartMutation();
   const deleteUserWishlistMutation = useDeleteWishlistMutation(user?._id || '');
@@ -40,21 +41,21 @@ const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
   };
 
   useEffect(() => {
-    if (wishlistObj && wishlistObj?.currWishlist && items && allStudios) {
+    if (wishlistObj && wishlistObj?.currWishlist && items && studios) {
       // Filter items based on itemIds which are also present in the current wishlist
       const filteredItems = items?.filter((item) =>
       wishlistObj.currWishlist?.items?.some((wishlistItem:WishlistItem) => wishlistItem.itemId === item._id)
       );
       
       // Filter studios based on studioIds which are also present in the current wishlist
-      const filteredStudios = allStudios.filter((studio) =>
+      const filteredStudios = studios.filter((studio) =>
         wishlistObj.currWishlist?.studios?.some((wishlistStudio) => wishlistStudio === studio._id)
       );
 
       setFilteredItems(filteredItems );
       setFilteredStudios(filteredStudios);
     }
-  }, [wishlistObj, items, allStudios]);
+  }, [wishlistObj, items, studios]);
 
   return (
     <section className="details wishlist-details">

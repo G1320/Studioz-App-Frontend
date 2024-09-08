@@ -1,8 +1,7 @@
 import { httpService } from './http-service';
 import { parseJSON, stringifyJSON } from '../utils/storageUtils';
 import { sanitizeUserObject } from '../utils/sanitizeUserObject';
-import User from '../../../shared/types/user';
-import { Studio } from '../../../shared/types';
+import {User, Studio} from '../types/index';
 
 const userEndpoint = '/users';
 

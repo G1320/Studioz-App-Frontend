@@ -4,7 +4,7 @@ import GenericList from '../../common/lists/genericList';
 import { getLocalUser } from '../../../services/user-service';
 import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 
-import { Item } from '../../../../../shared/types';
+import { Item } from '../../../types/index';
 
 interface ItemListProps {
   items?: Item[];

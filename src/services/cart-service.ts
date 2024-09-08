@@ -1,8 +1,6 @@
 import { parseJSON, stringifyJSON } from '../utils/storageUtils';
 import { httpService } from './http-service';
-import Cart from '../../../shared/types/cart';
-import {CartItem} from '../../../shared/types/cartItem'
-import { Item } from '../../../shared/types';
+import {Cart, CartItem, Item} from '../types/index';
 
 const cartEndpoint = '/cart';
 

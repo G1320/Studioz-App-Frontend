@@ -23,7 +23,6 @@ interface GenericFormProps {
   onCategoryChange?: (value: string) => void;
 }
 
-
 const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmit, className, btnTxt = 'Submit', onCategoryChange }) => {
   const { register, handleSubmit, reset } = useForm<Record<string, any>>();
 

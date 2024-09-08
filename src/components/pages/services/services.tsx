@@ -2,7 +2,7 @@ import React from 'react';
 import ItemsList from '../../entities/items/itemsList';
 import Hero from '../../layout/hero/hero';
 import { useParams } from 'react-router-dom';
-import { Item } from '../../../../../shared/types';
+import { Item } from '../../../types/index';
 
 interface ServicesProps {
   items?: Item[];

@@ -1,6 +1,6 @@
 import ItemsList from '../../entities/items/itemsList';
 import Hero from '../../layout/hero/hero';
-import { Item } from '../../../../../shared/types';
+import { Item } from '../../../types/index';
 
 interface StoreProps {
   items: Item[];

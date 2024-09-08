@@ -7,8 +7,7 @@ import ItemPreview from '../../entities/items/itemPreview';
 import GenericCarousel from '../../common/lists/genericSlickCarousel';
 import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import { useUserContext } from '../../../contexts/UserContext';
-import { Item } from '../../../../../shared/types';
-import { Studio } from '../../../../../shared/types';
+import { Studio,Item } from '../../../types/index';
 
 interface HomeProps {
   studios: Studio[];

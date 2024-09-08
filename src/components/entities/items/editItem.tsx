@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import GenericForm from '../../common/forms/genericForm';
 import { useItem } from '../../../hooks/dataFetching/useItem';
 import { useUpdateItemMutation } from '../../../hooks/mutations/items/itemMutations';
-import { Item } from '../../../../../shared/types'; 
+import { Item } from '../../../types/index'; 
 
 import { FieldType } from '../../common/forms/genericForm';
 

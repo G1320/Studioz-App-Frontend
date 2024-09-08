@@ -19,10 +19,6 @@ const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
 }) => {
   const [preview, setPreview] = useState<string | undefined>(coverAudioFile);
 
-  // const handleAudioFileChange = (audioFile: string) => {
-  //   setPreview(audioFile);
-  //   if (onSetPreviewAudioFile) onSetPreviewAudioFile(audioFile);
-  // };
 
   useEffect(() => {
     setPreview(coverAudioFile);
@@ -31,9 +27,6 @@ const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
   const renderItem = (audioFile: string, index: number) => (
     <div className="gallery-audio-file" key={index}>
       <audio src={audioFile} controls />
-      {/* <small onClick={() => handleAudioFileChange(audioFile)} className="select-audio-button">
-        Preview {index}#
-      </small> */}
     </div>
   );
 

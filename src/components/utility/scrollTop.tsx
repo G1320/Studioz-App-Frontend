@@ -7,9 +7,16 @@ interface ScrollToTopProps {
 
 const ScrollToTop: React.FC<ScrollToTopProps> = ({ children }) => {
   const location = useLocation();
-
+  
   useEffect(() => {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) {
+        mainContent.scrollTo(0, 0);
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }, 100); 
   }, [location]);
 
   return <>{children}</>;

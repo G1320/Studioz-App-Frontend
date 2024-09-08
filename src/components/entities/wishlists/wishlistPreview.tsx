@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../common/buttons/genericButton';
-import { Wishlist } from '../../../../../shared/types';
+import { Wishlist } from '../../../types/index';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;

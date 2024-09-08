@@ -5,7 +5,7 @@ import { useUpdateStudioMutation } from '../../../hooks/mutations/studios/studio
 import { useStudio } from '../../../hooks/dataFetching/useStudio';
 import { uploadFile } from '../../../services/file-upload-service';
 import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
-import { Studio } from '../../../../../shared/types';
+import { Studio } from '../../../types/index';
 import { toast } from 'sonner';
 import FileUploader from '../../common/fileUploader/fileUploader';
 
@@ -25,7 +25,7 @@ const EditStudio = () => {
   useEffect(() => {
     if (studio) {
       setSelectedCategory(studio.category||'');
-      setGalleryImages(studio.galleryImages ?? []);
+      setGalleryImages(studio.galleryImages || []);
       setCoverImage(studio.coverImage || '');
     }
   }, [studio]);
