@@ -36,7 +36,7 @@ const Home: React.FC<HomeProps> = ({ studios, items }) => {
       <h1 onClick={() => navigate('/studios/music/mixing')}>Browse the Mixing collection</h1>
       <StudiosList studios={studios?.slice(0, 6)} />
       <h1 onClick={() => navigate('/services/music/mastering')}>
-        Try out our Mastering collection
+        Try out our Mastering services
       </h1>
       <GenericCarousel
         data={items?.slice(0, 12)}

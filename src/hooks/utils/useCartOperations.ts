@@ -2,7 +2,7 @@ import { getLocalOfflineCart } from '../../services/cart-service';
 import { getLocalUser } from '../../services/user-service';
 import { useOfflineCartContext } from '../../contexts/OfflineCartContext';
 import { Cart } from '../../types/index';
-import {  updateOfflineCart } from '../../utils/cartUtils' ;
+import { updateOfflineCart } from '../../utils/cartUtils' ;
 import * as cartService from '../../services/cart-service';
 
 const useCartOperations = () => {

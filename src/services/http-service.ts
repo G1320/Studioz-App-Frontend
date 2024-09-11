@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { refreshAccessToken } from './auth-service';
 
-const BASE_URL:string  =
+const BASE_URL:string =
   import.meta.env.VITE_NODE_ENV === 'production'
     ? 'https://studioz-backend.onrender.com/api'
     : 'http://localhost:3003/api';

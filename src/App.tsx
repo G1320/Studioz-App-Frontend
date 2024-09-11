@@ -24,22 +24,15 @@ import { Toaster } from 'sonner';
 import { useOfflineCartContext } from './contexts/OfflineCartContext';
 import Footer from './components/layout/footer/footer';
 import ScrollToTop from './components/utility/scrollTop';
+import { getOfflineCartIdCountMap, filterOfflineCartItems } from './utils/cartUtils';
 
 function App() {
-  const { data: items } = useItems();
+  const { data: items = [] } = useItems();
   const { data: studios } = useStudios();
   const { offlineCartContext: offlineCart  } = useOfflineCartContext();
 
-  //Function to count occurrences of each ID in offlineCartItemsIds
-  const offlineCartIdCountMap = offlineCart?.items.reduce<{ [key: string]: number }>((acc, id) => {
-    acc[id] = (acc[id] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Filter items array based on offlineCartItemsIds
-  const offlineCartFilteredItems = items
-  ? items?.flatMap((item) => Array.from({ length: offlineCartIdCountMap[item._id] || 0 }, () => item))
-  : [];
+  const offlineCartIdCountMap = getOfflineCartIdCountMap(offlineCart);
+  const offlineCartFilteredItems = filterOfflineCartItems(items, offlineCartIdCountMap);
 
   return (
     <>

@@ -51,6 +51,7 @@ const ItemDetails: React.FC = () => {
       ) : (
         <p>Loading...</p>
       )} <section className="details-buttons item-details-buttons">
+        <div>
         <Button onClick={handleDeleteBtnClicked}>Del</Button>
         <Button onClick={handleEditBtnClicked}>Edit</Button>
         <GenericMuiDropdown
@@ -58,7 +59,8 @@ const ItemDetails: React.FC = () => {
           renderItem={renderItem}
           className="item-details-wishlists-dropdown"
           title="Wishlists"
-        />
+          />
+          </div>
       </section>
     </section>
   );

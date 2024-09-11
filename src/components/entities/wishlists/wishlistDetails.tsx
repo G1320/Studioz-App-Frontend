@@ -17,6 +17,7 @@ interface WishlistDetailsProps {
 
 const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
   const { wishlistId } = useParams();
+  
   const navigate = useNavigate();
   const user = getLocalUser();
 

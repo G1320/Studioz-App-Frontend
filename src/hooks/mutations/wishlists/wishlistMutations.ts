@@ -1,9 +1,8 @@
-
 import { useNavigate } from 'react-router-dom';
 import { useMutationHandler } from '../../utils/useMutationHandler';
 import { useInvalidateQueries } from '../../utils/useInvalidateQueries';
 import * as wishlistService from '../../../services/wishlist-service';
-import {Wishlist} from '../../../types/index';
+import { Wishlist } from '../../../types/index';
 
 export const useCreateWishlistMutation = (userId: string) => {
   const navigate = useNavigate();
@@ -11,7 +10,7 @@ export const useCreateWishlistMutation = (userId: string) => {
   return useMutationHandler<Wishlist, Wishlist>({
     mutationFn: (newWishlist) => wishlistService.createWishlistAndAddToUser(userId, newWishlist),
     successMessage: 'Wishlist created',
-    invalidateQueries: [{ queryKey: 'wishlists', targetId: userId }],
+    invalidateQueries: [{ queryKey: 'wishlists' , targetId: userId }],
     onSuccess: () => navigate('/wishlists'),
   });
 };

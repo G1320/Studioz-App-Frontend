@@ -4,7 +4,7 @@ export const musicSubCategories = [
   'Audio Engineering',
   'Film Sound',
   'Voiceover',
-  'Live Recording',
+  'Recording',
   'Mastering',
   'Mixing',
   'Remote Collaboration',

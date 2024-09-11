@@ -49,8 +49,8 @@ const GenericCarousel = <T,>({ data, className, renderItem, title }: GenericCaro
         breakpoint: 420,
         settings: {
           centerMode: false,
+          slidesToScroll: 1,
           slidesToShow: 1,
-          
           },
       },
     ],
