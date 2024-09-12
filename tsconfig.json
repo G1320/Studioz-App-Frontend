@@ -12,7 +12,7 @@
     },
     "allowImportingTsExtensions": true,      
     "allowSyntheticDefaultImports": true,   
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "moduleDetection": "force",
