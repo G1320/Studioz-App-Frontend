@@ -5,7 +5,6 @@ interface ErrorResponse {
     data?: string;
   };
 }
-console.log('useErrorHandling module loaded');
 
 export const useErrorHandling = () => {
   const handleError = (error: ErrorResponse | unknown) => { 
