@@ -20,5 +20,4 @@ export const useErrorHandling = () => {
   return handleError;
 };
 
-export default useErrorHandling;
 
