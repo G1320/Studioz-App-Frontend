@@ -6,7 +6,7 @@ interface ErrorResponse {
   };
 }
 
-const useErrorHandling = () => {
+export const useErrorHandling = () => {
   const handleError = (error: ErrorResponse | unknown) => { 
     console.error('Error:', error);
     
@@ -20,4 +20,3 @@ const useErrorHandling = () => {
   return handleError;
 };
 
-export default useErrorHandling;

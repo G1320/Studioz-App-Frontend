@@ -7,6 +7,10 @@
     "lib": ["dom","dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "allowJs": true,
+    // "baseUrl": "src",
+    // "paths": {
+    //   "@/*": ["*"]
+    // },
     /* Modules */
     "module": "esnext",     
     "allowImportingTsExtensions": true,      

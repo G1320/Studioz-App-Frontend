@@ -4,6 +4,7 @@ import { getUserWishlistById } from '../../services/wishlist-service';
 import { WishlistResponse } from '../../types/index';
 
 export const useWishlist = (userId: string, wishlistId: string) => {
+  
   const queryClient = useQueryClient();
   const { data, isLoading, error, refetch } = useQuery<WishlistResponse>({
     queryKey: ['wishlistItems', wishlistId],

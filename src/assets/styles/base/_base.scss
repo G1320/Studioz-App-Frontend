@@ -23,6 +23,16 @@
     font-family: "IBM Plex Sans", sans-serif;
   }
 
+  a {
+    font-weight: 500;
+    color: $text-color-light;
+    text-decoration: inherit;
+  }
+  a:hover {
+    text-shadow: 0 0 12px #bdeeff;
+    
+  }
+
   img {
     border-radius: 6px;
     width: 100%;
@@ -229,13 +239,3 @@ gap: 0.5rem;
     margin: 1rem;
   }
 }
-
-  a {
-    font-weight: 500;
-    color: $text-color-light;
-    text-decoration: inherit;
-  }
-  a:hover {
-    text-shadow: 0 0 12px #bdeeff;
-    
-  }

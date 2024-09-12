@@ -61,14 +61,14 @@ const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
   return (
     <section className="details wishlist-details">
       <h1>{wishlistObj?.currWishlist?.name}</h1>
-      <section className="details-buttons wishlist-details-buttons">
+      <div className="details-buttons wishlist-details-buttons">
         <Button onClick={() => handleGoToEdit(wishlistObj?.currWishlist?._id||'')}>Edit</Button>
         <Button onClick={() => handlePagination(wishlistObj?.prevWishlist?._id||'')}>Prev</Button>
         <Button onClick={() => handlePagination(wishlistObj?.nextWishlist?._id||'')}>Next</Button>
         <Button onClick={() => handleAddWishlistItemsToCart(wishlistObj?.currWishlist?.items||[])}>
           Add to Cart
         </Button>
-      </section>
+      </div>
 
       {filteredItems.length > 0 && <ItemsList items={filteredItems} />}
 
