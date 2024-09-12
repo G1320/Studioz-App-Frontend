@@ -7,7 +7,7 @@ import { register, login } from '../../services/auth-service';
 
 import { useUserContext } from '../../contexts/UserContext';
 import { useOfflineCartContext } from '../../contexts/OfflineCartContext';
-import { useAddItemsToCartMutation } from '../../hooks/mutations/cart/cartMutations';
+import { useAddItemsToCartMutation } from '../../hooks/index';
 import { setLocalOfflineCart } from '../../services/cart-service';
 
 const LoginButton: React.FC = (): ReactElement | null => {

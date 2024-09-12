@@ -1,6 +1,6 @@
 import React from 'react';
 import CartItemsList from './cartItemsList';
-import { useCart } from '../../../hooks/dataFetching/useCart';
+import { useCart } from '../../../hooks/index'
 import { useUserContext } from '../../../contexts/UserContext';
 import { Item } from '../../../types/index';
 

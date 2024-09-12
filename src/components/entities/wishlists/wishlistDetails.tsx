@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../common/buttons/genericButton';
 import { getLocalUser } from '../../../services/user-service';
-import { useWishlist } from '../../../hooks/dataFetching/useWishlist';
-import { useStudios } from '../../../hooks/dataFetching/useStudios';
+import { useStudios, useWishlist, useAddItemsToCartMutation, useDeleteWishlistMutation } from '../../../hooks/index';
 import ItemsList from '../items/itemsList';
-import { useAddItemsToCartMutation } from '../../../hooks/mutations/cart/cartMutations';
 import { toast } from 'sonner';
-import { useDeleteWishlistMutation } from '../../../hooks/mutations/wishlists/wishlistMutations';
 import StudiosList from '../studios/studiosList';
 import { Item, Studio, WishlistItem } from '../../../types/index';
 

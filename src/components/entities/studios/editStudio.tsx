@@ -1,7 +1,7 @@
 import  { useState, useEffect } from 'react';
 import {  useParams } from 'react-router-dom';
 import GenericForm, {FieldType} from '../../common/forms/genericForm';
-import { useUpdateStudioMutation } from '../../../hooks/mutations/studios/studioMutations';
+import { useUpdateStudioMutation } from '../../../hooks/index';
 import { useStudio } from '../../../hooks/dataFetching/useStudio';
 import { uploadFile } from '../../../services/file-upload-service';
 import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import GenericForm from '../../common/forms/genericForm';
-import { useItem } from '../../../hooks/dataFetching/useItem';
-import { useUpdateItemMutation } from '../../../hooks/mutations/items/itemMutations';
+import { useItem, useUpdateItemMutation } from '../../../hooks/index'
 import { Item } from '../../../types/index'; 
 
 import { FieldType } from '../../common/forms/genericForm';

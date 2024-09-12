@@ -20,7 +20,3 @@ export const useErrorHandling = () => {
 
   return handleError;
 };
-
-
-
-

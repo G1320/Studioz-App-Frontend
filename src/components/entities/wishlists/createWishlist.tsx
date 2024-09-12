@@ -1,7 +1,7 @@
 import { getLocalUser } from '../../../services/user-service';
 import GenericForm, { FieldType } from '../../common/forms/genericForm';
 
-import { useCreateWishlistMutation } from '../../../hooks/mutations/wishlists/wishlistMutations';
+import { useCreateWishlistMutation } from '../../../hooks/index';
 import { Wishlist } from '../../../types/index';
 
 const CreateWishlist = () => {

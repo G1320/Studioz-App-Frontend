@@ -2,15 +2,15 @@ import React, { MouseEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../common/buttons/genericButton';
 import {
+  useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation,
-} from '../../../hooks/mutations/items/itemMutations';
+} from '../../../hooks/index';
 
 import WishlistPreview from '../wishlists/wishlistPreview';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { useUserContext } from '../../../contexts/UserContext';
-import { useAddItemToCartMutation } from '../../../hooks/mutations/cart/cartMutations';
 import { Item, Wishlist } from '../../../types/index';
 
 interface ItemPreviewProps {

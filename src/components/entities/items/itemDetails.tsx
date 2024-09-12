@@ -2,13 +2,13 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../common/buttons/genericButton';
-import { useItem } from '../../../hooks/dataFetching/useItem';
-import {
+import { 
+  useItem,
+  useWishlists,
   useAddItemToWishlistMutation,
   useDeleteItemMutation,
-} from '../../../hooks/mutations/items/itemMutations';
+} from '../../../hooks/index';
 import { getLocalUser } from '../../../services/user-service';
-import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import WishlistPreview from '../wishlists/wishlistPreview';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import ItemPreview from './itemPreview';

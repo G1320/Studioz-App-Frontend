@@ -4,7 +4,7 @@ import GenericList from '../../common/lists/genericList';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDropdownEntryPreview';
 import CartItemPreview from './cartItemPreview';
-import {useRemoveItemFromCartMutation} from '../../../hooks/mutations/cart/cartMutations';
+import {useRemoveItemFromCartMutation} from '../../../hooks/index';
 import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '../../../utils/cartUtils';
 import { Item } from '../../../types/index';
 

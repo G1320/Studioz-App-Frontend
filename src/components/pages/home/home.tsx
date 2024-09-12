@@ -5,7 +5,7 @@ import StudiosList from '../../entities/studios/studiosList';
 import StudioPreview from '../../entities/studios/studioPreview';
 import ItemPreview from '../../entities/items/itemPreview';
 import GenericCarousel from '../../common/lists/genericSlickCarousel';
-import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
+import { useWishlists } from '../../../hooks/index';
 import { useUserContext } from '../../../contexts/UserContext';
 import { Studio,Item } from '../../../types/index';
 

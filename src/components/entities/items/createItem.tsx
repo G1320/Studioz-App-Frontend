@@ -1,7 +1,7 @@
 import  { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GenericForm, { FieldType } from '../../common/forms/genericForm';
-import { useCreateItemMutation } from '../../../hooks/mutations/items/itemMutations';
+import { useCreateItemMutation } from '../../../hooks/index';
 import { Item } from '../../../types/index';
 
 const CreateItem = () => {

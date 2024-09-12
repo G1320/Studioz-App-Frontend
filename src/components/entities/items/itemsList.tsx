@@ -2,7 +2,7 @@ import React from 'react';
 import ItemPreview from './itemPreview';
 import GenericList from '../../common/lists/genericList';
 import { getLocalUser } from '../../../services/user-service';
-import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
+import { useWishlists } from '../../../hooks/index';
 
 import { Item } from '../../../types/index';
 

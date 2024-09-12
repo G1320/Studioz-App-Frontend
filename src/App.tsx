@@ -17,8 +17,7 @@ import CreateWishlist from './components/entities/wishlists/createWishlist';
 import EditWishlist from './components/entities/wishlists/editWishlist';
 import EditStudio from './components/entities/studios/editStudio';
 import CartDetails from './components/entities/cart/cartDetails';
-import { useItems } from './hooks/dataFetching/useItems';
-import { useStudios } from './hooks/dataFetching/useStudios';
+import { useItems, useStudios  } from './hooks/index';
 
 import { Toaster } from 'sonner';
 import { useOfflineCartContext } from './contexts/OfflineCartContext';

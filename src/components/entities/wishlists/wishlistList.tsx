@@ -4,7 +4,7 @@ import GenericList from '../../common/lists/genericList';
 import WishlistPreview from './wishlistPreview';
 import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDropdownEntryPreview';
 import { getLocalUser } from '../../../services/user-service';
-import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
+import { useWishlists } from '../../../hooks/index';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { Wishlist } from '../../../types/index';
 

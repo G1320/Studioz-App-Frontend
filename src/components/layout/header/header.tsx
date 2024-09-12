@@ -7,7 +7,7 @@ import LoginButton from '../../auth/login-button';
 import LogoutButton from '../../auth/logout-button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUserContext } from '../../../contexts/UserContext';
-import { useCart } from '../../../hooks/dataFetching/useCart';
+import { useCart } from '../../../hooks/index'
 import { Item } from '../../../types/index';
 
 interface HeaderProps{

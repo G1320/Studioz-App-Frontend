@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useStudio } from '../../../hooks/dataFetching/useStudio';
 import ItemsList from '../items/itemsList';
 import Button from '../../common/buttons/genericButton';
 import { getLocalUser } from '../../../services/user-service';
-import { useAddStudioToWishlistMutation } from '../../../hooks/mutations/wishlists/wishlistMutations';
+import { useStudio, useAddStudioToWishlistMutation,useWishlists } from '../../../hooks/index';
 import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
-import { useWishlists } from '../../../hooks/dataFetching/useWishlists';
 import WishlistPreview from '../wishlists/wishlistPreview';
 import StudioPreview from './studioPreview';
 import { Item,  Wishlist } from '../../../types/index';
