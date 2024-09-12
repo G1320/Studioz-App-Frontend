@@ -1,6 +1,6 @@
 import React, { MouseEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../../common/buttons/genericButton';
+import { Button ,GenericMuiDropdown } from '../../common/index';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
@@ -9,7 +9,6 @@ import {
 } from '../../../hooks/index';
 
 import WishlistPreview from '../wishlists/wishlistPreview';
-import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { useUserContext } from '../../../contexts/UserContext';
 import { Item, Wishlist } from '../../../types/index';
 
@@ -18,7 +17,7 @@ interface ItemPreviewProps {
   wishlists?: Wishlist[]; 
 }
 
-const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
+ const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
   const { studioId, wishlistId } = useParams<{ studioId: string; wishlistId: string }>();
   const navigate = useNavigate();
   const { user } = useUserContext();
@@ -87,5 +86,6 @@ const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
     </article>
   );
 };
+
 
 export default ItemPreview;

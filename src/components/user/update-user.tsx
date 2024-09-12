@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../services/user-service';
-import GenericForm from '../common/forms/genericForm';
+import { GenericForm } from '../common/index'
 import { useErrorHandling } from '../../hooks/index'
 
 export default function Update() {

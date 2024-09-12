@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import GenericForm from '../../common/forms/genericForm';
+import { GenericForm, FieldType } from '../../common/index'
 import { useItem, useUpdateItemMutation } from '../../../hooks/index'
 import { Item } from '../../../types/index'; 
 
-import { FieldType } from '../../common/forms/genericForm';
 
 const EditItem: React.FC = () => {
   const navigate = useNavigate();

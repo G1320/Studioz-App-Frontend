@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent } from 'react';
-import Button from '../buttons/genericButton';
+import { Button } from '../index';
 import { Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ interface GenericMuiDropdownProps<T> {
   title: string;
 }
 
-const GenericMuiDropdown = <T,>({
+export const GenericMuiDropdown = <T,>({
   data,
   renderItem,
   className = '',
@@ -71,6 +71,5 @@ const GenericMuiDropdown = <T,>({
   );
 };
 
-export default GenericMuiDropdown;
 
 

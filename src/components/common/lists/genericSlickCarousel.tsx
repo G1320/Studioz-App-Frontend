@@ -10,7 +10,7 @@ interface GenericCarouselProps<T> {
   title?: string;
 }
 
-const GenericCarousel = <T,>({ data, className, renderItem, title }: GenericCarouselProps<T>) => {
+export const GenericCarousel = <T,>({ data, className, renderItem, title }: GenericCarouselProps<T>) => {
   
   const settings = {
     dots: true,
@@ -69,4 +69,3 @@ const GenericCarousel = <T,>({ data, className, renderItem, title }: GenericCaro
   );
 };
 
-export default GenericCarousel;

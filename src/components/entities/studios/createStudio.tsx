@@ -1,5 +1,5 @@
 import  { useState } from 'react';
-import GenericForm, { FieldType } from '../../common/forms/genericForm';
+import { FileUploader , GenericForm, FieldType } from '../../common/index';
 import { getLocalUser } from '../../../services/user-service';
 
 import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
@@ -8,7 +8,6 @@ import { useCreateStudioMutation } from '../../../hooks/index';
 import { uploadFile } from '../../../services/file-upload-service';
 import { toast } from 'sonner';
 import { Studio } from '../../../types/index';
-import FileUploader from '../../common/fileUploader/fileUploader';
 
 interface FormData {
   coverImage?: string;

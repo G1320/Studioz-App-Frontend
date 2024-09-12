@@ -1,5 +1,5 @@
 import { getLocalUser } from '../../../services/user-service';
-import GenericForm, { FieldType } from '../../common/forms/genericForm';
+import { GenericForm, FieldType } from '../../common/index';
 
 import { useCreateWishlistMutation } from '../../../hooks/index';
 import { Wishlist } from '../../../types/index';

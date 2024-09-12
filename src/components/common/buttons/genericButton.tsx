@@ -10,7 +10,7 @@ interface ButtonProps {
   children: ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
   className = '',
@@ -38,4 +38,3 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;

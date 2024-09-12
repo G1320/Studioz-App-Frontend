@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GenericList from '../../common/lists/genericList';
-import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
-import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDropdownEntryPreview';
+import { GenericList, GenericMuiDropdown , GenericMultiDropdownEntryPreview} from '../../common/index';
 import CartItemPreview from './cartItemPreview';
-import {useRemoveItemFromCartMutation} from '../../../hooks/index';
+import { useRemoveItemFromCartMutation } from '../../../hooks/index';
 import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '../../../utils/cartUtils';
 import { Item } from '../../../types/index';
 

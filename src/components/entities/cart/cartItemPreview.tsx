@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../common/buttons/genericButton';
+import { Button } from '../../common/index';
 import { useNavigate } from 'react-router-dom';
 import { Item } from '../../../types/index';
 

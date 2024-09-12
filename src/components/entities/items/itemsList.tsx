@@ -1,6 +1,6 @@
 import React from 'react';
 import ItemPreview from './itemPreview';
-import GenericList from '../../common/lists/genericList';
+import { GenericList } from '../../common/index'
 import { getLocalUser } from '../../../services/user-service';
 import { useWishlists } from '../../../hooks/index';
 

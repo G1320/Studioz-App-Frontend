@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import GenericForm, { FieldType } from '../../common/forms/genericForm';
+import {GenericForm,  FieldType } from '../../common/index';
 import { useCreateItemMutation } from '../../../hooks/index';
 import { Item } from '../../../types/index';
 

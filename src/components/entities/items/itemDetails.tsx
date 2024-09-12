@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../../common/buttons/genericButton';
+import { Button, GenericMuiDropdown } from '../../common/index';
 import { 
   useItem,
   useWishlists,
@@ -10,11 +10,10 @@ import {
 } from '../../../hooks/index';
 import { getLocalUser } from '../../../services/user-service';
 import WishlistPreview from '../wishlists/wishlistPreview';
-import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import ItemPreview from './itemPreview';
 import {  Wishlist } from '../../../types/index';
 
-const ItemDetails: React.FC = () => {
+  const ItemDetails: React.FC = () => {
   const user = getLocalUser();
   const navigate = useNavigate();
   const { itemId } = useParams(); 

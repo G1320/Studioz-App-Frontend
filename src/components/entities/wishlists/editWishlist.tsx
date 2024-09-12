@@ -1,12 +1,11 @@
 
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import GenericForm from '../../common/forms/genericForm';
+import { GenericForm, FieldType } from '../../common/index';
 import { useWishlists, useUpdateWishlistMutation } from '../../../hooks/index';
 import { getLocalUser } from '../../../services/user-service';
 import { Wishlist } from '../../../types/index'; 
 
-import { FieldType } from '../../common/forms/genericForm';
 
 
   const EditWishlist: React.FC = () => {

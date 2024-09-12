@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GenericList from '../../common/lists/genericList';
+import { GenericList, GenericMultiDropdownEntryPreview, GenericMuiDropdown } from '../../common/index';
 import WishlistPreview from './wishlistPreview';
-import GenericMultiDropdownEntryPreview from '../../common/lists/genericMultiDropdownEntryPreview';
 import { getLocalUser } from '../../../services/user-service';
 import { useWishlists } from '../../../hooks/index';
-import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import { Wishlist } from '../../../types/index';
 
 interface WishlistListProps {

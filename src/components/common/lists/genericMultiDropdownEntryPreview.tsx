@@ -9,7 +9,7 @@ interface GenericMultiDropdownEntryPreviewProps {
   entry: Entry;
 }
 
-const GenericMultiDropdownEntryPreview: React.FC<GenericMultiDropdownEntryPreviewProps> = ({ entry }) => {
+export const GenericMultiDropdownEntryPreview: React.FC<GenericMultiDropdownEntryPreviewProps> = ({ entry }) => {
   return (
     <>
       <input id={`input-${entry._id}`} type="checkbox" />
@@ -18,4 +18,3 @@ const GenericMultiDropdownEntryPreview: React.FC<GenericMultiDropdownEntryPrevie
   );
 };
 
-export default GenericMultiDropdownEntryPreview;

@@ -4,7 +4,7 @@ import Hero from '../../layout/hero/hero';
 import StudiosList from '../../entities/studios/studiosList';
 import StudioPreview from '../../entities/studios/studioPreview';
 import ItemPreview from '../../entities/items/itemPreview';
-import GenericCarousel from '../../common/lists/genericSlickCarousel';
+import { GenericCarousel } from '../../common/index';
 import { useWishlists } from '../../../hooks/index';
 import { useUserContext } from '../../../contexts/UserContext';
 import { Studio,Item } from '../../../types/index';

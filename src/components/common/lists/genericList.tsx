@@ -7,7 +7,7 @@ interface GenericListProps<T> {
   className?: string;
 }
 
-const GenericList = <T,>({
+export const GenericList = <T,>({
   data,
   renderItem,
   keyExtractor,
@@ -29,4 +29,4 @@ const GenericList = <T,>({
   );
 };
 
-export default GenericList;
+

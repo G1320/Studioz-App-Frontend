@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ItemsList from '../items/itemsList';
-import Button from '../../common/buttons/genericButton';
+import {Button, GenericMuiDropdown} from '../../common/index';
 import { getLocalUser } from '../../../services/user-service';
 import { useStudio, useAddStudioToWishlistMutation,useWishlists } from '../../../hooks/index';
-import GenericMuiDropdown from '../../common/lists/genericMuiDropdown';
 import WishlistPreview from '../wishlists/wishlistPreview';
 import StudioPreview from './studioPreview';
 import { Item,  Wishlist } from '../../../types/index';
@@ -13,7 +12,7 @@ interface StudioDetailsProps {
   items: Item[];
 }
 
-const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
+  const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
   const navigate = useNavigate();
   const user = getLocalUser();
   const { studioId } = useParams();

@@ -2,8 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import GenericImageGallery from '../../common/imageGallery/genericImageGallery';
-import GenericAudioGallery from '../../common/audioGallery/genericAudioGallery';
+import { GenericImageGallery, GenericAudioGallery } from '../../common/index';
 import { Studio } from '../../../types/index';
 
 interface StudioPreviewProps {

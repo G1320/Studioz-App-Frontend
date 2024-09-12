@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import Button from '../buttons/genericButton';
+import { Button } from '../index';
 
 interface GenericDropdownProps<T> {
   data: T[];

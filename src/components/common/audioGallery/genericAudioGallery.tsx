@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GenericList from '../lists/genericList';
+import { GenericList } from '../index';
 
 interface GenericAudioGalleryProps {
   isAudioFilesShown?: boolean;
@@ -10,7 +10,7 @@ interface GenericAudioGalleryProps {
   onSetPreviewAudioFile?: (audioFile: string) => void;
 }
 
-const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
+export const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
   isAudioFilesShown = false,
   isCoverShown = true,
   coverAudioFile,
@@ -40,4 +40,3 @@ const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
   );
 };
 
-export default GenericAudioGallery;

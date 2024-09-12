@@ -3,8 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { toast } from 'sonner';
-import GenericImageGallery from '../imageGallery/genericImageGallery';
-import GenericAudioGallery from '../audioGallery/genericAudioGallery';
+import { GenericImageGallery, GenericAudioGallery } from '../index';
 
 type OnFileUploadType = (files: File[], type: string) => void;
 
@@ -35,7 +34,7 @@ const validMimeTypes: { [key: string]: string[] } = {
   'audio/flac': ['.flac'],
 };
 
-const FileUploader: React.FC<FileUploaderProps> = ({
+export const FileUploader: React.FC<FileUploaderProps> = ({
   fileType,
   isCoverShown = false,
   onFileUpload,
@@ -145,4 +144,3 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   );
 };
 
-export default FileUploader;

@@ -1,4 +1,4 @@
-import Button from '../buttons/genericButton';
+import { Button } from '../buttons/genericButton';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { TextField, Checkbox, FormControlLabel, Select, MenuItem, Stack } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -23,7 +23,8 @@ interface GenericFormProps {
   onCategoryChange?: (value: string) => void;
 }
 
-const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmit, className, btnTxt = 'Submit', onCategoryChange }) => {
+
+export const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmit, className, btnTxt = 'Submit', onCategoryChange }) => {
   const { register, handleSubmit, reset } = useForm<Record<string, any>>();
 
   const onSubmitHandler: SubmitHandler<Record<string, any>> = (data) => {
@@ -107,4 +108,4 @@ const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmit, clas
   );
 };
 
-export default GenericForm;
+ 

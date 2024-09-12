@@ -1,5 +1,5 @@
 import { register } from '../../services/auth-service';
-import GenericForm from '../common/forms/genericForm';
+import { GenericForm } from '../common/index';
 import { useErrorHandling } from '../../hooks/index'
 import { User } from '../../types/index';
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PropagateLoader } from 'react-spinners';
 
-import GenericList from '../lists/genericList';
+import { GenericList } from '../lists/genericList';
 import { useLocation } from 'react-router-dom';
 
 interface GenericImageGalleryProps {
@@ -14,7 +14,7 @@ interface GenericImageGalleryProps {
   onSetPreviewImage?: (image: string) => void;
 }
 
-const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
+export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   isGalleryImagesShown = false,
   isCoverShown = true,
   entity,
@@ -79,4 +79,3 @@ const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   );
 };
 
-export default GenericImageGallery;

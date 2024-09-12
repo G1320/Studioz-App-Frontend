@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../../common/buttons/genericButton';
+import { Button } from '../../common/buttons/genericButton';
 import { getLocalUser } from '../../../services/user-service';
 import { useStudios, useWishlist, useAddItemsToCartMutation, useDeleteWishlistMutation } from '../../../hooks/index';
 import ItemsList from '../items/itemsList';

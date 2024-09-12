@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import Button from '../common/buttons/genericButton';
+import { Button } from '../common/index';
 import { setLocalUser } from '../../services/user-service';
 import { getUserBySub } from '../../services/user-service';
 import { register, login } from '../../services/auth-service';
