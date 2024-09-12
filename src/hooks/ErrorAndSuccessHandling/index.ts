@@ -1,1 +1,2 @@
-export * from "./useErrorHandling";
+// export * from "./useErrorHandling";
+export { useErrorHandling } from './useErrorHandling';
