@@ -6,7 +6,7 @@
     "jsx": "preserve",
     "allowJs": true,
     "module": "esnext",     
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "*": ["*"]
     },
@@ -27,6 +27,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["./src/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"] 
 }
