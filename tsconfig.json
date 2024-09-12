@@ -6,6 +6,10 @@
     "jsx": "preserve",
     "allowJs": true,
     "module": "esnext",     
+    "baseUrl": "src",
+    "paths": {
+      "*": ["*"]
+    },
     "allowImportingTsExtensions": true,      
     "allowSyntheticDefaultImports": true,   
     "moduleResolution": "node",
