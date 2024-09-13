@@ -1,30 +1,20 @@
 import { Routes, Route } from 'react-router-dom';
-// import { Header, Home, Store, Studios,Services, WishLists, CreateUser, CreateStudio, CreateItem, CreateWishlist, EditItem, EditStudio, EditWishlist, StudioDetails, ItemDetails, WishlistDetails,CartDetails } from '@/components'
-import StudioDetails from './components/entities/studios/studioDetails';
-import Header from './components/layout/header/header';
-
-import Home from './components/pages/home/home';
-import Store from './components/pages/store/store';
-import Studios from './components/pages/studios/studios';
-import Services from './components/pages/services/services';
-import WishLists from './components/pages/wishlists/wishlists';
-import CreateUser from './components/user/create-user';
-import ItemDetails from './components/entities/items/itemDetails';
-import CreateItem from './components/entities/items/createItem';
-import CreateStudio from './components/entities/studios/createStudio';
-import EditItem from './components/entities/items/editItem';
-import WishlistDetails from './components/entities/wishlists/wishlistDetails';
-import CreateWishlist from './components/entities/wishlists/createWishlist';
-import EditWishlist from './components/entities/wishlists/editWishlist';
-import EditStudio from './components/entities/studios/editStudio';
-import CartDetails from './components/entities/cart/cartDetails';
-import { useOfflineCartContext } from './contexts';
-import { useItems, useStudios  } from '@/hooks/index';
-
-import Footer from './components/layout/footer/footer';
-import ScrollToTop from './components/utility/scrollTop';
-import { getOfflineCartIdCountMap, filterOfflineCartItems } from './utils/cartUtils';
+import { lazy, Suspense } from 'react';
+import { useOfflineCartContext } from '@/contexts';
+import { useItems, useStudios  } from '@/hooks';
+import { getOfflineCartIdCountMap, filterOfflineCartItems } from '@/utils/cartUtils';
+import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
+
+import { Header, Home, Footer, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio, ScrollToTop } from '@/components';
+
+const CreateUser = lazy(() => import('@/components/user/create-user')) 
+const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
+const EditItem = lazy(() => import('@/components/entities/items/editItem')) ;
+const CreateWishlist = lazy(() => import('@/components/entities/wishlists/createWishlist')) ;
+const EditWishlist = lazy(() => import('@/components/entities/wishlists/editWishlist')) ;
+const EditStudio = lazy(() => import('@/components/entities/studios/editStudio')) ;
+const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails')) ;
 
 function App() {
   const { data: items = [] } = useItems();
@@ -56,6 +46,78 @@ function App() {
           <Route path="/create-wishlist" element={<CreateWishlist />} />
           <Route path="/item/:itemId" element={<ItemDetails />} />
           <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems} />} />
+          <Route 
+              path="/create-user" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <CreateUser />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/create-item/:studioName/:studioId" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <CreateItem />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/edit-item/:itemId" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <EditItem />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/edit-studio/:studioId" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <EditStudio />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/create-studio" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <CreateStudio />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/edit-wishlist/:wishlistId" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <EditWishlist />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/create-wishlist" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <CreateWishlist />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/item/:itemId" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <ItemDetails />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/cart" 
+              element={
+                <Suspense fallback={<PropagateLoader className='loader' />}>
+                  <CartDetails filteredItems={offlineCartFilteredItems} />
+                </Suspense>
+              } 
+            />
         </Routes>
       </ScrollToTop>
       </main>
