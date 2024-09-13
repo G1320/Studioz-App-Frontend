@@ -205,9 +205,7 @@ gap: 0.5rem;
        small, .icon{
            width: 250px;
        }
-       img.cover-image {
-        width: calc(100% + 1rem);
-       }
+      
        img:not(.hero img, .cover-image ){
           width: 250px;
            max-width: 250px;

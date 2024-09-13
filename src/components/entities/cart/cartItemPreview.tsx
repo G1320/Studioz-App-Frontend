@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '../../common/index';
 import { useNavigate } from 'react-router-dom';
-import { Item } from '../../../types/index';
+import { Button } from '@/components';
+import { Item } from '@/types/index';
 
 interface CartItemPreviewProps {
   item: Item;
@@ -9,7 +9,7 @@ interface CartItemPreviewProps {
   onRemoveFromCart: (item: Item) => void;
 }
 
-const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, quantity, onRemoveFromCart }) => {
+export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, quantity, onRemoveFromCart }) => {
   const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {

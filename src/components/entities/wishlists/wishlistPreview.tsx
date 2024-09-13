@@ -1,14 +1,13 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../common/buttons/genericButton';
-import { Wishlist } from '../../../types/index';
+import { Button } from '@/components';
+import { Wishlist } from '@/types/index';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;
   onAddItemToWishList?: any;
 }
 
-const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
+ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
   const navigate = useNavigate();
 
   return (

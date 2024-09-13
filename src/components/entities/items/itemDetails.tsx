@@ -1,19 +1,10 @@
-
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown } from '../../common/index';
-import { 
-  useItem,
-  useWishlists,
-  useAddItemToWishlistMutation,
-  useDeleteItemMutation,
-} from '../../../hooks/index';
-import { getLocalUser } from '../../../services/user-service';
-import WishlistPreview from '../wishlists/wishlistPreview';
-import ItemPreview from './itemPreview';
-import {  Wishlist } from '../../../types/index';
+import { ItemPreview, WishlistPreview, Button, GenericMuiDropdown } from '@/components';
+import { useItem, useWishlists, useAddItemToWishlistMutation, useDeleteItemMutation } from '@/hooks';
+import { getLocalUser } from '@/services';
+import { Wishlist } from '@/types/index';
 
-  const ItemDetails: React.FC = () => {
+  export const ItemDetails: React.FC = () => {
   const user = getLocalUser();
   const navigate = useNavigate();
   const { itemId } = useParams(); 

@@ -1,14 +1,12 @@
-import React from 'react';
-import ItemsList from '../../entities/items/itemsList';
-import Hero from '../../layout/hero/hero';
+import { Hero, ItemsList } from '@/components';
 import { useParams } from 'react-router-dom';
-import { Item } from '../../../types/index';
+import { Item } from '@/types/index';
 
 interface ServicesProps {
   items?: Item[];
 }
 
-const Services: React.FC<ServicesProps> = ({ items }) => {
+export const Services: React.FC<ServicesProps> = ({ items }) => {
   const { category, subcategory } = useParams<{ category?: string; subcategory?: string }>();
 
   const filteredItems = items?.filter((item) => {

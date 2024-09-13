@@ -1,20 +1,16 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Hero from '../../layout/hero/hero';
-import StudiosList from '../../entities/studios/studiosList';
-import StudioPreview from '../../entities/studios/studioPreview';
-import ItemPreview from '../../entities/items/itemPreview';
-import { GenericCarousel } from '../../common/index';
-import { useWishlists } from '../../../hooks/index';
-import { useUserContext } from '../../../contexts/UserContext';
-import { Studio,Item } from '../../../types/index';
+import { Hero, StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/components';
+
+import { useWishlists } from '@/hooks';
+import { useUserContext } from '@/contexts';
+import { Studio,Item } from '@/types/index';
 
 interface HomeProps {
   studios: Studio[];
   items: Item[];
 }
 
-const Home: React.FC<HomeProps> = ({ studios, items }) => {
+ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');

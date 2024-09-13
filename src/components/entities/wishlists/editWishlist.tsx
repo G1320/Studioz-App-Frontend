@@ -1,14 +1,13 @@
 
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '../../common/index';
-import { useWishlists, useUpdateWishlistMutation } from '../../../hooks/index';
-import { getLocalUser } from '../../../services/user-service';
-import { Wishlist } from '../../../types/index'; 
+import { GenericForm, FieldType } from '@/components';
+import { useWishlists, useUpdateWishlistMutation } from '@/hooks';
+import { getLocalUser } from '@/services';
+import { Wishlist } from '@/types/index'; 
 
 
 
-  const EditWishlist: React.FC = () => {
+ export const EditWishlist: React.FC = () => {
   const user = getLocalUser();
   const navigate = useNavigate();
   const { wishlistId } = useParams<{ wishlistId: string }>();

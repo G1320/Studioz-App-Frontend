@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '../../common/index'
-import { useItem, useUpdateItemMutation } from '../../../hooks/index'
-import { Item } from '../../../types/index'; 
+import { GenericForm, FieldType } from '@/components'
+import { useItem, useUpdateItemMutation } from '@/hooks'
+import { Item } from '@/types/index'; 
 
 
-const EditItem: React.FC = () => {
+export const EditItem: React.FC = () => {
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>(); 
   const { data: item } = useItem(itemId || '');

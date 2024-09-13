@@ -1,10 +1,10 @@
-import { getLocalUser } from '../../../services/user-service';
-import { GenericForm, FieldType } from '../../common/index';
+import { GenericForm, FieldType } from '@/components';
 
-import { useCreateWishlistMutation } from '../../../hooks/index';
-import { Wishlist } from '../../../types/index';
+import { useCreateWishlistMutation } from '@/hooks';
+import { getLocalUser } from '@/services';
+import { Wishlist } from '@/types/index';
 
-const CreateWishlist = () => {
+export const CreateWishlist = () => {
   const user = getLocalUser();
 
   const createWishlistMutation = useCreateWishlistMutation(user?._id ||'');

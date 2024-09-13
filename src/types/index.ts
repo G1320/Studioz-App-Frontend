@@ -8,7 +8,8 @@ import Wishlist from './wishlist';
 import WishlistItem from './wishlistItem';
 import WishlistResponse from './wishlistResponse';
 import Cart from './cart';
-import {CartItem} from './cartItem';
+import { CartItem } from './cartItem';
+
 export type{
     AuthResponse,
     RegisterData, 

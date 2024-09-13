@@ -1,15 +1,14 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, GenericAudioGallery } from '../../common/index';
-import { Studio } from '../../../types/index';
+import { GenericImageGallery, GenericAudioGallery } from '@/components';
+import { Studio } from '@/types/index';
 
 interface StudioPreviewProps {
   studio: Studio | null;
 }
 
-const StudioPreview:React.FC<StudioPreviewProps> = ({ studio = null }) => {
+ export const StudioPreview:React.FC<StudioPreviewProps> = ({ studio = null }) => {
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -1,17 +1,14 @@
-import React from 'react';
-import ItemPreview from './itemPreview';
-import { GenericList } from '../../common/index'
-import { getLocalUser } from '../../../services/user-service';
-import { useWishlists } from '../../../hooks/index';
-
-import { Item } from '../../../types/index';
+import { ItemPreview, GenericList } from '@/components'
+import { getLocalUser } from '@/services';
+import { useWishlists } from '@/hooks';
+import { Item } from '@/types/index';
 
 interface ItemListProps {
   items?: Item[];
   className?: string;
 }
 
-const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) => {
+export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) => {
   const user = getLocalUser();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 

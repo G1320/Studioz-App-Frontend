@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PropagateLoader } from 'react-spinners';
 
-import { GenericList } from '../lists/genericList';
+import { GenericList } from '@/components';
 import { useLocation } from 'react-router-dom';
 
 interface GenericImageGalleryProps {

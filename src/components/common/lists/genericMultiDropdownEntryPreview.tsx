@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Entry {
   _id: string;
   name: string;

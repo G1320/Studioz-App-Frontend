@@ -1,7 +1,7 @@
-import { register } from '../../services/auth-service';
-import { GenericForm } from '../common/index';
-import { useErrorHandling } from '../../hooks/index'
-import { User } from '../../types/index';
+import { register } from '@/services';
+import { GenericForm } from '@/components';
+import { useErrorHandling } from '@/hooks'
+import { User } from '@/types/index';
 
 type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
 
@@ -21,7 +21,7 @@ const fields: Field[] = [
   { name: 'lastName', label: 'Last Name', type: 'text' },
 ];
 
-const CreateUser: React.FC = () => {
+ export const CreateUser: React.FC = () => {
   const handleError = useErrorHandling();
 
   const handleSubmit = async (formData: Partial <User>) => {

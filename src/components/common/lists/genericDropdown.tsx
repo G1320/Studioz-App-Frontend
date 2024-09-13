@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Button } from '../index';
+import { useState } from 'react';
+import { Button } from '@/components';
 
 interface GenericDropdownProps<T> {
   data: T[];

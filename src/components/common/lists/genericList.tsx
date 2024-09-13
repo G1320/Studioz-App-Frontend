@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface GenericListProps<T> {
   data: T[];
   renderItem: (item: T, index: number) => React.ReactNode;

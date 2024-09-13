@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { GenericImageGallery, GenericAudioGallery } from '@/components';
 import { toast } from 'sonner';
-import { GenericImageGallery, GenericAudioGallery } from '../index';
 
 type OnFileUploadType = (files: File[], type: string) => void;
 

@@ -1,7 +1,7 @@
-import { httpService } from './http-service';
-import { parseJSON, stringifyJSON } from '../utils/storageUtils';
-import { sanitizeUserObject } from '../utils/sanitizeUserObject';
-import {User, Studio} from '../types/index';
+import { httpService } from '@/services';
+import { parseJSON, stringifyJSON } from '@/utils/storageUtils';
+import { sanitizeUserObject } from '@/utils/sanitizeUserObject';
+import { User, Studio } from '@/types/index';
 
 const userEndpoint = '/users';
 

@@ -1,6 +1,6 @@
-import WishlistList from '../../entities/wishlists/wishlistList';
+import { WishlistList } from '@/components';
 
-const WishLists = () => {
+export const WishLists = () => {
   return <WishlistList />;
 };
 

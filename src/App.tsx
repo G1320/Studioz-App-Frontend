@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import CreateStudio from './components/entities/studios/createStudio';
+// import { Header, Home, Store, Studios,Services, WishLists, CreateUser, CreateStudio, CreateItem, CreateWishlist, EditItem, EditStudio, EditWishlist, StudioDetails, ItemDetails, WishlistDetails,CartDetails } from '@/components'
 import StudioDetails from './components/entities/studios/studioDetails';
 import Header from './components/layout/header/header';
 
@@ -11,24 +11,25 @@ import WishLists from './components/pages/wishlists/wishlists';
 import CreateUser from './components/user/create-user';
 import ItemDetails from './components/entities/items/itemDetails';
 import CreateItem from './components/entities/items/createItem';
+import CreateStudio from './components/entities/studios/createStudio';
 import EditItem from './components/entities/items/editItem';
 import WishlistDetails from './components/entities/wishlists/wishlistDetails';
 import CreateWishlist from './components/entities/wishlists/createWishlist';
 import EditWishlist from './components/entities/wishlists/editWishlist';
 import EditStudio from './components/entities/studios/editStudio';
 import CartDetails from './components/entities/cart/cartDetails';
-import { useItems, useStudios  } from './hooks/index';
+import { useOfflineCartContext } from './contexts';
+import { useItems, useStudios  } from '@/hooks/index';
 
-import { Toaster } from 'sonner';
-import { useOfflineCartContext } from './contexts/OfflineCartContext';
 import Footer from './components/layout/footer/footer';
 import ScrollToTop from './components/utility/scrollTop';
 import { getOfflineCartIdCountMap, filterOfflineCartItems } from './utils/cartUtils';
+import { Toaster } from 'sonner';
 
 function App() {
   const { data: items = [] } = useItems();
   const { data: studios } = useStudios();
-  const { offlineCartContext: offlineCart  } = useOfflineCartContext();
+  const { offlineCartContext: offlineCart } = useOfflineCartContext();
 
   const offlineCartIdCountMap = getOfflineCartIdCountMap(offlineCart);
   const offlineCartFilteredItems = filterOfflineCartItems(items, offlineCartIdCountMap);

@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '../../common/buttons/genericButton';
-import { getLocalUser } from '../../../services/user-service';
-import { useStudios, useWishlist, useAddItemsToCartMutation, useDeleteWishlistMutation } from '../../../hooks/index';
-import ItemsList from '../items/itemsList';
+import { Button, ItemsList, StudiosList } from '@/components';
+import { useStudios, useWishlist, useAddItemsToCartMutation, useDeleteWishlistMutation } from '@/hooks';
+import { Item, Studio, WishlistItem } from '@/types/index';
+import { getLocalUser } from '@/services';
 import { toast } from 'sonner';
-import StudiosList from '../studios/studiosList';
-import { Item, Studio, WishlistItem } from '../../../types/index';
 
 interface WishlistDetailsProps {
   items?: Item[] | null;
 }
 
-const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
+ export const WishlistDetails: React.FC<WishlistDetailsProps> = ({ items = null }) => {
   const { wishlistId } = useParams();
   
   const navigate = useNavigate();

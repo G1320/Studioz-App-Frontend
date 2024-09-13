@@ -1,21 +1,17 @@
 import { Link } from 'react-router-dom';
-import { Navbar } from '../../navigation/navbar/navbar';
-import CartItemsList from '../../entities/cart/cartItemsList';
-import Profile from '../../auth/profile';
+import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components'
 
-import LoginButton from '../../auth/login-button';
-import LogoutButton from '../../auth/logout-button';
+import { useUserContext } from '@/contexts';
+import { useCart } from '@/hooks'
+import { Item } from '@/types/index';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useUserContext } from '../../../contexts/UserContext';
-import { useCart } from '../../../hooks/index'
-import { Item } from '../../../types/index';
 
 interface HeaderProps{
   filteredItems?: Item[];
 
 }
 
-const header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
+ export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
   const { user } = useUserContext();
   const { isLoading, error } = useAuth0();
   const { data: cartItems = [] } = useCart(user?._id || '');  
@@ -43,4 +39,4 @@ const header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
   );
 };
 
-export default header;
+export default Header;

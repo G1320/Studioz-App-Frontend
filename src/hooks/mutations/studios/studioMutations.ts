@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useMutationHandler } from '../../utils/useMutationHandler';
-import * as studioService from '../../../services/studio-service';
-import { Studio } from '../../../types/index';
+import { useMutationHandler } from '@/hooks/utils';
+import { createStudio, updateStudio } from '@/services';
+import { Studio } from '@/types/index';
 
 type CreateStudioVariables = {
   userId: string;
@@ -12,7 +12,7 @@ export const useCreateStudioMutation = () => {
   const navigate = useNavigate();
 
   return useMutationHandler<Studio, CreateStudioVariables>({
-    mutationFn: ({ userId, newStudio }) => studioService.createStudio(userId, newStudio),
+    mutationFn: ({ userId, newStudio }) => createStudio(userId, newStudio),
     successMessage: 'Studio created',
     invalidateQueries: [{ queryKey: 'studios' }],
     onSuccess: () =>  navigate('/'),
@@ -23,7 +23,7 @@ export const useUpdateStudioMutation = (studioId: string) => {
   const navigate = useNavigate();
 
   return useMutationHandler<Studio, Studio>({
-    mutationFn: (updatedStudio) => studioService.updateStudio(studioId, updatedStudio),
+    mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
     successMessage: 'Studio updated',
     invalidateQueries: [
       { queryKey: 'studio', targetId: studioId },

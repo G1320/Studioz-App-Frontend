@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getStudioById } from '../../services/studio-service';
-import { StudioResponse } from '../../types/index';
+import { getStudioById } from '@/services/studio-service';
+import { StudioResponse } from '@/types/index';
 
 export const useStudio = (studioId: string) => {
   const queryClient = useQueryClient();

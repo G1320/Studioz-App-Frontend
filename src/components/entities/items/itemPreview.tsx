@@ -1,23 +1,21 @@
 import React, { MouseEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button ,GenericMuiDropdown } from '../../common/index';
+import { Button ,GenericMuiDropdown, WishlistPreview } from '@/components';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation,
-} from '../../../hooks/index';
-
-import WishlistPreview from '../wishlists/wishlistPreview';
-import { useUserContext } from '../../../contexts/UserContext';
-import { Item, Wishlist } from '../../../types/index';
+} from '@/hooks';
+import { useUserContext } from '@/contexts';
+import { Item, Wishlist } from '@/types/index';
 
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[]; 
 }
 
- const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
+ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
   const { studioId, wishlistId } = useParams<{ studioId: string; wishlistId: string }>();
   const navigate = useNavigate();
   const { user } = useUserContext();

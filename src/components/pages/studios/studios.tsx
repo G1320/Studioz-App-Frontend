@@ -1,14 +1,12 @@
-import React from 'react';
-import StudiosList from '../../entities/studios/studiosList';
-import Hero from '../../layout/hero/hero';
+import { Hero, StudiosList } from '@/components';
 import { useParams } from 'react-router-dom';
-import { Studio } from '../../../types/index';
+import { Studio } from '@/types/index';
 
 interface StudiosProps {
   studios: Studio[];
 }
 
-const Studios: React.FC<StudiosProps> = ({ studios }) => {
+export const Studios: React.FC<StudiosProps> = ({ studios }) => {
   const { category, subcategory } = useParams();
 
   const filteredStudios: Studio[] = studios?.filter((studio) => {

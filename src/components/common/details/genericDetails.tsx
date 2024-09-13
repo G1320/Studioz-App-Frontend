@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface GenericDetailProps {
   data: Record<string, any> | null;
   className?: string;

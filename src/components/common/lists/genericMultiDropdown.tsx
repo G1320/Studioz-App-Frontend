@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button } from '../index';
+import { useState } from 'react';
+import { Button } from '@/components';
 
 interface GenericMultiDropdownProps<T> {
   data: T[];

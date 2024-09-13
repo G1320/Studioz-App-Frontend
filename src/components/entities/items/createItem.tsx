@@ -1,10 +1,10 @@
 import  { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {GenericForm,  FieldType } from '../../common/index';
-import { useCreateItemMutation } from '../../../hooks/index';
-import { Item } from '../../../types/index';
+import { GenericForm, FieldType } from '@/components';
+import { useCreateItemMutation } from '@/hooks';
+import { Item } from '@/types/index';
 
-const CreateItem = () => {
+export const CreateItem = () => {
   const { studioName = '', studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
 

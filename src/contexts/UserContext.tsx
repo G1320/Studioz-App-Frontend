@@ -1,6 +1,6 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { getLocalUser } from '../services/user-service';
-import {User} from '../types/index';
+import { createContext, useState, useContext, ReactNode } from 'react';
+import { getLocalUser } from '@/services';
+import { User } from '@/types/index';
 
 interface UserContextType {
   user: User | null;

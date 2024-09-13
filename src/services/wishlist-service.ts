@@ -1,5 +1,6 @@
-import { httpService } from './http-service';
-import {Wishlist,WishlistResponse} from '../types/index';
+import { httpService } from '@/services';
+
+import { Wishlist, WishlistResponse } from '@/types/index';
 
 const wishlistEndpoint = '/wishlists';
 
@@ -8,15 +9,6 @@ export const createWishlistAndAddToUser = async (userId: string, wishlistData:Wi
     return await httpService.post(`${wishlistEndpoint}/create/${userId}`, wishlistData);
   } catch (error) {
     console.error('Failed to create wishlist', error);
-    throw error;
-  }
-};
-
-export const addItemToWishlist = async (itemId: string, wishlistId: string):Promise<Wishlist> => {
-  try {
-    return await httpService.put(`${wishlistEndpoint}/add-item/${wishlistId}`, { itemId });
-  } catch (error) {
-    console.error('Failed to add item to wishlist', error);
     throw error;
   }
 };

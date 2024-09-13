@@ -1,13 +1,12 @@
-import  { useState } from 'react';
-import { FileUploader , GenericForm, FieldType } from '../../common/index';
-import { getLocalUser } from '../../../services/user-service';
+import { useState } from 'react';
+import { FileUploader , GenericForm, FieldType } from '@/components';
+import { getLocalUser, uploadFile } from '@/services'
 
-import { musicSubCategories, videoAndPhotographySubCategories } from '../../../config/config';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/config';
 
-import { useCreateStudioMutation } from '../../../hooks/index';
-import { uploadFile } from '../../../services/file-upload-service';
+import { useCreateStudioMutation } from '@/hooks';
+import { Studio } from '@/types/index';
 import { toast } from 'sonner';
-import { Studio } from '../../../types/index';
 
 interface FormData {
   coverImage?: string;
@@ -16,7 +15,7 @@ interface FormData {
   galleryAudioFiles?: string[];
 }
 
-const CreateStudio = () => {
+ export const CreateStudio = () => {
   const user = getLocalUser();
   const createStudioMutation = useCreateStudioMutation();
 

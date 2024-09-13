@@ -1,16 +1,11 @@
 import { ReactElement, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button } from '../common/index';
-import { setLocalUser } from '../../services/user-service';
-import { getUserBySub } from '../../services/user-service';
-import { register, login } from '../../services/auth-service';
+import { Button } from '@/components';
+import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@/services';
+import { useUserContext, useOfflineCartContext } from '@/contexts';
+import { useAddItemsToCartMutation } from '@/hooks';
 
-import { useUserContext } from '../../contexts/UserContext';
-import { useOfflineCartContext } from '../../contexts/OfflineCartContext';
-import { useAddItemsToCartMutation } from '../../hooks/index';
-import { setLocalOfflineCart } from '../../services/cart-service';
-
-const LoginButton: React.FC = (): ReactElement | null => {
+export const LoginButton: React.FC = (): ReactElement | null => {
   const { user, loginWithPopup, isAuthenticated } = useAuth0();
   const { setUser: setUserContext } = useUserContext();
   const { offlineCartContext, setOfflineCartContext } = useOfflineCartContext();

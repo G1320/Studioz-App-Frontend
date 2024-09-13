@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useUserContext } from '../../../contexts/UserContext';
+import { useUserContext } from '@/contexts';
 import { toast } from 'sonner';
 
 export function Navbar() {
