@@ -29,7 +29,7 @@ interface StudioDetailsProps {
     }
   }, [studioObj, items]);
 
-  const handleAddItemToWishlist = async (wishlistId:string) => addItemToWishlistMutation.mutate(wishlistId);
+  const handleAddItemToWishlist = async (wishlistId:string) =>  addItemToWishlistMutation.mutate(wishlistId);
   const handleGoToEdit = (studioId:string) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
   const handlePagination = (nextId:string) => (nextId ? navigate(`/studio/${nextId}`) : null);
 
@@ -45,29 +45,34 @@ interface StudioDetailsProps {
   return (
     <section className="details studio-details">
       <StudioPreview studio={studioObj?.currStudio || null} />
-
       <div>
         <section className="details-buttons item-details-buttons">
           <div>
-          <Button onClick={() => handleGoToEdit(studioObj?.currStudio?._id||'')}>Edit</Button>
+          { user?._id === studioObj?.currStudio.createdBy && (
+            <Button onClick={() => handleGoToEdit(studioObj?.currStudio?._id||'')}>Edit</Button>
+            )}
           <Button onClick={() => handlePagination(studioObj?.prevStudio?._id||'')}>Prev</Button>
           <Button onClick={() => handlePagination(studioObj?.nextStudio?._id||'')}>Next</Button>
           </div>
           <div>
-          <GenericMuiDropdown
+          {user && (
+            <>
+            <GenericMuiDropdown
             data={wishlists}
             renderItem={dropdownRenderItem}
             className="item-details-wishlists-dropdown add-button"
             title="Add to Wishlist"
             />
-          {user && (
-            <Button className='add-button'
-            onClick={() =>
-              navigate(`/create-item/${studioObj?.currStudio.name}/${studioObj?.currStudio._id}`)
-            }
-            >
+            { user?._id === studioObj?.currStudio.createdBy && (
+              <Button className='add-button'
+              onClick={() =>
+                navigate(`/create-item/${studioObj?.currStudio.name}/${studioObj?.currStudio._id}`)
+              }
+              >
               Add new Service
             </Button>
+              )}
+              </>
           )}
           </div>
         </section>
