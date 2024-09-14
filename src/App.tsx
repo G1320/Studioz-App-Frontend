@@ -8,7 +8,6 @@ import { Toaster } from 'sonner';
 
 import { Header, Home, Footer, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
 
-const CreateUser = lazy(() => import('@/components/user/create-user')) 
 const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
 const EditItem = lazy(() => import('@/components/entities/items/editItem')) ;
 const CreateWishlist = lazy(() => import('@/components/entities/wishlists/createWishlist')) ;
@@ -37,7 +36,6 @@ function App() {
             <Route path="/services/:category?/:subcategory?" element={<Services items={items || []} />} />
             <Route path="/wishlists" element={<WishLists />} />
             <Route path="/wishlists/:wishlistId" element={<WishlistDetails items={items || []} />} />
-            <Route path="/create-user" element={<CreateUser />} />
             <Route path="/create-item/:studioName/:studioId" element={<CreateItem />} />
             <Route path="/edit-item/:itemId" element={<EditItem />} />
             <Route path="/edit-studio/:studioId" element={<EditStudio />} />
