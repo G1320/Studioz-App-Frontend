@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button ,GenericMuiDropdown, WishlistPreview } from '@/components';
 import {

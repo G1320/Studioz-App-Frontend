@@ -1,13 +1,11 @@
 import { httpService } from '@/services';
-import { parseJSON, stringifyJSON } from '@/utils/storageUtils';
-import { sanitizeUserObject } from '@/utils/sanitizeUserObject';
+import { sanitizeUserObject, parseJSON, stringifyJSON } from '@/utils';
 import { User, Studio } from '@/types/index';
 
 const userEndpoint = '/users';
 
 export const getLocalUser = (): User | null => parseJSON('user', null);
 export const setLocalUser = (user: User): void => stringifyJSON('user', sanitizeUserObject(user));
-
 
 export const createUser = async (userData:User):Promise <User> => {
   try {

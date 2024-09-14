@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components'
-
 import { useUserContext } from '@/contexts';
 import { useCart } from '@/hooks'
 import { Item } from '@/types/index';

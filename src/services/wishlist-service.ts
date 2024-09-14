@@ -1,5 +1,4 @@
 import { httpService } from '@/services';
-
 import { Wishlist, WishlistResponse } from '@/types/index';
 
 const wishlistEndpoint = '/wishlists';

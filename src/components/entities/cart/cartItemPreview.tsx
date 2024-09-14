@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components';
 import { Item } from '@/types/index';

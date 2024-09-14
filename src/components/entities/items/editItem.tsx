@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@/components'
 import { useItem, useUpdateItemMutation } from '@/hooks'

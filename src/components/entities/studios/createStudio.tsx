@@ -68,12 +68,10 @@ interface FormData {
     const fileUrls = results.map((result) => result.secure_url);
 
     if (type === 'image') {
+      if (files.length === 1) return toast.success('Cover image uploaded successfully');
       setGalleryImages(fileUrls);
-      toast.success('Image files uploaded successfully');
+      toast.success('Gallery images uploaded successfully');
     } else if (type === 'audio') {
-      if (files.length === 1) {
-        return toast.success('Cover audio uploaded successfully');
-      }
       setGalleryAudioFiles(fileUrls);
       toast.success('Audio files uploaded successfully');
     }

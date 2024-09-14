@@ -1,7 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { GenericList, GenericMuiDropdown , GenericMultiDropdownEntryPreview} from '../../../components';
-import { CartItemPreview } from '@/components';
+import { CartItemPreview, GenericList, GenericMuiDropdown, GenericMultiDropdownEntryPreview } from '@/components';
 import { useRemoveItemFromCartMutation } from '@/hooks';
 import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '@/utils/cartUtils';
 import { Item } from '@/types/index';
@@ -14,19 +12,12 @@ interface CartItemsListProps {
 
 export const CartItemsList: React.FC<CartItemsListProps> = ({ items, isDropdown = false, isMultiSelect = false }) => {
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
-  // const deleteUserCartMutation = useDeleteUserCartMutation();
 
   const totalPrice = calculateTotalPrice(items);
   const itemQuantityMap = getItemQuantityMap(items);
   const uniqueItems = getUniqueItems(items, itemQuantityMap);
 
   const handleRemoveFromCart = (item:Item) =>  removeItemFromCartMutation.mutate(item?._id);
-  ;
-
-  // const handleClearCart = () => {
-  //   if (items.length === 0) return toast.error('Cart is empty');
-  //   deleteUserCartMutation.mutate();
-  // };
 
   const renderItem = (item: Item) => isMultiSelect
    ? <GenericMultiDropdownEntryPreview entry={item} key={item?._id} />
@@ -52,9 +43,6 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ items, isDropdown 
           />
       ) : (
         <>
-          {/* <button className="clear-cart" onClick={handleClearCart}>
-            Clear
-          </button> */}
           <GenericList data={uniqueItems} renderItem={renderItem} className="cart-list" />
         </>
       )}

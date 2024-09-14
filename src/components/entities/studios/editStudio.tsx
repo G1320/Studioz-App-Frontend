@@ -75,7 +75,7 @@ import { toast } from 'sonner';
     updateStudioMutation.mutate(formData as Studio);
   };
 
-  const handleImageUpload = async (files: File[]) => {
+  const handleFileUpload = async (files: File[]) => {
     const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
     const imageUrls = results?.map((result) => result.secure_url);
 
@@ -89,10 +89,10 @@ import { toast } from 'sonner';
 
   return (
     <section className="edit-studio">
-      <FileUploader fileType='image' onFileUpload={handleImageUpload} multiple={false} isCoverShown={true} />
+      <FileUploader fileType='image' onFileUpload={handleFileUpload} multiple={false} isCoverShown={true} />
       <FileUploader
       fileType='image'
-        onFileUpload={handleImageUpload}
+        onFileUpload={handleFileUpload}
         multiple={true}
         galleryFiles={galleryImages}
         isCoverShown={false}

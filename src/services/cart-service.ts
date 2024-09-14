@@ -1,4 +1,4 @@
-import { parseJSON, stringifyJSON } from '@/utils/storageUtils';
+import { parseJSON, stringifyJSON } from '@/utils';
 import { httpService } from '@/services';
 import { Cart, CartItem, Item } from '@/types/index';
 
