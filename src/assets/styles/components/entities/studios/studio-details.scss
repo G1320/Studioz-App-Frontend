@@ -23,10 +23,10 @@
         max-height: max-content;
         gap: 0.5rem;
 
-        min-width: 100%;
+        max-width: 1400px;
         
         @media screen and (min-width: 900px) {
-            max-width: 75vw;
+            // max-width: 75vw;
             .cover-image{
                 min-width: 400px;
             }
