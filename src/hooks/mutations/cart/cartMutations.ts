@@ -1,4 +1,4 @@
-import { getLocalUser } from '@/services/user-service';
+import { getLocalUser } from '@/services';
 import { useCartOperations, useMutationHandler } from '@/hooks/utils';
 import { Cart, CartItem } from '@/types/index';
 

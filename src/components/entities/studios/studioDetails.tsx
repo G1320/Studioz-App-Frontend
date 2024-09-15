@@ -1,24 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown, ItemsList, WishlistPreview, StudioPreview } from '@/components';
+import { Button, GenericMuiDropdown } from '@/components';
 import { useStudio, useAddStudioToWishlistMutation,useWishlists } from '@/hooks/index';
 import { getLocalUser } from '@/services';
 import { Item, Wishlist } from '@/types/index';
-
+import { toast } from 'sonner';
+const StudioPreview = lazy(() => import('@/components/entities/studios/studioPreview'));
+const ItemsList = lazy(() => import('@/components/entities/items/itemsList'));
+const WishlistPreview = lazy(() => import('@/components/entities/wishlists/wishlistPreview'));
 interface StudioDetailsProps {
   items: Item[];
 }
+
 
  export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
   const navigate = useNavigate();
   const user = getLocalUser();
   const { studioId } = useParams();
 
-  const { data: studioObj } = useStudio(studioId||'');
-  const { data: wishlists = [] } = useWishlists(user?._id||'');
+  const { data: studioObj } = useStudio(studioId ||'');
+  const { data: wishlists = [] } = useWishlists(user?._id ||'');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
 
-  const addItemToWishlistMutation = useAddStudioToWishlistMutation(studioId||'');
+  const addItemToWishlistMutation = useAddStudioToWishlistMutation(studioId ||'');
 
   useEffect(() => {
     if (studioObj && studioObj.currStudio && items) {
@@ -30,8 +34,8 @@ interface StudioDetailsProps {
   }, [studioObj, items]);
 
   const handleAddItemToWishlist = async (wishlistId:string) =>  addItemToWishlistMutation.mutate(wishlistId);
+  const handlePagination = (nextId:string) => (nextId ? navigate(`/studio/${nextId}`) : toast.error('No more studios'));
   const handleGoToEdit = (studioId:string) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
-  const handlePagination = (nextId:string) => (nextId ? navigate(`/studio/${nextId}`) : null);
 
 
   const dropdownRenderItem = (wishlist:Wishlist) => (

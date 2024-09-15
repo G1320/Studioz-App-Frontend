@@ -6,7 +6,7 @@ import { getOfflineCartIdCountMap, filterOfflineCartItems } from '@/utils/cartUt
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 
-import { Header, Home, Footer, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
+import { Header, Home, DesktopFooter,  Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
 
 const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
 const EditItem = lazy(() => import('@/components/entities/items/editItem')) ;
@@ -43,11 +43,12 @@ function App() {
             <Route path="/edit-wishlist/:wishlistId" element={<EditWishlist />} />
             <Route path="/create-wishlist" element={<CreateWishlist />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
-            <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems} />} />
+            <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems || []} />} />
           </Routes>
         </Suspense>
       </main>
-      <Footer />
+      <DesktopFooter />
+      {/* <MobileFooter/> */}
       <Toaster richColors />
     </>
   );

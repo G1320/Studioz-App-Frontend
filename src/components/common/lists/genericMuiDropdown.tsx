@@ -15,6 +15,7 @@ export const GenericMuiDropdown = <T,>({
   renderItem,
   className = '',
   title,
+  
 }: GenericMuiDropdownProps<T>) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -38,8 +39,8 @@ export const GenericMuiDropdown = <T,>({
     if (!title || title === 'Cart (0)') {
       return { to: '/services', text: 'Add something to your cart' };
     }
-    const suffix = title.slice(7);
-    return { to: `/create-${suffix}`, text: `Create A ${suffix}` };
+    const suffix = title.slice(6,1);
+    return { to: `/create-${suffix || 'wishlist'}`, text: `Create A ${suffix || 'Wishlist'}` };
   };
 
   const { to, text } = getLinkDetails();
@@ -71,5 +72,5 @@ export const GenericMuiDropdown = <T,>({
   );
 };
 
-
+export default GenericMuiDropdown;
 

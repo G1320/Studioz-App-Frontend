@@ -24,7 +24,7 @@ interface WishlistDetailsProps {
   const addItemsToCartMutation = useAddItemsToCartMutation();
   const deleteUserWishlistMutation = useDeleteWishlistMutation(user?._id || '');
 
-  const handlePagination = (nextId:string) => (nextId ? navigate(`/wishlists/${nextId}`) : null);
+  const handlePagination = (nextId:string) => (nextId ? navigate(`/wishlists/${nextId}`) : toast.error('No more wishlists'));
   const handleGoToEdit = (wishlistId:string) => (wishlistId ? navigate(`/edit-wishlist/${wishlistId}`) : null);
 
   const handleAddWishlistItemsToCart = (wishlistItems:WishlistItem[]) => {

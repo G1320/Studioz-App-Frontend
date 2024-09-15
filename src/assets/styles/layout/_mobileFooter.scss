@@ -1,0 +1,104 @@
+.mobile-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1a202c;
+    color: #ffffff;
+    transition: height 0.3s ease;
+    height: 60px; // Height when closed
+    overflow: hidden;
+  
+    &.menu-open {
+      height: 100%; // Full height when open
+      overflow-y: auto;
+    }
+  
+    .footer-container {
+      padding: 1rem;
+    }
+  
+    .footer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .footer-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  
+    .menu-toggle {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+    }
+  
+    .footer-content {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+  
+      &.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  
+    .footer-nav {
+      margin-top: 1.5rem;
+  
+      ul {
+        list-style-type: none;
+        padding: 0;
+  
+        li {
+          margin-bottom: 1rem;
+  
+          a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+  
+            &:hover {
+              color: #cbd5e0;
+            }
+          }
+        }
+      }
+    }
+  
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+  
+      a {
+        color: #ffffff;
+        transition: color 0.3s ease;
+  
+        &:hover {
+          color: #63b3ed;
+        }
+      }
+    }
+  
+    .footer-description {
+      text-align: center;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+  
+    .footer-copyright {
+      text-align: center;
+      font-size: 0.75rem;
+    }
+  }
+  
+  // Adjust main content to not be hidden behind the footer
+  body {
+    padding-bottom: 60px; // Same as footer height when closed
+  }

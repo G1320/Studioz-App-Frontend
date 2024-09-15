@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
- export const Footer = () => {
+ export const DesktopFooter = () => {
   return (
     <footer>
       <div className="footer-content">
@@ -42,4 +42,4 @@ import { Link } from 'react-router-dom';
   );
 };
 
-export default Footer;
+export default DesktopFooter;
