@@ -25,7 +25,7 @@ interface HomeProps {
         Check out our latest Recording Studioz
       </h1>
       <GenericCarousel
-        data={studios?.slice(0, 6)}
+        data={studios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
       />

@@ -89,14 +89,13 @@ import { toast } from 'sonner';
 
   return (
     <section className="edit-studio">
-      <FileUploader fileType='image' onFileUpload={handleFileUpload} multiple={false} isCoverShown={true} />
-      <FileUploader
-      fileType='image'
+       <FileUploader
+        fileType='image'
         onFileUpload={handleFileUpload}
-        multiple={true}
         galleryFiles={galleryImages}
         isCoverShown={false}
       />
+     
       <GenericForm
         title="Edit Studio"
         fields={fields}

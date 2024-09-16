@@ -28,6 +28,7 @@ interface DropzoneError {
 const validMimeTypes: { [key: string]: string[] } = {
   'image/png': ['.png'],
   'image/jpeg': ['.jpeg', '.jpg'],
+  'image/webp': ['.webp'],
   'audio/mpeg': ['.mp3'],
   'audio/wav': ['.wav'],
   'audio/ogg': ['.ogg'],

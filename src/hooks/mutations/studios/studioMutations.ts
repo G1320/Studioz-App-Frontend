@@ -15,7 +15,7 @@ export const useCreateStudioMutation = () => {
     mutationFn: ({ userId, newStudio }) => createStudio(userId, newStudio),
     successMessage: 'Studio created',
     invalidateQueries: [{ queryKey: 'studios' }],
-    onSuccess: () =>  navigate('/'),
+    onSuccess: (data, _variables ) =>  navigate(`/studio/${data._id}`),
   });
 };
 
