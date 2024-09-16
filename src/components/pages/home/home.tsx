@@ -29,10 +29,10 @@ interface HomeProps {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
       />
-      <h1 onClick={() => navigate('/studios/music/mixing')}>Browse the Mixing collection</h1>
-      <StudiosList studios={studios?.slice(0, 6)} />
+      <h1 onClick={() => navigate('/studios/music/mixing')}>Charge up your mix with a professionals touch</h1>
+      <StudiosList studios={studios?.slice(6, 12)} />
       <h1 onClick={() => navigate('/services/music/mastering')}>
-        Try out our Mastering services
+        Polish your tracks with decades of experience
       </h1>
       <GenericCarousel
         data={items?.slice(0, 12)}
