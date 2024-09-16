@@ -22,6 +22,10 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   galleryImages,
   onSetPreviewImage,
 }) => {
+  const combinedGalleryImages = coverImage && !galleryImages?.includes(coverImage) 
+  ? [coverImage, ...galleryImages as string[]]
+  : galleryImages;
+
   const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
   const location = useLocation();
 
@@ -33,8 +37,8 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   };
 
   useEffect(() => {
-    setCurrCoverImage(coverImage);
-  }, [coverImage]);
+    setCurrCoverImage(coverImage  );
+  }, [coverImage, galleryImages]);
 
   const renderItem = (image: string, index: number) =>  {
     if (!coverImage && isStudioPath  ) {
@@ -68,9 +72,9 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
       {isCoverShown && currCoverImage && (
         <img src={currCoverImage} alt="Cover" className="cover-image" />
       )}
-      {isGalleryImagesShown && galleryImages && galleryImages.length > 0 && (
+      {isGalleryImagesShown && galleryImages && (
         <GenericList
-          data={galleryImages}
+          data={combinedGalleryImages || []}
           renderItem={renderItem}
           className="files-list gallery-images-list"
         />
