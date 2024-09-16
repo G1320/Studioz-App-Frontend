@@ -1,17 +1,14 @@
-import { useState, useEffect, lazy } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown } from '@/components';
+import { Button, GenericMuiDropdown, ItemsList, WishlistPreview, StudioPreview } from '@/components';
 import { useStudio, useAddStudioToWishlistMutation,useWishlists } from '@/hooks/index';
 import { getLocalUser } from '@/services';
 import { Item, Wishlist } from '@/types/index';
 import { toast } from 'sonner';
-const StudioPreview = lazy(() => import('@/components/entities/studios/studioPreview'));
-const ItemsList = lazy(() => import('@/components/entities/items/itemsList'));
-const WishlistPreview = lazy(() => import('@/components/entities/wishlists/wishlistPreview'));
+
 interface StudioDetailsProps {
   items: Item[];
 }
-
 
  export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
   const navigate = useNavigate();
