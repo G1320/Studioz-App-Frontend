@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
   const { user } = useUserContext();
-  const { isLoading, error } = useAuth0();
+  const { error } = useAuth0();
   const { data: cartItems = [] } = useCart(user?._id || '');
   const items = user ? cartItems : filteredItems;
   const navigate = useNavigate();
