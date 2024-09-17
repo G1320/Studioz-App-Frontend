@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, GenericMuiDropdown, ItemsList, WishlistPreview, StudioPreview } from '@/components';
 import { useStudio, useAddStudioToWishlistMutation,useWishlists } from '@/hooks/index';
-import { getLocalUser } from '@/services';
 import { Item, Wishlist } from '@/types/index';
+import { useUserContext } from '@/contexts';
 import { toast } from 'sonner';
 
 interface StudioDetailsProps {
@@ -12,7 +12,7 @@ interface StudioDetailsProps {
 
  export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
   const navigate = useNavigate();
-  const user = getLocalUser();
+  const { user } = useUserContext();
   const { studioId } = useParams();
 
   const { data: studioObj } = useStudio(studioId ||'');

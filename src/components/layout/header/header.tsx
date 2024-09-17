@@ -1,34 +1,38 @@
-import { Link } from 'react-router-dom';
-import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components'
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components';
 import { useUserContext } from '@/contexts';
-import { useCart } from '@/hooks'
+import { useCart } from '@/hooks';
 import { Item } from '@/types/index';
 import { useAuth0 } from '@auth0/auth0-react';
 
-interface HeaderProps{
+interface HeaderProps {
   filteredItems?: Item[];
-
 }
 
- export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
+export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
   const { user } = useUserContext();
   const { isLoading, error } = useAuth0();
-  const { data: cartItems = [] } = useCart(user?._id || '');  
+  const { data: cartItems = [] } = useCart(user?._id || '');
+  const items = user ? cartItems : filteredItems;
+  const navigate = useNavigate();
 
-  const items = user ? cartItems : filteredItems ;
+  // Redirect to home if authentication fails
+  useEffect(() => {
+    if (error) {
+      console.error('Authentication error:', error);
+      // Redirect to the homepage on authentication failure
+      navigate('/');
+    }
+  }, [error, navigate]);
 
-  
   return (
     <header>
-      {error && <p>Oops... Authentication error</p>}
-      {!error && isLoading && <p>Loading...</p>}
-      {!error && !isLoading && (
         <>
           <Profile />
           <LoginButton />
           <LogoutButton />
         </>
-      )}
       <h1>
         <Link to="/">Studioz</Link>
       </h1>
