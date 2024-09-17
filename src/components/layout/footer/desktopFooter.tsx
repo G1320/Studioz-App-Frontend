@@ -1,6 +1,17 @@
-import { Link } from 'react-router-dom';
+import { useUserContext } from '@/contexts';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
- export const DesktopFooter = () => {
+
+
+export const DesktopFooter = () => {
+  const { user } = useUserContext();
+  const navigate = useNavigate();
+   const handleNavigate = (path:string) => {
+     user?._id ? navigate(path) : toast.error('Please log in to access this feature');
+   };
+
+
   return (
     <footer>
       <div className="footer-content">
@@ -10,10 +21,10 @@ import { Link } from 'react-router-dom';
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/services">Services</Link>
+              <Link to="/store">Services</Link>
             </li>
             <li>
-              <Link to="/create-studio">List your Studio</Link>
+              <a onClick={() => handleNavigate('/store')}>List your studio</a>
             </li>
           </ul>
         </div>
