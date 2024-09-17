@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 export const DesktopFooter = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
+
    const handleNavigate = (path:string) => {
      user?._id ? navigate(path) : toast.error('Please log in to access this feature');
    };
@@ -24,7 +25,7 @@ export const DesktopFooter = () => {
               <Link to="/store">Services</Link>
             </li>
             <li>
-              <a onClick={() => handleNavigate('/store')}>List your studio</a>
+              <a onClick={() => handleNavigate('/create-studio')}>List your studio</a>
             </li>
           </ul>
         </div>
