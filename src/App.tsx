@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { useOfflineCartContext } from '@/contexts';
-import { useItems, useStudios  } from '@/hooks';
+import { useItems, useStudios, useScrollToTop  } from '@/hooks';
 import { getOfflineCartIdCountMap, filterOfflineCartItems } from '@/utils/cartUtils';
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
@@ -16,6 +16,11 @@ const EditStudio = lazy(() => import('@/components/entities/studios/editStudio')
 const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails')) ;
 
 function App() {
+  const mainRef = useRef<HTMLElement>(null);  // Create a ref for the main element
+  const scrollOffset = 0;  // You can adjust this offset value
+
+  useScrollToTop(mainRef, scrollOffset); 
+
   const { data: items = [] } = useItems();
   const { data: studios } = useStudios();
   const { offlineCartContext: offlineCart } = useOfflineCartContext();
@@ -26,7 +31,7 @@ function App() {
   return (
     <>
    <Header filteredItems={offlineCartFilteredItems} />
-      <main className="main-content">
+      <main ref={mainRef} className="main-content">
         <Suspense fallback={<PropagateLoader className="loader" />}>
           <Routes>
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />

@@ -6,6 +6,7 @@ export const useStudios = () => {
   const queryClient = useQueryClient();
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['studios', {}],
+    staleTime: 5 * 60 * 1000,
     queryFn: () => getStudios(),
     initialData: () => queryClient.getQueryData<Studio[]>(['studios']),
   });

@@ -29,7 +29,7 @@ import { useUserContext } from '@/contexts';
         <p>Loading...</p>
       )} <section className="details-buttons item-details-buttons">
         <div>
-          {user?.isAdmin && (
+          {user?._id === item?.createdBy && (
             <>
             <Button onClick={handleDeleteBtnClicked}>Del</Button>
             <Button onClick={handleEditBtnClicked}>Edit</Button>

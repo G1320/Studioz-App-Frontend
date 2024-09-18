@@ -6,6 +6,7 @@ export const useItems = () => {
   const queryClient = useQueryClient();
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['items', {}],
+    staleTime: 5 * 60 * 1000,
     queryFn: () => getItems(),
     initialData: () => queryClient.getQueryData<Item[]>(['items']),
   });
