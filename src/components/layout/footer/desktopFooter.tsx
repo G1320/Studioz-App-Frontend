@@ -22,7 +22,7 @@ export const DesktopFooter = () => {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/store">Services</Link>
+              <Link to="/services">Services</Link>
             </li>
             <li>
               <a onClick={() => handleNavigate('/create-studio')}>List your studio</a>

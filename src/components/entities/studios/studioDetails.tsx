@@ -19,12 +19,14 @@ interface StudioDetailsProps {
   const { data: wishlists = [] } = useWishlists(user?._id ||'');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
 
+  const { currStudio, nextStudio, prevStudio} = studioObj || {};
+
   const addItemToWishlistMutation = useAddStudioToWishlistMutation(studioId ||'');
 
   useEffect(() => {
-    if (studioObj && studioObj.currStudio && items) {
+    if (studioObj && currStudio && items) {
       const filtered = items.filter((item) =>
-      studioObj.currStudio.items.some((studioItem) => studioItem.itemId === item._id)
+      currStudio.items.some((studioItem) => studioItem.itemId === item._id)
       );
       setFilteredItems(filtered);
     }
@@ -45,15 +47,15 @@ interface StudioDetailsProps {
 
   return (
     <section className="details studio-details">
-      <StudioPreview studio={studioObj?.currStudio || null} />
+      <StudioPreview studio={currStudio || null} />
       <div>
         <section className="details-buttons item-details-buttons">
           <div>
-          { user?._id === studioObj?.currStudio.createdBy && (
-            <Button onClick={() => handleGoToEdit(studioObj?.currStudio?._id||'')}>Edit</Button>
+          { user?._id === currStudio?.createdBy && (
+            <Button onClick={() => handleGoToEdit(currStudio?._id ||'')}>Edit</Button>
             )}
-          <Button onClick={() => handlePagination(studioObj?.prevStudio?._id||'')}>Prev</Button>
-          <Button onClick={() => handlePagination(studioObj?.nextStudio?._id||'')}>Next</Button>
+          <Button onClick={() => handlePagination(prevStudio?._id ||'')}>Prev</Button>
+          <Button onClick={() => handlePagination(nextStudio?._id ||'')}>Next</Button>
           </div>
           <div>
           {user && (
@@ -64,10 +66,10 @@ interface StudioDetailsProps {
             className="item-details-wishlists-dropdown add-button"
             title="Add to Wishlist"
             />
-            { user?._id === studioObj?.currStudio.createdBy && (
+            { user?._id === currStudio?.createdBy && (
               <Button className='add-button'
               onClick={() =>
-                navigate(`/create-item/${studioObj?.currStudio.name}/${studioObj?.currStudio._id}`)
+                navigate(`/create-item/${currStudio?.name}/${currStudio?._id}`)
               }
               >
               Add new Service

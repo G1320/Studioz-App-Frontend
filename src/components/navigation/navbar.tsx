@@ -12,7 +12,7 @@ export function Navbar() {
 
   return (
     <nav className="navbar">
-      <a onClick={() => navigate('/store')}>Services</a>
+      <a onClick={() => navigate('/services')}>Services</a>
       <a onClick={() => handleNavigate('/wishlists')}>Wishlists</a>
       <a onClick={() => handleNavigate('/create-studio')}>Create</a>
     </nav>

@@ -1,13 +1,12 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@/components'
 import { useItem, useUpdateItemMutation } from '@/hooks'
 import { Item } from '@/types/index'; 
 
 
 export const EditItem: React.FC = () => {
-  const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>(); 
-  const { data: item } = useItem(itemId || '');
+  const { data: item } = useItem( itemId || '');
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
 
@@ -23,9 +22,7 @@ export const EditItem: React.FC = () => {
       ...item,
       ...formData,
     } as Item;
-
     updateItemMutation.mutate(updatedItem);
-    navigate('/store');
   };
 
   return (

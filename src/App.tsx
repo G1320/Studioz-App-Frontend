@@ -16,8 +16,8 @@ const EditStudio = lazy(() => import('@/components/entities/studios/editStudio')
 const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails')) ;
 
 function App() {
-  const mainRef = useRef<HTMLElement>(null);  // Create a ref for the main element
-  const scrollOffset = 0;  // You can adjust this offset value
+  const mainRef = useRef<HTMLElement>(null);  
+  const scrollOffset = 0;  
 
   useScrollToTop(mainRef, scrollOffset); 
 
@@ -35,9 +35,9 @@ function App() {
         <Suspense fallback={<PropagateLoader className="loader" />}>
           <Routes>
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
-            <Route path="/store" element={<Store items={items || []} />} />
             <Route path="/studio/:studioId" element={<StudioDetails items={items || []} />} />
             <Route path="/studios/:category?/:subcategory?" element={<Studios studios={studios || []} />} />
+            <Route path="/services" element={<Store items={items || []} />} />
             <Route path="/services/:category?/:subcategory?" element={<Services items={items || []} />} />
             <Route path="/wishlists" element={<WishLists />} />
             <Route path="/wishlists/:wishlistId" element={<WishlistDetails items={items || []} />} />

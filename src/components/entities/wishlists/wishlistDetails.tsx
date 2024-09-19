@@ -20,7 +20,10 @@ interface WishlistDetailsProps {
   const [filteredStudios, setFilteredStudios] = useState<Studio[]>([]);
 
   const { data: studios = [] } = useStudios();
-  const { data: wishlistObj  } = useWishlist(user?._id ||'', wishlistId || '');
+  const { data: wishlistObj } = useWishlist(user?._id || '', wishlistId || '');
+
+  const { currWishlist, nextWishlist, prevWishlist } = wishlistObj || {};
+
   const addItemsToCartMutation = useAddItemsToCartMutation();
   const deleteUserWishlistMutation = useDeleteWishlistMutation(user?._id || '');
 
@@ -37,15 +40,15 @@ interface WishlistDetailsProps {
   };
 
   useEffect(() => {
-    if (wishlistObj && wishlistObj?.currWishlist && items && studios) {
+    if (wishlistObj && currWishlist && items && studios) {
       // Filter items based on itemIds which are also present in the current wishlist
       const filteredItems = items?.filter((item) =>
-      wishlistObj.currWishlist?.items?.some((wishlistItem:WishlistItem) => wishlistItem.itemId === item._id)
+      currWishlist?.items?.some((wishlistItem:WishlistItem) => wishlistItem.itemId === item._id)
       );
       
       // Filter studios based on studioIds which are also present in the current wishlist
       const filteredStudios = studios.filter((studio) =>
-        wishlistObj.currWishlist?.studios?.some((wishlistStudio) => wishlistStudio === studio._id)
+        currWishlist?.studios?.some((wishlistStudio) => wishlistStudio === studio._id)
       );
 
       setFilteredItems(filteredItems );
@@ -55,12 +58,12 @@ interface WishlistDetailsProps {
 
   return (
     <section className="details wishlist-details">
-      <h1>{wishlistObj?.currWishlist?.name}</h1>
+      <h1>{currWishlist?.name}</h1>
       <div className="details-buttons wishlist-details-buttons">
-        <Button onClick={() => handleGoToEdit(wishlistObj?.currWishlist?._id||'')}>Edit</Button>
-        <Button onClick={() => handlePagination(wishlistObj?.prevWishlist?._id||'')}>Prev</Button>
-        <Button onClick={() => handlePagination(wishlistObj?.nextWishlist?._id||'')}>Next</Button>
-        <Button onClick={() => handleAddWishlistItemsToCart(wishlistObj?.currWishlist?.items||[])}>
+        <Button onClick={() => handleGoToEdit(currWishlist?._id || '')}>Edit</Button>
+        <Button onClick={() => handlePagination(prevWishlist?._id || '')}>Prev</Button>
+        <Button onClick={() => handlePagination(nextWishlist?._id || '')}>Next</Button>
+        <Button onClick={() => handleAddWishlistItemsToCart(currWishlist?.items||[])}>
           Add to Cart
         </Button>
       </div>
