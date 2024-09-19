@@ -24,8 +24,9 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp:3 ;
   }
- img{
+ img{ 
   min-height: 24px;
+  min-width: 0;
   max-width: calc(100% + 1rem);
    place-self: center;
  }
