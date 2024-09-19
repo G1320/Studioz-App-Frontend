@@ -62,7 +62,7 @@ export const LoginButton: React.FC = (): ReactElement | null => {
   }, [isAuthenticated, user]);
 
   return (
-    !isAuthenticated ? (
+    !isAuthenticated && !user ? (
       <Button onClick={handleClick} className="button login button">
         Sign in
       </Button>
