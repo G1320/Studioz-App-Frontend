@@ -33,7 +33,7 @@ interface StudioPreviewProps {
         isAudioFilesShown={isStudioPath}
         />
         )}
-      <div>
+      <div className='studio-preview-name-and-city'>
         <h2>{studio?.name}</h2>
         <small>{studio?.city}</small>
       </div>
