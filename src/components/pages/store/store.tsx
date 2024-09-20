@@ -1,4 +1,4 @@
-import { Hero, ItemsList } from '@/components';
+import { ItemsList } from '@/components';
 import { Item } from '@/types/index';
 
 interface StoreProps {
@@ -8,7 +8,6 @@ interface StoreProps {
 export const Store: React.FC<StoreProps> = ({ items = [] }) => {
   return (
     <section className="store-page">
-      <Hero></Hero>
       <ItemsList items={items} />
     </section>
   );

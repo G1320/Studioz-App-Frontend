@@ -6,7 +6,7 @@ import { getOfflineCartIdCountMap, filterOfflineCartItems } from '@/utils/cartUt
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 
-import { Header, Home, DesktopFooter,  Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
+import { Header, Hero, Home, DesktopFooter,  Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
 
 const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
 const EditItem = lazy(() => import('@/components/entities/items/editItem')) ;
@@ -32,6 +32,7 @@ function App() {
     <>
    <Header filteredItems={offlineCartFilteredItems} />
       <main ref={mainRef} className="main-content">
+       <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
           <Routes>
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />

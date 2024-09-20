@@ -11,8 +11,6 @@ export const GenericList = <T,>({
   keyExtractor,
   className = '',
 }: GenericListProps<T>): JSX.Element => {
-  if (!data || data.length === 0) return <p>No data available.</p>;
-
   return (
     <section className={`generic-list ${className}`}>
       {data.map((item, index) => (

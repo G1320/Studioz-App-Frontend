@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Hero, StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/components';
+import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/components';
 
 import { useWishlists } from '@/hooks';
 import { useUserContext } from '@/contexts';
@@ -20,7 +20,6 @@ interface HomeProps {
 
   return (
     <section className="home">
-      <Hero/>
       <h1 onClick={() => navigate('/studios/music/recording')}>
         Check out our latest Recording Studioz
       </h1>
