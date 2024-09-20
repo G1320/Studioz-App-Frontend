@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { DynamicHamburgerMenu, Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components';
+import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components';
 import { useUserContext } from '@/contexts';
 import { useCart } from '@/hooks';
 import { Item } from '@/types/index';
@@ -23,7 +23,6 @@ export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
           <LoginButton />
           <LogoutButton />
         </>
-      {/* <DynamicHamburgerMenu filterType='studios' /> */}
       <CartItemsList items={items} isDropdown={true} />
       <Navbar />
     </header>
