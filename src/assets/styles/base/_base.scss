@@ -208,15 +208,11 @@ gap: 0.5rem;
     place-self: center;
     margin: auto;
     .upload-icon-container{
-      max-width: 100%;
-      aspect-ratio: 1/1;
+      // min-width: min-content;
     .icon {
       margin: auto;
        }
-      // aspect-ratio: 2/1;
-      // width: 100%;
        }
-      
        cursor: pointer;
        padding: 1rem;
     }
