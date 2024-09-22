@@ -44,7 +44,7 @@ display: grid;
           height: 100%;
           width: 100%;
           gap: 1rem;
-          place-items: center;
+          justify-content: center;
           
           a {
             color: $text-color-light;
