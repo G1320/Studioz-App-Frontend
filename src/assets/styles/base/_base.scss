@@ -197,10 +197,22 @@ gap: 0.5rem;
    }
 
    .file-uploader{
-     width: 560px;
-     margin: auto;
+    display: flex 1 1;
+     max-width: 520px;
+     min-width: 300px !important;
+    place-self: center;
+    margin: auto;
+    .upload-icon-container{
+      max-width: 100%;
+      aspect-ratio: 1/1;
+    .icon {
+      margin: auto;
+       }
+      // aspect-ratio: 2/1;
+      // width: 100%;
+       }
       div{
-         height: 100%;
+         height: 50%;
       }
        cursor: pointer;
        padding: 1rem;
@@ -209,13 +221,14 @@ gap: 0.5rem;
    .preview{
        gap: 1rem;    
        small, .icon{
-           width: 250px;
+           min-width: min-content;
+           place-self: center;
        }
       
        img:not(.hero img, .cover-image ){
           width: 250px;
-           max-width: 250px;
-           height: 100%;
+         max-width: 250px;
+         height: 100%;
         padding: 0;
        box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
        border: 2px solid #cccccc;
@@ -226,8 +239,10 @@ gap: 0.5rem;
 
 .generic-form{
      width: 100%;
+     min-width: min-content;
       max-width: 1000px;
       place-self: center;
+      align-self: start;
     button {
     max-width: max-content;
     place-self: center;

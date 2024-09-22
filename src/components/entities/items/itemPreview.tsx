@@ -58,19 +58,19 @@ interface ItemPreviewProps {
 
       {wishlistId ? (
         <Button
-          className="remove-from-wishlist-button"
-          onClick={handleRemoveItemFromWishlist}
+        className="remove-from-wishlist-button"
+        onClick={handleRemoveItemFromWishlist}
         >
           Remove from Wishlist
         </Button>
       ) : user?._id  && ( 
         <GenericMuiDropdown
-          data={wishlists}
-          renderItem={renderItem}
-          className="item-details-wishlists-dropdown"
-          title="Add to Wishlist"
+        data={wishlists}
+        renderItem={renderItem}
+        className="item-details-wishlists-dropdown"
+        title="Add to Wishlist"
         />
-      )}
+        )}
 
       {studioId && user?.isAdmin && (
         <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio">

@@ -1,33 +1,41 @@
-.select-wrapper{
-    display: grid;
-    width: 100%;
-    grid-template-columns: 0.23fr 1fr;
-    justify-content: start;
-    text-align: left;
-    label {
-        justify-self: start;
-        display: flex;
-        align-items: center;
-    }
-}
 
-  .checkbox-wrapper{
-    display: grid;
-    grid-template-columns: 1fr ;
-    gap: 1rem;
-    justify-content: start;
-    text-align: left;
-    label {
-        justify-self: start;
-        display: flex;
-        align-items: center;
-    }
-   }
-   .create-studio{
+
+.create-studio{
     display: grid;
     margin: auto;
-    width: 680px; 
-    min-width: 500px;
+    width: 100%; 
     gap: 1rem;
-   
+    
+ 
+.generic-form{
+    // width: 80vw;
+    .select-wrapper{
+        display: grid;
+        width: 100%;
+        grid-template-columns: 0.23fr 1fr;
+        justify-content: start;
+        text-align: left;
+        label {
+            justify-self: start;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+
+    
+    .checkbox-wrapper{
+        display: grid;
+        grid-template-columns: 1fr ;
+        gap: 1rem;
+        justify-content: start;
+        text-align: left;
+        label {
+            justify-self: start;
+            display: flex;
+            align-items: center;
+        }
+    }
 }
+}
+   

@@ -118,7 +118,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
               <audio src={preview} controls className="gallery-audio-file" />
             )
           ) : (
-            <div className="preview">
+            <div className=" upload-icon-container">
               <UploadFileIcon className="icon" />
             </div>
           )}
