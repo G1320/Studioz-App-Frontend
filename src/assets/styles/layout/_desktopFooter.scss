@@ -24,6 +24,7 @@ height: 2.5rem;
          display: flex;
         gap: 1rem;
         place-content: center;
+        justify-self: start;
           li {
             margin-bottom: 0.5rem;
   
@@ -45,6 +46,8 @@ height: 2.5rem;
           width: 100%;
           gap: 1rem;
           justify-content: center;
+          justify-self: end;
+
           
           a {
             color: $text-color-light;
@@ -73,3 +76,17 @@ height: 2.5rem;
     }
   }
   
+  @media  screen and (max-width: 750px) {
+    footer{
+
+      p{
+        display: none;
+      }
+      
+      .footer-content {
+       display: flex;
+       justify-content: space-around;
+      }
+    }
+
+  }
