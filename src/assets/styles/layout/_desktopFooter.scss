@@ -1,6 +1,7 @@
 footer {
 display: grid;  
 height: 2.5rem;
+padding: 1rem;
     background: linear-gradient(to top, $color-primary 0%, $bg-color-secondary 120%);
     color: $text-color-light;
     padding:  0.5rem;
@@ -44,7 +45,7 @@ height: 2.5rem;
           display: flex;
           height: 100%;
           width: 100%;
-          gap: 1rem;
+          gap: 2rem;
           justify-content: center;
           justify-self: end;
 
@@ -78,13 +79,17 @@ height: 2.5rem;
   
   @media  screen and (max-width: 750px) {
     footer{
-
-      p{
+      height: 100%;
+      .footer-impact-statement{
         display: none;
       }
       
       .footer-content {
        display: flex;
+       align-items: center;
+       gap: 0.5rem;
+       flex-wrap: nowrap;
+       text-wrap: nowrap;
        justify-content: space-around;
       }
     }

@@ -6,8 +6,14 @@ export function Navbar() {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
-  const handleNavigate = (path:string) => {
-    user?._id ? navigate(path) : toast.error('Please log in to access this feature');
+  const handleNavigate = (path: string) => {
+    if (!user?._id) {
+      toast.error('Please log in to access this feature');
+    } else if (path === '/wishlists' && (!user?.wishlists || user?.wishlists.length === 0)) {
+      navigate('/create-wishlist');
+    } else {
+      navigate(path);
+    }
   };
 
   return (

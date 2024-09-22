@@ -80,6 +80,9 @@ height: 24px;
   @media screen and (max-width: 600px){
     header{
       gap: 0;
+      .navbar{
+       display:none !important;
+      }
       button{
         padding: 0.25rem;
       }
@@ -95,7 +98,4 @@ height: 24px;
       grid-column: 7;
      }
   }
-    .navbar{
-     display:none !important;
-    }
     }

@@ -1,38 +1,18 @@
-import { useUserContext } from '@/contexts';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import { Navbar } from '@/components/navigation';
 
 
 export const DesktopFooter = () => {
-  const { user } = useUserContext();
-  const navigate = useNavigate();
-
-   const handleNavigate = (path:string) => {
-     user?._id ? navigate(path) : toast.error('Please log in to access this feature');
-   };
-
-
   return (
     <footer>
       <div className="footer-content">
         <div className="footer-section">
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/services">Services</Link>
-            </li>
-            <li>
-              <a onClick={() => handleNavigate('/create-studio')}>List your studio</a>
-            </li>
-          </ul>
+          <Navbar/>
         </div>
         <div className="footer-section">
-          <p>Studioz.co.il - Your one-stop shop for creative tools and inspiration.</p>
+          <p className='footer-impact-statement'>Studioz.co.il - Your one-stop shop for creative tools and inspiration.</p>
         </div>
         <div className="footer-section">
           <div className="social-icons">
