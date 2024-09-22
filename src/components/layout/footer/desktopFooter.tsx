@@ -1,7 +1,9 @@
 import { useUserContext } from '@/contexts';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-
+import FacebookIcon from '@mui/icons-material/Facebook';
+import XIcon from '@mui/icons-material/X';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 
 export const DesktopFooter = () => {
@@ -35,21 +37,21 @@ export const DesktopFooter = () => {
         <div className="footer-section">
           <div className="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              FB
+            <FacebookIcon/>
             </a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              TW
+              <XIcon/>
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              IG
+              <InstagramIcon/>
             </a>
           </div>
         </div>
       </div>
-      <div className="footer-bottom">
+      {/* <div className="footer-bottom">
         <p>&copy; 2024 Studioz. All rights reserved.</p>
         <hr />
-      </div>
+      </div> */}
     </footer>
   );
 };
