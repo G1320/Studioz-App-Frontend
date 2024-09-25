@@ -60,8 +60,22 @@ export const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmi
                     {...register(field.name)}
                     fullWidth
                     variant="outlined"
-                    style={{ color: '#fff' }}
                     onChange={handleSelectChange}
+                      sx={{
+                      color: '#fff', // Text color for the select
+                      '& .MuiSelect-select': {
+                        color: '#fff', // Text color for selected option
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#fff', // Border color
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#fff', // Border color on hover
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#fff', // Border color when focused
+                      },
+                    }}
                   >
                     <MenuItem value="" disabled>
                       {field.label}

@@ -8,12 +8,15 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { UserProvider } from './contexts/UserContext.js';
 import { OfflineCartProvider } from './contexts/OfflineCartContext.js';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+
 
 import App from './App.js';
 
@@ -31,6 +34,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <Router>
+     
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Auth0Provider
           domain={domain}
           clientId={clientId}
@@ -46,6 +51,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             </UserProvider>
           </OfflineCartProvider>
         </Auth0Provider>
+        </LocalizationProvider>
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />
     </PersistQueryClientProvider>

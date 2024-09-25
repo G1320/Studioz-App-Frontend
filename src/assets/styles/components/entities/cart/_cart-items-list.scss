@@ -1,10 +1,15 @@
-.MuiPaper-root{
-    margin: 1rem;
+ .MuiPaper-root{
+    // margin: 1rem;
+    
     border-radius: 12px;
-    border: 2px solid $border-color-primary;
+    &:not(button){
+        border: 2px solid $border-color-primary;
 
-    // background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25%) !important;
-    background: linear-gradient(to bottom, $color-primary 0%, $bg-color-secondary 100%) ;
+    }
+
+    &:not(.generic-date-picker){
+        background: linear-gradient(to bottom, $color-primary 0%, $bg-color-secondary 100%) !important  ;
+    }
 
 
 }

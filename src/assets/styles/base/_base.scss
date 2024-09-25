@@ -207,6 +207,9 @@ gap: 0.5rem;
      min-width: 300px !important;
     place-self: center;
     margin: auto;
+    .file-uploader-content-container{
+      min-width: min-content;
+    }
     .upload-icon-container{
       // min-width: min-content;
     .icon {
