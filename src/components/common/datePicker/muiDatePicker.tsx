@@ -1,12 +1,17 @@
+import { useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs'; 
-import { useEffect, useState } from 'react';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+
+dayjs.extend(customParseFormat);
+
 
 interface MuiDatePickerProps {
   label: string;
-  value: Date | null; // The parent component will pass a Date object
-  onChange: (newValue: Date | null) => void; // The parent expects Date, not Dayjs
+  value: Date | null; 
+  onChange: (newValue: Date | null) => void;
 }
 
 export const MuiDatePicker: React.FC<MuiDatePickerProps> = ({
@@ -36,8 +41,10 @@ export const MuiDatePicker: React.FC<MuiDatePickerProps> = ({
   return (
     <Stack spacing={4} sx={{ width: '250px' }}>
       <DatePicker
+      
       className='generic-date-picker'
         label={label}
+        format="DD/MM/YY"
         slots={{
           textField: (params) => <TextField
           {...params}
@@ -47,7 +54,7 @@ export const MuiDatePicker: React.FC<MuiDatePickerProps> = ({
               },
               '& .MuiInputLabel-root': {
                 color: '#fff',
-              },
+            },
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
                 borderColor: '#fff', 
@@ -57,6 +64,22 @@ export const MuiDatePicker: React.FC<MuiDatePickerProps> = ({
               },
               '&.Mui-focused fieldset': {
                 borderColor: '#fff', 
+              },
+              '&:focus': {
+                borderColor: '#fff',
+            },
+              '& .MuiInputAdornment-root': {
+                border: '2px solid #fff !important',
+                borderRadius: '6px !important', 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1) !important', // Optional hover effect
+                },
+                '& .MuiSvgIcon-root': {
+                    color: '#fff !important',
+                },
               },
             },
           }}

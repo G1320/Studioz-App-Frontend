@@ -56,6 +56,26 @@
     max-width: max-content
   }
 
+  // Styles for the general Paper components
+.MuiPaper-root {
+  border-radius: 12px;
+  &:not(button) {
+      border: 2px solid $border-color-primary;
+  }
+}
+
+// Targets all Paper elements except those that are part of the DatePicker component
+.MuiPaper-root:not(.MuiPickersPopper-paper) {
+  background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgb(20, 22, 25) 100%) !important;
+}
+
+.MuiIconButton-root:focus,
+.MuiIconButton-root:focus-visible {
+    outline: none; /* Remove outline */
+}
+
+
+
   .slider {
     color: #fff;
     width: calc(100vw - 4rem);
