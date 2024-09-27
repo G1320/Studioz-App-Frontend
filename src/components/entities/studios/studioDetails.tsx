@@ -5,7 +5,6 @@ import { useStudio, useAddStudioToWishlistMutation,useWishlists } from '@/hooks/
 import { Item, Wishlist } from '@/types/index';
 import { useUserContext } from '@/contexts';
 import { toast } from 'sonner';
-import { MuiDatePicker } from '@/components/common/datePicker/muiDatePicker';
 
 interface StudioDetailsProps {
   items: Item[];
@@ -19,8 +18,6 @@ interface StudioDetailsProps {
   const { data: studioObj } = useStudio(studioId ||'');
   const { data: wishlists = [] } = useWishlists(user?._id ||'');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
 
   const { currStudio, nextStudio, prevStudio} = studioObj || {};
 
@@ -38,7 +35,6 @@ interface StudioDetailsProps {
   const handleAddItemToWishlist = async (wishlistId:string) =>  addItemToWishlistMutation.mutate(wishlistId);
   const handlePagination = (nextId:string) => (nextId ? navigate(`/studio/${nextId}`) : toast.error('No more studios'));
   const handleGoToEdit = (studioId:string) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
-
 
   const dropdownRenderItem = (wishlist:Wishlist) => (
     <WishlistPreview
@@ -84,14 +80,8 @@ interface StudioDetailsProps {
               </>
           )}
           </div>
-        </section>
-        <MuiDatePicker
-                label="Select Booking Date"
-                value={selectedDate}
-                onChange={(newValue: Date | null) => setSelectedDate(newValue)}
-                />  
-        </div>
-
+        </section>          
+          </div>
       </div>
       <ItemsList items={filteredItems} className="studio-items-list" />
     </section>

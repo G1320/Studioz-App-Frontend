@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, ItemsList, StudiosList } from '@/components';
-import { useStudios, useWishlist, useAddItemsToCartMutation, useDeleteWishlistMutation } from '@/hooks';
+import { useStudios, useWishlist,
+  //  useAddItemsToCartMutation, 
+  useDeleteWishlistMutation } from '@/hooks';
 import { Item, Studio, WishlistItem } from '@/types/index';
 import { getLocalUser } from '@/services';
 import { toast } from 'sonner';
@@ -24,7 +26,7 @@ interface WishlistDetailsProps {
 
   const { currWishlist, nextWishlist, prevWishlist } = wishlistObj || {};
 
-  const addItemsToCartMutation = useAddItemsToCartMutation();
+  // const addItemsToCartMutation = useAddItemsToCartMutation();
   const deleteUserWishlistMutation = useDeleteWishlistMutation(user?._id || '');
 
   const handlePagination = (nextId:string) => (nextId ? navigate(`/wishlists/${nextId}`) : toast.error('No more wishlists'));
@@ -33,8 +35,8 @@ interface WishlistDetailsProps {
   const handleAddWishlistItemsToCart = (wishlistItems:WishlistItem[]) => {
     if (wishlistItems.length === 0) return toast.error('No items to add to cart');
 
-    const wishlistItemsIds = wishlistItems.map((wishlistItem) => wishlistItem.itemId);
-    addItemsToCartMutation.mutate({items: wishlistItemsIds});
+    // const wishlistItemsIds = wishlistItems.map((wishlistItem) => wishlistItem.itemId);
+    // addItemsToCartMutation.mutate({items: wishlistItemsIds});
     deleteUserWishlistMutation.mutate(wishlistId || '');
     navigate('/cart');
   };

@@ -6,6 +6,10 @@ import { getOfflineCartIdCountMap, filterOfflineCartItems } from '@/utils/cartUt
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+
 import { Header, Hero, Home, DesktopFooter,  Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
 
 const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
@@ -34,6 +38,7 @@ function App() {
       <main ref={mainRef} className="main-content">
        <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
+       <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Routes>
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
             <Route path="/studio/:studioId" element={<StudioDetails items={items || []} />} />
@@ -51,6 +56,7 @@ function App() {
             <Route path="/item/:itemId" element={<ItemDetails />} />
             <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems || []} />} />
           </Routes>
+        </LocalizationProvider>
         </Suspense>
       </main>
       <DesktopFooter />

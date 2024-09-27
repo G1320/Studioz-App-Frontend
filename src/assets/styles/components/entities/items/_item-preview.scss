@@ -4,6 +4,12 @@
     height: 240px;
     max-width: 450px;
     gap: 0.5rem;
+    input,div.MuiFormControl-root{
+        opacity: 0;
+        height: 0px;
+        width: 0px;
+        position: absolute;
+    }
     div.title-availability-container{
         width: 80%;
         display: grid;

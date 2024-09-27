@@ -1,19 +1,19 @@
 import { useOfflineCartContext } from '@/contexts';
-import { updateOfflineCart } from '@/utils/cartUtils' ;
+import { updateOfflineCart } from '@/utils/cartUtils';
 import { getLocalUser, getLocalOfflineCart, addItemToCart, removeItemFromCart, addItemsToCart, removeItemsFromCart, deleteUserCart, updateUserCart } from '@/services';
-import { Cart } from '@/types/index';
+import { Cart, CartItem } from '@/types/index';
 
 export const useCartOperations = () => {
   const user = getLocalUser();
   const { setOfflineCartContext } = useOfflineCartContext();
 
-  const addItem = async (itemId: string) => {
+  const addItem = async (itemId: string, bookingDate: Date) => {
     if (user && user._id) {
-      return addItemToCart(user._id, itemId);
+      return addItemToCart(user._id, itemId, bookingDate);
     }
 
     const cart = getLocalOfflineCart() || { items: [] };
-    cart.items.push(itemId);
+    cart.items.push({ itemId, bookingDate });
     updateOfflineCart(cart, setOfflineCartContext);
     return cart;
   };
@@ -24,7 +24,7 @@ export const useCartOperations = () => {
     }
 
     const cart = getLocalOfflineCart() || { items: [] };
-    const itemIndex = cart.items.findIndex((item: string) => item === itemId);
+    const itemIndex = cart.items.findIndex((item: CartItem) => item.itemId === itemId);
     if (itemIndex !== -1) {
       cart.items.splice(itemIndex, 1);
     }
@@ -32,16 +32,16 @@ export const useCartOperations = () => {
     return { items: cart.items };
   };
 
-  const addItems = async (items: string[]) => {
+  const addItems = async (items: CartItem[]) => {
     if (user && user._id) {
       return addItemsToCart(user._id, items);
     }
     throw new Error('User must be logged in to add items to the cart.');
   };
 
-  const removeItems = async (items: string[]) => {
+  const removeItems = async (itemIds: string[]) => {
     if (user && user._id) {
-      return removeItemsFromCart(user._id, items);
+      return removeItemsFromCart(user._id, itemIds);
     }
     throw new Error('User must be logged in to remove items from the cart.');
   };
@@ -72,3 +72,4 @@ export const useCartOperations = () => {
 };
 
 export default useCartOperations;
+

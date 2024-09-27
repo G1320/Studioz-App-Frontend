@@ -6,11 +6,11 @@ export const useAddItemToCartMutation = () => {
   const { addItem, removeItem } = useCartOperations();
   const userId = getLocalUser()?._id;
 
-  return useMutationHandler<Cart, string>({
-    mutationFn: (itemId) => addItem(itemId),
+  return useMutationHandler<Cart, { itemId: string; bookingDate: Date }>({
+    mutationFn: ({ itemId, bookingDate }) => addItem(itemId, bookingDate),
     successMessage: 'Item added to cart',
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItem(variables),
+    undoAction: (variables, _data) => removeItem(variables.itemId),
   });
 };
 
@@ -22,7 +22,7 @@ export const useAddItemsToCartMutation = () => {
     mutationFn: ({ items }) => addItems(items),
     successMessage: 'Items added to cart',
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItems(variables.items)
+    undoAction: (variables, _data) => removeItems(variables.items.map(item => item.itemId))
   });
 };
 
@@ -34,7 +34,7 @@ export const useRemoveItemFromCartMutation = () => {
     mutationFn: (itemId) => removeItem(itemId),
     successMessage: 'Item removed from cart',
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => addItem(variables)
+    undoAction: (variables, _data) => addItem(variables, new Date()) // Note: This undo action might need adjustment
   });
 };
 
@@ -61,3 +61,4 @@ export const useUpdateCartMutation = () => {
     undoAction: (variables, _data) => updateCart(variables)
   });
 };
+

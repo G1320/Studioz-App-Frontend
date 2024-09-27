@@ -1,9 +1,8 @@
-export type CartItem = string;
+// export type CartItem = string;
 
 
-// export interface CartItem {
-//     serviceId: string;
-//     quantity: number;
-//     date: string; // or Date object
-//     time: string;
-//   }
+export interface CartItem {
+    itemId: string;
+    quantity?: number;
+    bookingDate?: Date| string; 
+  }
