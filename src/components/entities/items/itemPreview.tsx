@@ -31,6 +31,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');
 
   const handleBookNow = () => {
+    if (isDatePickerOpen)return setIsDatePickerOpen(false);
     setIsDatePickerOpen(true);
     if (datePickerRef.current) {
       datePickerRef.current.open();
@@ -38,7 +39,6 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   };
 
   const handleDateChange = (newDate: Date | null) => {
-    // toast.success(`Selected Date: ${newDate}`);
     setSelectedDate(newDate);
   };
 
@@ -53,7 +53,6 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       
       addItemToCartMutation.mutate(newItem);
   
-      // Cleanup state
       setIsDatePickerOpen(false);
       setSelectedDate(null);
     }

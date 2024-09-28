@@ -22,6 +22,10 @@ const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails'))
 function App() {
   const mainRef = useRef<HTMLElement>(null);  
   const scrollOffset = 0;  
+  const customLocaleText = {
+    okButtonLabel: "Confirm Booking",
+    cancelButtonLabel: "Cancel",
+  };
 
   useScrollToTop(mainRef, scrollOffset); 
 
@@ -38,7 +42,7 @@ function App() {
       <main ref={mainRef} className="main-content">
        <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
-       <LocalizationProvider dateAdapter={AdapterDayjs}>
+         <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
           <Routes>
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
             <Route path="/studio/:studioId" element={<StudioDetails items={items || []} />} />
@@ -56,7 +60,7 @@ function App() {
             <Route path="/item/:itemId" element={<ItemDetails />} />
             <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems || []} />} />
           </Routes>
-        </LocalizationProvider>
+         </LocalizationProvider>
         </Suspense>
       </main>
       <DesktopFooter />

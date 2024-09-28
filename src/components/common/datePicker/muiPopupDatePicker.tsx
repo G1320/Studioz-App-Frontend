@@ -58,6 +58,7 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
         onChange={handleChange}
         format="DD/MM/YYYY HH:mm"
         views={['year', 'month', 'day', 'hours']}
+        disablePast={true}
         closeOnSelect={false}
         minutesStep={30}
         ampm={false}
