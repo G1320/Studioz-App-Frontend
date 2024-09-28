@@ -4,11 +4,18 @@
     height: 240px;
     max-width: 450px;
     gap: 0.5rem;
+    .book-now-date-picker-container{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 0.1fr max-content 0.1fr;
+        place-content: center;
+    }
     input,div.MuiFormControl-root{
         opacity: 0;
-        height: 0px;
-        width: 0px;
-        position: absolute;
+        height: 0;
+        width: 0;
+        pointer-events: none;
+        position: relative;
     }
     div.title-availability-container{
         width: 80%;
@@ -37,6 +44,8 @@
   -webkit-line-clamp:2 ;
     }
     .add-to-cart-button{
+        grid-column: 2;
+        place-content: center;
         background-color: $color-primary;
         color: #fff;
     }

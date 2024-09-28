@@ -8,7 +8,7 @@ type MutationHandlerOptions<TData, TVariables> = {
   onSuccess?: (data: TData, variables: TVariables) => void;
   onError?: (error: Error) => void;
   invalidateQueries: Array<{ queryKey: string; targetId?: string }>;
-  successMessage: string;
+  successMessage: string | ((data: TData, variables: TVariables) => string); // Modified
   undoAction?: (variables: TVariables, data: TData) => Promise<TData> ;
 };
 
@@ -27,7 +27,10 @@ export const useMutationHandler = <TData, TVariables>({
     mutationFn,
     onSuccess: (data, variables) => {
       invalidate();
-      toast.success(successMessage, {
+      const message = typeof successMessage === 'function' 
+      ? successMessage(data, variables) 
+      : successMessage;
+      toast.success(message, {
         action: undoAction
           ? {
               label: 'Undo',

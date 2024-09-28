@@ -3,12 +3,15 @@ import { useCartOperations, useMutationHandler } from '@/hooks/utils';
 import { Cart, CartItem } from '@/types/index';
 
 export const useAddItemToCartMutation = () => {
-  const { addItem, removeItem } = useCartOperations();
+  const { addItem, removeItem , generateSuccessMessage} = useCartOperations();
   const userId = getLocalUser()?._id;
 
-  return useMutationHandler<Cart, { itemId: string; bookingDate: Date }>({
-    mutationFn: ({ itemId, bookingDate }) => addItem(itemId, bookingDate),
-    successMessage: 'Item added to cart',
+  return useMutationHandler<Cart, CartItem>({
+    mutationFn: (item: CartItem) => {
+      if (!(item.bookingDate instanceof Date)) throw new Error('Invalid booking date');
+      return addItem(item.itemId, item.bookingDate);
+    },
+    successMessage: (_data, variables) => generateSuccessMessage(variables),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => removeItem(variables.itemId),
   });

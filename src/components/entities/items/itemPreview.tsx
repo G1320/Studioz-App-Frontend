@@ -9,7 +9,6 @@ import {
 } from '@/hooks';
 import { useUserContext } from '@/contexts';
 import { Item, Wishlist } from '@/types/index';
-import { toast } from 'sonner';
 
 interface ItemPreviewProps {
   item: Item;
@@ -45,19 +44,18 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   const handleDateConfirm = (confirmedDate: Date | null) => {
     if (confirmedDate) {
-      addItemToCartMutation.mutate(
-        { itemId: item._id, bookingDate: confirmedDate },
-        {
-          onSuccess: () => {
-            toast.success(`${item.name} service at ${item.studioName} booked for ${confirmedDate.toLocaleString()}`);
-            setIsDatePickerOpen(false);
-            setSelectedDate(null);
-          },
-          onError: (error) => {
-            toast.error(`Failed to add item to cart: ${error}`);
-          },
-        }
-      );
+      const newItem = {
+        itemId: item._id,
+        bookingDate: confirmedDate,
+        name: item.name,
+        studioName: item.studioName,
+      };
+      
+      addItemToCartMutation.mutate(newItem);
+  
+      // Cleanup state
+      setIsDatePickerOpen(false);
+      setSelectedDate(null);
     }
   };
 
@@ -74,6 +72,10 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   const handleDatePickerClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  const handleDatePickerClose = () => {
+    setIsDatePickerOpen(false); // Close the picker on cancel, ESC, or clicking outside
   };
 
   const renderItem = (wishlist: Wishlist) => (
@@ -117,7 +119,9 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
           Remove from Studio
         </Button>
       )}
-      <div onClick={handleDatePickerClick}>
+
+      
+      <div className='book-now-date-picker-container' onClick={handleDatePickerClick}>
 
       <Button className="add-to-cart-button book-now-button" onClick={handleBookNow}>
         Book Now
@@ -130,6 +134,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         onChange={handleDateChange}
         onAccept={handleDateConfirm}
         open={isDatePickerOpen}
+        onClose={handleDatePickerClose}
         />
         </div>
        

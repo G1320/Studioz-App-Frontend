@@ -2,10 +2,16 @@ import { useOfflineCartContext } from '@/contexts';
 import { updateOfflineCart } from '@/utils/cartUtils';
 import { getLocalUser, getLocalOfflineCart, addItemToCart, removeItemFromCart, addItemsToCart, removeItemsFromCart, deleteUserCart, updateUserCart } from '@/services';
 import { Cart, CartItem } from '@/types/index';
+import dayjs from 'dayjs';
 
 export const useCartOperations = () => {
   const user = getLocalUser();
   const { setOfflineCartContext } = useOfflineCartContext();
+
+  const generateSuccessMessage = (item: CartItem) => {
+    const formattedDate = dayjs(item.bookingDate).format('DD/MM/YYYY HH:mm');
+    return `${item.name} service at ${item.studioName} booked for ${formattedDate}`;
+  };
 
   const addItem = async (itemId: string, bookingDate: Date) => {
     if (user && user._id) {
@@ -62,6 +68,7 @@ export const useCartOperations = () => {
   };
 
   return {
+    generateSuccessMessage,
     addItem,
     removeItem,
     addItems,

@@ -1,4 +1,4 @@
-import { useRef, forwardRef, useImperativeHandle, useState } from 'react';
+import { useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -10,6 +10,7 @@ interface MuiDateTimePickerProps {
   value: Date | null;
   onChange: (newValue: Date | null) => void;
   onAccept: (newValue: Date | null) => void;
+  onClose: () => void
   open: boolean;
 }
 
@@ -18,9 +19,12 @@ export interface MuiDateTimePickerRef {
 }
 
 export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePickerProps>(
-  ({ label, value, onChange, onAccept, open }, ref) => {
+  ({ label, value, onChange, onAccept,onClose, open }, ref) => {
     const pickerRef = useRef<any>(null);
-    const [internalValue, setInternalValue] = useState<Dayjs | null>(null);
+    const [internalValue, setInternalValue] = useState<Dayjs | null>(() => {
+      // Set default value to tomorrow at 5 PM if value is null
+      return value ? dayjs(value) : dayjs().add(1, 'day').hour(17).minute(0).second(0);
+    });
 
     useImperativeHandle(ref, () => ({
       open: () => {
@@ -30,32 +34,38 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
       },
     }));
 
-    // Handle when the user clicks "OK"
-    const handleAccept = () => {
-      open = true;
+    const handleAccept = useCallback(() => {
       if (internalValue) {
         onAccept(internalValue.toDate());
+        onClose();
       }
-    };
+    }, [internalValue, onClose, onAccept]);
+
+    const handleChange = useCallback((newValue: Dayjs | null) => {
+      setInternalValue(newValue);
+      onChange(newValue ? newValue.toDate() : null);
+    }, [onChange]);
+
+    const handleClose = useCallback(() => {
+      onClose(); 
+    }, [onClose]);
 
     return (
-      <DateTimePicker 
+      <DateTimePicker
         ref={pickerRef}
         label={label}
-        value={internalValue ? internalValue : value ? dayjs(value) : null}
-        onChange={(newValue: Dayjs | null) => {
-          setInternalValue(newValue); // Save internally but don't call onAccept yet
-          onChange(newValue ? newValue.toDate() : null);
-        }}
+        value={internalValue} 
+        onChange={handleChange}
         format="DD/MM/YYYY HH:mm"
-        views={['year', 'month', 'day', 'hours', 'minutes']}
+        views={['year', 'month', 'day', 'hours']}
+        closeOnSelect={false}
         minutesStep={30}
         ampm={false}
         open={open}
+        onClose={handleClose}
         slotProps={{
           actionBar: {
             actions: ['cancel', 'accept'],
-            onAccept: handleAccept, 
           },
           textField: {
             sx: { display: 'none' },
@@ -64,7 +74,11 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
             sx: { zIndex: 1300 },
           },
         }}
+        onAccept={handleAccept}
       />
     );
   }
 );
+
+
+
