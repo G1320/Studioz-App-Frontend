@@ -20,6 +20,7 @@ export const GenericMuiDropdown = <T,>({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     setAnchorEl(e.currentTarget);
   };
 
