@@ -1,5 +1,11 @@
 .studio-details{  
-
+    @media screen and (max-width: 600px){
+        padding: 0;
+       .preview p{
+            -webkit-line-clamp: 4; 
+        }
+       }
+    
     .studio-details-options-container{
         display: flex;
         gap: 2rem;
