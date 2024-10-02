@@ -81,7 +81,7 @@ Preview the Build: After running the build command, you can preview the producti
 npm run preview
 ```
 
-Running the Application
+Running the Application:
 Start the development server, By default, the Vite dev server will start on http://localhost:5173.
 
 ```bash
@@ -97,11 +97,10 @@ npm run build
 ### Folder Structure
 
 src/: Contains the source code for the frontend.
+
 public/: Static assets like images, icons, and the index.html file.
 
-### License
-
-This project is licensed under the ISC License. See the LICENSE file for more details.
+dist/: Contains built assets, redirects, and an index.html
 
 ### Author
 
