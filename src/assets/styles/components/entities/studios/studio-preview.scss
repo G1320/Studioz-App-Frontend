@@ -20,11 +20,14 @@
   p{
     min-height: 72px;
     width: 100%;
-  text-overflow: ellipsis;
+   text-overflow: ellipsis;
    overflow: hidden;
    display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp:3 ;
+  @media screen and (max-width: 600px){
+    -webkit-line-clamp: 5; 
+   }
   }
  img{ 
   min-height: 24px;
