@@ -5,8 +5,12 @@ export const LogoutButton = () => {
   const { logout } = useAuth0();
 
   const handleLogout = () => {
-    logout();
-    localStorage.removeItem('user');
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin
+      }
+    })  
+      localStorage.removeItem('user');
   };
 
   return (
