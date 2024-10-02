@@ -1,18 +1,20 @@
-import { Item, Cart } from '../types/index';
+import { Cart, CartItem } from '../types/index';
 import { setLocalOfflineCart } from '../services/cart-service';
 
+
+
 // Function to count occurrences of each ID in offlineCartItemsIds
-export const getOfflineCartIdCountMap = (cart: Cart): { [key: string]: number } => {
-  return cart?.items.reduce<{ [key: string]: number }>((acc, id) => {
-    acc[id] = (acc[id] || 0) + 1;
-    return acc;
-  }, {});
-};
+// export const getOfflineCartIdCountMap = (cart: Cart): { [key: string]: number } => {
+//   return cart?.items.reduce<{ [key: string]: number }>((acc, id) => {
+//     acc[id] = (acc[id] || 0) + 1;
+//     return acc;
+//   }, {});
+// };
 
 // Filter items array based on offlineCartItemsIds
-export const filterOfflineCartItems = (items: Item[], offlineCartIdCountMap: { [key: string]: number }) => {
+export const filterOfflineCartItems = (items: CartItem[], offlineCartIdCountMap: { [key: string]: number }) => {
   return items
-    ? items.flatMap((item) => Array.from({ length: offlineCartIdCountMap[item._id] || 0 }, () => item))
+    ? items.flatMap((item) => Array.from({ length: offlineCartIdCountMap[item.itemId] || 0 }, () => item))
     : [];
 };
 
@@ -23,24 +25,24 @@ export const updateOfflineCart = (cart: Cart, setOfflineCartContext: (cart: Cart
 };
 
 // Function to calculate the total price of items
-export const calculateTotalPrice = (items: Item[]) => {
+export const calculateTotalPrice = (items: CartItem[]) => {
   return items
-    ?.filter((item): item is Item & { price: number } => item.price !== undefined)
+    ?.filter((item): item is CartItem & { price: number } => item.price !== undefined)
     .reduce((acc, item) => acc + item.price, 0)
     .toFixed(2);
 };
 
 // Function to get the item quantity map
-export const getItemQuantityMap = (items: Item[]): Map<string, number> => {
+export const getItemQuantityMap = (items: CartItem[]): Map<string, number> => {
   return items?.reduce((map, item) => {
-    map.set(item._id, map.has(item._id) ? (map.get(item._id) || 0) + 1 : 1);
+    map.set(item.itemId, map.has(item.itemId) ? (map.get(item.itemId) || 0) + 1 : 1);
     return map;
   }, new Map());
 };
 
 // Function to get unique items
-export const getUniqueItems = (items: Item[], itemQuantityMap: Map<string, number>): Item[] => {
-  return itemQuantityMap
-    ? Array.from(itemQuantityMap.keys()).map((itemId) => items.find(item => item._id === itemId) as Item)
-    : [];
-};
+// export const getUniqueItems = (items: CartItem[], itemQuantityMap: Map<string, number>): CartItem[] => {
+//   return itemQuantityMap
+//     ? Array.from(itemQuantityMap.keys()).map((itemId) => items.find(item => item._id === itemId) as Item)
+//     : [];
+// };

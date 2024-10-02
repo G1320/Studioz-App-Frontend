@@ -1,18 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components';
-import { useUserContext } from '@/contexts';
-import { useCart } from '@/hooks';
-import { Item } from '@/types/index';
+import { Cart } from '@/types/index';
 interface HeaderProps {
-  filteredItems?: Item[];
+  cart?: Cart ;
 }
 
-export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
-  const { user } = useUserContext();
-  const { data: cartItems = [] } = useCart(user?._id || '');
-  const items = user ? cartItems : filteredItems;
-
-
+export const Header: React.FC<HeaderProps> = ({ cart  }) => {
+  
   return (
     <header>
       <h1>
@@ -23,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ filteredItems = [] }) => {
           <LoginButton />
           <LogoutButton />
         </>
-      <CartItemsList items={items} isDropdown={true} />
+      <CartItemsList cart={ cart } isDropdown={true} />
       <Navbar />
     </header>
   );

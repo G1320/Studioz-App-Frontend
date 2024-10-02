@@ -45,9 +45,10 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const handleDateConfirm = (confirmedDate: Date | null) => {
     if (confirmedDate) {
       const newItem = {
+        name: item.name,
+        price: item.price || 0,
         itemId: item._id,
         bookingDate: confirmedDate,
-        name: item.name,
         studioName: item.studioName,
       };
       
@@ -134,6 +135,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         onAccept={handleDateConfirm}
         open={isDatePickerOpen}
         onClose={handleDatePickerClose}
+        availability={item.availability}
         />
         </div>
        

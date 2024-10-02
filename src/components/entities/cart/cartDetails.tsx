@@ -1,20 +1,14 @@
 import { CartItemsList } from '@/components';
-import { useUserContext } from '@/contexts';
-import { useCart } from '@/hooks'
-import { Item } from '@/types/index';
-
+import { Cart } from '@/types/index';
 interface CartDetailsProps {
-  filteredItems?: Item[]; 
+  cart?: Cart; 
 }
 
-export const CartDetails: React.FC<CartDetailsProps> = ({ filteredItems = [] }) => { 
-  const { user } = useUserContext();
-  
-  const { data: items } = useCart(user?._id || '');  
+export const CartDetails: React.FC<CartDetailsProps> = ({ cart }) => {   
 
   return (
     <section className="cart-details">
-      <CartItemsList items={items || filteredItems} />
+      <CartItemsList cart={ cart} />
     </section>
   );
 };

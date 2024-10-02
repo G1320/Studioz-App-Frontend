@@ -1,49 +1,48 @@
 import { Link } from 'react-router-dom';
 import { CartItemPreview, GenericList, GenericMuiDropdown, GenericMultiDropdownEntryPreview } from '@/components';
 import { useRemoveItemFromCartMutation } from '@/hooks';
-import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '@/utils/cartUtils';
-import { Item } from '@/types/index';
+// import { calculateTotalPrice, getItemQuantityMap, getUniqueItems } from '@/utils/cartUtils';
+import { Cart, CartItem } from '@/types/index';
 
 interface CartItemsListProps {
-  items: Item[];
+  cart?: Cart ;
   isDropdown?: boolean;
   isMultiSelect?: boolean;
 }
 
-export const CartItemsList: React.FC<CartItemsListProps> = ({ items, isDropdown = false, isMultiSelect = false }) => {
+export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown = false, isMultiSelect = false }) => {
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
 
-  const totalPrice = calculateTotalPrice(items);
-  const itemQuantityMap = getItemQuantityMap(items);
-  const uniqueItems = getUniqueItems(items, itemQuantityMap);
+  // const totalPrice = calculateTotalPrice(items);
+  // const itemQuantityMap = getItemQuantityMap(items);
+  // const uniqueItems = getUniqueItems(items, itemQuantityMap);
 
-  const handleRemoveFromCart = (item:Item) =>  removeItemFromCartMutation.mutate(item?._id);
+  const handleRemoveFromCart = (item: CartItem) =>  removeItemFromCartMutation.mutate(item);
 
-  const renderItem = (item: Item) => isMultiSelect
-   ? <GenericMultiDropdownEntryPreview entry={item} key={item?._id} />
+  const renderItem = (item: CartItem) => isMultiSelect
+   ? <GenericMultiDropdownEntryPreview entry={{name: item.name || '', _id: item.itemId}} key={item?.itemId} />
    : <CartItemPreview
       item={item}
-      quantity={itemQuantityMap?.get(item?._id) || 0}
       onRemoveFromCart={handleRemoveFromCart}
-      key={item?._id}
+      key={item?.itemId}
     />;
 
   return (
     <section className="cart">
       <Link to={'/cart'} className="total-price">
-        ${totalPrice || '0.00'}
+        {/* ${totalPrice || '0.00'} */}
       </Link>
 
       {isDropdown ? (
           <GenericMuiDropdown
-            data={uniqueItems}
+            data={cart?.items || []}
             renderItem={renderItem}
             className="cart-list"
-            title={`Cart (${items?.length || 0})`}
-          />
+            title={`Cart (${cart?.items?.reduce((total, item) => total + item.quantity!, 0) || 0})`}
+            />
       ) : (
         <>
-          <GenericList data={uniqueItems} renderItem={renderItem} className="cart-list" />
+          <GenericList data={cart?.items || []} renderItem={renderItem} className="cart-list" />
         </>
       )}
     </section>

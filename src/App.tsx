@@ -1,8 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense, useRef } from 'react';
-import { useOfflineCartContext } from '@/contexts';
-import { useItems, useStudios, useScrollToTop  } from '@/hooks';
-import { getOfflineCartIdCountMap, filterOfflineCartItems } from '@/utils/cartUtils';
+import { useOfflineCartContext, useUserContext } from '@/contexts';
+import { useItems, useStudios, useScrollToTop, useCart  } from '@/hooks';
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 
@@ -20,25 +19,25 @@ const EditStudio = lazy(() => import('@/components/entities/studios/editStudio')
 const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails')) ;
 
 function App() {
+  const { user } = useUserContext();
   const mainRef = useRef<HTMLElement>(null);  
   const scrollOffset = 0;  
   const customLocaleText = {
     okButtonLabel: "Confirm Booking",
     cancelButtonLabel: "Cancel",
   };
-
+  
   useScrollToTop(mainRef, scrollOffset); 
-
+  
+  const { data: onlineCart } = useCart(user?._id || '');
+  const { offlineCartContext: offlineCart } = useOfflineCartContext();
   const { data: items = [] } = useItems();
   const { data: studios } = useStudios();
-  const { offlineCartContext: offlineCart } = useOfflineCartContext();
 
-  const offlineCartIdCountMap = getOfflineCartIdCountMap(offlineCart);
-  const offlineCartFilteredItems = filterOfflineCartItems(items, offlineCartIdCountMap);
 
   return (
     <>
-   <Header filteredItems={offlineCartFilteredItems} />
+   <Header cart={ onlineCart || offlineCart } />
       <main ref={mainRef} className="main-content">
        <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
@@ -58,14 +57,20 @@ function App() {
             <Route path="/edit-wishlist/:wishlistId" element={<EditWishlist />} />
             <Route path="/create-wishlist" element={<CreateWishlist />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
-            <Route path="/cart" element={<CartDetails filteredItems={offlineCartFilteredItems || []} />} />
+            <Route path="/cart" element={<CartDetails cart={offlineCart || onlineCart} />} />
           </Routes>
          </LocalizationProvider>
         </Suspense>
       </main>
       <DesktopFooter />
       {/* <MobileFooter/> */}
-      <Toaster richColors />
+      <Toaster richColors 
+      toastOptions={{
+        style: {
+          padding: '0 0.5rem',
+        },
+        className: 'toast',
+      }}/>
     </>
   );
 }

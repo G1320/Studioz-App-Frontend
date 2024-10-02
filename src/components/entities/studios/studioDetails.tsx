@@ -53,7 +53,7 @@ interface StudioDetailsProps {
      
         <section className="details-buttons item-details-buttons">
           <div >
-          { user?._id === currStudio?.createdBy && (
+          { currStudio &&  user?._id === currStudio?.createdBy && (
             <Button onClick={() => handleGoToEdit(currStudio?._id ||'')}>Edit</Button>
             )}
           <Button onClick={() => handlePagination(prevStudio?._id ||'')}>Prev</Button>

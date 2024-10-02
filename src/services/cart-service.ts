@@ -1,6 +1,6 @@
 import { parseJSON, stringifyJSON } from '@/utils';
 import { httpService } from '@/services';
-import { Cart, CartItem, Item } from '@/types/index';
+import { Cart, CartItem } from '@/types/index';
 
 const cartEndpoint = '/cart';
 
@@ -45,7 +45,7 @@ export const removeItemsFromCart = async (userId: string, items: String[]): Prom
   }
 };
 
-export const getUserCart = async (userId: string): Promise<Item[]> => {
+export const getUserCart = async (userId: string): Promise<Cart> => {
   try {
     return await httpService.get(`${cartEndpoint}/${userId}`);
   } catch (error: unknown) {

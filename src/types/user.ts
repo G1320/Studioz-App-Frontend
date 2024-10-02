@@ -1,3 +1,4 @@
+import Cart from "./cart";
 import { PaymentMethod } from "./paymentMethod";
 
 export default interface User {
@@ -15,7 +16,7 @@ export default interface User {
   email?: string;
   studios?: string[];
   wishlists?: string[];
-  cart?: string[];
+  cart?: Cart;
   booking?: PaymentMethod[];
   __v?: number;
 }

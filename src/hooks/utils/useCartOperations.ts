@@ -13,13 +13,25 @@ export const useCartOperations = () => {
     return `${item.name} service at ${item.studioName} booked for ${formattedDate}`;
   };
 
-  const addItem = async (itemId: string, bookingDate: Date) => {
+  const addItem = async (item: CartItem, bookingDate: Date) => {
     if (user && user._id) {
-      return addItemToCart(user._id, itemId, bookingDate);
+      return addItemToCart(user._id, item.itemId, bookingDate);
     }
-
     const cart = getLocalOfflineCart() || { items: [] };
-    cart.items.push({ itemId, bookingDate });
+    const existingItem = cart.items.find((cartItem: CartItem) => cartItem.itemId === item.itemId);
+
+    if (existingItem?.quantity) {
+      existingItem.quantity += 1;
+    } else {
+      cart.items.push({
+        name: item.name,
+        studioName: item.studioName,
+        price: item.price,
+        quantity: 1,
+        itemId: item.itemId,
+        bookingDate: bookingDate,
+      });
+    }
     updateOfflineCart(cart, setOfflineCartContext);
     return cart;
   };
@@ -28,11 +40,16 @@ export const useCartOperations = () => {
     if (user && user._id) {
       return removeItemFromCart(user._id, itemId);
     }
-
     const cart = getLocalOfflineCart() || { items: [] };
     const itemIndex = cart.items.findIndex((item: CartItem) => item.itemId === itemId);
+  
     if (itemIndex !== -1) {
-      cart.items.splice(itemIndex, 1);
+      const cartItem = cart.items[itemIndex];
+      if (cartItem.quantity && cartItem.quantity  > 1) {
+        cartItem.quantity -= 1;
+      } else {
+        cart.items.splice(itemIndex, 1);
+      }
     }
     updateOfflineCart({ items: cart.items }, setOfflineCartContext);
     return { items: cart.items };

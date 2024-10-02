@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getUserCart } from '@/services';
-import { Item } from '@/types/index';
+import { Cart } from '@/types/index';
 
 export const useCart = (userId: string) => {
   const queryClient = useQueryClient();
@@ -9,7 +9,7 @@ export const useCart = (userId: string) => {
     queryKey: ['cart', userId],
     enabled: !!userId,
     queryFn: () => getUserCart(userId),
-    initialData: () => queryClient.getQueryData<Item[]>(['cart', userId]),
+    initialData: () => queryClient.getQueryData<Cart>(['cart', userId]),
   });
   return { data, isLoading, error, refetch };
 };

@@ -27,15 +27,16 @@ import { useUserContext } from '@/contexts';
         <ItemPreview item={item} wishlists={wishlists || []} />
       ) : (
         <p>Loading...</p>
-      )} <section className="details-buttons item-details-buttons">
-        <div>
-          {user?._id === item?.createdBy && (
-            <>
-            <Button onClick={handleDeleteBtnClicked}>Del</Button>
-            <Button onClick={handleEditBtnClicked}>Edit</Button>
-            </>
-          ) }
-          </div>
+      )} 
+      <section className="details-buttons item-details-buttons">
+      <div>
+    {user?._id && user._id === item?.createdBy ? (
+      <>
+        <Button onClick={handleDeleteBtnClicked}>Del</Button>
+        <Button onClick={handleEditBtnClicked}>Edit</Button>
+      </>
+    ) : null}
+  </div>
       </section>
     </section>
   );

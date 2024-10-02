@@ -1,20 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components';
-import { Item } from '@/types/index';
+import { CartItem } from '@/types/index';
+import { formatBookingDate } from '@/utils';
 
 interface CartItemPreviewProps {
-  item: Item;
-  quantity: number;
-  onRemoveFromCart: (item: Item) => void;
+  item: CartItem;
+  onRemoveFromCart: (item: CartItem) => void;
 }
 
-export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, quantity, onRemoveFromCart }) => {
+export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onRemoveFromCart }) => {
+  
   const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     if (target.nodeName !== 'BUTTON') {
-      navigate(`/item/${item?._id}`);
+      navigate(`/item/${item?.itemId}`);
     }
   };
 
@@ -22,9 +23,10 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, quantity
     <article onClick={handleClick} className="preview cart-preview">
       <h3 onClick={handleClick}>{item?.name}</h3>
       <p>{item?.studioName}</p>
+      <small>{formatBookingDate(item?.bookingDate)}</small>
       <div>
         <small onClick={handleClick}>${item?.price?.toFixed(2)}</small>
-        <small onClick={handleClick}>Qty: {quantity}</small>
+        <small onClick={handleClick}>Hrs: {item.quantity}</small>
       </div>
       <Button onClick={() => onRemoveFromCart(item)} className="remove-from-cart">
         Remove
