@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@/components'
 
 export const LogoutButton = () => {
-  const { user, logout, isAuthenticated } = useAuth0();
+  const { logout, isAuthenticated } = useAuth0();
 
   const handleLogout = () => {
     logout();
@@ -10,7 +10,7 @@ export const LogoutButton = () => {
   };
 
   return (
-    user && isAuthenticated ? (
+    isAuthenticated ? (
       <Button onClick={handleLogout} className="button login button">
         Sign out
       </Button>
