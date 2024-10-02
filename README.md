@@ -1,15 +1,19 @@
 Studioz App Frontend
+
 This repository contains the frontend for the Studioz application, built using React, Vite, Auth0 for authentication, Cloudinary for media uploads, and various other libraries for state management, routing, and forms.
 
 Getting Started
+
 To get the frontend of the Studioz app up and running, follow these steps.
 
 Prerequisites
+
 Ensure you have the following installed on your system:
 
 Node.js (v16.x or higher)
 Vite (Vite is used for building and serving the app)
 Installation
+
 Clone the repository:
 
 git clone https://github.com/yourusername/studioz-app-frontend.git
@@ -62,11 +66,14 @@ Build and run the production version:
 npm run build
 
 Folder Structure
+
 src/: Contains the source code for the frontend.
 public/: Static assets like images, icons, and the index.html file.
 
 License
+
 This project is licensed under the ISC License. See the LICENSE file for more details.
 
 Author
+
 Developed by Darnell Green.
