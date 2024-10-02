@@ -37,7 +37,7 @@ function App() {
 
   return (
     <>
-   <Header cart={ onlineCart || offlineCart } />
+   <Header cart={ onlineCart || offlineCart } user={user} />
       <main ref={mainRef} className="main-content">
        <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
