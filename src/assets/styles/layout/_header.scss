@@ -54,11 +54,11 @@ header{
     button {
      display: flex;
       align-items: center;
-      min-width: 100px;
+      min-width: max-content;
       .dropdown-button-title{
         place-self: center;
         min-width: 2ch;
-        max-width: 3ch;
+        max-width: 6ch;
       }
      }
      h3{
@@ -102,12 +102,9 @@ header{
       grid-template-columns: repeat(6, 1fr);
       .cart {
        grid-column: 6;
-       .total-price{
-        display: none;
-       }
     }
     .login, .logout{
       grid-column: 7;
      }
-  }
+     }
     }
