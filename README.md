@@ -23,6 +23,7 @@ Ensure you have the following installed on your system:
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
