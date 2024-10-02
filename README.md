@@ -19,16 +19,10 @@ Ensure you have the following installed on your system:
 
    ```bash
    git clone https://github.com/G1320/Studioz-App-Frontend.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
    cd studioz-app-frontend
    ```
 
-3. Install dependencies:
-
+2. Install dependencies:
    ```bash
    npm install
    ```
