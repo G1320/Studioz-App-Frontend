@@ -1,6 +1,6 @@
 # Studioz App Frontend
 
-This repository contains the client-side code for the **Studioz** application, built using **React**, **Vite**, **Auth0** for authentication, **Cloudinary** for media uploads, and various other libraries for state management, routing, and forms.
+This repository contains the client-side code for the **Studioz** application, built using **React**, **TypeScript**, **Tanstack Query**, **Vite**, **Auth0**, **Cloudinary API** and various other libraries for state management, routing, forms and more.
 
 ## Getting Started
 
