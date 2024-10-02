@@ -41,15 +41,25 @@ header{
 
     .cart {
       display: flex ;
-     grid-column: 6;
-     grid-row: 1;
-     max-width: 180px;
-     white-space: nowrap;
-     gap: 0.5rem;
-     padding: 0.25rem;
+      grid-column: 6;
+      grid-row: 1;
+      max-width: 180px;
+      white-space: nowrap;
+      gap: 0.5rem;
+      padding: 0.25rem;
+      .total-price{
+       min-width: 6ch;
+       text-align: right;
+      }
     button {
      display: flex;
       align-items: center;
+      min-width: 100px;
+      .dropdown-button-title{
+        place-self: center;
+        min-width: 2ch;
+        max-width: 3ch;
+      }
      }
      h3{
       font-size: 1rem;

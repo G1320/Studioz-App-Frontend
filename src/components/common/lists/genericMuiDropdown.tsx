@@ -48,7 +48,9 @@ export const GenericMuiDropdown = <T,>({
   return (
     <div className={`generic-dropdown ${className}`}>
       <Button className="dropdown-toggle" onClick={handleClick}>
-        {title}
+       <div className='dropdown-button-title'>
+         {title}
+        </div>
       </Button>
       <Menu
         slotProps={{ paper: { style: { backgroundColor: '#411c61' } } }}
