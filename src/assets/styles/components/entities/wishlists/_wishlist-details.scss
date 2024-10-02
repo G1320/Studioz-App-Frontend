@@ -1,8 +1,10 @@
 .wishlist-details {
+    gap: 0;
     .details-buttons{
         display: flex;
     }
     .studios-list{
+        max-width: max-content;
      max-width: 1300px;    
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }

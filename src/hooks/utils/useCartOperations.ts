@@ -20,13 +20,16 @@ export const useCartOperations = () => {
     const cart = getLocalOfflineCart() || { items: [] };
     const existingItem = cart.items.find((cartItem: CartItem) => cartItem.itemId === item.itemId);
 
-    if (existingItem?.quantity) {
+    if (existingItem && existingItem.quantity) {
       existingItem.quantity += 1;
+      existingItem.total = (existingItem.price || 0) * existingItem.quantity;
+
     } else {
       cart.items.push({
         name: item.name,
         studioName: item.studioName,
         price: item.price,
+        total: item.price,
         quantity: 1,
         itemId: item.itemId,
         bookingDate: bookingDate,
@@ -47,6 +50,7 @@ export const useCartOperations = () => {
       const cartItem = cart.items[itemIndex];
       if (cartItem.quantity && cartItem.quantity  > 1) {
         cartItem.quantity -= 1;
+        cartItem.total = (cartItem.price || 0) * cartItem.quantity;
       } else {
         cart.items.splice(itemIndex, 1);
       }

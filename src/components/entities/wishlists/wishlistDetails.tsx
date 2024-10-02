@@ -61,6 +61,8 @@ interface WishlistDetailsProps {
   return (
     <section className="details wishlist-details">
       <h1>{currWishlist?.name}</h1>
+
+      {filteredItems.length > 0 && <ItemsList items={filteredItems} />}
       <div className="details-buttons wishlist-details-buttons">
         <Button onClick={() => handleGoToEdit(currWishlist?._id || '')}>Edit</Button>
         <Button onClick={() => handlePagination(prevWishlist?._id || '')}>Prev</Button>
@@ -69,8 +71,6 @@ interface WishlistDetailsProps {
           Add to Cart
         </Button>
       </div>
-
-      {filteredItems.length > 0 && <ItemsList items={filteredItems} />}
 
       {filteredStudios && filteredStudios.length > 0 ? <StudiosList studios={filteredStudios} /> : null}
     </section>

@@ -47,6 +47,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       const newItem = {
         name: item.name,
         price: item.price || 0,
+        total: item.price || 0,
         itemId: item._id,
         bookingDate: confirmedDate,
         studioName: item.studioName,

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CartItemPreview, GenericList, GenericMuiDropdown, GenericMultiDropdownEntryPreview } from '@/components';
 import { useRemoveItemFromCartMutation } from '@/hooks';
-import { calculateTotalPrice } from '@/utils/cartUtils';
 import { Cart, CartItem } from '@/types/index';
 
 interface CartItemsListProps {
@@ -13,12 +12,12 @@ interface CartItemsListProps {
 export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown = false, isMultiSelect = false }) => {
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
 
-  const totalPrice = calculateTotalPrice(cart?.items);
-
+  const totalPrice = cart?.items?.reduce((total, item) => total + (item.total || 0), 0);
+  
   const handleRemoveFromCart = (item: CartItem) =>  removeItemFromCartMutation.mutate(item);
 
   const renderItem = (item: CartItem) => isMultiSelect
-   ? <GenericMultiDropdownEntryPreview entry={{name: item.name || '', _id: item.itemId}} key={item?.itemId} />
+   ? <GenericMultiDropdownEntryPreview entry={{ name: item.name || '', _id: item.itemId }} key={item?.itemId} />
    : <CartItemPreview
       item={item}
       onRemoveFromCart={handleRemoveFromCart}
