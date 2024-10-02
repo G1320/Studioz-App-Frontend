@@ -59,7 +59,7 @@ VITE_CLOUDINARY_API_SECRET: API secret for your Cloudinary account.
 
 VITE_CLOUDINARY_CLOUDINARY_URL: The full Cloudinary URL for media management.
 
-Scripts
+### Scripts
 
 Here are the available scripts you can use from the package.json file:
 
@@ -94,19 +94,15 @@ Build and run the production version:
 npm run build
 ```
 
-Folder Structure
+### Folder Structure
 
 src/: Contains the source code for the frontend.
 public/: Static assets like images, icons, and the index.html file.
 
-License
+### License
 
 This project is licensed under the ISC License. See the LICENSE file for more details.
 
-Author
+### Author
 
 Developed by Darnell Green.
-
-```
-
-```
