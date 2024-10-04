@@ -26,7 +26,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onRemove
       <small>{formatBookingDate(item?.bookingDate)}</small>
       <div>
         <small className='cart-item-preview-price' onClick={handleClick}>${item?.price?.toFixed(2)}</small>
-        <small className='cart-item-preview-quantity' onClick={handleClick}>Hrs: {item.quantity}</small>
+        <small className='cart-item-preview-quantity' onClick={handleClick}>Hours: {item.quantity}</small>
       </div>
       <Button onClick={() => onRemoveFromCart(item)} className="remove-from-cart">
         Remove

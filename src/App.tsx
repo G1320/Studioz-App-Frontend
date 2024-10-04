@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
-import { lazy, Suspense, useRef } from 'react';
+import { lazy, Suspense} from 'react';
 import { useOfflineCartContext, useUserContext } from '@/contexts';
-import { useItems, useStudios, useScrollToTop, useCart  } from '@/hooks';
+import { useItems, useStudios, useOnlineCart } from '@/hooks';
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 
@@ -20,25 +20,20 @@ const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails'))
 
 function App() {
   const { user } = useUserContext();
-  const mainRef = useRef<HTMLElement>(null);  
-  const scrollOffset = 0;  
   const customLocaleText = {
     okButtonLabel: "Confirm Booking",
     cancelButtonLabel: "Cancel",
-  };
-  
-  useScrollToTop(mainRef, scrollOffset); 
-  
-  const { data: onlineCart } = useCart(user?._id || '');
+  };  
+
+  const { data: onlineCart } = useOnlineCart(user?._id || '');
   const { offlineCartContext: offlineCart } = useOfflineCartContext();
   const { data: items = [] } = useItems();
   const { data: studios } = useStudios();
 
-
   return (
     <>
    <Header cart={ onlineCart || offlineCart } user={user} />
-      <main ref={mainRef} className="main-content">
+      <main className="main-content">
        <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
          <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
