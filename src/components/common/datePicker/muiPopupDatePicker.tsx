@@ -24,7 +24,7 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
     const pickerRef = useRef<any>(null);
     const [internalValue, setInternalValue] = useState<Dayjs | null>(() => {
       // Set default value to tomorrow at 5 PM if value is null
-      return value ? dayjs(value) : dayjs().add(1, 'day').hour(17).minute(0).second(0);
+      return value ? dayjs(value) : dayjs().add(1, 'day').hour(13).minute(0).second(0);
     });
 
     const shouldDisableDate = (date: Dayjs | null) => {

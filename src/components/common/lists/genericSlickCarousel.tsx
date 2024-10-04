@@ -15,6 +15,7 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
     dots: true,
     arrows: true,
     infinite: true,
+    initialSlide: 1,
     speed: 550,
     slidesToShow: 4, 
     slidesToScroll: 2,
@@ -60,8 +61,8 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
       {title && <h1>{title}</h1>}
 
       <Slider className={`slider ${className}`} {...settings}>
-        {data?.map((item) => (
-          <div key={(item as any)._id}>{renderItem(item)}</div>
+        {data?.map((item, index) => (
+          <div key={(item as any)._id || index}>{renderItem(item)}</div>
         ))}
       </Slider>
     </section>

@@ -9,7 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 
-import { Header, Hero, Home, DesktopFooter,  Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
+import { Header, Hero, Home, DesktopFooter, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
 
 const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
 const EditItem = lazy(() => import('@/components/entities/items/editItem')) ;

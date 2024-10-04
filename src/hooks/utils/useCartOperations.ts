@@ -1,11 +1,11 @@
-import { useOfflineCartContext } from '@/contexts';
+import { useOfflineCartContext, useUserContext } from '@/contexts';
 import { updateOfflineCart } from '@/utils/cartUtils';
-import { getLocalUser, getLocalOfflineCart, addItemToCart, removeItemFromCart, addItemsToCart, removeItemsFromCart, deleteUserCart, updateUserCart } from '@/services';
+import { getLocalOfflineCart, addItemToCart, removeItemFromCart, addItemsToCart, removeItemsFromCart, deleteUserCart, updateUserCart } from '@/services';
 import { Cart, CartItem } from '@/types/index';
 import dayjs from 'dayjs';
 
 export const useCartOperations = () => {
-  const user = getLocalUser();
+  const { user } = useUserContext();
   const { setOfflineCartContext } = useOfflineCartContext();
 
   const generateSuccessMessage = (item: CartItem) => {
