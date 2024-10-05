@@ -42,13 +42,12 @@
 @media screen  and (max-width: 900px) {
     .home{
         margin-block-end: 0rem;
-        
+
         .swiper-button-prev,
         .swiper-button-next,
         .swiper-button-prev::after,
         .swiper-button-next::after,
-        .swiper-pagination,
-        button{
+        .swiper-pagination.button{
             display: none;
         }
     }
