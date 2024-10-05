@@ -5,6 +5,9 @@
     padding: 0.5rem;
     color: #fff;
     background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgba(78, 45, 226, 0.0588235294) 25%);
+    div{
+        place-self: center;
+    }
     .cart-item-preview-price{
         min-width: 6ch;
     }

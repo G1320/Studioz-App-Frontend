@@ -34,6 +34,7 @@
     "react-spinners": "^0.14.1",
     "sass": "^1.72.0",
     "sonner": "^1.4.41",
+    "swiper": "^11.1.14",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1"
   },

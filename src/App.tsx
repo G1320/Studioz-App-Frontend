@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { lazy, Suspense} from 'react';
+import { lazy, Suspense } from 'react';
 import { useOfflineCartContext, useUserContext } from '@/contexts';
 import { useItems, useStudios, useOnlineCart } from '@/hooks';
 import { PropagateLoader } from 'react-spinners';
@@ -7,7 +7,6 @@ import { Toaster } from 'sonner';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
 
 import { Header, Hero, Home, DesktopFooter, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
 
@@ -27,7 +26,7 @@ function App() {
 
   const { data: onlineCart } = useOnlineCart(user?._id || '');
   const { offlineCartContext: offlineCart } = useOfflineCartContext();
-  const { data: items = [] } = useItems();
+  const { data: items } = useItems();
   const { data: studios } = useStudios();
 
   return (

@@ -63,7 +63,6 @@
       border: 2px solid $border-color-primary;
   }
 }
-
 // Targets all Paper elements except those that are part of the DatePicker component
   .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper){
      background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgb(20, 22, 25) 100%) !important;
@@ -73,53 +72,6 @@
    .MuiIconButton-root:focus-visible {
       outline: none;
     }
-
-  .slider {
-    color: #fff;
-    width: calc(100vw - 4rem);
-    min-height: 100%;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    &.slider-gradient {
-      background: linear-gradient(to bottom, $color-primary 0%, $bg-color-secondary 120%);
-    }
-  
-    .slick-slider {
-      height: 100%;
-      padding: 0;
-    }
-  
-    .slick-track {
-      gap: 1rem;
-      place-content: center;
-  
-      .slick-slide {
-        cursor: pointer;
-        margin: 0.5rem 0;
-        height: 100%;
-      }
-    }
-  }
-  
-  ul.slick-dots {
-    overflow: auto;
-    height: max-content;
-    display: flex !important;
-    justify-content: flex-start;
-    align-items: flex-end;
-    color: #fff;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; 
-    scrollbar-width: none;
-  }
-  
-  .slick-dots li button:before {
-    color: #fff;
-    background-color: #fff;
-    border-radius: 50%;
-  }
 
   .loader{
     display: grid;
