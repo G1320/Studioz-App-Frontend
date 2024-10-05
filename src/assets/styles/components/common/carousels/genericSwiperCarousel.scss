@@ -1,7 +1,7 @@
 .generic-carousel {
     color: #fff;
     width: calc(100vw - 4rem);
-    height: 100%;
+    height: max-content;
     border: 2px solid #fff;
     border-radius: 8px;
     
@@ -11,7 +11,7 @@
   
     .swiper-navigation {
       position: absolute;
-      bottom: -4rem;
+      bottom: -3.5rem;
       right: 20px;
       display: flex;
       gap: 10px;
