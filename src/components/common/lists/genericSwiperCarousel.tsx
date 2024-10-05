@@ -1,5 +1,7 @@
+import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -15,61 +17,52 @@ interface GenericCarouselProps<T> {
 }
 
 export const GenericCarousel = <T,>({ data, className, renderItem, title }: GenericCarouselProps<T>) => {
+  const swiperRef = useRef<SwiperType>();
+
   return (
     <section className="generic-carousel">
       {title && <h1>{title}</h1>}
-
-      <Swiper
-        className={`swiper ${className}` }
-        modules={[Pagination, Navigation, Autoplay]}
-        spaceBetween={0}
-        slidesPerView={4}
-        initialSlide={1}
-        speed={550}
-        // loop={true}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            // spaceBetween: 10,
-          },
-          420: {
-            slidesPerView: 1,
-            // spaceBetween: 20,
-          },
-          620: {
-            slidesPerView: 1,
-            // spaceBetween: 20,
-            centeredSlides: true,
-          },
-          850: {
-            slidesPerView: 2,
-            // spaceBetween: 30,
-          },
-          1030: {
-            slidesPerView: 3,
-            // spaceBetween: 30,
-          },
-          1200: {
-            slidesPerView: 4,
-            // spaceBetween: 40,
-          },
-        }}
-      >
-        {data?.map((item, index) => (
-          <SwiperSlide key={(item as any)._id || index}>
-            {renderItem(item)}
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      
+      <div className="swiper_wrap">
+        <Swiper
+          onBeforeInit={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+          className={`swiper ${className}`}
+          modules={[Pagination, Navigation, Autoplay]}
+          spaceBetween={0}
+          slidesPerView={4}
+          initialSlide={1}
+          speed={550}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={false}
+          breakpoints={{
+            420: { slidesPerView: 1 },
+            620: { slidesPerView: 2 },
+            1030: { slidesPerView: 3 },
+            1200: { slidesPerView: 4 },
+          }}
+        >
+          {data?.map((item, index) => (
+            <SwiperSlide key={(item as any)._id || index}>
+              {renderItem(item)}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="swiper-navigation">
+          <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}>
+          </button>
+          <button className="swiper-button-next custom-nav-btn" onClick={() => swiperRef.current?.slideNext()}>
+          </button>
+        </div>
+      </div>
     </section>
   );
 };

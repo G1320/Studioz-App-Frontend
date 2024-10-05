@@ -1,9 +1,49 @@
-.swiper{
+.generic-carousel {
     color: #fff;
     width: calc(100vw - 4rem);
     min-height: 100%;
     border: 2px solid #fff;
     border-radius: 8px;
+    
+    .swiper_wrap {
+      position: relative;
+    }
+  
+    .swiper-navigation {
+      position: absolute;
+      bottom: -4rem;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+  
+    .swiper-button-prev,
+    .swiper-button-next {
+      position: static;
+      width: 40px;
+      height: 40px;
+      transform: none;
+      margin: 0;
+      background-color: transparent;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+    //   justify-content: center;
+    //   align-items: center;
+    }
+  
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      font-size: 16px;
+      height: min-content;
+      color: #fff;
+    }
+  
+    // Optional: Hide default Swiper pagination if it interferes
+    .swiper-pagination {
+      display: none;
+    }
+  }
 
-
-}
+ 
