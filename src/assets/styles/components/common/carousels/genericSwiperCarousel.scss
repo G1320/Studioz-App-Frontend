@@ -1,7 +1,7 @@
 .generic-carousel {
     color: #fff;
     width: calc(100vw - 4rem);
-    height: auto;
+    height: 100%;
     border: 2px solid #fff;
     border-radius: 8px;
     
@@ -29,8 +29,6 @@
       border-radius: 8px;
       display: grid;
       place-items: center;
-    //   justify-content: center;
-    //   align-items: center;
     }
   
     .swiper-button-prev::after,
