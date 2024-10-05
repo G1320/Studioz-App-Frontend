@@ -33,7 +33,8 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           spaceBetween={0}
           slidesPerView={'auto'}
           initialSlide={1}
-          speed={550}
+          speed={500}
+          cssMode={true}
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
@@ -46,7 +47,7 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           breakpoints={{
             420: { slidesPerView: 1 },
             620: { slidesPerView: 2 },
-            1030: { slidesPerView: 3 },
+            1000: { slidesPerView: 3 },
             1200: { slidesPerView: 4 },
           }}
         >
