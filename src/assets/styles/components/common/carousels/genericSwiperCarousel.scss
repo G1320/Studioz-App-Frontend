@@ -1,14 +1,30 @@
-.generic-carousel {
+ .generic-carousel {
     color: #fff;
     width: calc(100vw - 4rem);
-    height: max-content;
+    height:max-content;
     border: 2px solid #fff;
     border-radius: 8px;
+    overflow: hidden;
     
     .swiper_wrap {
       position: relative;
+      height: 100%;
     }
-  
+
+    .swiper {
+      height: 100%;
+    }
+
+    .swiper-wrapper {
+      height: 100%; 
+      touch-action: pan-x;
+    }
+
+    .swiper-slide {
+      height: 100%;
+      overflow: hidden; 
+    }
+
     .swiper-navigation {
       position: absolute;
       bottom: -3.5rem;
@@ -38,10 +54,7 @@
       color: #fff;
     }
   
-    // Optional: Hide default Swiper pagination if it interferes
     .swiper-pagination {
       display: none;
     }
-  }
-
- 
+}

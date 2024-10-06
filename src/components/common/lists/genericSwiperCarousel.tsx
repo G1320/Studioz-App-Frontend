@@ -35,6 +35,10 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           initialSlide={1}
           speed={500}
           cssMode={true}
+        //   touchAngle={30}
+        //   resistanceRatio={0}
+        //   touchRatio={1}
+          
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,

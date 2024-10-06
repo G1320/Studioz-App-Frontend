@@ -8,8 +8,9 @@ import { Toaster } from 'sonner';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, Hero, Home, DesktopFooter, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails, CreateStudio } from '@/components';
+import { Header, Hero, Home, DesktopFooter, Studios, StudioDetails, ItemDetails, Services, Store, WishLists, WishlistDetails } from '@/components';
 
+const CreateStudio = lazy(() => import('@/components/entities/studios/createStudio')) ;
 const CreateItem = lazy(() => import('@/components/entities/items/createItem')) ;
 const EditItem = lazy(() => import('@/components/entities/items/editItem')) ;
 const CreateWishlist = lazy(() => import('@/components/entities/wishlists/createWishlist')) ;
