@@ -89,14 +89,14 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   return (
     <article onClick={handleArticleClicked} key={item._id} className="preview item-preview">
-      <div className='title-availability-container'>
         <h2>{item.name}</h2>
-        <div className='availability-container'>
+      <div>
+      <h4>{item.studioName}</h4>
+      <div className=''>
           {item.inStock && <small>In Stock</small>}
-          <small>${item.price}</small>
+          <small>${item.price}/Hr</small>
         </div>
       </div>
-      <small>{item.studioName}</small>
       <p>{item.description}</p>
 
       {wishlistId ? (
