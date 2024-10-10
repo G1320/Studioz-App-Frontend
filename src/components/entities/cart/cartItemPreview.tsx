@@ -3,6 +3,8 @@ import { Button } from '@/components';
 import { CartItem } from '@/types/index';
 import { formatBookingDate } from '@/utils';
 import { useAddItemToCartMutation } from '@/hooks'; 
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 interface CartItemPreviewProps {
   item: CartItem;
@@ -20,7 +22,8 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
     }
   };
 
-  const handleIncrementQuantity = () => {
+  const handleIncrementQuantity = (e: React.MouseEvent, item: CartItem ) => {
+    e.stopPropagation();
     if (item && item.bookingDate) {
       const newBookingDate = new Date(item.bookingDate);
       newBookingDate.setHours(newBookingDate.getHours() + 1);
@@ -51,9 +54,9 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         <small className='cart-item-preview-price' onClick={handleClick}>Price: ${item?.price?.toFixed(2)}</small>
       </div>
       <div>
-        <Button onClick={(e) => handleDecrementQuantity(e, item)} className="remove-from-cart">-</Button>
+        <Button  className="remove-from-cart"><RemoveCircleOutlineIcon onClick={(e) => handleDecrementQuantity(e, item)}/></Button>
         <small className='cart-item-preview-quantity' onClick={handleClick}>Hrs: {item.quantity}</small>
-        <Button onClick={handleIncrementQuantity} className="increment-quantity">+</Button>
+        <Button  className="increment-quantity"><AddCircleOutlineIcon onClick={(e) => handleIncrementQuantity(e, item)}/></Button>
       </div>
     </article>
   );

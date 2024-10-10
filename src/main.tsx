@@ -40,9 +40,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             redirect_uri: window.location.origin,
             audience: 'https://items-app-backend.onrender.com',
             scope: 'openid profile email',
-          }}
-
-        >
+          }}>
           <OfflineCartProvider>
             <UserProvider>
               <App />

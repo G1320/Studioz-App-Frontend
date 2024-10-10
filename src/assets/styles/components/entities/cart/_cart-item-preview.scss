@@ -7,17 +7,28 @@
     background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgba(78, 45, 226, 0.0588235294) 25%);
     button{
         padding: 0.5rem;
+        display: grid;
+        place-content: center;
+        background-color: transparent;
+        border: none;
+        width: 24px;
+        color: #fff;
+        &:focus-visible, &:focus{
+            outline: none;
+        }
     }
     div:not(:first-of-type){
-        // place-self: center;
-        gap: 0.5rem;
+       max-width: 6.5rem;
+        place-items: center;
+        place-self: center;
+        justify-content: center;
+        gap: 0;
         height: 100%;
             border: 1px solid #fff;
             padding: 0.25rem 0.5rem;
             border-radius: 8px;
         .cart-item-preview-quantity{
             width: 4ch;
-            
         }
     }
     .cart-item-preview-price{
