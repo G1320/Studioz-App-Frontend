@@ -62,7 +62,7 @@ interface WishlistDetailsProps {
     <section className="details wishlist-details">
       <h1>{currWishlist?.name}</h1>
 
-      {filteredItems.length > 0 && <ItemsList items={filteredItems} />}
+      {filteredItems.length > 0 && <ItemsList items={filteredItems} className='wishlist-items-list' />}
       <div className="details-buttons wishlist-details-buttons">
         <Button onClick={() => handleGoToEdit(currWishlist?._id || '')}>Edit</Button>
         <Button onClick={() => handlePagination(prevWishlist?._id || '')}>Prev</Button>

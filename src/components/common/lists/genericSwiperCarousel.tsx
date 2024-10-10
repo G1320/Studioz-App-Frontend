@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-type RenderItemFunction<T> = (item: T) => React.ReactNode;
+type RenderItemFunction<T> = (item: T ) => React.ReactNode;
 
 interface GenericCarouselProps<T> {
   data: T[];
@@ -33,7 +33,9 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           spaceBetween={0}
           slidesPerView={'auto'}
           initialSlide={1}
-          speed={550}
+        //   speed={550}
+          cssMode={true}
+         
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,

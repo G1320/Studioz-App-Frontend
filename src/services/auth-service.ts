@@ -8,8 +8,10 @@ const authEndpoint = '/auth';
 export const register = async (userData: Partial <User>): Promise<User> => {
   try {
     const { accessToken, user } = await httpService.post<AuthResponse>(`${authEndpoint}/register`, userData);
+    if (user && accessToken) {
     localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
     Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
+    }
     return user;
   } catch (error: any) {
     console.error('Registration failed', error);
@@ -23,7 +25,7 @@ export const register = async (userData: Partial <User>): Promise<User> => {
 export const login = async (credentials: LoginCredentials): Promise<User> => {
   try {
     const { user, accessToken } = await httpService.post<AuthResponse>(`${authEndpoint}/login`, credentials);
-    if (user) {
+    if (user && accessToken) {
       localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
       Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
       return user;

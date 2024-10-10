@@ -31,12 +31,11 @@ function App() {
   const { data: studios } = useStudios();
 
   return (
-    <>
+  <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
    <Header cart={ onlineCart || offlineCart } user={user} />
       <main className="main-content">
        <Hero/>
         <Suspense fallback={<PropagateLoader className="loader" />}>
-         <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
           <Routes>
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
             <Route path="/studio/:studioId" element={<StudioDetails items={items || []} />} />
@@ -54,7 +53,6 @@ function App() {
             <Route path="/item/:itemId" element={<ItemDetails />} />
             <Route path="/cart" element={<CartDetails cart={offlineCart || onlineCart} />} />
           </Routes>
-         </LocalizationProvider>
         </Suspense>
       </main>
       <DesktopFooter />
@@ -66,7 +64,7 @@ function App() {
         },
         className: 'toast',
       }}/>
-    </>
+      </LocalizationProvider>
   );
 }
 

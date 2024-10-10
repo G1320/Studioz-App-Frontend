@@ -1,11 +1,18 @@
 .wishlist-details {
     gap: 0;
+    width: 100%;
     .details-buttons{
         display: flex;
     }
-    .studios-list{
-        max-width: max-content;
-     max-width: 1300px;    
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    .wishlist-items-list{
+       width: 100%;
+       .items-list{
+        display: grid;
+        max-width: 1000px;
+        min-width: 0;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+        justify-content: center;
+       }
     }
 }

@@ -22,7 +22,7 @@ export const Services: React.FC<ServicesProps> = ({ items }) => {
 
   return (
     <section className="services-page">
-      <ItemsList items={filteredItems} />
+      <ItemsList items={filteredItems} className='Items-list'/>
     </section>
   );
 };
