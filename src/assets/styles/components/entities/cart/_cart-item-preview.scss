@@ -5,29 +5,32 @@
     padding: 0.75rem;
     color: #fff;
     background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgba(78, 45, 226, 0.0588235294) 25%);
-    button{
-        padding: 0;
-        background-color: transparent;
-        border: none;
-        width: 24px;
-        color: #fff;
-        &:focus-visible, &:focus{
-            outline: none;
-        }
-    }
     div.cart-item-quantity-container{
-        display: grid;
-        justify-items: center;
-        grid-template-columns: 24px 1fr 24px;
-        width: 100%;
-        gap: 0.5rem;
+     
+        button{
+            background-color: transparent;
+            border: none;
+            padding:  1rem 0.5rem;
+            width: 24px;
+            color: #fff;
+            &:focus-visible, &:focus{
+                outline: none;
+              }
+            }
+            display: grid;
+            justify-items: center;
+            grid-template-columns: 36px 1fr 36px;
+            width: 100%;
+            height: fit-content;
+            gap: 0.5rem;
             border: 1px solid #fff;
-            padding: 0.25rem;
             border-radius: 8px;
-        .cart-item-preview-quantity{
-            width: 4ch;
+            .cart-item-preview-quantity{
+                width: 4ch;
+            }
         }
-    }
+     
+    
     .cart-item-preview-price{
         min-width: 6ch;
     }
