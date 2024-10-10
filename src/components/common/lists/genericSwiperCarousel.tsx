@@ -36,11 +36,11 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
         //   speed={550}
           cssMode={true}
          
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
+        //   autoplay={{
+        //     delay: 5000,
+        //     disableOnInteraction: true,
+        //     pauseOnMouseEnter: true,
+        //   }}
           pagination={{
             clickable: true,
           }}
