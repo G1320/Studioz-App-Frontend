@@ -54,9 +54,9 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         <small className='cart-item-preview-price' onClick={handleClick}>Price: ${item?.price?.toFixed(2)}</small>
       </div>
       <div className='cart-item-quantity-container'>
-        <Button  className="remove-from-cart"><RemoveCircleOutlineIcon onClick={(e) => handleDecrementQuantity(e, item)} className='icon decrement-quantity-button'/></Button>
+        <Button onClick={(e) => handleDecrementQuantity(e, item)} className="remove-from-cart"><RemoveCircleOutlineIcon  className='icon decrement-quantity-button'/></Button>
         <small className='cart-item-preview-quantity' onClick={handleClick}>Hrs: {item.quantity}</small>
-        <Button  className="increment-quantity"><AddCircleOutlineIcon onClick={(e) => handleIncrementQuantity(e, item)} className='icon increment-quantity-button'/></Button>
+        <Button onClick={(e) => handleIncrementQuantity(e, item)} className="increment-quantity"><AddCircleOutlineIcon className='icon increment-quantity-button'/></Button>
       </div>
     </article>
   );
