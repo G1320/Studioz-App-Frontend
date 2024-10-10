@@ -22,28 +22,27 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
     }
   };
 
-  const handleIncrementQuantity = (e: React.MouseEvent, item: CartItem ) => {
+  const handleQuantityChange = (e: React.MouseEvent, item: CartItem, isIncrement:boolean = true) => {
     e.stopPropagation();
-    if (item && item.bookingDate) {
-      const newBookingDate = new Date(item.bookingDate);
-      newBookingDate.setHours(newBookingDate.getHours() + 1);
-      
-      addItemToCartMutation.mutate({
-        name: item.name,
-        itemId: item.itemId,
-        bookingDate: newBookingDate,
-        quantity: item.quantity ? item.quantity + 1 : 1,
-        price: item.price,
-        total: item.price * (item.quantity ? item.quantity + 1 : 1),
-        studioName: item.studioName,
-      });
+ if (isIncrement){
+  if (item && item.bookingDate) {
+    const newBookingDate = new Date(item.bookingDate);
+    newBookingDate.setHours(newBookingDate.getHours() + 1);
+    
+    addItemToCartMutation.mutate({
+      name: item.name,
+      itemId: item.itemId,
+      bookingDate: newBookingDate,
+      quantity: item.quantity ? item.quantity + 1 : 1,
+      price: item.price,
+      total: item.price * (item.quantity ? item.quantity + 1 : 1),
+      studioName: item.studioName,
+    });
+  }
+    } else {
+  onDecrementQuantity(item);
+  }
     }
-  };
-
-  const handleDecrementQuantity = (e: React.MouseEvent, item: CartItem) => {
-    e.stopPropagation();
-    onDecrementQuantity(item);
-  };
 
   return (
     <article onClick={handleClick} className="preview cart-item-preview">
@@ -54,9 +53,13 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         <small className='cart-item-preview-price' onClick={handleClick}>Price: ${item?.price?.toFixed(2)}</small>
       </div>
       <div className='cart-item-quantity-container'>
-        <Button onClick={(e) => handleDecrementQuantity(e, item)} className="remove-from-cart"><RemoveCircleOutlineIcon  className='icon decrement-quantity-button'/></Button>
+        <Button onClick={(e) => handleQuantityChange(e, item, false)} className="remove-from-cart">
+          <RemoveCircleOutlineIcon  className='icon decrement-quantity-button'/>
+          </Button>
         <small className='cart-item-preview-quantity' onClick={handleClick}>Hrs: {item.quantity}</small>
-        <Button onClick={(e) => handleIncrementQuantity(e, item)} className="increment-quantity"><AddCircleOutlineIcon className='icon increment-quantity-button'/></Button>
+        <Button onClick={(e) => handleQuantityChange(e, item, true)} className="increment-quantity">
+          <AddCircleOutlineIcon className='icon increment-quantity-button'/>
+          </Button>
       </div>
     </article>
   );
