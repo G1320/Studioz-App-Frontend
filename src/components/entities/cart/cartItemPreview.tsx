@@ -46,10 +46,10 @@ import { useAddItemToCartMutation } from '@/hooks';
 
 interface CartItemPreviewProps {
   item: CartItem;
-  onRemoveFromCart: (item: CartItem) => void;
+  onDecrementQuantity: (item: CartItem) => void;
 }
 
-export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onRemoveFromCart }) => {
+export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrementQuantity }) => {
   const navigate = useNavigate();
   const addItemToCartMutation = useAddItemToCartMutation();
 
@@ -79,7 +79,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onRemove
 
   const handleRemoveFromCart = (e: React.MouseEvent, item: CartItem) => {
     e.stopPropagation();
-    onRemoveFromCart(item);
+    onDecrementQuantity(item);
   };
 
   return (
@@ -88,14 +88,12 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onRemove
       <p>{item?.studioName}</p>
       <small>{formatBookingDate(item?.bookingDate)}</small>
       <div>
-        <small className='cart-item-preview-price' onClick={handleClick}>${item?.price?.toFixed(2)}</small>
-        <small className='cart-item-preview-quantity' onClick={handleClick}>Hours: {item.quantity}</small>
+        <small className='cart-item-preview-price' onClick={handleClick}>Price: ${item?.price?.toFixed(2)}</small>
       </div>
       <div>
+        <Button onClick={(e) => handleRemoveFromCart(e, item)} className="remove-from-cart"> - </Button>
+        <small className='cart-item-preview-quantity' onClick={handleClick}>Hrs: {item.quantity}</small>
         <Button onClick={handleIncrementQuantity} className="increment-quantity">+</Button>
-        <Button onClick={(e) => handleRemoveFromCart(e, item)} className="remove-from-cart">
-        -
-      </Button>
       </div>
     </article>
   );

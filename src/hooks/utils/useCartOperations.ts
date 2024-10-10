@@ -8,9 +8,16 @@ export const useCartOperations = () => {
   const { user } = useUserContext();
   const { setOfflineCartContext } = useOfflineCartContext();
 
-  const generateSuccessMessage = (item: CartItem) => {
-    const formattedDate = dayjs(item.bookingDate).format('DD/MM/YYYY HH:mm');
-    return `${item.name} service at ${item.studioName} booked for ${formattedDate}`;
+  const generateSuccessMessage = (item: CartItem, action:string) => {
+    if (action == 'added') {
+      return `${action} ${item.name} service at ${item.studioName} `;
+    }
+    else if(action == 'booked') {
+      const formattedDate = dayjs(item.bookingDate).format('DD/MM/YYYY HH:mm');
+      return `${item.name} service at ${item.studioName} ${action} for ${formattedDate}`;
+    } else {
+      return `Removed ${item.name} service at ${item.studioName} `;
+    }
   };
 
   const addItem = async (item: CartItem, bookingDate: Date) => {

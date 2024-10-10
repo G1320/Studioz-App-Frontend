@@ -11,7 +11,12 @@ export const useAddItemToCartMutation = () => {
       if (!(item.bookingDate instanceof Date)) throw new Error('Invalid booking date');
       return addItem(item, item.bookingDate);
     },
-    successMessage: (_data, variables) => generateSuccessMessage(variables),
+    successMessage: (_data, variables) => {
+   if(variables.quantity === undefined) {
+    return generateSuccessMessage(variables, 'booked');
+    }  
+      return generateSuccessMessage(variables, 'added');
+    },
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => removeItem(variables.itemId),
   });
@@ -30,12 +35,12 @@ export const useAddItemsToCartMutation = () => {
 };
 
 export const useRemoveItemFromCartMutation = () => {
-  const { removeItem, addItem } = useCartOperations();
+  const { removeItem, addItem, generateSuccessMessage } = useCartOperations();
   const userId = getLocalUser()?._id;
 
   return useMutationHandler<Cart, CartItem>({
     mutationFn: (item: CartItem) => removeItem(item.itemId),
-    successMessage: 'Item removed from cart',
+    successMessage: (_data, variables) =>  generateSuccessMessage(variables, 'removed'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => addItem(variables, new Date())
   });

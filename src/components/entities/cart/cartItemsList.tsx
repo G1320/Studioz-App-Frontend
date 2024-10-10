@@ -20,7 +20,7 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
    ? <GenericMultiDropdownEntryPreview entry={{ name: item.name || '', _id: item.itemId }} key={item?.itemId} />
    : <CartItemPreview
       item={item}
-      onRemoveFromCart={handleRemoveFromCart}
+      onDecrementQuantity={handleRemoveFromCart}
       key={item?.itemId}
     />;
 
