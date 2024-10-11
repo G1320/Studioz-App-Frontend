@@ -1,16 +1,16 @@
-interface GenericDetailProps {
-  data: Record<string, any> | null;
+interface GenericDetailProps<T extends Record<string, unknown>> {
+  data: T | null;
   className?: string;
 }
 
-const GenericDetail: React.FC<GenericDetailProps> = ({ data, className = '' }) => {
+const GenericDetail = <T extends Record<string, unknown>>({ data, className = '' }: GenericDetailProps<T>) => {
   if (!data) return null;
 
   return (
     <div className={`generic-details ${className}`}>
       {Object.entries(data).map(([key, value]) => (
         <div key={key}>
-          <strong>{key}:</strong> {value}
+          <strong>{key}:</strong> {String(value)}
         </div>
       ))}
     </div>

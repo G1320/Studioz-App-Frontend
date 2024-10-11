@@ -6,6 +6,7 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { Item, Studio } from '@/types/index';
 
 type RenderItemFunction<T> = (item: T) => React.ReactNode;
 
@@ -30,16 +31,10 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           }}
           className={`swiper ${className}`}
           modules={[Pagination, Navigation, Autoplay]}
-          spaceBetween={0}
+          spaceBetween={15}
           slidesPerView={'auto'}
           initialSlide={1}
-          //   speed={550}
           cssMode={true}
-          //   autoplay={{
-          //     delay: 5000,
-          //     disableOnInteraction: true,
-          //     pauseOnMouseEnter: true,
-          //   }}
           pagination={{
             clickable: true
           }}
@@ -51,7 +46,9 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
             1200: { slidesPerView: 4 }
           }}
         >
-          {data?.map((item, index) => <SwiperSlide key={(item as any)._id || index}>{renderItem(item)}</SwiperSlide>)}
+          {data?.map((item, index) => (
+            <SwiperSlide key={(item as Studio | Item)._id || index}>{renderItem(item)}</SwiperSlide>
+          ))}
         </Swiper>
         <div className="swiper-navigation">
           <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}></button>

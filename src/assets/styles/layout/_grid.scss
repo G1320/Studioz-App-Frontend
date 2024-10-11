@@ -3,7 +3,7 @@ main {
   gap: 1rem;
   min-height: 100dvh;
   max-width: 2300px;
-  padding: 0.5rem 2rem 2rem 2rem;
+  padding: 0.5rem 1rem 2rem 1rem;
   justify-content: center;
   grid-template-rows: max-content 1fr;
 
@@ -13,3 +13,10 @@ main {
     }
   }
 }
+
+// @media screen and (max-width: 600px) {
+//   main{
+//     padding: 0.5rem 0.5rem 2rem 0.5rem;
+//   }
+
+// }

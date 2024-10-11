@@ -3,13 +3,10 @@
   justify-items: center;
   gap: 1rem;
   margin-block-end: 2.5rem;
-  .studios {
-    width: 100%;
-  }
+
   h1 {
     max-width: max-content;
     place-self: center;
-    margin-block-start: 0rem;
     cursor: pointer;
     &.hero-header,
     &:first-of-type:not(.hero-header) {
