@@ -3,20 +3,20 @@ import Cookies from 'js-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { refreshAccessToken } from '@/services';
 
-const BASE_URL:string =
+const BASE_URL: string =
   import.meta.env.VITE_NODE_ENV === 'production'
     ? 'https://studioz-backend.onrender.com/api'
     : 'http://localhost:3003/api';
 
 const axios = Axios.create({
-  withCredentials: true,
+  withCredentials: true
 });
 
 export const httpService = {
   get: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'GET', data),
   post: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'POST', data),
   put: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'PUT', data),
-  delete: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'DELETE', data),
+  delete: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'DELETE', data)
 };
 
 async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): Promise<T> {
@@ -24,9 +24,7 @@ async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): 
     const accessToken = await getAccessToken();
     setAuthorizationHeader(accessToken as string);
     // Building the request and returning the response data
-    return (
-      await axios({ url: `${BASE_URL}${endpoint}`, method, data, params: method === 'GET' && data })
-    ).data;
+    return (await axios({ url: `${BASE_URL}${endpoint}`, method, data, params: method === 'GET' && data })).data;
   } catch (err) {
     // Retrying the request if 401 Unauthorized
     if (isAxiosError(err) && err.response && err.response.status === 401) {
@@ -50,7 +48,7 @@ async function getAccessToken() {
   if (!accessToken) return null;
 
   const decodedToken: JwtPayload = jwtDecode<JwtPayload>(accessToken);
-  
+
   if (!decodedToken.exp || decodedToken.exp < Date.now() / 1000) {
     try {
       const refreshedToken = await refreshAccessToken();
@@ -67,7 +65,7 @@ async function getAccessToken() {
   return accessToken;
 }
 
-function setAuthorizationHeader(accessToken:string) {
+function setAuthorizationHeader(accessToken: string) {
   if (accessToken) {
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }

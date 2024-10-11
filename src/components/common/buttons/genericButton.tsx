@@ -17,24 +17,17 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   style = {},
   icon,
-  children,
+  children
 }) => {
   const buttonStyle: CSSProperties = {
     ...style,
-    ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
+    ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : {})
   };
 
   return (
-    <button
-      className={`button ${className}`}
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      style={buttonStyle}
-    >
+    <button className={`button ${className}`} onClick={onClick} disabled={disabled} type={type} style={buttonStyle}>
       {icon && <span className="button-icon">{icon}</span>}
       {children}
     </button>
   );
 };
-

@@ -15,4 +15,3 @@ export const GenericMultiDropdownEntryPreview: React.FC<GenericMultiDropdownEntr
     </>
   );
 };
-

@@ -8,7 +8,7 @@ export const useStudio = (studioId: string) => {
     queryKey: ['studio', studioId],
     staleTime: 5 * 60 * 1000,
     queryFn: () => getStudioById(studioId),
-    initialData: () => queryClient.getQueryData<StudioResponse>(['studio', studioId]),
+    initialData: () => queryClient.getQueryData<StudioResponse>(['studio', studioId])
   });
 
   return { data, isLoading, error, refetch };

@@ -32,7 +32,7 @@ const validMimeTypes: { [key: string]: string[] } = {
   'audio/mpeg': ['.mp3'],
   'audio/wav': ['.wav'],
   'audio/ogg': ['.ogg'],
-  'audio/flac': ['.flac'],
+  'audio/flac': ['.flac']
 };
 
 export const FileUploader: React.FC<FileUploaderProps> = ({
@@ -40,7 +40,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   isCoverShown = false,
   onFileUpload,
   multiple = true,
-  galleryFiles = [],
+  galleryFiles = []
 }) => {
   const [preview, setPreview] = useState<string>('');
 
@@ -56,7 +56,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           await delay(700);
         }
       };
-      
+
       acceptedFiles.forEach((file) => {
         const extension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
         if (!Object.keys(validMimeTypes).includes(file.type)) {
@@ -96,16 +96,16 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     multiple,
     maxFiles: 8,
     accept: validMimeTypes,
-    maxSize: 9 * 1024 * 1024,
+    maxSize: 9 * 1024 * 1024
   });
 
   const handleSetPreviewFile = (file: string) => setPreview(file);
 
   return (
     <article>
-      <div className={`file-uploader ${fileType}-uploader preview ${multiple ? 'multiple' : ''}` } {...getRootProps()}>
+      <div className={`file-uploader ${fileType}-uploader preview ${multiple ? 'multiple' : ''}`} {...getRootProps()}>
         <input {...getInputProps()} />
-        <div className='file-uploader-content-container'>
+        <div className="file-uploader-content-container">
           {isDragActive ? (
             <ArrowDropDownCircleIcon className="icon" />
           ) : (
@@ -144,4 +144,3 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     </article>
   );
 };
-

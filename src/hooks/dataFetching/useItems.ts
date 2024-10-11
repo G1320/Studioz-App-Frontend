@@ -8,7 +8,7 @@ export const useItems = () => {
     queryKey: ['items', {}],
     staleTime: 5 * 60 * 1000,
     queryFn: () => getItems(),
-    initialData: () => queryClient.getQueryData<Item[]>(['items']),
+    initialData: () => queryClient.getQueryData<Item[]>(['items'])
   });
 
   return { data, isLoading, error, refetch };

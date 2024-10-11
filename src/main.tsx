@@ -15,15 +15,14 @@ import { OfflineCartProvider } from './contexts/OfflineCartContext.js';
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
-
 import App from './App.js';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 60 * 24, // 24 hours
-    },
-  },
+      staleTime: 1000 * 60 * 60 * 24 // 24 hours
+    }
+  }
 });
 
 const persister = createSyncStoragePersister({ storage: window.localStorage });
@@ -32,22 +31,21 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <Router>
-     
         <Auth0Provider
           domain={domain}
           clientId={clientId}
           authorizationParams={{
             redirect_uri: window.location.origin,
             audience: 'https://items-app-backend.onrender.com',
-            scope: 'openid profile email',
-          }}>
+            scope: 'openid profile email'
+          }}
+        >
           <OfflineCartProvider>
             <UserProvider>
               <App />
             </UserProvider>
           </OfflineCartProvider>
         </Auth0Provider>
-       
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />
     </PersistQueryClientProvider>

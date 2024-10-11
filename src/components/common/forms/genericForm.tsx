@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { TextField, Checkbox, FormControlLabel, Select, MenuItem, Stack } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
 
 interface Field {
@@ -23,8 +22,14 @@ interface GenericFormProps {
   onCategoryChange?: (value: string) => void;
 }
 
-
-export const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmit, className, btnTxt = 'Submit', onCategoryChange }) => {
+export const GenericForm: React.FC<GenericFormProps> = ({
+  title,
+  fields,
+  onSubmit,
+  className,
+  btnTxt = 'Submit',
+  onCategoryChange
+}) => {
   const { register, handleSubmit, reset } = useForm<Record<string, any>>();
 
   const onSubmitHandler: SubmitHandler<Record<string, any>> = (data) => {
@@ -61,20 +66,20 @@ export const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmi
                     fullWidth
                     variant="outlined"
                     onChange={handleSelectChange}
-                      sx={{
+                    sx={{
                       color: '#fff', // Text color for the select
                       '& .MuiSelect-select': {
-                        color: '#fff', // Text color for selected option
+                        color: '#fff' // Text color for selected option
                       },
                       '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#fff', // Border color
+                        borderColor: '#fff' // Border color
                       },
                       '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#fff', // Border color on hover
+                        borderColor: '#fff' // Border color on hover
                       },
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#fff', // Border color when focused
-                      },
+                        borderColor: '#fff' // Border color when focused
+                      }
                     }}
                   >
                     <MenuItem value="" disabled>
@@ -121,5 +126,3 @@ export const GenericForm: React.FC<GenericFormProps> = ({ title, fields, onSubmi
     </section>
   );
 };
-
- 

@@ -1,4 +1,4 @@
-.studio-preview{
+.studio-preview {
   // display: grid;
   min-height: 340px;
   padding: 0 0.5rem 0.5rem 0.5rem;
@@ -17,25 +17,23 @@
     align-self: center;
     max-width: 100%;
   }
-  p{
+  p {
     min-height: 72px;
     width: 100%;
-   text-overflow: ellipsis;
-   overflow: hidden;
-   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp:3 ;
-  
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
- img{ 
-  min-height: 24px;
-  min-width: 0;
-  max-width: calc(100% + 1rem);
-   place-self: center;
- }
-  
-  .image-gallery-container{
-  align-self: start; 
+  img {
+    min-height: 24px;
+    min-width: 0;
+    max-width: calc(100% + 1rem);
+    place-self: center;
+  }
 
+  .image-gallery-container {
+    align-self: start;
   }
-   }
+}

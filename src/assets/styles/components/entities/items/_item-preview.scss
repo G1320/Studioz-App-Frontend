@@ -1,55 +1,56 @@
-.item-preview{
-    padding: 0.5rem;
-    margin: 0.5rem;
-    height: 240px;
-    max-width: 450px;
-    gap: 0.5rem;
-    h4 {
+.item-preview {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  height: 240px;
+  max-width: 450px;
+  gap: 0.5rem;
+  h4 {
     margin: 0rem;
+  }
+  .book-now-date-picker-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.1fr max-content 0.1fr;
+    place-content: center;
+  }
+  input,
+  div.MuiFormControl-root {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+    position: relative;
+  }
+  div.title-availability-container {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    place-content: center;
+    h2 {
+      width: 100%;
+      grid-column: span 2;
     }
-    .book-now-date-picker-container{
-        width: 100%;
-        display: grid;
-        grid-template-columns: 0.1fr max-content 0.1fr;
-        place-content: center;
-    }
-    input,div.MuiFormControl-root{
-        opacity: 0;
-        height: 0;
-        width: 0;
-        pointer-events: none;
-        position: relative;
-    }
-    div.title-availability-container{
-        width: 80%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        place-content: center;
-        h2{
-            width: 100%;
-            grid-column: span 2;
-        }
-    }
-    .availability-container{
-        display: flex;
-        gap: 0;
-        max-height: 36px;
-        flex-direction: column;
-    }
-    small{
-        width: max-content;
-    }
-    p{
+  }
+  .availability-container {
+    display: flex;
+    gap: 0;
+    max-height: 36px;
+    flex-direction: column;
+  }
+  small {
+    width: max-content;
+  }
+  p {
     text-overflow: ellipsis;
-   overflow: hidden;
-   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp:2 ;
-    }
-    .add-to-cart-button{
-        grid-column: 2;
-        place-content: center;
-        background-color: $color-primary;
-        color: #fff;
-    }
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .add-to-cart-button {
+    grid-column: 2;
+    place-content: center;
+    background-color: $color-primary;
+    color: #fff;
+  }
 }

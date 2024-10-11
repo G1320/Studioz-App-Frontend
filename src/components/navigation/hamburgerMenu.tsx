@@ -8,8 +8,8 @@ import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/c
 
 // Define the type for categories
 const categories: { [key: string]: string[] } = {
-  'Music': musicSubCategories,
-  'Video and Photography': videoAndPhotographySubCategories,
+  Music: musicSubCategories,
+  'Video and Photography': videoAndPhotographySubCategories
 };
 
 // Define the props type
@@ -29,7 +29,7 @@ export const DynamicHamburgerMenu: React.FC<DynamicHamburgerMenuProps> = ({ filt
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const toggleCategory = (category: string) => {
-    setOpenCategories(prev => ({
+    setOpenCategories((prev) => ({
       ...prev,
       [category]: !prev[category]
     }));
@@ -39,11 +39,7 @@ export const DynamicHamburgerMenu: React.FC<DynamicHamburgerMenuProps> = ({ filt
 
   return (
     <div className="hamburger-menu">
-      <button
-        onClick={toggleMenu}
-        className="hamburger-button"
-        aria-label="Toggle menu"
-      >
+      <button onClick={toggleMenu} className="hamburger-button" aria-label="Toggle menu">
         {isOpen ? <CloseIcon /> : <MenuIcon />}
       </button>
 
@@ -51,10 +47,7 @@ export const DynamicHamburgerMenu: React.FC<DynamicHamburgerMenuProps> = ({ filt
         <div className="menu-container">
           {Object.entries(categories).map(([category, subcategories]) => (
             <div key={category} className="category">
-              <button
-                onClick={() => toggleCategory(category)}
-                className="category-button"
-              >
+              <button onClick={() => toggleCategory(category)} className="category-button">
                 {category}
                 {openCategories[category] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </button>

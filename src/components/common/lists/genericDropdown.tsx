@@ -8,12 +8,7 @@ interface GenericDropdownProps<T> {
   title?: string;
 }
 
-const GenericDropdown = <T,>({
-  data,
-  renderItem,
-  className = '',
-  title = 'Show',
-}: GenericDropdownProps<T>) => {
+const GenericDropdown = <T,>({ data, renderItem, className = '', title = 'Show' }: GenericDropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   if (!data || !renderItem) return null;

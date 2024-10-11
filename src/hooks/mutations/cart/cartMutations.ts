@@ -3,7 +3,7 @@ import { useCartOperations, useMutationHandler } from '@/hooks/utils';
 import { Cart, CartItem } from '@/types/index';
 
 export const useAddItemToCartMutation = () => {
-  const { addItem, removeItem , generateSuccessMessage} = useCartOperations();
+  const { addItem, removeItem, generateSuccessMessage } = useCartOperations();
   const userId = getLocalUser()?._id;
 
   return useMutationHandler<Cart, CartItem>({
@@ -12,13 +12,13 @@ export const useAddItemToCartMutation = () => {
       return addItem(item, item.bookingDate);
     },
     successMessage: (_data, variables) => {
-   if(variables.quantity === undefined) {
-    return generateSuccessMessage(variables, 'booked');
-    }  
+      if (variables.quantity === undefined) {
+        return generateSuccessMessage(variables, 'booked');
+      }
       return generateSuccessMessage(variables, 'added');
     },
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItem(variables.itemId),
+    undoAction: (variables, _data) => removeItem(variables.itemId)
   });
 };
 
@@ -30,7 +30,7 @@ export const useAddItemsToCartMutation = () => {
     mutationFn: ({ items }) => addItems(items),
     successMessage: 'Items added to cart',
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItems(variables.items.map(item => item.itemId))
+    undoAction: (variables, _data) => removeItems(variables.items.map((item) => item.itemId))
   });
 };
 
@@ -40,7 +40,7 @@ export const useRemoveItemFromCartMutation = () => {
 
   return useMutationHandler<Cart, CartItem>({
     mutationFn: (item: CartItem) => removeItem(item.itemId),
-    successMessage: (_data, variables) =>  generateSuccessMessage(variables, 'removed'),
+    successMessage: (_data, variables) => generateSuccessMessage(variables, 'removed'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => addItem(variables, new Date())
   });
@@ -69,4 +69,3 @@ export const useUpdateCartMutation = () => {
     undoAction: (variables, _data) => updateCart(variables)
   });
 };
-

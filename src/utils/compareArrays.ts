@@ -1,4 +1,4 @@
-export const arraysEqual = (a:number[], b:number[]) => {
+export const arraysEqual = (a: number[], b: number[]) => {
   if (a === b) return true;
   if (a == null || b == null) return false;
   if (a.length !== b.length) return false;

@@ -1,18 +1,17 @@
-.navbar{
-    display: flex;
-    gap: 1rem;
-   a{
-   
-    cursor : pointer;
-    }
-    *{
-        max-width: 100%;
-    }
+.navbar {
+  display: flex;
+  gap: 1rem;
+  a {
+    cursor: pointer;
+  }
+  * {
+    max-width: 100%;
+  }
 
-    img{
-        max-height: 30px;
-    }
-    a:hover{
-        text-shadow: 0 0 12px 7px white;
-    }
+  img {
+    max-height: 30px;
+  }
+  a:hover {
+    text-shadow: 0 0 12px 7px white;
+  }
 }

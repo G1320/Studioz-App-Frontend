@@ -4,10 +4,10 @@ import { useItem, useWishlists, useDeleteItemMutation } from '@/hooks';
 
 import { useUserContext } from '@/contexts';
 
-  export const ItemDetails: React.FC = () => {
-  const { user }  = useUserContext();
+export const ItemDetails: React.FC = () => {
+  const { user } = useUserContext();
   const navigate = useNavigate();
-  const { itemId } = useParams(); 
+  const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
   const { data: wishlists } = useWishlists(user?._id || '');
 
@@ -23,20 +23,16 @@ import { useUserContext } from '@/contexts';
 
   return (
     <section className="item-details">
-  {item ? (
-        <ItemPreview item={item} wishlists={wishlists || []} />
-      ) : (
-        <p>Loading...</p>
-      )} 
+      {item ? <ItemPreview item={item} wishlists={wishlists || []} /> : <p>Loading...</p>}
       <section className="details-buttons item-details-buttons">
-      <div>
-    {user?._id && user._id === item?.createdBy ? (
-      <>
-        <Button onClick={handleDeleteBtnClicked}>Del</Button>
-        <Button onClick={handleEditBtnClicked}>Edit</Button>
-      </>
-    ) : null}
-  </div>
+        <div>
+          {user?._id && user._id === item?.createdBy ? (
+            <>
+              <Button onClick={handleDeleteBtnClicked}>Del</Button>
+              <Button onClick={handleEditBtnClicked}>Edit</Button>
+            </>
+          ) : null}
+        </div>
       </section>
     </section>
   );

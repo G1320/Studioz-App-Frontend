@@ -1,7 +1,7 @@
-import  WishlistItem  from "./wishlistItem";
+import WishlistItem from './wishlistItem';
 
 export default interface Wishlist {
-  _id: string
+  _id: string;
   name: string;
   description: string;
   studios?: string[];

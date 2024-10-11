@@ -3,7 +3,7 @@ import { Wishlist, WishlistResponse } from '@/types/index';
 
 const wishlistEndpoint = '/wishlists';
 
-export const createWishlistAndAddToUser = async (userId: string, wishlistData:Wishlist):Promise<Wishlist> => {
+export const createWishlistAndAddToUser = async (userId: string, wishlistData: Wishlist): Promise<Wishlist> => {
   try {
     return await httpService.post(`${wishlistEndpoint}/create/${userId}`, wishlistData);
   } catch (error) {
@@ -12,7 +12,7 @@ export const createWishlistAndAddToUser = async (userId: string, wishlistData:Wi
   }
 };
 
-export const addStudioToWishlist = async (studioId: string, wishlistId: string):Promise<Wishlist> => {
+export const addStudioToWishlist = async (studioId: string, wishlistId: string): Promise<Wishlist> => {
   try {
     return await httpService.put(`${wishlistEndpoint}/add-studio/${wishlistId}`, { studioId });
   } catch (error) {
@@ -21,7 +21,7 @@ export const addStudioToWishlist = async (studioId: string, wishlistId: string):
   }
 };
 
-export const getWishlists = async (userId: string):Promise<Wishlist[]> => {
+export const getWishlists = async (userId: string): Promise<Wishlist[]> => {
   try {
     return await httpService.get(`${wishlistEndpoint}/${userId}`);
   } catch (error) {
@@ -30,7 +30,7 @@ export const getWishlists = async (userId: string):Promise<Wishlist[]> => {
   }
 };
 
-export const getUserWishlistById = async (userId: string, wishlistId: string):Promise<WishlistResponse> => {
+export const getUserWishlistById = async (userId: string, wishlistId: string): Promise<WishlistResponse> => {
   try {
     return await httpService.get(`${wishlistEndpoint}/${userId}/get-wishlist/${wishlistId}`);
   } catch (error) {
@@ -39,7 +39,7 @@ export const getUserWishlistById = async (userId: string, wishlistId: string):Pr
   }
 };
 
-export const updateWishlist = async (wishlistId: string, wishlistData:Wishlist):Promise<Wishlist> => {
+export const updateWishlist = async (wishlistId: string, wishlistData: Wishlist): Promise<Wishlist> => {
   try {
     return await httpService.put(`${wishlistEndpoint}/update-wishlist/${wishlistId}`, wishlistData);
   } catch (error) {
@@ -48,7 +48,7 @@ export const updateWishlist = async (wishlistId: string, wishlistData:Wishlist):
   }
 };
 
-export const deleteWishlist = async (userId: string, wishlistId: string):Promise<Wishlist> => {
+export const deleteWishlist = async (userId: string, wishlistId: string): Promise<Wishlist> => {
   try {
     return await httpService.delete(`${wishlistEndpoint}/delete-wishlist/${userId}/${wishlistId}`);
   } catch (error) {
@@ -57,7 +57,7 @@ export const deleteWishlist = async (userId: string, wishlistId: string):Promise
   }
 };
 
-export const getWishlistById = async (wishlistId: string):Promise<Wishlist> => {
+export const getWishlistById = async (wishlistId: string): Promise<Wishlist> => {
   try {
     return await httpService.get(`${wishlistEndpoint}/${wishlistId}`);
   } catch (error) {

@@ -24,9 +24,21 @@ export const MobileFooter = () => {
         <div className={`footer-content ${isMenuOpen ? 'show' : ''}`}>
           <nav className="footer-nav">
             <ul>
-              <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
-              <li><Link to="/services" onClick={toggleMenu}>Services</Link></li>
-              <li><Link to="/create-studio" onClick={toggleMenu}>List your Studio</Link></li>
+              <li>
+                <Link to="/" onClick={toggleMenu}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" onClick={toggleMenu}>
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/create-studio" onClick={toggleMenu}>
+                  List your Studio
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -42,9 +54,7 @@ export const MobileFooter = () => {
             </a>
           </div>
 
-          <p className="footer-description">
-            Studioz.co.il - Your one-stop shop for creative tools and inspiration.
-          </p>
+          <p className="footer-description">Studioz.co.il - Your one-stop shop for creative tools and inspiration.</p>
 
           <div className="footer-copyright">
             <p>&copy; 2024 Studioz. All rights reserved.</p>

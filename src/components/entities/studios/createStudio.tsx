@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FileUploader , GenericForm, FieldType } from '@/components';
-import { getLocalUser, uploadFile } from '@/services'
+import { FileUploader, GenericForm, FieldType } from '@/components';
+import { getLocalUser, uploadFile } from '@/services';
 
 import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/config';
 
@@ -15,7 +15,7 @@ interface FormData {
   galleryAudioFiles?: string[];
 }
 
- export const CreateStudio = () => {
+export const CreateStudio = () => {
   const user = getLocalUser();
   const createStudioMutation = useCreateStudioMutation();
 
@@ -23,7 +23,7 @@ interface FormData {
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
-  const handleCategoryChange = (value:string) => {
+  const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
   };
 
@@ -36,13 +36,13 @@ interface FormData {
       type: 'select' as FieldType,
       options: ['Music', 'Photo / Video Studio'],
       value: selectedCategory,
-      onChange: handleCategoryChange,
+      onChange: handleCategoryChange
     },
     {
       name: 'subCategory',
       label: selectedCategory === 'Music' ? 'Music' : 'Photo / Video ',
       type: 'select' as FieldType,
-      options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories,
+      options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories
     },
     { name: 'city', label: 'City', type: 'text' as FieldType },
     { name: 'address', label: 'Address', type: 'text' as FieldType },
@@ -50,12 +50,12 @@ interface FormData {
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType },
     { name: 'isSmokingAllowed', label: 'Smoking Allowed', type: 'checkbox' as FieldType },
     { name: 'isWheelchairAccessible', label: 'Wheelchair Accessible', type: 'checkbox' as FieldType },
-    { name: 'isSelfService', label: 'Self service', type: 'checkbox' as FieldType },
+    { name: 'isSelfService', label: 'Self service', type: 'checkbox' as FieldType }
   ];
 
   const handleSubmit = async (formData: FormData) => {
     formData.coverImage = galleryImages[0];
-    formData.galleryImages = galleryImages ;
+    formData.galleryImages = galleryImages;
     formData.coverAudioFile = galleryAudioFiles[0];
     formData.galleryAudioFiles = galleryAudioFiles;
 
@@ -81,13 +81,13 @@ interface FormData {
     <section className="create-studio">
       <h1>Create a new listing</h1>
       <FileUploader
-        fileType='image'
+        fileType="image"
         onFileUpload={handleFileUpload}
         galleryFiles={galleryImages}
         isCoverShown={false}
       />
       <FileUploader
-        fileType='audio'
+        fileType="audio"
         onFileUpload={handleFileUpload}
         galleryFiles={galleryAudioFiles}
         isCoverShown={false}

@@ -12,7 +12,7 @@ const GenericMultiDropdown = <T,>({
   data,
   renderItem,
   className = '',
-  title = 'Show',
+  title = 'Show'
 }: GenericMultiDropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
 

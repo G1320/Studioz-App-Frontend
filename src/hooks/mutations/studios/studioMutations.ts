@@ -15,7 +15,7 @@ export const useCreateStudioMutation = () => {
     mutationFn: ({ userId, newStudio }) => createStudio(userId, newStudio),
     successMessage: 'Studio created',
     invalidateQueries: [{ queryKey: 'studios' }],
-    onSuccess: (data, _variables ) =>  navigate(`/studio/${data._id}`),
+    onSuccess: (data, _variables) => navigate(`/studio/${data._id}`)
   });
 };
 
@@ -25,10 +25,7 @@ export const useUpdateStudioMutation = (studioId: string) => {
   return useMutationHandler<Studio, Studio>({
     mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
     successMessage: 'Studio updated',
-    invalidateQueries: [
-      { queryKey: 'studio', targetId: studioId },
-      { queryKey: 'studios' },
-    ],
-    onSuccess: () => navigate(`/Studio/${studioId}`),
+    invalidateQueries: [{ queryKey: 'studio', targetId: studioId }, { queryKey: 'studios' }],
+    onSuccess: () => navigate(`/Studio/${studioId}`)
   });
 };

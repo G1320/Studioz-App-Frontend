@@ -1,3 +1,3 @@
-export * from './footer'
-export * from './header/header'
-export * from './hero/hero'
+export * from './footer';
+export * from './header/header';
+export * from './hero/hero';

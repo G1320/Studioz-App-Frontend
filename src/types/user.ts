@@ -1,5 +1,5 @@
-import Cart from "./cart";
-import { PaymentMethod } from "./paymentMethod";
+import Cart from './cart';
+import { PaymentMethod } from './paymentMethod';
 
 export default interface User {
   _id: string;
@@ -8,7 +8,7 @@ export default interface User {
   lastName?: string;
   name: string;
   avatar?: string;
-  password?: string; 
+  password?: string;
   picture?: string;
   sub: string;
   isAdmin?: boolean;

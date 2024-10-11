@@ -1,4 +1,4 @@
 export default interface WishlistItem {
- idx: number;
- itemId: string;
+  idx: number;
+  itemId: string;
 }

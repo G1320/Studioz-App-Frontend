@@ -1,9 +1,9 @@
 import { httpService } from '@/services';
-import { Item }  from '@/types/index';
+import { Item } from '@/types/index';
 
 const itemEndpoint = '/items';
 
-export const createItem = async (item:Item): Promise <Item> => {
+export const createItem = async (item: Item): Promise<Item> => {
   try {
     return await httpService.post(itemEndpoint, item);
   } catch (error) {
@@ -12,7 +12,7 @@ export const createItem = async (item:Item): Promise <Item> => {
   }
 };
 
-export const getItems = async (params = {}): Promise <Item[]> => {
+export const getItems = async (params = {}): Promise<Item[]> => {
   try {
     return await httpService.get(itemEndpoint, params);
   } catch (error) {
@@ -21,7 +21,7 @@ export const getItems = async (params = {}): Promise <Item[]> => {
   }
 };
 
-export const getItemById = async (itemId:string):Promise <Item> => {
+export const getItemById = async (itemId: string): Promise<Item> => {
   try {
     return await httpService.get(`${itemEndpoint}/${itemId}`);
   } catch (error) {
@@ -30,7 +30,7 @@ export const getItemById = async (itemId:string):Promise <Item> => {
   }
 };
 
-export const addItemToStudio = async (studioId:string, itemId:string): Promise <Item> => {
+export const addItemToStudio = async (studioId: string, itemId: string): Promise<Item> => {
   try {
     return await httpService.post(`${itemEndpoint}/${studioId}/add-to-studio/${itemId}`);
   } catch (error) {
@@ -39,7 +39,7 @@ export const addItemToStudio = async (studioId:string, itemId:string): Promise <
   }
 };
 
-export const removeItemFromStudio = async (studioId:string, itemId:string):Promise <Item> => {
+export const removeItemFromStudio = async (studioId: string, itemId: string): Promise<Item> => {
   try {
     return await httpService.delete(`${itemEndpoint}/${studioId}/remove-from-studio/${itemId}`);
   } catch (error) {
@@ -48,7 +48,7 @@ export const removeItemFromStudio = async (studioId:string, itemId:string):Promi
   }
 };
 
-export const addItemToWishlist = async (wishlistId:string, itemId:string):Promise <Item> => {
+export const addItemToWishlist = async (wishlistId: string, itemId: string): Promise<Item> => {
   try {
     return await httpService.post(`${itemEndpoint}/${wishlistId}/add-to-wishlist/${itemId}`);
   } catch (error) {
@@ -57,7 +57,7 @@ export const addItemToWishlist = async (wishlistId:string, itemId:string):Promis
   }
 };
 
-export const removeItemFromWishlist = async (wishlistId:string, itemId:string):Promise <Item> => {
+export const removeItemFromWishlist = async (wishlistId: string, itemId: string): Promise<Item> => {
   try {
     return await httpService.delete(`${itemEndpoint}/${wishlistId}/remove-from-wishlist/${itemId}`);
   } catch (error) {
@@ -66,7 +66,7 @@ export const removeItemFromWishlist = async (wishlistId:string, itemId:string):P
   }
 };
 
-export const updateItem = async (itemId:string, item:Item):Promise <Item> => {
+export const updateItem = async (itemId: string, item: Item): Promise<Item> => {
   try {
     return await httpService.put(`${itemEndpoint}/${itemId}`, item);
   } catch (error) {
@@ -75,7 +75,7 @@ export const updateItem = async (itemId:string, item:Item):Promise <Item> => {
   }
 };
 
-export const deleteItem = async (itemId:string):Promise <Item> => {
+export const deleteItem = async (itemId: string): Promise<Item> => {
   try {
     return await httpService.delete(`${itemEndpoint}/${itemId}`);
   } catch (error) {

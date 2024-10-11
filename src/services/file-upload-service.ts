@@ -1,6 +1,4 @@
-const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${
-  import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-}/upload`;
+const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/upload`;
 
 interface UploadFileResult {
   secure_url: string;
@@ -17,7 +15,7 @@ export const uploadFile = async (file: File): Promise<UploadFileResult> => {
 
     const response = await fetch(cloudinaryEndpoint, {
       method: 'POST',
-      body: formData,
+      body: formData
     });
 
     if (!response.ok) throw new Error('Failed to upload image');

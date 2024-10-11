@@ -1,2 +1,2 @@
-export * from './desktopFooter'
-export * from './mobileFooter'
+export * from './desktopFooter';
+export * from './mobileFooter';

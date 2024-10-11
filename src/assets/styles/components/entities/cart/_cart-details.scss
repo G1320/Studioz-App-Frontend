@@ -1,16 +1,17 @@
-.cart-details{
-.cart{
+.cart-details {
+  .cart {
     place-items: center;
-    .clear-cart, .total-price{
-        grid-row: 4;
-        grid-column: 1;
+    .clear-cart,
+    .total-price {
+      grid-row: 4;
+      grid-column: 1;
     }
-    .total-price{
-        grid-row: 3
+    .total-price {
+      grid-row: 3;
     }
-};
-.cart-list{
+  }
+  .cart-list {
     grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
+    gap: 1rem;
+  }
 }

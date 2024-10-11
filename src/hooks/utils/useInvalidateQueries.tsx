@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
 type QueryConfig = {
   queryKey: string;
@@ -8,7 +8,7 @@ type QueryConfig = {
 export const useInvalidateQueries = <T,>(getQueries: (params?: T) => QueryConfig[]) => {
   const queryClient = useQueryClient();
 
-  return (params?:T) => {
+  return (params?: T) => {
     const queries = getQueries(params);
     queries.forEach(({ queryKey, targetId }) => {
       if (targetId) {

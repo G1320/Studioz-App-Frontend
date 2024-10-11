@@ -14,11 +14,10 @@ export const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
   isAudioFilesShown = false,
   isCoverShown = true,
   coverAudioFile,
-  audioFiles,
+  audioFiles
   // onSetPreviewAudioFile,
 }) => {
   const [preview, setPreview] = useState<string | undefined>(coverAudioFile);
-
 
   useEffect(() => {
     setPreview(coverAudioFile);
@@ -39,4 +38,3 @@ export const GenericAudioGallery: React.FC<GenericAudioGalleryProps> = ({
     </div>
   );
 };
-

@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-type RenderItemFunction<T> = (item: T ) => React.ReactNode;
+type RenderItemFunction<T> = (item: T) => React.ReactNode;
 
 interface GenericCarouselProps<T> {
   data: T[];
@@ -22,7 +22,7 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
   return (
     <section className="generic-carousel">
       {title && <h1>{title}</h1>}
-      
+
       <div className="swiper_wrap">
         <Swiper
           onBeforeInit={(swiper) => {
@@ -33,36 +33,29 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           spaceBetween={0}
           slidesPerView={'auto'}
           initialSlide={1}
-        //   speed={550}
+          //   speed={550}
           cssMode={true}
-         
-        //   autoplay={{
-        //     delay: 5000,
-        //     disableOnInteraction: true,
-        //     pauseOnMouseEnter: true,
-        //   }}
+          //   autoplay={{
+          //     delay: 5000,
+          //     disableOnInteraction: true,
+          //     pauseOnMouseEnter: true,
+          //   }}
           pagination={{
-            clickable: true,
+            clickable: true
           }}
           navigation={false}
           breakpoints={{
             420: { slidesPerView: 1 },
             620: { slidesPerView: 2 },
             1000: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 },
+            1200: { slidesPerView: 4 }
           }}
         >
-          {data?.map((item, index) => (
-            <SwiperSlide key={(item as any)._id || index}>
-              {renderItem(item)}
-            </SwiperSlide>
-          ))}
+          {data?.map((item, index) => <SwiperSlide key={(item as any)._id || index}>{renderItem(item)}</SwiperSlide>)}
         </Swiper>
         <div className="swiper-navigation">
-          <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}>
-          </button>
-          <button className="swiper-button-next custom-nav-btn" onClick={() => swiperRef.current?.slideNext()}>
-          </button>
+          <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}></button>
+          <button className="swiper-button-next custom-nav-btn" onClick={() => swiperRef.current?.slideNext()}></button>
         </div>
       </div>
     </section>

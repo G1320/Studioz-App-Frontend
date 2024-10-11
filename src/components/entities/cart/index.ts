@@ -1,3 +1,3 @@
-export * from './cartDetails'
-export * from './cartItemPreview'
-export * from './cartItemsList'
+export * from './cartDetails';
+export * from './cartItemPreview';
+export * from './cartItemsList';

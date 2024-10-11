@@ -7,9 +7,9 @@ interface ErrorResponse {
 }
 
 export const useErrorHandling = () => {
-  const handleError = (error: ErrorResponse | unknown) => { 
+  const handleError = (error: ErrorResponse | unknown) => {
     console.error('Error:', error);
-    
+
     if ((error as ErrorResponse)?.response?.data) {
       toast.error((error as ErrorResponse).response?.data);
     } else {

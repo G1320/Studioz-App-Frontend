@@ -13,12 +13,7 @@ interface MuiDateTimePickerProps {
   onAccept: (newValue: Date | null) => void;
 }
 
-export const MuiFullDateTimePicker: React.FC<MuiDateTimePickerProps> = ({
-  label,
-  value,
-  onChange,
-  onAccept,
-}) => {
+export const MuiFullDateTimePicker: React.FC<MuiDateTimePickerProps> = ({ label, value, onChange, onAccept }) => {
   const anchorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,7 +32,7 @@ export const MuiFullDateTimePicker: React.FC<MuiDateTimePickerProps> = ({
         onChange={(newValue: Dayjs | null) => onChange(newValue ? newValue.toDate() : null)}
         onAccept={(newValue: Dayjs | null) => onAccept(newValue ? newValue.toDate() : null)}
         format="DD/MM/YY HH:00"
-        views={["year", "month", "day", "hours"]}
+        views={['year', 'month', 'day', 'hours']}
         minutesStep={60}
         slotProps={{
           textField: (params) => ({
@@ -53,11 +48,11 @@ export const MuiFullDateTimePicker: React.FC<MuiDateTimePickerProps> = ({
                 '& .MuiInputAdornment-root': {
                   border: '2px solid #fff',
                   borderRadius: '6px',
-                  '& .MuiSvgIcon-root': { color: '#fff' },
-                },
-              },
-            },
-          }),
+                  '& .MuiSvgIcon-root': { color: '#fff' }
+                }
+              }
+            }
+          })
         }}
       />
     </Stack>

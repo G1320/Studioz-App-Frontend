@@ -7,7 +7,7 @@ interface WishlistPreviewProps {
   onAddItemToWishList?: any;
 }
 
- export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
+export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
   const navigate = useNavigate();
 
   return (

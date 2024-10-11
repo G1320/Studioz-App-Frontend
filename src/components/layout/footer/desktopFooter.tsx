@@ -3,27 +3,28 @@ import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { Navbar } from '@/components/navigation';
 
-
 export const DesktopFooter = () => {
   return (
     <footer>
       <div className="footer-content">
         <div className="footer-section">
-          <Navbar/>
+          <Navbar />
         </div>
         <div className="footer-section">
-          <p className='footer-impact-statement'>Studioz.co.il - Your one-stop shop for creative tools and inspiration.</p>
+          <p className="footer-impact-statement">
+            Studioz.co.il - Your one-stop shop for creative tools and inspiration.
+          </p>
         </div>
         <div className="footer-section">
           <div className="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-            <FacebookIcon/>
+              <FacebookIcon />
             </a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <XIcon/>
+              <XIcon />
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <InstagramIcon/>
+              <InstagramIcon />
             </a>
           </div>
         </div>

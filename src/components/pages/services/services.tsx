@@ -1,4 +1,4 @@
-import {  ItemsList } from '@/components';
+import { ItemsList } from '@/components';
 import { useParams } from 'react-router-dom';
 import { Item } from '@/types/index';
 
@@ -22,7 +22,7 @@ export const Services: React.FC<ServicesProps> = ({ items }) => {
 
   return (
     <section className="services-page">
-      <ItemsList items={filteredItems} className='Items-list'/>
+      <ItemsList items={filteredItems} className="Items-list" />
     </section>
   );
 };

@@ -9,7 +9,7 @@ export const useWishlists = (userId: string) => {
     queryKey: ['wishlists', userId],
     queryFn: () => getWishlists(userId),
     enabled: !!userId,
-    initialData: () => queryClient.getQueryData<Wishlist[]>(['wishlists', userId]),
+    initialData: () => queryClient.getQueryData<Wishlist[]>(['wishlists', userId])
   });
 
   return { data, refetch };

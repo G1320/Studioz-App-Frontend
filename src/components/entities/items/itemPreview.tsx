@@ -5,7 +5,7 @@ import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
-  useRemoveItemFromWishlistMutation,
+  useRemoveItemFromWishlistMutation
 } from '@/hooks';
 import { useUserContext } from '@/contexts';
 import { Item, Wishlist } from '@/types/index';
@@ -24,14 +24,13 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const datePickerRef = useRef<MuiDateTimePickerRef>(null);
 
-
   const addItemToCartMutation = useAddItemToCartMutation();
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');
 
   const handleBookNow = () => {
-    if (isDatePickerOpen)return setIsDatePickerOpen(false);
+    if (isDatePickerOpen) return setIsDatePickerOpen(false);
     setIsDatePickerOpen(true);
     if (datePickerRef.current) {
       datePickerRef.current.open();
@@ -50,16 +49,15 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         total: item.price || 0,
         itemId: item._id,
         bookingDate: confirmedDate,
-        studioName: item.studioName,
+        studioName: item.studioName
       };
-      
+
       addItemToCartMutation.mutate(newItem);
-  
+
       setIsDatePickerOpen(false);
       setSelectedDate(null);
     }
   };
-
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
@@ -89,10 +87,10 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   return (
     <article onClick={handleArticleClicked} key={item._id} className="preview item-preview">
-        <h2>{item.name}</h2>
+      <h2>{item.name}</h2>
       <div>
-      <h4>{item.studioName}</h4>
-      <div className=''>
+        <h4>{item.studioName}</h4>
+        <div className="">
           {item.inStock && <small>In Stock</small>}
           <small>${item.price}/Hr</small>
         </div>
@@ -100,19 +98,18 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       <p>{item.description}</p>
 
       {wishlistId ? (
-        <Button
-          className="remove-from-wishlist-button"
-          onClick={handleRemoveItemFromWishlist}
-        >
+        <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
           Remove from Wishlist
         </Button>
-      ) : user?._id && (
-        <GenericMuiDropdown
-          data={wishlists}
-          renderItem={renderItem}
-          className="item-details-wishlists-dropdown"
-          title="Add to Wishlist"
-        />
+      ) : (
+        user?._id && (
+          <GenericMuiDropdown
+            data={wishlists}
+            renderItem={renderItem}
+            className="item-details-wishlists-dropdown"
+            title="Add to Wishlist"
+          />
+        )
       )}
 
       {studioId && user?.isAdmin && (
@@ -121,28 +118,24 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         </Button>
       )}
 
-      
-      <div className='book-now-date-picker-container' onClick={handleDatePickerClick}>
+      <div className="book-now-date-picker-container" onClick={handleDatePickerClick}>
+        <Button className="add-to-cart-button book-now-button" onClick={handleBookNow}>
+          Book Now
+        </Button>
 
-      <Button className="add-to-cart-button book-now-button" onClick={handleBookNow}>
-        Book Now
-      </Button>
-
-      <MuiDateTimePicker
-        ref={datePickerRef}
-        label="Select Booking Date and Time"
-        value={selectedDate}
-        onChange={handleDateChange}
-        onAccept={handleDateConfirm}
-        open={isDatePickerOpen}
-        onClose={handleDatePickerClose}
-        availability={item.availability}
+        <MuiDateTimePicker
+          ref={datePickerRef}
+          label="Select Booking Date and Time"
+          value={selectedDate}
+          onChange={handleDateChange}
+          onAccept={handleDateConfirm}
+          open={isDatePickerOpen}
+          onClose={handleDatePickerClose}
+          availability={item.availability}
         />
-        </div>
-       
+      </div>
     </article>
   );
 };
 
 export default ItemPreview;
-

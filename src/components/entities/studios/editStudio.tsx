@@ -7,14 +7,13 @@ import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/c
 import { Studio } from '@/types/index';
 import { toast } from 'sonner';
 
-
- export const EditStudio = () => {
+export const EditStudio = () => {
   const { studioId } = useParams();
-  const { data } = useStudio(studioId ||'');
+  const { data } = useStudio(studioId || '');
 
   const studio = data?.currStudio;
 
-  const updateStudioMutation = useUpdateStudioMutation(studioId ||'');
+  const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
   const [selectedCategory, setSelectedCategory] = useState<string>('Music');
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
@@ -28,7 +27,7 @@ import { toast } from 'sonner';
     }
   }, [studio]);
 
-  const handleCategoryChange = (value:string) => {
+  const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
   };
 
@@ -41,14 +40,14 @@ import { toast } from 'sonner';
       type: 'select' as FieldType,
       options: ['Music', 'Photo / Video Studio'],
       value: selectedCategory,
-      onChange: handleCategoryChange,
+      onChange: handleCategoryChange
     },
     {
       name: 'subCategory',
       label: selectedCategory === 'Music' ? 'Music Subcategory' : 'Photo / Video Subcategory',
       type: 'select' as FieldType,
       options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories,
-      value: studio?.subCategory,
+      value: studio?.subCategory
     },
     { name: 'city', label: 'City', type: 'text' as FieldType, value: studio?.city },
     { name: 'address', label: 'Address', type: 'text' as FieldType, value: studio?.address },
@@ -57,18 +56,18 @@ import { toast } from 'sonner';
       name: 'isSmokingAllowed',
       label: 'Smoking Allowed',
       type: 'checkbox' as FieldType,
-      value: studio?.isSmokingAllowed,
+      value: studio?.isSmokingAllowed
     },
     {
       name: 'isWheelchairAccessible',
       label: 'Wheelchair Accessible',
       type: 'checkbox' as FieldType,
-      value: studio?.isWheelchairAccessible,
+      value: studio?.isWheelchairAccessible
     },
-    { name: 'isSelfService', label: 'Self Service', type: 'checkbox' as FieldType, value: studio?.isSelfService },
+    { name: 'isSelfService', label: 'Self Service', type: 'checkbox' as FieldType, value: studio?.isSelfService }
   ];
 
-  const handleSubmit = async (formData: Record<string,any>) => {
+  const handleSubmit = async (formData: Record<string, any>) => {
     formData.galleryImages = galleryImages;
     formData.coverImage = coverImage;
 
@@ -89,13 +88,13 @@ import { toast } from 'sonner';
 
   return (
     <section className="edit-studio">
-       <FileUploader
-        fileType='image'
+      <FileUploader
+        fileType="image"
         onFileUpload={handleFileUpload}
         galleryFiles={galleryImages}
         isCoverShown={false}
       />
-     
+
       <GenericForm
         title="Edit Studio"
         fields={fields}

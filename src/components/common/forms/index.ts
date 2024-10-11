@@ -1,1 +1,1 @@
-export * from './genericForm'
+export * from './genericForm';

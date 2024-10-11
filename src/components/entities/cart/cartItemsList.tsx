@@ -4,7 +4,7 @@ import { useRemoveItemFromCartMutation } from '@/hooks';
 import { Cart, CartItem } from '@/types/index';
 
 interface CartItemsListProps {
-  cart?: Cart ;
+  cart?: Cart;
   isDropdown?: boolean;
   isMultiSelect?: boolean;
 }
@@ -13,16 +13,15 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
 
   const totalPrice = cart?.items?.reduce((total, item) => total + (item.total || 0), 0);
-  
-  const handleRemoveFromCart = (item: CartItem) =>  removeItemFromCartMutation.mutate(item);
 
-  const renderItem = (item: CartItem) => isMultiSelect
-   ? <GenericMultiDropdownEntryPreview entry={{ name: item.name || '', _id: item.itemId }} key={item?.itemId} />
-   : <CartItemPreview
-      item={item}
-      onDecrementQuantity={handleRemoveFromCart}
-      key={item?.itemId}
-    />;
+  const handleRemoveFromCart = (item: CartItem) => removeItemFromCartMutation.mutate(item);
+
+  const renderItem = (item: CartItem) =>
+    isMultiSelect ? (
+      <GenericMultiDropdownEntryPreview entry={{ name: item.name || '', _id: item.itemId }} key={item?.itemId} />
+    ) : (
+      <CartItemPreview item={item} onDecrementQuantity={handleRemoveFromCart} key={item?.itemId} />
+    );
 
   return (
     <section className="cart">
@@ -31,12 +30,12 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
       </Link>
 
       {isDropdown ? (
-          <GenericMuiDropdown
-            data={cart?.items || []}
-            renderItem={renderItem}
-            className="cart-list"
-            title={`Cart (${cart?.items?.reduce((total, item) => total + item.quantity!, 0) || 0})`}
-            />
+        <GenericMuiDropdown
+          data={cart?.items || []}
+          renderItem={renderItem}
+          className="cart-list"
+          title={`Cart (${cart?.items?.reduce((total, item) => total + item.quantity!, 0) || 0})`}
+        />
       ) : (
         <>
           <GenericList data={cart?.items || []} renderItem={renderItem} className="cart-list" />
@@ -45,5 +44,3 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
     </section>
   );
 };
-
-

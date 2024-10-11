@@ -1,42 +1,39 @@
-
 button {
   display: flex;
   height: 1.5rem;
   align-items: center;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #fff;
-    color: $text-color-primary;
-    white-space: nowrap;
-    min-width: fit-content;
-    border: 1px solid white;
-    box-shadow: inset 0 0 10px 5px rgba(255, 255, 255, 0.03);
-    cursor: pointer;
-    transition: border-color 0.25s;
-    &:hover {
-      border-color: $color-primary;
-    }
-    &:focus,
-    &:focus-visible {
-      outline: 4px auto $color-primary;
-    }
-    &:disabled {
-      background-color: #dcdcdc;
-      color: #666666;
-      cursor: not-allowed;
-    }
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #fff;
+  color: $text-color-primary;
+  white-space: nowrap;
+  min-width: fit-content;
+  border: 1px solid white;
+  box-shadow: inset 0 0 10px 5px rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  &:hover {
+    border-color: $color-primary;
   }
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto $color-primary;
+  }
+  &:disabled {
+    background-color: #dcdcdc;
+    color: #666666;
+    cursor: not-allowed;
+  }
+}
 
-  .dropdown-toggle{
-   max-width: max-content;
-  }
+.dropdown-toggle {
+  max-width: max-content;
+}
 
-  .add-to-cart-button{
-    background: linear-gradient(to bottom, $color-primary 0%, $bg-color-secondary 120%);
-  }
-  
-  
+.add-to-cart-button {
+  background: linear-gradient(to bottom, $color-primary 0%, $bg-color-secondary 120%);
+}

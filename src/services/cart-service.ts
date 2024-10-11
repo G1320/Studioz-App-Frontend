@@ -7,7 +7,7 @@ const cartEndpoint = '/cart';
 export const getLocalOfflineCart = (): Cart | null => parseJSON<Cart>('offlineCart', null);
 export const setLocalOfflineCart = (cart: Cart): void => stringifyJSON('offlineCart', cart);
 
-export const addItemToCart = async (userId: string, itemId: string, bookingDate:Date): Promise<Cart> => {
+export const addItemToCart = async (userId: string, itemId: string, bookingDate: Date): Promise<Cart> => {
   if (itemId === undefined) throw new Error('Item ID is required');
   try {
     return await httpService.post(`${cartEndpoint}/${userId}/add-to-cart/${itemId}`, { bookingDate });
@@ -56,7 +56,7 @@ export const getUserCart = async (userId: string): Promise<Cart> => {
 
 export const deleteUserCart = async (userId: string): Promise<CartItem[] | []> => {
   try {
-   return await httpService.delete(`${cartEndpoint}/${userId}/delete-cart`);
+    return await httpService.delete(`${cartEndpoint}/${userId}/delete-cart`);
   } catch (error: unknown) {
     console.error('Failed to delete user cart', error);
     throw error;
@@ -80,5 +80,3 @@ export const checkout = async (userId: string): Promise<void> => {
     throw error;
   }
 };
-
-

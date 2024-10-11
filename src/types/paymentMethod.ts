@@ -1,4 +1,4 @@
-export interface PaymentMethod{
-    provider: string;
-    last4: string;
+export interface PaymentMethod {
+  provider: string;
+  last4: string;
 }

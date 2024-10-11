@@ -5,12 +5,12 @@ import { LoginCredentials, AuthResponse, User } from '@/types/index';
 
 const authEndpoint = '/auth';
 
-export const register = async (userData: Partial <User>): Promise<User> => {
+export const register = async (userData: Partial<User>): Promise<User> => {
   try {
     const { accessToken, user } = await httpService.post<AuthResponse>(`${authEndpoint}/register`, userData);
     if (user && accessToken) {
-    localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
-    Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
+      localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
+      Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
     }
     return user;
   } catch (error: any) {
@@ -39,7 +39,7 @@ export const login = async (credentials: LoginCredentials): Promise<User> => {
 
 export const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
   try {
-    const { accessToken } = await httpService.post<{ accessToken:string }>(`${authEndpoint}/refresh-token`);
+    const { accessToken } = await httpService.post<{ accessToken: string }>(`${authEndpoint}/refresh-token`);
     Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
     return { accessToken };
   } catch (error: unknown) {
@@ -59,4 +59,3 @@ export const logout = async (): Promise<void> => {
     throw error;
   }
 };
-

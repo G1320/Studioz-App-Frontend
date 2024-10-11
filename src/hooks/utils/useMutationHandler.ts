@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useErrorHandling } from '@/hooks'
-import { useInvalidateQueries } from '@/hooks/utils'
+import { useErrorHandling } from '@/hooks';
+import { useInvalidateQueries } from '@/hooks/utils';
 
 type MutationHandlerOptions<TData, TVariables> = {
   mutationFn: (variables: TVariables) => Promise<TData>;
@@ -9,7 +9,7 @@ type MutationHandlerOptions<TData, TVariables> = {
   onError?: (error: Error) => void;
   invalidateQueries: Array<{ queryKey: string; targetId?: string }>;
   successMessage: string | ((data: TData, variables: TVariables) => string); // Modified
-  undoAction?: (variables: TVariables, data: TData) => Promise<TData> ;
+  undoAction?: (variables: TVariables, data: TData) => Promise<TData>;
 };
 
 export const useMutationHandler = <TData, TVariables>({
@@ -18,7 +18,7 @@ export const useMutationHandler = <TData, TVariables>({
   onError,
   invalidateQueries,
   successMessage,
-  undoAction,
+  undoAction
 }: MutationHandlerOptions<TData, TVariables>) => {
   const handleError = useErrorHandling();
   const invalidate = useInvalidateQueries(() => invalidateQueries);
@@ -27,22 +27,20 @@ export const useMutationHandler = <TData, TVariables>({
     mutationFn,
     onSuccess: (data, variables) => {
       invalidate();
-      const message = typeof successMessage === 'function' 
-      ? successMessage(data, variables) 
-      : successMessage;
+      const message = typeof successMessage === 'function' ? successMessage(data, variables) : successMessage;
       toast.success(message, {
         action: undoAction
           ? {
               label: 'Undo',
-              onClick: () => undoAction(variables, data).then(invalidate).catch(handleError),
+              onClick: () => undoAction(variables, data).then(invalidate).catch(handleError)
             }
-          : undefined,
+          : undefined
       });
       if (onSuccess) onSuccess(data, variables);
     },
     onError: (error) => {
       handleError(error);
       if (onError) onError(error);
-    },
+    }
   });
 };

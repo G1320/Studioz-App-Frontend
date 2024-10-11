@@ -9,7 +9,7 @@ export const useOnlineCart = (userId: string) => {
     queryKey: ['cart', userId],
     enabled: !!userId,
     queryFn: () => getUserCart(userId),
-    initialData: () => queryClient.getQueryData<Cart>(['cart', userId]),
+    initialData: () => queryClient.getQueryData<Cart>(['cart', userId])
   });
   return { data, isLoading, error, refetch };
 };

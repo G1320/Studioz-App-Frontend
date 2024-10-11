@@ -1,5 +1,4 @@
-
 export interface Availability {
-  date: string; 
+  date: string;
   times: string[];
 }

@@ -50,7 +50,15 @@ export const LoginButton: React.FC = (): ReactElement | null => {
     };
 
     handleUserLogin();
-  }, [isAuthenticated, user, addItemsToCartMutation, handleError, offlineCartContext, setOfflineCartContext, setUserContext]);
+  }, [
+    isAuthenticated,
+    user,
+    addItemsToCartMutation,
+    handleError,
+    offlineCartContext,
+    setOfflineCartContext,
+    setUserContext
+  ]);
 
   return (
     <Button onClick={handleClick} className="button login button">

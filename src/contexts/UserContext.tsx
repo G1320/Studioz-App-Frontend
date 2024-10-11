@@ -12,15 +12,11 @@ interface UserProviderProps {
 }
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState(getLocalUser());
 
-  return <UserContext.Provider value={{ user, setUser }}>
-          {children}
-       </UserContext.Provider>;
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
-
 
 export const useUserContext = (): UserContextType => {
   const context = useContext(UserContext);

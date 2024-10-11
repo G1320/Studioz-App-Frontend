@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button } from '@/components'
+import { Button } from '@/components';
 
 export const LogoutButton = () => {
   const { logout } = useAuth0();
@@ -9,14 +9,14 @@ export const LogoutButton = () => {
       logoutParams: {
         returnTo: window.location.origin
       }
-    })  
-      localStorage.removeItem('user');
+    });
+    localStorage.removeItem('user');
   };
 
   return (
-      <Button onClick={handleLogout} className="button login button">
-        Sign out
-      </Button>
+    <Button onClick={handleLogout} className="button login button">
+      Sign out
+    </Button>
   );
 };
 

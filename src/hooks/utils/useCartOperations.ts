@@ -1,6 +1,14 @@
 import { useOfflineCartContext, useUserContext } from '@/contexts';
 import { updateOfflineCart } from '@/utils/cartUtils';
-import { getLocalOfflineCart, addItemToCart, removeItemFromCart, addItemsToCart, removeItemsFromCart, deleteUserCart, updateUserCart } from '@/services';
+import {
+  getLocalOfflineCart,
+  addItemToCart,
+  removeItemFromCart,
+  addItemsToCart,
+  removeItemsFromCart,
+  deleteUserCart,
+  updateUserCart
+} from '@/services';
 import { Cart, CartItem } from '@/types/index';
 import dayjs from 'dayjs';
 
@@ -8,11 +16,10 @@ export const useCartOperations = () => {
   const { user } = useUserContext();
   const { setOfflineCartContext } = useOfflineCartContext();
 
-  const generateSuccessMessage = (item: CartItem, action:string) => {
+  const generateSuccessMessage = (item: CartItem, action: string) => {
     if (action == 'added') {
       return `${action} ${item.name} service at ${item.studioName} `;
-    }
-    else if(action == 'booked') {
+    } else if (action == 'booked') {
       const formattedDate = dayjs(item.bookingDate).format('DD/MM/YYYY HH:mm');
       return `${item.name} service at ${item.studioName} ${action} for ${formattedDate}`;
     } else {
@@ -30,7 +37,6 @@ export const useCartOperations = () => {
     if (existingItem && existingItem.quantity) {
       existingItem.quantity += 1;
       existingItem.total = (existingItem.price || 0) * existingItem.quantity;
-
     } else {
       cart.items.push({
         name: item.name,
@@ -39,7 +45,7 @@ export const useCartOperations = () => {
         total: item.price,
         quantity: 1,
         itemId: item.itemId,
-        bookingDate: bookingDate,
+        bookingDate: bookingDate
       });
     }
     updateOfflineCart(cart, setOfflineCartContext);
@@ -52,10 +58,10 @@ export const useCartOperations = () => {
     }
     const cart = getLocalOfflineCart() || { items: [] };
     const itemIndex = cart.items.findIndex((item: CartItem) => item.itemId === itemId);
-  
+
     if (itemIndex !== -1) {
       const cartItem = cart.items[itemIndex];
-      if (cartItem.quantity && cartItem.quantity  > 1) {
+      if (cartItem.quantity && cartItem.quantity > 1) {
         cartItem.quantity -= 1;
         cartItem.total = (cartItem.price || 0) * cartItem.quantity;
       } else {
@@ -102,9 +108,8 @@ export const useCartOperations = () => {
     addItems,
     removeItems,
     clearCart,
-    updateCart,
+    updateCart
   };
 };
 
 export default useCartOperations;
-

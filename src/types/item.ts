@@ -1,4 +1,4 @@
-import { Availability } from "./availability";
+import { Availability } from './availability';
 
 export default interface Item {
   _id: string;
@@ -19,4 +19,3 @@ export default interface Item {
   updatedAt?: Date;
   availability?: Availability[];
 }
-

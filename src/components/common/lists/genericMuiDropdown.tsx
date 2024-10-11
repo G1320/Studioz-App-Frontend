@@ -10,13 +10,7 @@ interface GenericMuiDropdownProps<T> {
   title: string;
 }
 
-export const GenericMuiDropdown = <T,>({
-  data,
-  renderItem,
-  className = '',
-  title,
-  
-}: GenericMuiDropdownProps<T>) => {
+export const GenericMuiDropdown = <T,>({ data, renderItem, className = '', title }: GenericMuiDropdownProps<T>) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -27,7 +21,7 @@ export const GenericMuiDropdown = <T,>({
   const handleClose = (e: MouseEvent) => {
     e.stopPropagation();
     const isPreviewButton =
-      (e.target instanceof HTMLButtonElement && (e.target.textContent === '+' || e.target.textContent === 'Remove'));
+      e.target instanceof HTMLButtonElement && (e.target.textContent === '+' || e.target.textContent === 'Remove');
     // If it's the plus or remove button, don't close the menu
     if (!isPreviewButton) {
       setAnchorEl(null);
@@ -40,7 +34,7 @@ export const GenericMuiDropdown = <T,>({
     if (!title || title === 'Cart (0)') {
       return { to: '/services', text: 'Add something to your cart' };
     }
-    const suffix = title.slice(6,1);
+    const suffix = title.slice(6, 1);
     return { to: `/create-${suffix || 'wishlist'}`, text: `Create A ${suffix || 'Wishlist'}` };
   };
 
@@ -49,9 +43,7 @@ export const GenericMuiDropdown = <T,>({
   return (
     <div className={`generic-dropdown ${className}`}>
       <Button className="dropdown-toggle" onClick={handleClick}>
-       <div className='dropdown-button-title'>
-         {title}
-        </div>
+        <div className="dropdown-button-title">{title}</div>
       </Button>
       <Menu
         slotProps={{ paper: { style: { backgroundColor: '#411c61' } } }}
@@ -76,4 +68,3 @@ export const GenericMuiDropdown = <T,>({
 };
 
 export default GenericMuiDropdown;
-

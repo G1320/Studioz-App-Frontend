@@ -1,8 +1,7 @@
-import {Wishlist} from ".";
+import { Wishlist } from '.';
 
 export default interface WishlistResponse {
-    currWishlist: Wishlist
-    prevWishlist: { _id: string } | null;
-    nextWishlist: { _id: string } | null;
-  
-  }
+  currWishlist: Wishlist;
+  prevWishlist: { _id: string } | null;
+  nextWishlist: { _id: string } | null;
+}

@@ -8,18 +8,14 @@ interface StudioPreviewProps {
   studio: Studio | null;
 }
 
- export const StudioPreview:React.FC<StudioPreviewProps> = ({ studio = null }) => {
+export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio = null }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
   return (
-    <article
-      onClick={() => navigate(`/studio/${studio?._id}`)}
-      key={studio?._id}
-      className="preview studio-preview"
-    >
+    <article onClick={() => navigate(`/studio/${studio?._id}`)} key={studio?._id} className="preview studio-preview">
       <GenericImageGallery
         entity={studio}
         coverImage={studio?.coverImage}
@@ -27,13 +23,13 @@ interface StudioPreviewProps {
         isGalleryImagesShown={isStudioPath}
       />
       {isStudioPath && (
-      <GenericAudioGallery
-        coverAudioFile={studio?.coverAudioFile}
-        audioFiles={studio?.galleryAudioFiles}
-        isAudioFilesShown={isStudioPath}
+        <GenericAudioGallery
+          coverAudioFile={studio?.coverAudioFile}
+          audioFiles={studio?.galleryAudioFiles}
+          isAudioFilesShown={isStudioPath}
         />
-        )}
-      <div className='studio-preview-name-and-city'>
+      )}
+      <div className="studio-preview-name-and-city">
         <h2>{studio?.name}</h2>
         <small>{studio?.city}</small>
       </div>

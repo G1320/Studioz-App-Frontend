@@ -1,4 +1,4 @@
-import { createContext, useState, useContext,ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode } from 'react';
 import { getLocalOfflineCart } from '@/services';
 import { Cart } from '@/types/index';
 
@@ -14,9 +14,7 @@ interface OfflineCartProviderProps {
 const OfflineCartContext = createContext<OfflineCartContextType | undefined>(undefined);
 
 export const OfflineCartProvider: React.FC<OfflineCartProviderProps> = ({ children }) => {
-  const [offlineCartContext, setOfflineCartContext] = useState<Cart>(
-    getLocalOfflineCart() || { items: [] } 
-  );
+  const [offlineCartContext, setOfflineCartContext] = useState<Cart>(getLocalOfflineCart() || { items: [] });
   return (
     <OfflineCartContext.Provider value={{ offlineCartContext, setOfflineCartContext }}>
       {children}

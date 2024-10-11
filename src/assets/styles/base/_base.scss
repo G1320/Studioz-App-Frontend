@@ -1,232 +1,238 @@
 :root {
-    font-family:'IBM Plex Sans' 'Rubik', 'Lato', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-    height: 100vh ;
-  
-    color-scheme: light dark;
-    color: $text-color-light;
+  font-family:
+    'IBM Plex Sans' 'Rubik',
+    'Lato',
+    Inter,
+    system-ui,
+    Avenir,
+    Helvetica,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  height: 100vh;
 
-    background: linear-gradient( 135deg, $color-primary 0%, $bg-color-primary 52.5%);
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  color-scheme: light dark;
+  color: $text-color-light;
 
-  body {
-    font-family: "DM Sans", sans-serif;
-    font-size: 16px;
-  }
+  background: linear-gradient(135deg, $color-primary 0%, $bg-color-primary 52.5%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  p{
-    font-family: "IBM Plex Sans", sans-serif;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+}
 
-  a {
-    font-weight: 500;
-    color: $text-color-light;
-    text-decoration: inherit;
-  }
-  a:hover {
-    text-shadow: 0 0 12px #bdeeff;
-    
-  }
+p {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
 
-  img {
-    border-radius: 6px;
-    aspect-ratio: 2/1;
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  
-  html,
-  body, 
-  #root{
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-height: 100dvh;
-    overflow-x: hidden ;
-    text-align: center;
-  }
+a {
+  font-weight: 500;
+  color: $text-color-light;
+  text-decoration: inherit;
+}
+a:hover {
+  text-shadow: 0 0 12px #bdeeff;
+}
 
-  .render-item-container{
-    max-width: max-content
-  }
+img {
+  border-radius: 6px;
+  aspect-ratio: 2/1;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 
-  // Styles for the general Paper components
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-height: 100dvh;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.render-item-container {
+  max-width: max-content;
+}
+
+// Styles for the general Paper components
 .MuiPaper-root {
   border-radius: 12px;
   &:not(button) {
-      border: 2px solid $border-color-primary;
+    border: 2px solid $border-color-primary;
   }
 }
 // Targets all Paper elements except those that are part of the DatePicker component
-  .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper){
-     background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgb(20, 22, 25) 100%) !important;
-   }
+.MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper) {
+  background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgb(20, 22, 25) 100%) !important;
+}
 
-   .MuiIconButton-root:focus,
-   .MuiIconButton-root:focus-visible {
-      outline: none;
-    }
+.MuiIconButton-root:focus,
+.MuiIconButton-root:focus-visible {
+  outline: none;
+}
 
-  .loader{
-    display: grid;
-    margin: auto;
-   top: 100px;
-  }
-  
-  
-  .preview{
-    display: grid;
-    place-items: center;
-    min-height: 215px;
-    padding:0 ;
-    box-shadow:  0 0 5px 4px rgba(255, 255, 255, 0.132);
-    background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25% );
-    border: 2px solid $border-color-primary;
-    border-radius: 8px;
-    transition: 200ms;
-    .options-wrapper{
-      display: flex;
-      height: max-content;
-      align-items: flex-start;
-      height: 24px ;
-      gap: 0.5rem;
-      * {
-        width: 24px;
-      }
-    }
-    h2, h3{
-      line-height: 1.1;
-      white-space: wrap;
-    }
-    div{
-      display: flex ;
-      gap: 1rem;
-      align-items: center;
-    }
-    small{
-      white-space: nowrap;
-    }
-    &:hover{
-      box-shadow: 0 0 8px 7px $color-primary;
+.loader {
+  display: grid;
+  margin: auto;
+  top: 100px;
+}
+
+.preview {
+  display: grid;
+  place-items: center;
+  min-height: 215px;
+  padding: 0;
+  box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
+  background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25%);
+  border: 2px solid $border-color-primary;
+  border-radius: 8px;
+  transition: 200ms;
+  .options-wrapper {
+    display: flex;
+    height: max-content;
+    align-items: flex-start;
+    height: 24px;
+    gap: 0.5rem;
+    * {
+      width: 24px;
     }
   }
-
-
-  .details{
-    display: grid;
+  h2,
+  h3 {
+    line-height: 1.1;
+    white-space: wrap;
+  }
+  div {
+    display: flex;
     gap: 1rem;
-    place-items: center; 
+    align-items: center;
+  }
+  small {
+    white-space: nowrap;
+  }
+  &:hover {
+    box-shadow: 0 0 8px 7px $color-primary;
+  }
+}
+
+.details {
+  display: grid;
+  gap: 1rem;
+  place-items: center;
+  border-radius: 8px;
+  padding: 0.5rem;
+
+  img {
+    max-width: 700px;
     border-radius: 8px;
-    padding: 0.5rem;
+  }
+}
 
-    img{
-      max-width: 700px;
-      border-radius: 8px;
-    }
- }
-
- .details-buttons{
-  display: grid ;
-  place-items:  center;
+.details-buttons {
+  display: grid;
+  place-items: center;
   gap: 0.5rem;
-  *{
+  * {
     max-width: max-content;
   }
 
   div {
-display: flex;
-gap: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
   }
-  
- }
+}
 
-  .generic-list{
-    display: grid;
-    max-width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-    margin: 0 1rem ;
-    article{
-      cursor: pointer;
-    }
+.generic-list {
+  display: grid;
+  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 0 1rem;
+  article {
+    cursor: pointer;
   }
+}
 
-  .file-gallery-container {
-    display: grid !important;    
-    width: 100%;
-   }
-  
-   .files-list{
-     display: flex;
-     justify-content: start;
-     img:not(.cover-image) {
-         min-height: 40px;
-         max-width: 116px !important;
-         cursor: pointer;
-       }   
-   }
+.file-gallery-container {
+  display: grid !important;
+  width: 100%;
+}
 
-   .file-uploader{
-    display: flex 1 1;
-     max-width: 520px;
-     min-width: 300px !important;
-    place-self: center;
-    margin: auto;
-    .file-uploader-content-container{
-      min-width: min-content;
-    }
-    .upload-icon-container{
-      // min-width: min-content;
+.files-list {
+  display: flex;
+  justify-content: start;
+  img:not(.cover-image) {
+    min-height: 40px;
+    max-width: 116px !important;
+    cursor: pointer;
+  }
+}
+
+.file-uploader {
+  display: flex 1 1;
+  max-width: 520px;
+  min-width: 300px !important;
+  place-self: center;
+  margin: auto;
+  .file-uploader-content-container {
+    min-width: min-content;
+  }
+  .upload-icon-container {
+    // min-width: min-content;
     .icon {
       margin: auto;
-       }
-       }
-       cursor: pointer;
-       padding: 1rem;
     }
+  }
+  cursor: pointer;
+  padding: 1rem;
+}
 
-   .preview{
-       gap: 1rem;    
-       small, .icon{
-           min-width: min-content;
-           place-self: center;
-       }
-      
-       img:not(.hero img, .cover-image ){
-          width: 250px;
-         max-width: 250px;
-         height: 100%;
-        padding: 0;
-       box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
-       border: 2px solid #cccccc;
-       border-radius: 8px;
-       transition: 200ms;
-       }
-   }
-
-.generic-form{
-     width: 100%;
-     min-width: min-content;
-      max-width: 1000px;
-      place-self: center;
-      align-self: start;
-    button {
-    max-width: max-content;
+.preview {
+  gap: 1rem;
+  small,
+  .icon {
+    min-width: min-content;
     place-self: center;
-    color: $text-color-primary  !important;
   }
 
-  form{
-     *{
+  img:not(.hero img, .cover-image) {
+    width: 250px;
+    max-width: 250px;
+    height: 100%;
+    padding: 0;
+    box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
+    border: 2px solid #cccccc;
+    border-radius: 8px;
+    transition: 200ms;
+  }
+}
+
+.generic-form {
+  width: 100%;
+  min-width: min-content;
+  max-width: 1000px;
+  place-self: center;
+  align-self: start;
+  button {
+    max-width: max-content;
+    place-self: center;
+    color: $text-color-primary !important;
+  }
+
+  form {
+    * {
       border-color: #fff;
-      color: #fff ;
-     }
+      color: #fff;
+    }
     display: grid;
     gap: 1rem;
     margin: 1rem;

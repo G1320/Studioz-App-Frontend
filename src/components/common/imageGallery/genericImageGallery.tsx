@@ -20,11 +20,10 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   entity,
   coverImage,
   galleryImages,
-  onSetPreviewImage,
+  onSetPreviewImage
 }) => {
-  const combinedGalleryImages = coverImage && !galleryImages?.includes(coverImage) 
-  ? [coverImage, ...galleryImages as string[]]
-  : galleryImages;
+  const combinedGalleryImages =
+    coverImage && !galleryImages?.includes(coverImage) ? [coverImage, ...(galleryImages as string[])] : galleryImages;
 
   const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
   const location = useLocation();
@@ -37,41 +36,31 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   };
 
   useEffect(() => {
-    setCurrCoverImage(coverImage  );
+    setCurrCoverImage(coverImage);
   }, [coverImage, galleryImages]);
 
-  const renderItem = (image: string, index: number) =>  {
-    if (!coverImage && isStudioPath  ) {
-      return <PropagateLoader
-      className="loader"
-      speedMultiplier={1.25}
-      color="#fcfcfc"
-      size={24}
-    />
-    } return (
-    <img
-      onClick={() => handleImageChange(image)}
-      className="preview gallery-image"
-      key={index}
-      src={image}
-      alt={entity?.name}
-    />
-  )};
+  const renderItem = (image: string, index: number) => {
+    if (!coverImage && isStudioPath) {
+      return <PropagateLoader className="loader" speedMultiplier={1.25} color="#fcfcfc" size={24} />;
+    }
+    return (
+      <img
+        onClick={() => handleImageChange(image)}
+        className="preview gallery-image"
+        key={index}
+        src={image}
+        alt={entity?.name}
+      />
+    );
+  };
 
   if (!coverImage && isStudioPath) {
-    return <PropagateLoader
-    className="loader"
-    speedMultiplier={1.25}
-    color="#fcfcfc"
-    size={24}
-  />
+    return <PropagateLoader className="loader" speedMultiplier={1.25} color="#fcfcfc" size={24} />;
   }
 
   return (
     <div className="file-gallery-container image-gallery-container">
-      {isCoverShown && currCoverImage && (
-        <img src={currCoverImage} alt="Cover" className="cover-image" />
-      )}
+      {isCoverShown && currCoverImage && <img src={currCoverImage} alt="Cover" className="cover-image" />}
       {isGalleryImagesShown && galleryImages && (
         <GenericList
           data={combinedGalleryImages || []}
@@ -82,4 +71,3 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
     </div>
   );
 };
-

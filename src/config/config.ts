@@ -18,7 +18,7 @@ export const musicSubCategories = [
   'Audio Restoration',
   'Educational',
   'Commercial',
-  'Personal Studio',
+  'Personal Studio'
 ];
 
 export const videoAndPhotographySubCategories = [
@@ -51,5 +51,5 @@ export const videoAndPhotographySubCategories = [
   'Video Blogging',
   'Stock Photography/Videography',
   'Visual Effects',
-  'Stop Motion Animation',
+  'Stop Motion Animation'
 ];
