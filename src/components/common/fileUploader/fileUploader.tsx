@@ -46,16 +46,16 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const showErrorMessages = async (errors: string[]) => {
-    for (const error of errors) {
-      toast.error(error);
-      await delay(700);
-    }
-  };
-
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const newErrors: string[] = [];
+
+      const showErrorMessages = async (errors: string[]) => {
+        for (const error of errors) {
+          toast.error(error);
+          await delay(700);
+        }
+      };
       
       acceptedFiles.forEach((file) => {
         const extension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();

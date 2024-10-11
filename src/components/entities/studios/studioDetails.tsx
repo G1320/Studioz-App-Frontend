@@ -30,7 +30,7 @@ interface StudioDetailsProps {
       );
       setFilteredItems(filtered);
     }
-  }, [studioObj, items]);
+  }, [studioObj, currStudio, items]);
 
   const handleAddItemToWishlist = async (wishlistId:string) =>  addItemToWishlistMutation.mutate(wishlistId);
   const handlePagination = (nextId:string) => (nextId ? navigate(`/studio/${nextId}`) : toast.error('No more studios'));

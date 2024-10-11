@@ -36,7 +36,7 @@ export const removeItemFromCart = async (userId: string, itemId: string): Promis
   }
 };
 
-export const removeItemsFromCart = async (userId: string, items: String[]): Promise<CartItem[]> => {
+export const removeItemsFromCart = async (userId: string, items: string[]): Promise<CartItem[]> => {
   try {
     return await httpService.delete(`${cartEndpoint}/${userId}/remove-items-from-cart`, { items });
   } catch (error: unknown) {

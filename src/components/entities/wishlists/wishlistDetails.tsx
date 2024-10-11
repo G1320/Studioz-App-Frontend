@@ -56,7 +56,7 @@ interface WishlistDetailsProps {
       setFilteredItems(filteredItems );
       setFilteredStudios(filteredStudios);
     }
-  }, [wishlistObj, items, studios]);
+  }, [wishlistObj, currWishlist, items, studios]);
 
   return (
     <section className="details wishlist-details">

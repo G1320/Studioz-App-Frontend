@@ -113,5 +113,7 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
   }
 );
 
+MuiDateTimePicker.displayName = 'MuiDateTimePicker';
+
 
 

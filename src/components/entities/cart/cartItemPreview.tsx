@@ -17,7 +17,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
-    if (target.nodeName !== 'BUTTON') {
+    if (target.nodeName !== 'BUTTON' && target.nodeName !== 'svg') {
       navigate(`/item/${item?.itemId}`);
     }
   };
@@ -38,7 +38,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
       total: item.price * (item.quantity ? item.quantity + 1 : 1),
       studioName: item.studioName,
     });
-  }
+ } 
     } else {
   onDecrementQuantity(item);
   }
