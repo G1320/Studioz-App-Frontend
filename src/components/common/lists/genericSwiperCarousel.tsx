@@ -15,9 +15,16 @@ interface GenericCarouselProps<T> {
   className?: string;
   renderItem: RenderItemFunction<T>;
   title?: string;
+  isAutoplay?: boolean;
 }
 
-export const GenericCarousel = <T,>({ data, className, renderItem, title }: GenericCarouselProps<T>) => {
+export const GenericCarousel = <T,>({
+  data,
+  className,
+  renderItem,
+  title,
+  isAutoplay = false
+}: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
 
   return (
@@ -33,8 +40,9 @@ export const GenericCarousel = <T,>({ data, className, renderItem, title }: Gene
           modules={[Pagination, Navigation, Autoplay]}
           spaceBetween={15}
           slidesPerView={'auto'}
-          initialSlide={1}
+          initialSlide={0}
           cssMode={true}
+          autoplay={isAutoplay ? { delay: 5000, disableOnInteraction: false } : false}
           pagination={{
             clickable: true
           }}

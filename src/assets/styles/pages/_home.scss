@@ -12,10 +12,7 @@
     max-width: max-content;
     place-self: center;
     cursor: pointer;
-    // &.hero-header,
-    // &:first-of-type:not(.hero-header) {
     justify-self: start;
-    // }
     &:hover {
       text-shadow: 0 0 12px #bdeeff;
     }
