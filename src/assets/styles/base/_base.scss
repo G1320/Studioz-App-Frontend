@@ -73,10 +73,12 @@ body,
 // Targets all Paper elements except those that are part of the DatePicker component
 .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper) {
   background: rgba(19, 19, 19, 0.685) !important;
+  background: linear-gradient(to top, rgba(19, 19, 19, 0.588) 2.5%, rgba(19, 19, 19, 0.87) 80%) !important;
+
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid #fff;
 }
 

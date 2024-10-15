@@ -13,7 +13,7 @@ export const Hero = () => {
             ease.
           </p>
         </div>
-        <img src="https://i.imgur.com/XAYOgy4.png" alt="" />
+        {/* <img src="https://i.imgur.com/XAYOgy4.png" alt="" /> */}
         {/* <img src="https://i.imgur.com/0juIIZe.png" alt="" /> */}
       </div>
     </section>
