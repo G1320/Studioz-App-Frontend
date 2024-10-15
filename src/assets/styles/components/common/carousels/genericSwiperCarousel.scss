@@ -4,6 +4,7 @@
   min-height: max-content;
   border-radius: 8px;
   position: relative;
+
   .swiper_wrap {
     position: relative;
     height: 100%;
@@ -22,9 +23,14 @@
     overflow: hidden;
   }
 
+  .swiper-navigation-wrapper {
+    position: relative;
+    height: 100%;
+  }
+
   .swiper-navigation {
     position: absolute;
-    top: -3.25rem;
+    top: 1rem;
     right: 0rem;
     display: flex;
     gap: 10px;

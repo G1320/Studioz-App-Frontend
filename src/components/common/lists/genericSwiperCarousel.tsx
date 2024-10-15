@@ -50,20 +50,29 @@ export const GenericCarousel = <T,>({
           }}
           navigation={false}
           breakpoints={{
-            420: { slidesPerView: 1 },
-            620: { slidesPerView: 2 },
-            1000: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 },
-            1550: { slidesPerView: 5 }
+            420: { slidesPerView: 1.4 },
+            620: { slidesPerView: 2.2 },
+            800: { slidesPerView: 2.4 },
+            1000: { slidesPerView: 3.2 },
+            1200: { slidesPerView: 4.2 },
+            1550: { slidesPerView: 5.2 }
           }}
         >
           {data?.map((item, index) => (
             <SwiperSlide key={(item as Studio | Item)._id || index}>{renderItem(item)}</SwiperSlide>
           ))}
         </Swiper>
-        <div className="swiper-navigation">
-          <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}></button>
-          <button className="swiper-button-next custom-nav-btn" onClick={() => swiperRef.current?.slideNext()}></button>
+        <div className="swiper-navigation-wrapper">
+          <div className="swiper-navigation">
+            <button
+              className="swiper-button-prev custom-nav-btn"
+              onClick={() => swiperRef.current?.slidePrev()}
+            ></button>
+            <button
+              className="swiper-button-next custom-nav-btn"
+              onClick={() => swiperRef.current?.slideNext()}
+            ></button>
+          </div>
         </div>
       </div>
     </section>
