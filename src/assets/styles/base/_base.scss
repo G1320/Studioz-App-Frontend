@@ -73,7 +73,8 @@ body,
 // Targets all Paper elements except those that are part of the DatePicker component
 .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper) {
   background: rgba(19, 19, 19, 0.685) !important;
-  background: linear-gradient(to top, rgba(19, 19, 19, 0.588) 2.5%, rgba(19, 19, 19, 0.87) 80%) !important;
+  // background: linear-gradient(to top, rgba(19, 19, 19, 0.588) 2.5%, rgba(19, 19, 19, 0.87) 80%) !important;
+  background: linear-gradient(135deg, rgba(19, 19, 19, 0.523), $bg-color-secondary 90%) !important;
 
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -103,7 +104,9 @@ body,
   // background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%), rgba(255, 255, 255, 0.001);
 
   // border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-  border: 2px solid $border-color-primary;
+  border: 1px solid $border-color-primary;
+  // border-bottom-left-radius: 0 !important;
+  // border-bottom-right-radius: 0 !important;
 
   img:not(img.preview.gallery-image) {
     border-bottom-right-radius: 2px !important;
