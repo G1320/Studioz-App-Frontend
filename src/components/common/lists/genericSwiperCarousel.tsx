@@ -50,8 +50,8 @@ export const GenericCarousel = <T,>({
           }}
           navigation={false}
           breakpoints={{
-            420: { slidesPerView: 1.4 },
-            620: { slidesPerView: 2.2 },
+            340: { slidesPerView: 1.4 },
+            520: { slidesPerView: 2.2 },
             800: { slidesPerView: 2.4 },
             1000: { slidesPerView: 3.2 },
             1200: { slidesPerView: 4.2 },

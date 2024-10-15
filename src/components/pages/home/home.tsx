@@ -67,6 +67,8 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
       />
+      <h1 onClick={() => navigate('/studios')}>Book now, think later</h1>
+      <StudiosList studios={mixingStudios.slice(6, 12)} />
     </section>
   );
 };

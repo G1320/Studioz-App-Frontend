@@ -5,6 +5,10 @@
   border-radius: 8px;
   position: relative;
 
+  @media screen and (max-width: 600px) {
+    max-width: calc(100vw - 1rem);
+  }
+
   .swiper_wrap {
     position: relative;
     height: 100%;
@@ -30,7 +34,7 @@
 
   .swiper-navigation {
     position: absolute;
-    top: 1rem;
+    top: calc(-100% - 3.35rem);
     right: 0rem;
     display: flex;
     gap: 10px;
