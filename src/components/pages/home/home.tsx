@@ -25,7 +25,7 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
   const masteringStudios = filterBySubcategory(studios, 'Mastering');
   const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
-  const masteringItems = filterBySubcategory(items, 'Mastering');
+  // const masteringItems = filterBySubcategory(items, 'Mastering');
 
   return (
     <section className="home">
