@@ -43,6 +43,8 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
     />
   );
 
+  const getStudioServicesDisplayName = (name: string) => (name?.length > 1 ? `${name}'s Services` : '');
+
   return (
     <section className="details studio-details">
       <StudioPreview studio={currStudio || null} />
@@ -80,7 +82,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
         </div>
       </div>
       <GenericCarousel
-        title={`${currStudio?.name}'s Available Services`}
+        title={(() => getStudioServicesDisplayName(currStudio?.name || ''))()}
         autoplay={true}
         data={filteredItems}
         renderItem={(item) => <ItemPreview item={item} />}
