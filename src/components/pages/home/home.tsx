@@ -78,12 +78,12 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
       />
       <h1 onClick={() => navigate('/studios/music')}>Book now, think later</h1>
       <StudiosList studios={mixingStudios.slice(6, 12)} />
-      <GenericCarousel
+      {/* <GenericCarousel
         data={masteringItems}
         className="items-carousel"
         renderItem={itemRenderItem}
         title="Mastering Services"
-      />
+      /> */}
     </section>
   );
 };
