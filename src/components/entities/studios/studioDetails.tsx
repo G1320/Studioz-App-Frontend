@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown, ItemsList, WishlistPreview, StudioPreview } from '@/components';
+import { Button, GenericMuiDropdown, WishlistPreview, StudioPreview, GenericCarousel, ItemPreview } from '@/components';
 import { useStudio, useAddStudioToWishlistMutation, useWishlists } from '@/hooks/index';
 import { Item, Wishlist } from '@/types/index';
 import { useUserContext } from '@/contexts';
@@ -79,7 +79,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
           </section>
         </div>
       </div>
-      <ItemsList items={filteredItems} className="studio-items-list" />
+      <GenericCarousel autoplay={true} data={filteredItems} renderItem={(item) => <ItemPreview item={item} />} />
     </section>
   );
 };

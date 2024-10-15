@@ -6,5 +6,6 @@ export interface CartItem {
   quantity?: number;
   bookingDate?: Date | string;
   studioName?: string;
+  studioImgUrl?: string;
   studioId?: string;
 }

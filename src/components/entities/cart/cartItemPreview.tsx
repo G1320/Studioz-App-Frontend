@@ -36,7 +36,8 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
           quantity: item.quantity ? item.quantity + 1 : 1,
           price: item.price,
           total: item.price * (item.quantity ? item.quantity + 1 : 1),
-          studioName: item.studioName
+          studioName: item.studioName,
+          studioImgUrl: item.studioImgUrl
         });
       }
     } else {
@@ -46,20 +47,24 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
 
   return (
     <article onClick={handleClick} className="preview cart-item-preview">
-      <h3 onClick={handleClick}>{item?.name}</h3>
-      <p>{item?.studioName}</p>
-      <small>{formatBookingDate(item?.bookingDate)}</small>
       <div>
-        <small className="cart-item-preview-price" onClick={handleClick}>
-          Price: ${item?.price?.toFixed(2)}
-        </small>
+        <h3 onClick={handleClick}>{item?.name}</h3>
+        <p>{item?.studioName}</p>
+      </div>
+      <div>
+        <small>{formatBookingDate(item?.bookingDate)}</small>
+        <div>
+          <small className="cart-item-preview-price" onClick={handleClick}>
+            Price: ${item?.price?.toFixed(2)}
+          </small>
+        </div>
       </div>
       <div className="cart-item-quantity-container">
         <Button onClick={(e) => handleQuantityChange(e, item, false)} className="remove-from-cart">
           <RemoveCircleOutlineIcon className="icon decrement-quantity-button" />
         </Button>
         <small className="cart-item-preview-quantity" onClick={handleClick}>
-          Hrs: {item.quantity}
+          hours: {item.quantity}
         </small>
         <Button onClick={(e) => handleQuantityChange(e, item, true)} className="increment-quantity">
           <AddCircleOutlineIcon className="icon increment-quantity-button" />

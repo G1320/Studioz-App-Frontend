@@ -7,3 +7,4 @@ export * from './sanitizeUserObject';
 export * from './storageUtils';
 export * from './toggleArrayItem';
 export * from './formatBookingDate';
+export * from './filterUtils';

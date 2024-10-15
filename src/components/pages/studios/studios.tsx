@@ -21,8 +21,7 @@ export const Studios: React.FC<StudiosProps> = ({ studios }) => {
   });
   return (
     <section className="studios-page">
-      <h1>Check out our {category} Studios</h1>
-      {subcategory && <h2>Specializing: {subcategory}</h2>}
+      {subcategory && <h1>{subcategory} Studioz</h1>}
       <StudiosList studios={filteredStudios} />
     </section>
   );

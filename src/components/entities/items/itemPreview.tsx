@@ -49,7 +49,8 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         total: item.price || 0,
         itemId: item._id,
         bookingDate: confirmedDate,
-        studioName: item.studioName
+        studioName: item.studioName,
+        studioImgUrl: item.studioImgUrl
       };
 
       addItemToCartMutation.mutate(newItem);
@@ -92,7 +93,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         <h4>{item.studioName}</h4>
         <div className="">
           {item.inStock && <small>In Stock</small>}
-          <small>${item.price}/Hr</small>
+          <small>${item.price}/hr</small>
         </div>
       </div>
       <p>{item.description}</p>

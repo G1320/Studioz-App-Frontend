@@ -15,7 +15,7 @@ interface GenericCarouselProps<T> {
   className?: string;
   renderItem: RenderItemFunction<T>;
   title?: string;
-  isAutoplay?: boolean;
+  autoplay?: boolean;
 }
 
 export const GenericCarousel = <T,>({
@@ -23,7 +23,7 @@ export const GenericCarousel = <T,>({
   className,
   renderItem,
   title,
-  isAutoplay = false
+  autoplay = false
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
 
@@ -41,8 +41,10 @@ export const GenericCarousel = <T,>({
           spaceBetween={15}
           slidesPerView={'auto'}
           initialSlide={0}
-          cssMode={true}
-          autoplay={isAutoplay ? { delay: 5000, disableOnInteraction: false } : false}
+          cssMode={false}
+          touchStartPreventDefault={false}
+          allowTouchMove={true}
+          autoplay={autoplay ? { delay: 5000, disableOnInteraction: false } : false}
           pagination={{
             clickable: true
           }}
@@ -51,7 +53,8 @@ export const GenericCarousel = <T,>({
             420: { slidesPerView: 1 },
             620: { slidesPerView: 2 },
             1000: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 }
+            1200: { slidesPerView: 4 },
+            1550: { slidesPerView: 5 }
           }}
         >
           {data?.map((item, index) => (

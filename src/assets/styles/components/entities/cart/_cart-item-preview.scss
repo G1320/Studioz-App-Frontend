@@ -1,10 +1,15 @@
 .cart-item-preview {
   gap: 0.5rem;
-  width: 130px;
+  // aspect-ratio: 2/1;
+  // hei
+  text-align: start;
   min-height: 125px;
-  padding: 0.75rem;
+  width: 200px;
+  padding: 0.5rem;
   color: #fff;
-  background: linear-gradient(to bottom, hsl(200, 76%, 53%) 0%, rgba(78, 45, 226, 0.0588235294) 25%);
+  div {
+    width: 100%;
+  }
   div.cart-item-quantity-container {
     button {
       background-color: transparent;
@@ -21,19 +26,9 @@
     justify-items: center;
     grid-template-columns: 36px 1fr 36px;
     width: 100%;
-    height: fit-content;
-    gap: 0.5rem;
+    // height: fit-content;
+    gap: 0.25rem;
     border: 1px solid #fff;
     border-radius: 8px;
-    .cart-item-preview-quantity {
-      width: 4ch;
-    }
-  }
-
-  .cart-item-preview-price {
-    min-width: 6ch;
-  }
-  .cart-item-preview-quantity {
-    width: 2ch;
   }
 }

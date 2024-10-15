@@ -94,7 +94,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple,
-    maxFiles: 8,
+    maxFiles: 20,
     accept: validMimeTypes,
     maxSize: 9 * 1024 * 1024
   });

@@ -1,0 +1,16 @@
+.studios-page {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-block-end: 2.5rem;
+
+  h1 {
+    max-width: max-content;
+    place-self: center;
+    cursor: pointer;
+    justify-self: start;
+    &:hover {
+      text-shadow: 0 0 12px #bdeeff;
+    }
+  }
+}
