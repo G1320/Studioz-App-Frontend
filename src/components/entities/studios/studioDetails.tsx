@@ -79,7 +79,12 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
           </section>
         </div>
       </div>
-      <GenericCarousel autoplay={true} data={filteredItems} renderItem={(item) => <ItemPreview item={item} />} />
+      <GenericCarousel
+        title={`${currStudio?.name}'s Available Services`}
+        autoplay={true}
+        data={filteredItems}
+        renderItem={(item) => <ItemPreview item={item} />}
+      />
     </section>
   );
 };

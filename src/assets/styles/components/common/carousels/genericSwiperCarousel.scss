@@ -4,11 +4,11 @@
   min-height: max-content;
   border-radius: 8px;
   position: relative;
-  height: 100%;
+  // height: fit-content;
 
   .swiper_wrap {
     position: relative;
-    height: 100%;
+    // height: 100%;
   }
 
   .swiper {
@@ -29,11 +29,31 @@
     height: 100%;
   }
 
+  .swiper-navigation-title-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-content: center;
+    h1 {
+      max-width: max-content;
+      height: max-content;
+      // justify-self: center;
+      font-size: 1.5em;
+      text-wrap: nowrap;
+
+      place-self: center;
+      cursor: pointer;
+      justify-self: start;
+      &:hover {
+        text-shadow: 0 0 12px #bdeeff;
+      }
+    }
+  }
+
   .swiper-navigation {
-    position: absolute;
-    top: calc(-100% - 3.35rem);
-    right: 0rem;
+    position: relative;
+    width: 100%;
     display: flex;
+    justify-content: end;
     gap: 10px;
     z-index: 10;
   }
@@ -43,8 +63,8 @@
     position: static;
     width: 40px;
     height: 40px;
-    transform: none;
-    margin: 0;
+    // transform: none;
+    margin: 1rem 0;
     background-color: transparent;
     border-radius: 8px;
     display: grid;

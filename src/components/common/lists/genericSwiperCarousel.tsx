@@ -29,7 +29,13 @@ export const GenericCarousel = <T,>({
 
   return (
     <section className="generic-carousel">
-      {title && <h1>{title}</h1>}
+      <div className="swiper-navigation-title-container">
+        {title && <h1 className="generic-carousel-title">{title}</h1>}
+        <div className="swiper-navigation">
+          <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}></button>
+          <button className="swiper-button-next custom-nav-btn" onClick={() => swiperRef.current?.slideNext()}></button>
+        </div>
+      </div>
 
       <div className="swiper_wrap">
         <Swiper
@@ -62,18 +68,6 @@ export const GenericCarousel = <T,>({
             <SwiperSlide key={(item as Studio | Item)._id || index}>{renderItem(item)}</SwiperSlide>
           ))}
         </Swiper>
-        <div className="swiper-navigation-wrapper">
-          <div className="swiper-navigation">
-            <button
-              className="swiper-button-prev custom-nav-btn"
-              onClick={() => swiperRef.current?.slidePrev()}
-            ></button>
-            <button
-              className="swiper-button-next custom-nav-btn"
-              onClick={() => swiperRef.current?.slideNext()}
-            ></button>
-          </div>
-        </div>
       </div>
     </section>
   );

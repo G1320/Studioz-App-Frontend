@@ -1,21 +1,17 @@
 .home {
   display: grid;
   justify-items: center;
-  gap: 1rem;
+  // gap: 1rem;
   margin-block-end: 2.5rem;
 
   .studios {
     width: 100%;
   }
-
-  h1 {
+  h1:not(.generic-carousel-title) {
+    padding: 1rem 0;
     max-width: max-content;
-    // place-self: center;
     cursor: pointer;
     justify-self: start;
-    &:hover {
-      text-shadow: 0 0 12px #bdeeff;
-    }
   }
 }
 

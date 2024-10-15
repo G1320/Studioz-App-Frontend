@@ -13,3 +13,7 @@ main {
     }
   }
 }
+
+body:has(.home) main {
+  gap: 0rem;
+}

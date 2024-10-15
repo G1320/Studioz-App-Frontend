@@ -25,50 +25,65 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
   const masteringStudios = filterBySubcategory(studios, 'Mastering');
   const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
+  const masteringItems = filterBySubcategory(items, 'Mastering');
 
   return (
     <section className="home">
-      <h1 onClick={() => navigate('/studios/music/recording')}>Studioz for you</h1>
       <GenericCarousel
         data={studios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         autoplay={true}
+        title="Studioz for you"
       />
-      <h1 onClick={() => navigate('/services')}>The best in the biz</h1>
-      <GenericCarousel data={items} className="items-carousel" renderItem={itemRenderItem} />
-      <h1 onClick={() => navigate('/studios/music/recording')}>Recording Studioz</h1>
+      <GenericCarousel
+        data={items}
+        className="items-carousel"
+        renderItem={itemRenderItem}
+        title="The best in the biz"
+      />
       <GenericCarousel
         data={recordingStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
+        title="Recording Studioz"
       />
-      <h1 onClick={() => navigate('/services/music/mixing')}>Mixing Services</h1>
-      <GenericCarousel data={mixingItems} className="items-carousel" renderItem={itemRenderItem} />
-      <h1 onClick={() => navigate('/studios/music/podcast recording')}>Podcast Studioz</h1>
+      <GenericCarousel
+        data={mixingItems}
+        className="items-carousel"
+        renderItem={itemRenderItem}
+        title="Mixing Services"
+      />
       <GenericCarousel
         data={podcastRecordingStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
+        title="Podcast Studioz"
       />
       <h1 onClick={() => navigate('/studios/music/mixing')}>Charge up your mix with a professional touch</h1>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
 
-      <h1 onClick={() => navigate('/studios/music/mastering')}>Mastering Studioz</h1>
       <GenericCarousel
         data={masteringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
+        title="Mastering Studioz"
       />
 
-      <h1 onClick={() => navigate('/studios/music/Audio engineering')}>Audio Engineerz</h1>
       <GenericCarousel
         data={audioEngineeringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
+        title="Audio Engineerz"
       />
-      <h1 onClick={() => navigate('/studios')}>Book now, think later</h1>
+      <h1 onClick={() => navigate('/studios/music')}>Book now, think later</h1>
       <StudiosList studios={mixingStudios.slice(6, 12)} />
+      <GenericCarousel
+        data={masteringItems}
+        className="items-carousel"
+        renderItem={itemRenderItem}
+        title="Mastering Services"
+      />
     </section>
   );
 };
