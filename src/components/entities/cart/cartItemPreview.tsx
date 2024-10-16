@@ -66,7 +66,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         <small className="cart-item-preview-quantity" onClick={handleClick}>
           hours: {item.quantity}
         </small>
-        <Button onClick={(e) => handleQuantityChange(e, item, true)} className="increment-quantity">
+        <Button onClick={(e) => handleQuantityChange(e, item)} className="increment-quantity">
           <AddCircleOutlineIcon className="icon increment-quantity-button" />
         </Button>
       </div>
