@@ -8,3 +8,4 @@ export * from './storageUtils';
 export * from './toggleArrayItem';
 export * from './formatBookingDate';
 export * from './filterUtils';
+export * from './shuffleArrays';

@@ -105,9 +105,12 @@ body,
     background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25%);
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    &:hover {
+      box-shadow: 0 0 8px 7px $color-primary;
+    }
     &:not(.item-preview) {
       background-color: #3d3d3d35;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
   }
 
@@ -143,9 +146,6 @@ body,
   }
   small {
     white-space: nowrap;
-  }
-  &:hover {
-    box-shadow: 0 0 8px 7px $color-primary;
   }
 }
 

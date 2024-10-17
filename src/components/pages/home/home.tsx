@@ -4,7 +4,7 @@ import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/comp
 import { useWishlists } from '@/hooks';
 import { useUserContext } from '@/contexts';
 import { Studio, Item } from '@/types/index';
-import { filterBySubcategory } from '@/utils';
+import { filterBySubcategory, shuffleArray } from '@/utils';
 
 interface HomeProps {
   studios: Studio[];
@@ -25,19 +25,19 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
   const masteringStudios = filterBySubcategory(studios, 'Mastering');
   const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
-  // const masteringItems = filterBySubcategory(items, 'Mastering');
+  const masteringItems = filterBySubcategory(items, 'Mastering');
 
   return (
     <section className="home">
       <GenericCarousel
-        data={studios}
+        data={shuffleArray(studios)}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         autoplay={true}
         title="Studioz for you"
       />
       <GenericCarousel
-        data={items}
+        data={shuffleArray(items)}
         className="items-carousel"
         renderItem={itemRenderItem}
         title="The best in the biz"
@@ -77,13 +77,13 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
         title="Audio Engineerz"
       />
       <h1 onClick={() => navigate('/studios/music')}>Book now, think later</h1>
-      <StudiosList studios={mixingStudios.slice(6, 12)} />
-      {/* <GenericCarousel
+      <StudiosList studios={mixingStudios.slice(7, 12)} />
+      <GenericCarousel
         data={masteringItems}
         className="items-carousel"
         renderItem={itemRenderItem}
         title="Mastering Services"
-      /> */}
+      />
     </section>
   );
 };
