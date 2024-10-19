@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/components';
 
 import { useWishlists } from '@/hooks';
@@ -12,7 +11,6 @@ interface HomeProps {
 }
 
 export const Home: React.FC<HomeProps> = ({ studios, items }) => {
-  const navigate = useNavigate();
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 

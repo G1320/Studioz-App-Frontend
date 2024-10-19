@@ -1,14 +1,14 @@
 .cart-item-preview {
   gap: 0.5rem;
-  // aspect-ratio: 2/1;
-  // hei
   text-align: start;
   min-height: 125px;
   width: 200px;
   padding: 0.5rem;
   color: #fff;
   background-color: none;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
+  border-radius: 10px;
+
   div {
     width: 100%;
   }
@@ -28,9 +28,7 @@
     justify-items: center;
     grid-template-columns: 36px 1fr 36px;
     width: 100%;
-    // height: fit-content;
     gap: 0.25rem;
     border: 1px solid #fff;
-    border-radius: 8px;
   }
 }
