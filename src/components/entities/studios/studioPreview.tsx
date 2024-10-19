@@ -6,7 +6,7 @@ import { Studio } from '@/types/index';
 import { usePrefetchStudio } from '@/hooks/prefetching/index';
 
 interface StudioPreviewProps {
-  studio: Studio;
+  studio?: Studio;
 }
 
 export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {

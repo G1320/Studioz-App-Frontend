@@ -47,7 +47,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
 
   return (
     <section className="details studio-details">
-      <StudioPreview studio={currStudio || null} />
+      <StudioPreview studio={currStudio} />
       <div>
         <div className="studio-details-options-container">
           <section className="details-buttons item-details-buttons">
