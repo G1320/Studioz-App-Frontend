@@ -12,7 +12,7 @@ interface StudioPreviewProps {
 export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const prefetchStudio = usePrefetchStudio(studio._id);
+  const prefetchStudio = usePrefetchStudio(studio?._id || '');
 
   const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 

@@ -19,7 +19,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const { studioId, wishlistId } = useParams<{ studioId: string; wishlistId: string }>();
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const prefetchItem = usePrefetchItem(item._id);
+  const prefetchItem = usePrefetchItem(item?._id || '');
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
