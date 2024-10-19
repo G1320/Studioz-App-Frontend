@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import { useOfflineCartContext, useUserContext } from '@/contexts';
 import { useItems, useStudios, useOnlineCart } from '@/hooks';
 import { PropagateLoader } from 'react-spinners';
@@ -21,6 +21,7 @@ import {
   WishLists,
   WishlistDetails
 } from '@/components';
+import { shuffleArray } from './utils';
 
 const CreateStudio = lazy(() => import('@/components/entities/studios/createStudio'));
 const CreateItem = lazy(() => import('@/components/entities/items/createItem'));
@@ -39,8 +40,11 @@ function App() {
 
   const { data: onlineCart } = useOnlineCart(user?._id || '');
   const { offlineCartContext: offlineCart } = useOfflineCartContext();
-  const { data: items } = useItems();
-  const { data: studios } = useStudios();
+  const { data: originalItems } = useItems();
+  const { data: originalStudios } = useStudios();
+
+  const studios = useMemo(() => shuffleArray(originalStudios || []), [originalStudios]);
+  const items = useMemo(() => shuffleArray(originalItems || []), [originalItems]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>

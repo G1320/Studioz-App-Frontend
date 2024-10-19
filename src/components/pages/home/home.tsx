@@ -3,7 +3,7 @@ import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/comp
 import { useWishlists } from '@/hooks';
 import { useUserContext } from '@/contexts';
 import { Studio, Item } from '@/types/index';
-import { filterBySubcategory, shuffleArray } from '@/utils';
+import { filterBySubcategory } from '@/utils';
 
 interface HomeProps {
   studios: Studio[];
@@ -28,14 +28,14 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
   return (
     <section className="home">
       <GenericCarousel
-        data={shuffleArray(studios)}
+        data={studios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         autoplay={true}
         title="Studioz for you"
       />
       <GenericCarousel
-        data={shuffleArray(items)}
+        data={items}
         className="items-carousel"
         renderItem={itemRenderItem}
         title="The best in the biz"
