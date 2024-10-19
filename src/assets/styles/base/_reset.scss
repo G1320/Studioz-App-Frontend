@@ -18,3 +18,9 @@ body,
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+// @supports (-webkit-overflow-scrolling: touch) {
+//   body {
+//     -webkit-overflow-scrolling: touch;
+//   }
+// }
