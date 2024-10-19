@@ -102,7 +102,7 @@ body,
     background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25%);
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    &:not(.item-preview, .cart-item-preview) {
+    &:not(.item-preview, .cart-item-preview, .gallery-image) {
       background-color: #3d3d3d35;
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
