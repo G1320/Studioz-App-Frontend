@@ -1,15 +1,18 @@
 .hero {
   display: grid;
+  place-items: center;
+  justify-content: start;
+  min-height: 8rem;
+  max-width: 600px;
   .hero-header {
     text-wrap: nowrap;
     font-size: 1.5em;
+    align-self: center;
   }
 
   .hero-text-wrapper {
     display: grid;
-    place-self: center;
     justify-self: start;
-
     grid-template-rows: repeat(2, 1fr);
     text-align: left;
     grid-column: span 2;
@@ -26,20 +29,6 @@
     word-wrap: break-word;
     z-index: 100;
   }
-  .preview {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column: span 3;
-    min-height: max-content;
-    max-height: fit-content;
-
-    // border: 2px solid #fff;
-  }
-  img {
-    max-height: 130px;
-    object-fit: cover;
-    justify-self: end;
-  }
 }
 
 @media screen and (max-width: 650px) {
@@ -52,13 +41,6 @@
     .hero-text-wrapper {
       grid-column: span 3;
       grid-template-rows: 1fr;
-    }
-    img {
-      display: none;
-    }
-    p {
-      min-width: 100%;
-      display: none;
     }
   }
 }

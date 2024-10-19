@@ -5,7 +5,7 @@ export const Hero = () => {
 
   return (
     <section onClick={() => navigate('/studios/music')} className="hero">
-      <div className="preview">
+      <div className="hero">
         <div className="hero-text-wrapper">
           <h1 className="hero-header">With Studioz.co.il, finding the perfect Studio is effortless. </h1>
           <p>
