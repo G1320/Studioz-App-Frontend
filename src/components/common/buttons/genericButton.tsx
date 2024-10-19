@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode } from 'react';
 
 interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
@@ -12,6 +13,7 @@ interface ButtonProps {
 
 export const Button: React.FC<ButtonProps> = ({
   onClick,
+  onMouseEnter,
   disabled = false,
   className = '',
   type = 'button',
@@ -25,7 +27,14 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <button className={`button ${className}`} onClick={onClick} disabled={disabled} type={type} style={buttonStyle}>
+    <button
+      onMouseEnter={onMouseEnter}
+      className={`button ${className}`}
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+      style={buttonStyle}
+    >
       {icon && <span className="button-icon">{icon}</span>}
       {children}
     </button>

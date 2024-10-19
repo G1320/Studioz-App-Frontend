@@ -5,6 +5,7 @@ import { useStudio, useAddStudioToWishlistMutation, useWishlists } from '@/hooks
 import { Item, Wishlist } from '@/types/index';
 import { useUserContext } from '@/contexts';
 import { toast } from 'sonner';
+import { usePrefetchStudio } from '@/hooks/prefetching/index';
 
 interface StudioDetailsProps {
   items: Item[];
@@ -18,8 +19,9 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
   const { data: studioObj } = useStudio(studioId || '');
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
-
   const { currStudio, nextStudio, prevStudio } = studioObj || {};
+
+  const prefetchStudio = usePrefetchStudio(nextStudio?._id || '');
 
   const addItemToWishlistMutation = useAddStudioToWishlistMutation(studioId || '');
 
@@ -55,8 +57,12 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ items }) => {
               {currStudio && user?._id === currStudio?.createdBy && (
                 <Button onClick={() => handleGoToEdit(currStudio?._id || '')}>Edit</Button>
               )}
-              <Button onClick={() => handlePagination(prevStudio?._id || '')}>Prev</Button>
-              <Button onClick={() => handlePagination(nextStudio?._id || '')}>Next</Button>
+              <Button onMouseEnter={prefetchStudio} onClick={() => handlePagination(prevStudio?._id || '')}>
+                Prev
+              </Button>
+              <Button onMouseEnter={prefetchStudio} onClick={() => handlePagination(nextStudio?._id || '')}>
+                Next
+              </Button>
             </div>
             <div>
               {user && (
