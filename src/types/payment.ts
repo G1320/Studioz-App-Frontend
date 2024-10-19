@@ -1,10 +1,10 @@
 export interface Payment {
   _id: string;
   userId: string;
-  bookingId: string;
-  amount: number; // Total price
+  orderId: string;
+  amount: number; // Total price paid
   status: 'pending' | 'completed' | 'failed';
   method: 'stripe' | 'paypal';
-  transactionId: string; // Transaction reference from payment gateway
+  transactionId: string; // Payment gateway transaction reference
   createdAt: Date;
 }

@@ -99,15 +99,15 @@ body,
   place-items: center;
   min-height: 215px;
   padding: 0;
-
+  cursor: pointer;
   &:not(.hero .preview) {
     box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
     background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25%);
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    &:hover {
-      box-shadow: 0 0 8px 7px $color-primary;
-    }
+    // &:hover {
+    //   box-shadow: 0 0 8px 7px $color-primary;
+    // }
     &:not(.item-preview) {
       background-color: #3d3d3d35;
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -115,9 +115,6 @@ body,
   }
 
   // background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%), rgba(255, 255, 255, 0.001);
-
-  // border: 1px solid $border-color-primary;
-
   img:not(img.preview.gallery-image) {
     border-bottom-right-radius: 2px !important;
     border-bottom-left-radius: 2px !important;
@@ -222,7 +219,9 @@ body,
 
 .preview {
   gap: 1rem;
-  // text-align: start;
+  h2 {
+    align-self: start;
+  }
   small,
   .icon {
     min-width: min-content;

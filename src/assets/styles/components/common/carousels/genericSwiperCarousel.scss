@@ -36,16 +36,10 @@
     h1 {
       max-width: max-content;
       height: max-content;
-      // justify-self: center;
       font-size: 1.5em;
       text-wrap: nowrap;
-
       place-self: center;
-      cursor: pointer;
       justify-self: start;
-      &:hover {
-        text-shadow: 0 0 12px #bdeeff;
-      }
     }
   }
 

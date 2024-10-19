@@ -60,7 +60,7 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
         renderItem={studioRenderItem}
         title="Podcast Studioz"
       />
-      <h1 onClick={() => navigate('/studios/music/mixing')}>Charge up your mix with a professional touch</h1>
+      <h1>Charge up your mix with a professional touch</h1>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
 
       <GenericCarousel
@@ -76,7 +76,7 @@ export const Home: React.FC<HomeProps> = ({ studios, items }) => {
         renderItem={studioRenderItem}
         title="Audio Engineerz"
       />
-      <h1 onClick={() => navigate('/studios/music')}>Book now, think later</h1>
+      <h1>Book now, think later</h1>
       <StudiosList studios={mixingStudios.slice(7, 12)} />
       <GenericCarousel
         data={masteringItems}

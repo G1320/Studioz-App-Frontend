@@ -1,8 +1,8 @@
 .hero {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   .hero-header {
-    font-size: 18px;
+    text-wrap: nowrap;
+    font-size: 1.5em;
   }
 
   .hero-text-wrapper {
@@ -42,9 +42,13 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .hero {
     height: max-content;
+    .hero-header {
+      font-size: 18px;
+      text-wrap: wrap;
+    }
     .hero-text-wrapper {
       grid-column: span 3;
       grid-template-rows: 1fr;
