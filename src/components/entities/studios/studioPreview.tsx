@@ -3,19 +3,26 @@ import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery, GenericAudioGallery } from '@/components';
 import { Studio } from '@/types/index';
+import { usePrefetchStudio } from '@/hooks/prefetching/index';
 
 interface StudioPreviewProps {
-  studio: Studio | null;
+  studio: Studio;
 }
 
-export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio = null }) => {
+export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const prefetchStudio = usePrefetchStudio(studio._id);
 
   const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
   return (
-    <article onClick={() => navigate(`/studio/${studio?._id}`)} key={studio?._id} className="preview studio-preview">
+    <article
+      onMouseEnter={prefetchStudio}
+      onClick={() => navigate(`/studio/${studio?._id}`)}
+      key={studio?._id}
+      className="preview studio-preview"
+    >
       <GenericImageGallery
         entity={studio}
         coverImage={studio?.coverImage}

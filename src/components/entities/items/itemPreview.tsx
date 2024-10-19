@@ -9,7 +9,7 @@ import {
 } from '@/hooks';
 import { useUserContext } from '@/contexts';
 import { Item, Wishlist } from '@/types/index';
-
+import { usePrefetchItem } from '@/hooks/prefetching/index';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -19,6 +19,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const { studioId, wishlistId } = useParams<{ studioId: string; wishlistId: string }>();
   const navigate = useNavigate();
   const { user } = useUserContext();
+  const prefetchItem = usePrefetchItem(item._id);
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -87,7 +88,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   );
 
   return (
-    <article onClick={handleArticleClicked} key={item._id} className="preview item-preview">
+    <article onMouseEnter={prefetchItem} onClick={handleArticleClicked} key={item._id} className="preview item-preview">
       <h2>{item.name}</h2>
       <div>
         <h4>{item.studioName}</h4>
