@@ -9,15 +9,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Header, Hero, DesktopFooter, Studios, WishLists } from '@/components';
-import { StudioDetails, ItemDetails, Home, Services, WishlistDetails } from '@/pages';
+import { Home, Services, StudioDetails, ItemDetails, WishlistDetails } from '@/pages';
 import { shuffleArray } from '@/utils';
 
 const CreateStudio = lazy(() => import('@/pages/create/createStudio'));
 const CreateItem = lazy(() => import('@/pages/create/createItem'));
-const EditItem = lazy(() => import('@/pages/edit/editItem'));
 const CreateWishlist = lazy(() => import('@/pages/create/createWishlist'));
-const EditWishlist = lazy(() => import('@/pages/edit/editWishlist'));
 const EditStudio = lazy(() => import('@/pages/edit/editStudio'));
+const EditItem = lazy(() => import('@/pages/edit/editItem'));
+const EditWishlist = lazy(() => import('@/pages/edit/editWishlist'));
 const CartDetails = lazy(() => import('@/pages/details/cartDetails'));
 
 function App() {
