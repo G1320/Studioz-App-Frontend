@@ -2,7 +2,7 @@
   display: grid;
   place-items: center;
   justify-content: start;
-  min-height: 8rem;
+  min-height: 7rem;
   width: 100%;
   .hero-header {
     text-wrap: nowrap;
@@ -21,8 +21,9 @@
   p {
     grid-row: 2;
     grid-column: 1;
-    max-height: 48px;
+    max-height: max-content;
     min-width: 360px;
+    align-self: center;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

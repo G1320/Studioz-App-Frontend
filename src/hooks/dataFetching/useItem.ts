@@ -9,7 +9,6 @@ export const useItem = (itemId: string) => {
     staleTime: 5 * 60 * 1000,
     queryFn: () => getItemById(itemId),
     placeholderData: keepPreviousData,
-
     initialData: () => queryClient.getQueryData<Item>(['item', itemId])
   });
 
