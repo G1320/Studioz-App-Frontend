@@ -144,10 +144,10 @@ body,
 
 .details {
   display: grid;
+  grid-template-rows: repeat(3, max-content);
   gap: 1rem;
   place-items: center;
   border-radius: 8px;
-  padding: 0.5rem;
 
   img {
     max-width: 700px;

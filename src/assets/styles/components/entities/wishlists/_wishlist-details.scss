@@ -1,11 +1,9 @@
 .wishlist-details {
-  gap: 0;
-  width: 100%;
+  gap: 1rem;
   .details-buttons {
     display: flex;
   }
   .wishlist-items-list {
-    width: 100%;
     .items-list {
       display: grid;
       max-width: 1000px;
