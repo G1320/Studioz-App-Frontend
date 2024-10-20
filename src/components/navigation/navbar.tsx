@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 export function Navbar() {
   const { user } = useUserContext();
   const navigate = useNavigate();
-  console.log('user: ', user);
 
   const handleNavigate = (path: string) => {
     if (!user?._id) {
