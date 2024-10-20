@@ -17,7 +17,6 @@ import {
   StudioDetails,
   ItemDetails,
   Services,
-  Store,
   WishLists,
   WishlistDetails
 } from '@/components';
@@ -56,7 +55,7 @@ function App() {
             <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
             <Route path="/studio/:studioId" element={<StudioDetails items={items || []} />} />
             <Route path="/studios/:category?/:subcategory?" element={<Studios studios={studios || []} />} />
-            <Route path="/services" element={<Store items={items || []} />} />
+            {/* <Route path="/services" element={<Services items={items || []} />} /> */}
             <Route path="/services/:category?/:subCategory?" element={<Services items={items || []} />} />
             <Route path="/wishlists" element={<WishLists />} />
             <Route path="/wishlists/:wishlistId" element={<WishlistDetails items={items || []} />} />

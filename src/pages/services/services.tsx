@@ -8,7 +8,6 @@ interface ServicesProps {
 
 export const Services: React.FC<ServicesProps> = ({ items }) => {
   const { category, subCategory } = useParams<{ category?: string; subCategory?: string }>();
-
   const filteredItems = items?.filter((item) => {
     if (subCategory === undefined) {
       return item?.category?.toLowerCase() === category?.toLowerCase();
@@ -22,7 +21,7 @@ export const Services: React.FC<ServicesProps> = ({ items }) => {
 
   return (
     <section className="services-page">
-      <ItemsList items={filteredItems} className="Items-list" />
+      <ItemsList items={filteredItems?.length ? filteredItems : items} className="Items-list" />
     </section>
   );
 };
