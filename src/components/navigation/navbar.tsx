@@ -6,7 +6,9 @@ export function Navbar() {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+
     if (!user?._id) {
       toast.error('Please log in to access this feature');
     } else if (path === '/wishlists' && (!user?.wishlists || user?.wishlists.length === 0)) {
@@ -18,9 +20,13 @@ export function Navbar() {
 
   return (
     <nav className="navbar">
-      <a onClick={() => navigate('/services')}>Services</a>
-      <a onClick={() => handleNavigate('/wishlists')}>Wishlists</a>
-      <a onClick={() => handleNavigate('/create-studio')}>Create</a>
+      <a href="/services">Services</a>
+      <a href="/wishlists" onClick={(e) => handleNavigate(e, '/wishlists')}>
+        Wishlists
+      </a>
+      <a href="/create-studio" onClick={(e) => handleNavigate(e, '/create-studio')}>
+        Create
+      </a>
     </nav>
   );
 }

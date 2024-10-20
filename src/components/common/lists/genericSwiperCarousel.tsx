@@ -32,8 +32,16 @@ export const GenericCarousel = <T,>({
       <div className="swiper-navigation-title-container">
         {title && <h1 className="generic-carousel-title">{title}</h1>}
         <div className="swiper-navigation">
-          <button className="swiper-button-prev custom-nav-btn" onClick={() => swiperRef.current?.slidePrev()}></button>
-          <button className="swiper-button-next custom-nav-btn" onClick={() => swiperRef.current?.slideNext()}></button>
+          <button
+            className="next-slide-button swiper-button-prev button-prev custom-nav-btn"
+            onClick={() => swiperRef.current?.slidePrev()}
+            aria-label="Go to next slide"
+          ></button>
+          <button
+            className="previous-slide-button swiper-button-next button-prev custom-nav-btn"
+            onClick={() => swiperRef.current?.slideNext()}
+            aria-label="Go to previous slide"
+          ></button>
         </div>
       </div>
 
