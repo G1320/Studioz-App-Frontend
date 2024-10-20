@@ -13,7 +13,6 @@ export const sanitizeUserObject = (user: User): Partial<User> => {
   delete sanitizedUser.updatedAt;
   delete sanitizedUser.email;
   delete sanitizedUser.studios;
-  delete sanitizedUser.wishlists;
   delete sanitizedUser.cart;
 
   return sanitizedUser;
