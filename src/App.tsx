@@ -8,27 +8,17 @@ import { Toaster } from 'sonner';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import {
-  Header,
-  Hero,
-  Home,
-  DesktopFooter,
-  Studios,
-  StudioDetails,
-  ItemDetails,
-  Services,
-  WishLists,
-  WishlistDetails
-} from '@/components';
-import { shuffleArray } from './utils';
+import { Header, Hero, DesktopFooter, Studios, WishLists } from '@/components';
+import { StudioDetails, ItemDetails, Home, Services, WishlistDetails } from '@/pages';
+import { shuffleArray } from '@/utils';
 
-const CreateStudio = lazy(() => import('@/components/entities/studios/createStudio'));
-const CreateItem = lazy(() => import('@/components/entities/items/createItem'));
-const EditItem = lazy(() => import('@/components/entities/items/editItem'));
-const CreateWishlist = lazy(() => import('@/components/entities/wishlists/createWishlist'));
-const EditWishlist = lazy(() => import('@/components/entities/wishlists/editWishlist'));
-const EditStudio = lazy(() => import('@/components/entities/studios/editStudio'));
-const CartDetails = lazy(() => import('@/components/entities/cart/cartDetails'));
+const CreateStudio = lazy(() => import('@/pages/create/createStudio'));
+const CreateItem = lazy(() => import('@/pages/create/createItem'));
+const EditItem = lazy(() => import('@/pages/edit/editItem'));
+const CreateWishlist = lazy(() => import('@/pages/create/createWishlist'));
+const EditWishlist = lazy(() => import('@/pages/edit/editWishlist'));
+const EditStudio = lazy(() => import('@/pages/edit/editStudio'));
+const CartDetails = lazy(() => import('@/pages/details/cartDetails'));
 
 function App() {
   const { user } = useUserContext();
@@ -65,7 +55,7 @@ function App() {
             <Route path="/edit-wishlist/:wishlistId" element={<EditWishlist />} />
             <Route path="/create-wishlist" element={<CreateWishlist />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
-            <Route path="/cart" element={<CartDetails cart={offlineCart || onlineCart} />} />
+            <Route path="/cart" element={<CartDetails cart={onlineCart || offlineCart} />} />
           </Routes>
         </Suspense>
       </main>
