@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getStudioById } from '@/services/studio-service';
 import { StudioResponse } from '@/types/index';
 
@@ -8,6 +8,7 @@ export const useStudio = (studioId: string) => {
     queryKey: ['studio', studioId],
     staleTime: 5 * 60 * 1000,
     queryFn: () => getStudioById(studioId),
+    placeholderData: keepPreviousData,
     initialData: () => queryClient.getQueryData<StudioResponse>(['studio', studioId])
   });
 

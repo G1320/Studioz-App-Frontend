@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getItems } from '@/services';
 import { Item } from '@/types/index';
 
@@ -7,7 +7,8 @@ export const useItems = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['items', {}],
     staleTime: 5 * 60 * 1000,
-    queryFn: () => getItems(),
+    queryFn: getItems,
+    placeholderData: keepPreviousData,
     initialData: () => queryClient.getQueryData<Item[]>(['items'])
   });
 
