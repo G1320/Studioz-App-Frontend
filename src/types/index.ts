@@ -9,8 +9,10 @@ import WishlistItem from './wishlistItem';
 import WishlistResponse from './wishlistResponse';
 import Cart from './cart';
 import { CartItem } from './cartItem';
+import { Availability } from './availability';
 
 export type {
+  Availability,
   AuthResponse,
   RegisterData,
   LoginCredentials,

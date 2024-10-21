@@ -1,4 +1,5 @@
 // shared/types/studio.ts
+import { Availability } from './availability';
 import StudioItem from './studioItem';
 
 export default interface Studio {
@@ -21,4 +22,5 @@ export default interface Studio {
   isFeatured?: boolean;
   subCategory?: string;
   items: StudioItem[];
+  availability?: Availability[];
 }
