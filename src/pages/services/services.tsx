@@ -7,7 +7,7 @@ interface ServicesProps {
 }
 
 export const Services: React.FC<ServicesProps> = ({ items }) => {
-  const { category, subCategory } = useParams<{ category?: string; subCategory?: string }>();
+  const { category, subCategory } = useParams();
   const filteredItems = items?.filter((item) => {
     if (subCategory === undefined) {
       return item?.category?.toLowerCase() === category?.toLowerCase();
