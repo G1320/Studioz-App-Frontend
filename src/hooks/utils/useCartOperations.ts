@@ -10,7 +10,6 @@ import {
   updateUserCart
 } from '@/services';
 import { Cart, CartItem } from '@/types/index';
-import dayjs from 'dayjs';
 
 export const useCartOperations = () => {
   const { user } = useUserContext();
@@ -20,10 +19,9 @@ export const useCartOperations = () => {
     if (action == 'added') {
       return `${action} ${item.name} service at ${item.studioName} `;
     } else if (action == 'booked') {
-      const formattedDate = dayjs(item.bookingDate).format('DD/MM/YYYY HH:mm');
-      return `${item.name} service at ${item.studioName} ${action} for ${formattedDate}`;
+      return `${item.name} service at ${item.studioName} ${action} for ${item.bookingDate} at ${item.startTime}`;
     } else {
-      return `Removed ${item.name} service at ${item.studioName} `;
+      return `removed ${item.name} service at ${item.studioName} `;
     }
   };
 

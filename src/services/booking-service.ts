@@ -4,6 +4,7 @@ import { CartItem } from '@/types/index';
 const bookingEndpoint = '/bookings';
 
 export const bookItem = async (item: CartItem, userId: string) => {
+  console.log('item: ', item);
   try {
     return await httpService.post(`${bookingEndpoint}/book-item/${userId}`, item);
   } catch (error) {

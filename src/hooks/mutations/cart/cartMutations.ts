@@ -8,7 +8,7 @@ export const useAddItemToCartMutation = () => {
 
   return useMutationHandler<Cart, CartItem>({
     mutationFn: (item: CartItem) => {
-      if (!item.bookingDate) throw new Error('Invalid booking date');
+      if (!item.bookingDate || !item.startTime) throw new Error('Invalid booking date or time');
       return addItem(item);
     },
     successMessage: (_data, variables) => {

@@ -11,6 +11,7 @@ import { useUserContext } from '@/contexts';
 import { Item, Wishlist } from '@/types/index';
 import { usePrefetchItem } from '@/hooks/prefetching/index';
 import { splitDateTime } from '@/utils';
+import { bookItem } from '@/services/booking-service';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -45,7 +46,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   const handleDateConfirm = (confirmedDate: string | null) => {
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
-    if (confirmedDate) {
+    if (bookingDate && startTime) {
       const newItem = {
         name: item.name,
         price: item.price || 0,
@@ -58,6 +59,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       };
 
       addItemToCartMutation.mutate(newItem);
+      // bookItem(newItem, studioId || '');
 
       setIsDatePickerOpen(false);
       setSelectedDate(null);
