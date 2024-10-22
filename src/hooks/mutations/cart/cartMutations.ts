@@ -8,8 +8,8 @@ export const useAddItemToCartMutation = () => {
 
   return useMutationHandler<Cart, CartItem>({
     mutationFn: (item: CartItem) => {
-      if (!(item.bookingDate instanceof Date)) throw new Error('Invalid booking date');
-      return addItem(item, item.bookingDate);
+      if (!item.bookingDate) throw new Error('Invalid booking date');
+      return addItem(item);
     },
     successMessage: (_data, variables) => {
       if (variables.quantity === undefined) {
@@ -42,7 +42,7 @@ export const useRemoveItemFromCartMutation = () => {
     mutationFn: (item: CartItem) => removeItem(item.itemId),
     successMessage: (_data, variables) => generateSuccessMessage(variables, 'removed'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => addItem(variables, new Date())
+    undoAction: (variables, _data) => addItem(variables)
   });
 };
 

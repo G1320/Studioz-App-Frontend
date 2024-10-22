@@ -4,7 +4,8 @@ export interface CartItem {
   total: number;
   itemId: string;
   quantity?: number;
-  bookingDate?: Date | string;
+  bookingDate?: string;
+  startTime?: string;
   studioName?: string;
   studioImgUrl?: string;
   studioId?: string;

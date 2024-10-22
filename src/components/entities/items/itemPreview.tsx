@@ -10,6 +10,7 @@ import {
 import { useUserContext } from '@/contexts';
 import { Item, Wishlist } from '@/types/index';
 import { usePrefetchItem } from '@/hooks/prefetching/index';
+import { splitDateTime } from '@/utils';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -42,14 +43,16 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     setSelectedDate(newDate);
   };
 
-  const handleDateConfirm = (confirmedDate: Date | null) => {
+  const handleDateConfirm = (confirmedDate: string | null) => {
+    const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (confirmedDate) {
       const newItem = {
         name: item.name,
         price: item.price || 0,
         total: item.price || 0,
         itemId: item._id,
-        bookingDate: confirmedDate,
+        bookingDate: bookingDate,
+        startTime: startTime,
         studioName: item.studioName,
         studioImgUrl: item.studioImgUrl
       };

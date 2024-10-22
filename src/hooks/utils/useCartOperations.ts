@@ -27,9 +27,9 @@ export const useCartOperations = () => {
     }
   };
 
-  const addItem = async (item: CartItem, bookingDate: Date) => {
+  const addItem = async (item: CartItem) => {
     if (user && user._id) {
-      return addItemToCart(user._id, item.itemId, bookingDate);
+      return addItemToCart(user._id, item.itemId, item.bookingDate || '');
     }
     const cart = getLocalOfflineCart() || { items: [] };
     const existingItem = cart.items.find((cartItem: CartItem) => cartItem.itemId === item.itemId);
@@ -45,7 +45,8 @@ export const useCartOperations = () => {
         total: item.price,
         quantity: 1,
         itemId: item.itemId,
-        bookingDate: bookingDate
+        bookingDate: item.bookingDate,
+        startTime: item.startTime
       });
     }
     updateOfflineCart(cart, setOfflineCartContext);

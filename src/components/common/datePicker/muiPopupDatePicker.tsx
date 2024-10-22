@@ -9,7 +9,7 @@ interface MuiDateTimePickerProps {
   label: string;
   value: Date | null;
   onChange: (newValue: Date | null) => void;
-  onAccept: (newValue: Date | null) => void;
+  onAccept: (newValue: string | null) => void;
   onClose: () => void;
   open: boolean;
   availability?: { date: string; times: string[] }[];
@@ -63,7 +63,7 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
 
     const handleAccept = useCallback(() => {
       if (internalValue) {
-        onAccept(internalValue.toDate());
+        onAccept(internalValue.toDate().toString());
         onClose();
       }
     }, [internalValue, onClose, onAccept]);
