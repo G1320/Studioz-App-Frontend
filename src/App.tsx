@@ -8,17 +8,25 @@ import { Toaster } from 'sonner';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, Hero, DesktopFooter, Studios, WishLists } from '@/components';
-import { Home, Services, StudioDetails, ItemDetails, WishlistDetails } from '@/pages';
+import { Header, Hero, DesktopFooter } from '@/components';
+import {
+  HomePage,
+  ServicesPage,
+  StudiosPage,
+  WishListsPage,
+  StudioDetailsPage,
+  ItemDetailsPage,
+  WishlistDetailsPage
+} from '@/pages';
 import { shuffleArray } from '@/utils';
 
-const CreateStudio = lazy(() => import('@/forms/create-forms/createStudio'));
-const CreateItem = lazy(() => import('@/forms/create-forms/createItem'));
-const CreateWishlist = lazy(() => import('@/forms/create-forms/createWishlist'));
-const EditStudio = lazy(() => import('@/forms/edit-forms/editStudio'));
-const EditItem = lazy(() => import('@/forms/edit-forms/editItem'));
-const EditWishlist = lazy(() => import('@/forms/edit-forms/editWishlist'));
-const CartDetails = lazy(() => import('@/pages/details-pages/cartDetails'));
+const CreateStudio = lazy(() => import('@/pages/create-pages/CreateStudioPage'));
+const CreateItem = lazy(() => import('@/pages/create-pages/CreateItemPage'));
+const CreateWishlist = lazy(() => import('@/pages/create-pages/CreateWishlistPage'));
+const EditStudio = lazy(() => import('@/pages/edit-pages/EditStudioPage'));
+const EditItem = lazy(() => import('@/pages/edit-pages/EditItemPage'));
+const EditWishlist = lazy(() => import('@/pages/edit-pages/EditWishlistPage'));
+const CartDetails = lazy(() => import('@/pages/details-pages/CartDetailsPage'));
 
 function App() {
   const { user } = useUserContext();
@@ -42,19 +50,19 @@ function App() {
         <Hero />
         <Suspense fallback={<PropagateLoader className="loader" />}>
           <Routes>
-            <Route path="/" element={<Home studios={studios || []} items={items || []} />} />
-            <Route path="/studio/:studioId" element={<StudioDetails items={items || []} />} />
-            <Route path="/studios/:category?/:subcategory?" element={<Studios studios={studios || []} />} />
-            <Route path="/services/:category?/:subCategory?" element={<Services items={items || []} />} />
-            <Route path="/wishlists" element={<WishLists />} />
-            <Route path="/wishlists/:wishlistId" element={<WishlistDetails items={items || []} />} />
+            <Route path="/" element={<HomePage studios={studios || []} items={items || []} />} />
+            <Route path="/studio/:studioId" element={<StudioDetailsPage items={items || []} />} />
+            <Route path="/studios/:category?/:subcategory?" element={<StudiosPage studios={studios || []} />} />
+            <Route path="/services/:category?/:subCategory?" element={<ServicesPage items={items || []} />} />
+            <Route path="/wishlists" element={<WishListsPage />} />
+            <Route path="/wishlists/:wishlistId" element={<WishlistDetailsPage items={items || []} />} />
             <Route path="/create-item/:studioName/:studioId" element={<CreateItem />} />
             <Route path="/edit-item/:itemId" element={<EditItem />} />
             <Route path="/edit-studio/:studioId" element={<EditStudio />} />
             <Route path="/create-studio" element={<CreateStudio />} />
             <Route path="/edit-wishlist/:wishlistId" element={<EditWishlist />} />
             <Route path="/create-wishlist" element={<CreateWishlist />} />
-            <Route path="/item/:itemId" element={<ItemDetails />} />
+            <Route path="/item/:itemId" element={<ItemDetailsPage />} />
             <Route path="/cart" element={<CartDetails cart={onlineCart || offlineCart} />} />
           </Routes>
         </Suspense>

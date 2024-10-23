@@ -17,7 +17,7 @@ interface GenericFormProps {
   title?: string;
   fields: Field[];
   onSubmit: (data: Record<string, any>) => void;
-  className?: string;
+  className: string;
   btnTxt?: string;
   onCategoryChange?: (value: string) => void;
 }
@@ -45,7 +45,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({
   };
 
   return (
-    <section className={`generic-form ${className}`}>
+    <section className={`form generic-form ${className}`}>
       <h2>{title}</h2>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Stack spacing={2}>

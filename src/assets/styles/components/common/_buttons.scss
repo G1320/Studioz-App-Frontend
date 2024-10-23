@@ -13,11 +13,7 @@ button {
   min-width: fit-content;
   border: 1px solid white;
   box-shadow: inset 0 0 10px 5px rgba(255, 255, 255, 0.03);
-  padding: 0.75em;
-  // &.swiper-button-prev,
-  // .swiper-button-next {
   padding: 0.6em 1.2em;
-  // }
   cursor: pointer;
   transition: border-color 0.25s;
   &:hover {
@@ -34,10 +30,10 @@ button {
   }
 }
 
-.dropdown-toggle {
+button:is(.dropdown-toggle) {
   max-width: max-content;
 }
 
-.add-to-cart-button {
+button:is(.add-to-cart-button) {
   background: linear-gradient(to bottom, $color-primary 0%, $bg-color-secondary 120%);
 }

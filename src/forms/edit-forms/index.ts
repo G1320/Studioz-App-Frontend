@@ -1,3 +1,3 @@
-export * from './editItem';
-export * from './editStudio';
-export * from './editWishlist';
+export * from './EditItemForm';
+export * from './EditStudioForm';
+export * from './EditWishlistForm';

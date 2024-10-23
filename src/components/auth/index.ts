@@ -1,3 +1,3 @@
-export * from './login-button';
-export * from './logout-button';
+export * from './LoginButton';
+export * from './LogoutButton';
 export * from './profile';
