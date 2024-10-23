@@ -1,1 +1,1 @@
-export * from './genericAudioGallery';
+export * from './GenericAudioGallery';

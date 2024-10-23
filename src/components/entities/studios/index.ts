@@ -1,2 +1,2 @@
-export * from './studiosList';
-export * from './studioPreview';
+export * from './StudiosList';
+export * from './StudioPreview';

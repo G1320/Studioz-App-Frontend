@@ -1,7 +1,7 @@
-export * from './genericDropdown';
-export * from './genericList';
-export * from './genericMuiDropdown';
-export * from './genericMultiDropdown';
-export * from './genericMultiDropdownEntryPreview';
+export * from './GenericDropdown';
+export * from './GenericList';
+export * from './GenericMuiDropdown';
+export * from './GenericMultiDropdown';
+export * from './GenericMultiDropdownEntryPreview';
 // export * from './genericSlickCarousel';
-export * from './genericSwiperCarousel';
+export * from './GenericSwiperCarousel';

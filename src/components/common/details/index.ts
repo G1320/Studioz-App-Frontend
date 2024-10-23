@@ -1,1 +1,1 @@
-export * from './genericDetails';
+export * from './GenericDetails';

@@ -3,14 +3,14 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@/components';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@/services';
 import { useUserContext, useOfflineCartContext } from '@/contexts';
-import { useAddItemsToCartMutation, useErrorHandling } from '@/hooks';
+import { useErrorHandling } from '@/hooks';
 import { User } from '@/types/index';
 
 export const LoginButton: React.FC = (): ReactElement | null => {
   const { user, loginWithPopup, isAuthenticated } = useAuth0();
   const { setUser: setUserContext } = useUserContext();
   const { offlineCartContext, setOfflineCartContext } = useOfflineCartContext();
-  const addItemsToCartMutation = useAddItemsToCartMutation();
+  // const addItemsToCartMutation = useAddItemsToCartMutation();
   const handleError = useErrorHandling();
 
   const handleClick = async () => {
