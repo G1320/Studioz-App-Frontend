@@ -12,13 +12,13 @@ import { Header, Hero, DesktopFooter, Studios, WishLists } from '@/components';
 import { Home, Services, StudioDetails, ItemDetails, WishlistDetails } from '@/pages';
 import { shuffleArray } from '@/utils';
 
-const CreateStudio = lazy(() => import('@/pages/create/createStudio'));
-const CreateItem = lazy(() => import('@/pages/create/createItem'));
-const CreateWishlist = lazy(() => import('@/pages/create/createWishlist'));
-const EditStudio = lazy(() => import('@/pages/edit/editStudio'));
-const EditItem = lazy(() => import('@/pages/edit/editItem'));
-const EditWishlist = lazy(() => import('@/pages/edit/editWishlist'));
-const CartDetails = lazy(() => import('@/pages/details/cartDetails'));
+const CreateStudio = lazy(() => import('@/forms/create-forms/createStudio'));
+const CreateItem = lazy(() => import('@/forms/create-forms/createItem'));
+const CreateWishlist = lazy(() => import('@/forms/create-forms/createWishlist'));
+const EditStudio = lazy(() => import('@/forms/edit-forms/editStudio'));
+const EditItem = lazy(() => import('@/forms/edit-forms/editItem'));
+const EditWishlist = lazy(() => import('@/forms/edit-forms/editWishlist'));
+const CartDetails = lazy(() => import('@/pages/details-pages/cartDetails'));
 
 function App() {
   const { user } = useUserContext();

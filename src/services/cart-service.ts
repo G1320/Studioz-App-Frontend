@@ -7,10 +7,16 @@ const cartEndpoint = '/cart';
 export const getLocalOfflineCart = (): Cart | null => parseJSON<Cart>('offlineCart', null);
 export const setLocalOfflineCart = (cart: Cart): void => stringifyJSON('offlineCart', cart);
 
-export const addItemToCart = async (userId: string, itemId: string, bookingDate: string): Promise<Cart> => {
+export const addItemToCart = async (
+  userId: string,
+  itemId: string,
+  bookingDate: string,
+  startTime: string
+): Promise<Cart> => {
+  console.log('bookingDate: ', bookingDate);
   if (itemId === undefined) throw new Error('Item ID is required');
   try {
-    return await httpService.post(`${cartEndpoint}/${userId}/add-to-cart/${itemId}`, { bookingDate });
+    return await httpService.post(`${cartEndpoint}/${userId}/add-to-cart/${itemId}`, { bookingDate, startTime });
   } catch (error: unknown) {
     console.error('Failed to add item to cart', error);
     throw error;

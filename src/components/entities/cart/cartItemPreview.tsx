@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components';
 import { CartItem } from '@/types/index';
-import { formatBookingDate } from '@/utils';
 import { useAddItemToCartMutation } from '@/hooks';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -32,7 +31,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         addItemToCartMutation.mutate({
           name: item.name,
           itemId: item.itemId,
-          bookingDate: newBookingDate,
+          bookingDate: newBookingDate.toString(),
           quantity: item.quantity ? item.quantity + 1 : 1,
           price: item.price,
           total: item.price * (item.quantity ? item.quantity + 1 : 1),
@@ -52,7 +51,10 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         <p>{item?.studioName}</p>
       </div>
       <div>
-        <small>{formatBookingDate(item?.bookingDate)}</small>
+        <span>
+          <small>{item?.bookingDate}</small>
+          <small>-{item?.startTime}</small>
+        </span>
         <div>
           <small className="cart-item-preview-price" onClick={handleClick}>
             Price: ${item?.price?.toFixed(2)}

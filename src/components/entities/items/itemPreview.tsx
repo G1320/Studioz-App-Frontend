@@ -18,7 +18,7 @@ interface ItemPreviewProps {
 }
 
 export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
-  const { studioId, wishlistId } = useParams<{ studioId: string; wishlistId: string }>();
+  const { studioId, wishlistId } = useParams();
   const navigate = useNavigate();
   const { user } = useUserContext();
   const prefetchItem = usePrefetchItem(item?._id || '');
@@ -59,7 +59,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       };
 
       addItemToCartMutation.mutate(newItem);
-      // bookItem(newItem, studioId || '');
+      bookItem(newItem, user?._id || '');
 
       setIsDatePickerOpen(false);
       setSelectedDate(null);

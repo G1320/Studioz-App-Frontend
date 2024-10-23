@@ -27,7 +27,7 @@ export const useCartOperations = () => {
 
   const addItem = async (item: CartItem) => {
     if (user && user._id) {
-      return addItemToCart(user._id, item.itemId, item.bookingDate || '');
+      return addItemToCart(user._id, item.itemId, item.bookingDate || '', item.startTime || '');
     }
     const cart = getLocalOfflineCart() || { items: [] };
     const existingItem = cart.items.find((cartItem: CartItem) => cartItem.itemId === item.itemId);
