@@ -20,13 +20,13 @@ import {
 } from '@/pages';
 import { shuffleArray } from '@/utils';
 
-const CreateStudio = lazy(() => import('@/pages/create-pages/CreateStudioPage'));
-const CreateItem = lazy(() => import('@/pages/create-pages/CreateItemPage'));
-const CreateWishlist = lazy(() => import('@/pages/create-pages/CreateWishlistPage'));
-const EditStudio = lazy(() => import('@/pages/edit-pages/EditStudioPage'));
-const EditItem = lazy(() => import('@/pages/edit-pages/EditItemPage'));
-const EditWishlist = lazy(() => import('@/pages/edit-pages/EditWishlistPage'));
-const CartDetails = lazy(() => import('@/pages/details-pages/CartDetailsPage'));
+const CreateStudioPage = lazy(() => import('@/pages/create-pages/CreateStudioPage'));
+const CreateItemPage = lazy(() => import('@/pages/create-pages/CreateItemPage'));
+const CreateWishlistPage = lazy(() => import('@/pages/create-pages/CreateWishlistPage'));
+const EditStudioPage = lazy(() => import('@/pages/edit-pages/EditStudioPage'));
+const EditItemPage = lazy(() => import('@/pages/edit-pages/EditItemPage'));
+const EditWishlistPage = lazy(() => import('@/pages/edit-pages/EditWishlistPage'));
+const CartDetailsPage = lazy(() => import('@/pages/details-pages/CartDetailsPage'));
 
 function App() {
   const { user } = useUserContext();
@@ -56,14 +56,14 @@ function App() {
             <Route path="/services/:category?/:subCategory?" element={<ServicesPage items={items || []} />} />
             <Route path="/wishlists" element={<WishListsPage />} />
             <Route path="/wishlists/:wishlistId" element={<WishlistDetailsPage items={items || []} />} />
-            <Route path="/create-item/:studioName/:studioId" element={<CreateItem />} />
-            <Route path="/edit-item/:itemId" element={<EditItem />} />
-            <Route path="/edit-studio/:studioId" element={<EditStudio />} />
-            <Route path="/create-studio" element={<CreateStudio />} />
-            <Route path="/edit-wishlist/:wishlistId" element={<EditWishlist />} />
-            <Route path="/create-wishlist" element={<CreateWishlist />} />
+            <Route path="/create-item/:studioName/:studioId" element={<CreateItemPage />} />
+            <Route path="/edit-item/:itemId" element={<EditItemPage />} />
+            <Route path="/edit-studio/:studioId" element={<EditStudioPage />} />
+            <Route path="/create-studio" element={<CreateStudioPage />} />
+            <Route path="/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
+            <Route path="/create-wishlist" element={<CreateWishlistPage />} />
             <Route path="/item/:itemId" element={<ItemDetailsPage />} />
-            <Route path="/cart" element={<CartDetails cart={onlineCart || offlineCart} />} />
+            <Route path="/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
           </Routes>
         </Suspense>
       </main>
