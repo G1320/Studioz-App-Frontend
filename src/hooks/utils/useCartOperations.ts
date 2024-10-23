@@ -13,7 +13,7 @@ import { Cart, CartItem } from '@/types/index';
 
 export const useCartOperations = () => {
   const { user } = useUserContext();
-  const { setOfflineCartContext } = useOfflineCartContext();
+  const { setOfflineCart } = useOfflineCartContext();
 
   const generateSuccessMessage = (item: CartItem, action: string) => {
     if (action == 'added') {
@@ -47,7 +47,7 @@ export const useCartOperations = () => {
         startTime: item.startTime
       });
     }
-    updateOfflineCart(cart, setOfflineCartContext);
+    updateOfflineCart(cart, setOfflineCart);
     return cart;
   };
 
@@ -67,7 +67,7 @@ export const useCartOperations = () => {
         cart.items.splice(itemIndex, 1);
       }
     }
-    updateOfflineCart({ items: cart.items }, setOfflineCartContext);
+    updateOfflineCart({ items: cart.items }, setOfflineCart);
     return { items: cart.items };
   };
 
@@ -89,7 +89,7 @@ export const useCartOperations = () => {
     if (user && user._id) {
       await deleteUserCart(user._id);
     }
-    updateOfflineCart({ items: [] }, setOfflineCartContext);
+    updateOfflineCart({ items: [] }, setOfflineCart);
     return [];
   };
 

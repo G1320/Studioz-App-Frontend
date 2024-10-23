@@ -9,15 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Header, Hero, DesktopFooter } from '@/components';
-import {
-  HomePage,
-  ServicesPage,
-  StudiosPage,
-  WishListsPage,
-  StudioDetailsPage,
-  ItemDetailsPage,
-  WishlistDetailsPage
-} from '@/pages';
+import { HomePage, ServicesPage, StudiosPage, WishListsPage, StudioDetailsPage, ItemDetailsPage } from '@/pages';
 import { shuffleArray } from '@/utils';
 
 const CreateStudioPage = lazy(() => import('@/pages/create-pages/CreateStudioPage'));
@@ -27,16 +19,17 @@ const EditStudioPage = lazy(() => import('@/pages/edit-pages/EditStudioPage'));
 const EditItemPage = lazy(() => import('@/pages/edit-pages/EditItemPage'));
 const EditWishlistPage = lazy(() => import('@/pages/edit-pages/EditWishlistPage'));
 const CartDetailsPage = lazy(() => import('@/pages/details-pages/CartDetailsPage'));
+const WishlistDetailsPage = lazy(() => import('@/pages/details-pages/WishlistDetailsPage'));
 
 function App() {
-  const { user } = useUserContext();
   const customLocaleText = {
     okButtonLabel: 'Confirm Booking',
     cancelButtonLabel: 'Cancel'
   };
+  const { user } = useUserContext();
+  const { offlineCart } = useOfflineCartContext();
 
   const { data: onlineCart } = useOnlineCart(user?._id || '');
-  const { offlineCartContext: offlineCart } = useOfflineCartContext();
   const { data: originalItems } = useItems();
   const { data: originalStudios } = useStudios();
 

@@ -2,9 +2,9 @@ import { Cart, CartItem } from '../types/index';
 import { setLocalOfflineCart } from '../services/cart-service';
 
 // Function to update the offline cart
-export const updateOfflineCart = (cart: Cart, setOfflineCartContext: (cart: Cart) => void) => {
+export const updateOfflineCart = (cart: Cart, setOfflineCart: (cart: Cart) => void) => {
   setLocalOfflineCart(cart);
-  setOfflineCartContext(cart);
+  setOfflineCart(cart);
 };
 
 export const calculateTotalPrice = (items: CartItem[] = []): number => {

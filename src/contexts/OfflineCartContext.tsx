@@ -3,8 +3,8 @@ import { getLocalOfflineCart } from '@/services';
 import { Cart } from '@/types/index';
 
 interface OfflineCartContextType {
-  offlineCartContext: Cart;
-  setOfflineCartContext: React.Dispatch<React.SetStateAction<Cart>>;
+  offlineCart: Cart;
+  setOfflineCart: React.Dispatch<React.SetStateAction<Cart>>;
 }
 
 interface OfflineCartProviderProps {
@@ -14,12 +14,8 @@ interface OfflineCartProviderProps {
 const OfflineCartContext = createContext<OfflineCartContextType | undefined>(undefined);
 
 export const OfflineCartProvider: React.FC<OfflineCartProviderProps> = ({ children }) => {
-  const [offlineCartContext, setOfflineCartContext] = useState<Cart>(getLocalOfflineCart() || { items: [] });
-  return (
-    <OfflineCartContext.Provider value={{ offlineCartContext, setOfflineCartContext }}>
-      {children}
-    </OfflineCartContext.Provider>
-  );
+  const [offlineCart, setOfflineCart] = useState<Cart>(getLocalOfflineCart() || { items: [] });
+  return <OfflineCartContext.Provider value={{ offlineCart, setOfflineCart }}>{children}</OfflineCartContext.Provider>;
 };
 
 export const useOfflineCartContext = (): OfflineCartContextType => {
