@@ -4,7 +4,7 @@ import { Cart } from '@/types/index';
 
 interface OfflineCartContextType {
   offlineCart: Cart;
-  setOfflineCart: React.Dispatch<React.SetStateAction<Cart>>;
+  setOfflineCartContext: React.Dispatch<React.SetStateAction<Cart>>;
 }
 
 interface OfflineCartProviderProps {
@@ -14,8 +14,10 @@ interface OfflineCartProviderProps {
 const OfflineCartContext = createContext<OfflineCartContextType | undefined>(undefined);
 
 export const OfflineCartProvider: React.FC<OfflineCartProviderProps> = ({ children }) => {
-  const [offlineCart, setOfflineCart] = useState<Cart>(getLocalOfflineCart() || { items: [] });
-  return <OfflineCartContext.Provider value={{ offlineCart, setOfflineCart }}>{children}</OfflineCartContext.Provider>;
+  const [offlineCart, setOfflineCartContext] = useState<Cart>(getLocalOfflineCart() || { items: [] });
+  return (
+    <OfflineCartContext.Provider value={{ offlineCart, setOfflineCartContext }}>{children}</OfflineCartContext.Provider>
+  );
 };
 
 export const useOfflineCartContext = (): OfflineCartContextType => {

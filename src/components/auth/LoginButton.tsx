@@ -9,7 +9,7 @@ import { User } from '@/types/index';
 export const LoginButton: React.FC = (): ReactElement | null => {
   const { user, loginWithPopup, isAuthenticated } = useAuth0();
   const { setUser: setUserContext } = useUserContext();
-  const { offlineCartContext, setOfflineCartContext } = useOfflineCartContext();
+  const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
   // const addItemsToCartMutation = useAddItemsToCartMutation();
   const handleError = useErrorHandling();
 
@@ -38,7 +38,7 @@ export const LoginButton: React.FC = (): ReactElement | null => {
           setUserContext(loggedInUser);
 
           // If there are items in the offline cart, add them to the user's cart
-          if (offlineCartContext.items?.length > 0) {
+          if (offlineCart.items?.length > 0) {
             // addItemsToCartMutation.mutate(offlineCartContext);
             setOfflineCartContext({ items: [] });
             setLocalOfflineCart({ items: [] });
@@ -50,7 +50,7 @@ export const LoginButton: React.FC = (): ReactElement | null => {
     };
 
     handleUserLogin();
-  }, [isAuthenticated, user, handleError, offlineCartContext, setOfflineCartContext, setUserContext]);
+  }, [isAuthenticated, user, handleError, offlineCart, setOfflineCartContext, setUserContext]);
 
   return (
     <Button onClick={handleClick} className="button login button">
