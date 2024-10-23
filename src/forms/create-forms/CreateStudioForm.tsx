@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FileUploader, GenericForm, FieldType } from '@/components';
 import { getLocalUser, uploadFile } from '@/services';
 
-import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/config';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@/config';
 
 import { useCreateStudioMutation } from '@/hooks';
 import { Studio } from '@/types/index';

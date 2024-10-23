@@ -1,0 +1,22 @@
+export const musicSubCategories = [
+  'Music Production',
+  'Podcast Recording',
+  'Audio Engineering',
+  'Film Sound',
+  'Voiceover',
+  'Recording',
+  'Mastering',
+  'Mixing',
+  'Remote Collaboration',
+  'Virtual Reality',
+  'Live Streaming',
+  'ADR (Automated Dialogue Replacement)',
+  'Foley',
+  'Sound Design',
+  'Field Recording',
+  'Post Production',
+  'Audio Restoration',
+  'Educational',
+  'Commercial',
+  'Personal Studio'
+];
