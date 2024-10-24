@@ -53,5 +53,3 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
     </article>
   );
 };
-
-export default StudioPreview;

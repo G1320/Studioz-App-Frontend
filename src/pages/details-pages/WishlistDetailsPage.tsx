@@ -15,7 +15,7 @@ interface WishlistDetailsPageProps {
   items?: Item[] | null;
 }
 
-export const WishlistDetailsPage: React.FC<WishlistDetailsPageProps> = ({ items = null }) => {
+const WishlistDetailsPage: React.FC<WishlistDetailsPageProps> = ({ items = null }) => {
   const { wishlistId } = useParams();
 
   const navigate = useNavigate();
@@ -78,5 +78,4 @@ export const WishlistDetailsPage: React.FC<WishlistDetailsPageProps> = ({ items 
     </section>
   );
 };
-
 export default WishlistDetailsPage;

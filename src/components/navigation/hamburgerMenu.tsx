@@ -73,5 +73,3 @@ export const DynamicHamburgerMenu: React.FC<DynamicHamburgerMenuProps> = ({ filt
     </div>
   );
 };
-
-export default DynamicHamburgerMenu;

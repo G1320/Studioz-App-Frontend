@@ -105,5 +105,3 @@ export const EditStudioForm = () => {
     </section>
   );
 };
-
-export default EditStudioForm;

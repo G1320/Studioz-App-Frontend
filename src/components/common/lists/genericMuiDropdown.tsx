@@ -66,5 +66,3 @@ export const GenericMuiDropdown = <T,>({ data, renderItem, className = '', title
     </div>
   );
 };
-
-export default GenericMuiDropdown;

@@ -35,5 +35,3 @@ export const EditWishlistForm = () => {
     </section>
   );
 };
-
-export default EditWishlistForm;

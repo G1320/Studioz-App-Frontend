@@ -100,5 +100,3 @@ export const CreateStudioForm = () => {
     </section>
   );
 };
-
-export default CreateStudioForm;

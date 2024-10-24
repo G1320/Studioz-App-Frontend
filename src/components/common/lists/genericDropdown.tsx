@@ -8,7 +8,7 @@ interface GenericDropdownProps<T> {
   title?: string;
 }
 
-const GenericDropdown = <T,>({ data, renderItem, className = '', title = 'Show' }: GenericDropdownProps<T>) => {
+export const GenericDropdown = <T,>({ data, renderItem, className = '', title = 'Show' }: GenericDropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   if (!data || !renderItem) return null;
@@ -28,5 +28,3 @@ const GenericDropdown = <T,>({ data, renderItem, className = '', title = 'Show' 
     </div>
   );
 };
-
-export default GenericDropdown;

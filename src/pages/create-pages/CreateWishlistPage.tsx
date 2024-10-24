@@ -7,5 +7,4 @@ const CreateWishlistPage = () => {
     </section>
   );
 };
-
 export default CreateWishlistPage;

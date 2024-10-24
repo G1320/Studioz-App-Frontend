@@ -36,5 +36,3 @@ export const DesktopFooter = () => {
     </footer>
   );
 };
-
-export default DesktopFooter;

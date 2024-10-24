@@ -6,7 +6,7 @@ interface StudiosPageProps {
   studios: Studio[];
 }
 
-export const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
+const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { category, subcategory } = useParams();
 
   const filteredStudios: Studio[] = studios?.filter((studio) => {

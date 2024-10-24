@@ -15,5 +15,3 @@ export const StudiosList: React.FC<StudiosListProps> = ({ studios, title }) => {
     </section>
   );
 };
-
-export default StudiosList;

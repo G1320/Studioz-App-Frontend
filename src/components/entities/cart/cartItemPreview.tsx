@@ -75,5 +75,3 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
     </article>
   );
 };
-
-export default CartItemPreview;

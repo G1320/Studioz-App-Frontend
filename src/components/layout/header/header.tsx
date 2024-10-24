@@ -23,5 +23,3 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
     </header>
   );
 };
-
-export default Header;

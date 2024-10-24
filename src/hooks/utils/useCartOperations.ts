@@ -110,5 +110,3 @@ export const useCartOperations = () => {
     updateCart
   };
 };
-
-export default useCartOperations;

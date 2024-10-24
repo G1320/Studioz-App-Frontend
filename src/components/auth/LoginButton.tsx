@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@/components';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@/services';
@@ -6,7 +6,7 @@ import { useUserContext, useOfflineCartContext } from '@/contexts';
 import { useErrorHandling } from '@/hooks';
 import { User } from '@/types/index';
 
-export const LoginButton: React.FC = (): ReactElement | null => {
+export const LoginButton = () => {
   const { user, loginWithPopup, isAuthenticated } = useAuth0();
   const { setUser: setUserContext } = useUserContext();
   const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
@@ -58,5 +58,3 @@ export const LoginButton: React.FC = (): ReactElement | null => {
     </Button>
   );
 };
-
-export default LoginButton;

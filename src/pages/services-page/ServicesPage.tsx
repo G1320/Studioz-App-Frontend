@@ -6,7 +6,7 @@ interface ServicesPageProps {
   items?: Item[];
 }
 
-export const ServicesPage: React.FC<ServicesPageProps> = ({ items }) => {
+const ServicesPage: React.FC<ServicesPageProps> = ({ items }) => {
   const { category, subCategory } = useParams();
   const filteredItems = items?.filter((item) => {
     if (subCategory === undefined) {
@@ -25,5 +25,4 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ items }) => {
     </section>
   );
 };
-
 export default ServicesPage;

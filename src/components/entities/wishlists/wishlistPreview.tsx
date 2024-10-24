@@ -30,5 +30,3 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
     </article>
   );
 };
-
-export default WishlistPreview;

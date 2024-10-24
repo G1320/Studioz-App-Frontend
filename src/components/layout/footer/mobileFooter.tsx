@@ -64,5 +64,3 @@ export const MobileFooter = () => {
     </footer>
   );
 };
-
-export default MobileFooter;

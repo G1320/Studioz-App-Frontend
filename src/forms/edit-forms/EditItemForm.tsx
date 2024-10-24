@@ -30,5 +30,3 @@ export const EditItemForm = () => {
     </section>
   );
 };
-
-export default EditItemForm;

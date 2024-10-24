@@ -1,7 +1,6 @@
 import { WishlistList } from '@/components';
 
-export const WishListsPage = () => {
+const WishListsPage = () => {
   return <WishlistList />;
 };
-
 export default WishListsPage;

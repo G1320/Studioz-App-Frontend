@@ -8,7 +8,7 @@ interface GenericMultiDropdownProps<T> {
   title?: string;
 }
 
-const GenericMultiDropdown = <T,>({
+export const GenericMultiDropdown = <T,>({
   data,
   renderItem,
   className = '',
@@ -33,5 +33,3 @@ const GenericMultiDropdown = <T,>({
     </div>
   );
 };
-
-export default GenericMultiDropdown;

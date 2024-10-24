@@ -26,5 +26,3 @@ export const CreateWishlistForm = () => {
     <GenericForm className="create-wishlist-form" title="Create Wishlist" fields={fields} onSubmit={handleSubmit} />
   );
 };
-
-export default CreateWishlistForm;

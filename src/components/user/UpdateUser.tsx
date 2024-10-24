@@ -4,7 +4,7 @@ import { updateUser } from '@/services';
 import { GenericForm } from '@/components';
 import { useErrorHandling } from '@/hooks';
 
-function UpdateUserForm() {
+export function UpdateUserForm() {
   const handleError = useErrorHandling();
   const navigate = useNavigate();
 
@@ -91,5 +91,3 @@ function UpdateUserForm() {
     <GenericForm title="Update User" fields={fields} onSubmit={handleSubmit} className="create-form" btnTxt="Submit" />
   );
 }
-
-export default UpdateUserForm;

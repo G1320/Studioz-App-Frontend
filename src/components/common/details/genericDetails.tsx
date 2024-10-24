@@ -3,7 +3,7 @@ interface GenericDetailProps<T extends Record<string, unknown>> {
   className?: string;
 }
 
-const GenericDetail = <T extends Record<string, unknown>>({ data, className = '' }: GenericDetailProps<T>) => {
+export const GenericDetail = <T extends Record<string, unknown>>({ data, className = '' }: GenericDetailProps<T>) => {
   if (!data) return null;
 
   return (
@@ -16,5 +16,3 @@ const GenericDetail = <T extends Record<string, unknown>>({ data, className = ''
     </div>
   );
 };
-
-export default GenericDetail;

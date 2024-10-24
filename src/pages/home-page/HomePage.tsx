@@ -10,7 +10,7 @@ interface HomePageProps {
   items: Item[];
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
+const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 

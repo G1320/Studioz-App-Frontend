@@ -32,5 +32,3 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
     </section>
   );
 };
-
-export default WishlistList;

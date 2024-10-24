@@ -7,5 +7,4 @@ const EditStudioPage = () => {
     </section>
   );
 };
-
 export default EditStudioPage;

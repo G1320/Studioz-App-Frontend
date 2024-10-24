@@ -4,7 +4,7 @@ import { useItem, useWishlists, useDeleteItemMutation } from '@/hooks';
 
 import { useUserContext } from '@/contexts';
 
-export const ItemDetailsPage: React.FC = () => {
+const ItemDetailsPage: React.FC = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
   const { itemId } = useParams();
@@ -37,5 +37,4 @@ export const ItemDetailsPage: React.FC = () => {
     </section>
   );
 };
-
 export default ItemDetailsPage;

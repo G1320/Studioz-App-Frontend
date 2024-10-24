@@ -144,5 +144,3 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     </article>
   );
 };
-
-export default ItemPreview;

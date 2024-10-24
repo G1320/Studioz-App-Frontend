@@ -11,7 +11,7 @@ interface StudioDetailsPageProps {
   items: Item[];
 }
 
-export const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
+const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const { studioId } = useParams();
@@ -96,5 +96,4 @@ export const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) =
     </section>
   );
 };
-
 export default StudioDetailsPage;

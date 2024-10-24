@@ -7,5 +7,4 @@ const CreateItemPage = () => {
     </section>
   );
 };
-
 export default CreateItemPage;

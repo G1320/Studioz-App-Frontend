@@ -20,5 +20,3 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
     </section>
   );
 };
-
-export default ItemsList;
