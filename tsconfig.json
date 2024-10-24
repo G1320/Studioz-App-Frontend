@@ -6,9 +6,9 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "module": "esnext",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
