@@ -1,4 +1,4 @@
-import { WishlistList } from '@/components';
+import { WishlistList } from '@/components/index';
 
 const WishListsPage = () => {
   return <WishlistList />;

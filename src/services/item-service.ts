@@ -1,4 +1,4 @@
-import { httpService } from '@/services';
+import { httpService } from '@/services/index';
 import { Item } from '@/types/index';
 
 const itemEndpoint = '/items';

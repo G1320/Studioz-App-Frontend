@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getUserCart } from '@/services';
+import { getUserCart } from '@/services/index';
 import { Cart } from '@/types/index';
 
 export const useOnlineCart = (userId: string) => {

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { CartItemPreview, GenericList, GenericMuiDropdown, GenericMultiDropdownEntryPreview } from '@/components';
-import { useRemoveItemFromCartMutation } from '@/hooks';
+import { CartItemPreview, GenericList, GenericMuiDropdown, GenericMultiDropdownEntryPreview } from '@/components/index';
+import { useRemoveItemFromCartMutation } from '@/hooks/index';
 import { Cart, CartItem } from '@/types/index';
 
 interface CartItemsListProps {

@@ -1,6 +1,6 @@
-import { httpService } from '@/services';
+import { httpService } from '@/services/index';
 import Cookies from 'js-cookie';
-import { sanitizeUserObject } from '@/utils';
+import { sanitizeUserObject } from '@/utils/index';
 import { LoginCredentials, AuthResponse, User } from '@/types/index';
 
 const authEndpoint = '/auth';

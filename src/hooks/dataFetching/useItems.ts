@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getItems } from '@/services';
+import { getItems } from '@/services/index';
 import { Item } from '@/types/index';
 
 export const useItems = () => {

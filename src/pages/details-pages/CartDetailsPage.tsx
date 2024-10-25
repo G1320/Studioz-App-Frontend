@@ -1,4 +1,4 @@
-import { CartItemsList } from '@/components';
+import { CartItemsList } from '@/components/index';
 import { Cart } from '@/types/index';
 interface CartDetailsPageProps {
   cart?: Cart;

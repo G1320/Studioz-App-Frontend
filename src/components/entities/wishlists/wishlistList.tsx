@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { WishlistPreview, GenericList, GenericMultiDropdownEntryPreview, GenericMuiDropdown } from '@/components';
-import { getLocalUser } from '@/services';
+import { WishlistPreview, GenericList, GenericMultiDropdownEntryPreview, GenericMuiDropdown } from '@/components/index';
+import { getLocalUser } from '@/services/index';
 import { useWishlists } from '@/hooks/index';
 import { Wishlist } from '@/types/index';
 

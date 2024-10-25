@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ItemPreview, Button } from '@/components';
-import { useItem, useWishlists, useDeleteItemMutation } from '@/hooks';
+import { ItemPreview, Button } from '@/components/index';
+import { useItem, useWishlists, useDeleteItemMutation } from '@/hooks/index';
 
-import { useUserContext } from '@/contexts';
+import { useUserContext } from '@/contexts/index';
 
-const ItemDetailsPage: React.FC = () => {
+const ItemDetailsPage = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
   const { itemId } = useParams();

@@ -1,5 +1,5 @@
-import { parseJSON, stringifyJSON } from '@/utils';
-import { httpService } from '@/services';
+import { parseJSON, stringifyJSON } from '@/utils/index';
+import { httpService } from '@/services/index';
 import { Cart, CartItem } from '@/types/index';
 
 const cartEndpoint = '/cart';

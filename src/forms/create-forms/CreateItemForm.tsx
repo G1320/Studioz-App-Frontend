@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '@/components';
-import { useCreateItemMutation } from '@/hooks';
+import { GenericForm, FieldType } from '@/components/index';
+import { useCreateItemMutation } from '@/hooks/index';
 import { Item } from '@/types/index';
-import { musicSubCategories, videoAndPhotographySubCategories } from '@/config';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/index';
 
 export const CreateItemForm = () => {
   const { studioName, studioId } = useParams();

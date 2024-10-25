@@ -1,7 +1,7 @@
 import Axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { refreshAccessToken } from '@/services';
+import { refreshAccessToken } from '@/services/auth-service';
 
 const BASE_URL: string =
   import.meta.env.VITE_NODE_ENV === 'production'

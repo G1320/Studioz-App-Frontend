@@ -1,4 +1,4 @@
-import { ItemsList } from '@/components';
+import { ItemsList } from '@/components/index';
 import { useParams } from 'react-router-dom';
 import { Item } from '@/types/index';
 

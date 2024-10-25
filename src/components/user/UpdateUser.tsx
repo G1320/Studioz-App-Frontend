@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateUser } from '@/services';
-import { GenericForm } from '@/components';
-import { useErrorHandling } from '@/hooks';
+import { updateUser } from '@/services/index';
+import { GenericForm } from '@/components/index';
+import { useErrorHandling } from '@/hooks/index';
 
 export function UpdateUserForm() {
   const handleError = useErrorHandling();

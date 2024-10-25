@@ -1,4 +1,4 @@
-import { StudiosList } from '@/components';
+import { StudiosList } from '@/components/index';
 import { useParams } from 'react-router-dom';
 import { Studio } from '@/types/index';
 

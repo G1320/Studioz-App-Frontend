@@ -6,9 +6,17 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "module": "esnext",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["src/*"]
+      "@/components/*": ["components/*"],
+      "@/pages/*": ["pages/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/forms/*": ["forms/*"],
+      "@/config/*": ["config/*"],
+      "@/contexts/*": ["contexts/*"],
+      "@/types/*": ["types/*"],
+      "@/services/*": ["services/*"],
+      "@/utils/*": ["utils/*"]
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

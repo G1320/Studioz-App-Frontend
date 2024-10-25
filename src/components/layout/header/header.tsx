@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components';
+import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@/components/index';
 import { Cart, User } from '@/types/index';
 interface HeaderProps {
   cart?: Cart;

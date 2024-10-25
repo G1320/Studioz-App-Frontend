@@ -1,21 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense, useMemo } from 'react';
-import { useOfflineCartContext, useUserContext } from '@/contexts';
-import { useItems, useStudios, useOnlineCart } from '@/hooks';
+import { useOfflineCartContext, useUserContext } from '@/contexts/index';
+import { useItems, useStudios, useOnlineCart } from '@/hooks/index';
 import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, Hero, DesktopFooter } from '@/components';
+import { Header, Hero, DesktopFooter } from '@/components/index';
 import HomePage from '@/pages/home-page/HomePage';
 import ServicesPage from '@/pages/services-page/ServicesPage';
 import StudiosPage from '@/pages/studios-page/StudiosPage';
 import WishListsPage from '@/pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@/pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@/pages/details-pages/ItemDetailsPage';
-import { shuffleArray } from '@/utils';
+import { shuffleArray } from '@/utils/index';
 
 const CreateStudioPage = lazy(() => import('@/pages/create-pages/CreateStudioPage'));
 const CreateItemPage = lazy(() => import('@/pages/create-pages/CreateItemPage'));

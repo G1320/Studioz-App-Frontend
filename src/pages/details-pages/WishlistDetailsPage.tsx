@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, ItemsList, StudiosList } from '@/components';
+import { Button, ItemsList, StudiosList } from '@/components/index';
 import {
   useStudios,
   useWishlist,
   //  useAddItemsToCartMutation,
   useDeleteWishlistMutation
-} from '@/hooks';
+} from '@/hooks/index';
 import { Item, Studio, WishlistItem } from '@/types/index';
-import { getLocalUser } from '@/services';
+import { getLocalUser } from '@/services/index';
 import { toast } from 'sonner';
 
 interface WishlistDetailsPageProps {

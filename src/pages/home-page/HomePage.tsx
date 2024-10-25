@@ -1,9 +1,9 @@
-import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/components';
+import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@/components/index';
 
-import { useWishlists } from '@/hooks';
-import { useUserContext } from '@/contexts';
+import { useWishlists } from '@/hooks/index';
+import { useUserContext } from '@/contexts/index';
 import { Studio, Item } from '@/types/index';
-import { filterBySubcategory } from '@/utils';
+import { filterBySubcategory } from '@/utils/index';
 
 interface HomePageProps {
   studios: Studio[];

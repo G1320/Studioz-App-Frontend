@@ -1,7 +1,7 @@
-export * from './home-page/HomePage';
+export { default as HomePage } from './home-page/HomePage';
 export * from './create-pages';
 export * from './edit-pages';
 export * from './details-pages';
-export * from './services-page/ServicesPage';
-export * from './studios-page/StudiosPage';
-export * from './wishlists-page/WishlistsPage';
+export { default as ServicesPage } from './services-page/ServicesPage';
+export { default as StudiosPage } from './studios-page/StudiosPage';
+export { default as WishlistsPage } from './wishlists-page/WishlistsPage';

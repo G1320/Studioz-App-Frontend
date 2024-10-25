@@ -1,16 +1,22 @@
 import { MouseEvent, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown, WishlistPreview, MuiDateTimePicker, MuiDateTimePickerRef } from '@/components';
+import {
+  Button,
+  GenericMuiDropdown,
+  WishlistPreview,
+  MuiDateTimePicker,
+  MuiDateTimePickerRef
+} from '@/components/index';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation
-} from '@/hooks';
-import { useUserContext } from '@/contexts';
+} from '@/hooks/index';
+import { useUserContext } from '@/contexts/index';
 import { Item, Wishlist } from '@/types/index';
 import { usePrefetchItem } from '@/hooks/prefetching/index';
-import { splitDateTime } from '@/utils';
+import { splitDateTime } from '@/utils/index';
 import { bookItem } from '@/services/booking-service';
 interface ItemPreviewProps {
   item: Item;
