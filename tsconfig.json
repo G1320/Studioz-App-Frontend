@@ -6,22 +6,22 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "module": "esnext",
-    "baseUrl": "src",
-    "paths": {
-      "@/*": ["*"]
-    },
+    "baseUrl": ".",
     // "paths": {
-    // "@/components/*": ["src/components/*"],
-    //   "@/pages/*": ["src/pages/*"],
-    //   "@/hooks/*": ["src/hooks/*"],
-    //   "@/forms/*": ["src/forms/*"],
-    //   "@/config/*": ["src/config/*"],
-    //   "@/contexts/*": ["src/contexts/*"],
-    //   "@/types/*": ["src/types/*"],
-    //   "@/services/*": ["src/services/*"],
-    //   "@/utils/*": ["src/utils/*"]
     // },
-    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/forms/*": ["src/forms/*"],
+      "@/config/*": ["src/config/*"],
+      "@/contexts/*": ["src/contexts/*"],
+      "@/types/*": ["src/types/*"],
+      "@/services/*": ["src/services/*"],
+      "@/utils/*": ["src/utils/*"]
+    },
+    "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
