@@ -6,18 +6,21 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "module": "esnext",
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/pages/*": ["pages/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/forms/*": ["forms/*"],
-      "@/config/*": ["config/*"],
-      "@/contexts/*": ["contexts/*"],
-      "@/types/*": ["types/*"],
-      "@/services/*": ["services/*"],
-      "@/utils/*": ["utils/*"]
+      "@/*": ["*"]
     },
+    // "paths": {
+    // "@/components/*": ["src/components/*"],
+    //   "@/pages/*": ["src/pages/*"],
+    //   "@/hooks/*": ["src/hooks/*"],
+    //   "@/forms/*": ["src/forms/*"],
+    //   "@/config/*": ["src/config/*"],
+    //   "@/contexts/*": ["src/contexts/*"],
+    //   "@/types/*": ["src/types/*"],
+    //   "@/services/*": ["src/services/*"],
+    //   "@/utils/*": ["src/utils/*"]
+    // },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
