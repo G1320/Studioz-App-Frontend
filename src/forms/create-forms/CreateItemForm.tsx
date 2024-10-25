@@ -9,7 +9,7 @@ export const CreateItemForm = () => {
   const { studioName, studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
 
-  const handleSubmit = async (formData: Record<string, any>) => {
+  const handleSubmit = async (formData: Record<string, unknown>) => {
     createItemMutation.mutate({ ...formData, studioId, studioName } as Item);
   };
 

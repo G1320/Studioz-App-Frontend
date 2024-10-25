@@ -1,7 +1,7 @@
 import { arraysEqual } from './compareArrays';
 
 // Define a generic function that can accept any object type
-export const areObjectsEqual = <T extends Record<string, any>>(obj1: T, obj2: T): boolean => {
+export const areObjectsEqual = <T extends Record<string, unknown>>(obj1: T, obj2: T): boolean => {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
 

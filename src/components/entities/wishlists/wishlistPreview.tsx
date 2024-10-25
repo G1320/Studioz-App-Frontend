@@ -4,7 +4,7 @@ import { Wishlist } from '@/types/index';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;
-  onAddItemToWishList?: any;
+  onAddItemToWishList?: (wishlistId: string) => void;
 }
 
 export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {

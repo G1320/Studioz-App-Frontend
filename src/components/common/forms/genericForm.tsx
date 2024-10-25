@@ -32,7 +32,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({
 }) => {
   const { register, handleSubmit, reset } = useForm<Record<string, any>>();
 
-  const onSubmitHandler: SubmitHandler<Record<string, any>> = (data) => {
+  const onSubmitHandler: SubmitHandler<Record<string, unknown>> = (data) => {
     onSubmit(data);
     reset();
   };

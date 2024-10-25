@@ -4,19 +4,30 @@ module.exports = {
     browser: true,
     es2020: true
   },
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: './tsconfig.json'
-  },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended'
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.js', 'node_modules'],
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: './tsconfig.json'
+      }
+    },
+    {
+      files: ['vite.config.ts', '*.config.ts', '*.config.js', '*.config.cjs'],
+      env: {
+        node: true
+      }
+    }
+  ],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts', 'node_modules'],
   plugins: ['react-refresh', '@typescript-eslint'],
   rules: {
     'react/prop-types': 'off',
@@ -27,7 +38,13 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      typescript: {}
+      typescript: {
+        project: './tsconfig.json'
+      },
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
+      }
     },
     react: {
       version: 'detect'
