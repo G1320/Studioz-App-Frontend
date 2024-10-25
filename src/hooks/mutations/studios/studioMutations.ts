@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useMutationHandler } from '@/hooks/utils';
-import { createStudio, updateStudio } from '@/services';
+import { useMutationHandler } from '@/hooks/utils/index';
+import { createStudio, updateStudio } from '@/services/index';
 import { Studio } from '@/types/index';
 
 type CreateStudioVariables = {
