@@ -6,8 +6,18 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "module": "ESNext",
-    "baseUrl": "./src",
-
+    "baseUrl": "src",
+    "paths": {
+      "@types/*": ["types/*"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+      "@config/*": ["config/*"],
+      "@contexts/*": ["contexts/*"],
+      "@forms/*": ["forms/*"],
+      "@hooks/*": ["hooks/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"]
+    },
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
