@@ -8,7 +8,7 @@ import { Toaster } from 'sonner';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, Hero, DesktopFooter } from '@/components/index';
+import { Header, Hero, DesktopFooter } from '@/components/layout/index';
 import HomePage from '@/pages/home-page/HomePage';
 import ServicesPage from '@/pages/services-page/ServicesPage';
 import StudiosPage from '@/pages/studios-page/StudiosPage';

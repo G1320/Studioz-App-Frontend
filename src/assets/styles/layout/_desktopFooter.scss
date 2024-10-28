@@ -33,10 +33,6 @@ footer {
             color: $text-color-light;
             text-decoration: none;
             transition: color 0.3s ease;
-
-            &:hover {
-              color: darken($text-color-light, 15%);
-            }
           }
         }
       }
@@ -54,10 +50,6 @@ footer {
           text-decoration: none;
           font-size: 1.5rem;
           transition: color 0.3s ease;
-
-          &:hover {
-            color: darken($text-color-light, 15%);
-          }
         }
       }
     }

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useDropzone, FileRejection } from 'react-dropzone';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { GenericImageGallery, GenericAudioGallery } from '@/components/index';
@@ -15,15 +15,15 @@ interface FileUploaderProps {
   galleryFiles?: string[];
 }
 
-interface FileRejection {
-  file: File;
-  errors: DropzoneError[];
-}
+// interface FileRejection {
+//   file: File;
+//   errors: DropzoneError[];
+// }
 
-interface DropzoneError {
-  code: string;
-  message: string;
-}
+// interface DropzoneError {
+//   code: string;
+//   message: string;
+// }
 
 const validMimeTypes: { [key: string]: string[] } = {
   'image/png': ['.png'],

@@ -249,12 +249,12 @@ body,
   }
 
   form {
+    display: grid;
+    gap: 1rem;
+    margin: 1rem;
     * {
       border-color: #fff;
       color: #fff;
     }
-    display: grid;
-    gap: 1rem;
-    margin: 1rem;
   }
 }

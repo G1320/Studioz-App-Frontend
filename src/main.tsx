@@ -9,8 +9,8 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
 
-import { UserProvider } from './contexts/UserContext.js';
-import { OfflineCartProvider } from './contexts/OfflineCartContext.js';
+import { UserProvider } from './contexts/UserContext';
+import { OfflineCartProvider } from './contexts/OfflineCartContext';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
