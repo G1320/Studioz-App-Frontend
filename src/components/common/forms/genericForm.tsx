@@ -1,4 +1,4 @@
-import { Button } from '@/components/index';
+import { Button } from '@components/index';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { TextField, Checkbox, FormControlLabel, Select, MenuItem, Stack } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';

@@ -1,5 +1,5 @@
 import { httpService } from './http-service';
-import { CartItem } from '@/types/index';
+import { CartItem } from '@types/index';
 
 const bookingEndpoint = '/bookings';
 

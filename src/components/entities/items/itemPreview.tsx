@@ -6,18 +6,18 @@ import {
   WishlistPreview,
   MuiDateTimePicker,
   MuiDateTimePickerRef
-} from '@/components/index';
+} from '@components/index';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation
-} from '@/hooks/index';
-import { useUserContext } from '@/contexts/index';
-import { Item, Wishlist } from '@/types/index';
-import { usePrefetchItem } from '@/hooks/prefetching/index';
-import { splitDateTime } from '@/utils/index';
-import { bookItem } from '@/services/booking-service';
+} from '@hooks/index';
+import { useUserContext } from '@contexts/index';
+import { Item, Wishlist } from '@types/index';
+import { usePrefetchItem } from '@hooks/prefetching/index';
+import { splitDateTime } from '@utils/index';
+import { bookItem } from '@services/booking-service';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];

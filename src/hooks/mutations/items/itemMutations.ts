@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useInvalidateQueries, useMutationHandler } from '@/hooks/utils/index';
+import { useInvalidateQueries, useMutationHandler } from '@hooks/utils/index';
 import {
   createItem,
   deleteItem,
@@ -8,8 +8,8 @@ import {
   removeItemFromWishlist,
   addItemToStudio,
   removeItemFromStudio
-} from '@/services/index';
-import { Item } from '@/types/index';
+} from '@services/index';
+import { Item } from '@types/index';
 
 export const useCreateItemMutation = (studioId: string) => {
   const navigate = useNavigate();

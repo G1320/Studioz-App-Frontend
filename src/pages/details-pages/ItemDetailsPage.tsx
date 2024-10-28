@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ItemPreview, Button } from '@/components/index';
-import { useItem, useWishlists, useDeleteItemMutation } from '@/hooks/index';
+import { ItemPreview, Button } from '@components/index';
+import { useItem, useWishlists, useDeleteItemMutation } from '@hooks/index';
 
-import { useUserContext } from '@/contexts/index';
+import { useUserContext } from '@contexts/index';
 
 const ItemDetailsPage = () => {
   const { user } = useUserContext();

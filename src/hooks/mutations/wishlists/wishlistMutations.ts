@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useMutationHandler, useInvalidateQueries } from '@/hooks/utils/index';
-import { createWishlistAndAddToUser, deleteWishlist, updateWishlist, addStudioToWishlist } from '@/services/index';
-import { Wishlist } from '@/types/index';
+import { useMutationHandler, useInvalidateQueries } from '@hooks/utils/index';
+import { createWishlistAndAddToUser, deleteWishlist, updateWishlist, addStudioToWishlist } from '@services/index';
+import { Wishlist } from '@types/index';
 
 export const useCreateWishlistMutation = (userId: string) => {
   const navigate = useNavigate();

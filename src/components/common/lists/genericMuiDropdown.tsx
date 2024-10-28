@@ -1,7 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, MenuItem } from '@mui/material';
-import { Button } from '@/components/index';
+import { Button } from '@components/index';
 
 interface GenericMuiDropdownProps<T> {
   data: T[];

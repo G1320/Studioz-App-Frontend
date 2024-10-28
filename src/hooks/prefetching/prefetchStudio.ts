@@ -1,4 +1,4 @@
-import { getStudioById } from '@/services/index';
+import { getStudioById } from '@services/index';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 

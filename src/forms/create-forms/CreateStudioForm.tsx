@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { FileUploader, GenericForm, FieldType } from '@/components/index';
-import { getLocalUser, uploadFile } from '@/services/index';
+import { FileUploader, GenericForm, FieldType } from '@components/index';
+import { getLocalUser, uploadFile } from '@services/index';
 
-import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/index';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
 
-import { useCreateStudioMutation } from '@/hooks/index';
-import { Studio } from '@/types/index';
+import { useCreateStudioMutation } from '@hooks/index';
+import { Studio } from '@types/index';
 import { toast } from 'sonner';
 
 interface FormData {

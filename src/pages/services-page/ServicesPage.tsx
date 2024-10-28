@@ -1,6 +1,6 @@
-import { ItemsList } from '@/components/index';
+import { ItemsList } from '@components/index';
 import { useParams } from 'react-router-dom';
-import { Item } from '@/types/index';
+import { Item } from '@types/index';
 
 interface ServicesPageProps {
   items?: Item[];

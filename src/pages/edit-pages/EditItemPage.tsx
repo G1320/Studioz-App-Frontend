@@ -1,4 +1,4 @@
-import { EditItemForm } from '@/forms/edit-forms';
+import { EditItemForm } from '@forms/edit-forms';
 
 const EditItemPage = () => {
   return (

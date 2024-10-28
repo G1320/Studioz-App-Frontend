@@ -1,4 +1,4 @@
-import { CreateStudioForm } from '@/forms/create-forms';
+import { CreateStudioForm } from '@forms/create-forms';
 
 const CreateStudioPage = () => {
   return (

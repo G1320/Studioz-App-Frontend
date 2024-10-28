@@ -1,9 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, GenericAudioGallery } from '@/components/index';
-import { Studio } from '@/types/index';
-import { usePrefetchStudio } from '@/hooks/prefetching/index';
+import { GenericImageGallery, GenericAudioGallery } from '@components/index';
+import { Studio } from '@types/index';
+import { usePrefetchStudio } from '@hooks/prefetching/index';
 
 interface StudioPreviewProps {
   studio?: Studio;

@@ -1,5 +1,5 @@
-import { httpService } from '@/services/index';
-import { Item } from '@/types/index';
+import { httpService } from '@services/index';
+import { Item } from '@types/index';
 
 const itemEndpoint = '/items';
 

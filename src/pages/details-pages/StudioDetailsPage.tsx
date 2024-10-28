@@ -7,12 +7,12 @@ import {
   StudioPreview,
   GenericCarousel,
   ItemPreview
-} from '@/components/index';
-import { useStudio, useAddStudioToWishlistMutation, useWishlists } from '@/hooks/index';
-import { Item, Wishlist } from '@/types/index';
-import { useUserContext } from '@/contexts/index';
+} from '@components/index';
+import { useStudio, useAddStudioToWishlistMutation, useWishlists } from '@hooks/index';
+import { Item, Wishlist } from '@types/index';
+import { useUserContext } from '@contexts/index';
 import { toast } from 'sonner';
-import { usePrefetchStudio } from '@/hooks/prefetching/index';
+import { usePrefetchStudio } from '@hooks/prefetching/index';
 
 interface StudioDetailsPageProps {
   items: Item[];

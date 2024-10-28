@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { getItemById } from '@/services/index';
+import { getItemById } from '@services/index';
 
 export const usePrefetchItem = (itemId: string) => {
   const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import { EditWishlistForm } from '@/forms/edit-forms';
+import { EditWishlistForm } from '@forms/edit-forms';
 
 const EditWishlistPage = () => {
   return (

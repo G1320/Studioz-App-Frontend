@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/index';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
 
 // Define the type for categories
 const categories: { [key: string]: string[] } = {

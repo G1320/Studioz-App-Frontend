@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FileUploader, GenericForm, FieldType } from '@/components/index';
-import { useStudio, useUpdateStudioMutation } from '@/hooks/index';
-import { uploadFile } from '@/services/index';
-import { musicSubCategories, videoAndPhotographySubCategories } from '@/config/index';
-import { Studio } from '@/types/index';
+import { FileUploader, GenericForm, FieldType } from '@components/index';
+import { useStudio, useUpdateStudioMutation } from '@hooks/index';
+import { uploadFile } from '@services/index';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
+import { Studio } from '@types/index';
 import { toast } from 'sonner';
 
 export const EditStudioForm = () => {

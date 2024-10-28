@@ -1,4 +1,4 @@
-import { CreateWishlistForm } from '@/forms/create-forms';
+import { CreateWishlistForm } from '@forms/create-forms';
 
 const CreateWishlistPage = () => {
   return (

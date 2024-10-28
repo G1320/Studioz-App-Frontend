@@ -1,4 +1,4 @@
-import { CreateItemForm } from '@/forms/create-forms';
+import { CreateItemForm } from '@forms/create-forms';
 
 const CreateItemPage = () => {
   return (

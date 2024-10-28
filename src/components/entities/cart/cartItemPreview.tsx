@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/index';
-import { CartItem } from '@/types/index';
-import { useAddItemToCartMutation } from '@/hooks/index';
+import { Button } from '@components/index';
+import { CartItem } from '@types/index';
+import { useAddItemToCartMutation } from '@hooks/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
