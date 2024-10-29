@@ -1,3 +1,5 @@
+@use '../utilities/variables' as vars;
+
 :root {
   font-family:
     'IBM Plex Sans' 'Rubik',
@@ -14,9 +16,9 @@
   width: 100vw;
 
   color-scheme: light dark;
-  color: $text-color-light;
+  color: vars.$text-color-light;
 
-  background: linear-gradient(135deg, $color-primary 0%, $bg-color-primary 52.5%);
+  background: linear-gradient(135deg, vars.$color-primary 0%, vars.$bg-color-primary 52.5%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -34,7 +36,7 @@ p {
 
 a {
   font-weight: 500;
-  color: $text-color-light;
+  color: vars.$text-color-light;
   text-decoration: inherit;
 }
 a:hover {
@@ -68,12 +70,12 @@ body,
 .MuiPaper-root {
   border-radius: 12px;
   &:not(button) {
-    border: 2px solid $border-color-primary;
+    border: 2px solid vars.$border-color-primary;
   }
 }
 // Targets all Paper elements except those that are part of the DatePicker component
 .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper) {
-  background: $bg-color-primary !important;
+  background: vars.$bg-color-primary !important;
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(16px);
@@ -100,7 +102,7 @@ body,
   cursor: pointer;
   &:not(.hero .preview, .cart-item-preview) {
     box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.132) inset;
-    background: linear-gradient(to bottom, $color-primary 0%, $bg-color-primary 25%);
+    background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-primary 25%);
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
     &:not(.item-preview, .cart-item-preview, .gallery-image) {
@@ -245,7 +247,7 @@ body,
   button {
     max-width: max-content;
     place-self: center;
-    color: $text-color-primary !important;
+    color: vars.$text-color-primary !important;
   }
 
   form {
