@@ -2,7 +2,7 @@ import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@compo
 
 import { useWishlists } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Studio, Item } from '@types/index';
+import { Studio, Item } from '@models/index';
 import { filterBySubcategory } from '@utils/index';
 
 interface HomePageProps {

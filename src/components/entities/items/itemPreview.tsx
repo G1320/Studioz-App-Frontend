@@ -14,7 +14,7 @@ import {
   useRemoveItemFromWishlistMutation
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Item, Wishlist } from '@types/index';
+import { Item, Wishlist } from '@models/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { bookItem } from '@services/booking-service';

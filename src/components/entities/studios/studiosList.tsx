@@ -1,5 +1,5 @@
 import { StudioPreview, GenericList } from '@components/index';
-import { Studio } from '@types/index';
+import { Studio } from '@models/index';
 interface StudiosListProps {
   studios: Studio[];
   title?: string;

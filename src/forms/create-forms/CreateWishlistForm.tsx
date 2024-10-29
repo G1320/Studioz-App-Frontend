@@ -2,7 +2,7 @@ import { GenericForm, FieldType } from '@components/index';
 
 import { useCreateWishlistMutation } from '@hooks/index';
 import { getLocalUser } from '@services/index';
-import { Wishlist } from '@types/index';
+import { Wishlist } from '@models/index';
 
 export const CreateWishlistForm = () => {
   const user = getLocalUser();

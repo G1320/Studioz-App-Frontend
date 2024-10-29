@@ -5,7 +5,7 @@ import { getLocalUser, uploadFile } from '@services/index';
 import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
 
 import { useCreateStudioMutation } from '@hooks/index';
-import { Studio } from '@types/index';
+import { Studio } from '@models/index';
 import { toast } from 'sonner';
 
 interface FormData {

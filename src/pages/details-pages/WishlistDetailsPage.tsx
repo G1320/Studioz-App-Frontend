@@ -7,7 +7,7 @@ import {
   //  useAddItemsToCartMutation,
   useDeleteWishlistMutation
 } from '@hooks/index';
-import { Item, Studio, WishlistItem } from '@types/index';
+import { Item, Studio, WishlistItem } from '@models/index';
 import { getLocalUser } from '@services/index';
 import { toast } from 'sonner';
 

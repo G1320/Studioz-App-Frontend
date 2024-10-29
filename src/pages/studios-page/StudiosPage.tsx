@@ -1,6 +1,6 @@
 import { StudiosList } from '@components/index';
 import { useParams } from 'react-router-dom';
-import { Studio } from '@types/index';
+import { Studio } from '@models/index';
 
 interface StudiosPageProps {
   studios: Studio[];

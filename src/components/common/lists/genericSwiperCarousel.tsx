@@ -6,7 +6,7 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Item, Studio } from '@types/index';
+import { Item, Studio } from '@models/index';
 
 type RenderItemFunction<T> = (item: T) => React.ReactNode;
 

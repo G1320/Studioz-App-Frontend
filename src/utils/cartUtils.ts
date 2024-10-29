@@ -1,4 +1,4 @@
-import { Cart, CartItem } from '../types/index';
+import { Cart, CartItem } from '@models/index';
 import { setLocalOfflineCart } from '../services/cart-service';
 
 // Function to update the offline cart

@@ -9,7 +9,7 @@ import {
   deleteUserCart,
   updateUserCart
 } from '@services/index';
-import { Cart, CartItem } from '@types/index';
+import { Cart, CartItem } from '@models/index';
 
 export const useCartOperations = () => {
   const { user } = useUserContext();

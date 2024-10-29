@@ -9,7 +9,7 @@ import {
   addItemToStudio,
   removeItemFromStudio
 } from '@services/index';
-import { Item } from '@types/index';
+import { Item } from '@models/index';
 
 export const useCreateItemMutation = (studioId: string) => {
   const navigate = useNavigate();

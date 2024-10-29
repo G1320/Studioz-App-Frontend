@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/index';
-import { Wishlist } from '@types/index';
+import { Wishlist } from '@models/index';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;

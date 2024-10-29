@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@components/index';
-import { Cart, User } from '@types/index';
+import { Cart, User } from '@models/index';
 interface HeaderProps {
   cart?: Cart;
   user?: User | null;

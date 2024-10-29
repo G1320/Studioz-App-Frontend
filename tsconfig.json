@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "typeRoots": ["./node_modules/@types"],
     "target": "ESNext",
+    "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "allowJs": true,
-    "module": "ESNext",
     "baseUrl": "./src",
+    // "paths": {
+    //   "src/*": ["src/*"]
+    // },
     "paths": {
-      "@types/*": ["types/*"],
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@config/*": ["config/*"],
@@ -16,9 +18,10 @@
       "@forms/*": ["forms/*"],
       "@hooks/*": ["hooks/*"],
       "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"]
     },
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
