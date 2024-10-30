@@ -9,18 +9,18 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths(), Sitemap({ hostname: 'https://studioz.co.il' })],
   build: {
     outDir: 'dist'
-  },
-  resolve: {
-    alias: {
-      '@components': path.resolve(__dirname, './src/components'),
-      '@services': path.resolve(__dirname, './src/services'),
-      '@contexts': path.resolve(__dirname, './src/contexts'),
-      '@forms': path.resolve(__dirname, './src/forms'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@utils': path.resolve(__dirname, './src/utils'),
-      '@models': path.resolve(__dirname, './src/models'),
-      '@config': path.resolve(__dirname, './src/config')
-    }
   }
+  // resolve: {
+  //   alias: {
+  //     '@components': path.resolve(__dirname, './src/components'),
+  //     '@services': path.resolve(__dirname, './src/services'),
+  //     '@contexts': path.resolve(__dirname, './src/contexts'),
+  //     '@forms': path.resolve(__dirname, './src/forms'),
+  //     '@hooks': path.resolve(__dirname, './src/hooks'),
+  //     '@pages': path.resolve(__dirname, './src/pages'),
+  //     '@utils': path.resolve(__dirname, './src/utils'),
+  //     '@models': path.resolve(__dirname, './src/models'),
+  //     '@config': path.resolve(__dirname, './src/config')
+  //   }
+  // }
 });
