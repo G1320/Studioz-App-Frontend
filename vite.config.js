@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), Sitemap({ hostname: 'https://studioz.co.il' })],
   build: {
     outDir: 'dist'
   },
