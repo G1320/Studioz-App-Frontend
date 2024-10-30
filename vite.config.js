@@ -8,8 +8,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), Sitemap({ hostname: 'https://studioz.co.il' })],
   build: {
-    outDir: 'dist',
-    sourcemap: true
+    outDir: 'dist'
   },
   resolve: {
     alias: {
