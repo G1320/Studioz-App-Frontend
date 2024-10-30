@@ -6,10 +6,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "allowJs": true,
-    "baseUrl": "./src",
-    // "paths": {
-    //   "src/*": ["src/*"]
-    // },
+    "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
