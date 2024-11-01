@@ -11,6 +11,6 @@ export const useBookStudioItemMutation = (itemId: string) => {
       if (!item.bookingDate) throw new Error('Invalid booking date or time');
       return bookStudioItem(item, userId || '');
     },
-    invalidateQueries: [{ queryKey: 'item', targetId: itemId }]
+    invalidateQueries: [{ queryKey: 'item', targetId: itemId }, { queryKey: 'items' }]
   });
 };

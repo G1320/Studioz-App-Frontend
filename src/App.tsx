@@ -39,7 +39,6 @@ function App() {
   const { data: originalStudios } = useStudios();
 
   const studios = useMemo(() => shuffleArray(originalStudios || []), [originalStudios]);
-  const items = useMemo(() => shuffleArray(originalItems || []), [originalItems]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
@@ -48,12 +47,12 @@ function App() {
         <Hero />
         <Suspense fallback={<PropagateLoader className="loader" />}>
           <Routes>
-            <Route path="/" element={<HomePage studios={studios || []} items={items || []} />} />
-            <Route path="/studio/:studioId" element={<StudioDetailsPage items={items || []} />} />
+            <Route path="/" element={<HomePage studios={studios || []} items={originalItems || []} />} />
+            <Route path="/studio/:studioId" element={<StudioDetailsPage items={originalItems || []} />} />
             <Route path="/studios/:category?/:subcategory?" element={<StudiosPage studios={studios || []} />} />
-            <Route path="/services/:category?/:subCategory?" element={<ServicesPage items={items || []} />} />
+            <Route path="/services/:category?/:subCategory?" element={<ServicesPage items={originalItems || []} />} />
             <Route path="/wishlists" element={<WishListsPage />} />
-            <Route path="/wishlists/:wishlistId" element={<WishlistDetailsPage items={items || []} />} />
+            <Route path="/wishlists/:wishlistId" element={<WishlistDetailsPage items={originalItems || []} />} />
             <Route path="/create-item/:studioName/:studioId" element={<CreateItemPage />} />
             <Route path="/edit-item/:itemId" element={<EditItemPage />} />
             <Route path="/edit-studio/:studioId" element={<EditStudioPage />} />
