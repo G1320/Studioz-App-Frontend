@@ -15,16 +15,6 @@ interface FileUploaderProps {
   galleryFiles?: string[];
 }
 
-// interface FileRejection {
-//   file: File;
-//   errors: DropzoneError[];
-// }
-
-// interface DropzoneError {
-//   code: string;
-//   message: string;
-// }
-
 const validMimeTypes: { [key: string]: string[] } = {
   'image/png': ['.png'],
   'image/jpeg': ['.jpeg', '.jpg'],

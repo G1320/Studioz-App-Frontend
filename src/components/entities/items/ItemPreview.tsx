@@ -17,7 +17,7 @@ import { useUserContext } from '@contexts/index';
 import { Item, Wishlist } from '@models/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
-import { bookItem } from '@services/booking-service';
+import { useBookStudioItemMutation } from '@hooks/mutations/bookings/bookingMutations';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -28,6 +28,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const navigate = useNavigate();
   const { user } = useUserContext();
   const prefetchItem = usePrefetchItem(item?._id || '');
+  const bookItemMutation = useBookStudioItemMutation(item._id);
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -65,7 +66,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       };
 
       addItemToCartMutation.mutate(newItem);
-      bookItem(newItem, user?._id || '');
+      bookItemMutation.mutate(newItem);
 
       setIsDatePickerOpen(false);
       setSelectedDate(null);

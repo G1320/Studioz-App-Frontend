@@ -10,13 +10,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Header, Hero, DesktopFooter } from '@components/layout/index';
 import HomePage from '@pages/home-page/HomePage';
-import ServicesPage from '@pages/services-page/ServicesPage';
-import StudiosPage from '@pages/studios-page/StudiosPage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
 import { shuffleArray } from '@utils/index';
 
+const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
+const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
 const CreateStudioPage = lazy(() => import('@pages/create-pages/CreateStudioPage'));
 const CreateItemPage = lazy(() => import('@pages/create-pages/CreateItemPage'));
 const CreateWishlistPage = lazy(() => import('@pages/create-pages/CreateWishlistPage'));

@@ -1,13 +1,11 @@
 import { httpService } from './http-service';
-import { CartItem } from '@models/index';
+import { CartItem, Item } from '@models/index';
 
 const bookingEndpoint = '/bookings';
 
-export const bookItem = async (item: CartItem, userId: string) => {
-  console.log('userId: ', userId);
-  console.log('item: ', item);
+export const bookStudioItem = async (item: CartItem, userId: string) => {
   try {
-    return await httpService.post(`${bookingEndpoint}/${userId}/book-item`, item);
+    return await httpService.post<Item>(`${bookingEndpoint}/${userId}/book-item`, item);
   } catch (error) {
     console.error('Error booking item:', error);
     throw error;
