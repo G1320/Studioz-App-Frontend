@@ -12,6 +12,10 @@
   div {
     width: 100%;
   }
+  div.cart-item-booking-date-time-container {
+    flex-direction: column;
+    gap: 0;
+  }
   div.cart-item-quantity-container {
     button {
       background-color: transparent;
@@ -27,6 +31,7 @@
     display: grid;
     justify-items: center;
     grid-template-columns: 36px 1fr 36px;
+    border-radius: 6px;
     width: 100%;
     gap: 0.25rem;
     border: 1px solid #fff;

@@ -51,10 +51,10 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         <p>{item?.studioName}</p>
       </div>
       <div>
-        <span>
+        <div className="cart-item-booking-date-time-container">
           <small>{item?.bookingDate}</small>
-          <small>-{item?.startTime}</small>
-        </span>
+          <small>{item?.startTime}</small>
+        </div>
         <div>
           <small className="cart-item-preview-price" onClick={handleClick}>
             Price: ${item?.price?.toFixed(2)}
