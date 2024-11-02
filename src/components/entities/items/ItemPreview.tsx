@@ -51,7 +51,8 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     setSelectedDate(newDate);
   };
 
-  const handleDateConfirm = (confirmedDate: string | null) => {
+  const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
+    console.log('hours: ', hours);
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (bookingDate && startTime) {
       const newItem = {
@@ -62,12 +63,18 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
         bookingDate: bookingDate,
         startTime: startTime,
         studioName: item.studioName,
-        studioImgUrl: item.studioImgUrl
+        studioImgUrl: item.studioImgUrl,
+        hours: hours
       };
 
-      addItemToCartMutation.mutate(newItem);
-      bookItemMutation.mutate(newItem);
-
+      bookItemMutation.mutate(newItem, {
+        onSuccess: () => {
+          addItemToCartMutation.mutate(newItem);
+        },
+        onError: (error) => {
+          console.error('Booking failed:', error);
+        }
+      });
       setIsDatePickerOpen(false);
       setSelectedDate(null);
     }

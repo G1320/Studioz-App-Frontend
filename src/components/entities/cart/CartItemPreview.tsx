@@ -4,6 +4,7 @@ import { CartItem } from '@models/index';
 import { useAddItemToCartMutation } from '@hooks/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { useBookStudioItemMutation } from '@hooks/mutations/bookings/bookingMutations';
 
 interface CartItemPreviewProps {
   item: CartItem;
@@ -13,6 +14,7 @@ interface CartItemPreviewProps {
 export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrementQuantity }) => {
   const navigate = useNavigate();
   const addItemToCartMutation = useAddItemToCartMutation();
+  const bookItemMutation = useBookStudioItemMutation(item.itemId);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -28,7 +30,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
         const newBookingDate = new Date(item.bookingDate);
         newBookingDate.setHours(newBookingDate.getHours() + 1);
 
-        addItemToCartMutation.mutate({
+        const newItem = {
           name: item.name,
           itemId: item.itemId,
           bookingDate: newBookingDate.toString(),
@@ -37,6 +39,14 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
           total: item.price * (item.quantity ? item.quantity + 1 : 1),
           studioName: item.studioName,
           studioImgUrl: item.studioImgUrl
+        };
+        bookItemMutation.mutate(newItem, {
+          onSuccess: () => {
+            addItemToCartMutation.mutate(newItem);
+          },
+          onError: (error) => {
+            console.error('Booking failed:', error);
+          }
         });
       }
     } else {
