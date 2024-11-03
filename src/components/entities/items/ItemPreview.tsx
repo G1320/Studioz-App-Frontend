@@ -52,32 +52,30 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   };
 
   const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
-    console.log('hours: ', hours);
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
-    if (bookingDate && startTime) {
-      const newItem = {
-        name: item.name,
-        price: item.price || 0,
-        total: item.price || 0,
-        itemId: item._id,
-        bookingDate: bookingDate,
-        startTime: startTime,
-        studioName: item.studioName,
-        studioImgUrl: item.studioImgUrl,
-        hours: hours
-      };
+    if (!bookingDate || !startTime) return;
+    const newItem = {
+      name: item.name,
+      price: item.price || 0,
+      total: (item.price || 0) * hours,
+      itemId: item._id,
+      bookingDate,
+      startTime,
+      studioName: item.studioName,
+      studioImgUrl: item.studioImgUrl,
+      hours
+    };
 
-      bookItemMutation.mutate(newItem, {
-        onSuccess: () => {
-          addItemToCartMutation.mutate(newItem);
-        },
-        onError: (error) => {
-          console.error('Booking failed:', error);
-        }
-      });
-      setIsDatePickerOpen(false);
-      setSelectedDate(null);
-    }
+    bookItemMutation.mutate(newItem, {
+      onSuccess: () => {
+        addItemToCartMutation.mutate(newItem);
+      },
+      onError: (error) => {
+        console.error('Booking failed:', error);
+      }
+    });
+    setIsDatePickerOpen(false);
+    setSelectedDate(null);
   };
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);

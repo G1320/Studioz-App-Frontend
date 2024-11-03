@@ -9,4 +9,5 @@ export default interface CartItem {
   studioName?: string;
   studioImgUrl?: string;
   studioId?: string;
+  hours?: number;
 }
