@@ -19,7 +19,7 @@ export const useCartOperations = () => {
     if (action == 'added') {
       return `${action} ${item.name} service at ${item.studioName} `;
     } else if (action == 'booked') {
-      return `${item.name} service at ${item.studioName} ${action} for ${item.bookingDate} at ${item.startTime}`;
+      return `${item.hours} hours of ${item.name} service at ${item.studioName} ${action} for ${item.bookingDate} at ${item.startTime}`;
     } else {
       return `removed ${item.name} service at ${item.studioName} `;
     }
@@ -27,21 +27,21 @@ export const useCartOperations = () => {
 
   const addItem = async (item: CartItem) => {
     if (user && user._id) {
-      return addItemToCart(user._id, item.itemId, item.bookingDate || '', item.startTime || '');
+      return addItemToCart(user._id, item.itemId, item.bookingDate || '', item.startTime || '', item.hours || 1);
     }
     const cart = getLocalOfflineCart() || { items: [] };
     const existingItem = cart.items.find((cartItem: CartItem) => cartItem.itemId === item.itemId);
 
     if (existingItem && existingItem.quantity) {
-      existingItem.quantity += 1;
+      existingItem.quantity += item.hours || 1;
       existingItem.total = (existingItem.price || 0) * existingItem.quantity;
     } else {
       cart.items.push({
         name: item.name,
         studioName: item.studioName,
         price: item.price,
-        total: item.price,
-        quantity: 1,
+        total: (item.price || 0) * (item.hours || 1),
+        quantity: item.hours || 1,
         itemId: item.itemId,
         bookingDate: item.bookingDate,
         startTime: item.startTime

@@ -11,11 +11,12 @@ export const addItemToCart = async (
   userId: string,
   itemId: string,
   bookingDate: string,
-  startTime: string
+  startTime: string,
+  hours?: number
 ): Promise<Cart> => {
   if (itemId === undefined) throw new Error('Item ID is required');
   try {
-    return await httpService.post(`${cartEndpoint}/${userId}/add-to-cart/${itemId}`, { bookingDate, startTime });
+    return await httpService.post(`${cartEndpoint}/${userId}/add-to-cart/${itemId}`, { bookingDate, startTime, hours });
   } catch (error: unknown) {
     console.error('Failed to add item to cart', error);
     throw error;
