@@ -69,13 +69,17 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     bookItemMutation.mutate(newItem, {
       onSuccess: () => {
         addItemToCartMutation.mutate(newItem);
+        setIsDatePickerOpen(false);
+        setSelectedDate(null);
       },
       onError: (error) => {
         console.error('Booking failed:', error);
+
+        if (datePickerRef.current) {
+          datePickerRef.current.reopen();
+        }
       }
     });
-    setIsDatePickerOpen(false);
-    setSelectedDate(null);
   };
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
