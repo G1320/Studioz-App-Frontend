@@ -13,6 +13,8 @@ export const uploadFile = async (file: File): Promise<UploadFileResult> => {
     formData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
     formData.append('api_key', import.meta.env.VITE_CLOUDINARY_API_KEY);
 
+    formData.append('transformation', 'f_auto,q_auto,w_1000');
+
     const response = await fetch(cloudinaryEndpoint, {
       method: 'POST',
       body: formData

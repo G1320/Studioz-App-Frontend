@@ -28,13 +28,13 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const navigate = useNavigate();
   const { user } = useUserContext();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const bookItemMutation = useBookStudioItemMutation(item._id);
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const datePickerRef = useRef<MuiDateTimePickerRef>(null);
 
   const addItemToCartMutation = useAddItemToCartMutation();
+  const bookItemMutation = useBookStudioItemMutation(item._id);
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');

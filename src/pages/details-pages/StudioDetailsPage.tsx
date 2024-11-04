@@ -96,7 +96,6 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
       </div>
       <GenericCarousel
         title={(() => getStudioServicesDisplayName(currStudio?.name || ''))()}
-        autoplay={true}
         data={filteredItems}
         renderItem={(item) => <ItemPreview item={item} />}
       />

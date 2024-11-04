@@ -11,3 +11,12 @@ export const bookStudioItem = async (item: CartItem, userId?: string) => {
     throw error;
   }
 };
+
+export const removeBooking = async (bookingId: string) => {
+  try {
+    return await httpService.delete(`${bookingEndpoint}/remove-booking/${bookingId}`);
+  } catch (error) {
+    console.error('Error removing booking:', error);
+    throw error;
+  }
+};
