@@ -4,7 +4,7 @@ import { CartItem } from '@models/index';
 import { useAddItemToCartMutation } from '@hooks/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { useBookStudioItemMutation } from '@hooks/mutations/bookings/bookingMutations';
+import { useReserveStudioItemTimeSlotMutation } from '@hooks/mutations/bookings/bookingMutations';
 
 interface CartItemPreviewProps {
   item: CartItem;
@@ -14,7 +14,7 @@ interface CartItemPreviewProps {
 export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrementQuantity }) => {
   const navigate = useNavigate();
   const addItemToCartMutation = useAddItemToCartMutation();
-  const bookItemMutation = useBookStudioItemMutation(item.itemId);
+  const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotMutation(item.itemId);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -40,7 +40,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item, onDecrem
           studioName: item.studioName,
           studioImgUrl: item.studioImgUrl
         };
-        bookItemMutation.mutate(newItem, {
+        reserveItemTimeSlotMutation.mutate(newItem, {
           onSuccess: () => {
             addItemToCartMutation.mutate(newItem);
           },
