@@ -12,9 +12,10 @@ export const reserveTimeSlot = async (item: CartItem, userId?: string) => {
   }
 };
 
-export const releaseTimeSlot = async (bookingId: string) => {
+export const releaseTimeSlot = async (item: CartItem) => {
+  console.log('item: ', item);
   try {
-    return await httpService.delete(`${bookingEndpoint}/release-time-slot/${bookingId}`);
+    return await httpService.delete<Item>(`${bookingEndpoint}/release-time-slot/`, item);
   } catch (error) {
     console.error('Error removing booking:', error);
     throw error;
