@@ -30,6 +30,10 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
 
   const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
+  const getOptimizedImageUrl = (src: string): string => {
+    return src.replace('/upload/', '/upload/f_auto,q_auto,w_auto/');
+  };
+
   const handleImageChange = (image: string) => {
     setCurrCoverImage(image);
     if (onSetPreviewImage) onSetPreviewImage(image);
@@ -48,7 +52,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         onClick={() => handleImageChange(image)}
         className="preview gallery-image"
         key={index}
-        src={image}
+        src={getOptimizedImageUrl(image)}
         alt={entity?.name}
       />
     );
@@ -60,7 +64,9 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
 
   return (
     <div className="file-gallery-container image-gallery-container">
-      {isCoverShown && currCoverImage && <img src={currCoverImage} alt="Cover" className="cover-image" />}
+      {isCoverShown && currCoverImage && (
+        <img src={getOptimizedImageUrl(currCoverImage)} alt="Cover" className="cover-image" />
+      )}
       {isGalleryImagesShown && galleryImages && (
         <GenericList
           data={combinedGalleryImages || []}

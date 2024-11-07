@@ -40,7 +40,8 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');
 
   const handleBookNow = () => {
-    if (isDatePickerOpen) return setIsDatePickerOpen(false);
+    if (isDatePickerOpen) return handleDatePickerClose();
+
     setIsDatePickerOpen(true);
     if (datePickerRef.current) {
       datePickerRef.current.open();
@@ -83,8 +84,8 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   };
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
-  const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
   const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item._id);
+  const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
 
   const handleArticleClicked = (e: MouseEvent<HTMLElement>) => {
     if ((e.target as HTMLElement).nodeName !== 'BUTTON') {
@@ -97,7 +98,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   };
 
   const handleDatePickerClose = () => {
-    setIsDatePickerOpen(false); // Close the picker on cancel, ESC, or clicking outside
+    setIsDatePickerOpen(false);
   };
 
   const renderItem = (wishlist: Wishlist) => (
@@ -136,7 +137,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       )}
 
       {studioId && user?.isAdmin && (
-        <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio">
+        <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio-button">
           Remove from Studio
         </Button>
       )}
