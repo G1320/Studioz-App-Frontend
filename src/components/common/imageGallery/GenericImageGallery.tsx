@@ -30,8 +30,12 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
 
   const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
-  const getOptimizedImageUrl = (src: string): string => {
-    return src.replace('/upload/', '/upload/f_auto,q_auto,w_auto/');
+  // const getOptimizedImageUrl = (src: string): string => {
+  //   return src.replace('/upload/', '/upload/f_auto,q_auto,w_auto/');
+  // };
+
+  const getOptimizedImageUrl = (src: string, width: number): string => {
+    return src.replace('/upload/', `/upload/w_${width},f_auto,q_auto/`);
   };
 
   const handleImageChange = (image: string) => {
@@ -52,7 +56,13 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         onClick={() => handleImageChange(image)}
         className="preview gallery-image"
         key={index}
-        src={getOptimizedImageUrl(image)}
+        src={getOptimizedImageUrl(image, 800)} // Default width
+        srcSet={`
+        ${getOptimizedImageUrl(image, 400)} 400w,
+        ${getOptimizedImageUrl(image, 800)} 800w,
+        ${getOptimizedImageUrl(image, 1200)} 1200w
+      `}
+        sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
         alt={entity?.name}
         loading="lazy"
       />
@@ -66,7 +76,18 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   return (
     <div className="file-gallery-container image-gallery-container">
       {isCoverShown && currCoverImage && (
-        <img src={getOptimizedImageUrl(currCoverImage)} alt="Cover" className="cover-image" loading="eager" />
+        <img
+          src={getOptimizedImageUrl(currCoverImage, 800)}
+          srcSet={`
+      ${getOptimizedImageUrl(currCoverImage, 400)} 400w,
+      ${getOptimizedImageUrl(currCoverImage, 800)} 800w,
+      ${getOptimizedImageUrl(currCoverImage, 1200)} 1200w
+    `}
+          sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
+          alt="Cover"
+          className="cover-image"
+          loading="eager"
+        />
       )}
       {isGalleryImagesShown && galleryImages && (
         <GenericList
