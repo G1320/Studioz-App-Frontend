@@ -58,11 +58,15 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         key={index}
         src={getOptimizedImageUrl(image, 800)} // Default width
         srcSet={`
-        ${getOptimizedImageUrl(image, 400)} 400w,
-        ${getOptimizedImageUrl(image, 800)} 800w,
-        ${getOptimizedImageUrl(image, 1200)} 1200w
-      `}
-        sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
+       ${getOptimizedImageUrl(image, 400)} 400w,
+       ${getOptimizedImageUrl(image, 800)} 800w,
+       ${getOptimizedImageUrl(image, 1000)} 1000w,
+       ${getOptimizedImageUrl(image, 1200)} 1200w
+       `}
+        sizes="(max-width: 599px) 400px, 
+         (max-width: 899px) 600px, 
+         (max-width: 1199px) 1000px, 
+         1200px"
         alt={entity?.name}
         loading="lazy"
       />
@@ -79,11 +83,17 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         <img
           src={getOptimizedImageUrl(currCoverImage, 800)}
           srcSet={`
-      ${getOptimizedImageUrl(currCoverImage, 400)} 400w,
-      ${getOptimizedImageUrl(currCoverImage, 800)} 800w,
-      ${getOptimizedImageUrl(currCoverImage, 1200)} 1200w
-    `}
-          sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
+    ${getOptimizedImageUrl(currCoverImage, 400)} 400w,
+    ${getOptimizedImageUrl(currCoverImage, 600)} 600w,
+    ${getOptimizedImageUrl(currCoverImage, 800)} 800w,
+    ${getOptimizedImageUrl(currCoverImage, 1000)} 1000w,
+    ${getOptimizedImageUrl(currCoverImage, 1200)} 1200w
+  `}
+          sizes="(max-width: 599px) 600px, 
+         (max-width: 899px) 900px, 
+         (max-width: 1000px) 1000px, 
+         (max-width: 1199px) 1200px, 
+         1200px"
           alt="Cover"
           className="cover-image"
           loading="eager"
