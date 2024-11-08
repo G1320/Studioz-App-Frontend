@@ -54,6 +54,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         key={index}
         src={getOptimizedImageUrl(image)}
         alt={entity?.name}
+        loading="lazy"
       />
     );
   };
@@ -65,7 +66,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   return (
     <div className="file-gallery-container image-gallery-container">
       {isCoverShown && currCoverImage && (
-        <img src={getOptimizedImageUrl(currCoverImage)} alt="Cover" className="cover-image" />
+        <img src={getOptimizedImageUrl(currCoverImage)} alt="Cover" className="cover-image" loading="eager" />
       )}
       {isGalleryImagesShown && galleryImages && (
         <GenericList
