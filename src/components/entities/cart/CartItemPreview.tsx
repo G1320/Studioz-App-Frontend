@@ -35,7 +35,8 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
     const newItem = {
       ...item,
       quantity,
-      total: item.price * quantity
+      total: item.price * quantity,
+      hours: quantity
     };
 
     if (isIncrement) {
@@ -59,6 +60,14 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
     }
   };
 
+  // Calculate end time for display
+  const getTimeRange = () => {
+    if (!item.startTime || !item.quantity) return item.startTime;
+    const startHour = parseInt(item.startTime);
+    const endHour = startHour + item.quantity;
+    return `${item.startTime} - ${String(endHour).padStart(2, '0')}:00`;
+  };
+
   return (
     <article onClick={handleClick} className="preview cart-item-preview">
       <div>
@@ -68,16 +77,20 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
       <div>
         <div className="cart-item-booking-date-time-container">
           <small>{item?.bookingDate}</small>
-          <small>{item?.startTime}</small>
+          <small>{getTimeRange()}</small>
         </div>
         <div>
           <small className="cart-item-preview-price" onClick={handleClick}>
-            Price: ${item?.price?.toFixed(2)}
+            Price: ${(item?.price * (item?.quantity || 1)).toFixed(2)}
           </small>
         </div>
       </div>
       <div className="cart-item-quantity-container">
-        <Button onClick={(e) => handleQuantityChange(e, item, false)} className="remove-from-cart">
+        <Button
+          onClick={(e) => handleQuantityChange(e, item, false)}
+          className="remove-from-cart"
+          disabled={!item.quantity || item.quantity <= 1}
+        >
           <RemoveCircleOutlineIcon className="icon decrement-quantity-button" />
         </Button>
         <small className="cart-item-preview-quantity" onClick={handleClick}>
