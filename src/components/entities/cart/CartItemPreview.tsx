@@ -81,7 +81,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
         </div>
         <div>
           <small className="cart-item-preview-price" onClick={handleClick}>
-            Price: ${(item?.price * (item?.quantity || 1)).toFixed(2)}
+            Price: ${item?.price}/hr
           </small>
         </div>
       </div>
