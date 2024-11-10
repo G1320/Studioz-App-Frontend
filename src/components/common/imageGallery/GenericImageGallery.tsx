@@ -30,10 +30,6 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
 
   const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
 
-  // const getOptimizedImageUrl = (src: string): string => {
-  //   return src.replace('/upload/', '/upload/f_auto,q_auto,w_auto/');
-  // };
-
   const getOptimizedImageUrl = (src: string, width: number): string => {
     return src.replace('/upload/', `/upload/w_${width},f_auto,q_auto/`);
   };

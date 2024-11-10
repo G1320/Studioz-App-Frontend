@@ -17,7 +17,7 @@ import { useUserContext } from '@contexts/index';
 import { Item, Wishlist } from '@models/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
-import { useReserveStudioItemTimeSlotMutation } from '@hooks/mutations/bookings/bookingMutations';
+import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -34,7 +34,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const datePickerRef = useRef<MuiDateTimePickerRef>(null);
 
   const addItemToCartMutation = useAddItemToCartMutation();
-  const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotMutation(item._id);
+  const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');

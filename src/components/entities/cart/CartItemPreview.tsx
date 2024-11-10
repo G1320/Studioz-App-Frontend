@@ -5,8 +5,8 @@ import { useAddItemToCartMutation, useRemoveItemFromCartMutation } from '@hooks/
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {
-  useReserveStudioItemTimeSlotMutation,
-  useReleaseStudioItemTimeSlotMutation
+  useReserveNextStudioItemTimeSlotMutation,
+  useReleaseLastStudioItemTimeSlotMutation
 } from '@hooks/mutations/bookings/bookingMutations';
 
 interface CartItemPreviewProps {
@@ -18,8 +18,8 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
   const addItemToCartMutation = useAddItemToCartMutation();
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
 
-  const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotMutation(item.itemId);
-  const releaseItemTimeSlotMutation = useReleaseStudioItemTimeSlotMutation(item.itemId);
+  const reserveItemTimeSlotMutation = useReserveNextStudioItemTimeSlotMutation(item.itemId);
+  const releaseItemTimeSlotMutation = useReleaseLastStudioItemTimeSlotMutation(item.itemId);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -40,14 +40,17 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
     };
 
     if (isIncrement) {
-      reserveItemTimeSlotMutation.mutate(newItem, {
-        onSuccess: () => {
-          addItemToCartMutation.mutate(newItem);
-        },
-        onError: (error) => {
-          console.error('Booking failed:', error);
+      reserveItemTimeSlotMutation.mutate(
+        { ...newItem, hours: quantity },
+        {
+          onSuccess: () => {
+            addItemToCartMutation.mutate({ ...newItem, hours: 1 });
+          },
+          onError: (error) => {
+            console.error('Booking failed:', error);
+          }
         }
-      });
+      );
     } else {
       releaseItemTimeSlotMutation.mutate(newItem, {
         onSuccess: () => {
