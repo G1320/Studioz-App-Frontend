@@ -22,7 +22,6 @@ export const reserveTimeSlots = async (item: CartItem) => {
 };
 
 export const releaseLastTimeSlot = async (item: CartItem) => {
-  console.log('item: ', item);
   try {
     return await httpService.delete<Item>(`${bookingEndpoint}/release-time-slot/`, item);
   } catch (error) {
