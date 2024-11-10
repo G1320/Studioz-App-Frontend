@@ -1,5 +1,5 @@
 // SocketContext.tsx
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
 import { invalidateItemQueries } from '@utils/queryUtils';
@@ -20,15 +20,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log('Initializing socket connection');
     const newSocket = io(BASE_URL, {
       withCredentials: true,
       transports: ['websocket', 'polling'],
       reconnection: true
-    });
-
-    newSocket.on('connect', () => {
-      console.log('Socket connected with ID:', newSocket.id);
     });
 
     newSocket.on('availabilityUpdated', (data) => {
@@ -44,7 +39,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     setSocket(newSocket);
 
     return () => {
-      console.log('Cleaning up socket connection');
       newSocket.close();
     };
   }, [queryClient]);
