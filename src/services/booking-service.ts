@@ -3,18 +3,18 @@ import { CartItem, Item } from '@models/index';
 
 const bookingEndpoint = '/bookings';
 
-export const reserveNextTimeSlot = async (item: CartItem, userId?: string) => {
+export const reserveNextTimeSlot = async (item: CartItem) => {
   try {
-    return await httpService.post<Item>(`${bookingEndpoint}/reserve-time-slot/${userId}`, item);
+    return await httpService.post<Item>(`${bookingEndpoint}/reserve-time-slot/`, item);
   } catch (error) {
     console.error('Error booking item:', error);
     throw error;
   }
 };
 
-export const reserveTimeSlots = async (item: CartItem, userId?: string) => {
+export const reserveTimeSlots = async (item: CartItem) => {
   try {
-    return await httpService.post<Item>(`${bookingEndpoint}/reserve-time-slots/${userId}`, item);
+    return await httpService.post<Item>(`${bookingEndpoint}/reserve-time-slots/`, item);
   } catch (error) {
     console.error('Error booking item:', error);
     throw error;
