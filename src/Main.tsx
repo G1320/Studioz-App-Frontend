@@ -16,6 +16,7 @@ const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 import App from './App.js';
+import { SocketProvider } from '@contexts/SocketContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,21 +32,23 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <Router>
-        <Auth0Provider
-          domain={domain}
-          clientId={clientId}
-          authorizationParams={{
-            redirect_uri: window.location.origin,
-            audience: 'https://items-app-backend.onrender.com',
-            scope: 'openid profile email'
-          }}
-        >
-          <OfflineCartProvider>
-            <UserProvider>
-              <App />
-            </UserProvider>
-          </OfflineCartProvider>
-        </Auth0Provider>
+        <SocketProvider>
+          <Auth0Provider
+            domain={domain}
+            clientId={clientId}
+            authorizationParams={{
+              redirect_uri: window.location.origin,
+              audience: 'https://items-app-backend.onrender.com',
+              scope: 'openid profile email'
+            }}
+          >
+            <OfflineCartProvider>
+              <UserProvider>
+                <App />
+              </UserProvider>
+            </OfflineCartProvider>
+          </Auth0Provider>
+        </SocketProvider>
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />
     </PersistQueryClientProvider>
