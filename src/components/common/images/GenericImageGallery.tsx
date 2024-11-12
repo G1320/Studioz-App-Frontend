@@ -51,7 +51,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         alt={entity?.name || `Gallery Image ${index + 1}`}
         className="preview gallery-image"
         onClick={() => handleImageChange(image)}
-        width={800} // Default width for optimized images
+        width={800}
       />
     );
   };
@@ -68,6 +68,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
           alt="Cover Image"
           className="cover-image"
           width={800}
+          loading="eager"
           onClick={() => onSetPreviewImage?.(currCoverImage)}
         />
       )}

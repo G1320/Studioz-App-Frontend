@@ -4,6 +4,7 @@ interface GenericImageProps {
   className?: string;
   onClick?: () => void;
   width?: number;
+  loading?: 'lazy' | 'eager';
 }
 
 export const GenericImage: React.FC<GenericImageProps> = ({
@@ -11,7 +12,8 @@ export const GenericImage: React.FC<GenericImageProps> = ({
   alt,
   className,
   onClick,
-  width = 800 // Default width for optimization
+  width = 800,
+  loading = 'lazy'
 }) => {
   const optimizedSrc = (width: number) => src.replace('/upload/', `/upload/w_${width},f_auto,q_auto/`);
 
@@ -29,7 +31,7 @@ export const GenericImage: React.FC<GenericImageProps> = ({
              (max-width: 1199px) 1000px,
              1200px"
       alt={alt}
-      loading="lazy"
+      loading={loading}
       className={className}
       onClick={onClick}
     />
