@@ -44,10 +44,13 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
       return <PropagateLoader className="loader" speedMultiplier={1.25} color="#fcfcfc" size={24} />;
     }
 
+    const blurHash = 'LEHV6nWB2yk8pyo0adR*.7kCMdnj';
+
     return (
       <GenericImage
         key={index}
         src={image}
+        blurHash={blurHash}
         alt={entity?.name || `Gallery Image ${index + 1}`}
         className="preview gallery-image"
         onClick={() => handleImageChange(image)}
@@ -65,6 +68,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
       {isCoverShown && currCoverImage && (
         <GenericImage
           src={currCoverImage}
+          blurHash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
           alt="Cover Image"
           className="cover-image"
           width={800}
