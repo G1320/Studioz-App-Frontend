@@ -35,7 +35,7 @@
     max-height: max-content;
     gap: 0.5rem;
 
-    max-width: 1200px;
+    max-width: calc(1200px - 1rem);
 
     .cover-image-container {
       display: grid;
