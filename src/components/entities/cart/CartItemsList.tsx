@@ -15,7 +15,7 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
     isMultiSelect ? (
       <GenericMultiDropdownEntryPreview entry={{ name: item.name || '', _id: item.itemId }} key={item?.itemId} />
     ) : (
-      <CartItemPreview item={item} key={item?.itemId} />
+      <CartItemPreview item={item} key={`${item.itemId}-${item.bookingDate}`} />
     );
 
   return (

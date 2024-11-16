@@ -30,7 +30,9 @@ export const useCartOperations = () => {
       return addItemToCart(user._id, item.itemId, item.bookingDate || '', item.startTime || '', item.hours || 1);
     }
     const cart = getLocalOfflineCart() || { items: [] };
-    const existingItem = cart.items.find((cartItem: CartItem) => cartItem.itemId === item.itemId);
+    const existingItem = cart.items.find(
+      (cartItem: CartItem) => cartItem.itemId === item.itemId && cartItem.bookingDate === item.bookingDate
+    );
 
     if (existingItem && existingItem.quantity) {
       existingItem.quantity += item.hours || 1;
@@ -51,12 +53,14 @@ export const useCartOperations = () => {
     return cart;
   };
 
-  const removeItem = async (itemId: string) => {
+  const removeItem = async (item: CartItem) => {
     if (user && user._id) {
-      return removeItemFromCart(user._id, itemId);
+      return removeItemFromCart(user._id, item);
     }
     const cart = getLocalOfflineCart() || { items: [] };
-    const itemIndex = cart.items.findIndex((item: CartItem) => item.itemId === itemId);
+    const itemIndex = cart.items.findIndex(
+      (cartItem: CartItem) => cartItem.itemId === item.itemId && cartItem.bookingDate === item.bookingDate
+    );
 
     if (itemIndex !== -1) {
       const cartItem = cart.items[itemIndex];

@@ -1,4 +1,16 @@
 .studio-details-page {
+  .preview.studio-preview {
+    max-height: max-content;
+    gap: 0.5rem;
+    max-width: calc(1200px - 1rem);
+    .cover-image-container {
+      display: grid;
+      max-height: 600px;
+    }
+    button {
+      display: none;
+    }
+  }
   @media screen and (max-width: 600px) {
     padding: 0;
     .preview p {
@@ -29,22 +41,6 @@
         min-width: 48px;
         height: 24px;
       }
-    }
-  }
-  .preview.studio-preview {
-    max-height: max-content;
-    gap: 0.5rem;
-
-    max-width: calc(1200px - 1rem);
-
-    .cover-image-container {
-      display: grid;
-      min-width: calc(100%);
-      max-height: 600px !important;
-    }
-
-    button {
-      display: none;
     }
   }
 }

@@ -33,9 +33,9 @@ export const addItemsToCart = async (userId: string, items: CartItem[]): Promise
   }
 };
 
-export const removeItemFromCart = async (userId: string, itemId: string): Promise<Cart> => {
+export const removeItemFromCart = async (userId: string, item: CartItem): Promise<Cart> => {
   try {
-    return await httpService.delete(`${cartEndpoint}/${userId}/remove-from-cart/${itemId}`);
+    return await httpService.delete(`${cartEndpoint}/${userId}/remove-from-cart/${item.itemId}`, item);
   } catch (error: unknown) {
     console.error('Failed to remove item from cart', error);
     throw error;

@@ -18,7 +18,7 @@ export const useAddItemToCartMutation = () => {
       return generateSuccessMessage(variables, 'added');
     },
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItem(variables.itemId)
+    undoAction: (variables, _data) => removeItem(variables)
   });
 };
 
@@ -39,7 +39,7 @@ export const useRemoveItemFromCartMutation = () => {
   const userId = getLocalUser()?._id;
 
   return useMutationHandler<Cart, CartItem>({
-    mutationFn: (item: CartItem) => removeItem(item.itemId),
+    mutationFn: (item: CartItem) => removeItem(item),
     successMessage: (_data, variables) => generateSuccessMessage(variables, 'removed'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => addItem(variables)
