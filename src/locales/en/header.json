@@ -1,9 +1,10 @@
 {
-  "navbar": {
-    "services": "Services",
-    "wishlists": "Wishlists",
-    "create": "Create",
+  "logo": "Studioz",
+  "services": "Services",
+  "wishlists": "Wishlists",
+  "create_studio": "Create",
+  "errors": {
     "login_required": "Please log in to access this feature",
-    "empty_wishlist_redirect": "You don't have any wishlists. Redirecting to create one."
+    "wishlist_empty": "No wishlists available. Create one first."
   }
 }

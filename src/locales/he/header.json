@@ -1,9 +1,10 @@
 {
-  "navbar": {
-    "services": "שירותים",
-    "wishlists": "רשימות מועדפים",
-    "create": "צור",
-    "login_required": "אנא התחבר כדי לגשת לפונקציה זו",
-    "empty_wishlist_redirect": "אין לך רשימות מועדפים. מעביר אותך ליצירת אחת."
+  "logo": "סטודיוז",
+  "services": "שירותים",
+  "wishlists": "רשימות משאלות",
+  "create_studio": "צור",
+  "errors": {
+    "login_required": "אנא התחבר כדי לגשת לתכונה זו",
+    "wishlist_empty": "אין רשימות משאלות זמינות. צור אחת תחילה."
   }
 }

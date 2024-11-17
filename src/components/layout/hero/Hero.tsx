@@ -1,17 +1,16 @@
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 export const Hero = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation('common');
 
   return (
     <section onClick={() => navigate('/studios/music')} className="hero">
       <div className="hero">
         <div className="hero-text-wrapper">
-          <h1 className="hero-header">With Studioz.co.il, finding the perfect Studio is effortless. </h1>
-          <p>
-            Browse our curated selection of top-tier studios, book sessions seamlessly, and elevate your sound with
-            ease.
-          </p>
+          <h1 className="hero-header">{t('hero.title')} </h1>
+          <p>{t('hero.content')}</p>
         </div>
         {/* <img src="https://i.imgur.com/XAYOgy4.png" alt="" /> */}
         {/* <img src="https://i.imgur.com/0juIIZe.png" alt="" /> */}
