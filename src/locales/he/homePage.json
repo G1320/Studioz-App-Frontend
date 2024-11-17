@@ -1,18 +1,14 @@
 {
-  "hero": {
-    "hero_title": "עם Studioz.co.il, מציאת הסטודיו המושלם היא פשוטה.",
-    "hero_content": "עיינו במבחר הסטודיואים המובילים, הזמינו סשנים בקלות, והרימו את הסאונד שלכם לגבהים חדשים."
-  },
-  "homePage": {
-    "studioz_for_you": "אולפנים שמתאימים בדיוק עבורך",
-    "the_best_in_the_biz": "הכי טובים בתחום",
-    "recording_studioz": "אולפני הקלטות",
+  "sections": {
+    "studioz_for_you": "סטודיוז בשבילך",
+    "the_best_in_the_biz": "הטובים ביותר בתחום",
+    "recording_studioz": "סטודיוז להקלטות",
     "mixing_services": "שירותי מיקס",
-    "podcast_studioz": "אולפנים להקלטת פודקאסטים",
-    "charge_up_your_mix": "תן למיקס שלך נגיעה מקצועית",
-    "mastering_studioz": "אולפני מאסטרינג",
-    "audio_engineerz": "מהנדסי קול",
-    "book_now_think_later": "תזמין עכשיו, תחשוב אחר כך",
+    "podcast_studioz": "סטודיוז לפודקאסטים",
+    "charge_up_your_mix": "שדרגו את המיקס שלכם עם טאץ' מקצועי",
+    "mastering_studioz": "סטודיוז למאסטרינג",
+    "audio_engineerz": "מהנדסי אודיו",
+    "book_now_think_later": "הזמינו עכשיו, תחשבו אחר כך",
     "mastering_services": "שירותי מאסטרינג"
   }
 }

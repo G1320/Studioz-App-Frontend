@@ -1,0 +1,8 @@
+{
+  "title": "Dashboard",
+  "stats": {
+    "bookings": "Total Bookings",
+    "revenue": "Total Revenue",
+    "customers": "Total Customers"
+  }
+}

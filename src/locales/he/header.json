@@ -1,9 +1,9 @@
 {
   "navbar": {
     "services": "שירותים",
-    "wishlists": "רשימות משאלות",
+    "wishlists": "רשימות מועדפים",
     "create": "צור",
-    "login_required": "אנא התחבר כדי לגשת לתכונה זו",
-    "empty_wishlist_redirect": "אין לך רשימות משאלות. מעביר אותך ליצירת רשימה."
+    "login_required": "אנא התחבר כדי לגשת לפונקציה זו",
+    "empty_wishlist_redirect": "אין לך רשימות מועדפים. מעביר אותך ליצירת אחת."
   }
 }

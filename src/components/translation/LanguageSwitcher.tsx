@@ -14,9 +14,9 @@ export const LanguageSwitcher = () => {
   }, [i18n.language]);
 
   return (
-    <div>
+    <section className="lang-switcher">
       <button onClick={() => changeLanguage('en')}>English</button>
       <button onClick={() => changeLanguage('he')}>עברית</button>
-    </div>
+    </section>
   );
 };

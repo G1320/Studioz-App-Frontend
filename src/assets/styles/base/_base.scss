@@ -33,6 +33,11 @@ html[lang='en'] {
   direction: ltr;
 }
 
+.lang-switcher {
+  display: flex;
+  gap: 0.5rem;
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;

@@ -1,9 +1,5 @@
 {
-  "hero": {
-    "hero_title": "With Studioz.co.il, finding the perfect Studio is effortless.",
-    "hero_content": "Browse our curated selection of top-tier studios, book sessions seamlessly, and elevate your sound with ease."
-  },
-  "homePage": {
+  "sections": {
     "studioz_for_you": "Studioz for You",
     "the_best_in_the_biz": "The Best in the Biz",
     "recording_studioz": "Recording Studioz",

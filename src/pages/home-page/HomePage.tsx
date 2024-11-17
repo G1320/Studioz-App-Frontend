@@ -1,9 +1,9 @@
 import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@components/index';
-
 import { useWishlists } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Studio, Item } from '@models/index';
 import { filterBySubcategory } from '@utils/index';
+import { useTranslation } from 'react-i18next';
 
 interface HomePageProps {
   studios: Studio[];
@@ -13,6 +13,7 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
+  const { t } = useTranslation('homePage');
 
   const studioRenderItem = (studio: Studio) => <StudioPreview studio={studio} />;
   const itemRenderItem = (item: Item) => <ItemPreview item={item} wishlists={wishlists} key={item._id} />;
@@ -24,7 +25,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
   const masteringItems = filterBySubcategory(items, 'Mastering');
-
   return (
     <section className="home-page">
       <GenericCarousel
@@ -32,55 +32,53 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         autoplay={true}
-        title="Studioz for you"
+        title={t('sections.studioz_for_you')}
       />
       <GenericCarousel
         data={items}
         className="items-carousel"
         renderItem={itemRenderItem}
-        title="The best in the biz"
+        title={t('sections.the_best_in_the_biz')}
       />
       <GenericCarousel
         data={recordingStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
-        title="Recording Studioz"
+        title={t('sections.recording_studioz')}
       />
       <GenericCarousel
         data={mixingItems}
         className="items-carousel"
         renderItem={itemRenderItem}
-        title="Mixing Services"
+        title={t('sections.mixing_services')}
       />
       <GenericCarousel
         data={podcastRecordingStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
-        title="Podcast Studioz"
+        title={t('sections.podcast_studioz')}
       />
-      <h1>Charge up your mix with a professional touch</h1>
+      <h1>{t('sections.charge_up_your_mix')}</h1>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
-
       <GenericCarousel
         data={masteringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
-        title="Mastering Studioz"
+        title={t('sections.mastering_studioz')}
       />
-
       <GenericCarousel
         data={audioEngineeringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
-        title="Audio Engineerz"
+        title={t('sections.audio_engineerz')}
       />
-      <h1>Book now, think later</h1>
+      <h1>{t('sections.book_now_think_later')}</h1>
       <StudiosList studios={mixingStudios.slice(7, 12)} />
       <GenericCarousel
         data={masteringItems}
         className="items-carousel"
         renderItem={itemRenderItem}
-        title="Mastering Services"
+        title={t('sections.mastering_services')}
       />
     </section>
   );

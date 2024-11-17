@@ -1,4 +1,18 @@
 {
-  "welcome": "Welcome to Studioz",
-  "book_now": "Book Now"
+  "hero": {
+    "title": "With Studioz.co.il, finding the perfect Studio is effortless.",
+    "content": "Browse our curated selection of top-tier studios, book sessions seamlessly, and elevate your sound with ease."
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "logIn": "Log In"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalid": "Invalid input"
+  }
 }
