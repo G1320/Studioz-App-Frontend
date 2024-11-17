@@ -25,7 +25,7 @@ export const EditItemForm = () => {
   };
 
   return (
-    <section className="edit-item-form-wrapper">
+    <section className="form-wrapper edit-item-form-wrapper">
       <GenericForm className="edit-item-form" title="Edit Item" fields={fields} onSubmit={handleSubmit} />
     </section>
   );

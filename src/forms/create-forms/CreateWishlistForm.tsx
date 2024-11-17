@@ -23,6 +23,8 @@ export const CreateWishlistForm = () => {
   ];
 
   return (
-    <GenericForm className="create-wishlist-form" title="Create Wishlist" fields={fields} onSubmit={handleSubmit} />
+    <section className="form-wrapper create-wishlist-form-wrapper">
+      <GenericForm className="create-wishlist-form" title="Create Wishlist" fields={fields} onSubmit={handleSubmit} />
+    </section>
   );
 };

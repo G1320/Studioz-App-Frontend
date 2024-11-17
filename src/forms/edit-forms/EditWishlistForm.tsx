@@ -30,7 +30,7 @@ export const EditWishlistForm = () => {
   };
 
   return (
-    <section className="edit-wishlist-form-wrapper">
+    <section className="form-wrapper edit-wishlist-form-wrapper">
       <GenericForm className="edit-wishlist-form" title="Edit Wishlist" fields={fields} onSubmit={handleSubmit} />
     </section>
   );

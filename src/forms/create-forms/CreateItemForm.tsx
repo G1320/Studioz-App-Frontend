@@ -41,12 +41,14 @@ export const CreateItemForm = () => {
   ];
 
   return (
-    <GenericForm
-      className="create-item-form"
-      title={studioName}
-      fields={fields}
-      onSubmit={handleSubmit}
-      onCategoryChange={handleCategoryChange}
-    />
+    <section className="form-wrapper create-item-form-wrapper">
+      <GenericForm
+        className="create-item-form"
+        title={studioName}
+        fields={fields}
+        onSubmit={handleSubmit}
+        onCategoryChange={handleCategoryChange}
+      />
+    </section>
   );
 };

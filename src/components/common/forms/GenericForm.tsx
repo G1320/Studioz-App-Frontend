@@ -67,18 +67,18 @@ export const GenericForm: React.FC<GenericFormProps> = ({
                     variant="outlined"
                     onChange={handleSelectChange}
                     sx={{
-                      color: '#fff', // Text color for the select
+                      color: 'black', // Text color for the select
                       '& .MuiSelect-select': {
-                        color: '#fff' // Text color for selected option
+                        color: 'black' // Text color for selected option
                       },
                       '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#fff' // Border color
+                        borderColor: 'black' // Border color
                       },
                       '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#fff' // Border color on hover
+                        borderColor: 'black' // Border color on hover
                       },
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#fff' // Border color when focused
+                        borderColor: 'black' // Border color when focused
                       }
                     }}
                   >
@@ -102,8 +102,6 @@ export const GenericForm: React.FC<GenericFormProps> = ({
                   rows={4}
                   {...register(field.name)}
                   fullWidth
-                  InputLabelProps={{ style: { color: '#fff' } }}
-                  InputProps={{ style: { color: '#fff' } }}
                 />
               ) : (
                 <TextField
@@ -114,8 +112,6 @@ export const GenericForm: React.FC<GenericFormProps> = ({
                   type={field.type}
                   {...register(field.name)}
                   fullWidth
-                  InputLabelProps={{ style: { color: '#fff' } }}
-                  InputProps={{ style: { color: '#fff' } }}
                 />
               )}
             </div>

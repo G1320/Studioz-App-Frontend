@@ -87,7 +87,7 @@ export const EditStudioForm = () => {
   };
 
   return (
-    <section className="edit-studio-form-wrapper">
+    <section className="form-wrapper edit-studio-form-wrapper">
       <FileUploader
         fileType="image"
         onFileUpload={handleFileUpload}

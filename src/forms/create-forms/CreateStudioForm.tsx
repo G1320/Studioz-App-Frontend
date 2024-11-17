@@ -78,7 +78,7 @@ export const CreateStudioForm = () => {
   };
 
   return (
-    <section className="create-studio-form-container">
+    <>
       <FileUploader
         fileType="image"
         onFileUpload={handleFileUpload}
@@ -91,12 +91,14 @@ export const CreateStudioForm = () => {
         galleryFiles={galleryAudioFiles}
         isCoverShown={false}
       />
-      <GenericForm
-        className="create-studio-form"
-        fields={fields}
-        onSubmit={handleSubmit}
-        onCategoryChange={handleCategoryChange}
-      />
-    </section>
+      <section className="form-wrapper create-studio-form-wrapper">
+        <GenericForm
+          className="create-studio-form"
+          fields={fields}
+          onSubmit={handleSubmit}
+          onCategoryChange={handleCategoryChange}
+        />
+      </section>
+    </>
   );
 };

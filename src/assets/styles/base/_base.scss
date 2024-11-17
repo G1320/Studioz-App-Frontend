@@ -71,6 +71,11 @@ body,
   text-align: center;
 }
 
+.form-wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
 .render-item-container {
   max-width: max-content;
 }
@@ -250,19 +255,25 @@ body,
   max-width: 1000px;
   place-self: center;
   align-self: start;
+  .checkbox-wrapper {
+    // display: flex;
+    .MuiFormControlLabel-label {
+      color: black !important;
+    }
+  }
   button {
     max-width: max-content;
     place-self: center;
-    color: vars.$text-color-primary !important;
+    // color: vars.$text-color-primary !important;
   }
 
   form {
     display: grid;
     gap: 1rem;
     margin: 1rem;
-    * {
-      border-color: #fff;
-      color: #fff;
-    }
+    // * {
+    //   border-color: #fff;
+    //   color: #fff;
+    // }
   }
 }
