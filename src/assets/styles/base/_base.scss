@@ -25,6 +25,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html[lang='he'] {
+  direction: rtl;
+}
+
+html[lang='en'] {
+  direction: ltr;
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;

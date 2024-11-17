@@ -8,6 +8,7 @@ import {
   useReserveNextStudioItemTimeSlotMutation,
   useReleaseLastStudioItemTimeSlotMutation
 } from '@hooks/mutations/bookings/bookingMutations';
+import { CloseOutlined } from '@mui/icons-material';
 
 interface CartItemPreviewProps {
   item: CartItem;
@@ -17,6 +18,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
   const navigate = useNavigate();
   const addItemToCartMutation = useAddItemToCartMutation();
   const removeItemFromCartMutation = useRemoveItemFromCartMutation();
+  // const removeItemsFromCartMutation = useRemoveItemsFromCartMutation();
 
   const reserveItemTimeSlotMutation = useReserveNextStudioItemTimeSlotMutation(item.itemId);
   const releaseItemTimeSlotMutation = useReleaseLastStudioItemTimeSlotMutation(item.itemId);
@@ -91,10 +93,14 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
       <div className="cart-item-quantity-container">
         <Button
           onClick={(e) => handleQuantityChange(e, item, false)}
-          className="remove-from-cart"
-          disabled={!item.quantity || item.quantity <= 1}
+          className="decrement-quantity"
+          aria-label="Decrease quantity"
         >
-          <RemoveCircleOutlineIcon className="icon decrement-quantity-button" />
+          {item.quantity && item.quantity <= 1 ? (
+            <CloseOutlined className="icon remove-item-button" />
+          ) : (
+            <RemoveCircleOutlineIcon className="icon decrement-quantity-button" />
+          )}
         </Button>
         <small className="cart-item-preview-quantity" onClick={handleClick}>
           hours: {item.quantity}

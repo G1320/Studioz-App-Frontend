@@ -1,0 +1,9 @@
+{
+  "navbar": {
+    "services": "Services",
+    "wishlists": "Wishlists",
+    "create": "Create",
+    "login_required": "Please log in to access this feature",
+    "empty_wishlist_redirect": "You don't have any wishlists. Redirecting to create one."
+  }
+}

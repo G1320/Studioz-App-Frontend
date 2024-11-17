@@ -82,9 +82,12 @@ export const useCartOperations = () => {
     throw new Error('User must be logged in to add items to the cart.');
   };
 
-  const removeItems = async (itemIds: string[]) => {
+  const removeItems = async (items: CartItem[]) => {
     if (user && user._id) {
-      return removeItemsFromCart(user._id, itemIds);
+      return removeItemsFromCart(
+        user._id,
+        items.map((item: CartItem) => item.itemId)
+      );
     }
     throw new Error('User must be logged in to remove items from the cart.');
   };

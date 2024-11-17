@@ -22,18 +22,6 @@ export const useAddItemToCartMutation = () => {
   });
 };
 
-export const useAddItemsToCartMutation = () => {
-  const { addItems, removeItems } = useCartOperations();
-  const userId = getLocalUser()?._id;
-
-  return useMutationHandler<CartItem[], Cart>({
-    mutationFn: ({ items }) => addItems(items),
-    successMessage: 'Items added to cart',
-    invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItems(variables.items.map((item) => item.itemId))
-  });
-};
-
 export const useRemoveItemFromCartMutation = () => {
   const { removeItem, addItem, generateSuccessMessage } = useCartOperations();
   const userId = getLocalUser()?._id;
@@ -43,6 +31,18 @@ export const useRemoveItemFromCartMutation = () => {
     successMessage: (_data, variables) => generateSuccessMessage(variables, 'removed'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => addItem(variables)
+  });
+};
+
+export const useAddItemsToCartMutation = () => {
+  const { addItems, removeItems } = useCartOperations();
+  const userId = getLocalUser()?._id;
+
+  return useMutationHandler<CartItem[], Cart>({
+    mutationFn: ({ items }) => addItems(items),
+    successMessage: 'Items added to cart',
+    invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
+    undoAction: (variables, _data) => removeItems(variables?.items)
   });
 };
 
