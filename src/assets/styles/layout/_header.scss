@@ -59,7 +59,7 @@ header {
     padding: 0.25rem;
     .total-price {
       min-width: 6ch;
-      text-align: right;
+      max-width: min-content;
     }
     button {
       display: flex;

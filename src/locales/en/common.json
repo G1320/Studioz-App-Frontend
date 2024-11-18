@@ -9,7 +9,9 @@
     "save": "Save",
     "signOut": "Sign Out",
     "signUp": "Sign Up",
-    "logIn": "Log In"
+    "logIn": "Log In",
+    "logOut": "Log Out",
+    "cart": "Cart"
   },
   "errors": {
     "required": "This field is required",

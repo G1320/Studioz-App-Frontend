@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CartItemPreview, GenericList, GenericMuiDropdown, GenericMultiDropdownEntryPreview } from '@components/index';
 import { Cart, CartItem } from '@models/index';
+import { useTranslation } from 'react-i18next';
 
 interface CartItemsListProps {
   cart?: Cart;
@@ -9,6 +10,7 @@ interface CartItemsListProps {
 }
 
 export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown = false, isMultiSelect = false }) => {
+  const { t } = useTranslation('common');
   const totalPrice = cart?.items?.reduce((total, item) => total + (item.total || 0), 0);
 
   const renderItem = (item: CartItem) =>
@@ -29,7 +31,7 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
           data={cart?.items || []}
           renderItem={renderItem}
           className="cart-list"
-          title={`Cart (${cart?.items?.reduce((total, item) => total + item.quantity!, 0) || 0})`}
+          title={`${t('buttons.cart')} (${cart?.items?.reduce((total, item) => total + item.quantity!, 0) || 0})`}
         />
       ) : (
         <>

@@ -15,8 +15,8 @@ export const LanguageSwitcher = () => {
 
   return (
     <section className="lang-switcher">
-      <button onClick={() => changeLanguage('en')}>English</button>
-      <button onClick={() => changeLanguage('he')}>עברית</button>
+      <span onClick={() => changeLanguage('en')}>🇺🇸</span>
+      <span onClick={() => changeLanguage('he')}>🇮🇱</span>
     </section>
   );
 };

@@ -35,7 +35,11 @@ html[lang='en'] {
 
 .lang-switcher {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+  justify-self: end;
+  span {
+    cursor: pointer;
+  }
 }
 
 body {

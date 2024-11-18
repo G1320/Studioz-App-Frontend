@@ -5,6 +5,7 @@ import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from
 import { useUserContext, useOfflineCartContext } from '@contexts/index';
 import { useErrorHandling } from '@hooks/index';
 import { User } from '@models/index';
+import { useTranslation } from 'react-i18next';
 
 export const LoginButton = () => {
   const { user, loginWithPopup, isAuthenticated } = useAuth0();
@@ -12,6 +13,7 @@ export const LoginButton = () => {
   const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
   // const addItemsToCartMutation = useAddItemsToCartMutation();
   const handleError = useErrorHandling();
+  const { t } = useTranslation('common');
 
   const handleClick = async () => {
     loginWithPopup();
@@ -54,7 +56,7 @@ export const LoginButton = () => {
 
   return (
     <Button onClick={handleClick} className="button login button">
-      Sign in
+      {t('buttons.logIn')}
     </Button>
   );
 };
