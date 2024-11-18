@@ -45,7 +45,6 @@ export const GenericMuiForm: React.FC<GenericFormProps> = ({
       onCategoryChange(value);
     }
 
-    // If the field has its own onChange handler, call it
     const field = fields.find((f) => f.name === fieldName);
     if (field?.onChange) {
       field.onChange(value);
