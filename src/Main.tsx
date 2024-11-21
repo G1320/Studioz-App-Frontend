@@ -12,7 +12,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { UserProvider } from './contexts/UserContext';
 import { OfflineCartProvider } from './contexts/OfflineCartContext';
 import { SocketProvider } from '@contexts/SocketContext';
-import { SearchProvider } from '@contexts/searchContext';
+import { SearchProvider } from '@contexts/SearchContext';
 import './i18n';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;

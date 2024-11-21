@@ -14,6 +14,7 @@ import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
 import { shuffleArray } from '@utils/index';
+import SearchPage from '@pages/search-page/SearchPage';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
@@ -61,6 +62,7 @@ function App() {
             <Route path="/create-wishlist" element={<CreateWishlistPage />} />
             <Route path="/item/:itemId" element={<ItemDetailsPage />} />
             <Route path="/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+            <Route path="/search" element={<SearchPage studios={studios} />} />
           </Routes>
         </Suspense>
       </main>

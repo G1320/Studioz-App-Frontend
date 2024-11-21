@@ -3,5 +3,5 @@ import Studio from './studio';
 import User from './user';
 
 export default interface searchResults {
-  searchResult: Item | Studio | User;
+  searchResult: Partial<Item> | Partial<Studio> | Partial<User>;
 }

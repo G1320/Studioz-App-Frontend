@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useSearchItemsMutation, useSearchStudiosMutation, useSearchUsersMutation } from '@hooks/index';
+import { useNavigate } from 'react-router-dom';
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   // Mutations
   const { mutate: searchItems } = useSearchItemsMutation();
@@ -19,6 +21,7 @@ const SearchComponent = () => {
     if (searchTerm.trim()) {
       searchStudios(searchTerm);
     }
+    navigate('/search');
   };
 
   const handleSearchUsers = () => {

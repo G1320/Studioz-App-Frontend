@@ -3,7 +3,8 @@ import { toast } from 'sonner';
 import { searchItems, searchStudios, searchUsers } from '@services/search-service';
 import { SearchResult } from '@models/index'; // Assuming all models are imported
 import { useErrorHandling } from '@hooks/index';
-import { useSearchContext } from '@contexts/searchContext';
+import { useSearchContext } from '@contexts/SearchContext';
+import { setLocalSearchResults } from '@services/search-service';
 
 export const useSearchItemsMutation = () => {
   const { setSearchResults } = useSearchContext();
@@ -24,6 +25,7 @@ export const useSearchItemsMutation = () => {
     },
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
+      setLocalSearchResults(data);
       toast.success(`Found ${data.length} results for items with "${searchTerm}"`);
     },
     onError: (error) => {
@@ -52,6 +54,8 @@ export const useSearchStudiosMutation = () => {
     },
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
+      setLocalSearchResults(data);
+
       toast.success(`Found ${data.length} results for studios with "${searchTerm}"`);
     },
     onError: (error) => {
@@ -80,6 +84,8 @@ export const useSearchUsersMutation = () => {
     },
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
+      setLocalSearchResults(data);
+
       toast.success(`Found ${data.length} results for users with "${searchTerm}"`);
     },
     onError: (error) => {
