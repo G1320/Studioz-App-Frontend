@@ -1,22 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { searchItems, searchStudios, searchUsers } from '@services/search-service';
-import { Item, Studio, User } from '@models/index'; // Assuming all models are imported
+import { SearchResult } from '@models/index'; // Assuming all models are imported
 import { useErrorHandling } from '@hooks/index';
+import { useSearchContext } from '@contexts/searchContext';
 
 export const useSearchItemsMutation = () => {
+  const { setSearchResults } = useSearchContext();
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
 
-  return useMutation<Item[], Error, string>({
+  return useMutation<SearchResult[], Error, string>({
     mutationFn: async (searchTerm: string) => {
-      // Check if data is already cached
-      const cachedData = queryClient.getQueryData<Item[]>(['items', searchTerm]);
-      if (cachedData) {
-        return cachedData; // Return cached data if it exists
-      }
-
-      // Otherwise, fetch data from the API
       try {
         const data = await searchItems(searchTerm);
         // Cache the fetched data
@@ -28,6 +23,7 @@ export const useSearchItemsMutation = () => {
       }
     },
     onSuccess: (data, searchTerm) => {
+      setSearchResults(data);
       toast.success(`Found ${data.length} results for items with "${searchTerm}"`);
     },
     onError: (error) => {
@@ -37,18 +33,13 @@ export const useSearchItemsMutation = () => {
 };
 
 export const useSearchStudiosMutation = () => {
+  const { setSearchResults } = useSearchContext();
+
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
 
-  return useMutation<Studio[], Error, string>({
+  return useMutation<SearchResult[], Error, string>({
     mutationFn: async (searchTerm: string) => {
-      // Check if data is already cached
-      const cachedData = queryClient.getQueryData<Studio[]>(['studios', searchTerm]);
-      if (cachedData) {
-        return cachedData; // Return cached data if it exists
-      }
-
-      // Otherwise, fetch data from the API
       try {
         const data = await searchStudios(searchTerm);
         // Cache the fetched data
@@ -60,6 +51,7 @@ export const useSearchStudiosMutation = () => {
       }
     },
     onSuccess: (data, searchTerm) => {
+      setSearchResults(data);
       toast.success(`Found ${data.length} results for studios with "${searchTerm}"`);
     },
     onError: (error) => {
@@ -69,18 +61,13 @@ export const useSearchStudiosMutation = () => {
 };
 
 export const useSearchUsersMutation = () => {
+  const { setSearchResults } = useSearchContext();
+
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
 
-  return useMutation<User[], Error, string>({
+  return useMutation<SearchResult[], Error, string>({
     mutationFn: async (searchTerm: string) => {
-      // Check if data is already cached
-      const cachedData = queryClient.getQueryData<User[]>(['users', searchTerm]);
-      if (cachedData) {
-        return cachedData; // Return cached data if it exists
-      }
-
-      // Otherwise, fetch data from the API
       try {
         const data = await searchUsers(searchTerm);
         // Cache the fetched data
@@ -92,6 +79,7 @@ export const useSearchUsersMutation = () => {
       }
     },
     onSuccess: (data, searchTerm) => {
+      setSearchResults(data);
       toast.success(`Found ${data.length} results for users with "${searchTerm}"`);
     },
     onError: (error) => {

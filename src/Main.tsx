@@ -11,13 +11,14 @@ import { Auth0Provider } from '@auth0/auth0-react';
 
 import { UserProvider } from './contexts/UserContext';
 import { OfflineCartProvider } from './contexts/OfflineCartContext';
+import { SocketProvider } from '@contexts/SocketContext';
+import { SearchProvider } from '@contexts/searchContext';
 import './i18n';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 import App from './App.js';
-import { SocketProvider } from '@contexts/SocketContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,9 +45,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             }}
           >
             <OfflineCartProvider>
-              <UserProvider>
-                <App />
-              </UserProvider>
+              <SearchProvider>
+                <UserProvider>
+                  <App />
+                </UserProvider>
+              </SearchProvider>
             </OfflineCartProvider>
           </Auth0Provider>
         </SocketProvider>

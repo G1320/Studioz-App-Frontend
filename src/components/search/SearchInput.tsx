@@ -11,25 +11,24 @@ const SearchComponent = () => {
 
   const handleSearchItems = () => {
     if (searchTerm.trim()) {
-      searchItems(searchTerm); // Trigger search for items with the inputted search term
+      searchItems(searchTerm);
     }
   };
 
   const handleSearchStudios = () => {
     if (searchTerm.trim()) {
-      searchStudios(searchTerm); // Trigger search for studios with the inputted search term
+      searchStudios(searchTerm);
     }
   };
 
   const handleSearchUsers = () => {
     if (searchTerm.trim()) {
-      searchUsers(searchTerm); // Trigger search for users with the inputted search term
+      searchUsers(searchTerm);
     }
   };
 
   return (
     <div>
-      {/* Controlled search input */}
       <input
         type="text"
         value={searchTerm}
