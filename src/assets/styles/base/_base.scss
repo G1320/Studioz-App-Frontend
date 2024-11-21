@@ -37,10 +37,17 @@ html[lang='en'] {
   display: flex;
   justify-self: end;
   gap: 0.5rem;
+  grid-row: 1;
   span {
     cursor: pointer;
     min-width: max-content;
   }
+}
+
+.search-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  grid-row: 1;
 }
 
 body {
@@ -274,6 +281,7 @@ body,
   button {
     max-width: max-content;
     place-self: center;
+    font-weight: bold;
     // color: vars.$text-color-primary !important;
   }
 

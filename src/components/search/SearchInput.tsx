@@ -28,19 +28,15 @@ const SearchComponent = () => {
   };
 
   return (
-    <div>
+    <div className="search-input-wrapper">
       <input
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)} // Update the search term on input change
-        placeholder="Search items, studios, or users..."
+        placeholder="Search items or studios..."
         className="search-input"
       />
-
-      {/* Buttons to trigger respective searches */}
-      <button onClick={handleSearchItems}>Search Items</button>
-      <button onClick={handleSearchStudios}>Search Studios</button>
-      <button onClick={handleSearchUsers}>Search Users</button>
+      <button onClick={handleSearchStudios}>Search</button>
     </div>
   );
 };
