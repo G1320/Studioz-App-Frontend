@@ -21,7 +21,6 @@ i18n.use(initReactI18next).init({
       common: commonHe
     }
   },
-  lng: 'he',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false

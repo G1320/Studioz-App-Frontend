@@ -3,6 +3,7 @@ import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@comp
 import { Cart, User } from '@models/index';
 import { LanguageSwitcher } from '@components/translation';
 import { useTranslation } from 'react-i18next';
+import SearchComponent from '@components/search/SearchInput';
 interface HeaderProps {
   cart?: Cart;
   user?: User | null;
@@ -19,6 +20,7 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
         </Link>
       </h1>
       <>
+        <SearchComponent />
         <LanguageSwitcher />
         <Profile />
         {user ? <LogoutButton /> : <LoginButton />}

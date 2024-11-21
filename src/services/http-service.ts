@@ -23,8 +23,10 @@ async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): 
   try {
     const accessToken = await getAccessToken();
     setAuthorizationHeader(accessToken as string);
-    // Building the request and returning the response data
-    return (await axios({ url: `${BASE_URL}${endpoint}`, method, data, params: method === 'GET' && data })).data;
+    const config = method === 'GET' && data ? { params: data } : { data };
+
+    // Make the actual request using Axios
+    return (await axios({ url: `${BASE_URL}${endpoint}`, method, ...config })).data;
   } catch (err) {
     // Retrying the request if 401 Unauthorized
     if (isAxiosError(err) && err.response && err.response.status === 401) {
