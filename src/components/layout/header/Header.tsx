@@ -22,10 +22,12 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
       <>
         <SearchComponent />
         <LanguageSwitcher />
-        <Profile />
-        {user ? <LogoutButton /> : <LoginButton />}
       </>
-      <CartItemsList cart={cart} isDropdown={true} />
+      <div className="cart-profile-container">
+        <CartItemsList cart={cart} isDropdown={true} />
+        {user ? <LogoutButton /> : <LoginButton />}
+        <Profile />
+      </div>
       <Navbar />
     </header>
   );

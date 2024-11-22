@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useSearchContext, useUserContext } from '@contexts/index';
 import Studio from '@models/studio';
 import Item from '@models/item';
-import { StudiosList, GenericCarousel, ItemPreview } from '@components/index'; // Assuming ItemsList exists
+import { StudiosList, GenericCarousel, ItemPreview, ItemsList } from '@components/index'; // Assuming ItemsList exists
 import { StudiosAndItemsSearchResults } from '@models/searchResult';
 import { useWishlists } from '@hooks/dataFetching';
 
@@ -36,14 +36,17 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios, allIt
     <div>
       <StudiosList studios={filteredStudios} title="Matched Studios" />
 
-      {filteredItems.length > 0 && (
-        <GenericCarousel
-          data={filteredItems}
-          renderItem={renderItem}
-          className="items-carousel"
-          title="Matching Services"
-        />
-      )}
+      {filteredItems.length > 0 &&
+        (filteredItems.length < 4 ? (
+          <ItemsList items={filteredItems} />
+        ) : (
+          <GenericCarousel
+            data={filteredItems}
+            renderItem={renderItem}
+            className="items-carousel"
+            title="Matching Services"
+          />
+        ))}
     </div>
   );
 };
