@@ -1,17 +1,26 @@
 import { httpService } from '@services/index';
-import { SearchResult } from '@models/index';
+import { SearchResult, StudiosAndItemsSearchResults } from '@models/index';
 import { parseJSON, stringifyJSON } from '@utils/storageUtils';
 
 const searchEndpoint = '/search';
 
 // Get search results from local storage
-export const getLocalSearchResults = (): SearchResult[] => {
-  return parseJSON<SearchResult[]>('searchResults', null) || [];
+export const getLocalSearchResults = (): StudiosAndItemsSearchResults | SearchResult[] => {
+  return parseJSON<StudiosAndItemsSearchResults | SearchResult[]>('searchResults', null) || [];
 };
 
 // Save search results to local storage
-export const setLocalSearchResults = (results: SearchResult[]): void => {
+export const setLocalSearchResults = (results: StudiosAndItemsSearchResults | SearchResult[]): void => {
   stringifyJSON('searchResults', results);
+};
+
+export const searchStudiosAndItems = async (searchTerm: string) => {
+  try {
+    return await httpService.get<StudiosAndItemsSearchResults>(`${searchEndpoint}/all`, { q: searchTerm });
+  } catch (error) {
+    console.error('Error searching studios and items:', error);
+    throw error;
+  }
 };
 // Search Functions
 export const searchItems = async (searchTerm: string) => {

@@ -1,10 +1,39 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { searchItems, searchStudios, searchUsers } from '@services/search-service';
-import { SearchResult } from '@models/index'; // Assuming all models are imported
+import { searchItems, searchStudios, searchStudiosAndItems, searchUsers } from '@services/search-service';
+import { SearchResult, StudiosAndItemsSearchResults } from '@models/index'; // Assuming all models are imported
 import { useErrorHandling } from '@hooks/index';
 import { useSearchContext } from '@contexts/SearchContext';
 import { setLocalSearchResults } from '@services/search-service';
+
+export const useSearchStudiosAndItemsMutation = () => {
+  const { setSearchResults } = useSearchContext();
+  const handleError = useErrorHandling();
+  const queryClient = useQueryClient();
+
+  return useMutation<StudiosAndItemsSearchResults, Error, string>({
+    mutationFn: async (searchTerm: string) => {
+      try {
+        const data = await searchStudiosAndItems(searchTerm);
+        // Cache the fetched data
+        queryClient.setQueryData(['items', searchTerm], data);
+        queryClient.setQueryData(['studios', searchTerm], data);
+        return data;
+      } catch (error) {
+        handleError(error);
+        throw error; // Rethrow error to be handled by onError
+      }
+    },
+    onSuccess: (data, searchTerm) => {
+      setSearchResults(data);
+      setLocalSearchResults(data);
+      toast.success(`Found ${data.studios.length + data.items.length} results for items with "${searchTerm}"`);
+    },
+    onError: (error) => {
+      toast.error(`Error occurred while searching items: ${error.message}`);
+    }
+  });
+};
 
 export const useSearchItemsMutation = () => {
   const { setSearchResults } = useSearchContext();

@@ -25,6 +25,7 @@ header {
   .logo {
     padding-inline-end: 0.5rem;
   }
+
   .hamburger-menu {
     grid-row: 1;
     height: 24px;
@@ -35,12 +36,31 @@ header {
       list-style: none;
     }
   }
+
   .navbar {
     justify-self: start;
     grid-column: 2/5;
     grid-row: 1;
     display: flex;
     align-self: end;
+  }
+
+  .lang-switcher {
+    display: flex;
+    justify-self: end;
+    gap: 0.5rem;
+    grid-row: 1;
+    span {
+      cursor: pointer;
+      min-width: max-content;
+    }
+  }
+
+  .search-input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    grid-row: 1;
+    justify-self: end;
   }
 
   .login,

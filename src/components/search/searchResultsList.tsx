@@ -1,39 +1,49 @@
 import React, { useMemo } from 'react';
-import { useSearchContext } from '@contexts/index';
+import { useSearchContext, useUserContext } from '@contexts/index';
 import Studio from '@models/studio';
 import Item from '@models/item';
-import { StudiosList } from '..';
+import { StudiosList, GenericCarousel, ItemPreview } from '@components/index'; // Assuming ItemsList exists
+import { StudiosAndItemsSearchResults } from '@models/searchResult';
+import { useWishlists } from '@hooks/dataFetching';
 
 interface SearchResultsListProps {
   allStudios: Studio[];
   allItems?: Item[];
 }
 
-const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios, allItems }) => {
+const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios, allItems = [] }) => {
   const { searchResults } = useSearchContext();
+  const { user } = useUserContext();
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
 
-  // This will hold the studios that match the search results
-  const matchedStudios = useMemo(() => {
-    return searchResults.reduce((matches: Studio[], result) => {
-      const searchResult = result as Partial<Studio> | Partial<Item>; // Type assertion
-      const name = searchResult?.name;
-      const id = searchResult?._id;
+  const results = searchResults as StudiosAndItemsSearchResults;
+  const searchedItems = results.items || [];
+  const searchedStudios = results.studios || [];
 
-      // Ensure result is of type Studio
-      if (name || id) {
-        // Match the result by name or _id
-        const matchedStudio = allStudios.find((studio) => studio.name === name || studio._id === id);
-        if (matchedStudio) {
-          matches.push(matchedStudio);
-        }
-      }
-      return matches;
-    }, []);
-  }, [searchResults, allStudios]);
+  // Filter studios matching the search results
+  const filteredStudios = useMemo(() => {
+    return allStudios.filter((studio) => searchedStudios.some((result: Studio) => result._id === studio._id));
+  }, [allStudios, searchedStudios]);
+
+  // Filter items matching the search results
+  const filteredItems = useMemo(() => {
+    return allItems.filter((item) => searchedItems.some((result: Item) => result._id === item._id));
+  }, [allItems, searchedItems]);
+
+  const renderItem = (item: Item) => <ItemPreview item={item} key={item.name} wishlists={wishlists} />;
 
   return (
     <div>
-      <StudiosList studios={matchedStudios} title="Search" />
+      <StudiosList studios={filteredStudios} title="Matched Studios" />
+
+      {filteredItems.length > 0 && (
+        <GenericCarousel
+          data={filteredItems}
+          renderItem={renderItem}
+          className="items-carousel"
+          title="Matching Services"
+        />
+      )}
     </div>
   );
 };

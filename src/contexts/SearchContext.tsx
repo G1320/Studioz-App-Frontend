@@ -1,10 +1,10 @@
 import { createContext, useState, useContext, ReactNode } from 'react';
 import { getLocalSearchResults } from '@services/search-service'; // Import service functions
-import { SearchResult } from '@models/index'; // Assuming SearchResult is already defined
+import { StudiosAndItemsSearchResults, SearchResult } from '@models/index'; // Assuming SearchResult is already defined
 
 interface SearchContextType {
-  searchResults: SearchResult[];
-  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+  searchResults: StudiosAndItemsSearchResults | SearchResult[];
+  setSearchResults: React.Dispatch<React.SetStateAction<StudiosAndItemsSearchResults | SearchResult[]>>;
 }
 
 interface SearchProviderProps {
@@ -14,7 +14,9 @@ interface SearchProviderProps {
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
 export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
-  const [searchResults, setSearchResults] = useState<SearchResult[]>(getLocalSearchResults());
+  const [searchResults, setSearchResults] = useState<StudiosAndItemsSearchResults | SearchResult[]>(
+    getLocalSearchResults()
+  );
 
   return <SearchContext.Provider value={{ searchResults, setSearchResults }}>{children}</SearchContext.Provider>;
 };

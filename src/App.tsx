@@ -62,7 +62,7 @@ function App() {
             <Route path="/create-wishlist" element={<CreateWishlistPage />} />
             <Route path="/item/:itemId" element={<ItemDetailsPage />} />
             <Route path="/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-            <Route path="/search" element={<SearchPage studios={studios} />} />
+            <Route path="/search" element={<SearchPage studios={studios} items={originalItems} />} />
           </Routes>
         </Suspense>
       </main>

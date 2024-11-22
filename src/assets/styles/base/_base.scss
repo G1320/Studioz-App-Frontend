@@ -33,23 +33,6 @@ html[lang='en'] {
   direction: ltr;
 }
 
-.lang-switcher {
-  display: flex;
-  justify-self: end;
-  gap: 0.5rem;
-  grid-row: 1;
-  span {
-    cursor: pointer;
-    min-width: max-content;
-  }
-}
-
-.search-input-wrapper {
-  display: flex;
-  gap: 0.5rem;
-  grid-row: 1;
-}
-
 body {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
