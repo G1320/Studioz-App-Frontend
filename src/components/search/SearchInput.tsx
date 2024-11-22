@@ -32,6 +32,7 @@ const SearchInput = () => {
 
   return (
     <div className="search-input-wrapper">
+      <SearchIcon className="search-button" />
       <input
         type="text"
         value={searchTerm}
@@ -40,7 +41,6 @@ const SearchInput = () => {
         placeholder="Search items or studios..."
         className="search-input"
       />
-      <SearchIcon className="search-button" />
     </div>
   );
 };
