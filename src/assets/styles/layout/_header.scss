@@ -63,12 +63,12 @@ header {
     grid-column: 12;
   }
 
-  .search-input-wrapper {
+  .header-search-button-container {
     display: flex;
-    gap: 0.5rem;
-    grid-row: 1;
+    align-items: center;
     grid-column: 11;
     justify-self: end;
+    cursor: pointer;
   }
 
   .login,

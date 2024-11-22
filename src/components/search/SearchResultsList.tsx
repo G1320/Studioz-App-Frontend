@@ -34,7 +34,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios, allIt
 
   return (
     <div>
-      <StudiosList studios={filteredStudios} title="Matched Studios" />
+      <StudiosList studios={filteredStudios} />
 
       {filteredItems.length > 0 &&
         (filteredItems.length < 4 ? (

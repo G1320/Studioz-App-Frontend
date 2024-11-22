@@ -1,32 +1,48 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDebounce } from '@hooks/index'; // Path to your hook
 import { useSearchStudiosAndItemsMutation } from '@hooks/index';
 import { useNavigate } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
 
-const SearchComponent = () => {
+const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 400);
   const navigate = useNavigate();
 
   const { mutate: searchStudiosAndItems } = useSearchStudiosAndItemsMutation();
 
   const handleSearchStudiosAndItems = () => {
-    if (searchTerm.trim()) {
-      searchStudiosAndItems(searchTerm);
+    if (debouncedSearchTerm.trim()) {
+      searchStudiosAndItems(debouncedSearchTerm);
     }
     navigate('/search');
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearchStudiosAndItems();
+    }
+  };
+
+  useEffect(() => {
+    if (debouncedSearchTerm.trim().length >= 3) {
+      searchStudiosAndItems(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm, searchStudiosAndItems]);
 
   return (
     <div className="search-input-wrapper">
       <input
         type="text"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // Update the search term on input change
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="Search items or studios..."
         className="search-input"
       />
-      <button onClick={handleSearchStudiosAndItems}>🔎</button>
+      <SearchIcon className="search-button" />
     </div>
   );
 };
 
-export default SearchComponent;
+export default SearchInput;

@@ -1,4 +1,4 @@
-import { ItemsList } from '@components/index';
+import { Hero, ItemsList } from '@components/index';
 import { useParams } from 'react-router-dom';
 import { Item } from '@models/index';
 
@@ -21,6 +21,8 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items }) => {
 
   return (
     <section className="services-page">
+      <Hero />
+
       <ItemsList items={filteredItems?.length ? filteredItems : items} className="Items-list" />
     </section>
   );

@@ -1,4 +1,4 @@
-import { StudiosList, GenericCarousel, StudioPreview, ItemPreview } from '@components/index';
+import { StudiosList, GenericCarousel, StudioPreview, ItemPreview, Hero } from '@components/index';
 import { useWishlists } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Studio, Item } from '@models/index';
@@ -27,6 +27,8 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const masteringItems = filterBySubcategory(items, 'Mastering');
   return (
     <section className="home-page">
+      <Hero />
+
       <GenericCarousel
         data={studios}
         className="studios-carousel slider-gradient"

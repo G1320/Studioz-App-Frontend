@@ -8,7 +8,7 @@ import { Toaster } from 'sonner';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, Hero, DesktopFooter } from '@components/layout/index';
+import { Header, DesktopFooter } from '@components/layout/index';
 import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
@@ -45,7 +45,6 @@ function App() {
     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
       <Header cart={onlineCart || offlineCart} user={user} />
       <main className="main-content">
-        <Hero />
         <Suspense fallback={<PropagateLoader className="loader" />}>
           <Routes>
             <Route path="/" element={<HomePage studios={studios || []} items={originalItems || []} />} />

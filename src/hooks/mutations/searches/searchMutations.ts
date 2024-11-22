@@ -27,7 +27,11 @@ export const useSearchStudiosAndItemsMutation = () => {
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
       setLocalSearchResults(data);
-      toast.success(`Found ${data.studios.length + data.items.length} results for items with "${searchTerm}"`);
+      if (data.items.length === 0 && data.studios.length === 0) {
+        toast.error(`No results found for items or studios with "${searchTerm}"`);
+        return;
+      }
+      //   toast.success(`Found ${data.studios.length + data.items.length} results for items with "${searchTerm}"`);
     },
     onError: (error) => {
       toast.error(`Error occurred while searching items: ${error.message}`);
