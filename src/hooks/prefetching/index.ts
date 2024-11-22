@@ -1,2 +1,2 @@
 export * from './usePrefetchItem';
-export * from './prefetchStudio';
+export * from './usePrefetchStudio';

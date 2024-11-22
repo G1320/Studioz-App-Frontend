@@ -86,7 +86,7 @@ header {
     gap: 0.5rem;
     padding: 0.25rem;
     .total-price {
-      min-width: 6ch;
+      min-width: calc(max-content + 0.25rem);
       max-width: min-content;
     }
     button {

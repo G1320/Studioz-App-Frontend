@@ -45,7 +45,7 @@ function App() {
     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
       <Header cart={onlineCart || offlineCart} user={user} />
       <main className="main-content">
-        <Suspense fallback={<PropagateLoader className="loader" />}>
+        <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
           <Routes>
             <Route path="/" element={<HomePage studios={studios || []} items={originalItems || []} />} />
             <Route path="/studio/:studioId" element={<StudioDetailsPage items={originalItems || []} />} />
