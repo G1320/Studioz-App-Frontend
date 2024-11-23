@@ -11,7 +11,7 @@
   .book-now-date-picker-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 0.1fr max-content 0.1fr;
+    grid-template-columns: 0rem 1fr 0rem;
     place-content: center;
   }
   input,

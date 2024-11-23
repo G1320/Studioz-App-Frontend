@@ -82,6 +82,9 @@ body,
 
 // Styles for the general Paper components
 .MuiPaper-root {
+  .MuiPaper-elevation {
+    margin-block-start: 0.5rem !important;
+  }
   border-radius: 12px;
   &:not(button) {
     border: 2px solid vars.$border-color-primary;

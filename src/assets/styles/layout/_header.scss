@@ -113,6 +113,27 @@ header {
     align-items: center;
   }
 
+  .cart {
+    margin: 0 0.5rem 0 0;
+    cursor: pointer;
+    .icon-wrapper {
+      display: flex;
+      span.badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ff0000;
+        color: #fff;
+        border-radius: 50%;
+        padding: 0.25rem;
+        font-size: 0.75rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin: 0;
+      }
+    }
+  }
+
   .generic-dropdown {
     max-height: max-content;
     z-index: 100;

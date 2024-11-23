@@ -39,6 +39,6 @@ button:is(.dropdown-toggle) {
 button:is(.add-to-cart-button) {
   padding: 1.2em 1.8em;
   border-radius: 20px;
-
+  width: 100%;
   background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-secondary 120%);
 }
