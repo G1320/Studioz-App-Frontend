@@ -29,10 +29,11 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
       navigate(`/item/${item?.itemId}`);
     }
   };
+
   const handleQuantityChange = (e: React.MouseEvent, item: CartItem, isIncrement: boolean = true) => {
     e.stopPropagation();
 
-    const quantity = isIncrement ? (item.quantity || 0) + 1 : Math.max((item.quantity || 1) - 1, 1);
+    const quantity = isIncrement ? (item.quantity || 0) + 1 : Math.max((item.quantity || 1) - 1, 0);
 
     const newItem = {
       ...item,
@@ -54,14 +55,18 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
         }
       );
     } else {
-      releaseItemTimeSlotMutation.mutate(newItem, {
-        onSuccess: () => {
-          removeItemFromCartMutation.mutate(item);
-        },
-        onError: (error) => {
-          console.error('Booking error, unable to release time slot:', error);
+      releaseItemTimeSlotMutation.mutate(
+        { ...newItem, hours: quantity || 0 },
+        {
+          onSuccess: () => {
+            // Completely remove the item from the cart
+            removeItemFromCartMutation.mutate(item);
+          },
+          onError: (error) => {
+            console.error('Booking error, unable to release time slot:', error);
+          }
         }
-      });
+      );
     }
   };
 
