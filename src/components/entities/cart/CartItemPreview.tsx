@@ -59,7 +59,6 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
         { ...newItem, hours: quantity || 0 },
         {
           onSuccess: () => {
-            // Completely remove the item from the cart
             removeItemFromCartMutation.mutate(item);
           },
           onError: (error) => {

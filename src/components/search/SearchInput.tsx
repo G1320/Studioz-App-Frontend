@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@hooks/index'; // Path to your hook
 import { useSearchStudiosAndItemsMutation } from '@hooks/index';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { mutate: searchStudiosAndItems } = useSearchStudiosAndItemsMutation();
 
@@ -25,6 +26,12 @@ const SearchInput = () => {
   };
 
   useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
     if (debouncedSearchTerm.trim().length >= 3) {
       searchStudiosAndItems(debouncedSearchTerm);
     }
@@ -34,6 +41,7 @@ const SearchInput = () => {
     <div className="search-input-wrapper">
       <SearchIcon className="search-button" />
       <input
+        ref={inputRef}
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
