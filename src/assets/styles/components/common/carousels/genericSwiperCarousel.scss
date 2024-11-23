@@ -56,12 +56,10 @@
     z-index: 10;
   }
 
-  .swiper-button-prev,
-  .swiper-button-next {
+  .custom-nav-btn {
     position: static;
-    width: 40px;
-    height: 40px;
-    // transform: none;
+    width: 42px;
+    height: 42px;
     margin: 1rem 0;
     background-color: transparent;
     border-radius: 8px;

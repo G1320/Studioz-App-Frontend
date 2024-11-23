@@ -1,8 +1,8 @@
 {
   "logo": "סטודיוז",
   "services": "שירותים",
-  "wishlists": "רשימות משאלות",
-  "create_studio": "צור",
+  "wishlists": "רשימות",
+  "create_studio": "יצירה",
   "errors": {
     "login_required": "אנא התחבר כדי לגשת לתכונה זו",
     "wishlist_empty": "אין רשימות משאלות זמינות. צור אחת תחילה."
