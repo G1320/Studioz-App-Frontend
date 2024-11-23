@@ -5,7 +5,13 @@ import Sitemap from 'vite-plugin-sitemap';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), Sitemap({ hostname: 'https://studioz.co.il' })],
+  plugins: [
+    react(),
+    Sitemap({
+      hostname: 'https://studioz.co.il',
+      routes: ['/services', '/wishlists', '/create-studio']
+    })
+  ],
   build: {
     outDir: 'dist'
   },
