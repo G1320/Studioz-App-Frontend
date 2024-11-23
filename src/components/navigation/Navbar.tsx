@@ -8,9 +8,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const { t } = useTranslation('header');
 
-  const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    e.preventDefault();
-
+  const handleNavigate = (path: string) => {
     if (!user?._id) {
       toast.error(t('errors.login_required'));
     } else if (path === '/wishlists' && (!user?.wishlists || user?.wishlists.length === 0)) {
@@ -23,11 +21,23 @@ export function Navbar() {
 
   return (
     <nav className="navbar">
-      <a href="/services"> {t('services')} </a>
-      <a href="/wishlists" onClick={(e) => handleNavigate(e, '/wishlists')}>
+      <a href="/services">{t('services')}</a>
+      <a
+        href="/wishlists"
+        onClick={(e) => {
+          e.preventDefault();
+          handleNavigate('/wishlists');
+        }}
+      >
         {t('wishlists')}
       </a>
-      <a href="/create-studio" onClick={(e) => handleNavigate(e, '/create-studio')}>
+      <a
+        href="/create-studio"
+        onClick={(e) => {
+          e.preventDefault();
+          handleNavigate('/create-studio');
+        }}
+      >
         {t('create_studio')}
       </a>
     </nav>
