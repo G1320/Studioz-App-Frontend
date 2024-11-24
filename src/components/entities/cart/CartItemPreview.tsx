@@ -1,14 +1,11 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/index';
 import { CartItem } from '@models/index';
-import { useAddItemToCartMutation, useRemoveItemFromCartMutation } from '@hooks/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {
-  useReserveNextStudioItemTimeSlotMutation,
-  useReleaseLastStudioItemTimeSlotMutation
-} from '@hooks/mutations/bookings/bookingMutations';
 import { CloseOutlined } from '@mui/icons-material';
+import { useCartItemQuantityHandler } from '@hooks/utils/useCartItemQuantityHandler';
 
 interface CartItemPreviewProps {
   item: CartItem;
@@ -16,12 +13,7 @@ interface CartItemPreviewProps {
 
 export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
   const navigate = useNavigate();
-  const addItemToCartMutation = useAddItemToCartMutation();
-  const removeItemFromCartMutation = useRemoveItemFromCartMutation();
-  // const removeItemsFromCartMutation = useRemoveItemsFromCartMutation();
-
-  const reserveItemTimeSlotMutation = useReserveNextStudioItemTimeSlotMutation(item.itemId);
-  const releaseItemTimeSlotMutation = useReleaseLastStudioItemTimeSlotMutation(item.itemId);
+  const { handleQuantityChange } = useCartItemQuantityHandler(item);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -30,46 +22,6 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
     }
   };
 
-  const handleQuantityChange = (e: React.MouseEvent, item: CartItem, isIncrement: boolean = true) => {
-    e.stopPropagation();
-
-    const quantity = isIncrement ? (item.quantity || 0) + 1 : Math.max((item.quantity || 1) - 1, 0);
-
-    const newItem = {
-      ...item,
-      quantity,
-      total: item.price * quantity,
-      hours: quantity
-    };
-
-    if (isIncrement) {
-      reserveItemTimeSlotMutation.mutate(
-        { ...newItem, hours: quantity },
-        {
-          onSuccess: () => {
-            addItemToCartMutation.mutate({ ...newItem, hours: 1 });
-          },
-          onError: (error) => {
-            console.error('Booking failed:', error);
-          }
-        }
-      );
-    } else {
-      releaseItemTimeSlotMutation.mutate(
-        { ...newItem, hours: quantity || 0 },
-        {
-          onSuccess: () => {
-            removeItemFromCartMutation.mutate(item);
-          },
-          onError: (error) => {
-            console.error('Booking error, unable to release time slot:', error);
-          }
-        }
-      );
-    }
-  };
-
-  // Calculate end time for display
   const getTimeRange = () => {
     if (!item.startTime || !item.quantity) return item.startTime;
     const startHour = parseInt(item.startTime);
@@ -96,7 +48,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
       </div>
       <div className="cart-item-quantity-container">
         <Button
-          onClick={(e) => handleQuantityChange(e, item, false)}
+          onClick={(e) => handleQuantityChange(e, false)}
           className="decrement-quantity"
           aria-label="Decrease quantity"
         >
@@ -109,7 +61,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
         <small className="cart-item-preview-quantity" onClick={handleClick}>
           hours: {item.quantity}
         </small>
-        <Button onClick={(e) => handleQuantityChange(e, item)} className="increment-quantity">
+        <Button onClick={(e) => handleQuantityChange(e, true)} className="increment-quantity">
           <AddCircleOutlineIcon className="icon increment-quantity-button" />
         </Button>
       </div>
