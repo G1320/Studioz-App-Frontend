@@ -1,7 +1,7 @@
-import { useUserContext } from '@contexts/UserContext';
-import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserContext } from '@contexts/index';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 export function Navbar() {
   const { user } = useUserContext();
@@ -22,22 +22,24 @@ export function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/services">{t('services')}</Link>
-      <button
+      <Link
+        to="/wishlists"
         onClick={(e) => {
           e.preventDefault();
           handleNavigate('/wishlists');
         }}
       >
         {t('wishlists')}
-      </button>
-      <button
+      </Link>
+      <Link
+        to="/create-studio"
         onClick={(e) => {
           e.preventDefault();
           handleNavigate('/create-studio');
         }}
       >
         {t('create_studio')}
-      </button>
+      </Link>
     </nav>
   );
 }
