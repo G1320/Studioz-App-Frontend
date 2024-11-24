@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDebounce } from '@hooks/index'; // Path to your hook
-import { useSearchStudiosAndItemsMutation } from '@hooks/index';
+import { useSearchStudiosAndItemsMutation, useDebounce } from '@hooks/index';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -46,7 +45,7 @@ const SearchInput = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Search items or studios..."
+        placeholder="Search studios and services..."
         className="search-input"
       />
     </div>
