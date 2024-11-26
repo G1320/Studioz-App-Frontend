@@ -47,6 +47,7 @@
     display: grid;
     grid-template-columns: max-content 1fr 1fr;
     gap: 1.5rem;
+    height: 74px;
     place-content: center;
     h1 {
       max-width: max-content;
@@ -87,5 +88,19 @@
 
   .swiper-pagination {
     display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .generic-carousel {
+    .swiper-navigation {
+      display: none;
+    }
+    .swiper-navigation-title-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .see-all-container {
+      justify-self: end;
+    }
   }
 }
