@@ -1,36 +1,3 @@
-// import { useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
-// import { MenuItem, Select, FormControl } from '@mui/material';
-
-// export const LanguageSwitcher = () => {
-//   const { i18n } = useTranslation();
-
-//   const changeLanguage = (lang: string) => {
-//     i18n.changeLanguage(lang);
-//   };
-
-//   return (
-//     <section className="lang-switcher">
-//       <FormControl>
-//         <Select
-//           value={i18n.language}
-//           onChange={(e) => changeLanguage(e.target.value)}
-//           displayEmpty
-//           sx={{
-//             color: '#fff',
-//             backgroundColor: '#333',
-//             borderRadius: '4px',
-//             '& .MuiSelect-icon': { color: '#fff' }
-//           }}
-//         >
-//           <MenuItem value="en">🇺🇸 English</MenuItem>
-//           <MenuItem value="he">🇮🇱 עברית</MenuItem>
-//         </Select>
-//       </FormControl>
-//     </section>
-//   );
-// };
-
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuItem, IconButton } from '@mui/material';
