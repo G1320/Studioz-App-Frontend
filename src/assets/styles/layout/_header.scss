@@ -151,13 +151,14 @@ header {
 @media screen and (max-width: 600px) {
   header {
     gap: 0;
+    grid-template-columns: repeat(6, 1fr);
     .navbar {
       display: none !important;
     }
-    button {
-      padding: 0.25rem;
+    .header-search-button-container {
+      display: none;
     }
-    grid-template-columns: repeat(6, 1fr);
+
     .cart {
       grid-column: 6;
     }

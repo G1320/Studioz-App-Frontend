@@ -52,7 +52,9 @@ export const GenericMuiDropdown = <T,>({
         slotProps={{ paper: { style: { backgroundColor: '#411c61' } } }}
       >
         {data.length === 0 ? (
-          <MenuItem onClick={handleClose}>No items available</MenuItem>
+          <MenuItem onClick={handleClose} sx={{ color: '#fff' }}>
+            No items available
+          </MenuItem>
         ) : (
           data.map((entry, index) => (
             <MenuItem key={index} onClick={handleClose}>
