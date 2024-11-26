@@ -20,7 +20,7 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
   return (
     <section className="cart">
       <Link to={'/cart'} className="total-price">
-        ${totalPrice || '0.00'}
+        ₪{totalPrice || '0.00'}
       </Link>
 
       {isDropdown ? (
