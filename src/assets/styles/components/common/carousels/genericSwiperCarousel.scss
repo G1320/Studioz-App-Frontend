@@ -1,14 +1,13 @@
 .generic-carousel {
-  .studios-carousel {
-    min-height: 350px;
-  }
-
   color: #fff;
   max-width: calc(100vw - 2rem);
   min-width: 100%;
   min-height: max-content;
   border-radius: 8px;
   position: relative;
+  .studios-carousel {
+    min-height: 350px;
+  }
 
   .swiper_wrap {
     position: relative;
