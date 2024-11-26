@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
-import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import SearchIcon from '@mui/icons-material/Search';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
@@ -13,7 +13,7 @@ export const MobileFooter = () => {
           <HomeIcon />
         </Link>
         <Link to="/services" className="footer-icon-link">
-          <MiscellaneousServicesIcon />
+          <GraphicEqIcon />
         </Link>
         <Link to="/search" className="footer-icon-link">
           <SearchIcon />
