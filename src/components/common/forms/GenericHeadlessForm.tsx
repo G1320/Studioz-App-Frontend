@@ -13,13 +13,15 @@ export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' 
 // }
 
 interface GenericFormProps {
+  title?: string;
   fields: any[];
+  btnTxt?: string;
   onSubmit: (formData: Record<string, any>) => void;
   className?: string;
   onCategoryChange?: (value: string) => void;
 }
 
-export const GenericForm = ({ fields, onSubmit, className, onCategoryChange }: GenericFormProps) => {
+export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -27,12 +29,12 @@ export const GenericForm = ({ fields, onSubmit, className, onCategoryChange }: G
     onSubmit(data);
   };
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
-    if (name === 'category' && onCategoryChange) {
-      onCategoryChange(value);
-    }
-  };
+  //   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //     const { name, value } = event.target;
+  //     if (name === 'category' && onCategoryChange) {
+  //       onCategoryChange(value);
+  //     }
+  //   };
 
   return (
     <form className={`generic-form ${className}`} onSubmit={handleSubmit}>
