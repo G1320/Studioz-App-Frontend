@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getStudioById } from '@services/index';
-import { StudioResponse } from '@models/index';
+import { StudioResponse } from 'src/types/index';
 
 export const useStudio = (studioId: string) => {
   const queryClient = useQueryClient();

@@ -1,6 +1,6 @@
 import { getLocalUser } from '@services/index';
 import { useCartOperations, useMutationHandler } from '@hooks/utils/index';
-import { Cart, CartItem } from '@models/index';
+import { Cart, CartItem } from 'src/types/index';
 
 export const useAddItemToCartMutation = () => {
   const { addItem, removeItem, generateSuccessMessage } = useCartOperations();

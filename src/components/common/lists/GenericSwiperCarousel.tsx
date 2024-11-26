@@ -7,7 +7,8 @@ import { useTranslation } from 'react-i18next';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Item, Studio } from '@models/index';
+import { Item, Studio } from 'src/types/index';
+import { Link } from 'react-router-dom';
 
 type RenderItemFunction<T> = (item: T) => React.ReactNode;
 
@@ -17,6 +18,7 @@ interface GenericCarouselProps<T> {
   renderItem: RenderItemFunction<T>;
   title?: string;
   autoplay?: boolean;
+  seeAllPath?: string;
 }
 
 export const GenericCarousel = <T,>({
@@ -24,7 +26,8 @@ export const GenericCarousel = <T,>({
   className,
   renderItem,
   title,
-  autoplay = false
+  autoplay = false,
+  seeAllPath
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
   const { i18n } = useTranslation();
@@ -49,6 +52,13 @@ export const GenericCarousel = <T,>({
     <section key={i18n.language} className="generic-carousel">
       <div className="swiper-navigation-title-container">
         {title && <h1 className="generic-carousel-title">{title}</h1>}
+        {seeAllPath && (
+          <div className="see-all-container">
+            <Link to={seeAllPath} className="see-all-link">
+              See All
+            </Link>
+          </div>
+        )}
         <div className="swiper-navigation">{isRTL ? navigationButtons.reverse() : navigationButtons}</div>
       </div>
 

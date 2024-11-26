@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, ReactNode } from 'react';
 import { getLocalUser } from '@services/index';
-import { User } from '@models/index';
+import { User } from 'src/types/index';
 
 interface UserContextType {
   user: User | null;

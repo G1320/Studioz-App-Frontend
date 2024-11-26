@@ -5,7 +5,7 @@ import { Navbar } from '@components/navigation';
 
 export const DesktopFooter = () => {
   return (
-    <footer>
+    <footer className="desktop-footer">
       <div className="footer-content">
         <div className="footer-section">
           <Navbar />
@@ -16,7 +16,7 @@ export const DesktopFooter = () => {
           </p>
         </div>
         <div className="footer-section">
-          <div className="social-icons">
+          {/* <div className="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <FacebookIcon />
             </a>
@@ -26,7 +26,7 @@ export const DesktopFooter = () => {
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <InstagramIcon />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <div className="footer-bottom">

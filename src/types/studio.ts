@@ -2,11 +2,17 @@
 import { Availability } from './availability';
 import StudioItem from './studioItem';
 
+type StudioLocation = {
+  type: 'Point';
+  coordinates: [number, number]; // [longitude, latitude]
+};
+
 export default interface Studio {
   _id: string;
   name: string;
   description: string;
   category?: string;
+  subCategory?: string;
   maxOccupancy?: number;
   isSmokingAllowed?: boolean;
   city: string;
@@ -20,7 +26,7 @@ export default interface Studio {
   createdAt: Date;
   createdBy: string;
   isFeatured?: boolean;
-  subCategory?: string;
   items: StudioItem[];
   availability?: Availability[];
+  location: StudioLocation;
 }

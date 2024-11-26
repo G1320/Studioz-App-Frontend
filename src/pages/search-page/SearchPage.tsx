@@ -1,7 +1,7 @@
 import SearchInput from '@components/search/SearchInput';
 import SearchResultsList from '@components/search/SearchResultsList';
-import Item from '@models/item';
-import Studio from '@models/studio';
+import Item from 'src/types/item';
+import Studio from 'src/types/studio';
 
 interface SearchPageProps {
   studios: Studio[];

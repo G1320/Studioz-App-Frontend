@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@components/index';
 import { useItem, useUpdateItemMutation } from '@hooks/index';
-import { Item } from '@models/index';
+import { Item } from 'src/types/index';
 
 export const EditItemForm = () => {
   const { itemId } = useParams();

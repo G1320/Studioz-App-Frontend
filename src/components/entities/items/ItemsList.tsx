@@ -1,7 +1,7 @@
 import { ItemPreview, GenericList } from '@components/index';
 import { getLocalUser } from '@services/index';
 import { useWishlists } from '@hooks/index';
-import { Item } from '@models/index';
+import { Item } from 'src/types/index';
 
 interface ItemListProps {
   items?: Item[];

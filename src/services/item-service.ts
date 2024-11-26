@@ -1,5 +1,5 @@
 import { httpService } from '@services/index';
-import { Item } from '@models/index';
+import { Item } from 'src/types/index';
 
 const itemEndpoint = '/items';
 

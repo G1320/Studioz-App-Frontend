@@ -1,7 +1,7 @@
 import { StudiosList, GenericCarousel, StudioPreview, ItemPreview, Hero } from '@components/index';
 import { useWishlists } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Studio, Item } from '@models/index';
+import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
 
@@ -35,30 +35,35 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         renderItem={studioRenderItem}
         autoplay={true}
         title={t('sections.studioz_for_you')}
+        seeAllPath="/studios/music"
       />
       <GenericCarousel
         data={items}
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.the_best_in_the_biz')}
+        seeAllPath="/services/music"
       />
       <GenericCarousel
         data={recordingStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.recording_studioz')}
+        seeAllPath="/studios/music/recording"
       />
       <GenericCarousel
         data={mixingItems}
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.mixing_services')}
+        seeAllPath="/services/music/mixing"
       />
       <GenericCarousel
         data={podcastRecordingStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.podcast_studioz')}
+        seeAllPath="/studios/music/podcast recording"
       />
       <h1>{t('sections.charge_up_your_mix')}</h1>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
@@ -67,12 +72,14 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.mastering_studioz')}
+        seeAllPath="/studios/music/mastering"
       />
       <GenericCarousel
         data={audioEngineeringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.audio_engineerz')}
+        seeAllPath="/studios/music/audio engineering"
       />
       <h1>{t('sections.book_now_think_later')}</h1>
       <StudiosList studios={mixingStudios.slice(7, 12)} />
@@ -81,6 +88,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.mastering_services')}
+        seeAllPath="/services/music/mastering"
       />
     </section>
   );

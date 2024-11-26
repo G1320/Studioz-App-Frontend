@@ -4,7 +4,7 @@ import { Button } from '@components/common/buttons';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@services/index';
 import { useUserContext, useOfflineCartContext } from '@contexts/index';
 import { useErrorHandling } from '@hooks/index';
-import { User } from '@models/index';
+import { User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 
 export const LoginButton = () => {

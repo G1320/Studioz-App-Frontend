@@ -15,6 +15,7 @@ import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
 import { shuffleArray } from '@utils/index';
 import SearchPage from '@pages/search-page/SearchPage';
+import { ResponsiveFooter } from '@components/layout/footer/Footer';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
@@ -65,8 +66,7 @@ function App() {
           </Routes>
         </Suspense>
       </main>
-      <DesktopFooter />
-      {/* <MobileFooter/> */}
+      <ResponsiveFooter />
       <Toaster
         richColors
         toastOptions={{

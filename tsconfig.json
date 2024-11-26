@@ -13,7 +13,7 @@
       "@contexts/*": ["src/contexts/*"],
       "@forms/*": ["src/forms/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@models/*": ["src/models/*"],
+      "@models/*": ["src/types/*"],
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"]

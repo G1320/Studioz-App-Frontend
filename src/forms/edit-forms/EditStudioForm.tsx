@@ -4,7 +4,7 @@ import { FileUploader, GenericForm, FieldType } from '@components/index';
 import { useStudio, useUpdateStudioMutation } from '@hooks/index';
 import { uploadFile } from '@services/index';
 import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
-import { Studio } from '@models/index';
+import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 
 export const EditStudioForm = () => {

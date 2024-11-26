@@ -2,8 +2,8 @@ import { GenericList, GenericMuiDropdown } from '@components/common';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 import { CartItemPreview } from './CartItemPreview';
-import CartItem from '@models/cartItem';
-import Cart from '@models/cart';
+import CartItem from 'src/types/cartItem';
+import Cart from 'src/types/cart';
 
 interface CartItemsListProps {
   cart?: Cart;

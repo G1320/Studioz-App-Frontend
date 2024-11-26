@@ -1,6 +1,6 @@
 import { useMutationHandler } from '@hooks/utils/index';
 import { releaseLastTimeSlot, reserveNextTimeSlot, reserveTimeSlots } from '@services/booking-service';
-import { CartItem, Item } from '@models/index';
+import { CartItem, Item } from 'src/types/index';
 
 export const useReserveNextStudioItemTimeSlotMutation = (itemId: string) => {
   return useMutationHandler<Item, CartItem>({

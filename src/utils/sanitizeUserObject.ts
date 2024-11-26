@@ -1,4 +1,4 @@
-import { User } from '@models/index';
+import { User } from 'src/types/index';
 
 export const sanitizeUserObject = (user: User): Partial<User> => {
   // Create a shallow copy of the user object to avoid mutating the original

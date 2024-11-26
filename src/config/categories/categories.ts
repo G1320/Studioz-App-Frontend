@@ -1,1 +1,1 @@
-export const categories = ['Music', 'Photo / Video'];
+export const categories = ['Music / Podcast', 'Photo / Video'];

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutationHandler } from '@hooks/utils/index';
 import { createStudio, updateStudio } from '@services/index';
-import { Studio } from '@models/index';
+import { Studio } from 'src/types/index';
 
 type CreateStudioVariables = {
   userId: string;

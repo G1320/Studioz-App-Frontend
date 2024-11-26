@@ -1,5 +1,5 @@
 import { CartItemsList } from '@components/index';
-import { Cart } from '@models/index';
+import { Cart } from 'src/types/index';
 interface CartDetailsPageProps {
   cart?: Cart;
 }

@@ -5,7 +5,7 @@ import { getLocalUser, uploadFile } from '@services/index';
 import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
 
 import { useCreateStudioMutation } from '@hooks/index';
-import { Studio } from '@models/index';
+import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 
 interface FormData {
@@ -19,7 +19,7 @@ export const CreateStudioForm = () => {
   const user = getLocalUser();
   const createStudioMutation = useCreateStudioMutation();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('Music');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Music / Podcast Studio');
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
@@ -34,13 +34,13 @@ export const CreateStudioForm = () => {
       name: 'category',
       label: 'Category',
       type: 'select' as FieldType,
-      options: ['Music', 'Photo / Video Studio'],
+      options: ['Music / Podcast Studio', 'Photo / Video Studio'],
       value: selectedCategory,
       onChange: handleCategoryChange
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music' ? 'Music' : 'Photo / Video ',
+      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio ',
       type: 'select' as FieldType,
       options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories
     },

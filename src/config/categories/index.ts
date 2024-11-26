@@ -1,3 +1,3 @@
 export * from './categories';
-export * from './music';
+export * from './MusicAndPodcast ';
 export * from './PhotoAndVideo';

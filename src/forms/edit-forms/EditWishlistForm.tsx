@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@components/index';
 import { useWishlists, useUpdateWishlistMutation } from '@hooks/index';
 import { getLocalUser } from '@services/index';
-import { Wishlist } from '@models/index';
+import { Wishlist } from 'src/types/index';
 
 export const EditWishlistForm = () => {
   const user = getLocalUser();

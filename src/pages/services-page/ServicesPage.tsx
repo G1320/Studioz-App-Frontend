@@ -1,6 +1,6 @@
 import { Hero, ItemsList } from '@components/index';
 import { useParams } from 'react-router-dom';
-import { Item } from '@models/index';
+import { Item } from 'src/types/index';
 
 interface ServicesPageProps {
   items?: Item[];

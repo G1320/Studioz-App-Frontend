@@ -1,7 +1,7 @@
 import { httpService } from '@services/index';
 import Cookies from 'js-cookie';
 import { sanitizeUserObject } from '@utils/index';
-import { LoginCredentials, AuthResponse, User } from '@models/index';
+import { LoginCredentials, AuthResponse, User } from 'src/types/index';
 
 const authEndpoint = '/auth';
 

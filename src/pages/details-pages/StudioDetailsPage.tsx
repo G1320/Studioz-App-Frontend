@@ -9,7 +9,7 @@ import {
   ItemPreview
 } from '@components/index';
 import { useStudio, useAddStudioToWishlistMutation, useWishlists } from '@hooks/index';
-import { Item, Wishlist } from '@models/index';
+import { Item, Wishlist } from 'src/types/index';
 import { useUserContext } from '@contexts/index';
 import { toast } from 'sonner';
 import { usePrefetchStudio } from '@hooks/prefetching/index';

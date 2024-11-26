@@ -3,7 +3,7 @@ import {
   useReserveNextStudioItemTimeSlotMutation,
   useReleaseLastStudioItemTimeSlotMutation
 } from '@hooks/mutations/bookings/bookingMutations';
-import { CartItem } from '@models/index';
+import { CartItem } from 'src/types/index';
 
 export const useCartItemQuantityHandler = (item: CartItem) => {
   const addItemToCartMutation = useAddItemToCartMutation();

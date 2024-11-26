@@ -1,6 +1,6 @@
 import { httpService } from '@services/http-service';
 import { sanitizeUserObject, parseJSON, stringifyJSON } from '@utils/index';
-import { User, Studio } from '@models/index';
+import { User, Studio } from 'src/types/index';
 
 const userEndpoint = '/users';
 
