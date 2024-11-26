@@ -47,10 +47,9 @@ header {
 
   .lang-switcher {
     display: flex;
-    justify-self: end;
-    gap: 0.5rem;
     grid-row: 1;
     grid-column: 13;
+    width: calc(24px + 0.5rem);
     span {
       cursor: pointer;
       min-width: max-content;
