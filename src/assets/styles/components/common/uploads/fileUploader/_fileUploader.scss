@@ -11,17 +11,16 @@
   min-width: 200px;
   place-self: center;
   margin: auto;
+  cursor: pointer;
+  padding: 1rem;
   .file-uploader-content-container {
     min-width: min-content;
     display: flex;
     justify-content: center;
   }
   .upload-icon-container {
-    // min-width: min-content;
     .icon {
       margin: auto;
     }
   }
-  cursor: pointer;
-  padding: 1rem;
 }
