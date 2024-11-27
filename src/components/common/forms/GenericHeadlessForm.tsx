@@ -26,6 +26,13 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
     )
   );
 
+  //   const handleSelectChange = (event: SelectChangeEvent<string>) => {
+  //     const { name, value } = event.target;
+  //     if (name === 'category' && onCategoryChange) {
+  //       onCategoryChange(value);
+  //     }
+  //   };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);

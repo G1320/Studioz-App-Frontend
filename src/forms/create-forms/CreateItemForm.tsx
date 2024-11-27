@@ -14,8 +14,11 @@ export const CreateItemForm = () => {
   };
 
   const [selectedCategory, setSelectedCategory] = useState('Music');
+  const [subCategories, setSubCategories] = useState(musicSubCategories);
+
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
   };
 
   const fields = [
@@ -31,9 +34,10 @@ export const CreateItemForm = () => {
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music' ? 'Music' : 'Photo / Video ',
+      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio',
       type: 'select' as FieldType,
-      options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories
+      options: subCategories,
+      value: ''
     },
     { name: 'price', label: 'Price', type: 'number' as FieldType },
     { name: 'inStock', label: 'In Stock', type: 'checkbox' as FieldType }

@@ -20,11 +20,14 @@ export const CreateStudioForm = () => {
   const createStudioMutation = useCreateStudioMutation();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('Music / Podcast Studio');
+  const [subCategories, setSubCategories] = useState(musicSubCategories);
+
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
   };
 
   const fields = [
@@ -40,9 +43,10 @@ export const CreateStudioForm = () => {
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio ',
+      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio',
       type: 'select' as FieldType,
-      options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories
+      options: subCategories,
+      value: ''
     },
     { name: 'city', label: 'City', type: 'text' as FieldType },
     { name: 'address', label: 'Address', type: 'text' as FieldType },
