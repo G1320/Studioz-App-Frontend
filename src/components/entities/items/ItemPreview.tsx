@@ -144,7 +144,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
       <div className="book-now-date-picker-container" onClick={handleDatePickerClick}>
         <Button className="add-to-cart-button book-now-button" onClick={handleBookNow}>
-          Book Now
+          Add to Cart
         </Button>
 
         <MuiDateTimePicker
