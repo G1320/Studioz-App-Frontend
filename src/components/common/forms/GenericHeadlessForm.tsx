@@ -1,16 +1,8 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
-
-// interface Field {
-//   name: string;
-//   label: string;
-//   type?: FieldType;
-//   value?: string | number | boolean;
-//   options?: string[];
-// }
 
 interface GenericFormProps {
   title?: string;
@@ -22,19 +14,30 @@ interface GenericFormProps {
 }
 
 export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) => {
+  const [checkboxStates, setCheckboxStates] = useState<Record<string, boolean>>(() =>
+    fields.reduce(
+      (acc, field) => {
+        if (field.type === 'checkbox') {
+          acc[field.name] = false;
+        }
+        return acc;
+      },
+      {} as Record<string, boolean>
+    )
+  );
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
+
+    // Convert boolean values to strings
+    Object.entries(checkboxStates).forEach(([name, value]) => {
+      data[name] = value.toString();
+    });
+
     onSubmit(data);
   };
-
-  //   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //     const { name, value } = event.target;
-  //     if (name === 'category' && onCategoryChange) {
-  //       onCategoryChange(value);
-  //     }
-  //   };
 
   return (
     <form className={`generic-form ${className}`} onSubmit={handleSubmit}>
@@ -113,17 +116,20 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
               <div key={field.name} className="form-group-checkbox">
                 <Field as="div" className="switch-group">
                   <Switch
-                    as="button"
                     name={field.name}
-                    className={`switch ${field.value ? 'on' : ''}`}
-                    checked={field.value || false}
-                    onChange={(value) => (field.onChange ? field.onChange(value) : undefined)}
-                  />
+                    checked={checkboxStates[field.name]}
+                    onChange={(checked) => {
+                      setCheckboxStates((prev) => ({
+                        ...prev,
+                        [field.name]: checked
+                      }));
+                    }}
+                    className={`switch ${checkboxStates[field.name] ? 'on' : ''}`}
+                  ></Switch>
                   <Label className="switch-label">{field.label}</Label>
                 </Field>
               </div>
             );
-
           default:
             return null;
         }
