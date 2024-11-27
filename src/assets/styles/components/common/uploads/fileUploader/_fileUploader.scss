@@ -13,12 +13,17 @@
   margin: auto;
   cursor: pointer;
   padding: 1rem;
+  small {
+    height: max-content;
+  }
   .file-uploader-content-container {
     min-width: min-content;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   .upload-icon-container {
+    height: 24px;
     .icon {
       margin: auto;
     }
