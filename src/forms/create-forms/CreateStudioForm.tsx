@@ -89,12 +89,12 @@ export const CreateStudioForm = () => {
         galleryFiles={galleryImages}
         isCoverShown={false}
       />
-      <FileUploader
+      {/* <FileUploader
         fileType="audio"
         onFileUpload={handleFileUpload}
         galleryFiles={galleryAudioFiles}
         isCoverShown={false}
-      />
+      /> */}
       <section className="form-wrapper create-studio-form-wrapper">
         <GenericForm
           className="create-studio-form"

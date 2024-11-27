@@ -11,11 +11,7 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
   const navigate = useNavigate();
 
   return (
-    <article
-      onClick={() => navigate(`/wishlists/${wishlist._id}`)}
-      key={wishlist._id}
-      className="preview wishlist-preview"
-    >
+    <article onClick={() => navigate(`/wishlists/${wishlist._id}`)} key={wishlist._id} className=" wishlist-preview">
       <div>
         {onAddItemToWishList ? (
           <Button onClick={() => onAddItemToWishList(wishlist?._id)}>Add to {wishlist?.name}</Button>

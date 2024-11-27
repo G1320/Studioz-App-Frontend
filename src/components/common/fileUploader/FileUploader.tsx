@@ -93,7 +93,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   return (
     <article>
-      <div className={`file-uploader ${fileType}-uploader preview ${multiple ? 'multiple' : ''}`} {...getRootProps()}>
+      <div className={`file-uploader ${fileType}-uploader ${multiple ? 'multiple' : ''}`} {...getRootProps()}>
         <input {...getInputProps()} />
         <div className="file-uploader-content-container">
           {isDragActive ? (

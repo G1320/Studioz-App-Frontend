@@ -212,25 +212,6 @@ body,
   }
 }
 
-.file-uploader {
-  display: flex 1 1;
-  max-width: 520px;
-  min-width: 300px !important;
-  place-self: center;
-  margin: auto;
-  .file-uploader-content-container {
-    min-width: min-content;
-  }
-  .upload-icon-container {
-    // min-width: min-content;
-    .icon {
-      margin: auto;
-    }
-  }
-  cursor: pointer;
-  padding: 1rem;
-}
-
 .preview {
   gap: 1rem;
 
@@ -251,23 +232,3 @@ body,
     transition: 200ms;
   }
 }
-
-// .generic-form {
-//   width: 50%;
-//   margin: auto;
-//   min-width: min-content;
-//   max-width: 1000px;
-//   place-self: center;
-//   align-self: start;
-//   .checkbox-wrapper {
-//     .MuiFormControlLabel-label {
-//       color: black !important;
-//     }
-//   }
-
-//   form {
-//     display: grid;
-//     gap: 1rem;
-//     margin: 1rem;
-//   }
-// }
