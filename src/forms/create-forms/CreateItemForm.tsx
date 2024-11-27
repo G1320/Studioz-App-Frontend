@@ -4,13 +4,16 @@ import { GenericForm, FieldType } from '@components/index';
 import { useCreateItemMutation } from '@hooks/index';
 import { Item } from 'src/types/index';
 import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
+import { getLocalUser } from '@services/user-service';
 
 export const CreateItemForm = () => {
+  const user = getLocalUser();
+
   const { studioName, studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
 
   const handleSubmit = async (formData: Record<string, unknown>) => {
-    createItemMutation.mutate({ ...formData, studioId, studioName } as Item);
+    createItemMutation.mutate({ ...formData, studioId, studioName, createdBy: user?._id } as Item);
   };
 
   const [selectedCategory, setSelectedCategory] = useState('Music');

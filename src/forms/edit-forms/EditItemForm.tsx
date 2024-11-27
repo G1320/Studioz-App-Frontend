@@ -2,18 +2,42 @@ import { useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@components/index';
 import { useItem, useUpdateItemMutation } from '@hooks/index';
 import { Item } from 'src/types/index';
+import { useState } from 'react';
+import { musicSubCategories, videoAndPhotographySubCategories } from '@config/categories';
 
 export const EditItemForm = () => {
   const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
+  const [selectedCategory, setSelectedCategory] = useState<string>(item?.category || 'Music');
+  const [subCategories, setSubCategories] = useState(item?.subCategory || musicSubCategories);
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
+  };
 
   const fields = [
     { name: 'name', label: 'Name', type: 'text' as FieldType, value: item?.name || '' },
     { name: 'description', label: 'Description', type: 'text' as FieldType, value: item?.description || '' },
     { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price || 0 },
-    { name: 'imageUrl', label: 'Image URL', type: 'text' as FieldType, value: item?.imageUrl || '' }
+    { name: 'imageUrl', label: 'Image URL', type: 'text' as FieldType, value: item?.imageUrl || '' },
+    {
+      name: 'category',
+      label: 'Category',
+      type: 'select' as FieldType,
+      options: ['Music / Podcast Studio', 'Photo / Video Studio'],
+      value: item?.category,
+      onChange: handleCategoryChange
+    },
+    {
+      name: 'subCategory',
+      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio',
+      type: 'select' as FieldType,
+      options: subCategories,
+      value: item?.subCategory
+    }
   ];
 
   const handleSubmit = async (formData: Record<string, any>) => {

@@ -15,7 +15,9 @@ export const EditStudioForm = () => {
 
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('Music');
+  const [selectedCategory, setSelectedCategory] = useState<string>(studio?.category || 'Music');
+  const [subCategories, setSubCategories] = useState(studio?.subCategory || musicSubCategories);
+
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [coverImage, setCoverImage] = useState<string>('');
 
@@ -29,6 +31,7 @@ export const EditStudioForm = () => {
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
   };
 
   const fields = [
@@ -38,15 +41,15 @@ export const EditStudioForm = () => {
       name: 'category',
       label: 'Category',
       type: 'select' as FieldType,
-      options: ['Music', 'Photo / Video Studio'],
-      value: selectedCategory,
+      options: ['Music / Podcast Studio', 'Photo / Video Studio'],
+      value: studio?.category,
       onChange: handleCategoryChange
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music' ? 'Music Subcategory' : 'Photo / Video Subcategory',
+      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio',
       type: 'select' as FieldType,
-      options: selectedCategory === 'Music' ? musicSubCategories : videoAndPhotographySubCategories,
+      options: subCategories,
       value: studio?.subCategory
     },
     { name: 'city', label: 'City', type: 'text' as FieldType, value: studio?.city },
