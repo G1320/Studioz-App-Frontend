@@ -1,13 +1,13 @@
 import { CartItemsList } from '@components/index';
 import { Cart } from 'src/types/index';
 import { Helmet } from 'react-helmet';
-import Checkout from '../../Checkout';
+import { Checkout } from '@components/index';
 
-interface CartDetailsPageProps {
+interface CheckoutPageProps {
   cart?: Cart;
 }
 
-const CartDetailsPage: React.FC<CartDetailsPageProps> = ({ cart }) => {
+const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart }) => {
   return (
     <>
       <Helmet>
@@ -20,4 +20,4 @@ const CartDetailsPage: React.FC<CartDetailsPageProps> = ({ cart }) => {
     </>
   );
 };
-export default CartDetailsPage;
+export default CheckoutPage;
