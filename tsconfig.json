@@ -31,6 +31,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/i18n.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/i18n.ts", "src/scripts/paypalScript.js"],
   "exclude": ["node_modules", "dist"]
 }
