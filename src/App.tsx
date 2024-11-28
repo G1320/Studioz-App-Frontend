@@ -8,7 +8,7 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import Checkout from './Checkout';
+// import Checkout from './Checkout';
 
 import { Header } from '@components/layout/index';
 import HomePage from '@pages/home-page/HomePage';
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <Checkout />
+      {/* <Checkout /> */}
       <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
         <Header cart={onlineCart || offlineCart} user={user} />
         <main className="main-content">
