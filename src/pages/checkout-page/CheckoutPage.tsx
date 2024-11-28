@@ -1,4 +1,4 @@
-import { CartItemsList, PayPalButtonsWrapper } from '@components/index';
+import { CartItemsList, PaypalCheckout } from '@components/index';
 import { Cart } from 'src/types/index';
 import { Helmet } from 'react-helmet';
 // import { Checkout } from '@components/index';
@@ -16,7 +16,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart }) => {
       <section className="cart-details-page">
         <CartItemsList cart={cart} />
       </section>
-      <PayPalButtonsWrapper />
+      <PaypalCheckout cart={cart} />
 
       {/* <Checkout /> */}
     </>

@@ -32,21 +32,11 @@ const EditWishlistPage = lazy(() => import('@pages/edit-pages/EditWishlistPage')
 const CartDetailsPage = lazy(() => import('@pages/details-pages/CartDetailsPage'));
 const WishlistDetailsPage = lazy(() => import('@pages/details-pages/WishlistDetailsPage'));
 
-// type MessageProps = {
-//   content: string;
-// };
-
-// function Message({ content }: MessageProps) {
-//   return <p>{content}</p>;
-// }
-
 function App() {
   const customLocaleText = {
     okButtonLabel: 'Confirm Booking',
     cancelButtonLabel: 'Cancel'
   };
-
-  // const [message, setMessage] = useState<string>('');
 
   const { user } = useUserContext();
   const { offlineCart } = useOfflineCartContext();
@@ -99,7 +89,6 @@ function App() {
           />
         </LocalizationProvider>
       </PayPalScriptProvider>
-      {/* <Message content={message} /> */}
     </>
   );
 }

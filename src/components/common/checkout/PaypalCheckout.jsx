@@ -1,8 +1,23 @@
-import React from 'react';
+import { useState } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
 
-const PayPalButtonsWrapper = () => {
+//     type MessageProps = {
+//   content: string;
+// };
+
+function Message({ content }) {
+  return <p>{content}</p>;
+}
+
+const PaypalCheckout = ({ cart }) => {
+  const [message, setMessage] = useState('');
+
+  const BASE_URL =
+    import.meta.env.VITE_NODE_ENV === 'production'
+      ? 'https://studioz-backend.onrender.com/api'
+      : 'http://localhost:3003/api';
+
   return (
     <div>
       <PayPalButtons
@@ -14,7 +29,7 @@ const PayPalButtonsWrapper = () => {
         }}
         createOrder={async () => {
           try {
-            const response = await fetch('/api/orders', {
+            const response = await fetch(`${BASE_URL}/orders`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -24,8 +39,8 @@ const PayPalButtonsWrapper = () => {
               body: JSON.stringify({
                 cart: [
                   {
-                    id: 'YOUR_PRODUCT_ID',
-                    quantity: 'YOUR_PRODUCT_QUANTITY'
+                    id: cart.items[0].itemId,
+                    quantity: cart.items[0].quantity
                   }
                 ]
               })
@@ -85,8 +100,9 @@ const PayPalButtonsWrapper = () => {
           }
         }}
       />
+      <Message content={message} />
     </div>
   );
 };
 
-export default PayPalButtonsWrapper;
+export default PaypalCheckout;

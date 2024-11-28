@@ -1,1 +1,1 @@
-export { default as PayPalButtonsWrapper } from './PayPalButtonsWrapper';
+export { default as PaypalCheckout } from './PaypalCheckout';
