@@ -39,7 +39,9 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     setSocket(newSocket);
 
     return () => {
-      newSocket.close();
+      if (newSocket.connected) {
+        newSocket.disconnect();
+      }
     };
   }, [queryClient]);
 
