@@ -9,17 +9,17 @@ interface CheckoutPageProps {
 
 const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart }) => {
   return (
-    <>
+    <section className="checkout-page">
       <Helmet>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <section className="cart-details-page">
+      <section className="cart-details">
         <CartItemsList cart={cart} />
       </section>
       <PaypalCheckout cart={cart} />
 
       {/* <Checkout /> */}
-    </>
+    </section>
   );
 };
 export default CheckoutPage;

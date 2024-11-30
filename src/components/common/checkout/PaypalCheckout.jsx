@@ -23,7 +23,7 @@ const PaypalCheckout = ({ cart }) => {
       : 'http://localhost:3003/api';
 
   return (
-    <div>
+    <div className="paypal-buttons-container">
       <PayPalButtons
         style={{
           shape: 'rect',

@@ -1,0 +1,27 @@
+.checkout-page {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  justify-items: center;
+
+  .cart {
+    display: flex row;
+    justify-self: center;
+    .cart-list {
+      width: 218px;
+      max-width: 100%;
+      justify-self: start;
+    }
+  }
+
+  .paypal-buttons-container {
+    max-width: 100%;
+    display: grid;
+    justify-content: center; /* Ensure PayPal buttons align centrally */
+    padding: 1rem; /* Add padding for spacing around the buttons */
+    border: 1px solid #eaeaea; /* Optional border for styling */
+    background-color: #f9f9f9; /* Subtle background to highlight the buttons */
+    border-radius: 8px; /* Rounded corners for a polished look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  }
+}
