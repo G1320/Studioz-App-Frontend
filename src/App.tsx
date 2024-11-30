@@ -73,6 +73,7 @@ function App() {
                 <Route path="/item/:itemId" element={<ItemDetailsPage />} />
                 <Route path="/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
                 <Route path="/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
+                <Route path="//complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
                 <Route path="/search" element={<SearchPage studios={studios} items={originalItems} />} />
               </Routes>
             </Suspense>

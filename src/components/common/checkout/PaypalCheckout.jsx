@@ -11,6 +11,10 @@ function Message({ content }) {
 }
 
 const PaypalCheckout = ({ cart }) => {
+  if (!cart.items || cart.items.length === 0) {
+    setMessage('Cart is empty or invalid.');
+    return;
+  }
   const [message, setMessage] = useState('');
 
   const BASE_URL =
@@ -37,12 +41,12 @@ const PaypalCheckout = ({ cart }) => {
               // use the "body" param to optionally pass additional order information
               // like product ids and quantities
               body: JSON.stringify({
-                cart: [
-                  {
-                    id: cart.items[0].itemId,
-                    quantity: cart.items[0].quantity
-                  }
-                ]
+                cart: cart.items.map((item) => ({
+                  name: item.name,
+                  id: item.itemId,
+                  quantity: item.quantity,
+                  price: item.price
+                }))
               })
             });
 
@@ -64,8 +68,9 @@ const PaypalCheckout = ({ cart }) => {
           }
         }}
         onApprove={async (data, actions) => {
+          console.log('onApprove data: ', data);
           try {
-            const response = await fetch(`/api/orders/${data.orderID}/capture`, {
+            const response = await fetch(`${BASE_URL}/orders/${data.orderID}/capture`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
