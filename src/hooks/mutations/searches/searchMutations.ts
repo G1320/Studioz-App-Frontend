@@ -34,7 +34,7 @@ export const useSearchStudiosAndItemsMutation = () => {
       //   toast.success(`Found ${data.studios.length + data.items.length} results for items with "${searchTerm}"`);
     },
     onError: (error) => {
-      toast.error(`Error occurred while searching items: ${error.message}`);
+      toast.error(`Error occurred while searching: ${error.message}`);
     }
   });
 };

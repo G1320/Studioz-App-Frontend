@@ -72,7 +72,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
           alt="Cover Image"
           className="cover-image"
           width={800}
-          loading="eager"
+          loading="lazy"
           onClick={() => onSetPreviewImage?.(currCoverImage)}
         />
       )}

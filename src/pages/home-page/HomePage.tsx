@@ -25,6 +25,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
   const masteringItems = filterBySubcategory(items, 'Mastering');
+
   return (
     <section className="home-page">
       <Hero />

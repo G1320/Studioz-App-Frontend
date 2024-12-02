@@ -1,0 +1,28 @@
+.order-page {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  justify-items: center;
+
+  .cart {
+    display: flex row;
+    justify-self: center;
+    .cart-list {
+      width: 218px;
+      max-width: 100%;
+      justify-self: start;
+    }
+  }
+
+  .paypal-buttons-container {
+    max-width: 100%;
+    display: grid;
+    justify-content: center;
+    padding: 1rem;
+    border: 1px solid #eaeaea;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}

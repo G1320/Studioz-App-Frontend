@@ -17,6 +17,7 @@ import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
 import CheckoutPage from '@pages/checkout-page/CheckoutPage';
+import OrderPage from '@pages/order-page/OrderPage';
 import { shuffleArray } from '@utils/index';
 import SearchPage from '@pages/search-page/SearchPage';
 import { ResponsiveFooter } from '@components/layout/footer/Footer';
@@ -72,6 +73,7 @@ function App() {
                 <Route path="/create-wishlist" element={<CreateWishlistPage />} />
                 <Route path="/item/:itemId" element={<ItemDetailsPage />} />
                 <Route path="/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                <Route path="/order/:studioId?" element={<OrderPage cart={onlineCart || offlineCart} />} />
                 <Route path="/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
                 <Route path="//complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
                 <Route path="/search" element={<SearchPage studios={studios} items={originalItems} />} />
