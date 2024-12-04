@@ -3,13 +3,17 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import Sitemap from 'vite-plugin-sitemap';
 
-// https://vitejs.dev/config/
+const languages = ['en', 'he'];
+const baseRoutes = ['/services', '/wishlists', '/create-studio'];
+
+const languageRoutes = languages.flatMap((lang) => baseRoutes.map((route) => `/${lang}${route}`));
+
 export default defineConfig({
   plugins: [
     react(),
     Sitemap({
       hostname: 'https://studioz.co.il',
-      routes: ['/services', '/wishlists', '/create-studio']
+      routes: languageRoutes
     })
   ],
   build: {
