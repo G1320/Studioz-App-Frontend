@@ -19,6 +19,7 @@ import { Item, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
+import { useTranslation } from 'react-i18next';
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -29,6 +30,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const langNavigate = useLanguageNavigate();
   const { user } = useUserContext();
   const prefetchItem = usePrefetchItem(item?._id || '');
+  const { t } = useTranslation('common');
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -132,7 +134,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
             data={wishlists}
             renderItem={renderItem}
             className="item-details-wishlists-dropdown"
-            title="Add to Wishlist"
+            title={t('buttons.addToWishlist')}
           />
         )
       )}
@@ -145,7 +147,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
       <div className="book-now-date-picker-container" onClick={handleDatePickerClick}>
         <Button className="add-to-cart-button book-now-button" onClick={handleBookNow}>
-          Add to Cart
+          {t('buttons.addToCart')}
         </Button>
 
         <MuiDateTimePicker

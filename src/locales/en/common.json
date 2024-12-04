@@ -12,7 +12,9 @@
     "logIn": "Log In",
     "logOut": "Log Out",
     "cart": "Cart",
-    "seeAll": "See All"
+    "seeAll": "See All",
+    "addToCart": "Add to Cart",
+    "addToWishlist": "Add to Wishlist"
   },
   "errors": {
     "required": "This field is required",
