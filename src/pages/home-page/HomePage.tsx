@@ -66,7 +66,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         title={t('sections.podcast_studioz')}
         seeAllPath="/studios/music/podcast recording"
       />
-      <h1>{t('sections.charge_up_your_mix')}</h1>
+      <h2>{t('sections.charge_up_your_mix')}</h2>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
       <GenericCarousel
         data={masteringStudios}
@@ -82,7 +82,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         title={t('sections.audio_engineerz')}
         seeAllPath="/studios/music/audio engineering"
       />
-      <h1>{t('sections.book_now_think_later')}</h1>
+      <h2>{t('sections.book_now_think_later')}</h2>
       <StudiosList studios={mixingStudios.slice(5, 12)} />
       <GenericCarousel
         data={masteringItems}
