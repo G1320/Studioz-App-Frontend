@@ -6,22 +6,20 @@ import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@config/paypal/paypalConfig';
+import i18n from './i18n';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import Checkout from './Checkout';
 
-import { Header } from '@components/layout/index';
+import { Header, ResponsiveFooter } from '@components/index';
 import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
 import CheckoutPage from '@pages/checkout-page/CheckoutPage';
 import OrderPage from '@pages/order-page/OrderPage';
-import { shuffleArray } from '@utils/index';
 import SearchPage from '@pages/search-page/SearchPage';
-import { ResponsiveFooter } from '@components/layout/footer/Footer';
-import i18n from './i18n';
+import { shuffleArray } from '@utils/index';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
