@@ -16,9 +16,9 @@ export const OrderItemsList: React.FC<OrderItemsListProps> = ({ cart }) => {
   );
 
   return (
-    <section className="cart">
-      <p className="total-price">₪{totalPrice.toFixed(2)}</p>
+    <section className="order-list">
       <p className="total-quantity">{itemCount} Items in order</p>
+      <p className="total-price">Total: ₪{totalPrice.toFixed(2)}</p>
 
       <GenericList data={cart.items} renderItem={renderItem} className="cart-list" />
     </section>

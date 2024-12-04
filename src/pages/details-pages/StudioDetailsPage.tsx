@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Button,
   GenericMuiDropdown,
@@ -8,7 +8,7 @@ import {
   GenericCarousel,
   ItemPreview
 } from '@components/index';
-import { useStudio, useAddStudioToWishlistMutation, useWishlists } from '@hooks/index';
+import { useStudio, useAddStudioToWishlistMutation, useWishlists, useLanguageNavigate } from '@hooks/index';
 import { Item, Wishlist } from 'src/types/index';
 import { useUserContext } from '@contexts/index';
 import { toast } from 'sonner';
@@ -19,7 +19,7 @@ interface StudioDetailsPageProps {
 }
 
 const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
   const { user } = useUserContext();
   const { studioId } = useParams();
 
@@ -41,8 +41,8 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
 
   const handleAddItemToWishlist = async (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handlePagination = (nextId: string) =>
-    nextId ? navigate(`/studio/${nextId}`) : toast.error('No more studios');
-  const handleGoToEdit = (studioId: string) => (studioId ? navigate(`/edit-studio/${studioId}`) : null);
+    nextId ? langNavigate(`/studio/${nextId}`) : toast.error('No more studios');
+  const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
 
   const dropdownRenderItem = (wishlist: Wishlist) => (
     <WishlistPreview
@@ -83,7 +83,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
                   {user?._id === currStudio?.createdBy && (
                     <Button
                       className="add-button"
-                      onClick={() => navigate(`/create-item/${currStudio?.name}/${currStudio?._id}`)}
+                      onClick={() => langNavigate(`/create-item/${currStudio?.name}/${currStudio?._id}`)}
                     >
                       Add new Service
                     </Button>

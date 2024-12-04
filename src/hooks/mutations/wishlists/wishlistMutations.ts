@@ -1,16 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { useMutationHandler, useInvalidateQueries } from '@hooks/utils/index';
+import { useMutationHandler, useInvalidateQueries, useLanguageNavigate } from '@hooks/utils/index';
 import { createWishlistAndAddToUser, deleteWishlist, updateWishlist, addStudioToWishlist } from '@services/index';
 import { Wishlist } from 'src/types/index';
 
 export const useCreateWishlistMutation = (userId: string) => {
-  const navigate = useNavigate();
+  const languageNavigate = useLanguageNavigate();
 
   return useMutationHandler<Wishlist, Wishlist>({
     mutationFn: (newWishlist) => createWishlistAndAddToUser(userId, newWishlist),
     successMessage: 'Wishlist created',
     invalidateQueries: [{ queryKey: 'wishlists', targetId: userId }],
-    onSuccess: () => navigate('/wishlists')
+    onSuccess: () => languageNavigate('/wishlists')
   });
 };
 

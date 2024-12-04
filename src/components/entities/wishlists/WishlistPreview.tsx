@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/index';
 import { Wishlist } from 'src/types/index';
+import { useLanguageNavigate } from '@hooks/utils';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;
@@ -8,10 +8,14 @@ interface WishlistPreviewProps {
 }
 
 export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
 
   return (
-    <article onClick={() => navigate(`/wishlists/${wishlist._id}`)} key={wishlist._id} className=" wishlist-preview">
+    <article
+      onClick={() => langNavigate(`/wishlists/${wishlist._id}`)}
+      key={wishlist._id}
+      className=" wishlist-preview"
+    >
       <div>
         {onAddItemToWishList ? (
           <Button onClick={() => onAddItemToWishList(wishlist?._id)}>Add to {wishlist?.name}</Button>

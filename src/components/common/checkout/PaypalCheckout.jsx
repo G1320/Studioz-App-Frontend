@@ -11,11 +11,11 @@ function Message({ content }) {
 }
 
 const PaypalCheckout = ({ cart }) => {
-  if (!cart.items || cart.items.length === 0) {
-    setMessage('Cart is empty or invalid.');
-    return;
-  }
   const [message, setMessage] = useState('');
+
+  if (!cart?.items?.length) {
+    return <Message content="Cart is empty or invalid." />;
+  }
 
   const BASE_URL =
     import.meta.env.VITE_NODE_ENV === 'production'
@@ -42,7 +42,7 @@ const PaypalCheckout = ({ cart }) => {
               // like product ids and quantities
               body: JSON.stringify({
                 cart: cart.items.map((item) => ({
-                  name: item.name,
+                  name: item.name + ' session at ' + item.studioName + ' ',
                   id: item.itemId,
                   quantity: item.quantity,
                   price: item.price

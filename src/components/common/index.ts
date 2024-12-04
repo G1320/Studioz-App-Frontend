@@ -1,5 +1,5 @@
 export * from './buttons';
-export * from './audioGallery';
+export * from './audio';
 export * from './details';
 export * from './fileUploader';
 export * from './forms';

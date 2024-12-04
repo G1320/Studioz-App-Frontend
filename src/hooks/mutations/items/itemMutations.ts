@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { useInvalidateQueries, useMutationHandler } from '@hooks/utils/index';
+import { useInvalidateQueries, useLanguageNavigate, useMutationHandler } from '@hooks/utils/index';
 import {
   createItem,
   deleteItem,
@@ -12,19 +11,19 @@ import {
 import { Item } from 'src/types/index';
 
 export const useCreateItemMutation = (studioId: string) => {
-  const navigate = useNavigate();
+  const languageNavigate = useLanguageNavigate();
 
   return useMutationHandler<Item, Item>({
     mutationFn: (newItem) => createItem(newItem),
     successMessage: 'Item created',
     invalidateQueries: [{ queryKey: 'items' }, { queryKey: 'studio', targetId: studioId }],
     undoAction: (_variables, data) => deleteItem(data._id),
-    onSuccess: () => navigate(`/studio/${studioId}`)
+    onSuccess: () => languageNavigate(`/studio/${studioId}`)
   });
 };
 
 export const useDeleteItemMutation = () => {
-  const navigate = useNavigate();
+  const languageNavigate = useLanguageNavigate();
 
   const invalidateQueries = useInvalidateQueries<Item>((item) => [
     { queryKey: 'items' },
@@ -39,20 +38,20 @@ export const useDeleteItemMutation = () => {
     undoAction: (_variables, data) => createItem(data),
     onSuccess: (data, _variables) => {
       invalidateQueries(data);
-      navigate(`/studio/${data.studioId}`);
+      languageNavigate(`/studio/${data.studioId}`);
     }
   });
 };
 
 export const useUpdateItemMutation = (itemId: string) => {
-  const navigate = useNavigate();
+  const languageNavigate = useLanguageNavigate();
 
   return useMutationHandler<Item, Item>({
     mutationFn: (newItem) => updateItem(itemId, newItem),
     successMessage: 'Item updated',
     invalidateQueries: [{ queryKey: 'items' }],
     undoAction: (_variables, data) => updateItem(itemId, data),
-    onSuccess: (data, _variables) => navigate(`/studio/${data.studioId}`)
+    onSuccess: (data, _variables) => languageNavigate(`/studio/${data.studioId}`)
   });
 };
 
@@ -66,14 +65,14 @@ export const useAddItemToStudioMutation = (studioId: string) => {
 };
 
 export const useRemoveItemFromStudioMutation = (studioId: string) => {
-  const navigate = useNavigate();
+  const languageNavigate = useLanguageNavigate();
 
   return useMutationHandler<Item, string>({
     mutationFn: (itemId) => removeItemFromStudio(studioId, itemId),
     successMessage: 'Item removed from studio',
     invalidateQueries: [{ queryKey: 'studioItems', targetId: studioId }],
     undoAction: (variables, _data) => addItemToStudio(studioId, variables),
-    onSuccess: () => navigate(`/studio/${studioId}`)
+    onSuccess: () => languageNavigate(`/studio/${studioId}`)
   });
 };
 

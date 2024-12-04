@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuItem, IconButton } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
+import { useNavigate } from 'react-router-dom';
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +25,7 @@ export const LanguageSwitcher = () => {
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     handleClose();
+    navigate(`/${lang}`);
   };
 
   return (

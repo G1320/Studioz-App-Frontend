@@ -1,24 +1,25 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/index';
 import { CartItem } from 'src/types/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { CloseOutlined } from '@mui/icons-material';
 import { useCartItemQuantityHandler } from '@hooks/utils/useCartItemQuantityHandler';
+import { useLanguageNavigate } from '@hooks/utils/index';
 
 interface CartItemPreviewProps {
   item: CartItem;
 }
 
 export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
+
   const { handleQuantityChange } = useCartItemQuantityHandler(item);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
     if (target.nodeName !== 'BUTTON' && target.nodeName !== 'svg') {
-      navigate(`/item/${item?.itemId}`);
+      langNavigate(`/item/${item?.itemId}`);
     }
   };
 
@@ -42,7 +43,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
         </div>
         <div>
           <small className="cart-item-preview-price" onClick={handleClick}>
-            Price: ${item?.price}/hr
+            Price: ₪{item?.price}/hr
           </small>
         </div>
       </div>

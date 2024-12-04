@@ -121,6 +121,7 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
               type="number"
               label="Hours"
               value={hours}
+              defaultValue={2}
               onChange={(e) => setHours(Number(e.target.value))}
               slotProps={{
                 htmlInput: {

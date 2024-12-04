@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { updateUser } from '@services/index';
 import { GenericForm } from '@components/index';
-import { useErrorHandling } from '@hooks/index';
+import { useErrorHandling, useLanguageNavigate } from '@hooks/index';
 
 export function UpdateUserForm() {
   const handleError = useErrorHandling();
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
 
   interface FormData {
     username?: string;
@@ -57,7 +56,7 @@ export function UpdateUserForm() {
     }
     try {
       await updateUser(formData.id, formData);
-      navigate('/read');
+      langNavigate('/read');
     } catch (error) {
       handleError(error);
     }

@@ -1,12 +1,12 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ItemPreview, Button } from '@components/index';
-import { useItem, useWishlists, useDeleteItemMutation } from '@hooks/index';
+import { useItem, useWishlists, useDeleteItemMutation, useLanguageNavigate } from '@hooks/index';
 
 import { useUserContext } from '@contexts/index';
 
 const ItemDetailsPage = () => {
   const { user } = useUserContext();
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
   const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
   const { data: wishlists } = useWishlists(user?._id || '');
@@ -14,7 +14,7 @@ const ItemDetailsPage = () => {
   const deleteItemMutation = useDeleteItemMutation();
 
   const handleEditBtnClicked = () => {
-    if (itemId) navigate(`/edit-item/${itemId}`);
+    if (itemId) langNavigate(`/edit-item/${itemId}`);
   };
 
   const handleDeleteBtnClicked = async () => {

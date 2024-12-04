@@ -1,5 +1,5 @@
 import { MouseEvent, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Button,
   GenericMuiDropdown,
@@ -10,6 +10,7 @@ import {
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
+  useLanguageNavigate,
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation
 } from '@hooks/index';
@@ -25,7 +26,7 @@ interface ItemPreviewProps {
 
 export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
   const { studioId, wishlistId } = useParams();
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
   const { user } = useUserContext();
   const prefetchItem = usePrefetchItem(item?._id || '');
 
@@ -89,7 +90,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   const handleArticleClicked = (e: MouseEvent<HTMLElement>) => {
     if ((e.target as HTMLElement).nodeName !== 'BUTTON') {
-      navigate(`/item/${item._id}`);
+      langNavigate(`/item/${item._id}`);
     }
   };
 

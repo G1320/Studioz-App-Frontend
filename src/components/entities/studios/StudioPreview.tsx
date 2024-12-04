@@ -1,16 +1,17 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery, GenericAudioGallery } from '@components/index';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@hooks/prefetching/index';
+import { useLanguageNavigate } from '@hooks/utils';
 
 interface StudioPreviewProps {
   studio?: Studio;
 }
 
 export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
   const location = useLocation();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
 
@@ -19,7 +20,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
   return (
     <article
       onMouseEnter={prefetchStudio}
-      onClick={() => navigate(`/studio/${studio?._id}`)}
+      onClick={() => langNavigate(`/studio/${studio?._id}`)}
       key={studio?._id}
       className="preview studio-preview"
     >

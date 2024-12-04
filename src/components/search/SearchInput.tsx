@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchStudiosAndItemsMutation, useDebounce } from '@hooks/index';
-import { useNavigate } from 'react-router-dom';
+import { useSearchStudiosAndItemsMutation, useDebounce, useLanguageNavigate } from '@hooks/index';
 import SearchIcon from '@mui/icons-material/Search';
 
 const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { mutate: searchStudiosAndItems } = useSearchStudiosAndItemsMutation();
@@ -15,7 +14,7 @@ const SearchInput = () => {
     if (debouncedSearchTerm.trim()) {
       searchStudiosAndItems(debouncedSearchTerm);
     }
-    navigate('/search');
+    langNavigate('/search');
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

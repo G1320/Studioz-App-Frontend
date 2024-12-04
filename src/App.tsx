@@ -1,5 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
-import { lazy, Suspense, useMemo } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { useOfflineCartContext, useUserContext } from '@contexts/index';
 import { useItems, useStudios, useOnlineCart } from '@hooks/index';
 import { PropagateLoader } from 'react-spinners';
@@ -21,6 +21,7 @@ import OrderPage from '@pages/order-page/OrderPage';
 import { shuffleArray } from '@utils/index';
 import SearchPage from '@pages/search-page/SearchPage';
 import { ResponsiveFooter } from '@components/layout/footer/Footer';
+import i18n from './i18n';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
@@ -39,6 +40,10 @@ function App() {
     cancelButtonLabel: 'Cancel'
   };
 
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
   const { user } = useUserContext();
   const { offlineCart } = useOfflineCartContext();
 
@@ -56,27 +61,35 @@ function App() {
           <main className="main-content">
             <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
               <Routes>
-                <Route path="/" element={<HomePage studios={studios || []} items={originalItems || []} />} />
-                <Route path="/studio/:studioId" element={<StudioDetailsPage items={originalItems || []} />} />
-                <Route path="/studios/:category?/:subcategory?" element={<StudiosPage studios={studios || []} />} />
+                <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
+
+                <Route path="/:lang/" element={<HomePage studios={studios || []} items={originalItems || []} />} />
+                <Route path="/:lang/studio/:studioId" element={<StudioDetailsPage items={originalItems || []} />} />
                 <Route
-                  path="/services/:category?/:subCategory?"
+                  path="/:lang/studios/:category?/:subcategory?"
+                  element={<StudiosPage studios={studios || []} />}
+                />
+                <Route
+                  path="/:lang/services/:category?/:subCategory?"
                   element={<ServicesPage items={originalItems || []} />}
                 />
-                <Route path="/wishlists" element={<WishListsPage />} />
-                <Route path="/wishlists/:wishlistId" element={<WishlistDetailsPage items={originalItems || []} />} />
-                <Route path="/create-item/:studioName/:studioId" element={<CreateItemPage />} />
-                <Route path="/edit-item/:itemId" element={<EditItemPage />} />
-                <Route path="/edit-studio/:studioId" element={<EditStudioPage />} />
-                <Route path="/create-studio" element={<CreateStudioPage />} />
-                <Route path="/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
-                <Route path="/create-wishlist" element={<CreateWishlistPage />} />
-                <Route path="/item/:itemId" element={<ItemDetailsPage />} />
-                <Route path="/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-                <Route path="/order/:studioId?" element={<OrderPage cart={onlineCart || offlineCart} />} />
-                <Route path="/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
-                <Route path="//complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-                <Route path="/search" element={<SearchPage studios={studios} items={originalItems} />} />
+                <Route path="/:lang/wishlists" element={<WishListsPage />} />
+                <Route
+                  path="/:lang/wishlists/:wishlistId"
+                  element={<WishlistDetailsPage items={originalItems || []} />}
+                />
+                <Route path="/:lang/create-item/:studioName/:studioId" element={<CreateItemPage />} />
+                <Route path="/:lang/edit-item/:itemId" element={<EditItemPage />} />
+                <Route path="/:lang/edit-studio/:studioId" element={<EditStudioPage />} />
+                <Route path="/:lang/create-studio" element={<CreateStudioPage />} />
+                <Route path="/:lang/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
+                <Route path="/:lang/create-wishlist" element={<CreateWishlistPage />} />
+                <Route path="/:lang/item/:itemId" element={<ItemDetailsPage />} />
+                <Route path="/:lang/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang/order/:studioId?" element={<OrderPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang/search" element={<SearchPage studios={studios} items={originalItems} />} />
               </Routes>
             </Suspense>
           </main>

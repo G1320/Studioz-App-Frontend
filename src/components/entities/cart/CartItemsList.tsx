@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { CartItemPreview } from './CartItemPreview';
 import CartItem from 'src/types/cartItem';
 import Cart from 'src/types/cart';
+import { useTranslation } from 'react-i18next';
 
 interface CartItemsListProps {
   cart?: Cart;
@@ -12,6 +13,8 @@ interface CartItemsListProps {
 }
 
 export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown = false }) => {
+  const { i18n } = useTranslation('header');
+
   const totalPrice = cart?.items?.reduce((total: number, item: CartItem) => total + (item.total || 0), 0);
   const itemCount = cart?.items?.reduce((total: number, item: CartItem) => total + (item.quantity || 0), 0);
 
@@ -19,7 +22,7 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({ cart, isDropdown =
 
   return (
     <section className="cart">
-      <Link to={'/cart'} className="total-price">
+      <Link to={`${i18n.language}/cart`} className="total-price">
         ₪{totalPrice || '0.00'}
       </Link>
 

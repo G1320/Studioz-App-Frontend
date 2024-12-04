@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Button, ItemsList, StudiosList } from '@components/index';
 import {
   useStudios,
   useWishlist,
   //  useAddItemsToCartMutation,
-  useDeleteWishlistMutation
+  useDeleteWishlistMutation,
+  useLanguageNavigate
 } from '@hooks/index';
 import { Item, Studio, WishlistItem } from 'src/types/index';
 import { getLocalUser } from '@services/index';
@@ -18,7 +19,7 @@ interface WishlistDetailsPageProps {
 const WishlistDetailsPage: React.FC<WishlistDetailsPageProps> = ({ items = null }) => {
   const { wishlistId } = useParams();
 
-  const navigate = useNavigate();
+  const langNavigate = useLanguageNavigate();
   const user = getLocalUser();
 
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
@@ -33,8 +34,8 @@ const WishlistDetailsPage: React.FC<WishlistDetailsPageProps> = ({ items = null 
   const deleteUserWishlistMutation = useDeleteWishlistMutation(user?._id || '');
 
   const handlePagination = (nextId: string) =>
-    nextId ? navigate(`/wishlists/${nextId}`) : toast.error('No more wishlists');
-  const handleGoToEdit = (wishlistId: string) => (wishlistId ? navigate(`/edit-wishlist/${wishlistId}`) : null);
+    nextId ? langNavigate(`/wishlists/${nextId}`) : toast.error('No more wishlists');
+  const handleGoToEdit = (wishlistId: string) => (wishlistId ? langNavigate(`/edit-wishlist/${wishlistId}`) : null);
 
   const handleAddWishlistItemsToCart = (wishlistItems: WishlistItem[]) => {
     if (wishlistItems.length === 0) return toast.error('No items to add to cart');
@@ -42,7 +43,7 @@ const WishlistDetailsPage: React.FC<WishlistDetailsPageProps> = ({ items = null 
     // const wishlistItemsIds = wishlistItems.map((wishlistItem) => wishlistItem.itemId);
     // addItemsToCartMutation.mutate({items: wishlistItemsIds});
     deleteUserWishlistMutation.mutate(wishlistId || '');
-    navigate('/cart');
+    langNavigate('/cart');
   };
 
   useEffect(() => {

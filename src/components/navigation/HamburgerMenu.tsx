@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
+import { useTranslation } from 'react-i18next';
 
 // Define the type for categories
 const categories: { [key: string]: string[] } = {
@@ -25,6 +26,7 @@ interface OpenCategoriesState {
 export const DynamicHamburgerMenu: React.FC<DynamicHamburgerMenuProps> = ({ filterType }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [openCategories, setOpenCategories] = useState<OpenCategoriesState>({});
+  const { i18n } = useTranslation();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -56,7 +58,7 @@ export const DynamicHamburgerMenu: React.FC<DynamicHamburgerMenuProps> = ({ filt
                   {subcategories.map((subcategory) => (
                     <li key={subcategory}>
                       <Link
-                        to={`/${filterType}/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`}
+                        to={`${i18n.language}/${filterType}/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`}
                         className="subcategory-link"
                         onClick={closeMenu}
                       >

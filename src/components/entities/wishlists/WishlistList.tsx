@@ -3,6 +3,7 @@ import { WishlistPreview, GenericList, GenericMultiDropdownEntryPreview, Generic
 import { getLocalUser } from '@services/index';
 import { useWishlists } from '@hooks/index';
 import { Wishlist } from 'src/types/index';
+import { useTranslation } from 'react-i18next';
 
 interface WishlistListProps {
   isDropdown?: boolean;
@@ -11,6 +12,7 @@ interface WishlistListProps {
 
 export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, isMultiSelect = false }) => {
   const user = getLocalUser();
+  const { i18n } = useTranslation();
 
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
@@ -23,7 +25,7 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
 
   return (
     <section className="wishlists">
-      <Link to="/create-wishlist">Create wishlist</Link>
+      <Link to={`${i18n.language}/create-wishlist`}>Create wishlist</Link>
       {isDropdown ? (
         <GenericMuiDropdown data={wishlists} renderItem={renderItem} className="wishlist-list" title="wishlists" />
       ) : (
