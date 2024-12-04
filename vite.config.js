@@ -5,15 +5,15 @@ import Sitemap from 'vite-plugin-sitemap';
 
 const languages = ['en', 'he'];
 const baseRoutes = ['/services', '/wishlists', '/create-studio'];
-
-const languageRoutes = languages.flatMap((lang) => baseRoutes.map((route) => `/${lang}${route}`));
+const allRoutes = ['/', ...baseRoutes].flatMap((route) => languages.map((lang) => `/${lang}${route}`));
 
 export default defineConfig({
   plugins: [
     react(),
     Sitemap({
       hostname: 'https://studioz.co.il',
-      routes: languageRoutes
+      dynamicRoutes: allRoutes,
+      generateRobotsTxt: true
     })
   ],
   build: {
