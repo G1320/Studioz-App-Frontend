@@ -21,7 +21,7 @@
     align-self: center;
     max-width: 100%;
   }
-  p {
+  p.description {
     min-height: 72px;
     width: 100%;
     text-overflow: ellipsis;
@@ -43,6 +43,7 @@
       }
       p {
         width: 28px;
+        height: 28px;
       }
     }
   }

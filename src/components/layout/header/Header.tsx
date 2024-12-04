@@ -18,18 +18,18 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
   return (
     <header>
       <h1>
-        <Link className="logo" to={`${currLang}`}>
+        <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')}>
           {t('navigation.logo')}
         </Link>
       </h1>
-      <LanguageSwitcher />
-      <Link to={`${currLang}/search`} className="header-search-button-container">
-        <SearchIcon />
+      <LanguageSwitcher aria-label="Switch language" />
+      <Link to={`${currLang}/search`} className="header-search-button-container" aria-label="Go to search page">
+        <SearchIcon aria-label="Search icon" />
       </Link>
       <div className="cart-profile-container">
-        <CartItemsList cart={cart} isDropdown={true} />
-        {user ? <LogoutButton /> : <LoginButton />}
-        <Profile />
+        <CartItemsList cart={cart} isDropdown={true} aria-label="Shopping cart" />
+        {user ? <LogoutButton aria-label="Logout" /> : <LoginButton aria-label="Login" />}
+        <Profile aria-label="User profile" />
       </div>
       <HeaderNavigation />
     </header>

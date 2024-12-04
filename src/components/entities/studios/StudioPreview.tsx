@@ -38,10 +38,10 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
         />
       )}
       <div className="studio-preview-name-and-city">
-        <h3>{studio?.name}</h3>
-        <small>{studio?.city}</small>
+        <h3 className="title">{studio?.name}</h3>
+        <small className="city">{studio?.city}</small>
       </div>
-      <p>{studio?.description}</p>
+      <p className="description">{studio?.description}</p>
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
