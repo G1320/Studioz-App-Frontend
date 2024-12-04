@@ -63,7 +63,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 
-                <Route path="/:lang/" element={<HomePage studios={studios || []} items={originalItems || []} />} />
+                <Route path="/:lang" element={<HomePage studios={studios || []} items={originalItems || []} />} />
                 <Route path="/:lang/studio/:studioId" element={<StudioDetailsPage items={originalItems || []} />} />
                 <Route
                   path="/:lang/studios/:category?/:subcategory?"
