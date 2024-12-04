@@ -25,7 +25,7 @@ export const MobileFooter = () => {
   return (
     <footer className="mobile-footer">
       <nav className="footer-grid">
-        <Link to={`/${currLang}}/`} className="footer-icon-link">
+        <Link to={`${currLang}`} className="footer-icon-link">
           <div className="footer-link-content">
             <HomeIcon />
             <span>{t('navigation.home')}</span>
