@@ -7,17 +7,27 @@
     "submit": "שלח",
     "cancel": "בטל",
     "save": "שמור",
-    "signOut": "התנתק",
-    "signUp": "הרשם",
-    "logIn": "התחבר",
-    "logOut": "התנתק",
+    "sign_out": "התנתק",
+    "sign_up": "הרשם",
+    "log_in": "התחבר",
+    "log_out": "התנתק",
     "cart": "עגלה",
-    "seeAll": "הצג הכל",
-    "addToCart": "הוסף לעגלה",
-    "addToWishlist": "הוסף לרשימה"
+    "see_all": "הצג הכל",
+    "add_to_cart": "הוסף לעגלה",
+    "add_to_wishlist": "הוסף לרשימה"
+  },
+  "navigation": {
+    "logo": "סטודיוז",
+    "home": "דף הבית",
+    "search": "חיפוש",
+    "services": "שירותים",
+    "wishlists": "רשימות",
+    "list_studio": "יצירה"
   },
   "errors": {
     "required": "שדה זה נדרש",
-    "invalid": "קלט לא תקין"
+    "invalid": "קלט לא תקין",
+    "login_required": "אנא התחבר כדי לגשת לתכונה זו",
+    "wishlist_empty": "אין רשימות משאלות זמינות. צור אחת תחילה."
   }
 }

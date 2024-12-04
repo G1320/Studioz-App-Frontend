@@ -55,7 +55,7 @@ export const GenericCarousel = <T,>({
         {seeAllPath && (
           <div className="see-all-container">
             <Link to={`/${i18n.language}${seeAllPath}`} className="see-all-link">
-              {t('buttons.seeAll')}
+              {t('buttons.see_all')}
             </Link>
           </div>
         )}

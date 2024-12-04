@@ -56,7 +56,7 @@ export const LoginButton = () => {
 
   return (
     <Button onClick={handleClick} className="button login button">
-      {t('buttons.logIn')}
+      {t('buttons.log_in')}
     </Button>
   );
 };

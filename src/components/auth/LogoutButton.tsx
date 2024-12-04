@@ -17,7 +17,7 @@ export const LogoutButton = () => {
 
   return (
     <Button onClick={handleLogout} className="button login button">
-      {t('buttons.logOut')}
+      {t('buttons.log_out')}
     </Button>
   );
 };

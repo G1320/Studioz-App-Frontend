@@ -1,5 +1,4 @@
 footer {
-  height: 3rem;
   width: calc(100% - 1rem);
 }
 
@@ -8,21 +7,20 @@ footer {
   bottom: 0;
   left: 0;
   width: 100vw;
+  height: max-content;
   background: #ffffff;
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  padding: 0.5rem 0;
 }
 
 .footer-grid {
   display: grid;
-  grid-template-rows: auto auto; /* Two rows: one for icons, one for text */
-  grid-template-columns: repeat(4, 1fr); /* Four columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 0rem;
-  height: 2rem;
   justify-items: center;
   align-items: center;
-  width: 100vw;
-
+  width: 100%;
   max-width: 500px;
   margin: 0 auto;
 }
@@ -30,6 +28,12 @@ footer {
 .footer-icon-link {
   color: #333;
   text-decoration: none;
+}
+
+.footer-link-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-icon-link .MuiSvgIcon-root {

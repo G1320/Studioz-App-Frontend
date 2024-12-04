@@ -134,7 +134,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
             data={wishlists}
             renderItem={renderItem}
             className="item-details-wishlists-dropdown"
-            title={t('buttons.addToWishlist')}
+            title={t('buttons.add_to_wishlist')}
           />
         )
       )}
@@ -147,7 +147,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
       <div className="book-now-date-picker-container" onClick={handleDatePickerClick}>
         <Button className="add-to-cart-button book-now-button" onClick={handleBookNow}>
-          {t('buttons.addToCart')}
+          {t('buttons.add_to_cart')}
         </Button>
 
         <MuiDateTimePicker

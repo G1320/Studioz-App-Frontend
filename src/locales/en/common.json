@@ -7,17 +7,27 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "save": "Save",
-    "signOut": "Sign Out",
-    "signUp": "Sign Up",
-    "logIn": "Log In",
-    "logOut": "Log Out",
+    "sign_out": "Sign Out",
+    "sign_up": "Sign Up",
+    "log_in": "Log In",
+    "log_out": "Log Out",
     "cart": "Cart",
-    "seeAll": "See All",
-    "addToCart": "Add to Cart",
-    "addToWishlist": "Add to Wishlist"
+    "see_all": "See All",
+    "add_to_cart": "Add to Cart",
+    "add_to_wishlist": "Add to Wishlist"
+  },
+  "navigation": {
+    "logo": "Studioz",
+    "home": "Home",
+    "search": "Search",
+    "services": "Services",
+    "wishlists": "Wishlists",
+    "list_studio": "List Studio"
   },
   "errors": {
     "required": "This field is required",
-    "invalid": "Invalid input"
+    "invalid": "Invalid input",
+    "login_required": "Please log in to access this feature",
+    "wishlist_empty": "No wishlists available. Create one first."
   }
 }

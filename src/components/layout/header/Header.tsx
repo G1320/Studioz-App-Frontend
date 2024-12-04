@@ -11,7 +11,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
-  const { t, i18n } = useTranslation('header');
+  const { t, i18n } = useTranslation('common');
 
   const currLang = i18n.language || 'en';
 
@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
     <header>
       <h1>
         <Link className="logo" to={`${currLang}`}>
-          {t('logo')}
+          {t('navigation.logo')}
         </Link>
       </h1>
       <LanguageSwitcher />

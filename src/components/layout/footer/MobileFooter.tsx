@@ -10,7 +10,7 @@ import { useLanguageNavigate } from '@hooks/utils';
 
 export const MobileFooter = () => {
   const { user } = useUserContext();
-  const { t, i18n } = useTranslation('header');
+  const { t, i18n } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
 
   const currLang = i18n.language || 'en';
@@ -25,15 +25,23 @@ export const MobileFooter = () => {
   return (
     <footer className="mobile-footer">
       <nav className="footer-grid">
-        {/* Row 1: Icons */}
         <Link to={`/${currLang}}/`} className="footer-icon-link">
-          <HomeIcon />
+          <div className="footer-link-content">
+            <HomeIcon />
+            <span>{t('navigation.home')}</span>
+          </div>
         </Link>
         <Link to={`/${currLang}/services`} className="footer-icon-link">
-          <GraphicEqIcon />
+          <div className="footer-link-content">
+            <GraphicEqIcon />
+            <span>{t('navigation.services')}</span>
+          </div>
         </Link>
         <Link to={`/${currLang}/search`} className="footer-icon-link">
-          <SearchIcon />
+          <div className="footer-link-content">
+            <SearchIcon />
+            <span>{t('navigation.search')}</span>
+          </div>
         </Link>
         <Link
           to={`/${currLang}/create-studio`}
@@ -43,27 +51,10 @@ export const MobileFooter = () => {
           }}
           className="footer-icon-link"
         >
-          <AddBusinessIcon />
-        </Link>
-        {/* Row 2: Text */}
-        <Link to={`/${currLang}/`} className="footer-text-link">
-          Home
-        </Link>
-        <Link to={`/${currLang}/services`} className="footer-text-link">
-          Services
-        </Link>
-        <Link to={`/${currLang}/search`} className="footer-text-link">
-          Search
-        </Link>
-        <Link
-          to={`/${currLang}/create-studio`}
-          onClick={(e) => {
-            e.preventDefault();
-            handleNavigate('/create-studio');
-          }}
-          className="footer-text-link"
-        >
-          List Studio
+          <div className="footer-link-content">
+            <AddBusinessIcon />
+            <span>{t('navigation.list_studio')}</span>
+          </div>
         </Link>
       </nav>
     </footer>

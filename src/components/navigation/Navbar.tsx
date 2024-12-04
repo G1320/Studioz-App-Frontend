@@ -7,7 +7,7 @@ import { useLanguageNavigate } from '@hooks/utils';
 export function Navbar() {
   const { user } = useUserContext();
   const langNavigate = useLanguageNavigate();
-  const { t, i18n } = useTranslation('header');
+  const { t, i18n } = useTranslation('common');
 
   const handleNavigate = (path: string) => {
     if (!user?._id) {
@@ -22,7 +22,7 @@ export function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to={`/${i18n.language}/services`}>{t('services')}</Link>
+      <Link to={`/${i18n.language}/services`}>{t('navigation.services')}</Link>
       <Link
         to={`/${i18n.language}/wishlists`}
         onClick={(e) => {
@@ -30,7 +30,7 @@ export function Navbar() {
           handleNavigate('/wishlists');
         }}
       >
-        {t('wishlists')}
+        {t('navigation.wishlists')}
       </Link>
       <Link
         to={`/${i18n.language}/create-studio`}
@@ -39,7 +39,7 @@ export function Navbar() {
           handleNavigate('/create-studio');
         }}
       >
-        {t('create_studio')}
+        {t('navigation.list_studio')}
       </Link>
     </nav>
   );
