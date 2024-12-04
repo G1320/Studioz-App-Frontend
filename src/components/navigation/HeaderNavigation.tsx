@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@hooks/utils';
 
-export function Navbar() {
+export function HeaderNavigation() {
   const { user } = useUserContext();
   const langNavigate = useLanguageNavigate();
   const { t, i18n } = useTranslation('common');

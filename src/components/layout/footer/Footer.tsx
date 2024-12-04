@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { MobileFooter } from './MobileFooter'; // Import your mobile footer
-import { DesktopFooter } from './DesktopFooter'; // Import your desktop footer
+import { MobileFooter } from './MobileFooter';
+import { DesktopFooter } from './DesktopFooter';
 
 export const ResponsiveFooter = () => {
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);

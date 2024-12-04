@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Navbar, CartItemsList, LoginButton, LogoutButton, Profile } from '@components/index';
+import { HeaderNavigation, CartItemsList, LoginButton, LogoutButton, Profile } from '@components/index';
 import { Cart, User } from 'src/types/index';
 import { LanguageSwitcher } from '@components/translation';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
         {user ? <LogoutButton /> : <LoginButton />}
         <Profile />
       </div>
-      <Navbar />
+      <HeaderNavigation />
     </header>
   );
 };

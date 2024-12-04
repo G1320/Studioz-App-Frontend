@@ -1,12 +1,8 @@
-import { Navbar } from '@components/navigation';
-
 export const DesktopFooter = () => {
   return (
     <footer className="desktop-footer">
       <div className="footer-content">
-        <div className="footer-section">
-          <Navbar />
-        </div>
+        <div className="footer-section"></div>
         <div className="footer-section">
           <p className="footer-impact-statement">
             Studioz.co.il - Your one-stop shop for creative tools and inspiration.

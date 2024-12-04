@@ -1,2 +1,2 @@
-export * from './Navbar';
+export * from './HeaderNavigation';
 export * from './HamburgerMenu';
