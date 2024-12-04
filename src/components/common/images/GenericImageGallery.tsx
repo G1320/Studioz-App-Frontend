@@ -69,7 +69,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         <GenericImage
           src={currCoverImage}
           blurHash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
-          alt="Cover Image"
+          alt={`${entity?.name} cover image` || `Cover Image `}
           className="cover-image"
           width={800}
           loading="lazy"

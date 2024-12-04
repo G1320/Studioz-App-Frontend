@@ -51,7 +51,7 @@ export const GenericCarousel = <T,>({
   return (
     <section key={i18n.language} className="generic-carousel">
       <div className="swiper-navigation-title-container">
-        {title && <h1 className="generic-carousel-title">{title}</h1>}
+        {title && <h2 className="generic-carousel-title">{title}</h2>}
         {seeAllPath && (
           <div className="see-all-container">
             <Link to={`/${i18n.language}${seeAllPath}`} className="see-all-link">

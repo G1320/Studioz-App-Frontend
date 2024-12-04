@@ -3,7 +3,13 @@
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1200px;
   gap: 0.5rem;
-  h2 {
+  img {
+    min-height: 24px;
+    min-width: 0;
+    max-width: calc(100% + 1rem);
+    place-self: center;
+  }
+  h3 {
     white-space: nowrap !important;
     width: max-content;
   }
@@ -24,11 +30,18 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
-  img {
-    min-height: 24px;
-    min-width: 0;
-    max-width: calc(100% + 1rem);
-    place-self: center;
+  .options-wrapper {
+    display: flex;
+    height: 24px;
+    gap: 0.25rem;
+    div {
+      align-items: flex-start;
+      height: 24px;
+      gap: 0rem;
+      p {
+        width: 24px;
+      }
+    }
   }
 
   .image-gallery-container {

@@ -146,16 +146,6 @@ body,
   }
   transition: 200ms;
 
-  .options-wrapper {
-    display: flex;
-    height: max-content;
-    align-items: flex-start;
-    height: 24px;
-    gap: 0.5rem;
-    * {
-      width: 24px;
-    }
-  }
   h2,
   h3 {
     line-height: 1.1;

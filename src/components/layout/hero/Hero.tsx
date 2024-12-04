@@ -7,7 +7,7 @@ export const Hero = () => {
     <section className="hero">
       <div className="hero">
         <div className="hero-text-wrapper">
-          <h1 className="hero-header">{t('hero.title')} </h1>
+          <h2 className="hero-header">{t('hero.title')} </h2>
           <p>{t('hero.content')}</p>
         </div>
       </div>
