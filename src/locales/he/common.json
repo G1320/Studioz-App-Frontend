@@ -11,7 +11,8 @@
     "signUp": "הרשם",
     "logIn": "התחבר",
     "logOut": "התנתק",
-    "cart": "עגלה"
+    "cart": "עגלה",
+    "seeAll": "הצג הכל"
   },
   "errors": {
     "required": "שדה זה נדרש",

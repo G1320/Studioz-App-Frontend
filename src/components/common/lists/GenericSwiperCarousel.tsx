@@ -30,7 +30,7 @@ export const GenericCarousel = <T,>({
   seeAllPath
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation('common');
   const isRTL = i18n.dir() === 'rtl';
 
   const navigationButtons = [
@@ -55,7 +55,7 @@ export const GenericCarousel = <T,>({
         {seeAllPath && (
           <div className="see-all-container">
             <Link to={`/${i18n.language}${seeAllPath}`} className="see-all-link">
-              See All
+              {t('buttons.seeAll')}
             </Link>
           </div>
         )}

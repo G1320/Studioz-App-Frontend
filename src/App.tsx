@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense, useEffect, useMemo } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import { useOfflineCartContext, useUserContext } from '@contexts/index';
 import { useItems, useStudios, useOnlineCart } from '@hooks/index';
 import { PropagateLoader } from 'react-spinners';
@@ -39,10 +39,6 @@ function App() {
     okButtonLabel: 'Confirm Booking',
     cancelButtonLabel: 'Cancel'
   };
-
-  useEffect(() => {
-    document.documentElement.lang = i18n.language;
-  }, [i18n.language]);
 
   const { user } = useUserContext();
   const { offlineCart } = useOfflineCartContext();

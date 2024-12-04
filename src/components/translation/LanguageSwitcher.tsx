@@ -23,9 +23,14 @@ export const LanguageSwitcher = () => {
   }, [i18n.language]);
 
   const changeLanguage = (lang: string) => {
+    const currentPath = window.location.pathname;
+
+    // Create a new path by replacing the language part of the URL
+    const newPath = currentPath.replace(/^\/[a-z]{2}\//, `/${lang}/`);
+
     i18n.changeLanguage(lang);
     handleClose();
-    navigate(`/${lang}`);
+    navigate(newPath);
   };
 
   return (
@@ -52,7 +57,7 @@ export const LanguageSwitcher = () => {
         }}
       >
         <MenuItem sx={{ color: '#fff' }} onClick={() => changeLanguage('en')}>
-          🇺🇸 English
+          English 🇺🇸
         </MenuItem>
         <MenuItem sx={{ color: '#fff' }} onClick={() => changeLanguage('he')}>
           🇮🇱 עברית

@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
   return (
     <header>
       <h1>
-        <Link className="logo" to={`${currLang}/`}>
+        <Link className="logo" to={`${currLang}`}>
           {t('logo')}
         </Link>
       </h1>

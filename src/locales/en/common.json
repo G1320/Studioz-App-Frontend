@@ -11,7 +11,8 @@
     "signUp": "Sign Up",
     "logIn": "Log In",
     "logOut": "Log Out",
-    "cart": "Cart"
+    "cart": "Cart",
+    "seeAll": "See All"
   },
   "errors": {
     "required": "This field is required",
