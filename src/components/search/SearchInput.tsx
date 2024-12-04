@@ -37,7 +37,10 @@ const SearchInput = () => {
 
   return (
     <div className="search-input-wrapper">
-      <SearchIcon className="search-button" />
+      <label htmlFor="search-input" className="visually-hidden">
+        Search Studios and Services
+      </label>
+      <SearchIcon className="search-button" aria-hidden="true" />
       <input
         ref={inputRef}
         type="text"
@@ -46,6 +49,7 @@ const SearchInput = () => {
         onKeyDown={handleKeyDown}
         placeholder="Search studios and services..."
         className="search-input"
+        aria-label="Search Studios and Services"
       />
     </div>
   );
