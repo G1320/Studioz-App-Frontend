@@ -38,8 +38,11 @@
       align-items: flex-start;
       height: 24px;
       gap: 0rem;
+      svg {
+        width: 28px;
+      }
       p {
-        width: 24px;
+        width: 28px;
       }
     }
   }
