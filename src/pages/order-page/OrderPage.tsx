@@ -1,4 +1,4 @@
-import { ShoppingCart, OrderItemsList, PaypalCheckout, CartItemPreview } from '@components/index';
+import { OrderItemsList, PaypalCheckout, CartItemPreview } from '@components/index';
 // import { useParams } from 'react-router-dom';
 import { Cart } from 'src/types/index';
 

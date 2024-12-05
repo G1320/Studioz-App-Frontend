@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, CartItemPreview } from '@components/index';
+import { CartItemPreview } from '@components/index';
 import Cart from 'src/types/cart';
 import CartItem from 'src/types/cartItem';
 
