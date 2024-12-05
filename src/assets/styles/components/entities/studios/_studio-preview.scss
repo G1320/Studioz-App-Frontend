@@ -13,6 +13,10 @@
     white-space: nowrap !important;
     width: max-content;
   }
+  // .studio-preview-name-and-city {
+  //   grid-template-columns: 0.75fr 0.25fr;
+  //   justify-self: start;
+  // }
   small {
     white-space: nowrap;
     overflow: hidden;
@@ -24,12 +28,14 @@
   p.description {
     min-height: 72px;
     width: 100%;
+    // text-align: start;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
+
   .options-wrapper {
     display: flex;
     height: 24px;
@@ -43,7 +49,7 @@
       }
       p {
         width: 28px;
-        height: 28px;
+        height: 24px;
       }
     }
   }

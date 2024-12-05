@@ -1,2 +1,2 @@
 export * from './CartItemPreview';
-export * from './CartItemsList';
+export * from './ShoppingCart';

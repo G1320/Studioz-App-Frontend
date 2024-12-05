@@ -1,4 +1,4 @@
-import { CartItemsList, OrderItemsList, PaypalCheckout } from '@components/index';
+import { ShoppingCart, OrderItemsList, PaypalCheckout } from '@components/index';
 // import { useParams } from 'react-router-dom';
 import { Cart } from 'src/types/index';
 
@@ -12,7 +12,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart }) => {
   // const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
   return (
     <section className="order-page">
-      <CartItemsList cart={cart} />
+      <ShoppingCart cart={cart} />
       <OrderItemsList cart={cart} />
       <PaypalCheckout cart={cart} />
     </section>
