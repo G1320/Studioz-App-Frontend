@@ -11,47 +11,21 @@
   * {
     color: black;
   }
-
-  .cart {
-    height: max-content;
-    display: grid;
-    justify-content: center;
-    .total-price {
-      display: none;
-    }
-    .cart-list {
-      grid-template-columns: 1fr;
-      .cart-item-preview {
-        gap: 1.5rem;
-        width: fit-content;
-        padding: 0 2rem;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        .cart-item-quantity-container {
-          width: 180px;
-          justify-content: space-evenly;
-        }
-        div {
-          display: flex;
-          width: fit-content;
-          justify-items: center;
-        }
-      }
-    }
+  .cart-item-preview {
+    flex-direction: row;
   }
+}
 
-  .paypal-buttons-container {
-    width: fit-content;
-    max-width: 600px;
-    max-height: max-content;
-    display: grid;
-    justify-content: center;
-    align-self: center;
-    padding: 1rem;
-    border: 1px solid #eaeaea;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+.paypal-buttons-container {
+  width: fit-content;
+  max-width: 600px;
+  max-height: max-content;
+  display: grid;
+  justify-content: center;
+  align-self: center;
+  padding: 1rem;
+  border: 1px solid #eaeaea;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

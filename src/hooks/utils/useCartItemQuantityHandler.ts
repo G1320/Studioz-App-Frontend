@@ -11,7 +11,7 @@ export const useCartItemQuantityHandler = (item: CartItem) => {
   const reserveItemTimeSlotMutation = useReserveNextStudioItemTimeSlotMutation(item.itemId);
   const releaseItemTimeSlotMutation = useReleaseLastStudioItemTimeSlotMutation(item.itemId);
 
-  const handleQuantityChange = (e: React.MouseEvent, isIncrement: boolean = true) => {
+  const handleQuantityChange = (e: React.MouseEvent | React.KeyboardEvent, isIncrement: boolean = true) => {
     e.stopPropagation();
 
     const quantity = isIncrement ? (item.quantity || 0) + 1 : Math.max((item.quantity || 1) - 1, 0);

@@ -1,12 +1,14 @@
 .cart-aside {
   position: fixed;
-  top: 0;
+  bottom: 1rem;
   right: 0;
-  height: 100vh;
+  height: calc(100vh - 3.5rem);
   width: 400px;
   max-width: 100%;
   background-color: #fff;
+  color: black;
   box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
   display: flex;

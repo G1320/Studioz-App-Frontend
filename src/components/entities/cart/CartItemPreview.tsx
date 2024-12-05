@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@components/index';
 import { CartItem } from 'src/types/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -16,7 +15,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
 
   const { handleQuantityChange } = useCartItemQuantityHandler(item);
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
     const target = e.target as HTMLElement;
     if (target.nodeName !== 'BUTTON' && target.nodeName !== 'svg') {
       langNavigate(`/item/${item?.itemId}`);
@@ -31,41 +30,79 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
   };
 
   return (
-    <article onClick={handleClick} className="preview cart-item-preview">
-      <div>
-        <h3 onClick={handleClick}>{item?.name}</h3>
-        <p>{item?.studioName}</p>
-      </div>
-      <div>
+    <article
+      onClick={handleClick}
+      onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+      className="preview cart-item-preview"
+      role="button"
+      tabIndex={0}
+      aria-label={`Cart item: ${item?.name}`}
+    >
+      <section>
+        {item.studioImgUrl && (
+          <img
+            src={item.studioImgUrl}
+            alt={`${item.studioName} ${item?.name} service image`}
+            className="cart-item-image"
+          />
+        )}
+        <div>
+          <h3 tabIndex={0} onClick={handleClick}>
+            {item?.name}
+          </h3>
+          <p>{item?.studioName}</p>
+        </div>
+      </section>
+      <section>
         <div className="cart-item-booking-date-time-container">
           <small>{item?.bookingDate}</small>
           <small>{getTimeRange()}</small>
         </div>
         <div>
-          <small className="cart-item-preview-price" onClick={handleClick}>
+          <small
+            className="cart-item-preview-price"
+            tabIndex={0}
+            onClick={handleClick}
+            aria-label={`Price per hour: ₪${item?.price}`}
+          >
             Price: ₪{item?.price}/hr
           </small>
         </div>
-      </div>
-      <div className="cart-item-quantity-container">
-        <Button
+      </section>
+      <section className="cart-item-quantity-container">
+        <button
           onClick={(e) => handleQuantityChange(e, false)}
+          onKeyDown={(e) => e.key === 'Enter' && handleQuantityChange(e, false)}
           className="decrement-quantity"
-          aria-label="Decrease quantity"
+          aria-label={
+            item.quantity && item.quantity <= 1
+              ? `Remove ${item?.name} from cart`
+              : `Decrease quantity of ${item?.name}`
+          }
         >
           {item.quantity && item.quantity <= 1 ? (
             <CloseOutlined className="icon remove-item-button" />
           ) : (
             <RemoveCircleOutlineIcon className="icon decrement-quantity-button" />
           )}
-        </Button>
-        <small className="cart-item-preview-quantity" onClick={handleClick}>
-          hours: {item.quantity}
+        </button>
+        <small
+          className="cart-item-preview-quantity"
+          tabIndex={0}
+          aria-live="polite"
+          aria-label={`Quantity of ${item?.name}: ${item?.quantity} hours`}
+        >
+          Hours: {item.quantity}
         </small>
-        <Button onClick={(e) => handleQuantityChange(e, true)} className="increment-quantity">
+        <button
+          onClick={(e) => handleQuantityChange(e, true)}
+          onKeyDown={(e) => e.key === 'Enter' && handleQuantityChange(e, true)}
+          className="increment-quantity"
+          aria-label={`Increase quantity of ${item?.name}`}
+        >
           <AddCircleOutlineIcon className="icon increment-quantity-button" />
-        </Button>
-      </div>
+        </button>
+      </section>
     </article>
   );
 };

@@ -8,7 +8,7 @@ interface OrderItemsListProps {
 }
 
 export const OrderItemsList: React.FC<OrderItemsListProps> = ({ cart }) => {
-  const totalPrice = cart.items.reduce((total, item) => total + (item.total || 0), 0);
+  const totalPrice = cart.items.reduce((total, item) => total + (item.price * (item.quantity || 0) || 0), 0);
   const itemCount = cart.items.reduce((total, item) => total + (item.quantity || 0), 0);
 
   const renderItem = (item: CartItem) => (

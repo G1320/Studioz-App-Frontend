@@ -1,6 +1,5 @@
 import React from 'react';
-import { CartItemPreview } from './CartItemPreview';
-import { Button } from '@components/index';
+import { Button, CartItemPreview } from '@components/index';
 import Cart from 'src/types/cart';
 import CartItem from 'src/types/cartItem';
 
@@ -29,9 +28,9 @@ export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) =
           <span>Total:</span>
           <span>₪{totalPrice?.toFixed(2)}</span>
         </div>
-        <Button className="checkout-btn" onClick={() => console.log('Checkout!')}>
+        <button className="checkout-btn" onClick={() => console.log('Checkout!')}>
           Checkout
-        </Button>
+        </button>
       </div>
     </aside>
   );
