@@ -4,7 +4,6 @@
   gap: 0.5rem;
   margin-block-end: 0.5rem;
 
-  // text-align: start;
   min-height: 125px;
   width: calc(100% - 2rem);
 
@@ -98,8 +97,9 @@
       }
 
       &:focus-visible {
-        outline: 2px solid #007bff;
-        outline-offset: 2px;
+        // border: none;
+        // outline: 2px solid black;
+        // outline-offset: 2px;
       }
 
       &:active {
@@ -113,45 +113,3 @@
     }
   }
 }
-
-// .cart-item-preview {
-//   gap: 0.5rem;
-//   text-align: start;
-//   min-height: 125px;
-//   width: 200px;
-//   padding: 0.5rem;
-//   color: black;
-//   background-color: none;
-//   border: 1px solid black;
-//   border-radius: 10px;
-//   h2 {
-//     justify-content: center;
-//   }
-//   div {
-//     width: 100%;
-//   }
-//   section.cart-item-booking-date-time-container {
-//     flex-direction: column;
-//     gap: 0;
-//   }
-//   section.cart-item-quantity-container {
-//     button {
-//       background-color: transparent;
-//       border: none;
-//       padding: 1rem 0.5rem;
-//       width: 24px;
-//       color: #fff;
-//       &:focus-visible,
-//       &:focus {
-//         outline: none;
-//       }
-//     }
-//     display: grid;
-//     justify-items: center;
-//     grid-template-columns: 36px 1fr 36px;
-//     border-radius: 6px;
-//     width: 100%;
-//     gap: 0.25rem;
-//     border: 1px solid #fff;
-//   }
-// }
