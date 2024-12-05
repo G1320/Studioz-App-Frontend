@@ -3,7 +3,7 @@ import { useCartOperations, useMutationHandler } from '@hooks/utils/index';
 import { Cart, CartItem } from 'src/types/index';
 
 export const useAddItemToCartMutation = () => {
-  const { addItem, removeItem, generateSuccessMessage } = useCartOperations();
+  const { addItem, generateSuccessMessage } = useCartOperations();
   const userId = getLocalUser()?._id;
 
   return useMutationHandler<Cart, CartItem>({
@@ -17,8 +17,8 @@ export const useAddItemToCartMutation = () => {
       }
       return generateSuccessMessage(variables, 'added');
     },
-    invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
-    undoAction: (variables, _data) => removeItem(variables)
+    invalidateQueries: [{ queryKey: 'cart', targetId: userId }]
+    // undoAction: (variables, _data) => removeItem(variables)
   });
 };
 

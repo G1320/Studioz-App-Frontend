@@ -5,7 +5,7 @@ header {
   position: sticky;
   top: 0;
   display: grid;
-  grid-template-columns: max-content repeat(11, 1fr) 40px;
+  grid-template-columns: max-content repeat(5, 1fr) 40px;
   grid-template-rows: 1fr;
   gap: 0.5rem;
   z-index: 1000;
@@ -32,11 +32,12 @@ header {
   .cart-icon {
     display: flex;
     flex-direction: row;
+    cursor: pointer;
   }
 
   .navbar {
     justify-self: start;
-    grid-column: 2;
+    grid-column: span 2;
     grid-row: 1;
     display: flex;
     align-self: end;
@@ -44,43 +45,38 @@ header {
 
   .lang-switcher {
     display: flex;
-    grid-row: 1;
-    grid-column: 13;
-    width: calc(24px + 0.5rem);
+    justify-content: center;
+    width: 24px;
     span {
       cursor: pointer;
       min-width: max-content;
     }
   }
 
-  .cart-profile-container {
-    grid-row: 1;
+  .cart-options-container {
     display: flex;
-    gap: 0.75rem;
-    grid-column: 12;
-    cursor: pointer;
+    gap: 0.5rem;
+    grid-column: 6 / span 2;
+    justify-self: end;
   }
 
   .header-search-button-container {
     display: flex;
     align-items: center;
-    grid-column: 11;
-    justify-self: end;
+    width: 36px;
+    justify-content: center;
     cursor: pointer;
   }
 
   .login-button,
   .logout-button {
     white-space: nowrap;
-    grid-row: 1;
-    align-self: center;
+    width: 48px;
     cursor: pointer;
   }
 
   .cart {
     display: flex;
-    // grid-column: 10;
-    grid-row: 1;
     max-width: 180px;
     white-space: nowrap;
     gap: 0.5rem;
@@ -151,8 +147,6 @@ header {
 
 @media screen and (max-width: 600px) {
   header {
-    gap: 0;
-    grid-template-columns: repeat(6, 1fr);
     .navbar {
       display: none !important;
     }

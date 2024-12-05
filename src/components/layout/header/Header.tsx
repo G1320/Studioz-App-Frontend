@@ -22,11 +22,11 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
           {t('navigation.logo')}
         </Link>
       </h1>
-      <LanguageSwitcher aria-label="Switch language" />
-      <Link to={`${currLang}/search`} className="header-search-button-container" aria-label="Go to search page">
-        <SearchIcon aria-label="Search icon" />
-      </Link>
-      <div className="cart-profile-container">
+      <div className="cart-options-container">
+        <Link to={`${currLang}/search`} className="header-search-button-container" aria-label="Go to search page">
+          <SearchIcon aria-label="Search icon" />
+        </Link>
+        <LanguageSwitcher aria-label="Switch language" />
         <ShoppingCart cart={cart} aria-label="Shopping cart" />
         {user ? <LogoutButton aria-label="Logout" /> : <LoginButton aria-label="Login" />}
         <Profile aria-label="User profile" />
