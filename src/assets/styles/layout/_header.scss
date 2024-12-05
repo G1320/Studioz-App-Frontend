@@ -26,15 +26,12 @@ header {
     padding-inline-end: 0.5rem;
   }
 
-  .hamburger-menu {
-    grid-row: 1;
-    height: 24px;
-    .hamburger-button {
-      aspect-ratio: 1 / 1;
-      place-content: center;
-      place-self: center;
-      list-style: none;
-    }
+  .cart-wrapper {
+  }
+
+  .cart-icon {
+    display: flex;
+    flex-direction: row;
   }
 
   .navbar {
@@ -59,6 +56,7 @@ header {
   .cart-profile-container {
     grid-row: 1;
     display: flex;
+    gap: 0.75rem;
     grid-column: 12;
   }
 
@@ -70,8 +68,9 @@ header {
     cursor: pointer;
   }
 
-  .login,
-  .logout {
+  .login-button,
+  .logout-button {
+    white-space: nowrap;
     grid-row: 1;
     align-self: center;
   }

@@ -12,7 +12,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart }) => {
   // const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
   return (
     <section className="order-page">
-      <div className="cart-aside-content">
+      <div className="cart-content">
         {cart?.items?.map((item) => <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />)}
       </div>
       <OrderItemsList cart={cart} />

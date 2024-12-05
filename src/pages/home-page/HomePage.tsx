@@ -83,7 +83,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         seeAllPath="/studios/music/audio engineering"
       />
       <h2>{t('sections.book_now_think_later')}</h2>
-      <StudiosList studios={mixingStudios.slice(5, 12)} />
+      <StudiosList studios={mixingStudios.slice(4, 10)} />
       <GenericCarousel
         data={masteringItems}
         className="items-carousel"

@@ -55,8 +55,8 @@ export const LoginButton = () => {
   }, [isAuthenticated, user, handleError, offlineCart, setOfflineCartContext, setUserContext]);
 
   return (
-    <Button onClick={handleClick} className="button login button">
+    <div role="button" onClick={handleClick} className="button login-button">
       {t('buttons.log_in')}
-    </Button>
+    </div>
   );
 };

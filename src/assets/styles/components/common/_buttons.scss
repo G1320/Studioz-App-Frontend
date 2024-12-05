@@ -34,11 +34,18 @@ button {
 
 button:is(.dropdown-toggle) {
   max-width: max-content;
+  border: none;
 }
 
 button:is(.add-to-cart-button) {
   padding: 1.2em 1.8em;
   border-radius: 20px;
+  border: none;
   width: 100%;
-  background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-secondary 120%);
+  background-color: vars.$color-primary;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+// background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-secondary 120%);

@@ -1,3 +1,5 @@
+import { error } from 'console';
+
 const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/upload`;
 
 interface UploadFileResult {
@@ -20,7 +22,10 @@ export const uploadFile = async (file: File): Promise<UploadFileResult> => {
       body: formData
     });
 
-    if (!response.ok) throw new Error('Failed to upload image');
+    if (!response.ok) {
+      console.log('response: ', response);
+      throw new Error('Failed to upload image');
+    }
 
     return await response.json();
   } catch (error) {

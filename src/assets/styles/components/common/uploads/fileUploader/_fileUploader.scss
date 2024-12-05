@@ -1,3 +1,8 @@
+article {
+  gap: 1rem;
+  display: grid;
+}
+
 .file-uploader {
   display: flex 1 1;
   background-color: rgba(61, 61, 61, 0.2078431373);
@@ -8,7 +13,7 @@
   max-width: 520px;
   min-height: 215px;
   gap: 1rem;
-  min-width: 200px;
+  min-width: clamp(200px, 440px, 520px);
   place-self: center;
   margin: auto;
   cursor: pointer;
@@ -17,15 +22,21 @@
     height: max-content;
   }
   .file-uploader-content-container {
-    min-width: min-content;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    img {
+      max-width: calc(50%);
+    }
   }
+
   .upload-icon-container {
     height: 24px;
     .icon {
       margin: auto;
     }
+  }
+  .files-list {
+    margin-block-start: 1rem;
   }
 }

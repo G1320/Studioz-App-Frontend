@@ -14,10 +14,10 @@ export const ShoppingCart: React.FC<CartItemsListProps> = ({ cart }) => {
 
   return (
     <div className="cart-wrapper">
-      <Button onClick={() => setCartOpen(true)} className="cart-icon">
+      <div role="button" onClick={() => setCartOpen(true)} className="cart-icon">
         <ShoppingCartIcon style={{ fontSize: '1.6rem' }} />
         <div className="icon-wrapper">{itemCount !== undefined && <span className="badge">{itemCount}</span>}</div>
-      </Button>
+      </div>
       <CartAside cart={cart} isOpen={isCartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
