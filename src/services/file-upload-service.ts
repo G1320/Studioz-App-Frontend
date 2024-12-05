@@ -1,5 +1,3 @@
-import { error } from 'console';
-
 const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/upload`;
 
 interface UploadFileResult {

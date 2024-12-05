@@ -58,6 +58,7 @@ header {
     display: flex;
     gap: 0.75rem;
     grid-column: 12;
+    cursor: pointer;
   }
 
   .header-search-button-container {
@@ -73,6 +74,7 @@ header {
     white-space: nowrap;
     grid-row: 1;
     align-self: center;
+    cursor: pointer;
   }
 
   .cart {
@@ -83,6 +85,7 @@ header {
     white-space: nowrap;
     gap: 0.5rem;
     padding: 0.25rem;
+    cursor: pointer;
     .total-price {
       min-width: calc(max-content + 0.25rem);
       max-width: min-content;

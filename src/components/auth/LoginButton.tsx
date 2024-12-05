@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button } from '@components/common/buttons';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@services/index';
 import { useUserContext, useOfflineCartContext } from '@contexts/index';
 import { useErrorHandling } from '@hooks/index';

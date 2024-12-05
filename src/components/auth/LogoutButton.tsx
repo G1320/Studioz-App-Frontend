@@ -1,5 +1,4 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button } from '@components/common/buttons';
 import { useTranslation } from 'react-i18next';
 
 export const LogoutButton = () => {
