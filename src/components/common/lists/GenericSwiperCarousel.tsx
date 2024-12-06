@@ -49,7 +49,20 @@ export const GenericCarousel = <T,>({
   ];
 
   return (
-    <section key={i18n.language} className="generic-carousel">
+    <section
+      key={i18n.language}
+      className="generic-carousel"
+      tabIndex={0}
+      aria-live="polite"
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowRight') {
+          isRTL ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext();
+        }
+        if (e.key === 'ArrowLeft') {
+          isRTL ? swiperRef.current?.slideNext() : swiperRef.current?.slidePrev();
+        }
+      }}
+    >
       <div className="swiper-navigation-title-container">
         {title && <h2 className="generic-carousel-title">{title}</h2>}
         {seeAllPath && (
@@ -89,9 +102,34 @@ export const GenericCarousel = <T,>({
             1200: { slidesPerView: 4.2 },
             1550: { slidesPerView: 5.2 }
           }}
+          a11y={{
+            enabled: true,
+            prevSlideMessage: 'Previous slide',
+            nextSlideMessage: 'Next slide',
+            firstSlideMessage: 'This is the first slide',
+            lastSlideMessage: 'This is the last slide'
+          }}
+          onSlideChange={(swiper) => {
+            const currentIndex = swiper.activeIndex;
+            const slidesPerView = Math.floor(swiper.params.slidesPerView as number);
+
+            swiper.slides.forEach((slide, index) => {
+              const isVisible = index >= currentIndex && index < currentIndex + slidesPerView;
+              slide.setAttribute('aria-hidden', (!isVisible).toString());
+
+              const focusableElements = slide.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+              );
+              focusableElements.forEach((element) => {
+                (element as HTMLElement).tabIndex = isVisible ? 0 : -1;
+              });
+            });
+          }}
         >
           {data?.map((item, index) => (
-            <SwiperSlide key={(item as Studio | Item)._id || index}>{renderItem(item)}</SwiperSlide>
+            <SwiperSlide key={(item as Studio | Item)._id || index} tabIndex={-1}>
+              {renderItem(item)}
+            </SwiperSlide>
           ))}
         </Swiper>
       </div>
