@@ -37,40 +37,35 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
           isAudioFilesShown={isStudioPath}
         />
       )}
-      <section className="studio-preview-content">
-        <div className="studio-preview-name-and-city">
-          <h3 className="title">{studio?.name}</h3>
-          <small className="city">{studio?.city}</small>
+      <div className="studio-preview-name-and-city">
+        <h3 className="title">{studio?.name}</h3>
+        <small className="city">{studio?.city}</small>
+      </div>
+      <p className="description">{studio?.description}</p>
+      <div className="options-wrapper">
+        <div role="group" aria-labelledby="occupancy">
+          <ChairIcon aria-label="Chair icon" />
+          <p id="occupancy" aria-label={`Maximum occupancy for ${studio?.name}: ${studio?.maxOccupancy || 0} people`}>
+            {studio?.maxOccupancy || 0}
+          </p>
         </div>
-        <p className="description">{studio?.description}</p>
-        <div className="options-wrapper">
-          <div role="group" aria-labelledby="occupancy">
-            <ChairIcon aria-label="Chair icon" />
-            <p id="occupancy" aria-label={`Maximum occupancy for ${studio?.name}: ${studio?.maxOccupancy || 0} people`}>
-              {studio?.maxOccupancy || 0}
-            </p>
-          </div>
-          <div role="group" aria-labelledby="smoking">
-            <SmokingRooms aria-label="Smoking icon" />
-            <p
-              id="smoking"
-              aria-label={`Smoking allowed at ${studio?.name}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
-            >
-              {studio?.isSmokingAllowed ? <Check /> : <Close />}
-            </p>
-          </div>
-          <div role="group" aria-labelledby="accessible">
-            <Accessible aria-label="Wheelchair accessible icon" />
-            <p
-              id="accessible"
-              aria-label={`Wheelchair accessible at ${studio?.name}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
-            >
-              {studio?.isWheelchairAccessible ? <Check /> : <Close />}
-            </p>
-          </div>
+        <div role="group" aria-labelledby="smoking">
+          <SmokingRooms aria-label="Smoking icon" />
+          <p id="smoking" aria-label={`Smoking allowed at ${studio?.name}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}>
+            {studio?.isSmokingAllowed ? <Check /> : <Close />}
+          </p>
         </div>
-        <h3>{studio?.items.length} Services Available</h3>
-      </section>
+        <div role="group" aria-labelledby="accessible">
+          <Accessible aria-label="Wheelchair accessible icon" />
+          <p
+            id="accessible"
+            aria-label={`Wheelchair accessible at ${studio?.name}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
+          >
+            {studio?.isWheelchairAccessible ? <Check /> : <Close />}
+          </p>
+        </div>
+      </div>
+      <h3>{studio?.items.length} Services Available</h3>
     </article>
   );
 };

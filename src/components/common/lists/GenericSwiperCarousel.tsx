@@ -55,6 +55,7 @@ export const GenericCarousel = <T,>({
       tabIndex={0}
       aria-live="polite"
       onKeyDown={(e) => {
+        autoplay && swiperRef.current?.autoplay?.stop();
         if (e.key === 'ArrowRight') {
           isRTL ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext();
         }
