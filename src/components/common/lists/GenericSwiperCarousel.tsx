@@ -19,6 +19,7 @@ interface GenericCarouselProps<T> {
   title?: string;
   autoplay?: boolean;
   seeAllPath?: string;
+  breakpoints?: Record<number, { slidesPerView: number }>;
 }
 
 export const GenericCarousel = <T,>({
@@ -27,7 +28,15 @@ export const GenericCarousel = <T,>({
   renderItem,
   title,
   autoplay = false,
-  seeAllPath
+  seeAllPath,
+  breakpoints = {
+    340: { slidesPerView: 1.4 },
+    520: { slidesPerView: 2.2 },
+    800: { slidesPerView: 2.4 },
+    1000: { slidesPerView: 3.2 },
+    1200: { slidesPerView: 4.2 },
+    1550: { slidesPerView: 5.2 }
+  }
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
   const { i18n, t } = useTranslation('common');
@@ -95,14 +104,7 @@ export const GenericCarousel = <T,>({
             clickable: true
           }}
           navigation={false}
-          breakpoints={{
-            340: { slidesPerView: 1.4 },
-            520: { slidesPerView: 2.2 },
-            800: { slidesPerView: 2.4 },
-            1000: { slidesPerView: 3.2 },
-            1200: { slidesPerView: 4.2 },
-            1550: { slidesPerView: 5.2 }
-          }}
+          breakpoints={breakpoints}
           a11y={{
             enabled: true,
             prevSlideMessage: 'Previous slide',
