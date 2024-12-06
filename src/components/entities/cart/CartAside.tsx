@@ -50,7 +50,7 @@ export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) =
           <span>Total:</span>
           <span>₪{totalPrice?.toFixed(2)}</span>
         </div>
-        <Link to={`${i18n.language}/order`} className="checkout-btn">
+        <Link to={`${i18n.language}/order`} onClick={onClose} className="checkout-btn">
           Checkout
         </Link>
       </div>
