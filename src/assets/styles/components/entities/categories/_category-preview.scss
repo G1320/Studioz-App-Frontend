@@ -9,7 +9,6 @@
   transition:
     transform 0.2s,
     box-shadow 0.2s;
-  margin: 0.25rem;
   cursor: pointer;
 
   span {
@@ -17,9 +16,5 @@
     font-weight: 600;
     color: #333;
     text-align: start;
-  }
-
-  &:hover {
-    transform: scale(1.03);
   }
 }
