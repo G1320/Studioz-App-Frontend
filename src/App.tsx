@@ -52,7 +52,7 @@ function App() {
       <PayPalScriptProvider options={initialOptions}>
         <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
           <Header cart={onlineCart || offlineCart} user={user} />
-          <main className="main-content">
+          <main className="main-content" id="main-content">
             <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
               <Routes>
                 <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />

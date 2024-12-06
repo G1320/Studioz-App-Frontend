@@ -17,6 +17,9 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
 
   return (
     <header>
+      <a href="#main-content" className="skip-link">
+        Skip to Content
+      </a>
       <h1>
         <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')}>
           {t('navigation.logo')}
