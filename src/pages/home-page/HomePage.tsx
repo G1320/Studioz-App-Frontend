@@ -1,9 +1,10 @@
-import { StudiosList, GenericCarousel, StudioPreview, ItemPreview, Hero } from '@components/index';
+import { StudiosList, GenericCarousel, StudioPreview, ItemPreview, CategoryPreview, Hero } from '@components/index';
 import { useWishlists } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
+import { musicSubCategories } from '@config/categories';
 
 interface HomePageProps {
   studios: Studio[];
@@ -17,6 +18,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
 
   const studioRenderItem = (studio: Studio) => <StudioPreview studio={studio} />;
   const itemRenderItem = (item: Item) => <ItemPreview item={item} wishlists={wishlists} key={item._id} />;
+  const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
 
   const recordingStudios = filterBySubcategory(studios, 'Recording');
   const mixingStudios = filterBySubcategory(studios, 'Mixing');
@@ -30,6 +32,13 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
     <section className="home-page">
       <Hero />
 
+      <GenericCarousel
+        data={musicSubCategories}
+        className="categories-carousel slider-gradient"
+        renderItem={categoryRenderItem}
+        title={t('sections.studioz_for_you')}
+        seeAllPath="/studios/music"
+      />
       <GenericCarousel
         data={studios}
         className="studios-carousel slider-gradient"
