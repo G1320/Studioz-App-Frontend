@@ -8,6 +8,10 @@
     width: 100%;
   }
 
+  .generic-carousel {
+    margin-block-end: 1rem;
+  }
+
   h2:not(.generic-carousel-title) {
     padding: 1rem 0;
     max-width: max-content;
@@ -26,6 +30,9 @@
 @media screen and (max-width: 900px) {
   .home-page {
     margin-block-end: 0rem;
+    .generic-carousel {
+      margin-block-end: 0rem;
+    }
     h1 {
       text-align: start;
     }

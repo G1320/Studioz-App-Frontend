@@ -36,8 +36,8 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
         renderItem={categoryRenderItem}
-        title={t('sections.studioz_for_you')}
-        seeAllPath="/studios/music"
+        title={t('sections.categories')}
+        // seeAllPath="/studios/music"
       />
       <GenericCarousel
         data={studios}

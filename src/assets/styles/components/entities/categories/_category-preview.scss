@@ -1,4 +1,25 @@
 .category-preview {
-  min-height: 100px !important;
-  border-bottom: none !important;
+  min-height: 60px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  margin: 0.25rem;
+  cursor: pointer;
+
+  span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    text-align: start;
+  }
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }

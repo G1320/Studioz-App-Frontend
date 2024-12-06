@@ -6,7 +6,7 @@ export const CategoryList = () => {
   const renderItem = (category: string) => <CategoryPreview category={category} />;
 
   return (
-    <section>
+    <section className="category-list">
       <GenericList data={musicSubCategories} renderItem={renderItem} className="categories-list" />
     </section>
   );

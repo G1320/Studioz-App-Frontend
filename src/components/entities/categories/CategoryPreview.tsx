@@ -12,7 +12,7 @@ export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category }) =>
   };
 
   return (
-    <article className="preview category-preview" onClick={handleClick}>
+    <article className=" category-preview" onClick={handleClick}>
       <span>{category}</span>
     </article>
   );

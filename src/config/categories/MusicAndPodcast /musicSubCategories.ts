@@ -10,7 +10,6 @@ export const musicSubCategories = [
   'Remote Collaboration',
   'Virtual Reality',
   'Live Streaming',
-  'Automated Dialogue Replacement',
   'Foley',
   'Sound Design',
   'Field Recording',

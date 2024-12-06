@@ -1,0 +1,6 @@
+.category-list {
+  width: 100%;
+  .generic-list {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
