@@ -73,18 +73,15 @@ footer.desktop-footer {
     place-self: center;
   }
   footer {
-    max-height: 2.5rem;
     .footer-impact-statement {
       display: none;
     }
 
     .footer-content {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      gap: 0.25rem;
       flex-wrap: nowrap;
       text-wrap: nowrap;
-      justify-content: space-around;
     }
   }
 }
