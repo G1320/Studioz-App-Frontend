@@ -9,7 +9,13 @@ li {
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
+}
+
+@media (min-width: 730px) {
+  h2 {
+    font-size: 1.75rem;
+  }
 }
 
 html,
@@ -22,9 +28,3 @@ body,
   overflow-x: hidden;
   overflow-y: auto;
 }
-
-// @supports (-webkit-overflow-scrolling: touch) {
-//   body {
-//     -webkit-overflow-scrolling: touch;
-//   }
-// }
