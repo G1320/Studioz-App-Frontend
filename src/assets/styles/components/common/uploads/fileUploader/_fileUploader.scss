@@ -10,10 +10,10 @@ article {
   box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.132) inset;
   border-radius: 8px;
   align-content: center;
-  max-width: 520px;
   min-height: 215px;
   gap: 1rem;
-  min-width: clamp(200px, 440px, 520px);
+  max-width: 520px;
+  min-width: 300px;
   place-self: center;
   margin: auto;
   cursor: pointer;
