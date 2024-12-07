@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FileUploader, GenericForm, FieldType } from '@components/index';
-import { useStudio, useUpdateStudioMutation } from '@hooks/index';
+import { useMusicSubCategories, usePhotoSubCategories, useStudio, useUpdateStudioMutation } from '@hooks/index';
 import { uploadFile } from '@services/index';
-import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 
 export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
+  const musicSubCategories = useMusicSubCategories();
+  const photoSubCategories = usePhotoSubCategories();
 
   const studio = data?.currStudio;
 
@@ -31,7 +32,7 @@ export const EditStudioForm = () => {
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
-    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : photoSubCategories);
   };
 
   const fields = [

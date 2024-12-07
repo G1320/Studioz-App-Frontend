@@ -1,13 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@components/index';
-import { useItem, useUpdateItemMutation } from '@hooks/index';
+import { useItem, useMusicSubCategories, usePhotoSubCategories, useUpdateItemMutation } from '@hooks/index';
 import { Item } from 'src/types/index';
 import { useState } from 'react';
-import { musicSubCategories, videoAndPhotographySubCategories } from '@config/categories';
 
 export const EditItemForm = () => {
   const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
+  const musicSubCategories = useMusicSubCategories();
+  const photoSubCategories = usePhotoSubCategories();
   const [selectedCategory, setSelectedCategory] = useState<string>(item?.category || 'Music');
   const [subCategories, setSubCategories] = useState(item?.subCategory || musicSubCategories);
 
@@ -15,7 +16,7 @@ export const EditItemForm = () => {
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
-    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : photoSubCategories);
   };
 
   const fields = [
