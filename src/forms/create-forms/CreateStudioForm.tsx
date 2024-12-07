@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { FileUploader, GenericForm, FieldType } from '@components/index';
 import { getLocalUser, uploadFile } from '@services/index';
 
-import { musicSubCategories, videoAndPhotographySubCategories } from '@config/index';
-
-import { useCreateStudioMutation } from '@hooks/index';
+import { useCreateStudioMutation, useMusicSubCategories, usePhotoSubCategories } from '@hooks/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 
@@ -17,6 +15,9 @@ interface FormData {
 
 export const CreateStudioForm = () => {
   const user = getLocalUser();
+  const musicSubCategories = useMusicSubCategories();
+  const photoSubCategories = usePhotoSubCategories();
+
   const createStudioMutation = useCreateStudioMutation();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('Music / Podcast Studio');
@@ -27,7 +28,7 @@ export const CreateStudioForm = () => {
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
-    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : videoAndPhotographySubCategories);
+    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : photoSubCategories);
   };
 
   const fields = [
@@ -80,9 +81,8 @@ export const CreateStudioForm = () => {
       toast.success('Audio files uploaded successfully');
     }
   };
-
   return (
-    <>
+    <section>
       <FileUploader
         fileType="image"
         onFileUpload={handleFileUpload}
@@ -103,6 +103,6 @@ export const CreateStudioForm = () => {
           onCategoryChange={handleCategoryChange}
         />
       </section>
-    </>
+    </section>
   );
 };

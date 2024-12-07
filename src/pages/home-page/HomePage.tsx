@@ -4,7 +4,7 @@ import { useUserContext } from '@contexts/index';
 import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
-import { musicSubCategories } from '@config/categories';
+import { useMusicSubCategories } from '@hooks/utils/useMusicSubcategories';
 
 interface HomePageProps {
   studios: Studio[];
@@ -15,6 +15,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { t } = useTranslation('homePage');
+  const musicSubCategories = useMusicSubCategories();
 
   const studioRenderItem = (studio: Studio) => <StudioPreview studio={studio} />;
   const itemRenderItem = (item: Item) => <ItemPreview item={item} wishlists={wishlists} key={item._id} />;

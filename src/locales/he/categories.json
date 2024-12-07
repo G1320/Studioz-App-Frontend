@@ -1,0 +1,55 @@
+{
+  "main_categories": {
+    "music_categories": " מוזיקה / פודקאסטים",
+    "photo_categories": " צילום / וידאו"
+  },
+  "subCategories": {
+    "musicAndPodcast": {
+      "music_production": "הפקה מוזיקלית",
+      "podcast_recording": "הקלטת פודקאסטים",
+      "vocal_instrument_recording": "הקלטת שירה וכלים",
+      "film_post_production": "סאונד לסרטים ופוסט-פרודקשן",
+      "voiceover_dubbing": "קריינות ודיבוב",
+      "mixing": "מיקסינג",
+      "mastering": "מאסטרינג",
+      "sound_design": "עיצוב סאונד",
+      "studio_rental": "השכרת אולפן",
+      "foley_sound_effects": "פולי ואפקטים",
+      "workshops_classes": "סדנאות ושיעורים",
+      "remote_production_services": "שירותי הפקה מרחוק",
+      "restoration_archiving": "שחזור וארכיון"
+    },
+    "photoAndVideo": {
+      "film_production": "הפקת סרטים",
+      "photography_studio": "סטודיו לצילום",
+      "video_editing": "עריכת וידאו",
+      "cinematography": "צילום וידאו מקצועי",
+      "commercial_photography": "צילום מסחרי",
+      "documentary_production": "הפקת סרטים דוקומנטריים",
+      "wedding_photography": "צילום חתונות",
+      "portrait_photography": "צילום פורטרטים",
+      "fashion_photography": "צילום אופנה",
+      "event_videography": "וידאו לאירועים",
+      "music_video_production": "הפקת קליפים מוזיקליים",
+      "drone_photography_videography": "צילום וידאו עם רחפן",
+      "green_screen_studio": "סטודיו עם מסך ירוק",
+      "food_photography": "צילום מזון",
+      "product_photography": "צילום מוצרים",
+      "studio_rental": "השכרת סטודיו",
+      "video_animation": "אנימציית וידאו",
+      "virtual_tour_creation": "יצירת סיור וירטואלי",
+      "360_photography_videography": "צילום 360°",
+      "headshot_photography": "צילום תמונות פרופיל",
+      "real_estate_photography_videography": "צילום וידאו לנדל\"ן",
+      "corporate_videography": "וידאו לעסקים",
+      "artistic_photography": "צילום אמנותי",
+      "educational_videos": "סרטונים חינוכיים",
+      "travel_photography_videography": "צילום וידאו לטיולים",
+      "video_game_streaming_setup": "הגדרת סטרימינג למשחקי וידאו",
+      "video_blogging": "וידאו בלוגינג",
+      "stock_photography_videography": "צילום וידאו סטוק",
+      "visual_effects": "אפקטים ויזואליים",
+      "stop_motion_animation": "אנימציית סטופ מושן"
+    }
+  }
+}

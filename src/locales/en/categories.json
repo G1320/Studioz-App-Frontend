@@ -1,0 +1,55 @@
+{
+  "main_categories": {
+    "music_categories": "Music / Podcast Studio",
+    "photo_categories": "Photo / Video Studio"
+  },
+  "subCategories": {
+    "musicAndPodcast": {
+      "music_production": "Music Production",
+      "podcast_recording": "Podcast Recording",
+      "vocal_instrument_recording": "Vocal & Instrument Recording",
+      "film_post_production": "Film & Post Production",
+      "voiceover_dubbing": "Voiceover & Dubbing",
+      "mixing": "Mixing",
+      "mastering": "Mastering",
+      "sound_design": "Sound Design",
+      "studio_rental": "Studio Rental",
+      "foley_sound_effects": "Foley & Sound Effects",
+      "workshops_classes": "Workshops & Classes",
+      "remote_production_services": "Remote Production Services",
+      "restoration_archiving": "Restoration & Archiving"
+    },
+    "photoAndVideo": {
+      "film_production": "Film Production",
+      "photography_studio": "Photography Studio",
+      "video_editing": "Video Editing",
+      "cinematography": "Cinematography",
+      "commercial_photography": "Commercial Photography",
+      "documentary_production": "Documentary Production",
+      "wedding_photography": "Wedding Photography",
+      "portrait_photography": "Portrait Photography",
+      "fashion_photography": "Fashion Photography",
+      "event_videography": "Event Videography",
+      "music_video_production": "Music Video Production",
+      "drone_photography_videography": "Drone Photography/Videography",
+      "green_screen_studio": "Green Screen Studio",
+      "food_photography": "Food Photography",
+      "product_photography": "Product Photography",
+      "studio_rental": "Studio Rental",
+      "video_animation": "Video Animation",
+      "virtual_tour_creation": "Virtual Tour Creation",
+      "360_photography_videography": "360° Photography/Videography",
+      "headshot_photography": "Headshot Photography",
+      "real_estate_photography_videography": "Real Estate Photography/Videography",
+      "corporate_videography": "Corporate Videography",
+      "artistic_photography": "Artistic Photography",
+      "educational_videos": "Educational Videos",
+      "travel_photography_videography": "Travel Photography/Videography",
+      "video_game_streaming_setup": "Video Game Streaming Setup",
+      "video_blogging": "Video Blogging",
+      "stock_photography_videography": "Stock Photography/Videography",
+      "visual_effects": "Visual Effects",
+      "stop_motion_animation": "Stop Motion Animation"
+    }
+  }
+}
