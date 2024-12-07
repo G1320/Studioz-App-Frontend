@@ -4,5 +4,4 @@ export * from './useCartItemQuantityHandler';
 export * from './useMutationHandler';
 export * from './useScrollTop';
 export * from './useLangNavigation';
-export * from './useMusicSubcategories';
-export * from './usePhotoSubcategories';
+export * from './categories';

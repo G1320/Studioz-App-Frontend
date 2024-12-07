@@ -4,7 +4,7 @@ import { useUserContext } from '@contexts/index';
 import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
-import { useMusicSubCategories } from '@hooks/utils/useMusicSubcategories';
+import { useMusicSubCategories } from '@hooks/index';
 
 interface HomePageProps {
   studios: Studio[];

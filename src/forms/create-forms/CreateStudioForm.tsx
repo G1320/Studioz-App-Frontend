@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { FileUploader, GenericForm, FieldType } from '@components/index';
 import { getLocalUser, uploadFile } from '@services/index';
 
-import { useCreateStudioMutation, useMusicSubCategories, usePhotoSubCategories } from '@hooks/index';
+import {
+  useCreateStudioMutation,
+  useMusicCategories,
+  useMusicSubCategories,
+  usePhotoCategories,
+  usePhotoSubCategories
+} from '@hooks/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 
@@ -15,20 +21,29 @@ interface FormData {
 
 export const CreateStudioForm = () => {
   const user = getLocalUser();
+  const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
+  const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
 
   const createStudioMutation = useCreateStudioMutation();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('Music / Podcast Studio');
   const [subCategories, setSubCategories] = useState(musicSubCategories);
+  const [selectedCategory, setSelectedCategory] = useState<string>(`${musicCategories}`);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>(musicSubCategories[0]);
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
-    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : photoSubCategories);
+    const newSubCategories = value === `${musicCategories}` ? musicSubCategories : photoSubCategories;
+    setSubCategories(newSubCategories);
+    setSelectedSubCategory(newSubCategories[0]);
+  };
+
+  const handleSubCategoryChange = (value: string) => {
+    setSelectedSubCategory(value);
   };
 
   const fields = [
@@ -38,16 +53,17 @@ export const CreateStudioForm = () => {
       name: 'category',
       label: 'Category',
       type: 'select' as FieldType,
-      options: ['Music / Podcast Studio', 'Photo / Video Studio'],
+      options: [`${musicCategories}`, `${photoCategories}`],
       value: selectedCategory,
       onChange: handleCategoryChange
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio',
+      label: selectedCategory === `${musicCategories}` ? `${musicCategories}` : `${photoCategories}`,
       type: 'select' as FieldType,
       options: subCategories,
-      value: ''
+      value: selectedSubCategory,
+      onChange: handleSubCategoryChange
     },
     { name: 'city', label: 'City', type: 'text' as FieldType },
     { name: 'address', label: 'Address', type: 'text' as FieldType },

@@ -25,7 +25,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   const combinedGalleryImages =
     coverImage && !galleryImages?.includes(coverImage) ? [coverImage, ...(galleryImages || [])] : galleryImages || [];
 
-  // console.log('combinedGalleryImages: ', combinedGalleryImages);
+  console.log('combinedGalleryImages: ', combinedGalleryImages);
   const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
 
   const handleImageChange = (image: string) => {
