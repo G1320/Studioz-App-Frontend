@@ -17,15 +17,15 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
       className=" wishlist-preview"
     >
       <div>
+        <div>
+          <small>{wishlist?.items?.length} Items</small>
+          <small>{wishlist?.studios?.length} Studios</small>
+        </div>
         {onAddItemToWishList ? (
           <Button onClick={() => onAddItemToWishList(wishlist?._id)}>Add to {wishlist?.name}</Button>
         ) : (
           <h3> {wishlist.name}</h3>
         )}
-        <div>
-          <small>{wishlist?.items?.length} Items</small>
-          <small>{wishlist?.studios?.length} Studios</small>
-        </div>
       </div>
     </article>
   );

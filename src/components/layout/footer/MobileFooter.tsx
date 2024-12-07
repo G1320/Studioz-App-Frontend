@@ -27,6 +27,7 @@ export const MobileFooter = () => {
       langNavigate(path);
     }
   };
+
   return (
     <footer className="mobile-footer">
       <nav className="footer-grid">

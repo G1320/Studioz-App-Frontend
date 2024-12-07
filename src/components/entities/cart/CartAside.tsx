@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { CartItemPreview } from '@components/index';
 import Cart from 'src/types/cart';
-import CartItem from 'src/types/cartItem';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +11,7 @@ interface CartAsideProps {
 }
 
 export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) => {
-  const totalPrice = cart?.items?.reduce((total: number, item: CartItem) => total + (item.total || 0), 0);
+  const totalPrice = cart?.items.reduce((total, item) => total + (item.price * (item.quantity || 0) || 0), 0);
   const { i18n } = useTranslation();
   const asideRef = useRef<HTMLDivElement>(null);
 

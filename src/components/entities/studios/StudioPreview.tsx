@@ -15,7 +15,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
   const location = useLocation();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
 
-  const isStudioPath = /^\/studio($|\/)/.test(location.pathname);
+  const isStudioPath = /^\/(en|he)?\/studio($|\/)/.test(location.pathname);
 
   return (
     <article
