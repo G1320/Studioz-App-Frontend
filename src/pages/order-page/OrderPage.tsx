@@ -1,5 +1,5 @@
 import { PaypalCheckout, CartItemPreview } from '@components/index';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Cart } from 'src/types/index';
 
 interface OrderPageProps {
@@ -7,16 +7,18 @@ interface OrderPageProps {
 }
 
 const OrderPage: React.FC<OrderPageProps> = ({ cart }) => {
-  // const { studioId } = useParams();
+  const { studioId } = useParams();
 
-  // const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
+  const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
+
   return (
     <section className="order-page">
       <div className="cart-content">
-        {cart?.items?.map((item) => <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />)}
+        {(studioId ? filteredCart.items : cart?.items)?.map((item) => (
+          <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />
+        ))}
       </div>
-      {/* <OrderItemsList cart={cart} /> */}
-      <PaypalCheckout cart={cart} />
+      <PaypalCheckout cart={studioId ? filteredCart : cart} />
     </section>
   );
 };

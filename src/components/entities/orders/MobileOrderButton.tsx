@@ -20,7 +20,7 @@ export const ContinueToCheckoutButton: React.FC<CheckoutButtonProps> = ({ cart }
   return (
     <div className="checkout-button-container">
       {itemCount > 0 && (
-        <Link to={`/${i18n.language}/order`} className="checkout-btn">
+        <Link to={`/${i18n.language}/order/${studioId}`} className="checkout-btn">
           {`Continue to Checkout (${itemCount})`}
         </Link>
       )}
