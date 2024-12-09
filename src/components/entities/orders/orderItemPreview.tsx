@@ -5,7 +5,7 @@ interface OrderItemPreviewProps {
 }
 
 const OrderItemPreview: React.FC<OrderItemPreviewProps> = ({ orderItem }) => {
-  console.log('orderItem: ', orderItem);
+  // console.log('orderItem: ', orderItem);
   return <div></div>;
 };
 

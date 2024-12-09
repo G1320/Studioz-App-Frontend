@@ -65,7 +65,10 @@ function App() {
                   <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 
                   <Route path="/:lang" element={<HomePage studios={studios || []} items={originalItems || []} />} />
-                  <Route path="/:lang?/studio/:studioId" element={<StudioDetailsPage items={originalItems || []} />} />
+                  <Route
+                    path="/:lang?/studio/:studioId"
+                    element={<StudioDetailsPage items={originalItems || []} cart={onlineCart || offlineCart} />}
+                  />
                   <Route
                     path="/:lang?/studios/:category?/:subcategory?"
                     element={<StudiosPage studios={studios || []} />}

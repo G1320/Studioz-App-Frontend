@@ -6,19 +6,21 @@ import {
   WishlistPreview,
   StudioPreview,
   GenericCarousel,
-  ItemPreview
+  ItemPreview,
+  ContinueToCheckoutButton
 } from '@components/index';
 import { useStudio, useAddStudioToWishlistMutation, useWishlists, useLanguageNavigate } from '@hooks/index';
-import { Item, Wishlist } from 'src/types/index';
+import { Cart, Item, Wishlist } from 'src/types/index';
 import { useUserContext } from '@contexts/index';
 import { toast } from 'sonner';
 import { usePrefetchStudio } from '@hooks/prefetching/index';
 
 interface StudioDetailsPageProps {
   items: Item[];
+  cart: Cart;
 }
 
-const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
+const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) => {
   const langNavigate = useLanguageNavigate();
   const { user } = useUserContext();
   const { studioId } = useParams();
@@ -99,6 +101,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items }) => {
         data={filteredItems}
         renderItem={(item) => <ItemPreview item={item} />}
       />
+      <ContinueToCheckoutButton cart={cart} />
     </section>
   );
 };

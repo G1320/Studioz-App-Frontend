@@ -34,7 +34,7 @@ export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) =
   }, [isOpen, onClose]);
 
   return (
-    <aside ref={asideRef} className={`cart-aside ${isOpen ? 'open' : ''}`}>
+    <aside ref={asideRef} className={`cart-aside ${isOpen ? 'open' : ''}`} data-direction={i18n.dir()}>
       <div className="cart-aside-header">
         <h2>Your Cart</h2>
         <button onClick={onClose} className="close-btn">

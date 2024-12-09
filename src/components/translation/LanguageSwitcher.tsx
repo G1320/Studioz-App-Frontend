@@ -57,10 +57,10 @@ export const LanguageSwitcher = () => {
         }}
       >
         <MenuItem sx={{ color: '#fff' }} onClick={() => changeLanguage('en')}>
-          English 🇺🇸
+          English
         </MenuItem>
         <MenuItem sx={{ color: '#fff' }} onClick={() => changeLanguage('he')}>
-          🇮🇱 עברית
+          עברית
         </MenuItem>
       </Menu>
     </section>

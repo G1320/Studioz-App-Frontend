@@ -1,4 +1,4 @@
-import { OrderItemsList, PaypalCheckout, CartItemPreview } from '@components/index';
+import { PaypalCheckout, CartItemPreview } from '@components/index';
 // import { useParams } from 'react-router-dom';
 import { Cart } from 'src/types/index';
 
@@ -15,7 +15,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart }) => {
       <div className="cart-content">
         {cart?.items?.map((item) => <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />)}
       </div>
-      <OrderItemsList cart={cart} />
+      {/* <OrderItemsList cart={cart} /> */}
       <PaypalCheckout cart={cart} />
     </section>
   );

@@ -64,7 +64,7 @@ export const EditStudioForm = () => {
     { name: 'description', label: 'Description', type: 'textarea' as FieldType, value: studio?.description },
     {
       name: 'categories',
-      label: 'Categories',
+      label: 'Category',
       type: 'select' as FieldType,
       options: [musicCategories, photoCategories],
       value: selectedCategories,
