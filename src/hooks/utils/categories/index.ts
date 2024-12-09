@@ -1,4 +1,4 @@
 export * from './useMusicCategories';
-export * from './useMusicSubcategories';
+export * from './useMusicSubCategories';
 export * from './usePhotoCategories';
-export * from './usePhotoSubcategories';
+export * from './usePhotoSubCategories';
