@@ -44,8 +44,8 @@ export const CreateItemForm = () => {
     { name: 'name', label: 'Name', type: 'text' as FieldType },
     { name: 'description', label: 'Description', type: 'textarea' as FieldType },
     {
-      name: 'category',
-      label: 'Category',
+      name: 'categories',
+      label: 'Categories',
       type: 'select' as FieldType,
       options: [`${musicCategories}`, `${photoCategories}`],
       value: selectedCategory,

@@ -11,12 +11,15 @@ import {
 } from '@hooks/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
+import { arraysEqual } from '@utils/compareArrays';
 
 interface FormData {
   coverImage?: string;
   galleryImages?: string[];
   coverAudioFile?: string;
   galleryAudioFiles?: string[];
+  categories?: string[];
+  subCategories?: string[];
 }
 
 export const CreateStudioForm = () => {
@@ -28,41 +31,41 @@ export const CreateStudioForm = () => {
 
   const createStudioMutation = useCreateStudioMutation();
 
-  const [subCategories, setSubCategories] = useState(musicSubCategories);
-  const [selectedCategory, setSelectedCategory] = useState<string>(`${musicCategories}`);
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string>(musicSubCategories[0]);
+  const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([musicSubCategories[0]]);
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
-    const newSubCategories = value === `${musicCategories}` ? musicSubCategories : photoSubCategories;
+  const handleCategoryChange = (values: string[]) => {
+    setSelectedCategories(values);
+    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategories : photoSubCategories;
     setSubCategories(newSubCategories);
-    setSelectedSubCategory(newSubCategories[0]);
+    setSelectedSubCategories([newSubCategories[0]]);
   };
 
-  const handleSubCategoryChange = (value: string) => {
-    setSelectedSubCategory(value);
+  const handleSubCategoryChange = (value: string[]) => {
+    setSelectedSubCategories(value);
   };
 
   const fields = [
     { name: 'name', label: 'Name', type: 'text' as FieldType },
     { name: 'description', label: 'Description', type: 'textarea' as FieldType },
     {
-      name: 'category',
-      label: 'Category',
+      name: 'categories',
+      label: 'Categories',
       type: 'select' as FieldType,
-      options: [`${musicCategories}`, `${photoCategories}`],
-      value: selectedCategory,
+      options: [musicCategories, photoCategories],
+      value: selectedCategories,
       onChange: handleCategoryChange
     },
     {
-      name: 'subCategory',
-      label: selectedCategory === `${musicCategories}` ? `${musicCategories}` : `${photoCategories}`,
-      type: 'select' as FieldType,
+      name: 'subCategories',
+      label: arraysEqual(selectedCategories, musicCategories) ? [musicCategories] : [photoCategories],
+      type: 'multiSelect' as FieldType,
       options: subCategories,
-      value: selectedSubCategory,
+      value: selectedSubCategories,
       onChange: handleSubCategoryChange
     },
     { name: 'city', label: 'City', type: 'text' as FieldType },
@@ -79,7 +82,8 @@ export const CreateStudioForm = () => {
     formData.galleryImages = galleryImages;
     formData.coverAudioFile = galleryAudioFiles[0];
     formData.galleryAudioFiles = galleryAudioFiles;
-
+    formData.categories = selectedCategories;
+    formData.subCategories = selectedSubCategories;
     createStudioMutation.mutate({ userId: user?._id || '', newStudio: formData as Studio });
   };
 
@@ -105,12 +109,6 @@ export const CreateStudioForm = () => {
         galleryFiles={galleryImages}
         isCoverShown={false}
       />
-      {/* <FileUploader
-        fileType="audio"
-        onFileUpload={handleFileUpload}
-        galleryFiles={galleryAudioFiles}
-        isCoverShown={false}
-      /> */}
       <section className="form-wrapper create-studio-form-wrapper">
         <GenericForm
           className="create-studio-form"

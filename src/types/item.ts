@@ -6,6 +6,7 @@ export default interface Item {
   name: string;
   description?: string;
   category?: string;
+  categories?: string[];
   subCategory?: string;
   price?: number;
   imageUrl?: string;

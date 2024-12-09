@@ -10,7 +10,7 @@ interface GenericFormProps {
   btnTxt?: string;
   onSubmit: (formData: Record<string, any>) => void;
   className?: string;
-  onCategoryChange?: (value: string) => void;
+  onCategoryChange?: (values: string[]) => void;
 }
 
 export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) => {
@@ -25,13 +25,6 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
       {} as Record<string, boolean>
     )
   );
-
-  //   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-  //     const { name, value } = event.target;
-  //     if (name === 'category' && onCategoryChange) {
-  //       onCategoryChange(value);
-  //     }
-  //   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -115,6 +108,31 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
                     </div>
                   )}
                 </Listbox>
+              </div>
+            );
+
+          case 'multiSelect':
+            return (
+              <div key={field.name} className="form-group">
+                <label className="form-label">{field.label}</label>
+                <div className="checkbox-group">
+                  {field.options.map((option: string) => (
+                    <Field key={option} as="div" className="multiselect-option">
+                      <Switch
+                        checked={field.value?.includes(option)}
+                        onChange={(checked) => {
+                          const newValue = checked
+                            ? [...(field.value || []), option]
+                            : field.value?.filter((val: string) => val !== option);
+                          field.onChange?.(newValue);
+                        }}
+                        className={`multiselect-checkbox ${field.value?.includes(option) ? 'selected' : ''}`}
+                      >
+                        <Label className="multiselect-label">{option}</Label>
+                      </Switch>
+                    </Field>
+                  ))}
+                </div>
               </div>
             );
 

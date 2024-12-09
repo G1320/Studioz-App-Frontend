@@ -9,7 +9,7 @@ export const EditItemForm = () => {
   const { data: item } = useItem(itemId || '');
   const musicSubCategories = useMusicSubCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const [selectedCategory, setSelectedCategory] = useState<string>(item?.category || 'Music');
+  const [selectedCategory, setSelectedCategory] = useState<string>(item?.categories[0] || ['Music']);
   const [subCategories, setSubCategories] = useState(item?.subCategory || musicSubCategories);
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
@@ -25,11 +25,11 @@ export const EditItemForm = () => {
     { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price || 0 },
     { name: 'imageUrl', label: 'Image URL', type: 'text' as FieldType, value: item?.imageUrl || '' },
     {
-      name: 'category',
-      label: 'Category',
+      name: 'categories',
+      label: 'Categories',
       type: 'select' as FieldType,
       options: ['Music / Podcast Studio', 'Photo / Video Studio'],
-      value: item?.category,
+      value: item?.categories,
       onChange: handleCategoryChange
     },
     {

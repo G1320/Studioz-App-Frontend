@@ -12,7 +12,9 @@ export default interface Studio {
   name: string;
   description: string;
   category?: string;
+  categories?: string[];
   subCategory?: string;
+  subCategories?: string[];
   maxOccupancy?: number;
   isSmokingAllowed?: boolean;
   city: string;
