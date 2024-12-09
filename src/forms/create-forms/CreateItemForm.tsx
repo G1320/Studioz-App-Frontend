@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '@components/index';
-import { Item } from 'src/types/index';
-import { getLocalUser } from '@services/user-service';
+import { FileUploader, GenericForm, FieldType } from '@components/index';
+import { getLocalUser, uploadFile } from '@services/index';
+import { toast } from 'sonner';
 import {
   useCreateItemMutation,
   useMusicCategories,
@@ -10,34 +10,59 @@ import {
   usePhotoCategories,
   usePhotoSubCategories
 } from '@hooks/index';
+import { Item } from 'src/types/index';
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
-
   const { studioName, studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
-  const musicSubCategories = useMusicSubCategories();
+
   const musicCategories = useMusicCategories();
-  const photoSubCategories = usePhotoSubCategories();
+  const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
+  const photoSubCategories = usePhotoSubCategories();
 
-  const handleSubmit = async (formData: Record<string, unknown>) => {
-    createItemMutation.mutate({ ...formData, studioId, studioName, createdBy: user?._id } as Item);
-  };
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
+  const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([musicSubCategories[0]]);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
-  const [selectedCategory, setSelectedCategory] = useState(`${musicCategories}`);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(`${musicSubCategories[0]}`);
-  const [subCategories, setSubCategories] = useState(musicSubCategories);
+  interface FormData {
+    coverImage?: string;
+    coverAudioFile?: string;
+    categories?: string[];
+    subCategories?: string[];
+    createdBy?: string;
+    studioName?: string;
+    studioId?: string;
+  }
 
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
-    const newSubCategories = value === `${musicCategories}` ? musicSubCategories : photoSubCategories;
+  const handleCategoryChange = (values: string[]) => {
+    setSelectedCategories(values);
+    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategories : photoSubCategories;
     setSubCategories(newSubCategories);
-    setSelectedSubCategory(newSubCategories[0]);
+    setSelectedSubCategories([newSubCategories[0]]);
   };
 
-  const handleSubCategoryChange = (value: string) => {
-    setSelectedSubCategory(value);
+  const handleSubCategoryChange = (values: string[]) => {
+    setSelectedSubCategories(values);
+  };
+
+  const handleFileUpload = async (files: File[]) => {
+    const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
+    const fileUrls = results.map((result) => result.secure_url);
+    setGalleryImages(fileUrls);
+    toast.success('Images uploaded successfully');
+  };
+
+  const handleSubmit = async (formData: FormData) => {
+    formData.coverImage = galleryImages[0];
+    formData.createdBy = user?._id || '';
+    formData.categories = selectedCategories;
+    formData.subCategories = selectedSubCategories;
+    formData.studioName = studioName;
+    formData.studioId = studioId || '';
+    createItemMutation.mutate(formData as Item);
   };
 
   const fields = [
@@ -47,32 +72,28 @@ export const CreateItemForm = () => {
       name: 'categories',
       label: 'Categories',
       type: 'select' as FieldType,
-      options: [`${musicCategories}`, `${photoCategories}`],
-      value: selectedCategory,
+      options: [musicCategories, photoCategories],
+      value: selectedCategories,
       onChange: handleCategoryChange
     },
     {
-      name: 'subCategory',
-      label: selectedCategory === `${musicCategories}` ? `${musicCategories}` : `${photoCategories}`,
-      type: 'select' as FieldType,
+      name: 'subCategories',
+      label: selectedCategories.includes(`${musicCategories}`) ? `${musicCategories}` : `${photoCategories}`,
+      type: 'multiSelect' as FieldType,
       options: subCategories,
-      value: selectedSubCategory,
+      value: selectedSubCategories,
       onChange: handleSubCategoryChange
     },
     { name: 'price', label: 'Price', type: 'number' as FieldType },
     { name: 'inStock', label: 'In Stock', type: 'checkbox' as FieldType }
-    // { name: 'imageUrl', label: 'Image URL', type: 'text' as FieldType }
   ];
 
   return (
-    <section className="form-wrapper create-item-form-wrapper">
-      <GenericForm
-        className="create-item-form"
-        title={studioName}
-        fields={fields}
-        onSubmit={handleSubmit}
-        onCategoryChange={handleCategoryChange}
-      />
+    <section>
+      <FileUploader fileType="image" onFileUpload={handleFileUpload} galleryFiles={galleryImages} />
+      <section className="form-wrapper create-item-form-wrapper">
+        <GenericForm className="create-item-form" title={studioName} fields={fields} onSubmit={handleSubmit} />
+      </section>
     </section>
   );
 };
