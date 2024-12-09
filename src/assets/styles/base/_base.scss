@@ -127,7 +127,6 @@ body,
   display: grid;
   place-items: center;
   min-height: 215px;
-  cursor: pointer;
   &:not(.hero .preview, .cart-item-preview) {
     box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.132) inset;
     background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-primary 25%);

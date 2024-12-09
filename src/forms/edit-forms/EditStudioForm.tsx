@@ -39,9 +39,10 @@ export const EditStudioForm = () => {
     studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
   );
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(studio?.subCategories || []);
-  const [subCategories, setSubCategories] = useState<string[]>(
-    studio?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
-  );
+  const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
+  // const [subCategories, setSubCategories] = useState<string[]>(
+  //   studio?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
+  // );
 
   const [galleryImages, setGalleryImages] = useState<string[]>(studio?.galleryImages || []);
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');

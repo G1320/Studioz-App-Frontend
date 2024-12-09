@@ -1,57 +1,115 @@
-import { useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '@components/index';
-import { useItem, useMusicSubCategories, usePhotoSubCategories, useUpdateItemMutation } from '@hooks/index';
-import { Item } from 'src/types/index';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { FileUploader, GenericForm, FieldType } from '@components/index';
+import {
+  useItem,
+  useMusicCategories,
+  useMusicSubCategories,
+  usePhotoCategories,
+  usePhotoSubCategories,
+  useUpdateItemMutation
+} from '@hooks/index';
+import { uploadFile } from '@services/index';
+import { Item } from 'src/types/index';
+import { toast } from 'sonner';
+import { arraysEqual } from '@utils/compareArrays';
+
+interface FormData {
+  imageUrl?: string;
+  categories?: string[];
+  subCategory?: string;
+}
 
 export const EditItemForm = () => {
   const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
+
+  const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
+  const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const [selectedCategory, setSelectedCategory] = useState<string>(item?.categories[0] || ['Music']);
-  const [subCategories, setSubCategories] = useState(item?.subCategory || musicSubCategories);
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
 
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
-    setSubCategories(value === 'Music / Podcast Studio' ? musicSubCategories : photoSubCategories);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    item?.categories && item.categories.length > 0 ? [item.categories[0]] : musicCategories
+  );
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>(item?.subCategory || musicSubCategories[0]);
+  const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
+  // const [subCategories, setSubCategories] = useState<string[]>(
+  //   item?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
+  // );
+  const [imageUrl, setImageUrl] = useState<string>(item?.imageUrl || '');
+
+  const handleCategoryChange = (values: string[]) => {
+    setSelectedCategories(values);
+    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategories : photoSubCategories;
+    setSubCategories(newSubCategories);
+    setSelectedSubCategory(newSubCategories[0]);
+  };
+
+  const handleSubCategoryChange = (value: string) => {
+    setSelectedSubCategory(value);
   };
 
   const fields = [
-    { name: 'name', label: 'Name', type: 'text' as FieldType, value: item?.name || '' },
-    { name: 'description', label: 'Description', type: 'text' as FieldType, value: item?.description || '' },
-    { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price || 0 },
-    { name: 'imageUrl', label: 'Image URL', type: 'text' as FieldType, value: item?.imageUrl || '' },
+    { name: 'name', label: 'Name', type: 'text' as FieldType, value: item?.name },
+    { name: 'description', label: 'Description', type: 'textarea' as FieldType, value: item?.description },
     {
       name: 'categories',
-      label: 'Categories',
+      label: 'Category',
       type: 'select' as FieldType,
-      options: ['Music / Podcast Studio', 'Photo / Video Studio'],
-      value: item?.categories,
+      options: [musicCategories, photoCategories],
+      value: selectedCategories,
       onChange: handleCategoryChange
     },
     {
       name: 'subCategory',
-      label: selectedCategory === 'Music / Podcast Studio' ? 'Music / Podcast Studio' : 'Photo / Video Studio',
-      type: 'select' as FieldType,
+      label: arraysEqual(selectedCategories, musicCategories) ? [musicCategories] : [photoCategories],
+      type: 'multiSelect' as FieldType,
       options: subCategories,
-      value: item?.subCategory
-    }
+      value: selectedSubCategory,
+      onChange: handleSubCategoryChange
+    },
+    { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price }
   ];
 
-  const handleSubmit = async (formData: Record<string, any>) => {
-    const updatedItem: Item = {
-      ...item,
-      ...formData
-    } as Item;
-    updateItemMutation.mutate(updatedItem);
+  const handleSubmit = async (formData: FormData) => {
+    formData.imageUrl = imageUrl;
+    formData.categories = selectedCategories;
+    formData.subCategory = selectedSubCategory;
+
+    updateItemMutation.mutate(formData as Item, {
+      onSuccess: () => toast.success('Item updated successfully'),
+      onError: () => toast.error('Failed to update item')
+    });
+  };
+
+  const handleFileUpload = async (files: File[], type: string) => {
+    const results = await Promise.all(files.map((file) => uploadFile(file)));
+    const urls = results.map((result) => result.secure_url);
+
+    if (type === 'image') {
+      if (files.length === 1) {
+        setImageUrl(urls[0]);
+        return toast.success('Image uploaded successfully');
+      }
+      toast.success('Gallery images uploaded successfully');
+    }
   };
 
   return (
-    <section className="form-wrapper edit-item-form-wrapper">
-      <GenericForm className="edit-item-form" title="Edit Item" fields={fields} onSubmit={handleSubmit} />
+    <section>
+      <FileUploader fileType="image" onFileUpload={handleFileUpload} isCoverShown={true} />
+      <section className="form-wrapper edit-item-form-wrapper">
+        <GenericForm
+          className="edit-item-form"
+          title="Edit Item"
+          fields={fields}
+          onSubmit={handleSubmit}
+          onCategoryChange={handleCategoryChange}
+        />
+      </section>
     </section>
   );
 };
