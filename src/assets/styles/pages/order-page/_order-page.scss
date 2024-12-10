@@ -3,8 +3,7 @@
   flex-direction: column;
   padding: 2rem;
   gap: 1rem;
-  width: calc(100% - 4rem);
-  max-width: 1540px;
+  width: calc(100vw - 6rem);
   margin: auto;
   height: fit-content;
   border-radius: 8px;
@@ -30,4 +29,12 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .order-page {
+    .cart-item-preview {
+      flex-direction: column;
+    }
+  }
 }
