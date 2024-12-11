@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { HeaderNavigation, ShoppingCart, LoginButton, LogoutButton, Profile } from '@components/index';
+import { HeaderNavigation, ShoppingCart, LoginButton, LogoutButton } from '@components/index';
 import { Cart, User } from 'src/types/index';
 import { LanguageSwitcher } from '@components/translation';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +32,6 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
         <LanguageSwitcher aria-label="Switch language" />
         <ShoppingCart cart={cart} aria-label="Shopping cart" />
         {user ? <LogoutButton aria-label="Logout" /> : <LoginButton aria-label="Login" />}
-        <Profile aria-label="User profile" />
       </div>
       <HeaderNavigation />
     </header>

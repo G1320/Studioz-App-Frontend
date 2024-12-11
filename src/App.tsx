@@ -13,7 +13,7 @@ import i18n from './i18n';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, ResponsiveFooter } from '@components/index';
+import { Header, ProfilePage, ResponsiveFooter } from '@components/index';
 import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
@@ -94,6 +94,7 @@ function App() {
                   <Route path="/:lang?/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
                   <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
                   <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
+                  <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
                 </Routes>
               </Suspense>
             </main>
