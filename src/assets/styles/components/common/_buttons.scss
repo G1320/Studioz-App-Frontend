@@ -10,7 +10,7 @@ button {
   font-weight: 700;
   font-family: inherit;
   background-color: #fff;
-  color: vars.$text-color-primary;
+  color: vars.$text-color-dark;
   white-space: nowrap;
   min-width: fit-content;
   border: 1px solid white;
@@ -19,11 +19,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   &:hover {
-    border-color: vars.$color-primary;
+    border-color: vars.$color-brand;
   }
   &:focus,
   &:focus-visible {
-    outline: 4px auto vars.$color-primary;
+    outline: 4px auto vars.$color-brand;
   }
   &:disabled {
     background-color: #dcdcdc;
@@ -42,7 +42,7 @@ button:is(.add-to-cart-button) {
   border-radius: 20px;
   border: none;
   width: 100%;
-  background-color: vars.$color-primary;
+  background-color: vars.$color-brand;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -70,5 +70,3 @@ button:is(.add-to-cart-button) {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   }
 }
-
-// background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-secondary 120%);

@@ -1,29 +1,24 @@
 // Colors
-
-$color-primary: rgba(44, 165, 226, 0.953);
-// $color-primary: rgba(59, 44, 226, 0.953);
-// $color-primary: rgba(44, 126, 226, 0.781);
-
+$color-brand: rgba(44, 165, 226, 0.953);
+$color-accent: rgba(88, 132, 201, 0.8);
+$color-light: #ffffff;
+$color-dark: #121212;
 $color-secondary: #4a00e0;
-$color-tertiary: #4fe2de;
-$color-accent: #95f475;
-$color-highlight: #d8a415;
+$color-light: #fff;
 
 // Text Colors
-$text-color-primary: #141619;
+$text-color-primary: #fff;
 $text-color-secondary: #666666;
-$text-color-tertiary: #999999;
-$text-color-light: #fff;
 $text-color-dark: #000000;
 
 // Background Colors
-$bg-color-primary: #4e2de20f;
+$bg-color-primary: #000000;
 $bg-color-secondary: rgba(20, 22, 25, 1);
-$bg-color-tertiary: #d9d9d9;
-$bg-color-dark: #3333338d;
+$preview-bg-color: #242728;
+$header-bg-color: #242728;
 
 // Border Colors
-$border-color-primary: #cccccc;
+$border-color-primary: #fff;
 $border-color-secondary: #dddddd;
 $border-color-tertiary: #e5e5e5;
 

@@ -16,9 +16,9 @@
   width: 100vw;
 
   color-scheme: light dark;
-  color: vars.$text-color-light;
+  color: vars.$text-color-primary;
 
-  background: linear-gradient(135deg, vars.$color-primary 0%, vars.$bg-color-primary 52.5%);
+  background: vars.$bg-color-primary;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -45,7 +45,7 @@ p {
 
 a {
   font-weight: 500;
-  color: vars.$text-color-light;
+  color: vars.$text-color-primary;
   text-decoration: inherit;
 }
 a:hover {
@@ -127,17 +127,7 @@ body,
   display: grid;
   place-items: center;
   min-height: 215px;
-  &:not(.hero .preview, .cart-item-preview) {
-    box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.132) inset;
-    background: linear-gradient(to bottom, vars.$color-primary 0%, vars.$bg-color-primary 25%);
-    border-radius: 8px;
-    &:not(.item-preview, .cart-item-preview, .gallery-image) {
-      background-color: #3d3d3d35;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  // background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%), rgba(255, 255, 255, 0.001);
+  border-radius: 8px;
   img:not(img.preview.gallery-image) {
     border-bottom-right-radius: 2px !important;
     border-bottom-left-radius: 2px !important;

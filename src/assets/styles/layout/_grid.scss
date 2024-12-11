@@ -1,3 +1,5 @@
+@use '../utilities/variables' as vars;
+
 main {
   display: grid;
   gap: 1rem;

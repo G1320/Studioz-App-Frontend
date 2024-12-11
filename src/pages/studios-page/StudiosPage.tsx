@@ -1,4 +1,4 @@
-import { Hero, StudiosList } from '@components/index';
+import {  StudiosList } from '@components/index';
 import { useParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
 
@@ -14,14 +14,14 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
       return studio?.category?.toLowerCase() === category?.toLowerCase();
     } else {
       return (
-        studio?.category?.toLowerCase() === category?.toLowerCase() &&
-        studio?.subCategory?.toLowerCase() === subcategory.toLowerCase()
+        (studio?.category?.toLowerCase() === category?.toLowerCase() &&
+          studio?.subCategory?.toLowerCase() === subcategory.toLowerCase()) ||
+        studio?.subCategory?.toLowerCase().includes(subcategory)
       );
     }
   });
   return (
     <section className="studios-page">
-      <Hero />
 
       {subcategory && <h1>{subcategory} Studioz</h1>}
       <StudiosList studios={filteredStudios} />

@@ -118,7 +118,6 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       <div>
         <h3>{item.studioName}</h3>
         <div>
-          {item.inStock && <small>In Stock</small>}
           <small>₪{item.price}/hr</small>
         </div>
       </div>
