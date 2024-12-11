@@ -53,9 +53,6 @@
     align-items: flex-start;
     gap: 0.25rem;
 
-    button {
-      max-width: 36px;
-    }
     small {
       font-size: 0.85rem;
       color: #555;
@@ -72,6 +69,9 @@
     padding: 0.5rem;
     background-color: #fff;
 
+    button {
+      max-width: 36px;
+    }
     small {
       font-size: 0.9rem;
       color: #333;
