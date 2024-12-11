@@ -13,9 +13,10 @@ $text-color-dark: #000000;
 
 // Background Colors
 $bg-color-primary: #000000;
-$bg-color-secondary: rgba(20, 22, 25, 1);
-$preview-bg-color: #242728;
-$header-bg-color: #242728;
+$bg-color-secondary: #242728;
+$preview-bg-color: $bg-color-secondary;
+$header-bg-color: $bg-color-secondary;
+$footer-bg-color: $bg-color-secondary;
 
 // Border Colors
 $border-color-primary: #fff;

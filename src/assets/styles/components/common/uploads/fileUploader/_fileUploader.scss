@@ -1,3 +1,5 @@
+@use '../../../../utilities/variables' as vars;
+
 article {
   gap: 1rem;
   display: grid;
@@ -6,8 +8,7 @@ article {
 .file-uploader {
   display: flex 1 1;
   background-color: rgba(61, 61, 61, 0.2078431373);
-  background: linear-gradient(to bottom, rgba(44, 165, 226, 0.953) 0%, rgba(78, 45, 226, 0.0588235294) 25%);
-  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.132) inset;
+  background: vars.$preview-bg-color;
   border-radius: 8px;
   align-content: center;
   min-height: 215px;
