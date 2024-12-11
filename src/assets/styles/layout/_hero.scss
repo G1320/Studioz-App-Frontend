@@ -1,12 +1,13 @@
 .hero {
   display: grid;
   place-items: center;
-  justify-content: start;
+  justify-items: start;
   min-height: 7rem;
   width: 100%;
   .hero-header {
     text-wrap: nowrap;
-    font-size: 1.5em;
+    font-size: clamp(1.5rem, 2.9vw, 2.5rem);
+
     align-self: center;
     justify-self: start;
   }
@@ -24,6 +25,7 @@
     grid-column: 1;
     max-height: max-content;
     min-width: 360px;
+    justify-self: start;
     align-self: center;
     overflow: hidden;
     display: -webkit-box;
