@@ -4,6 +4,7 @@ header {
   grid-area: header;
   position: sticky;
   top: 0;
+  height: 2.5rem;
   display: grid;
   grid-template-columns: max-content repeat(5, 1fr) 40px;
   grid-template-rows: 1fr;
@@ -67,16 +68,17 @@ header {
 
   .cart-options-container {
     display: flex;
+    align-items: center;
+
     gap: 0.5rem;
     grid-column: 6 / span 2;
     justify-self: end;
   }
 
   .header-search-button-container {
-    display: flex;
-    align-items: center;
-    width: 36px;
-    justify-content: center;
+    width: 24px;
+    height: 24px;
+    align-self: center;
     cursor: pointer;
   }
 
