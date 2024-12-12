@@ -1,4 +1,5 @@
 .generic-form {
+  display: grid;
   max-width: 600px;
   min-width: min-content;
   margin: 0 auto;
@@ -10,6 +11,7 @@
 
   .form-group {
     margin-bottom: 1.25rem;
+    grid-column: span 2;
 
     .form-label {
       display: block;
@@ -43,6 +45,12 @@
     }
   }
 
+  .form-actions {
+    justify-self: end;
+    margin-inline-end: 2.5rem;
+    margin-block-start: 2.5rem;
+  }
+
   .checkbox-group {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -50,6 +58,28 @@
     padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid #ccc;
+    label {
+      cursor: pointer;
+    }
+  }
+
+  .form-group:nth-of-type(5) {
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+  }
+
+  .form-group:nth-of-type(6),
+  .form-group:nth-of-type(7) {
+    display: flex;
+    white-space: nowrap;
+    gap: 0.5rem;
+    width: 50%;
+    grid-row: 6;
+    grid-column: span 1;
+    justify-self: start;
   }
 
   .multiselect-option {
@@ -85,7 +115,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    height: 2rem;
+    height: max-content;
 
     .switch-group {
       display: flex;
@@ -210,6 +240,19 @@
         outline: none;
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .generic-form {
+    .form-group:nth-of-type(6),
+    .form-group:nth-of-type(7) {
+      display: grid;
+      justify-self: center;
+    }
+    .form-actions {
+      margin-inline-end: 1rem;
     }
   }
 }
