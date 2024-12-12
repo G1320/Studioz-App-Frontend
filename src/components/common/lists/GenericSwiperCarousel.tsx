@@ -112,6 +112,24 @@ export const GenericCarousel = <T,>({
             firstSlideMessage: 'This is the first slide',
             lastSlideMessage: 'This is the last slide'
           }}
+          onProgress={(swiper) => {
+            swiper.slides.forEach((slide) => {
+              const slideLeft = slide.offsetLeft;
+              const slideRight = slideLeft + slide.offsetWidth;
+              const containerLeft = swiper.wrapperEl.scrollLeft;
+              const containerRight = containerLeft + swiper.width;
+
+              const isPartiallyVisible = isRTL
+                ? slideRight > containerLeft && slideLeft < containerLeft
+                : slideLeft < containerRight && slideRight > containerRight;
+
+              if (isPartiallyVisible) {
+                slide.classList.add('dimmed');
+              } else {
+                slide.classList.remove('dimmed');
+              }
+            });
+          }}
           onSlideChange={(swiper) => {
             const currentIndex = swiper.activeIndex;
             const slidesPerView = Math.floor(swiper.params.slidesPerView as number);

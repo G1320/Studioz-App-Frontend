@@ -26,6 +26,11 @@
     overflow: hidden;
   }
 
+  .swiper-slide.dimmed {
+    opacity: 0.8;
+    transition: opacity 0.005s ease-in-out;
+  }
+
   .swiper-navigation-wrapper {
     position: relative;
     height: 100%;
