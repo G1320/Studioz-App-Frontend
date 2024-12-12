@@ -43,7 +43,6 @@
   .see-all-container {
     white-space: nowrap;
     height: 2rem;
-    // padding: 1rem 0;
     width: 84px;
     align-content: center;
     align-self: center;
@@ -102,6 +101,9 @@
   .generic-carousel {
     .swiper-navigation {
       display: none;
+    }
+    .swiper-slide.dimmed {
+      opacity: 0.9;
     }
     .swiper-navigation-title-container {
       grid-template-columns: repeat(2, 1fr);

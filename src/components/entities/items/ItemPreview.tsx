@@ -12,7 +12,8 @@ import {
   useAddItemToWishlistMutation,
   useLanguageNavigate,
   useRemoveItemFromStudioMutation,
-  useRemoveItemFromWishlistMutation
+  useRemoveItemFromWishlistMutation,
+  useStudio
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Item, Wishlist } from 'src/types/index';
@@ -32,6 +33,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t } = useTranslation('common');
 
+  const { data: studioObj } = useStudio(item?.studioId);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const datePickerRef = useRef<MuiDateTimePickerRef>(null);
@@ -44,6 +46,11 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   const handleBookNow = () => {
     if (isDatePickerOpen) return handleDatePickerClose();
+    // const currStudio = studioObj?.currStudio;
+    if (studioObj) {
+      console.log('currStudio.studioAvailability: ', studioObj?.currStudio.studioAvailability);
+      console.log('item.availability: ', item.availability);
+    }
 
     setIsDatePickerOpen(true);
     if (datePickerRef.current) {
@@ -156,6 +163,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
           open={isDatePickerOpen}
           onClose={handleDatePickerClose}
           availability={item.availability}
+          studioAvailability={studioObj?.currStudio.studioAvailability}
         />
       </div>
     </article>

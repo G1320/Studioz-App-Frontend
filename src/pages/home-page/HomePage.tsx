@@ -46,7 +46,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
           1200: { slidesPerView: 6.2 },
           1550: { slidesPerView: 7.2 }
         }}
-        // seeAllPath="/studios/music"
       />
       <GenericCarousel
         data={studios}

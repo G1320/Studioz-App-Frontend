@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FileUploader, GenericForm, FieldType } from '@components/index';
 import {
+  useDays,
   useMusicCategories,
   useMusicSubCategories,
   usePhotoCategories,
@@ -13,6 +14,7 @@ import { uploadFile } from '@services/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@utils/compareArrays';
+import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
 interface FormData {
   coverImage?: string;
@@ -21,6 +23,7 @@ interface FormData {
   galleryAudioFiles?: string[];
   categories?: string[];
   subCategories?: string[];
+  studioAvailability?: StudioAvailability;
 }
 
 export const EditStudioForm = () => {
@@ -32,6 +35,8 @@ export const EditStudioForm = () => {
   const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const daysOfWeek = useDays() as DayOfWeek[];
+  const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
 
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
@@ -43,6 +48,10 @@ export const EditStudioForm = () => {
   // const [subCategories, setSubCategories] = useState<string[]>(
   //   studio?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
   // );
+
+  const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysOfWeek);
+  const [openingHour, setOpeningHour] = useState<string>('09:00');
+  const [closingHour, setClosingHour] = useState<string>('17:00');
 
   const [galleryImages, setGalleryImages] = useState<string[]>(studio?.galleryImages || []);
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');
@@ -57,6 +66,16 @@ export const EditStudioForm = () => {
 
   const handleSubCategoryChange = (value: string[]) => {
     setSelectedSubCategories(value);
+  };
+
+  const handleDaysChange = (values: string[]) => {
+    setOpenDays(values as DayOfWeek[]);
+  };
+  const handleOpeningHourChange = (values: string) => {
+    setOpeningHour(values);
+  };
+  const handleClosingHourChange = (values: string) => {
+    setClosingHour(values);
   };
 
   const fields = [
@@ -77,6 +96,30 @@ export const EditStudioForm = () => {
       options: subCategories,
       value: selectedSubCategories,
       onChange: handleSubCategoryChange
+    },
+    {
+      name: 'openDays',
+      label: 'Days of Operation',
+      type: 'multiSelect' as FieldType,
+      options: daysOfWeek,
+      value: openDays,
+      onChange: handleDaysChange
+    },
+    {
+      name: 'openingHour',
+      label: 'Opening Hour',
+      type: 'select' as FieldType,
+      options: hourOptions,
+      value: openingHour,
+      onChange: handleOpeningHourChange
+    },
+    {
+      name: 'closingHour',
+      label: 'Closing Hour',
+      type: 'select' as FieldType,
+      options: hourOptions,
+      value: closingHour,
+      onChange: handleClosingHourChange
     },
     { name: 'city', label: 'City', type: 'text' as FieldType, value: studio?.city },
     { name: 'address', label: 'Address', type: 'text' as FieldType, value: studio?.address },
@@ -102,7 +145,7 @@ export const EditStudioForm = () => {
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
     formData.galleryAudioFiles = galleryAudioFiles;
-
+    formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
     updateStudioMutation.mutate(formData as Studio, {
       onSuccess: () => toast.success('Studio updated successfully'),
       onError: () => toast.error('Failed to update studio')
