@@ -24,6 +24,15 @@
     "wishlists": "Wishlists",
     "list_studio": "List Studio"
   },
+  "days": {
+    "sunday": "Sunday",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday"
+  },
   "errors": {
     "required": "This field is required",
     "invalid": "Invalid input",

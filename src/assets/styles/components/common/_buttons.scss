@@ -1,4 +1,4 @@
-@use '../../utilities//variables' as vars;
+@use '../../utilities/variables' as vars;
 button {
   display: flex;
   height: 1.5rem;
@@ -49,7 +49,7 @@ button:is(.add-to-cart-button) {
     box-shadow 0.2s ease;
 }
 
-.checkout-btn {
+.checkout-button {
   display: inline-block;
   width: calc(100% - 2rem);
   padding: 0.8rem 1rem;

@@ -1,11 +1,15 @@
-// shared/types/studio.ts
-import { Availability } from './availability';
 import StudioItem from './studioItem';
 
 type StudioLocation = {
   type: 'Point';
   coordinates: [number, number]; // [longitude, latitude]
 };
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+
+export interface StudioAvailability {
+  days: DayOfWeek[];
+  times: { start: string; end: string }[];
+}
 
 export default interface Studio {
   _id: string;
@@ -29,6 +33,8 @@ export default interface Studio {
   createdBy: string;
   isFeatured?: boolean;
   items: StudioItem[];
-  availability?: Availability[];
+  studioAvailability?: StudioAvailability;
+  // availability?: Availability[];
+
   location: StudioLocation;
 }

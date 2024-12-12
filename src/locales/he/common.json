@@ -24,6 +24,15 @@
     "wishlists": "רשימות",
     "list_studio": "יצירה"
   },
+  "days": {
+    "sunday": "ראשון",
+    "monday": "שני",
+    "tuesday": "שלישי",
+    "wednesday": "רביעי",
+    "thursday": "חמישי",
+    "friday": "שישי",
+    "saturday": "שבת"
+  },
   "errors": {
     "required": "שדה זה נדרש",
     "invalid": "קלט לא תקין",

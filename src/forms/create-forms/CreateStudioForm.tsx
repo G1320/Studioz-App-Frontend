@@ -7,11 +7,13 @@ import {
   useMusicCategories,
   useMusicSubCategories,
   usePhotoCategories,
-  usePhotoSubCategories
+  usePhotoSubCategories,
+  useDays
 } from '@hooks/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@utils/compareArrays';
+import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
 interface FormData {
   coverImage?: string;
@@ -20,6 +22,7 @@ interface FormData {
   galleryAudioFiles?: string[];
   categories?: string[];
   subCategories?: string[];
+  studioAvailability?: StudioAvailability;
 }
 
 export const CreateStudioForm = () => {
@@ -28,6 +31,7 @@ export const CreateStudioForm = () => {
   const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const daysOfWeek = useDays() as DayOfWeek[];
 
   const createStudioMutation = useCreateStudioMutation();
 
@@ -38,6 +42,12 @@ export const CreateStudioForm = () => {
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
+  const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysOfWeek);
+  const [openingHour, setOpeningHour] = useState<string>('09:00');
+  const [closingHour, setClosingHour] = useState<string>('17:00');
+
+  const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
+
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
     const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategories : photoSubCategories;
@@ -47,6 +57,16 @@ export const CreateStudioForm = () => {
 
   const handleSubCategoryChange = (value: string[]) => {
     setSelectedSubCategories(value);
+  };
+
+  const handleDaysChange = (values: string[]) => {
+    setOpenDays(values as DayOfWeek[]);
+  };
+  const handleOpeningHourChange = (values: string) => {
+    setOpeningHour(values);
+  };
+  const handleClosingHourChange = (values: string) => {
+    setClosingHour(values);
   };
 
   const fields = [
@@ -68,6 +88,30 @@ export const CreateStudioForm = () => {
       value: selectedSubCategories,
       onChange: handleSubCategoryChange
     },
+    {
+      name: 'openDays',
+      label: 'Days of Operation',
+      type: 'multiSelect' as FieldType,
+      options: daysOfWeek,
+      value: openDays,
+      onChange: handleDaysChange
+    },
+    {
+      name: 'openingHour',
+      label: 'Opening Hour',
+      type: 'select' as FieldType,
+      options: hourOptions,
+      value: openingHour,
+      onChange: handleOpeningHourChange
+    },
+    {
+      name: 'closingHour',
+      label: 'Closing Hour',
+      type: 'select' as FieldType,
+      options: hourOptions,
+      value: closingHour,
+      onChange: handleClosingHourChange
+    },
     { name: 'city', label: 'City', type: 'text' as FieldType },
     { name: 'address', label: 'Address', type: 'text' as FieldType },
 
@@ -84,6 +128,7 @@ export const CreateStudioForm = () => {
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
+    formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
     createStudioMutation.mutate({ userId: user?._id || '', newStudio: formData as Studio });
   };
 
