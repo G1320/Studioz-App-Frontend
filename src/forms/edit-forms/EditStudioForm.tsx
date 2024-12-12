@@ -49,9 +49,9 @@ export const EditStudioForm = () => {
   //   studio?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
   // );
 
-  const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysOfWeek);
-  const [openingHour, setOpeningHour] = useState<string>('09:00');
-  const [closingHour, setClosingHour] = useState<string>('17:00');
+  const [openDays, setOpenDays] = useState<DayOfWeek[]>(studio?.studioAvailability?.days || daysOfWeek);
+  const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
+  const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 
   const [galleryImages, setGalleryImages] = useState<string[]>(studio?.galleryImages || []);
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');
