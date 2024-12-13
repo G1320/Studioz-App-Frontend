@@ -73,6 +73,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
           onClick={() => onSetPreviewImage?.(currCoverImage)}
         />
       )}
+      <div className="cover-image-overlay"></div>
       <span className="title-container">
         {title && <h1 className="gallery-title">{title}</h1>}
         {subTitle && <h3 className="gallery-title">{subTitle}</h3>}
