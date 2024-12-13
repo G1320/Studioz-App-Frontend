@@ -146,10 +146,7 @@ export const EditStudioForm = () => {
     formData.subCategories = selectedSubCategories;
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
-    updateStudioMutation.mutate(formData as Studio, {
-      onSuccess: () => toast.success('Studio updated successfully'),
-      onError: () => toast.error('Failed to update studio')
-    });
+    updateStudioMutation.mutate(formData as Studio);
   };
 
   const handleFileUpload = async (files: File[], type: string) => {

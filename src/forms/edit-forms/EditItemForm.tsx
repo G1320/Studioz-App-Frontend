@@ -79,10 +79,7 @@ export const EditItemForm = () => {
     formData.categories = selectedCategories;
     formData.subCategory = selectedSubCategory;
 
-    updateItemMutation.mutate(formData as Item, {
-      onSuccess: () => toast.success('Item updated successfully'),
-      onError: () => toast.error('Failed to update item')
-    });
+    updateItemMutation.mutate(formData as Item);
   };
 
   const handleFileUpload = async (files: File[], type: string) => {
