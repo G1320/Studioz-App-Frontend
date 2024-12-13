@@ -1,19 +1,13 @@
-import { useState, useEffect } from 'react';
+import { GenericCarousel } from '@components/common';
+import { StudioDetails, ContinueToCheckoutButton, ItemPreview } from '@components/index';
+import StudioOptions from '@components/entities/studios/StudioOptions'; // Adjust the path as needed
+import { useUserContext } from '@contexts/UserContext';
+import { useStudio, useWishlists } from '@hooks/dataFetching';
+import { useAddStudioToWishlistMutation } from '@hooks/mutations';
+import { useLanguageNavigate } from '@hooks/utils';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  Button,
-  GenericMuiDropdown,
-  WishlistPreview,
-  StudioPreview,
-  GenericCarousel,
-  ItemPreview,
-  ContinueToCheckoutButton
-} from '@components/index';
-import { useStudio, useAddStudioToWishlistMutation, useWishlists, useLanguageNavigate } from '@hooks/index';
-import { Cart, Item, Wishlist } from 'src/types/index';
-import { useUserContext } from '@contexts/index';
-import { toast } from 'sonner';
-import { usePrefetchStudio } from '@hooks/prefetching/index';
+import { Cart, Item, Studio, User } from 'src/types/index';
 
 interface StudioDetailsPageProps {
   items: Item[];
@@ -30,8 +24,6 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const { currStudio, nextStudio, prevStudio } = studioObj || {};
 
-  const prefetchStudio = usePrefetchStudio(nextStudio?._id || '');
-
   const addItemToWishlistMutation = useAddStudioToWishlistMutation(studioId || '');
 
   useEffect(() => {
@@ -41,61 +33,26 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
     }
   }, [studioObj, currStudio, items]);
 
-  const handleAddItemToWishlist = async (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
-  const handlePagination = (nextId: string) =>
-    nextId ? langNavigate(`/studio/${nextId}`) : toast.error('No more studios');
+  const handleAddToWishlist = async (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
-
-  const dropdownRenderItem = (wishlist: Wishlist) => (
-    <WishlistPreview
-      wishlist={wishlist}
-      key={wishlist._id}
-      onAddItemToWishList={() => handleAddItemToWishlist(wishlist._id)}
-    />
-  );
+  const handleAddNewService = (studioId: string) =>
+    studioId ? langNavigate(`/create-item/${currStudio?.name}/${studioId}`) : null;
 
   const getStudioServicesDisplayName = (name: string) => (name?.length > 1 ? `${name}'s Services` : '');
 
   return (
     <section className="details studio-details-page">
-      <StudioPreview studio={currStudio} />
-      <div>
-        <div className="studio-details-options-container">
-          <section className="details-buttons item-details-buttons">
-            <div>
-              {currStudio && user?._id === currStudio?.createdBy && (
-                <Button onClick={() => handleGoToEdit(currStudio?._id || '')}>Edit</Button>
-              )}
-              <Button onMouseEnter={prefetchStudio} onClick={() => handlePagination(prevStudio?._id || '')}>
-                Prev
-              </Button>
-              <Button onMouseEnter={prefetchStudio} onClick={() => handlePagination(nextStudio?._id || '')}>
-                Next
-              </Button>
-            </div>
-            <div>
-              {user && (
-                <>
-                  <GenericMuiDropdown
-                    data={wishlists}
-                    renderItem={dropdownRenderItem}
-                    className="item-details-wishlists-dropdown add-button"
-                    title="Add to Wishlist"
-                  />
-                  {user?._id === currStudio?.createdBy && (
-                    <Button
-                      className="add-button"
-                      onClick={() => langNavigate(`/create-item/${currStudio?.name}/${currStudio?._id}`)}
-                    >
-                      Add new Service
-                    </Button>
-                  )}
-                </>
-              )}
-            </div>
-          </section>
-        </div>
-      </div>
+      <StudioDetails studio={currStudio} />
+      <StudioOptions
+        currStudio={currStudio as Studio}
+        user={user as User}
+        wishlists={wishlists}
+        nextStudioId={nextStudio?._id}
+        prevStudioId={prevStudio?._id}
+        onEdit={handleGoToEdit}
+        onAddNewService={handleAddNewService}
+        onAddToWishlist={handleAddToWishlist}
+      />
       <GenericCarousel
         title={(() => getStudioServicesDisplayName(currStudio?.name || ''))()}
         data={filteredItems}
@@ -105,4 +62,5 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
     </section>
   );
 };
+
 export default StudioDetailsPage;

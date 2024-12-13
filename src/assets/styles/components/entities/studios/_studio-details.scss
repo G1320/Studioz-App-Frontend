@@ -1,0 +1,104 @@
+.studio-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0rem;
+  margin-block-start: -0.5rem;
+
+  .cover-image {
+    max-width: calc(100%);
+    height: auto;
+    object-fit: cover;
+  }
+
+  .gallery-images-list {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+
+    .gallery-image {
+    }
+  }
+
+  .studio-details-name-and-city {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #f1f1f1;
+    }
+
+    .city {
+      font-size: 0.9rem;
+      color: #c2c2c2;
+    }
+  }
+
+  .availability {
+    background: transparent;
+    color: #e2e2e2;
+    padding: 1rem;
+    border-radius: 8px;
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #f1f1f1;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        strong {
+          color: #f1f1f1;
+          min-width: 80px;
+        }
+      }
+    }
+  }
+
+  .description {
+    font-size: 1rem;
+    color: #e2e2e2;
+    line-height: 1.6;
+  }
+
+  .options-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    div {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      p {
+        font-size: 0.9rem;
+        color: #f1f1f1;
+      }
+    }
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #f1f1f1;
+    margin-top: 1rem;
+  }
+}
