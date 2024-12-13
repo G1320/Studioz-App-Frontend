@@ -32,9 +32,8 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio }) => {
       {/* <h1 className="title">{studio?.name}</h1> */}
 
       <div className="info">
-        <h3>Opening Hours</h3>
+        <h3>Open:</h3>
         <p>{formatOpeningHours(studio?.studioAvailability || { days: [], times: [] })}</p>
-        <small className="city">{studio?.city}</small>
       </div>
       <p className="description">{studio?.description}</p>
       <div className="options-wrapper">

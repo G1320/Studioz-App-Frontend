@@ -13,6 +13,7 @@ export const useMusicSubCategories = () => {
     t('subCategories.musicAndPodcast.film_post_production'),
     t('subCategories.musicAndPodcast.voiceover_dubbing'),
     t('subCategories.musicAndPodcast.studio_rental'),
+    t('subCategories.musicAndPodcast.band_rehearsal'),
     t('subCategories.musicAndPodcast.foley_sound_effects'),
     t('subCategories.musicAndPodcast.workshops_classes'),
     t('subCategories.musicAndPodcast.remote_production_services'),

@@ -1,6 +1,6 @@
 .studio-details {
   display: grid;
-  gap: 1.5rem;
+  gap: 0.5rem;
   width: 100%;
   max-width: 1540px;
   margin: 0;
@@ -29,7 +29,6 @@
       justify-self: center;
 
       width: clamp(100%, 100%, 100vw);
-      max-width: 1540px;
       aspect-ratio: 2 / 1;
       height: auto;
       max-height: 600px;
