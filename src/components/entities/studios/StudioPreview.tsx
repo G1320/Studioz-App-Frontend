@@ -1,7 +1,6 @@
-import { useLocation } from 'react-router-dom';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, GenericAudioGallery } from '@components/index';
+import { GenericImageGallery } from '@components/index';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@hooks/prefetching/index';
 import { useLanguageNavigate } from '@hooks/utils';
@@ -12,10 +11,7 @@ interface StudioPreviewProps {
 
 export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
   const langNavigate = useLanguageNavigate();
-  const location = useLocation();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
-
-  const isStudioPath = /^\/(en|he)?\/studio($|\/)/.test(location.pathname);
 
   return (
     <article
@@ -28,15 +24,9 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
         entity={studio}
         coverImage={studio?.coverImage}
         galleryImages={studio?.galleryImages}
-        isGalleryImagesShown={isStudioPath}
+        isGalleryImagesShown={false}
       />
-      {isStudioPath && (
-        <GenericAudioGallery
-          coverAudioFile={studio?.coverAudioFile}
-          audioFiles={studio?.galleryAudioFiles}
-          isAudioFilesShown={isStudioPath}
-        />
-      )}
+
       <div className="studio-preview-name-and-city">
         <h3 className="title">{studio?.name}</h3>
         <small className="city">{studio?.city}</small>

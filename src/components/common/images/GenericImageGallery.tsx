@@ -9,6 +9,8 @@ interface GenericImageGalleryProps {
   isCoverShown?: boolean;
   entity?: { name?: string } | null;
   coverImage?: string;
+  title?: string;
+  subTitle?: string;
   galleryImages?: string[];
   onSetPreviewImage?: (image: string) => void;
 }
@@ -20,7 +22,9 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   entity,
   coverImage,
   galleryImages,
-  onSetPreviewImage
+  onSetPreviewImage,
+  title,
+  subTitle
 }) => {
   const combinedGalleryImages =
     coverImage && !galleryImages?.includes(coverImage) ? [coverImage, ...(galleryImages || [])] : galleryImages || [];
@@ -69,6 +73,10 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
           onClick={() => onSetPreviewImage?.(currCoverImage)}
         />
       )}
+      <span className="title-container">
+        {title && <h1 className="gallery-title">{title}</h1>}
+        {subTitle && <h3 className="gallery-title">{subTitle}</h3>}
+      </span>
       {isGalleryImagesShown && galleryImages && (
         <GenericList data={combinedGalleryImages} renderItem={renderItem} className="files-list gallery-images-list" />
       )}

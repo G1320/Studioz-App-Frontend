@@ -8,6 +8,17 @@ interface StudioDetailsProps {
 }
 
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio }) => {
+  const formatOpeningHours = (availability: { days: string[]; times: { start: string; end: string }[] }) => {
+    if (!availability || !availability.days.length || !availability.times.length) return 'Closed';
+
+    const days =
+      availability.days.length > 1
+        ? `${availability.days[0]} - ${availability.days[availability.days.length - 1]}`
+        : availability.days[0];
+    const time = `${availability.times[0].start} - ${availability.times[0].end}`;
+    return `${days}: ${time}`;
+  };
+
   return (
     <article key={studio?._id} className="details studio-details">
       <GenericImageGallery
@@ -15,22 +26,15 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio }) => {
         coverImage={studio?.coverImage}
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={true}
+        title={studio?.name}
+        subTitle={studio?.city}
       />
-      <div className="studio-details-name-and-city">
-        <h3 className="title">{studio?.name}</h3>
-        <small className="city">{studio?.city}</small>
-      </div>
+      {/* <h1 className="title">{studio?.name}</h1> */}
 
-      <div className="availability">
+      <div className="info">
         <h3>Opening Hours</h3>
-        <ul>
-          {studio?.studioAvailability?.days.map((day, index) => (
-            <li key={index}>
-              <strong>{day}:</strong> {studio.studioAvailability?.times[0]?.start || 'Closed'} -{' '}
-              {studio.studioAvailability?.times[0]?.end || 'Closed'}
-            </li>
-          ))}
-        </ul>
+        <p>{formatOpeningHours(studio?.studioAvailability || { days: [], times: [] })}</p>
+        <small className="city">{studio?.city}</small>
       </div>
       <p className="description">{studio?.description}</p>
       <div className="options-wrapper">
