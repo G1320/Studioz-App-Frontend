@@ -1,3 +1,5 @@
+@use '../../../utilities//variables' as vars;
+
 .studio-details {
   display: grid;
   gap: 0.5rem;
@@ -56,16 +58,34 @@
     color: #c2c2c2;
   }
 
-  .info {
+  .info-option-container {
     justify-self: start;
     display: flex;
     align-items: center;
+    width: calc(100% - 2rem);
     gap: 0.5rem;
     background: transparent;
     color: #e2e2e2;
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border-top: 0.5px solid #f1f1f1;
+    border-bottom: 0.5px solid #f1f1f1;
+    p {
+      white-space: nowrap;
+    }
+    .studio-details-options-container {
+      width: 100%;
+      justify-content: flex-end;
 
+      .studio-details-buttons {
+        display: flex;
+        button {
+          padding: 0.25rem;
+          background-color: transparent;
+          border: none;
+          color: vars.$color-brand;
+        }
+      }
+    }
     h3 {
       font-size: 1.25rem;
       font-weight: bold;

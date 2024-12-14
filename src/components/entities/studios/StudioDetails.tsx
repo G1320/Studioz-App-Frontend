@@ -1,13 +1,23 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery } from '@components/index';
-import { Studio } from 'src/types/index';
+import { Studio, User } from 'src/types/index';
+import { useWishlists } from '@hooks/dataFetching';
+import { useLanguageNavigate } from '@hooks/utils';
+import StudioOptions from './StudioOptions';
+import { useAddStudioToWishlistMutation } from '@hooks/mutations';
 
 interface StudioDetailsProps {
   studio?: Studio;
+  user: User | null;
 }
 
-export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio }) => {
+export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
+  const addItemToWishlistMutation = useAddStudioToWishlistMutation(studio?._id || '');
+
+  const langNavigate = useLanguageNavigate();
+
   const formatOpeningHours = (availability: { days: string[]; times: { start: string; end: string }[] }) => {
     if (!availability || !availability.days.length || !availability.times.length) return 'Closed';
 
@@ -19,6 +29,11 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio }) => {
     return `${days}: ${time}`;
   };
 
+  const handleAddToWishlist = async (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
+  const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
+  const handleAddNewService = (studioId: string) =>
+    studioId ? langNavigate(`/create-item/${studio?.name}/${studioId}`) : null;
+
   return (
     <article key={studio?._id} className="details studio-details">
       <GenericImageGallery
@@ -29,11 +44,18 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio }) => {
         title={studio?.name}
         subTitle={studio?.city}
       />
-      {/* <h1 className="title">{studio?.name}</h1> */}
 
-      <div className="info">
+      <div className="info-option-container">
         <h3>Open:</h3>
         <p>{formatOpeningHours(studio?.studioAvailability || { days: [], times: [] })}</p>
+        <StudioOptions
+          currStudio={studio as Studio}
+          user={user as User}
+          wishlists={wishlists}
+          onEdit={handleGoToEdit}
+          onAddNewService={handleAddNewService}
+          onAddToWishlist={handleAddToWishlist}
+        />
       </div>
       <p className="description">{studio?.description}</p>
       <div className="options-wrapper">
