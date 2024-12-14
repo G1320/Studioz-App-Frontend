@@ -90,7 +90,8 @@ export const CreateItemForm = () => {
 
   return (
     <section>
-      <FileUploader fileType="image" onFileUpload={handleFileUpload} galleryFiles={galleryImages} />
+      <h1>Add a new Service</h1>
+      {/* <FileUploader fileType="image" onFileUpload={handleFileUpload} galleryFiles={galleryImages} /> */}
       <section className="form-wrapper create-item-form-wrapper">
         <GenericForm className="create-item-form" title={studioName} fields={fields} onSubmit={handleSubmit} />
       </section>

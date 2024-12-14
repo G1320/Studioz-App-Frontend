@@ -1,50 +1,32 @@
-import { Button, GenericMuiDropdown, WishlistPreview } from '@components/index';
+import { Button } from '@components/index';
 import { Studio, User, Wishlist } from 'src/types/index';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 interface StudioOptionsProps {
-  currStudio: Studio;
+  studio: Studio;
   user: User;
   wishlists: Wishlist[];
   nextStudioId?: string;
   prevStudioId?: string;
   onEdit: (studioId: string) => void;
   onAddNewService: (studioId: string) => void;
-  onAddToWishlist: (wishlistId: string) => void;
 }
 
-const StudioOptions: React.FC<StudioOptionsProps> = ({
-  currStudio,
-  user,
-  wishlists,
-  onEdit,
-  onAddNewService,
-  onAddToWishlist
-}) => {
-  const dropdownRenderItem = (wishlist: Wishlist) => (
-    <WishlistPreview wishlist={wishlist} key={wishlist._id} onAddItemToWishList={() => onAddToWishlist(wishlist._id)} />
-  );
-
+const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEdit, onAddNewService }) => {
   return (
     <section className="studio-details-options-container">
       <div className="details-buttons studio-details-buttons">
-        {currStudio && user?._id === currStudio?.createdBy && (
+        {studio && user?._id === studio?.createdBy && (
           <div>
-            <Button onClick={() => onEdit(currStudio?._id || '')}>Edit</Button>
-            <Button className="add-button" onClick={() => onAddNewService(currStudio?._id || '')}>
-              Add new Service
+            <Button className="add-button" onClick={() => onAddNewService(studio?._id || '')}>
+              <LibraryAddIcon />
+            </Button>
+            <Button onClick={() => onEdit(studio?._id || '')}>
+              <EditNoteIcon />
             </Button>
           </div>
         )}
-        <div>
-          {user && (
-            <GenericMuiDropdown
-              data={wishlists}
-              renderItem={dropdownRenderItem}
-              className="studio-details-wishlists-dropdown add-button"
-              title="Add to Wishlist"
-            />
-          )}
-        </div>
       </div>
     </section>
   );

@@ -6,7 +6,6 @@ import { Studio, User } from 'src/types/index';
 import { useWishlists } from '@hooks/dataFetching';
 import { useLanguageNavigate } from '@hooks/utils';
 import StudioOptions from './StudioOptions';
-import { useAddStudioToWishlistMutation } from '@hooks/mutations';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -15,7 +14,6 @@ interface StudioDetailsProps {
 
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {
   const { data: wishlists = [] } = useWishlists(user?._id || '');
-  const addItemToWishlistMutation = useAddStudioToWishlistMutation(studio?._id || '');
 
   const langNavigate = useLanguageNavigate();
 
@@ -30,7 +28,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
     return `${days}: ${time}`;
   };
 
-  const handleAddToWishlist = async (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
     studioId ? langNavigate(`/create-item/${studio?.name}/${studioId}`) : null;
@@ -47,15 +44,14 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       />
 
       <div className="info-option-container">
-        <AccessTimeIcon>Open:</AccessTimeIcon>
+        <AccessTimeIcon />
         <p>{formatOpeningHours(studio?.studioAvailability || { days: [], times: [] })}</p>
         <StudioOptions
-          currStudio={studio as Studio}
+          studio={studio as Studio}
           user={user as User}
           wishlists={wishlists}
           onEdit={handleGoToEdit}
           onAddNewService={handleAddNewService}
-          onAddToWishlist={handleAddToWishlist}
         />
       </div>
       <p className="description">{studio?.description}</p>
