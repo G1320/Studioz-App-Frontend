@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { FileUploader, GenericForm, FieldType } from '@components/index';
-import { getLocalUser, uploadFile } from '@services/index';
-import { toast } from 'sonner';
+import { GenericForm, FieldType } from '@components/index';
+import { getLocalUser } from '@services/index';
 import {
   useCreateItemMutation,
   useMusicCategories,
@@ -25,7 +24,6 @@ export const CreateItemForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([musicSubCategories[0]]);
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
   interface FormData {
     coverImage?: string;
@@ -48,15 +46,7 @@ export const CreateItemForm = () => {
     setSelectedSubCategories(values);
   };
 
-  const handleFileUpload = async (files: File[]) => {
-    const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
-    const fileUrls = results.map((result) => result.secure_url);
-    setGalleryImages(fileUrls);
-    toast.success('Images uploaded successfully');
-  };
-
   const handleSubmit = async (formData: FormData) => {
-    formData.coverImage = galleryImages[0];
     formData.createdBy = user?._id || '';
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
@@ -91,7 +81,6 @@ export const CreateItemForm = () => {
   return (
     <section>
       <h1>Add a new Service</h1>
-      {/* <FileUploader fileType="image" onFileUpload={handleFileUpload} galleryFiles={galleryImages} /> */}
       <section className="form-wrapper create-item-form-wrapper">
         <GenericForm className="create-item-form" title={studioName} fields={fields} onSubmit={handleSubmit} />
       </section>
