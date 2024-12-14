@@ -27,26 +27,22 @@ const StudioOptions: React.FC<StudioOptionsProps> = ({
   return (
     <section className="studio-details-options-container">
       <div className="details-buttons studio-details-buttons">
-        <div>
-          {currStudio && user?._id === currStudio?.createdBy && (
-            <div>
-              <Button onClick={() => onEdit(currStudio?._id || '')}>Edit</Button>
-              <Button className="add-button" onClick={() => onAddNewService(currStudio?._id || '')}>
-                Add new Service
-              </Button>
-            </div>
-          )}
-        </div>
+        {currStudio && user?._id === currStudio?.createdBy && (
+          <div>
+            <Button onClick={() => onEdit(currStudio?._id || '')}>Edit</Button>
+            <Button className="add-button" onClick={() => onAddNewService(currStudio?._id || '')}>
+              Add new Service
+            </Button>
+          </div>
+        )}
         <div>
           {user && (
-            <div>
-              <GenericMuiDropdown
-                data={wishlists}
-                renderItem={dropdownRenderItem}
-                className="studio-details-wishlists-dropdown add-button"
-                title="Add to Wishlist"
-              />
-            </div>
+            <GenericMuiDropdown
+              data={wishlists}
+              renderItem={dropdownRenderItem}
+              className="studio-details-wishlists-dropdown add-button"
+              title="Add to Wishlist"
+            />
           )}
         </div>
       </div>
