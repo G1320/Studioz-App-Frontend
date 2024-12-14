@@ -3,6 +3,7 @@
 article {
   gap: 1rem;
   display: grid;
+  margin-block-end: 1rem;
 }
 
 .file-uploader {
@@ -22,10 +23,12 @@ article {
   small {
     height: max-content;
   }
+
   .file-uploader-content-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
+
     img {
       max-width: calc(50%);
     }
