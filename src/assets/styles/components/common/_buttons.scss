@@ -56,7 +56,7 @@ button:is(.add-to-cart-button) {
   font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
-  background-color: black;
+  background-color: vars.$color-brand;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -67,7 +67,6 @@ button:is(.add-to-cart-button) {
     box-shadow 0.3s ease;
 
   &:hover {
-    background: linear-gradient(90deg, #333, #000);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   }
 }

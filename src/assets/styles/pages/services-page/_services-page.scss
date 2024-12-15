@@ -1,4 +1,6 @@
 .services-page {
+  display: grid;
   width: 100%;
   margin-block-end: 2.5rem;
+  justify-items: start;
 }

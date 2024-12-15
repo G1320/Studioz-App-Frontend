@@ -21,6 +21,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items }) => {
 
   return (
     <section className="services-page">
+      <h1>Browse our curated Services</h1>
       <ItemsList items={filteredItems?.length ? filteredItems : items} className="Items-list" />
     </section>
   );
