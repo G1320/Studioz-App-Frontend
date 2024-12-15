@@ -8,6 +8,7 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
+      "react": ["./node_modules/@types/react"],
       "@components/*": ["src/components/*"],
       "@config/*": ["src/config/*"],
       "@contexts/*": ["src/contexts/*"],

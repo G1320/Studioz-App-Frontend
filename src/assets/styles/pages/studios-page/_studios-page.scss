@@ -4,6 +4,9 @@
   justify-items: center;
   gap: 1rem;
   margin-block-end: 2.5rem;
+  .studios-list {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
 }
 
 .studios-list-container {

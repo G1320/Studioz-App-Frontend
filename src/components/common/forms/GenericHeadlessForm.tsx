@@ -1,6 +1,8 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+// import { AddressAutofill, SearchBox } from '@mapbox/search-js-react';
+import { useTranslation } from 'react-i18next';
 
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
 
@@ -14,6 +16,7 @@ interface GenericFormProps {
 }
 
 export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) => {
+  const { i18n } = useTranslation();
   const [checkboxStates, setCheckboxStates] = useState<Record<string, boolean>>(() =>
     fields.reduce(
       (acc, field) => {
@@ -39,12 +42,40 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
     onSubmit(data);
   };
 
+  console.log('i18n.language: ', i18n.language);
   return (
     <form className={`generic-form ${className}`} onSubmit={handleSubmit}>
       {fields.map((field) => {
         switch (field.type) {
           case 'text':
           case 'number':
+            // if (field.name === 'address') {
+            //   return (
+            //     <div key={field.name} className="form-group">
+            //       <label htmlFor={field.name} className="form-label">
+            //         {field.label}
+            //       </label>
+            //       <AddressAutofill
+            //         accessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
+            //         options={{
+            //           language: 'en',
+            //           country: 'IL'
+            //         }}
+            //       >
+            //         <input
+            //           type={field.type}
+            //           id={field.name}
+            //           name={field.name}
+            //           defaultValue={field.value}
+            //           className="form-input"
+            //           autoComplete="street-address address-line1"
+            //           placeholder={`Enter your ${field.name}...`}
+            //           required
+            //         />
+            //       </AddressAutofill>
+            //     </div>
+            //   );
+            // }
             return (
               <div key={field.name} className="form-group">
                 <label htmlFor={field.name} className="form-label">
