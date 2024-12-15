@@ -55,7 +55,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
           </p>
         </div>
       </div>
-      <h3>{studio?.items.length} Services Available</h3>
+      <small>{studio?.items.length} Services Available</small>
     </article>
   );
 };

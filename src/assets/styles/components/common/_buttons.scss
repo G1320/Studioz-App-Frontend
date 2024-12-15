@@ -36,6 +36,9 @@ button {
 button:is(.dropdown-toggle) {
   max-width: max-content;
   border: none;
+  background-color: transparent;
+  box-shadow: none;
+  color: vars.$color-brand;
 }
 
 button:is(.add-to-cart-button) {
