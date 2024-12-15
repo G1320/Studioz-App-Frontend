@@ -77,7 +77,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             {studio?.isWheelchairAccessible ? <Check /> : <Close />}
           </p>
         </div>
-        <h3>{studio?.items.length} Services Available</h3>
       </div>
     </article>
   );
