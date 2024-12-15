@@ -35,27 +35,34 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
-          <p id="occupancy" aria-label={`Maximum occupancy for ${studio?.name}: ${studio?.maxOccupancy || 0} people`}>
+          <span
+            id="occupancy"
+            aria-label={`Maximum occupancy for ${studio?.name}: ${studio?.maxOccupancy || 0} people`}
+          >
             {studio?.maxOccupancy || 0}
-          </p>
+          </span>
         </div>
         <div role="group" aria-labelledby="smoking">
           <SmokingRooms aria-label="Smoking icon" />
-          <p id="smoking" aria-label={`Smoking allowed at ${studio?.name}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}>
+          <span
+            id="smoking"
+            aria-label={`Smoking allowed at ${studio?.name}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
+          >
             {studio?.isSmokingAllowed ? <Check /> : <Close />}
-          </p>
+          </span>
         </div>
         <div role="group" aria-labelledby="accessible">
           <Accessible aria-label="Wheelchair accessible icon" />
-          <p
+          <span
             id="accessible"
             aria-label={`Wheelchair accessible at ${studio?.name}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
           >
             {studio?.isWheelchairAccessible ? <Check /> : <Close />}
-          </p>
+          </span>
         </div>
+
+        <small>Services Available: {studio?.items.length} </small>
       </div>
-      <small>{studio?.items.length} Services Available</small>
     </article>
   );
 };

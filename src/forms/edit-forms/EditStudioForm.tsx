@@ -30,24 +30,21 @@ export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
   const studio = data?.currStudio;
+  const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
   const daysOfWeek = useDays() as DayOfWeek[];
-  const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
 
-  const updateStudioMutation = useUpdateStudioMutation(studioId || '');
+  const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
   );
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(studio?.subCategories || []);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
-  // const [subCategories, setSubCategories] = useState<string[]>(
-  //   studio?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
-  // );
 
   const [openDays, setOpenDays] = useState<DayOfWeek[]>(studio?.studioAvailability?.days || daysOfWeek);
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');

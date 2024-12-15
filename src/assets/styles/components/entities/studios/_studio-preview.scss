@@ -8,8 +8,6 @@
   background: vars.$preview-bg-color;
 
   img {
-    min-height: 24px;
-    min-width: 0;
     max-width: calc(100% + 1rem);
     place-self: center;
   }
@@ -37,19 +35,21 @@
   }
 
   .options-wrapper {
-    display: flex;
+    flex: 1 1 auto;
     height: 24px;
-    gap: 0.25rem;
+    gap: 0.5rem;
+    font-size: small;
+    justify-content: space-around;
     div {
       align-items: flex-start;
       height: 24px;
       gap: 0rem;
       svg {
-        width: 28px;
+        width: 14px;
       }
-      p {
-        width: 28px;
-        height: 24px;
+      span {
+        width: 20px;
+        height: 12px;
       }
     }
   }

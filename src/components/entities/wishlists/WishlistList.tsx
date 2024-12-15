@@ -25,7 +25,9 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
 
   return (
     <section className="wishlists">
-      <Link to={`${i18n.language}/create-wishlist`}>Create wishlist</Link>
+      <h1>
+        <Link to={`/${i18n.language}/create-wishlist`}>Create wishlist</Link>
+      </h1>
       {isDropdown ? (
         <GenericMuiDropdown data={wishlists} renderItem={renderItem} className="wishlist-list" title="wishlists" />
       ) : (
