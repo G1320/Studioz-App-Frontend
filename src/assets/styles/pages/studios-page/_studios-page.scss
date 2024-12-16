@@ -6,6 +6,15 @@
   gap: 1rem;
   margin-block-end: 2.5rem;
 
+  div.studios-page-options-container {
+    display: grid;
+    grid-template-columns: 0.75fr 0.25fr;
+    gap: 1rem;
+  }
+  .studios-map {
+    max-height: 18rem;
+  }
+
   .studios-list {
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   }

@@ -1,4 +1,5 @@
-import { StudiosList } from '@components/index';
+import { StudiosList, StudiosMap } from '@components/index';
+
 import { useParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
 
@@ -18,7 +19,9 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   });
   return (
     <section className="studios-page">
+      <StudiosMap studios={filteredStudios} />
       {subcategory && <h1>{subcategory} Studioz</h1>}
+
       <StudiosList studios={filteredStudios} />
     </section>
   );
