@@ -16,6 +16,7 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
 
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
+  console.log('isMultiSelect: ', isMultiSelect);
   const renderItem = (wishlist: Wishlist) =>
     isMultiSelect ? (
       <GenericMultiDropdownEntryPreview entry={wishlist} key={wishlist?._id} />

@@ -1,7 +1,7 @@
 @use '../../../utilities//variables' as vars;
 
 .studio-preview {
-  min-height: 340px;
+  min-height: min-content;
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1200px;
   gap: 0.5rem;
@@ -16,6 +16,11 @@
     width: max-content;
   }
 
+  .title {
+    display: flex;
+    height: 20px;
+    align-items: center;
+  }
   small {
     white-space: nowrap;
     overflow: hidden;
@@ -36,20 +41,26 @@
 
   .options-wrapper {
     flex: 1 1 auto;
-    height: 24px;
+    height: min-content;
     gap: 0.5rem;
     font-size: small;
     justify-content: space-around;
+
     div {
-      align-items: flex-start;
-      height: 24px;
+      display: flex;
+      align-items: center;
       gap: 0rem;
+
       svg {
         width: 14px;
       }
+
       span {
         width: 20px;
-        height: 12px;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }

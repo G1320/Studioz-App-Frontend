@@ -19,7 +19,6 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
       <div>
         <div>
           <small>{wishlist?.items?.length} Items</small>
-          <small>{wishlist?.studios?.length} Studios</small>
         </div>
         {onAddItemToWishList ? (
           <Button onClick={() => onAddItemToWishList(wishlist?._id)}>Add to {wishlist?.name}</Button>
