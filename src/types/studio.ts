@@ -1,9 +1,5 @@
 import StudioItem from './studioItem';
 
-type StudioLocation = {
-  type: 'Point';
-  coordinates: [number, number]; // [longitude, latitude]
-};
 export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 export interface StudioAvailability {
@@ -36,6 +32,4 @@ export default interface Studio {
   isFeatured?: boolean;
   items: StudioItem[];
   studioAvailability?: StudioAvailability;
-
-  location: StudioLocation;
 }

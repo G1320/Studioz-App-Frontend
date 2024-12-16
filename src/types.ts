@@ -9,7 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_GOOGLE_MAPS_API_KEY: string;
   readonly VITE_PAYPAL_CLIENT_ID: string;
   readonly VITE_PAYPAL_SECRET_KEY: string;
-  readonly VITE_MAPBOX_ACCESS_TOKEN: string;
+  readonly VITE_MAPBOX_PUBLIC_TOKEN: string;
 }
 
 interface ImportMeta {

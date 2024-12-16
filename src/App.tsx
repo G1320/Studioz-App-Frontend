@@ -27,6 +27,7 @@ import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
 import EditStudioPage from '@pages/edit-pages/EditStudioPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
+import StudiosMap from '@components/entities/map/MapBoxMap';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
@@ -97,6 +98,7 @@ function App() {
                   <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
                   <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
                   <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
+                  <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
                 </Routes>
               </Suspense>
             </main>
