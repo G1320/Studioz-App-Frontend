@@ -74,7 +74,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
           case 'number':
             if (field.name === 'address') {
               return (
-                <div key={field.name}>
+                <div key={field.name} className="form-group">
                   <label htmlFor={field.name} className="form-label">
                     {field.label}
                   </label>

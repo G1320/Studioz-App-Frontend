@@ -30,6 +30,7 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={['places']}>
       <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChange}>
         <input
+          className="form-input"
           type="text"
           placeholder={placeholder}
           defaultValue={defaultValue}
