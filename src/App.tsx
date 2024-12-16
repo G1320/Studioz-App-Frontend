@@ -7,9 +7,7 @@ import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@config/paypal/paypalConfig';
 import { HelmetProvider } from 'react-helmet-async';
-import { LoadScript } from '@react-google-maps/api';
 
-const LIBRARIES: ['places'] = ['places'];
 import i18n from './i18n';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -54,73 +52,71 @@ function App() {
   const studios = useMemo(() => shuffleArray(originalStudios || []), [originalStudios]);
 
   return (
-    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={LIBRARIES}>
-      <HelmetProvider>
-        <PayPalScriptProvider options={initialOptions}>
-          <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
-            <Header cart={onlineCart || offlineCart} user={user} />
-            <SEOTags path={location.pathname} />
+    <HelmetProvider>
+      <PayPalScriptProvider options={initialOptions}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
+          <Header cart={onlineCart || offlineCart} user={user} />
+          <SEOTags path={location.pathname} />
 
-            <main className="main-content" id="main-content">
-              <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
-                <Routes>
-                  <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
+          <main className="main-content" id="main-content">
+            <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
+              <Routes>
+                <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 
-                  <Route path="/:lang" element={<HomePage studios={studios || []} items={originalItems || []} />} />
-                  <Route
-                    path="/:lang?/studio/:studioId"
-                    element={<StudioDetailsPage items={originalItems || []} cart={onlineCart || offlineCart} />}
-                  />
-                  <Route
-                    path="/:lang?/studios/:category?/:subcategory?"
-                    element={<StudiosPage studios={studios || []} />}
-                  />
-                  <Route
-                    path="/:lang?/services/:category?/:subCategory?"
-                    element={<ServicesPage items={originalItems || []} />}
-                  />
-                  <Route path="/:lang?/wishlists" element={<WishListsPage />} />
-                  <Route
-                    path="/:lang?/wishlists/:wishlistId"
-                    element={<WishlistDetailsPage items={originalItems || []} />}
-                  />
-                  <Route path="/:lang?/create-item/:studioName/:studioId" element={<CreateItemPage />} />
-                  <Route path="/:lang?/edit-item/:itemId" element={<EditItemPage />} />
-                  <Route path="/:lang?/edit-studio/:studioId" element={<EditStudioPage />} />
-                  <Route path="/:lang?/create-studio" element={<CreateStudioPage />} />
-                  <Route path="/:lang?/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
-                  <Route path="/:lang?/create-wishlist" element={<CreateWishlistPage />} />
-                  <Route path="/:lang?/item/:itemId" element={<ItemDetailsPage />} />
-                  <Route path="/:lang?/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-                  <Route path="/:lang?/order/:studioId?" element={<OrderPage cart={onlineCart || offlineCart} />} />
-                  <Route path="/:lang?/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
-                  <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-                  <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
-                  <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
-                  <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
-                </Routes>
-              </Suspense>
-            </main>
-            <ResponsiveFooter />
-            <Toaster
-              richColors
-              toastOptions={{
-                style: {
-                  padding: '0.75rem 1rem',
-                  borderRadius: '8px',
-                  backgroundColor: '#333',
-                  border: 'none',
-                  color: '#fff',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                  fontSize: '0.875rem'
-                },
-                className: 'toast'
-              }}
-            />
-          </LocalizationProvider>
-        </PayPalScriptProvider>
-      </HelmetProvider>
-    </LoadScript>
+                <Route path="/:lang" element={<HomePage studios={studios || []} items={originalItems || []} />} />
+                <Route
+                  path="/:lang?/studio/:studioId"
+                  element={<StudioDetailsPage items={originalItems || []} cart={onlineCart || offlineCart} />}
+                />
+                <Route
+                  path="/:lang?/studios/:category?/:subcategory?"
+                  element={<StudiosPage studios={studios || []} />}
+                />
+                <Route
+                  path="/:lang?/services/:category?/:subCategory?"
+                  element={<ServicesPage items={originalItems || []} />}
+                />
+                <Route path="/:lang?/wishlists" element={<WishListsPage />} />
+                <Route
+                  path="/:lang?/wishlists/:wishlistId"
+                  element={<WishlistDetailsPage items={originalItems || []} />}
+                />
+                <Route path="/:lang?/create-item/:studioName/:studioId" element={<CreateItemPage />} />
+                <Route path="/:lang?/edit-item/:itemId" element={<EditItemPage />} />
+                <Route path="/:lang?/edit-studio/:studioId" element={<EditStudioPage />} />
+                <Route path="/:lang?/create-studio" element={<CreateStudioPage />} />
+                <Route path="/:lang?/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
+                <Route path="/:lang?/create-wishlist" element={<CreateWishlistPage />} />
+                <Route path="/:lang?/item/:itemId" element={<ItemDetailsPage />} />
+                <Route path="/:lang?/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang?/order/:studioId?" element={<OrderPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang?/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
+                <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
+                <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
+              </Routes>
+            </Suspense>
+          </main>
+          <ResponsiveFooter />
+          <Toaster
+            richColors
+            toastOptions={{
+              style: {
+                padding: '0.75rem 1rem',
+                borderRadius: '8px',
+                backgroundColor: '#333',
+                border: 'none',
+                color: '#fff',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                fontSize: '0.875rem'
+              },
+              className: 'toast'
+            }}
+          />
+        </LocalizationProvider>
+      </PayPalScriptProvider>
+    </HelmetProvider>
   );
 }
 
