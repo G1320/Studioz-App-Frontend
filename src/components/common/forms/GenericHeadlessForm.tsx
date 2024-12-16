@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
-import AddressAutocomplete from '@components/entities/map/GoogleAddressAutocomplete';
+import { GoogleAddressAutocomplete } from '@components/index';
 
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
 
@@ -78,7 +78,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
                   <label htmlFor={field.name} className="form-label">
                     {field.label}
                   </label>
-                  <AddressAutocomplete defaultValue={field.value} onPlaceSelected={handlePlaceSelected} />
+                  <GoogleAddressAutocomplete defaultValue={field.value} onPlaceSelected={handlePlaceSelected} />
                 </div>
               );
             }

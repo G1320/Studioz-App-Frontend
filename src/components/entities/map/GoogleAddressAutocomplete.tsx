@@ -7,7 +7,7 @@ interface GoogleAddressAutocompleteProps {
   defaultValue?: string;
 }
 
-const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps> = ({
+export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps> = ({
   onPlaceSelected,
   placeholder = 'Enter an address',
   defaultValue = ''
@@ -43,5 +43,3 @@ const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps> = ({
     </Autocomplete>
   );
 };
-
-export default GoogleAddressAutocomplete;
