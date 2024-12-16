@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-// import { AddressAutofill, SearchBox } from '@mapbox/search-js-react';
-import { useTranslation } from 'react-i18next';
+
+import AddressAutocomplete from '@components/entities/map/AddressAutocomplete';
 
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
 
@@ -16,7 +16,28 @@ interface GenericFormProps {
 }
 
 export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) => {
-  const { i18n } = useTranslation();
+  const [lat, setLat] = useState<number>(0);
+  const [lng, setLng] = useState<number>(0);
+  const [address, setAddress] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+
+  const handlePlaceSelected = (place: google.maps.places.PlaceResult) => {
+    if (place.geometry && place.geometry.location) {
+      setLat(place.geometry.location.lat());
+      setLng(place.geometry.location.lng());
+
+      if (place.formatted_address) {
+        setAddress(place.formatted_address);
+      }
+      if (place.address_components) {
+        const city = place.address_components.find((component) => component.types.includes('locality'));
+        if (city) {
+          setCity(city.long_name);
+        }
+      }
+    }
+  };
+
   const [checkboxStates, setCheckboxStates] = useState<Record<string, boolean>>(() =>
     fields.reduce(
       (acc, field) => {
@@ -33,7 +54,10 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
-
+    data['lat'] = lat.toString();
+    data['lng'] = lng.toString();
+    data['address'] = address;
+    data['city'] = city;
     // Convert boolean values to strings
     Object.entries(checkboxStates).forEach(([name, value]) => {
       data[name] = value.toString();
@@ -42,40 +66,22 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
     onSubmit(data);
   };
 
-  console.log('i18n.language: ', i18n.language);
   return (
     <form className={`generic-form ${className}`} onSubmit={handleSubmit}>
       {fields.map((field) => {
         switch (field.type) {
           case 'text':
           case 'number':
-            // if (field.name === 'address') {
-            //   return (
-            //     <div key={field.name} className="form-group">
-            //       <label htmlFor={field.name} className="form-label">
-            //         {field.label}
-            //       </label>
-            //       <AddressAutofill
-            //         accessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
-            //         options={{
-            //           language: 'en',
-            //           country: 'IL'
-            //         }}
-            //       >
-            //         <input
-            //           type={field.type}
-            //           id={field.name}
-            //           name={field.name}
-            //           defaultValue={field.value}
-            //           className="form-input"
-            //           autoComplete="street-address address-line1"
-            //           placeholder={`Enter your ${field.name}...`}
-            //           required
-            //         />
-            //       </AddressAutofill>
-            //     </div>
-            //   );
-            // }
+            if (field.name === 'address') {
+              return (
+                <div key={field.name}>
+                  <label htmlFor={field.name} className="form-label">
+                    {field.label}
+                  </label>
+                  <AddressAutocomplete onPlaceSelected={handlePlaceSelected} />
+                </div>
+              );
+            }
             return (
               <div key={field.name} className="form-group">
                 <label htmlFor={field.name} className="form-label">

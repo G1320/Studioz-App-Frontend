@@ -43,8 +43,8 @@ export const CreateStudioForm = () => {
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
 
   const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysOfWeek);
-  const [openingHour, setOpeningHour] = useState<string>('09:00');
-  const [closingHour, setClosingHour] = useState<string>('17:00');
+  const [openingHour, setOpeningHour] = useState<string>('08:00');
+  const [closingHour, setClosingHour] = useState<string>('18:00');
 
   const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
 
@@ -112,7 +112,6 @@ export const CreateStudioForm = () => {
       value: closingHour,
       onChange: handleClosingHourChange
     },
-    { name: 'city', label: 'City', type: 'text' as FieldType },
     { name: 'address', label: 'Address', type: 'text' as FieldType },
 
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType },
@@ -129,6 +128,7 @@ export const CreateStudioForm = () => {
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
     formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
+
     createStudioMutation.mutate({ userId: user?._id || '', newStudio: formData as Studio });
   };
 

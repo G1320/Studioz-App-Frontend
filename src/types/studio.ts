@@ -23,6 +23,8 @@ export default interface Studio {
   isSmokingAllowed?: boolean;
   city: string;
   address?: string;
+  lat?: number;
+  lng?: number;
   isWheelchairAccessible?: boolean;
   coverImage?: string;
   galleryImages?: string[];
@@ -34,7 +36,6 @@ export default interface Studio {
   isFeatured?: boolean;
   items: StudioItem[];
   studioAvailability?: StudioAvailability;
-  // availability?: Availability[];
 
   location: StudioLocation;
 }
