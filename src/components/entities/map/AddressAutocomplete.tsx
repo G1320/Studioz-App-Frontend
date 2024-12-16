@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { LoadScript, Autocomplete } from '@react-google-maps/api';
+import { Autocomplete } from '@react-google-maps/api';
 
 interface AddressAutocompleteProps {
   onPlaceSelected: (place: google.maps.places.PlaceResult) => void;
@@ -27,22 +27,20 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
   };
 
   return (
-    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={['places']}>
-      <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChange}>
-        <input
-          className="form-input"
-          type="text"
-          placeholder={placeholder}
-          defaultValue={defaultValue}
-          style={{
-            width: '100%',
-            padding: '0.5rem',
-            border: '1px solid #ccc',
-            borderRadius: '4px'
-          }}
-        />
-      </Autocomplete>
-    </LoadScript>
+    <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChange}>
+      <input
+        className="form-input"
+        type="text"
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        style={{
+          width: '100%',
+          padding: '0.5rem',
+          border: '1px solid #ccc',
+          borderRadius: '4px'
+        }}
+      />
+    </Autocomplete>
   );
 };
 

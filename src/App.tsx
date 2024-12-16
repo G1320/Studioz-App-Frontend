@@ -7,7 +7,9 @@ import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@config/paypal/paypalConfig';
 import { HelmetProvider } from 'react-helmet-async';
+import { LoadScript } from '@react-google-maps/api';
 
+const LIBRARIES: ['places'] = ['places'];
 import i18n from './i18n';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,15 +23,15 @@ import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
 import CheckoutPage from '@pages/checkout-page/CheckoutPage';
 import OrderPage from '@pages/order-page/OrderPage';
 import SearchPage from '@pages/search-page/SearchPage';
+import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
+import EditStudioPage from '@pages/edit-pages/EditStudioPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
-const CreateStudioPage = lazy(() => import('@pages/create-pages/CreateStudioPage'));
 const CreateItemPage = lazy(() => import('@pages/create-pages/CreateItemPage'));
 const CreateWishlistPage = lazy(() => import('@pages/create-pages/CreateWishlistPage'));
-const EditStudioPage = lazy(() => import('@pages/edit-pages/EditStudioPage'));
 const EditItemPage = lazy(() => import('@pages/edit-pages/EditItemPage'));
 const EditWishlistPage = lazy(() => import('@pages/edit-pages/EditWishlistPage'));
 const CartDetailsPage = lazy(() => import('@pages/details-pages/CartDetailsPage'));
@@ -52,7 +54,7 @@ function App() {
   const studios = useMemo(() => shuffleArray(originalStudios || []), [originalStudios]);
 
   return (
-    <>
+    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={LIBRARIES}>
       <HelmetProvider>
         <PayPalScriptProvider options={initialOptions}>
           <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
@@ -117,7 +119,7 @@ function App() {
           </LocalizationProvider>
         </PayPalScriptProvider>
       </HelmetProvider>
-    </>
+    </LoadScript>
   );
 }
 

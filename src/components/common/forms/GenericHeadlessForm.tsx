@@ -78,7 +78,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
                   <label htmlFor={field.name} className="form-label">
                     {field.label}
                   </label>
-                  <AddressAutocomplete onPlaceSelected={handlePlaceSelected} />
+                  <AddressAutocomplete defaultValue={field.value} onPlaceSelected={handlePlaceSelected} />
                 </div>
               );
             }

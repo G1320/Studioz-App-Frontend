@@ -118,7 +118,6 @@ export const EditStudioForm = () => {
       value: closingHour,
       onChange: handleClosingHourChange
     },
-    { name: 'city', label: 'City', type: 'text' as FieldType, value: studio?.city },
     { name: 'address', label: 'Address', type: 'text' as FieldType, value: studio?.address },
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType, value: studio?.maxOccupancy },
     {
