@@ -5,6 +5,9 @@
   justify-items: start;
   gap: 1rem;
   margin-block-end: 2.5rem;
+  h1 {
+    text-align: start;
+  }
 
   div.studios-page-options-container {
     display: grid;
