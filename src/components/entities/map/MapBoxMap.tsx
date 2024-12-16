@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import Map, { Marker, Popup } from 'react-map-gl';
+import Map, {
+  Marker,
+  Popup,
+  NavigationControl, // Add these imports
+  FullscreenControl,
+  GeolocateControl,
+  ScaleControl
+} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Studio } from 'src/types/index';
 
@@ -9,7 +16,7 @@ interface StudioMapProps {
 
 const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
-const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
+export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
 
   const handleMapClick = () => {
@@ -31,6 +38,10 @@ const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
         mapboxAccessToken={mapBoxToken}
         onClick={handleMapClick}
       >
+        <GeolocateControl position="top-left" />
+        <FullscreenControl position="top-left" />
+        <NavigationControl position="top-left" />
+        <ScaleControl />
         {studios.map((studio) => {
           if (studio.lat && studio.lng) {
             return (
@@ -40,7 +51,6 @@ const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
                 longitude={studio.lng}
                 anchor="bottom"
                 onClick={(e) => {
-                  // Prevent click event from propagating to the map
                   e.originalEvent.stopPropagation();
                   setPopupInfo(studio as Studio);
                 }}
@@ -76,7 +86,7 @@ const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
               <img src={popupInfo.coverImage} alt="" />
               <h3 className="popup-title">{popupInfo.name}</h3>
               <p className="popup-description">{popupInfo.description}</p>
-              <p className="popup-city">{popupInfo.city}</p>
+              <p className="popup-city">{popupInfo.address}</p>
             </div>
           </Popup>
         )}
@@ -84,5 +94,3 @@ const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
     </div>
   );
 };
-
-export default StudiosMap;

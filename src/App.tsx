@@ -15,7 +15,7 @@ import i18n from './i18n';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, ProfilePage, ResponsiveFooter } from '@components/index';
+import { Header, ProfilePage, ResponsiveFooter, StudiosMap } from '@components/index';
 import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
@@ -27,7 +27,6 @@ import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
 import EditStudioPage from '@pages/edit-pages/EditStudioPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
-import StudiosMap from '@components/entities/map/MapBoxMap';
 
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));

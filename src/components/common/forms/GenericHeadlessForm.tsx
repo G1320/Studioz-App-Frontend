@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
-import AddressAutocomplete from '@components/entities/map/AddressAutocomplete';
+import AddressAutocomplete from '@components/entities/map/GoogleAddressAutocomplete';
 
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
 
