@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 
-interface AddressAutocompleteProps {
+interface GoogleAddressAutocompleteProps {
   onPlaceSelected: (place: google.maps.places.PlaceResult) => void;
   placeholder?: string;
   defaultValue?: string;
 }
 
-const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
+const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps> = ({
   onPlaceSelected,
   placeholder = 'Enter an address',
   defaultValue = ''
@@ -44,4 +44,4 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
   );
 };
 
-export default AddressAutocomplete;
+export default GoogleAddressAutocomplete;

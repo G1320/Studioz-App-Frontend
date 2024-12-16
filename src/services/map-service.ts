@@ -1,6 +1,6 @@
 import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
 
-const geocodingClient = mbxGeocoding({ accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN });
+const geocodingClient = mbxGeocoding({ accessToken: import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN });
 
 export const getCoordinates = async (address: string) => {
   try {
