@@ -10,26 +10,27 @@ import {
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
-  // useLanguageNavigate,
+  useLanguageNavigate,
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation,
   useStudio
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Item, Wishlist } from 'src/types/index';
+import { Item, Studio, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
 import { useTranslation } from 'react-i18next';
-interface ItemPreviewProps {
+interface ItemDetailsProps {
   item: Item;
+  studio?: Studio;
   wishlists?: Wishlist[];
 }
 
-export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
+export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlists = [] }) => {
   const { studioId, wishlistId } = useParams();
   const { user } = useUserContext();
-  // const langNavigate = useLanguageNavigate();
+  const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t } = useTranslation('common');
 
@@ -95,7 +96,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   const handleArticleClicked = (e: MouseEvent<HTMLElement>) => {
     if ((e.target as HTMLElement).nodeName !== 'BUTTON') {
-      // langNavigate(`/item/${item._id}`);
+      langNavigate(`/studio/${item.studioId}`);
     }
   };
 
@@ -116,9 +117,10 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   );
 
   return (
-    <article onMouseEnter={prefetchItem} onClick={handleArticleClicked} key={item._id} className="preview item-preview">
-      <h3>{item.name}</h3>
-      <div>
+    <article onMouseEnter={prefetchItem} onClick={handleArticleClicked} key={item._id} className="details item-details">
+      {studio && <img src={studio.coverImage} />}
+      <div className="item-info-container">
+        <h3>{item.name}</h3>
         <h3>{item.studioName}</h3>
         <div>
           <small className="item-price">₪{item.price}/hr</small>

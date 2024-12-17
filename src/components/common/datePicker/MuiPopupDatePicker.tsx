@@ -7,7 +7,7 @@ import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
 dayjs.extend(customParseFormat);
 
-interface MuiDateTimePickerProps {
+interface MuiPopupDateTimePickerProps {
   label: string;
   value: Date | null;
   onChange: (newValue: Date | null) => void;
@@ -18,12 +18,12 @@ interface MuiDateTimePickerProps {
   studioAvailability?: StudioAvailability;
 }
 
-export interface MuiDateTimePickerRef {
+export interface MuiPopupDateTimePickerRef {
   open: () => void;
   reopen: () => void;
 }
 
-export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePickerProps>(
+export const MuiPopupDateTimePicker = forwardRef<MuiPopupDateTimePickerRef, MuiPopupDateTimePickerProps>(
   ({ label, value, onChange, onAccept, onClose, availability = [], studioAvailability, open }, ref) => {
     const pickerRef = useRef<any>(null);
     const [internalValue, setInternalValue] = useState<Dayjs | null>(
@@ -163,4 +163,4 @@ export const MuiDateTimePicker = forwardRef<MuiDateTimePickerRef, MuiDateTimePic
   }
 );
 
-MuiDateTimePicker.displayName = 'MuiDateTimePicker';
+MuiPopupDateTimePicker.displayName = 'MuiPopupDateTimePicker';

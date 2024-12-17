@@ -19,6 +19,7 @@ const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 import App from './App.js';
+import { ModalProvider } from '@contexts/ModalContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,11 +46,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             }}
           >
             <OfflineCartProvider>
-              <SearchProvider>
-                <UserProvider>
-                  <App />
-                </UserProvider>
-              </SearchProvider>
+              <ModalProvider>
+                <SearchProvider>
+                  <UserProvider>
+                    <App />
+                  </UserProvider>
+                </SearchProvider>
+              </ModalProvider>
             </OfflineCartProvider>
           </Auth0Provider>
         </SocketProvider>

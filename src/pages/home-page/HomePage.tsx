@@ -1,10 +1,19 @@
-import { StudiosList, GenericCarousel, StudioPreview, ItemPreview, CategoryPreview, Hero } from '@components/index';
+import {
+  StudiosList,
+  GenericCarousel,
+  StudioPreview,
+  ItemPreview,
+  CategoryPreview,
+  Hero,
+  ItemDetails
+} from '@components/index';
 import { useWishlists } from '@hooks/index';
-import { useUserContext } from '@contexts/index';
+import { useModal, useUserContext } from '@contexts/index';
 import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
 import { useMusicSubCategories } from '@hooks/index';
+import { Modal } from '@mui/material';
 
 interface HomePageProps {
   studios: Studio[];
@@ -17,8 +26,14 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const { t } = useTranslation('homePage');
   const musicSubCategories = useMusicSubCategories();
 
+  const { selectedItem, openModal, closeModal } = useModal();
+
   const studioRenderItem = (studio: Studio) => <StudioPreview studio={studio} />;
-  const itemRenderItem = (item: Item) => <ItemPreview item={item} wishlists={wishlists} key={item._id} />;
+  const itemRenderItem = (item: Item) => (
+    <div onClick={() => handleItemClick(item)} key={item._id}>
+      <ItemPreview item={item} wishlists={wishlists} />
+    </div>
+  );
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
 
   const recordingStudios = filterBySubcategory(studios, 'Recording');
@@ -28,6 +43,10 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
   const masteringItems = filterBySubcategory(items, 'Mastering');
+
+  const handleItemClick = (item: Item) => {
+    openModal(item);
+  };
 
   return (
     <section className="home-page">
@@ -108,6 +127,19 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         title={t('sections.mastering_services')}
         seeAllPath="/services/music/mastering"
       />
+      <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
+        <div className="modal-content">
+          {selectedItem && (
+            <>
+              <ItemDetails
+                studio={studios.find((studio) => studio._id === selectedItem.studioId)}
+                item={selectedItem}
+                wishlists={wishlists}
+              />
+            </>
+          )}
+        </div>
+      </Modal>
     </section>
   );
 };

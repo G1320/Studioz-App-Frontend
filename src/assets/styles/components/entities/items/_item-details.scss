@@ -1,0 +1,25 @@
+@use '../../../utilities//variables' as vars;
+
+.item-details {
+  background: white;
+  background: vars.$preview-bg-color;
+  width: clamp(250px, 50vw, 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: slide-up 0.15s ease-out;
+  overflow: hidden;
+  position: relative;
+  div.item-info-container {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

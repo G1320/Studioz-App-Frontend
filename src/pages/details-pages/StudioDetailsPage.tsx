@@ -1,7 +1,9 @@
 import { GenericCarousel } from '@components/common';
-import { StudioDetails, ContinueToCheckoutButton, ItemPreview } from '@components/index';
+import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
+import { useModal } from '@contexts/ModalContext';
 import { useUserContext } from '@contexts/UserContext';
 import { useStudio } from '@hooks/dataFetching';
+import { Modal } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -20,6 +22,8 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const { currStudio } = studioObj || {};
 
+  const { selectedItem, openModal, closeModal } = useModal();
+
   useEffect(() => {
     if (studioObj && currStudio && items) {
       const filtered = items.filter((item) => currStudio.items.some((studioItem) => studioItem.itemId === item._id));
@@ -29,6 +33,10 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
 
   const getStudioServicesDisplayName = (name: string) => (name?.length > 1 ? `${name}'s Services` : '');
 
+  const handleItemClick = (item: Item) => {
+    openModal(item);
+  };
+
   return (
     <section className="details studio-details-page">
       <StudioDetails user={user} studio={currStudio} />
@@ -36,8 +44,17 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
       <GenericCarousel
         title={(() => getStudioServicesDisplayName(currStudio?.name || ''))()}
         data={filteredItems}
-        renderItem={(item) => <ItemPreview item={item} />}
+        renderItem={(item) => (
+          <div onClick={() => handleItemClick(item)} key={item._id}>
+            <ItemPreview item={item} />
+          </div>
+        )}
       />
+      <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
+        <div className="modal-content">
+          {selectedItem && <ItemDetails studio={studioObj?.currStudio} item={selectedItem} />}
+        </div>
+      </Modal>
       <ContinueToCheckoutButton cart={cart} />
     </section>
   );

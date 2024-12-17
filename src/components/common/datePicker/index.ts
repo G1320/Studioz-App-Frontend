@@ -1,2 +1,2 @@
 export * from './MuiPopupDatePicker';
-export * from './MuiFullDatePicker';
+export * from './MuiDatePicker';
