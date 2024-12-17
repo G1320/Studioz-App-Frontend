@@ -1,17 +1,53 @@
-@use '../../../utilities//variables' as vars;
+@use '../../../utilities/variables' as vars;
+
+.item-modal {
+  display: grid;
+  place-self: center;
+  width: clamp(250px, 50vw, 100%);
+
+  @media (max-width: 768px) {
+    width: calc(100% - 2rem);
+    place-self: center;
+    justify-items: center;
+    margin-block-end: 4.5rem;
+  }
+}
 
 .item-details {
-  background: white;
   background: vars.$preview-bg-color;
   width: clamp(250px, 50vw, 100%);
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   animation: slide-up 0.15s ease-out;
-  overflow: hidden;
+  padding: 0.5rem;
+  overflow: auto;
   position: relative;
+
+  img {
+    cursor: pointer;
+  }
+
   div.item-info-container {
     display: flex;
     gap: 0.5rem;
+  }
+
+  .hour-selection-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    place-items: center;
+    gap: 0.5rem;
+    .hour-label {
+      justify-self: end;
+    }
+    div {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 }
 

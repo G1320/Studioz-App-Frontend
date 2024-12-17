@@ -78,7 +78,34 @@ export const MuiDateTimePicker = ({
       shouldDisableTime={shouldDisableTime}
       minutesStep={60}
       ampm={false}
-      sx={{ width: '100%', color: '#fff' }}
+      sx={{
+        width: '100%',
+        '& .MuiInputBase-root': {
+          color: '#fff'
+        },
+        '& .MuiInputLabel-root': {
+          color: '#fff'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: '#fff'
+        },
+        '&:hover .MuiOutlinedInput-notchedOutline': {
+          borderColor: '#fff'
+        },
+        '& .MuiSvgIcon-root': {
+          color: '#fff'
+        },
+        '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
+          backgroundColor: '#fff',
+          color: '#000'
+        },
+        '& .MuiButtonBase-root': {
+          color: '#fff'
+        },
+        '& .Mui-disabled': {
+          color: '#bbb'
+        }
+      }}
       slotProps={{
         textField: { fullWidth: true, margin: 'dense' }
       }}
