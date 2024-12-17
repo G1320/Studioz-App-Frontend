@@ -3,7 +3,7 @@
 .item-modal {
   display: grid;
   place-self: center;
-  width: clamp(250px, 50vw, 100%);
+  width: clamp(250px, 50vw, 35rem);
 
   @media (max-width: 768px) {
     width: calc(100% - 2rem);

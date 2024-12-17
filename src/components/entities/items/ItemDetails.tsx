@@ -5,8 +5,7 @@ import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useLanguageNavigate,
-  useRemoveItemFromWishlistMutation,
-  useStudio
+  useRemoveItemFromWishlistMutation
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Item, Studio, Wishlist } from 'src/types/index';
@@ -15,6 +14,7 @@ import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import dayjs from 'dayjs';
 interface ItemDetailsProps {
   item: Item;
   studio?: Studio;
@@ -28,10 +28,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t } = useTranslation('common');
 
-  const { data: studioObj } = useStudio(item?.studioId || '');
-
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedHours, setSelectedHours] = useState<number>(0);
+  const [selectedHours, setSelectedHours] = useState<number>(1);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -53,6 +51,18 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
   const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (!bookingDate || !startTime) return toast.error('Please select a valid date and time');
+
+    const closingTime = studio?.studioAvailability?.times[0]?.end;
+    if (!closingTime) return toast.error('Studio closing time is unavailable');
+
+    const startDateTime = dayjs(`${bookingDate} ${startTime}`, 'DD/MM/YYYY HH:mm');
+    const endDateTime = startDateTime.add(hours, 'hour');
+    const closingDateTime = dayjs(`${bookingDate} ${closingTime}`, 'DD/MM/YYYY HH:mm');
+
+    if (endDateTime.isAfter(closingDateTime)) {
+      return toast.error('Selected hours exceed the studio closing time. Please adjust your booking.');
+    }
+
     const newItem = {
       name: item.name,
       price: item.price || 0,
@@ -65,14 +75,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
       hours
     };
 
+    console.log('avail', studio?.studioAvailability);
+
     reserveItemTimeSlotMutation.mutate(newItem, {
       onSuccess: () => {
         addItemToCartMutation.mutate(newItem);
         setSelectedDate(null);
-        langNavigate('/cart');
-      },
-      onError: (error) => {
-        console.error('Booking failed:', error);
       }
     });
   };
@@ -82,10 +90,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
 
   const handleImageClicked = () => {
     langNavigate(`/studio/${item.studioId}`);
-  };
-
-  const handleDatePickerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
   };
 
   const renderItem = (wishlist: Wishlist) => (
@@ -122,7 +126,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
         value={selectedDate}
         onChange={handleDateChange}
         availability={item.availability}
-        studioAvailability={studioObj?.currStudio.studioAvailability}
+        studioAvailability={studio?.studioAvailability}
       />
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
@@ -139,14 +143,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
         )
       )}
 
-      <div className="book-now-date-picker-container" onClick={handleDatePickerClick}>
-        <Button
-          className="add-to-cart-button book-now-button"
-          onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}
-        >
-          {t('buttons.add_to_cart')}
-        </Button>
-      </div>
+      <Button
+        className="add-to-cart-button book-now-button"
+        onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}
+      >
+        {t('buttons.add_to_cart')}
+      </Button>
     </article>
   );
 };
