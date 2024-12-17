@@ -38,6 +38,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const [isBooked, setIsBooked] = useState<boolean>(cart ? true : false);
+  console.log('cart: ', cart);
+  console.log('isBooked: ', isBooked);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -88,7 +90,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
         addItemToCartMutation.mutate(newItem);
         setSelectedDate(null);
         setIsBooked(true);
-
         langNavigate(`/studio/${studio?._id}`);
       }
     });
