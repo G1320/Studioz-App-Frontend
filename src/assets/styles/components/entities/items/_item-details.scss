@@ -34,11 +34,14 @@
 
   .hour-selection-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     place-items: center;
     gap: 0.5rem;
     .hour-label {
       justify-self: end;
+    }
+    span {
+      min-width: 24px;
     }
     div {
       display: flex;

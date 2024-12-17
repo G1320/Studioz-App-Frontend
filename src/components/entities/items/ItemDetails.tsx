@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown, WishlistPreview, MuiDateTimePicker } from '@components/index';
+import {
+  Button,
+  GenericMuiDropdown,
+  WishlistPreview,
+  MuiDateTimePicker,
+  ContinueToCheckoutButton
+} from '@components/index';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
@@ -8,7 +14,7 @@ import {
   useRemoveItemFromWishlistMutation
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Item, Studio, Wishlist } from 'src/types/index';
+import { Cart, Item, Studio, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
@@ -16,12 +22,13 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 interface ItemDetailsProps {
+  cart?: Cart;
   item: Item;
   studio?: Studio;
   wishlists?: Wishlist[];
 }
 
-export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlists = [] }) => {
+export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wishlists = [] }) => {
   const { wishlistId } = useParams();
   const { user } = useUserContext();
   const langNavigate = useLanguageNavigate();
@@ -30,6 +37,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
+  const [isBooked, setIsBooked] = useState<boolean>(cart ? true : false);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -75,12 +83,13 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
       hours
     };
 
-    console.log('avail', studio?.studioAvailability);
-
     reserveItemTimeSlotMutation.mutate(newItem, {
       onSuccess: () => {
         addItemToCartMutation.mutate(newItem);
         setSelectedDate(null);
+        setIsBooked(true);
+
+        langNavigate(`/studio/${studio?._id}`);
       }
     });
   };
@@ -110,12 +119,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
       </div>
       <p>{item.description}</p>
       <div className="hour-selection-container">
-        <span className="hour-label"> Hours:</span>
+        <div>
+          <span className="hour-label"> Hours:</span>
+          <span className="hour-value">{selectedHours}</span>
+        </div>
         <div className="button-group">
           <button className="control-button minus" onClick={handleDecrement}>
             −
           </button>
-          <span className="hour-value">{selectedHours}</span>
           <button className="control-button plus" onClick={handleIncrement}>
             +
           </button>
@@ -142,13 +153,16 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, studio, wishlist
           />
         )
       )}
-
-      <Button
-        className="add-to-cart-button book-now-button"
-        onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}
-      >
-        {t('buttons.add_to_cart')}
-      </Button>
+      {!isBooked ? (
+        <Button
+          className="add-to-cart-button book-now-button"
+          onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}
+        >
+          {t('buttons.add_to_cart')}
+        </Button>
+      ) : (
+        cart && <ContinueToCheckoutButton cart={cart} />
+      )}
     </article>
   );
 };
