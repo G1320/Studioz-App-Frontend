@@ -41,6 +41,7 @@ export const useCartOperations = () => {
       cart.items.push({
         name: item.name,
         studioName: item.studioName,
+        studioId: item.studioId,
         price: item.price,
         total: (item.price || 0) * (item.hours || 1),
         quantity: item.hours || 1,

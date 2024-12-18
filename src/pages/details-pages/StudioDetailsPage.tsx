@@ -18,6 +18,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const { user } = useUserContext();
   const { studioId } = useParams();
 
+  console.log('cart: ', cart);
   const { data: studioObj } = useStudio(studioId || '');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const { currStudio } = studioObj || {};
