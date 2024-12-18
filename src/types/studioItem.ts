@@ -3,5 +3,8 @@ export default interface StudioItem {
   itemId: string;
   studioId: string;
   studioName: string;
+  address?: string;
+  lat?: number;
+  lng?: number;
   studioImgUrl?: string;
 }

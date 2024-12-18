@@ -7,7 +7,8 @@ import {
   useMusicCategories,
   useMusicSubCategories,
   usePhotoCategories,
-  usePhotoSubCategories
+  usePhotoSubCategories,
+  useStudio
 } from '@hooks/index';
 import { Item } from 'src/types/index';
 
@@ -15,6 +16,9 @@ export const CreateItemForm = () => {
   const user = getLocalUser();
   const { studioName, studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
+  const { data: studioObj } = useStudio(studioId || '');
+
+  const studio = studioObj?.currStudio;
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
@@ -33,6 +37,9 @@ export const CreateItemForm = () => {
     createdBy?: string;
     studioName?: string;
     studioId?: string;
+    address?: string;
+    lat?: number;
+    lng?: number;
   }
 
   const handleCategoryChange = (values: string[]) => {
@@ -52,6 +59,9 @@ export const CreateItemForm = () => {
     formData.subCategories = selectedSubCategories;
     formData.studioName = studioName;
     formData.studioId = studioId || '';
+    formData.address = studio?.address || '';
+    formData.lat = studio?.lat || 0;
+    formData.lng = studio?.lng || 0;
     createItemMutation.mutate(formData as Item);
   };
 
