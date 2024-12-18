@@ -30,6 +30,11 @@
   div.item-info-container {
     display: flex;
     gap: 0.5rem;
+    small.item-price {
+      align-self: center;
+      font-weight: 600;
+      color: vars.$color-brand;
+    }
   }
 
   .hour-selection-container {
@@ -39,9 +44,11 @@
     gap: 0.5rem;
     .hour-label {
       justify-self: end;
+      font-weight: 600;
     }
-    span {
+    span.hour-value {
       min-width: 24px;
+      font-weight: 700;
     }
     div {
       display: flex;
