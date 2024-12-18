@@ -38,8 +38,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const [isBooked, setIsBooked] = useState<boolean>(cart ? true : false);
-  console.log('cart: ', cart);
-  console.log('isBooked: ', isBooked);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -78,6 +76,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
       price: item.price || 0,
       total: (item.price || 0) * hours,
       itemId: item._id,
+      studioId: studio._id,
       bookingDate,
       startTime,
       studioName: item.studioName,
@@ -133,6 +132,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
           </button>
         </div>
       </div>
+
       <MuiDateTimePicker
         label="Select Date and Start Time"
         value={selectedDate}
@@ -140,6 +140,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
         availability={item.availability}
         studioAvailability={studio?.studioAvailability}
       />
+
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
           Remove from Wishlist

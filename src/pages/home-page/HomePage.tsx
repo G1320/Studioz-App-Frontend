@@ -86,7 +86,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.recording_studioz')}
-        seeAllPath="/studios/music/recording"
+        seeAllPath="/studios/music/Vocal%20&%20Instrument%20Recording"
       />
       <GenericCarousel
         data={mixingItems}
@@ -100,7 +100,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.podcast_studioz')}
-        seeAllPath="/studios/music/podcast recording"
+        seeAllPath="/studios/music/Podcast%20Recording"
       />
       <h2>{t('sections.charge_up_your_mix')}</h2>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
@@ -109,14 +109,14 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.mastering_studioz')}
-        seeAllPath="/studios/music/mastering"
+        seeAllPath="/studios/music/Mastering"
       />
       <GenericCarousel
         data={audioEngineeringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.audio_engineerz')}
-        seeAllPath="/studios/music/audio engineering"
+        seeAllPath="/studios/music/Music%20Production"
       />
       <h2>{t('sections.book_now_think_later')}</h2>
       <StudiosList studios={mixingStudios.slice(4, 10)} />

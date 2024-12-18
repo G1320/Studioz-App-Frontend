@@ -13,9 +13,10 @@ const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
   const [viewState, setViewState] = useState({
-    latitude: 32.0461,
-    longitude: 34.8516,
-    zoom: 9
+    latitude: 32.0561,
+    longitude: 34.7516,
+    zoom: 9,
+    bearing: -5
   });
 
   const langNavigate = useLanguageNavigate();
@@ -36,7 +37,8 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
       ...prev,
       latitude: studio.lat! + 0.06,
       longitude: studio.lng!,
-      zoom: 10
+      zoom: 10,
+      angle: 200
     }));
   };
 
