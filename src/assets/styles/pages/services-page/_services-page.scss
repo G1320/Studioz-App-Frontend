@@ -1,7 +1,8 @@
 .services-page {
   display: grid;
-  width: 100%;
-  margin-block-end: 2.5rem;
-  justify-items: start;
   justify-content: center;
+  width: 100%;
+  justify-items: start;
+  gap: 1rem;
+  margin-block-end: 2.5rem;
 }
