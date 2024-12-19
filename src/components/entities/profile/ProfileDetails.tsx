@@ -1,7 +1,7 @@
 import User from 'src/types/user';
 
 interface ProfileDetailsProps {
-  user: User;
+  user: User | null;
 }
 
 const BASE_URL =
@@ -19,7 +19,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           Accept: 'application/json'
         },
         body: JSON.stringify({
-          sellerId: user._id,
+          sellerId: user?._id,
           returnUrl: `${window.location.origin}/api/paypal/onboarding/return`
         })
       });
