@@ -23,7 +23,7 @@ export const ShoppingCart: React.FC<CartItemsListProps> = ({ cart }) => {
         className="cart-icon"
       >
         <ShoppingCartIcon style={{ fontSize: '1.6rem' }} />
-        <div className="icon-wrapper">{itemCount && <span className="badge">{itemCount}</span>}</div>
+        <div className="icon-wrapper">{itemCount && <small className="badge">{itemCount}</small>}</div>
       </div>
       <CartAside cart={cart} isOpen={isCartOpen} onClose={() => setCartOpen(false)} />
     </div>

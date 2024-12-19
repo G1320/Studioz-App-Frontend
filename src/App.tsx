@@ -49,6 +49,7 @@ function App() {
   const { data: originalItems } = useItems();
   const { data: originalStudios } = useStudios();
 
+  const items = useMemo(() => shuffleArray(originalItems || []), [originalItems]);
   const studios = useMemo(() => shuffleArray(originalStudios || []), [originalStudios]);
 
   return (
@@ -63,10 +64,10 @@ function App() {
               <Routes>
                 <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 
-                <Route path="/:lang" element={<HomePage studios={studios || []} items={originalItems || []} />} />
+                <Route path="/:lang" element={<HomePage studios={studios || []} items={items || []} />} />
                 <Route
                   path="/:lang?/studio/:studioId"
-                  element={<StudioDetailsPage items={originalItems || []} cart={onlineCart || offlineCart} />}
+                  element={<StudioDetailsPage items={items || []} cart={onlineCart || offlineCart} />}
                 />
                 <Route
                   path="/:lang?/studios/:category?/:subcategory?"
@@ -74,13 +75,10 @@ function App() {
                 />
                 <Route
                   path="/:lang?/services/:category?/:subCategory?"
-                  element={<ServicesPage items={originalItems || []} />}
+                  element={<ServicesPage items={items || []} />}
                 />
                 <Route path="/:lang?/wishlists" element={<WishListsPage />} />
-                <Route
-                  path="/:lang?/wishlists/:wishlistId"
-                  element={<WishlistDetailsPage items={originalItems || []} />}
-                />
+                <Route path="/:lang?/wishlists/:wishlistId" element={<WishlistDetailsPage items={items || []} />} />
                 <Route path="/:lang?/create-item/:studioName/:studioId" element={<CreateItemPage />} />
                 <Route path="/:lang?/edit-item/:itemId" element={<EditItemPage />} />
                 <Route path="/:lang?/edit-studio/:studioId" element={<EditStudioPage />} />

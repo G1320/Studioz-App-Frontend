@@ -4,7 +4,7 @@ export const initialOptions = {
 
   // 'disable-funding': '',
   // 'buyer-country': 'US',
-  currency: 'USD',
+  currency: 'ILS',
   // 'data-page-type': 'product-details',
   components: 'buttons'
   // 'data-sdk-integration-source': 'developer-studio'

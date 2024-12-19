@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import ProfileDetails from '@components/entities/profile/ProfileDetails';
 import { User } from 'src/types/index';
 
 interface ProfilePageProps {
-  user: User | null;
+  user: User;
 }
 
 export const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
@@ -14,22 +15,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
   return (
     <section className="profile-page">
-      <div className="profile-header">
-        <img src={user?.picture} alt={`${user?.name}'s avatar`} className="profile-avatar" />
-        <h1 className="profile-name">{user?.name}</h1>
-        <p className="profile-email">{user?.email}</p>
-      </div>
-
-      <div className="profile-body">
-        <h2>About Me</h2>
-
-        <h2>Account Details</h2>
-        <ul>
-          <li>
-            <strong>Email:</strong> {user?.email || 'N/A'}
-          </li>
-        </ul>
-      </div>
+      <ProfileDetails user={user} />
     </section>
   );
 };
