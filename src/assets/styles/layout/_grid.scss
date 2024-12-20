@@ -3,10 +3,8 @@
 main {
   display: grid;
   gap: 1rem;
-  min-height: 100vh;
   max-width: clamp(100%, 80vw, 2300px);
   padding: 0.5rem 1rem 0.5rem 1rem;
-  grid-template-rows: max-content 1fr;
 
   .studio-details-page {
     .hero {

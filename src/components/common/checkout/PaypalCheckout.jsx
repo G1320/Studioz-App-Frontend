@@ -2,15 +2,11 @@ import { useState } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
 
-//     type MessageProps = {
-//   content: string;
-// };
-
 function Message({ content }) {
   return <p>{content}</p>;
 }
 
-const PaypalCheckout = ({ cart }) => {
+const PaypalCheckout = ({ cart, studioSellerId }) => {
   const [message, setMessage] = useState('');
 
   if (!cart?.items?.length) {
@@ -33,20 +29,19 @@ const PaypalCheckout = ({ cart }) => {
         }}
         createOrder={async () => {
           try {
-            const response = await fetch(`${BASE_URL}/orders`, {
+            const response = await fetch(`${BASE_URL}/orders/marketplace/orders`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
-              // use the "body" param to optionally pass additional order information
-              // like product ids and quantities
               body: JSON.stringify({
                 cart: cart.items.map((item) => ({
                   name: item.name + ' session at ' + item.studioName + ' ',
                   id: item.itemId,
                   quantity: item.quantity,
                   price: item.price
-                }))
+                })),
+                sellerId: studioSellerId
               })
             });
 

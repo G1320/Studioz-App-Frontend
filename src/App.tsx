@@ -13,7 +13,7 @@ import i18n from './i18n';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, ProfilePage, ResponsiveFooter, StudiosMap } from '@components/index';
+import { Header, ProfilePage, ResponsiveFooter, ScrollToTop, StudiosMap } from '@components/index';
 import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
@@ -61,6 +61,7 @@ function App() {
 
           <main className="main-content" id="main-content">
             <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
+              <ScrollToTop />
               <Routes>
                 <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 

@@ -22,5 +22,6 @@ export default interface Item {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
+  sellerId?: string;
   availability?: Availability[];
 }
