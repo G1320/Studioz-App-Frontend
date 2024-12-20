@@ -1,11 +1,12 @@
 .order-page {
   display: flex;
   flex-direction: column;
+  margin-inline: auto;
   padding: 2rem;
   gap: 1rem;
   width: calc(100vw - 6rem);
-  margin: auto;
   height: fit-content;
+  max-width: 1540px;
   border-radius: 8px;
   justify-items: center;
   background-color: #fff;

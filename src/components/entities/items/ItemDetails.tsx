@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Button,
@@ -37,7 +37,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
-  const [isBooked, setIsBooked] = useState<boolean>(cart ? true : false);
+  const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item._id), [cart, item]);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -88,7 +88,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
       onSuccess: () => {
         addItemToCartMutation.mutate(newItem);
         setSelectedDate(null);
-        setIsBooked(true);
         langNavigate(`/studio/${studio?._id}`);
       }
     });

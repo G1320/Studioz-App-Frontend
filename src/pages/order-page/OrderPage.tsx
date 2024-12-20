@@ -12,10 +12,6 @@ const OrderPage: React.FC<OrderPageProps> = ({ studios, cart }) => {
 
   const merchantId = studios?.find((studio) => studio._id === studioId)?.paypalMerchantId;
 
-  if (!merchantId) {
-    return <p>An issue occurred, please try again later</p>;
-  }
-
   const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
 
   return (
@@ -25,7 +21,11 @@ const OrderPage: React.FC<OrderPageProps> = ({ studios, cart }) => {
           <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />
         ))}
       </div>
-      <PaypalCheckout cart={studioId ? filteredCart : cart} merchantId={merchantId} />
+      {merchantId ? (
+        <PaypalCheckout cart={studioId ? filteredCart : cart} merchantId={merchantId} />
+      ) : (
+        <p>An issue occurred, please try again later</p>
+      )}
     </section>
   );
 };
