@@ -6,7 +6,7 @@ function Message({ content }) {
   return <p>{content}</p>;
 }
 
-const PaypalCheckout = ({ cart, studioSellerId }) => {
+const PaypalCheckout = ({ cart, merchantId }) => {
   const [message, setMessage] = useState('');
 
   if (!cart?.items?.length) {
@@ -41,7 +41,7 @@ const PaypalCheckout = ({ cart, studioSellerId }) => {
                   quantity: item.quantity,
                   price: item.price
                 })),
-                sellerId: studioSellerId
+                sellerId: merchantId
               })
             });
 

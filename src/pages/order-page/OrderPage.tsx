@@ -1,17 +1,21 @@
 import { PaypalCheckout, CartItemPreview } from '@components/index';
-import { useStudio } from '@hooks/dataFetching';
 import { useParams } from 'react-router-dom';
-import { Cart } from 'src/types/index';
+import { Cart, Studio } from 'src/types/index';
 
 interface OrderPageProps {
+  studios: Studio[];
   cart: Cart;
 }
 
-const OrderPage: React.FC<OrderPageProps> = ({ cart }) => {
+const OrderPage: React.FC<OrderPageProps> = ({ studios, cart }) => {
   const { studioId } = useParams();
-  const { data: studioObj } = useStudio(studioId || '');
 
-  const studio = studioObj?.currStudio;
+  const merchantId = studios?.find((studio) => studio._id === studioId)?.paypalMerchantId;
+
+  if (!merchantId) {
+    return <p>An issue occurred, please try again later</p>;
+  }
+
   const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
 
   return (
@@ -21,7 +25,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart }) => {
           <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />
         ))}
       </div>
-      <PaypalCheckout cart={studioId ? filteredCart : cart} studioSellerId={studio?.createdBy} />
+      <PaypalCheckout cart={studioId ? filteredCart : cart} merchantId={merchantId} />
     </section>
   );
 };

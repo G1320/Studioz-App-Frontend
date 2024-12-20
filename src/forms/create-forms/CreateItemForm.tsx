@@ -11,6 +11,7 @@ import {
   useStudio
 } from '@hooks/index';
 import { Item } from 'src/types/index';
+import { toast } from 'sonner';
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
@@ -40,6 +41,7 @@ export const CreateItemForm = () => {
     address?: string;
     lat?: number;
     lng?: number;
+    paypalMerchantId?: string;
   }
 
   const handleCategoryChange = (values: string[]) => {
@@ -62,6 +64,13 @@ export const CreateItemForm = () => {
     formData.address = studio?.address || '';
     formData.lat = studio?.lat || 0;
     formData.lng = studio?.lng || 0;
+
+    formData.paypalMerchantId = user?.paypalMerchantId || '';
+
+    if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {
+      return toast.error('Please complete PayPal onboarding process before creating a studio');
+    }
+
     createItemMutation.mutate(formData as Item);
   };
 

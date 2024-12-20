@@ -23,6 +23,7 @@ interface FormData {
   categories?: string[];
   subCategories?: string[];
   studioAvailability?: StudioAvailability;
+  paypalMerchantId?: string;
 }
 
 export const CreateStudioForm = () => {
@@ -128,6 +129,11 @@ export const CreateStudioForm = () => {
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
     formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
+    formData.paypalMerchantId = user?.paypalMerchantId || '';
+
+    if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {
+      return toast.error('Please complete PayPal onboarding process before creating a studio');
+    }
 
     createStudioMutation.mutate({ userId: user?._id || '', newStudio: formData as Studio });
   };

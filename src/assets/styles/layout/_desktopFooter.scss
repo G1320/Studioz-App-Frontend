@@ -2,6 +2,8 @@
 
 footer.desktop-footer {
   display: grid;
+  position: sticky;
+  bottom: 0;
   height: 2.5rem;
   background: vars.$footer-bg-color;
   color: vars.$text-color-primary;

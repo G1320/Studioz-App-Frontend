@@ -23,5 +23,6 @@ export default interface Item {
   createdAt?: Date;
   updatedAt?: Date;
   sellerId?: string;
+  paypalMerchantId?: string;
   availability?: Availability[];
 }
