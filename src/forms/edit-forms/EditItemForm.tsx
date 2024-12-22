@@ -17,7 +17,8 @@ import { arraysEqual } from '@utils/compareArrays';
 interface FormData {
   imageUrl?: string;
   categories?: string[];
-  subCategory?: string;
+  subCategories?: string[];
+  studioId?: string;
 }
 
 export const EditItemForm = () => {
@@ -34,22 +35,19 @@ export const EditItemForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     item?.categories && item.categories.length > 0 ? [item.categories[0]] : musicCategories
   );
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string>(item?.subCategory || musicSubCategories[0]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(item?.subCategories || []);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
-  // const [subCategories, setSubCategories] = useState<string[]>(
-  //   item?.categories?.includes(musicCategories[0]) ? musicSubCategories : photoSubCategories
-  // );
   const [imageUrl, setImageUrl] = useState<string>(item?.imageUrl || '');
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
     const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategories : photoSubCategories;
     setSubCategories(newSubCategories);
-    setSelectedSubCategory(newSubCategories[0]);
+    setSelectedSubCategories([newSubCategories[0]]);
   };
 
-  const handleSubCategoryChange = (value: string) => {
-    setSelectedSubCategory(value);
+  const handleSubCategoryChange = (values: string[]) => {
+    setSelectedSubCategories(values);
   };
 
   const fields = [
@@ -64,11 +62,11 @@ export const EditItemForm = () => {
       onChange: handleCategoryChange
     },
     {
-      name: 'subCategory',
+      name: 'subCategories',
       label: arraysEqual(selectedCategories, musicCategories) ? [musicCategories] : [photoCategories],
       type: 'multiSelect' as FieldType,
       options: subCategories,
-      value: selectedSubCategory,
+      value: selectedSubCategories,
       onChange: handleSubCategoryChange
     },
     { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price }
@@ -77,8 +75,10 @@ export const EditItemForm = () => {
   const handleSubmit = async (formData: FormData) => {
     formData.imageUrl = imageUrl;
     formData.categories = selectedCategories;
-    formData.subCategory = selectedSubCategory;
+    formData.subCategories = selectedSubCategories;
+    formData.studioId = item?.studioId || '';
 
+    // console.log('formData: ', formData);
     updateItemMutation.mutate(formData as Item);
   };
 

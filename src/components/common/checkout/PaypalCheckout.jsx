@@ -41,7 +41,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
                   quantity: item.quantity,
                   price: item.price
                 })),
-                sellerId: merchantId
+                merchantId: merchantId
               })
             });
 

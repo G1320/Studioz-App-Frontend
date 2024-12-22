@@ -22,7 +22,7 @@ const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEdit, onA
             <Button className="add-button" onClick={() => onAddNewService(studio?._id || '')}>
               <LibraryAddIcon />
             </Button>
-            <Button onClick={() => onEdit(studio?._id || '')}>
+            <Button className="edit-button" onClick={() => onEdit(studio?._id || '')}>
               <EditNoteIcon />
             </Button>
           </div>

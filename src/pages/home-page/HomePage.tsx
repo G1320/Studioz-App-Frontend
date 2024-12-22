@@ -36,11 +36,11 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   );
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
 
-  const recordingStudios = filterBySubcategory(studios, 'Recording');
+  const recordingStudios = filterBySubcategory(studios, 'Vocal & Instrument Recording');
   const mixingStudios = filterBySubcategory(studios, 'Mixing');
-  const audioEngineeringStudios = filterBySubcategory(studios, 'Audio engineering');
+  const audioEngineeringStudios = filterBySubcategory(studios, 'Music Production');
   const masteringStudios = filterBySubcategory(studios, 'Mastering');
-  const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast recording');
+  const podcastRecordingStudios = filterBySubcategory(studios, 'Podcast Recording');
   const mixingItems = filterBySubcategory(items, 'Mixing');
   const masteringItems = filterBySubcategory(items, 'Mastering');
 

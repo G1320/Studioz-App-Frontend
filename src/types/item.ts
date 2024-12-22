@@ -11,7 +11,7 @@ export default interface Item {
   category?: string;
   categories?: string[];
   subCategory?: string;
-  subCategories?: string;
+  subCategories?: string[];
   price?: number;
   imageUrl?: string;
   idx?: number;

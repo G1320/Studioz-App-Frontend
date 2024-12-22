@@ -113,19 +113,28 @@ export const GenericCarousel = <T,>({
             lastSlideMessage: 'This is the last slide'
           }}
           onProgress={(swiper) => {
-            swiper.slides.forEach((slide) => {
-              const slideLeft = slide.offsetLeft;
-              const slideRight = slideLeft + slide.offsetWidth;
-              const containerLeft = swiper.wrapperEl.scrollLeft;
-              const containerRight = containerLeft + swiper.width;
+            swiper.slides.forEach((slide, index) => {
+              // Check if this is the last slide
+              const isLastSlide = index === swiper.slides.length - 1;
 
-              const isPartiallyVisible = isRTL
-                ? slideRight > containerLeft && slideLeft < containerLeft
-                : slideLeft < containerRight && slideRight > containerRight;
+              if (!isLastSlide) {
+                // Only apply dimming logic if it's not the last slide
+                const slideLeft = slide.offsetLeft;
+                const slideRight = slideLeft + slide.offsetWidth;
+                const containerLeft = swiper.wrapperEl.scrollLeft;
+                const containerRight = containerLeft + swiper.width;
 
-              if (isPartiallyVisible) {
-                slide.classList.add('dimmed');
+                const isPartiallyVisible = isRTL
+                  ? slideRight > containerLeft && slideLeft < containerLeft
+                  : slideLeft < containerRight && slideRight > containerRight;
+
+                if (isPartiallyVisible) {
+                  slide.classList.add('dimmed');
+                } else {
+                  slide.classList.remove('dimmed');
+                }
               } else {
+                // Make sure the last slide is never dimmed
                 slide.classList.remove('dimmed');
               }
             });

@@ -14,13 +14,14 @@ import {
   useRemoveItemFromWishlistMutation
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Cart, Item, Studio, Wishlist } from 'src/types/index';
+import { Cart, Item, Studio, User, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
+import ItemOptions from './ItemOptions';
 interface ItemDetailsProps {
   cart?: Cart;
   item: Item;
@@ -95,6 +96,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item._id);
+  const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
 
   const handleImageClicked = () => {
     langNavigate(`/studio/${item.studioId}`);
@@ -111,7 +113,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="details item-details">
       {studio && <img className="cover-image" src={studio.coverImage} onClick={handleImageClicked} />}
-      <h3>{item.studioName}</h3>
+      <div>
+        <h3>{item.studioName}</h3>
+        <ItemOptions item={item} user={user as User} onEdit={handleGoToEdit} />
+      </div>
       <div className="item-info-container">
         <h3>{item.name}</h3>
         <small className="item-price">₪{item.price}/hr</small>

@@ -1,2 +1,3 @@
 export * from './GoogleAddressAutocomplete';
-export * from './MapBoxMap';
+export * from './StudiosMap';
+export * from './ItemsMap';
