@@ -5,30 +5,32 @@ import { Item } from 'src/types/index';
 interface ServicesPageProps {
   items?: Item[];
 }
-
 const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
   const { category, subCategory } = useParams();
+
   const filteredItems = items?.filter((item) => {
     if (subCategory === undefined) {
-      // Check both array and single field for backwards compatibility
-      return (
-        item?.categories?.some((cat) => cat.toLowerCase() === category?.toLowerCase()) ||
-        item?.category?.toLowerCase() === category?.toLowerCase()
-      );
+      // For category matching, check both arrays and single field
+      const categoryMatches =
+        // Check the single category field
+        item?.category?.toLowerCase() === category?.toLowerCase() ||
+        // Check the categories array
+        item?.categories?.some((cat) => cat.toLowerCase() === 'Music / Podcast Studio'.toLowerCase());
+
+      return categoryMatches;
     } else {
-      return (
-        (item?.categories?.some((cat) => cat.toLowerCase() === category?.toLowerCase()) ||
-          item?.category?.toLowerCase() === category?.toLowerCase()) &&
-        (item?.subCategories?.some((subCat) => subCat.toLowerCase() === subCategory?.toLowerCase()) ||
-          item?.subCategory?.toLowerCase() === subCategory?.toLowerCase())
-      );
+      // For subcategory, check both arrays and single field
+      const subCategoryMatches =
+        item?.subCategories?.some((sub) => sub.toLowerCase() === subCategory.toLowerCase()) ||
+        item?.subCategory?.toLowerCase() === subCategory.toLowerCase();
+      return subCategoryMatches;
     }
   });
 
   return (
     <section className="services-page">
-      <ItemsMap items={filteredItems} />
-      <ItemsList items={filteredItems} className="Items-list" />
+      <ItemsMap items={subCategory ? filteredItems : items} />
+      <ItemsList items={subCategory ? filteredItems : items} className="Items-list" />
     </section>
   );
 };

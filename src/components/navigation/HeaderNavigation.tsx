@@ -29,7 +29,7 @@ export function HeaderNavigation() {
   return (
     <nav className="navbar">
       <Link
-        to={`/${currLang}/services`}
+        to={`/${currLang}/services/music`}
         className="navbar-link"
         aria-label={t('navigation.services')}
         aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
