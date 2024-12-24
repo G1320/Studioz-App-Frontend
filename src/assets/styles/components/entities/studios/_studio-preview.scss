@@ -23,12 +23,11 @@
     align-items: center;
   }
   small {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-    align-self: center;
-    max-width: 100%;
+    color: #999;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
   }
   p.description {
     min-height: 72px;

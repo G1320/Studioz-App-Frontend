@@ -43,11 +43,24 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     />
   );
 
+  const getCityForDisplay = (address: string) => {
+    if (!address || !address.includes(',')) return '';
+    const addressParts = address.split(',').map((part) => part.trim());
+    const cityPart = addressParts[addressParts.length - 2];
+    if (/^\d+$/.test(cityPart)) {
+      return addressParts[addressParts.length - 3] || '';
+    }
+    return cityPart || '';
+  };
+
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
-      <h3>{item.name}</h3>
       <div>
-        <h3>{item.studioName}</h3>
+        <strong>{item.studioName}</strong>
+        {item.address && <small>{getCityForDisplay(item.address)}</small>}
+      </div>
+      <div>
+        <h3>{item.name}</h3>
         <div>
           <small className="item-price">₪{item.price}/hr</small>
         </div>
