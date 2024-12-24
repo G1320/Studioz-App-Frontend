@@ -130,7 +130,6 @@ export const CreateStudioForm = () => {
 
   const handleSubmit = async (formData: FormData) => {
     const englishSubCategories = selectedDisplaySubCategories.map((subCat) => getEnglishByDisplay(subCat));
-    console.log('englishSubCategories: ', englishSubCategories);
 
     formData.coverImage = galleryImages[0];
     formData.galleryImages = galleryImages;

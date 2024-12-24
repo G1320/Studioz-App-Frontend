@@ -1,5 +1,5 @@
 import { CategoryPreview, GenericCarousel, ItemsList, ItemsMap } from '@components/index';
-import { useMusicSubCategories } from '@hooks/utils';
+import { useCategories, useMusicSubCategories } from '@hooks/utils';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Item } from 'src/types/index';
@@ -10,6 +10,8 @@ interface ServicesPageProps {
 const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
   const { category, subCategory } = useParams();
   const { t } = useTranslation('homePage');
+  const { getDisplayByEnglish } = useCategories();
+
   const musicSubCategories = useMusicSubCategories();
 
   const filteredItems = items?.filter((item) => {
@@ -33,6 +35,8 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} pathPrefix="services" />;
 
+  const subcategoryDisplay = subCategory ? getDisplayByEnglish(subCategory) : subCategory;
+
   return (
     <section className="services-page">
       <GenericCarousel
@@ -50,6 +54,8 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
         }}
       />
       <ItemsMap items={subCategory ? filteredItems : items} />
+      {subcategoryDisplay && <h1>{subcategoryDisplay}</h1>}
+
       <ItemsList items={subCategory ? filteredItems : items} className="Items-list-container" />
     </section>
   );
