@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
   const currLang = i18n.language || 'en';
 
   return (
-    <header>
+    <header className="app-header">
       <a href="#main-content" className="skip-link">
         Skip to Content
       </a>

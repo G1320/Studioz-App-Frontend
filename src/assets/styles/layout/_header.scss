@@ -1,6 +1,6 @@
 @use '../utilities/variables' as vars;
 
-header {
+header.app-header {
   grid-area: header;
   position: sticky;
   top: 0;

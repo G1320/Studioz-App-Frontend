@@ -26,6 +26,8 @@ import EditStudioPage from '@pages/edit-pages/EditStudioPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
 
+const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
+const TermsAndConditionsPage = lazy(() => import('@pages/compliance-pages/TermAndConditionsPage'));
 const ServicesPage = lazy(() => import('@pages/services-page/ServicesPage'));
 const StudiosPage = lazy(() => import('@pages/studios-page/StudiosPage'));
 const CreateItemPage = lazy(() => import('@pages/create-pages/CreateItemPage'));
@@ -97,6 +99,8 @@ function App() {
                 <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
                 <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
                 <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
+                <Route path="/:lang?/privacypolicy" element={<PrivacyPolicyPage />} />
+                <Route path="/:lang?/termsandconditions" element={<TermsAndConditionsPage />} />
               </Routes>
             </Suspense>
           </main>
