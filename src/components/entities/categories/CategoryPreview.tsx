@@ -1,4 +1,5 @@
 import { useLanguageNavigate } from '@hooks/utils';
+import { useCategories } from '@hooks/utils/categories/useCategories';
 
 interface CategoryPreviewProps {
   pathPrefix?: string;
@@ -7,9 +8,11 @@ interface CategoryPreviewProps {
 
 export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category, pathPrefix = 'studios' }) => {
   const langNavigate = useLanguageNavigate();
+  const { getEnglishByDisplay } = useCategories();
 
   const handleClick = () => {
-    langNavigate(`/${pathPrefix}/music/${category}`);
+    const categoryKey = getEnglishByDisplay(category);
+    langNavigate(`/${pathPrefix}/music/${categoryKey}`);
   };
 
   return (

@@ -4,11 +4,11 @@ import { FileUploader, GenericForm, FieldType } from '@components/index';
 import {
   useDays,
   useMusicCategories,
-  useMusicSubCategories,
   usePhotoCategories,
   usePhotoSubCategories,
   useStudio,
-  useUpdateStudioMutation
+  useUpdateStudioMutation,
+  useCategories
 } from '@hooks/index';
 import { uploadFile } from '@services/index';
 import { Studio } from 'src/types/index';
@@ -30,21 +30,30 @@ export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
   const studio = data?.currStudio;
-  const updateStudioMutation = useUpdateStudioMutation(studioId || '');
+  const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
 
   const musicCategories = useMusicCategories();
-  const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
   const daysOfWeek = useDays() as DayOfWeek[];
 
+  const updateStudioMutation = useUpdateStudioMutation(studioId || '');
+
   const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
+
+  // Get the English values and their display translations
+  const musicSubCategoriesDisplay = getMusicSubCategories().map((cat) => cat.value);
+
+  // Convert stored English values to display values for initial state
+  const initialDisplaySubCategories =
+    studio?.subCategories?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
   );
-  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(studio?.subCategories || []);
-  const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
+  const [displaySubCategories, setDisplaySubCategories] = useState<string[]>(musicSubCategoriesDisplay);
+  const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] =
+    useState<string[]>(initialDisplaySubCategories);
 
   const [openDays, setOpenDays] = useState<DayOfWeek[]>(studio?.studioAvailability?.days || daysOfWeek);
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
@@ -56,21 +65,24 @@ export const EditStudioForm = () => {
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
-    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategories : photoSubCategories;
-    setSubCategories(newSubCategories);
-    setSelectedSubCategories([newSubCategories[0]]);
+    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategoriesDisplay : photoSubCategories;
+    setDisplaySubCategories(newSubCategories);
+    setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
   };
 
-  const handleSubCategoryChange = (value: string[]) => {
-    setSelectedSubCategories(value);
+  const handleSubCategoryChange = (values: string[]) => {
+    setSelectedDisplaySubCategories(values);
   };
 
   const handleDaysChange = (values: string[]) => {
     setOpenDays(values as DayOfWeek[]);
+    console.log('values: ', values);
   };
+
   const handleOpeningHourChange = (values: string) => {
     setOpeningHour(values);
   };
+
   const handleClosingHourChange = (values: string) => {
     setClosingHour(values);
   };
@@ -90,8 +102,8 @@ export const EditStudioForm = () => {
       name: 'subCategories',
       label: arraysEqual(selectedCategories, musicCategories) ? [musicCategories] : [photoCategories],
       type: 'multiSelect' as FieldType,
-      options: subCategories,
-      value: selectedSubCategories,
+      options: displaySubCategories,
+      value: selectedDisplaySubCategories,
       onChange: handleSubCategoryChange
     },
     {
@@ -136,12 +148,17 @@ export const EditStudioForm = () => {
   ];
 
   const handleSubmit = async (formData: FormData) => {
+    // Convert display values back to English for submission
+    const englishSubCategories = selectedDisplaySubCategories.map((displayValue) => getEnglishByDisplay(displayValue));
+    console.log('englishSubCategories: ', englishSubCategories);
+
     formData.coverImage = coverImage;
     formData.galleryImages = galleryImages;
     formData.categories = selectedCategories;
-    formData.subCategories = selectedSubCategories;
+    formData.subCategories = englishSubCategories;
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
+
     updateStudioMutation.mutate(formData as Studio);
   };
 
