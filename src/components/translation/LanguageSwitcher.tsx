@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Menu, MenuItem, IconButton } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useNavigate } from 'react-router-dom';
+
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -24,13 +25,21 @@ export const LanguageSwitcher = () => {
 
   const changeLanguage = (lang: string) => {
     const currentPath = window.location.pathname;
+    let newPath;
 
-    // Create a new path by replacing the language part of the URL
-    const newPath = currentPath.replace(/^\/[a-z]{2}\//, `/${lang}/`);
+    if (currentPath === '/' || currentPath === '/en' || currentPath === '/he') {
+      newPath = `/${lang}`;
+    } else {
+      if (currentPath.match(/^\/[a-z]{2}\//)) {
+        newPath = currentPath.replace(/^\/[a-z]{2}\//, `/${lang}/`);
+      } else {
+        newPath = `/${lang}${currentPath}`;
+      }
+    }
 
     i18n.changeLanguage(lang);
     handleClose();
-    navigate(newPath);
+    navigate(newPath, { replace: true });
   };
 
   return (

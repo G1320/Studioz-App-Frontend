@@ -1,3 +1,5 @@
+import { useLanguageNavigate } from '@hooks/utils';
+import { PersonPinCircle } from '@mui/icons-material';
 import User from 'src/types/user';
 
 interface ProfileDetailsProps {
@@ -10,6 +12,7 @@ const BASE_URL =
     : 'http://localhost:3003/api';
 
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
+  const langNavigate = useLanguageNavigate();
   const handleOnboardClick = async () => {
     try {
       const response = await fetch(`${BASE_URL}/orders/seller/generate-signup-link`, {
@@ -37,32 +40,65 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     }
   };
 
+  const handleNavigate = (path: string) => {
+    langNavigate(path);
+  };
+
   return (
-    <>
-      <img src={user?.picture} alt={`${user?.name}'s avatar`} className="profile-avatar" />
+    <div className="profile-container">
       <div className="profile-header">
-        <h1 className="profile-name">{user?.name}</h1>
-        <p className="profile-email">{user?.email}</p>
+        <div className="avatar-container">
+          <div className="profile-avatar-placeholder">
+            <PersonPinCircle />
+          </div>
+          {/* {user?.picture ? (
+            <img src={user.picture} alt={`${user.name}'s avatar`} className="profile-avatar" />
+          ) : (
+            <div className="profile-avatar-placeholder">
+              <PersonPinCircle />
+            </div>
+          )} */}
+        </div>
+        <div className="profile-info">
+          <h1 className="profile-name">{user?.name || 'Guest User'}</h1>
+          <p className="profile-email">{user?.email}</p>
+        </div>
       </div>
 
       <div className="profile-body">
-        <h2>About Me</h2>
+        <div className="profile-section">
+          <h2>Account Details</h2>
+          <div className="details-grid">
+            <div className="detail-item">
+              <span className="detail-label">Email</span>
+              <span className="detail-value">{user?.email || 'N/A'}</span>
+            </div>
+          </div>
+        </div>
 
-        <h2>Account Details</h2>
-        <ul>
-          <li>
-            <strong>Email:</strong> {user?.email || 'N/A'}
-          </li>
-        </ul>
+        <div className="profile-section">
+          <div className="seller-onboarding">
+            <h2>Seller Account</h2>
+            <p className="section-description">Connect your PayPal account to start selling</p>
+            <button onClick={handleOnboardClick} className="onboard-button">
+              Connect PayPal Account
+            </button>
+          </div>
+        </div>
 
-        <div className="seller-onboarding">
-          <h2>Seller Account</h2>
-          <button onClick={handleOnboardClick} className="onboard-button">
-            Connect PayPal Account
-          </button>
+        <div className="profile-section legal-links">
+          <h2>Legal Information</h2>
+          <div className="legal-buttons">
+            <button className="link-button" onClick={() => handleNavigate('/privacypolicy')}>
+              Privacy Policy
+            </button>
+            <button className="link-button" onClick={() => handleNavigate('/termandconditions')}>
+              Terms & Conditions
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
