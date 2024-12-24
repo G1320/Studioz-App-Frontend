@@ -49,7 +49,7 @@ export const useUpdateItemMutation = (itemId: string) => {
   return useMutationHandler<Item, Item>({
     mutationFn: (newItem) => updateItem(itemId, newItem),
     successMessage: 'Item updated',
-    invalidateQueries: [{ queryKey: 'items' }],
+    invalidateQueries: [{ queryKey: 'item', targetId: itemId }, { queryKey: 'items' }],
     undoAction: (_variables, data) => updateItem(itemId, data),
     onSuccess: (data, _variables) => languageNavigate(`/studio/${data.studioId}`)
   });
