@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Button, GenericMuiDropdown, WishlistPreview } from '@components/index';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
   useAddItemToWishlistMutation,
   // useLanguageNavigate,
@@ -31,10 +32,6 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item._id);
   const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
 
-  const handleDatePickerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   const renderItem = (wishlist: Wishlist) => (
     <WishlistPreview
       wishlist={wishlist}
@@ -55,16 +52,12 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
 
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
-      <div>
-        <strong>{item.studioName}</strong>
-        {item.address && <small>{getCityForDisplay(item.address)}</small>}
-      </div>
-      <div>
+      <header className="item-preview-header">
         <h3>{item.name}</h3>
         <div>
           <small className="item-price">₪{item.price}/hr</small>
         </div>
-      </div>
+      </header>
       <p>{item.description}</p>
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
@@ -86,7 +79,13 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
           Remove from Studio
         </Button>
       )}
-      <div className="book-now-date-picker-container" onClick={handleDatePickerClick}></div>
+      <footer>
+        <div className="studio-name-location-container">
+          <LocationOnIcon className="locations-icon" />
+          <strong>{item.studioName}</strong>
+        </div>
+        {item.address && <small>{getCityForDisplay(item.address)}</small>}
+      </footer>
     </article>
   );
 };

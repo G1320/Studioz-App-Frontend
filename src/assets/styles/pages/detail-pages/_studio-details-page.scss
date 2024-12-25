@@ -24,12 +24,6 @@
   }
   .items {
     width: 100%;
-    .generic-list {
-      .render-item-container {
-        // place-self: center;
-        // width: 270px !important;
-      }
-    }
   }
   .gallery-images-list {
     flex-grow: 0;
@@ -45,6 +39,12 @@
         min-width: 48px;
         height: 24px;
       }
+    }
+  }
+  .item-preview {
+    min-height: 8rem;
+    footer {
+      display: none;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { DateTimePicker, TimeView } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -24,6 +24,38 @@ export const MuiDateTimePicker = ({
   const [internalValue, setInternalValue] = useState<Dayjs | null>(
     value ? dayjs(value) : dayjs().add(1, 'day').hour(13).minute(0)
   );
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      const scrollToInitialTime = () => {
+        const list = document.querySelector("[role='listbox'].MuiDigitalClock-list");
+        if (list) {
+          const items = list.querySelectorAll('.MuiDigitalClock-item');
+          const targetHour = Array.from(items).find((item) => item.textContent?.includes('12:'));
+
+          if (targetHour) {
+            targetHour.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }
+      };
+
+      // Try multiple times as the dialog might take time to render
+      const timer = setTimeout(scrollToInitialTime, 100);
+      const timer2 = setTimeout(scrollToInitialTime, 200);
+      const timer3 = setTimeout(scrollToInitialTime, 300);
+
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+      };
+    }
+  }, [isOpen]);
 
   const shouldDisableDate = (date: Dayjs) => {
     // First check if the date is in booked availability
@@ -78,6 +110,10 @@ export const MuiDateTimePicker = ({
       shouldDisableTime={shouldDisableTime}
       minutesStep={60}
       ampm={false}
+      timeSteps={{ hours: 1, minutes: 60 }}
+      onOpen={() => setIsOpen(true)}
+      onClose={() => setIsOpen(false)}
+      desktopModeMediaQuery="@media (min-width: 0px)"
       sx={{
         width: '100%',
         '& .MuiInputBase-root': {
