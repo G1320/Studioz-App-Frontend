@@ -82,7 +82,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       <footer>
         <div className="studio-name-location-container">
           <LocationOnIcon className="locations-icon" />
-          <strong>{item.studioName}</strong>
+          <strong>{item.studioNameEn}</strong>
         </div>
         {item.address && <small>{getCityForDisplay(item.address)}</small>}
       </footer>

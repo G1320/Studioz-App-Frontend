@@ -101,9 +101,9 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
               <img
                 src={popupInfo.coverImage}
                 onClick={() => handleNavigateToStudio(popupInfo._id)}
-                alt={popupInfo.name}
+                alt={popupInfo.nameEn}
               />
-              <h3 className="popup-title">{popupInfo.name}</h3>
+              <h3 className="popup-title">{popupInfo.nameEn}</h3>
               {/* <p className="popup-description">{popupInfo.description}</p> */}
               <p className="popup-city">{popupInfo.address}</p>
             </div>
