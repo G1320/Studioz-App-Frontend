@@ -42,7 +42,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
       <StudioDetails user={user} studio={currStudio} />
 
       <GenericCarousel
-        title={(() => getStudioServicesDisplayName(currStudio?.name || ''))()}
+        title={(() => getStudioServicesDisplayName(currStudio?.nameEn || ''))()}
         data={filteredItems}
         renderItem={(item) => (
           <div onClick={() => handleItemClick(item)} key={item._id}>

@@ -33,6 +33,17 @@
     "friday": "שישי",
     "saturday": "שבת"
   },
+  "items": {
+    "price_per": {
+      "hour": "שעה",
+      "session": "סשן",
+      "unit": "יחידה",
+      "song": "שיר"
+    },
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "availability": "Availability"
+  },
   "errors": {
     "required": "שדה זה נדרש",
     "invalid": "קלט לא תקין",

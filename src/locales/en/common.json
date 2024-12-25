@@ -33,6 +33,17 @@
     "friday": "Friday",
     "saturday": "Saturday"
   },
+  "items": {
+    "price_per": {
+      "hour": "hr",
+      "session": "Session",
+      "unit": "Unit",
+      "song": "Song"
+    },
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "availability": "Availability"
+  },
   "errors": {
     "required": "This field is required",
     "invalid": "Invalid input",

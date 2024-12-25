@@ -12,12 +12,14 @@ import {
 } from '@hooks/index';
 import { Item } from 'src/types/index';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
   const { studioName, studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
   const { data: studioObj } = useStudio(studioId || '');
+  const { t } = useTranslation();
 
   const studio = studioObj?.currStudio;
 
@@ -29,6 +31,7 @@ export const CreateItemForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([musicSubCategories[0]]);
+  const [pricePer, setPricePer] = useState<string>('hour');
 
   interface FormData {
     coverImage?: string;
@@ -36,6 +39,7 @@ export const CreateItemForm = () => {
     categories?: string[];
     subCategories?: string[];
     createdBy?: string;
+    pricePer?: string;
     studioName?: string;
     studioId?: string;
     address?: string;
@@ -43,6 +47,15 @@ export const CreateItemForm = () => {
     lng?: number;
     paypalMerchantId?: string;
   }
+
+  const pricePerOptions = [
+    { value: 'hour', label: t('common.items.price_per.hour') },
+    { value: 'session', label: t('common.items.price_per.session') },
+    { value: 'unit', label: t('common.items.price_per.unit') },
+    { value: 'song', label: t('common.items.price_per.song') }
+  ];
+
+  const pricePerValues = pricePerOptions.map((option) => option.value);
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
@@ -64,7 +77,9 @@ export const CreateItemForm = () => {
     formData.address = studio?.address || '';
     formData.lat = studio?.lat || 0;
     formData.lng = studio?.lng || 0;
+    formData.pricePer = pricePer;
 
+    console.log('formData: ', formData);
     formData.paypalMerchantId = user?.paypalMerchantId || '';
 
     if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {
@@ -75,8 +90,10 @@ export const CreateItemForm = () => {
   };
 
   const fields = [
-    { name: 'name', label: 'Name', type: 'text' as FieldType },
-    { name: 'description', label: 'Description', type: 'textarea' as FieldType },
+    { name: 'nameEn', label: 'English Name', type: 'text' as FieldType },
+    { name: 'nameHe', label: 'Hebrew Name', type: 'text' as FieldType },
+    { name: 'descriptionEn', label: 'English Description', type: 'textarea' as FieldType },
+    { name: 'descriptionHe', label: 'Hebrew Description', type: 'textarea' as FieldType },
     {
       name: 'categories',
       label: 'Category',
@@ -94,7 +111,14 @@ export const CreateItemForm = () => {
       onChange: handleSubCategoryChange
     },
     { name: 'price', label: 'Price', type: 'number' as FieldType },
-    { name: 'inStock', label: 'In Stock', type: 'checkbox' as FieldType }
+    {
+      name: 'pricePer',
+      label: 'Price Per',
+      type: 'select' as FieldType,
+      options: pricePerValues,
+      value: pricePer,
+      onChange: (value: string) => setPricePer(value)
+    }
   ];
 
   return (

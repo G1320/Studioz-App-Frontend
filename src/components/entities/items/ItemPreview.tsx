@@ -53,12 +53,12 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
       <header className="item-preview-header">
-        <h3>{item.name}</h3>
+        <h3>{item.nameEn}</h3>
         <div>
           <small className="item-price">₪{item.price}/hr</small>
         </div>
       </header>
-      <p>{item.description}</p>
+      <p>{item.descriptionEn}</p>
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
           Remove from Wishlist

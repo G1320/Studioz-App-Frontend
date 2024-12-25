@@ -73,7 +73,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
     }
 
     const newItem = {
-      name: item.name,
+      name: item.nameEn,
       price: item.price || 0,
       total: (item.price || 0) * hours,
       itemId: item._id,
@@ -118,10 +118,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
         <ItemOptions item={item} user={user as User} onEdit={handleGoToEdit} />
       </div>
       <div className="item-info-container">
-        <h3>{item.name}</h3>
+        <h3>{item.nameEn}</h3>
         <small className="item-price">₪{item.price}/hr</small>
       </div>
-      <p>{item.description}</p>
+      <p>{item.descriptionEn}</p>
       <div className="hour-selection-container">
         <div>
           <span className="hour-label"> Hours:</span>

@@ -79,8 +79,12 @@ export const CreateStudioForm = () => {
   };
 
   const fields = [
-    { name: 'name', label: 'Name', type: 'text' as FieldType },
-    { name: 'description', label: 'Description', type: 'textarea' as FieldType },
+    { name: 'nameEn', label: 'English Name', type: 'text' as FieldType },
+    { name: 'nameHe', label: 'Hebrew Name', type: 'text' as FieldType },
+    { name: 'subtitleEn', label: 'English Subtitle', type: 'text' as FieldType },
+    { name: 'subtitleHe', label: 'Hebrew Subtitle', type: 'text' as FieldType },
+    { name: 'descriptionEn', label: 'English Description', type: 'textarea' as FieldType },
+    { name: 'descriptionHe', label: 'Hebrew Description', type: 'textarea' as FieldType },
     {
       name: 'categories',
       label: 'Category',

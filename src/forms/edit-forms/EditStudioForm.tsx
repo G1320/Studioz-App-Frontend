@@ -88,8 +88,13 @@ export const EditStudioForm = () => {
   };
 
   const fields = [
-    { name: 'name', label: 'Name', type: 'text' as FieldType, value: studio?.name },
-    { name: 'description', label: 'Description', type: 'textarea' as FieldType, value: studio?.description },
+    { name: 'nameEn', label: 'English Name', type: 'text' as FieldType, value: studio?.nameEn },
+    {
+      name: 'descriptionEn',
+      label: 'English Description',
+      type: 'textarea' as FieldType,
+      value: studio?.descriptionEn
+    },
     {
       name: 'categories',
       label: 'Category',
