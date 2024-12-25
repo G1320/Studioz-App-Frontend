@@ -40,7 +40,7 @@ export const CreateItemForm = () => {
     subCategories?: string[];
     createdBy?: string;
     pricePer?: string;
-    studioName?: string;
+    studioNameEn?: string;
     studioId?: string;
     address?: string;
     lat?: number;
@@ -72,14 +72,13 @@ export const CreateItemForm = () => {
     formData.createdBy = user?._id || '';
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
-    formData.studioName = studioName;
+    formData.studioNameEn = studioName || '';
     formData.studioId = studioId || '';
     formData.address = studio?.address || '';
     formData.lat = studio?.lat || 0;
     formData.lng = studio?.lng || 0;
     formData.pricePer = pricePer;
 
-    console.log('formData: ', formData);
     formData.paypalMerchantId = user?.paypalMerchantId || '';
 
     if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {
@@ -90,7 +89,7 @@ export const CreateItemForm = () => {
   };
 
   const fields = [
-    { name: 'nameEn', label: 'English Name', type: 'text' as FieldType },
+    { name: 'name.en', label: 'English Name', type: 'text' as FieldType },
     { name: 'nameHe', label: 'Hebrew Name', type: 'text' as FieldType },
     { name: 'descriptionEn', label: 'English Description', type: 'textarea' as FieldType },
     { name: 'descriptionHe', label: 'Hebrew Description', type: 'textarea' as FieldType },

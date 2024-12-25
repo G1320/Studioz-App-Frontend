@@ -51,8 +51,13 @@ export const EditItemForm = () => {
   };
 
   const fields = [
-    { name: 'nameEn', label: 'English Name', type: 'text' as FieldType, value: item?.nameEn },
-    { name: 'descriptionEn', label: 'English Description', type: 'textarea' as FieldType, value: item?.descriptionEn },
+    { name: 'nameEn', label: 'English Name', type: 'text' as FieldType, value: item?.name.en },
+    {
+      name: 'description.en',
+      label: 'English Description',
+      type: 'textarea' as FieldType,
+      value: item?.description.en
+    },
     {
       name: 'categories',
       label: 'Category',

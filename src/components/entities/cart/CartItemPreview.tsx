@@ -36,21 +36,21 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
       className="preview cart-item-preview"
       role="button"
       tabIndex={0}
-      aria-label={`Cart item: ${item?.nameEn}`}
+      aria-label={`Cart item: ${item?.name.en}`}
     >
       <section>
         {item.studioImgUrl && (
           <img
             src={item.studioImgUrl}
-            alt={`${item.studioNameEn} ${item?.nameEn} service image`}
+            alt={`${item.studioName.en} ${item?.name.en} service image`}
             className="cart-item-image"
           />
         )}
         <div>
           <h3 tabIndex={0} onClick={handleClick}>
-            {item?.nameEn}
+            {item?.name.en}
           </h3>
-          <p>{item?.studioNameEn}</p>
+          <p>{item?.studioName.en}</p>
         </div>
       </section>
       <section>
@@ -76,8 +76,8 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
           className="decrement-quantity"
           aria-label={
             item.quantity && item.quantity <= 1
-              ? `Remove ${item?.nameEn} from cart`
-              : `Decrease quantity of ${item?.nameEn}`
+              ? `Remove ${item?.name.en} from cart`
+              : `Decrease quantity of ${item?.name.en}`
           }
         >
           {item.quantity && item.quantity <= 1 ? (
@@ -90,7 +90,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
           className="cart-item-preview-quantity"
           tabIndex={0}
           aria-live="polite"
-          aria-label={`Quantity of ${item?.nameEn}: ${item?.quantity} hours`}
+          aria-label={`Quantity of ${item?.name.en}: ${item?.quantity} hours`}
         >
           Hours: {item.quantity}
         </small>
@@ -98,7 +98,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
           onClick={(e) => handleQuantityChange(e, true)}
           onKeyDown={(e) => e.key === 'Enter' && handleQuantityChange(e, true)}
           className="increment-quantity"
-          aria-label={`Increase quantity of ${item?.nameEn}`}
+          aria-label={`Increase quantity of ${item?.name.en}`}
         >
           <AddCircleOutlineIcon className="icon increment-quantity-button" />
         </button>

@@ -101,10 +101,10 @@ export const ItemsMap: React.FC<ItemMapProps> = ({ items = [] }) => {
               <img
                 src={popupInfo.studioImgUrl}
                 onClick={() => handleNavigateToItem(popupInfo.studioId)}
-                alt={popupInfo.nameEn}
+                alt={popupInfo.name.en}
               />
-              <h3 className="popup-title">{popupInfo.nameEn}</h3>
-              <h2 className="popup-description">{popupInfo.studioNameEn}</h2>
+              <h3 className="popup-title">{popupInfo.name.en}</h3>
+              <h2 className="popup-description">{popupInfo.studioName.en}</h2>
               <p className="popup-city">{popupInfo.address}</p>
             </div>
           </Popup>

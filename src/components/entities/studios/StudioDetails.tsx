@@ -30,7 +30,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
 
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
-    studioId ? langNavigate(`/create-item/${studio?.nameEn}/${studioId}`) : null;
+    studioId ? langNavigate(`/create-item/${studio?.name.en}/${studioId}`) : null;
 
   return (
     <article key={studio?._id} className="details studio-details">
@@ -39,7 +39,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         coverImage={studio?.coverImage}
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={true}
-        title={studio?.nameEn}
+        title={studio?.name.en}
         subTitle={studio?.city}
       />
 
@@ -54,11 +54,14 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           onAddNewService={handleAddNewService}
         />
       </div>
-      <p className="description">{studio?.descriptionEn}</p>
+      <p className="description">{studio?.description.en}</p>
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
-          <p id="occupancy" aria-label={`Maximum occupancy for ${studio?.nameEn}: ${studio?.maxOccupancy || 0} people`}>
+          <p
+            id="occupancy"
+            aria-label={`Maximum occupancy for ${studio?.name.en}: ${studio?.maxOccupancy || 0} people`}
+          >
             {studio?.maxOccupancy || 0}
           </p>
         </div>
@@ -66,7 +69,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           <SmokingRooms aria-label="Smoking icon" />
           <p
             id="smoking"
-            aria-label={`Smoking allowed at ${studio?.nameEn}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
+            aria-label={`Smoking allowed at ${studio?.name.en}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
           >
             {studio?.isSmokingAllowed ? <Check /> : <Close />}
           </p>
@@ -75,7 +78,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           <Accessible aria-label="Wheelchair accessible icon" />
           <p
             id="accessible"
-            aria-label={`Wheelchair accessible at ${studio?.nameEn}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
+            aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
           >
             {studio?.isWheelchairAccessible ? <Check /> : <Close />}
           </p>

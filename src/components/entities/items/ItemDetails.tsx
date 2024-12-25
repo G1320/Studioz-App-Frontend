@@ -73,14 +73,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
     }
 
     const newItem = {
-      nameEn: item.nameEn,
+      name: {
+        en: item.name.en,
+        he: item.name.he
+      },
+      studioName: {
+        en: item.studioName?.en || '',
+        he: item.studioName?.he
+      },
       price: item.price || 0,
       total: (item.price || 0) * hours,
       itemId: item._id,
       studioId: studio._id,
       bookingDate,
       startTime,
-      studioNameEn: item.studioNameEn,
       studioImgUrl: item.studioImgUrl,
       hours
     };
@@ -114,14 +120,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wi
     <article onMouseEnter={prefetchItem} key={item._id} className="details item-details">
       {studio && <img className="cover-image" src={studio.coverImage} onClick={handleImageClicked} />}
       <div>
-        <h3>{item.studioNameEn}</h3>
+        <h3>{item.studioName.en}</h3>
         <ItemOptions item={item} user={user as User} onEdit={handleGoToEdit} />
       </div>
       <div className="item-info-container">
-        <h3>{item.nameEn}</h3>
+        <h3>{item.name.en}</h3>
         <small className="item-price">₪{item.price}/hr</small>
       </div>
-      <p>{item.descriptionEn}</p>
+      <p>{item.description.en}</p>
       <div className="hour-selection-container">
         <div>
           <span className="hour-label"> Hours:</span>

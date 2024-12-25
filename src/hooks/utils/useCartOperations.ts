@@ -17,11 +17,11 @@ export const useCartOperations = () => {
 
   const generateSuccessMessage = (item: CartItem, action: string) => {
     if (action == 'added') {
-      return `${action} ${item.nameEn} service at ${item.studioNameEn} `;
+      return `${action} ${item.name.en} service at ${item.studioName.en} `;
     } else if (action == 'booked') {
-      return `${item.hours} hours of ${item.nameEn} service at ${item.studioNameEn} ${action} for ${item.bookingDate} at ${item.startTime}`;
+      return `${item.hours} hours of ${item.name.en} service at ${item.studioName.en} ${action} for ${item.bookingDate} at ${item.startTime}`;
     } else {
-      return `removed ${item.nameEn} service at ${item.studioNameEn} `;
+      return `removed ${item.name.en} service at ${item.studioName.en} `;
     }
   };
 
@@ -39,8 +39,14 @@ export const useCartOperations = () => {
       existingItem.total = (existingItem.price || 0) * existingItem.quantity;
     } else {
       cart.items.push({
-        nameEn: item.nameEn,
-        studioNameEn: item.studioNameEn,
+        name: {
+          en: item.name.en,
+          he: item.name.he
+        },
+        studioName: {
+          en: item.studioName?.en || '',
+          he: item.studioName?.he
+        },
         studioId: item.studioId,
         price: item.price,
         total: (item.price || 0) * (item.hours || 1),

@@ -3,10 +3,18 @@ import { Availability } from './availability';
 export default interface Item {
   _id: string;
   studio: string;
-  nameEn: string;
-  nameHe?: string;
-  descriptionEn: string;
-  descriptionHe?: string;
+  name: {
+    en: string;
+    he?: string;
+  };
+  description: {
+    en: string;
+    he?: string;
+  };
+  studioName: {
+    en?: string;
+    he?: string;
+  };
   address?: string;
   lat?: number;
   lng?: number;
@@ -20,8 +28,7 @@ export default interface Item {
   idx?: number;
   inStock: boolean;
   studioId: string;
-  studioNameEn?: string;
-  studioNameHe?: string;
+
   studioImgUrl: string;
   createdBy: string;
   createdAt?: Date;

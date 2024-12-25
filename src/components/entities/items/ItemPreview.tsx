@@ -53,12 +53,12 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
       <header className="item-preview-header">
-        <h3>{item.nameEn}</h3>
+        <h3>{item.name.en}</h3>
         <div>
           <small className="item-price">₪{item.price}/hr</small>
         </div>
       </header>
-      <p>{item.descriptionEn}</p>
+      <p>{item.description.en}</p>
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
           Remove from Wishlist
@@ -82,7 +82,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       <footer>
         <div className="studio-name-location-container">
           <LocationOnIcon className="locations-icon" />
-          <strong>{item.studioNameEn}</strong>
+          <strong>{item.studioName.en}</strong>
         </div>
         {item.address && <small>{getCityForDisplay(item.address)}</small>}
       </footer>

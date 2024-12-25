@@ -28,16 +28,16 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
       />
 
       <div className="studio-preview-name-and-city">
-        <h3 className="title">{studio?.nameEn}</h3>
+        <h3 className="title">{studio?.name?.en}</h3>
         <small className="city">{studio?.city}</small>
       </div>
-      <p className="description">{studio?.descriptionEn}</p>
+      <p className="description">{studio?.description?.en}</p>
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
           <span
             id="occupancy"
-            aria-label={`Maximum occupancy for ${studio?.nameEn}: ${studio?.maxOccupancy || 0} people`}
+            aria-label={`Maximum occupancy for ${studio?.name?.en}: ${studio?.maxOccupancy || 0} people`}
           >
             {studio?.maxOccupancy || 0}
           </span>
@@ -46,7 +46,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
           <SmokingRooms aria-label="Smoking icon" />
           <span
             id="smoking"
-            aria-label={`Smoking allowed at ${studio?.nameEn}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
+            aria-label={`Smoking allowed at ${studio?.name?.en}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
           >
             {studio?.isSmokingAllowed ? <Check /> : <Close />}
           </span>
@@ -55,7 +55,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
           <Accessible aria-label="Wheelchair accessible icon" />
           <span
             id="accessible"
-            aria-label={`Wheelchair accessible at ${studio?.nameEn}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
+            aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
           >
             {studio?.isWheelchairAccessible ? <Check /> : <Close />}
           </span>

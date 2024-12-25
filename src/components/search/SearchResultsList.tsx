@@ -30,7 +30,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios, allIt
     return allItems.filter((item) => searchedItems.some((result: Item) => result._id === item._id));
   }, [allItems, searchedItems]);
 
-  const renderItem = (item: Item) => <ItemPreview item={item} key={item.nameEn} wishlists={wishlists} />;
+  const renderItem = (item: Item) => <ItemPreview item={item} key={item.name.en} wishlists={wishlists} />;
 
   return (
     <div>

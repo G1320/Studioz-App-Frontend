@@ -7,7 +7,8 @@ interface GenericImageGalleryProps {
   isGalleryImagesShown?: boolean;
   className?: string;
   isCoverShown?: boolean;
-  entity?: { nameEn?: string } | null;
+  // entity?: { nameEn?: string } | null;
+  entity?: { name?: { en?: string } } | null;
   coverImage?: string;
   title?: string;
   subTitle?: string;
@@ -48,7 +49,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         key={index}
         src={image}
         // blurHash={blurHash}
-        alt={entity?.nameEn || `Gallery Image ${index + 1}`}
+        alt={entity?.name?.en || `Gallery Image ${index + 1}`}
         className="preview gallery-image"
         onClick={() => handleImageChange(image)}
         width={800}
@@ -66,7 +67,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         <GenericImage
           src={currCoverImage}
           blurHash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
-          alt={`${entity?.nameEn} cover image` || `Cover Image `}
+          alt={`${entity?.name?.en} cover image` || `Cover Image `}
           className="cover-image"
           width={800}
           loading="lazy"
