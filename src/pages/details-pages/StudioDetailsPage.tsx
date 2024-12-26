@@ -31,10 +31,11 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
     }
   }, [studioObj, currStudio, items]);
 
-  const getStudioServicesDisplayName = (name: string) => (name?.length > 1 ? `${name}'s Services` : '');
-
   const handleItemClick = (item: Item) => {
     openModal(item);
+  };
+  const getStudioServicesDisplayName = (name: string | undefined) => {
+    return name && name.length > 1 ? `${name}'s Services` : 'Studio Services';
   };
 
   return (
@@ -42,7 +43,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
       <StudioDetails user={user} studio={currStudio} />
 
       <GenericCarousel
-        title={(() => getStudioServicesDisplayName(currStudio?.name.en || ''))()}
+        title={(() => getStudioServicesDisplayName(currStudio?.name?.en))()}
         data={filteredItems}
         renderItem={(item) => (
           <div onClick={() => handleItemClick(item)} key={item._id}>

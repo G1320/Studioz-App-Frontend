@@ -36,21 +36,21 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
       className="preview cart-item-preview"
       role="button"
       tabIndex={0}
-      aria-label={`Cart item: ${item?.name.en}`}
+      aria-label={`Cart item: ${item?.name?.en}`}
     >
       <section>
         {item.studioImgUrl && (
           <img
             src={item.studioImgUrl}
-            alt={`${item.studioName.en} ${item?.name.en} service image`}
+            alt={`${item.studioName.en} ${item?.name?.en} service image`}
             className="cart-item-image"
           />
         )}
         <div>
           <h3 tabIndex={0} onClick={handleClick}>
-            {item?.name.en}
+            {item?.name?.en}
           </h3>
-          <p>{item?.studioName.en}</p>
+          <p>{item?.studioName?.en}</p>
         </div>
       </section>
       <section>
@@ -76,8 +76,8 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
           className="decrement-quantity"
           aria-label={
             item.quantity && item.quantity <= 1
-              ? `Remove ${item?.name.en} from cart`
-              : `Decrease quantity of ${item?.name.en}`
+              ? `Remove ${item?.name?.en} from cart`
+              : `Decrease quantity of ${item?.name?.en}`
           }
         >
           {item.quantity && item.quantity <= 1 ? (
