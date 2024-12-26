@@ -21,9 +21,7 @@ export default interface Studio {
     en?: string;
     he?: string;
   };
-  category?: string;
   categories?: string[];
-  subCategory?: string;
   subCategories?: string[];
   maxOccupancy?: number;
   isSmokingAllowed?: boolean;

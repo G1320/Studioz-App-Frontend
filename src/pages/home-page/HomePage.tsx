@@ -130,13 +130,11 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
       <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
         <div className="modal-content">
           {selectedItem && (
-            <>
-              <ItemDetails
-                studio={studios.find((studio) => studio._id === selectedItem.studioId)}
-                item={selectedItem}
-                wishlists={wishlists}
-              />
-            </>
+            <ItemDetails
+              studio={studios.find((studio) => studio._id === selectedItem.studioId)}
+              item={selectedItem}
+              wishlists={wishlists}
+            />
           )}
         </div>
       </Modal>

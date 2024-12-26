@@ -18,7 +18,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   const filteredStudios: Studio[] = studios?.filter((studio) => {
     if (subcategory === undefined) {
-      return studio?.category?.toLowerCase() === category?.toLowerCase();
+      return studio?.categories?.includes(category || '');
     } else {
       return studio?.subCategories?.includes(subcategory);
     }

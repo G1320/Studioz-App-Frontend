@@ -16,20 +16,9 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   const filteredItems = items?.filter((item) => {
     if (subCategory === undefined) {
-      // For category matching, check both arrays and single field
-      const categoryMatches =
-        // Check the single category field
-        item?.category?.toLowerCase() === category?.toLowerCase() ||
-        // Check the categories array
-        item?.categories?.some((cat) => cat.toLowerCase() === 'Music / Podcast Studio'.toLowerCase());
-
-      return categoryMatches;
+      return item?.categories?.includes(category || '');
     } else {
-      // For subcategory, check both arrays and single field
-      const subCategoryMatches =
-        item?.subCategories?.some((sub) => sub.toLowerCase() === subCategory.toLowerCase()) ||
-        item?.subCategory?.toLowerCase() === subCategory.toLowerCase();
-      return subCategoryMatches;
+      return item?.subCategories?.includes(subCategory);
     }
   });
 

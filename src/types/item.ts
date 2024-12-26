@@ -18,9 +18,7 @@ export default interface Item {
   address?: string;
   lat?: number;
   lng?: number;
-  category?: string;
   categories?: string[];
-  subCategory?: string;
   subCategories?: string[];
   price?: number;
   pricePer?: 'hour' | 'session' | 'unit' | 'song';

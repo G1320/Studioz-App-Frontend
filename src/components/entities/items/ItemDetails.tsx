@@ -11,10 +11,11 @@ import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useLanguageNavigate,
-  useRemoveItemFromWishlistMutation
+  useRemoveItemFromWishlistMutation,
+  useStudio
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Cart, Item, Studio, User, Wishlist } from 'src/types/index';
+import { Cart, Item, User, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
@@ -25,13 +26,15 @@ import ItemOptions from './ItemOptions';
 interface ItemDetailsProps {
   cart?: Cart;
   item: Item;
-  studio?: Studio;
   wishlists?: Wishlist[];
 }
 
-export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, studio, wishlists = [] }) => {
+export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, wishlists = [] }) => {
   const { wishlistId } = useParams();
   const { user } = useUserContext();
+  const { data: data } = useStudio(item.studioId);
+  const studio = data?.currStudio;
+
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t } = useTranslation('common');
