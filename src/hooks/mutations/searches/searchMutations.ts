@@ -53,7 +53,7 @@ export const useSearchItemsMutation = () => {
         return data;
       } catch (error) {
         handleError(error);
-        throw error; // Rethrow error to be handled by onError
+        throw error;
       }
     },
     onSuccess: (data, searchTerm) => {

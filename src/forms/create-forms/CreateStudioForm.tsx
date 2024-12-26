@@ -128,8 +128,7 @@ export const CreateStudioForm = () => {
     { name: 'address', label: 'Address', type: 'text' as FieldType },
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType },
     { name: 'isSmokingAllowed', label: 'Smoking Allowed', type: 'checkbox' as FieldType },
-    { name: 'isWheelchairAccessible', label: 'Wheelchair Accessible', type: 'checkbox' as FieldType },
-    { name: 'isSelfService', label: 'Self service', type: 'checkbox' as FieldType }
+    { name: 'isWheelchairAccessible', label: 'Wheelchair Accessible', type: 'checkbox' as FieldType }
   ];
 
   const handleSubmit = async (formData: FormData) => {

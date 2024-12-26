@@ -2,7 +2,7 @@ import { GenericCarousel } from '@components/common';
 import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
 import { useModal } from '@contexts/ModalContext';
 import { useUserContext } from '@contexts/UserContext';
-import { useStudio } from '@hooks/dataFetching';
+import { useStudio, useWishlists } from '@hooks/dataFetching';
 import { Modal } from '@mui/material';
 
 import { useEffect, useState } from 'react';
@@ -19,6 +19,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const { studioId } = useParams();
 
   const { data: studioObj } = useStudio(studioId || '');
+  const { data: wishlists = [] } = useWishlists(user?._id || '');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const { currStudio } = studioObj || {};
 
@@ -47,7 +48,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
         data={filteredItems}
         renderItem={(item) => (
           <div onClick={() => handleItemClick(item)} key={item._id}>
-            <ItemPreview item={item} />
+            <ItemPreview item={item} wishlists={wishlists} />
           </div>
         )}
       />

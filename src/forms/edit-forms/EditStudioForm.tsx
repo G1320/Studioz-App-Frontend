@@ -157,8 +157,7 @@ export const EditStudioForm = () => {
       label: 'Wheelchair Accessible',
       type: 'checkbox' as FieldType,
       value: studio?.isWheelchairAccessible
-    },
-    { name: 'isSelfService', label: 'Self Service', type: 'checkbox' as FieldType, value: studio?.isSelfService }
+    }
   ];
 
   const handleSubmit = async (formData: FormData) => {

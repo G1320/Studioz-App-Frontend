@@ -22,7 +22,7 @@ export const searchStudiosAndItems = async (searchTerm: string) => {
     throw error;
   }
 };
-// Search Functions
+
 export const searchItems = async (searchTerm: string) => {
   try {
     return await httpService.get<SearchResult[]>(`${searchEndpoint}/items`, { q: searchTerm });
