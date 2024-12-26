@@ -89,11 +89,20 @@ export const EditStudioForm = () => {
 
   const fields = [
     { name: 'name.en', label: 'English Name', type: 'text' as FieldType, value: studio?.name.en },
+    { name: 'name.he', label: 'Hebrew Name', type: 'text' as FieldType, value: studio?.name.he },
+    { name: 'subtitle.en', label: 'English Subtitle', type: 'text' as FieldType, value: studio?.subtitle?.en },
+    { name: 'subtitle.he', label: 'Hebrew Subtitle', type: 'text' as FieldType, value: studio?.subtitle?.he },
     {
       name: 'description.en',
       label: 'English Description',
       type: 'textarea' as FieldType,
-      value: studio?.description.en
+      value: studio?.description?.en
+    },
+    {
+      name: 'description.he',
+      label: 'Hebrew Description',
+      type: 'textarea' as FieldType,
+      value: studio?.description?.he
     },
     {
       name: 'categories',
@@ -153,9 +162,7 @@ export const EditStudioForm = () => {
   ];
 
   const handleSubmit = async (formData: FormData) => {
-    // Convert display values back to English for submission
     const englishSubCategories = selectedDisplaySubCategories.map((displayValue) => getEnglishByDisplay(displayValue));
-    console.log('englishSubCategories: ', englishSubCategories);
 
     formData.coverImage = coverImage;
     formData.galleryImages = galleryImages;

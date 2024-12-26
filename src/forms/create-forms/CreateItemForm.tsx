@@ -90,9 +90,9 @@ export const CreateItemForm = () => {
 
   const fields = [
     { name: 'name.en', label: 'English Name', type: 'text' as FieldType },
-    { name: 'nameHe', label: 'Hebrew Name', type: 'text' as FieldType },
-    { name: 'descriptionEn', label: 'English Description', type: 'textarea' as FieldType },
-    { name: 'descriptionHe', label: 'Hebrew Description', type: 'textarea' as FieldType },
+    { name: 'name.he', label: 'Hebrew Name', type: 'text' as FieldType },
+    { name: 'description.en', label: 'English Description', type: 'textarea' as FieldType },
+    { name: 'description.he', label: 'Hebrew Description', type: 'textarea' as FieldType },
     {
       name: 'categories',
       label: 'Category',

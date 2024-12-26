@@ -50,22 +50,6 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
     )
   );
 
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-  //   const data = Object.fromEntries(formData.entries());
-  //   data['lat'] = lat.toString();
-  //   data['lng'] = lng.toString();
-  //   data['address'] = address;
-  //   data['city'] = city;
-  //   // Convert boolean values to strings
-  //   Object.entries(checkboxStates).forEach(([name, value]) => {
-  //     data[name] = value.toString();
-  //   });
-
-  //   onSubmit(data);
-  // };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
