@@ -28,11 +28,13 @@ interface FormData {
 export const CreateStudioForm = () => {
   const user = getLocalUser();
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
+  const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const daysOfWeek = useDays() as DayOfWeek[];
+  const daysDisplay = getDays().map((day) => day.value);
+  const firstDay = getDays()[0];
 
   // Get the display values and English values for music subcategories
   const musicSubCategoriesDisplay = getMusicSubCategories().map((cat) => cat.value);
@@ -46,10 +48,11 @@ export const CreateStudioForm = () => {
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] = useState<string[]>(
     firstSubCategory ? [firstSubCategory.value] : []
   );
+  const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(firstDay ? [firstDay.value] : []);
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
-  const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysOfWeek);
+  const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysDisplay as DayOfWeek[]);
   const [openingHour, setOpeningHour] = useState<string>('08:00');
   const [closingHour, setClosingHour] = useState<string>('18:00');
 
@@ -68,6 +71,7 @@ export const CreateStudioForm = () => {
 
   const handleDaysChange = (values: string[]) => {
     setOpenDays(values as DayOfWeek[]);
+    setSelectedDisplayDays(values);
   };
 
   const handleOpeningHourChange = (values: string) => {
@@ -105,7 +109,7 @@ export const CreateStudioForm = () => {
       name: 'openDays',
       label: 'Days of Operation',
       type: 'multiSelect' as FieldType,
-      options: daysOfWeek,
+      options: daysDisplay,
       value: openDays,
       onChange: handleDaysChange
     },
@@ -140,10 +144,16 @@ export const CreateStudioForm = () => {
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
+    // formData.studioAvailability = {
+    //   days: openDays,
+    //   times: [{ start: openingHour, end: closingHour }]
+    // };
     formData.studioAvailability = {
-      days: openDays,
+      days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
       times: [{ start: openingHour, end: closingHour }]
     };
+    console.log('englishSubCategories: ', englishSubCategories);
+    console.log('formData.studioAvailability: ', formData.studioAvailability);
     formData.paypalMerchantId = user?.paypalMerchantId || '';
 
     if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {

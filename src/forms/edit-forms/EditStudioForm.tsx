@@ -31,12 +31,12 @@ export const EditStudioForm = () => {
   const { data } = useStudio(studioId || '');
   const studio = data?.currStudio;
   const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
+  const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const daysOfWeek = useDays() as DayOfWeek[];
-
+  const daysDisplay = getDays().map((day) => day.value);
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
   const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
@@ -47,6 +47,7 @@ export const EditStudioForm = () => {
   // Convert stored English values to display values for initial state
   const initialDisplaySubCategories =
     studio?.subCategories?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
+  const initialDisplayDays = studio?.studioAvailability?.days.map((day) => getDisplayByEnglish(day)) || [];
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
@@ -54,8 +55,7 @@ export const EditStudioForm = () => {
   const [displaySubCategories, setDisplaySubCategories] = useState<string[]>(musicSubCategoriesDisplay);
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] =
     useState<string[]>(initialDisplaySubCategories);
-
-  const [openDays, setOpenDays] = useState<DayOfWeek[]>(studio?.studioAvailability?.days || daysOfWeek);
+  const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 
@@ -75,8 +75,7 @@ export const EditStudioForm = () => {
   };
 
   const handleDaysChange = (values: string[]) => {
-    setOpenDays(values as DayOfWeek[]);
-    console.log('values: ', values);
+    setSelectedDisplayDays(values);
   };
 
   const handleOpeningHourChange = (values: string) => {
@@ -124,8 +123,8 @@ export const EditStudioForm = () => {
       name: 'openDays',
       label: 'Days of Operation',
       type: 'multiSelect' as FieldType,
-      options: daysOfWeek,
-      value: openDays,
+      options: daysDisplay,
+      value: selectedDisplayDays,
       onChange: handleDaysChange
     },
     {
@@ -168,8 +167,10 @@ export const EditStudioForm = () => {
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
     formData.galleryAudioFiles = galleryAudioFiles;
-    formData.studioAvailability = { days: openDays, times: [{ start: openingHour, end: closingHour }] };
-
+    formData.studioAvailability = {
+      days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
+      times: [{ start: openingHour, end: closingHour }]
+    };
     updateStudioMutation.mutate(formData as Studio);
   };
 
