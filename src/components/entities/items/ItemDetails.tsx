@@ -141,28 +141,32 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </small>
       </div>
       <p>{item?.description.en}</p>
-      <div className="hour-selection-container">
-        <div>
-          <span className="hour-label"> Hours:</span>
-          <span className="hour-value">{selectedHours}</span>
+      {!isBooked && (
+        <div className="hour-selection-container">
+          <div>
+            <span className="hour-label"> Hours:</span>
+            <span className="hour-value">{selectedHours}</span>
+          </div>
+          <div className="button-group">
+            <button className="control-button minus" onClick={handleDecrement}>
+              −
+            </button>
+            <button className="control-button plus" onClick={handleIncrement}>
+              +
+            </button>
+          </div>
         </div>
-        <div className="button-group">
-          <button className="control-button minus" onClick={handleDecrement}>
-            −
-          </button>
-          <button className="control-button plus" onClick={handleIncrement}>
-            +
-          </button>
-        </div>
-      </div>
+      )}
 
-      <MuiDateTimePicker
-        label="Select Date and Start Time"
-        value={selectedDate}
-        onChange={handleDateChange}
-        availability={item?.availability || []}
-        studioAvailability={studio?.studioAvailability}
-      />
+      {!isBooked && (
+        <MuiDateTimePicker
+          label="Select Date and Start Time"
+          value={selectedDate}
+          onChange={handleDateChange}
+          availability={item?.availability || []}
+          studioAvailability={studio?.studioAvailability}
+        />
+      )}
 
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
