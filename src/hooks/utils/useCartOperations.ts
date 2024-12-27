@@ -48,7 +48,7 @@ export const useCartOperations = () => {
           he: item.studioName?.he
         },
         studioId: item.studioId,
-        price: item.price,
+        price: item.price || 0,
         total: (item.price || 0) * (item.hours || 1),
         quantity: item.hours || 1,
         itemId: item.itemId,

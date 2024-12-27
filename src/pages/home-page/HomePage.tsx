@@ -125,7 +125,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.mastering_services')}
-        seeAllPath="/services/music/mastering"
+        seeAllPath="/services/music/Mastering"
       />
       <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
         <div className="modal-content">

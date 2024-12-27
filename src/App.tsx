@@ -25,6 +25,7 @@ import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
 import EditStudioPage from '@pages/edit-pages/EditStudioPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
+import { ErrorBoundary } from '@components/utility/ErrorBoundary';
 
 const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@pages/compliance-pages/TermAndConditionsPage'));
@@ -62,47 +63,49 @@ function App() {
           <SEOTags path={location.pathname} />
 
           <main className="main-content" id="main-content">
-            <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
-              <ScrollToTop />
-              <Routes>
-                <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
+            <ErrorBoundary>
+              <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
+                <ScrollToTop />
+                <Routes>
+                  <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 
-                <Route path="/:lang" element={<HomePage studios={studios || []} items={items || []} />} />
-                <Route
-                  path="/:lang?/studio/:studioId"
-                  element={<StudioDetailsPage items={items || []} cart={onlineCart || offlineCart} />}
-                />
-                <Route
-                  path="/:lang?/studios/:category?/:subcategory?"
-                  element={<StudiosPage studios={studios || []} />}
-                />
-                <Route
-                  path="/:lang?/services/:category?/:subCategory?"
-                  element={<ServicesPage items={items || []} />}
-                />
-                <Route path="/:lang?/wishlists" element={<WishListsPage />} />
-                <Route path="/:lang?/wishlists/:wishlistId" element={<WishlistDetailsPage items={items || []} />} />
-                <Route path="/:lang?/create-item/:studioName/:studioId" element={<CreateItemPage />} />
-                <Route path="/:lang?/edit-item/:itemId" element={<EditItemPage />} />
-                <Route path="/:lang?/edit-studio/:studioId" element={<EditStudioPage />} />
-                <Route path="/:lang?/create-studio" element={<CreateStudioPage />} />
-                <Route path="/:lang?/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
-                <Route path="/:lang?/create-wishlist" element={<CreateWishlistPage />} />
-                <Route path="/:lang?/item/:itemId" element={<ItemDetailsPage />} />
-                <Route path="/:lang?/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-                <Route
-                  path="/:lang?/order/:studioId?"
-                  element={<OrderPage cart={onlineCart || offlineCart} studios={studios} />}
-                />
-                {/* <Route path="/:lang?/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} /> */}
-                <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
-                <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
-                <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
-                <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
-                <Route path="/:lang?/privacypolicy" element={<PrivacyPolicyPage />} />
-                <Route path="/:lang?/termandconditions" element={<TermsAndConditionsPage />} />
-              </Routes>
-            </Suspense>
+                  <Route path="/:lang" element={<HomePage studios={studios || []} items={items || []} />} />
+                  <Route
+                    path="/:lang?/studio/:studioId"
+                    element={<StudioDetailsPage items={items || []} cart={onlineCart || offlineCart} />}
+                  />
+                  <Route
+                    path="/:lang?/studios/:category?/:subcategory?"
+                    element={<StudiosPage studios={studios || []} />}
+                  />
+                  <Route
+                    path="/:lang?/services/:category?/:subCategory?"
+                    element={<ServicesPage items={items || []} />}
+                  />
+                  <Route path="/:lang?/wishlists" element={<WishListsPage />} />
+                  <Route path="/:lang?/wishlists/:wishlistId" element={<WishlistDetailsPage items={items || []} />} />
+                  <Route path="/:lang?/create-item/:studioName/:studioId" element={<CreateItemPage />} />
+                  <Route path="/:lang?/edit-item/:itemId" element={<EditItemPage />} />
+                  <Route path="/:lang?/edit-studio/:studioId" element={<EditStudioPage />} />
+                  <Route path="/:lang?/create-studio" element={<CreateStudioPage />} />
+                  <Route path="/:lang?/edit-wishlist/:wishlistId" element={<EditWishlistPage />} />
+                  <Route path="/:lang?/create-wishlist" element={<CreateWishlistPage />} />
+                  <Route path="/:lang?/item/:itemId" element={<ItemDetailsPage />} />
+                  <Route path="/:lang?/cart" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                  <Route
+                    path="/:lang?/order/:studioId?"
+                    element={<OrderPage cart={onlineCart || offlineCart} studios={studios} />}
+                  />
+                  {/* <Route path="/:lang?/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} /> */}
+                  <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                  <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
+                  <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
+                  <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
+                  <Route path="/:lang?/privacypolicy" element={<PrivacyPolicyPage />} />
+                  <Route path="/:lang?/termandconditions" element={<TermsAndConditionsPage />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
           </main>
           <ResponsiveFooter />
           <Toaster

@@ -36,9 +36,9 @@ const PaypalCheckout = ({ cart, merchantId }) => {
               },
               body: JSON.stringify({
                 cart: cart.items.map((item) => ({
-                  name: item.nameEn + ' session at ' + item.studioName + ' ',
+                  name: item.name.en,
                   id: item.itemId,
-                  quantity: item.quantity,
+                  quantity: item.hours || item.quantity || 1,
                   price: item.price
                 })),
                 merchantId: merchantId
