@@ -15,18 +15,17 @@ export default interface Item {
     en?: string;
     he?: string;
   };
-  address?: string;
+  address: string;
   lat?: number;
   lng?: number;
-  categories?: string[];
-  subCategories?: string[];
+  categories: string[];
+  subCategories: string[];
   price?: number;
   pricePer?: 'hour' | 'session' | 'unit' | 'song';
   imageUrl?: string;
   idx?: number;
   inStock: boolean;
   studioId: string;
-
   studioImgUrl: string;
   createdBy: string;
   createdAt?: Date;

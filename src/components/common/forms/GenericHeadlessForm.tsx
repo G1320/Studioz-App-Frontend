@@ -131,7 +131,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
 
           case 'select':
             return (
-              <div key={field.name} className="form-group">
+              <div key={field.name} className="form-group select-container">
                 <label className="form-label">{field.label}</label>
                 <Listbox value={field.value} onChange={field.onChange}>
                   {({ open }) => (

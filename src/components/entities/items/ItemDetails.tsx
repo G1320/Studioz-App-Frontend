@@ -85,7 +85,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           he: item?.name?.he
         },
         studioName: {
-          en: item?.studioName?.en || '',
+          en: item?.studioName?.en,
           he: item?.studioName?.he
         },
         price: item?.price || 0,
