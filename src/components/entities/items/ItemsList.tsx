@@ -31,7 +31,9 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
     <section className={`items ${className}`}>
       <GenericList data={items} renderItem={renderItem} className="items-list" />
       <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        <div className="modal-content">{selectedItem && <ItemDetails item={selectedItem} wishlists={wishlists} />}</div>
+        <div className="modal-content">
+          {selectedItem && <ItemDetails itemId={selectedItem._id} wishlists={wishlists} />}
+        </div>
       </Modal>
     </section>
   );

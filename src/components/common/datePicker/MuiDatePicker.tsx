@@ -69,22 +69,21 @@ export const MuiDateTimePicker = ({
   };
 
   const shouldDisableTime = (value: Dayjs, view: TimeView) => {
-    if (view === 'minutes') return false; // Handle only hours
+    if (view === 'minutes') return false;
 
-    // First check booked times
-    const selectedDate = value.format('DD/MM/YYYY');
-    const bookedSlot = availability.find((slot) => slot.date === selectedDate);
-    if (bookedSlot) {
-      const bookedHours = bookedSlot.times.map((t) => dayjs(t, 'HH:mm').hour());
-      if (bookedHours.includes(value.hour())) return true;
-    }
-
-    // Then check studio operating hours
+    // Check studio hours first
     const studioTimes = studioAvailability?.times[0];
     if (studioTimes) {
       const startHour = dayjs(studioTimes.start, 'HH:mm').hour();
       const endHour = dayjs(studioTimes.end, 'HH:mm').hour();
-      return value.hour() < startHour || value.hour() >= endHour;
+      if (value.hour() < startHour || value.hour() >= endHour) return true;
+    }
+
+    // Then check availability
+    const selectedDate = value.format('DD/MM/YYYY');
+    const bookedSlot = availability.find((slot) => slot.date === selectedDate);
+    if (bookedSlot) {
+      return !bookedSlot.times.includes(value.format('HH:00'));
     }
 
     return false;

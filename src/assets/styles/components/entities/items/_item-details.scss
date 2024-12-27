@@ -27,6 +27,21 @@
     cursor: pointer;
   }
 
+  .item-details-buttons {
+    display: flex;
+    button {
+      padding: 0.25rem;
+      background-color: transparent;
+      border: none;
+      color: vars.$color-brand;
+    }
+  }
+
+  div {
+    display: flex;
+    gap: 0.5rem;
+  }
+
   div.item-info-container {
     display: flex;
     gap: 0.5rem;

@@ -10,12 +10,13 @@ import {
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
+  useItem,
   useLanguageNavigate,
   useRemoveItemFromWishlistMutation,
   useStudio
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
-import { Cart, Item, User, Wishlist } from 'src/types/index';
+import { Cart, User, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
 import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
@@ -25,14 +26,16 @@ import dayjs from 'dayjs';
 import ItemOptions from './ItemOptions';
 interface ItemDetailsProps {
   cart?: Cart;
-  item: Item;
+  itemId: string;
   wishlists?: Wishlist[];
 }
 
-export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, wishlists = [] }) => {
+export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlists = [] }) => {
   const { wishlistId } = useParams();
   const { user } = useUserContext();
-  const { data: data } = useStudio(item.studioId);
+  const { data: item } = useItem(itemId);
+
+  const { data: data } = useStudio(item?.studioId || '');
   const studio = data?.currStudio;
 
   const langNavigate = useLanguageNavigate();
@@ -41,11 +44,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, wishlists 
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
-  const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item._id), [cart, item]);
+  const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
 
-  const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item._id);
+  const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
-  const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
+  const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id || '');
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
 
   const handleDateChange = (newDate: Date | null) => {
@@ -75,40 +78,45 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, wishlists 
       return toast.error('Selected hours exceed the studio closing time. Please adjust your booking.');
     }
 
-    const newItem = {
-      name: {
-        en: item.name.en,
-        he: item.name.he
-      },
-      studioName: {
-        en: item.studioName?.en || '',
-        he: item.studioName?.he
-      },
-      price: item.price || 0,
-      total: (item.price || 0) * hours,
-      itemId: item._id,
-      studioId: studio._id,
-      bookingDate,
-      startTime,
-      studioImgUrl: item.studioImgUrl,
-      hours
-    };
+    if (item) {
+      const newItem = {
+        name: {
+          en: item?.name?.en,
+          he: item?.name?.he
+        },
+        studioName: {
+          en: item?.studioName?.en || '',
+          he: item?.studioName?.he
+        },
+        price: item?.price || 0,
+        total: (item?.price || 0) * hours,
+        itemId: item?._id,
+        studioId: studio._id,
+        bookingDate,
+        startTime,
+        studioImgUrl: item?.studioImgUrl,
+        hours
+      };
 
-    reserveItemTimeSlotMutation.mutate(newItem, {
-      onSuccess: () => {
-        addItemToCartMutation.mutate(newItem);
-        setSelectedDate(null);
-        langNavigate(`/studio/${studio?._id}`);
-      }
-    });
+      reserveItemTimeSlotMutation.mutate(newItem, {
+        onSuccess: () => {
+          addItemToCartMutation.mutate(newItem, {
+            onSuccess: () => {
+              setSelectedDate(null);
+              langNavigate(`/studio/${studio?._id}`);
+            }
+          });
+        }
+      });
+    }
   };
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
-  const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item._id);
+  const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item?._id || '');
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
 
   const handleImageClicked = () => {
-    langNavigate(`/studio/${item.studioId}`);
+    langNavigate(`/studio/${item?.studioId}`);
   };
 
   const renderItem = (wishlist: Wishlist) => (
@@ -120,17 +128,19 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, wishlists 
   );
 
   return (
-    <article onMouseEnter={prefetchItem} key={item._id} className="details item-details">
+    <article onMouseEnter={prefetchItem} key={item?._id} className="details item-details">
       {studio && <img className="cover-image" src={studio.coverImage} onClick={handleImageClicked} />}
       <div>
-        <h3>{item.studioName.en}</h3>
+        <h3>{item?.studioName.en}</h3>
         <ItemOptions item={item} user={user as User} onEdit={handleGoToEdit} />
       </div>
       <div className="item-info-container">
-        <h3>{item.name.en}</h3>
-        <small className="item-price">₪{item.price}/hr</small>
+        <h3>{item?.name.en}</h3>
+        <small className="item-price">
+          ₪{item?.price}/{item?.pricePer}
+        </small>
       </div>
-      <p>{item.description.en}</p>
+      <p>{item?.description.en}</p>
       <div className="hour-selection-container">
         <div>
           <span className="hour-label"> Hours:</span>
@@ -150,7 +160,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ item, cart, wishlists 
         label="Select Date and Start Time"
         value={selectedDate}
         onChange={handleDateChange}
-        availability={item.availability || []}
+        availability={item?.availability || []}
         studioAvailability={studio?.studioAvailability}
       />
 

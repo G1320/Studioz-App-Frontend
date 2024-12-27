@@ -55,7 +55,9 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
       <header className="item-preview-header">
         <h3>{item.name.en}</h3>
         <div>
-          <small className="item-price">₪{item.price}/hr</small>
+          <small className="item-price">
+            ₪{item.price}/{item.pricePer}
+          </small>
         </div>
       </header>
       <p>{item.description.en}</p>

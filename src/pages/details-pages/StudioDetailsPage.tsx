@@ -54,9 +54,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
       />
       {!selectedItem && <ContinueToCheckoutButton cart={cart} />}
       <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        <div className="modal-content">
-          {selectedItem && <ItemDetails cart={cart} studio={studioObj?.currStudio} item={selectedItem} />}
-        </div>
+        <div className="modal-content">{selectedItem && <ItemDetails cart={cart} itemId={selectedItem._id} />}</div>
       </Modal>
     </section>
   );

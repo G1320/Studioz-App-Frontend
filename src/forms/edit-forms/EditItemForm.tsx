@@ -13,17 +13,20 @@ import { uploadFile } from '@services/index';
 import { Item } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@utils/compareArrays';
+import { useTranslation } from 'react-i18next';
 
 interface FormData {
   imageUrl?: string;
   categories?: string[];
   subCategories?: string[];
   studioId?: string;
+  pricePer?: string;
 }
 
 export const EditItemForm = () => {
   const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
+  const { t } = useTranslation();
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
@@ -38,6 +41,7 @@ export const EditItemForm = () => {
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(item?.subCategories || []);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
   const [imageUrl, setImageUrl] = useState<string>(item?.imageUrl || '');
+  const [pricePer, setPricePer] = useState<string>('hour');
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
@@ -49,6 +53,15 @@ export const EditItemForm = () => {
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedSubCategories(values);
   };
+
+  const pricePerOptions = [
+    { value: 'hour', label: t('common.items.price_per.hour') },
+    { value: 'session', label: t('common.items.price_per.session') },
+    { value: 'unit', label: t('common.items.price_per.unit') },
+    { value: 'song', label: t('common.items.price_per.song') }
+  ];
+
+  const pricePerValues = pricePerOptions.map((option) => option.value);
 
   const fields = [
     { name: 'name.en', label: 'English Name', type: 'text' as FieldType, value: item?.name.en },
@@ -81,7 +94,15 @@ export const EditItemForm = () => {
       value: selectedSubCategories,
       onChange: handleSubCategoryChange
     },
-    { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price }
+    { name: 'price', label: 'Price', type: 'number' as FieldType, value: item?.price },
+    {
+      name: 'pricePer',
+      label: 'Price Per',
+      type: 'select' as FieldType,
+      options: pricePerValues,
+      value: pricePer,
+      onChange: (value: string) => setPricePer(value)
+    }
   ];
 
   const handleSubmit = async (formData: FormData) => {
@@ -89,6 +110,7 @@ export const EditItemForm = () => {
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
     formData.studioId = item?.studioId || '';
+    formData.pricePer = pricePer;
 
     // console.log('formData: ', formData);
     updateItemMutation.mutate(formData as Item);
