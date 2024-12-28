@@ -21,11 +21,11 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
         return { day, hours: 'Closed' };
       }
       // Otherwise, return the available time for that day
-      return { day, hours: `${times[index].start} - ${times[index].end}` };
+      return { day, hours: `${times[index]?.start} - ${times[index]?.end}` };
     });
   };
 
-  const formattedAvailability = formatAvailability(availability.days, availability.times);
+  const formattedAvailability = formatAvailability(availability?.days, availability?.times);
 
   return (
     <div className="availability-container">
