@@ -27,6 +27,7 @@ export const MuiDateTimePicker = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log('studioAvailability: ', studioAvailability);
   useEffect(() => {
     if (isOpen) {
       const scrollToInitialTime = () => {
@@ -71,15 +72,19 @@ export const MuiDateTimePicker = ({
   const shouldDisableTime = (value: Dayjs, view: TimeView) => {
     if (view === 'minutes') return false;
 
-    // Check studio hours first
-    const studioTimes = studioAvailability?.times[0];
+    const dayName = value.format('dddd') as DayOfWeek;
+
+    // Get the business hours for the selected day
+    const dayIndex = studioAvailability?.days.indexOf(dayName);
+    if (dayIndex === undefined || dayIndex === -1) return true;
+
+    const studioTimes = studioAvailability?.times[dayIndex]; // Get the times for the specific day
     if (studioTimes) {
       const startHour = dayjs(studioTimes.start, 'HH:mm').hour();
       const endHour = dayjs(studioTimes.end, 'HH:mm').hour();
       if (value.hour() < startHour || value.hour() >= endHour) return true;
     }
 
-    // Then check availability
     const selectedDate = value.format('DD/MM/YYYY');
     const bookedSlot = availability.find((slot) => slot.date === selectedDate);
     if (bookedSlot) {

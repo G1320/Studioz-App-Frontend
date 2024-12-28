@@ -7,7 +7,6 @@ interface AvailabilityDropdownProps {
 }
 
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
-  console.log('availability: ', availability);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
