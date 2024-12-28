@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDays } from '@hooks/index';
+import { useTranslation } from 'react-i18next';
 
 interface AvailabilityDropdownProps {
   availability: StudioAvailability;
@@ -9,6 +10,7 @@ interface AvailabilityDropdownProps {
 
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { i18n } = useTranslation();
   const dropdownRef = useRef<HTMLUListElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { getDisplayByEnglish } = useDays();
@@ -40,13 +42,17 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
       const index = days.indexOf(day);
       if (index === -1) {
         // If day does not exist in availability, return as "Closed"
-        return { day, displayDay: getDisplayByEnglish(day), hours: 'Closed' };
+        return { day, displayDay: getDisplayByEnglish(day), hours: i18n.language === 'he' ? 'סגור' : 'Closed' };
       }
-      // Otherwise, return the available time for that day
+      // Reverse start and end for Hebrew
+      const hours =
+        i18n.language === 'he'
+          ? `${times[index]?.end} - ${times[index]?.start}`
+          : `${times[index]?.start} - ${times[index]?.end}`;
       return {
         day,
         displayDay: getDisplayByEnglish(day),
-        hours: `${times[index]?.start} - ${times[index]?.end}`
+        hours
       };
     });
   };
