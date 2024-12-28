@@ -109,9 +109,9 @@ export const MuiDateTimePicker = ({
       shouldDisableTime={shouldDisableTime}
       minutesStep={60}
       ampm={false}
-      timeSteps={{ hours: 1, minutes: 60 }}
       onOpen={() => setIsOpen(true)}
       onClose={() => setIsOpen(false)}
+      timeSteps={{ hours: 1, minutes: 60 }}
       desktopModeMediaQuery="@media (min-width: 0px)"
       sx={{
         width: '100%',

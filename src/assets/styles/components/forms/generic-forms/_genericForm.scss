@@ -9,6 +9,69 @@
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+  .business-hours {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .day-row {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background: #f8fafc;
+      }
+
+      .switch {
+        min-width: 48px;
+        height: 24px;
+        border-radius: 12px;
+        background: #e5e7eb;
+        transition: background-color 0.2s;
+
+        &.on {
+          background: #3b82f6;
+        }
+      }
+
+      span {
+        min-width: 100px;
+        font-weight: 500;
+        color: #1f2937;
+      }
+
+      .hours {
+        display: flex;
+        flex: 1;
+        gap: 1rem;
+        align-items: center;
+
+        .MuiTextField-root {
+          min-width: 120px;
+        }
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+      }
+    }
+
+    @media (max-width: 640px) {
+      padding: 1rem;
+
+      .day-row {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+    }
+  }
+
   .form-group {
     margin-bottom: 1.25rem;
     grid-column: span 2;

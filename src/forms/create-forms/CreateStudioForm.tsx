@@ -33,7 +33,7 @@ export const CreateStudioForm = () => {
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const daysDisplay = getDays().map((day) => day.value);
+  // const daysDisplay = getDays().map((day) => day.value);
   const firstDay = getDays()[0];
 
   // Get the display values and English values for music subcategories
@@ -52,11 +52,18 @@ export const CreateStudioForm = () => {
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
-  const [openDays, setOpenDays] = useState<DayOfWeek[]>(daysDisplay as DayOfWeek[]);
   const [openingHour, setOpeningHour] = useState<string>('08:00');
   const [closingHour, setClosingHour] = useState<string>('18:00');
 
-  const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
+  const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(
+    selectedDisplayDays.reduce(
+      (acc, day) => {
+        acc[day] = { start: openingHour, end: closingHour };
+        return acc;
+      },
+      {} as Record<string, { start: string; end: string }>
+    )
+  );
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
@@ -67,19 +74,6 @@ export const CreateStudioForm = () => {
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedDisplaySubCategories(values);
-  };
-
-  const handleDaysChange = (values: string[]) => {
-    setOpenDays(values as DayOfWeek[]);
-    setSelectedDisplayDays(values);
-  };
-
-  const handleOpeningHourChange = (values: string) => {
-    setOpeningHour(values);
-  };
-
-  const handleClosingHourChange = (values: string) => {
-    setClosingHour(values);
   };
 
   const fields = [
@@ -105,29 +99,25 @@ export const CreateStudioForm = () => {
       value: selectedDisplaySubCategories,
       onChange: handleSubCategoryChange
     },
+
     {
-      name: 'openDays',
-      label: 'Days of Operation',
-      type: 'multiSelect' as FieldType,
-      options: daysDisplay,
-      value: openDays,
-      onChange: handleDaysChange
-    },
-    {
-      name: 'openingHour',
-      label: 'Opening Hour',
-      type: 'select' as FieldType,
-      options: hourOptions,
-      value: openingHour,
-      onChange: handleOpeningHourChange
-    },
-    {
-      name: 'closingHour',
-      label: 'Closing Hour',
-      type: 'select' as FieldType,
-      options: hourOptions,
-      value: closingHour,
-      onChange: handleClosingHourChange
+      name: 'studioAvailability',
+      type: 'businessHours' as const,
+      label: 'Business Hours',
+      value: { days: [], times: [{ start: '09:00', end: '17:00' }] },
+      onChange: (value: StudioAvailability) => {
+        setSelectedDisplayDays(value.days);
+        setStudioHours((prev) => {
+          const newHours = { ...prev };
+          value.days.forEach((day, index) => {
+            newHours[day] = value.times[index];
+          });
+          return newHours;
+        });
+
+        setOpeningHour(value.times[0]?.start);
+        setClosingHour(value.times[0]?.end);
+      }
     },
     { name: 'address', label: 'Address', type: 'text' as FieldType },
     { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType },
@@ -144,16 +134,11 @@ export const CreateStudioForm = () => {
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
-    // formData.studioAvailability = {
-    //   days: openDays,
-    //   times: [{ start: openingHour, end: closingHour }]
-    // };
+
     formData.studioAvailability = {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
-      times: [{ start: openingHour, end: closingHour }]
+      times: selectedDisplayDays.map((day) => studioHours[day])
     };
-    console.log('englishSubCategories: ', englishSubCategories);
-    console.log('formData.studioAvailability: ', formData.studioAvailability);
     formData.paypalMerchantId = user?.paypalMerchantId || '';
 
     if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {

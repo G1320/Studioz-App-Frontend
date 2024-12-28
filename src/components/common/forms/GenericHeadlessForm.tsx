@@ -3,8 +3,9 @@ import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 import { GoogleAddressAutocomplete } from '@components/index';
+import { BusinessHours, defaultHours } from './form-utils';
 
-export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select';
+export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select' | 'businessHours';
 
 interface GenericFormProps {
   title?: string;
@@ -128,7 +129,16 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
                 ></textarea>
               </div>
             );
-
+          case 'businessHours':
+            return (
+              <BusinessHours
+                key={field.name}
+                value={field.value || { days: [], times: [defaultHours] }}
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+              />
+            );
           case 'select':
             return (
               <div key={field.name} className="form-group select-container">
