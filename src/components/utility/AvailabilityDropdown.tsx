@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useDays } from '@hooks/index';
 
 interface AvailabilityDropdownProps {
   availability: StudioAvailability;
@@ -9,7 +10,8 @@ interface AvailabilityDropdownProps {
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLUListElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null); // Ref for the toggle button
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const { getDisplayByEnglish } = useDays();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -25,9 +27,9 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside); // Listen for outside clicks
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside); // Cleanup the event listener
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -38,10 +40,14 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
       const index = days.indexOf(day);
       if (index === -1) {
         // If day does not exist in availability, return as "Closed"
-        return { day, hours: 'Closed' };
+        return { day, displayDay: getDisplayByEnglish(day), hours: 'Closed' };
       }
       // Otherwise, return the available time for that day
-      return { day, hours: `${times[index]?.start} - ${times[index]?.end}` };
+      return {
+        day,
+        displayDay: getDisplayByEnglish(day),
+        hours: `${times[index]?.start} - ${times[index]?.end}`
+      };
     });
   };
 
@@ -49,18 +55,14 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
 
   return (
     <div className="availability-container">
-      <button
-        ref={buttonRef} // Attach the ref to the button
-        onClick={toggleDropdown}
-        className="availability-dropdown-toggle"
-      >
+      <button ref={buttonRef} onClick={toggleDropdown} className="availability-dropdown-toggle">
         <ExpandMoreIcon />
       </button>
       {isOpen && (
         <ul ref={dropdownRef} className="availability-dropdown">
-          {formattedAvailability.map(({ day, hours }, index) => (
+          {formattedAvailability.map(({ displayDay, hours }, index) => (
             <li key={index}>
-              <strong>{day}:</strong> <p>{hours}</p>
+              <strong>{displayDay}:</strong> <p>{hours}</p>
             </li>
           ))}
         </ul>
@@ -74,12 +76,14 @@ interface StudioAvailabilityProps {
 }
 
 const StudioAvailabilityDisplay: React.FC<StudioAvailabilityProps> = ({ availability }) => {
+  const { getDisplayByEnglish } = useDays();
+
   if (!availability || !availability.days.length || !availability.times.length) {
     return <p>Closed</p>;
   }
 
-  const firstDay = availability.days[0];
-  const lastDay = availability.days[availability.days.length - 1];
+  const firstDay = getDisplayByEnglish(availability.days[0]);
+  const lastDay = getDisplayByEnglish(availability.days[availability.days.length - 1]);
 
   return (
     <div>
