@@ -15,14 +15,13 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if the click is outside both the dropdown and the toggle button
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node) &&
         buttonRef.current &&
         !buttonRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false); // Close the dropdown if clicked outside
+        setIsOpen(false);
       }
     };
 

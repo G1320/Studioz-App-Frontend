@@ -158,7 +158,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </div>
       )}
 
-      {!isBooked && (
+      {((!isBooked && item?.pricePer === 'hour') || (!isBooked && item?.pricePer === 'session')) && (
         <MuiDateTimePicker
           label="Select Date and Start Time"
           value={selectedDate}
