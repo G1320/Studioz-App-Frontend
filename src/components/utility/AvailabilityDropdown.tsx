@@ -9,12 +9,19 @@ interface AvailabilityDropdownProps {
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLUListElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null); // Ref for the toggle button
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      // Check if the click is outside both the dropdown and the toggle button
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false); // Close the dropdown if clicked outside
       }
     };
@@ -43,7 +50,11 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
 
   return (
     <div className="availability-container">
-      <button onClick={toggleDropdown} className="availability-dropdown-toggle">
+      <button
+        ref={buttonRef} // Attach the ref to the button
+        onClick={toggleDropdown}
+        className="availability-dropdown-toggle"
+      >
         <ExpandMoreIcon />
       </button>
       {isOpen && (
