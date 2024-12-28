@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { PropagateLoader } from 'react-spinners';
 import { GenericImage } from './GenericImage';
 import { GenericList } from '@components/index';
 
@@ -7,7 +6,6 @@ interface GenericImageGalleryProps {
   isGalleryImagesShown?: boolean;
   className?: string;
   isCoverShown?: boolean;
-  // entity?: { nameEn?: string } | null;
   entity?: { name?: { en?: string } } | null;
   coverImage?: string;
   title?: string;
@@ -56,10 +54,6 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
       />
     );
   };
-
-  if (!coverImage) {
-    return <PropagateLoader className="loader" speedMultiplier={1.25} color="#fcfcfc" size={24} />;
-  }
 
   return (
     <div className={`file-gallery-container image-gallery-container ${className}`}>

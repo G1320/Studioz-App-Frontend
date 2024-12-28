@@ -13,6 +13,8 @@
     padding: 1.5rem;
     border-radius: 0.75rem;
     background: #fff;
+    width: 100%;
+    justify-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     .day-row {
@@ -24,6 +26,12 @@
 
       &:hover {
         background: #f8fafc;
+      }
+
+      .day-switch-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
 
       .switch {
@@ -40,6 +48,7 @@
 
       span {
         min-width: 100px;
+        text-align: start;
         font-weight: 500;
         color: #1f2937;
       }
@@ -51,7 +60,11 @@
         align-items: center;
 
         .MuiTextField-root {
-          min-width: 120px;
+          min-width: 80px;
+        }
+
+        span {
+          min-width: 20px;
         }
 
         @media (max-width: 768px) {

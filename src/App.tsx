@@ -2,7 +2,6 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useMemo } from 'react';
 import { useOfflineCartContext, useUserContext } from '@contexts/index';
 import { useItems, useStudios, useOnlineCart } from '@hooks/index';
-import { PropagateLoader } from 'react-spinners';
 import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@config/paypal/paypalConfig';
@@ -64,7 +63,7 @@ function App() {
 
           <main className="main-content" id="main-content">
             <ErrorBoundary>
-              <Suspense fallback={<PropagateLoader color="#fff" className="loader" />}>
+              <Suspense>
                 <ScrollToTop />
                 <Routes>
                   <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />

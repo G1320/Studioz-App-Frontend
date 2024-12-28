@@ -3,6 +3,7 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { Switch } from '@headlessui/react';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import dayjs from 'dayjs';
+import { useDays } from '@hooks/index';
 
 type Schedule = Record<
   DayOfWeek,
@@ -33,6 +34,8 @@ const defaultSchedule: Schedule = {
 };
 
 export const BusinessHours = ({ value, onChange }: BusinessHoursProps) => {
+  const { getDisplayByEnglish } = useDays();
+
   // Convert studioAvailability to schedule format
   const initialSchedule = Object.fromEntries(
     Object.keys(defaultSchedule).map((day) => {
@@ -82,12 +85,14 @@ export const BusinessHours = ({ value, onChange }: BusinessHoursProps) => {
     <div className="business-hours">
       {(Object.keys(schedule) as DayOfWeek[]).map((day) => (
         <div key={day} className="day-row">
-          <Switch
-            checked={schedule[day].isOpen}
-            onChange={() => handleDayToggle(day)}
-            className={`switch ${schedule[day].isOpen ? 'on' : ''}`}
-          />
-          <span>{day}</span>
+          <div className="day-switch-container">
+            <Switch
+              checked={schedule[day].isOpen}
+              onChange={() => handleDayToggle(day)}
+              className={`switch ${schedule[day].isOpen ? 'on' : ''}`}
+            />
+            <span>{getDisplayByEnglish(day)}</span>
+          </div>
           {schedule[day].isOpen && (
             <div className="hours">
               <TimePicker
