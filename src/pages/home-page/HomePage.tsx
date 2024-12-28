@@ -72,14 +72,14 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         renderItem={studioRenderItem}
         autoplay={true}
         title={t('sections.studioz_for_you')}
-        seeAllPath="/studios/music"
+        seeAllPath="/studios"
       />
       <GenericCarousel
         data={items}
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.the_best_in_the_biz')}
-        seeAllPath="/services/music"
+        seeAllPath="/services"
       />
       <GenericCarousel
         data={recordingStudios}
@@ -93,7 +93,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.mixing_services')}
-        seeAllPath="/services/music/mixing"
+        seeAllPath="/services/music/Mixing"
       />
       <GenericCarousel
         data={podcastRecordingStudios}

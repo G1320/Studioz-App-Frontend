@@ -15,6 +15,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
   const musicSubCategories = useMusicSubCategories();
 
   const filteredItems = items?.filter((item) => {
+    if (!category) return true;
     if (subCategory === undefined) {
       return item?.categories?.includes(category || '');
     } else {
