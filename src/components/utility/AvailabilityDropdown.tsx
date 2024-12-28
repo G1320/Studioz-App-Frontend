@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -8,8 +8,22 @@ interface AvailabilityDropdownProps {
 
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLUListElement | null>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false); // Close the dropdown if clicked outside
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside); // Listen for outside clicks
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside); // Cleanup the event listener
+    };
+  }, []);
 
   const formatAvailability = (days: DayOfWeek[], times: { start: string; end: string }[]) => {
     const allDays: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -33,7 +47,7 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
         <ExpandMoreIcon />
       </button>
       {isOpen && (
-        <ul className="availability-dropdown">
+        <ul ref={dropdownRef} className="availability-dropdown">
           {formattedAvailability.map(({ day, hours }, index) => (
             <li key={index}>
               <strong>{day}:</strong> <p>{hours}</p>
