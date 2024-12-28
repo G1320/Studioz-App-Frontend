@@ -63,6 +63,7 @@
     .info-option-container {
       justify-self: start;
       display: flex;
+      flex-wrap: nowrap;
       align-items: center;
       width: 100%;
       gap: 0.5rem;
@@ -71,6 +72,23 @@
       padding: 0.5rem 0;
       border-top: 0.5px solid #f1f1f1;
       border-bottom: 0.5px solid #f1f1f1;
+      .availability-time-icon {
+        place-self: start;
+      }
+      .studio-availability {
+        display: flex;
+        gap: 0.5rem;
+        button {
+          background: transparent;
+          color: #f1f1f1;
+        }
+
+        li {
+          display: flex;
+          gap: 0.5rem;
+          text-align: start;
+        }
+      }
       p {
         white-space: nowrap;
         text-align: start;

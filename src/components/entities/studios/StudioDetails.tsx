@@ -6,6 +6,7 @@ import { Studio, User } from 'src/types/index';
 import { useWishlists } from '@hooks/dataFetching';
 import { useLanguageNavigate } from '@hooks/utils';
 import StudioOptions from './StudioOptions';
+import StudioAvailabilityDisplay from '@components/utility/AvailabilityDropdown';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -17,16 +18,16 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
 
   const langNavigate = useLanguageNavigate();
 
-  const formatOpeningHours = (availability: { days: string[]; times: { start: string; end: string }[] }) => {
-    if (!availability || !availability.days.length || !availability.times.length) return 'Closed';
+  // const formatOpeningHours = (availability: { days: string[]; times: { start: string; end: string }[] }) => {
+  //   if (!availability || !availability.days.length || !availability.times.length) return 'Closed';
 
-    const days =
-      availability.days.length > 1
-        ? `${availability.days[0]} - ${availability.days[availability.days.length - 1]}`
-        : availability.days[0];
-    const time = `${availability.times[0].start} - ${availability.times[0].end}`;
-    return `${days}: ${time}`;
-  };
+  //   const days =
+  //     availability.days.length > 1
+  //       ? `${availability.days[0]} - ${availability.days[availability.days.length - 1]}`
+  //       : availability.days[0];
+  //   const time = `${availability.times[0].start} - ${availability.times[0].end}`;
+  //   return `${days}: ${time}`;
+  // };
 
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
@@ -44,8 +45,9 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       />
 
       <div className="info-option-container">
-        <AccessTimeIcon />
-        <p>{formatOpeningHours(studio?.studioAvailability || { days: [], times: [] })}</p>
+        <AccessTimeIcon className="availability-time-icon" />
+        {/* <p>{formatOpeningHours(studio?.studioAvailability || { days: [], times: [] })}</p> */}
+        <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
         <StudioOptions
           studio={studio as Studio}
           user={user as User}
