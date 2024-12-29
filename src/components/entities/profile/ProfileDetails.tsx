@@ -15,7 +15,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const handleOnboardClick = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/orders/seller/generate-signup-link`, {
+      const response = await fetch(`${BASE_URL}/PPOnboarding/seller/generate-signup-link`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
         },
         body: JSON.stringify({
           sellerId: user?._id,
-          returnUrl: `${window.location.origin}/api/paypal/onboarding/return`
+          returnUrl: `${window.location.origin}/api/PPOnboarding/onboarding/return`
         })
       });
 

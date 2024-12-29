@@ -31,7 +31,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
         }}
         createOrder={async () => {
           try {
-            const response = await fetch(`${BASE_URL}/orders/marketplace/orders`, {
+            const response = await fetch(`${BASE_URL}/PPorders/marketplace/orders`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
         onApprove={async (data, actions) => {
           console.log('onApprove data: ', data);
           try {
-            const response = await fetch(`${BASE_URL}/orders/${data.orderID}/capture`, {
+            const response = await fetch(`${BASE_URL}/PPorders/${data.orderID}/capture`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'

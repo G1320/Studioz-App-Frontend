@@ -95,8 +95,8 @@ function App() {
                     path="/:lang?/order/:studioId?"
                     element={<OrderPage cart={onlineCart || offlineCart} studios={studios} />}
                   />
-                  <Route path="/:lang?/order-success/:orderId" element={<OrderSuccessPage />} />
                   <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
+                  <Route path="/:lang?/order-success/:orderId" element={<OrderSuccessPage />} />
                   <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
                   <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
                   <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
