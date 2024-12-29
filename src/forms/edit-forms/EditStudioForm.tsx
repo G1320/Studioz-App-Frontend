@@ -15,6 +15,7 @@ import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@utils/compareArrays';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+import { useTranslation } from 'react-i18next';
 
 interface FormData {
   coverImage?: string;
@@ -29,6 +30,8 @@ interface FormData {
 export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
+  const { t } = useTranslation('forms');
+
   const studio = data?.currStudio;
   const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
   const { getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
@@ -80,27 +83,46 @@ export const EditStudioForm = () => {
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedDisplaySubCategories(values);
   };
-
   const fields = [
-    { name: 'name.en', label: 'English Name', type: 'text' as FieldType, value: studio?.name.en },
-    { name: 'name.he', label: 'Hebrew Name', type: 'text' as FieldType, value: studio?.name.he },
-    { name: 'subtitle.en', label: 'English Subtitle', type: 'text' as FieldType, value: studio?.subtitle?.en },
-    { name: 'subtitle.he', label: 'Hebrew Subtitle', type: 'text' as FieldType, value: studio?.subtitle?.he },
+    {
+      name: 'name.en',
+      label: t('form.name.en'),
+      type: 'text' as FieldType,
+      value: studio?.name.en
+    },
+    {
+      name: 'name.he',
+      label: t('form.name.he'),
+      type: 'text' as FieldType,
+      value: studio?.name.he
+    },
+    {
+      name: 'subtitle.en',
+      label: t('form.subtitle.en'),
+      type: 'text' as FieldType,
+      value: studio?.subtitle?.en
+    },
+    {
+      name: 'subtitle.he',
+      label: t('form.subtitle.he'),
+      type: 'text' as FieldType,
+      value: studio?.subtitle?.he
+    },
     {
       name: 'description.en',
-      label: 'English Description',
+      label: t('form.description.en'),
       type: 'textarea' as FieldType,
       value: studio?.description?.en
     },
     {
       name: 'description.he',
-      label: 'Hebrew Description',
+      label: t('form.description.he'),
       type: 'textarea' as FieldType,
       value: studio?.description?.he
     },
     {
       name: 'categories',
-      label: 'Category',
+      label: t('form.categories.label'),
       type: 'select' as FieldType,
       options: [musicCategories, photoCategories],
       value: selectedCategories,
@@ -117,7 +139,7 @@ export const EditStudioForm = () => {
     {
       name: 'studioAvailability',
       type: 'businessHours' as const,
-      label: 'Business Hours',
+      label: t('form.studioAvailability.label'),
       value: studio?.studioAvailability || { days: [], times: [{ start: '09:00', end: '17:00' }] },
       onChange: (value: StudioAvailability) => {
         setSelectedDisplayDays(value.days);
@@ -133,17 +155,29 @@ export const EditStudioForm = () => {
         setClosingHour(value.times[0]?.end);
       }
     },
-    { name: 'address', label: 'Address', type: 'text' as FieldType, value: studio?.address },
-    { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType, value: studio?.maxOccupancy },
+    {
+      name: 'address',
+      label: t('form.address.label'),
+      type: 'text' as FieldType,
+      value: studio?.address,
+      placeholder: t('form.address.placeholder')
+    },
+    {
+      name: 'maxOccupancy',
+      label: t('form.maxOccupancy.label'),
+      type: 'number' as FieldType,
+      value: studio?.maxOccupancy,
+      placeholder: t('form.maxOccupancy.placeholder')
+    },
     {
       name: 'isSmokingAllowed',
-      label: 'Smoking Allowed',
+      label: t('form.isSmokingAllowed.label'),
       type: 'checkbox' as FieldType,
       value: studio?.isSmokingAllowed
     },
     {
       name: 'isWheelchairAccessible',
-      label: 'Wheelchair Accessible',
+      label: t('form.isWheelchairAccessible.label'),
       type: 'checkbox' as FieldType,
       value: studio?.isWheelchairAccessible
     }

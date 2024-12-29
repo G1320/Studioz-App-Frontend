@@ -33,7 +33,6 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
       const { signupLink } = await response.json();
 
-      // Open in new window/tab instead of redirecting
       window.open(signupLink, '_blank');
     } catch (error) {
       console.error('Failed to start onboarding:', error);

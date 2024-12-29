@@ -19,7 +19,7 @@ export const CreateItemForm = () => {
   const { studioName, studioId } = useParams();
   const createItemMutation = useCreateItemMutation(studioId || '');
   const { data: studioObj } = useStudio(studioId || '');
-  const { t } = useTranslation();
+  const { t } = useTranslation('forms');
 
   const studio = studioObj?.currStudio;
 
@@ -49,10 +49,10 @@ export const CreateItemForm = () => {
   }
 
   const pricePerOptions = [
-    { value: 'hour', label: t('common.items.price_per.hour') },
-    { value: 'session', label: t('common.items.price_per.session') },
-    { value: 'unit', label: t('common.items.price_per.unit') },
-    { value: 'song', label: t('common.items.price_per.song') }
+    { value: 'hour', label: t('form.pricePer.hour') },
+    { value: 'session', label: t('form.pricePer.session') },
+    { value: 'unit', label: t('form.pricePer.unit') },
+    { value: 'song', label: t('form.pricePer.song') }
   ];
 
   const pricePerValues = pricePerOptions.map((option) => option.value);
@@ -89,13 +89,29 @@ export const CreateItemForm = () => {
   };
 
   const fields = [
-    { name: 'name.en', label: 'English Name', type: 'text' as FieldType },
-    { name: 'name.he', label: 'Hebrew Name', type: 'text' as FieldType },
-    { name: 'description.en', label: 'English Description', type: 'textarea' as FieldType },
-    { name: 'description.he', label: 'Hebrew Description', type: 'textarea' as FieldType },
+    {
+      name: 'name.en',
+      label: t('form.name.en'),
+      type: 'text' as FieldType
+    },
+    {
+      name: 'name.he',
+      label: t('form.name.he'),
+      type: 'text' as FieldType
+    },
+    {
+      name: 'description.en',
+      label: t('form.description.en'),
+      type: 'textarea' as FieldType
+    },
+    {
+      name: 'description.he',
+      label: t('form.description.he'),
+      type: 'textarea' as FieldType
+    },
     {
       name: 'categories',
-      label: 'Category',
+      label: t('form.categories.label'),
       type: 'select' as FieldType,
       options: [musicCategories, photoCategories],
       value: selectedCategories,
@@ -103,16 +119,22 @@ export const CreateItemForm = () => {
     },
     {
       name: 'subCategories',
-      label: selectedCategories.includes(`${musicCategories}`) ? `${musicCategories}` : `${photoCategories}`,
+      label: selectedCategories.includes(`${musicCategories}`)
+        ? t('form.categories.music')
+        : t('form.categories.photo'),
       type: 'multiSelect' as FieldType,
       options: subCategories,
       value: selectedSubCategories,
       onChange: handleSubCategoryChange
     },
-    { name: 'price', label: 'Price', type: 'number' as FieldType },
+    {
+      name: 'price',
+      label: t('form.price.label'),
+      type: 'number' as FieldType
+    },
     {
       name: 'pricePer',
-      label: 'Price Per',
+      label: t('form.pricePer.label'),
       type: 'select' as FieldType,
       options: pricePerValues,
       value: pricePer,

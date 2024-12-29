@@ -1,0 +1,75 @@
+{
+  "form": {
+    "name": {
+      "en": "שם באנגלית",
+      "he": "שם בעברית"
+    },
+    "subtitle": {
+      "en": "כותרת משנה באנגלית",
+      "he": "כותרת משנה בעברית"
+    },
+    "description": {
+      "en": "תיאור באנגלית",
+      "he": "תיאור בעברית"
+    },
+    "categories": {
+      "label": "קטגוריה",
+      "music": "מוזיקה",
+      "photo": "צילום"
+    },
+    "subCategories": {
+      "label": "תת-קטגוריות"
+    },
+    "studioAvailability": {
+      "label": "שעות פעילות",
+      "days": {
+        "monday": "שני",
+        "tuesday": "שלישי",
+        "wednesday": "רביעי",
+        "thursday": "חמישי",
+        "friday": "שישי",
+        "saturday": "שבת",
+        "sunday": "ראשון"
+      },
+      "startTime": "שעת התחלה",
+      "endTime": "שעת סיום"
+    },
+    "address": {
+      "label": "כתובת",
+      "placeholder": "הכנס כתובת סטודיו"
+    },
+    "maxOccupancy": {
+      "label": "תפוסה מרבית",
+      "placeholder": "הכנס מספר מקסימלי של אנשים"
+    },
+    "isSmokingAllowed": {
+      "label": "עישון מותר"
+    },
+    "isWheelchairAccessible": {
+      "label": "נגישות לכיסא גלגלים"
+    },
+    "pricePer": {
+      "label": "מחיר ל",
+      "hour": "שעה",
+      "session": "סשן",
+      "unit": "יחידה",
+      "song": "שיר"
+    },
+    "fileUploader": {
+      "image": "העלאת תמונות",
+      "audio": "העלאת קבצי שמע",
+      "success": {
+        "image": "התמונות הועלו בהצלחה",
+        "audio": "קבצי השמע הועלו בהצלחה"
+      }
+    },
+    "paypal": {
+      "error": "אנא השלם את תהליך הרישום ל-PayPal לפני יצירת סטודיו"
+    },
+    "submit": {
+      "button": "צור סטודיו",
+      "success": "הסטודיו נוצר בהצלחה",
+      "error": "אירעה שגיאה בעת יצירת הסטודיו"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "form": {
+    "name": {
+      "en": "Name (English)",
+      "he": "Name (Hebrew)"
+    },
+    "subtitle": {
+      "en": "Subtitle (English)",
+      "he": "Subtitle (Hebrew)"
+    },
+    "description": {
+      "en": "Description (English)",
+      "he": "Description (Hebrew)"
+    },
+    "categories": {
+      "label": "Category",
+      "music": "Music",
+      "photo": "Photo"
+    },
+    "subCategories": {
+      "label": "Subcategories"
+    },
+    "studioAvailability": {
+      "label": "Business Hours",
+      "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      },
+      "startTime": "Start Time",
+      "endTime": "End Time"
+    },
+    "address": {
+      "label": "Address",
+      "placeholder": "Enter studio address"
+    },
+    "maxOccupancy": {
+      "label": "Max Occupancy",
+      "placeholder": "Enter maximum number of people"
+    },
+    "isSmokingAllowed": {
+      "label": "Smoking Allowed"
+    },
+    "isWheelchairAccessible": {
+      "label": "Wheelchair Accessible"
+    },
+    "pricePer": {
+      "label": "Price Per",
+      "hour": "Hour",
+      "session": "Session",
+      "unit": "Unit",
+      "song": "Song"
+    },
+    "fileUploader": {
+      "image": "Upload Images",
+      "audio": "Upload Audio Files",
+      "success": {
+        "image": "Images uploaded successfully",
+        "audio": "Audio files uploaded successfully"
+      }
+    },
+    "paypal": {
+      "error": "Please complete PayPal onboarding process before creating a studio"
+    },
+    "submit": {
+      "button": "Create Studio",
+      "success": "Studio created successfully",
+      "error": "Failed to create studio"
+    }
+  }
+}

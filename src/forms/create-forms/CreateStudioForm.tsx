@@ -13,6 +13,7 @@ import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@utils/compareArrays';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+import { useTranslation } from 'react-i18next';
 
 interface FormData {
   coverImage?: string;
@@ -29,6 +30,8 @@ export const CreateStudioForm = () => {
   const user = getLocalUser();
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
+
+  const { t } = useTranslation('forms');
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
@@ -77,15 +80,39 @@ export const CreateStudioForm = () => {
   };
 
   const fields = [
-    { name: 'name.en', label: 'English Name', type: 'text' as FieldType },
-    { name: 'name.he', label: 'Hebrew Name', type: 'text' as FieldType },
-    { name: 'subtitle.en', label: 'English Subtitle', type: 'text' as FieldType },
-    { name: 'subtitle.he', label: 'Hebrew Subtitle', type: 'text' as FieldType },
-    { name: 'description.en', label: 'English Description', type: 'textarea' as FieldType },
-    { name: 'description.he', label: 'Hebrew Description', type: 'textarea' as FieldType },
+    {
+      name: 'name.en',
+      label: t('form.name.en'),
+      type: 'text' as FieldType
+    },
+    {
+      name: 'name.he',
+      label: t('form.name.he'),
+      type: 'text' as FieldType
+    },
+    {
+      name: 'subtitle.en',
+      label: t('form.subtitle.en'),
+      type: 'text' as FieldType
+    },
+    {
+      name: 'subtitle.he',
+      label: t('form.subtitle.he'),
+      type: 'text' as FieldType
+    },
+    {
+      name: 'description.en',
+      label: t('form.description.en'),
+      type: 'textarea' as FieldType
+    },
+    {
+      name: 'description.he',
+      label: t('form.description.he'),
+      type: 'textarea' as FieldType
+    },
     {
       name: 'categories',
-      label: 'Category',
+      label: t('form.categories.label'),
       type: 'select' as FieldType,
       options: [musicCategories, photoCategories],
       value: selectedCategories,
@@ -99,11 +126,10 @@ export const CreateStudioForm = () => {
       value: selectedDisplaySubCategories,
       onChange: handleSubCategoryChange
     },
-
     {
       name: 'studioAvailability',
       type: 'businessHours' as const,
-      label: 'Business Hours',
+      label: t('form.studioAvailability.label'),
       value: { days: [], times: [{ start: '09:00', end: '17:00' }] },
       onChange: (value: StudioAvailability) => {
         setSelectedDisplayDays(value.days);
@@ -119,10 +145,28 @@ export const CreateStudioForm = () => {
         setClosingHour(value.times[0]?.end);
       }
     },
-    { name: 'address', label: 'Address', type: 'text' as FieldType },
-    { name: 'maxOccupancy', label: 'Max Occupancy', type: 'number' as FieldType },
-    { name: 'isSmokingAllowed', label: 'Smoking Allowed', type: 'checkbox' as FieldType },
-    { name: 'isWheelchairAccessible', label: 'Wheelchair Accessible', type: 'checkbox' as FieldType }
+    {
+      name: 'address',
+      label: t('form.address.label'),
+      type: 'text' as FieldType,
+      placeholder: t('form.address.placeholder')
+    },
+    {
+      name: 'maxOccupancy',
+      label: t('form.maxOccupancy.label'),
+      type: 'number' as FieldType,
+      placeholder: t('form.maxOccupancy.placeholder')
+    },
+    {
+      name: 'isSmokingAllowed',
+      label: t('form.isSmokingAllowed.label'),
+      type: 'checkbox' as FieldType
+    },
+    {
+      name: 'isWheelchairAccessible',
+      label: t('form.isWheelchairAccessible.label'),
+      type: 'checkbox' as FieldType
+    }
   ];
 
   const handleSubmit = async (formData: FormData) => {
