@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
+import { useNavigate } from 'react-router-dom';
 
 function Message({ content }) {
   return <p>{content}</p>;
@@ -8,6 +9,7 @@ function Message({ content }) {
 
 const PaypalCheckout = ({ cart, merchantId }) => {
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   if (!cart?.items?.length) {
     return <Message content="Cart is empty or invalid." />;
@@ -90,9 +92,11 @@ const PaypalCheckout = ({ cart, merchantId }) => {
             } else {
               // (3) Successful transaction -> Show confirmation or thank you message
               // Or go to another URL:  actions.redirect('thank_you.html');
+
               const transaction = orderData.purchase_units[0].payments.captures[0];
-              setMessage(`Transaction ${transaction.status}: ${transaction.id}. See console for all available details`);
-              console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              navigate(`/order-success/${orderData.id}`, {
+                state: { orderData }
+              });
             }
           } catch (error) {
             console.error(error);

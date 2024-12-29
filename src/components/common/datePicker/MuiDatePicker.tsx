@@ -22,12 +22,11 @@ export const MuiDateTimePicker = ({
   studioAvailability
 }: MuiDateTimePickerProps) => {
   const [internalValue, setInternalValue] = useState<Dayjs | null>(
-    value ? dayjs(value) : dayjs().add(1, 'day').hour(13).minute(0)
+    value ? dayjs(value) : dayjs().add(1, 'day').hour(11).minute(0)
   );
 
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log('studioAvailability: ', studioAvailability);
   useEffect(() => {
     if (isOpen) {
       const scrollToInitialTime = () => {

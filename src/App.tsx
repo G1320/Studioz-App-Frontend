@@ -17,11 +17,11 @@ import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
-// import CheckoutPage from '@pages/checkout-page/CheckoutPage';
 import OrderPage from '@pages/order-page/OrderPage';
 import SearchPage from '@pages/search-page/SearchPage';
 import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
 import EditStudioPage from '@pages/edit-pages/EditStudioPage';
+import OrderSuccessPage from '@pages/order-success-page/OrderSuccessPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
 import { ErrorBoundary } from '@components/utility/ErrorBoundary';
@@ -62,9 +62,9 @@ function App() {
           <SEOTags path={location.pathname} />
 
           <main className="main-content" id="main-content">
+            <ScrollToTop />
             <ErrorBoundary>
               <Suspense>
-                <ScrollToTop />
                 <Routes>
                   <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
 
@@ -95,7 +95,7 @@ function App() {
                     path="/:lang?/order/:studioId?"
                     element={<OrderPage cart={onlineCart || offlineCart} studios={studios} />}
                   />
-                  {/* <Route path="/:lang?/checkout" element={<CheckoutPage cart={onlineCart || offlineCart} />} /> */}
+                  <Route path="/:lang?/order-success/:orderId" element={<OrderSuccessPage />} />
                   <Route path="/:lang?/complete-order" element={<CartDetailsPage cart={onlineCart || offlineCart} />} />
                   <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
                   <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
