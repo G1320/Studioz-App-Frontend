@@ -11,7 +11,7 @@ interface CartAsideProps {
 }
 
 export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) => {
-  const totalPrice = cart?.items.reduce((total, item) => total + (item.price * (item.quantity || 0) || 0), 0);
+  const totalPrice = cart?.items?.reduce((total, item) => total + (item.price * (item.quantity || 0) || 0), 0);
   const { i18n } = useTranslation();
   const asideRef = useRef<HTMLDivElement>(null);
 

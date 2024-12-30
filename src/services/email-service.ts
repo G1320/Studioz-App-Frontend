@@ -1,4 +1,3 @@
-// services/emailService.ts
 import { httpService } from '@services/index';
 
 const emailEndpoint = '/emails';
@@ -18,12 +17,13 @@ interface OrderDetails {
 
 export const sendWelcomeEmail = async (email: string, name: string): Promise<EmailResponse> => {
   try {
-    const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-welcome`, {
+    const payload = {
       email,
       name
-    });
+    };
+    const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-welcome`, payload);
     return response;
-  } catch (error: unknown) {
+  } catch (error) {
     console.error('Failed to send welcome email', error);
     throw error;
   }
@@ -36,8 +36,6 @@ export const sendOrderConfirmation = async (email: string, orderDetails: OrderDe
       orderDetails
     };
 
-    console.log('Sending email with payload:', payload);
-
     const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-order-confirmation`, payload);
 
     return response;
@@ -49,10 +47,11 @@ export const sendOrderConfirmation = async (email: string, orderDetails: OrderDe
 
 export const sendPasswordReset = async (email: string, resetToken: string): Promise<EmailResponse> => {
   try {
-    const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-password-reset`, {
+    const payload = {
       email,
       resetToken
-    });
+    };
+    const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-password-reset`, payload);
     return response;
   } catch (error: unknown) {
     console.error('Failed to send password reset email', error);
@@ -60,5 +59,4 @@ export const sendPasswordReset = async (email: string, resetToken: string): Prom
   }
 };
 
-// Optional: Add type exports
 export type { EmailResponse, OrderDetails };

@@ -65,7 +65,6 @@ const PaypalCheckout = ({ cart, merchantId }) => {
           }
         }}
         onApprove={async (data, actions) => {
-          console.log('onApprove data: ', data);
           try {
             const response = await fetch(`${BASE_URL}/PPorders/${data.orderID}/capture`, {
               method: 'POST',
@@ -93,9 +92,13 @@ const PaypalCheckout = ({ cart, merchantId }) => {
               // (3) Successful transaction -> Show confirmation or thank you message
               // Or go to another URL:  actions.redirect('thank_you.html');
 
-              const transaction = orderData.purchase_units[0].payments.captures[0];
               navigate(`/order-success/${orderData.id}`, {
-                state: { orderData }
+                state: {
+                  orderData: {
+                    ...orderData,
+                    purchase_units: orderData.purchase_units // Make sure purchase_units is passed
+                  }
+                }
               });
             }
           } catch (error) {

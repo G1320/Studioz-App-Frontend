@@ -11,23 +11,33 @@ const OrderSuccessPage: React.FC = () => {
   const navigate = useNavigate();
   const [emailSent, setEmailSent] = useState(false);
 
-  const orderData = state?.orderData;
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('he-IL');
+  };
 
+  const orderData = state?.orderData;
   useEffect(() => {
     const sendConfirmationEmail = async () => {
       if (orderData && !emailSent) {
         try {
+          const items = orderData.purchase_units[0].items.map((item: any) => ({
+            name: item.name,
+            quantity: parseInt(item.quantity),
+            price: parseFloat(item.unit_amount.value),
+            total: parseFloat(item.unit_amount.value) * parseInt(item.quantity)
+          }));
+
           const emailDetails = {
             id: orderData.id,
-            items: orderData.purchase_units[0].items || [],
-            total: Number(orderData.purchase_units[0].payments.captures[0].amount.value),
+            items: items,
+            total: parseFloat(orderData.purchase_units[0].amount.value),
             customerName: orderData.payer.name.given_name,
-            orderDate: new Date(orderData.purchase_units[0].payments.captures[0].create_time).toLocaleDateString(),
+            orderDate: formatDate(orderData.create_time),
             paymentStatus: orderData.status
           };
 
-          await sendOrderConfirmation(user?.email || orderData.payer.email_address, emailDetails);
           setEmailSent(true);
+          await sendOrderConfirmation(user?.email || orderData.payer.email_address, emailDetails);
           toast.success('Order confirmation email sent');
         } catch (error) {
           console.error('Failed to send order confirmation:', error);
@@ -49,23 +59,6 @@ const OrderSuccessPage: React.FC = () => {
     );
   }
 
-  const handleResendEmail = async () => {
-    try {
-      await sendOrderConfirmation(user?.email || orderData.payer.email_address, {
-        id: orderData.id,
-        items: orderData.purchase_units[0].items || [],
-        total: Number(orderData.purchase_units[0].payments.captures[0].amount.value),
-        customerName: orderData.payer.name.given_name,
-        orderDate: new Date(orderData.purchase_units[0].payments.captures[0].create_time).toLocaleDateString(),
-        paymentStatus: orderData.status
-      });
-      toast.success('Order confirmation email resent');
-    } catch (error) {
-      console.error('Failed to resend order confirmation:', error);
-      toast.error('Failed to resend confirmation email');
-    }
-  };
-
   return (
     <div className="order-success">
       <h1>🎉 Order Success! 🎉</h1>
@@ -79,18 +72,16 @@ const OrderSuccessPage: React.FC = () => {
           <strong>Customer Name:</strong> {orderData.payer.name.given_name}
         </p>
         <p>
-          <strong>Total Amount:</strong> ${orderData.purchase_units[0].payments.captures[0].amount.value}
+          <strong>Total Amount:</strong> ₪{orderData.purchase_units[0].amount.value}
         </p>
         <p>
-          <strong>Order Date:</strong>{' '}
-          {new Date(orderData.purchase_units[0].payments.captures[0].create_time).toLocaleDateString()}
+          <strong>Order Date:</strong> {formatDate(orderData.create_time)}
         </p>
         <p>
           <strong>Email:</strong> {orderData.payer.email_address}
         </p>
       </div>
       <div className="button-group">
-        <button onClick={handleResendEmail}>Resend Confirmation Email</button>
         <button onClick={() => navigate('/')}>Go to Home</button>
       </div>
     </div>
