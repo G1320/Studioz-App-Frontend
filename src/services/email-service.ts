@@ -15,6 +15,8 @@ interface OrderDetails {
   paymentStatus: string;
 }
 
+const testMail = 'darnellgreen211@gmail.com';
+
 export const sendWelcomeEmail = async (email: string, name: string): Promise<EmailResponse> => {
   try {
     const payload = {
@@ -32,7 +34,7 @@ export const sendWelcomeEmail = async (email: string, name: string): Promise<Ema
 export const sendOrderConfirmation = async (email: string, orderDetails: OrderDetails): Promise<EmailResponse> => {
   try {
     const payload = {
-      email,
+      email: testMail,
       orderDetails
     };
 

@@ -21,7 +21,7 @@ export const LoginButton = () => {
   useEffect(() => {
     const handleUserLogin = async () => {
       if (isAuthenticated && user) {
-        const { name = '', sub, nickname: username = '', picture } = user;
+        const { name = '', sub, nickname: username = '', picture, email = '', email_verified = false } = user;
         if (!sub) throw new Error('User sub is undefined');
 
         try {
@@ -30,7 +30,7 @@ export const LoginButton = () => {
           const dbUser = await getUserBySub(sub);
           if (!dbUser) {
             // Register a new user if not found in the DB
-            loggedInUser = await register({ name, sub, picture, username });
+            loggedInUser = await register({ name, sub, picture, username, email, email_verified });
           } else {
             // Login the existing user
             loggedInUser = await login({ sub });

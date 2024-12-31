@@ -100,8 +100,8 @@ function App() {
                   <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
                   <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
                   <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
-                  <Route path="/:lang?/privacypolicy" element={<PrivacyPolicyPage />} />
-                  <Route path="/:lang?/termandconditions" element={<TermsAndConditionsPage />} />
+                  <Route path="/:lang?/privacy" element={<PrivacyPolicyPage />} />
+                  <Route path="/:lang?/terms" element={<TermsAndConditionsPage />} />
                 </Routes>
               </Suspense>
             </ErrorBoundary>

@@ -20,6 +20,8 @@ const OrderSuccessPage: React.FC = () => {
     const sendConfirmationEmail = async () => {
       if (orderData && !emailSent) {
         try {
+          setEmailSent(true);
+
           const items = orderData.purchase_units[0].items.map((item: any) => ({
             name: item.name,
             quantity: parseInt(item.quantity),
@@ -36,18 +38,17 @@ const OrderSuccessPage: React.FC = () => {
             paymentStatus: orderData.status
           };
 
-          setEmailSent(true);
           await sendOrderConfirmation(user?.email || orderData.payer.email_address, emailDetails);
+
           toast.success('Order confirmation email sent');
         } catch (error) {
           console.error('Failed to send order confirmation:', error);
-          toast.error('Failed to send order confirmation email');
         }
       }
     };
 
     sendConfirmationEmail();
-  }, []);
+  }, [orderData, emailSent]);
 
   if (!orderData) {
     return (

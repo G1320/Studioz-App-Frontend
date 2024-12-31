@@ -8,6 +8,7 @@ function Message({ content }) {
 }
 
 const PaypalCheckout = ({ cart, merchantId }) => {
+  console.log('cart: ', cart);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -38,7 +39,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
               },
               body: JSON.stringify({
                 cart: cart.items.map((item) => ({
-                  name: item.name.en,
+                  name: item.name.en + ' at ' + item.studioName.en + ' - ' + item.bookingDate,
                   id: item.itemId,
                   quantity: item.hours || item.quantity || 1,
                   price: item.price

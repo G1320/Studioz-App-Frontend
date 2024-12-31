@@ -88,10 +88,10 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
         <div className="profile-section legal-links">
           <h2>Legal Information</h2>
           <div className="legal-buttons">
-            <button className="link-button" onClick={() => handleNavigate('/privacypolicy')}>
+            <button className="link-button" onClick={() => handleNavigate('/privacy')}>
               Privacy Policy
             </button>
-            <button className="link-button" onClick={() => handleNavigate('/termandconditions')}>
+            <button className="link-button" onClick={() => handleNavigate('/terms')}>
               Terms & Conditions
             </button>
           </div>
