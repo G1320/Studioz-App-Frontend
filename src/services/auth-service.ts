@@ -13,7 +13,10 @@ export const register = async (userData: Partial<User>): Promise<User> => {
       localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
       Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
     }
-    await sendWelcomeEmail(user.email || '', user.firstName || '');
+
+    if (user) {
+      await sendWelcomeEmail(user?.email || '', user?.name || '');
+    }
     return user;
   } catch (error: any) {
     console.error('Registration failed', error);
