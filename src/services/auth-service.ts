@@ -2,7 +2,7 @@ import { httpService } from '@services/index';
 import Cookies from 'js-cookie';
 import { sanitizeUserObject } from '@utils/index';
 import { LoginCredentials, AuthResponse, User } from 'src/types/index';
-// import { sendWelcomeEmail } from './email-service';
+import { sendWelcomeEmail } from './email-service';
 
 const authEndpoint = '/auth';
 
@@ -13,7 +13,7 @@ export const register = async (userData: Partial<User>): Promise<User> => {
       localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
       Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
     }
-    // await sendWelcomeEmail(user.email, user.firstName);
+    await sendWelcomeEmail(user.email || '', user.firstName || '');
     return user;
   } catch (error: any) {
     console.error('Registration failed', error);
