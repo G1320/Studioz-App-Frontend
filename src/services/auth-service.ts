@@ -12,11 +12,9 @@ export const register = async (userData: Partial<User>): Promise<User> => {
     if (user && accessToken) {
       localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
       Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
-    }
-
-    if (user) {
       await sendWelcomeEmail(user?.email || '', user?.name || '');
     }
+
     return user;
   } catch (error: any) {
     console.error('Registration failed', error);
@@ -33,9 +31,8 @@ export const login = async (credentials: LoginCredentials): Promise<User> => {
     if (user && accessToken) {
       localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
       Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
-      return user;
     }
-    throw new Error('Login failed');
+    return user;
   } catch (error: unknown) {
     console.error('Login failed', error);
     throw error;

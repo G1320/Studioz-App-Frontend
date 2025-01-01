@@ -1,54 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { sendOrderConfirmation } from '@services/email-service';
-import { toast } from 'sonner';
-import { useUserContext } from '@contexts/UserContext';
 
 const OrderSuccessPage: React.FC = () => {
   const { state } = useLocation();
-  const { user } = useUserContext();
 
   const navigate = useNavigate();
-  const [emailSent, setEmailSent] = useState(false);
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('he-IL');
   };
 
   const orderData = state?.orderData;
-  useEffect(() => {
-    const sendConfirmationEmail = async () => {
-      if (orderData && !emailSent) {
-        try {
-          setEmailSent(true);
-
-          const items = orderData.purchase_units[0].items.map((item: any) => ({
-            name: item.name,
-            quantity: parseInt(item.quantity),
-            price: parseFloat(item.unit_amount.value),
-            total: parseFloat(item.unit_amount.value) * parseInt(item.quantity)
-          }));
-
-          const emailDetails = {
-            id: orderData.id,
-            items: items,
-            total: parseFloat(orderData.purchase_units[0].amount.value),
-            customerName: orderData.payer.name.given_name,
-            orderDate: formatDate(orderData.create_time),
-            paymentStatus: orderData.status
-          };
-
-          await sendOrderConfirmation(user?.email || orderData.payer.email_address, emailDetails);
-
-          toast.success('Order confirmation email sent');
-        } catch (error) {
-          console.error('Failed to send order confirmation:', error);
-        }
-      }
-    };
-
-    sendConfirmationEmail();
-  }, [orderData, emailSent]);
 
   if (!orderData) {
     return (

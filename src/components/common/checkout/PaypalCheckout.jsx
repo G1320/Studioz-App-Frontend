@@ -2,13 +2,16 @@ import { useState } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import { useNavigate } from 'react-router-dom';
+import { sendOrderConfirmation } from '@services/email-service';
+import { useUserContext } from '@contexts/UserContext';
+import { toast } from 'sonner';
 
 function Message({ content }) {
   return <p>{content}</p>;
 }
 
 const PaypalCheckout = ({ cart, merchantId }) => {
-  console.log('cart: ', cart);
+  const { user } = useUserContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -93,14 +96,16 @@ const PaypalCheckout = ({ cart, merchantId }) => {
               // (3) Successful transaction -> Show confirmation or thank you message
               // Or go to another URL:  actions.redirect('thank_you.html');
 
-              navigate(`/order-success/${orderData.id}`, {
-                state: {
-                  orderData: {
-                    ...orderData,
-                    purchase_units: orderData.purchase_units // Make sure purchase_units is passed
-                  }
+              const state = {
+                orderData: {
+                  ...orderData,
+                  purchase_units: orderData.purchase_units
                 }
-              });
+              };
+              await sendOrderConfirmation(user?.email || orderData.payer.email_address, state.orderData);
+              toast.success('Order confirmation email sent');
+
+              navigate(`/order-success/${orderData.id}`, { state: state });
             }
           } catch (error) {
             console.error(error);

@@ -6,15 +6,6 @@ interface EmailResponse {
   message: string;
 }
 
-interface OrderDetails {
-  id: string;
-  items: any[];
-  total: number;
-  customerName: string;
-  orderDate: string;
-  paymentStatus: string;
-}
-
 export const sendWelcomeEmail = async (email: string, name: string): Promise<EmailResponse> => {
   try {
     const payload = {
@@ -29,11 +20,11 @@ export const sendWelcomeEmail = async (email: string, name: string): Promise<Ema
   }
 };
 
-export const sendOrderConfirmation = async (email: string, orderDetails: OrderDetails): Promise<EmailResponse> => {
+export const sendOrderConfirmation = async (email: string, orderData: any): Promise<EmailResponse> => {
   try {
     const payload = {
       email,
-      orderDetails
+      orderData
     };
 
     const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-order-confirmation`, payload);
@@ -59,4 +50,4 @@ export const sendPasswordReset = async (email: string, resetToken: string): Prom
   }
 };
 
-export type { EmailResponse, OrderDetails };
+export type { EmailResponse };
