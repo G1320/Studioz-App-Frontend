@@ -1,7 +1,9 @@
+import { useUserContext } from '@contexts/UserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const OrderSuccessPage: React.FC = () => {
   const { state } = useLocation();
+  const { user } = useUserContext();
 
   const navigate = useNavigate();
 
@@ -37,11 +39,11 @@ const OrderSuccessPage: React.FC = () => {
             </div>
             <div className="detail-row">
               <span className="label">Customer Name:</span>
-              <span className="value">{orderData.payer.name.given_name}</span>
+              <span className="value">{user?.name || orderData.payer.name.given_name}</span>
             </div>
             <div className="detail-row">
               <span className="label">Email:</span>
-              <span className="value">{orderData.payer.email_address}</span>
+              <span className="value">{user?.email || orderData.payer.email_address}</span>
             </div>
             <div className="detail-row">
               <span className="label">Order Date:</span>

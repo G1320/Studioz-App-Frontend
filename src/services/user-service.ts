@@ -24,6 +24,14 @@ export const getUserBySub = async (sub: string): Promise<User> => {
     throw error;
   }
 };
+export const getUserByMerchantId = async (merchantId: string): Promise<User> => {
+  try {
+    return await httpService.get(`${userEndpoint}/${merchantId}`);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 export const getUserStudios = async (userId: string): Promise<Studio[]> => {
   try {

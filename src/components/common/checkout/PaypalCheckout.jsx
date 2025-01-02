@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { sendOrderConfirmation } from '@services/email-service';
 import { useUserContext } from '@contexts/UserContext';
 import { toast } from 'sonner';
+import { processMarketplaceOrder } from '@services/order-service';
+import { processSellerPayout } from '@services/payout-service';
 
 function Message({ content }) {
   return <p>{content}</p>;
@@ -96,13 +98,18 @@ const PaypalCheckout = ({ cart, merchantId }) => {
               // (3) Successful transaction -> Show confirmation or thank you message
               // Or go to another URL:  actions.redirect('thank_you.html');
 
+              // const response = await processMarketplaceOrder(user.email, orderData, merchantId);
+
               const state = {
                 orderData: {
                   ...orderData,
                   purchase_units: orderData.purchase_units
                 }
               };
-              await sendOrderConfirmation(user?.email || orderData.payer.email_address, state.orderData);
+              await Promise.all([
+                sendOrderConfirmation(user?.email || orderData.payer.email_address, state.orderData),
+                processSellerPayout(merchantId, orderData.purchase_units[0].amount.value, orderData.id)
+              ]);
               toast.success('Order confirmation email sent');
 
               navigate(`/order-success/${orderData.id}`, { state: state });
