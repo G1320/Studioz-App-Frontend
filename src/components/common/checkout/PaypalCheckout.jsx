@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import { useNavigate } from 'react-router-dom';
-import { sendOrderConfirmation } from '@services/email-service';
+import { sendOrderConfirmation, sendPayoutNotification } from '@services/email-service';
 import { useUserContext } from '@contexts/UserContext';
 import { toast } from 'sonner';
 import { processMarketplaceOrder } from '@services/order-service';
@@ -106,10 +106,13 @@ const PaypalCheckout = ({ cart, merchantId }) => {
                   purchase_units: orderData.purchase_units
                 }
               };
-              await Promise.all([
+
+              const [orderConfirmationDetails, payoutDetails, payoutNotificationDetails] = await Promise.all([
                 sendOrderConfirmation(user?.email || orderData.payer.email_address, state.orderData),
-                processSellerPayout(merchantId, orderData.purchase_units[0].amount.value, orderData.id)
+                processSellerPayout(merchantId, orderData.purchase_units[0].amount.value, orderData.id),
+                sendPayoutNotification(merchantId, orderData.purchase_units[0].amount.value, orderData.id)
               ]);
+
               toast.success('Order confirmation email sent');
 
               navigate(`/order-success/${orderData.id}`, { state: state });

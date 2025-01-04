@@ -36,6 +36,27 @@ export const sendOrderConfirmation = async (email: string, orderData: any): Prom
   }
 };
 
+export const sendPayoutNotification = async (
+  sellerId: string,
+  amount: number,
+  orderId: string
+): Promise<EmailResponse> => {
+  try {
+    const payload = {
+      sellerId,
+      amount,
+      orderId
+    };
+
+    const response = await httpService.post<EmailResponse>(`${emailEndpoint}/send-payout-notification`, payload);
+
+    return response;
+  } catch (error) {
+    console.error('Failed to send payout notification:', error);
+    throw error;
+  }
+};
+
 export const sendPasswordReset = async (email: string, resetToken: string): Promise<EmailResponse> => {
   try {
     const payload = {
