@@ -1,6 +1,5 @@
 import { useLanguageNavigate } from '@hooks/utils';
-import { PersonPinCircle } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+
 import User from 'src/types/user';
 
 interface ProfileDetailsProps {
@@ -47,18 +46,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <div className="avatar-container">
-          <div className="profile-avatar-placeholder">
-            <PersonPinCircle />
-          </div>
-          {/* {user?.picture ? (
-            <img src={user.picture} alt={`${user.name}'s avatar`} className="profile-avatar" />
-          ) : (
-            <div className="profile-avatar-placeholder">
-              <PersonPinCircle />
-            </div>
-          )} */}
-        </div>
+        <div className="avatar-container"></div>
         <div className="profile-info">
           <h1 className="profile-name">{user?.name || 'Guest User'}</h1>
           <p className="profile-email">{user?.email}</p>
@@ -80,10 +68,12 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           <div className="seller-onboarding">
             <h2>Seller Account</h2>
             <p className="section-description">Connect your PayPal account to start selling</p>
-            <button onClick={handleOnboardClick} className="onboard-button">
-              Connect PayPal Account
-            </button>
-            <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
+            <div className="seller-buttons">
+              <button onClick={handleOnboardClick} className="onboard-button">
+                Connect PayPal Account
+              </button>
+              <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
+            </div>
           </div>
         </div>
 

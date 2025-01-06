@@ -108,28 +108,37 @@
 /* Seller Section */
 .seller-onboarding {
   text-align: center;
+  .seller-buttons {
+    display: flex;
+    gap: 1rem;
+    button {
+      flex: 1;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      font-weight: 500;
+      height: 34px;
+    }
+  }
 }
 
 .section-description {
   color: #999;
   margin-bottom: 1.5rem;
+  div {
+  }
 }
 
 .onboard-button {
   background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
   color: white;
   border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
-  max-width: 300px;
+  // max-width: 300px;
 }
 
-.onboard-button:hover {
+button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
 }
