@@ -1,31 +1,37 @@
+import { useLanguageNavigate } from '@hooks/utils';
+import EmailIcon from '@mui/icons-material/Email';
 export const DesktopFooter = () => {
+  const langNavigate = useLanguageNavigate();
+
   return (
     <footer className="desktop-footer">
       <div className="footer-content">
-        <div className="footer-section"></div>
+        <div className="footer-section">
+          <div className="links">
+            <a href="#" onClick={() => langNavigate('/privacy')}>
+              Privacy Policy
+            </a>
+            <span className="divider">•</span>
+            <a href="#" onClick={() => langNavigate('/terms')}>
+              Terms & Conditions
+            </a>
+          </div>
+        </div>
         <div className="footer-section">
           <p className="footer-impact-statement">
             Studioz.co.il - Your one-stop shop for creative tools and inspiration.
           </p>
         </div>
         <div className="footer-section">
-          {/* <div className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <FacebookIcon />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
-              <XIcon />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <InstagramIcon />
-            </a>
-          </div> */}
+          <div className="contact-info">
+            <EmailIcon />
+            <a href="mailto:info@studioz.online">info@studioz.online</a>
+          </div>
         </div>
       </div>
-      {/* <div className="footer-bottom">
-        <p>&copy; 2024 Studioz. All rights reserved.</p>
-        <hr />
-      </div> */}
+      <div className="footer-bottom">
+        <p>&copy; {new Date().getFullYear()} Studioz. All rights reserved.</p>
+      </div>
     </footer>
   );
 };
