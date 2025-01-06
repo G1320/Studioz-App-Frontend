@@ -3,7 +3,7 @@ import StudioCalendar from '@components/calender/studioCalender';
 import { useUserContext } from '@contexts/UserContext';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
-import { GenericCarousel } from '@components/common';
+import { GenericCarousel, GenericList } from '@components/common';
 import { StudioPreview } from '@components/entities';
 
 interface StudioCalendarPageProps {
@@ -35,7 +35,11 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items 
     <div>
       <h1>Studio Calendar</h1>
       <div>
-        <GenericCarousel data={userStudios} renderItem={renderItem} />
+        {userStudios.length > 5 ? (
+          <GenericCarousel data={userStudios} renderItem={renderItem} />
+        ) : (
+          <GenericList data={userStudios} renderItem={renderItem} />
+        )}
         {selectedStudio && (
           <StudioCalendar
             title={selectedStudio.name.en}

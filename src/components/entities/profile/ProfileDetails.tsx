@@ -1,5 +1,6 @@
 import { useLanguageNavigate } from '@hooks/utils';
 import { PersonPinCircle } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 import User from 'src/types/user';
 
 interface ProfileDetailsProps {
@@ -82,6 +83,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             <button onClick={handleOnboardClick} className="onboard-button">
               Connect PayPal Account
             </button>
+            <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
           </div>
         </div>
 

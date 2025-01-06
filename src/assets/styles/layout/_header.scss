@@ -78,7 +78,8 @@ header.app-header {
     justify-self: end;
   }
 
-  .header-search-button-container {
+  .header-search-button-container,
+  .header-profile-button-container {
     width: 24px;
     height: 24px;
     align-self: center;

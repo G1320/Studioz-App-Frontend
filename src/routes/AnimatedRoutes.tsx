@@ -233,7 +233,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           }
         />
         <Route
-          path="/:lang?/profile/calender"
+          path="/:lang?/calendar"
           element={
             <AnimatedRoute>
               <StudioCalendarPage studios={studios} items={items} />
