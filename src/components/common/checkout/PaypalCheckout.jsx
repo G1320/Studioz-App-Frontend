@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useNavigate } from 'react-router-dom';
 import { sendOrderConfirmation, sendPayoutNotification } from '@services/email-service';
 import { useUserContext } from '@contexts/UserContext';
@@ -16,6 +16,19 @@ const PaypalCheckout = ({ cart, merchantId }) => {
   const { user } = useUserContext();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const [{ options }, dispatch] = usePayPalScriptReducer();
+
+  useEffect(() => {
+    if (merchantId) {
+      dispatch({
+        type: 'resetOptions',
+        value: {
+          ...options,
+          merchantId: merchantId
+        }
+      });
+    }
+  }, [merchantId]);
 
   if (!cart?.items?.length) {
     return <Message content="Cart is empty or invalid." />;
@@ -29,6 +42,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
   return (
     <div className="paypal-buttons-container">
       <PayPalButtons
+        forceReRender={[merchantId]}
         style={{
           shape: 'rect',
           layout: 'vertical',
@@ -107,7 +121,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
                 }
               };
 
-              const [orderConfirmationDetails, payoutDetails, payoutNotificationDetails] = await Promise.all([
+              await Promise.all([
                 sendOrderConfirmation(user?.email || orderData.payer.email_address, state.orderData),
                 processSellerPayout(merchantId, orderData.purchase_units[0].amount.value, orderData.id),
                 sendPayoutNotification(merchantId, orderData.purchase_units[0].amount.value, orderData.id)

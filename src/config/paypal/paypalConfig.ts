@@ -1,11 +1,7 @@
+const currency = import.meta.env.VITE_NODE_ENV === 'production' ? 'ILS' : 'USD';
+
 export const initialOptions = {
   clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
-  // 'client-id': import.meta.env.VITE_PAYPAL_CLIENT_ID,
-
-  // 'disable-funding': '',
-  // 'buyer-country': 'US',
-  currency: 'ILS',
-  // 'data-page-type': 'product-details',
+  currency: currency,
   components: 'buttons'
-  // 'data-sdk-integration-source': 'developer-studio'
 };

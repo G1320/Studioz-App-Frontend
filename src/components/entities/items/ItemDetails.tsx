@@ -163,7 +163,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           label="Select Date and Start Time"
           value={selectedDate}
           onChange={handleDateChange}
-          availability={item?.availability || []}
+          itemAvailability={item?.availability || []}
           studioAvailability={studio?.studioAvailability}
         />
       )}

@@ -25,6 +25,7 @@ import OrderSuccessPage from '@pages/order-success-page/OrderSuccessPage';
 import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
 import { ErrorBoundary } from '@components/utility/ErrorBoundary';
+import StudioCalendarPage from '@pages/calender-page/StudioCalenderPage';
 
 const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@pages/compliance-pages/TermAndConditionsPage'));
@@ -99,6 +100,10 @@ function App() {
                   <Route path="/:lang?/order-success/:orderId" element={<OrderSuccessPage />} />
                   <Route path="/:lang?/search" element={<SearchPage studios={studios} items={originalItems} />} />
                   <Route path="/:lang?/profile" element={<ProfilePage user={user} />} />
+                  <Route
+                    path="/:lang?/profile/calender"
+                    element={<StudioCalendarPage studios={studios} items={items} />}
+                  />
                   <Route path="/:lang?/map" element={<StudiosMap studios={studios} />} />
                   <Route path="/:lang?/privacy" element={<PrivacyPolicyPage />} />
                   <Route path="/:lang?/terms" element={<TermsAndConditionsPage />} />

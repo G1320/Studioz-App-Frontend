@@ -46,13 +46,19 @@ export const GenericCarousel = <T,>({
     <button
       key="prev"
       className="next-slide-button swiper-button-prev button-prev custom-nav-btn"
-      onClick={() => (isRTL ? swiperRef.current?.slideNext() : swiperRef.current?.slidePrev())}
+      onClick={() => {
+        autoplay && swiperRef.current?.autoplay?.stop();
+        isRTL ? swiperRef.current?.slideNext() : swiperRef.current?.slidePrev();
+      }}
       aria-label={isRTL ? 'Go to next slide' : 'Go to previous slide'}
     />,
     <button
       key="next"
       className="previous-slide-button swiper-button-next button-prev custom-nav-btn"
-      onClick={() => (isRTL ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext())}
+      onClick={() => {
+        autoplay && swiperRef.current?.autoplay?.stop();
+        isRTL ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext();
+      }}
       aria-label={isRTL ? 'Go to previous slide' : 'Go to next slide'}
     />
   ];
@@ -99,12 +105,23 @@ export const GenericCarousel = <T,>({
           cssMode={true}
           touchStartPreventDefault={false}
           allowTouchMove={true}
-          autoplay={autoplay ? { delay: 5000, disableOnInteraction: false } : false}
+          autoplay={
+            autoplay
+              ? {
+                  delay: 5000,
+                  disableOnInteraction: true,
+                  pauseOnMouseEnter: true
+                }
+              : false
+          }
           pagination={{
             clickable: true
           }}
           navigation={false}
           breakpoints={breakpoints}
+          onTouchStart={() => {
+            autoplay && swiperRef.current?.autoplay?.stop();
+          }}
           a11y={{
             enabled: true,
             prevSlideMessage: 'Previous slide',

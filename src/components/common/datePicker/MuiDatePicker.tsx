@@ -10,7 +10,7 @@ interface MuiDateTimePickerProps {
   label: string;
   value: Date | null;
   onChange: (newValue: Date | null) => void;
-  availability: { date: string; times: string[] }[];
+  itemAvailability: { date: string; times: string[] }[];
   studioAvailability?: StudioAvailability;
 }
 
@@ -18,7 +18,7 @@ export const MuiDateTimePicker = ({
   label,
   value,
   onChange,
-  availability = [],
+  itemAvailability = [],
   studioAvailability
 }: MuiDateTimePickerProps) => {
   const [internalValue, setInternalValue] = useState<Dayjs | null>(
@@ -59,7 +59,7 @@ export const MuiDateTimePicker = ({
 
   const shouldDisableDate = (date: Dayjs) => {
     // First check if the date is in booked availability
-    const isBooked = availability.some((slot) => dayjs(slot.date).isSame(date, 'day'));
+    const isBooked = itemAvailability.some((slot) => dayjs(slot.date).isSame(date, 'day'));
     if (isBooked) return true;
 
     // Then check if the day is allowed in studio availability
@@ -85,7 +85,7 @@ export const MuiDateTimePicker = ({
     }
 
     const selectedDate = value.format('DD/MM/YYYY');
-    const bookedSlot = availability.find((slot) => slot.date === selectedDate);
+    const bookedSlot = itemAvailability.find((slot) => slot.date === selectedDate);
     if (bookedSlot) {
       return !bookedSlot.times.includes(value.format('HH:00'));
     }
