@@ -4,7 +4,7 @@ import { Cart, Studio } from 'src/types/index';
 
 interface OrderPageProps {
   studios: Studio[];
-  cart: Cart;
+  cart?: Cart;
 }
 
 const OrderPage: React.FC<OrderPageProps> = ({ studios, cart }) => {

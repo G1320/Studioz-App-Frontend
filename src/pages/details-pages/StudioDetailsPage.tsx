@@ -11,7 +11,7 @@ import { Cart, Item } from 'src/types/index';
 
 interface StudioDetailsPageProps {
   items: Item[];
-  cart: Cart;
+  cart?: Cart;
 }
 
 const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) => {

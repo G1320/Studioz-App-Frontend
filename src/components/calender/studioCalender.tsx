@@ -96,27 +96,27 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
   }, [studioAvailability]);
 
   // Custom styling for the calendar
-  const calendarStyles = `
-    .fc-event {
-      cursor: pointer;
-    }
-    .fc-day-disabled {
-      background-color: #f3f4f6;
-    }
-    .fc-day-today {
-      background-color: #dbeafe !important;
-    }
-    .booking-event {
-      border-radius: 4px;
-    }
-    .fc-toolbar-title {
-      font-size: 1.25rem !important;
-    }
-  `;
+  // const calendarStyles = `
+  //   .fc-event {
+  //     cursor: pointer;
+  //   }
+  //   .fc-day-disabled {
+  //     background-color: #f3f4f6;
+  //   }
+  //   .fc-day-today {
+  //     background-color: #dbeafe !important;
+  //   }
+  //   .booking-event {
+  //     border-radius: 4px;
+  //   }
+  //   .fc-toolbar-title {
+  //     font-size: 1.25rem !important;
+  //   }
+  // `;
 
   return (
     <div className="studio-calendar">
-      <style>{calendarStyles}</style>
+      {/* <style>{calendarStyles}</style> */}
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useModal } from '@contexts/ModalContext';
 
 interface CheckoutButtonProps {
-  cart: Cart;
+  cart?: Cart;
 }
 
 export const ContinueToCheckoutButton: React.FC<CheckoutButtonProps> = ({ cart }) => {
@@ -22,7 +22,7 @@ export const ContinueToCheckoutButton: React.FC<CheckoutButtonProps> = ({ cart }
 
   return (
     <div className="checkout-button-container">
-      {itemCount > 0 && (
+      {itemCount && itemCount > 0 && (
         <Link to={`/${i18n.language}/order/${studioId}`} onClick={onClose} className="checkout-button">
           {`Continue to Checkout (${itemCount})`}
         </Link>
