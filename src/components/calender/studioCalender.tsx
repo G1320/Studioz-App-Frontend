@@ -1,5 +1,5 @@
 // StudioCalendar.tsx
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -15,7 +15,17 @@ interface StudioCalendarProps {
   studioAvailability?: StudioAvailability;
 }
 
+interface EventPopupInfo {
+  title: string;
+  start: string;
+  end: string;
+  itemName: { en: string; he?: string };
+  position: { x: number; y: number };
+}
+
 const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems = [], studioAvailability }) => {
+  const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
+
   const getDayNumber = (day: DayOfWeek): number => {
     const days: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days.indexOf(day);
@@ -81,7 +91,15 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
     });
   }, [studioFilteredItems]);
 
-  // Convert studioAvailability to FullCalendar business hours
+  const closedDayNumbers = useMemo(() => {
+    if (!studioAvailability?.days) return [];
+    const allDays: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return allDays
+      .map((day, index) => ({ day, index }))
+      .filter(({ day }) => !studioAvailability.days.includes(day))
+      .map(({ index }) => index);
+  }, [studioAvailability?.days]);
+
   const businessHours = useMemo(() => {
     if (!studioAvailability) return [];
 
@@ -95,31 +113,12 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
     });
   }, [studioAvailability]);
 
-  // Custom styling for the calendar
-  // const calendarStyles = `
-  //   .fc-event {
-  //     cursor: pointer;
-  //   }
-  //   .fc-day-disabled {
-  //     background-color: #f3f4f6;
-  //   }
-  //   .fc-day-today {
-  //     background-color: #dbeafe !important;
-  //   }
-  //   .booking-event {
-  //     border-radius: 4px;
-  //   }
-  //   .fc-toolbar-title {
-  //     font-size: 1.25rem !important;
-  //   }
-  // `;
-
   return (
     <div className="studio-calendar">
-      {/* <style>{calendarStyles}</style> */}
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
+        timeZone="local"
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
@@ -131,6 +130,9 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
         selectMirror={true}
         dayMaxEvents={true}
         weekends={studioAvailability?.days.includes('Saturday') || studioAvailability?.days.includes('Sunday')}
+        dayCellClassNames={(arg) => {
+          return closedDayNumbers.includes(arg.date.getDay()) ? 'closed-day' : '';
+        }}
         height="auto"
         slotMinTime="06:00:00"
         slotMaxTime="24:00:00"
@@ -141,23 +143,23 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
         nowIndicator={true}
         eventDisplay="block"
         selectConstraint="businessHours"
-        hiddenDays={
-          studioAvailability?.days
-            ? [0, 1, 2, 3, 4, 5, 6].filter(
-                (dayNum) =>
-                  !studioAvailability.days.includes(
-                    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayNum] as DayOfWeek
-                  )
-              )
-            : []
-        }
         select={(info) => {
           // Handle new booking selection
           console.log('Selected:', info.startStr, 'to', info.endStr);
         }}
         eventClick={(info) => {
-          // Handle clicking on existing booking
-          console.log('Event clicked:', info.event);
+          // Get click position for popup placement
+          const rect = info.el.getBoundingClientRect();
+          setSelectedEvent({
+            title: info.event.title,
+            start: info.event.startStr,
+            end: info.event.endStr,
+            itemName: info.event.extendedProps.itemName,
+            position: {
+              x: rect.left + window.scrollX,
+              y: rect.bottom + window.scrollY
+            }
+          });
         }}
         slotLabelFormat={{
           hour: '2-digit',
@@ -165,6 +167,26 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
           hour12: false
         }}
       />
+      {selectedEvent && (
+        <>
+          <div className="event-popup-backdrop" onClick={() => setSelectedEvent(null)} />
+          <div
+            className="event-popup"
+            style={{
+              left: `${selectedEvent.position.x}px`,
+              top: `${selectedEvent.position.y}px`
+            }}
+          >
+            <button className="close-button" onClick={() => setSelectedEvent(null)}>
+              ×
+            </button>
+            <h3>{selectedEvent.itemName.en}</h3>
+            <p>
+              {new Date(selectedEvent.start).toLocaleTimeString()} -{new Date(selectedEvent.end).toLocaleTimeString()}
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

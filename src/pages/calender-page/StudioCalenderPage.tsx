@@ -14,9 +14,6 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items 
   const { user } = useUserContext();
   const [selectedStudio, setSelectedStudio] = useState<Studio | null>(null);
 
-  console.log('Studio example', studios[0]);
-  console.log('Item example', items[0]);
-
   const userStudios = useMemo(() => {
     if (!user?._id) return [];
     return studios.filter((studio) => studio.createdBy === user._id);

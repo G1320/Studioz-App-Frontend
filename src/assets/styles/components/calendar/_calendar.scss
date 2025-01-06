@@ -19,8 +19,12 @@
     margin-bottom: 1.5rem !important;
     padding: 0 0.5rem;
 
-    .fc-button-group {
+    .fc-button-group,
+    .fc-toolbar-chunk {
       gap: 0.5rem;
+      button {
+        height: 43px;
+      }
     }
 
     .fc-button-primary {
@@ -47,6 +51,34 @@
       font-size: 1.5rem !important;
       font-weight: 600;
     }
+  }
+
+  .closed-day {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: #999 !important;
+    cursor: not-allowed !important;
+    position: relative;
+
+    &::after {
+      content: 'CLOSED';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.8em;
+      color: #666;
+      opacity: 0.5;
+    }
+
+    // Prevent interactions on closed days
+    & > * {
+      pointer-events: none;
+    }
+  }
+
+  // Optional: Style the day number in closed days
+  .closed-day .fc-daygrid-day-number {
+    opacity: 0.5;
   }
 
   // Calendar Body
