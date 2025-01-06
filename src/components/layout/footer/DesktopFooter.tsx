@@ -8,13 +8,9 @@ export const DesktopFooter = () => {
       <div className="footer-content">
         <div className="footer-section">
           <div className="links">
-            <a href="#" onClick={() => langNavigate('/privacy')}>
-              Privacy Policy
-            </a>
+            <a onClick={() => langNavigate('/privacy')}>Privacy Policy</a>
             <span className="divider">•</span>
-            <a href="#" onClick={() => langNavigate('/terms')}>
-              Terms & Conditions
-            </a>
+            <a onClick={() => langNavigate('/terms')}>Terms & Conditions</a>
           </div>
         </div>
         <div className="footer-section">
