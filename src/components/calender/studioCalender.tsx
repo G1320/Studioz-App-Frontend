@@ -10,6 +10,7 @@ import StudioItem from 'src/types/studioItem';
 import Item from 'src/types/item';
 
 interface StudioCalendarProps {
+  title?: string;
   items?: Item[];
   studioItems?: StudioItem[];
   studioAvailability?: StudioAvailability;
@@ -23,7 +24,7 @@ interface EventPopupInfo {
   position: { x: number; y: number };
 }
 
-const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems = [], studioAvailability }) => {
+const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems = [], studioAvailability, title }) => {
   const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
 
   const getDayNumber = (day: DayOfWeek): number => {
@@ -115,6 +116,8 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
 
   return (
     <div className="studio-calendar">
+      {title && <h2 className="calendar-title">{title}</h2>}
+
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

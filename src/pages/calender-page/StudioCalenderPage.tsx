@@ -4,6 +4,7 @@ import { useUserContext } from '@contexts/UserContext';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel } from '@components/common';
+import { StudioPreview } from '@components/entities';
 
 interface StudioCalendarPageProps {
   studios: Studio[];
@@ -26,7 +27,7 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items 
 
   const renderItem = (studio: Studio) => (
     <div onClick={() => setSelectedStudio(studio)}>
-      <span>{studio.name.en}</span>
+      <StudioPreview studio={studio} navActive={false}></StudioPreview>
     </div>
   );
 
@@ -37,6 +38,7 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items 
         <GenericCarousel data={userStudios} renderItem={renderItem} />
         {selectedStudio && (
           <StudioCalendar
+            title={selectedStudio.name.en}
             studioAvailability={selectedStudio.studioAvailability}
             items={userItems}
             studioItems={selectedStudio.items}

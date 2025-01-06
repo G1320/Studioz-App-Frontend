@@ -7,16 +7,17 @@ import { useLanguageNavigate } from '@hooks/utils';
 
 interface StudioPreviewProps {
   studio?: Studio;
+  navActive?: boolean;
 }
 
-export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio }) => {
+export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive = true }) => {
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
 
   return (
     <article
       onMouseEnter={prefetchStudio}
-      onClick={() => langNavigate(`/studio/${studio?._id}`)}
+      onClick={() => (navActive ? langNavigate(`/studio/${studio?._id}`) : null)}
       key={studio?._id}
       className="preview studio-preview"
     >
