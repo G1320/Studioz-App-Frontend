@@ -143,7 +143,6 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
         slotDuration="01:00:00"
         expandRows={true}
         stickyHeaderDates={true}
-        nowIndicator={true}
         eventDisplay="block"
         selectConstraint="businessHours"
         select={(info) => {

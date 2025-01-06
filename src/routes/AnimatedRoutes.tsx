@@ -62,10 +62,6 @@ const pageVariants = {
 const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineCart, offlineCart, user }) => {
   const location = useLocation();
 
-  const StaticRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return <>{children}</>;
-  };
-
   const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
       <AnimatePresence mode="wait">
@@ -96,22 +92,8 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             </AnimatedRoute>
           }
         />
-        <Route
-          path="/:lang?/studios/:category?/:subcategory?"
-          element={
-            <StaticRoute>
-              <StudiosPage studios={studios} />
-            </StaticRoute>
-          }
-        />
-        <Route
-          path="/:lang?/services/:category?/:subCategory?"
-          element={
-            <StaticRoute>
-              <ServicesPage items={items} />
-            </StaticRoute>
-          }
-        />
+        <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
+        <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
         <Route
           path="/:lang?/wishlists"
           element={

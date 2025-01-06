@@ -43,7 +43,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   };
 
   return (
-    <div className="map studios-map" style={{ height: '500px', width: '100%' }}>
+    <div className="map studios-map" style={{ height: '500px', width: '100%' }} key="map-container">
       <Map
         {...viewState}
         style={{ width: '100%', height: '100%' }}

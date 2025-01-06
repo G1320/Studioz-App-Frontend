@@ -158,7 +158,6 @@
   }
 }
 
-// Total amount
 .total-amount {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -173,7 +172,6 @@
 .button-group {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
 
   button {
     @include primary-button;
