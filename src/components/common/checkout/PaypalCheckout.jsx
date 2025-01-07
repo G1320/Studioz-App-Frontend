@@ -24,11 +24,7 @@ const PaypalCheckout = ({ cart, merchantId }) => {
         type: 'resetOptions',
         value: {
           ...options,
-          'client-id': import.meta.env.VITE_PAYPAL_LIVE_CLIENT_ID, // Make sure this is set
-          currency: 'ILS',
-          components: 'buttons',
-          'merchant-id': merchantId,
-          intent: 'CAPTURE'
+          merchantId: merchantId
         }
       });
     }
