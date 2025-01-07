@@ -1,5 +1,4 @@
-// import React, { useEffect, useState } from 'react';
-// import { Blurhash } from 'react-blurhash';
+import { useState } from 'react';
 
 interface GenericImageProps {
   src: string;
@@ -18,36 +17,15 @@ export const GenericImage: React.FC<GenericImageProps> = ({
   onClick,
   width = 800,
   loading = 'lazy'
-  // blurHash
 }) => {
-  // const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const img = new Image();
-  //   img.onload = () => setIsLoaded(true);
-  //   img.src = src;
-
-  //   return () => {
-  //     img.onload = null;
-  //   };
-  // }, [src]);
-
-  const optimizedSrc = (width: number) => src.replace('/upload/', `/upload/w_${width},f_auto,q_auto/`);
-  // const containerClass = loading === 'eager' ? 'cover-image-container' : 'gallery-image-container';
+  const optimizedSrc = (width: number) => src.replace('/upload/', `/upload/w_${width},f_auto,q_auto:best/`);
 
   return (
-    <>
-      {/* {blurHash && !isLoaded && (
-        <Blurhash
-          hash={blurHash}
-          width="100%"
-          height="min-content"
-          resolutionX={32}
-          resolutionY={32}
-          punch={1}
-          className={className}
-        />
-      )} */}
+    <div className={`image-container ${className}`}>
+      {isLoading && <div className="skeleton-loader" />}
+
       <img
         src={optimizedSrc(width)}
         srcSet={`
@@ -62,11 +40,10 @@ export const GenericImage: React.FC<GenericImageProps> = ({
                1200px"
         alt={alt}
         loading={loading}
-        // onLoad={() => setIsLoaded(true)}
-        className={className}
+        className={`generic-image ${className} ${isLoading ? 'loading' : 'loaded'}`}
         onClick={onClick}
-        // style={{ display: isLoaded ? 'block' : 'none' }}
+        onLoad={() => setIsLoading(false)}
       />
-    </>
+    </div>
   );
 };

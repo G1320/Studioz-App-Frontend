@@ -9,6 +9,51 @@
   background: vars.$preview-bg-color;
   cursor: pointer;
 
+  .image-container {
+    position: relative;
+    width: calc(100% + 1rem);
+    place-self: center;
+    height: 0;
+    aspect-ratio: 3/2;
+    padding-bottom: 50.67%;
+    overflow: hidden;
+    background-color: #f0f0f05b;
+
+    .skeleton-loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(90deg, rgba(#f0f0f0, 0) 0%, rgba(#f0f0f0, 0.8) 50%, rgba(#f0f0f0, 0) 100%);
+      animation: shimmer 1.5s infinite;
+    }
+
+    .generic-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+
+      &.loading {
+        opacity: 0;
+      }
+
+      &.loaded {
+        opacity: 1;
+      }
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
   img {
     max-width: calc(100% + 1rem);
     place-self: center;

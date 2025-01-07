@@ -52,6 +52,16 @@
         display: flex;
         gap: 0.5rem;
         overflow-x: auto;
+        height: 60px;
+        .render-item-container {
+          height: calc(100% - 1rem);
+          place-items: center;
+          .gallery-image {
+            height: 40px;
+            align-self: start;
+            gap: 0;
+          }
+        }
       }
     }
 
@@ -204,5 +214,81 @@
       font-weight: bold;
       color: #f1f1f1;
     }
+  }
+}
+.studio-details-page {
+  .studio-details {
+    .image-gallery-container {
+      position: relative;
+
+      // Cover image skeleton styles
+      .cover-image {
+        position: relative;
+        width: clamp(100%, 100%, 100vw);
+        aspect-ratio: 2 / 1;
+        height: auto;
+        max-height: 600px;
+        object-fit: cover;
+
+        &.loading {
+          opacity: 0;
+        }
+
+        &.loaded {
+          opacity: 1;
+        }
+      }
+
+      // Gallery images skeleton styles
+      .gallery-images-list {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        height: 60px;
+
+        .render-item-container {
+          position: relative;
+          height: calc(100% - 1rem);
+          place-items: center;
+          overflow: hidden;
+
+          .skeleton-loader {
+            position: absolute;
+            top: 0.5rem;
+            left: 0;
+            width: calc(100% - 1rem);
+            height: calc(100% - 1rem);
+            background: linear-gradient(90deg, rgba(#f0f0f0, 0) 0%, rgba(#f0f0f0, 0.8) 50%, rgba(#f0f0f0, 0) 100%);
+            background-size: 200% 100%;
+            border-radius: 8px;
+            animation: shimmer 1.5s infinite;
+          }
+
+          .gallery-image {
+            height: 40px;
+            align-self: start;
+            gap: 0;
+            transition: opacity 0.3s ease;
+
+            &.loading {
+              opacity: 0;
+            }
+
+            &.loaded {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
