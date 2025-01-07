@@ -31,8 +31,8 @@
       }
       .cover-image {
         justify-self: center;
-
-        width: clamp(100%, 100%, 100vw);
+        align-self: center;
+        width: calc(100% + 0.5rem);
         aspect-ratio: 2 / 1;
         height: auto;
         max-height: 600px;
@@ -220,24 +220,6 @@
   .studio-details {
     .image-gallery-container {
       position: relative;
-
-      // Cover image skeleton styles
-      .cover-image {
-        position: relative;
-        width: clamp(100%, 100%, 100vw);
-        aspect-ratio: 2 / 1;
-        height: auto;
-        max-height: 600px;
-        object-fit: cover;
-
-        &.loading {
-          opacity: 0;
-        }
-
-        &.loaded {
-          opacity: 1;
-        }
-      }
 
       // Gallery images skeleton styles
       .gallery-images-list {
