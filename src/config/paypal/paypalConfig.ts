@@ -1,7 +1,8 @@
-const currency = import.meta.env.VITE_NODE_ENV === 'production' ? 'ILS' : 'USD';
+const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
+const currency = isProduction ? 'ILS' : 'USD';
 
 export const initialOptions = {
-  clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
+  clientId: isProduction ? import.meta.env.VITE_PAYPAL_LIVE_CLIENT_ID : import.meta.env.VITE_PAYPAL_SANDBOX_CLIENT_ID,
   currency: currency,
   components: 'buttons'
 };
