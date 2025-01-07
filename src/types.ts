@@ -11,6 +11,8 @@ interface ImportMetaEnv {
   readonly VITE_PAYPAL_LIVE_CLIENT_ID: string;
   readonly VITE_PAYPAL_SANDBOX_SECRET_KEY: string;
   readonly VITE_PAYPAL_LIVE_SECRET_KEY: string;
+  readonly VITE_PAYPAL_LIVE_BASE_URL: string;
+  readonly VITE_PAYPAL_SANDBOX_BASE_URL: string;
   readonly VITE_MAPBOX_PUBLIC_TOKEN: string;
   readonly VITE_BREVO_SENDER_EMAIL: string;
   readonly VITE_BREVO_SENDER_NAME: string;
