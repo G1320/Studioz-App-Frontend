@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import ItemOptions from './ItemOptions';
+import { GenericImage } from '@components/common/images/GenericImage';
 interface ItemDetailsProps {
   cart?: Cart;
   itemId: string;
@@ -45,6 +46,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
+  const [isExiting, setIsExiting] = useState(false);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -100,12 +102,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
 
       reserveItemTimeSlotMutation.mutate(newItem, {
         onSuccess: () => {
-          addItemToCartMutation.mutate(newItem, {
-            onSuccess: () => {
-              setSelectedDate(null);
-              langNavigate(`/studio/${studio?._id}`);
-            }
-          });
+          addItemToCartMutation.mutate(newItem);
+          setIsExiting(true);
+          setTimeout(() => {
+            setSelectedDate(null);
+            langNavigate(`/studio/${studio?._id}`);
+          }, 250);
         }
       });
     }
@@ -128,8 +130,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
   );
 
   return (
-    <article onMouseEnter={prefetchItem} key={item?._id} className="details item-details">
-      {studio && <img className="cover-image" src={studio.coverImage} onClick={handleImageClicked} />}
+    <article
+      onMouseEnter={prefetchItem}
+      key={item?._id}
+      className={`details item-details ${isExiting ? 'exiting' : ''}`}
+    >
+      {studio && <GenericImage className="cover-image" src={studio.coverImage} onClick={handleImageClicked} />}
       <div>
         <h3>{item?.studioName.en}</h3>
         <ItemOptions item={item} user={user as User} onEdit={handleGoToEdit} />
@@ -141,7 +147,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </small>
       </div>
       <p>{item?.description.en}</p>
-      {!isBooked && (
+      {!isBooked && !isExiting && (
         <div className="hour-selection-container">
           <div>
             <span className="hour-label"> Hours:</span>
@@ -158,7 +164,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </div>
       )}
 
-      {((!isBooked && item?.pricePer === 'hour') || (!isBooked && item?.pricePer === 'session')) && (
+      {((!isBooked && !isExiting && item?.pricePer === 'hour') || (!isBooked && item?.pricePer === 'session')) && (
         <MuiDateTimePicker
           label="Select Date and Start Time"
           value={selectedDate}
@@ -182,7 +188,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           />
         )
       )}
-      {!isBooked ? (
+      {!isBooked && !isExiting ? (
         <Button
           className="add-to-cart-button book-now-button"
           onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}

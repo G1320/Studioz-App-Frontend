@@ -64,190 +64,190 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
 
   const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
-      <AnimatePresence mode="wait">
-        <motion.div initial="initial" animate="enter" exit="exit" variants={pageVariants}>
-          {children}
-        </motion.div>
-      </AnimatePresence>
+      <motion.div initial="initial" animate="enter" exit="exit" variants={pageVariants}>
+        {children}
+      </motion.div>
     );
   };
 
   return (
-    <Suspense>
-      <Routes location={location}>
-        <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
-        <Route
-          path="/:lang"
-          element={
-            <AnimatedRoute>
-              <HomePage studios={studios} items={items} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/studio/:studioId"
-          element={
-            <AnimatedRoute>
-              <StudioDetailsPage items={items} cart={onlineCart || offlineCart} />
-            </AnimatedRoute>
-          }
-        />
-        <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
-        <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
-        <Route
-          path="/:lang?/wishlists"
-          element={
-            <AnimatedRoute>
-              <WishListsPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/wishlists/:wishlistId"
-          element={
-            <AnimatedRoute>
-              <WishlistDetailsPage items={items} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/create-item/:studioName/:studioId"
-          element={
-            <AnimatedRoute>
-              <CreateItemPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/edit-item/:itemId"
-          element={
-            <AnimatedRoute>
-              <EditItemPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/edit-studio/:studioId"
-          element={
-            <AnimatedRoute>
-              <EditStudioPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/create-studio"
-          element={
-            <AnimatedRoute>
-              <CreateStudioPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/edit-wishlist/:wishlistId"
-          element={
-            <AnimatedRoute>
-              <EditWishlistPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/create-wishlist"
-          element={
-            <AnimatedRoute>
-              <CreateWishlistPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/item/:itemId"
-          element={
-            <AnimatedRoute>
-              <ItemDetailsPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/cart"
-          element={
-            <AnimatedRoute>
-              <CartDetailsPage cart={onlineCart || offlineCart} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/order/:studioId?"
-          element={
-            <AnimatedRoute>
-              <OrderPage cart={onlineCart || offlineCart} studios={studios} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/complete-order"
-          element={
-            <AnimatedRoute>
-              <CartDetailsPage cart={onlineCart || offlineCart} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/order-success/:orderId"
-          element={
-            <AnimatedRoute>
-              <OrderSuccessPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/search"
-          element={
-            <AnimatedRoute>
-              <SearchPage studios={studios} items={items} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/profile"
-          element={
-            <AnimatedRoute>
-              <ProfilePage user={user || null} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/calendar"
-          element={
-            <AnimatedRoute>
-              <StudioCalendarPage studios={studios} items={items} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/map"
-          element={
-            <AnimatedRoute>
-              <StudiosMap studios={studios} />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/privacy"
-          element={
-            <AnimatedRoute>
-              <PrivacyPolicyPage />
-            </AnimatedRoute>
-          }
-        />
-        <Route
-          path="/:lang?/terms"
-          element={
-            <AnimatedRoute>
-              <TermsAndConditionsPage />
-            </AnimatedRoute>
-          }
-        />
-      </Routes>
-    </Suspense>
+    <AnimatePresence mode="wait">
+      <Suspense>
+        <Routes location={location}>
+          <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
+          <Route
+            path="/:lang"
+            element={
+              <AnimatedRoute>
+                <HomePage studios={studios} items={items} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/studio/:studioId"
+            element={
+              <AnimatedRoute>
+                <StudioDetailsPage items={items} cart={onlineCart || offlineCart} />
+              </AnimatedRoute>
+            }
+          />
+          <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
+          <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
+          <Route
+            path="/:lang?/wishlists"
+            element={
+              <AnimatedRoute>
+                <WishListsPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/wishlists/:wishlistId"
+            element={
+              <AnimatedRoute>
+                <WishlistDetailsPage items={items} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/create-item/:studioName/:studioId"
+            element={
+              <AnimatedRoute>
+                <CreateItemPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/edit-item/:itemId"
+            element={
+              <AnimatedRoute>
+                <EditItemPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/edit-studio/:studioId"
+            element={
+              <AnimatedRoute>
+                <EditStudioPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/create-studio"
+            element={
+              <AnimatedRoute>
+                <CreateStudioPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/edit-wishlist/:wishlistId"
+            element={
+              <AnimatedRoute>
+                <EditWishlistPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/create-wishlist"
+            element={
+              <AnimatedRoute>
+                <CreateWishlistPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/item/:itemId"
+            element={
+              <AnimatedRoute>
+                <ItemDetailsPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/cart"
+            element={
+              <AnimatedRoute>
+                <CartDetailsPage cart={onlineCart || offlineCart} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/order/:studioId?"
+            element={
+              <AnimatedRoute>
+                <OrderPage cart={onlineCart || offlineCart} studios={studios} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/complete-order"
+            element={
+              <AnimatedRoute>
+                <CartDetailsPage cart={onlineCart || offlineCart} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/order-success/:orderId"
+            element={
+              <AnimatedRoute>
+                <OrderSuccessPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/search"
+            element={
+              <AnimatedRoute>
+                <SearchPage studios={studios} items={items} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/profile"
+            element={
+              <AnimatedRoute>
+                <ProfilePage user={user || null} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/calendar"
+            element={
+              <AnimatedRoute>
+                <StudioCalendarPage studios={studios} items={items} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/map"
+            element={
+              <AnimatedRoute>
+                <StudiosMap studios={studios} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/privacy"
+            element={
+              <AnimatedRoute>
+                <PrivacyPolicyPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/terms"
+            element={
+              <AnimatedRoute>
+                <TermsAndConditionsPage />
+              </AnimatedRoute>
+            }
+          />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
   );
 };
 
