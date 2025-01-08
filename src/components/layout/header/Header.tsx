@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { HeaderNavigation, ShoppingCart, LoginButton, LogoutButton } from '@components/index';
+import { HeaderNavigation, LoginButton, LogoutButton } from '@components/index';
 import { Cart, User } from 'src/types/index';
 import { LanguageSwitcher } from '@components/translation';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ interface HeaderProps {
   user?: User | null;
 }
 
-export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
+export const Header: React.FC<HeaderProps> = ({ user }) => {
   const { t, i18n } = useTranslation('common');
 
   const currLang = i18n.language || 'en';
@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ cart, user }) => {
           <SearchIcon aria-label="Search icon" />
         </Link>
         <LanguageSwitcher aria-label="Switch language" />
-        <ShoppingCart cart={cart} aria-label="Shopping cart" />
+        {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         {user && (
           <Link to={`${currLang}/profile`} className="header-profile-button-container" aria-label="Go to search page">
             <ManageAccountsIcon aria-label="profile icon" />

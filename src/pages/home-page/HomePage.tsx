@@ -56,7 +56,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
         renderItem={categoryRenderItem}
-        title={t('sections.categories')}
+        // title={t('sections.categories')}
         breakpoints={{
           340: { slidesPerView: 3.4 },
           520: { slidesPerView: 4.2 },
