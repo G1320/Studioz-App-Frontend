@@ -29,6 +29,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   return (
     <section className="services-page">
+      {subcategoryDisplay ? <h1>{subcategoryDisplay}</h1> : <h1>Services</h1>}
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
@@ -44,7 +45,6 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
         }}
       />
       <ItemsMap items={subCategory ? filteredItems : items} />
-      {subcategoryDisplay && <h1>{subcategoryDisplay}</h1>}
 
       <ItemsList items={subCategory ? filteredItems : items} className="Items-list-container" />
     </section>

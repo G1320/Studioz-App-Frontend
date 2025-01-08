@@ -6,7 +6,9 @@
   gap: 1rem;
   margin-block-end: 2.5rem;
   h1 {
-    text-align: start;
+    font-size: 1.75rem;
+    margin-block-start: 1rem;
+    margin-block-end: -4rem;
   }
 
   div.studios-page-options-container {
@@ -25,4 +27,12 @@
 
 .studios-list-container {
   width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .studios-page {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
 }

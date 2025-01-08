@@ -31,6 +31,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   return (
     <section className="studios-page">
+      {subcategoryDisplay ? <h1>{subcategoryDisplay}</h1> : <h1>Studios</h1>}
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
@@ -46,7 +47,6 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         }}
       />
       <StudiosMap studios={filteredStudios} />
-      {subcategoryDisplay && <h1>{subcategoryDisplay}</h1>}
       <StudiosList studios={filteredStudios} />
     </section>
   );
