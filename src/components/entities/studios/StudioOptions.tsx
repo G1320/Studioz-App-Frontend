@@ -2,6 +2,7 @@ import { Button } from '@components/index';
 import { Studio, User, Wishlist } from 'src/types/index';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import { StudioBlockModal } from './StudioBlockTimeSlotModal';
 
 interface StudioOptionsProps {
   studio: Studio;
@@ -19,6 +20,7 @@ const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEdit, onA
       <div className="details-buttons studio-details-buttons">
         {studio && user?._id === studio?.createdBy && (
           <div>
+            <StudioBlockModal studioId={studio?._id} studioAvailability={studio?.studioAvailability} />
             <Button className="add-button" onClick={() => onAddNewService(studio?._id || '')}>
               <LibraryAddIcon />
             </Button>

@@ -1,0 +1,266 @@
+$primary-color: #4338ca;
+$secondary-color: #6d28d9;
+$success-color: #22c55e;
+$background-color: #f8fafc;
+$text-color: #1e293b;
+$text-light: #64748b;
+$border-radius: 12px;
+$transition-speed: 0.3s;
+
+// Mixins
+@mixin card-hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+@mixin gradient-background($start-color, $end-color) {
+  background: linear-gradient(135deg, $start-color 0%, $end-color 100%);
+}
+
+.subscription-page {
+  min-height: 100vh;
+  background-color: $background-color;
+  padding: 60px 20px;
+
+  .header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+
+    h1 {
+      font-size: 42px;
+      color: $text-color;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 18px;
+      color: $text-light;
+      line-height: 1.6;
+    }
+  }
+
+  .plans-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .plan-card {
+    position: relative;
+    background: white;
+    border-radius: $border-radius;
+    padding: 30px;
+    transition: all $transition-speed ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      @include card-hover;
+    }
+
+    &.selected {
+      border-color: $primary-color;
+
+      .subscribe-button {
+        @include gradient-background($primary-color, $secondary-color);
+        color: white;
+      }
+    }
+
+    // Plan-specific styles
+    &.starter {
+      &::before {
+        @include gradient-background(#4338ca, #6366f1);
+      }
+    }
+
+    &.pro {
+      &::before {
+        @include gradient-background(#7c3aed, #8b5cf6);
+      }
+    }
+
+    &.business {
+      &::before {
+        @include gradient-background(#2563eb, #3b82f6);
+      }
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      opacity: 0;
+      transition: opacity $transition-speed ease;
+      border-radius: $border-radius $border-radius 0 0;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: $secondary-color;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .plan-header {
+    margin-bottom: 24px;
+
+    h2 {
+      font-size: 24px;
+      color: $text-color;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      color: $text-light;
+      font-size: 14px;
+    }
+  }
+
+  .price {
+    margin-bottom: 24px;
+
+    .amount {
+      font-size: 36px;
+      font-weight: 700;
+      color: $text-color;
+    }
+
+    .period {
+      color: $text-light;
+      font-size: 16px;
+      margin-left: 4px;
+    }
+  }
+
+  .features {
+    margin-bottom: 30px;
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      color: $text-light;
+      font-size: 16px;
+
+      .check-icon {
+        color: $success-color;
+        margin-right: 12px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .subscribe-button {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: $border-radius;
+    border: none;
+    background-color: #f3f4f6;
+    color: $text-color;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      background-color: #e5e7eb;
+    }
+  }
+
+  .benefits {
+    text-align: center;
+    margin-top: 60px;
+
+    h3 {
+      color: $text-light;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .benefit-items {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      color: $text-light;
+
+      .check-icon {
+        color: $success-color;
+        margin-right: 8px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// Media Queries
+@media (max-width: 768px) {
+  .subscription-page {
+    padding: 40px 16px;
+
+    .header {
+      margin-bottom: 40px;
+
+      h1 {
+        font-size: 32px;
+      }
+    }
+
+    .plans-container {
+      grid-template-columns: 1fr;
+    }
+
+    .benefits {
+      .benefit-items {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.plan-card {
+  animation: slideIn 0.5s ease forwards;
+  animation-delay: calc(var(--animation-order) * 0.1s);
+}

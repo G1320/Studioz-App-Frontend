@@ -10,7 +10,7 @@ interface MuiDateTimePickerProps {
   label: string;
   value: Date | null;
   onChange: (newValue: Date | null) => void;
-  itemAvailability: { date: string; times: string[] }[];
+  itemAvailability?: { date: string; times: string[] }[];
   studioAvailability?: StudioAvailability;
 }
 

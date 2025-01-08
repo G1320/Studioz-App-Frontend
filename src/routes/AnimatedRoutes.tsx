@@ -19,6 +19,7 @@ import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import Cart from 'src/types/cart';
 import User from 'src/types/user';
+import SubscriptionPage from '@pages/subscription-page/SubscriptionPage';
 
 const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@pages/compliance-pages/TermAndConditionsPage'));
@@ -210,6 +211,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <ProfilePage user={user || null} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/subscription"
+            element={
+              <AnimatedRoute>
+                <SubscriptionPage />
               </AnimatedRoute>
             }
           />

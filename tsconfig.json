@@ -38,7 +38,8 @@
     "src/i18n.ts",
     "src/scripts/paypalScript.js",
     "src/components/common/checkout/PaypalCheckout.tsx",
-    "src/components/common/checkout/Checkout.jsx"
+    "src/components/common/checkout/Checkout.jsx",
+    "src/components/common/vendorOnboarding/VendorRegistration.js"
   ],
   "exclude": ["node_modules", "dist"]
 }
