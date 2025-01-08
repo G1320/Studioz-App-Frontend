@@ -1,6 +1,5 @@
 import { CategoryPreview, GenericCarousel, StudiosList, StudiosMap } from '@components/index';
 import { useCategories, useMusicSubCategories } from '@hooks/utils';
-// import { useTranslation } from 'react-i18next';
 
 import { useParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
@@ -11,7 +10,6 @@ interface StudiosPageProps {
 
 const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { category, subcategory } = useParams();
-  // const { t } = useTranslation('homePage');
   const { getDisplayByEnglish } = useCategories();
 
   const musicSubCategories = useMusicSubCategories();
@@ -31,12 +29,11 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   return (
     <section className="studios-page">
-      {subcategoryDisplay ? <h1>{subcategoryDisplay}</h1> : <h1>Studios</h1>}
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
         renderItem={categoryRenderItem}
-        // title={t('sections.categories')}
+        title={subcategoryDisplay}
         breakpoints={{
           340: { slidesPerView: 3.4 },
           520: { slidesPerView: 4.2 },
