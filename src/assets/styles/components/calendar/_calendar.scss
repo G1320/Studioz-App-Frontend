@@ -9,6 +9,7 @@
   --fc-button-active-bg-color: #1d4ed8;
   --fc-today-bg-color: rgba(59, 130, 246, 0.1);
   --fc-page-bg-color: transparent;
+  --fc-list-event-hover-bg-color: transparent; // Add this line
 
   padding: 1.5rem;
   //   background: #fff;
@@ -102,6 +103,22 @@
   .fc-view-harness {
     .fc-day-today {
       background: var(--fc-today-bg-color) !important;
+    }
+
+    .fc-list-event {
+      cursor: pointer;
+    }
+
+    .fc-list-event:hover,
+    .fc-list-event-title:hover,
+    .fc-list-event td:hover {
+      background-color: transparent;
+    }
+
+    // Optional: Style the event dot in list view
+    .fc-list-event-dot {
+      margin: 0 6px;
+      box-shadow: 0 0 0 1px #fff;
     }
 
     // Month View

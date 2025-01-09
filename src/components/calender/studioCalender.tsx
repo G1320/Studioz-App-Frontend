@@ -3,6 +3,8 @@ import React, { useMemo, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list'; // Add this import
+
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventInput } from '@fullcalendar/core';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
@@ -32,6 +34,21 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
     return days.indexOf(day);
   };
 
+  const generateItemColor = (itemId: string) => {
+    const colors = [
+      { bg: '#3b82f6', border: '#2563eb' }, // Blue
+      { bg: '#10b981', border: '#059669' }, // Green
+      { bg: '#f59e0b', border: '#d97706' }, // Yellow
+      { bg: '#ef4444', border: '#dc2626' }, // Red
+      { bg: '#8b5cf6', border: '#7c3aed' }, // Purple
+      { bg: '#ec4899', border: '#db2777' } // Pink
+    ];
+
+    // Use the itemId to consistently pick a color
+    const index = itemId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length;
+    return colors[index];
+  };
+
   // First, filter items that belong to this studio
   const studioFilteredItems = useMemo(() => {
     return items.filter((item) => studioItems.some((studioItem) => studioItem.itemId === item._id));
@@ -43,6 +60,8 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
 
     return studioFilteredItems.flatMap((item) => {
       if (!item.availability) return [];
+
+      const itemColor = generateItemColor(item._id);
 
       return item.availability.flatMap((slot) => {
         // Create an array of all possible hours in a day
@@ -77,11 +96,11 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
 
         // Convert the grouped slots to events
         return bookedSlots.map(({ start, end }) => ({
-          title: `Booked: ${item.name.en}`,
+          title: `${item.name.en}`,
           start: `${slot.date.split('/').reverse().join('-')}T${start}`,
           end: `${slot.date.split('/').reverse().join('-')}T${end}`,
-          backgroundColor: '#3b82f6',
-          borderColor: '#2563eb',
+          backgroundColor: itemColor.bg,
+          borderColor: itemColor.border,
           classNames: ['booking-event'],
           extendedProps: {
             itemId: item._id,
@@ -119,13 +138,13 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
       {title && <h2 className="calendar-title">{title}</h2>}
 
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+        initialView="listWeek"
         timeZone="local"
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         }}
         events={events}
         businessHours={businessHours}
@@ -145,6 +164,11 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
         stickyHeaderDates={true}
         eventDisplay="block"
         selectConstraint="businessHours"
+        views={{
+          listWeek: {
+            buttonText: 'List'
+          }
+        }}
         select={(info) => {
           // Handle new booking selection
           console.log('Selected:', info.startStr, 'to', info.endStr);

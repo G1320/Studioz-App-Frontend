@@ -13,6 +13,7 @@ const BASE_URL =
 
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
+
   const handleOnboardClick = async () => {
     try {
       const response = await fetch(`${BASE_URL}/PPOnboarding/seller/generate-signup-link`, {

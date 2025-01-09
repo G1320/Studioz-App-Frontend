@@ -1,7 +1,18 @@
-import Cart from './cart';
-import { PaymentMethod } from './paymentMethod';
+import { Cart, Wishlist } from './index';
+import Reservation from './reservation';
 
 export type PayPalOnboardingStatus = 'PENDING' | 'COMPLETED' | 'FAILED';
+
+export interface PayPalOAuthIntegration {
+  status: string;
+  integration_type: string;
+}
+
+export interface PayPalAccountStatus {
+  payments_receivable?: boolean;
+  primary_email_confirmed?: boolean;
+  oauth_integrations?: PayPalOAuthIntegration[];
+}
 
 export default interface User {
   _id: string;
@@ -18,10 +29,12 @@ export default interface User {
   email?: string;
   email_verified?: boolean;
   studios?: string[];
-  wishlists?: string[];
+  wishlists?: Wishlist[];
+  reservations?: Reservation[];
   cart?: Cart;
-  booking?: PaymentMethod[];
   paypalMerchantId?: string;
   paypalOnboardingStatus?: PayPalOnboardingStatus;
+  paypalAccountStatus?: PayPalAccountStatus;
+
   __v?: number;
 }

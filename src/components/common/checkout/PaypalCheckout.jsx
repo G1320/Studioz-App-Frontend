@@ -38,7 +38,6 @@ const PaypalCheckout = ({ cart, merchantId }) => {
     import.meta.env.VITE_NODE_ENV === 'production'
       ? 'https://studioz-backend.onrender.com/api'
       : 'http://localhost:3003/api';
-  // const BASE_URL = 'http://localhost:3003/api';
 
   return (
     <div className="paypal-buttons-container">
