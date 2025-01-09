@@ -1,5 +1,5 @@
-const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
-// const isProduction = true;
+// const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
+const isProduction = false;
 
 const PAYPAL_CLIENT_ID = isProduction
   ? import.meta.env.VITE_PAYPAL_LIVE_CLIENT_ID
