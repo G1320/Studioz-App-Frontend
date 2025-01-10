@@ -29,14 +29,6 @@ export function HeaderNavigation() {
   return (
     <nav className="navbar">
       <Link
-        to={`/${currLang}/services/music`}
-        className="navbar-link"
-        aria-label={t('navigation.services')}
-        aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
-      >
-        {t('navigation.services')}
-      </Link>
-      <Link
         to={`/${currLang}/wishlists`}
         className="navbar-link"
         aria-label={t('navigation.wishlists')}
@@ -49,16 +41,25 @@ export function HeaderNavigation() {
         {t('navigation.wishlists')}
       </Link>
       <Link
+        to={`/${currLang}/services/music`}
+        className="navbar-link"
+        aria-label={t('navigation.services')}
+        aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+      >
+        {t('navigation.services')}
+      </Link>
+
+      <Link
         to={`/${currLang}/create-studio`}
         className="navbar-link"
-        aria-label={t('navigation.list_studio')}
-        aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
+        aria-label={t('navigation.studios')}
+        aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
         onClick={(e) => {
           e.preventDefault();
-          handleNavigate('/create-studio');
+          handleNavigate('/studios');
         }}
       >
-        {t('navigation.list_studio')}
+        {t('navigation.studios')}
       </Link>
     </nav>
   );

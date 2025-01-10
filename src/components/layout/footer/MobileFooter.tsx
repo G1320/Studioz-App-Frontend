@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import SearchIcon from '@mui/icons-material/Search';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import BusinessIcon from '@mui/icons-material/Business';
 import { useUserContext } from '@contexts/UserContext';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -54,6 +54,21 @@ export const MobileFooter = () => {
           </div>
         </Link>
         <Link
+          to={`/${currLang}/studios`}
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavigate('/studios');
+          }}
+          className="footer-icon-link"
+          aria-label={t('navigation.studios')}
+          aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
+        >
+          <div className="footer-link-content">
+            <BusinessIcon aria-hidden="true" />
+            <span>{t('navigation.studios')}</span>
+          </div>
+        </Link>
+        <Link
           to={`/${currLang}/search`}
           className="footer-icon-link"
           aria-label={t('navigation.search')}
@@ -65,18 +80,18 @@ export const MobileFooter = () => {
           </div>
         </Link>
         <Link
-          to={`/${currLang}/create-studio`}
+          to={`/${currLang}/studios`}
           onClick={(e) => {
             e.preventDefault();
-            handleNavigate('/create-studio');
+            handleNavigate('/studios');
           }}
           className="footer-icon-link"
-          aria-label={t('navigation.list_studio')}
+          aria-label={t('navigation.studios')}
           aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
         >
           <div className="footer-link-content">
-            <AddBusinessIcon aria-hidden="true" />
-            <span>{t('navigation.list_studio')}</span>
+            <BusinessIcon aria-hidden="true" />
+            <span>{t('navigation.studios')}</span>
           </div>
         </Link>
       </nav>
