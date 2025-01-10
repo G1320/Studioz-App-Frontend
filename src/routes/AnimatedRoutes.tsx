@@ -207,7 +207,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             }
           />
           <Route
-            path="/:lang?/profile"
+            path="/:lang?/profile/:onboarding?"
             element={
               <AnimatedRoute>
                 <ProfilePage user={user || null} />

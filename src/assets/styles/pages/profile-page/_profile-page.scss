@@ -138,6 +138,10 @@
   // max-width: 300px;
 }
 
+.onboard-button.onboarding-error {
+  background: #ff0000;
+}
+
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);

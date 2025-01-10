@@ -4,6 +4,7 @@ import User from 'src/types/user';
 
 interface ProfileDetailsProps {
   user: User | null;
+  onboardingStatus?: string;
 }
 
 const BASE_URL =
@@ -11,7 +12,8 @@ const BASE_URL =
     ? 'https://studioz-backend.onrender.com/api'
     : 'http://localhost:3003/api';
 
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
+const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus }) => {
+  console.log('onboardingStatus: ', onboardingStatus);
   const langNavigate = useLanguageNavigate();
 
   const handleOnboardClick = async () => {
@@ -38,6 +40,28 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     } catch (error) {
       console.error('Failed to start onboarding:', error);
     }
+  };
+
+  const getOnboardingStatusMessage = () => {
+    if (!onboardingStatus) return null;
+
+    if (onboardingStatus === 'FAILED' || onboardingStatus === 'status-check-failed') {
+      return (
+        <div className="onboarding-status error">
+          <p>There was an issue connecting your PayPal account. Please try again or contact support.</p>
+        </div>
+      );
+    }
+
+    if (onboardingStatus === 'PENDING') {
+      return (
+        <div className="onboarding-status pending">
+          <p>Your PayPal account connection is pending. Please complete the onboarding process.</p>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   const handleNavigate = (path: string) => {
@@ -69,9 +93,15 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           <div className="seller-onboarding">
             <h2>Seller Account</h2>
             <p className="section-description">Connect your PayPal account to start selling</p>
+            {getOnboardingStatusMessage()}
             <div className="seller-buttons">
-              <button onClick={handleOnboardClick} className="onboard-button">
-                Connect PayPal Account
+              <button
+                onClick={handleOnboardClick}
+                className={`onboard-button ${
+                  onboardingStatus && onboardingStatus !== 'success' ? 'onboarding-error' : 'onboarding-success'
+                }`}
+              >
+                {onboardingStatus === 'COMPLETED' ? 'PayPal Account Connected' : 'Connect PayPal Account'}
               </button>
               <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
             </div>

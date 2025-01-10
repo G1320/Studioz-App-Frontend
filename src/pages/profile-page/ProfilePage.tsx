@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import ProfileDetails from '@components/entities/profile/ProfileDetails';
+import { useSearchParams } from 'react-router-dom';
 import { User } from 'src/types/index';
 
 interface ProfilePageProps {
@@ -8,6 +9,8 @@ interface ProfilePageProps {
 
 export const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
   const { isAuthenticated } = useAuth0();
+  const [searchParams] = useSearchParams();
+  const onboardingStatus = searchParams.get('onboarding');
 
   if (!isAuthenticated) {
     return <p>You need to log in to view your profile.</p>;
@@ -15,7 +18,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
   return (
     <section className="profile-page">
-      <ProfileDetails user={user} />
+      <ProfileDetails user={user} onboardingStatus={onboardingStatus || ''} />
     </section>
   );
 };
