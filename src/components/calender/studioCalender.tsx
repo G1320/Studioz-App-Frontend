@@ -3,13 +3,15 @@ import React, { useMemo, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list'; // Add this import
+import listPlugin from '@fullcalendar/list';
+import heLocale from '@fullcalendar/core/locales/he';
 
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventInput } from '@fullcalendar/core';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import StudioItem from 'src/types/studioItem';
 import Item from 'src/types/item';
+import { useTranslation } from 'react-i18next';
 
 interface StudioCalendarProps {
   title?: string;
@@ -28,6 +30,7 @@ interface EventPopupInfo {
 
 const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems = [], studioAvailability, title }) => {
   const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
+  const { i18n } = useTranslation();
 
   const getDayNumber = (day: DayOfWeek): number => {
     const days: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -147,6 +150,7 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         }}
         events={events}
+        locale={i18n.language === 'he' ? heLocale : undefined}
         businessHours={businessHours}
         selectable={true}
         selectMirror={true}
@@ -166,7 +170,7 @@ const StudioCalendar: React.FC<StudioCalendarProps> = ({ items = [], studioItems
         selectConstraint="businessHours"
         views={{
           listWeek: {
-            buttonText: 'List'
+            buttonText: i18n.language === 'he' ? 'רשימה' : 'List'
           }
         }}
         select={(info) => {

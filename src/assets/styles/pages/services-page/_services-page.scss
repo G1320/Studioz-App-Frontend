@@ -1,10 +1,6 @@
 .services-page {
   display: grid;
-  justify-content: center;
-  width: 100%;
-  // max-width: 1540px;
-  margin-inline: auto;
-  justify-items: start;
+
   gap: 1rem;
   margin-block-end: 2.5rem;
   h1 {
@@ -16,21 +12,12 @@
     max-height: 18rem;
   }
   .Items-list-container {
-    justify-self: center;
+    max-height: 18rem;
     .items-list {
       display: grid;
       place-self: center;
-      width: 100%;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1rem;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .services-page {
-    h1 {
-      font-size: 1.5rem;
     }
   }
 }
