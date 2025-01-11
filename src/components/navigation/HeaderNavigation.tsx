@@ -50,14 +50,10 @@ export function HeaderNavigation() {
       </Link>
 
       <Link
-        to={`/${currLang}/create-studio`}
+        to={`/${currLang}/studios`}
         className="navbar-link"
         aria-label={t('navigation.studios')}
         aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
-        onClick={(e) => {
-          e.preventDefault();
-          handleNavigate('/studios');
-        }}
       >
         {t('navigation.studios')}
       </Link>

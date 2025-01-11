@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import StudioCalendar from '@components/calender/studioCalender';
 import { useUserContext } from '@contexts/UserContext';
 import Item from 'src/types/item';
@@ -15,6 +15,28 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items 
   const { user } = useUserContext();
   const [selectedStudio, setSelectedStudio] = useState<Studio | null>(null);
 
+  useEffect(() => {
+    const savedStudioId = localStorage.getItem('selectedCalendarStudioId');
+    if (savedStudioId && studios.length) {
+      const studio = studios.find((s) => s._id === savedStudioId);
+      if (studio) {
+        setSelectedStudio(studio);
+      }
+    }
+  }, [studios]);
+
+  useEffect(() => {
+    if (!user?._id) {
+      setSelectedStudio(null);
+      localStorage.removeItem('selectedCalendarStudioId');
+    }
+  }, [user?._id]);
+
+  const handleStudioSelect = (studio: Studio) => {
+    setSelectedStudio(studio);
+    localStorage.setItem('selectedCalendarStudioId', studio._id);
+  };
+
   const userStudios = useMemo(() => {
     if (!user?._id) return [];
     return studios.filter((studio) => studio.createdBy === user._id);
@@ -26,7 +48,7 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items 
   }, [items, user?._id]);
 
   const renderItem = (studio: Studio) => (
-    <div onClick={() => setSelectedStudio(studio)}>
+    <div onClick={() => handleStudioSelect(studio)}>
       <StudioPreview studio={studio} navActive={false}></StudioPreview>
     </div>
   );
