@@ -1,4 +1,5 @@
 import { useLanguageNavigate } from '@hooks/utils';
+import { useTranslation } from 'react-i18next';
 
 import User from 'src/types/user';
 
@@ -14,6 +15,7 @@ const BASE_URL =
 
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus }) => {
   const langNavigate = useLanguageNavigate();
+  const { t } = useTranslation('profile');
 
   const handleOnboardClick = async () => {
     try {
@@ -47,7 +49,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
     if (onboardingStatus === 'FAILED' || onboardingStatus === 'status-check-failed') {
       return (
         <div className="onboarding-status error">
-          <p>There was an issue connecting your PayPal account. Please try again or contact support.</p>
+          <p>{t('profile.sellerAccount.status.error')}</p>
         </div>
       );
     }
@@ -55,7 +57,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
     if (onboardingStatus === 'PENDING') {
       return (
         <div className="onboarding-status pending">
-          <p>Your PayPal account connection is pending. Please complete the onboarding process.</p>
+          <p>{t('profile.sellerAccount.status.pending')}</p>
         </div>
       );
     }
@@ -63,7 +65,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
     if (onboardingStatus === 'COMPLETED') {
       return (
         <div className="onboarding-status success">
-          <p>Your PayPal account is successfully connected. </p>
+          <p>{t('profile.sellerAccount.status.success')}</p>
         </div>
       );
     }
@@ -80,17 +82,17 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
       <div className="profile-header">
         <div className="avatar-container"></div>
         <div className="profile-info">
-          <h1 className="profile-name">{user?.name || 'Guest User'}</h1>
-          <p className="profile-email">{user?.email || 'Email: N/A'}</p>
+          <h1 className="profile-name">{user?.name || t('profile.guestUser')}</h1>
+          <p className="profile-email">{user?.email || t('profile.email.notAvailable')}</p>
         </div>
       </div>
 
       <div className="profile-body">
         <div className="profile-section">
           <div className="seller-onboarding">
-            <h2>Seller Account</h2>
+            <h2>{t('profile.sellerAccount.title')}</h2>
             {user?.paypalOnboardingStatus !== 'COMPLETED' && (
-              <p className="section-description">Connect your PayPal account to start selling</p>
+              <p className="section-description">{t('profile.sellerAccount.description')}</p>
             )}
             {getOnboardingStatusMessage()}
             <div className="seller-buttons">
@@ -102,26 +104,30 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
                     : 'onboarding-error'
                 }`}
               >
-                {onboardingStatus === 'COMPLETED' ? 'PayPal Account Connected' : 'Connect PayPal Account'}
+                {onboardingStatus === 'COMPLETED'
+                  ? t('profile.sellerAccount.buttons.connected')
+                  : t('profile.sellerAccount.buttons.connect')}
               </button>
               {(user?.studios?.length || 0) > 0 && (
-                <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
+                <button onClick={() => langNavigate('/calendar')}>{t('profile.sellerAccount.buttons.calendar')}</button>
               )}
               {onboardingStatus === 'COMPLETED' && (
-                <button onClick={() => langNavigate('/create-studio')}>List your studio</button>
+                <button onClick={() => langNavigate('/create-studio')}>
+                  {t('profile.sellerAccount.buttons.createStudio')}
+                </button>
               )}
             </div>
           </div>
         </div>
 
         <div className="profile-section legal-links">
-          <h2>Legal Information</h2>
+          <h2>{t('profile.legal.title')}</h2>
           <div className="legal-buttons">
             <button className="link-button" onClick={() => handleNavigate('/privacy')}>
-              Privacy Policy
+              {t('profile.legal.privacy')}
             </button>
             <button className="link-button" onClick={() => handleNavigate('/terms')}>
-              Terms & Conditions
+              {t('profile.legal.terms')}
             </button>
           </div>
         </div>

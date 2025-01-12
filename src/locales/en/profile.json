@@ -1,0 +1,29 @@
+{
+  "profile": {
+    "guestUser": "Guest User",
+    "email": {
+      "label": "Email",
+      "notAvailable": "Email: N/A"
+    },
+    "sellerAccount": {
+      "title": "Seller Account",
+      "description": "Connect your PayPal account to start selling",
+      "status": {
+        "error": "There was an issue connecting your PayPal account. Please try again or contact support.",
+        "pending": "Your PayPal account connection is pending. Please complete the onboarding process.",
+        "success": "Your PayPal account is successfully connected."
+      },
+      "buttons": {
+        "connect": "Connect PayPal Account",
+        "connected": "PayPal Account Connected",
+        "calendar": "My Calendar",
+        "createStudio": "List your studio"
+      }
+    },
+    "legal": {
+      "title": "Legal Information",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions"
+    }
+  }
+}

@@ -6,11 +6,13 @@ import homePage from './locales/en/homePage.json';
 import common from './locales/en/common.json';
 import categories from './locales/en/categories.json';
 import forms from './locales/en/forms.json';
+import profile from './locales/en/profile.json';
 
 import homePageHe from './locales/he/homePage.json';
 import commonHe from './locales/he/common.json';
 import categoriesHe from './locales/he/categories.json';
 import formsHe from './locales/he/forms.json';
+import profileHe from './locales/he/profile.json';
 
 i18n
   .use(LanguageDetector)
@@ -21,13 +23,15 @@ i18n
         homePage,
         common,
         categories,
-        forms
+        forms,
+        profile
       },
       he: {
         homePage: homePageHe,
         common: commonHe,
         categories: categoriesHe,
-        forms: formsHe
+        forms: formsHe,
+        profile: profileHe
       }
     },
     fallbackLng: 'en',

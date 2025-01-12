@@ -1,0 +1,29 @@
+{
+  "profile": {
+    "guestUser": "משתמש אורח",
+    "email": {
+      "label": "אימייל",
+      "notAvailable": "אימייל: לא זמין"
+    },
+    "sellerAccount": {
+      "title": "חשבון מוכר",
+      "description": "חבר את חשבון PayPal שלך כדי להתחיל למכור",
+      "status": {
+        "error": "הייתה בעיה בחיבור חשבון PayPal שלך. אנא נסה שוב או צור קשר עם התמיכה.",
+        "pending": "חיבור חשבון PayPal שלך ממתין. אנא השלם את תהליך ההרשמה.",
+        "success": "חשבון PayPal שלך חובר בהצלחה."
+      },
+      "buttons": {
+        "connect": "חבר חשבון PayPal",
+        "connected": "חשבון PayPal מחובר",
+        "calendar": "היומן שלי",
+        "createStudio": "רשום את הסטודיו שלך"
+      }
+    },
+    "legal": {
+      "title": "מידע משפטי",
+      "privacy": "מדיניות פרטיות",
+      "terms": "תנאים והגבלות"
+    }
+  }
+}
