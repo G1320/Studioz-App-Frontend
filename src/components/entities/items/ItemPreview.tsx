@@ -22,7 +22,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
   const { user } = useUserContext();
   // const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'forms']);
 
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
@@ -50,13 +50,24 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     return cityPart || '';
   };
 
+  const getTranslatedPricePer = (pricePer: string) => {
+    const pricePerMap: Record<string, string> = {
+      hour: t('forms:form.pricePer.hour'),
+      session: t('forms:form.pricePer.session'),
+      unit: t('forms:form.pricePer.unit'),
+      song: t('forms:form.pricePer.song')
+    };
+
+    return pricePerMap[pricePer] || pricePer;
+  };
+
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
       <header className="item-preview-header">
         <h3>{item.name.en}</h3>
         <div>
           <small className="item-price">
-            ₪{item.price}/{item.pricePer}
+            ₪{item.price}/{getTranslatedPricePer(item.pricePer || '')}
           </small>
         </div>
       </header>
