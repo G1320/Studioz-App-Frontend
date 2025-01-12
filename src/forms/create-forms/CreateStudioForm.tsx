@@ -213,6 +213,8 @@ export const CreateStudioForm = () => {
 
   return (
     <section>
+      <h1>{t('form.AddStudioTitle')}</h1>
+
       <FileUploader
         fileType="image"
         onFileUpload={handleFileUpload}

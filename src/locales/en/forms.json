@@ -1,5 +1,7 @@
 {
   "form": {
+    "AddItemTitle": "Add new Item",
+    "AddStudioTitle": "Add new Studio",
     "name": {
       "en": "Name (English)",
       "he": "Name (Hebrew)"
@@ -47,6 +49,9 @@
     },
     "isWheelchairAccessible": {
       "label": "Wheelchair Accessible"
+    },
+    "price": {
+      "label": "Price"
     },
     "pricePer": {
       "label": "Price Per",

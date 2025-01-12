@@ -31,7 +31,7 @@ export const CreateItemForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([musicSubCategories[0]]);
-  const [pricePer, setPricePer] = useState<string>('hour');
+  const [pricePer, setPricePer] = useState<string>(t('form.pricePer.hour'));
 
   interface FormData {
     coverImage?: string;
@@ -48,6 +48,13 @@ export const CreateItemForm = () => {
     paypalMerchantId?: string;
   }
 
+  const pricePerEnglishMap: Record<string, string> = {
+    [t('form.pricePer.hour')]: 'hour',
+    [t('form.pricePer.session')]: 'session',
+    [t('form.pricePer.unit')]: 'unit',
+    [t('form.pricePer.song')]: 'song'
+  };
+
   const pricePerOptions = [
     { value: 'hour', label: t('form.pricePer.hour') },
     { value: 'session', label: t('form.pricePer.session') },
@@ -55,7 +62,7 @@ export const CreateItemForm = () => {
     { value: 'song', label: t('form.pricePer.song') }
   ];
 
-  const pricePerValues = pricePerOptions.map((option) => option.value);
+  const pricePerValues = pricePerOptions.map((option) => option.label);
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
@@ -77,7 +84,7 @@ export const CreateItemForm = () => {
     formData.address = studio?.address || '';
     formData.lat = studio?.lat || 0;
     formData.lng = studio?.lng || 0;
-    formData.pricePer = pricePer;
+    formData.pricePer = pricePerEnglishMap[pricePer] || pricePer;
 
     formData.paypalMerchantId = user?.paypalMerchantId || '';
 
@@ -144,7 +151,7 @@ export const CreateItemForm = () => {
 
   return (
     <section>
-      <h1>Add a new Service</h1>
+      <h1>{t('form.AddItemTitle')}</h1>
       <section className="form-wrapper create-item-form-wrapper">
         <GenericForm className="create-item-form" title={studioName} fields={fields} onSubmit={handleSubmit} />
       </section>

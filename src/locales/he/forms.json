@@ -1,5 +1,7 @@
 {
   "form": {
+    "AddItemTitle": "הוסף שירות חדש",
+    "AddStudioTitle": "הוסף סטודיו חדש",
     "name": {
       "en": "שם באנגלית",
       "he": "שם בעברית"
@@ -47,6 +49,9 @@
     },
     "isWheelchairAccessible": {
       "label": "נגישות לכיסא גלגלים"
+    },
+    "price": {
+      "label": "מחיר"
     },
     "pricePer": {
       "label": "מחיר ל",
