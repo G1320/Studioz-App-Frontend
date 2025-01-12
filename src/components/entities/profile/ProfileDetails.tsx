@@ -13,7 +13,6 @@ const BASE_URL =
     : 'http://localhost:3003/api';
 
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus }) => {
-  console.log('onboardingStatus: ', onboardingStatus);
   const langNavigate = useLanguageNavigate();
 
   const handleOnboardClick = async () => {
@@ -61,6 +60,14 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
       );
     }
 
+    if (onboardingStatus === 'COMPLETED') {
+      return (
+        <div className="onboarding-status success">
+          <p>Your PayPal account is successfully connected. </p>
+        </div>
+      );
+    }
+
     return null;
   };
 
@@ -74,36 +81,35 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
         <div className="avatar-container"></div>
         <div className="profile-info">
           <h1 className="profile-name">{user?.name || 'Guest User'}</h1>
-          <p className="profile-email">{user?.email}</p>
+          <p className="profile-email">{user?.email || 'Email: N/A'}</p>
         </div>
       </div>
 
       <div className="profile-body">
         <div className="profile-section">
-          <h2>Account Details</h2>
-          <div className="details-grid">
-            <div className="detail-item">
-              <span className="detail-label">Email</span>
-              <span className="detail-value">{user?.email || 'N/A'}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="profile-section">
           <div className="seller-onboarding">
             <h2>Seller Account</h2>
-            <p className="section-description">Connect your PayPal account to start selling</p>
+            {user?.paypalOnboardingStatus !== 'COMPLETED' && (
+              <p className="section-description">Connect your PayPal account to start selling</p>
+            )}
             {getOnboardingStatusMessage()}
             <div className="seller-buttons">
               <button
                 onClick={handleOnboardClick}
                 className={`onboard-button ${
-                  onboardingStatus && onboardingStatus !== 'success' ? 'onboarding-error' : 'onboarding-success'
+                  (onboardingStatus && onboardingStatus === 'success') || user?.paypalOnboardingStatus === 'COMPLETED'
+                    ? 'onboarding-success'
+                    : 'onboarding-error'
                 }`}
               >
                 {onboardingStatus === 'COMPLETED' ? 'PayPal Account Connected' : 'Connect PayPal Account'}
               </button>
-              <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
+              {(user?.studios?.length || 0) > 0 && (
+                <button onClick={() => langNavigate('/calendar')}>My Calendar</button>
+              )}
+              {onboardingStatus === 'COMPLETED' && (
+                <button onClick={() => langNavigate('/create-studio')}>List your studio</button>
+              )}
             </div>
           </div>
         </div>

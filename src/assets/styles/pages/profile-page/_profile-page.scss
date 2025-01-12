@@ -1,39 +1,54 @@
 .profile-container {
   max-width: 1200px;
   margin: 2rem auto;
-  padding: 2.5rem;
+  padding: clamp(1rem, 5vw, 2.5rem);
   background: #1a1a1a;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   color: #ffffff;
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    margin: 1rem;
+    border-radius: 12px;
+  }
 }
 
-/* Header Styles */
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
-  padding-bottom: 2.5rem;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
   border-bottom: 1px solid #333;
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .avatar-container {
   position: relative;
-}
+  flex-shrink: 0;
 
-.profile-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #333;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  &::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
+    opacity: 0.5;
+    z-index: -1;
+  }
 }
 
 .profile-avatar-placeholder {
-  width: 120px;
-  height: 120px;
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(80px, 15vw, 120px);
   border-radius: 50%;
   background: #2d2d2d;
   display: flex;
@@ -41,160 +56,145 @@
   justify-content: center;
   border: 4px solid #333;
   color: #666;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #0070f3;
+  }
 }
 
 .profile-info {
   flex: 1;
-}
 
-.profile-name {
-  font-size: 2.5rem;
-  color: #ffffff;
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: -0.5px;
-}
+  .profile-name {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.profile-email {
-  font-size: 1.1rem;
-  color: #999;
-  margin: 0.5rem 0 0;
-}
-
-/* Body Styles */
-.profile-body {
-  display: grid;
-  gap: 2.5rem;
+  .profile-email {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: #999;
+    margin: 0.5rem 0 0;
+    opacity: 0.8;
+  }
 }
 
 .profile-section {
   background: #222;
-  padding: 2rem;
+  padding: clamp(1.5rem, 4vw, 2rem);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+  transition: all 0.3s ease;
 
-.profile-section h2 {
-  font-size: 1.5rem;
-  color: #ffffff;
-  margin: 0 0 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #333;
-}
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
 
-.details-grid {
-  display: grid;
-  gap: 1.5rem;
-}
+  h2 {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #333;
+    position: relative;
 
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.detail-label {
-  color: #999;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.detail-value {
-  color: #ffffff;
-  font-size: 1.1rem;
-}
-
-/* Seller Section */
-.seller-onboarding {
-  text-align: center;
-  .seller-buttons {
-    display: flex;
-    gap: 1rem;
-    button {
-      flex: 1;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      padding: 1rem 2rem;
-      font-weight: 500;
-      height: 34px;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
     }
   }
 }
 
-.section-description {
-  color: #999;
-  margin-bottom: 1.5rem;
-  div {
+.seller-onboarding {
+  .section-description {
+    color: #999;
+    margin-bottom: 2rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .seller-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+
+    button {
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 500;
+      height: auto;
+      min-height: 48px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+    }
   }
 }
 
 .onboard-button {
   background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
   color: white;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  // max-width: 300px;
+
+  &.onboarding-error {
+    background: linear-gradient(135deg, #ff4d4d 0%, #ff1a1a 100%);
+  }
+
+  &.onboarding-success {
+    background: linear-gradient(135deg, #00b300 0%, #008000 100%);
+  }
 }
 
-.onboard-button.onboarding-error {
-  background: #ff0000;
+.onboarding-status {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+
+  &.error {
+    background: rgba(255, 0, 0, 0.1);
+    border-left: 4px solid #ff0000;
+  }
+
+  &.pending {
+    background: rgba(255, 166, 0, 0.1);
+    border-left: 4px solid #ffa600;
+  }
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
-}
-
-/* Legal Links */
 .legal-buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.link-button {
-  background: #333;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex: 1;
-  min-width: 200px;
-  text-align: center;
-}
-
-.link-button:hover {
-  background: #444;
-  transform: translateY(-1px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .profile-container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-
-  .profile-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 1.5rem;
-  }
-
-  .profile-name {
-    font-size: 2rem;
-  }
-
-  .legal-buttons {
-    flex-direction: column;
-  }
+  margin-top: 1rem;
 
   .link-button {
+    background: #333;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
     width: 100%;
+
+    &:hover {
+      background: #444;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
   }
 }

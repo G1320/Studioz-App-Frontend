@@ -42,16 +42,17 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   return (
     <section className="details studio-details-page">
       <StudioDetails user={user} studio={currStudio} />
-
-      <GenericCarousel
-        title={(() => getStudioServicesDisplayName(currStudio?.name?.en))()}
-        data={filteredItems}
-        renderItem={(item) => (
-          <div onClick={() => handleItemClick(item)} key={item._id}>
-            <ItemPreview item={item} wishlists={wishlists} />
-          </div>
-        )}
-      />
+      {currStudio?.items && currStudio.items.length > 0 && (
+        <GenericCarousel
+          title={(() => getStudioServicesDisplayName(currStudio?.name?.en))()}
+          data={filteredItems}
+          renderItem={(item) => (
+            <div onClick={() => handleItemClick(item)} key={item._id}>
+              <ItemPreview item={item} wishlists={wishlists} />
+            </div>
+          )}
+        />
+      )}
       {!selectedItem && <ContinueToCheckoutButton cart={cart} />}
       <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
         <div className="modal-content">{selectedItem && <ItemDetails cart={cart} itemId={selectedItem._id} />}</div>

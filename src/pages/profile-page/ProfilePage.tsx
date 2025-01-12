@@ -10,7 +10,7 @@ interface ProfilePageProps {
 export const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
   const { isAuthenticated } = useAuth0();
   const [searchParams] = useSearchParams();
-  const onboardingStatus = searchParams.get('onboarding');
+  const onboardingStatus = searchParams.get('onboarding') || user?.paypalOnboardingStatus;
 
   if (!isAuthenticated) {
     return <p>You need to log in to view your profile.</p>;
