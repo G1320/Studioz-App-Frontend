@@ -18,7 +18,6 @@ export const useAddItemToCartMutation = () => {
       return generateSuccessMessage(variables, 'added');
     },
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }]
-    // undoAction: (variables, _data) => removeItem(variables)
   });
 };
 

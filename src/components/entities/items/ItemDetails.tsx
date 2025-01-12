@@ -41,8 +41,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
 
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { t } = useTranslation('common');
+  const { i18n, t } = useTranslation('common');
+  const isRTL = i18n.language === 'he';
 
+  const [costumerPhone, setCostumerPhone] = useState('');
+  const [costumerName, setCostumerName] = useState('');
+  const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
@@ -97,7 +101,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         bookingDate,
         startTime,
         studioImgUrl: item?.studioImgUrl,
-        hours
+        hours,
+        costumerName: costumerName,
+        costumerPhone: costumerPhone,
+        costumerId: user?._id,
+        comment: comment
       };
 
       reserveItemTimeSlotMutation.mutate(newItem, {
@@ -173,6 +181,36 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           studioAvailability={studio?.studioAvailability}
         />
       )}
+
+      <div className="customer-details">
+        <div className="input-container">
+          <input
+            type="text"
+            className="customer-input"
+            placeholder="Your Name"
+            value={costumerName}
+            onChange={(e) => setCostumerName(e.target.value)}
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="tel"
+            className="customer-input"
+            placeholder="Your Phone Number"
+            value={costumerPhone}
+            onChange={(e) => setCostumerPhone(e.target.value)}
+            dir={isRTL ? 'rtl' : 'ltr'}
+          />
+        </div>
+        <div className="input-container full-width">
+          <textarea
+            className="customer-input"
+            placeholder="Add any special requests or notes..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+        </div>
+      </div>
 
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>

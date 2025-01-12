@@ -27,7 +27,16 @@ export const useCartOperations = () => {
 
   const addItem = async (item: CartItem) => {
     if (user && user._id) {
-      return addItemToCart(user._id, item.itemId, item.bookingDate || '', item.startTime || '', item.hours || 1);
+      return addItemToCart(
+        user._id,
+        item.itemId,
+        item.bookingDate || '',
+        item.startTime || '',
+        item.hours || 1,
+        item.comment || '',
+        item.costumerName || '',
+        item.costumerPhone || ''
+      );
     }
     const cart = getLocalOfflineCart() || { items: [] };
     const existingItem = cart.items.find(
@@ -53,7 +62,10 @@ export const useCartOperations = () => {
         quantity: item.hours || 1,
         itemId: item.itemId,
         bookingDate: item.bookingDate,
-        startTime: item.startTime
+        startTime: item.startTime,
+        costumerName: item.costumerName || '',
+        costumerPhone: item.costumerPhone || '',
+        comment: item.comment || ''
       });
     }
     updateOfflineCart(cart, setOfflineCartContext);

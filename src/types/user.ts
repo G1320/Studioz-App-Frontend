@@ -27,6 +27,7 @@ export default interface User {
   isAdmin?: boolean;
   updatedAt?: Date;
   email?: string;
+  phone?: string;
   email_verified?: boolean;
   studios?: string[];
   wishlists?: Wishlist[];

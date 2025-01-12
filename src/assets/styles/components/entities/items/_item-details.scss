@@ -82,6 +82,47 @@
       gap: 0.5rem;
     }
   }
+  .customer-details {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+
+    .input-container {
+      .customer-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        background: #f8f8f8;
+        transition: all 0.3s ease;
+        color: #1a1a1a;
+        text-align: start;
+
+        &[dir='rtl'] {
+          text-align: right;
+        }
+        &[dir='ltr'] {
+          text-align: left;
+        }
+        &:focus {
+          outline: none;
+          border-color: #1a1a1a;
+          background: #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+
+      &.full-width {
+        grid-column: 1 / -1;
+      }
+    }
+  }
 
   @media (max-width: 768px) {
     width: 100%;
