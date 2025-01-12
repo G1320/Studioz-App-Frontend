@@ -30,7 +30,7 @@ export const reserveNextTimeSlot = async (item: CartItem) => {
 
 export const reserveTimeSlots = async (item: CartItem) => {
   try {
-    return await httpService.post<Item>(`${bookingEndpoint}/reserve-time-slots/`, item);
+    return await httpService.post<string>(`${bookingEndpoint}/reserve-time-slots/`, item);
   } catch (error) {
     console.error('Error booking item:', error);
     throw error;

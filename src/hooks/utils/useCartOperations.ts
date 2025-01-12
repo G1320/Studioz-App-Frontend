@@ -35,7 +35,8 @@ export const useCartOperations = () => {
         item.hours || 1,
         item.comment || '',
         item.costumerName || '',
-        item.costumerPhone || ''
+        item.costumerPhone || '',
+        item.reservationId || ''
       );
     }
     const cart = getLocalOfflineCart() || { items: [] };
@@ -65,7 +66,8 @@ export const useCartOperations = () => {
         startTime: item.startTime,
         costumerName: item.costumerName || '',
         costumerPhone: item.costumerPhone || '',
-        comment: item.comment || ''
+        comment: item.comment || '',
+        reservationId: item.reservationId || ''
       });
     }
     updateOfflineCart(cart, setOfflineCartContext);

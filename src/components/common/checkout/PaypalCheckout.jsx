@@ -39,6 +39,34 @@ const PaypalCheckout = ({ cart, merchantId }) => {
       ? 'https://studioz-backend.onrender.com/api'
       : 'http://localhost:3003/api';
 
+  const confirmReservations = async (cartItems, orderId) => {
+    console.log('cartItems: ', cartItems);
+    try {
+      // Extract reservationIds from cart items
+      const reservationIds = cartItems.map((item) => item.reservationId).filter(Boolean);
+
+      const response = await fetch(`${BASE_URL}/bookings/confirm`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          reservationIds,
+          orderId
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to confirm reservations');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error confirming reservations:', error);
+      throw error;
+    }
+  };
+
   return (
     <div className="paypal-buttons-container">
       <PayPalButtons
@@ -124,7 +152,8 @@ const PaypalCheckout = ({ cart, merchantId }) => {
               await Promise.all([
                 sendOrderConfirmation(user?.email || orderData.payer.email_address, state.orderData),
                 processSellerPayout(merchantId, orderData.purchase_units[0].amount.value, orderData.id),
-                sendPayoutNotification(merchantId, orderData.purchase_units[0].amount.value, orderData.id)
+                sendPayoutNotification(merchantId, orderData.purchase_units[0].amount.value, orderData.id),
+                confirmReservations(cart.items, orderData.id)
               ]);
 
               toast.success('Order confirmation email sent');

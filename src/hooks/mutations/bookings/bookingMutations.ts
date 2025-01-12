@@ -13,7 +13,7 @@ export const useReserveNextStudioItemTimeSlotMutation = (itemId: string) => {
 };
 
 export const useReserveStudioItemTimeSlotsMutation = (itemId: string) => {
-  return useMutationHandler<Item, CartItem>({
+  return useMutationHandler<string, CartItem>({
     mutationFn: (item: CartItem) => {
       if (!item.bookingDate) throw new Error('Invalid booking date or time');
       return reserveTimeSlots(item);

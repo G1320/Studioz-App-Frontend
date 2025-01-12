@@ -15,7 +15,8 @@ export const addItemToCart = async (
   hours?: number,
   costumerName?: string,
   costumerPhone?: string,
-  comment?: string
+  comment?: string,
+  reservationId?: string
 ): Promise<Cart> => {
   if (itemId === undefined) throw new Error('Item ID is required');
   try {
@@ -25,7 +26,8 @@ export const addItemToCart = async (
       hours,
       costumerName,
       costumerPhone,
-      comment
+      comment,
+      reservationId
     });
   } catch (error: unknown) {
     console.error('Failed to add item to cart', error);

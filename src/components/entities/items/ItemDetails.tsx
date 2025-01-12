@@ -109,8 +109,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
       };
 
       reserveItemTimeSlotMutation.mutate(newItem, {
-        onSuccess: () => {
-          addItemToCartMutation.mutate(newItem);
+        onSuccess: (response) => {
+          addItemToCartMutation.mutate({ ...newItem, reservationId: response });
           setIsExiting(true);
           setTimeout(() => {
             setSelectedDate(null);
