@@ -7,3 +7,4 @@ export * from './studio-service';
 export * from './user-service';
 export * from './wishlist-service';
 export * from './modal-service';
+export * from './reservation-service';

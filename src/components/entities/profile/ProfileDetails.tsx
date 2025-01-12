@@ -108,14 +108,14 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user, onboardingStatus 
                   ? t('profile.sellerAccount.buttons.connected')
                   : t('profile.sellerAccount.buttons.connect')}
               </button>
-              {(user?.studios?.length || 0) > 0 && (
-                <button onClick={() => langNavigate('/calendar')}>{t('profile.sellerAccount.buttons.calendar')}</button>
-              )}
               {onboardingStatus === 'COMPLETED' && (
                 <button onClick={() => langNavigate('/create-studio')}>
                   {t('profile.sellerAccount.buttons.createStudio')}
                 </button>
               )}
+              {/* {user?.studios && user.studios.length > 0 && ( */}
+              <button onClick={() => langNavigate('/calendar')}>{t('profile.sellerAccount.buttons.calendar')}</button>
+              {/* )} */}
             </div>
           </div>
         </div>

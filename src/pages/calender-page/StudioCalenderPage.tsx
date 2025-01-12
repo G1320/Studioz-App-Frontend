@@ -5,6 +5,7 @@ import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@components/common';
 import { StudioPreview } from '@components/entities';
+import { useStudioReservations } from '@hooks/dataFetching/useStudioReservations';
 
 interface StudioCalendarPageProps {
   studios: Studio[];
@@ -13,7 +14,9 @@ interface StudioCalendarPageProps {
 
 const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios, items }) => {
   const { user } = useUserContext();
-  const [selectedStudio, setSelectedStudio] = useState<Studio | null>(null);
+  const [selectedStudio, setSelectedStudio] = useState<Studio | null>(studios[0]);
+  const { data: studioReservations } = useStudioReservations(selectedStudio?._id || '');
+  console.log('studioReservations: ', studioReservations);
 
   useEffect(() => {
     const savedStudioId = localStorage.getItem('selectedCalendarStudioId');
