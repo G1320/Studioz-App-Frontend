@@ -35,27 +35,27 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <Router>
-        <SocketProvider>
-          <Auth0Provider
-            domain={domain}
-            clientId={clientId}
-            authorizationParams={{
-              redirect_uri: window.location.origin,
-              audience: 'https://items-app-backend.onrender.com',
-              scope: 'openid profile email'
-            }}
-          >
-            <OfflineCartProvider>
-              <ModalProvider>
-                <SearchProvider>
-                  <UserProvider>
+        <UserProvider>
+          <OfflineCartProvider>
+            <SocketProvider>
+              <Auth0Provider
+                domain={domain}
+                clientId={clientId}
+                authorizationParams={{
+                  redirect_uri: window.location.origin,
+                  audience: 'https://items-app-backend.onrender.com',
+                  scope: 'openid profile email'
+                }}
+              >
+                <ModalProvider>
+                  <SearchProvider>
                     <App />
-                  </UserProvider>
-                </SearchProvider>
-              </ModalProvider>
-            </OfflineCartProvider>
-          </Auth0Provider>
-        </SocketProvider>
+                  </SearchProvider>
+                </ModalProvider>
+              </Auth0Provider>
+            </SocketProvider>
+          </OfflineCartProvider>
+        </UserProvider>
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />
     </PersistQueryClientProvider>

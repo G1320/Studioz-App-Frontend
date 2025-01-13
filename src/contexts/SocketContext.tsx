@@ -2,7 +2,10 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
-import { invalidateItemQueries } from '@utils/queryUtils';
+import { invalidateCartQueries, invalidateItemQueries } from '@utils/queryUtils';
+import { removeExpiredItemsFromOfflineCart } from '@utils/cartUtils';
+import { useOfflineCartContext } from './OfflineCartContext';
+import { toast } from 'sonner';
 
 const BASE_URL =
   import.meta.env.VITE_NODE_ENV === 'production' ? 'https://studioz-backend.onrender.com' : 'http://localhost:3003';
@@ -19,6 +22,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const queryClient = useQueryClient();
 
+  const { setOfflineCartContext } = useOfflineCartContext();
+
   useEffect(() => {
     const newSocket = io(BASE_URL, {
       withCredentials: true,
@@ -30,6 +35,15 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       if (data.itemId) {
         invalidateItemQueries(queryClient, data.itemId);
       }
+    });
+
+    newSocket.on('reservationUpdated', (data) => {
+      const updatedCart = removeExpiredItemsFromOfflineCart(data.expiredReservationIds);
+      if (updatedCart) {
+        setOfflineCartContext(updatedCart);
+      }
+      invalidateCartQueries(queryClient, data.costumerId);
+      toast.error('Some items in your cart have expired and have been removed.');
     });
 
     newSocket.on('connect_error', (error) => {

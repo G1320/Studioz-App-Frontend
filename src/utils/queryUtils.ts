@@ -8,3 +8,8 @@ export const invalidateItemQueries = (queryClient: QueryClient, itemId: string) 
     queryKey: ['items']
   });
 };
+export const invalidateCartQueries = (queryClient: QueryClient, userId: string) => {
+  queryClient.invalidateQueries({
+    queryKey: ['cart', userId]
+  });
+};
