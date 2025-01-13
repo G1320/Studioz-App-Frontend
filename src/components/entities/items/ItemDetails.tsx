@@ -25,6 +25,7 @@ import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import ItemOptions from './ItemOptions';
 import { GenericImage } from '@components/common/images/GenericImage';
+import { ReservationDetails } from '../reservations/ReservationsDetails';
 interface ItemDetailsProps {
   cart?: Cart;
   itemId: string;
@@ -51,6 +52,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
   const [isExiting, setIsExiting] = useState(false);
+  const [currentReservationId, setCurrentReservationId] = useState<string | null>(null);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
@@ -110,6 +112,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
 
       reserveItemTimeSlotMutation.mutate(newItem, {
         onSuccess: (response) => {
+          setCurrentReservationId(response);
           addItemToCartMutation.mutate({ ...newItem, reservationId: response });
           setIsExiting(true);
           setTimeout(() => {
@@ -172,6 +175,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </div>
       )}
 
+      {(currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId) && (
+        <ReservationDetails
+          reservationId={
+            currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId
+          }
+        />
+      )}
+
       {((!isBooked && !isExiting && item?.pricePer === 'hour') || (!isBooked && item?.pricePer === 'session')) && (
         <MuiDateTimePicker
           label="Select Date and Start Time"
@@ -181,36 +192,37 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           studioAvailability={studio?.studioAvailability}
         />
       )}
-
-      <div className="customer-details">
-        <div className="input-container">
-          <input
-            type="text"
-            className="customer-input"
-            placeholder="Your Name"
-            value={costumerName}
-            onChange={(e) => setCostumerName(e.target.value)}
-          />
+      {!isBooked && (
+        <div className="customer-details">
+          <div className="input-container">
+            <input
+              type="text"
+              className="customer-input"
+              placeholder="Your Name"
+              value={costumerName}
+              onChange={(e) => setCostumerName(e.target.value)}
+            />
+          </div>
+          <div className="input-container">
+            <input
+              type="tel"
+              className="customer-input"
+              placeholder="Your Phone Number"
+              value={costumerPhone}
+              onChange={(e) => setCostumerPhone(e.target.value)}
+              dir={isRTL ? 'rtl' : 'ltr'}
+            />
+          </div>
+          <div className="input-container full-width">
+            <textarea
+              className="customer-input"
+              placeholder="Add any special requests or notes..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
         </div>
-        <div className="input-container">
-          <input
-            type="tel"
-            className="customer-input"
-            placeholder="Your Phone Number"
-            value={costumerPhone}
-            onChange={(e) => setCostumerPhone(e.target.value)}
-            dir={isRTL ? 'rtl' : 'ltr'}
-          />
-        </div>
-        <div className="input-container full-width">
-          <textarea
-            className="customer-input"
-            placeholder="Add any special requests or notes..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-        </div>
-      </div>
+      )}
 
       {wishlistId ? (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
