@@ -40,6 +40,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     });
 
     newSocket.on('reservationUpdated', (data) => {
+      console.log('data: ', data);
       const updatedCart = removeExpiredItemsFromOfflineCart(data.reservationIds);
       if (updatedCart) {
         setOfflineCartContext(updatedCart);

@@ -13,7 +13,7 @@ import SearchPage from '@pages/search-page/SearchPage';
 import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
 import EditStudioPage from '@pages/edit-pages/EditStudioPage';
 import OrderSuccessPage from '@pages/order-success-page/OrderSuccessPage';
-import StudioCalendarPage from '@pages/calender-page/StudioCalenderPage';
+import StudioCalendarPage from '@pages/calender-page/CalenderPage';
 import { ProfilePage, StudiosMap } from '@components/index';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';

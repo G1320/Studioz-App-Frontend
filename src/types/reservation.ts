@@ -1,6 +1,10 @@
 export default interface Reservation {
   _id: string;
   itemId: string;
+  itemName: {
+    en: string;
+    he?: string;
+  };
   userId: string;
   bookingDate: string;
   timeSlots: string[];
