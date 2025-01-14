@@ -6,7 +6,7 @@ import {
   MuiDateTimePicker,
   ContinueToCheckoutButton
 } from '@components/index';
-import { CustomerDetailsForm } from './costumerDetailsForm';
+import CustomerDetailsForm from './CostumerDetailsForm';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,

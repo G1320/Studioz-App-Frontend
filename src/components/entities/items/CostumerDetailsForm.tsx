@@ -14,7 +14,7 @@ interface CustomerDetailsFormProps {
   onPhoneVerified: () => void;
 }
 
-export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
+const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
   costumerName,
   costumerPhone,
   comment,
@@ -128,3 +128,5 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
     </form>
   );
 };
+
+export default CustomerDetailsForm;
