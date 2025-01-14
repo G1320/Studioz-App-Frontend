@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Button, MuiDateTimePicker, ContinueToCheckoutButton, CustomerDetailsForm } from '@components/index';
+import { useCallback, useMemo, useState } from 'react';
+import { MuiDateTimePicker, CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
 import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Cart, User, Wishlist } from 'src/types/index';
@@ -9,8 +9,6 @@ import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
-import ItemOptions from './ItemOptions';
-import { GenericImage } from '@components/common/images/GenericImage';
 import { ReservationDetails } from '../reservations/ReservationsDetails';
 
 interface ItemDetailsProps {
@@ -27,7 +25,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
 
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { i18n, t } = useTranslation('common');
+  const { i18n } = useTranslation('common');
   const isRTL = i18n.language === 'he';
 
   const [costumerPhone, setCostumerPhone] = useState('');
@@ -117,45 +115,36 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
 
+  const showDatePicker = useMemo(() => {
+    return !currentReservationId && !isExiting && (item?.pricePer === 'hour' || item?.pricePer === 'session');
+  }, [currentReservationId, isExiting, item?.pricePer]);
+
+  const handleBookNow = useCallback(() => {
+    handleDateConfirm(selectedDate?.toString() || null, selectedHours);
+  }, [selectedDate, selectedHours]);
+
   return (
     <article
       onMouseEnter={prefetchItem}
       key={item?._id}
       className={`details item-details ${isExiting ? 'exiting' : ''}`}
     >
-      {studio && <GenericImage className="cover-image" src={studio.coverImage} onClick={handleImageClicked} />}
-      <div>
-        <h3>{item?.studioName.en}</h3>
-        <ItemOptions item={item} user={user as User} onEdit={handleGoToEdit} />
-      </div>
-      <div className="item-info-container">
-        <h3>{item?.name.en}</h3>
-        <small className="item-price">
-          ₪{item?.price}/{item?.pricePer}
-        </small>
-      </div>
-      <p>{item?.description.en}</p>
+      <ItemHeader
+        studio={studio}
+        item={item}
+        user={user as User}
+        onEdit={handleGoToEdit}
+        onImageClick={handleImageClicked}
+      />
 
-      {!isBooked && !isExiting && (
-        <div className="hour-selection-container">
-          <div>
-            <span className="hour-label"> Hours:</span>
-            <span className="hour-value">{selectedHours}</span>
-          </div>
-          <div className="button-group">
-            <button className="control-button minus" onClick={handleDecrement}>
-              −
-            </button>
-            <button className="control-button plus" onClick={handleIncrement}>
-              +
-            </button>
-          </div>
-        </div>
+      {!currentReservationId && (
+        <HourSelector value={selectedHours} onIncrement={handleIncrement} onDecrement={handleDecrement} />
       )}
 
-      {((!isBooked && !isExiting && item?.pricePer === 'hour') || (!isBooked && item?.pricePer === 'session')) && (
+      {currentReservationId && <ReservationDetails reservationId={currentReservationId} />}
+
+      {showDatePicker && (
         <MuiDateTimePicker
-          label="Select Date and Start Time"
           value={selectedDate}
           onChange={handleDateChange}
           itemAvailability={item?.availability || []}
@@ -163,7 +152,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
         />
       )}
 
-      {!isBooked && (
+      {!currentReservationId && (
         <CustomerDetailsForm
           costumerName={costumerName}
           costumerPhone={costumerPhone}
@@ -176,24 +165,13 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
         />
       )}
 
-      {(currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId) && (
-        <ReservationDetails
-          reservationId={
-            currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId
-          }
-        />
-      )}
-
-      {!isBooked && !isExiting && isPhoneVerified ? (
-        <Button
-          className="add-to-cart-button book-now-button"
-          onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}
-        >
-          {t('buttons.add_to_cart')}
-        </Button>
-      ) : (
-        cart && isPhoneVerified && <ContinueToCheckoutButton cart={cart} />
-      )}
+      <BookingActions
+        currentReservationId={currentReservationId}
+        isPhoneVerified={isPhoneVerified}
+        isBooked={isBooked as boolean}
+        cart={cart}
+        onBookNow={handleBookNow}
+      />
     </article>
   );
 };

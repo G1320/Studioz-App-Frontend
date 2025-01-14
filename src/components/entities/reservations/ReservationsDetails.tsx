@@ -1,22 +1,14 @@
 // components/ReservationDetails.tsx
 import React from 'react';
 import { useReservation } from '@hooks/index';
-import { Reservation } from 'src/types/index';
 import dayjs from 'dayjs';
 
 interface ReservationDetailsProps {
   reservationId?: string;
-  reservation?: Reservation;
 }
 
-export const ReservationDetails: React.FC<ReservationDetailsProps> = ({
-  reservationId,
-  reservation: initialReservation
-}) => {
-  const { data: fetchedReservation } = useReservation(reservationId || '');
-
-  // Use passed reservation data or fetched data
-  const reservation = initialReservation || fetchedReservation;
+export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId }) => {
+  const { data: reservation } = useReservation(reservationId || '');
 
   if (!reservation) return null;
 

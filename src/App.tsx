@@ -16,12 +16,21 @@ import { shuffleArray } from '@utils/index';
 import { SEOTags } from '@components/utility/SEOTags';
 import { ErrorBoundary } from '@components/utility/ErrorBoundary';
 import AnimatedRoutes from './routes/AnimatedRoutes';
+import { useTranslation } from 'react-i18next';
+
+import 'dayjs/locale/he';
+import 'dayjs/locale/en';
 
 function App() {
-  const customLocaleText = {
-    okButtonLabel: 'Confirm Booking',
-    cancelButtonLabel: 'Cancel'
-  };
+  const { i18n } = useTranslation();
+
+  const customLocaleText = useMemo(
+    () => ({
+      okButtonLabel: i18n.language === 'he' ? 'אישור הזמנה' : 'Confirm Booking',
+      cancelButtonLabel: i18n.language === 'he' ? 'ביטול' : 'Cancel'
+    }),
+    [i18n.language]
+  );
   const location = useLocation();
 
   const { user } = useUserContext();
@@ -37,7 +46,7 @@ function App() {
   return (
     <HelmetProvider>
       <PayPalScriptProvider options={initialOptions}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} localeText={customLocaleText} adapterLocale={i18n.language}>
           <Header cart={onlineCart || offlineCart} user={user} />
           <SEOTags path={location.pathname} />
 

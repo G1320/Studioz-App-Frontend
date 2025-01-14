@@ -3,11 +3,11 @@ import { DateTimePicker, TimeView } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+import { useTranslation } from 'react-i18next';
 
 dayjs.extend(customParseFormat);
 
 interface MuiDateTimePickerProps {
-  label: string;
   value: Date | null;
   onChange: (newValue: Date | null) => void;
   itemAvailability?: { date: string; times: string[] }[];
@@ -15,12 +15,17 @@ interface MuiDateTimePickerProps {
 }
 
 export const MuiDateTimePicker = ({
-  label,
   value,
   onChange,
   itemAvailability = [],
   studioAvailability
 }: MuiDateTimePickerProps) => {
+  const { i18n } = useTranslation();
+  const isRTL = i18n.language === 'he';
+
+  useEffect(() => {
+    dayjs.locale(i18n.language);
+  }, [i18n.language]);
   const [internalValue, setInternalValue] = useState<Dayjs | null>(
     value ? dayjs(value) : dayjs().add(1, 'day').hour(11).minute(0)
   );
@@ -103,10 +108,10 @@ export const MuiDateTimePicker = ({
 
   return (
     <DateTimePicker
-      label={label}
+      label={isRTL ? 'בחר תאריך ושעה' : 'Select date and time'}
       value={internalValue}
       onChange={handleChange}
-      format="DD/MM/YYYY HH:mm"
+      format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
       views={['year', 'month', 'day', 'hours']}
       disablePast
       shouldDisableDate={shouldDisableDate}
@@ -146,7 +151,11 @@ export const MuiDateTimePicker = ({
         }
       }}
       slotProps={{
-        textField: { fullWidth: true, margin: 'dense' }
+        textField: {
+          fullWidth: true,
+          margin: 'dense',
+          dir: isRTL ? 'rtl' : 'ltr'
+        }
       }}
     />
   );

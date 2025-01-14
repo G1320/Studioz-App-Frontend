@@ -30,7 +30,7 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
     <section className={`items ${className}`}>
       <GenericList data={items} renderItem={renderItem} className="items-list" />
       <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        {selectedItem && <ItemDetails itemId={selectedItem._id} wishlists={wishlists} />}
+        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
       </GenericModal>
     </section>
   );
