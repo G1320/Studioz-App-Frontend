@@ -1,18 +1,17 @@
 import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import {
   Button,
   GenericMuiDropdown,
   WishlistPreview,
   MuiDateTimePicker,
-  ContinueToCheckoutButton
+  ContinueToCheckoutButton,
+  CustomerDetailsForm
 } from '@components/index';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
   useItem,
   useLanguageNavigate,
-  useRemoveItemFromWishlistMutation,
   useStudio
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
@@ -26,6 +25,7 @@ import dayjs from 'dayjs';
 import ItemOptions from './ItemOptions';
 import { GenericImage } from '@components/common/images/GenericImage';
 import { ReservationDetails } from '../reservations/ReservationsDetails';
+
 interface ItemDetailsProps {
   cart?: Cart;
   itemId: string;
@@ -33,10 +33,8 @@ interface ItemDetailsProps {
 }
 
 export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlists = [] }) => {
-  const { wishlistId } = useParams();
   const { user } = useUserContext();
   const { data: item } = useItem(itemId);
-
   const { data: data } = useStudio(item?.studioId || '');
   const studio = data?.currStudio;
 
@@ -50,14 +48,15 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
   const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
-  const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
   const [isExiting, setIsExiting] = useState(false);
   const [currentReservationId, setCurrentReservationId] = useState<string | null>(null);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+
+  const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id || '');
-  const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
 
   const handleDateChange = (newDate: Date | null) => {
     setSelectedDate(newDate);
@@ -72,6 +71,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
   };
 
   const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
+    if (!isPhoneVerified) {
+      toast.error('Please verify your phone number first');
+      return;
+    }
+
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (!bookingDate || !startTime) return toast.error('Please select a valid date and time');
 
@@ -104,10 +108,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         startTime,
         studioImgUrl: item?.studioImgUrl,
         hours,
-        costumerName: costumerName,
-        costumerPhone: costumerPhone,
+        costumerName,
+        costumerPhone,
         costumerId: user?._id,
-        comment: comment
+        comment
       };
 
       reserveItemTimeSlotMutation.mutate(newItem, {
@@ -125,12 +129,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
   };
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
-  const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item?._id || '');
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
-
-  const handleImageClicked = () => {
-    langNavigate(`/studio/${item?.studioId}`);
-  };
+  const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
 
   const renderItem = (wishlist: Wishlist) => (
     <WishlistPreview
@@ -158,6 +158,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </small>
       </div>
       <p>{item?.description.en}</p>
+
       {!isBooked && !isExiting && (
         <div className="hour-selection-container">
           <div>
@@ -192,53 +193,30 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           studioAvailability={studio?.studioAvailability}
         />
       )}
+
       {!isBooked && (
-        <div className="customer-details">
-          <div className="input-container">
-            <input
-              type="text"
-              className="customer-input"
-              placeholder="Your Name"
-              value={costumerName}
-              onChange={(e) => setCostumerName(e.target.value)}
-            />
-          </div>
-          <div className="input-container">
-            <input
-              type="tel"
-              className="customer-input"
-              placeholder="Your Phone Number"
-              value={costumerPhone}
-              onChange={(e) => setCostumerPhone(e.target.value)}
-              dir={isRTL ? 'rtl' : 'ltr'}
-            />
-          </div>
-          <div className="input-container full-width">
-            <textarea
-              className="customer-input"
-              placeholder="Add any special requests or notes..."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </div>
-        </div>
+        <CustomerDetailsForm
+          costumerName={costumerName}
+          costumerPhone={costumerPhone}
+          comment={comment}
+          onNameChange={setCostumerName}
+          onPhoneChange={setCostumerPhone}
+          onCommentChange={setComment}
+          isRTL={isRTL}
+          onPhoneVerified={() => setIsPhoneVerified(true)}
+        />
       )}
 
-      {wishlistId ? (
-        <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
-          Remove from Wishlist
-        </Button>
-      ) : (
-        user?._id && (
-          <GenericMuiDropdown
-            data={wishlists}
-            renderItem={renderItem}
-            className="item-details-wishlists-dropdown"
-            title={t('buttons.add_to_wishlist')}
-          />
-        )
+      {user?._id && (
+        <GenericMuiDropdown
+          data={wishlists}
+          renderItem={renderItem}
+          className="item-details-wishlists-dropdown"
+          title={t('buttons.add_to_wishlist')}
+        />
       )}
-      {!isBooked && !isExiting ? (
+
+      {!isBooked && !isExiting && isPhoneVerified ? (
         <Button
           className="add-to-cart-button book-now-button"
           onClick={() => handleDateConfirm(selectedDate?.toString() || null, selectedHours)}
