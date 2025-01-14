@@ -1,13 +1,13 @@
 @use '../../../utilities/variables' as vars;
 
 .customer-details {
-  margin: 20px 0;
   display: grid;
+  width: 100%;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
 
   .input-container {
-    position: relative; // For verification elements
+    position: relative;
 
     .customer-input {
       width: 100%;

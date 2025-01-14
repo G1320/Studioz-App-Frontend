@@ -1,21 +1,9 @@
 @use '../../../utilities/variables' as vars;
 
-.item-modal {
-  display: grid;
-  place-self: center;
-  width: clamp(250px, 50vw, 35rem);
-  margin-inline: auto;
-
-  @media (max-width: 768px) {
-    width: calc(100% - 2rem);
-    place-self: center;
-    justify-items: center;
-    margin-block-end: 4.5rem;
-  }
-}
-
 .item-details {
+  display: grid;
   background: vars.$preview-bg-color;
+  place-self: center;
   width: clamp(250px, 50vw, 100%);
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -84,7 +72,10 @@
   }
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: calc(100% - 2rem);
+    place-self: center;
+    justify-items: center;
+    margin-block: 4.5rem;
   }
 }
 
