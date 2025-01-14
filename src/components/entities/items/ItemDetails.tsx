@@ -4,9 +4,9 @@ import {
   GenericMuiDropdown,
   WishlistPreview,
   MuiDateTimePicker,
-  ContinueToCheckoutButton
+  ContinueToCheckoutButton,
+  CustomerDetailsForm
 } from '@components/index';
-import CustomerDetailsForm from './CostumerDetailsForm';
 import {
   useAddItemToCartMutation,
   useAddItemToWishlistMutation,
