@@ -48,7 +48,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
     const success = await sendVerificationCode(costumerPhone);
     if (success) {
       setCodeSent(true);
-      toast.success('Verification code sent');
     }
   };
 
