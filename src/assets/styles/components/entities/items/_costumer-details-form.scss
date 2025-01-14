@@ -1,0 +1,103 @@
+@use '../../../utilities/variables' as vars;
+
+.customer-details {
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+
+  .input-container {
+    position: relative; // For verification elements
+
+    .customer-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #f8f8f8;
+      transition: all 0.3s ease;
+      color: #1a1a1a;
+      text-align: start;
+
+      &[dir='rtl'] {
+        text-align: right;
+      }
+      &[dir='ltr'] {
+        text-align: left;
+      }
+      &:focus {
+        outline: none;
+        border-color: #1a1a1a;
+        background: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      &::placeholder {
+        color: #999;
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    // Verification code input styling
+    &.verification-input {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+  }
+
+  .input-container .verification-box {
+  }
+
+  // Verification buttons
+  .verification-button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: vars.$color-brand;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    grid-column: 1 / -1;
+    justify-self: center;
+    min-width: 120px;
+    height: 40px;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // Status indicators
+  .verification-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    grid-column: 1 / -1;
+    font-size: 14px;
+
+    &.verified {
+      color: #10b981;
+    }
+
+    &.pending {
+      color: #f59e0b;
+    }
+  }
+}

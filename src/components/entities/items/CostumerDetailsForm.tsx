@@ -94,7 +94,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
         />
       </div>
 
-      {!isPhoneVerified && (
+      {!isPhoneVerified && !codeSent && (
         <button
           type="button"
           className="verification-button"
@@ -106,7 +106,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
       )}
 
       {codeSent && !isPhoneVerified && (
-        <div className="input-container">
+        <div className="input-container full-width">
           <input
             type="text"
             className="customer-input"
