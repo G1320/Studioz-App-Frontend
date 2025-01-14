@@ -70,10 +70,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
           value={costumerName}
           onChange={(e) => onNameChange(e.target.value)}
           disabled={disabled}
-          autoComplete="off"
-          inputMode="text"
-          pattern=".{0,}"
-          style={{ fontSize: '16px' }}
         />
       </div>
       <div className="input-container">
@@ -85,10 +81,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
           onChange={(e) => onPhoneChange(e.target.value)}
           dir={isRTL ? 'rtl' : 'ltr'}
           disabled={disabled || codeSent}
-          autoComplete="off"
-          inputMode="tel"
-          pattern="[0-9]*"
-          style={{ fontSize: '16px' }}
         />
       </div>
 
@@ -99,8 +91,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
           disabled={disabled}
-          autoComplete="off"
-          style={{ fontSize: '16px' }}
         />
       </div>
 
@@ -124,10 +114,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             maxLength={6}
-            autoComplete="off"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            style={{ fontSize: '16px' }}
           />
           <button
             type="button"
