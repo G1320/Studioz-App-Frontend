@@ -1,0 +1,15 @@
+.generic-modal {
+  .modal-wrapper {
+    position: fixed;
+    display: grid;
+    place-self: center;
+    align-items: center;
+    margin: 2.25rem 0;
+    overflow-y: auto;
+    .modal-content {
+      display: grid;
+      place-self: center;
+      height: auto;
+    }
+  }
+}

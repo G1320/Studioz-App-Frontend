@@ -5,7 +5,8 @@ import {
   ItemPreview,
   CategoryPreview,
   Hero,
-  ItemDetails
+  ItemDetails,
+  GenericModal
 } from '@components/index';
 import { useWishlists } from '@hooks/index';
 import { useModal, useUserContext } from '@contexts/index';
@@ -13,7 +14,6 @@ import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
 import { useMusicSubCategories } from '@hooks/index';
-import { Modal } from '@mui/material';
 
 interface HomePageProps {
   studios: Studio[];
@@ -127,11 +127,9 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         title={t('sections.mastering_services')}
         seeAllPath="/services/music/Mastering"
       />
-      <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        <div className="modal-content">
-          {selectedItem && <ItemDetails itemId={selectedItem._id} wishlists={wishlists} />}
-        </div>
-      </Modal>
+      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
+        {selectedItem && <ItemDetails itemId={selectedItem._id} wishlists={wishlists} />}
+      </GenericModal>
     </section>
   );
 };

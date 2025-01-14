@@ -7,3 +7,4 @@ export * from './images';
 export * from './lists';
 export * from './datePicker';
 export * from './checkout';
+export * from './modal';

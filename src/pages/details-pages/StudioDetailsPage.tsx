@@ -1,9 +1,8 @@
-import { GenericCarousel } from '@components/common';
+import { GenericCarousel, GenericModal } from '@components/common';
 import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
 import { useModal } from '@contexts/ModalContext';
 import { useUserContext } from '@contexts/UserContext';
 import { useStudio, useWishlists } from '@hooks/dataFetching';
-import { Modal } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -54,9 +53,9 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
         />
       )}
       {!selectedItem && <ContinueToCheckoutButton cart={cart} />}
-      <Modal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        <div className="modal-content">{selectedItem && <ItemDetails cart={cart} itemId={selectedItem._id} />}</div>
-      </Modal>
+      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
+        {selectedItem && <ItemDetails itemId={selectedItem._id} wishlists={wishlists} />}
+      </GenericModal>
     </section>
   );
 };

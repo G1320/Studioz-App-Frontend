@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  max-height: calc(90vh - 4rem);
+  max-height: calc(90vh - 3rem);
   background: vars.$preview-bg-color;
   place-self: center;
   width: clamp(250px, 50vw, 100%);
@@ -15,6 +15,7 @@
   position: relative;
   opacity: 1;
   animation: fadeIn 0.5s ease-out;
+  margin-block: 0;
 
   &.exiting {
     opacity: 0;
@@ -76,7 +77,6 @@
     width: calc(100% - 2rem);
     place-self: center;
     justify-items: center;
-    margin-block: 2rem;
   }
 }
 

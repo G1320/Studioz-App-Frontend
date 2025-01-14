@@ -1,5 +1,9 @@
 @use '../../../utilities/variables' as vars;
 
+.item-modal {
+  overflow-y: auto;
+}
+
 .customer-details {
   display: grid;
   width: 100%;
