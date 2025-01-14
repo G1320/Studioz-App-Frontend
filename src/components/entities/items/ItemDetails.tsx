@@ -224,7 +224,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
           {t('buttons.add_to_cart')}
         </Button>
       ) : (
-        cart && <ContinueToCheckoutButton cart={cart} />
+        cart && isPhoneVerified && <ContinueToCheckoutButton cart={cart} />
       )}
     </article>
   );
