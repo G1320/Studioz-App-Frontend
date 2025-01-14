@@ -1,19 +1,6 @@
 import { useMemo, useState } from 'react';
-import {
-  Button,
-  GenericMuiDropdown,
-  WishlistPreview,
-  MuiDateTimePicker,
-  ContinueToCheckoutButton,
-  CustomerDetailsForm
-} from '@components/index';
-import {
-  useAddItemToCartMutation,
-  useAddItemToWishlistMutation,
-  useItem,
-  useLanguageNavigate,
-  useStudio
-} from '@hooks/index';
+import { Button, MuiDateTimePicker, ContinueToCheckoutButton, CustomerDetailsForm } from '@components/index';
+import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Cart, User, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
@@ -32,7 +19,7 @@ interface ItemDetailsProps {
   wishlists?: Wishlist[];
 }
 
-export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlists = [] }) => {
+export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const { user } = useUserContext();
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
@@ -56,7 +43,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
 
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
-  const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id || '');
 
   const handleDateChange = (newDate: Date | null) => {
     setSelectedDate(newDate);
@@ -128,17 +114,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
     }
   };
 
-  const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
-
-  const renderItem = (wishlist: Wishlist) => (
-    <WishlistPreview
-      wishlist={wishlist}
-      key={wishlist._id}
-      onAddItemToWishList={() => handleAddItemToWishlist(wishlist._id)}
-    />
-  );
 
   return (
     <article
@@ -176,14 +153,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         </div>
       )}
 
-      {(currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId) && (
-        <ReservationDetails
-          reservationId={
-            currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId
-          }
-        />
-      )}
-
       {((!isBooked && !isExiting && item?.pricePer === 'hour') || (!isBooked && item?.pricePer === 'session')) && (
         <MuiDateTimePicker
           label="Select Date and Start Time"
@@ -207,12 +176,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart, wishlist
         />
       )}
 
-      {user?._id && (
-        <GenericMuiDropdown
-          data={wishlists}
-          renderItem={renderItem}
-          className="item-details-wishlists-dropdown"
-          title={t('buttons.add_to_wishlist')}
+      {(currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId) && (
+        <ReservationDetails
+          reservationId={
+            currentReservationId || cart?.items.find((cartItem) => cartItem.itemId === item?._id)?.reservationId
+          }
         />
       )}
 

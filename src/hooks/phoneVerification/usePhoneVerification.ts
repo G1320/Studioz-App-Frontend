@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { sendOTP, verifyOTP } from '@services/otp-service';
+import { toast } from 'sonner';
 
 interface UsePhoneVerificationProps {
   onVerificationSuccess?: () => void;
@@ -40,6 +41,7 @@ export const usePhoneVerification = ({ onVerificationSuccess, onVerificationFail
       }
       return response.verified;
     } catch (err: any) {
+      toast.error('Verification failed. Please check the code and try again.');
       const errorMessage = err.response?.data?.error || 'Invalid verification code';
       setError(errorMessage);
       onVerificationFail?.(errorMessage);

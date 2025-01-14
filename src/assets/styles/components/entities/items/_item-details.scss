@@ -1,7 +1,10 @@
 @use '../../../utilities/variables' as vars;
 
 .item-details {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: calc(90vh - 4rem);
   background: vars.$preview-bg-color;
   place-self: center;
   width: clamp(250px, 50vw, 100%);
@@ -10,9 +13,7 @@
   padding: 0.5rem;
   overflow: auto;
   position: relative;
-
   opacity: 1;
-
   animation: fadeIn 0.5s ease-out;
 
   &.exiting {
@@ -75,7 +76,7 @@
     width: calc(100% - 2rem);
     place-self: center;
     justify-items: center;
-    margin-block: 4.5rem;
+    margin-block: 2rem;
   }
 }
 
