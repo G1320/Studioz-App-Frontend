@@ -28,14 +28,16 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const { i18n } = useTranslation('common');
   const isRTL = i18n.language === 'he';
 
-  const [costumerPhone, setCostumerPhone] = useState('');
-  const [costumerName, setCostumerName] = useState('');
+  const [costumerPhone, setCostumerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
+  const [costumerName, setCostumerName] = useState(() => localStorage.getItem('customerName') || '');
   const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const [isExiting, setIsExiting] = useState(false);
-  const [currentReservationId, setCurrentReservationId] = useState<string | null>(null);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [currentReservationId, setCurrentReservationId] = useState<string | null>(() => {
+    return localStorage.getItem(`reservation_${itemId}`) || null;
+  });
+  const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
 
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
 
@@ -100,6 +102,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
 
       reserveItemTimeSlotMutation.mutate(newItem, {
         onSuccess: (response) => {
+          // Save to localStorage when setting new reservation
+          localStorage.setItem(`reservation_${itemId}`, response);
           setCurrentReservationId(response);
           addItemToCartMutation.mutate({ ...newItem, reservationId: response });
           setIsExiting(true);
@@ -157,11 +161,24 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
           costumerName={costumerName}
           costumerPhone={costumerPhone}
           comment={comment}
-          onNameChange={setCostumerName}
-          onPhoneChange={setCostumerPhone}
+          onNameChange={(value) => {
+            localStorage.setItem('customerName', value);
+            setCostumerName(value);
+          }}
+          onPhoneChange={(value) => {
+            if (value !== costumerPhone) {
+              localStorage.removeItem('isPhoneVerified');
+              setIsPhoneVerified(false);
+            }
+            localStorage.setItem('customerPhone', value);
+            setCostumerPhone(value);
+          }}
           onCommentChange={setComment}
           isRTL={isRTL}
-          onPhoneVerified={() => setIsPhoneVerified(true)}
+          onPhoneVerified={() => {
+            localStorage.setItem('isPhoneVerified', 'true');
+            setIsPhoneVerified(true);
+          }}
         />
       )}
 

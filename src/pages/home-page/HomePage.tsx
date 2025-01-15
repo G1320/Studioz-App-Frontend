@@ -128,7 +128,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         seeAllPath="/services/music/Mastering"
       />
       <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        {selectedItem && <ItemDetails itemId={selectedItem._id} wishlists={wishlists} />}
+        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
       </GenericModal>
     </section>
   );

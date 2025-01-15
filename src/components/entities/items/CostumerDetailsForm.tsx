@@ -27,7 +27,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
 }) => {
   const [verificationCode, setVerificationCode] = useState('');
   const [codeSent, setCodeSent] = useState(false);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
 
   const {
     sendVerificationCode,
@@ -35,7 +34,6 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
     isLoading: isVerifying
   } = usePhoneVerification({
     onVerificationSuccess: () => {
-      setIsPhoneVerified(true);
       onPhoneVerified();
     }
   });
@@ -97,7 +95,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
         />
       </div>
 
-      {!isPhoneVerified && !codeSent && (
+      {!localStorage.getItem('isPhoneVerified') && !codeSent && (
         <button
           type="button"
           className="verification-button"
@@ -108,7 +106,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
         </button>
       )}
 
-      {codeSent && !isPhoneVerified && (
+      {codeSent && !localStorage.getItem('isPhoneVerified') && (
         <div className="input-container full-width">
           <input
             type="text"
