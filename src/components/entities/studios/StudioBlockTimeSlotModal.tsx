@@ -1,4 +1,3 @@
-// components/StudioBlockModal.tsx
 import { useState } from 'react';
 import LockClockIcon from '@mui/icons-material/LockClock';
 import { MuiDateTimePicker, Button } from '@components/index';
@@ -105,12 +104,7 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
             </div>
           </div>
 
-          <MuiDateTimePicker
-            label={t('studio.select_block_time')}
-            value={selectedDate}
-            onChange={handleDateChange}
-            studioAvailability={studioAvailability}
-          />
+          <MuiDateTimePicker value={selectedDate} onChange={handleDateChange} studioAvailability={studioAvailability} />
 
           <input
             type="text"
