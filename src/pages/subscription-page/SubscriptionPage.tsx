@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 
 import { PAYPAL_CLIENT_ID } from '@config/paypal/paypalConfig';
+import { useUserContext } from '@contexts/UserContext';
+import { toast } from 'sonner';
+import { activateSubscription, createSubscription } from '@services/subscription-service';
 const isProduction = false;
 
 const SubscriptionPage = () => {
+  const { user } = useUserContext();
+
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [dbSubscription, setDbSubscription] = useState<any>(null);
 
   const plans = [
     {
@@ -27,8 +33,23 @@ const SubscriptionPage = () => {
     }
   ];
 
-  const handleSubscribe = (plan: any) => {
-    setSelectedPlan(plan);
+  const handleSubscribe = async (plan: any) => {
+    if (!user?._id) {
+      toast.error('Please login to subscribe to a plan');
+      return;
+    }
+    try {
+      // Create subscription in our database first
+      const subscription = await createSubscription({
+        userId: user._id,
+        planId: plan.id
+      });
+      setDbSubscription(subscription);
+      setSelectedPlan(plan);
+    } catch (error) {
+      console.error('Error creating subscription:', error);
+      toast.error('Failed to initiate subscription');
+    }
   };
 
   useEffect(() => {
@@ -46,14 +67,17 @@ const SubscriptionPage = () => {
                 layout: 'vertical',
                 label: 'subscribe'
               },
-              createSubscription: function (_data: any, actions: any) {
+              createSubscription: async function (_data: any, actions: any) {
                 return actions.subscription.create({
                   plan_id: selectedPlan.paypalPlanId
                 });
               },
               onApprove: async function (data) {
-                alert(`Subscription Successful! ID: ${data.subscriptionID}`);
-                return Promise.resolve(); // Ensures TypeScript recognizes this as a Promise
+                await activateSubscription({
+                  subscriptionId: dbSubscription._id,
+                  paypalSubscriptionId: data.subscriptionID || ''
+                });
+                return Promise.resolve();
               }
             })
             .render('#paypal-button-container');
