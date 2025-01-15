@@ -1,2 +1,2 @@
-export * from './BenefitsFooter';
+export * from './SubscriptionDetails';
 // export * from './PlanCard';
