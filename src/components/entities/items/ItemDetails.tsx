@@ -57,11 +57,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   };
 
   const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
-    if (!isPhoneVerified) {
-      toast.error('Please verify your phone number first');
-      return;
-    }
-
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (!bookingDate || !startTime) return toast.error('Please select a valid date and time');
 
