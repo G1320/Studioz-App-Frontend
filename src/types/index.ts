@@ -11,4 +11,5 @@ export type { default as WishlistResponse } from './wishlistResponse';
 export type { default as Cart } from './cart';
 export type { default as CartItem } from './cartItem';
 export type { default as Reservation } from './reservation';
+export type { Subscription, SubscriptionPlan } from './subscription';
 export type { SearchResult, StudiosAndItemsSearchResults } from './searchResult';

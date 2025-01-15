@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { PAYPAL_CLIENT_ID } from '@config/paypal/paypalConfig';
+const isProduction = false;
 
 const SubscriptionPage = () => {
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
 
   const plans = [
     {
@@ -10,7 +13,8 @@ const SubscriptionPage = () => {
       price: 75,
       period: 'month',
       highlight: 'Perfect for beginners',
-      features: [' 1 active listing', 'Booking confirmation and calendar', 'Standard support']
+      features: ['1 active listing', 'Booking confirmation and calendar', 'Standard support'],
+      paypalPlanId: isProduction ? 'P-0RA498012A876754WM6DXMGI' : 'P-545211905R676864UM6DY3GA'
     },
     {
       id: 'pro',
@@ -18,14 +22,53 @@ const SubscriptionPage = () => {
       price: 150,
       period: 'month',
       highlight: 'Most Popular',
-      features: ['Unlimited active listings', 'Booking confirmation and calendar', 'Priority support']
+      features: ['Unlimited active listings', 'Booking confirmation and calendar', 'Priority support'],
+      paypalPlanId: isProduction ? 'P-5C8252008J501132RM6DXKBY' : 'P-7RT29383GF5387715M6DY4JI'
     }
   ];
 
   const handleSubscribe = (plan: any) => {
     setSelectedPlan(plan);
-    // Add subscription logic here
   };
+
+  useEffect(() => {
+    if (selectedPlan?.paypalPlanId) {
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&vault=true&intent=subscription`;
+      script.setAttribute('data-sdk-integration-source', 'button-factory');
+      script.onload = () => {
+        if (window.paypal && window.paypal.Buttons) {
+          window.paypal
+            .Buttons({
+              style: {
+                shape: 'rect',
+                color: 'gold',
+                layout: 'vertical',
+                label: 'subscribe'
+              },
+              createSubscription: function (_data: any, actions: any) {
+                return actions.subscription.create({
+                  plan_id: selectedPlan.paypalPlanId
+                });
+              },
+              onApprove: async function (data) {
+                alert(`Subscription Successful! ID: ${data.subscriptionID}`);
+                return Promise.resolve(); // Ensures TypeScript recognizes this as a Promise
+              }
+            })
+            .render('#paypal-button-container');
+        }
+      };
+      document.body.appendChild(script);
+
+      return () => {
+        const buttonContainer = document.getElementById('paypal-button-container');
+        if (buttonContainer) {
+          buttonContainer.innerHTML = '';
+        }
+      };
+    }
+  }, [selectedPlan]);
 
   return (
     <div className="subscription-page">
@@ -36,7 +79,7 @@ const SubscriptionPage = () => {
 
       <div className="plans-container">
         {plans.map((plan) => (
-          <div key={plan.id} className={`plan-card ${plan.id} ${selectedPlan === plan ? 'selected' : ''}`}>
+          <div key={plan.id} className={`plan-card ${plan.id} ${selectedPlan?.id === plan.id ? 'selected' : ''}`}>
             {plan.highlight === 'Most Popular' && <div className="popular-badge">Most Popular</div>}
 
             <div className="plan-header">
@@ -64,6 +107,13 @@ const SubscriptionPage = () => {
           </div>
         ))}
       </div>
+
+      {selectedPlan && (
+        <div id="paypal-container">
+          <h2>Subscribe to {selectedPlan.name} Plan</h2>
+          <div id="paypal-button-container"></div>
+        </div>
+      )}
 
       <footer className="benefits">
         <h3>All plans include:</h3>
