@@ -75,6 +75,35 @@
       "button": "Create Studio",
       "success": "Studio created successfully",
       "error": "Failed to create studio"
+    },
+    "customerDetails": {
+      "title": "Customer Details",
+      "name": {
+        "label": "Your Name",
+        "placeholder": "Enter your name"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Enter your phone number",
+        "error": "Please enter your phone number"
+      },
+      "comment": {
+        "label": "Special Requests",
+        "placeholder": "Add any special requests or notes..."
+      }
+    },
+    "verification": {
+      "buttons": {
+        "verify": "Verify Phone",
+        "sending": "Sending...",
+        "sent": "Code Sent",
+        "submit": "Submit Code",
+        "verifying": "Verifying..."
+      },
+      "code": {
+        "placeholder": "Enter verification code",
+        "error": "Please enter the verification code"
+      }
     }
   }
 }

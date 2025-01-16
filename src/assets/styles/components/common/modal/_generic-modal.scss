@@ -1,11 +1,15 @@
 .generic-modal {
   .modal-wrapper {
     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: grid;
-    place-self: center;
-    align-items: center;
+
     margin: 2.25rem 0;
+    padding: 1rem;
     overflow-y: auto;
+    width: 100%;
     .modal-content {
       display: grid;
       place-self: center;

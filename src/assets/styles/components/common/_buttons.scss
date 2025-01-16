@@ -42,6 +42,7 @@ button:is(.dropdown-toggle) {
 }
 
 button:is(.add-to-cart-button) {
+  gap: 0.5rem;
   padding: 1.2em 1.8em;
   border-radius: 20px;
   border: none;

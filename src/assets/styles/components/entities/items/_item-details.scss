@@ -56,15 +56,10 @@
 
   .hour-selection-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     place-items: center;
-    gap: 0.5rem;
-    .hour-label {
-      justify-self: end;
-      font-weight: 600;
-    }
-    span.hour-value {
+    span {
       min-width: 24px;
+      font-size: 1.25rem;
       font-weight: 700;
     }
     div {

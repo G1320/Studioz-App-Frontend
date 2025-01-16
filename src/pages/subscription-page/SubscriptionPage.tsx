@@ -170,10 +170,10 @@ const SubscriptionPage = () => {
             <span className="check-icon">✓</span>
             {t('benefits.trial')}
           </div>
-          <div className="benefit">
+          {/* <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.noCard')}
-          </div>
+          </div> */}
           <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.cancel')}

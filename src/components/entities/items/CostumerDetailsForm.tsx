@@ -1,5 +1,6 @@
 import { usePhoneVerification } from '@hooks/phoneVerification';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 interface CustomerDetailsFormProps {
@@ -27,6 +28,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
 }) => {
   const [verificationCode, setVerificationCode] = useState('');
   const [codeSent, setCodeSent] = useState(false);
+  const { t } = useTranslation('forms');
 
   const {
     sendVerificationCode,
@@ -40,7 +42,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
 
   const handleSendCode = async () => {
     if (!costumerPhone) {
-      toast.error('Please enter your phone number');
+      toast.error(t('form.customerDetails.phone.error'));
       return;
     }
     const success = await sendVerificationCode(costumerPhone);
@@ -51,7 +53,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
 
   const handleVerifyCode = async () => {
     if (!verificationCode) {
-      toast.error('Please enter the verification code');
+      toast.error(t('form.verification.code.error'));
       return;
     }
     await verifyCode(costumerPhone, verificationCode);
@@ -63,7 +65,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
         <input
           type="text"
           className="customer-input"
-          placeholder="Your Name"
+          placeholder={t('form.customerDetails.name.placeholder')}
           value={costumerName}
           onChange={(e) => onNameChange(e.target.value)}
           disabled={disabled}
@@ -74,7 +76,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
         <input
           type="tel"
           className="customer-input"
-          placeholder="Your Phone Number"
+          placeholder={t('form.customerDetails.phone.placeholder')}
           value={costumerPhone}
           onChange={(e) => onPhoneChange(e.target.value)}
           dir={isRTL ? 'rtl' : 'ltr'}
@@ -87,7 +89,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
       <div className="input-container full-width">
         <textarea
           className="customer-input"
-          placeholder="Add any special requests or notes..."
+          placeholder={t('form.customerDetails.comment.placeholder')}
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
           disabled={disabled}
@@ -102,7 +104,11 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
           onClick={handleSendCode}
           disabled={isVerifying || !costumerPhone || codeSent}
         >
-          {isVerifying ? 'Sending...' : codeSent ? 'Code Sent' : 'Verify Phone'}
+          {isVerifying
+            ? t('form.verification.buttons.sending')
+            : codeSent
+              ? t('form.verification.buttons.sent')
+              : t('form.verification.buttons.verify')}{' '}
         </button>
       )}
 
@@ -111,7 +117,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
           <input
             type="text"
             className="customer-input"
-            placeholder="Enter verification code"
+            placeholder={t('form.verification.code.placeholder')}
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             maxLength={6}
@@ -124,7 +130,7 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
             onClick={handleVerifyCode}
             disabled={isVerifying || !verificationCode}
           >
-            {isVerifying ? 'Verifying...' : 'Submit Code'}
+            {isVerifying ? t('form.verification.buttons.verifying') : t('form.verification.buttons.submit')}{' '}
           </button>
         </div>
       )}

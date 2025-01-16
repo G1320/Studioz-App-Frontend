@@ -25,14 +25,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
 
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { i18n } = useTranslation('common');
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
 
   const [costumerPhone, setCostumerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
   const [costumerName, setCostumerName] = useState(() => localStorage.getItem('customerName') || '');
   const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedHours, setSelectedHours] = useState<number>(1);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [isExiting, setIsExiting] = useState(false);
   const [currentReservationId, setCurrentReservationId] = useState<string | null>(() => {
     return localStorage.getItem(`reservation_${itemId}`) || null;
@@ -49,11 +49,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   };
 
   const handleIncrement = () => {
-    setSelectedHours((prev) => prev + 1);
+    setSelectedQuantity((prev) => prev + 1);
   };
 
   const handleDecrement = () => {
-    setSelectedHours((prev) => (prev > 1 ? prev - 1 : 1));
+    setSelectedQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
   const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
@@ -119,8 +119,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   }, [currentReservationId, isExiting, item?.pricePer]);
 
   const handleBookNow = useCallback(() => {
-    handleDateConfirm(selectedDate?.toString() || null, selectedHours);
-  }, [selectedDate, selectedHours]);
+    handleDateConfirm(selectedDate?.toString() || null, selectedQuantity);
+  }, [selectedDate, selectedQuantity]);
 
   return (
     <article
@@ -137,7 +137,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
       />
 
       {!currentReservationId && (
-        <HourSelector value={selectedHours} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+        <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
       )}
 
       {currentReservationId && <ReservationDetails reservationId={currentReservationId} />}
@@ -178,6 +178,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
       )}
 
       <BookingActions
+        price={item?.price || 0}
+        quantity={selectedQuantity}
         currentReservationId={currentReservationId}
         isPhoneVerified={isPhoneVerified}
         isBooked={isBooked as boolean}

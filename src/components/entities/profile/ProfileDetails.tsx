@@ -28,14 +28,14 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
         <div className="profile-section">
           <div className="profile-actions">
             <button onClick={() => handleNavigate('/calendar')}>{t('profile.sellerAccount.buttons.calendar')}</button>
-            <button onClick={() => handleNavigate('/subscription')}>
-              {t('profile.sellerAccount.buttons.subscription')}
-            </button>
             {user?.subscriptionStatus === 'ACTIVE' && (
               <button onClick={() => handleNavigate('/my-subscription')}>
                 {t('profile.sellerAccount.buttons.mySubscriptions')}
               </button>
             )}
+            <button onClick={() => handleNavigate('/subscription')}>
+              {t('profile.sellerAccount.buttons.subscription')}
+            </button>
           </div>
         </div>
 

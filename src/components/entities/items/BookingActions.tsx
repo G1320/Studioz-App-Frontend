@@ -5,6 +5,8 @@ import { Cart } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 
 interface BookingActionsProps {
+  price: number;
+  quantity: number;
   currentReservationId: string | null;
   isPhoneVerified: boolean;
   isBooked: boolean;
@@ -13,13 +15,14 @@ interface BookingActionsProps {
 }
 
 export const BookingActions = React.memo(
-  ({ currentReservationId, isPhoneVerified, isBooked, cart, onBookNow }: BookingActionsProps) => {
+  ({ price, quantity, currentReservationId, isPhoneVerified, isBooked, cart, onBookNow }: BookingActionsProps) => {
     const { t } = useTranslation('common');
 
     if (!currentReservationId && isPhoneVerified) {
       return (
         <Button className="add-to-cart-button book-now-button" onClick={onBookNow}>
           {t('buttons.add_to_cart')}
+          <span>{price * quantity}₪</span>
         </Button>
       );
     }

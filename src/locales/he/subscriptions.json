@@ -27,7 +27,7 @@
     }
   },
   "buttons": {
-    "getStarted": "להתחיל עכשיו"
+    "getStarted": "הצטרף עכשיו"
   },
   "paypal": {
     "title": "הרשמה לתוכנית {{planName}}"

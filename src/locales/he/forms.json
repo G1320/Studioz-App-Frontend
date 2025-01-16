@@ -75,6 +75,35 @@
       "button": "צור סטודיו",
       "success": "הסטודיו נוצר בהצלחה",
       "error": "אירעה שגיאה בעת יצירת הסטודיו"
+    },
+    "customerDetails": {
+      "title": "פרטי לקוח",
+      "name": {
+        "label": "שם מלא",
+        "placeholder": " שם המלא"
+      },
+      "phone": {
+        "label": "מספר טלפון",
+        "placeholder": " מספר טלפון",
+        "error": "אנא הכנס מספר טלפון"
+      },
+      "comment": {
+        "label": "בקשות מיוחדות",
+        "placeholder": "הוסף בקשות או הערות מיוחדות..."
+      }
+    },
+    "verification": {
+      "buttons": {
+        "verify": "אימות מספר טלפון",
+        "sending": "שולח...",
+        "sent": "קוד נשלח",
+        "submit": "שלח קוד",
+        "verifying": "מאמת..."
+      },
+      "code": {
+        "placeholder": "הכנס קוד אימות",
+        "error": "אנא הכנס את קוד האימות"
+      }
     }
   }
 }
