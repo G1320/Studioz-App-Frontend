@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "בחר את התוכנית שלך",
+    "subtitle": "בחר את התוכנית המושלמת לצרכי העסק שלך"
+  },
+  "plans": {
+    "period": "חודש",
+    "priceLabel": "ל{{period}}",
+    "popularBadge": "הכי פופולרי",
+    "starter": {
+      "name": "מתחילים",
+      "highlight": "מושלם למתחילים",
+      "features": {
+        "listing": "מודעה אחת פעילה",
+        "booking": "אישור הזמנות ולוח שנה",
+        "support": "תמיכה סטנדרטית"
+      }
+    },
+    "pro": {
+      "name": "מקצועי",
+      "highlight": "הכי פופולרי",
+      "features": {
+        "listing": "מודעות פעילות ללא הגבלה",
+        "booking": "אישור הזמנות ולוח שנה",
+        "support": "תמיכה בעדיפות גבוהה"
+      }
+    }
+  },
+  "buttons": {
+    "getStarted": "להתחיל עכשיו"
+  },
+  "paypal": {
+    "title": "הרשמה לתוכנית {{planName}}"
+  },
+  "benefits": {
+    "title": "כל התוכניות כוללות:",
+    "trial": "14 ימי ניסיון בחינם",
+    "noCard": "לא נדרש כרטיס אשראי",
+    "cancel": "ביטול בכל עת"
+  },
+  "errors": {
+    "loginRequired": "אנא התחבר כדי להירשם לתוכנית",
+    "initiateFailed": "ההרשמה נכשלה"
+  },
+  "subscriptionDetails": {
+    "loading": "טוען...",
+    "noSubscription": {
+      "title": "אין מנוי פעיל",
+      "description": "שדרג את החשבון שלך כדי לגשת לתכונות פרימיום",
+      "viewPlans": "צפה בתוכניות"
+    },
+    "status": {
+      "active": "פעיל",
+      "cancelled": "מבוטל"
+    },
+    "planNames": {
+      "pro": " מנוי פרו",
+      "starter": " מנוי מתחילים"
+    },
+    "badges": {
+      "pro": "PRO",
+      "starter": "STARTER"
+    },
+    "info": {
+      "startDate": {
+        "label": "תאריך התחלה"
+      },
+      "nextBilling": {
+        "label": "תאריך החיוב הבא"
+      },
+      "price": {
+        "label": "מחיר",
+        "value": "₪{{amount}} / חודש"
+      }
+    },
+    "actions": {
+      "managePlan": "ניהול תוכנית",
+      "upgradePlan": "שדרוג תוכנית",
+      "cancelPlan": "ביטול תוכנית"
+    },
+    "cancellation": {
+      "confirmMessage": "האם אתה בטוח שברצונך לבטל את המנוי שלך? לא ניתן לבטל פעולה זו.",
+      "successMessage": "המנוי בוטל בהצלחה",
+      "errorMessage": "ביטול המנוי נכשל",
+      "notice": "המנוי שלך בוטל",
+      "accessUntil": "גישה עד: {{date}}"
+    }
+  }
+}

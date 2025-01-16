@@ -4,42 +4,43 @@ import { toast } from 'sonner';
 import { cancelSubscription } from '@services/subscription-service';
 import { useUserContext } from '@contexts/UserContext';
 import type { CancelSubscriptionResponse } from 'src/types/subscription';
+import { useTranslation } from 'react-i18next';
 
 export const SubscriptionDetails = () => {
   const { isLoading, hasSubscription, isPro, subscription, paypalDetails } = useSubscription();
-
   const { updateSubscription } = useUserContext();
+  const { t } = useTranslation('subscriptions');
 
   const handleCancelSubscription = async () => {
     if (!subscription?._id) return;
 
     try {
-      if (window.confirm('Are you sure you want to cancel your subscription? This action cannot be undone.')) {
+      if (window.confirm(t('subscriptionDetails.cancellation.confirmMessage'))) {
         const cancelledSubscription = (await cancelSubscription(subscription._id)) as CancelSubscriptionResponse;
 
         if (cancelledSubscription) {
           updateSubscription(cancelledSubscription._id, 'CANCELLED');
         }
 
-        toast.success('Subscription cancelled successfully');
+        toast.success(t('subscriptionDetails.cancellation.successMessage'));
       }
     } catch (error) {
       console.error('Error canceling subscription:', error);
-      toast.error('Failed to cancel subscription');
+      toast.error(t('subscriptionDetails.cancellation.errorMessage'));
     }
   };
 
   if (isLoading) {
-    return <div className="subscription-loading"></div>;
+    return <div className="subscription-loading">{t('subscriptionDetails.loading')}</div>;
   }
 
   if (!hasSubscription) {
     return (
       <div className="subscription-details no-subscription">
-        <h3>No Active Subscription</h3>
-        <p>Upgrade your account to access premium features</p>
+        <h3>{t('subscriptionDetails.noSubscription.title')}</h3>
+        <p>{t('subscriptionDetails.noSubscription.description')}</p>
         <Link to="/subscription" className="primary-button">
-          View Plans
+          {t('subscriptionDetails.noSubscription.viewPlans')}
         </Link>
       </div>
     );
@@ -49,30 +50,36 @@ export const SubscriptionDetails = () => {
     <div className="subscription-details">
       <div className="subscription-header">
         <div className="title-status">
-          <h3>{isPro ? 'Professional Plan' : 'Starter Plan'}</h3>
-          <p className="status">{subscription?.status === 'ACTIVE' ? 'Active' : subscription?.status.toLowerCase()}</p>
+          <h3>{t(isPro ? 'subscriptionDetails.planNames.pro' : 'subscriptionDetails.planNames.starter')}</h3>
+          <p className="status">
+            {subscription?.status === 'ACTIVE'
+              ? t('subscriptionDetails.status.active')
+              : t('subscriptionDetails.status.cancelled')}
+          </p>
         </div>
-        <span className={`plan-badge ${isPro ? 'pro' : 'starter'}`}>{isPro ? 'PRO' : 'STARTER'}</span>
+        <span className={`plan-badge ${isPro ? 'pro' : 'starter'}`}>
+          {t(isPro ? 'subscriptionDetails.badges.pro' : 'subscriptionDetails.badges.starter')}
+        </span>
       </div>
 
       <div className="subscription-info">
         {subscription?.startDate && (
           <div className="info-item">
-            <p className="label">Start Date</p>
+            <p className="label">{t('subscriptionDetails.info.startDate.label')}</p>
             <p className="value">{new Date(subscription.startDate).toLocaleDateString()}</p>
           </div>
         )}
 
         {paypalDetails?.billing_info?.next_billing_time && (
           <div className="info-item">
-            <p className="label">Next Billing Date</p>
+            <p className="label">{t('subscriptionDetails.info.nextBilling.label')}</p>
             <p className="value">{new Date(paypalDetails.billing_info.next_billing_time).toLocaleDateString()}</p>
           </div>
         )}
 
         <div className="info-item">
-          <p className="label">Price</p>
-          <p className="value">{isPro ? '₪150' : '₪75'} / month</p>
+          <p className="label">{t('subscriptionDetails.info.price.label')}</p>
+          <p className="value">{t('subscriptionDetails.info.price.value', { amount: isPro ? '150' : '75' })}</p>
         </div>
       </div>
 
@@ -80,10 +87,10 @@ export const SubscriptionDetails = () => {
         {subscription?.status === 'ACTIVE' && (
           <>
             <Link to="/subscription" className="manage-link">
-              {isPro ? 'Manage Plan' : 'Upgrade Plan'}
+              {t(isPro ? 'subscriptionDetails.actions.managePlan' : 'subscriptionDetails.actions.upgradePlan')}
             </Link>
             <button onClick={handleCancelSubscription} className="cancel-button">
-              Cancel Plan
+              {t('subscriptionDetails.actions.cancelPlan')}
             </button>
           </>
         )}
@@ -91,14 +98,16 @@ export const SubscriptionDetails = () => {
 
       {subscription?.status === 'CANCELLED' && (
         <div className="cancelled-notice">
-          <p>Your subscription has been cancelled</p>
+          <p>{t('subscriptionDetails.cancellation.notice')}</p>
           {subscription.endDate && (
-            <p className="access-until">Access until: {new Date(subscription.endDate).toLocaleDateString()}</p>
+            <p className="access-until">
+              {t('subscriptionDetails.cancellation.accessUntil', {
+                date: new Date(subscription.endDate).toLocaleDateString()
+              })}
+            </p>
           )}
         </div>
       )}
     </div>
   );
 };
-
-export default SubscriptionDetails;

@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "Choose Your Plan",
+    "subtitle": "Select the perfect plan for your business needs"
+  },
+  "plans": {
+    "period": "month",
+    "priceLabel": "per {{period}}",
+    "popularBadge": "Most Popular",
+    "starter": {
+      "name": "Starter",
+      "highlight": "Perfect for beginners",
+      "features": {
+        "listing": "1 active listing",
+        "booking": "Booking confirmation and calendar",
+        "support": "Standard support"
+      }
+    },
+    "pro": {
+      "name": "Professional",
+      "highlight": "Most Popular",
+      "features": {
+        "listing": "Unlimited active listings",
+        "booking": "Booking confirmation and calendar",
+        "support": "Priority support"
+      }
+    }
+  },
+  "buttons": {
+    "getStarted": "Get Started"
+  },
+  "paypal": {
+    "title": "Subscribe to {{planName}} Plan"
+  },
+  "benefits": {
+    "title": "All plans include:",
+    "trial": "14-day free trial",
+    "noCard": "No credit card required",
+    "cancel": "Cancel anytime"
+  },
+  "errors": {
+    "loginRequired": "Please login to subscribe to a plan",
+    "initiateFailed": "Failed to initiate subscription"
+  },
+  "subscriptionDetails": {
+    "loading": "Loading...",
+    "noSubscription": {
+      "title": "No Active Subscription",
+      "description": "Upgrade your account to access premium features",
+      "viewPlans": "View Plans"
+    },
+    "status": {
+      "active": "Active",
+      "cancelled": "Cancelled"
+    },
+    "planNames": {
+      "pro": "Professional Plan",
+      "starter": "Starter Plan"
+    },
+    "badges": {
+      "pro": "PRO",
+      "starter": "STARTER"
+    },
+    "info": {
+      "startDate": {
+        "label": "Start Date"
+      },
+      "nextBilling": {
+        "label": "Next Billing Date"
+      },
+      "price": {
+        "label": "Price",
+        "value": "₪{{amount}} / month"
+      }
+    },
+    "actions": {
+      "managePlan": "Manage Plan",
+      "upgradePlan": "Upgrade Plan",
+      "cancelPlan": "Cancel Plan"
+    },
+    "cancellation": {
+      "confirmMessage": "Are you sure you want to cancel your subscription? This action cannot be undone.",
+      "successMessage": "Subscription cancelled successfully",
+      "errorMessage": "Failed to cancel subscription",
+      "notice": "Your subscription has been cancelled",
+      "accessUntil": "Access until: {{date}}"
+    }
+  }
+}

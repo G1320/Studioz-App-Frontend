@@ -5,10 +5,12 @@ import { useUserContext } from '@contexts/UserContext';
 import { toast } from 'sonner';
 import { activateSubscription, createSubscription } from '@services/subscription-service';
 import { sendSubscriptionConfirmation } from '@services/email-service';
+import { useTranslation } from 'react-i18next';
 const isProduction = false;
 
 const SubscriptionPage = () => {
   const { user, updateSubscription } = useUserContext();
+  const { t } = useTranslation('subscriptions');
 
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [dbSubscription, setDbSubscription] = useState<any>(null);
@@ -16,27 +18,31 @@ const SubscriptionPage = () => {
   const plans = [
     {
       id: 'starter',
-      name: 'Starter',
+      name: t('plans.starter.name'),
       price: 79,
-      period: 'month',
-      highlight: 'Perfect for beginners',
-      features: ['1 active listing', 'Booking confirmation and calendar', 'Standard support'],
+      period: t('plans.period'),
+      highlight: t('plans.starter.highlight'),
+      features: [
+        t('plans.starter.features.listing'),
+        t('plans.starter.features.booking'),
+        t('plans.starter.features.support')
+      ],
       paypalPlanId: isProduction ? 'P-0RA498012A876754WM6DXMGI' : 'P-545211905R676864UM6DY3GA'
     },
     {
       id: 'pro',
-      name: 'Professional',
+      name: t('plans.pro.name'),
       price: 149,
-      period: 'month',
-      highlight: 'Most Popular',
-      features: ['Unlimited active listings', 'Booking confirmation and calendar', 'Priority support'],
+      period: t('plans.period'),
+      highlight: t('plans.pro.highlight'),
+      features: [t('plans.pro.features.listing'), t('plans.pro.features.booking'), t('plans.pro.features.support')],
       paypalPlanId: isProduction ? 'P-5C8252008J501132RM6DXKBY' : 'P-7RT29383GF5387715M6DY4JI'
     }
   ];
 
   const handleSubscribe = async (plan: any) => {
     if (!user?._id) {
-      toast.error('Please login to subscribe to a plan');
+      toast.error(t('errors.loginRequired'));
       return;
     }
     try {
@@ -49,7 +55,7 @@ const SubscriptionPage = () => {
       setSelectedPlan(plan);
     } catch (error) {
       console.error('Error creating subscription:', error);
-      toast.error('Failed to initiate subscription');
+      toast.error(t('errors.initiateFailed'));
     }
   };
 
@@ -110,18 +116,19 @@ const SubscriptionPage = () => {
       };
     }
   }, [selectedPlan]);
-
   return (
     <div className="subscription-page">
       <header className="header">
-        <h1>Choose Your Plan</h1>
-        <p>Select the perfect plan for your business needs</p>
+        <h1>{t('header.title')}</h1>
+        <p>{t('header.subtitle')}</p>
       </header>
 
       <div className="plans-container">
         {plans.map((plan) => (
           <div key={plan.id} className={`plan-card ${plan.id} ${selectedPlan?.id === plan.id ? 'selected' : ''}`}>
-            {plan.highlight === 'Most Popular' && <div className="popular-badge">Most Popular</div>}
+            {plan.highlight === t('plans.pro.highlight') && (
+              <div className="popular-badge">{t('plans.popularBadge')}</div>
+            )}
 
             <div className="plan-header">
               <h2>{plan.name}</h2>
@@ -130,7 +137,7 @@ const SubscriptionPage = () => {
 
             <div className="price">
               <span className="amount">₪{plan.price}</span>
-              <span className="period">per {plan.period}</span>
+              <span className="period">{t('plans.priceLabel', { period: plan.period })}</span>
             </div>
 
             <ul className="features">
@@ -143,7 +150,7 @@ const SubscriptionPage = () => {
             </ul>
 
             <button className="subscribe-button" onClick={() => handleSubscribe(plan)}>
-              Get Started
+              {t('buttons.getStarted')}
             </button>
           </div>
         ))}
@@ -151,25 +158,25 @@ const SubscriptionPage = () => {
 
       {selectedPlan && (
         <div id="paypal-container">
-          <h2>Subscribe to {selectedPlan.name} Plan</h2>
+          <h2>{t('paypal.title', { planName: selectedPlan.name })}</h2>
           <div id="paypal-button-container"></div>
         </div>
       )}
 
       <footer className="benefits">
-        <h3>All plans include:</h3>
+        <h3>{t('benefits.title')}</h3>
         <div className="benefit-items">
           <div className="benefit">
             <span className="check-icon">✓</span>
-            14-day free trial
+            {t('benefits.trial')}
           </div>
           <div className="benefit">
             <span className="check-icon">✓</span>
-            No credit card required
+            {t('benefits.noCard')}
           </div>
           <div className="benefit">
             <span className="check-icon">✓</span>
-            Cancel anytime
+            {t('benefits.cancel')}
           </div>
         </div>
       </footer>
