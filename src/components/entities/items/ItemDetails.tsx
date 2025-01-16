@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { MuiDateTimePicker, CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
 import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
-import { useUserContext } from '@contexts/index';
+import { useModal, useUserContext } from '@contexts/index';
 import { Cart, User, Wishlist } from 'src/types/index';
 import { usePrefetchItem } from '@hooks/prefetching/index';
 import { splitDateTime } from '@utils/index';
@@ -22,6 +22,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
   const studio = data?.currStudio;
+
+  const { closeModal } = useModal();
 
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
@@ -128,6 +130,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
       key={item?._id}
       className={`details item-details ${isExiting ? 'exiting' : ''}`}
     >
+      <button className="close-button" onClick={closeModal}>
+        ×
+      </button>
       <ItemHeader
         studio={studio}
         item={item}
