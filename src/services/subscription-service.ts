@@ -9,6 +9,7 @@ interface SubscriptionCreateParams {
 interface SubscriptionActivateParams {
   subscriptionId: string;
   paypalSubscriptionId: string;
+  subscriptionDetails: any;
 }
 
 const subscriptionEndpoint = '/subscriptions';

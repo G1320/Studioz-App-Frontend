@@ -15,7 +15,6 @@ interface SubscriptionState {
 
 export const useSubscription = () => {
   const { user } = useUserContext();
-
   const [subscriptionData, setSubscriptionData] = useState<SubscriptionState>({
     isLoading: true,
     hasSubscription: false,
@@ -28,14 +27,15 @@ export const useSubscription = () => {
   useEffect(() => {
     const checkSubscription = async () => {
       if (!user?._id || !user.subscriptionId || user.subscriptionStatus !== 'ACTIVE') {
-        setSubscriptionData({
+        setSubscriptionData((prev) => ({
+          ...prev,
           isLoading: false,
           hasSubscription: false,
           isPro: false,
           isStarter: false,
           subscription: null,
           paypalDetails: null
-        });
+        }));
         return;
       }
 
@@ -43,24 +43,26 @@ export const useSubscription = () => {
         const response = await getSubscriptionDetails(user.subscriptionId);
         const data = response as SubscriptionDetailsResponse;
 
-        setSubscriptionData({
+        setSubscriptionData((prev) => ({
+          ...prev,
           isLoading: false,
           hasSubscription: true,
           isPro: data.subscription.planId === 'pro',
           isStarter: data.subscription.planId === 'starter',
           subscription: data.subscription,
           paypalDetails: data.paypalDetails
-        });
+        }));
       } catch (error) {
         console.error('Error fetching subscription details:', error);
-        setSubscriptionData({
+        setSubscriptionData((prev) => ({
+          ...prev,
           isLoading: false,
           hasSubscription: false,
           isPro: false,
           isStarter: false,
           subscription: null,
           paypalDetails: null
-        });
+        }));
       }
     };
 

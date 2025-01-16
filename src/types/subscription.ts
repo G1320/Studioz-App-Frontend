@@ -54,3 +54,10 @@ export interface SubscriptionDetailsResponse {
   subscription: Subscription;
   paypalDetails: PayPalSubscriptionResponse;
 }
+
+export interface CancelSubscriptionResponse {
+  _id: string;
+  status: string;
+  endDate: Date;
+  [key: string]: any;
+}

@@ -19,8 +19,8 @@ import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import Cart from 'src/types/cart';
 import User from 'src/types/user';
-import SubscriptionPage from '@pages/subscriptions-page/SubscriptionPage';
-import MySubscriptionPage from '@pages/subscriptions-page/MySubscriptionPage';
+import SubscriptionPage from '@pages/subscription-page/SubscriptionPage';
+import MySubscriptionPage from '@pages/subscription-page/MySubscriptionPage';
 
 const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@pages/compliance-pages/TermAndConditionsPage'));

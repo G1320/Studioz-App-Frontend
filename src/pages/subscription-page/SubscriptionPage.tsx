@@ -4,10 +4,11 @@ import { PAYPAL_CLIENT_ID } from '@config/paypal/paypalConfig';
 import { useUserContext } from '@contexts/UserContext';
 import { toast } from 'sonner';
 import { activateSubscription, createSubscription } from '@services/subscription-service';
+import { sendSubscriptionConfirmation } from '@services/email-service';
 const isProduction = false;
 
 const SubscriptionPage = () => {
-  const { user } = useUserContext();
+  const { user, updateSubscription } = useUserContext();
 
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [dbSubscription, setDbSubscription] = useState<any>(null);
@@ -16,7 +17,7 @@ const SubscriptionPage = () => {
     {
       id: 'starter',
       name: 'Starter',
-      price: 75,
+      price: 79,
       period: 'month',
       highlight: 'Perfect for beginners',
       features: ['1 active listing', 'Booking confirmation and calendar', 'Standard support'],
@@ -25,7 +26,7 @@ const SubscriptionPage = () => {
     {
       id: 'pro',
       name: 'Professional',
-      price: 150,
+      price: 149,
       period: 'month',
       highlight: 'Most Popular',
       features: ['Unlimited active listings', 'Booking confirmation and calendar', 'Priority support'],
@@ -69,14 +70,30 @@ const SubscriptionPage = () => {
               },
               createSubscription: async function (_data: any, actions: any) {
                 return actions.subscription.create({
-                  plan_id: selectedPlan.paypalPlanId
+                  plan_id: selectedPlan.paypalPlanId,
+                  application_context: {
+                    shipping_preference: 'GET_FROM_FILE'
+                  }
                 });
               },
-              onApprove: async function (data) {
+              onApprove: async function (data, actions) {
+                const subscriptionDetails = await actions.subscription?.get();
+
                 await activateSubscription({
                   subscriptionId: dbSubscription._id,
-                  paypalSubscriptionId: data.subscriptionID || ''
+                  paypalSubscriptionId: data.subscriptionID || '',
+                  subscriptionDetails
                 });
+
+                await sendSubscriptionConfirmation(user?.email as string, {
+                  customerName: user?.name as string,
+                  planName: selectedPlan.name,
+                  planPrice: selectedPlan.price,
+                  subscriptionId: data.subscriptionID as string,
+                  startDate: new Date()
+                });
+
+                updateSubscription(dbSubscription._id, 'ACTIVE');
                 return Promise.resolve();
               }
             })

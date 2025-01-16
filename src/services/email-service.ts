@@ -6,6 +6,31 @@ interface EmailResponse {
   message: string;
 }
 
+interface SubscriptionEmailData {
+  customerName: string;
+  planName: string;
+  planPrice: number;
+  subscriptionId: string;
+  startDate: Date;
+}
+
+export const sendSubscriptionConfirmation = async (
+  email: string,
+  subscriptionData: SubscriptionEmailData
+): Promise<EmailResponse> => {
+  try {
+    const payload = {
+      email,
+      subscriptionData
+    };
+
+    return await httpService.post<EmailResponse>(`${emailEndpoint}/send-subscription-confirmation`, payload);
+  } catch (error) {
+    console.error('Failed to send subscription confirmation:', error);
+    throw error;
+  }
+};
+
 export const sendWelcomeEmail = async (email: string, name: string): Promise<EmailResponse> => {
   try {
     const payload = {

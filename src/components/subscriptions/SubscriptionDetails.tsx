@@ -2,16 +2,25 @@ import { useSubscription } from '@hooks/index';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { cancelSubscription } from '@services/subscription-service';
+import { useUserContext } from '@contexts/UserContext';
+import type { CancelSubscriptionResponse } from 'src/types/subscription';
 
 export const SubscriptionDetails = () => {
   const { isLoading, hasSubscription, isPro, subscription, paypalDetails } = useSubscription();
+
+  const { updateSubscription } = useUserContext();
 
   const handleCancelSubscription = async () => {
     if (!subscription?._id) return;
 
     try {
       if (window.confirm('Are you sure you want to cancel your subscription? This action cannot be undone.')) {
-        await cancelSubscription(subscription._id);
+        const cancelledSubscription = (await cancelSubscription(subscription._id)) as CancelSubscriptionResponse;
+
+        if (cancelledSubscription) {
+          updateSubscription(cancelledSubscription._id, 'CANCELLED');
+        }
+
         toast.success('Subscription cancelled successfully');
       }
     } catch (error) {
