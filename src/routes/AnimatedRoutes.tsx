@@ -1,7 +1,7 @@
 // components/routing/AnimatedRoutes.tsx
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import i18n from '../i18n';
 
 import HomePage from '@pages/home-page/HomePage';
@@ -63,6 +63,11 @@ const pageVariants = {
 
 const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineCart, offlineCart, user }) => {
   const location = useLocation();
+
+  const userStudios = useMemo(() => {
+    if (!user?._id) return [];
+    return studios.filter((studio) => studio.createdBy === user._id);
+  }, [studios, user?._id]);
 
   const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
@@ -235,7 +240,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang?/calendar"
             element={
               <AnimatedRoute>
-                <StudioCalendarPage studios={studios} items={items} />
+                <StudioCalendarPage studios={userStudios} items={items} />
               </AnimatedRoute>
             }
           />
