@@ -5,6 +5,7 @@ import { useUserContext } from '@contexts/UserContext';
 import { useStudio, useWishlists } from '@hooks/dataFetching';
 
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Cart, Item } from 'src/types/index';
 
@@ -16,6 +17,7 @@ interface StudioDetailsPageProps {
 const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) => {
   const { user } = useUserContext();
   const { studioId } = useParams();
+  const { i18n } = useTranslation();
 
   const { data: studioObj } = useStudio(studioId || '');
   const { data: wishlists = [] } = useWishlists(user?._id || '');
@@ -34,8 +36,15 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const handleItemClick = (item: Item) => {
     openModal(item);
   };
+
   const getStudioServicesDisplayName = (name: string | undefined) => {
-    return name && name.length > 1 ? `${name}'s Services` : 'Studio Services';
+    return i18n.language === 'he'
+      ? name && name.length > 1
+        ? `השירותים של ${name}`
+        : 'שירותי סטודיו'
+      : name && name.length > 1
+        ? `${name}'s Services`
+        : 'Studio Services';
   };
 
   return (

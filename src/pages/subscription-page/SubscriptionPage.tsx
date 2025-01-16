@@ -18,24 +18,31 @@ const SubscriptionPage = () => {
   const plans = [
     {
       id: 'starter',
-      name: t('plans.starter.name'),
+      name: 'Starter',
       price: 79,
       period: t('plans.period'),
       highlight: t('plans.starter.highlight'),
       features: [
         t('plans.starter.features.listing'),
         t('plans.starter.features.booking'),
+        t('plans.starter.features.calendar'),
         t('plans.starter.features.support')
       ],
       paypalPlanId: isProduction ? 'P-0RA498012A876754WM6DXMGI' : 'P-545211905R676864UM6DY3GA'
     },
     {
       id: 'pro',
-      name: t('plans.pro.name'),
+      name: 'Pro',
       price: 149,
       period: t('plans.period'),
       highlight: t('plans.pro.highlight'),
-      features: [t('plans.pro.features.listing'), t('plans.pro.features.booking'), t('plans.pro.features.support')],
+      features: [
+        t('plans.pro.features.listing'),
+        t('plans.pro.features.booking'),
+        t('plans.pro.features.calendar'),
+        t('plans.pro.features.support'),
+        t('plans.pro.features.payment')
+      ],
       paypalPlanId: isProduction ? 'P-5C8252008J501132RM6DXKBY' : 'P-7RT29383GF5387715M6DY4JI'
     }
   ];
@@ -164,12 +171,12 @@ const SubscriptionPage = () => {
       )}
 
       <footer className="benefits">
-        <h3>{t('benefits.title')}</h3>
+        {/* <h3>{t('benefits.title')}</h3> */}
         <div className="benefit-items">
-          <div className="benefit">
+          {/* <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.trial')}
-          </div>
+          </div> */}
           {/* <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.noCard')}

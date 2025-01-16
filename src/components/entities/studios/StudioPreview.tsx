@@ -4,6 +4,7 @@ import { GenericImageGallery } from '@components/index';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@hooks/prefetching/index';
 import { useLanguageNavigate } from '@hooks/utils';
+import { useTranslation } from 'react-i18next';
 
 interface StudioPreviewProps {
   studio?: Studio;
@@ -13,6 +14,11 @@ interface StudioPreviewProps {
 export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive = true }) => {
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
+  const { i18n } = useTranslation();
+
+  const getServicesText = (count: number) => {
+    return i18n.language === 'he' ? `שירותים זמינים: ${count}` : `Services Available: ${count}`;
+  };
 
   return (
     <article
@@ -62,7 +68,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
           </span>
         </div>
 
-        <small>Services Available: {studio?.items.length} </small>
+        <small>{getServicesText(studio?.items.length || 0)}</small>
       </div>
     </article>
   );

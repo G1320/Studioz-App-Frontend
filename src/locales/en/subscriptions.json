@@ -12,7 +12,8 @@
       "highlight": "Perfect for beginners",
       "features": {
         "listing": "1 active listing",
-        "booking": "Booking confirmation and calendar",
+        "booking": "Online booking ",
+        "calendar": "Digital calendar",
         "support": "Standard support"
       }
     },
@@ -21,8 +22,10 @@
       "highlight": "Most Popular",
       "features": {
         "listing": "Unlimited active listings",
-        "booking": "Booking confirmation and calendar",
-        "support": "Priority support"
+        "booking": "Online booking ",
+        "calendar": "Digital calendar",
+        "support": "Priority support",
+        "payment": "Secure payments (Soon!)"
       }
     }
   },
