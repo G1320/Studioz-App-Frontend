@@ -16,8 +16,10 @@
       "buttons": {
         "connect": "חבר חשבון PayPal",
         "connected": "חשבון PayPal מחובר",
+        "createStudio": "רשום את הסטודיו שלך",
         "calendar": "היומן שלי",
-        "createStudio": "רשום את הסטודיו שלך"
+        "subscription": "תוכניות מנוי",
+        "mySubscriptions": "פרטי המנוי שלי"
       }
     },
     "legal": {

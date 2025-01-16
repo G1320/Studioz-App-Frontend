@@ -114,64 +114,69 @@
   }
 }
 
-.seller-onboarding {
-  .section-description {
-    color: #999;
-    margin-bottom: 2rem;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-  }
+// New profile actions styling
+.profile-actions {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
 
-  .seller-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
+  button {
+    height: 60px;
+    padding: 0 2rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    background: #2d2d2d;
+    color: #fff;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    button {
-      padding: 1rem;
-      border-radius: 8px;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      font-weight: 500;
-      height: auto;
-      min-height: 48px;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-      &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    span {
+      position: relative;
+      z-index: 1;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: #0070f3;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+
+      &::before {
+        opacity: 0.1;
       }
     }
-  }
-}
 
-.onboard-button {
-  background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
-  color: white;
-
-  &.onboarding-error {
-    background: linear-gradient(135deg, #ff4d4d 0%, #ff1a1a 100%);
+    &:active {
+      transform: translateY(1px);
+    }
   }
 
-  &.onboarding-success {
-    background: linear-gradient(135deg, #00b300 0%, #008000 100%);
-  }
-}
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
 
-.onboarding-status {
-  margin: 1rem 0;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: clamp(0.9rem, 2vw, 1rem);
-
-  &.error {
-    background: rgba(255, 0, 0, 0.1);
-    border-left: 4px solid #ff0000;
-  }
-
-  &.pending {
-    background: rgba(255, 166, 0, 0.1);
-    border-left: 4px solid #ffa600;
+    button {
+      height: 50px;
+      font-size: 1rem;
+    }
   }
 }
 

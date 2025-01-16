@@ -17,7 +17,9 @@
         "connect": "Connect PayPal Account",
         "connected": "PayPal Account Connected",
         "calendar": "My Calendar",
-        "createStudio": "List your studio"
+        "createStudio": "List your studio",
+        "subscription": "Subscription Plans",
+        "mySubscriptions": "My Subscriptions"
       }
     },
     "legal": {
