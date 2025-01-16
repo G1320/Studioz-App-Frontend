@@ -3,7 +3,7 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, calc(-50% - 1rem));
+    transform: translate(-50%, -50%);
     display: grid;
     padding: 1rem;
     overflow-y: auto;

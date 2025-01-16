@@ -80,11 +80,11 @@
       "title": "Customer Details",
       "name": {
         "label": "Your Name",
-        "placeholder": "Enter your name"
+        "placeholder": "Name"
       },
       "phone": {
         "label": "Phone Number",
-        "placeholder": "Enter your phone number",
+        "placeholder": "Phone number",
         "error": "Please enter your phone number"
       },
       "comment": {

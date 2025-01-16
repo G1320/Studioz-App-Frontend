@@ -22,7 +22,7 @@ export const BookingActions = React.memo(
       return (
         <Button className="add-to-cart-button book-now-button" onClick={onBookNow}>
           {t('buttons.add_to_cart')}
-          <span>{price * quantity}₪</span>
+          <span>({price * quantity}₪)</span>
         </Button>
       );
     }

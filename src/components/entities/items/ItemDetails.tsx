@@ -141,20 +141,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
         onImageClick={handleImageClicked}
       />
 
-      {!currentReservationId && (
-        <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-      )}
-
       {currentReservationId && <ReservationDetails reservationId={currentReservationId} />}
-
-      {showDatePicker && (
-        <MuiDateTimePicker
-          value={selectedDate}
-          onChange={handleDateChange}
-          itemAvailability={item?.availability || []}
-          studioAvailability={studio?.studioAvailability}
-        />
-      )}
+      <div className="date-picker-row">
+        {showDatePicker && (
+          <MuiDateTimePicker
+            value={selectedDate}
+            onChange={handleDateChange}
+            itemAvailability={item?.availability || []}
+            studioAvailability={studio?.studioAvailability}
+          />
+        )}
+        {!currentReservationId && (
+          <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+        )}
+      </div>
 
       {!currentReservationId && (
         <CustomerDetailsForm
@@ -181,7 +181,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
           }}
         />
       )}
-
       <BookingActions
         price={item?.price || 0}
         quantity={selectedQuantity}
