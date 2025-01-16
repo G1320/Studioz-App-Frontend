@@ -77,7 +77,7 @@ export const MuiDateTimePicker = ({
   const shouldDisableTime = (value: Dayjs, view: TimeView) => {
     if (view === 'minutes') return false;
 
-    const dayName = value.format('dddd') as DayOfWeek;
+    const dayName = value.locale('en').format('dddd') as DayOfWeek;
 
     // Get the business hours for the selected day
     const dayIndex = studioAvailability?.days.indexOf(dayName);
