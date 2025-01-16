@@ -68,8 +68,8 @@ export const MuiDateTimePicker = ({
     const isBooked = itemAvailability.some((slot) => dayjs(slot.date).isSame(date, 'day'));
     if (isBooked) return true;
 
-    // Then check if the day is allowed in studio availability
-    const dayName = date.format('dddd') as DayOfWeek;
+    // Get the day name in English for comparison
+    const dayName = date.locale('en').format('dddd') as DayOfWeek;
     const isAllowedDay = studioAvailability?.days.includes(dayName);
     return !isAllowedDay;
   };
