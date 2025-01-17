@@ -82,14 +82,17 @@ const SubscriptionPage = () => {
                 label: 'subscribe'
               },
               createSubscription: async function (_data: any, actions: any) {
+                console.log('actions in createSubscription: ', actions);
                 return actions.subscription.create({
-                  plan_id: selectedPlan.paypalPlanId
-                  // application_context: {
-                  //   shipping_preference: 'GET_FROM_FILE'
-                  // }
+                  plan_id: selectedPlan.paypalPlanId,
+                  application_context: {
+                    shipping_preference: 'GET_FROM_FILE'
+                  }
                 });
               },
               onApprove: async function (data, actions) {
+                console.log('data in onApprove: ', data);
+                console.log('actions in onApprove: ', actions);
                 const subscriptionDetails = await actions.subscription?.get();
 
                 await activateSubscription({
