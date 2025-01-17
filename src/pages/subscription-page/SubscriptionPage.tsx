@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { activateSubscription, createSubscription } from '@services/subscription-service';
 import { sendSubscriptionConfirmation } from '@services/email-service';
 import { useTranslation } from 'react-i18next';
-const isProduction = false;
+const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
 
 const SubscriptionPage = () => {
   const { user, updateSubscription } = useUserContext();
@@ -28,7 +28,7 @@ const SubscriptionPage = () => {
         t('plans.starter.features.calendar'),
         t('plans.starter.features.support')
       ],
-      paypalPlanId: isProduction ? 'P-0RA498012A876754WM6DXMGI' : 'P-545211905R676864UM6DY3GA'
+      paypalPlanId: isProduction ? 'P-118012182Y9607940M6FACVY' : 'P-545211905R676864UM6DY3GA'
     },
     {
       id: 'pro',
@@ -43,7 +43,7 @@ const SubscriptionPage = () => {
         t('plans.pro.features.support'),
         t('plans.pro.features.payment')
       ],
-      paypalPlanId: isProduction ? 'P-5C8252008J501132RM6DXKBY' : 'P-7RT29383GF5387715M6DY4JI'
+      paypalPlanId: isProduction ? 'P-63W27369MJ067153MM6FABZQ' : 'P-7RT29383GF5387715M6DY4JI'
     }
   ];
 
@@ -98,13 +98,13 @@ const SubscriptionPage = () => {
                   subscriptionDetails
                 });
 
-                await sendSubscriptionConfirmation(user?.email as string, {
-                  customerName: user?.name as string,
-                  planName: selectedPlan.name,
-                  planPrice: selectedPlan.price,
-                  subscriptionId: data.subscriptionID as string,
-                  startDate: new Date()
-                });
+                // await sendSubscriptionConfirmation(user?.email as string, {
+                //   customerName: user?.name as string,
+                //   planName: selectedPlan.name,
+                //   planPrice: selectedPlan.price,
+                //   subscriptionId: data.subscriptionID as string,
+                //   startDate: new Date()
+                // });
 
                 updateSubscription(dbSubscription._id, 'ACTIVE');
                 return Promise.resolve();

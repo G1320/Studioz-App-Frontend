@@ -1,7 +1,7 @@
 import { User } from 'src/types/index';
 
-// const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
-const isProduction = false;
+const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
+// const isProduction = false;
 
 const PAYPAL_BASE_URL = isProduction
   ? import.meta.env.VITE_PAYPAL_LIVE_BASE_URL
