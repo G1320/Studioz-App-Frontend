@@ -83,10 +83,10 @@ const SubscriptionPage = () => {
               },
               createSubscription: async function (_data: any, actions: any) {
                 return actions.subscription.create({
-                  plan_id: selectedPlan.paypalPlanId,
-                  application_context: {
-                    shipping_preference: 'GET_FROM_FILE'
-                  }
+                  plan_id: selectedPlan.paypalPlanId
+                  // application_context: {
+                  //   shipping_preference: 'GET_FROM_FILE'
+                  // }
                 });
               },
               onApprove: async function (data, actions) {
