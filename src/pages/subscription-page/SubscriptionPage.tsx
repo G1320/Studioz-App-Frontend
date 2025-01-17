@@ -4,7 +4,7 @@ import { PAYPAL_CLIENT_ID } from '@config/paypal/paypalConfig';
 import { useUserContext } from '@contexts/UserContext';
 import { toast } from 'sonner';
 import { activateSubscription, createSubscription } from '@services/subscription-service';
-import { sendSubscriptionConfirmation } from '@services/email-service';
+// import { sendSubscriptionConfirmation } from '@services/email-service';
 import { useTranslation } from 'react-i18next';
 const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
 
@@ -173,10 +173,10 @@ const SubscriptionPage = () => {
       <footer className="benefits">
         {/* <h3>{t('benefits.title')}</h3> */}
         <div className="benefit-items">
-          {/* <div className="benefit">
+          <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.trial')}
-          </div> */}
+          </div>
           {/* <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.noCard')}
