@@ -28,7 +28,7 @@ const SubscriptionPage = () => {
         t('plans.starter.features.calendar'),
         t('plans.starter.features.support')
       ],
-      paypalPlanId: isProduction ? 'P-118012182Y9607940M6FACVY' : 'P-545211905R676864UM6DY3GA'
+      paypalPlanId: isProduction ? 'P-0RA498012A876754WM6DXMGI' : 'P-545211905R676864UM6DY3GA'
     },
     {
       id: 'pro',
