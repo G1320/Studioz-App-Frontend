@@ -6,6 +6,7 @@ import { GenericCarousel, GenericList } from '@components/common';
 import { StudioPreview } from '@components/entities';
 import { useStudioReservations } from '@hooks/dataFetching/useStudioReservations';
 import ReservationCalendar from '@components/calender/ReservationCalendar';
+import { Link } from 'react-router-dom';
 
 interface StudioCalendarPageProps {
   studios: Studio[];
@@ -38,6 +39,14 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios }) => {
     setSelectedStudio(studio);
     localStorage.setItem('selectedCalendarStudioId', studio._id);
   };
+
+  if (!studios.length) {
+    return (
+      <div>
+        <Link to={'/create-studio'}>No studios yet, click here to add your first studio</Link>
+      </div>
+    );
+  }
 
   const renderItem = (studio: Studio) => (
     <div onClick={() => handleStudioSelect(studio)}>

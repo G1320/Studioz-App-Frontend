@@ -8,7 +8,7 @@ import { activateSubscription, createSubscription } from '@services/subscription
 import { useTranslation } from 'react-i18next';
 const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
 
-const SubscriptionPage = () => {
+const PaypalSubscriptionPage = () => {
   const { user, updateSubscription } = useUserContext();
   const { t } = useTranslation('subscriptions');
 
@@ -194,4 +194,4 @@ const SubscriptionPage = () => {
   );
 };
 
-export default SubscriptionPage;
+export default PaypalSubscriptionPage;

@@ -19,7 +19,8 @@ import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import Cart from 'src/types/cart';
 import User from 'src/types/user';
-import SubscriptionPage from '@pages/subscription-page/SubscriptionPage';
+import PaypalSubscriptionPage from '@pages/subscription-page/PaypalSubscriptionPage';
+import SumitSubscriptionPage from '@pages/subscription-page/SumitSubscriptionPage';
 import MySubscriptionPage from '@pages/subscription-page/MySubscriptionPage';
 
 const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
@@ -221,10 +222,18 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             }
           />
           <Route
-            path="/:lang?/subscription"
+            path="/:lang?/subscription/paypal"
             element={
               <AnimatedRoute>
-                <SubscriptionPage />
+                <PaypalSubscriptionPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/subscription/sumit"
+            element={
+              <AnimatedRoute>
+                <SumitSubscriptionPage />
               </AnimatedRoute>
             }
           />

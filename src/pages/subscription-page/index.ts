@@ -1,1 +1,1 @@
-export * from './SubscriptionPage';
+export * from './PaypalSubscriptionPage';

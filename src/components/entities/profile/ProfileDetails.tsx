@@ -27,7 +27,9 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
       <div className="profile-body">
         <div className="profile-section">
           <div className="profile-actions">
-            <button onClick={() => handleNavigate('/calendar')}>{t('profile.sellerAccount.buttons.calendar')}</button>
+            {(user?.studios?.length as number) > 0 && (
+              <button onClick={() => handleNavigate('/calendar')}>{t('profile.sellerAccount.buttons.calendar')}</button>
+            )}
             {user?.subscriptionStatus === 'ACTIVE' && (
               <button onClick={() => handleNavigate('/my-subscription')}>
                 {t('profile.sellerAccount.buttons.mySubscriptions')}
