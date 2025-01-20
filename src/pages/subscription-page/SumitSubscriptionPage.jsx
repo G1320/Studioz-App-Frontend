@@ -1,16 +1,29 @@
-import { sumitService } from '@services/sumit-service';
+import { useUserContext } from '@contexts/UserContext';
 import { useEffect, useState } from 'react';
+import { sumitService } from '@services/sumit-service';
+import { createSubscription, activateSubscription } from '@services/subscription-service';
 
 const SumitSubscriptionPage = () => {
   const [error, setError] = useState('');
+  const { user } = useUserContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
 
     try {
-      const formData = new FormData();
+      // 1. Create pending subscription
+      try {
+        const pendingSubscription = await createSubscription({
+          userId: user?._id,
+          planId: 'starter'
+        });
+      } catch (error) {
+        throw new Error('Failed to create subscription: ' + error.message);
+      }
 
-      // Append form fields matching the cURL example exactly
+      // 2. Get token from Sumit
+      const formData = new FormData();
       formData.append('CardNumber', e.target.CreditCardNumber.value);
       formData.append('ExpirationMonth', e.target.ExpMonth.value);
       formData.append('ExpirationYear', e.target.ExpYear.value);
@@ -20,7 +33,7 @@ const SumitSubscriptionPage = () => {
       formData.append('Credentials.APIPublicKey', import.meta.env.VITE_SUMIT_PUBLIC_API_KEY);
       formData.append('ResponseLanguage', 'he');
 
-      const response = await fetch('https://api.sumit.co.il/creditguy/vault/tokenizesingleuse', {
+      const tokenResponse = await fetch('https://api.sumit.co.il/creditguy/vault/tokenizesingleuse', {
         method: 'POST',
         headers: {
           accept: 'text/plain'
@@ -28,32 +41,50 @@ const SumitSubscriptionPage = () => {
         body: formData
       });
 
-      const data = await response.json();
+      const tokenData = await tokenResponse.json();
 
-      if (!response.ok) {
-        throw new Error(data.UserErrorMessage || data.TechnicalErrorDetails || 'Failed to process payment');
+      if (!tokenResponse.ok || tokenData.Status !== 0) {
+        throw new Error(tokenData.UserErrorMessage || tokenData.TechnicalErrorDetails || 'Failed to get payment token');
       }
 
-      console.log('Payment success:', data);
+      // 3. Process payment with Sumit
+      const subscriptionPaymentResponse = await sumitService.createSubscriptionPayment(
+        tokenData.Data?.SingleUseToken,
+        {
+          costumerName: user?.name,
+          costumerEmail: user?.email
+        },
+        {
+          name: 'Monthly Subscription',
+          amount: 79,
+          description: 'Monthly subscription plan',
+          durationMonths: 1,
+          recurrence: 12
+        }
+      );
 
-      if (data.Data?.Token) {
-        console.log('Token received:', data.Data.Token);
+      if (!subscriptionPaymentResponse.success) {
+        throw new Error(subscriptionPaymentResponse.error || 'Payment processing failed');
       }
 
-      if (data.Status === 0) {
-        const token = data.Data?.SingleUseToken;
-        const paymentResponse = await sumitService.processCreditCardPayment(token, 100, 'test');
-        // Save the token or proceed with your logic
-      } else {
-        console.error('Error:', data.UserErrorMessage || data.TechnicalErrorDetails);
-        setError(data.UserErrorMessage || data.TechnicalErrorDetails || 'Payment processing failed');
+      // 4. Activate subscription
+      try {
+        await activateSubscription({
+          subscriptionId: pendingSubscription.data._id,
+          subscriptionDetails: subscriptionPaymentResponse.data
+        });
+
+        // Success! You can redirect or show success message here
+        console.log('Subscription activated successfully');
+      } catch (error) {
+        throw new Error('Failed to activate subscription: ' + error.message);
       }
     } catch (error) {
-      console.error('Payment error:', error);
-      setError(error.message || 'Failed to process payment');
+      console.error('Subscription process error:', error);
+      setError(error.message || 'Failed to complete subscription process');
+    } finally {
+      setLoading(false);
     }
-
-    return false;
   };
 
   return (

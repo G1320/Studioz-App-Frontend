@@ -3,12 +3,13 @@ import { httpService } from './http-service';
 const SUMIT_ENDPOINT = '/sumit';
 
 export const sumitService = {
-  processCreditCardPayment: async (singleUseToken: string, amount: number, description: string) => {
+  processCreditCardPayment: async (singleUseToken: string, amount: number, description: string, costumerInfo: any) => {
     try {
       return await httpService.post(`${SUMIT_ENDPOINT}/process-payment`, {
         singleUseToken,
         amount,
-        description
+        description,
+        costumerInfo
       });
     } catch (error) {
       console.error('Error processing Sumit payment:', error);
@@ -16,11 +17,22 @@ export const sumitService = {
     }
   },
 
-  createSubscription: async (singleUseToken: string, planDetails: any) => {
+  createSubscriptionPayment: async (
+    singleUseToken: string,
+    costumerInfo: any,
+    planDetails: {
+      name: string;
+      amount: number;
+      description: string;
+      durationMonths?: number;
+      recurrence?: number;
+    }
+  ) => {
     try {
       return await httpService.post(`${SUMIT_ENDPOINT}/create-subscription`, {
         singleUseToken,
-        ...planDetails
+        costumerInfo,
+        planDetails
       });
     } catch (error) {
       console.error('Error creating Sumit subscription:', error);
