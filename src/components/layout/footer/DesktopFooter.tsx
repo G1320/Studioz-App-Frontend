@@ -1,22 +1,22 @@
 import { useLanguageNavigate } from '@hooks/utils';
 import EmailIcon from '@mui/icons-material/Email';
+import { useTranslation } from 'react-i18next';
 export const DesktopFooter = () => {
   const langNavigate = useLanguageNavigate();
+  const { t } = useTranslation('common');
 
   return (
     <footer className="desktop-footer">
       <div className="footer-content">
         <div className="footer-section">
           <div className="links">
-            <a onClick={() => langNavigate('/privacy')}>Privacy Policy</a>
+            <a onClick={() => langNavigate('/privacy')}>{t('footer.privacy')}</a>
             <span className="divider">•</span>
-            <a onClick={() => langNavigate('/terms')}>Terms & Conditions</a>
+            <a onClick={() => langNavigate('/terms')}>{t('footer.terms')}</a>
           </div>
         </div>
         <div className="footer-section">
-          <p className="footer-impact-statement">
-            Studioz.co.il - Your one-stop shop for creative tools and inspiration.
-          </p>
+          <p className="footer-impact-statement">{t('footer.impact')}</p>
         </div>
         <div className="footer-section">
           <div className="contact-info">
@@ -26,7 +26,11 @@ export const DesktopFooter = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Studioz. All rights reserved.</p>
+        <p>
+          {t('footer.copyright', {
+            year: new Date().getFullYear()
+          })}
+        </p>
       </div>
     </footer>
   );

@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchStudiosAndItemsMutation, useDebounce, useLanguageNavigate } from '@hooks/index';
 import SearchIcon from '@mui/icons-material/Search';
+import { useTranslation } from 'react-i18next';
 
 const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
   const langNavigate = useLanguageNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation('common');
 
   const { mutate: searchStudiosAndItems } = useSearchStudiosAndItemsMutation();
 
@@ -47,7 +49,7 @@ const SearchInput = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Search studios and services..."
+        placeholder={t('search.placeholder')}
         className="search-input"
         aria-label="Search Studios and Services"
       />

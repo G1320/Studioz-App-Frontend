@@ -45,6 +45,16 @@
     "out_of_stock": "Out of Stock",
     "availability": "Availability"
   },
+  "search": {
+    "placeholder": "חפש אולפנים ושירותים"
+  },
+  "footer": {
+    "impact": "Studioz.co.il - הכתובת שלך ליצירה וקריאיטיב.",
+    "about": "אודות",
+    "contact": "צור קשר",
+    "terms": "תקנון",
+    "privacy": "הסכם פרטיות"
+  },
   "errors": {
     "required": "שדה זה נדרש",
     "invalid": "קלט לא תקין",

@@ -45,6 +45,16 @@
     "out_of_stock": "Out of Stock",
     "availability": "Availability"
   },
+  "search": {
+    "placeholder": "Search studios and services"
+  },
+  "footer": {
+    "impact": "Studioz.co.il - Your one-stop shop for creative tools and inspiration.",
+    "about": "About",
+    "contact": "Contact",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  },
   "errors": {
     "required": "This field is required",
     "invalid": "Invalid input",
