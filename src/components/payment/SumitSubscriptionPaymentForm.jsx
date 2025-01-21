@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react';
 import { sumitService } from '@services/sumit-service';
 import { createSubscription, activateSubscription } from '@services/subscription-service';
 import { useTranslation } from 'react-i18next';
+import { useLanguageNavigate } from '@hooks/utils';
 
 const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
-  const { user } = useUserContext();
+  const { user, updateSubscription } = useUserContext();
+  const { langNavigate } = useLanguageNavigate();
+
   const { t } = useTranslation('forms');
 
   const createPendingSubscription = async () => {
@@ -69,7 +72,7 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
 
   const activateSubscriptionWithPayment = async (subscriptionId, paymentDetails) => {
     try {
-      await activateSubscription({
+      return await activateSubscription({
         subscriptionId,
         sumitPaymentResponse: paymentDetails
       });
@@ -109,10 +112,11 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
         throw new Error('Invalid payment response');
       }
       // 4. Activate subscription
-      await activateSubscriptionWithPayment(pendingSubscription._id, paymentResponse.data);
+      const activeSubscription = await activateSubscriptionWithPayment(pendingSubscription._id, paymentResponse.data);
+      updateSubscription(activeSubscription._id, 'ACTIVE');
 
       console.log('Subscription activated successfully');
-      // Handle success (redirect, show message, etc.)
+      langNavigate('/profile');
     } catch (error) {
       console.error('Subscription process error:', error);
       setError(error.message || 'Failed to complete subscription process');

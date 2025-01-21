@@ -44,7 +44,7 @@ export const MobileFooter = () => {
           to={`/${currLang}/studios`}
           className="footer-icon-link"
           aria-label={t('navigation.studios')}
-          aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
+          aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
         >
           <div className="footer-link-content">
             <BusinessIcon aria-hidden="true" />

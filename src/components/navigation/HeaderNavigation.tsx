@@ -29,18 +29,6 @@ export function HeaderNavigation() {
   return (
     <nav className="navbar">
       <Link
-        to={`/${currLang}/wishlists`}
-        className="navbar-link"
-        aria-label={t('navigation.wishlists')}
-        aria-current={isCurrentPage(`/${currLang}/wishlists`) ? 'page' : undefined}
-        onClick={(e) => {
-          e.preventDefault();
-          handleNavigate('/wishlists');
-        }}
-      >
-        {t('navigation.wishlists')}
-      </Link>
-      <Link
         to={`/${currLang}/services/music`}
         className="navbar-link"
         aria-label={t('navigation.services')}
@@ -56,6 +44,18 @@ export function HeaderNavigation() {
         aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
       >
         {t('navigation.studios')}
+      </Link>
+      <Link
+        to={`/${currLang}/wishlists`}
+        className="navbar-link"
+        aria-label={t('navigation.wishlists')}
+        aria-current={isCurrentPage(`/${currLang}/wishlists`) ? 'page' : undefined}
+        onClick={(e) => {
+          e.preventDefault();
+          handleNavigate('/wishlists');
+        }}
+      >
+        {t('navigation.wishlists')}
       </Link>
     </nav>
   );

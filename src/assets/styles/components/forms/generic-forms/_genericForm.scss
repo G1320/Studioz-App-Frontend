@@ -139,25 +139,6 @@
     }
   }
 
-  // .form-group:nth-of-type(5) {
-  //   .checkbox-group {
-  //     display: flex;
-  //     flex-wrap: wrap;
-  //     justify-content: flex-start;
-  //   }
-  // }
-
-  // .form-group:nth-of-type(6),
-  // .form-group:nth-of-type(7) {
-  //   display: flex;
-  //   white-space: nowrap;
-  //   gap: 0.5rem;
-  //   width: 50%;
-  //   grid-row: 6;
-  //   grid-column: span 1;
-  //   justify-self: start;
-  // }
-
   .multiselect-option {
     .multiselect-checkbox {
       display: flex;
@@ -323,11 +304,6 @@
 
 @media screen and (max-width: 768px) {
   .generic-form {
-    .form-group:nth-of-type(6),
-    .form-group:nth-of-type(7) {
-      display: grid;
-      justify-self: center;
-    }
     .form-actions {
       margin-inline-end: 1rem;
     }
