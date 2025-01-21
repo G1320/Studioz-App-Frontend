@@ -46,6 +46,15 @@ export const SubscriptionDetails = () => {
     );
   }
 
+  const getNextBillingDate = () => {
+    if (!subscription?.sumitPaymentDetails?.Payment?.Date) return null;
+    const nextBillingDate = new Date(subscription.sumitPaymentDetails.Payment.Date);
+    nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
+    return nextBillingDate;
+  };
+
+  const nextBillingDate = getNextBillingDate();
+
   return (
     <div className="subscription-details">
       <div className="subscription-header">
@@ -70,17 +79,32 @@ export const SubscriptionDetails = () => {
           </div>
         )}
 
-        {paypalDetails?.billing_info?.next_billing_time && (
+        {nextBillingDate && subscription?.status === 'ACTIVE' && (
           <div className="info-item">
             <p className="label">{t('subscriptionDetails.info.nextBilling.label')}</p>
-            <p className="value">{new Date(paypalDetails.billing_info.next_billing_time).toLocaleDateString()}</p>
+            <p className="value">{nextBillingDate.toLocaleDateString()}</p>
           </div>
         )}
 
         <div className="info-item">
           <p className="label">{t('subscriptionDetails.info.price.label')}</p>
-          <p className="value">{t('subscriptionDetails.info.price.value', { amount: isPro ? '150' : '75' })}</p>
+          <p className="value">
+            {t('subscriptionDetails.info.price.value', {
+              amount: subscription?.sumitPaymentDetails?.Payment?.Amount || (isPro ? '149' : '79')
+            })}
+          </p>
         </div>
+
+        {/* {subscription?.sumitPaymentDetails?.Payment.PaymentMethod.CreditCard_LastDigits && (
+          <div className="info-item">
+            <p className="label">{t('subscriptionDetails.info.paymentMethod.label')}</p>
+            <p className="value">
+              {t('subscriptionDetails.info.paymentMethod.card', {
+                lastDigits: subscription.sumitPaymentDetails.Payment.PaymentMethod.CreditCard_LastDigits
+              })}
+            </p>
+          </div>
+        )} */}
       </div>
 
       <div className="subscription-actions">

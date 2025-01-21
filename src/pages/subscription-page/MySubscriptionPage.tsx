@@ -1,11 +1,11 @@
-// import { SubscriptionDetails } from '@components/subscriptions';
+import { SubscriptionDetails } from '@components/subscriptions';
 
-// const MySubscriptionPage = () => {
-//   return (
-//     <div>
-//       <SubscriptionDetails />
-//     </div>
-//   );
-// };
+const MySubscriptionPage = () => {
+  return (
+    <div>
+      <SubscriptionDetails />
+    </div>
+  );
+};
 
-// export default MySubscriptionPage;
+export default MySubscriptionPage;

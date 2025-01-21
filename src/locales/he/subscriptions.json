@@ -79,9 +79,9 @@
       }
     },
     "actions": {
-      "managePlan": "ניהול תוכנית",
-      "upgradePlan": "שדרוג תוכנית",
-      "cancelPlan": "ביטול תוכנית"
+      "managePlan": "ניהול מנויים",
+      "upgradePlan": "שדרוג מנוי",
+      "cancelPlan": "ביטול מנוי"
     },
     "cancellation": {
       "confirmMessage": "האם אתה בטוח שברצונך לבטל את המנוי שלך? לא ניתן לבטל פעולה זו.",

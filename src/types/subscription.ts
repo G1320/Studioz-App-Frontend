@@ -1,19 +1,27 @@
 export interface SumitPaymentMethod {
   ID: string;
-  CustomerID: string;
+  CustomerID: string | null;
+  CreditCard_Number: string | null;
   CreditCard_LastDigits: string;
   CreditCard_ExpirationMonth: number;
   CreditCard_ExpirationYear: number;
+  CreditCard_CVV: string | null;
+  CreditCard_Track2: string | null;
   CreditCard_CitizenID: string;
   CreditCard_CardMask: string;
   CreditCard_Token: string;
+  DirectDebit_Bank: string | null;
+  DirectDebit_Branch: string | null;
+  DirectDebit_Account: string | null;
+  DirectDebit_ExpirationDate: string | null;
+  DirectDebit_MaximumAmount: string | null;
   Type: number;
 }
 
-export interface SumitPaymentDetails {
+export interface SumitPayment {
   ID: string;
   CustomerID: string;
-  Date: Date;
+  Date: string;
   ValidPayment: boolean;
   Status: string;
   StatusDescription: string;
@@ -21,8 +29,16 @@ export interface SumitPaymentDetails {
   Currency: number;
   PaymentMethod: SumitPaymentMethod;
   AuthNumber: string;
-  FirstPaymentAmount: number;
-  NonFirstPaymentAmount: number;
+  FirstPaymentAmount: number | null;
+  NonFirstPaymentAmount: number | null;
+  RecurringCustomerItemIDs: string[];
+}
+
+export interface SumitPaymentDetails {
+  Payment: SumitPayment;
+  DocumentID: string;
+  CustomerID: string;
+  DocumentDownloadURL: string;
   RecurringCustomerItemIDs: string[];
 }
 
