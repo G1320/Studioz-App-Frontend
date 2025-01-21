@@ -137,7 +137,8 @@
         "processing": "מעבד..."
       },
       "footer": {
-        "text": "מאובטח על ידי Sumit"
+        "secured": "מאובטח על ידי",
+        "solutions": "פתרונות תשלום"
       },
       "errors": {
         "invalidCard": "מספר כרטיס לא תקין",

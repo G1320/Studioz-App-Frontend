@@ -137,7 +137,8 @@
         "processing": "Processing..."
       },
       "footer": {
-        "text": "Secured by Sumit Payment Solutions"
+        "secured": "Secured by",
+        "solutions": "Payment Solutions"
       },
       "errors": {
         "invalidCard": "Invalid card number",

@@ -144,6 +144,15 @@ $white: #ffffff;
     text-align: center;
     font-size: 0.8rem;
     color: $secondary-text;
+    a {
+      color: #4a90e2;
+      text-decoration: none;
+      margin: 0 4px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
 
     img {
       max-height: 24px;

@@ -203,10 +203,20 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
         </div>
       </form>
 
-      {/* <div className="sumit-payment-form__footer">
-        <p>Secured by Sumit Payment Solutions</p> */}
-      {/* Add secure payment icons if needed */}
-      {/* </div> */}
+      <div className="sumit-payment-form__footer">
+        <p>
+          {t('form.payment.footer.secured')}
+          <a
+            href="https://sumit.co.il"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sumit-payment-form__footer-link"
+          >
+            Sumit.co.il
+          </a>
+          {t('form.payment.footer.solutions')}
+        </p>
+      </div>
     </div>
   );
 };
