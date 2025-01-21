@@ -20,6 +20,7 @@ const PaypalSubscriptionPage = () => {
         t('plans.starter.features.listing'),
         t('plans.starter.features.booking'),
         t('plans.starter.features.calendar'),
+        t('plans.starter.features.cancel'),
         t('plans.starter.features.support')
       ]
     },
@@ -34,6 +35,7 @@ const PaypalSubscriptionPage = () => {
         t('plans.pro.features.listing'),
         t('plans.pro.features.booking'),
         t('plans.pro.features.calendar'),
+        t('plans.pro.features.cancel'),
         t('plans.pro.features.support'),
         t('plans.pro.features.payment')
       ]
@@ -94,10 +96,10 @@ const PaypalSubscriptionPage = () => {
             {t('benefits.trial')}
           </div> */}
 
-          <div className="benefit">
+          {/* <div className="benefit">
             <span className="check-icon">✓</span>
             {t('benefits.cancel')}
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>

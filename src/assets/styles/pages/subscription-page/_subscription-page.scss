@@ -57,7 +57,7 @@ $transition-speed: 0.3s;
 
   .plan-card {
     display: grid;
-
+    grid-template-rows: 0.25fr 0.25fr 0.5fr;
     position: relative;
     background: white;
     border-radius: $border-radius;

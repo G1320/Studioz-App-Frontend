@@ -14,7 +14,8 @@
         "listing": "1 active listing",
         "booking": "Online booking ",
         "calendar": "Digital calendar",
-        "support": "Standard support"
+        "support": "Standard support",
+        "cancel": "Cancel anytime"
       }
     },
     "pro": {
@@ -25,7 +26,8 @@
         "booking": "Online booking ",
         "calendar": "Digital calendar",
         "support": "Priority support",
-        "payment": "Secure payments (Soon!)"
+        "payment": "Secure payments (Soon!)",
+        "cancel": "Cancel anytime"
       }
     }
   },
