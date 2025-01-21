@@ -19,7 +19,6 @@ import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import Cart from 'src/types/cart';
 import User from 'src/types/user';
-import PaypalSubscriptionPage from '@pages/subscription-page/PaypalSubscriptionPage';
 import SumitSubscriptionPage from '@pages/subscription-page/SumitSubscriptionPage';
 // import MySubscriptionPage from '@pages/subscription-page/MySubscriptionPage';
 
@@ -221,16 +220,9 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
+
           <Route
-            path="/:lang?/subscription/paypal"
-            element={
-              <AnimatedRoute>
-                <PaypalSubscriptionPage />
-              </AnimatedRoute>
-            }
-          />
-          <Route
-            path="/:lang?/subscription/sumit"
+            path="/:lang?/subscription"
             element={
               <AnimatedRoute>
                 <SumitSubscriptionPage />

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { sumitService } from '@services/sumit-service';
 import { createSubscription, activateSubscription } from '@services/subscription-service';
 
-const SumitSubscriptionPage = () => {
+const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
   const { user } = useUserContext();
 
@@ -11,10 +11,9 @@ const SumitSubscriptionPage = () => {
     try {
       const subscription = await createSubscription({
         userId: user?._id,
-        planId: 'starter'
+        planId: plan.planId
       });
 
-      console.log('subscription: ', subscription);
       if (!subscription?._id) {
         throw new Error('Invalid subscription response');
       }
@@ -51,15 +50,13 @@ const SumitSubscriptionPage = () => {
         costumerEmail: user?.email
       },
       {
-        name: 'Monthly Subscription',
-        amount: 5,
+        name: `Monthly ${plan.name} Subscription`,
+        amount: plan.price,
         description: 'Monthly subscription plan',
         durationMonths: 1,
         recurrence: 12
       }
     );
-
-    console.log('Payment response:', paymentResponse);
 
     if (!paymentResponse?.success) {
       throw new Error(paymentResponse?.error || 'Payment processing failed');
@@ -119,21 +116,26 @@ const SumitSubscriptionPage = () => {
       setError(error.message || 'Failed to complete subscription process');
     }
   };
-
   return (
-    <div>
-      {error && <div>{error}</div>}
-      <form data-og="form" id="payment-form" onSubmit={handleSubmit}>
-        <div>
+    <div className="sumit-payment-form">
+      <div className="sumit-payment-form__header">
+        <h2>Secure Payment</h2>
+        <p>Enter your payment details below</p>
+      </div>
+
+      {error && <div className="sumit-payment-form__error">{error}</div>}
+
+      <form className="sumit-payment-form__form" onSubmit={handleSubmit}>
+        <div className="sumit-payment-form__field sumit-payment-form__field--card-number">
           <label>Card Number</label>
-          <input type="text" name="CreditCardNumber" data-og="cardnumber" required />
+          <input type="text" name="CreditCardNumber" data-og="cardnumber" required placeholder="XXXX XXXX XXXX XXXX" />
         </div>
 
-        <div>
-          <div>
+        <div className="sumit-payment-form__date-cvv">
+          <div className="sumit-payment-form__field">
             <label>Month</label>
             <select name="ExpMonth" data-og="expirationmonth" required>
-              <option value="">Month</option>
+              <option value="">MM</option>
               {[...Array(12)].map((_, i) => {
                 const month = (i + 1).toString().padStart(2, '0');
                 return (
@@ -144,10 +146,11 @@ const SumitSubscriptionPage = () => {
               })}
             </select>
           </div>
-          <div>
+
+          <div className="sumit-payment-form__field">
             <label>Year</label>
             <select name="ExpYear" data-og="expirationyear" required>
-              <option value="">Year</option>
+              <option value="">YYYY</option>
               {[...Array(10)].map((_, i) => {
                 const year = (new Date().getFullYear() + i).toString();
                 return (
@@ -158,22 +161,36 @@ const SumitSubscriptionPage = () => {
               })}
             </select>
           </div>
+
+          <div className="sumit-payment-form__field">
+            <label>CVV</label>
+            <input type="text" name="CVV" data-og="cvv" maxLength="4" required placeholder="XXX" />
+          </div>
         </div>
 
-        <div>
-          <label>CVV</label>
-          <input type="text" name="CVV" data-og="cvv" maxLength="4" required />
-        </div>
-
-        <div>
+        <div className="sumit-payment-form__field">
           <label>ID Number</label>
-          <input type="text" name="CardHolderId" data-og="citizenid" maxLength="9" required />
+          <input
+            type="text"
+            name="CardHolderId"
+            data-og="citizenid"
+            maxLength="9"
+            required
+            placeholder="Enter ID number"
+          />
         </div>
 
-        <button type="submit">Submit Payment</button>
+        <div className="sumit-payment-form__submit">
+          <button type="submit">{`Pay ${plan.price} ₪`}</button>
+        </div>
       </form>
+
+      {/* <div className="sumit-payment-form__footer">
+        <p>Secured by Sumit Payment Solutions</p> */}
+      {/* Add secure payment icons if needed */}
+      {/* </div> */}
     </div>
   );
 };
 
-export default SumitSubscriptionPage;
+export default SumitSubscriptionPaymentForm;
