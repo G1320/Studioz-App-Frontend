@@ -21,7 +21,7 @@ import Cart from 'src/types/cart';
 import User from 'src/types/user';
 import PaypalSubscriptionPage from '@pages/subscription-page/PaypalSubscriptionPage';
 import SumitSubscriptionPage from '@pages/subscription-page/SumitSubscriptionPage';
-import MySubscriptionPage from '@pages/subscription-page/MySubscriptionPage';
+// import MySubscriptionPage from '@pages/subscription-page/MySubscriptionPage';
 
 const PrivacyPolicyPage = lazy(() => import('@pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@pages/compliance-pages/TermAndConditionsPage'));
@@ -237,14 +237,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/:lang?/my-subscription"
             element={
               <AnimatedRoute>
                 <MySubscriptionPage />
               </AnimatedRoute>
             }
-          />
+          /> */}
           <Route
             path="/:lang?/calendar"
             element={

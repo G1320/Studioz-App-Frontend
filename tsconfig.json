@@ -40,7 +40,7 @@
     "src/components/common/checkout/PaypalCheckout.tsx",
     "src/components/common/checkout/Checkout.jsx",
     "src/components/common/vendorOnboarding/VendorRegistration.js",
-    "src/pages/subscription-page/SumitSubscriptionPage.tsx"
+    "src/pages/subscription-page/SumitSubscriptionPage.jsx"
   ],
   "exclude": ["node_modules", "dist"]
 }

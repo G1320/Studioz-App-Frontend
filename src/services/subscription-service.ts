@@ -8,12 +8,13 @@ interface SubscriptionCreateParams {
 
 interface SubscriptionActivateParams {
   subscriptionId: string;
-  subscriptionDetails: any;
+  sumitPaymentResponse: any;
 }
 
 const subscriptionEndpoint = '/subscriptions';
 
 export const createSubscription = async (params: SubscriptionCreateParams) => {
+  console.log('Activating subscription with params: ', params);
   try {
     return await httpService.post(`${subscriptionEndpoint}/create`, params);
   } catch (error) {
