@@ -2,10 +2,12 @@ import { useUserContext } from '@contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { sumitService } from '@services/sumit-service';
 import { createSubscription, activateSubscription } from '@services/subscription-service';
+import { useTranslation } from 'react-i18next';
 
 const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
   const { user } = useUserContext();
+  const { t } = useTranslation('forms');
 
   const createPendingSubscription = async () => {
     try {
@@ -119,23 +121,29 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
   return (
     <div className="sumit-payment-form">
       <div className="sumit-payment-form__header">
-        <h2>Secure Payment</h2>
-        <p>Enter your payment details below</p>
+        <h2>{t('form.payment.header.title')}</h2>
+        <p>{t('form.payment.header.subtitle')}</p>
       </div>
 
       {error && <div className="sumit-payment-form__error">{error}</div>}
 
       <form className="sumit-payment-form__form" onSubmit={handleSubmit}>
         <div className="sumit-payment-form__field sumit-payment-form__field--card-number">
-          <label>Card Number</label>
-          <input type="text" name="CreditCardNumber" data-og="cardnumber" required placeholder="XXXX XXXX XXXX XXXX" />
+          <label>{t('form.payment.cardNumber.label')}</label>
+          <input
+            type="text"
+            name="CreditCardNumber"
+            data-og="cardnumber"
+            required
+            placeholder={t('form.payment.cardNumber.placeholder')}
+          />
         </div>
 
         <div className="sumit-payment-form__date-cvv">
           <div className="sumit-payment-form__field">
-            <label>Month</label>
+            <label>{t('form.payment.expiration.month.label')}</label>
             <select name="ExpMonth" data-og="expirationmonth" required>
-              <option value="">MM</option>
+              <option value="">{t('form.payment.expiration.month.placeholder')}</option>
               {[...Array(12)].map((_, i) => {
                 const month = (i + 1).toString().padStart(2, '0');
                 return (
@@ -148,9 +156,9 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
           </div>
 
           <div className="sumit-payment-form__field">
-            <label>Year</label>
+            <label>{t('form.payment.expiration.year.label')}</label>
             <select name="ExpYear" data-og="expirationyear" required>
-              <option value="">YYYY</option>
+              <option value="">{t('form.payment.expiration.year.placeholder')}</option>
               {[...Array(10)].map((_, i) => {
                 const year = (new Date().getFullYear() + i).toString();
                 return (
@@ -163,25 +171,35 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
           </div>
 
           <div className="sumit-payment-form__field">
-            <label>CVV</label>
-            <input type="text" name="CVV" data-og="cvv" maxLength="4" required placeholder="XXX" />
+            <label>{t('form.payment.cvv.label')}</label>
+            <input
+              type="text"
+              name="CVV"
+              data-og="cvv"
+              maxLength="4"
+              required
+              placeholder={t('form.payment.cvv.placeholder')}
+            />
           </div>
         </div>
 
         <div className="sumit-payment-form__field">
-          <label>ID Number</label>
+          <label>{t('form.payment.idNumber.label')}</label>
           <input
             type="text"
             name="CardHolderId"
             data-og="citizenid"
             maxLength="9"
             required
-            placeholder="Enter ID number"
+            placeholder={t('form.payment.idNumber.placeholder')}
           />
         </div>
 
         <div className="sumit-payment-form__submit">
-          <button type="submit">{`Pay ${plan.price} ₪`}</button>
+          <button type="submit">
+            {t('form.payment.submit.text')}
+            {plan.price}₪
+          </button>
         </div>
       </form>
 

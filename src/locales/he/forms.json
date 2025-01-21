@@ -104,6 +104,48 @@
         "placeholder": "הכנס קוד אימות",
         "error": "אנא הכנס את קוד האימות"
       }
+    },
+    "payment": {
+      "header": {
+        "title": "תשלום מאובטח",
+        "subtitle": "הזן את פרטי התשלום שלך"
+      },
+      "cardNumber": {
+        "label": "מספר כרטיס",
+        "placeholder": "XXXX XXXX XXXX XXXX"
+      },
+      "expiration": {
+        "month": {
+          "label": "חודש",
+          "placeholder": "חודש"
+        },
+        "year": {
+          "label": "שנה",
+          "placeholder": "שנה"
+        }
+      },
+      "cvv": {
+        "label": "קוד אבטחה",
+        "placeholder": "XXX"
+      },
+      "idNumber": {
+        "label": "תעודת זהות",
+        "placeholder": "הכנס מספר תעודת זהות"
+      },
+      "submit": {
+        "text": "לתשלום ",
+        "processing": "מעבד..."
+      },
+      "footer": {
+        "text": "מאובטח על ידי Sumit"
+      },
+      "errors": {
+        "invalidCard": "מספר כרטיס לא תקין",
+        "invalidCvv": "קוד אבטחה לא תקין",
+        "invalidId": "מספר תעודת זהות לא תקין",
+        "paymentFailed": "התשלום נכשל: {message}",
+        "general": "אירעה שגיאה. אנא נסה שוב"
+      }
     }
   }
 }

@@ -104,6 +104,48 @@
         "placeholder": "Enter verification code",
         "error": "Please enter the verification code"
       }
+    },
+    "payment": {
+      "header": {
+        "title": "Secure Payment",
+        "subtitle": "Enter your payment details below"
+      },
+      "cardNumber": {
+        "label": "Card Number",
+        "placeholder": "XXXX XXXX XXXX XXXX"
+      },
+      "expiration": {
+        "month": {
+          "label": "Month",
+          "placeholder": "MM"
+        },
+        "year": {
+          "label": "Year",
+          "placeholder": "YYYY"
+        }
+      },
+      "cvv": {
+        "label": "CVV",
+        "placeholder": "XXX"
+      },
+      "idNumber": {
+        "label": "ID Number",
+        "placeholder": "Enter ID number"
+      },
+      "submit": {
+        "text": "Total ",
+        "processing": "Processing..."
+      },
+      "footer": {
+        "text": "Secured by Sumit Payment Solutions"
+      },
+      "errors": {
+        "invalidCard": "Invalid card number",
+        "invalidCvv": "Invalid CVV",
+        "invalidId": "Invalid ID number",
+        "paymentFailed": "Payment failed: {message}",
+        "general": "An error occurred. Please try again"
+      }
     }
   }
 }
