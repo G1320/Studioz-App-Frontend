@@ -13,7 +13,7 @@ const PaypalSubscriptionPage = () => {
       id: 'starter',
       name: 'Starter',
       planId: 'starter',
-      price: 79,
+      price: 5,
       period: t('plans.period'),
       highlight: t('plans.starter.highlight'),
       features: [

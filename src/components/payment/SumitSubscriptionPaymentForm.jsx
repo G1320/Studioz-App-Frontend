@@ -4,6 +4,7 @@ import { sumitService } from '@services/sumit-service';
 import { createSubscription, activateSubscription } from '@services/subscription-service';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@hooks/utils';
+import { sendSubscriptionConfirmation } from '@services/email-service';
 
 const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
@@ -59,7 +60,7 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
         amount: plan.price,
         description: 'Monthly subscription plan',
         durationMonths: 1,
-        recurrence: 12
+        recurrence: 48
       }
     );
 
@@ -114,6 +115,13 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
       // 4. Activate subscription
       const activeSubscription = await activateSubscriptionWithPayment(pendingSubscription._id, paymentResponse.data);
       updateSubscription(activeSubscription._id, 'ACTIVE');
+      await sendSubscriptionConfirmation(user?.email, {
+        customerName: user?.name,
+        planName: selectedPlan.name,
+        planPrice: selectedPlan.price,
+        subscriptionId: activeSubscription._id,
+        startDate: new Date()
+      });
 
       console.log('Subscription activated successfully');
       langNavigate('/profile');
