@@ -82,13 +82,18 @@
       padding: 0.5rem 0;
       border-top: 0.5px solid #f1f1f1;
       border-bottom: 0.5px solid #f1f1f1;
+
       .availability-time-icon {
         place-self: start;
       }
-      .availability-container {
+      .availability-container,
+      .address-container,
+      .phone-container {
         position: relative;
       }
-      .availability-dropdown {
+      .availability-dropdown,
+      .address-dropdown,
+      .phone-dropdown {
         position: absolute;
         top: calc(100% + 0.5rem);
         background-color: black;
@@ -104,7 +109,9 @@
         }
       }
 
-      .availability-dropdown li {
+      .availability-dropdown li,
+      .address-dropdown p,
+      .phone-dropdown a {
         padding: 0.5rem;
         border-bottom: 1px solid #eee;
       }
@@ -113,12 +120,15 @@
         border-bottom: none;
       }
 
-      .availability-dropdown-toggle {
+      .availability-dropdown-toggle,
+      .address-dropdown-toggle,
+      .phone-dropdown-toggle {
         background: transparent;
         color: #f1f1f1;
         border: none;
         display: flex;
         align-items: center;
+        width: 24px;
       }
       .studio-availability {
         display: flex;

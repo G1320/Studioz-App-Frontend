@@ -7,6 +7,8 @@ import { useWishlists } from '@hooks/dataFetching';
 import { useLanguageNavigate } from '@hooks/utils';
 import StudioOptions from './StudioOptions';
 import StudioAvailabilityDisplay from '@components/utility/AvailabilityDropdown';
+import AddressDropdown from '@components/utility/AddressDropdown';
+import PhoneDropdown from '@components/utility/PhoneDropdown';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -36,6 +38,8 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       <div className="info-option-container">
         <AccessTimeIcon className="availability-time-icon" />
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
+        {studio?.address && <AddressDropdown address={studio?.address as string} />}
+        {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}
         <StudioOptions
           studio={studio as Studio}
           user={user as User}
