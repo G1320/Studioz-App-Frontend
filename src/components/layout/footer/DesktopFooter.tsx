@@ -26,11 +26,7 @@ export const DesktopFooter = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>
-          {t('footer.copyright', {
-            year: new Date().getFullYear()
-          })}
-        </p>
+        <p>&copy; {new Date().getFullYear()} Studioz. All rights reserved.</p>
       </div>
     </footer>
   );
