@@ -116,9 +116,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
 
-  const showDatePicker = useMemo(() => {
-    return !currentReservationId && !isExiting && (item?.pricePer === 'hour' || item?.pricePer === 'session');
-  }, [currentReservationId, isExiting, item?.pricePer]);
+  // const showDatePicker = useMemo(() => {
+  //   return !currentReservationId && !isExiting && (item?.pricePer === 'hour' || item?.pricePer === 'session');
+  // }, [currentReservationId, isExiting, item?.pricePer]);
 
   const handleBookNow = useCallback(() => {
     handleDateConfirm(selectedDate?.toString() || null, selectedQuantity);
@@ -143,14 +143,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
 
       {currentReservationId && <ReservationDetails reservationId={currentReservationId} />}
       <div className="date-picker-row">
-        {showDatePicker && (
-          <MuiDateTimePicker
-            value={selectedDate}
-            onChange={handleDateChange}
-            itemAvailability={item?.availability || []}
-            studioAvailability={studio?.studioAvailability}
-          />
-        )}
+        {/* {showDatePicker && ( */}
+        <MuiDateTimePicker
+          value={selectedDate}
+          onChange={handleDateChange}
+          itemAvailability={item?.availability || []}
+          studioAvailability={studio?.studioAvailability}
+        />
+        {/* )} */}
         {!currentReservationId && (
           <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
         )}
