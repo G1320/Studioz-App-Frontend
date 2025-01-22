@@ -191,7 +191,7 @@ export const CreateStudioForm = () => {
     };
     formData.paypalMerchantId = user?.paypalMerchantId || '';
 
-    if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {
+    if (!user?.subscriptionId || user?.subscriptionStatus !== 'ACTIVE') {
       return toast.error('Please complete PayPal onboarding process before creating a studio');
     }
 
