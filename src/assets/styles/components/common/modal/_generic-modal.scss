@@ -14,3 +14,11 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .generic-modal {
+    .modal-wrapper {
+      width: 100%;
+    }
+  }
+}
