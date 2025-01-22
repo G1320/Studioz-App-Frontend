@@ -1,10 +1,10 @@
 import { useSubscription } from '@hooks/index';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { cancelSubscription } from '@services/subscription-service';
 import { useUserContext } from '@contexts/UserContext';
 import { useTranslation } from 'react-i18next';
 import { Subscription } from 'src/types/subscription';
+import { sumitService } from '@services/sumit-service';
 
 export const SubscriptionDetails = () => {
   const { isLoading, hasSubscription, isPro, subscription } = useSubscription();
@@ -16,7 +16,7 @@ export const SubscriptionDetails = () => {
 
     try {
       if (window.confirm(t('subscriptionDetails.cancellation.confirmMessage'))) {
-        const cancelledSubscription = (await cancelSubscription(subscription._id)) as Subscription;
+        const cancelledSubscription = (await sumitService.cancelSubscription(subscription._id)) as Subscription;
 
         if (cancelledSubscription) {
           updateSubscription(cancelledSubscription._id, 'CANCELLED');

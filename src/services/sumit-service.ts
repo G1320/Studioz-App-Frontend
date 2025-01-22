@@ -61,6 +61,15 @@ export const sumitService = {
     }
   },
 
+  cancelSubscription: async (subscriptionId: string) => {
+    try {
+      return await httpService.post(`${SUMIT_ENDPOINT}/cancel-subscription/${subscriptionId}`);
+    } catch (error) {
+      console.error('Error canceling Sumit subscription:', error);
+      throw error;
+    }
+  },
+
   validateToken: async (singleUseToken: string) => {
     try {
       return await httpService.post(`${SUMIT_ENDPOINT}/validate-token`, {

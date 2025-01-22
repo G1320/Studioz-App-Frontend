@@ -8,7 +8,7 @@ import { useLanguageNavigate } from '@hooks/utils';
 const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
   const { user, updateSubscription } = useUserContext();
-  const { langNavigate } = useLanguageNavigate();
+  const langNavigate = useLanguageNavigate();
 
   const { t } = useTranslation('forms');
 
