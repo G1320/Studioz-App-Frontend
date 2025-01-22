@@ -39,7 +39,10 @@ export const CreateItemForm = () => {
     subCategories?: string[];
     createdBy?: string;
     pricePer?: string;
-    studioNameEn?: string;
+    studioName?: {
+      en: string;
+      he?: string;
+    };
     studioId?: string;
     address?: string;
     lat?: number;
@@ -77,7 +80,9 @@ export const CreateItemForm = () => {
     formData.createdBy = user?._id || '';
     formData.categories = selectedCategories;
     formData.subCategories = selectedSubCategories;
-    formData.studioNameEn = studioName || '';
+    formData.studioName = {
+      en: studioName || ''
+    };
     formData.studioId = studioId || '';
     formData.address = studio?.address || '';
     formData.lat = studio?.lat || 0;
