@@ -23,7 +23,6 @@ interface FormData {
   categories?: string[];
   subCategories?: string[];
   studioAvailability?: StudioAvailability;
-  paypalMerchantId?: string;
 }
 
 export const CreateStudioForm = () => {
@@ -189,10 +188,9 @@ export const CreateStudioForm = () => {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
-    formData.paypalMerchantId = user?.paypalMerchantId || '';
 
     if (!user?.subscriptionId || user?.subscriptionStatus !== 'ACTIVE') {
-      return toast.error('Please complete PayPal onboarding process before creating a studio');
+      return toast.error('Please purchase a subscription before creating a studio');
     }
 
     createStudioMutation.mutate({

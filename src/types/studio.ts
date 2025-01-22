@@ -40,6 +40,5 @@ export default interface Studio {
   createdBy: string;
   isFeatured?: boolean;
   items: StudioItem[];
-  paypalMerchantId?: string;
   studioAvailability?: StudioAvailability;
 }
