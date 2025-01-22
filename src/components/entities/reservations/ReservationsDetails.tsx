@@ -5,9 +5,10 @@ import dayjs from 'dayjs';
 
 interface ReservationDetailsProps {
   reservationId?: string;
+  pricePer: string;
 }
 
-export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId }) => {
+export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId, pricePer }) => {
   const { data: reservation } = useReservation(reservationId || '');
 
   if (!reservation) return null;
@@ -39,8 +40,12 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
           </span>
         </div>
         <div className="info-row">
-          <span>Duration:</span>
-          <span>{reservation.timeSlots.length} hours</span>
+          {pricePer === 'hour' && (
+            <>
+              <span>Duration:</span>
+              <span>{reservation.timeSlots.length} hours</span>
+            </>
+          )}
         </div>
         {reservation.costumerName && (
           <div className="info-row">
