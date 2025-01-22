@@ -104,7 +104,7 @@ export const BusinessHours = ({ value, onChange }: BusinessHoursProps) => {
                 timeSteps={{ hours: 1, minutes: 60 }}
                 desktopModeMediaQuery="@media (min-width: 0px)"
               />
-              <span>to</span>
+              <span>--</span>
               <TimePicker
                 value={dayjs(schedule[day].hours?.end, 'HH:mm')}
                 onChange={(newTime) => handleTimeChange(day, 'end', newTime)}

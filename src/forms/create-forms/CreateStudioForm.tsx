@@ -152,6 +152,12 @@ export const CreateStudioForm = () => {
       placeholder: t('form.address.placeholder')
     },
     {
+      name: 'phone',
+      label: t('form.customerDetails.phone.label'),
+      type: 'text' as FieldType,
+      placeholder: t('form.customerDetails.phone.placeholder')
+    },
+    {
       name: 'maxOccupancy',
       label: t('form.maxOccupancy.label'),
       type: 'number' as FieldType,
