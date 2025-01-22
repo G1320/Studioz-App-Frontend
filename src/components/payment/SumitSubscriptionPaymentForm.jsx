@@ -117,8 +117,8 @@ const SumitSubscriptionPaymentForm = ({ plan }) => {
       updateSubscription(activeSubscription._id, 'ACTIVE');
       await sendSubscriptionConfirmation(user?.email, {
         customerName: user?.name,
-        planName: selectedPlan.name,
-        planPrice: selectedPlan.price,
+        planName: activeSubscription.planName,
+        planPrice: activeSubscription.sumitPaymentDetails.Payment.Amount,
         subscriptionId: activeSubscription._id,
         startDate: new Date()
       });
