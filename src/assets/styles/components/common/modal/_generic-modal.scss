@@ -5,9 +5,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    padding: 1rem;
+    padding: 0.5rem;
     overflow-y: auto;
-    width: 100%;
     .modal-content {
       display: grid;
       place-self: center;
