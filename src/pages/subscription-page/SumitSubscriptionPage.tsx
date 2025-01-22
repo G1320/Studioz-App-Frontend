@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-const PaypalSubscriptionPage = () => {
+const SumitSubscriptionPage = () => {
   const { t } = useTranslation('subscriptions');
 
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
@@ -13,7 +13,7 @@ const PaypalSubscriptionPage = () => {
       id: 'starter',
       name: 'Starter',
       planId: 'starter',
-      price: 5,
+      price: 79,
       period: t('plans.period'),
       highlight: t('plans.starter.highlight'),
       features: [
@@ -106,4 +106,4 @@ const PaypalSubscriptionPage = () => {
   );
 };
 
-export default PaypalSubscriptionPage;
+export default SumitSubscriptionPage;
