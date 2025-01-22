@@ -8,7 +8,7 @@ import HomePage from '@pages/home-page/HomePage';
 import WishListsPage from '@pages/wishlists-page/WishlistsPage';
 import StudioDetailsPage from '@pages/details-pages/StudioDetailsPage';
 import ItemDetailsPage from '@pages/details-pages/ItemDetailsPage';
-import OrderPage from '@pages/order-page/OrderPage';
+// import OrderPage from '@pages/order-page/OrderPage';
 import SearchPage from '@pages/search-page/SearchPage';
 import CreateStudioPage from '@pages/create-pages/CreateStudioPage';
 import EditStudioPage from '@pages/edit-pages/EditStudioPage';
@@ -180,14 +180,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/:lang?/order/:studioId?"
             element={
               <AnimatedRoute>
                 <OrderPage cart={onlineCart || offlineCart} studios={studios} />
               </AnimatedRoute>
             }
-          />
+          /> */}
           <Route
             path="/:lang?/complete-order"
             element={
