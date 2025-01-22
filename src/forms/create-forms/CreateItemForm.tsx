@@ -11,7 +11,6 @@ import {
   useStudio
 } from '@hooks/index';
 import { Item } from 'src/types/index';
-import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
 export const CreateItemForm = () => {
@@ -45,7 +44,6 @@ export const CreateItemForm = () => {
     address?: string;
     lat?: number;
     lng?: number;
-    paypalMerchantId?: string;
   }
 
   const pricePerEnglishMap: Record<string, string> = {
@@ -85,12 +83,6 @@ export const CreateItemForm = () => {
     formData.lat = studio?.lat || 0;
     formData.lng = studio?.lng || 0;
     formData.pricePer = pricePerEnglishMap[pricePer] || pricePer;
-
-    formData.paypalMerchantId = user?.paypalMerchantId || '';
-
-    if (!user?.paypalMerchantId || user?.paypalOnboardingStatus !== 'COMPLETED') {
-      return toast.error('Please complete PayPal onboarding process before creating a studio');
-    }
 
     createItemMutation.mutate(formData as Item);
   };
