@@ -1,1 +1,1 @@
-export { default as PaypalCheckout } from './PaypalCheckout';
+// export { default as PaypalCheckout } from './PaypalCheckout';

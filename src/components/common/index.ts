@@ -6,5 +6,5 @@ export * from './forms';
 export * from './images';
 export * from './lists';
 export * from './datePicker';
-export * from './checkout';
+// export * from './checkout';
 export * from './modal';
