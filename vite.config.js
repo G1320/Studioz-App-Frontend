@@ -40,9 +40,6 @@ export default defineConfig(({ command, mode }) => {
         '@features': path.resolve(__dirname, './src/features'),
         '@app': path.resolve(__dirname, './src/app'),
         '@core': path.resolve(__dirname, './src/core'),
-        '@components': path.resolve(__dirname, './src/components'),
-        '@forms': path.resolve(__dirname, './src/forms'),
-        '@pages': path.resolve(__dirname, './src/pages'),
         '@types': path.resolve(__dirname, './src/types')
       }
     }

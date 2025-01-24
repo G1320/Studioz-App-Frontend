@@ -9,13 +9,10 @@
     "baseUrl": ".",
     "paths": {
       "react": ["./node_modules/@types/react"],
-      "@components/*": ["src/components/*"],
       "@features/*": ["src/features/*"],
       "@app/*": ["src/app/*"],
       "@shared/*": ["src/shared/*"],
       "@core/*": ["src/core/*"],
-      "@forms/*": ["src/forms/*"],
-      "@pages/*": ["src/pages/*"]
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
