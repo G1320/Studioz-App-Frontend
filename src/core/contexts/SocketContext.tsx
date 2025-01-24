@@ -2,8 +2,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
-import { invalidateCartQueries, invalidateItemQueries } from '@utils/queryUtils';
-import { removeExpiredItemsFromOfflineCart } from '@utils/cartUtils';
+import { invalidateCartQueries, invalidateItemQueries } from '@shared/utils/queryUtils';
+import { removeExpiredItemsFromOfflineCart } from '@shared/utils/cartUtils';
 import { useOfflineCartContext } from './OfflineCartContext';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';

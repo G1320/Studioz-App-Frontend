@@ -1,10 +1,10 @@
 import { useUserContext } from '@core/contexts';
 import { useEffect, useState } from 'react';
-import { sumitService } from '@services/sumit-service';
-import { createSubscription, activateSubscription } from '@services/subscription-service';
+import { sumitService } from '@shared/services/sumit-service';
+import { createSubscription, activateSubscription } from '@shared/services/subscription-service';
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate } from '@hooks/utils';
-import { sendSubscriptionConfirmation } from '@services/email-service';
+import { useLanguageNavigate } from '@shared/hooks/utils';
+import { sendSubscriptionConfirmation } from '@shared/services/email-service';
 
 const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');

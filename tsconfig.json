@@ -12,14 +12,8 @@
       "@components/*": ["src/components/*"],
       "@shared/*": ["src/shared/*"],
       "@core/*": ["src/core/*"],
-      "@config/*": ["src/core/config/*"],
-      "@contexts/*": ["src/core/contexts/*"],
       "@forms/*": ["src/forms/*"],
-      "@hooks/*": ["src/shared/hooks/*"],
-      "@types/*": ["src/types/*"],
-      "@pages/*": ["src/pages/*"],
-      "@services/*": ["src/shared/services/*"],
-      "@utils/*": ["src/shared/utils/*"]
+      "@pages/*": ["src/pages/*"]
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
-import { getLocalUser, uploadFile } from '@services/index';
+import { getLocalUser, uploadFile } from '@shared/services/index';
 import {
   useCreateStudioMutation,
   useMusicCategories,
@@ -8,10 +8,10 @@ import {
   usePhotoSubCategories,
   useDays,
   useCategories
-} from '@hooks/index';
+} from '@shared/hooks/index';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
-import { arraysEqual } from '@utils/compareArrays';
+import { arraysEqual } from '@shared/utils/compareArrays';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 

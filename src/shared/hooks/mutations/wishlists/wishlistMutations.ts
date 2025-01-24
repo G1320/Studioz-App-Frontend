@@ -1,5 +1,10 @@
-import { useMutationHandler, useInvalidateQueries, useLanguageNavigate } from '@hooks/utils/index';
-import { createWishlistAndAddToUser, deleteWishlist, updateWishlist, addStudioToWishlist } from '@services/index';
+import { useMutationHandler, useInvalidateQueries, useLanguageNavigate } from '@shared/hooks/utils/index';
+import {
+  createWishlistAndAddToUser,
+  deleteWishlist,
+  updateWishlist,
+  addStudioToWishlist
+} from '@shared/services/index';
 import { Wishlist } from 'src/types/index';
 
 export const useCreateWishlistMutation = (userId: string) => {

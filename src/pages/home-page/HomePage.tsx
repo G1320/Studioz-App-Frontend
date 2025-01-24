@@ -1,9 +1,9 @@
 import { StudiosList, StudioPreview, ItemPreview, CategoryPreview, Hero, ItemDetails } from '@components/index';
 import { GenericCarousel, GenericModal } from '@shared/components';
-import { useWishlists, useMusicSubCategories } from '@hooks/index';
+import { useWishlists, useMusicSubCategories } from '@shared/hooks/index';
 import { useModal, useUserContext } from '@core/contexts';
 import { Studio, Item } from 'src/types/index';
-import { filterBySubcategory } from '@utils/index';
+import { filterBySubcategory } from '@shared/utils/index';
 import { useTranslation } from 'react-i18next';
 
 interface HomePageProps {

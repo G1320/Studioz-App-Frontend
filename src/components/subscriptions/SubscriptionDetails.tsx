@@ -1,10 +1,10 @@
-import { useSubscription } from '@hooks/index';
+import { useSubscription } from '@shared/hooks/index';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useUserContext } from '@core/contexts';
 import { useTranslation } from 'react-i18next';
 import { Subscription } from 'src/types/subscription';
-import { sumitService } from '@services/sumit-service';
+import { sumitService } from '@shared/services/sumit-service';
 
 export const SubscriptionDetails = () => {
   const { isLoading, hasSubscription, isPro, subscription } = useSubscription();

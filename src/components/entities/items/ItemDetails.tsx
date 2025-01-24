@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 import { CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
 import { MuiDateTimePicker } from '@shared/components';
-import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
+import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@shared/hooks/index';
 import { useModal, useUserContext } from '@core/contexts';
 import { Cart, User, Wishlist } from 'src/types/index';
-import { usePrefetchItem, useReserveStudioItemTimeSlotsMutation } from '@hooks/index';
-import { splitDateTime } from '@utils/index';
+import { usePrefetchItem, useReserveStudioItemTimeSlotsMutation } from '@shared/hooks/index';
+import { splitDateTime } from '@shared/utils/index';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';

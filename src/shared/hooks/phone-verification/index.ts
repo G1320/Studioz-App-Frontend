@@ -1,1 +1,1 @@
-export { usePhoneVerification } from './usePhoneVerification';
+export * from './usePhoneVerification';

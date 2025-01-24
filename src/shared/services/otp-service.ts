@@ -1,5 +1,5 @@
 // services/otpService.ts
-import { httpService } from '@services/index';
+import { httpService } from '@shared/services/index';
 
 const otpEndpoint = '/otp';
 

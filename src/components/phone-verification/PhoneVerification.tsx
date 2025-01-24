@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePhoneVerification } from '@hooks/index';
+import { usePhoneVerification } from '@shared/hooks/index';
 
 interface PhoneVerificationProps {
   onVerified: (phoneNumber: string) => void;

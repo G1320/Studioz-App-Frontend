@@ -3,7 +3,7 @@ import { CartItem } from 'src/types/index';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { CloseOutlined } from '@mui/icons-material';
-import { useCartItemQuantityHandler, useLanguageNavigate } from '@hooks/index';
+import { useCartItemQuantityHandler, useLanguageNavigate } from '@shared/hooks/index';
 
 interface CartItemPreviewProps {
   item: CartItem;

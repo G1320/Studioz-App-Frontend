@@ -1,4 +1,4 @@
-import { useLanguageNavigate } from '@hooks/utils';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 import EmailIcon from '@mui/icons-material/Email';
 import { useTranslation } from 'react-i18next';
 export const DesktopFooter = () => {

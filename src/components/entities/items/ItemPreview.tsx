@@ -7,7 +7,7 @@ import {
   useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation,
   usePrefetchItem
-} from '@hooks/index';
+} from '@shared/hooks/index';
 import { useUserContext } from '@core/contexts';
 import { Item, Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';

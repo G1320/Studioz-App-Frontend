@@ -1,4 +1,4 @@
-import { useLanguageNavigate } from '@hooks/utils';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 

@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getStudios } from '@services/index';
+import { getStudios } from '@shared/services/index';
 import { Studio } from 'src/types/index';
 
 export const useStudios = () => {

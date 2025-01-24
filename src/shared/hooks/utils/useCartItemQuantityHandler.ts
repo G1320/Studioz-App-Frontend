@@ -1,8 +1,8 @@
-import { useAddItemToCartMutation, useRemoveItemFromCartMutation } from '@hooks/index';
+import { useAddItemToCartMutation, useRemoveItemFromCartMutation } from '@shared/hooks/index';
 import {
   useReserveNextStudioItemTimeSlotMutation,
   useReleaseLastStudioItemTimeSlotMutation
-} from '@hooks/mutations/bookings/bookingMutations';
+} from '@shared/hooks/mutations/bookings/bookingMutations';
 import { CartItem } from 'src/types/index';
 
 export const useCartItemQuantityHandler = (item: CartItem) => {

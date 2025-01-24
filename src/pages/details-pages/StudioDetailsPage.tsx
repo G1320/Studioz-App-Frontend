@@ -1,7 +1,7 @@
 import { GenericCarousel, GenericModal } from '@shared/components';
 import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
 import { useModal, useUserContext } from '@core/contexts';
-import { useStudio, useWishlists } from '@hooks/index';
+import { useStudio, useWishlists } from '@shared/hooks/index';
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

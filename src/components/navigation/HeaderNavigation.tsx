@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useUserContext } from '@core/contexts';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate } from '@hooks/utils';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 
 export function HeaderNavigation() {
   const { user } = useUserContext();

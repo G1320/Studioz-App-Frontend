@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sendOTP, verifyOTP } from '@services/otp-service';
+import { sendOTP, verifyOTP } from '@shared/services/otp-service';
 import { toast } from 'sonner';
 
 interface UsePhoneVerificationProps {

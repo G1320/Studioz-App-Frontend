@@ -8,11 +8,11 @@ import {
   usePhotoCategories,
   usePhotoSubCategories,
   useUpdateItemMutation
-} from '@hooks/index';
-import { uploadFile } from '@services/index';
+} from '@shared/hooks/index';
+import { uploadFile } from '@shared/services/index';
 import { Item } from 'src/types/index';
 import { toast } from 'sonner';
-import { arraysEqual } from '@utils/compareArrays';
+import { arraysEqual } from '@shared/utils/compareArrays';
 import { useTranslation } from 'react-i18next';
 
 interface FormData {

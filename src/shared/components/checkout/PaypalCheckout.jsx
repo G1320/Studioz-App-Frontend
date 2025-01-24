@@ -2,11 +2,11 @@
 
 // import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 // import { useNavigate } from 'react-router-dom';
-// import { sendOrderConfirmation, sendPayoutNotification } from '@services/email-service';
+// import { sendOrderConfirmation, sendPayoutNotification } from '@shared/services/email-service';
 // import { useUserContext } from '@core/contexts';
 // import { toast } from 'sonner';
-// import { processMarketplaceOrder } from '@services/order-service';
-// import { processSellerPayout } from '@services/payout-service';
+// import { processMarketplaceOrder } from '@shared/services/order-service';
+// import { processSellerPayout } from '@shared/services/payout-service';
 
 // function Message({ content }) {
 //   return <p>{content}</p>;

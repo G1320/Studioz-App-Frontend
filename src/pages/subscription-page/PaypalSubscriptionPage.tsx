@@ -3,8 +3,8 @@
 // import { PAYPAL_CLIENT_ID } from '@core/config/paypal';
 // import { useUserContext } from '@core/contexts';
 // import { toast } from 'sonner';
-// import { activateSubscription, createSubscription } from '@services/subscription-service';
-// // import { sendSubscriptionConfirmation } from '@services/email-service';
+// import { activateSubscription, createSubscription } from '@shared/services/subscription-service';
+// // import { sendSubscriptionConfirmation } from '@shared/services/email-service';
 // import { useTranslation } from 'react-i18next';
 // const isProduction = import.meta.env.VITE_NODE_ENV === 'production';
 

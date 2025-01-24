@@ -39,14 +39,9 @@ export default defineConfig(({ command, mode }) => {
         '@shared': path.resolve(__dirname, './src/shared'),
         '@core': path.resolve(__dirname, './src/core'),
         '@components': path.resolve(__dirname, './src/components'),
-        '@services': path.resolve(__dirname, './src/shared/services'),
-        '@contexts': path.resolve(__dirname, './src/core/contexts'),
         '@forms': path.resolve(__dirname, './src/forms'),
-        '@hooks': path.resolve(__dirname, './src/shared/hooks'),
         '@pages': path.resolve(__dirname, './src/pages'),
-        '@utils': path.resolve(__dirname, './src/shared/utils'),
-        '@types': path.resolve(__dirname, './src/models'),
-        '@config': path.resolve(__dirname, './src/core/config')
+        '@types': path.resolve(__dirname, './src/types')
       }
     }
   };

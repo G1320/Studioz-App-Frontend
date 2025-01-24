@@ -1,4 +1,4 @@
-import { usePhoneVerification } from '@hooks/phone-verification';
+import { usePhoneVerification } from '@shared/hooks/phone-verification';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';

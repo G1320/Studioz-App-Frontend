@@ -1,6 +1,6 @@
 // components/ReservationDetails.tsx
 import React from 'react';
-import { useReservation } from '@hooks/index';
+import { useReservation } from '@shared/hooks/index';
 import dayjs from 'dayjs';
 
 interface ReservationDetailsProps {

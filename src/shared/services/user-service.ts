@@ -1,5 +1,5 @@
-import { httpService } from '@services/http-service';
-import { sanitizeUserObject, parseJSON, stringifyJSON } from '@utils/index';
+import { httpService } from '@shared/services/http-service';
+import { sanitizeUserObject, parseJSON, stringifyJSON } from '@shared/utils/index';
 import { User, Studio } from 'src/types/index';
 
 const userEndpoint = '/users';

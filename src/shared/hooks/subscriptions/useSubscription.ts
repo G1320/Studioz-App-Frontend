@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUserContext } from '@core/contexts';
-import { getSubscriptionDetails } from '@services/subscription-service';
+import { getSubscriptionDetails } from '@shared/services/subscription-service';
 import type { Subscription } from 'src/types/subscription';
 
 interface SubscriptionState {

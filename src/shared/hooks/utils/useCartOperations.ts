@@ -1,5 +1,5 @@
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
-import { updateOfflineCart } from '@utils/index';
+import { updateOfflineCart } from '@shared/utils/index';
 import {
   getLocalOfflineCart,
   addItemToCart,
@@ -8,7 +8,7 @@ import {
   removeItemsFromCart,
   deleteUserCart,
   updateUserCart
-} from '@services/index';
+} from '@shared/services/index';
 import { Cart, CartItem } from 'src/types/index';
 
 export const useCartOperations = () => {

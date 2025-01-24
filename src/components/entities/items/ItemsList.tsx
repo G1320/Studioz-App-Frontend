@@ -1,7 +1,7 @@
 import { ItemPreview, ItemDetails } from '@components/index';
 import { GenericList, GenericModal } from '@shared/components';
-import { getLocalUser } from '@services/index';
-import { useWishlists } from '@hooks/index';
+import { getLocalUser } from '@shared/services/index';
+import { useWishlists } from '@shared/hooks/index';
 import { Item } from 'src/types/index';
 import { useModal } from '@core/contexts';
 

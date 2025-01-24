@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Map, { Marker, Popup, NavigationControl, FullscreenControl, GeolocateControl, ScaleControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Studio } from 'src/types/index';
-import { useLanguageNavigate } from '@hooks/utils';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 
 interface StudioMapProps {
   studios: Studio[];

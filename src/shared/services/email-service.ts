@@ -1,4 +1,4 @@
-import { httpService } from '@services/index';
+import { httpService } from '@shared/services/index';
 
 const emailEndpoint = '/emails';
 

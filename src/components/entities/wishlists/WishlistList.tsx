@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { WishlistPreview } from '@components/index';
 import { GenericList, GenericMultiDropdownEntryPreview, GenericMuiDropdown } from '@shared/components';
-import { getLocalUser } from '@services/index';
-import { useWishlists } from '@hooks/index';
+import { getLocalUser } from '@shared/services/index';
+import { useWishlists } from '@shared/hooks/index';
 import { Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 

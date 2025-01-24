@@ -1,5 +1,5 @@
-import { useLanguageNavigate } from '@hooks/utils';
-import { useCategories } from '@hooks/index';
+import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useCategories } from '@shared/hooks/index';
 
 interface CategoryPreviewProps {
   pathPrefix?: string;

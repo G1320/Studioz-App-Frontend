@@ -1,6 +1,6 @@
-import { httpService } from '@services/index';
+import { httpService } from '@shared/services/index';
 import { SearchResult, StudiosAndItemsSearchResults } from 'src/types/index';
-import { parseJSON, stringifyJSON } from '@utils/storageUtils';
+import { parseJSON, stringifyJSON } from '@shared/utils/storageUtils';
 
 const searchEndpoint = '/search';
 

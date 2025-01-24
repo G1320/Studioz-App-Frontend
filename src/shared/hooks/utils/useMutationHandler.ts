@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useErrorHandling, useInvalidateQueries } from '@hooks/index';
+import { useErrorHandling, useInvalidateQueries } from '@shared/hooks/index';
 
 type MutationHandlerOptions<TData, TVariables> = {
   mutationFn: (variables: TVariables) => Promise<TData>;

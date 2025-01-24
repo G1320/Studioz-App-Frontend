@@ -1,6 +1,6 @@
-import { httpService } from '@services/index';
+import { httpService } from '@shared/services/index';
 import Cookies from 'js-cookie';
-import { sanitizeUserObject } from '@utils/index';
+import { sanitizeUserObject } from '@shared/utils/index';
 import { LoginCredentials, AuthResponse, User } from 'src/types/index';
 import { sendWelcomeEmail } from './email-service';
 

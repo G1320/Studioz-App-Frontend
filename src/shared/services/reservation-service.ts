@@ -1,4 +1,4 @@
-import { httpService } from '@services/index';
+import { httpService } from '@shared/services/index';
 import { Reservation } from 'src/types/index';
 
 const reservationEndpoint = '/reservations';

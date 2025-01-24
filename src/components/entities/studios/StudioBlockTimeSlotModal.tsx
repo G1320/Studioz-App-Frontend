@@ -2,11 +2,11 @@ import { useState } from 'react';
 import LockClockIcon from '@mui/icons-material/LockClock';
 import { MuiDateTimePicker, Button } from '@shared/components';
 import { Dialog } from '@mui/material';
-import { splitDateTime } from '@utils/index';
+import { splitDateTime } from '@shared/utils/index';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
-import { reserveStudioTimeSlots } from '@services/booking-service';
+import { reserveStudioTimeSlots } from '@shared/services/booking-service';
 
 interface StudioBlockModalProps {
   studioId: string;

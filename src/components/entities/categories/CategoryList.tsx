@@ -1,6 +1,6 @@
 import { GenericList } from '@shared/components';
 import { CategoryPreview } from './CategoryPreview';
-import { useMusicSubCategories } from '@hooks/index';
+import { useMusicSubCategories } from '@shared/hooks/index';
 
 export const CategoryList = () => {
   const musicSubCategories = useMusicSubCategories();
