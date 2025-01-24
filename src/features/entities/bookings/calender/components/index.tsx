@@ -1,2 +1,1 @@
-export * from './StudioCalender';
-export * from './ReservationCalendar';
+export * from './Calendar';

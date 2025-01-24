@@ -1,4 +1,5 @@
 export * from './cart';
+export * from './bookings';
 export * from './items';
 export * from './studios';
 export * from './wishlists';

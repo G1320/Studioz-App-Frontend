@@ -1,4 +1,3 @@
-// StudioCalendar.tsx
 import React, { useMemo, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,7 +10,7 @@ import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import Reservation from 'src/types/reservation';
 
-interface ReservationCalendarProps {
+interface CalendarProps {
   title?: string;
   studioAvailability?: StudioAvailability;
   studioReservations?: Reservation[];
@@ -27,14 +26,9 @@ interface EventPopupInfo {
   position: { x: number; y: number };
 }
 
-export const ReservationCalendar: React.FC<ReservationCalendarProps> = ({
-  title,
-  studioAvailability,
-  studioReservations = []
-}) => {
+export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, studioReservations = [] }) => {
   const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
   const { i18n } = useTranslation();
-  console.log('studioReservations: ', studioReservations);
 
   const getDayNumber = (day: DayOfWeek): number => {
     const days: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -169,4 +163,4 @@ export const ReservationCalendar: React.FC<ReservationCalendarProps> = ({
   );
 };
 
-export default ReservationCalendar;
+export default Calendar;

@@ -5,7 +5,7 @@ import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@shared/components';
 import { StudioPreview } from '@features/entities';
 import { useStudioReservations } from '@shared/hooks';
-import { ReservationCalendar } from '@features/entities';
+import { Calendar } from '@features/entities';
 import { Link } from 'react-router-dom';
 
 interface CalendarPageProps {
@@ -58,7 +58,7 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
     <div>
       <div>
         {selectedStudio && (
-          <ReservationCalendar
+          <Calendar
             title={selectedStudio.name.en}
             studioAvailability={selectedStudio.studioAvailability}
             studioReservations={studioReservations}
