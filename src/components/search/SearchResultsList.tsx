@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useSearchContext, useUserContext } from '@contexts/index';
+import { useSearchContext, useUserContext } from '@core/contexts';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import { StudiosList, ItemPreview, ItemsList } from '@components/index';

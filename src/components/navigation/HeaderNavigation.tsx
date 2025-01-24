@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useUserContext } from '@contexts/index';
+import { useUserContext } from '@core/contexts';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@hooks/utils';

@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
 import { MuiDateTimePicker } from '@shared/components';
 import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
-import { useModal, useUserContext } from '@contexts/index';
+import { useModal, useUserContext } from '@core/contexts';
 import { Cart, User, Wishlist } from 'src/types/index';
 import { usePrefetchItem, useReserveStudioItemTimeSlotsMutation } from '@hooks/index';
 import { splitDateTime } from '@utils/index';

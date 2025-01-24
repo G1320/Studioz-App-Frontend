@@ -1,7 +1,7 @@
 import { useSubscription } from '@hooks/index';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useUserContext } from '@contexts/UserContext';
+import { useUserContext } from '@core/contexts';
 import { useTranslation } from 'react-i18next';
 import { Subscription } from 'src/types/subscription';
 import { sumitService } from '@services/sumit-service';

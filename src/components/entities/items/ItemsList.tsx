@@ -3,7 +3,7 @@ import { GenericList, GenericModal } from '@shared/components';
 import { getLocalUser } from '@services/index';
 import { useWishlists } from '@hooks/index';
 import { Item } from 'src/types/index';
-import { useModal } from '@contexts/ModalContext';
+import { useModal } from '@core/contexts';
 
 interface ItemListProps {
   items?: Item[];

@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { searchItems, searchStudios, searchStudiosAndItems, searchUsers } from '@services/search-service';
 import { SearchResult, StudiosAndItemsSearchResults } from 'src/types/index'; // Assuming all models are imported
 import { useErrorHandling } from '@hooks/index';
-import { useSearchContext } from '@contexts/SearchContext';
+import { useSearchContext } from '@core/contexts';
 import { setLocalSearchResults } from '@services/search-service';
 
 export const useSearchStudiosAndItemsMutation = () => {

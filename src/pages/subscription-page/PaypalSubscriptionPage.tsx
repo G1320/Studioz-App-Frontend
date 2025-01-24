@@ -1,7 +1,7 @@
 // import { useState, useEffect } from 'react';
 
-// import { PAYPAL_CLIENT_ID } from '@config/paypal/paypalConfig';
-// import { useUserContext } from '@contexts/UserContext';
+// import { PAYPAL_CLIENT_ID } from '@core/config/paypal';
+// import { useUserContext } from '@core/contexts';
 // import { toast } from 'sonner';
 // import { activateSubscription, createSubscription } from '@services/subscription-service';
 // // import { sendSubscriptionConfirmation } from '@services/email-service';

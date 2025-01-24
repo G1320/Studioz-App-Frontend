@@ -1,4 +1,4 @@
-import { useUserContext } from '@contexts/UserContext';
+import { useUserContext } from '@core/contexts';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const OrderSuccessPage: React.FC = () => {

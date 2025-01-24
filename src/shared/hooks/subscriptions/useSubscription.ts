@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useUserContext } from '@contexts/UserContext';
+import { useUserContext } from '@core/contexts';
 import { getSubscriptionDetails } from '@services/subscription-service';
 import type { Subscription } from 'src/types/subscription';
 

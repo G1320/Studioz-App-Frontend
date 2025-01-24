@@ -8,7 +8,7 @@ import {
   useRemoveItemFromWishlistMutation,
   usePrefetchItem
 } from '@hooks/index';
-import { useUserContext } from '@contexts/index';
+import { useUserContext } from '@core/contexts';
 import { Item, Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 interface ItemPreviewProps {

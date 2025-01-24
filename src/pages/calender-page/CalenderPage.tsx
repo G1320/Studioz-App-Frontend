@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useUserContext } from '@contexts/UserContext';
+import { useUserContext } from '@core/contexts';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@shared/components';

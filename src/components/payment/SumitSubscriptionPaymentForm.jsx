@@ -1,4 +1,4 @@
-import { useUserContext } from '@contexts/UserContext';
+import { useUserContext } from '@core/contexts';
 import { useEffect, useState } from 'react';
 import { sumitService } from '@services/sumit-service';
 import { createSubscription, activateSubscription } from '@services/subscription-service';

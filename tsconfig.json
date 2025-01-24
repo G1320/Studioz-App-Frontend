@@ -11,6 +11,7 @@
       "react": ["./node_modules/@types/react"],
       "@components/*": ["src/components/*"],
       "@shared/*": ["src/shared/*"],
+      "@core/*": ["src/core/*"],
       "@config/*": ["src/core/config/*"],
       "@contexts/*": ["src/core/contexts/*"],
       "@forms/*": ["src/forms/*"],

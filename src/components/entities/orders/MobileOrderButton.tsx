@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Cart } from 'src/types/index';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useModal } from '@contexts/ModalContext';
+import { useModal } from '@core/contexts';
 
 interface CheckoutButtonProps {
   cart?: Cart;

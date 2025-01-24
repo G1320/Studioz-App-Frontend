@@ -3,7 +3,7 @@ import { ItemPreview } from '@components/index';
 import { Button } from '@shared/components';
 import { useItem, useWishlists, useDeleteItemMutation, useLanguageNavigate } from '@hooks/index';
 
-import { useUserContext } from '@contexts/index';
+import { useUserContext } from '@core/contexts';
 
 const ItemDetailsPage = () => {
   const { user } = useUserContext();

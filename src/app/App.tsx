@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
-import { useOfflineCartContext, useUserContext } from '@contexts/index';
+import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { useItems, useStudios, useOnlineCart } from '@hooks/index';
 import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { initialOptions } from '@config/paypal/paypalConfig';
+import { initialOptions } from '@core/config';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

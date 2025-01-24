@@ -1,4 +1,4 @@
-import { useOfflineCartContext, useUserContext } from '@contexts/index';
+import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { updateOfflineCart } from '@utils/index';
 import {
   getLocalOfflineCart,

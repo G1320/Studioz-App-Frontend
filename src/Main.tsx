@@ -9,17 +9,13 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
 
-import { UserProvider } from './core/contexts/UserContext';
-import { OfflineCartProvider } from './core/contexts/OfflineCartContext';
-import { SocketProvider } from '@contexts/SocketContext';
-import { SearchProvider } from '@contexts/SearchContext';
+import { SocketProvider, SearchProvider, OfflineCartProvider, UserProvider, ModalProvider } from '@core/contexts';
 import './i18n';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
-import App from './App.js';
-import { ModalProvider } from '@contexts/ModalContext';
+import App from './app/App.js';
 
 const queryClient = new QueryClient({
   defaultOptions: {
