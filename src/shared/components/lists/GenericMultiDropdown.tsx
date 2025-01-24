@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@components/index';
+import { Button } from '@shared/components';
 
 interface GenericMultiDropdownProps<T> {
   data: T[];

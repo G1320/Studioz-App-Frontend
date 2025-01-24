@@ -1,4 +1,4 @@
-import { Button } from '@components/index';
+import { Button } from '@shared/components';
 import { Studio, User, Wishlist } from 'src/types/index';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';

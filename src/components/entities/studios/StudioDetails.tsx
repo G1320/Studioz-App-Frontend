@@ -1,7 +1,7 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { GenericImageGallery } from '@components/index';
+import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists } from '@hooks/data-fetching';
 import { useLanguageNavigate } from '@hooks/utils';

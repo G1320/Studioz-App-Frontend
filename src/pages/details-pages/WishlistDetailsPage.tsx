@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, ItemsList, StudiosList } from '@components/index';
+import { ItemsList, StudiosList } from '@components/index';
+import { Button } from '@shared/components';
 import {
   useStudios,
   useWishlist,

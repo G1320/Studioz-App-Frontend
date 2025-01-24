@@ -36,6 +36,7 @@ export default defineConfig(({ command, mode }) => {
     },
     resolve: {
       alias: {
+        '@shared': path.resolve(__dirname, './src/shared'),
         '@components': path.resolve(__dirname, './src/components'),
         '@services': path.resolve(__dirname, './src/shared/services'),
         '@contexts': path.resolve(__dirname, './src/contexts'),

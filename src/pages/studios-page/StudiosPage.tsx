@@ -1,4 +1,5 @@
-import { CategoryPreview, GenericCarousel, StudiosList, StudiosMap } from '@components/index';
+import { CategoryPreview, StudiosList, StudiosMap } from '@components/index';
+import { GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@hooks/utils';
 
 import { useParams } from 'react-router-dom';

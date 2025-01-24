@@ -1,4 +1,4 @@
-import { GenericCarousel, GenericModal } from '@components/common';
+import { GenericCarousel, GenericModal } from '@shared/components';
 import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
 import { useModal } from '@contexts/ModalContext';
 import { useUserContext } from '@contexts/UserContext';

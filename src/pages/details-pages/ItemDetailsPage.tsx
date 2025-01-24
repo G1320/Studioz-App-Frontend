@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { ItemPreview, Button } from '@components/index';
+import { ItemPreview } from '@components/index';
+import { Button } from '@shared/components';
 import { useItem, useWishlists, useDeleteItemMutation, useLanguageNavigate } from '@hooks/index';
 
 import { useUserContext } from '@contexts/index';

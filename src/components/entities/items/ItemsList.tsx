@@ -1,4 +1,5 @@
-import { ItemPreview, GenericList, ItemDetails, GenericModal } from '@components/index';
+import { ItemPreview, ItemDetails } from '@components/index';
+import { GenericList, GenericModal } from '@shared/components';
 import { getLocalUser } from '@services/index';
 import { useWishlists } from '@hooks/index';
 import { Item } from 'src/types/index';

@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { Button, GenericMuiDropdown, WishlistPreview } from '@components/index';
+import { WishlistPreview } from '@components/index';
+import { Button, GenericMuiDropdown } from '@shared/components';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
   useAddItemToWishlistMutation,

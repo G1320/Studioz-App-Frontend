@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import LockClockIcon from '@mui/icons-material/LockClock';
-import { MuiDateTimePicker, Button } from '@components/index';
+import { MuiDateTimePicker, Button } from '@shared/components';
 import { Dialog } from '@mui/material';
 import { splitDateTime } from '@utils/index';
 import { toast } from 'sonner';

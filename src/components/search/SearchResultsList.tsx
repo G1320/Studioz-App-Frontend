@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import { useSearchContext, useUserContext } from '@contexts/index';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
-import { StudiosList, GenericCarousel, ItemPreview, ItemsList } from '@components/index'; // Assuming ItemsList exists
+import { StudiosList, ItemPreview, ItemsList } from '@components/index';
+import { GenericCarousel } from '@shared/components';
 import { StudiosAndItemsSearchResults } from 'src/types/searchResult';
 import { useWishlists } from '@hooks/data-fetching';
 

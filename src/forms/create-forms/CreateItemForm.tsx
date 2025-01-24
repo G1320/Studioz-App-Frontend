@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '@components/index';
+import { GenericForm, FieldType } from '@shared/components';
 import { getLocalUser } from '@services/index';
 import {
   useCreateItemMutation,

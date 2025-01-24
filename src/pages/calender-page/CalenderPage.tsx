@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useUserContext } from '@contexts/UserContext';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
-import { GenericCarousel, GenericList } from '@components/common';
+import { GenericCarousel, GenericList } from '@shared/components';
 import { StudioPreview } from '@components/entities';
 import { useStudioReservations } from '@hooks/index';
 import ReservationCalendar from '@components/calender/ReservationCalendar';

@@ -1,4 +1,4 @@
-import { GenericList } from '@components/common';
+import { GenericList } from '@shared/components';
 import { CategoryPreview } from './CategoryPreview';
 import { useMusicSubCategories } from '@hooks/index';
 

@@ -1,4 +1,4 @@
-import { GenericForm, FieldType } from '@components/index';
+import { GenericForm, FieldType } from '@shared/components';
 
 import { useCreateWishlistMutation } from '@hooks/index';
 import { getLocalUser } from '@services/index';

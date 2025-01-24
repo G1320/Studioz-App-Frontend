@@ -10,6 +10,7 @@
     "paths": {
       "react": ["./node_modules/@types/react"],
       "@components/*": ["src/components/*"],
+      "@shared/*": ["src/shared/*"],
       "@config/*": ["src/config/*"],
       "@contexts/*": ["src/contexts/*"],
       "@forms/*": ["src/forms/*"],
@@ -39,7 +40,7 @@
     "src/scripts/paypalScript.js",
     "src/components/common/checkout/PaypalCheckout.tsx",
     "src/components/common/checkout/Checkout.jsx",
-    "src/components/common/vendorOnboarding/VendorRegistration.js",
+    "src/components/common/vendorOnboarding/PayPalOnboa.js",
     "src/pages/subscription-page/SumitSubscriptionPaymentForm.jsx"
   ],
   "exclude": ["node_modules", "dist"]

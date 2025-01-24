@@ -1,4 +1,4 @@
-import { Button } from '@components/index';
+import { Button } from '@shared/components';
 import { Item, User } from 'src/types/index';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 

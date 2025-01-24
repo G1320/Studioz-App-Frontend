@@ -1,5 +1,5 @@
 import React from 'react';
-import { GenericImage } from '@components/common/images/GenericImage';
+import { GenericImage } from '@shared/components';
 import ItemOptions from './ItemOptions';
 import { Item, Studio, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';

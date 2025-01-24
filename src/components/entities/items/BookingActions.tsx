@@ -1,6 +1,6 @@
-// components/items/BookingActions.tsx
 import React from 'react';
-import { Button, ContinueToCheckoutButton } from '@components/index';
+import { ContinueToCheckoutButton } from '@components/index';
+import { Button } from '@shared/components';
 import { Cart } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 

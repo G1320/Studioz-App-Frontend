@@ -1,6 +1,6 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery } from '@components/index';
+import { GenericImageGallery } from '@shared/components';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@hooks/prefetching/index';
 import { useLanguageNavigate } from '@hooks/utils';

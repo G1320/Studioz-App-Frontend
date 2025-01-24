@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { FileUploader, GenericForm, FieldType } from '@components/index';
+import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import {
   useDays,
   useMusicCategories,

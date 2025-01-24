@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GenericList } from '@components/common/lists/GenericList';
+import { GenericList } from '@shared/components/lists/GenericList';
 
 interface GenericAudioGalleryProps {
   isAudioFilesShown?: boolean;

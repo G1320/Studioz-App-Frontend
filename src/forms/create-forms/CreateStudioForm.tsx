@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FileUploader, GenericForm, FieldType } from '@components/index';
+import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import { getLocalUser, uploadFile } from '@services/index';
 import {
   useCreateStudioMutation,

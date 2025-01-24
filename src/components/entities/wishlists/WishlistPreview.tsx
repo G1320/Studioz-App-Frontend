@@ -1,4 +1,4 @@
-import { Button } from '@components/index';
+import { Button } from '@shared/components';
 import { Wishlist } from 'src/types/index';
 import { useLanguageNavigate } from '@hooks/utils';
 

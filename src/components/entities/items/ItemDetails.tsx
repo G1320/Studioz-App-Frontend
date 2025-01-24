@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
-import { MuiDateTimePicker, CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
+import { CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
+import { MuiDateTimePicker } from '@shared/components';
 import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
 import { useModal, useUserContext } from '@contexts/index';
 import { Cart, User, Wishlist } from 'src/types/index';

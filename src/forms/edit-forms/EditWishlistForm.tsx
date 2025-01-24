@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { GenericForm, FieldType } from '@components/index';
+import { GenericForm, FieldType } from '@shared/components';
 import { useWishlists, useUpdateWishlistMutation, useLanguageNavigate } from '@hooks/index';
 import { getLocalUser } from '@services/index';
 import { Wishlist } from 'src/types/index';

@@ -1,4 +1,5 @@
-import { StudioPreview, GenericList } from '@components/index';
+import { StudioPreview } from '@components/index';
+import { GenericList } from '@shared/components';
 import { Studio } from 'src/types/index';
 interface StudiosListProps {
   studios: Studio[];

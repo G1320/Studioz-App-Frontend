@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { GenericImage } from './GenericImage';
-import { GenericList } from '@components/index';
+import { GenericList } from '@shared/components';
 
 interface GenericImageGalleryProps {
   isGalleryImagesShown?: boolean;
