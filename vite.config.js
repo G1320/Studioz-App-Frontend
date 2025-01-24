@@ -37,6 +37,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         '@shared': path.resolve(__dirname, './src/shared'),
+        '@app': path.resolve(__dirname, './src/app'),
         '@core': path.resolve(__dirname, './src/core'),
         '@components': path.resolve(__dirname, './src/components'),
         '@forms': path.resolve(__dirname, './src/forms'),

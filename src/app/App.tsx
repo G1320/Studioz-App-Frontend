@@ -10,7 +10,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Header, ResponsiveFooter, ScrollToTop } from '@components/index';
+import { Header, ResponsiveFooter } from '@app/layout';
+import { ScrollToTop } from '@components/index';
 
 import { shuffleArray } from '@shared/utils';
 import { SEOTags } from '@components/utility/SEOTags';
