@@ -9,8 +9,8 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
 
-import { UserProvider } from './contexts/UserContext';
-import { OfflineCartProvider } from './contexts/OfflineCartContext';
+import { UserProvider } from './core/contexts/UserContext';
+import { OfflineCartProvider } from './core/contexts/OfflineCartContext';
 import { SocketProvider } from '@contexts/SocketContext';
 import { SearchProvider } from '@contexts/SearchContext';
 import './i18n';

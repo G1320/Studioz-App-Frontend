@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { Cart } from 'src/types/index'; // Assuming you have a Cart type defined
+import { Cart } from 'src/types/index';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '@contexts/ModalContext';

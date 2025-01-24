@@ -12,7 +12,7 @@
       "@components/*": ["src/components/*"],
       "@shared/*": ["src/shared/*"],
       "@config/*": ["src/core/config/*"],
-      "@contexts/*": ["src/contexts/*"],
+      "@contexts/*": ["src/core/contexts/*"],
       "@forms/*": ["src/forms/*"],
       "@hooks/*": ["src/shared/hooks/*"],
       "@types/*": ["src/types/*"],
