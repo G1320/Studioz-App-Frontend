@@ -42,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
         '@forms': path.resolve(__dirname, './src/forms'),
         '@hooks': path.resolve(__dirname, './src/shared/hooks'),
         '@pages': path.resolve(__dirname, './src/pages'),
-        '@utils': path.resolve(__dirname, './src/utils'),
+        '@utils': path.resolve(__dirname, './src/shared/utils'),
         '@types': path.resolve(__dirname, './src/models'),
         '@config': path.resolve(__dirname, './src/config')
       }
