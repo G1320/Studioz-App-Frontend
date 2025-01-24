@@ -8,12 +8,11 @@ import {
   ItemDetails,
   GenericModal
 } from '@components/index';
-import { useWishlists } from '@hooks/index';
+import { useWishlists, useMusicSubCategories } from '@hooks/index';
 import { useModal, useUserContext } from '@contexts/index';
 import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@utils/index';
 import { useTranslation } from 'react-i18next';
-import { useMusicSubCategories } from '@hooks/index';
 
 interface HomePageProps {
   studios: Studio[];

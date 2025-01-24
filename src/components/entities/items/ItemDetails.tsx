@@ -3,9 +3,8 @@ import { MuiDateTimePicker, CustomerDetailsForm, ItemHeader, HourSelector, Booki
 import { useAddItemToCartMutation, useItem, useLanguageNavigate, useStudio } from '@hooks/index';
 import { useModal, useUserContext } from '@contexts/index';
 import { Cart, User, Wishlist } from 'src/types/index';
-import { usePrefetchItem } from '@hooks/prefetching/index';
+import { usePrefetchItem, useReserveStudioItemTimeSlotsMutation } from '@hooks/index';
 import { splitDateTime } from '@utils/index';
-import { useReserveStudioItemTimeSlotsMutation } from '@hooks/mutations/bookings/bookingMutations';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';

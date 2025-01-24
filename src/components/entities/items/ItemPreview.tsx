@@ -3,14 +3,12 @@ import { Button, GenericMuiDropdown, WishlistPreview } from '@components/index';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
   useAddItemToWishlistMutation,
-  // useLanguageNavigate,
   useRemoveItemFromStudioMutation,
-  useRemoveItemFromWishlistMutation
+  useRemoveItemFromWishlistMutation,
+  usePrefetchItem
 } from '@hooks/index';
 import { useUserContext } from '@contexts/index';
 import { Item, Wishlist } from 'src/types/index';
-import { usePrefetchItem } from '@hooks/prefetching/index';
-
 import { useTranslation } from 'react-i18next';
 interface ItemPreviewProps {
   item: Item;

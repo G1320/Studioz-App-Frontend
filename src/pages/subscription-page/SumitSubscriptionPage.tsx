@@ -13,7 +13,7 @@ const SumitSubscriptionPage = () => {
       id: 'starter',
       name: 'Starter',
       planId: 'starter',
-      price: 79,
+      price: 49,
       period: t('plans.period'),
       highlight: t('plans.starter.highlight'),
       features: [
@@ -28,7 +28,7 @@ const SumitSubscriptionPage = () => {
       id: 'pro',
       name: 'Pro',
       planId: 'pro',
-      price: 149,
+      price: 99,
       period: t('plans.period'),
       highlight: t('plans.pro.highlight'),
       features: [

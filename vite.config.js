@@ -40,7 +40,7 @@ export default defineConfig(({ command, mode }) => {
         '@services': path.resolve(__dirname, './src/services'),
         '@contexts': path.resolve(__dirname, './src/contexts'),
         '@forms': path.resolve(__dirname, './src/forms'),
-        '@hooks': path.resolve(__dirname, './src/hooks'),
+        '@hooks': path.resolve(__dirname, './src/shared/hooks'),
         '@pages': path.resolve(__dirname, './src/pages'),
         '@utils': path.resolve(__dirname, './src/utils'),
         '@types': path.resolve(__dirname, './src/models'),

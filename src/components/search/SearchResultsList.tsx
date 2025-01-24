@@ -4,7 +4,7 @@ import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import { StudiosList, GenericCarousel, ItemPreview, ItemsList } from '@components/index'; // Assuming ItemsList exists
 import { StudiosAndItemsSearchResults } from 'src/types/searchResult';
-import { useWishlists } from '@hooks/dataFetching';
+import { useWishlists } from '@hooks/data-fetching';
 
 interface SearchResultsListProps {
   allStudios: Studio[];

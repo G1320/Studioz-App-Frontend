@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import categoriesJson from '../../../locales/en/categories.json';
+import categoriesJson from '../../../../locales/en/categories.json';
 
 interface CategoryOption {
   key: string; // The key used in URLs and database

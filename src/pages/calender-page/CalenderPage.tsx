@@ -4,7 +4,7 @@ import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@components/common';
 import { StudioPreview } from '@components/entities';
-import { useStudioReservations } from '@hooks/dataFetching/useStudioReservations';
+import { useStudioReservations } from '@hooks/index';
 import ReservationCalendar from '@components/calender/ReservationCalendar';
 import { Link } from 'react-router-dom';
 

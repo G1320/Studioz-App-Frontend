@@ -13,7 +13,7 @@
       "@config/*": ["src/config/*"],
       "@contexts/*": ["src/contexts/*"],
       "@forms/*": ["src/forms/*"],
-      "@hooks/*": ["src/hooks/*"],
+      "@hooks/*": ["src/shared/hooks/*"],
       "@types/*": ["src/types/*"],
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/services/*"],

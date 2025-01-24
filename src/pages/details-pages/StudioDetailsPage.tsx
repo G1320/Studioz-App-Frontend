@@ -2,7 +2,7 @@ import { GenericCarousel, GenericModal } from '@components/common';
 import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
 import { useModal } from '@contexts/ModalContext';
 import { useUserContext } from '@contexts/UserContext';
-import { useStudio, useWishlists } from '@hooks/dataFetching';
+import { useStudio, useWishlists } from '@hooks/index';
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
