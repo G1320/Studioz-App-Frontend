@@ -45,7 +45,7 @@ export default defineConfig(({ command, mode }) => {
         '@pages': path.resolve(__dirname, './src/pages'),
         '@utils': path.resolve(__dirname, './src/shared/utils'),
         '@types': path.resolve(__dirname, './src/models'),
-        '@config': path.resolve(__dirname, './src/config')
+        '@config': path.resolve(__dirname, './src/core/config')
       }
     }
   };
