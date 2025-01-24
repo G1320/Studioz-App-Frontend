@@ -1,2 +1,3 @@
 export * from './config';
 export * from './contexts';
+export * from './i18n';

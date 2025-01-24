@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import commonLocale from '../../../../locales/en/common.json';
+import commonLocale from '@core/i18n/locales/en/common.json';
 
 interface DayOption {
   key: string;

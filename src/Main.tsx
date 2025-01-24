@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 import { SocketProvider, SearchProvider, OfflineCartProvider, UserProvider, ModalProvider } from '@core/contexts';
-import './i18n';
+import './core/i18n/config';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
