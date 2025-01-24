@@ -1,4 +1,4 @@
-import { Studio } from '.';
+import { Studio } from './';
 
 export default interface StudioResponse {
   currStudio: Studio;
