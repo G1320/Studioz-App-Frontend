@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
-import { useItems, useStudios, useOnlineCart } from '@shared/hooks/index';
+import { useItems, useStudios, useOnlineCart } from '@shared/hooks';
 import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@core/config';
@@ -12,7 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Header, ResponsiveFooter, ScrollToTop } from '@components/index';
 
-import { shuffleArray } from '@shared/utils/index';
+import { shuffleArray } from '@shared/utils';
 import { SEOTags } from '@components/utility/SEOTags';
 import { ErrorBoundary } from '@components/utility/ErrorBoundary';
 import AnimatedRoutes from './routes/AnimatedRoutes';

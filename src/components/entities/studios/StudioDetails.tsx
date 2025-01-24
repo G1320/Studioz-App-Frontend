@@ -3,7 +3,7 @@ import ChairIcon from '@mui/icons-material/Chair';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
-import { useWishlists } from '@shared/hooks/data-fetching';
+import { useWishlists } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import StudioOptions from './StudioOptions';
 import StudioAvailabilityDisplay from '@components/utility/AvailabilityDropdown';

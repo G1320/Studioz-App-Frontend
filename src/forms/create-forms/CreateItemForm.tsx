@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GenericForm, FieldType } from '@shared/components';
-import { getLocalUser } from '@shared/services/index';
+import { getLocalUser } from '@shared/services';
 import {
   useCreateItemMutation,
   useMusicCategories,
@@ -9,7 +9,7 @@ import {
   usePhotoCategories,
   usePhotoSubCategories,
   useStudio
-} from '@shared/hooks/index';
+} from '@shared/hooks';
 import { Item } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 

@@ -1,7 +1,7 @@
 import { GenericForm, FieldType } from '@shared/components';
 
-import { useCreateWishlistMutation } from '@shared/hooks/index';
-import { getLocalUser } from '@shared/services/index';
+import { useCreateWishlistMutation } from '@shared/hooks';
+import { getLocalUser } from '@shared/services';
 import { Wishlist } from 'src/types/index';
 
 export const CreateWishlistForm = () => {

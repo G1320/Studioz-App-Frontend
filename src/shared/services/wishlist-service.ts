@@ -1,4 +1,4 @@
-import { httpService } from '@shared/services/index';
+import { httpService } from '@shared/services';
 import { Wishlist, WishlistResponse } from 'src/types/index';
 
 const wishlistEndpoint = '/wishlists';

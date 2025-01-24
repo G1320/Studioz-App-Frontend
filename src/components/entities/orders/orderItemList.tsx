@@ -1,5 +1,3 @@
-// OrderItemsList.tsx
-
 import { Cart } from 'src/types/index';
 
 interface OrderItemsListProps {

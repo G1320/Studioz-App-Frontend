@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useDays } from '@shared/hooks/index';
+import { useDays } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 
 interface AvailabilityDropdownProps {

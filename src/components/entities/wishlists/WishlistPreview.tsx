@@ -1,6 +1,6 @@
 import { Button } from '@shared/components';
 import { Wishlist } from 'src/types/index';
-import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useLanguageNavigate } from '@shared/hooks';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;

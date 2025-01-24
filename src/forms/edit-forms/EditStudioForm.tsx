@@ -9,11 +9,11 @@ import {
   useStudio,
   useUpdateStudioMutation,
   useCategories
-} from '@shared/hooks/index';
-import { uploadFile } from '@shared/services/index';
+} from '@shared/hooks';
+import { uploadFile } from '@shared/services';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
-import { arraysEqual } from '@shared/utils/compareArrays';
+import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 

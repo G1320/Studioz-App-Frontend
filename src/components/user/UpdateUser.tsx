@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { updateUser } from '@shared/services/index';
+import { updateUser } from '@shared/services';
 import { GenericForm } from '@shared/components';
-import { useErrorHandling, useLanguageNavigate } from '@shared/hooks/index';
+import { useErrorHandling, useLanguageNavigate } from '@shared/hooks';
 
 export function UpdateUserForm() {
   const handleError = useErrorHandling();

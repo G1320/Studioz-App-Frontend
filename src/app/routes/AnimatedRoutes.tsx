@@ -1,4 +1,3 @@
-// components/routing/AnimatedRoutes.tsx
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense, useMemo } from 'react';

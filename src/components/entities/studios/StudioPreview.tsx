@@ -2,7 +2,7 @@ import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery } from '@shared/components';
 import { Studio } from 'src/types/index';
-import { usePrefetchStudio } from '@shared/hooks/prefetching/index';
+import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 

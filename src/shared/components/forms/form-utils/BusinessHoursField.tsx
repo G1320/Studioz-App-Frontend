@@ -3,7 +3,7 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { Switch } from '@headlessui/react';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import dayjs from 'dayjs';
-import { useDays } from '@shared/hooks/index';
+import { useDays } from '@shared/hooks';
 
 type Schedule = Record<
   DayOfWeek,

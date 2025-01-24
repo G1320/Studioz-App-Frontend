@@ -1,4 +1,4 @@
-import { useInvalidateQueries, useLanguageNavigate, useMutationHandler } from '@shared/hooks/utils/index';
+import { useInvalidateQueries, useLanguageNavigate, useMutationHandler } from '@shared/hooks';
 import {
   createItem,
   deleteItem,
@@ -7,7 +7,7 @@ import {
   removeItemFromWishlist,
   addItemToStudio,
   removeItemFromStudio
-} from '@shared/services/index';
+} from '@shared/services';
 import { Item } from 'src/types/index';
 
 export const useCreateItemMutation = (studioId: string) => {

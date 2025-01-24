@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchStudiosAndItemsMutation, useDebounce, useLanguageNavigate } from '@shared/hooks/index';
+import { useSearchStudiosAndItemsMutation, useDebounce, useLanguageNavigate } from '@shared/hooks';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 

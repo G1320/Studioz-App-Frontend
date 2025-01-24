@@ -1,8 +1,8 @@
-import { httpService } from '@shared/services/index';
+import { httpService } from '@shared/services';
 import Cookies from 'js-cookie';
-import { sanitizeUserObject } from '@shared/utils/index';
+import { sanitizeUserObject } from '@shared/utils';
 import { LoginCredentials, AuthResponse, User } from 'src/types/index';
-import { sendWelcomeEmail } from './email-service';
+import { sendWelcomeEmail } from '@shared/services';
 
 const authEndpoint = '/auth';
 

@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, ReactNode } from 'react';
-import { getLocalSearchResults } from '@shared/services/search-service'; // Import service functions
-import { StudiosAndItemsSearchResults, SearchResult } from 'src/types/index'; // Assuming SearchResult is already defined
+import { getLocalSearchResults } from '@shared/services';
+import { StudiosAndItemsSearchResults, SearchResult } from 'src/types/index';
 
 interface SearchContextType {
   searchResults: StudiosAndItemsSearchResults | SearchResult[];

@@ -1,5 +1,4 @@
-// src/services/subscriptionService.ts
-import { httpService } from '@shared/services/index';
+import { httpService } from '@shared/services';
 
 interface SubscriptionCreateParams {
   userId: string;

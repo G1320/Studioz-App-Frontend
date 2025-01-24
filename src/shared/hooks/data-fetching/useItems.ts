@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getItems } from '@shared/services/index';
+import { getItems } from '@shared/services';
 import { Item } from 'src/types/index';
 
 export const useItems = () => {

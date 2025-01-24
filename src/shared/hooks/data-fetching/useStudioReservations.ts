@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getReservationsByStudioId } from '@shared/services/index';
+import { getReservationsByStudioId } from '@shared/services';
 import { Reservation } from 'src/types/index';
 
 export const useStudioReservations = (studioId: string) => {

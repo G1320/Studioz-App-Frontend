@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getUserWishlistById } from '@shared/services/index';
+import { getUserWishlistById } from '@shared/services';
 import { WishlistResponse } from 'src/types/index';
 
 export const useWishlist = (userId: string, wishlistId: string) => {

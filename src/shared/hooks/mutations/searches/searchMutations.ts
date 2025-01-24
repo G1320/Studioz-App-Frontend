@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { searchItems, searchStudios, searchStudiosAndItems, searchUsers } from '@shared/services/search-service';
-import { SearchResult, StudiosAndItemsSearchResults } from 'src/types/index'; // Assuming all models are imported
-import { useErrorHandling } from '@shared/hooks/index';
+import { searchItems, searchStudios, searchStudiosAndItems, searchUsers } from '@shared/services';
+import { SearchResult, StudiosAndItemsSearchResults } from 'src/types/index';
+import { useErrorHandling } from '@shared/hooks';
 import { useSearchContext } from '@core/contexts';
-import { setLocalSearchResults } from '@shared/services/search-service';
+import { setLocalSearchResults } from '@shared/services';
 
 export const useSearchStudiosAndItemsMutation = () => {
   const { setSearchResults } = useSearchContext();

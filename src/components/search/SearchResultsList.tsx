@@ -5,7 +5,7 @@ import Item from 'src/types/item';
 import { StudiosList, ItemPreview, ItemsList } from '@components/index';
 import { GenericCarousel } from '@shared/components';
 import { StudiosAndItemsSearchResults } from 'src/types/searchResult';
-import { useWishlists } from '@shared/hooks/data-fetching';
+import { useWishlists } from '@shared/hooks';
 
 interface SearchResultsListProps {
   allStudios: Studio[];

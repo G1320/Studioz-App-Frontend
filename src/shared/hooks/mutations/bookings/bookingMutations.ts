@@ -1,5 +1,5 @@
-import { useMutationHandler } from '@shared/hooks/utils/index';
-import { releaseLastTimeSlot, reserveNextTimeSlot, reserveTimeSlots } from '@shared/services/booking-service';
+import { useMutationHandler } from '@shared/hooks/utils';
+import { releaseLastTimeSlot, reserveNextTimeSlot, reserveTimeSlots } from '@shared/services';
 import { CartItem, Item } from 'src/types/index';
 
 export const useReserveNextStudioItemTimeSlotMutation = (itemId: string) => {

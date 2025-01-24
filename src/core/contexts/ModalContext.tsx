@@ -1,11 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Item } from 'src/types/index';
-import {
-  getLocalModalOpen,
-  setLocalModalOpen,
-  getLocalSelectedItem,
-  setLocalSelectedItem
-} from '@shared/services/index';
+import { getLocalModalOpen, setLocalModalOpen, getLocalSelectedItem, setLocalSelectedItem } from '@shared/services';
 
 // Define types for the context
 interface ModalContextType {

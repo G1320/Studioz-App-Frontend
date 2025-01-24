@@ -1,5 +1,5 @@
-import { useLanguageNavigate, useMutationHandler } from '@shared/hooks/utils/index';
-import { createStudio, updateStudio } from '@shared/services/index';
+import { useLanguageNavigate, useMutationHandler } from '@shared/hooks';
+import { createStudio, updateStudio } from '@shared/services';
 import { Studio } from 'src/types/index';
 
 type CreateStudioVariables = {

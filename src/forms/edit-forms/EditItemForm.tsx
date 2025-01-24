@@ -8,8 +8,8 @@ import {
   usePhotoCategories,
   usePhotoSubCategories,
   useUpdateItemMutation
-} from '@shared/hooks/index';
-import { uploadFile } from '@shared/services/index';
+} from '@shared/hooks';
+import { uploadFile } from '@shared/services';
 import { Item } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils/compareArrays';

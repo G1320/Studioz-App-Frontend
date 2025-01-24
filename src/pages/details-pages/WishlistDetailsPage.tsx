@@ -8,9 +8,9 @@ import {
   //  useAddItemsToCartMutation,
   useDeleteWishlistMutation,
   useLanguageNavigate
-} from '@shared/hooks/index';
+} from '@shared/hooks';
 import { Item, Studio, WishlistItem } from 'src/types/index';
-import { getLocalUser } from '@shared/services/index';
+import { getLocalUser } from '@shared/services';
 import { toast } from 'sonner';
 
 interface WishlistDetailsPageProps {
