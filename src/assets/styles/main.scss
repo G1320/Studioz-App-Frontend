@@ -1,7 +1,6 @@
 @use 'utilities';
 @use 'base';
 @use 'layout';
-@use 'pages';
 
 // @import 'tailwindcss/base';
 // @import 'tailwindcss/components';
@@ -9,3 +8,4 @@
 
 @use '../../shared/styles' as shared;
 @use '../../features/styles' as features;
+@use '../../app/styles' as app;

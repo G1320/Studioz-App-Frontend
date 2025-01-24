@@ -1,3 +1,3 @@
 export * from './footer';
-export * from './header/Header';
-export * from './hero/Hero';
+export * from './header';
+export * from './hero';
