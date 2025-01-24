@@ -1,4 +1,4 @@
-import { ShoppingCart } from '@components/index';
+import { ShoppingCart } from '@features/entities';
 import { Cart } from 'src/types/index';
 import { Helmet } from 'react-helmet';
 

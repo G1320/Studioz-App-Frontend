@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { WishlistPreview } from '@components/index';
+import { WishlistPreview } from '@features/entities';
 import { Button, GenericMuiDropdown } from '@shared/components';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {

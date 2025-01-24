@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { CartItemPreview } from '@components/index';
+import { CartItemPreview } from '@features/entities';
 import Cart from 'src/types/cart';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

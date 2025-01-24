@@ -3,7 +3,7 @@ import { useSearchStudiosAndItemsMutation, useDebounce, useLanguageNavigate } fr
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 
-const SearchInput = () => {
+export const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
   const langNavigate = useLanguageNavigate();

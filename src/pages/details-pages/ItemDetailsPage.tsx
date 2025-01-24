@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { ItemPreview } from '@components/index';
+import { ItemPreview } from '@features/entities';
 import { Button } from '@shared/components';
 import { useItem, useWishlists, useDeleteItemMutation, useLanguageNavigate } from '@shared/hooks';
 

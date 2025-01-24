@@ -6,9 +6,9 @@ import { Studio, User } from 'src/types/index';
 import { useWishlists } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import StudioOptions from './StudioOptions';
-import StudioAvailabilityDisplay from '@components/utility/AvailabilityDropdown';
-import AddressDropdown from '@components/utility/AddressDropdown';
-import PhoneDropdown from '@components/utility/PhoneDropdown';
+import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
+import AddressDropdown from '@shared/utility-components/AddressDropdown';
+import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
 
 interface StudioDetailsProps {
   studio?: Studio;

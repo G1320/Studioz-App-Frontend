@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
-import { GoogleAddressAutocomplete } from '@components/index';
+import { GoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
 
 export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select' | 'businessHours';

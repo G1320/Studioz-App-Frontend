@@ -1,4 +1,4 @@
-import { StudiosList, StudioPreview, ItemPreview, CategoryPreview, ItemDetails } from '@components/index';
+import { StudiosList, StudioPreview, ItemPreview, CategoryPreview, ItemDetails } from '@features/entities';
 import { Hero } from '@app/layout';
 import { GenericCarousel, GenericModal } from '@shared/components';
 import { useWishlists, useMusicSubCategories } from '@shared/hooks';

@@ -3,9 +3,9 @@ import { useUserContext } from '@core/contexts';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@shared/components';
-import { StudioPreview } from '@components/entities';
+import { StudioPreview } from '@features/entities';
 import { useStudioReservations } from '@shared/hooks';
-import ReservationCalendar from '@components/calender/ReservationCalendar';
+import ReservationCalendar from '@features/booking/calender/ReservationCalendar';
 import { Link } from 'react-router-dom';
 
 interface StudioCalendarPageProps {

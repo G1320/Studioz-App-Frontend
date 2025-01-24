@@ -1,5 +1,5 @@
 import { GenericCarousel, GenericModal } from '@shared/components';
-import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@components/index';
+import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@features/entities';
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
 

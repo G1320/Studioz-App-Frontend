@@ -11,11 +11,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Header, ResponsiveFooter } from '@app/layout';
-import { ScrollToTop } from '@components/index';
+import { ScrollToTop } from '@shared/utility-components';
 
 import { shuffleArray } from '@shared/utils';
-import { SEOTags } from '@components/utility/SEOTags';
-import { ErrorBoundary } from '@components/utility/ErrorBoundary';
+import { SEOTags } from '@shared/utility-components/SEOTags';
+import { ErrorBoundary } from '@shared/utility-components/ErrorBoundary';
 import AnimatedRoutes from './routes/AnimatedRoutes';
 import { useTranslation } from 'react-i18next';
 

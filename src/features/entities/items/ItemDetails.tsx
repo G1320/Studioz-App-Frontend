@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@components/index';
+import { CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import {
   useAddItemToCartMutation,

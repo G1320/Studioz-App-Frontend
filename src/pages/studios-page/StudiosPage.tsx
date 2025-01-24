@@ -1,4 +1,5 @@
-import { CategoryPreview, StudiosList, StudiosMap } from '@components/index';
+import { CategoryPreview, StudiosList } from '@features/entities';
+import { StudiosMap } from '@shared/components';
 import { GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
 

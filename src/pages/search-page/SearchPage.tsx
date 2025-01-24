@@ -1,5 +1,4 @@
-import SearchInput from '@components/search/SearchInput';
-import SearchResultsList from '@components/search/SearchResultsList';
+import { SearchInput, SearchResultsList } from '@features/search';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { sendSubscriptionConfirmation } from '@shared/services/email-service';
 
-const SumitSubscriptionPaymentForm = ({ plan }) => {
+export const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
   const { user, updateSubscription } = useUserContext();
   const langNavigate = useLanguageNavigate();

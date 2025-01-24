@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContinueToCheckoutButton } from '@components/index';
+import { ContinueToCheckoutButton } from '@features/entities';
 import { Button } from '@shared/components';
 import { Cart } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
