@@ -1,5 +1,5 @@
 import { Cart, CartItem } from 'src/types/index';
-import { getLocalOfflineCart, setLocalOfflineCart } from '../services/cart-service';
+import { getLocalOfflineCart, setLocalOfflineCart } from '../shared/services/cart-service';
 
 // Function to update the offline cart
 export const updateOfflineCart = (cart: Cart, setOfflineCart: (cart: Cart) => void) => {

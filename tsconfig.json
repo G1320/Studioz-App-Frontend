@@ -16,7 +16,7 @@
       "@hooks/*": ["src/shared/hooks/*"],
       "@types/*": ["src/types/*"],
       "@pages/*": ["src/pages/*"],
-      "@services/*": ["src/services/*"],
+      "@services/*": ["src/shared/services/*"],
       "@utils/*": ["src/utils/*"]
     },
     "moduleResolution": "node",

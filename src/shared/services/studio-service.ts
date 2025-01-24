@@ -1,6 +1,6 @@
 import { httpService } from '@services/index';
 import { parseJSON, stringifyJSON } from '@utils/index';
-import { Studio, StudioResponse, Item } from '../types/index';
+import { Studio, StudioResponse, Item } from '../../types/index';
 
 const studioEndpoint = '/studios';
 
