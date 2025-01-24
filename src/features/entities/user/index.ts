@@ -1,1 +1,1 @@
-export * from './UpdateUser';
+export * from './components';

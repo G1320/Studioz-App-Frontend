@@ -1,4 +1,4 @@
-import { SubscriptionDetails } from '@features/subscriptions';
+import { SubscriptionDetails } from '@features/entities/subscriptions';
 
 const MySubscriptionPage = () => {
   return (

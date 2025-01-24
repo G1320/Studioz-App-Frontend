@@ -1,2 +1,1 @@
-export * from './WishlistList';
-export * from './WishlistPreview';
+export * from './components';

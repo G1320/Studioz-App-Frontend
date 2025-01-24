@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
-interface CustomerDetailsFormProps {
+interface ReservationDetailsFormProps {
   costumerName: string;
   costumerPhone: string;
   comment: string;
@@ -15,7 +15,7 @@ interface CustomerDetailsFormProps {
   onPhoneVerified: () => void;
 }
 
-export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
+export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
   costumerName,
   costumerPhone,
   comment,
@@ -138,4 +138,4 @@ export const CustomerDetailsForm: React.FC<CustomerDetailsFormProps> = ({
   );
 };
 
-export default CustomerDetailsForm;
+export default ReservationDetailsForm;

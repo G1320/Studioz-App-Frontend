@@ -1,2 +1,1 @@
-export * from './CartItemPreview';
-export * from './ShoppingCart';
+export * from './components';

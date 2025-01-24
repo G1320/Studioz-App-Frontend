@@ -1,4 +1,4 @@
-import ProfileDetails from '@features/entities/profile/ProfileDetails';
+import ProfileDetails from '@features/entities/profile/components/ProfileDetails';
 import { User } from 'src/types/index';
 
 interface ProfilePageProps {

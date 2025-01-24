@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { CustomerDetailsForm, ItemHeader, HourSelector, BookingActions } from '@features/entities';
+import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import {
   useAddItemToCartMutation,
@@ -15,7 +15,7 @@ import { splitDateTime } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
-import { ReservationDetails } from '../reservations/ReservationsDetails';
+import { ReservationDetails } from '@features/entities/reservations';
 
 interface ItemDetailsProps {
   cart?: Cart;
@@ -165,7 +165,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
       </div>
 
       {!currentReservationId && (
-        <CustomerDetailsForm
+        <ReservationDetailsForm
           costumerName={costumerName}
           costumerPhone={costumerPhone}
           comment={comment}

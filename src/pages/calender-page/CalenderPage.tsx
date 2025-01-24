@@ -5,15 +5,15 @@ import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@shared/components';
 import { StudioPreview } from '@features/entities';
 import { useStudioReservations } from '@shared/hooks';
-import ReservationCalendar from '@features/booking/calender/ReservationCalendar';
+import ReservationCalendar from '@features/entities/bookings/calender/ReservationCalendar';
 import { Link } from 'react-router-dom';
 
-interface StudioCalendarPageProps {
+interface CalendarPageProps {
   studios: Studio[];
   items: Item[];
 }
 
-const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios }) => {
+const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
   const { user } = useUserContext();
   const [selectedStudio, setSelectedStudio] = useState<Studio | null>(studios[0]);
   const { data: studioReservations } = useStudioReservations(selectedStudio?._id || '');
@@ -74,4 +74,4 @@ const StudioCalendarPage: React.FC<StudioCalendarPageProps> = ({ studios }) => {
   );
 };
 
-export default StudioCalendarPage;
+export default CalendarPage;

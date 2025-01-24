@@ -1,4 +1,4 @@
-export type { AuthResponse, RegisterData, LoginCredentials } from './auth/auth';
+export type { AuthResponse, RegisterData, LoginCredentials } from './auth';
 export type { Availability } from './availability';
 export type { default as Item } from './item';
 export type { default as Studio } from './studio';
