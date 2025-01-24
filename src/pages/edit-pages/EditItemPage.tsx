@@ -1,4 +1,4 @@
-import { EditItemForm } from '@forms/edit-forms';
+import { EditItemForm } from '@features/entities';
 
 const EditItemPage = () => {
   return (

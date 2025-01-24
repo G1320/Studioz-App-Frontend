@@ -1,4 +1,4 @@
-import { CreateItemForm } from '@forms/create-forms';
+import { CreateItemForm } from '@features/entities';
 
 const CreateItemPage = () => {
   return (
