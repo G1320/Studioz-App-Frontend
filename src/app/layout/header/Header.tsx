@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { LoginButton, LogoutButton } from '@features/auth';
-import { HeaderNavigation } from '@features/navigation';
+import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
 import { LanguageSwitcher } from '@features/translation';
 import { useTranslation } from 'react-i18next';
@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         )}
         {user ? <LogoutButton aria-label="Logout" /> : <LoginButton aria-label="Login" />}
       </div>
-      <HeaderNavigation />
+      <HeaderNavbar />
     </header>
   );
 };

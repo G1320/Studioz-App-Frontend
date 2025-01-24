@@ -1,0 +1,89 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+@use 'sass:color';
+
+.reservation-details {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: color.adjust(vars.$preview-bg-color, $lightness: -3%);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+  h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: vars.$color-brand;
+  }
+
+  .reservation-info {
+    display: grid;
+    gap: 0.75rem;
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      span {
+        &:first-child {
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.9rem;
+        }
+
+        &:last-child {
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.87);
+        }
+
+        &.status-pending {
+          color: #fbbf24; // Brighter yellow for dark background
+          font-weight: 600;
+        }
+
+        &.status-confirmed {
+          color: #34d399; // Brighter green for dark background
+          font-weight: 600;
+        }
+
+        &.status-expired {
+          color: #f87171; // Brighter red for dark background
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+    padding: 0.75rem;
+
+    h4 {
+      font-size: 1rem;
+    }
+
+    .reservation-info {
+      gap: 0.5rem;
+
+      .info-row {
+        padding: 0.35rem 0;
+
+        span {
+          &:first-child {
+            font-size: 0.85rem;
+          }
+
+          &:last-child {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+}

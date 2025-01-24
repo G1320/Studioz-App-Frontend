@@ -8,3 +8,5 @@ export * from './lists';
 export * from './datePicker';
 export * from './modal';
 export * from './maps';
+export * from './carousels';
+export * from './drop-downs';

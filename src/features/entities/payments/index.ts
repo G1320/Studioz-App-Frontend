@@ -1,1 +1,1 @@
-export * from './sumit';
+export * from './sumit/components';

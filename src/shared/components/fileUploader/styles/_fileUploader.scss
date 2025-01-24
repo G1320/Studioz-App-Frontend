@@ -1,0 +1,46 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+article {
+  gap: 1rem;
+  display: grid;
+  margin-block-end: 1rem;
+}
+
+.file-uploader {
+  display: flex 1 1;
+  background-color: rgba(61, 61, 61, 0.2078431373);
+  background: vars.$preview-bg-color;
+  border-radius: 8px;
+  align-content: center;
+  min-height: 215px;
+  gap: 1rem;
+  max-width: 520px;
+  min-width: 300px;
+  place-self: center;
+  margin: auto;
+  cursor: pointer;
+  padding: 1rem;
+  small {
+    height: max-content;
+  }
+
+  .file-uploader-content-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    img {
+      max-width: calc(50%);
+    }
+  }
+
+  .upload-icon-container {
+    height: 24px;
+    .icon {
+      margin: auto;
+    }
+  }
+  .files-list {
+    margin-block-start: 1rem;
+  }
+}

@@ -7,7 +7,7 @@ const languages = ['en', 'he'];
 const baseRoutes = ['/services', '/wishlists', '/create-studio'];
 const allRoutes = ['/', ...baseRoutes].flatMap((route) => languages.map((lang) => `/${lang}${route}`));
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ _command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
