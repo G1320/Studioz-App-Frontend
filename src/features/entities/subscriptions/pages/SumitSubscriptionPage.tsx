@@ -1,4 +1,4 @@
-import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/components';
+import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/forms';
 import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';

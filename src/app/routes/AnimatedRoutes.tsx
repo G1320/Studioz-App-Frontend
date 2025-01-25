@@ -1,7 +1,6 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense, useMemo } from 'react';
-import i18n from '../../core/i18n/config';
 
 import HomePage from '@features/home/pages/HomePage';
 import WishListsPage from '@features/entities/wishlists/pages/WishlistsPage';
@@ -19,6 +18,7 @@ import Item from 'src/types/item';
 import Cart from 'src/types/cart';
 import User from 'src/types/user';
 import { SumitSubscriptionPage, MySubscriptionPage } from '@features/entities/subscriptions';
+import { useTranslation } from 'react-i18next';
 
 const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
@@ -61,6 +61,7 @@ const pageVariants = {
 
 const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineCart, offlineCart, user }) => {
   const location = useLocation();
+  const { i18n } = useTranslation();
 
   const userStudios = useMemo(() => {
     if (!user?._id) return [];
