@@ -19,3 +19,4 @@ export * from './otp-service';
 export * from './modal-service';
 export * from './reservation-service';
 export * from './subscription-service';
+export * from './vendor-service';
