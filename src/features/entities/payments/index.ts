@@ -1,1 +1,1 @@
-export * from './sumit/forms';
+export * from './sumit';

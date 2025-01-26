@@ -12,7 +12,7 @@
       "@features/*": ["src/features/*"],
       "@app/*": ["src/app/*"],
       "@shared/*": ["src/shared/*"],
-      "@core/*": ["src/core/*"],
+      "@core/*": ["src/core/*"]
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -27,6 +27,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/core/i18n/config.ts", "src/scripts/paypalScript.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/core/i18n/config.ts",
+    "src/scripts/paypalScript.js",
+    "src/features/entities/payments/sumit/forms/temp.tsx",
+    "src/features/entities/payments/sumit/utils/preparePaymentFormData.js",
+    "src/features/entities/payments/sumit/forms/MultivendorPaymentForm.jsx"
+  ],
   "exclude": ["node_modules", "dist"]
 }

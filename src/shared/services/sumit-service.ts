@@ -28,6 +28,25 @@ interface SumitResponse {
   error?: string;
 }
 
+interface CartItem {
+  merchantId: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface CustomerInfo {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+interface MultiVendorParams {
+  items: CartItem[];
+  singleUseToken: string;
+  customerInfo: CustomerInfo;
+}
+
 export const sumitService = {
   processCreditCardPayment: async (singleUseToken: string, amount: number, description: string, costumerInfo: any) => {
     try {
@@ -68,6 +87,31 @@ export const sumitService = {
       console.error('Error canceling Sumit subscription:', error);
       throw error;
     }
+  },
+
+  multivendorCharge: async (params: MultiVendorParams): Promise<SumitResponse> => {
+    try {
+      const response = await httpService.post<SumitResponse>(`${SUMIT_ENDPOINT}/multivendor-charge`, params);
+      return response;
+    } catch (error) {
+      console.error('Error processing multivendor charge:', error);
+      throw error;
+    }
+  },
+
+  getSumitToken: async (formData: FormData) => {
+    const tokenResponse = await fetch('https://api.sumit.co.il/creditguy/vault/tokenizesingleuse', {
+      method: 'POST',
+      headers: { accept: 'text/plain' },
+      body: formData
+    });
+
+    const tokenData = await tokenResponse.json();
+    if (!tokenResponse.ok || tokenData.Status !== 0) {
+      throw new Error(tokenData.UserErrorMessage || tokenData.TechnicalErrorDetails || 'Failed to get payment token');
+    }
+
+    return tokenData.Data?.SingleUseToken;
   },
 
   validateToken: async (singleUseToken: string) => {

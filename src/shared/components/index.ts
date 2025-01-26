@@ -10,3 +10,4 @@ export * from './modal';
 export * from './maps';
 export * from './carousels';
 export * from './drop-downs';
+export * from './payment';
