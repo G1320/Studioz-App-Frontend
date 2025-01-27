@@ -5,7 +5,7 @@ import { User } from 'src/types/index';
 interface UserContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  updateSubscription: (subscriptionId: string | null, status: string) => void;
+  updateSubscription: (subscriptionId: string | undefined, status: string) => void;
 }
 
 interface UserProviderProps {
@@ -17,11 +17,11 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState(getLocalUser());
 
-  const updateSubscription = (subscriptionId: string | null, status: string) => {
-    setUser((currentUser: any) => {
+  const updateSubscription = (subscriptionId: string | undefined, status: string) => {
+    setUser((currentUser: User | null) => {
       if (!currentUser) return null;
 
-      const updatedUser = {
+      const updatedUser: User = {
         ...currentUser,
         subscriptionId,
         subscriptionStatus: status

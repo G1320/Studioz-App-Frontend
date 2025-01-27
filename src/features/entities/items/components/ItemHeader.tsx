@@ -15,20 +15,20 @@ interface ItemHeaderProps {
   onImageClick: () => void;
 }
 
-const getTranslatedPricePer = (pricePer: string) => {
-  const { t } = useTranslation('forms');
-  const pricePerMap: Record<string, string> = {
-    hour: t('forms:form.pricePer.hour'),
-    session: t('forms:form.pricePer.session'),
-    unit: t('forms:form.pricePer.unit'),
-    song: t('forms:form.pricePer.song')
-  };
-
-  return pricePerMap[pricePer] || pricePer;
-};
-
 export const ItemHeader = React.memo(({ studio, item, user, onEdit, onImageClick }: ItemHeaderProps) => {
+  const { t } = useTranslation('forms');
   if (!item) return null;
+
+  const getTranslatedPricePer = (pricePer: string) => {
+    const pricePerMap: Record<string, string> = {
+      hour: t('forms:form.pricePer.hour'),
+      session: t('forms:form.pricePer.session'),
+      unit: t('forms:form.pricePer.unit'),
+      song: t('forms:form.pricePer.song')
+    };
+
+    return pricePerMap[pricePer] || pricePer;
+  };
 
   return (
     <>
@@ -50,3 +50,5 @@ export const ItemHeader = React.memo(({ studio, item, user, onEdit, onImageClick
     </>
   );
 });
+
+ItemHeader.displayName = 'ItemHeader';

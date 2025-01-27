@@ -18,18 +18,16 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
   const results = searchResults as StudiosAndItemsSearchResults;
-  const searchedItems = results.items || [];
-  const searchedStudios = results.studios || [];
-
-  // Filter studios matching the search results
   const filteredStudios = useMemo(() => {
+    const searchedStudios = results.studios || [];
     return allStudios.filter((studio) => searchedStudios.some((result: Studio) => result._id === studio._id));
-  }, [allStudios, searchedStudios]);
+  }, [allStudios, results.studios]);
 
   // Filter items matching the search results
   const filteredItems = useMemo(() => {
+    const searchedItems = results.items || [];
     return allItems.filter((item) => searchedItems.some((result: Item) => result._id === item._id));
-  }, [allItems, searchedItems]);
+  }, [allItems, results.items]);
 
   const renderItem = (item: Item) => <ItemPreview item={item} key={item.name.en} wishlists={wishlists} />;
 

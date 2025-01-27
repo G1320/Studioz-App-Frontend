@@ -64,7 +64,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     setSelectedQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
-  const handleDateConfirm = (confirmedDate: string | null, hours: number) => {
+  const handleBookNow = useCallback(() => {
+    const confirmedDate = selectedDate?.toString() || null;
+    const hours = selectedQuantity;
+
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (!bookingDate || !startTime) return toast.error('Please select a valid date and time');
 
@@ -105,7 +108,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
       reserveItemTimeSlotMutation.mutate(newItem, {
         onSuccess: (response) => {
-          // Save to localStorage when setting new reservation
           localStorage.setItem(`reservation_${itemId}`, response);
           setCurrentReservationId(response);
           addItemToCartMutation.mutate({ ...newItem, reservationId: response });
@@ -115,7 +117,21 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         }
       });
     }
-  };
+  }, [
+    selectedDate,
+    selectedQuantity,
+    studio,
+    item,
+    customerName,
+    customerPhone,
+    user?._id,
+    comment,
+    itemId,
+    reserveItemTimeSlotMutation,
+    addItemToCartMutation,
+    setCurrentReservationId,
+    setSelectedDate
+  ]);
 
   useEffect(() => {
     if (currentReservationId) {
@@ -133,10 +149,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
-
-  const handleBookNow = useCallback(() => {
-    handleDateConfirm(selectedDate?.toString() || null, selectedQuantity);
-  }, [selectedDate, selectedQuantity]);
 
   return (
     <article onMouseEnter={prefetchItem} key={item?._id} className={`details item-details `}>

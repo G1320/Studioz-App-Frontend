@@ -7,10 +7,11 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { reserveStudioTimeSlots } from '@shared/services/booking-service';
+import { StudioAvailability } from 'src/types/studio';
 
 interface StudioBlockModalProps {
   studioId: string;
-  studioAvailability: any; // Replace with your studio availability type
+  studioAvailability: StudioAvailability;
 }
 
 export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, studioAvailability }) => {

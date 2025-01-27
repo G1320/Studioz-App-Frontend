@@ -12,6 +12,7 @@ const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
 export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
+
   const [viewState, setViewState] = useState({
     latitude: 32.0561,
     longitude: 34.7516,

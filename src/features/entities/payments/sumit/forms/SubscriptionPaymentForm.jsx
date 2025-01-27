@@ -1,5 +1,5 @@
 import { useUserContext } from '@core/contexts';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { sumitService } from '@shared/services/sumit-service';
 import { createSubscription, activateSubscription } from '@shared/services/subscription-service';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,6 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
   const { user, updateSubscription } = useUserContext();
   const langNavigate = useLanguageNavigate();
-  const { t } = useTranslation('forms');
 
   const createPendingSubscription = async () => {
     try {
