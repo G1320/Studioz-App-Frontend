@@ -6,9 +6,10 @@ import dayjs from 'dayjs';
 interface ReservationDetailsProps {
   reservationId?: string;
   pricePer: string;
+  onClear?: () => void;
 }
 
-export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId, pricePer }) => {
+export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId, pricePer, onClear }) => {
   const { data: reservation } = useReservation(reservationId || '');
 
   if (!reservation) return null;
@@ -47,16 +48,16 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
             </>
           )}
         </div>
-        {reservation.costumerName && (
+        {reservation.customerName && (
           <div className="info-row">
             <span>Customer:</span>
-            <span>{reservation.costumerName}</span>
+            <span>{reservation.customerName}</span>
           </div>
         )}
-        {reservation.costumerPhone && (
+        {reservation.customerPhone && (
           <div className="info-row">
             <span>Phone:</span>
-            <span>{reservation.costumerPhone}</span>
+            <span>{reservation.customerPhone}</span>
           </div>
         )}
         {reservation.comment && (
@@ -77,6 +78,15 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
             <span>{reservation.orderId}</span>
           </div>
         )}
+        <button
+          className="clear-reservation-button"
+          onClick={() => {
+            localStorage.removeItem(`reservation_${reservationId}`);
+            onClear?.();
+          }}
+        >
+          Clear Reservation
+        </button>
       </div>
     </div>
   );
