@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 interface ReservationDetailsFormProps {
-  costumerName: string;
-  costumerPhone: string;
+  customerName: string;
+  customerPhone: string;
   comment: string;
   onNameChange: (name: string) => void;
   onPhoneChange: (phone: string) => void;
@@ -16,8 +16,8 @@ interface ReservationDetailsFormProps {
 }
 
 export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
-  costumerName,
-  costumerPhone,
+  customerName,
+  customerPhone,
   comment,
   onNameChange,
   onPhoneChange,
@@ -41,11 +41,11 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
   });
 
   const handleSendCode = async () => {
-    if (!costumerPhone) {
+    if (!customerPhone) {
       toast.error(t('form.customerDetails.phone.error'));
       return;
     }
-    const success = await sendVerificationCode(costumerPhone);
+    const success = await sendVerificationCode(customerPhone);
     if (success) {
       setCodeSent(true);
     }
@@ -56,7 +56,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
       toast.error(t('form.verification.code.error'));
       return;
     }
-    await verifyCode(costumerPhone, verificationCode);
+    await verifyCode(customerPhone, verificationCode);
   };
 
   return (
@@ -66,7 +66,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
           type="text"
           className="customer-input"
           placeholder={t('form.customerDetails.name.placeholder')}
-          value={costumerName}
+          value={customerName}
           onChange={(e) => onNameChange(e.target.value)}
           disabled={disabled}
           style={{ fontSize: '16px' }}
@@ -77,7 +77,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
           type="tel"
           className="customer-input"
           placeholder={t('form.customerDetails.phone.placeholder')}
-          value={costumerPhone}
+          value={customerPhone}
           onChange={(e) => onPhoneChange(e.target.value)}
           dir={isRTL ? 'rtl' : 'ltr'}
           disabled={disabled || codeSent}
@@ -102,7 +102,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
           type="button"
           className="verification-button"
           onClick={handleSendCode}
-          disabled={isVerifying || !costumerPhone || codeSent}
+          disabled={isVerifying || !customerPhone || codeSent}
         >
           {isVerifying
             ? t('form.verification.buttons.sending')

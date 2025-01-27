@@ -42,6 +42,7 @@ interface CustomerInfo {
 }
 
 interface MultiVendorParams {
+  vendorId: string;
   items: CartItem[];
   singleUseToken: string;
   customerInfo: CustomerInfo;

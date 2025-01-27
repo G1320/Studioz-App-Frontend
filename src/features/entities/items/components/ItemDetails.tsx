@@ -36,8 +36,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
 
-  const [costumerPhone, setCostumerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
-  const [costumerName, setCostumerName] = useState(() => localStorage.getItem('customerName') || '');
+  const [customerPhone, setCustomerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
+  const [customerName, setCustomerName] = useState(() => localStorage.getItem('customerName') || '');
   const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
@@ -97,8 +97,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
         startTime,
         studioImgUrl: item?.studioImgUrl,
         hours,
-        costumerName,
-        costumerPhone,
+        customerName,
+        customerPhone,
         costumerId: user?._id,
         comment
       };
@@ -166,20 +166,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
 
       {!currentReservationId && (
         <ReservationDetailsForm
-          costumerName={costumerName}
-          costumerPhone={costumerPhone}
+          customerName={customerName}
+          customerPhone={customerPhone}
           comment={comment}
           onNameChange={(value) => {
             localStorage.setItem('customerName', value);
-            setCostumerName(value);
+            setCustomerName(value);
           }}
           onPhoneChange={(value) => {
-            if (value !== costumerPhone) {
+            if (value !== customerPhone) {
               localStorage.removeItem('isPhoneVerified');
               setIsPhoneVerified(false);
             }
             localStorage.setItem('customerPhone', value);
-            setCostumerPhone(value);
+            setCustomerPhone(value);
           }}
           onCommentChange={setComment}
           isRTL={isRTL}

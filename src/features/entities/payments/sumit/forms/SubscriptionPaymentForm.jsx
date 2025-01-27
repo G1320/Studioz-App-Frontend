@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { sendSubscriptionConfirmation } from '@shared/services/email-service';
 import { SumitPaymentForm } from '@shared/components';
+import { prepareFormData } from '../utils';
 
 export const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
@@ -64,19 +65,6 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
     }
   };
 
-  const prepareFormData = (form) => {
-    const formData = new FormData();
-    formData.append('CardNumber', form.CreditCardNumber.value);
-    formData.append('ExpirationMonth', form.ExpMonth.value);
-    formData.append('ExpirationYear', form.ExpYear.value);
-    formData.append('CVV', form.CVV.value);
-    formData.append('CitizenID', form.CardHolderId.value);
-    formData.append('Credentials.CompanyID', import.meta.env.VITE_SUMIT_COMPANY_ID);
-    formData.append('Credentials.APIPublicKey', import.meta.env.VITE_SUMIT_PUBLIC_API_KEY);
-    formData.append('ResponseLanguage', 'he');
-    return formData;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -96,7 +84,9 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       }
       // 4. Activate subscription
       const activeSubscription = await activateSubscriptionWithPayment(pendingSubscription._id, paymentResponse.data);
+
       updateSubscription(activeSubscription._id, 'ACTIVE');
+
       await sendSubscriptionConfirmation(user?.email, {
         customerName: user?.name,
         planName: activeSubscription.planName,
