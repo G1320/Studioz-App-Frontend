@@ -55,8 +55,8 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
           borderColor: '#2563eb',
           classNames: ['booking-event'],
           extendedProps: {
-            customerName: reservation.costumerName,
-            customerPhone: reservation.costumerPhone,
+            customerName: reservation.customerName,
+            customerPhone: reservation.customerPhone,
             comment: reservation.comment
           }
         };
