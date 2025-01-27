@@ -1,5 +1,5 @@
-import { GenericCarousel, GenericModal } from '@shared/components';
-import { StudioDetails, ContinueToCheckoutButton, ItemPreview, ItemDetails } from '@features/entities';
+import { GenericCarousel } from '@shared/components';
+import { StudioDetails, ContinueToCheckoutButton, ItemPreview } from '@features/entities';
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
 
@@ -23,7 +23,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const { currStudio } = studioObj || {};
 
-  const { selectedItem, openModal, closeModal } = useModal();
+  const { selectedItem, openModal } = useModal();
 
   useEffect(() => {
     if (studioObj && currStudio && items) {
@@ -61,9 +61,6 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
         />
       )}
       {!selectedItem && <ContinueToCheckoutButton cart={cart} />}
-      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
-      </GenericModal>
     </section>
   );
 };

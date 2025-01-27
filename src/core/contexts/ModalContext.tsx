@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Item } from 'src/types/index';
 import { getLocalModalOpen, setLocalModalOpen, getLocalSelectedItem, setLocalSelectedItem } from '@shared/services';
+import { GenericModal } from '@shared/components';
+import { ItemDetails } from '@features/entities';
 
 // Define types for the context
 interface ModalContextType {
@@ -54,5 +56,12 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     }
   }, []);
 
-  return <ModalContext.Provider value={{ selectedItem, openModal, closeModal }}>{children}</ModalContext.Provider>;
+  return (
+    <ModalContext.Provider value={{ selectedItem, openModal, closeModal }}>
+      {children}
+      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
+        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
+      </GenericModal>
+    </ModalContext.Provider>
+  );
 };

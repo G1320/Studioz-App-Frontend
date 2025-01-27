@@ -64,6 +64,8 @@ export const removeItemsFromCart = async (userId: string, itemIds: string[]): Pr
 };
 
 export const getUserCart = async (userId: string): Promise<Cart> => {
+  const offlineCart = getLocalOfflineCart();
+  if (offlineCart) return offlineCart;
   try {
     return await httpService.get(`${cartEndpoint}/${userId}`);
   } catch (error: unknown) {

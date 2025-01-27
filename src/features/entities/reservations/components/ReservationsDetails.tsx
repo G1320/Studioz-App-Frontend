@@ -26,10 +26,10 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   return (
     <div className="reservation-details">
       <div className="reservation-info">
-        <div className="info-row">
+        {/* <div className="info-row">
           <span>Status:</span>
           <span className={`status-${reservation.status}`}>{reservation.status}</span>
-        </div>
+        </div> */}
         <div className="info-row">
           <span>Date:</span>
           <span>{formattedDate}</span>

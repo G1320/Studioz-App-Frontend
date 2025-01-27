@@ -1,5 +1,5 @@
-import { ItemPreview, ItemDetails } from '@features/entities';
-import { GenericList, GenericModal } from '@shared/components';
+import { ItemPreview } from '@features/entities';
+import { GenericList } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
 import { Item } from 'src/types/index';
@@ -14,7 +14,7 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
   const user = getLocalUser();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
-  const { selectedItem, openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const handleItemClick = (item: Item) => {
     openModal(item);
@@ -30,9 +30,6 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
   return (
     <section className={`items ${className}`}>
       <GenericList data={items} renderItem={renderItem} className="items-list" />
-      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
-      </GenericModal>
     </section>
   );
 };

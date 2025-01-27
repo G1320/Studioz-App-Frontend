@@ -8,7 +8,9 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import i18n from './core/i18n/config';
 import { SocketProvider, SearchProvider, OfflineCartProvider, UserProvider, ModalProvider } from '@core/contexts';
 import './core/i18n/config';
 
@@ -34,21 +36,23 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <UserProvider>
           <OfflineCartProvider>
             <SocketProvider>
-              <Auth0Provider
-                domain={domain}
-                clientId={clientId}
-                authorizationParams={{
-                  redirect_uri: window.location.origin,
-                  audience: 'https://items-app-backend.onrender.com',
-                  scope: 'openid profile email'
-                }}
-              >
-                <ModalProvider>
-                  <SearchProvider>
-                    <App />
-                  </SearchProvider>
-                </ModalProvider>
-              </Auth0Provider>
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
+                <Auth0Provider
+                  domain={domain}
+                  clientId={clientId}
+                  authorizationParams={{
+                    redirect_uri: window.location.origin,
+                    audience: 'https://items-app-backend.onrender.com',
+                    scope: 'openid profile email'
+                  }}
+                >
+                  <ModalProvider>
+                    <SearchProvider>
+                      <App />
+                    </SearchProvider>
+                  </ModalProvider>
+                </Auth0Provider>
+              </LocalizationProvider>
             </SocketProvider>
           </OfflineCartProvider>
         </UserProvider>

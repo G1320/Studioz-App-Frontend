@@ -5,12 +5,13 @@ import {
   useAddItemToCartMutation,
   useItem,
   useStudio,
+  useCart,
   useLanguageNavigate,
   usePrefetchItem,
   useReserveStudioItemTimeSlotsMutation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
-import { Cart, User, Wishlist } from 'src/types/index';
+import { User, Wishlist } from 'src/types/index';
 import { splitDateTime } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -18,15 +19,15 @@ import dayjs from 'dayjs';
 import { ReservationDetails } from '@features/entities/reservations';
 
 interface ItemDetailsProps {
-  cart?: Cart;
   itemId: string;
   wishlists?: Wishlist[];
 }
 
-export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
+export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const { user } = useUserContext();
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
+  const { data: cart } = useCart(user?._id || '');
   const studio = data?.currStudio;
 
   const { closeModal } = useModal();
@@ -41,7 +42,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
-  const [isExiting, setIsExiting] = useState(false);
   const [currentReservationId, setCurrentReservationId] = useState<string | null>(() => {
     return localStorage.getItem(`reservation_${itemId}`) || null;
   });
@@ -109,10 +109,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
           localStorage.setItem(`reservation_${itemId}`, response);
           setCurrentReservationId(response);
           addItemToCartMutation.mutate({ ...newItem, reservationId: response });
-          setIsExiting(true);
           setTimeout(() => {
             setSelectedDate(null);
-            langNavigate(`/studio/${studio?._id}`);
           }, 250);
         }
       });
@@ -136,20 +134,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId, cart }) => {
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
 
-  // const showDatePicker = useMemo(() => {
-  //   return !currentReservationId && !isExiting && (item?.pricePer === 'hour' || item?.pricePer === 'session');
-  // }, [currentReservationId, isExiting, item?.pricePer]);
-
   const handleBookNow = useCallback(() => {
     handleDateConfirm(selectedDate?.toString() || null, selectedQuantity);
   }, [selectedDate, selectedQuantity]);
 
   return (
-    <article
-      onMouseEnter={prefetchItem}
-      key={item?._id}
-      className={`details item-details ${isExiting ? 'exiting' : ''}`}
-    >
+    <article onMouseEnter={prefetchItem} key={item?._id} className={`details item-details `}>
       <button className="close-button" onClick={closeModal}>
         ×
       </button>

@@ -1,6 +1,6 @@
-import { StudiosList, StudioPreview, ItemPreview, CategoryPreview, ItemDetails } from '@features/entities';
+import { StudiosList, StudioPreview, ItemPreview, CategoryPreview } from '@features/entities';
 import { Hero } from '@app/layout';
-import { GenericCarousel, GenericModal } from '@shared/components';
+import { GenericCarousel } from '@shared/components';
 import { useWishlists, useMusicSubCategories } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
 import { Studio, Item } from 'src/types/index';
@@ -18,7 +18,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   const { t } = useTranslation('homePage');
   const musicSubCategories = useMusicSubCategories();
 
-  const { selectedItem, openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const studioRenderItem = (studio: Studio) => <StudioPreview studio={studio} />;
   const itemRenderItem = (item: Item) => (
@@ -119,9 +119,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         title={t('sections.mastering_services')}
         seeAllPath="/services/music/Mastering"
       />
-      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
-      </GenericModal>
     </section>
   );
 };
