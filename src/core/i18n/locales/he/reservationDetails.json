@@ -1,0 +1,14 @@
+{
+  "reservationDetails": {
+    "date": "תאריך:",
+    "time": "שעה:",
+    "duration": "משך זמן:",
+    "hours": "שעות",
+    "customer": "לקוח:",
+    "phone": "טלפון:",
+    "notes": "הערות:",
+    "total": "סה\"כ:",
+    "orderId": "מספר הזמנה:",
+    "clearReservationButton": "התחל הזמנה חדשה"
+  }
+}

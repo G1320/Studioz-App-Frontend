@@ -5,6 +5,7 @@
   flex-direction: column;
   overflow-y: auto;
   max-height: calc(85vh - 4rem);
+  max-width: 35rem;
   background: vars.$preview-bg-color;
   place-self: center;
   width: clamp(250px, 50vw, 100%);

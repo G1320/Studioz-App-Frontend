@@ -1,0 +1,14 @@
+{
+  "reservationDetails": {
+    "date": "Date:",
+    "time": "Time:",
+    "duration": "Duration:",
+    "hours": "hours",
+    "customer": "Customer:",
+    "phone": "Phone:",
+    "notes": "Notes:",
+    "total": "Total:",
+    "orderId": "Order ID:",
+    "clearReservationButton": "Start new Reservation"
+  }
+}
