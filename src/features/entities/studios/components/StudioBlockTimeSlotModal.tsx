@@ -11,7 +11,7 @@ import { StudioAvailability } from 'src/types/studio';
 
 interface StudioBlockModalProps {
   studioId: string;
-  studioAvailability: StudioAvailability;
+  studioAvailability?: StudioAvailability;
 }
 
 export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, studioAvailability }) => {
