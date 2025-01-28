@@ -22,7 +22,6 @@ export const getReservations = async (params = {}): Promise<Reservation[]> => {
 };
 
 export const getReservationsByStudioId = async (studioId: string): Promise<Reservation[]> => {
-  console.log('studioId: ', studioId);
   try {
     return await httpService.get(`${reservationEndpoint}/studio/${studioId}`);
   } catch (error) {

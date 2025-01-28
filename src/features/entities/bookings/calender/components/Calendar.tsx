@@ -154,9 +154,9 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
               top: `${selectedEvent.position.y}px`
             }}
           >
-            <button className="close-button" onClick={() => setSelectedEvent(null)}>
+            {/* <button className="close-button" onClick={() => setSelectedEvent(null)}>
               ×
-            </button>
+            </button> */}
             <ReservationDetails reservationId={selectedEvent.reservationId} />
           </div>
         </>

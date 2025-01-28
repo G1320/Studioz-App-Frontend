@@ -12,7 +12,7 @@ interface ModalContextType {
 }
 
 // Create the context
-const ModalContext = createContext<ModalContextType | null>(null);
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 // Custom hook to use the context
 export const useModal = () => {
