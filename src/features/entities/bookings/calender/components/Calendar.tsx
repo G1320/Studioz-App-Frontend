@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -9,6 +9,7 @@ import { EventInput } from '@fullcalendar/core';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import Reservation from 'src/types/reservation';
+import { ReservationDetails } from '@features/entities/reservations';
 
 interface CalendarProps {
   title?: string;
@@ -20,6 +21,7 @@ interface EventPopupInfo {
   title: string;
   start: string;
   end: string;
+  reservationId: string;
   customerName: string;
   customerPhone: string;
   comment?: string;
@@ -29,6 +31,10 @@ interface EventPopupInfo {
 export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, studioReservations = [] }) => {
   const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    setSelectedEvent(null);
+  }, [studioReservations]);
 
   const getDayNumber = (day: DayOfWeek): number => {
     const days: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -51,6 +57,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
           title: `${reservation.itemName.en}`,
           start: `${baseDate}T${startTime}`,
           end: `${baseDate}T${finalEndTime}`,
+          reservationId: reservation._id,
           backgroundColor: '#3b82f6',
           borderColor: '#2563eb',
           classNames: ['booking-event'],
@@ -121,6 +128,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
             title: info.event.title,
             start: info.event.startStr,
             end: info.event.endStr,
+            reservationId: info.event.extendedProps.reservationId,
             customerName: info.event.extendedProps.customerName,
             customerPhone: info.event.extendedProps.customerPhone,
             comment: info.event.extendedProps.comment,
@@ -149,13 +157,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
             <button className="close-button" onClick={() => setSelectedEvent(null)}>
               ×
             </button>
-            <h3>{selectedEvent.customerName}</h3>
-            <p>Phone: {selectedEvent.customerPhone}</p>
-            <p>
-              Time: {new Date(selectedEvent.start).toLocaleTimeString()} -
-              {new Date(selectedEvent.end).toLocaleTimeString()}
-            </p>
-            {selectedEvent.comment && <p>Notes: {selectedEvent.comment}</p>}
+            <ReservationDetails reservationId={selectedEvent.reservationId} />
           </div>
         </>
       )}

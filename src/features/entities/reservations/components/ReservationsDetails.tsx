@@ -5,11 +5,15 @@ import dayjs from 'dayjs';
 
 interface ReservationDetailsProps {
   reservationId?: string;
-  pricePer: string;
+  pricePer?: string;
   onClear?: () => void;
 }
 
-export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId, pricePer, onClear }) => {
+export const ReservationDetails: React.FC<ReservationDetailsProps> = ({
+  reservationId,
+  pricePer = 'hour',
+  onClear
+}) => {
   const { t } = useTranslation('reservationDetails');
   const { data: reservation } = useReservation(reservationId || '');
 
@@ -71,15 +75,18 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
             <span>{reservation.orderId}</span>
           </div>
         )}
-        <button
-          className="clear-reservation-button"
-          onClick={() => {
-            localStorage.removeItem(`reservation_${reservationId}`);
-            onClear?.();
-          }}
-        >
-          {t('reservationDetails.clearReservationButton')}
-        </button>
+
+        {onClear && (
+          <button
+            className="clear-reservation-button"
+            onClick={() => {
+              localStorage.removeItem(`reservation_${reservationId}`);
+              onClear?.();
+            }}
+          >
+            {t('reservationDetails.clearReservationButton')}
+          </button>
+        )}
       </div>
     </div>
   );
