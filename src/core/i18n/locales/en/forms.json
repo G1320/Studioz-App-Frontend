@@ -147,6 +147,58 @@
         "paymentFailed": "Payment failed: {message}",
         "general": "An error occurred. Please try again"
       }
+    },
+    "vendorOnboarding": {
+      "title": "Vendor Registration",
+      "subtitle": "Complete your business details to start selling on Studioz",
+      "companyDetails": {
+        "title": "Company Details",
+        "name": {
+          "label": "Company Name",
+          "placeholder": "Enter your company name"
+        },
+        "email": {
+          "label": "Business Email",
+          "placeholder": "Enter your business email"
+        },
+        "phone": {
+          "label": "Business Phone",
+          "placeholder": "Enter your business phone"
+        },
+        "address": {
+          "label": "Business Address",
+          "placeholder": "Enter your business address"
+        },
+        "corporateNumber": {
+          "label": "Corporate Number",
+          "placeholder": "Enter your corporate/business number"
+        },
+        "website": {
+          "label": "Website",
+          "placeholder": "Enter your website (optional)"
+        }
+      },
+      "bankDetails": {
+        "title": "Bank Account Details",
+        "bankCode": {
+          "label": "Bank Code",
+          "placeholder": "Enter bank code"
+        },
+        "branchCode": {
+          "label": "Branch Code",
+          "placeholder": "Enter branch code"
+        },
+        "accountNumber": {
+          "label": "Account Number",
+          "placeholder": "Enter account number"
+        }
+      },
+      "submit": "Complete Registration",
+      "footer": {
+        "terms": "By registering, you agree to Studioz's Terms of Service and Privacy Policy"
+      },
+      "success": "Vendor registration completed successfully",
+      "error": "Failed to complete vendor registration"
     }
   }
 }

@@ -14,7 +14,6 @@ import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
-import { VendorOnboardingForm } from '@features/vendor-onboarding';
 
 interface FormData {
   coverImage?: string;
@@ -219,7 +218,6 @@ export const CreateStudioForm = () => {
   return (
     <section>
       <h1>{t('form.AddStudioTitle')}</h1>
-      <VendorOnboardingForm />
 
       <FileUploader
         fileType="image"

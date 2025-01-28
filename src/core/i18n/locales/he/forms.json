@@ -147,6 +147,58 @@
         "paymentFailed": "התשלום נכשל: {message}",
         "general": "אירעה שגיאה. אנא נסה שוב"
       }
+    },
+    "vendorOnboarding": {
+      "title": "הרשמת ספק",
+      "subtitle": "השלם את פרטי העסק שלך כדי להתחיל למכור ב-Studioz",
+      "companyDetails": {
+        "title": "פרטי חברה",
+        "name": {
+          "label": "שם החברה",
+          "placeholder": "הכנס את שם החברה"
+        },
+        "email": {
+          "label": "דוא\"ל עסקי",
+          "placeholder": "הכנס דוא\"ל עסקי"
+        },
+        "phone": {
+          "label": "טלפון עסקי",
+          "placeholder": "הכנס טלפון עסקי"
+        },
+        "address": {
+          "label": "כתובת העסק",
+          "placeholder": "הכנס את כתובת העסק"
+        },
+        "corporateNumber": {
+          "label": "ח.פ / עוסק מורשה",
+          "placeholder": "הכנס מספר ח.פ / עוסק מורשה"
+        },
+        "website": {
+          "label": "אתר אינטרנט",
+          "placeholder": "הכנס כתובת אתר (לא חובה)"
+        }
+      },
+      "bankDetails": {
+        "title": "פרטי חשבון בנק",
+        "bankCode": {
+          "label": "קוד בנק",
+          "placeholder": "הכנס קוד בנק"
+        },
+        "branchCode": {
+          "label": "קוד סניף",
+          "placeholder": "הכנס קוד סניף"
+        },
+        "accountNumber": {
+          "label": "מספר חשבון",
+          "placeholder": "הכנס מספר חשבון"
+        }
+      },
+      "submit": "השלם הרשמה",
+      "footer": {
+        "terms": "בהרשמה אתה מסכים לתנאי השימוש ומדיניות הפרטיות של Studioz"
+      },
+      "success": "הרשמת הספק הושלמה בהצלחה",
+      "error": "אירעה שגיאה בהרשמת הספק"
     }
   }
 }
