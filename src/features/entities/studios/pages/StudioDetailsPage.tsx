@@ -6,7 +6,7 @@ import { useStudio, useWishlists } from '@shared/hooks';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { Cart, Item } from 'src/types/index';
+import { Cart, Item, User } from 'src/types/index';
 
 interface StudioDetailsPageProps {
   items: Item[];
@@ -48,7 +48,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
 
   return (
     <section className="details studio-details-page">
-      <StudioDetails user={user} studio={currStudio} />
+      <StudioDetails user={user as User} studio={currStudio} />
       {currStudio?.items && currStudio.items.length > 0 && (
         <GenericCarousel
           title={(() => getStudioServicesDisplayName(currStudio?.name?.en))()}

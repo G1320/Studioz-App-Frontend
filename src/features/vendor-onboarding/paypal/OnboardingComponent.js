@@ -31,7 +31,7 @@ const VendorRegistration = ({ paymentProvider }) => {
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      
+
       // Handle success
       alert('Registration submitted successfully!');
     } catch (err) {
@@ -42,7 +42,7 @@ const VendorRegistration = ({ paymentProvider }) => {
   };
 
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
@@ -54,115 +54,88 @@ const VendorRegistration = ({ paymentProvider }) => {
         <CardTitle>Vendor Registration - {paymentProvider}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="">
+          <div className="">
             <div>
-              <label className="block text-sm font-medium mb-1">Business Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                required
-              />
+              <label className="">Business Name</label>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} className="" required />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Phone</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                required
-              />
+              <label className="">Email</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} className="" required />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Business ID (מספר עוסק)</label>
+              <label className="">Phone</label>
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="" required />
+            </div>
+
+            <div>
+              <label className="">Business ID (מספר עוסק)</label>
               <input
                 type="text"
                 name="businessId"
                 value={formData.businessId}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className=""
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Bank Name</label>
+              <label className="">Bank Name</label>
               <input
                 type="text"
                 name="bankName"
                 value={formData.bankName}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className=""
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Branch Number</label>
+              <label className="">Branch Number</label>
               <input
                 type="text"
                 name="branchNumber"
                 value={formData.branchNumber}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className=""
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Account Number</label>
+              <label className="">Account Number</label>
               <input
                 type="text"
                 name="accountNumber"
                 value={formData.accountNumber}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className=""
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Expected Monthly Volume (ILS)</label>
+              <label className="">Expected Monthly Volume (ILS)</label>
               <input
                 type="number"
                 name="expectedVolume"
                 value={formData.expectedVolume}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className=""
                 required
               />
             </div>
           </div>
 
-          {error && (
-            <div className="text-red-600 text-sm mt-2">{error}</div>
-          )}
+          {error && <div className="">{error}</div>}
 
           <div className="mt-6">
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="">
               {loading ? 'Submitting...' : 'Submit Registration'}
             </button>
           </div>

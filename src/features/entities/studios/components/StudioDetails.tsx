@@ -12,7 +12,7 @@ import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
 
 interface StudioDetailsProps {
   studio?: Studio;
-  user: User | null;
+  user?: User;
 }
 
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {

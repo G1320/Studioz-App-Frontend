@@ -13,7 +13,7 @@ export const SumitSubscriptionPage = () => {
       id: 'starter',
       name: 'Starter',
       planId: 'starter',
-      price: 5,
+      price: 29,
       period: t('plans.period'),
       highlight: t('plans.starter.highlight'),
       features: [
