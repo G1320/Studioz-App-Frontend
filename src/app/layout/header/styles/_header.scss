@@ -11,7 +11,7 @@ header.app-header {
   gap: 0.5rem;
   z-index: 1000;
   padding: 0 1rem;
-  background: vars.$header-bg-color;
+  // background: vars.$header-bg-color;
   text-align: center;
   place-items: center;
 
@@ -160,6 +160,40 @@ header.app-header {
     grid-row: 1;
     white-space: nowrap;
     justify-self: start;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 0;
+    z-index: 1;
+
+    @media screen and (max-width: 600px) {
+      &.logo--mobile-shifted {
+        margin-left: 44px; // Space for back button (36px + 8px gap)
+      }
+    }
+  }
+
+  .header-back-button {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    align-self: center;
+    z-index: 2;
+    display: none;
+    opacity: 0;
+    transform: translateX(-10px) scale(0.9);
+    pointer-events: none;
+    transition:
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    @media screen and (max-width: 600px) {
+      display: flex;
+
+      &.header-back-button--visible {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        pointer-events: auto;
+      }
+    }
   }
 }
 

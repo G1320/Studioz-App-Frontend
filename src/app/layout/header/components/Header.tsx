@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LoginButton, LogoutButton } from '@features/auth';
 import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
@@ -6,22 +6,35 @@ import { LanguageSwitcher } from '@features/translation';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { BackButton } from '@shared/components';
+
 interface HeaderProps {
   cart?: Cart;
   user?: User | null;
 }
 
+const shouldShowBackButton = (pathname: string): boolean => {
+  // Show back button on all pages except home page
+  // Home page patterns: /en, /he, /en/, /he/
+  const homePagePattern = /^\/[a-z]{2}\/?$/;
+  return !homePagePattern.test(pathname);
+};
+
 export const Header: React.FC<HeaderProps> = ({ user }) => {
   const { t, i18n } = useTranslation('common');
+  const location = useLocation();
 
   const currLang = i18n.language || 'en';
+  const showBackButton = shouldShowBackButton(location.pathname);
 
   return (
     <header className="app-header">
       <a href="#main-content" className="skip-link">
         Skip to Content
       </a>
-      <h1>
+      <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
+
+      <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
         <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')}>
           {t('navigation.logo')}
         </Link>

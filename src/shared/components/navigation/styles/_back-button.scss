@@ -1,0 +1,60 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: vars.$header-bg-color;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+}
+
+// RTL support - flip arrow direction
+html[dir='rtl'] .back-button svg {
+  transform: scaleX(-1);
+}
+
+@media screen and (max-width: 600px) {
+  .back-button {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
