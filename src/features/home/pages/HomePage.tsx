@@ -1,11 +1,11 @@
 import { StudiosList, StudioPreview, ItemPreview, CategoryPreview } from '@features/entities';
-import { Hero } from '@app/layout';
-import { GenericCarousel } from '@shared/components';
+import { GenericCarousel, Banner } from '@shared/components';
 import { useWishlists, useMusicSubCategories } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
 import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
+import { homeBanners } from '@core/config';
 
 interface HomePageProps {
   studios: Studio[];
@@ -42,7 +42,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
 
   return (
     <section className="home-page">
-      <Hero />
+      <Banner config={homeBanners} />
 
       <GenericCarousel
         data={musicSubCategories}

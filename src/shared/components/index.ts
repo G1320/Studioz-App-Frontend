@@ -1,4 +1,5 @@
 export * from './audio';
+export * from './banners';
 export * from './buttons';
 export * from './details';
 export * from './fileUploader';
