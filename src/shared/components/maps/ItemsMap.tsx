@@ -12,6 +12,7 @@ const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
 export const ItemsMap: React.FC<ItemMapProps> = ({ items = [] }) => {
   const [popupInfo, setPopupInfo] = useState<Item | null>(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [viewState, setViewState] = useState({
     latitude: 32.0561,
     longitude: 34.7516,
@@ -43,7 +44,12 @@ export const ItemsMap: React.FC<ItemMapProps> = ({ items = [] }) => {
   };
 
   return (
-    <div className="map items-map" style={{ height: '500px', width: '100%' }}>
+    <div className="map items-map" style={{ height: '500px', width: '100%', position: 'relative' }}>
+      {!isMapLoaded && (
+        <div className="map-loader">
+          <div className="map-loader__spinner"></div>
+        </div>
+      )}
       <Map
         {...viewState}
         style={{ width: '100%', height: '100%' }}
@@ -51,6 +57,7 @@ export const ItemsMap: React.FC<ItemMapProps> = ({ items = [] }) => {
         mapboxAccessToken={mapBoxToken}
         onMove={(evt) => setViewState(evt.viewState)}
         onClick={handleMapClick}
+        onLoad={() => setIsMapLoaded(true)}
       >
         <GeolocateControl position="top-left" />
         <FullscreenControl position="top-left" />

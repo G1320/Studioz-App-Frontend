@@ -12,6 +12,7 @@ const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
 export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   const [viewState, setViewState] = useState({
     latitude: 32.0561,
@@ -44,7 +45,16 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   };
 
   return (
-    <div className="map studios-map" style={{ height: '500px', width: '100%' }} key="map-container">
+    <div
+      className="map studios-map"
+      style={{ height: '500px', width: '100%', position: 'relative' }}
+      key="map-container"
+    >
+      {!isMapLoaded && (
+        <div className="map-loader">
+          <div className="map-loader__spinner"></div>
+        </div>
+      )}
       <Map
         {...viewState}
         style={{ width: '100%', height: '100%' }}
@@ -52,6 +62,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
         mapboxAccessToken={mapBoxToken}
         onMove={(evt) => setViewState(evt.viewState)}
         onClick={handleMapClick}
+        onLoad={() => setIsMapLoaded(true)}
       >
         <GeolocateControl position="top-left" />
         <FullscreenControl position="top-left" />

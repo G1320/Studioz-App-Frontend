@@ -62,7 +62,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         data={studios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
-        autoplay={true}
+        autoplay={false}
         title={t('sections.studioz_for_you')}
         seeAllPath="/studios"
       />
