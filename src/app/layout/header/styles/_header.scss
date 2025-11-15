@@ -160,13 +160,26 @@ header.app-header {
     grid-row: 1;
     white-space: nowrap;
     justify-self: start;
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin-left: 0;
+    margin-right: 0;
     z-index: 1;
 
     @media screen and (max-width: 600px) {
       &.logo--mobile-shifted {
-        margin-left: 44px; // Space for back button (36px + 8px gap)
+        margin-left: 44px; // Space for back button (36px + 8px gap) - LTR
+      }
+    }
+
+    // RTL support - shift logo to the left when back button appears
+    @media screen and (max-width: 600px) {
+      html[dir='rtl'] & {
+        &.logo--mobile-shifted {
+          margin-left: 0;
+          margin-right: 44px; // Space for back button in RTL
+        }
       }
     }
   }
@@ -192,6 +205,17 @@ header.app-header {
         opacity: 1;
         transform: translateX(0) scale(1);
         pointer-events: auto;
+      }
+    }
+
+    // RTL support - slide in from right
+    @media screen and (max-width: 600px) {
+      html[dir='rtl'] & {
+        transform: translateX(10px) scale(0.9);
+
+        &.header-back-button--visible {
+          transform: translateX(0) scale(1);
+        }
       }
     }
   }
