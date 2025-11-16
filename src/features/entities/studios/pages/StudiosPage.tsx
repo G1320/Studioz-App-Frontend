@@ -45,8 +45,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           1550: { slidesPerView: 7.2 }
         }}
       />
-      <GenresList pathPrefix="studios" />
       <StudiosMap studios={filteredStudios} />
+      <GenresList pathPrefix="studios" />
       <StudiosList studios={filteredStudios} />
     </section>
   );
