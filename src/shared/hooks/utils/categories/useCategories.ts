@@ -1,42 +1,25 @@
 import { useTranslation } from 'react-i18next';
 import categoriesJson from '@core/i18n/locales/en/categories.json';
+import { createTranslationHelpers, TranslationOption } from '@shared/utils/translationUtils';
 
-interface CategoryOption {
-  key: string; // The key used in URLs and database
-  value: string; // The translated display value
-  englishValue: string; // The English value for database matching
-}
+export interface CategoryOption extends TranslationOption {}
 
 export const useCategories = () => {
   const { t } = useTranslation('categories');
 
-  const getMusicSubCategories = (): CategoryOption[] => {
-    return Object.entries(categoriesJson.subCategories.musicAndPodcast).map(([key, englishValue]) => ({
-      key,
-      value: t(`subCategories.musicAndPodcast.${key}`), // Hebrew display value
-      englishValue // English value
-    }));
-  };
-
-  // Get all English values
-  const getMusicSubCategoriesEnglish = (): string[] => {
-    return Object.values(categoriesJson.subCategories.musicAndPodcast);
-  };
-
-  // Get Hebrew display value for an English value
-  const getDisplayByEnglish = (englishValue: string): string => {
-    const category = getMusicSubCategories().find((cat) => cat.englishValue === englishValue);
-    return category?.value || englishValue;
-  };
-
-  // Get English value for a Hebrew display value
-  const getEnglishByDisplay = (displayValue: string): string => {
-    const category = getMusicSubCategories().find((cat) => cat.value === displayValue);
-    return category?.englishValue || displayValue;
-  };
+  const {
+    getOptions: getMusicSubCategories,
+    getEnglishValues: getMusicSubCategoriesEnglish,
+    getDisplayByEnglish,
+    getEnglishByDisplay
+  } = createTranslationHelpers({
+    jsonData: categoriesJson.subCategories.musicAndPodcast,
+    translationKeyPrefix: 'subCategories.musicAndPodcast.', // Categories use nested structure
+    t
+  });
 
   return {
-    getMusicSubCategories,
+    getMusicSubCategories: (): CategoryOption[] => getMusicSubCategories(),
     getMusicSubCategoriesEnglish,
     getDisplayByEnglish,
     getEnglishByDisplay

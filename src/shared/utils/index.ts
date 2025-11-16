@@ -1,6 +1,7 @@
 export * from './cartUtils';
 export * from './compareArrays';
 export * from './compareNums';
+export * from './translationUtils';
 export * from './compareObjects';
 export * from './getLoopedIndex';
 export * from './sanitizeUserObject';
