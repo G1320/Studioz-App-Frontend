@@ -1,41 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { useDropdown } from '@shared/hooks';
 
 interface PhoneDropdownProps {
   phone: string;
 }
 
 const PhoneDropdown: React.FC<PhoneDropdownProps> = ({ phone }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { isOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  // Type assertions for specific element types
+  const divDropdownRef = dropdownRef as React.RefObject<HTMLDivElement>;
+  const btnRef = buttonRef as React.RefObject<HTMLButtonElement>;
+  const divContainerRef = containerRef as React.RefObject<HTMLDivElement>;
 
   return (
-    <div className="phone-container">
+    <div ref={divContainerRef} className="phone-container">
       <div className="phone-summary">
-        <button ref={buttonRef} onClick={() => setIsOpen(!isOpen)} className="phone-dropdown-toggle">
+        <button ref={btnRef} onClick={toggle} className="phone-dropdown-toggle">
           <PhoneIcon />
         </button>
       </div>
 
       {isOpen && (
-        <div ref={dropdownRef} className="phone-dropdown">
+        <div ref={divDropdownRef} className="phone-dropdown">
           <div className="phone-details">
             <a href={`tel:${phone}`}>{phone}</a>
           </div>

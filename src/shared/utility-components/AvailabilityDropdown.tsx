@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useDays } from '@shared/hooks';
+import { useDays, useDropdown } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 
 interface AvailabilityDropdownProps {
@@ -9,31 +9,14 @@ interface AvailabilityDropdownProps {
 }
 
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const { i18n } = useTranslation();
-  const dropdownRef = useRef<HTMLUListElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { getDisplayByEnglish } = useDays();
+  const { isOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  // Type assertions for specific element types
+  const ulRef = dropdownRef as React.RefObject<HTMLUListElement>;
+  const btnRef = buttonRef as React.RefObject<HTMLButtonElement>;
+  const divRef = containerRef as React.RefObject<HTMLDivElement>;
 
   const formatAvailability = (days: DayOfWeek[], times: { start: string; end: string }[]) => {
     const allDays: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -60,12 +43,12 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
   const formattedAvailability = formatAvailability(availability?.days, availability?.times);
 
   return (
-    <div className="availability-container">
-      <button ref={buttonRef} onClick={toggleDropdown} className="availability-dropdown-toggle">
+    <div ref={divRef} className="availability-container">
+      <button ref={btnRef} onClick={toggle} className="availability-dropdown-toggle">
         <ExpandMoreIcon />
       </button>
       {isOpen && (
-        <ul ref={dropdownRef} className="availability-dropdown">
+        <ul ref={ulRef} className="availability-dropdown">
           {formattedAvailability.map(({ displayDay, hours }, index) => (
             <li key={index}>
               <strong>{displayDay}:</strong> <p>{hours}</p>

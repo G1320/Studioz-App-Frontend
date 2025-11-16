@@ -1,40 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useDropdown } from '@shared/hooks';
+
 interface AddressDropdownProps {
   address: string;
 }
 
 const AddressDropdown: React.FC<AddressDropdownProps> = ({ address }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { isOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  // Type assertions for specific element types
+  const divDropdownRef = dropdownRef as React.RefObject<HTMLDivElement>;
+  const btnRef = buttonRef as React.RefObject<HTMLButtonElement>;
+  const divContainerRef = containerRef as React.RefObject<HTMLDivElement>;
 
   return (
-    <div className="address-container">
+    <div ref={divContainerRef} className="address-container">
       <div className="address-summary">
-        <button ref={buttonRef} onClick={() => setIsOpen(!isOpen)} className="address-dropdown-toggle">
+        <button ref={btnRef} onClick={toggle} className="address-dropdown-toggle">
           <LocationOnIcon />
         </button>
       </div>
 
       {isOpen && (
-        <div ref={dropdownRef} className="address-dropdown">
+        <div ref={divDropdownRef} className="address-dropdown">
           <div className="address-details">
             <p>{address}</p>
           </div>
