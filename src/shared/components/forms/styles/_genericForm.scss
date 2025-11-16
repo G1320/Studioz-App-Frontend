@@ -137,6 +137,16 @@
     label {
       cursor: pointer;
     }
+
+    // Bubble style (for genres, etc.)
+    &.bubble-style {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0;
+      border: none;
+    }
   }
 
   .multiselect-option {
@@ -165,6 +175,66 @@
 
     .multiselect-label {
       flex: 1;
+    }
+  }
+
+  // Bubble style overrides
+  .checkbox-group.bubble-style {
+    .multiselect-option {
+      display: inline-flex;
+      width: auto;
+      min-width: auto;
+
+      .multiselect-checkbox {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        border: none;
+        padding: 0.4rem 0.75rem;
+        border-radius: 20px;
+        cursor: pointer;
+        background-color: #f5f5f5;
+        color: #333;
+        font-size: 0.875rem;
+        font-weight: 500;
+        white-space: nowrap;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.1s ease;
+        margin: 0;
+
+        &:focus-visible,
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+        }
+
+        &:hover {
+          background-color: #e8e8e8;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        &.selected {
+          background-color: #333;
+          color: #fff;
+
+          &:hover {
+            background-color: #444;
+          }
+        }
+      }
+
+      .multiselect-label {
+        flex: none;
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+      }
     }
   }
 

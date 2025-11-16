@@ -141,7 +141,8 @@ export const CreateStudioForm = () => {
       type: 'multiSelect' as FieldType,
       options: genres,
       value: selectedGenres,
-      onChange: handleGenreChange
+      onChange: handleGenreChange,
+      bubbleStyle: true
     },
     {
       name: 'studioAvailability',

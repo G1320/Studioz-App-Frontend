@@ -176,7 +176,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
             return (
               <div key={field.name} className="form-group">
                 <label className="form-label">{field.label}</label>
-                <div className="checkbox-group">
+                <div className={`checkbox-group ${field.bubbleStyle ? 'bubble-style' : ''}`}>
                   {field.options.map((option: string) => (
                     <Field key={option} as="div" className="multiselect-option">
                       <Switch
