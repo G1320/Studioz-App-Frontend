@@ -93,7 +93,10 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   return (
     <article>
-      <div className={`file-uploader ${fileType}-uploader ${multiple ? 'multiple' : ''}`} {...getRootProps()}>
+      <div
+        className={`file-uploader ${fileType}-uploader ${multiple ? 'multiple' : ''} ${isDragActive ? 'drag-active' : ''}`}
+        {...getRootProps()}
+      >
         <input {...getInputProps()} />
         <div className="file-uploader-content-container">
           {isDragActive ? (
@@ -121,6 +124,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           coverImage={preview}
           galleryImages={galleryFiles}
           onSetPreviewImage={handleSetPreviewFile}
+          className="file-uploader-gallery"
         />
       ) : (
         <GenericAudioGallery
