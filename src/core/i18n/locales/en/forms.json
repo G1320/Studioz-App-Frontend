@@ -22,6 +22,9 @@
     "subCategories": {
       "label": "Subcategories"
     },
+    "genres": {
+      "label": "Genres"
+    },
     "studioAvailability": {
       "label": "Business Hours",
       "days": {

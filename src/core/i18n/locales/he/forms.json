@@ -22,6 +22,9 @@
     "subCategories": {
       "label": "תת-קטגוריות"
     },
+    "genres": {
+      "label": "ז'אנרים"
+    },
     "studioAvailability": {
       "label": "שעות פעילות",
       "days": {

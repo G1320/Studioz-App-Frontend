@@ -7,7 +7,9 @@ import {
   usePhotoCategories,
   usePhotoSubCategories,
   useDays,
-  useCategories
+  useCategories,
+  useMusicGenres,
+  useGenres
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
@@ -22,6 +24,7 @@ interface FormData {
   galleryAudioFiles?: string[];
   categories?: string[];
   subCategories?: string[];
+  genres?: string[];
   studioAvailability?: StudioAvailability;
 }
 
@@ -29,12 +32,14 @@ export const CreateStudioForm = () => {
   const user = getLocalUser();
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
+  const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
 
   const { t } = useTranslation('forms');
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const genres = useMusicGenres();
   // const daysDisplay = getDays().map((day) => day.value);
   const firstDay = getDays()[0];
 
@@ -50,6 +55,7 @@ export const CreateStudioForm = () => {
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] = useState<string[]>(
     firstSubCategory ? [firstSubCategory.value] : []
   );
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(firstDay ? [firstDay.value] : []);
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
@@ -76,6 +82,10 @@ export const CreateStudioForm = () => {
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedDisplaySubCategories(values);
+  };
+
+  const handleGenreChange = (values: string[]) => {
+    setSelectedGenres(values);
   };
 
   const fields = [
@@ -124,6 +134,14 @@ export const CreateStudioForm = () => {
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
       onChange: handleSubCategoryChange
+    },
+    {
+      name: 'genres',
+      label: t('form.genres.label') || 'Genres',
+      type: 'multiSelect' as FieldType,
+      options: genres,
+      value: selectedGenres,
+      onChange: handleGenreChange
     },
     {
       name: 'studioAvailability',
@@ -176,6 +194,7 @@ export const CreateStudioForm = () => {
 
   const handleSubmit = async (formData: FormData) => {
     const englishSubCategories = selectedDisplaySubCategories.map((subCat) => getEnglishByDisplay(subCat));
+    const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     formData.coverImage = galleryImages[0];
     formData.galleryImages = galleryImages;
@@ -183,6 +202,7 @@ export const CreateStudioForm = () => {
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
+    formData.genres = englishGenres;
 
     formData.studioAvailability = {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
