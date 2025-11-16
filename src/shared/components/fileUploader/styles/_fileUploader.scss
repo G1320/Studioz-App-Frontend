@@ -57,14 +57,12 @@ article {
     width: 100%;
 
     img {
-      max-width: 100%;
-      max-height: 140px;
-      width: auto;
-      height: auto;
+      width: 100%;
+      aspect-ratio: 16 / 9;
       border-radius: 8px;
       object-fit: contain;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      aspect-ratio: auto;
+      background-color: #fff;
     }
 
     audio {
@@ -250,7 +248,7 @@ article {
       gap: 0.75rem;
 
       img {
-        max-height: 100px;
+        max-width: 100%;
       }
     }
 
