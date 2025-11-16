@@ -8,7 +8,9 @@ import {
   usePhotoSubCategories,
   useStudio,
   useUpdateStudioMutation,
-  useCategories
+  useCategories,
+  useMusicGenres,
+  useGenres
 } from '@shared/hooks';
 import { uploadFile } from '@shared/services';
 import { Studio } from 'src/types/index';
@@ -24,6 +26,7 @@ interface FormData {
   galleryAudioFiles?: string[];
   categories?: string[];
   subCategories?: string[];
+  genres?: string[];
   studioAvailability?: StudioAvailability;
 }
 
@@ -35,10 +38,12 @@ export const EditStudioForm = () => {
   const studio = data?.currStudio;
   const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
   const { getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
+  const { getDisplayByEnglish: getGenreDisplayByEnglish, getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const genres = useMusicGenres();
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
   // Get the English values and their display translations
@@ -48,6 +53,7 @@ export const EditStudioForm = () => {
   const initialDisplaySubCategories =
     studio?.subCategories?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
   const initialDisplayDays = studio?.studioAvailability?.days.map((day) => getDisplayByEnglish(day)) || [];
+  const initialDisplayGenres = studio?.genres?.map((englishValue) => getGenreDisplayByEnglish(englishValue)) || [];
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
@@ -55,6 +61,7 @@ export const EditStudioForm = () => {
   const [displaySubCategories, setDisplaySubCategories] = useState<string[]>(musicSubCategoriesDisplay);
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] =
     useState<string[]>(initialDisplaySubCategories);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>(initialDisplayGenres);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
@@ -82,6 +89,10 @@ export const EditStudioForm = () => {
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedDisplaySubCategories(values);
+  };
+
+  const handleGenreChange = (values: string[]) => {
+    setSelectedGenres(values);
   };
   const fields = [
     {
@@ -135,6 +146,15 @@ export const EditStudioForm = () => {
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
       onChange: handleSubCategoryChange
+    },
+    {
+      name: 'genres',
+      label: t('form.genres.label') || 'Genres',
+      type: 'multiSelect' as FieldType,
+      options: genres,
+      value: selectedGenres,
+      onChange: handleGenreChange,
+      bubbleStyle: true
     },
     {
       name: 'studioAvailability',
@@ -191,11 +211,13 @@ export const EditStudioForm = () => {
 
   const handleSubmit = async (formData: FormData) => {
     const englishSubCategories = selectedDisplaySubCategories.map((displayValue) => getEnglishByDisplay(displayValue));
+    const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     formData.coverImage = coverImage;
     formData.galleryImages = galleryImages;
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
+    formData.genres = englishGenres;
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.studioAvailability = {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],

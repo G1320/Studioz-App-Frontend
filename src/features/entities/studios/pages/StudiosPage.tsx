@@ -1,4 +1,4 @@
-import { CategoryPreview, StudiosList, GenresList } from '@features/entities';
+import { CategoryPreview, StudiosList } from '@features/entities';
 import { StudiosMap } from '@shared/components';
 import { GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
@@ -46,7 +46,6 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         }}
       />
       <StudiosMap studios={filteredStudios} />
-      <GenresList pathPrefix="studios" />
       <StudiosList studios={filteredStudios} />
     </section>
   );
