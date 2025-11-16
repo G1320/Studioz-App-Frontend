@@ -197,6 +197,13 @@
       line-height: 1.6;
     }
 
+    .studio-genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-block: 1rem;
+    }
+
     .options-wrapper {
       width: calc(100% - 1rem);
       display: flex;

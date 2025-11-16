@@ -3,12 +3,13 @@ import ChairIcon from '@mui/icons-material/Chair';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
-import { useWishlists } from '@shared/hooks';
+import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import StudioOptions from './StudioOptions';
 import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
+import { GenrePreview } from '@features/entities/genres';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -17,8 +18,12 @@ interface StudioDetailsProps {
 
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {
   const { data: wishlists = [] } = useWishlists(user?._id || '');
+  const { getDisplayByEnglish } = useGenres();
 
   const langNavigate = useLanguageNavigate();
+
+  // Convert English genre values to display values
+  const displayGenres = studio?.genres?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
 
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
@@ -49,6 +54,13 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         />
       </div>
       <p className="description">{studio?.description.en}</p>
+      {displayGenres.length > 0 && (
+        <div className="studio-genres">
+          {displayGenres.map((genre, index) => (
+            <GenrePreview key={index} genre={genre} pathPrefix="studios" />
+          ))}
+        </div>
+      )}
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
