@@ -1,4 +1,4 @@
-import { CategoryPreview, ItemsList } from '@features/entities';
+import { CategoryPreview, ItemsList, GenresList } from '@features/entities';
 import { ItemsMap } from '@shared/components';
 import { GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
@@ -43,6 +43,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
           1550: { slidesPerView: 7.2 }
         }}
       />
+      <GenresList pathPrefix="services" />
       <ItemsMap items={subCategory ? filteredItems : items} />
 
       <ItemsList items={subCategory ? filteredItems : items} className="Items-list-container" />

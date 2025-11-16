@@ -1,0 +1,36 @@
+.genre-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: fit-content;
+  height: auto;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background-color 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    background-color: #e8e8e8;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #333;
+    text-align: center;
+  }
+}
+
