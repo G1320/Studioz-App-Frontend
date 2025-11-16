@@ -167,6 +167,23 @@ header.app-header {
     margin-right: 0;
     z-index: 1;
 
+    // Better Hebrew font for header
+    html[lang='he'] &,
+    html[dir='rtl'] & {
+      font-family:
+        'Rubik',
+        'Heebo',
+        'Alef',
+        'Varela Round',
+        'Assistant',
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
     @media screen and (max-width: 600px) {
       &.logo--mobile-shifted {
         margin-left: 44px; // Space for back button (36px + 8px gap) - LTR
