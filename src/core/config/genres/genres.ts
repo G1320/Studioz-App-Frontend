@@ -38,7 +38,6 @@ export const genres = [
   'Progressive Rock',
   'Psychedelic',
   'Ska',
-  'Bluegrass',
   'Grunge',
   'New Wave',
   'Synth-pop',
@@ -65,4 +64,3 @@ export const genres = [
   'Commercial',
   'Jingle'
 ];
-
