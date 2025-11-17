@@ -26,8 +26,7 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
   className = '',
   showCount = true
 }) => {
-  const validRating =
-    typeof averageRating === 'number' && !Number.isNaN(averageRating) ? averageRating : undefined;
+  const validRating = typeof averageRating === 'number' && !Number.isNaN(averageRating) ? averageRating : undefined;
 
   const displayRating = validRating ? Math.min(Math.max(validRating, 0), MAX_STARS) : undefined;
   const roundedHalfRating = displayRating ? Math.round(displayRating * 2) / 2 : undefined;
@@ -38,7 +37,6 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
         return <StarBorderIcon key={index} className="studio-rating__star" />;
       }
 
-      const starPosition = index + 1;
       const diff = roundedHalfRating - index;
 
       if (diff >= 1) {
@@ -46,9 +44,7 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
       }
 
       if (diff === 0.5) {
-        return (
-          <StarHalfIcon key={index} className="studio-rating__star studio-rating__star--filled" />
-        );
+        return <StarHalfIcon key={index} className="studio-rating__star studio-rating__star--filled" />;
       }
 
       return <StarBorderIcon key={index} className="studio-rating__star" />;
@@ -64,9 +60,7 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
     <div
       className={`studio-rating studio-rating--${size} ${className}`}
       aria-label={
-        validRating
-          ? `Rated ${displayRating?.toFixed(1)} out of 5 from ${reviewCount || 0} reviews`
-          : 'No reviews yet'
+        validRating ? `Rated ${displayRating?.toFixed(1)} out of 5 from ${reviewCount || 0} reviews` : 'No reviews yet'
       }
     >
       <div className="studio-rating__stars">{renderStars()}</div>
@@ -74,5 +68,3 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
     </div>
   );
 };
-
-
