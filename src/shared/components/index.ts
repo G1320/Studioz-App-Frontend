@@ -13,3 +13,4 @@ export * from './carousels';
 export * from './drop-downs';
 export * from './payment';
 export * from './navigation';
+export * from './filters';
