@@ -1,0 +1,48 @@
+.studio-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #f1f1f1;
+
+  &__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  &__star {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.4);
+
+    &--filled {
+      color: #ffd166;
+    }
+  }
+
+  &__summary {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  &--sm {
+    gap: 0.3rem;
+
+    .studio-rating__star {
+      font-size: 0.9rem;
+    }
+
+    .studio-rating__summary {
+      font-size: 0.8rem;
+    }
+  }
+
+  &--md {
+    .studio-rating__star {
+      font-size: 1.15rem;
+    }
+  }
+}
+
+

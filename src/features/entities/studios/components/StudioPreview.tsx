@@ -1,6 +1,6 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery } from '@shared/components';
+import { GenericImageGallery, StudioRating } from '@shared/components';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -38,6 +38,11 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
         <h3 className="title">{studio?.name?.en}</h3>
         <small className="city">{studio?.city}</small>
       </div>
+      <StudioRating
+        averageRating={studio?.averageRating}
+        reviewCount={studio?.reviewCount}
+        size="sm"
+      />
       <p className="description">{studio?.description?.en}</p>
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">

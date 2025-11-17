@@ -1,6 +1,6 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery } from '@shared/components';
+import { GenericImageGallery, StudioRating } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -37,6 +37,11 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         isGalleryImagesShown={true}
         title={studio?.name.en}
         subTitle={studio?.city}
+      />
+      <StudioRating
+        averageRating={studio?.averageRating}
+        reviewCount={studio?.reviewCount}
+        className="studio-details__rating"
       />
 
       <div className="info-option-container">

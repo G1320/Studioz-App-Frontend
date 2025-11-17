@@ -14,3 +14,4 @@ export * from './drop-downs';
 export * from './payment';
 export * from './navigation';
 export * from './filters';
+export * from './reviews';
