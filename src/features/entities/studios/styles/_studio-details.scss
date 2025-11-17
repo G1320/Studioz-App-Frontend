@@ -259,6 +259,8 @@
             line-height: 1.5;
             word-break: break-word;
             overflow-wrap: break-word;
+            white-space: normal;
+            hyphens: auto;
             display: block;
             width: 100%;
 
@@ -272,11 +274,26 @@
             color: vars.$color-brand;
             text-decoration: none;
             transition: color 0.2s ease;
+            white-space: nowrap;
+            display: inline-block;
 
             // &:hover {
             //   color: lighten(vars.$color-brand, 10%);
             //   text-decoration: underline;
             // }
+          }
+        }
+      }
+
+      .phone-dropdown {
+        width: max-content;
+        min-width: max-content;
+
+        .phone-details {
+          a {
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow-wrap: normal;
           }
         }
       }
