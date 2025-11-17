@@ -1,6 +1,5 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
@@ -41,7 +40,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       />
 
       <div className="info-option-container">
-        <AccessTimeIcon className="availability-time-icon" />
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
         {studio?.address && <AddressDropdown address={studio?.address as string} />}
         {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDays, useDropdown } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 interface AvailabilityDropdownProps {
   availability: StudioAvailability;
@@ -45,7 +45,7 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
   return (
     <div ref={divRef} className="availability-container">
       <button ref={btnRef} onClick={toggle} className="availability-dropdown-toggle">
-        <ExpandMoreIcon />
+        <AccessTimeIcon className="availability-time-icon" />
       </button>
       {isOpen && (
         <ul ref={ulRef} className="availability-dropdown">
@@ -65,19 +65,19 @@ interface StudioAvailabilityProps {
 }
 
 const StudioAvailabilityDisplay: React.FC<StudioAvailabilityProps> = ({ availability }) => {
-  const { getDisplayByEnglish } = useDays();
+  // const { getDisplayByEnglish } = useDays();
 
   if (!availability || !availability.days.length || !availability.times.length) {
     return <p>Closed</p>;
   }
 
-  const firstDay = getDisplayByEnglish(availability.days[0]);
-  const lastDay = getDisplayByEnglish(availability.days[availability.days.length - 1]);
+  // const firstDay = getDisplayByEnglish(availability.days[0]);
+  // const lastDay = getDisplayByEnglish(availability.days[availability.days.length - 1]);
 
   return (
     <div>
       <div className="studio-availability">
-        <p>{`${firstDay} - ${lastDay}`}</p>
+        {/* <p>{`${firstDay} - ${lastDay}`}</p> */}
         <AvailabilityDropdown availability={availability} />
       </div>
     </div>
