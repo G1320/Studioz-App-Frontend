@@ -105,6 +105,7 @@
         min-width: 200px;
         max-width: 400px;
         width: max-content;
+
         background-color: #1a1a1a;
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow:
@@ -131,7 +132,7 @@
         @media (max-width: 768px) {
           min-width: auto;
           max-width: calc(100vw - 3rem);
-          width: auto;
+          min-width: max-content;
           left: 50%;
           transform: translateX(-50%);
           border-radius: 8px;
