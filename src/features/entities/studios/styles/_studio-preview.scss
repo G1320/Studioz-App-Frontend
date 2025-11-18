@@ -69,6 +69,24 @@
     align-items: center;
   }
 
+  .studio-preview-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.3rem 0;
+
+    .genre-preview {
+      cursor: default;
+      pointer-events: none;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+        background-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+  }
+
   .studio-rating {
     margin-top: 0.15rem;
   }

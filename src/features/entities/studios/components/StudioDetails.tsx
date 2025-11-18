@@ -60,7 +60,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       {displayGenres.length > 0 && (
         <div className="studio-genres">
           {displayGenres.map((genre, index) => (
-            <GenrePreview key={index} genre={genre} pathPrefix="studios" />
+            <GenrePreview key={index} genre={genre} pathPrefix="studios" isInteractive={false} />
           ))}
         </div>
       )}

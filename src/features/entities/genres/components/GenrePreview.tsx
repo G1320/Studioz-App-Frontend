@@ -5,9 +5,14 @@ import { useGenres } from '@shared/hooks';
 interface GenrePreviewProps {
   pathPrefix?: string;
   genre: string;
+  isInteractive?: boolean;
 }
 
-export const GenrePreview: React.FC<GenrePreviewProps> = ({ genre, pathPrefix = 'studios' }) => {
+export const GenrePreview: React.FC<GenrePreviewProps> = ({
+  genre,
+  pathPrefix = 'studios',
+  isInteractive = true
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { i18n } = useTranslation();
@@ -40,11 +45,17 @@ export const GenrePreview: React.FC<GenrePreviewProps> = ({ genre, pathPrefix = 
     const searchParams = new URLSearchParams(location.search);
     searchParams.set('genre', genreKey);
 
-    navigate(`${newPath}?${searchParams.toString()}`);
+    if (isInteractive) {
+      navigate(`${newPath}?${searchParams.toString()}`);
+    }
   };
 
-  return (
+  return isInteractive ? (
     <article className="genre-preview" onClick={handleClick}>
+      <span>{genre}</span>
+    </article>
+  ) : (
+    <article className="genre-preview genre-preview--static">
       <span>{genre}</span>
     </article>
   );

@@ -1,6 +1,7 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery, StudioRating } from '@shared/components';
+import { GenrePreview } from '@features/entities/genres';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -38,12 +39,19 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
         <h3 className="title">{studio?.name?.en}</h3>
         <small className="city">{studio?.city}</small>
       </div>
+      {studio?.genres && studio.genres.length > 0 && (
+        <div className="studio-preview-genres">
+          {studio.genres.slice(0, 3).map((genre, idx) => (
+            <GenrePreview key={idx} genre={genre} isInteractive={false} />
+          ))}
+        </div>
+      )}
+      <p className="description">{studio?.description?.en}</p>
       <StudioRating
         averageRating={studio?.averageRating}
         reviewCount={studio?.reviewCount}
         size="sm"
       />
-      <p className="description">{studio?.description?.en}</p>
       <div className="options-wrapper">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
