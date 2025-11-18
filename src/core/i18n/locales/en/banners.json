@@ -1,0 +1,24 @@
+{
+  "home": {
+    "banner1": {
+      "title": "Discover Amazing Studios",
+      "subtitle": "Find the perfect space for your next project",
+      "cta": "Explore Studios",
+      "alt": "Music production studio"
+    },
+    "banner2": {
+      "title": "Premium Services",
+      "subtitle": "Get professional mixing and mastering services",
+      "cta": "View Services",
+      "alt": "Professional recording equipment"
+    },
+    "banner3": {
+      "title": "Book Your Session",
+      "subtitle": "Reserve your studio time today",
+      "cta": "Book Now",
+      "alt": "Music production setup"
+    }
+  }
+}
+
+

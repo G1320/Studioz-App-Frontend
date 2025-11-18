@@ -9,17 +9,40 @@ interface BannerSlideProps {
 }
 
 export const BannerSlide: React.FC<BannerSlideProps> = ({ slide }) => {
-  const { i18n } = useTranslation();
-  const { image, alt, title, subtitle, ctaText, ctaLink, overlayPosition = 'center', textColor = 'light' } = slide;
+  const { t, i18n } = useTranslation('banners');
+  const {
+    image,
+    alt,
+    altKey,
+    title,
+    titleKey,
+    subtitle,
+    subtitleKey,
+    ctaText,
+    ctaTextKey,
+    ctaLink,
+    overlayPosition = 'center',
+    textColor = 'light'
+  } = slide;
 
-  const hasOverlay = title || subtitle || ctaText;
+  const resolve = (key?: string, fallback?: string) => {
+    if (key) return t(key);
+    return fallback;
+  };
+
+  const resolvedTitle = resolve(titleKey, title);
+  const resolvedSubtitle = resolve(subtitleKey, subtitle);
+  const resolvedCtaText = resolve(ctaTextKey, ctaText);
+  const resolvedAlt = resolve(altKey, alt || 'Banner image');
+
+  const hasOverlay = resolvedTitle || resolvedSubtitle || resolvedCtaText;
 
   return (
     <div className={`banner-slide banner-slide--${overlayPosition} banner-slide--${textColor}`}>
       <div className="banner-slide__image-container">
         <GenericImage
           src={image}
-          alt={alt || 'Banner image'}
+          alt={resolvedAlt || 'Banner image'}
           className="banner-slide__image"
           width={1920}
           loading="eager"
@@ -28,11 +51,11 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ slide }) => {
       {hasOverlay && (
         <div className="banner-slide__overlay">
           <div className="banner-slide__content">
-            {title && <h2 className="banner-slide__title">{title}</h2>}
-            {subtitle && <p className="banner-slide__subtitle">{subtitle}</p>}
-            {ctaText && ctaLink && (
-              <Link to={`/${i18n.language}${ctaLink}`} className="banner-slide__cta" aria-label={ctaText}>
-                {ctaText}
+            {resolvedTitle && <h2 className="banner-slide__title">{resolvedTitle}</h2>}
+            {resolvedSubtitle && <p className="banner-slide__subtitle">{resolvedSubtitle}</p>}
+            {resolvedCtaText && ctaLink && (
+              <Link to={`/${i18n.language}${ctaLink}`} className="banner-slide__cta" aria-label={resolvedCtaText}>
+                {resolvedCtaText}
               </Link>
             )}
           </div>

@@ -2,9 +2,13 @@ export interface BannerSlide {
   id: string;
   image: string;
   alt?: string;
+  altKey?: string;
   title?: string;
+  titleKey?: string;
   subtitle?: string;
+  subtitleKey?: string;
   ctaText?: string;
+  ctaTextKey?: string;
   ctaLink?: string;
   overlayPosition?: 'left' | 'center' | 'right';
   textColor?: 'light' | 'dark';

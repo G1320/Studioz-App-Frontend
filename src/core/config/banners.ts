@@ -6,10 +6,10 @@ export const homeBanners: BannerConfig = {
     {
       id: 'banner-1',
       image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920',
-      alt: 'Music production studio',
-      title: 'Discover Amazing Studios',
-      subtitle: 'Find the perfect space for your next project',
-      ctaText: 'Explore Studios',
+      altKey: 'home.banner1.alt',
+      titleKey: 'home.banner1.title',
+      subtitleKey: 'home.banner1.subtitle',
+      ctaTextKey: 'home.banner1.cta',
       ctaLink: '/studios',
       overlayPosition: 'left',
       textColor: 'light'
@@ -17,10 +17,10 @@ export const homeBanners: BannerConfig = {
     {
       id: 'banner-2',
       image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920',
-      alt: 'Professional recording equipment',
-      title: 'Premium Services',
-      subtitle: 'Get professional mixing and mastering services',
-      ctaText: 'View Services',
+      altKey: 'home.banner2.alt',
+      titleKey: 'home.banner2.title',
+      subtitleKey: 'home.banner2.subtitle',
+      ctaTextKey: 'home.banner2.cta',
       ctaLink: '/services',
       overlayPosition: 'center',
       textColor: 'light'
@@ -28,10 +28,10 @@ export const homeBanners: BannerConfig = {
     {
       id: 'banner-3',
       image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1920',
-      alt: 'Music production',
-      title: 'Book Your Session',
-      subtitle: 'Reserve your studio time today',
-      ctaText: 'Book Now',
+      altKey: 'home.banner3.alt',
+      titleKey: 'home.banner3.title',
+      subtitleKey: 'home.banner3.subtitle',
+      ctaTextKey: 'home.banner3.cta',
       ctaLink: '/studios',
       overlayPosition: 'right',
       textColor: 'light'
