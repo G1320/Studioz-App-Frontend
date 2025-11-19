@@ -51,10 +51,13 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
     });
   };
 
+  const hasReviews = reviewCount && reviewCount > 0;
   const summaryLabel =
-    validRating && showCount
-      ? `${displayRating?.toFixed(1)} · ${formatReviewCount(reviewCount ?? 0)}`
-      : formatReviewCount(reviewCount ?? 0);
+    validRating && showCount && hasReviews
+      ? `${displayRating?.toFixed(1)} · ${formatReviewCount(reviewCount)}`
+      : hasReviews && showCount
+        ? formatReviewCount(reviewCount)
+        : null;
 
   return (
     <div
@@ -64,7 +67,7 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
       }
     >
       <div className="studio-rating__stars">{renderStars()}</div>
-      {showCount && <p className="studio-rating__summary">{summaryLabel}</p>}
+      {summaryLabel && <p className="studio-rating__summary">{summaryLabel}</p>}
     </div>
   );
 };

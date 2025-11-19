@@ -38,13 +38,13 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         title={studio?.name.en}
         subTitle={studio?.city}
       />
-      <StudioRating
-        averageRating={studio?.averageRating}
-        reviewCount={studio?.reviewCount}
-        className="studio-details__rating"
-      />
 
       <div className="info-option-container">
+        <StudioRating
+          averageRating={studio?.averageRating}
+          reviewCount={studio?.reviewCount}
+          className="studio-details__rating"
+        />
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
         {studio?.address && <AddressDropdown address={studio?.address as string} />}
         {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}
