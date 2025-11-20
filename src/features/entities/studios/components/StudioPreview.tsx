@@ -38,12 +38,14 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
         <h3 className="title">{studio?.name?.en}</h3>
         <small className="city">{studio?.city}</small>
       </div>
-      <StudioRating
-        averageRating={studio?.averageRating}
-        reviewCount={studio?.reviewCount}
-        variant="badge"
-        showCount={false}
-      />
+      <div className="studio-preview__rating-overlay">
+        <StudioRating
+          averageRating={studio?.averageRating}
+          reviewCount={studio?.reviewCount}
+          variant="badge"
+          showCount={false}
+        />
+      </div>
 
       <p className="description">{studio?.description?.en}</p>
       <div className="options-wrapper">

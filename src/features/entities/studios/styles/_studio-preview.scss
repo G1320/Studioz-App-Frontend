@@ -1,6 +1,7 @@
 @use '../../../../assets/styles/utilities/variables' as vars;
 
 .studio-preview {
+  position: relative;
   min-height: min-content;
   min-height: 300px;
   padding: 0 0.5rem 0.5rem 0.5rem;
@@ -89,6 +90,23 @@
 
   .studio-rating {
     margin-top: 0.15rem;
+  }
+
+  &__rating-overlay {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    z-index: 3;
+    pointer-events: none;
+
+    html[dir='rtl'] & {
+      right: auto;
+      left: 0.8rem;
+    }
+
+    .studio-rating {
+      margin-top: 0;
+    }
   }
   small {
     color: #b3b2b2;
