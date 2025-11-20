@@ -37,11 +37,52 @@
       .cover-image {
         justify-self: center;
         align-self: center;
-        width: calc(100% + 0.5rem);
+        width: 100%;
         aspect-ratio: 2 / 1;
         height: auto;
         max-height: 600px;
         object-fit: cover;
+      }
+
+      .image-container.cover-image {
+        position: relative;
+        display: block;
+        width: calc(100% + 0.5rem);
+        aspect-ratio: 2 / 1;
+        height: auto;
+        min-height: clamp(220px, 40vw, 600px);
+        max-height: 600px;
+        overflow: hidden;
+        place-self: center;
+        border-radius: 16px;
+        background-color: rgba(255, 255, 255, 0.04);
+
+        .skeleton-loader {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, rgba(#f0f0f0, 0) 0%, rgba(#f0f0f0, 0.8) 50%, rgba(#f0f0f0, 0) 100%);
+          background-size: 200% 100%;
+          animation: shimmer 1.5s infinite;
+        }
+
+        .generic-image {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: opacity 0.3s ease;
+
+          &.loading {
+            opacity: 0;
+          }
+
+          &.loaded {
+            opacity: 1;
+          }
+        }
       }
       .cover-image-overlay {
         position: absolute;
