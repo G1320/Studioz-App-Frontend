@@ -43,4 +43,38 @@
       font-size: 1.15rem;
     }
   }
+
+  &--badge {
+    gap: 0;
+
+    .studio-rating__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      background: rgba(19, 19, 19, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+    }
+
+    .studio-rating__badge-icon {
+      width: 0.75rem;
+      height: 0.75rem;
+      color: #ffd166;
+    }
+
+    .studio-rating__badge-value {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .studio-rating__badge-count {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 500;
+    }
+  }
 }

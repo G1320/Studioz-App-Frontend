@@ -9,6 +9,7 @@ interface StudioRatingProps {
   size?: 'sm' | 'md';
   className?: string;
   showCount?: boolean;
+  variant?: 'stars' | 'badge';
 }
 
 const MAX_STARS = 5;
@@ -24,7 +25,8 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
   reviewCount,
   size = 'md',
   className = '',
-  showCount = true
+  variant = 'stars',
+  showCount = variant !== 'badge'
 }) => {
   const validRating = typeof averageRating === 'number' && !Number.isNaN(averageRating) ? averageRating : undefined;
 
@@ -51,7 +53,7 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
     });
   };
 
-  const hasReviews = reviewCount && reviewCount > 0;
+  const hasReviews = !!(reviewCount && reviewCount > 0);
   const summaryLabel =
     validRating && showCount && hasReviews
       ? `${displayRating?.toFixed(1)} · ${formatReviewCount(reviewCount)}`
@@ -59,15 +61,37 @@ export const StudioRating: React.FC<StudioRatingProps> = ({
         ? formatReviewCount(reviewCount)
         : null;
 
+  const badgeLabel = displayRating ? displayRating.toFixed(1) : '—';
+  const containerClasses = [
+    'studio-rating',
+    variant === 'stars' ? `studio-rating--${size}` : 'studio-rating--badge',
+    className
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+
   return (
     <div
-      className={`studio-rating studio-rating--${size} ${className}`}
+      className={containerClasses}
       aria-label={
         validRating ? `Rated ${displayRating?.toFixed(1)} out of 5 from ${reviewCount || 0} reviews` : 'No reviews yet'
       }
     >
-      <div className="studio-rating__stars">{renderStars()}</div>
-      {summaryLabel && <p className="studio-rating__summary">{summaryLabel}</p>}
+      {variant === 'badge' ? (
+        <div className="studio-rating__badge">
+          <StarIcon className="studio-rating__badge-icon" />
+          <span className="studio-rating__badge-value">{badgeLabel}</span>
+          {showCount && hasReviews && (
+            <span className="studio-rating__badge-count">{formatReviewCount(reviewCount)}</span>
+          )}
+        </div>
+      ) : (
+        <>
+          <div className="studio-rating__stars">{renderStars()}</div>
+          {summaryLabel && <p className="studio-rating__summary">{summaryLabel}</p>}
+        </>
+      )}
     </div>
   );
 };
