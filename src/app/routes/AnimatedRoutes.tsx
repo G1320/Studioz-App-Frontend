@@ -73,16 +73,16 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
 
   const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
-      <motion.div 
-        initial="initial" 
-        animate="enter" 
-        exit="exit" 
+      <motion.div
+        initial="initial"
+        animate="enter"
+        exit="exit"
         variants={pageVariants}
         onAnimationComplete={() => {
           // Scroll to top after animation completes
           scrollToTop();
         }}
-        style={{ 
+        style={{
           position: 'relative',
           minHeight: '100%'
         }}
@@ -113,22 +113,8 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route 
-            path="/:lang?/studios/:category?/:subcategory?" 
-            element={
-              <AnimatedRoute>
-                <StudiosPage studios={studios} />
-              </AnimatedRoute>
-            } 
-          />
-          <Route 
-            path="/:lang?/services/:category?/:subCategory?" 
-            element={
-              <AnimatedRoute>
-                <ServicesPage items={items} />
-              </AnimatedRoute>
-            } 
-          />
+          <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
+          <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
           <Route
             path="/:lang?/wishlists"
             element={
