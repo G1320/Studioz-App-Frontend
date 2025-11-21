@@ -6,18 +6,16 @@ export const ScrollToTop = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const scrollOptions = {
-      top: 0,
-      left: 0
-    };
-
-    // Target the main content div
-    const mainContent = document.getElementById('main-content');
-    if (mainContent) {
-      mainContent.scrollTo(scrollOptions);
+    // Primary: Scroll #root (the actual scroll container based on CSS)
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      rootElement.scrollTop = 0;
     }
-    // Also scroll the window itself
-    window.scrollTo(scrollOptions);
+
+    // Fallbacks for cross-platform compatibility
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return null;
