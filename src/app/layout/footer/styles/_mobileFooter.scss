@@ -25,6 +25,16 @@ footer.mobile-footer {
 .footer-icon-link {
   color: #333;
   text-decoration: none;
+
+  &[aria-current='page'] {
+    .footer-link-content {
+      color: #4a90e2;
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 .footer-link-content {
