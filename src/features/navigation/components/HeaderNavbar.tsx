@@ -14,7 +14,10 @@ export function HeaderNavbar() {
   const currentPath = location.pathname;
   const currLang = i18n.language || 'en';
 
-  const isCurrentPage = (path: string) => currentPath === path;
+  const isCurrentPage = (path: string) => {
+    // Check exact match or if path starts with the base path (for sub-routes)
+    return currentPath === path || currentPath.startsWith(`${path}/`);
+  };
 
   const handleNavigate = (path: string) => {
     if (!user?._id) {

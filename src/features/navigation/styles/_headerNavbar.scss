@@ -15,4 +15,23 @@
   a:hover {
     text-shadow: 0 0 12px 7px white;
   }
+
+  .navbar-link[aria-current='page'] {
+    position: relative;
+    color: #4a90e2;
+    text-shadow: 0 0 8px rgba(74, 144, 226, 0.6), 0 0 12px rgba(74, 144, 226, 0.4);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background-color: #4a90e2;
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(74, 144, 226, 0.8);
+    }
+  }
 }

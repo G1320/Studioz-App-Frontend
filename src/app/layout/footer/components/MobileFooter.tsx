@@ -14,7 +14,14 @@ export const MobileFooter = () => {
 
   const currLang = i18n.language || 'en';
 
-  const isCurrentPage = (path: string) => currentPath === path;
+  const isCurrentPage = (path: string) => {
+    // For home page, check exact match only (no sub-routes)
+    if (path === `/${currLang}` || path === currLang) {
+      return currentPath === `/${currLang}` || currentPath === `/${currLang}/`;
+    }
+    // For other pages, check exact match or if path starts with the base path (for sub-routes)
+    return currentPath === path || currentPath.startsWith(`${path}/`);
+  };
 
   return (
     <footer className="mobile-footer">
