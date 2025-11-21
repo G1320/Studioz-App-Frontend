@@ -78,9 +78,11 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
         animate="enter"
         exit="exit"
         variants={pageVariants}
-        onAnimationComplete={() => {
-          // Scroll to top after animation completes
-          scrollToTop();
+        onAnimationComplete={(definition) => {
+          // Only scroll on enter animation, not exit
+          if (definition === 'enter') {
+            scrollToTop();
+          }
         }}
         style={{
           position: 'relative',
