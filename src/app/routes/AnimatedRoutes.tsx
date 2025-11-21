@@ -43,12 +43,10 @@ interface AnimatedRoutesProps {
 
 const pageVariants = {
   initial: {
-    opacity: 0,
-    visibility: 'hidden' as const
+    opacity: 0
   },
   enter: {
     opacity: 1,
-    visibility: 'visible' as const,
     transition: {
       duration: 0.25,
       ease: 'easeInOut'
@@ -56,7 +54,6 @@ const pageVariants = {
   },
   exit: {
     opacity: 0,
-    visibility: 'hidden' as const,
     transition: {
       duration: 0,
       ease: 'easeInOut'
@@ -80,7 +77,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
         animate="enter" 
         exit="exit" 
         variants={pageVariants}
-        style={{ position: 'relative', isolation: 'isolate' }}
+        style={{ 
+          position: 'relative',
+          minHeight: '100%'
+        }}
       >
         {children}
       </motion.div>
@@ -108,8 +108,22 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
-          <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
+          <Route 
+            path="/:lang?/studios/:category?/:subcategory?" 
+            element={
+              <AnimatedRoute>
+                <StudiosPage studios={studios} />
+              </AnimatedRoute>
+            } 
+          />
+          <Route 
+            path="/:lang?/services/:category?/:subCategory?" 
+            element={
+              <AnimatedRoute>
+                <ServicesPage items={items} />
+              </AnimatedRoute>
+            } 
+          />
           <Route
             path="/:lang?/wishlists"
             element={
