@@ -14,7 +14,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   studios
 }) => {
   const { t } = useTranslation('dashboard');
-  const { data: reservations = [], isLoading: isLoadingReservations } = useReservations();
+  const { data: reservations = [] } = useReservations();
 
   // Determine if user is a studio owner
   const isStudioOwner = useMemo(() => {
@@ -49,10 +49,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     }
 
     // Studio owner stats - filter by studios owned by user
-    // Note: Reservation type may need studioId field, or we filter by itemId matching studio items
+    // Filter by itemId matching studio items
     const studioReservations = reservations.filter((res) => {
       return userStudios.some((studio) => 
-        studio.items.some((item) => item._id === res.itemId)
+        studio.items.some((item) => item.itemId === res.itemId)
       );
     });
     const totalRevenue = studioReservations.reduce(

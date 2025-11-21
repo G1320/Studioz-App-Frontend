@@ -258,7 +258,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang?/dashboard"
             element={
               <AnimatedRoute>
-                <DashboardPage user={user} studios={studios} />
+                <DashboardPage user={user || null} studios={studios} />
               </AnimatedRoute>
             }
           />
