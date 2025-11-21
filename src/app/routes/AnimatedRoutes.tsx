@@ -43,10 +43,12 @@ interface AnimatedRoutesProps {
 
 const pageVariants = {
   initial: {
-    opacity: 0
+    opacity: 0,
+    visibility: 'hidden' as const
   },
   enter: {
     opacity: 1,
+    visibility: 'visible' as const,
     transition: {
       duration: 0.25,
       ease: 'easeInOut'
@@ -54,6 +56,7 @@ const pageVariants = {
   },
   exit: {
     opacity: 0,
+    visibility: 'hidden' as const,
     transition: {
       duration: 0,
       ease: 'easeInOut'
@@ -72,7 +75,13 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
 
   const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
-      <motion.div initial="initial" animate="enter" exit="exit" variants={pageVariants}>
+      <motion.div 
+        initial="initial" 
+        animate="enter" 
+        exit="exit" 
+        variants={pageVariants}
+        style={{ position: 'relative', isolation: 'isolate' }}
+      >
         {children}
       </motion.div>
     );
