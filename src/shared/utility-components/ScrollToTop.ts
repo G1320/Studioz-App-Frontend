@@ -14,6 +14,26 @@ export const scrollToTop = () => {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   window.scrollTo(0, 0);
+
+  // Scroll down 1px to trigger reflow/repaint (test for UI bug fix)
+  requestAnimationFrame(() => {
+    if (rootElement) {
+      rootElement.scrollTop = 1;
+    }
+    document.body.scrollTop = 1;
+    document.documentElement.scrollTop = 1;
+    window.scrollTo(0, 1);
+
+    // Then scroll back to top
+    requestAnimationFrame(() => {
+      if (rootElement) {
+        rootElement.scrollTop = 0;
+      }
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      window.scrollTo(0, 0);
+    });
+  });
 };
 
 // Component that handles scroll-to-top for non-animated routes
