@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense, useMemo } from 'react';
+import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 
 import HomePage from '@features/home/pages/HomePage';
 import WishListsPage from '@features/entities/wishlists/pages/WishlistsPage';
@@ -77,6 +78,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
         animate="enter" 
         exit="exit" 
         variants={pageVariants}
+        onAnimationComplete={() => {
+          // Scroll to top after animation completes
+          scrollToTop();
+        }}
         style={{ 
           position: 'relative',
           minHeight: '100%'
