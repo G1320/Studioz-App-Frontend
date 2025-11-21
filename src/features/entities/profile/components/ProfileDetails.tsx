@@ -27,6 +27,11 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
       <div className="profile-body">
         <div className="profile-section">
           <div className="profile-actions">
+            {user && (
+              <button onClick={() => handleNavigate('/dashboard')}>
+                {t('profile.buttons.dashboard')}
+              </button>
+            )}
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>
                 <button onClick={() => handleNavigate('/calendar')}>

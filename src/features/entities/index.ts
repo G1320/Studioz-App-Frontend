@@ -9,4 +9,4 @@ export * from './genres';
 export * from './reservations';
 export * from './subscriptions';
 export * from './payments';
-export * from './bookings';
+export * from './dashboard';

@@ -11,6 +11,7 @@ import profile from './locales/en/profile.json';
 import subscriptions from './locales/en/subscriptions.json';
 import reservationDetails from './locales/en/reservationDetails.json';
 import banners from './locales/en/banners.json';
+import dashboard from './locales/en/dashboard.json';
 
 import homePageHe from './locales/he/homePage.json';
 import commonHe from './locales/he/common.json';
@@ -21,6 +22,7 @@ import profileHe from './locales/he/profile.json';
 import subscriptionsHe from './locales/he/subscriptions.json';
 import reservationDetailsHe from './locales/he/reservationDetails.json';
 import bannersHe from './locales/he/banners.json';
+import dashboardHe from './locales/he/dashboard.json';
 
 i18n
   .use(LanguageDetector)
@@ -36,7 +38,8 @@ i18n
         profile,
         subscriptions,
         reservationDetails,
-        banners
+        banners,
+        dashboard
       },
       he: {
         homePage: homePageHe,
@@ -47,7 +50,8 @@ i18n
         profile: profileHe,
         subscriptions: subscriptionsHe,
         reservationDetails: reservationDetailsHe,
-        banners: bannersHe
+        banners: bannersHe,
+        dashboard: dashboardHe
       }
     },
     fallbackLng: 'en',

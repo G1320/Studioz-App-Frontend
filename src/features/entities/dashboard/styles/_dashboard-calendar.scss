@@ -1,0 +1,20 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+.dashboard-calendar {
+  .dashboard-section-title {
+    margin-bottom: 1.5rem;
+  }
+
+  // Calendar container styles
+  .studio-calendar {
+    background: vars.$preview-bg-color;
+    border-radius: vars.$border-radius-large;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
+  }
+}
+

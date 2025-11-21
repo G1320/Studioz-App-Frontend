@@ -1,0 +1,38 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+.dashboard-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: vars.$text-color-primary;
+
+  .dashboard-header {
+    margin-bottom: 2.5rem;
+
+    .dashboard-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: vars.$text-color-primary;
+    }
+
+    .dashboard-subtitle {
+      font-size: 1rem;
+      color: vars.$text-color-secondary;
+      margin: 0;
+    }
+  }
+
+  .dashboard-content {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .dashboard-section-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+    color: vars.$text-color-primary;
+  }
+}
+

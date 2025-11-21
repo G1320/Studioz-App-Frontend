@@ -1,8 +1,26 @@
 {
-  "title": "Dashboard",
+  "welcome": "Welcome, {{name}}!",
+  "guest": "Guest",
+  "studioOwnerSubtitle": "Manage your studios and bookings",
   "stats": {
-    "bookings": "Total Bookings",
-    "revenue": "Total Revenue",
-    "customers": "Total Customers"
+    "title": "Statistics",
+    "totalBookings": "Total Bookings",
+    "totalRevenue": "Total Revenue",
+    "activeStudios": "Active Studios",
+    "upcomingBookings": "Upcoming Bookings",
+    "myBookings": "My Bookings",
+    "totalSpent": "Total Spent",
+    "wishlists": "Wishlists",
+    "upcomingReservations": "Upcoming Reservations"
+  },
+  "myStudios": {
+    "title": "My Studios",
+    "empty": "You haven't created any studios yet. Get started by creating your first studio!",
+    "createStudio": "Create Studio",
+    "addStudio": "Add Studio"
+  },
+  "calendar": {
+    "studioOwnerTitle": "Studio Calendar",
+    "userTitle": "My Reservations"
   }
 }

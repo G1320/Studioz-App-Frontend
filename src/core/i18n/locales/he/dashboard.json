@@ -1,0 +1,27 @@
+{
+  "welcome": "ברוכים הבאים, {{name}}!",
+  "guest": "אורח",
+  "studioOwnerSubtitle": "נהל את הסטודיו וההזמנות שלך",
+  "stats": {
+    "title": "סטטיסטיקות",
+    "totalBookings": "סה\"כ הזמנות",
+    "totalRevenue": "סה\"כ הכנסות",
+    "activeStudios": "סטודיו פעילים",
+    "upcomingBookings": "הזמנות קרובות",
+    "myBookings": "ההזמנות שלי",
+    "totalSpent": "סה\"כ הוצאות",
+    "wishlists": "רשימות משאלות",
+    "upcomingReservations": "הזמנות קרובות"
+  },
+  "myStudios": {
+    "title": "הסטודיו שלי",
+    "empty": "עדיין לא יצרת סטודיו. התחל על ידי יצירת הסטודיו הראשון שלך!",
+    "createStudio": "צור סטודיו",
+    "addStudio": "הוסף סטודיו"
+  },
+  "calendar": {
+    "studioOwnerTitle": "יומן סטודיו",
+    "userTitle": "ההזמנות שלי"
+  }
+}
+

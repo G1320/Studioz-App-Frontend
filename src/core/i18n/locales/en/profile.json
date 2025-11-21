@@ -1,6 +1,9 @@
 {
   "profile": {
     "guestUser": "Guest User",
+    "buttons": {
+      "dashboard": "Dashboard"
+    },
     "email": {
       "label": "Email",
       "notAvailable": "Email: N/A"

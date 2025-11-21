@@ -13,6 +13,7 @@ import EditStudioPage from '@features/entities/studios/pages/EditStudioPage';
 import OrderSuccessPage from '@features/entities/orders/pages/OrderSuccessPage';
 import StudioCalendarPage from '@features/entities/bookings/calender/pages/CalenderPage';
 import ProfilePage from '@features/entities/profile/pages/ProfilePage';
+import { DashboardPage } from '@features/entities/dashboard';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import Cart from 'src/types/cart';
@@ -250,6 +251,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <StudioCalendarPage studios={userStudios} items={items} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/dashboard"
+            element={
+              <AnimatedRoute>
+                <DashboardPage user={user} studios={studios} />
               </AnimatedRoute>
             }
           />

@@ -1,0 +1,85 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+.dashboard-my-studios {
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .studios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    background: vars.$preview-bg-color;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    gap: 1.5rem;
+
+    p {
+      font-size: 1rem;
+      color: vars.$text-color-secondary;
+      margin: 0;
+    }
+
+    .primary-button {
+      padding: 0.75rem 2rem;
+      background: vars.$color-brand;
+      color: vars.$text-color-primary;
+      border: none;
+      border-radius: vars.$border-radius-medium;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        background: rgba(vars.$color-brand, 0.9);
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .secondary-button {
+    padding: 0.625rem 1.5rem;
+    background: transparent;
+    color: vars.$text-color-primary;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: vars.$border-radius-medium;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: vars.$color-brand;
+    }
+  }
+}
+

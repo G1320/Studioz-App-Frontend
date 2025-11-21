@@ -1,6 +1,9 @@
 {
   "profile": {
     "guestUser": "משתמש אורח",
+    "buttons": {
+      "dashboard": "לוח בקרה"
+    },
     "email": {
       "label": "אימייל",
       "notAvailable": "אימייל: לא זמין"

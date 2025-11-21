@@ -1,0 +1,60 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+.dashboard-stats {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: vars.$preview-bg-color;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .stat-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: vars.$color-brand;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: vars.$text-color-secondary;
+      line-height: 1.4;
+    }
+  }
+}
+
