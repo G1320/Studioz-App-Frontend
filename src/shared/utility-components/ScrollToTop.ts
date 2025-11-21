@@ -18,11 +18,11 @@ export const scrollToTop = () => {
   // Scroll down 1px to trigger reflow/repaint (test for UI bug fix)
   requestAnimationFrame(() => {
     if (rootElement) {
-      rootElement.scrollTop = 1;
+      rootElement.scrollTop = 0.1;
     }
-    document.body.scrollTop = 1;
-    document.documentElement.scrollTop = 1;
-    window.scrollTo(0, 1);
+    document.body.scrollTop = 0.1;
+    document.documentElement.scrollTop = 0.1;
+    window.scrollTo(0, 0.1);
 
     // Then scroll back to top
     requestAnimationFrame(() => {

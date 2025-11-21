@@ -1,5 +1,6 @@
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useCategories } from '@shared/hooks';
+import { useParams } from 'react-router-dom';
 
 interface CategoryPreviewProps {
   pathPrefix?: string;
@@ -9,14 +10,21 @@ interface CategoryPreviewProps {
 export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category, pathPrefix = 'studios' }) => {
   const langNavigate = useLanguageNavigate();
   const { getEnglishByDisplay } = useCategories();
+  const params = useParams();
 
   const handleClick = () => {
     const categoryKey = getEnglishByDisplay(category);
     langNavigate(`/${pathPrefix}/music/${categoryKey}`);
   };
 
+  // Check if this category is currently selected
+  // Route structure: /:lang?/studios/:category?/:subcategory? or /:lang?/services/:category?/:subCategory?
+  const categoryKey = getEnglishByDisplay(category);
+  const subcategoryParam = pathPrefix === 'services' ? params.subCategory : params.subcategory;
+  const isSelected = subcategoryParam === categoryKey;
+
   return (
-    <article className=" category-preview" onClick={handleClick}>
+    <article className={`category-preview ${isSelected ? 'category-preview--selected' : ''}`} onClick={handleClick}>
       <span>{category}</span>
     </article>
   );
