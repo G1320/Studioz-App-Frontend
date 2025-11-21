@@ -3,6 +3,7 @@ import { useUserContext } from '@core/contexts';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
+import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 
 export function HeaderNavbar() {
   const { user } = useUserContext();
@@ -33,6 +34,7 @@ export function HeaderNavbar() {
         className="navbar-link"
         aria-label={t('navigation.services')}
         aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+        onClick={() => scrollToTop()}
       >
         {t('navigation.services')}
       </Link>
@@ -42,6 +44,7 @@ export function HeaderNavbar() {
         className="navbar-link"
         aria-label={t('navigation.studios')}
         aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
+        onClick={() => scrollToTop()}
       >
         {t('navigation.studios')}
       </Link>
@@ -53,6 +56,7 @@ export function HeaderNavbar() {
         onClick={(e) => {
           e.preventDefault();
           handleNavigate('/wishlists');
+          scrollToTop();
         }}
       >
         {t('navigation.wishlists')}

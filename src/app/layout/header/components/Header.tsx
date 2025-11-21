@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { BackButton } from '@shared/components';
+import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 
 interface HeaderProps {
   cart?: Cart;
@@ -35,18 +36,18 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
       <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
 
       <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
-        <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')}>
+        <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
           {t('navigation.logo')}
         </Link>
       </h1>
       <div className="cart-options-container">
-        <Link to={`${currLang}/search`} className="header-search-button-container" aria-label="Go to search page">
+        <Link to={`${currLang}/search`} className="header-search-button-container" aria-label="Go to search page" onClick={() => scrollToTop()}>
           <SearchIcon aria-label="Search icon" />
         </Link>
         <LanguageSwitcher aria-label="Switch language" />
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         {user && (
-          <Link to={`${currLang}/profile`} className="header-profile-button-container" aria-label="Go to search page">
+          <Link to={`${currLang}/profile`} className="header-profile-button-container" aria-label="Go to search page" onClick={() => scrollToTop()}>
             <ManageAccountsIcon aria-label="profile icon" />
           </Link>
         )}

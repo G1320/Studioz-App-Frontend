@@ -4,6 +4,7 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import SearchIcon from '@mui/icons-material/Search';
 import BusinessIcon from '@mui/icons-material/Business';
 import { useTranslation } from 'react-i18next';
+import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 
 export const MobileFooter = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ export const MobileFooter = () => {
           className="footer-icon-link"
           aria-label={t('navigation.home')}
           aria-current={isCurrentPage(`/${currLang}`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
         >
           <div className="footer-link-content">
             <HomeIcon aria-hidden="true" />
@@ -34,6 +36,7 @@ export const MobileFooter = () => {
           className="footer-icon-link"
           aria-label={t('navigation.services')}
           aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
         >
           <div className="footer-link-content">
             <GraphicEqIcon aria-hidden="true" />
@@ -45,6 +48,7 @@ export const MobileFooter = () => {
           className="footer-icon-link"
           aria-label={t('navigation.studios')}
           aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
         >
           <div className="footer-link-content">
             <BusinessIcon aria-hidden="true" />
@@ -56,6 +60,7 @@ export const MobileFooter = () => {
           className="footer-icon-link"
           aria-label={t('navigation.search')}
           aria-current={isCurrentPage(`/${currLang}/search`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
         >
           <div className="footer-link-content">
             <SearchIcon aria-hidden="true" />
