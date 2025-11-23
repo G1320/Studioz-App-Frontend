@@ -27,6 +27,9 @@
     gap: 1.5rem;
     padding: 2rem;
     color: #f1f1f1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 
     @media (max-width: 768px) {
       padding: 1.5rem;
@@ -125,6 +128,8 @@
 
     .reason-input {
       width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       padding: 0.875rem 1rem;
       background-color: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
