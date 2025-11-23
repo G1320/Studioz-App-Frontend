@@ -33,16 +33,6 @@ export function HeaderNavbar() {
   return (
     <nav className="navbar">
       <Link
-        to={`/${currLang}/services/music`}
-        className="navbar-link"
-        aria-label={t('navigation.services')}
-        aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
-        onClick={() => scrollToTop()}
-      >
-        {t('navigation.services')}
-      </Link>
-
-      <Link
         to={`/${currLang}/studios`}
         className="navbar-link"
         aria-label={t('navigation.studios')}
@@ -50,6 +40,16 @@ export function HeaderNavbar() {
         onClick={() => scrollToTop()}
       >
         {t('navigation.studios')}
+      </Link>
+
+      <Link
+        to={`/${currLang}/services/music`}
+        className="navbar-link"
+        aria-label={t('navigation.services')}
+        aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+        onClick={() => scrollToTop()}
+      >
+        {t('navigation.services')}
       </Link>
       <Link
         to={`/${currLang}/wishlists`}

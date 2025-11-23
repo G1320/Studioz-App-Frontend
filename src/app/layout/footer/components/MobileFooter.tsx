@@ -39,18 +39,6 @@ export const MobileFooter = () => {
           </div>
         </Link>
         <Link
-          to={`/${currLang}/services`}
-          className="footer-icon-link"
-          aria-label={t('navigation.services')}
-          aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
-          onClick={() => scrollToTop()}
-        >
-          <div className="footer-link-content">
-            <GraphicEqIcon aria-hidden="true" />
-            <span>{t('navigation.services')}</span>
-          </div>
-        </Link>
-        <Link
           to={`/${currLang}/studios`}
           className="footer-icon-link"
           aria-label={t('navigation.studios')}
@@ -60,6 +48,18 @@ export const MobileFooter = () => {
           <div className="footer-link-content">
             <BusinessIcon aria-hidden="true" />
             <span>{t('navigation.studios')}</span>
+          </div>
+        </Link>
+        <Link
+          to={`/${currLang}/services`}
+          className="footer-icon-link"
+          aria-label={t('navigation.services')}
+          aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
+        >
+          <div className="footer-link-content">
+            <GraphicEqIcon aria-hidden="true" />
+            <span>{t('navigation.services')}</span>
           </div>
         </Link>
         <Link
