@@ -5,6 +5,8 @@ header.app-header {
   position: sticky;
   top: 0;
   height: 2.5rem;
+  min-height: 2.5rem;
+  max-height: 2.5rem;
   display: grid;
   grid-template-columns: max-content repeat(5, 1fr) 40px;
   grid-template-rows: 1fr;
@@ -14,6 +16,8 @@ header.app-header {
   background: black;
   text-align: center;
   place-items: center;
+  contain: layout style;
+  will-change: transform;
 
   @supports (-webkit-overflow-scrolling: touch) {
     /* iOS-specific styles */
