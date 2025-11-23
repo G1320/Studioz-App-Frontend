@@ -1,0 +1,16 @@
+{
+  "block_time": "Block Studio Time",
+  "block_reason": "Reason for blocking (optional)",
+  "blocking": "Blocking...",
+  "errors": {
+    "select_date_time": "Please select a date and time",
+    "invalid_date_time": "Please select a valid date and time",
+    "closing_time_unavailable": "Studio closing time is unavailable",
+    "hours_exceed_closing": "Selected hours exceed the studio closing time. Please adjust your booking.",
+    "block_failed": "Failed to block studio time slots"
+  },
+  "success": {
+    "blocked_successfully": "Studio time slots blocked successfully"
+  }
+}
+

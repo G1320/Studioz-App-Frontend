@@ -55,6 +55,7 @@
     "terms": "Terms",
     "privacy": "Privacy"
   },
+  "hours": "Hours",
   "errors": {
     "required": "This field is required",
     "invalid": "Invalid input",

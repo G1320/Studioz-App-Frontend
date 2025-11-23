@@ -1,0 +1,16 @@
+{
+  "block_time": "חסום זמן באולפן",
+  "block_reason": "סיבה לחסימה (אופציונלי)",
+  "blocking": "חוסם...",
+  "errors": {
+    "select_date_time": "אנא בחר תאריך ושעה",
+    "invalid_date_time": "אנא בחר תאריך ושעה תקינים",
+    "closing_time_unavailable": "שעת סגירת האולפן לא זמינה",
+    "hours_exceed_closing": "השעות שנבחרו חורגות משעת סגירת האולפן. אנא התאם את ההזמנה שלך.",
+    "block_failed": "נכשל בחסימת משכי הזמן באולפן"
+  },
+  "success": {
+    "blocked_successfully": "משכי הזמן באולפן נחסמו בהצלחה"
+  }
+}
+
