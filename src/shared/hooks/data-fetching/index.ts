@@ -9,3 +9,4 @@ export * from './useReservation';
 export * from './useReservations';
 export * from './useStudioReservations';
 export * from './useWishlists';
+export * from './useReviews';

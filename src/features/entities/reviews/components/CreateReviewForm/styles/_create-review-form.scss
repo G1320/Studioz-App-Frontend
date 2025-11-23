@@ -1,0 +1,154 @@
+@use '../../../../../../assets/styles/utilities/variables' as vars;
+
+.create-review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    gap: 1.25rem;
+    border-radius: 8px;
+  }
+
+  &__rating {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f1f1f1;
+  }
+
+  &__stars {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  &__star-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__star {
+    font-size: 2rem;
+    color: #666;
+    transition: color 0.2s ease;
+
+    @media (max-width: 768px) {
+      font-size: 1.75rem;
+    }
+
+    &--filled {
+      color: vars.$color-brand;
+    }
+  }
+
+  &__rating-value {
+    font-size: 0.875rem;
+    color: #d1d5db;
+    margin-top: 0.25rem;
+  }
+
+  &__comment {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #f1f1f1;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: vars.$color-brand;
+      background-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      padding: 0.75rem;
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__char-count {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-align: right;
+    margin-top: -0.25rem;
+  }
+
+  &__submit {
+    align-self: flex-start;
+    padding: 0.875rem 1.5rem;
+    background-color: vars.$color-brand;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(vars.$color-brand, 0.85);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(vars.$color-brand, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9375rem;
+      width: 100%;
+    }
+  }
+}
+

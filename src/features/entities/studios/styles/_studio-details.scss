@@ -76,6 +76,17 @@
           }
         }
       }
+      .studio-reviews-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        @media (max-width: 768px) {
+          margin-top: 1.5rem;
+          padding-top: 1.5rem;
+        }
+      }
+
       .cover-image-overlay {
         position: absolute;
         bottom: 48px;

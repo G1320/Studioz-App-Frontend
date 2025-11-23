@@ -13,3 +13,4 @@ export type { default as CartItem } from './cartItem';
 export type { default as Reservation } from './reservation';
 export type { Subscription, SumitPaymentDetails, SumitPaymentMethod } from './subscription';
 export type { SearchResult, StudiosAndItemsSearchResults } from './searchResult';
+export type { default as Review } from './review';
