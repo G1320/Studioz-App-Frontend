@@ -1,3 +1,5 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
 footer.mobile-footer {
   position: fixed;
   bottom: 0;
@@ -28,7 +30,7 @@ footer.mobile-footer {
 
   &[aria-current='page'] {
     .footer-link-content {
-      color: #4a90e2;
+      color: vars.$color-brand;
 
       span {
         font-weight: 600;

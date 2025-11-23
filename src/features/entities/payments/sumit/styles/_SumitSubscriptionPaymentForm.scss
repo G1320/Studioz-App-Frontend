@@ -1,6 +1,7 @@
 @use 'sass:color';
+@use '../../../../../assets/styles/utilities/variables' as vars;
 
-$primary-color: #4a90e2;
+$primary-color: vars.$color-brand;
 $error-color: #cc0000;
 $text-color: #333333;
 $secondary-text: #666666;
@@ -144,7 +145,7 @@ $white: #ffffff;
     font-size: 0.8rem;
     color: $secondary-text;
     a {
-      color: #4a90e2;
+      color: vars.$color-brand;
       text-decoration: none;
       margin: 0 4px;
 
