@@ -133,30 +133,30 @@
         position: relative;
       }
 
-      // Dropdown styling
+      // Dropdown styling - uses popup-base class
       .availability-dropdown,
       .address-dropdown,
       .phone-dropdown {
+        background-color: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.4),
+          0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        overflow: hidden;
+        
         position: absolute;
         top: calc(100% + 0.75rem);
         left: 0;
         min-width: 200px;
         max-width: 400px;
         width: max-content;
-
-        background-color: #1a1a1a;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow:
-          0 8px 24px rgba(0, 0, 0, 0.4),
-          0 4px 8px rgba(0, 0, 0, 0.2);
         list-style: none;
         margin: 0;
         padding: 0.5rem 0;
-        z-index: 1000;
-        border-radius: 12px;
-        overflow: hidden;
         animation: dropdownFadeIn 0.2s ease-out;
-        backdrop-filter: blur(10px);
         word-wrap: break-word;
         overflow-wrap: break-word;
         transform: translateX(0);
@@ -563,4 +563,24 @@
     }
   }
 }
+
+// Block time modal styling - uses popup-base class
+.block-time-modal {
+  .MuiDialog-paper {
+    background-color: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      border-radius: 8px !important;
+    }
+  }
+}
+
 // Shimmer animation is centralized in utilities/_skeleton-loader.scss
