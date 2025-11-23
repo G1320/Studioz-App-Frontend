@@ -110,9 +110,11 @@ export const ItemsMap: React.FC<ItemMapProps> = ({ items = [] }) => {
                 onClick={() => handleNavigateToItem(popupInfo.studioId)}
                 alt={popupInfo.name.en}
               />
-              <h3 className="popup-title">{popupInfo.name.en}</h3>
-              <h2 className="popup-description">{popupInfo.studioName.en}</h2>
-              <p className="popup-city">{popupInfo.address}</p>
+              <div className="popup-content">
+                <h3 className="popup-title">{popupInfo.name.en}</h3>
+                <h2 className="popup-description">{popupInfo.studioName.en}</h2>
+                <p className="popup-city">{popupInfo.address}</p>
+              </div>
             </div>
           </Popup>
         )}
