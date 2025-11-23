@@ -85,7 +85,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
                 <div
                   style={{
                     cursor: 'pointer',
-                    backgroundColor: '#4A90E2',
+                    backgroundColor: 'var(--color-brand)',
                     border: '2px solid white',
                     borderRadius: '50%',
                     width: '20px',
