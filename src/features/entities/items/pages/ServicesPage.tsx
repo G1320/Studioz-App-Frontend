@@ -2,6 +2,7 @@ import { CategoryPreview, ItemsList } from '@features/entities';
 import { ItemsMap } from '@shared/components';
 import { GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Item } from 'src/types/index';
 
@@ -11,6 +12,7 @@ interface ServicesPageProps {
 const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
   const { category, subCategory } = useParams();
   const { getDisplayByEnglish } = useCategories();
+  const { t } = useTranslation('services');
 
   const musicSubCategories = useMusicSubCategories();
 
@@ -29,6 +31,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   return (
     <section className="services-page">
+      <h1>{t('page.title')}</h1>
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
