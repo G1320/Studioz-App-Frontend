@@ -1,0 +1,251 @@
+@use '../../../../assets/styles/utilities/variables' as vars;
+
+// Block time modal styling - uses popup-base class
+.block-time-modal {
+  .MuiDialog-paper {
+    background-color: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    overflow: hidden;
+    max-width: 500px;
+    width: 90vw;
+
+    @media (max-width: 768px) {
+      border-radius: 8px !important;
+      max-width: 95vw;
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    color: #f1f1f1;
+
+    @media (max-width: 768px) {
+      padding: 1.5rem;
+      gap: 1.25rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f1f1f1;
+      text-align: center;
+
+      @media (max-width: 768px) {
+        font-size: 1.25rem;
+      }
+    }
+
+    .hour-selection-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      @media (max-width: 768px) {
+        padding: 0.75rem;
+      }
+
+      > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .hour-label {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #d1d5db;
+        }
+
+        .hour-value {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #f1f1f1;
+          min-width: 32px;
+          text-align: center;
+        }
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        .control-button {
+          width: 36px;
+          height: 36px;
+          border-radius: 6px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          background-color: rgba(255, 255, 255, 0.1);
+          color: #f1f1f1;
+          font-size: 1.25rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+
+          &:hover:not(:disabled) {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+          }
+
+          &:active:not(:disabled) {
+            transform: scale(0.95);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          @media (max-width: 768px) {
+            width: 32px;
+            height: 32px;
+            font-size: 1.1rem;
+          }
+        }
+      }
+    }
+
+    .reason-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #f1f1f1;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: vars.$color-brand;
+        background-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      @media (max-width: 768px) {
+        padding: 0.75rem;
+        font-size: 0.9375rem;
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+      }
+
+      .cancel-button,
+      .block-button {
+        flex: 1;
+        padding: 0.875rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+
+        @media (max-width: 768px) {
+          padding: 0.75rem 1.25rem;
+          font-size: 0.9375rem;
+        }
+      }
+
+      .cancel-button {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #f1f1f1;
+
+        &:hover:not(:disabled) {
+          background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .block-button {
+        background-color: vars.$color-brand;
+        color: #fff;
+
+        &:hover:not(:disabled) {
+          background-color: #3a7bc8;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+// Block time button styling
+.block-time-button {
+  background: transparent;
+  border: none;
+  color: vars.$color-brand;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  .clock-icon {
+    font-size: 1.5rem;
+    color: vars.$color-brand;
+  }
+}
+
