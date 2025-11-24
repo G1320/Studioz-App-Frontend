@@ -1,6 +1,6 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating, Button } from '@shared/components';
+import { GenericImageGallery, StudioRating } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -18,7 +18,6 @@ interface StudioDetailsProps {
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { getDisplayByEnglish } = useGenres();
-  const studioId = studio?._id;
 
   const langNavigate = useLanguageNavigate();
 
@@ -28,7 +27,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
     studioId ? langNavigate(`/create-item/${studio?.name.en}/${studioId}`) : null;
-  const handleGoToReviews = (studioId: string) => (studioId ? langNavigate(`/studio/${studioId}/reviews`) : null);
 
   return (
     <article key={studio?._id} className="details studio-details">
