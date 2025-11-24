@@ -1,6 +1,8 @@
 {
   "page": {
-    "title": "אולפנים"
+    "title": "אולפנים",
+    "cities_title": "ערים מובילות",
+    "city_selected": "אולפנים ב{{city}}"
   }
 }
 

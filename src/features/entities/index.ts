@@ -10,3 +10,4 @@ export * from './reservations';
 export * from './subscriptions';
 export * from './payments';
 export * from './dashboard';
+export * from './cities';

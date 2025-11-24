@@ -1,0 +1,32 @@
+.city-preview {
+  display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // min-width: 120px;
+  // padding: 0.75rem 1rem;
+  // border-radius: 999px;
+  // background: #050505;
+  // color: #f1f1f1;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  // border: 1px solid rgba(255, 255, 255, 0.08);
+
+  &__name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  &--selected {
+    background: #0f0f0f;
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+}

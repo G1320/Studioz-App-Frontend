@@ -1,6 +1,8 @@
 {
   "page": {
-    "title": "Studios"
+    "title": "Studios",
+    "cities_title": "Explore by city",
+    "city_selected": "Studios in {{city}}"
   }
 }
 
