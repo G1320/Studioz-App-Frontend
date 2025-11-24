@@ -3,16 +3,8 @@
   // align-items: center;
   // justify-content: center;
   // min-width: 120px;
-  // padding: 0.75rem 1rem;
-  // border-radius: 999px;
-  // background: #050505;
-  // color: #f1f1f1;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-  // border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-block-end: 0;
 
   &__name {
     font-weight: 600;
