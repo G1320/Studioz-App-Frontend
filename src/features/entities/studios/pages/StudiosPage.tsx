@@ -43,7 +43,6 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   return (
     <section className="studios-page">
-      <h1>{t('page.title')}</h1>
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"

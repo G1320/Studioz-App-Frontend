@@ -20,6 +20,7 @@ interface GenericCarouselProps<T> {
   autoplay?: boolean;
   seeAllPath?: string;
   breakpoints?: Record<number, { slidesPerView: number }>;
+  showNavigation?: boolean;
 }
 
 export const GenericCarousel = <T,>({
@@ -36,7 +37,8 @@ export const GenericCarousel = <T,>({
     1000: { slidesPerView: 3.2 },
     1200: { slidesPerView: 4.2 },
     1550: { slidesPerView: 5.2 }
-  }
+  },
+  showNavigation = true
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
   const { i18n, t } = useTranslation('common');
@@ -88,7 +90,9 @@ export const GenericCarousel = <T,>({
             </Link>
           </div>
         )}
-        <div className="swiper-navigation">{isRTL ? navigationButtons.reverse() : navigationButtons}</div>
+        {showNavigation && (
+          <div className="swiper-navigation">{isRTL ? navigationButtons.reverse() : navigationButtons}</div>
+        )}
       </div>
 
       <div className="swiper_wrap">
