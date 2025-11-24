@@ -10,13 +10,14 @@ export const createReview = async (
   try {
     return await httpService.post(`${reviewEndpoint}/${studioId}`, reviewData);
   } catch (error) {
-    console.error(error);
+    console.error('Error creating review:', error);
     throw error;
   }
 };
 
 export const getReviewsByStudioId = async (studioId: string): Promise<Review[]> => {
   try {
+    // GET /api/reviews/studio/:studioId
     return await httpService.get(`${reviewEndpoint}/studio/${studioId}`);
   } catch (error) {
     console.error(error);

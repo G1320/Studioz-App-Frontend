@@ -6,6 +6,7 @@ import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import HomePage from '@features/home/pages/HomePage';
 import WishListsPage from '@features/entities/wishlists/pages/WishlistsPage';
 import StudioDetailsPage from '@features/entities/studios/pages/StudioDetailsPage';
+import { StudioReviewsPage } from '@features/entities/studios/pages/StudioReviewsPage';
 import ItemDetailsPage from '@features/entities/items/pages/ItemDetailsPage';
 import OrderPage from '@features/entities/orders/pages/OrderPage';
 import SearchPage from '@features/search/pages/SearchPage';
@@ -112,6 +113,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <StudioDetailsPage items={items} cart={onlineCart || offlineCart} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/studio/:studioId/reviews"
+            element={
+              <AnimatedRoute>
+                <StudioReviewsPage />
               </AnimatedRoute>
             }
           />

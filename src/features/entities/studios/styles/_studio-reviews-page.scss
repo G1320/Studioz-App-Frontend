@@ -1,0 +1,42 @@
+.studio-reviews-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 0.75rem;
+    gap: 1rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      color: #f1f1f1;
+    }
+  }
+
+  &__location {
+    margin: 0.25rem 0 0;
+    color: #9ca3af;
+  }
+
+  &__rating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      align-items: flex-start;
+    }
+  }
+}
+

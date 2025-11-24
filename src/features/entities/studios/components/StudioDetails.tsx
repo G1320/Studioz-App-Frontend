@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating } from '@shared/components';
+import { GenericImageGallery, StudioRating, Button } from '@shared/components';
 import { Studio, User } from 'src/types/index';
-import { useWishlists, useGenres, useReviews } from '@shared/hooks';
+import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import StudioOptions from './StudioOptions';
 import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
 import { GenrePreview } from '@features/entities/genres';
-import { CreateReviewForm, ReviewsList } from '@features/entities/reviews';
-import { createReview } from '@shared/services/review-service';
-import { toast } from 'sonner';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -22,8 +18,7 @@ interface StudioDetailsProps {
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { getDisplayByEnglish } = useGenres();
-  const { data: reviews = [], refetch: refetchReviews } = useReviews(studio?._id || '');
-  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const studioId = studio?._id;
 
   const langNavigate = useLanguageNavigate();
 
@@ -33,23 +28,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
     studioId ? langNavigate(`/create-item/${studio?.name.en}/${studioId}`) : null;
-
-  const handleReviewSubmit = async (rating: number, comment?: string) => {
-    if (!studio?._id) return;
-
-    setIsSubmittingReview(true);
-    try {
-      await createReview(studio._id, { rating, comment });
-      toast.success('Review submitted successfully');
-      // Refetch reviews to show the new one
-      refetchReviews();
-    } catch (error) {
-      toast.error('Failed to submit review. Please try again.');
-      console.error('Error submitting review:', error);
-    } finally {
-      setIsSubmittingReview(false);
-    }
-  };
+  const handleGoToReviews = (studioId: string) => (studioId ? langNavigate(`/studio/${studioId}/reviews`) : null);
 
   return (
     <article key={studio?._id} className="details studio-details">
@@ -68,6 +47,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           reviewCount={studio?.reviewCount}
           className="studio-details__rating"
         />
+
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
         {studio?.address && <AddressDropdown address={studio?.address as string} />}
         {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}
@@ -116,18 +96,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           </p>
         </div>
       </div>
-
-      {user && studio && (
-        <div className="studio-reviews-section">
-          <CreateReviewForm studioId={studio._id} onSubmit={handleReviewSubmit} isLoading={isSubmittingReview} />
-        </div>
-      )}
-
-      {studio && (
-        <div className="studio-reviews-section">
-          <ReviewsList reviews={reviews} studioId={studio._id} />
-        </div>
-      )}
     </article>
   );
 };
