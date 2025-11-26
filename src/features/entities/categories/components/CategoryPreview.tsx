@@ -1,6 +1,6 @@
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useCategories } from '@shared/hooks';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 interface CategoryPreviewProps {
   pathPrefix?: string;
@@ -11,10 +11,14 @@ export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category, path
   const langNavigate = useLanguageNavigate();
   const { getEnglishByDisplay } = useCategories();
   const params = useParams();
+  const location = useLocation();
 
   const handleClick = () => {
     const categoryKey = getEnglishByDisplay(category);
-    langNavigate(`/${pathPrefix}/music/${categoryKey}`);
+    const searchParams = new URLSearchParams(location.search);
+    const searchString = searchParams.toString();
+
+    langNavigate(`/${pathPrefix}/music/${categoryKey}${searchString ? `?${searchString}` : ''}`);
   };
 
   // Check if this category is currently selected

@@ -1,6 +1,6 @@
 import { CityConfig } from '@core/config/cities/cities';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import '../styles/_city-preview.scss';
 
 interface CityPreviewProps {
@@ -9,13 +9,25 @@ interface CityPreviewProps {
 
 export const CityPreview: React.FC<CityPreviewProps> = ({ city }) => {
   const langNavigate = useLanguageNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const selectedCity = searchParams.get('city');
   const isSelected = selectedCity === city.name;
 
   const handleClick = () => {
-    const encodedCity = encodeURIComponent(city.name);
-    langNavigate(`/studios?city=${encodedCity}`);
+    const newSearchParams = new URLSearchParams(location.search);
+
+    if (isSelected) {
+      newSearchParams.delete('city');
+    } else {
+      newSearchParams.set('city', city.name);
+    }
+
+    const strippedPath = location.pathname.replace(/^\/[a-z]{2}(?=\/|$)/i, '');
+    const nextPath = strippedPath.length > 0 ? strippedPath : '/studios';
+    const searchString = newSearchParams.toString();
+
+    langNavigate(`${nextPath}${searchString ? `?${searchString}` : ''}`);
   };
 
   return (
