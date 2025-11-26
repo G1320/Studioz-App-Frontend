@@ -1,11 +1,11 @@
 import { CategoryPreview, StudiosList, CityPreview } from '@features/entities';
-import { StudiosMap } from '@shared/components';
-import { GenericCarousel } from '@shared/components';
+import { StudiosMap, GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
 import { cities } from '@core/config/cities/cities';
+import { filterStudios } from '../utils/filterStudios';
 
 interface StudiosPageProps {
   studios: Studio[];
@@ -20,19 +20,10 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   const musicSubCategories = useMusicSubCategories();
 
-  const filteredStudios: Studio[] = studios?.filter((studio) => {
-    const matchesCategory = (() => {
-      if (!category) return true;
-      if (!subcategory) {
-        return studio?.categories?.includes(category || '');
-      } else {
-        return studio?.subCategories?.includes(subcategory);
-      }
-    })();
-
-    const matchesCity = selectedCity ? studio?.city === selectedCity : true;
-
-    return matchesCategory && matchesCity;
+  const filteredStudios: Studio[] = filterStudios(studios, {
+    category,
+    subcategory,
+    city: selectedCity
   });
 
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;

@@ -1,10 +1,10 @@
 import { CategoryPreview, ItemsList } from '@features/entities';
-import { ItemsMap } from '@shared/components';
-import { GenericCarousel } from '@shared/components';
+import { ItemsMap, GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Item } from 'src/types/index';
+import { filterItems } from '../utils/filterItems';
 
 interface ServicesPageProps {
   items?: Item[];
@@ -16,14 +16,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   const musicSubCategories = useMusicSubCategories();
 
-  const filteredItems = items?.filter((item) => {
-    if (!category) return true;
-    if (subCategory === undefined) {
-      return item?.categories?.includes(category || '');
-    } else {
-      return item?.subCategories?.includes(subCategory);
-    }
-  });
+  const filteredItems = filterItems(items, { category, subCategory });
 
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} pathPrefix="services" />;
 
