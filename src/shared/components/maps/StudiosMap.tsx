@@ -33,7 +33,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity }) 
       if (city) {
         mapRef.current.flyTo({
           center: [city.lng, city.lat],
-          zoom: 11,
+          zoom: city.zoom || 11,
           duration: 1500
         });
       }
