@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
@@ -21,6 +21,7 @@ interface GenericCarouselProps<T> {
   seeAllPath?: string;
   breakpoints?: Record<number, { slidesPerView: number }>;
   showNavigation?: boolean;
+  selectedIndex?: number;
 }
 
 export const GenericCarousel = <T,>({
@@ -38,11 +39,25 @@ export const GenericCarousel = <T,>({
     1200: { slidesPerView: 4.2 },
     1550: { slidesPerView: 5.2 }
   },
-  showNavigation = true
+  showNavigation = true,
+  selectedIndex
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
   const { i18n, t } = useTranslation('common');
   const isRTL = i18n.dir() === 'rtl';
+
+  // Scroll to selected index when carousel is ready
+  useEffect(() => {
+    if (selectedIndex !== undefined && selectedIndex >= 0 && selectedIndex < data.length && swiperRef.current) {
+      // Small delay to ensure Swiper is fully initialized and rendered
+      const timer = setTimeout(() => {
+        if (swiperRef.current && selectedIndex >= 0 && selectedIndex < data.length) {
+          swiperRef.current.slideTo(selectedIndex, 500);
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedIndex, i18n.language, data.length]);
 
   const navigationButtons = [
     <button
@@ -105,7 +120,7 @@ export const GenericCarousel = <T,>({
           modules={[Pagination, Navigation, Autoplay]}
           spaceBetween={15}
           slidesPerView={'auto'}
-          initialSlide={0}
+          initialSlide={selectedIndex !== undefined && selectedIndex >= 0 ? selectedIndex : 0}
           cssMode={true}
           touchStartPreventDefault={false}
           allowTouchMove={true}

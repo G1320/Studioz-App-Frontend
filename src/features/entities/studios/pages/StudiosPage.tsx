@@ -15,7 +15,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { category, subcategory } = useParams();
   const [searchParams] = useSearchParams();
   const selectedCity = searchParams.get('city');
-  const { getDisplayByEnglish } = useCategories();
+  const { getDisplayByEnglish, getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
 
@@ -36,6 +36,12 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     ? t('page.city_selected', { city: translatedCityName })
     : t('page.cities_title');
 
+  // Find selected indices for scrolling
+  const selectedCityIndex = selectedCity ? cities.findIndex((city) => city.name === selectedCity) : undefined;
+  const selectedCategoryIndex = subcategory
+    ? musicSubCategories.findIndex((cat) => getEnglishByDisplay(cat) === subcategory)
+    : undefined;
+
   return (
     <section className="studios-page">
       <GenericCarousel
@@ -44,6 +50,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         className="cities-carousel slider-gradient"
         renderItem={cityRenderItem}
         title={cityDisplay}
+        selectedIndex={selectedCityIndex !== undefined && selectedCityIndex >= 0 ? selectedCityIndex : undefined}
         breakpoints={{
           340: { slidesPerView: 2.4 },
           520: { slidesPerView: 3.2 },
@@ -56,6 +63,9 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         className="categories-carousel slider-gradient"
         renderItem={categoryRenderItem}
         title={subcategoryDisplay}
+        selectedIndex={
+          selectedCategoryIndex !== undefined && selectedCategoryIndex >= 0 ? selectedCategoryIndex : undefined
+        }
         breakpoints={{
           340: { slidesPerView: 3.4 },
           520: { slidesPerView: 4.2 },
