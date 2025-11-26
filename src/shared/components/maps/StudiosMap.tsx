@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import Map, { Marker, Popup, NavigationControl, FullscreenControl, GeolocateControl, ScaleControl } from 'react-map-gl';
+import React, { useState, useEffect, useRef } from 'react';
+import Map, { Marker, Popup, NavigationControl, FullscreenControl, GeolocateControl, ScaleControl, MapRef } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Studio } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks';
+import { cities } from '@core/config/cities/cities';
 
 interface StudioMapProps {
   studios: Studio[];
+  selectedCity?: string | null;
 }
 
 const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
-export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
+export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity }) => {
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const mapRef = useRef<MapRef>(null);
 
   const [viewState, setViewState] = useState({
     latitude: 32.0561,
@@ -22,6 +25,20 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
   });
 
   const langNavigate = useLanguageNavigate();
+
+  // Pan to selected city
+  useEffect(() => {
+    if (selectedCity && isMapLoaded && mapRef.current) {
+      const city = cities.find((c) => c.name === selectedCity);
+      if (city) {
+        mapRef.current.flyTo({
+          center: [city.lng, city.lat],
+          zoom: 11,
+          duration: 1500
+        });
+      }
+    }
+  }, [selectedCity, isMapLoaded]);
 
   const handleMapClick = () => {
     if (popupInfo) {
@@ -56,6 +73,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios }) => {
         </div>
       )}
       <Map
+        ref={mapRef}
         {...viewState}
         style={{ width: '100%', height: '100%' }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
