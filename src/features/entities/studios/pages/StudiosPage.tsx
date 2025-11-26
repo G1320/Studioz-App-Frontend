@@ -1,6 +1,6 @@
 import { CategoryPreview, StudiosList, CityPreview } from '@features/entities';
 import { StudiosMap, GenericCarousel } from '@shared/components';
-import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
+import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
@@ -16,6 +16,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const [searchParams] = useSearchParams();
   const selectedCity = searchParams.get('city');
   const { getDisplayByEnglish } = useCategories();
+  const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
 
   const musicSubCategories = useMusicSubCategories();
@@ -30,7 +31,10 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const cityRenderItem = (city: (typeof cities)[number]) => <CityPreview city={city} />;
 
   const subcategoryDisplay = subcategory ? getDisplayByEnglish(subcategory) : subcategory;
-  const cityDisplay = selectedCity ? t('page.city_selected', { city: selectedCity }) : t('page.cities_title');
+  const translatedCityName = selectedCity ? getDisplayByCityName(selectedCity) : null;
+  const cityDisplay = translatedCityName
+    ? t('page.city_selected', { city: translatedCityName })
+    : t('page.cities_title');
 
   return (
     <section className="studios-page">
