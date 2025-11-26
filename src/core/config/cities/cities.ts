@@ -57,11 +57,43 @@ export const cities: CityConfig[] = [
     image: 'https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=800&q=80'
   },
   {
-    name: "Giv'atayim",
-    displayName: "Giv'atayim",
-    lat: 32.069,
-    lng: 34.81,
+    name: 'Herzliya',
+    displayName: 'Herzliya',
+    lat: 32.1683423,
+    lng: 34.8039922,
     zoom: 12,
-    image: 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1470115636492-6d2b56f9146e?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    name: 'Beit Dagan',
+    displayName: 'Beit Dagan',
+    lat: 32.0015658,
+    lng: 34.8270366,
+    zoom: 12,
+    image: 'https://images.unsplash.com/photo-1470115636492-6d2b56f9146e?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    name: 'Holon',
+    displayName: 'Holon',
+    lat: 32.018374,
+    lng: 34.7683935,
+    zoom: 12,
+    image: 'https://images.unsplash.com/photo-1470115636492-6d2b56f9146e?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    name: 'Ashkelon',
+    displayName: 'Ashkelon',
+    lat: 31.6847179,
+    lng: 34.5687094,
+    zoom: 11,
+    image: 'https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    name: 'Eilat',
+    displayName: 'Eilat',
+    lat: 29.5550691,
+    lng: 34.9535926,
+    zoom: 11,
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80'
   }
 ];

@@ -12,16 +12,21 @@ export const filterStudios = (
 ): Studio[] => {
   return studios.filter((studio) => {
     const matchesCategory = (() => {
-      if (!category) return true;
+      // If no category filter, show all studios
+      if (!category || category.trim() === '') return true;
 
-      if (!subcategory) {
-        return studio?.categories?.includes(category);
+      // If subcategory is specified, filter by subcategory
+      if (subcategory && subcategory.trim() !== '') {
+        return studio?.subCategories?.includes(subcategory) ?? false;
       }
 
-      return studio?.subCategories?.includes(subcategory);
+      // If only category is specified (e.g., /studios/music),
+      // show all studios that have subcategories (since all subcategories are under music)
+      // This assumes all subcategories belong to the music category
+      return studio?.subCategories && studio.subCategories.length > 0;
     })();
 
-    const matchesCity = city ? studio?.city === city : true;
+    const matchesCity = city && city.trim() !== '' ? studio?.city === city : true;
 
     return matchesCategory && matchesCity;
   });
