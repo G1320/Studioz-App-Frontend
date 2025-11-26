@@ -1,5 +1,5 @@
 import { CityConfig } from '@core/config/cities/cities';
-import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useLanguageNavigate, useCities } from '@shared/hooks/utils';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import '../styles/_city-preview.scss';
 
@@ -11,6 +11,7 @@ export const CityPreview: React.FC<CityPreviewProps> = ({ city }) => {
   const langNavigate = useLanguageNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { getDisplayByCityName } = useCities();
   const selectedCity = searchParams.get('city');
   const isSelected = selectedCity === city.name;
 
@@ -30,9 +31,11 @@ export const CityPreview: React.FC<CityPreviewProps> = ({ city }) => {
     langNavigate(`${nextPath}${searchString ? `?${searchString}` : ''}`);
   };
 
+  const displayName = getDisplayByCityName(city.name);
+
   return (
     <article className={`city-preview ${isSelected ? 'city-preview--selected' : ''}`} onClick={handleClick}>
-      <span className="city-preview__name">{city.displayName || city.name}</span>
+      <span className="city-preview__name">{displayName}</span>
     </article>
   );
 };

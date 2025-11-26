@@ -15,6 +15,7 @@ import dashboard from './locales/en/dashboard.json';
 import studio from './locales/en/studio.json';
 import services from './locales/en/services.json';
 import studios from './locales/en/studios.json';
+import cities from './locales/en/cities.json';
 
 import homePageHe from './locales/he/homePage.json';
 import commonHe from './locales/he/common.json';
@@ -29,6 +30,7 @@ import dashboardHe from './locales/he/dashboard.json';
 import studioHe from './locales/he/studio.json';
 import servicesHe from './locales/he/services.json';
 import studiosHe from './locales/he/studios.json';
+import citiesHe from './locales/he/cities.json';
 
 i18n
   .use(LanguageDetector)
@@ -48,7 +50,8 @@ i18n
         dashboard,
         studio,
         services,
-        studios
+        studios,
+        cities
       },
       he: {
         homePage: homePageHe,
@@ -63,7 +66,8 @@ i18n
         dashboard: dashboardHe,
         studio: studioHe,
         services: servicesHe,
-        studios: studiosHe
+        studios: studiosHe,
+        cities: citiesHe
       }
     },
     fallbackLng: 'en',

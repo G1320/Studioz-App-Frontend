@@ -7,4 +7,5 @@ export * from './useLangNavigation';
 export * from './useDropdown';
 export * from './categories';
 export * from './genres';
+export * from './cities';
 export * from './dates/useDays';
