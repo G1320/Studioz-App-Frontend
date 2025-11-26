@@ -17,8 +17,14 @@ export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category, path
     const categoryKey = getEnglishByDisplay(category);
     const searchParams = new URLSearchParams(location.search);
     const searchString = searchParams.toString();
+    const basePath = `/${pathPrefix}/music`;
 
-    langNavigate(`/${pathPrefix}/music/${categoryKey}${searchString ? `?${searchString}` : ''}`);
+    if (isSelected) {
+      langNavigate(`${basePath}${searchString ? `?${searchString}` : ''}`);
+      return;
+    }
+
+    langNavigate(`${basePath}/${categoryKey}${searchString ? `?${searchString}` : ''}`);
   };
 
   // Check if this category is currently selected
