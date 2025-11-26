@@ -46,13 +46,40 @@ export const GenericCarousel = <T,>({
   const { i18n, t } = useTranslation('common');
   const isRTL = i18n.dir() === 'rtl';
 
-  // Scroll to selected index when carousel is ready
+  // Center selected index when carousel is ready (only if not already centered)
   useEffect(() => {
     if (selectedIndex !== undefined && selectedIndex >= 0 && selectedIndex < data.length && swiperRef.current) {
       // Small delay to ensure Swiper is fully initialized and rendered
       const timer = setTimeout(() => {
         if (swiperRef.current && selectedIndex >= 0 && selectedIndex < data.length) {
-          swiperRef.current.slideTo(selectedIndex, 500);
+          const swiper = swiperRef.current;
+          const slide = swiper.slides[selectedIndex];
+
+          if (!slide || !swiper.wrapperEl) return;
+
+          const slideLeft = slide.offsetLeft;
+          const slideWidth = slide.offsetWidth;
+          const slideCenter = slideLeft + slideWidth / 2;
+          const containerWidth = swiper.width;
+          const currentScrollLeft = swiper.wrapperEl.scrollLeft;
+
+          // Calculate the scroll position needed to center the slide
+          const targetScrollLeft = slideCenter - containerWidth / 2;
+
+          // Calculate the difference between current and target scroll position
+          const scrollDifference = Math.abs(currentScrollLeft - targetScrollLeft);
+
+          // Threshold: consider it centered if within 20px of center
+          const centerThreshold = 20;
+
+          // Only scroll to center if the slide is not already centered
+          if (scrollDifference > centerThreshold) {
+            // Smooth scroll to center the slide
+            swiper.wrapperEl.scrollTo({
+              left: targetScrollLeft,
+              behavior: 'smooth'
+            });
+          }
         }
       }, 150);
       return () => clearTimeout(timer);
