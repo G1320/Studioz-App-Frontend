@@ -24,4 +24,3 @@ export const CityPreview: React.FC<CityPreviewProps> = ({ city }) => {
     </article>
   );
 };
-
