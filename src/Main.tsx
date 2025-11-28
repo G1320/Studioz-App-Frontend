@@ -11,7 +11,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import i18n from './core/i18n/config';
-import { SocketProvider, SearchProvider, OfflineCartProvider, UserProvider, ModalProvider, CookieConsentProvider } from '@core/contexts';
+import { SocketProvider, SearchProvider, OfflineCartProvider, UserProvider, ModalProvider, CookieConsentProvider, LocationPermissionProvider } from '@core/contexts';
 import './core/i18n/config';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -34,29 +34,31 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <Router>
         <CookieConsentProvider>
-          <UserProvider>
-            <OfflineCartProvider>
-              <SocketProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-                  <Auth0Provider
-                    domain={domain}
-                    clientId={clientId}
-                    authorizationParams={{
-                      redirect_uri: window.location.origin,
-                      audience: 'https://items-app-backend.onrender.com',
-                      scope: 'openid profile email'
-                    }}
-                  >
-                    <ModalProvider>
-                      <SearchProvider>
-                        <App />
-                      </SearchProvider>
-                    </ModalProvider>
-                  </Auth0Provider>
-                </LocalizationProvider>
-              </SocketProvider>
-            </OfflineCartProvider>
-          </UserProvider>
+          <LocationPermissionProvider>
+            <UserProvider>
+              <OfflineCartProvider>
+                <SocketProvider>
+                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
+                    <Auth0Provider
+                      domain={domain}
+                      clientId={clientId}
+                      authorizationParams={{
+                        redirect_uri: window.location.origin,
+                        audience: 'https://items-app-backend.onrender.com',
+                        scope: 'openid profile email'
+                      }}
+                    >
+                      <ModalProvider>
+                        <SearchProvider>
+                          <App />
+                        </SearchProvider>
+                      </ModalProvider>
+                    </Auth0Provider>
+                  </LocalizationProvider>
+                </SocketProvider>
+              </OfflineCartProvider>
+            </UserProvider>
+          </LocationPermissionProvider>
         </CookieConsentProvider>
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />

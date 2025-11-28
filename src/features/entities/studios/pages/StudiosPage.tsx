@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
 import { CategoryPreview, StudiosList, CityPreview } from '@features/entities';
-import { StudiosMap, GenericCarousel } from '@shared/components';
+import { StudiosMap, GenericCarousel, LocationWelcomePopup } from '@shared/components';
 import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
+import { useGeolocation } from '@shared/hooks/utils/geolocation';
+import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
@@ -18,13 +21,43 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { getDisplayByEnglish, getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
+  const { showPrompt, hasGranted } = useLocationPermission();
+  const { position, getCurrentPosition } = useGeolocation();
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const musicSubCategories = useMusicSubCategories();
+
+  // Show popup on first visit
+  useEffect(() => {
+    if (showPrompt) {
+      setShowPopup(true);
+    }
+  }, [showPrompt]);
+
+  // Get location if permission was previously granted
+  useEffect(() => {
+    if (hasGranted && !position) {
+      getCurrentPosition();
+    }
+  }, [hasGranted, position, getCurrentPosition]);
+
+  // Update user location when position is available
+  useEffect(() => {
+    if (position) {
+      setUserLocation({ latitude: position.latitude, longitude: position.longitude });
+    }
+  }, [position]);
+
+  const handleLocationGranted = (pos: { latitude: number; longitude: number }) => {
+    setUserLocation(pos);
+  };
 
   const filteredStudios: Studio[] = filterStudios(studios, {
     category,
     subcategory,
-    city: selectedCity
+    city: selectedCity,
+    userLocation: userLocation
   });
 
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
@@ -44,6 +77,11 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   return (
     <section className="studios-page">
+      <LocationWelcomePopup
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+        onLocationGranted={handleLocationGranted}
+      />
       <GenericCarousel
         data={cities}
         showNavigation={false}

@@ -16,3 +16,4 @@ export * from './navigation';
 export * from './filters';
 export * from './reviews';
 export * from './cookie-consent';
+export * from './location-welcome';
