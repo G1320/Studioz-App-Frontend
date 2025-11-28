@@ -41,6 +41,31 @@ header.app-header {
 
   .logo {
     padding-inline-end: 0.5rem;
+    // Always use English font for logo, regardless of language
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      'Roboto',
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    // Override Hebrew font styles
+    html[lang='he'] &,
+    html[dir='rtl'] & {
+      font-family:
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        Arial,
+        sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
   }
 
   .cart-wrapper {
@@ -170,22 +195,19 @@ header.app-header {
     margin-left: 0;
     margin-right: 0;
     z-index: 1;
-
-    // Better Hebrew font for header
+    // Logo always uses English font - override Hebrew font styles
     html[lang='he'] &,
     html[dir='rtl'] & {
       font-family:
-        'Rubik',
-        'Heebo',
-        'Alef',
-        'Varela Round',
-        'Assistant',
         system-ui,
         -apple-system,
         'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        Arial,
         sans-serif;
       font-weight: 600;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
     }
 
     @media screen and (max-width: 600px) {

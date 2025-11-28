@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
 
       <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
         <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
-          {t('navigation.logo')}
+          Studioz
         </Link>
       </h1>
       <div className="cart-options-container">
