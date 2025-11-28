@@ -15,11 +15,13 @@ $color-light: #fff;
 // Text Colors
 $text-color-primary: #fff;
 $text-color-secondary: #666666;
+$text-color-tertiary: #333333;
 $text-color-dark: #000000;
 
 // Background Colors
 $bg-color-primary: #000000;
 $bg-color-secondary: #242728;
+$bg-color-tertiary: #1a1a1a;
 $preview-bg-color: $bg-color-secondary;
 $header-bg-color: $bg-color-secondary;
 $footer-bg-color: $bg-color-secondary;
@@ -28,27 +30,46 @@ $footer-bg-color: $bg-color-secondary;
 $border-color-primary: #fff;
 $border-color-secondary: #dddddd;
 $border-color-tertiary: #e5e5e5;
+$border-color-quaternary: #cccccc;
 
 // Font Sizes
+$font-size-xs: 10px;
 $font-size-small: 12px;
+$font-size-sm-md: 14px; // Between small and medium
 $font-size-medium: 16px;
 $font-size-large: 20px;
 $font-size-xl: 24px;
+$font-size-2xl: 32px;
+$font-size-3xl: 40px;
 
 // Spacing
+$spacing-xs: 4px;
 $spacing-small: 8px;
+$spacing-sm-md: 12px; // Between small and medium
 $spacing-medium: 16px;
+$spacing-md-lg: 20px; // Between medium and large
 $spacing-large: 24px;
 $spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
 
 // Border Radius
+$border-radius-xs: 6px;
 $border-radius-small: 4px;
 $border-radius-medium: 8px;
 $border-radius-large: 12px;
 $border-radius-xl: 16px;
+$border-radius-2xl: 20px;
+$border-radius-3xl: 25px;
 
 // Box Shadows
 $box-shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
 $box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.1);
 $box-shadow-large: 0 8px 16px rgba(0, 0, 0, 0.1);
 $box-shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.1);
+$box-shadow-2xl: 0 4px 30px rgba(0, 0, 0, 0.1);
+$box-shadow-popup: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+$box-shadow-gallery: 0 0 5px 4px rgba(255, 255, 255, 0.132);
+
+// Text Shadows
+$text-shadow-glow: 0 0 12px #bdeeff;

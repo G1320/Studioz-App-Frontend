@@ -36,7 +36,7 @@ html[lang='en'] {
 
 body {
   font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
+  font-size: vars.$font-size-medium;
   font-weight: 400;
 }
 
@@ -51,11 +51,11 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  text-shadow: 0 0 12px #bdeeff;
+  text-shadow: vars.$text-shadow-glow;
 }
 
 img {
-  border-radius: 6px;
+  border-radius: vars.$border-radius-xs;
   aspect-ratio: 2/1;
   max-width: 100%;
   height: auto;
@@ -84,7 +84,7 @@ body,
 }
 
 .form-wrapper {
-  border-radius: 8px;
+  border-radius: vars.$border-radius-medium;
 }
 
 .render-item-container {
@@ -97,7 +97,7 @@ body,
   .MuiPaper-elevation {
     margin-block-start: 0.5rem !important;
   }
-  border-radius: 12px;
+  border-radius: vars.$border-radius-large;
   &:not(button) {
     border: 2px solid vars.$border-color-primary;
   }
@@ -105,11 +105,11 @@ body,
 // Targets all Paper elements except those that are part of the DatePicker component
 .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper) {
   background: vars.$bg-color-primary !important;
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-radius: vars.$border-radius-xl;
+  box-shadow: vars.$box-shadow-2xl;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #fff;
+  border: 1px solid vars.$border-color-primary;
 }
 
 .MuiIconButton-root:focus,
@@ -127,7 +127,7 @@ body,
   display: grid;
   place-items: center;
   min-height: 215px;
-  border-radius: 8px;
+  border-radius: vars.$border-radius-medium;
   img:not(img.preview.gallery-image) {
     border-bottom-right-radius: 2px !important;
     border-bottom-left-radius: 2px !important;
@@ -151,9 +151,9 @@ body,
 .details {
   display: grid;
   grid-template-rows: repeat(3, max-content);
-  gap: 1rem;
+  gap: vars.$spacing-medium;
   place-items: center;
-  border-radius: 8px;
+  border-radius: vars.$border-radius-medium;
 }
 
 .details-buttons {
@@ -209,31 +209,29 @@ body,
     max-width: 250px;
     height: 100%;
     padding: 0;
-    box-shadow: 0 0 5px 4px rgba(255, 255, 255, 0.132);
-    border: 2px solid #cccccc;
-    border-radius: 8px;
+    box-shadow: vars.$box-shadow-gallery;
+    border: 2px solid vars.$border-color-quaternary;
+    border-radius: vars.$border-radius-medium;
     transition: 200ms;
   }
 
   .gallery-image {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(vars.$border-color-primary, 0.15) !important;
     box-shadow: none !important;
   }
 }
 
 // Base popup styling for consistency
 .popup-base {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
+  background-color: vars.$bg-color-tertiary;
+  border: 1px solid rgba(vars.$border-color-primary, 0.1);
+  box-shadow: vars.$box-shadow-popup;
+  border-radius: vars.$border-radius-large;
   backdrop-filter: blur(10px);
   z-index: 1000;
   overflow: hidden;
 
   @media (max-width: 768px) {
-    border-radius: 8px;
+    border-radius: vars.$border-radius-medium;
   }
 }
