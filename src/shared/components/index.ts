@@ -15,3 +15,4 @@ export * from './payment';
 export * from './navigation';
 export * from './filters';
 export * from './reviews';
+export * from './cookie-consent';

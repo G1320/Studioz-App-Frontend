@@ -9,6 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { Header, ResponsiveFooter } from '@app/layout';
 import { ScrollToTop } from '@shared/utility-components';
+import { CookieConsentBanner } from '@shared/components/cookie-consent';
 
 import { shuffleArray } from '@shared/utils';
 import { SEOTags } from '@shared/utility-components/SEOTags';
@@ -51,6 +52,7 @@ function App() {
         </main>
 
         <ResponsiveFooter />
+        <CookieConsentBanner />
         <Toaster
           richColors
           toastOptions={{
