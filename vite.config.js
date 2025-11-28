@@ -42,6 +42,13 @@ export default defineConfig(({ _command, mode }) => {
         '@core': path.resolve(__dirname, './src/core'),
         '@types': path.resolve(__dirname, './src/types')
       }
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          includePaths: [path.resolve(__dirname, './src/assets/styles')]
+        }
+      }
     }
   };
 });

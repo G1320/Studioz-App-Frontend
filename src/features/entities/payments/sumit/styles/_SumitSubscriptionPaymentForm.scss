@@ -1,5 +1,5 @@
 @use 'sass:color';
-@use '../../../../../assets/styles/utilities/variables' as vars;
+@use 'utilities/variables' as vars;
 
 $primary-color: vars.$color-brand;
 $error-color: #cc0000;
