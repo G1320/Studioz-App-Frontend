@@ -1,11 +1,5 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import {
-  hasBeenAsked,
-  hasGranted,
-  savePermission,
-  getPermission,
-  LocationPermission
-} from '@shared/services/location-permission-service';
+import { hasBeenAsked, hasGranted, savePermission } from '@shared/services/location-permission-service';
 
 interface LocationPermissionContextType {
   hasBeenAsked: boolean;
@@ -72,4 +66,3 @@ export const useLocationPermission = (): LocationPermissionContextType => {
   }
   return context;
 };
-

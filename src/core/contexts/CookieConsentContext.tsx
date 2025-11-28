@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { hasConsent, saveConsent, getConsent, CookieConsent } from '@shared/services/cookie-consent-service';
+import { hasConsent, saveConsent } from '@shared/services/cookie-consent-service';
 
 interface CookieConsentContextType {
   hasConsented: boolean;
