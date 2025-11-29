@@ -14,6 +14,9 @@
   background-color: vars.$bg-color-secondary;
   border-radius: vars.$border-radius-large;
   color: vars.$text-color-primary;
+  opacity: 1;
+  transform-origin: top center;
+  animation: locationPopupEnter 0.45s cubic-bezier(0.21, 0.95, 0.38, 0.99);
 
   &__icon {
     margin: 0 auto vars.$spacing-medium;
@@ -123,6 +126,60 @@
     &__button {
       flex: 1;
     }
+  }
+
+  &.exiting {
+    opacity: 0;
+    animation: locationPopupExit 0.35s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  }
+}
+
+@keyframes locationPopupEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+    filter: blur(4px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes locationPopupExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(6px) scale(0.99);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    filter: blur(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location-welcome-popup {
+    animation: none;
+  }
+
+  .location-welcome-popup.exiting {
+    animation: none;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GenericModal, Button } from '@shared/components';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
@@ -12,15 +12,21 @@ interface LocationWelcomePopupProps {
   onLocationGranted?: (position: { latitude: number; longitude: number }) => void;
 }
 
-export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({
-  open,
-  onClose,
-  onLocationGranted
-}) => {
+export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({ open, onClose, onLocationGranted }) => {
   const { t } = useTranslation('location');
   const { grantPermission, denyPermission, setUserLocation } = useLocationPermission();
   const { getCurrentPosition, isLoading, error } = useGeolocation();
   const [isRequesting, setIsRequesting] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+
+  // Handle exit animation
+  useEffect(() => {
+    if (!open && isExiting) {
+      // Reset exiting state after animation completes
+      const timer = setTimeout(() => setIsExiting(false), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [open, isExiting]);
 
   const handleAllow = async () => {
     setIsRequesting(true);
@@ -31,7 +37,11 @@ export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({
       // Save location to storage and update context
       setUserLocation({ latitude: position.latitude, longitude: position.longitude });
       onLocationGranted?.(position);
-      onClose();
+      setIsExiting(true);
+      // Delay onClose to allow exit animation
+      setTimeout(() => {
+        onClose();
+      }, 350);
     } else {
       // User denied browser permission, but we still mark as asked
       denyPermission();
@@ -40,15 +50,27 @@ export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({
   };
 
   const handleNotNow = () => {
+    setIsExiting(true);
     denyPermission();
-    onClose();
+    // Delay onClose to allow exit animation
+    setTimeout(() => {
+      onClose();
+    }, 350);
+  };
+
+  const handleClose = () => {
+    setIsExiting(true);
+    // Delay onClose to allow exit animation
+    setTimeout(() => {
+      onClose();
+    }, 350);
   };
 
   const isProcessing = isLoading || isRequesting;
 
   return (
-    <GenericModal open={open} onClose={handleNotNow} className="location-welcome-popup-modal">
-      <div className="location-welcome-popup">
+    <GenericModal open={open} onClose={handleClose} className="location-welcome-popup-modal">
+      <div className={`location-welcome-popup ${isExiting ? 'exiting' : ''}`}>
         <div className="location-welcome-popup__icon">
           <LocationOnIcon />
         </div>
@@ -83,4 +105,3 @@ export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({
     </GenericModal>
   );
 };
-
