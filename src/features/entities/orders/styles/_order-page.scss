@@ -9,20 +9,24 @@
   width: 100%;
   max-width: 1200px;
   min-height: calc(100vh - 200px);
+  box-sizing: border-box;
+  overflow-x: hidden;
 
   &__title {
-    font-size: vars.$font-size-2xl;
+    font-size: clamp(vars.$font-size-xl, 4vw, vars.$font-size-2xl);
     font-weight: 700;
     color: vars.$text-color-primary;
     margin: 0;
     padding-bottom: vars.$spacing-medium;
     border-bottom: 1px solid rgba(vars.$border-color-primary, 0.1);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   &__empty {
     text-align: center;
     padding: vars.$spacing-3xl;
-    color: vars.$text-color-secondary;
+    color: rgba(vars.$text-color-primary, 0.7);
     font-size: vars.$font-size-large;
   }
 
@@ -31,6 +35,8 @@
     flex-direction: column;
     gap: vars.$spacing-large;
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 
     .cart-item-preview {
       flex-direction: row;
@@ -39,6 +45,8 @@
       padding: vars.$spacing-medium;
       box-shadow: vars.$box-shadow-medium;
       transition: box-shadow 0.25s ease;
+      box-sizing: border-box;
+      min-width: 0; // Prevents flex items from overflowing
 
       &:hover {
         box-shadow: vars.$box-shadow-large;
@@ -60,18 +68,52 @@
 @media screen and (max-width: 768px) {
   .order-page {
     padding: vars.$spacing-medium;
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+
+    &__title {
+      font-size: vars.$font-size-xl;
+      padding-bottom: vars.$spacing-small;
+    }
+
+    &__empty {
+      padding: vars.$spacing-xl;
+      font-size: vars.$font-size-medium;
+    }
 
     .cart-content {
       gap: vars.$spacing-medium;
+      width: 100%;
 
       .cart-item-preview {
         flex-direction: column;
         padding: vars.$spacing-small;
+        width: 100%;
+        min-width: 0;
       }
     }
   }
 
   .paypal-buttons-container {
     padding: vars.$spacing-medium;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .order-page {
+    padding: vars.$spacing-small;
+    gap: vars.$spacing-medium;
+
+    &__title {
+      font-size: vars.$font-size-large;
+    }
+
+    .cart-content {
+      gap: vars.$spacing-small;
+    }
   }
 }

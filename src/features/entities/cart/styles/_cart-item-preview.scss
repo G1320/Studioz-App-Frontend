@@ -9,6 +9,9 @@
 
   min-height: 125px;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 
   padding: vars.$spacing-medium;
   color: vars.$text-color-primary;
@@ -29,19 +32,23 @@
   }
 
   h3 {
-    font-size: vars.$font-size-large;
+    font-size: clamp(vars.$font-size-medium, 3vw, vars.$font-size-large);
     font-weight: 600;
     margin: 0;
     text-align: center;
     color: vars.$text-color-primary;
     word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   p {
     margin: 0;
     font-size: vars.$font-size-sm-md;
-    color: vars.$text-color-secondary;
+    color: rgba(vars.$text-color-primary, 0.75);
     text-align: center;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   section {
@@ -50,6 +57,8 @@
     align-items: center;
     gap: vars.$spacing-small;
     width: 100%;
+    min-width: 0; // Prevents flex items from overflowing
+    box-sizing: border-box;
   }
 
   .cart-item-booking-date-time-container {
@@ -59,39 +68,52 @@
     gap: vars.$spacing-xs;
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
 
     small {
       font-size: vars.$font-size-small;
-      color: vars.$text-color-secondary;
+      color: rgba(vars.$text-color-primary, 0.7);
       padding: vars.$spacing-xs vars.$spacing-small;
       background-color: rgba(vars.$text-color-primary, 0.05);
       border-radius: vars.$border-radius-small;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
   }
 
   .cart-item-preview-price {
     color: vars.$color-brand;
     font-weight: 600;
+    word-break: break-word;
   }
 
   .cart-item-quantity-container {
     display: grid;
     grid-template-columns: 36px 1fr 36px;
-    max-width: clamp(200px, 100%, 360px);
+    width: 100%;
+    max-width: min(100%, 360px);
     gap: vars.$spacing-xs;
     border: 1px solid rgba(vars.$border-color-primary, 0.2);
     border-radius: vars.$border-radius-medium;
     padding: vars.$spacing-small;
     background-color: rgba(vars.$text-color-primary, 0.05);
+    box-sizing: border-box;
 
     button {
       max-width: 36px;
+      min-width: 36px;
+      flex-shrink: 0;
     }
     small {
-      max-width: fit-content;
+      max-width: 100%;
       font-size: vars.$font-size-sm-md;
       color: vars.$text-color-primary;
       text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     button {
@@ -124,6 +146,56 @@
       svg {
         width: 24px;
         height: 24px;
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media screen and (max-width: 768px) {
+    padding: vars.$spacing-small;
+    min-height: auto;
+
+    h3 {
+      font-size: vars.$font-size-medium;
+    }
+
+    p {
+      font-size: vars.$font-size-small;
+    }
+
+    .cart-item-quantity-container {
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: vars.$spacing-xs;
+    gap: vars.$spacing-xs;
+
+    h3 {
+      font-size: vars.$font-size-sm-md;
+    }
+
+    .cart-item-booking-date-time-container {
+      small {
+        font-size: vars.$font-size-xs;
+        padding: vars.$spacing-xs;
+      }
+    }
+
+    .cart-item-quantity-container {
+      padding: vars.$spacing-xs;
+      gap: vars.$spacing-xs;
+
+      button {
+        width: 32px;
+        height: 32px;
+        max-width: 32px;
+        min-width: 32px;
+      }
+
+      small {
+        font-size: vars.$font-size-small;
       }
     }
   }
