@@ -23,6 +23,9 @@ interface ImportMetaEnv {
   readonly VITE_BREVO_PASSWORD_RESET_TEMPLATE_ID: string;
   readonly VITE_SUMIT_PUBLIC_API_KEY: string;
   readonly VITE_SUMIT_COMPANY_ID: string;
+  readonly VITE_PAYME_PUBLIC_KEY: string;
+  readonly VITE_PAYME_SECRET_KEY: string;
+  readonly VITE_PAYME_API_URL?: string;
 }
 
 interface ImportMeta {

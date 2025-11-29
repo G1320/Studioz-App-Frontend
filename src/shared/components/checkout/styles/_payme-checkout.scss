@@ -1,0 +1,94 @@
+@use 'utilities/variables' as vars;
+
+.payme-checkout {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+  padding: vars.$spacing-large;
+  background-color: vars.$preview-bg-color;
+  border-radius: vars.$border-radius-medium;
+  max-width: 500px;
+  margin: 0 auto;
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+    padding-bottom: vars.$spacing-medium;
+    border-bottom: 1px solid vars.$border-color-primary;
+  }
+
+  &__title {
+    font-size: vars.$font-size-large;
+    font-weight: 600;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: vars.$font-size-large;
+    font-weight: 700;
+  }
+
+  &__total-label {
+    color: vars.$text-color-secondary;
+  }
+
+  &__total-amount {
+    color: vars.$color-brand;
+    font-size: vars.$font-size-xl;
+  }
+
+  &__error {
+    padding: vars.$spacing-medium;
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: vars.$border-radius-small;
+    color: #ff6b6b;
+    font-size: vars.$font-size-small;
+  }
+
+  &__button {
+    width: 100%;
+    padding: vars.$spacing-medium;
+    background-color: vars.$color-brand;
+    color: vars.$text-color-dark;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: vars.$box-shadow-medium;
+
+    &:hover:not(:disabled) {
+      box-shadow: vars.$box-shadow-large;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  &__security {
+    text-align: center;
+    padding-top: vars.$spacing-small;
+  }
+
+  &__security-text {
+    font-size: vars.$font-size-small;
+    color: vars.$text-color-secondary;
+    margin: 0;
+  }
+}
+

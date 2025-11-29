@@ -9,6 +9,7 @@ export * from './payout-service';
 export * from './booking-service';
 export * from './order-service';
 export * from './sumit-service';
+export * from './payme-service';
 export * from './email-service';
 export * from './file-upload-service';
 export * from './http-service';
