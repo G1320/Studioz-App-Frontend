@@ -1,41 +1,77 @@
+@use 'utilities/variables' as vars;
+
 .order-page {
   display: flex;
   flex-direction: column;
   margin-inline: auto;
-  padding: 2rem;
-  gap: 1rem;
-  width: calc(100vw - 6rem);
-  height: fit-content;
-  max-width: 1540px;
-  border-radius: 8px;
-  justify-items: center;
-  background-color: #fff;
-  * {
-    color: black;
+  padding: vars.$spacing-xl;
+  gap: vars.$spacing-large;
+  width: 100%;
+  max-width: 1200px;
+  min-height: calc(100vh - 200px);
+
+  &__title {
+    font-size: vars.$font-size-2xl;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+    padding-bottom: vars.$spacing-medium;
+    border-bottom: 1px solid rgba(vars.$border-color-primary, 0.1);
   }
-  .cart-item-preview {
-    flex-direction: row;
+
+  &__empty {
+    text-align: center;
+    padding: vars.$spacing-3xl;
+    color: vars.$text-color-secondary;
+    font-size: vars.$font-size-large;
+  }
+
+  .cart-content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-large;
+    width: 100%;
+
+    .cart-item-preview {
+      flex-direction: row;
+      background-color: vars.$preview-bg-color;
+      border-radius: vars.$border-radius-medium;
+      padding: vars.$spacing-medium;
+      box-shadow: vars.$box-shadow-medium;
+      transition: box-shadow 0.25s ease;
+
+      &:hover {
+        box-shadow: vars.$box-shadow-large;
+      }
+    }
   }
 }
 
 .paypal-buttons-container {
-  width: fit-content;
+  width: 100%;
   max-width: 600px;
-  max-height: max-content;
-  display: grid;
-  justify-content: center;
-  align-self: center;
-  padding: 1rem;
-  border: 1px solid #eaeaea;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  padding: vars.$spacing-large;
+  background-color: vars.$preview-bg-color;
+  border-radius: vars.$border-radius-medium;
+  box-shadow: vars.$box-shadow-medium;
 }
 
 @media screen and (max-width: 768px) {
   .order-page {
-    .cart-item-preview {
-      flex-direction: column;
+    padding: vars.$spacing-medium;
+
+    .cart-content {
+      gap: vars.$spacing-medium;
+
+      .cart-item-preview {
+        flex-direction: column;
+        padding: vars.$spacing-small;
+      }
     }
+  }
+
+  .paypal-buttons-container {
+    padding: vars.$spacing-medium;
   }
 }

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Cart, Studio } from 'src/types/index';
 import { PaymeCheckout } from '@shared/components/checkout';
 import { PayMeCartItem } from '@shared/services/payme-service';
+import { useTranslation } from 'react-i18next';
 
 interface OrderPageProps {
   studios: Studio[];
@@ -13,6 +14,7 @@ interface OrderPageProps {
 const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
   const { studioId } = useParams();
   const { user } = useUserContext();
+  const { t } = useTranslation('orders');
 
   const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
   const cartItems = (studioId ? filteredCart.items : cart?.items) || [];
@@ -30,19 +32,28 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
 
   return (
     <section className="order-page">
+      <h1 className="order-page__title">{t('title', 'Checkout')}</h1>
       <div className="cart-content">
-        {cartItems.map((item) => (
-          <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />
-        ))}
-        <PaymeCheckout
-          cartItems={paymeCartItems}
-          customer={{
-            name: user?.name || '',
-            email: user?.email || '',
-            phone: user?.phone
-          }}
-          vendorId={vendorId}
-        />
+        {cartItems.length > 0 ? (
+          <>
+            {cartItems.map((item) => (
+              <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />
+            ))}
+            <PaymeCheckout
+              cartItems={paymeCartItems}
+              customer={{
+                name: user?.name || '',
+                email: user?.email || '',
+                phone: user?.phone
+              }}
+              vendorId={vendorId}
+            />
+          </>
+        ) : (
+          <div className="order-page__empty">
+            <p>{t('empty', 'Your cart is empty')}</p>
+          </div>
+        )}
       </div>
     </section>
   );
