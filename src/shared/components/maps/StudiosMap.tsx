@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Map, { Marker, Popup, NavigationControl, FullscreenControl, GeolocateControl, ScaleControl, MapRef } from 'react-map-gl';
+import Map, {
+  Marker,
+  Popup,
+  NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+  ScaleControl,
+  MapRef
+} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Studio } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks';
@@ -8,11 +16,12 @@ import { cities } from '@core/config/cities/cities';
 interface StudioMapProps {
   studios: Studio[];
   selectedCity?: string | null;
+  userLocation?: { latitude: number; longitude: number } | null;
 }
 
 const mapBoxToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
-export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity }) => {
+export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity, userLocation }) => {
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
@@ -26,9 +35,20 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity }) 
 
   const langNavigate = useLanguageNavigate();
 
-  // Pan to selected city
+  // Pan to user location (priority over city)
   useEffect(() => {
-    if (selectedCity && isMapLoaded && mapRef.current) {
+    if (userLocation && isMapLoaded && mapRef.current) {
+      mapRef.current.flyTo({
+        center: [userLocation.longitude, userLocation.latitude],
+        zoom: 12, // Good zoom level for user location
+        duration: 1500
+      });
+    }
+  }, [userLocation, isMapLoaded]);
+
+  // Pan to selected city (only if no user location)
+  useEffect(() => {
+    if (selectedCity && !userLocation && isMapLoaded && mapRef.current) {
       const city = cities.find((c) => c.name === selectedCity);
       if (city) {
         mapRef.current.flyTo({
@@ -38,7 +58,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity }) 
         });
       }
     }
-  }, [selectedCity, isMapLoaded]);
+  }, [selectedCity, userLocation, isMapLoaded]);
 
   const handleMapClick = () => {
     if (popupInfo) {

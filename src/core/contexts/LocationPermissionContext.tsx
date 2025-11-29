@@ -1,12 +1,20 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { hasBeenAsked, hasGranted, savePermission } from '@shared/services/location-permission-service';
+import {
+  hasBeenAsked,
+  hasGranted,
+  savePermission,
+  getUserLocation,
+  saveUserLocation as saveUserLocationToStorage
+} from '@shared/services/location-permission-service';
 
 interface LocationPermissionContextType {
   hasBeenAsked: boolean;
   hasGranted: boolean;
   showPrompt: boolean;
+  userLocation: { latitude: number; longitude: number } | null;
   grantPermission: () => void;
   denyPermission: () => void;
+  setUserLocation: (location: { latitude: number; longitude: number } | null) => void;
 }
 
 interface LocationPermissionProviderProps {
@@ -19,6 +27,7 @@ export const LocationPermissionProvider: React.FC<LocationPermissionProviderProp
   const [hasBeenAskedState, setHasBeenAskedState] = useState(false);
   const [hasGrantedState, setHasGrantedState] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [userLocation, setUserLocationState] = useState<{ latitude: number; longitude: number } | null>(null);
 
   useEffect(() => {
     // Check permission on mount
@@ -28,6 +37,15 @@ export const LocationPermissionProvider: React.FC<LocationPermissionProviderProp
     setHasGrantedState(granted);
     // Only show prompt if user hasn't been asked yet
     setShowPrompt(!asked);
+
+    // Load persisted user location
+    const storedLocation = getUserLocation();
+    if (storedLocation) {
+      setUserLocationState({
+        latitude: storedLocation.latitude,
+        longitude: storedLocation.longitude
+      });
+    }
   }, []);
 
   const grantPermission = () => {
@@ -44,14 +62,27 @@ export const LocationPermissionProvider: React.FC<LocationPermissionProviderProp
     setShowPrompt(false);
   };
 
+  const setUserLocation = (location: { latitude: number; longitude: number } | null) => {
+    if (location) {
+      // Save to storage
+      saveUserLocationToStorage(location.latitude, location.longitude);
+      setUserLocationState(location);
+    } else {
+      // Clear from storage
+      setUserLocationState(null);
+    }
+  };
+
   return (
     <LocationPermissionContext.Provider
       value={{
         hasBeenAsked: hasBeenAskedState,
         hasGranted: hasGrantedState,
         showPrompt,
+        userLocation,
         grantPermission,
-        denyPermission
+        denyPermission,
+        setUserLocation
       }}
     >
       {children}

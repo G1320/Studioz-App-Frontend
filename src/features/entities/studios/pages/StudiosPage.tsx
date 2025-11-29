@@ -21,9 +21,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { getDisplayByEnglish, getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
-  const { showPrompt, hasGranted } = useLocationPermission();
+  const { showPrompt, hasGranted, userLocation, setUserLocation } = useLocationPermission();
   const { position, getCurrentPosition } = useGeolocation();
-  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showPopup, setShowPopup] = useState(false);
 
   const musicSubCategories = useMusicSubCategories();
@@ -35,23 +34,19 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     }
   }, [showPrompt]);
 
-  // Get location if permission was previously granted
+  // Get location if permission was previously granted but location not in storage
   useEffect(() => {
-    if (hasGranted && !position) {
+    if (hasGranted && !userLocation && !position) {
       getCurrentPosition();
     }
-  }, [hasGranted, position, getCurrentPosition]);
+  }, [hasGranted, userLocation, position, getCurrentPosition]);
 
-  // Update user location when position is available
+  // Update context location when position is available (if not already set)
   useEffect(() => {
-    if (position) {
+    if (position && !userLocation) {
       setUserLocation({ latitude: position.latitude, longitude: position.longitude });
     }
-  }, [position]);
-
-  const handleLocationGranted = (pos: { latitude: number; longitude: number }) => {
-    setUserLocation(pos);
-  };
+  }, [position, userLocation, setUserLocation]);
 
   const filteredStudios: Studio[] = filterStudios(studios, {
     category,
@@ -77,11 +72,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   return (
     <section className="studios-page">
-      <LocationWelcomePopup
-        open={showPopup}
-        onClose={() => setShowPopup(false)}
-        onLocationGranted={handleLocationGranted}
-      />
+      <LocationWelcomePopup open={showPopup} onClose={() => setShowPopup(false)} />
       <GenericCarousel
         data={cities}
         showNavigation={false}
@@ -113,7 +104,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           1550: { slidesPerView: 7.2 }
         }}
       />
-      <StudiosMap studios={filteredStudios} selectedCity={selectedCity} />
+      <StudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
       <StudiosList studios={filteredStudios} />
     </section>
   );

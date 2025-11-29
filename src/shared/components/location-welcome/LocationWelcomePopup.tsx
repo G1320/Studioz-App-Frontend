@@ -18,7 +18,7 @@ export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({
   onLocationGranted
 }) => {
   const { t } = useTranslation('location');
-  const { grantPermission, denyPermission } = useLocationPermission();
+  const { grantPermission, denyPermission, setUserLocation } = useLocationPermission();
   const { getCurrentPosition, isLoading, error } = useGeolocation();
   const [isRequesting, setIsRequesting] = useState(false);
 
@@ -28,6 +28,8 @@ export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({
 
     if (position) {
       grantPermission();
+      // Save location to storage and update context
+      setUserLocation({ latitude: position.latitude, longitude: position.longitude });
       onLocationGranted?.(position);
       onClose();
     } else {

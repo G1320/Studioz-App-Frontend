@@ -63,3 +63,55 @@ export const clearPermission = (): void => {
   Cookies.remove(COOKIE_NAME);
 };
 
+// User Location Storage (using localStorage)
+const LOCATION_STORAGE_KEY = 'userLocation';
+
+export interface UserLocation {
+  latitude: number;
+  longitude: number;
+  timestamp: string;
+}
+
+/**
+ * Save user location coordinates
+ */
+export const saveUserLocation = (latitude: number, longitude: number): void => {
+  const location: UserLocation = {
+    latitude,
+    longitude,
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    localStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify(location));
+  } catch (error) {
+    console.error('Failed to save user location:', error);
+  }
+};
+
+/**
+ * Get stored user location
+ */
+export const getUserLocation = (): UserLocation | null => {
+  try {
+    const locationData = localStorage.getItem(LOCATION_STORAGE_KEY);
+    if (!locationData) return null;
+
+    return JSON.parse(locationData) as UserLocation;
+  } catch (error) {
+    console.error('Failed to get user location:', error);
+    return null;
+  }
+};
+
+/**
+ * Clear stored user location
+ */
+export const clearUserLocation = (): void => {
+  try {
+    localStorage.removeItem(LOCATION_STORAGE_KEY);
+  } catch (error) {
+    console.error('Failed to clear user location:', error);
+  }
+};
+
