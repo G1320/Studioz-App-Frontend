@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Map, {
   Marker,
   Popup,
@@ -11,7 +11,7 @@ import Map, {
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Studio } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks';
-import { cities } from '@core/config/cities/cities';
+import { useStudiosMap, useGeolocateHandlers } from './hooks/useStudiosMap';
 
 interface StudioMapProps {
   studios: Studio[];
@@ -25,51 +25,18 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity, us
   const [popupInfo, setPopupInfo] = useState<Studio | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
-  const previousUserLocationRef = useRef<{ latitude: number; longitude: number } | null>(null);
-
-  const [viewState, setViewState] = useState({
-    latitude: 32.0561,
-    longitude: 34.7516,
-    zoom: 9,
-    bearing: -5
-  });
-
   const langNavigate = useLanguageNavigate();
 
-  // Pan to selected city
-  useEffect(() => {
-    if (selectedCity && isMapLoaded && mapRef.current) {
-      const city = cities.find((c) => c.name === selectedCity);
-      if (city) {
-        mapRef.current.flyTo({
-          center: [city.lng, city.lat],
-          zoom: city.zoom || 11,
-          duration: 1500
-        });
-      }
-    }
-  }, [selectedCity, isMapLoaded]);
+  // Use custom hook for map viewState and flyTo logic
+  const { viewState, setViewState, updateViewState } = useStudiosMap({
+    selectedCity,
+    userLocation,
+    isMapLoaded,
+    mapRef
+  });
 
-  // Pan to user location when it becomes available (from popup)
-  // Only fly if userLocation is newly set (changed from null/undefined to a value)
-  useEffect(() => {
-    const isNewLocation =
-      userLocation &&
-      (!previousUserLocationRef.current ||
-        previousUserLocationRef.current.latitude !== userLocation.latitude ||
-        previousUserLocationRef.current.longitude !== userLocation.longitude);
-
-    if (isNewLocation && isMapLoaded && mapRef.current) {
-      mapRef.current.flyTo({
-        center: [userLocation.longitude, userLocation.latitude],
-        zoom: 12, // Good zoom level for user location
-        duration: 1500
-      });
-    }
-
-    // Update ref to track previous location
-    previousUserLocationRef.current = userLocation || null;
-  }, [userLocation, isMapLoaded]);
+  // Use custom hook for geolocate handlers
+  const { handleGeolocate, handleGeolocateError } = useGeolocateHandlers(updateViewState);
 
   const handleMapClick = () => {
     if (popupInfo) {
@@ -83,36 +50,11 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity, us
 
   const handleMarkerClick = (studio: Studio) => {
     setPopupInfo(studio);
-    setViewState((prev) => ({
-      ...prev,
+    updateViewState({
       latitude: studio.lat! + 0.06,
       longitude: studio.lng!,
-      zoom: 10,
-      angle: 200
-    }));
-  };
-
-  // Handle geolocate events to ensure control works
-  const handleGeolocate = (e: any) => {
-    if (e.coords) {
-      setViewState((prev) => ({
-        ...prev,
-        latitude: e.coords.latitude,
-        longitude: e.coords.longitude,
-        zoom: 12
-      }));
-    }
-  };
-
-  const handleGeolocateError = (e: any) => {
-    // Log error but don't block - user can try again
-    if (e.code === 3) {
-      console.warn('Geolocation timeout - this may be due to slow GPS or network issues');
-    } else if (e.code === 1) {
-      console.warn('Geolocation permission denied');
-    } else {
-      console.warn('Geolocation error:', e.message);
-    }
+      zoom: 10
+    });
   };
 
   return (
@@ -134,20 +76,7 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity, us
         mapboxAccessToken={mapBoxToken}
         onMove={(evt) => setViewState(evt.viewState)}
         onClick={handleMapClick}
-        onLoad={() => {
-          setIsMapLoaded(true);
-          // Debug: Check if GeolocateControl is accessible
-          if (mapRef.current) {
-            const mapInstance = (mapRef.current as any).getMap?.() || (mapRef.current as any)._map;
-            if (mapInstance) {
-              console.log('Map loaded, checking controls...');
-              const controls = (mapInstance as any)._controls || [];
-              console.log('Controls found:', controls.length);
-              const geolocateControl = controls.find((c: any) => c.constructor.name === 'GeolocateControl');
-              console.log('GeolocateControl found:', !!geolocateControl);
-            }
-          }
-        }}
+        onLoad={() => setIsMapLoaded(true)}
       >
         <GeolocateControl
           key="geolocate-control"
