@@ -138,6 +138,30 @@
     width: 24px;
   }
 
+  .hours-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    position: relative;
+
+    .hours-legend {
+      position: absolute;
+      top: 0.385rem;
+      left: vars.$spacing-small;
+      padding: 0 vars.$spacing-xs;
+      margin: 0;
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+      color: vars.$text-color-primary;
+      background-color: vars.$preview-bg-color;
+      z-index: 1;
+      line-height: 1.2;
+    }
+  }
+
   .hour-selection-container {
     display: grid;
     place-items: center;

@@ -34,7 +34,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation('common');
   const isRTL = i18n.language === 'he';
 
   const [customerPhone, setCustomerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
@@ -180,7 +180,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
           />
         )}
         {!currentReservationId && (
-          <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+          <fieldset className="hours-fieldset">
+            <legend className="hours-legend">{t('hours', 'Hours')}</legend>
+            <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+          </fieldset>
         )}
       </div>
 
