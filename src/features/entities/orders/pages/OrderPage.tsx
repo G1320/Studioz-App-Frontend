@@ -22,13 +22,15 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
   const vendorId = studios.find((studio) => studio._id === studioId)?.createdBy;
 
   // Convert cart items to PayMe format
-  const paymeCartItems: PayMeCartItem[] = cartItems.map((item) => ({
-    name: `${item.name?.en || item.name?.he || 'Item'} at ${item.studioName?.en || item.studioName?.he || 'Studio'}`,
-    price: item.price || 0,
-    quantity: item.hours || item.quantity || 1,
-    itemId: item.itemId,
-    studioId: item.studioId
-  }));
+  const paymeCartItems: PayMeCartItem[] = cartItems
+    .filter((item) => item.studioId) // Filter out items without studioId
+    .map((item) => ({
+      name: `${item.name?.en || item.name?.he || 'Item'} at ${item.studioName?.en || item.studioName?.he || 'Studio'}`,
+      price: item.price || 0,
+      quantity: item.hours || item.quantity || 1,
+      itemId: item.itemId,
+      studioId: item.studioId as string // Type assertion safe after filter
+    }));
 
   return (
     <section className="order-page">
