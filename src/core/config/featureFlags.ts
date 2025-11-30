@@ -5,9 +5,9 @@ export interface FeatureFlags {
 }
 
 export const featureFlags: FeatureFlags = {
-  distanceSlider: false, // Set to false to disable distance slider
-  checkout: false, // Set to false to disable checkout page
-  checkoutButton: false // Set to false to disable checkout button
+  distanceSlider: false,
+  checkout: false,
+  checkoutButton: false
 };
 
 /**

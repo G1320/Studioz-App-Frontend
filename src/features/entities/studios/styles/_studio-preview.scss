@@ -133,11 +133,12 @@
   p.description {
     min-height: 72px;
     width: 100%;
-    text-overflow: ellipsis;
     overflow: hidden;
+    hyphens: auto;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    direction: ltr;
   }
 
   .options-wrapper {
