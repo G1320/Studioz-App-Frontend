@@ -4,9 +4,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
   padding: 0;
   background: transparent;
   border: none;
@@ -35,9 +35,11 @@
   }
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: block;
+    color: white;
+    fill: white;
   }
 }
 
@@ -48,13 +50,13 @@ html[dir='rtl'] .back-button svg {
 
 @media screen and (max-width: 600px) {
   .back-button {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
 
     svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
     }
   }
 }

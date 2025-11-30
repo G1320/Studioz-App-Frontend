@@ -119,8 +119,8 @@ export const isLocationStale = (maxAgeMinutes: number = 60): boolean => {
     const locationTime = new Date(location.timestamp).getTime();
     const now = Date.now();
     const maxAgeMs = maxAgeMinutes * 60 * 1000;
-    
-    return (now - locationTime) > maxAgeMs;
+
+    return now - locationTime > maxAgeMs;
   } catch (error) {
     console.error('Failed to check location staleness:', error);
     return true;
@@ -137,4 +137,3 @@ export const clearUserLocation = (): void => {
     console.error('Failed to clear user location:', error);
   }
 };
-
