@@ -53,13 +53,10 @@
     max-width: calc(100% + 1rem);
     place-self: center;
   }
-  h3 {
-    white-space: wrap !important;
-  }
-
-  .title {
+  h3.title {
     display: flex;
-    align-items: center;
+    white-space: wrap !important;
+    max-height: 56px;
   }
 
   .studio-preview-genres {
