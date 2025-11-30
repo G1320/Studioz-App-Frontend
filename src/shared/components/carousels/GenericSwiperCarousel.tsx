@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
@@ -45,6 +45,78 @@ export const GenericCarousel = <T,>({
   const swiperRef = useRef<SwiperType>();
   const { i18n, t } = useTranslation('common');
   const isRTL = i18n.dir() === 'rtl';
+  const [shouldShowNavigation, setShouldShowNavigation] = useState(true);
+
+  // Check if carousel needs navigation (if all items fit on screen, hide buttons)
+  const checkIfNavigationNeeded = React.useCallback(
+    (swiper: SwiperType | undefined) => {
+      if (data.length === 0) {
+        setShouldShowNavigation(false);
+        return;
+      }
+
+      if (!swiper || !swiper.wrapperEl || !swiper.slides || swiper.slides.length === 0) {
+        // If swiper not ready, calculate based on breakpoints
+        const currentWidth = window.innerWidth;
+        let slidesPerView = 1.4; // default from breakpoints
+
+        // Find the appropriate breakpoint
+        const sortedBreakpoints = Object.keys(breakpoints)
+          .map(Number)
+          .sort((a, b) => a - b);
+
+        for (let i = sortedBreakpoints.length - 1; i >= 0; i--) {
+          if (currentWidth >= sortedBreakpoints[i]) {
+            slidesPerView = breakpoints[sortedBreakpoints[i]].slidesPerView;
+            break;
+          }
+        }
+
+        const totalSlides = data.length;
+        const needsNavigation = totalSlides > Math.ceil(slidesPerView);
+        setShouldShowNavigation(needsNavigation);
+        return;
+      }
+
+      // Check if scrolling is actually possible by comparing wrapper width to content width
+      // Add a small buffer (5px) to account for rounding and spacing
+      const wrapperWidth = swiper.width;
+      const wrapperScrollWidth = swiper.wrapperEl.scrollWidth;
+      const canScroll = wrapperScrollWidth > wrapperWidth + 5;
+
+      setShouldShowNavigation(canScroll);
+    },
+    [data.length, breakpoints]
+  );
+
+  // Check navigation on mount and resize
+  useEffect(() => {
+    const handleResize = () => {
+      checkIfNavigationNeeded(swiperRef.current);
+    };
+
+    // Initial check after a small delay to ensure Swiper is initialized
+    const timer = setTimeout(() => {
+      checkIfNavigationNeeded(swiperRef.current);
+    }, 100);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [data.length, breakpoints]);
+
+  // Re-check when Swiper is initialized
+  useEffect(() => {
+    if (swiperRef.current) {
+      const timer = setTimeout(() => {
+        checkIfNavigationNeeded(swiperRef.current);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [swiperRef.current]);
 
   // Center selected index when carousel is ready (only if not already centered)
   useEffect(() => {
@@ -132,7 +204,7 @@ export const GenericCarousel = <T,>({
             </Link>
           </div>
         )}
-        {showNavigation && (
+        {showNavigation && shouldShowNavigation && (
           <div className="swiper-navigation">{isRTL ? navigationButtons.reverse() : navigationButtons}</div>
         )}
       </div>
@@ -176,6 +248,9 @@ export const GenericCarousel = <T,>({
             lastSlideMessage: 'This is the last slide'
           }}
           onProgress={(swiper) => {
+            // Update navigation visibility when swiper updates
+            checkIfNavigationNeeded(swiper);
+
             swiper.slides.forEach((slide, index) => {
               // Check if this is the last slide
               const isLastSlide = index === swiper.slides.length - 1;
@@ -201,6 +276,9 @@ export const GenericCarousel = <T,>({
                 slide.classList.remove('dimmed');
               }
             });
+          }}
+          onResize={(swiper) => {
+            checkIfNavigationNeeded(swiper);
           }}
           onSlideChange={(swiper) => {
             const currentIndex = swiper.activeIndex;
