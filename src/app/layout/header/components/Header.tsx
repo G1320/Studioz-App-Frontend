@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
@@ -72,7 +71,6 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <span className="header-current-city" aria-label={`Current city: ${getDisplayByCityName(currentCity)}`}>
           <LocationOnIcon className="header-current-city__icon" aria-hidden="true" />
           {getDisplayByCityName(currentCity)}
-          <KeyboardArrowDownIcon className="header-current-city__nav-icon" aria-hidden="true" />
         </span>
       )}
       <div className="cart-options-container">
