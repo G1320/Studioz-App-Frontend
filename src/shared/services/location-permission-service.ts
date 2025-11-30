@@ -105,6 +105,29 @@ export const getUserLocation = (): UserLocation | null => {
 };
 
 /**
+ * Check if stored location is stale (older than specified minutes)
+ * @param maxAgeMinutes - Maximum age in minutes before location is considered stale (default: 60)
+ * @returns true if location is stale or doesn't exist, false otherwise
+ */
+export const isLocationStale = (maxAgeMinutes: number = 60): boolean => {
+  const location = getUserLocation();
+  if (!location || !location.timestamp) {
+    return true;
+  }
+
+  try {
+    const locationTime = new Date(location.timestamp).getTime();
+    const now = Date.now();
+    const maxAgeMs = maxAgeMinutes * 60 * 1000;
+    
+    return (now - locationTime) > maxAgeMs;
+  } catch (error) {
+    console.error('Failed to check location staleness:', error);
+    return true;
+  }
+};
+
+/**
  * Clear stored user location
  */
 export const clearUserLocation = (): void => {

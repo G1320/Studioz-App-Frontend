@@ -4,8 +4,10 @@ import {
   hasGranted,
   savePermission,
   getUserLocation,
-  saveUserLocation as saveUserLocationToStorage
+  saveUserLocation as saveUserLocationToStorage,
+  isLocationStale
 } from '@shared/services/location-permission-service';
+import { useGeolocation } from '@shared/hooks/utils/geolocation';
 
 interface LocationPermissionContextType {
   hasBeenAsked: boolean;
@@ -23,11 +25,15 @@ interface LocationPermissionProviderProps {
 
 const LocationPermissionContext = createContext<LocationPermissionContextType | undefined>(undefined);
 
+// Location refresh interval in minutes (default: 60 minutes)
+const LOCATION_REFRESH_INTERVAL_MINUTES = 60;
+
 export const LocationPermissionProvider: React.FC<LocationPermissionProviderProps> = ({ children }) => {
   const [hasBeenAskedState, setHasBeenAskedState] = useState(false);
   const [hasGrantedState, setHasGrantedState] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
   const [userLocation, setUserLocationState] = useState<{ latitude: number; longitude: number } | null>(null);
+  const { getCurrentPosition } = useGeolocation();
 
   useEffect(() => {
     // Check permission on mount
@@ -46,7 +52,28 @@ export const LocationPermissionProvider: React.FC<LocationPermissionProviderProp
         longitude: storedLocation.longitude
       });
     }
-  }, []);
+
+    // Refresh location if:
+    // 1. Permission is granted AND
+    // 2. (No stored location OR stored location is stale)
+    if (granted && (!storedLocation || isLocationStale(LOCATION_REFRESH_INTERVAL_MINUTES))) {
+      // Silently refresh location in the background
+      getCurrentPosition()
+        .then((position) => {
+          if (position) {
+            setUserLocation({
+              latitude: position.latitude,
+              longitude: position.longitude
+            });
+          }
+        })
+        .catch((error) => {
+          // Silently fail - keep using stored location if available
+          console.debug('Failed to refresh location:', error);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   const grantPermission = () => {
     savePermission(true);
