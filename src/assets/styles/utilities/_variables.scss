@@ -68,7 +68,9 @@ $box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.1);
 $box-shadow-large: 0 8px 16px rgba(0, 0, 0, 0.1);
 $box-shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.1);
 $box-shadow-2xl: 0 4px 30px rgba(0, 0, 0, 0.1);
-$box-shadow-popup: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+$box-shadow-popup:
+  0 8px 24px rgba(0, 0, 0, 0.4),
+  0 4px 8px rgba(0, 0, 0, 0.2);
 $box-shadow-gallery: 0 0 5px 4px rgba(255, 255, 255, 0.132);
 
 // Text Shadows

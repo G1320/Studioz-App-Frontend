@@ -40,8 +40,11 @@ header.app-header {
   }
 
   .logo {
-    padding-inline-end: 0.5rem;
-    // Always use English font for logo, regardless of language
+    padding: 0;
+    margin: 0;
+    display: block;
+    text-decoration: none;
+    // Font styles for text logo (when faviconLogo is false)
     font-family:
       system-ui,
       -apple-system,
@@ -52,7 +55,10 @@ header.app-header {
       sans-serif;
     font-weight: 600;
     letter-spacing: 0.02em;
-    // Override Hebrew font styles
+    color: inherit;
+    line-height: 1.1;
+
+    // Override Hebrew font styles for text logo
     html[lang='he'] &,
     html[dir='rtl'] & {
       font-family:
@@ -65,6 +71,14 @@ header.app-header {
         sans-serif;
       font-weight: 600;
       letter-spacing: 0.02em;
+    }
+
+    .logo-image {
+      height: 2rem;
+      width: 32px;
+      object-fit: contain;
+      display: block;
+      line-height: 0;
     }
   }
 
@@ -192,16 +206,16 @@ header.app-header {
   }
 
   h1 {
-    line-height: 1.1;
+    line-height: 0;
     grid-column: 1;
     grid-row: 1;
     white-space: nowrap;
     justify-self: start;
+    margin: 0;
+    padding: 0;
     transition:
       margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-left: 0;
-    margin-right: 0;
     z-index: 1;
     // Logo always uses English font - override Hebrew font styles
     html[lang='he'] &,
