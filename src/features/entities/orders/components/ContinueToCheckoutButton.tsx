@@ -3,6 +3,7 @@ import { Cart } from 'src/types/index';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '@core/contexts';
+import { featureFlags } from '@core/config/featureFlags';
 
 interface CheckoutButtonProps {
   cart?: Cart;
@@ -20,7 +21,7 @@ export const ContinueToCheckoutButton: React.FC<CheckoutButtonProps> = ({ cart }
   // Calculate total item count
   const itemCount = studioItems?.reduce((acc, item) => acc + (item.quantity || 0), 0);
 
-  if (!itemCount) return null;
+  if (!itemCount || !featureFlags.checkoutButton) return null;
 
   return (
     <div className="checkout-button-container">

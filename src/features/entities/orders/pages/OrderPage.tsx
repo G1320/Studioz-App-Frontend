@@ -1,10 +1,11 @@
 import { useUserContext } from '@core/contexts';
 import { CartItemPreview } from '@features/entities';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { Cart, Studio } from 'src/types/index';
 import { PaymeCheckout } from '@shared/components/checkout';
 import { PayMeCartItem } from '@shared/services/payme-service';
 import { useTranslation } from 'react-i18next';
+import { featureFlags } from '@core/config/featureFlags';
 
 interface OrderPageProps {
   studios: Studio[];
@@ -14,7 +15,12 @@ interface OrderPageProps {
 const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
   const { studioId } = useParams();
   const { user } = useUserContext();
-  const { t } = useTranslation('orders');
+  const { t, i18n } = useTranslation('orders');
+
+  // Redirect if checkout is disabled
+  if (!featureFlags.checkout) {
+    return <Navigate to={`/${i18n.language}/studios`} replace />;
+  }
 
   const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };
   const cartItems = (studioId ? filteredCart.items : cart?.items) || [];

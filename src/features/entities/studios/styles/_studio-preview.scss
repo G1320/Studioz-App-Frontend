@@ -87,7 +87,7 @@
     pointer-events: none;
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    gap: 0.3rem !important;
     align-items: center;
 
     html[dir='rtl'] & {
