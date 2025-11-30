@@ -64,7 +64,11 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
 
       <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
         <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
-          {featureFlags.faviconLogo ? <img src="/favicon-32x32.png" alt="Studioz" className="logo-image" /> : 'Studioz'}
+          {featureFlags.faviconLogo ? (
+            <img src="/android-chrome-512x512.png" alt="Studioz" className="logo-image" />
+          ) : (
+            'Studioz'
+          )}
         </Link>
       </h1>
       {featureFlags.headerCurrentCity && currentCity && (
