@@ -13,7 +13,7 @@ export const featureFlags: FeatureFlags = {
   checkoutButton: false,
   servicesPage: false,
   headerCurrentCity: true,
-  faviconLogo: false
+  faviconLogo: true
 };
 
 /**

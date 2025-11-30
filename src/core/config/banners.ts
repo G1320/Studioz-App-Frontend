@@ -21,7 +21,7 @@ export const homeBanners: BannerConfig = {
       titleKey: 'home.banner2.title',
       subtitleKey: 'home.banner2.subtitle',
       ctaTextKey: 'home.banner2.cta',
-      ctaLink: '/services',
+      ctaLink: '/studios/music/Mixing',
       overlayPosition: 'center',
       textColor: 'light'
     },
