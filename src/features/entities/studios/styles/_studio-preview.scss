@@ -2,9 +2,10 @@
 
 .studio-preview {
   position: relative;
-  min-height: 300px;
+  min-height: 316px;
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1100px;
+
   gap: 0.5rem;
   background: vars.$preview-bg-color;
   cursor: pointer;
@@ -19,7 +20,11 @@
     padding-bottom: 50.67%;
     overflow: hidden;
     background-color: #f0f0f05b;
-
+    @container (max-width: 270px) {
+      height: 115px;
+      padding-bottom: 0;
+      aspect-ratio: unset;
+    }
     // Skeleton loader styles are centralized in utilities/_skeleton-loader.scss
 
     .generic-image {
@@ -47,13 +52,11 @@
     place-self: center;
   }
   h3 {
-    white-space: nowrap !important;
-    width: max-content;
+    white-space: wrap !important;
   }
 
   .title {
     display: flex;
-    height: 20px;
     align-items: center;
   }
 
@@ -180,6 +183,10 @@
   .studio-preview-name-and-city {
     display: flex;
     flex-direction: row;
+    max-height: 40px;
+    @container (max-width: 270px) {
+      gap: 0.25rem;
+    }
   }
 
   .image-gallery-container {
