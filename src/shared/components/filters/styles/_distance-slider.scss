@@ -1,0 +1,131 @@
+@use 'utilities/variables' as vars;
+
+.distance-slider {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-small;
+  padding: vars.$spacing-medium;
+  background-color: vars.$preview-bg-color;
+  border-radius: vars.$border-radius-medium;
+  margin: vars.$spacing-medium auto;
+  max-width: 500px;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__label {
+    font-size: vars.$font-size-sm-md;
+    font-weight: 600;
+    color: vars.$text-color-primary;
+  }
+
+  &__value {
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    color: vars.$color-brand;
+  }
+
+  &__input {
+    width: 100%;
+    height: 8px;
+    border-radius: vars.$border-radius-small;
+    background: rgba(vars.$text-color-primary, 0.1);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgba(vars.$text-color-primary, 0.15);
+    }
+
+    // Webkit (Chrome, Safari, Edge)
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: vars.$color-brand;
+      cursor: pointer;
+      border: 2px solid vars.$preview-bg-color;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    // Firefox
+    &::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: vars.$color-brand;
+      cursor: pointer;
+      border: 2px solid vars.$preview-bg-color;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    // Track styling for Firefox
+    &::-moz-range-track {
+      height: 8px;
+      border-radius: vars.$border-radius-small;
+      background: rgba(vars.$text-color-primary, 0.1);
+    }
+
+    // Progress fill (the part before the thumb)
+    &::-webkit-slider-runnable-track {
+      height: 8px;
+      border-radius: vars.$border-radius-small;
+      background: rgba(vars.$text-color-primary, 0.1);
+    }
+  }
+
+  &__range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: vars.$font-size-small;
+    color: rgba(vars.$text-color-primary, 0.6);
+  }
+
+  &__range-label {
+    font-size: vars.$font-size-small;
+    color: rgba(vars.$text-color-primary, 0.6);
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: vars.$spacing-small vars.$spacing-medium;
+    margin: vars.$spacing-small auto;
+
+    &__label {
+      font-size: vars.$font-size-small;
+    }
+
+    &__value {
+      font-size: vars.$font-size-sm-md;
+    }
+  }
+}
+

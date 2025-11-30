@@ -3,6 +3,10 @@
     "title": "Studios",
     "cities_title": "Explore by city",
     "city_selected": "Studios in {{city}}"
+  },
+  "distanceFilter": {
+    "label": "Max Distance",
+    "ariaLabel": "Maximum distance filter"
   }
 }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CategoryPreview, StudiosList, CityPreview } from '@features/entities';
-import { StudiosMap, GenericCarousel, LocationWelcomePopup } from '@shared/components';
+import { StudiosMap, GenericCarousel, LocationWelcomePopup, DistanceSlider } from '@shared/components';
 import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
@@ -18,6 +18,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { category, subcategory } = useParams();
   const [searchParams] = useSearchParams();
   const selectedCity = searchParams.get('city');
+  const maxDistance = searchParams.get('maxDistance') ? Number(searchParams.get('maxDistance')) : undefined;
   const { getDisplayByEnglish, getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
@@ -52,7 +53,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     category,
     subcategory,
     city: selectedCity,
-    userLocation: userLocation
+    userLocation: userLocation,
+    maxDistance
   });
 
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
@@ -104,6 +106,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           1550: { slidesPerView: 7.2 }
         }}
       />
+      <DistanceSlider />
       <StudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
       <StudiosList studios={filteredStudios} />
     </section>
