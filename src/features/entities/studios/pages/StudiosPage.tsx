@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
 import { cities } from '@core/config/cities/cities';
+import { featureFlags } from '@core/config/featureFlags';
 import { filterStudios } from '../utils/filterStudios';
 
 interface StudiosPageProps {
@@ -54,7 +55,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     subcategory,
     city: selectedCity,
     userLocation: userLocation,
-    maxDistance
+    maxDistance: featureFlags.distanceSlider ? maxDistance : undefined
   });
 
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
@@ -106,7 +107,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           1550: { slidesPerView: 7.2 }
         }}
       />
-      <DistanceSlider />
+      {featureFlags.distanceSlider && <DistanceSlider />}
       <StudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
       <StudiosList studios={filteredStudios} />
     </section>
