@@ -1,10 +1,14 @@
+import { useMemo } from 'react';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { GenericImageGallery, StudioRating } from '@shared/components';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
+import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
+import { calculateDistance, formatDistance } from '@shared/utils/distanceUtils';
 
 interface StudioPreviewProps {
   studio?: Studio;
@@ -15,6 +19,15 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
   const { i18n } = useTranslation();
+  const { userLocation } = useLocationPermission();
+
+  // Calculate distance if user location is available
+  const distance = useMemo(() => {
+    if (!userLocation || !studio?.lat || !studio?.lng) {
+      return null;
+    }
+    return calculateDistance(userLocation.latitude, userLocation.longitude, studio.lat, studio.lng);
+  }, [userLocation, studio?.lat, studio?.lng]);
 
   const getServicesText = (count: number) => {
     return i18n.language === 'he' ? `שירותים זמינים: ${count}` : `Services Available: ${count}`;
@@ -45,6 +58,12 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
           variant="badge"
           showCount={false}
         />
+        {distance !== null && (
+          <div className="studio-preview__distance-badge">
+            <LocationOnIcon className="studio-preview__distance-badge-icon" />
+            <span className="studio-preview__distance-badge-value">{formatDistance(distance)}</span>
+          </div>
+        )}
       </div>
 
       <p className="description">{studio?.description?.en}</p>
