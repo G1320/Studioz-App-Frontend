@@ -2,13 +2,13 @@
 
 .studio-preview {
   position: relative;
-  min-height: min-content;
   min-height: 300px;
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1100px;
   gap: 0.5rem;
   background: vars.$preview-bg-color;
   cursor: pointer;
+  container-type: inline-size;
 
   .image-container {
     position: relative;
@@ -142,14 +142,24 @@
   }
 
   .options-wrapper {
+    display: flex;
     flex: 1 1 auto;
     height: min-content;
     gap: 0.5rem;
     font-size: small;
     justify-content: space-around;
+    flex-wrap: wrap;
+
+    @container (max-width: 270px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+    }
 
     div {
       display: flex;
+      flex-direction: row;
       align-items: center;
       gap: 0rem;
 
@@ -165,6 +175,11 @@
         justify-content: center;
       }
     }
+  }
+
+  .studio-preview-name-and-city {
+    display: flex;
+    flex-direction: row;
   }
 
   .image-gallery-container {
