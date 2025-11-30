@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
+import { featureFlags } from '@core/config/featureFlags';
 
 export function HeaderNavbar() {
   const { user } = useUserContext();
@@ -42,15 +43,17 @@ export function HeaderNavbar() {
         {t('navigation.studios')}
       </Link>
 
-      <Link
-        to={`/${currLang}/services/music`}
-        className="navbar-link"
-        aria-label={t('navigation.services')}
-        aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
-        onClick={() => scrollToTop()}
-      >
-        {t('navigation.services')}
-      </Link>
+      {featureFlags.servicesPage && (
+        <Link
+          to={`/${currLang}/services/music`}
+          className="navbar-link"
+          aria-label={t('navigation.services')}
+          aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
+        >
+          {t('navigation.services')}
+        </Link>
+      )}
       <Link
         to={`/${currLang}/wishlists`}
         className="navbar-link"

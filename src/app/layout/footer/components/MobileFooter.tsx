@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import BusinessIcon from '@mui/icons-material/Business';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
+import { featureFlags } from '@core/config/featureFlags';
 
 export const MobileFooter = () => {
   const location = useLocation();
@@ -50,18 +51,20 @@ export const MobileFooter = () => {
             <span>{t('navigation.studios')}</span>
           </div>
         </Link>
-        <Link
-          to={`/${currLang}/services`}
-          className="footer-icon-link"
-          aria-label={t('navigation.services')}
-          aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
-          onClick={() => scrollToTop()}
-        >
-          <div className="footer-link-content">
-            <GraphicEqIcon aria-hidden="true" />
-            <span>{t('navigation.services')}</span>
-          </div>
-        </Link>
+        {featureFlags.servicesPage && (
+          <Link
+            to={`/${currLang}/services`}
+            className="footer-icon-link"
+            aria-label={t('navigation.services')}
+            aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
+            onClick={() => scrollToTop()}
+          >
+            <div className="footer-link-content">
+              <GraphicEqIcon aria-hidden="true" />
+              <span>{t('navigation.services')}</span>
+            </div>
+          </Link>
+        )}
         <Link
           to={`/${currLang}/search`}
           className="footer-icon-link"

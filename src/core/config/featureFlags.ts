@@ -2,12 +2,14 @@ export interface FeatureFlags {
   distanceSlider: boolean;
   checkout: boolean;
   checkoutButton: boolean;
+  servicesPage: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
   distanceSlider: false,
   checkout: false,
-  checkoutButton: false
+  checkoutButton: false,
+  servicesPage: false
 };
 
 /**

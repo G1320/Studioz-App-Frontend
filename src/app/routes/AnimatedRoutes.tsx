@@ -23,6 +23,7 @@ import User from 'src/types/user';
 import { SumitSubscriptionPage, MySubscriptionPage } from '@features/entities/subscriptions';
 import { useTranslation } from 'react-i18next';
 import VendorOnboardingPage from '@features/vendor-onboarding/sumit/pages/VendorOnboardingPage';
+import { featureFlags } from '@core/config/featureFlags';
 
 const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
@@ -125,7 +126,9 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             }
           />
           <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
-          <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
+          {featureFlags.servicesPage && (
+            <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
+          )}
           <Route
             path="/:lang?/wishlists"
             element={

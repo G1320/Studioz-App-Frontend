@@ -15,13 +15,14 @@ footer.mobile-footer {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   justify-items: center;
   align-items: center;
   width: 100%;
   height: 100%;
   max-width: 500px;
   margin: 0 auto;
+  gap: 0.5rem;
 }
 
 .footer-icon-link {
