@@ -80,6 +80,14 @@ header.app-header {
     cursor: pointer;
   }
 
+  .header-current-city {
+    grid-column: 2;
+    white-space: nowrap;
+    align-self: center;
+    display: flex;
+    gap: 0.25rem;
+  }
+
   .navbar {
     justify-self: start;
     grid-column: span 2;

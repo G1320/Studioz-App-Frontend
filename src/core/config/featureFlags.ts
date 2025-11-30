@@ -3,13 +3,15 @@ export interface FeatureFlags {
   checkout: boolean;
   checkoutButton: boolean;
   servicesPage: boolean;
+  headerCurrentCity: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
   distanceSlider: false,
   checkout: false,
   checkoutButton: false,
-  servicesPage: false
+  servicesPage: false,
+  headerCurrentCity: false
 };
 
 /**
