@@ -1,6 +1,7 @@
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
+import { LogoutButton } from '@features/auth';
 
 interface ProfileDetailsProps {
   user: User | null;
@@ -48,6 +49,9 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             <button onClick={() => handleNavigate('/subscription')}>
               {t('profile.sellerAccount.buttons.subscription')}
             </button>
+            {user && (
+              <LogoutButton aria-label="Logout" />
+            )}
           </div>
         </div>
 

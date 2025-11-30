@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LoginButton, LogoutButton } from '@features/auth';
+import { LoginButton } from '@features/auth';
 import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
 import { LanguageSwitcher } from '@features/translation';
@@ -47,11 +47,11 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <LanguageSwitcher aria-label="Switch language" />
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         {user && (
-          <Link to={`${currLang}/profile`} className="header-profile-button-container" aria-label="Go to search page" onClick={() => scrollToTop()}>
+          <Link to={`${currLang}/profile`} className="header-profile-button-container" aria-label="Go to profile page" onClick={() => scrollToTop()}>
             <ManageAccountsIcon aria-label="profile icon" />
           </Link>
         )}
-        {user ? <LogoutButton aria-label="Logout" /> : <LoginButton aria-label="Login" />}
+        {!user && <LoginButton aria-label="Login" />}
       </div>
       <HeaderNavbar />
     </header>

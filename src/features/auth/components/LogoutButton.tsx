@@ -15,8 +15,8 @@ export const LogoutButton = () => {
   };
 
   return (
-    <div role="button" onClick={handleLogout} className="button logout-button">
+    <button onClick={handleLogout} type="button">
       {t('buttons.log_out')}
-    </div>
+    </button>
   );
 };
