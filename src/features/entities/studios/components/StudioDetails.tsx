@@ -1,6 +1,7 @@
-import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
+import { useState } from 'react';
+import { SmokingRooms, Check, Close, Accessible, LocationOn } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating } from '@shared/components';
+import { GenericImageGallery, StudioRating, Minimap, GenericModal } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -18,6 +19,7 @@ interface StudioDetailsProps {
 export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) => {
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { getDisplayByEnglish } = useGenres();
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   const langNavigate = useLanguageNavigate();
 
@@ -27,6 +29,8 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
     studioId ? langNavigate(`/create-item/${studio?.name.en}/${studioId}`) : null;
+
+  const hasLocation = studio?.lat && studio?.lng;
 
   return (
     <article key={studio?._id} className="details studio-details">
@@ -49,6 +53,16 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
         {studio?.address && <AddressDropdown address={studio?.address as string} />}
         {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}
+        {hasLocation && (
+          <button
+            onClick={() => setIsMapModalOpen(true)}
+            className="studio-details__map-button"
+            aria-label={`View ${studio?.name.en} location on map`}
+          >
+            <LocationOn aria-hidden="true" />
+            <span>View on Map</span>
+          </button>
+        )}
         <StudioOptions
           studio={studio as Studio}
           user={user as User}
@@ -94,6 +108,21 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           </p>
         </div>
       </div>
+      {hasLocation && (
+        <GenericModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} className="studio-minimap-modal">
+          <div className="studio-minimap-modal__content">
+            <h2 className="studio-minimap-modal__title">{studio?.name.en}</h2>
+            {studio?.address && <p className="studio-minimap-modal__address">{studio.address}</p>}
+            <Minimap
+              latitude={studio.lat!}
+              longitude={studio.lng!}
+              width="100%"
+              height="400px"
+              className="studio-minimap-modal__map"
+            />
+          </div>
+        </GenericModal>
+      )}
     </article>
   );
 };

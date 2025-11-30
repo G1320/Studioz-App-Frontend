@@ -435,6 +435,36 @@
           }
         }
       }
+      .studio-details__map-button {
+        background: transparent;
+        color: #f1f1f1;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.9375rem;
+        white-space: nowrap;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
       .studio-availability {
         display: flex;
         gap: 0.3rem;

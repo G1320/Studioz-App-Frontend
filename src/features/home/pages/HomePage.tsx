@@ -71,7 +71,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.the_best_in_the_biz')}
-        seeAllPath="/services"
       />
       <GenericCarousel
         data={recordingStudios}
@@ -85,7 +84,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.mixing_services')}
-        seeAllPath="/services/music/Mixing"
       />
       <GenericCarousel
         data={podcastRecordingStudios}

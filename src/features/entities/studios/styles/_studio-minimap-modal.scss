@@ -1,0 +1,54 @@
+@use 'utilities/variables' as vars;
+
+.studio-minimap-modal {
+  .modal-content {
+    max-width: 600px;
+    width: 90vw;
+    padding: 1.5rem;
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f1f1f1;
+    line-height: 1.2;
+  }
+
+  &__address {
+    margin: 0;
+    font-size: 1rem;
+    color: #d1d5db;
+    line-height: 1.5;
+  }
+
+  &__map {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .modal-content {
+      padding: 1rem;
+      width: 95vw;
+    }
+
+    &__title {
+      font-size: 1.25rem;
+    }
+
+    &__address {
+      font-size: 0.9375rem;
+    }
+  }
+}
+
