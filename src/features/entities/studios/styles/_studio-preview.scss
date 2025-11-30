@@ -9,7 +9,9 @@
   gap: 0.5rem;
   background: vars.$preview-bg-color;
   cursor: pointer;
-  container-type: inline-size;
+  @container (max-width: 270px) {
+    container-type: inline-size;
+  }
 
   .image-container {
     position: relative;
