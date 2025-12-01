@@ -4,7 +4,7 @@ import path from 'path';
 import Sitemap from 'vite-plugin-sitemap';
 
 const languages = ['en', 'he'];
-const baseRoutes = ['/services', '/wishlists', '/create-studio'];
+const baseRoutes = ['/studios', '/wishlists', '/create-studio'];
 const allRoutes = ['/', ...baseRoutes].flatMap((route) => languages.map((lang) => `/${lang}${route}`));
 
 export default defineConfig(({ _command, mode }) => {

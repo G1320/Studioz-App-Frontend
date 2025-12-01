@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SmokingRooms, Check, Close, Accessible, LocationOn } from '@mui/icons-material';
+import { SmokingRooms, Check, Close, Accessible, Map } from '@mui/icons-material'; // Map icon for location button
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery, StudioRating, Minimap, GenericModal } from '@shared/components';
 import { Studio, User } from 'src/types/index';
@@ -59,8 +59,8 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             className="studio-details__map-button"
             aria-label={`View ${studio?.name.en} location on map`}
           >
-            <LocationOn aria-hidden="true" />
-            <span>View on Map</span>
+            <Map aria-hidden="true" />
+            <span>Map</span>
           </button>
         )}
         <StudioOptions

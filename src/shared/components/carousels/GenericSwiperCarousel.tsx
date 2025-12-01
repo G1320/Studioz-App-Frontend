@@ -95,15 +95,8 @@ export const GenericCarousel = <T,>({
       checkIfNavigationNeeded(swiperRef.current);
     };
 
-    // Initial check after a small delay to ensure Swiper is initialized
-    const timer = setTimeout(() => {
-      checkIfNavigationNeeded(swiperRef.current);
-    }, 100);
-
     window.addEventListener('resize', handleResize);
-
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
     };
   }, [data.length, breakpoints]);
