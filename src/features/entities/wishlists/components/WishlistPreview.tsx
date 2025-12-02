@@ -1,6 +1,7 @@
 import { Button } from '@shared/components';
 import { Wishlist } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks';
+import { useCallback } from 'react';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;
@@ -10,20 +11,37 @@ interface WishlistPreviewProps {
 export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
   const langNavigate = useLanguageNavigate();
 
+  const handleArticleClick = useCallback(() => {
+    if (!onAddItemToWishList) {
+      langNavigate(`/wishlists/${wishlist._id}`);
+    }
+  }, [wishlist._id, onAddItemToWishList, langNavigate]);
+
+  const handleButtonClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (onAddItemToWishList) {
+        onAddItemToWishList(wishlist._id);
+      }
+    },
+    [wishlist._id, onAddItemToWishList]
+  );
+
   return (
     <article
-      onClick={() => langNavigate(`/wishlists/${wishlist._id}`)}
+      onClick={handleArticleClick}
       key={wishlist._id}
-      className=" wishlist-preview"
+      className={`wishlist-preview ${onAddItemToWishList ? 'wishlist-preview--interactive' : ''}`}
     >
-      <div>
-        <div>
-          <small>{wishlist?.items?.length} Items</small>
+      <div className="wishlist-preview__content">
+        <div className="wishlist-preview__header">
+          <small className="wishlist-preview__count">{wishlist?.items?.length || 0} Items</small>
+          <h3 className="wishlist-preview__name">{wishlist.name}</h3>
         </div>
-        {onAddItemToWishList ? (
-          <Button onClick={() => onAddItemToWishList(wishlist?._id)}>Add to {wishlist?.name}</Button>
-        ) : (
-          <h3> {wishlist.name}</h3>
+        {onAddItemToWishList && (
+          <Button className="wishlist-preview__button" onClick={handleButtonClick}>
+            Add to {wishlist.name}
+          </Button>
         )}
       </div>
     </article>

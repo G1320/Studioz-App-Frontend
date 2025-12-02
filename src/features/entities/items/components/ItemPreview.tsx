@@ -95,7 +95,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], 
           <GenericMuiDropdown
             data={wishlists}
             renderItem={renderItem}
-            className="item-details-wishlists-dropdown"
+            className="item-preview-wishlists-dropdown"
             title={t('buttons.add_to_wishlist')}
           />
         )
