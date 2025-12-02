@@ -13,7 +13,7 @@ interface ProfileImageUploaderProps {
 export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
   currentImageUrl,
   onImageUpload,
-  userId
+  userId: _userId // Prefixed with _ to indicate intentionally unused
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
     [onImageUpload]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       'image/png': ['.png'],
@@ -82,18 +82,8 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
 
   const displayImage = preview || currentImageUrl;
 
-  // Extract onClick from getRootProps to ensure it works
-  const { onClick, ...rootProps } = getRootProps();
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!isUploading && onClick) {
-      onClick(e);
-    }
-  };
-
   return (
-    <div className="profile-image-uploader" {...rootProps} onClick={handleClick}>
+    <div className="profile-image-uploader" {...getRootProps()}>
       <input {...getInputProps()} ref={fileInputRef} />
       <div className="profile-image-uploader__container">
         {displayImage ? (
