@@ -67,6 +67,28 @@
   img {
     cursor: pointer;
   }
+
+  // Ensure image container and skeleton loader work properly
+  .image-container {
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    border-radius: vars.$border-radius-medium;
+    overflow: hidden;
+
+    .cover-image {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    // Ensure skeleton loader is visible
+    .skeleton-loader {
+      position: absolute;
+      inset: 0;
+    }
+  }
+
   &:focus {
     outline: none;
   }
