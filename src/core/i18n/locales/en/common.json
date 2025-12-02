@@ -56,6 +56,16 @@
     "privacy": "Privacy"
   },
   "hours": "Hours",
+  "wishlists": {
+    "items": "Items",
+    "item": "Item",
+    "add_to": "Add to",
+    "create_new": "Create New Wishlist",
+    "create_and_organize": "Create and organize your favorite studios and services",
+    "wishlist": "wishlist",
+    "wishlists": "wishlists",
+    "saved": "saved"
+  },
   "errors": {
     "required": "This field is required",
     "invalid": "Invalid input",

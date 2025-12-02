@@ -14,7 +14,7 @@ interface WishlistListProps {
 
 export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, isMultiSelect = false }) => {
   const user = getLocalUser();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation('common');
 
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
@@ -31,16 +31,16 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
         <div className="wishlists-title-section"></div>
         <p className="wishlists-subtitle">
           {wishlists.length === 0
-            ? 'Create and organize your favorite studios and services'
-            : `${wishlists.length} ${wishlists.length === 1 ? 'wishlist' : 'wishlists'} saved`}
+            ? t('wishlists.create_and_organize')
+            : `${wishlists.length} ${wishlists.length === 1 ? t('wishlists.wishlist') : t('wishlists.wishlists')} ${t('wishlists.saved')}`}
         </p>
       </div>
       <Link to={`/${i18n.language}/create-wishlist`} className="create-wishlist-button">
         <AddIcon />
-        <span>Create New Wishlist</span>
+        <span>{t('wishlists.create_new')}</span>
       </Link>
       {isDropdown ? (
-        <GenericMuiDropdown data={wishlists} renderItem={renderItem} className="wishlist-list" title="wishlists" />
+        <GenericMuiDropdown data={wishlists} renderItem={renderItem} className="wishlist-list" title={t('navigation.wishlists')} />
       ) : (
         <GenericList data={wishlists} renderItem={renderItem} className="wishlist-list" />
       )}

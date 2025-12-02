@@ -56,6 +56,16 @@
     "privacy": "הסכם פרטיות"
   },
   "hours": "שעות",
+  "wishlists": {
+    "items": "פריטים",
+    "item": "פריט",
+    "add_to": "הוסף ל",
+    "create_new": "צור רשימה חדשה",
+    "create_and_organize": "צור וארגן את האולפנים והשירותים האהובים עליך",
+    "wishlist": "רשימה",
+    "wishlists": "רשימות",
+    "saved": "שמורים"
+  },
   "errors": {
     "required": "שדה זה נדרש",
     "invalid": "קלט לא תקין",

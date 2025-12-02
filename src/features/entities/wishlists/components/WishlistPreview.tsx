@@ -2,6 +2,7 @@ import { Button } from '@shared/components';
 import { Wishlist } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface WishlistPreviewProps {
   wishlist: Wishlist;
@@ -10,6 +11,7 @@ interface WishlistPreviewProps {
 
 export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
   const langNavigate = useLanguageNavigate();
+  const { t } = useTranslation('common');
 
   const handleArticleClick = useCallback(() => {
     if (!onAddItemToWishList) {
@@ -35,12 +37,14 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
     >
       <div className="wishlist-preview__content">
         <div className="wishlist-preview__header">
-          <small className="wishlist-preview__count">{wishlist?.items?.length || 0} Items</small>
+          <small className="wishlist-preview__count">
+            {wishlist?.items?.length || 0} {wishlist?.items?.length === 1 ? t('wishlists.item') : t('wishlists.items')}
+          </small>
           <h3 className="wishlist-preview__name">{wishlist.name}</h3>
         </div>
         {onAddItemToWishList && (
           <Button className="wishlist-preview__button" onClick={handleButtonClick}>
-            Add to {wishlist.name}
+            {t('wishlists.add_to')} {wishlist.name}
           </Button>
         )}
       </div>
