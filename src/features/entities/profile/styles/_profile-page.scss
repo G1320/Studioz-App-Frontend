@@ -164,6 +164,14 @@
   }
 }
 
+// Ensure profile image uploader fits within avatar wrapper
+.avatar-wrapper {
+  .profile-image-uploader {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .profile-info {
   flex: 1;
 
