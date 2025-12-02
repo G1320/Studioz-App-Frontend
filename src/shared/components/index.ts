@@ -19,3 +19,4 @@ export * from './reviews';
 export * from './cookie-consent';
 export * from './location-welcome';
 export * from './profile-image-uploader';
+export * from './skeleton-loader';

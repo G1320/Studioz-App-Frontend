@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SkeletonLoader } from '@shared/components';
 
 interface GenericImageProps {
   src: string;
@@ -24,7 +25,7 @@ export const GenericImage: React.FC<GenericImageProps> = ({
 
   return (
     <div className={`image-container ${className}`}>
-      {isLoading && <div className="skeleton-loader" />}
+      {isLoading && <SkeletonLoader />}
 
       <img
         src={optimizedSrc(width)}

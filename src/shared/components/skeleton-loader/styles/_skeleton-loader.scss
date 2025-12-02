@@ -1,0 +1,16 @@
+// Component-specific overrides for SkeletonLoader
+// Base styles are in assets/styles/utilities/_skeleton-loader.scss
+
+.skeleton-loader {
+  // Allow custom animation speed via CSS variable
+  &[style*='--skeleton-animation-speed'] {
+    &::before {
+      animation-duration: calc(1.8s / var(--skeleton-animation-speed, 1));
+    }
+
+    &::after {
+      animation-duration: calc(2.5s / var(--skeleton-animation-speed, 1));
+    }
+  }
+}
+
