@@ -1,15 +1,18 @@
 @use 'utilities/variables' as vars;
 
 .studio-calendar {
-  --fc-border-color: #e5e7eb;
-  --fc-button-bg-color: #3b82f6;
-  --fc-button-border-color: #3b82f6;
-  --fc-button-hover-bg-color: #2563eb;
-  --fc-button-hover-border-color: #2563eb;
-  --fc-button-active-bg-color: #1d4ed8;
-  --fc-today-bg-color: rgba(59, 130, 246, 0.1);
+  --fc-border-color: rgba(255, 255, 255, 0.1);
+  --fc-button-bg-color: vars.$color-brand;
+  --fc-button-border-color: vars.$color-brand;
+  --fc-button-hover-bg-color: rgba(16, 185, 129, 0.8);
+  --fc-button-hover-border-color: rgba(16, 185, 129, 0.8);
+  --fc-button-active-bg-color: rgba(16, 185, 129, 0.9);
+  --fc-button-text-color: vars.$text-color-primary;
+  --fc-today-bg-color: rgba(16, 185, 129, 0.15);
   --fc-page-bg-color: transparent;
-  --fc-list-event-hover-bg-color: transparent; // Add this line
+  --fc-list-event-hover-bg-color: transparent;
+  --fc-event-bg-color: vars.$color-brand;
+  --fc-event-border-color: vars.$color-brand;
 
   padding: 1.5rem;
   //   background: #fff;
@@ -53,7 +56,7 @@
       transition: all 0.2s ease;
 
       &:focus {
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
       }
 
       &.fc-button-active {
@@ -167,14 +170,19 @@
       font-size: 0.875rem;
       font-weight: 500;
       border: none !important;
+      background-color: vars.$color-brand !important;
+      border-color: vars.$color-brand !important;
 
       &:hover {
         transform: scale(1.02);
         transition: transform 0.2s ease;
+        background-color: rgba(16, 185, 129, 0.9) !important;
       }
 
       .fc-event-title {
         padding: 0.25rem 0.5rem;
+        color: #000;
+        font-weight: 600;
       }
     }
 
@@ -209,27 +217,29 @@
     }
   }
 
-  // Optional: Dark mode support
-  @media (prefers-color-scheme: dark) {
-    background: #1f2937;
-    --fc-border-color: #374151;
-    --fc-button-bg-color: #3b82f6;
-    --fc-button-text-color: #fff;
-    --fc-today-bg-color: rgba(59, 130, 246, 0.1);
+  // Dark theme styles (always applied)
+  background: vars.$bg-color-tertiary;
+  --fc-border-color: rgba(255, 255, 255, 0.1);
+  --fc-button-bg-color: vars.$color-brand;
+  --fc-button-text-color: vars.$text-color-primary;
+  --fc-today-bg-color: rgba(16, 185, 129, 0.15);
 
-    .fc-toolbar-title,
-    .fc-col-header-cell-cushion,
-    .fc-daygrid-day-number {
-      color: #e5e7eb;
-    }
+  .fc-toolbar-title,
+  .fc-col-header-cell-cushion,
+  .fc-daygrid-day-number {
+    color: vars.$text-color-primary;
+  }
 
-    .fc-timegrid-axis,
-    .fc-timegrid-slot-label {
-      color: #9ca3af;
-    }
+  .fc-timegrid-axis,
+  .fc-timegrid-slot-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
 
-    .fc-non-business {
-      background: rgba(0, 0, 0, 0.2);
-    }
+  .fc-non-business {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .fc-daygrid-day:hover {
+    background-color: rgba(16, 185, 129, 0.05);
   }
 }
