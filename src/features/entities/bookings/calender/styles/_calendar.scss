@@ -192,6 +192,28 @@
     }
   }
 
+  // Dark theme styles (always applied)
+  background: vars.$bg-color-tertiary;
+
+  .fc-toolbar-title,
+  .fc-col-header-cell-cushion,
+  .fc-daygrid-day-number {
+    color: vars.$text-color-primary;
+  }
+
+  .fc-timegrid-axis,
+  .fc-timegrid-slot-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .fc-non-business {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .fc-daygrid-day:hover {
+    background-color: rgba(16, 185, 129, 0.05);
+  }
+
   // Responsive adjustments
   @media screen and (max-width: 768px) {
     padding: 1rem;
@@ -215,31 +237,5 @@
         font-size: 0.75rem;
       }
     }
-  }
-
-  // Dark theme styles (always applied)
-  background: vars.$bg-color-tertiary;
-  --fc-border-color: rgba(255, 255, 255, 0.1);
-  --fc-button-bg-color: vars.$color-brand;
-  --fc-button-text-color: vars.$text-color-primary;
-  --fc-today-bg-color: rgba(16, 185, 129, 0.15);
-
-  .fc-toolbar-title,
-  .fc-col-header-cell-cushion,
-  .fc-daygrid-day-number {
-    color: vars.$text-color-primary;
-  }
-
-  .fc-timegrid-axis,
-  .fc-timegrid-slot-label {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .fc-non-business {
-    background: rgba(0, 0, 0, 0.2);
-  }
-
-  .fc-daygrid-day:hover {
-    background-color: rgba(16, 185, 129, 0.05);
   }
 }
