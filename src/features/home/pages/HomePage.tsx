@@ -115,7 +115,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
         className="items-carousel"
         renderItem={itemRenderItem}
         title={t('sections.mastering_services')}
-        seeAllPath="/services/music/Mastering"
       />
     </section>
   );
