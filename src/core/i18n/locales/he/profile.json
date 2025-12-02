@@ -1,6 +1,9 @@
 {
   "profile": {
     "guestUser": "משתמש אורח",
+    "actions": {
+      "title": "פעולות"
+    },
     "buttons": {
       "dashboard": "לוח בקרה"
     },

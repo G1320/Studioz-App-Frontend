@@ -67,7 +67,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
       <div className="profile-body">
         <div className="profile-section profile-actions-section">
-          <h2 className="profile-section__title">{t('profile.actions.title') || 'Actions'}</h2>
+          <h2 className="profile-section__title">{t('profile.actions.title')}</h2>
           <div className="profile-actions">
             {user && (
               <button className="profile-action-button" onClick={() => handleNavigate('/dashboard')}>

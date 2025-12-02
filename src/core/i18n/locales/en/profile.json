@@ -1,6 +1,9 @@
 {
   "profile": {
     "guestUser": "Guest User",
+    "actions": {
+      "title": "Actions"
+    },
     "buttons": {
       "dashboard": "Dashboard"
     },
