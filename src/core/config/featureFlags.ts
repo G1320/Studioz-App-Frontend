@@ -5,6 +5,7 @@ export interface FeatureFlags {
   servicesPage: boolean;
   headerCurrentCity: boolean;
   faviconLogo: boolean;
+  itemPreviewDistanceBadge: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -13,7 +14,8 @@ export const featureFlags: FeatureFlags = {
   checkoutButton: false,
   servicesPage: false,
   headerCurrentCity: true,
-  faviconLogo: true
+  faviconLogo: true,
+  itemPreviewDistanceBadge: false
 };
 
 /**

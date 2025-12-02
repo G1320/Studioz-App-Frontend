@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { WishlistPreview } from '@features/entities';
-import { Button, GenericMuiDropdown } from '@shared/components';
+import { Button, GenericMuiDropdown, DistanceBadge } from '@shared/components';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
   useAddItemToWishlistMutation,
@@ -9,19 +10,33 @@ import {
   usePrefetchItem
 } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
+import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { Item, Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import { calculateDistance } from '@shared/utils/distanceUtils';
+import { featureFlags } from '@core/config/featureFlags';
+
 interface ItemPreviewProps {
   item: Item;
   wishlists?: Wishlist[];
+  showDistanceBadge?: boolean;
 }
 
-export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }) => {
+export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], showDistanceBadge = true }) => {
   const { studioId, wishlistId } = useParams();
   const { user } = useUserContext();
   // const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t } = useTranslation(['common', 'forms']);
+  const { userLocation } = useLocationPermission();
+
+  // Calculate distance if user location is available and badge should be shown
+  const distance = useMemo(() => {
+    if (!featureFlags.itemPreviewDistanceBadge || !showDistanceBadge || !userLocation || !item?.lat || !item?.lng) {
+      return null;
+    }
+    return calculateDistance(userLocation.latitude, userLocation.longitude, item.lat, item.lng);
+  }, [showDistanceBadge, userLocation, item?.lat, item?.lng]);
 
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
@@ -64,7 +79,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
     <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
       <header className="item-preview-header">
         <h3>{item.name.en}</h3>
-        <div>
+        <div className="item-preview-header__right">
           <small className="item-price">
             ₪{item.price}/{getTranslatedPricePer(item.pricePer || '')}
           </small>
@@ -85,7 +100,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [] }
           />
         )
       )}
-
+      {distance !== null && <DistanceBadge distance={distance} />}
       {studioId && user?.isAdmin && (
         <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio-button">
           Remove from Studio

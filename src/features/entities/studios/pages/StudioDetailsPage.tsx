@@ -55,7 +55,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
           data={filteredItems}
           renderItem={(item) => (
             <div onClick={() => handleItemClick(item)} key={item._id}>
-              <ItemPreview item={item} wishlists={wishlists} />
+              <ItemPreview item={item} wishlists={wishlists} showDistanceBadge={false} />
             </div>
           )}
         />
