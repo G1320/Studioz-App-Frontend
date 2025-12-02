@@ -1,0 +1,28 @@
+@use 'utilities/variables' as vars;
+
+.distance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(15, 15, 15, 0.55);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+
+  &__icon {
+    width: 0.65rem;
+    height: 0.65rem;
+    color: vars.$color-brand;
+    flex-shrink: 0;
+  }
+
+  &__value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+}
+

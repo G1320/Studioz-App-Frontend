@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { GenericImageGallery, StudioRating } from '@shared/components';
+import { GenericImageGallery, StudioRating, DistanceBadge } from '@shared/components';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
-import { calculateDistance, formatDistance } from '@shared/utils/distanceUtils';
+import { calculateDistance } from '@shared/utils/distanceUtils';
 
 interface StudioPreviewProps {
   studio?: Studio;
@@ -58,12 +57,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
           variant="badge"
           showCount={false}
         />
-        {distance !== null && (
-          <div className="studio-preview__distance-badge">
-            <LocationOnIcon className="studio-preview__distance-badge-icon" />
-            <span className="studio-preview__distance-badge-value">{formatDistance(distance)}</span>
-          </div>
-        )}
+        {distance !== null && <DistanceBadge distance={distance} />}
       </div>
 
       <p className="description">{studio?.description?.en}</p>

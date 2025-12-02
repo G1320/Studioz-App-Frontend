@@ -2,6 +2,7 @@ export * from './audio';
 export * from './banners';
 export * from './buttons';
 export * from './details';
+export * from './distance-badge';
 export * from './fileUploader';
 export * from './forms';
 export * from './images';
