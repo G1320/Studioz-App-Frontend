@@ -2,6 +2,11 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface ProfileDetailsProps {
   user: User | null;
@@ -18,7 +23,19 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <div className="avatar-container"></div>
+        <div className="avatar-container">
+          <div className="avatar-wrapper">
+            {user ? (
+              <div className="profile-avatar">
+                <AccountCircleIcon className="avatar-icon" />
+              </div>
+            ) : (
+              <div className="profile-avatar profile-avatar--guest">
+                <AccountCircleIcon className="avatar-icon" />
+              </div>
+            )}
+          </div>
+        </div>
         <div className="profile-info">
           <h1 className="profile-name">{user?.name || t('profile.guestUser')}</h1>
           <p className="profile-email">{user?.email || t('profile.email.notAvailable')}</p>
@@ -26,37 +43,43 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
       </div>
 
       <div className="profile-body">
-        <div className="profile-section">
+        <div className="profile-section profile-actions-section">
+          <h2 className="profile-section__title">{t('profile.actions.title') || 'Actions'}</h2>
           <div className="profile-actions">
             {user && (
-              <button onClick={() => handleNavigate('/dashboard')}>
-                {t('profile.buttons.dashboard')}
+              <button className="profile-action-button" onClick={() => handleNavigate('/dashboard')}>
+                <DashboardIcon className="profile-action-icon" />
+                <span>{t('profile.buttons.dashboard')}</span>
               </button>
             )}
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>
-                <button onClick={() => handleNavigate('/calendar')}>
-                  {t('profile.sellerAccount.buttons.calendar')}
+                <button className="profile-action-button" onClick={() => handleNavigate('/calendar')}>
+                  <CalendarTodayIcon className="profile-action-icon" />
+                  <span>{t('profile.sellerAccount.buttons.calendar')}</span>
                 </button>
-                <button onClick={() => handleNavigate('/create-studio')}>
-                  {t('profile.sellerAccount.buttons.createStudio')}
+                <button className="profile-action-button" onClick={() => handleNavigate('/create-studio')}>
+                  <AddBusinessIcon className="profile-action-icon" />
+                  <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
                 </button>
-                <button onClick={() => handleNavigate('/my-subscription')}>
-                  {t('profile.sellerAccount.buttons.mySubscriptions')}
+                <button className="profile-action-button" onClick={() => handleNavigate('/my-subscription')}>
+                  <CardMembershipIcon className="profile-action-icon" />
+                  <span>{t('profile.sellerAccount.buttons.mySubscriptions')}</span>
                 </button>
               </>
             )}
-            <button onClick={() => handleNavigate('/subscription')}>
-              {t('profile.sellerAccount.buttons.subscription')}
+            <button className="profile-action-button" onClick={() => handleNavigate('/subscription')}>
+              <CardMembershipIcon className="profile-action-icon" />
+              <span>{t('profile.sellerAccount.buttons.subscription')}</span>
             </button>
             {user && (
-              <LogoutButton aria-label="Logout" />
+              <LogoutButton aria-label="Logout" className="profile-action-button profile-action-button--logout" />
             )}
           </div>
         </div>
 
         <div className="profile-section legal-links">
-          <h2>{t('profile.legal.title')}</h2>
+          <h2 className="profile-section__title">{t('profile.legal.title')}</h2>
           <div className="legal-buttons">
             <button className="link-button" onClick={() => handleNavigate('/privacy')}>
               {t('profile.legal.privacy')}
