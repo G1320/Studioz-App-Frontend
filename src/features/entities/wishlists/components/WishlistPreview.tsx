@@ -14,10 +14,8 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
   const { t } = useTranslation('common');
 
   const handleArticleClick = useCallback(() => {
-    if (!onAddItemToWishList) {
-      langNavigate(`/wishlists/${wishlist._id}`);
-    }
-  }, [wishlist._id, onAddItemToWishList, langNavigate]);
+    langNavigate(`/wishlists/${wishlist._id}`);
+  }, [wishlist._id, langNavigate]);
 
   const handleButtonClick = useCallback(
     (e: React.MouseEvent) => {
