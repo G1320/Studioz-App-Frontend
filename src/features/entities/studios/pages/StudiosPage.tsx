@@ -76,19 +76,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   return (
     <section className="studios-page">
       <LocationWelcomePopup open={showPopup} onClose={() => setShowPopup(false)} />
-      <GenericCarousel
-        data={cities}
-        className="cities-carousel slider-gradient"
-        renderItem={cityRenderItem}
-        title={cityDisplay}
-        selectedIndex={selectedCityIndex !== undefined && selectedCityIndex >= 0 ? selectedCityIndex : undefined}
-        breakpoints={{
-          340: { slidesPerView: 2.4 },
-          520: { slidesPerView: 3.2 },
-          800: { slidesPerView: 4.2 },
-          1200: { slidesPerView: 5.2 }
-        }}
-      />
+
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
@@ -104,6 +92,19 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           1000: { slidesPerView: 5.2 },
           1200: { slidesPerView: 6.2 },
           1550: { slidesPerView: 7.2 }
+        }}
+      />
+      <GenericCarousel
+        data={cities}
+        className="cities-carousel slider-gradient"
+        renderItem={cityRenderItem}
+        title={cityDisplay}
+        selectedIndex={selectedCityIndex !== undefined && selectedCityIndex >= 0 ? selectedCityIndex : undefined}
+        breakpoints={{
+          340: { slidesPerView: 2.4 },
+          520: { slidesPerView: 3.2 },
+          800: { slidesPerView: 4.2 },
+          1200: { slidesPerView: 5.2 }
         }}
       />
       {featureFlags.distanceSlider && <DistanceSlider />}
