@@ -74,8 +74,8 @@
     "cart_expired": "חלק מהפריטים בעגלת הקניות שלך פגו והוסרו."
   },
   "distance": {
-    "meter": "מ'",
-    "meters": "מ'",
+    "meter": "מ",
+    "meters": "מ",
     "kilometer": "ק\"מ",
     "kilometers": "ק\"מ"
   }

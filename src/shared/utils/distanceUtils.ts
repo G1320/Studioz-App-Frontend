@@ -1,3 +1,5 @@
+import type { TFunction } from 'i18next';
+
 /**
  * Calculate the distance between two points on Earth using the Haversine formula
  * @param lat1 Latitude of first point
@@ -34,13 +36,13 @@ const toRadians = (degrees: number): number => {
  * @param t Optional translation function for i18n support
  * @returns Formatted string (e.g., "2.5 km" or "850 m")
  */
-export const formatDistance = (distance: number, t?: (key: string, fallback?: string) => string): string => {
+export const formatDistance = (distance: number, t?: TFunction): string => {
   if (distance < 1) {
     const meters = Math.round(distance * 1000);
-    const unit = t ? t('distance.meters', 'm') : 'm';
+    const unit = t ? (t('distance.meters', { defaultValue: 'm' }) as string) : 'm';
     return `${meters} ${unit}`;
   }
-  const unit = t ? t('distance.kilometers', 'km') : 'km';
+  const unit = t ? (t('distance.kilometers', { defaultValue: 'km' }) as string) : 'km';
   return `${distance.toFixed(1)} ${unit}`;
 };
 
