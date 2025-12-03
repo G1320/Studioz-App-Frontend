@@ -72,5 +72,11 @@
     "login_required": "אנא התחבר כדי לגשת לתכונה זו",
     "wishlist_empty": "אין רשימות משאלות זמינות. צור אחת.",
     "cart_expired": "חלק מהפריטים בעגלת הקניות שלך פגו והוסרו."
+  },
+  "distance": {
+    "meter": "מ'",
+    "meters": "מ'",
+    "kilometer": "ק\"מ",
+    "kilometers": "ק\"מ"
   }
 }

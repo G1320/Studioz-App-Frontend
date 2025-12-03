@@ -31,12 +31,16 @@ const toRadians = (degrees: number): number => {
 /**
  * Format distance for display
  * @param distance Distance in kilometers
+ * @param t Optional translation function for i18n support
  * @returns Formatted string (e.g., "2.5 km" or "850 m")
  */
-export const formatDistance = (distance: number): string => {
+export const formatDistance = (distance: number, t?: (key: string, fallback?: string) => string): string => {
   if (distance < 1) {
-    return `${Math.round(distance * 1000)} m`;
+    const meters = Math.round(distance * 1000);
+    const unit = t ? t('distance.meters', 'm') : 'm';
+    return `${meters} ${unit}`;
   }
-  return `${distance.toFixed(1)} km`;
+  const unit = t ? t('distance.kilometers', 'km') : 'km';
+  return `${distance.toFixed(1)} ${unit}`;
 };
 

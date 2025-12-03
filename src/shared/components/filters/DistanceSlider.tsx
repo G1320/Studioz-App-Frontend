@@ -12,6 +12,7 @@ export const DistanceSlider: React.FC = () => {
   const [searchParams] = useSearchParams();
   const { userLocation, hasGranted } = useLocationPermission();
   const { t } = useTranslation('studios');
+  const { t: tCommon } = useTranslation('common');
   
   // Get initial distance from URL or use default
   const urlDistance = searchParams.get('maxDistance');
@@ -129,7 +130,7 @@ export const DistanceSlider: React.FC = () => {
         <label className="distance-slider__label" htmlFor="distance-slider-input">
           {t('distanceFilter.label', 'Max Distance')}
         </label>
-        <span className="distance-slider__value">{formatDistance(distance)}</span>
+        <span className="distance-slider__value">{formatDistance(distance, tCommon)}</span>
       </div>
       <input
         id="distance-slider-input"
@@ -147,8 +148,8 @@ export const DistanceSlider: React.FC = () => {
         aria-label={t('distanceFilter.ariaLabel', 'Maximum distance filter')}
       />
       <div className="distance-slider__range-labels">
-        <span className="distance-slider__range-label">1 km</span>
-        <span className="distance-slider__range-label">100 km</span>
+        <span className="distance-slider__range-label">1 {tCommon('distance.kilometers')}</span>
+        <span className="distance-slider__range-label">100 {tCommon('distance.kilometers')}</span>
       </div>
     </div>
   );

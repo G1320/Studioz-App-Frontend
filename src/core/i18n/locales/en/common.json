@@ -72,5 +72,11 @@
     "login_required": "Please log in to access this feature",
     "wishlist_empty": "No wishlists available. Create one first.",
     "cart_expired": "Some items in your cart have expired and have been removed."
+  },
+  "distance": {
+    "meter": "m",
+    "meters": "m",
+    "kilometer": "km",
+    "kilometers": "km"
   }
 }
