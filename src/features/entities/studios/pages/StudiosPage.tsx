@@ -78,7 +78,6 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
       <LocationWelcomePopup open={showPopup} onClose={() => setShowPopup(false)} />
       <GenericCarousel
         data={cities}
-        showNavigation={false}
         className="cities-carousel slider-gradient"
         renderItem={cityRenderItem}
         title={cityDisplay}

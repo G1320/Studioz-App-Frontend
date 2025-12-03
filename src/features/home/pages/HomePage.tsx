@@ -42,8 +42,6 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
 
   return (
     <section className="home-page">
-      <Banner config={homeBanners} />
-
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
@@ -58,6 +56,8 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
           1550: { slidesPerView: 7.2 }
         }}
       />
+      <Banner config={homeBanners} />
+
       <GenericCarousel
         data={studios}
         className="studios-carousel slider-gradient"
