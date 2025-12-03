@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'sass:color';
 
 footer.mobile-footer {
   position: fixed;
@@ -6,36 +7,77 @@ footer.mobile-footer {
   left: 0;
   width: 100vw;
   width: 100%;
-  max-height: 2.5rem;
-  background: #ffffff;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+  background: transparent;
   z-index: 1000;
-  padding: 0.25rem 0;
+  padding: 0.75rem 0.5rem;
+  pointer-events: none; // Allow clicks to pass through to buttons
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  justify-items: center;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 80%;
   max-width: 500px;
   margin: 0 auto;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  pointer-events: auto; // Re-enable pointer events for buttons
 }
 
 .footer-icon-link {
-  color: #333;
+  color: vars.$text-color-primary;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.65rem;
+  border-radius: vars.$border-radius-large;
+  background: rgba(26, 26, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+  flex: 1;
+  min-width: 0;
+  // width: 80%;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(26, 26, 26, 0.85);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+  }
 
   &[aria-current='page'] {
+    border-color: rgba(vars.$color-brand, 0.4);
+    color: vars.$color-brand;
+
     .footer-link-content {
       color: vars.$color-brand;
 
       span {
         font-weight: 600;
       }
+    }
+
+    &:hover {
+      border-color: rgba(vars.$color-brand, 0.5);
     }
   }
 }
@@ -44,7 +86,56 @@ footer.mobile-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.25s ease;
+  }
+
   span {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .footer-icon-link:hover & {
+    svg {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  footer.mobile-footer {
+    padding: 0.5rem 0.5rem;
+  }
+
+  .footer-grid {
+    gap: 0.6rem;
+  }
+
+  .footer-icon-link {
+    padding: 0.45rem 0.55rem;
+  }
+
+  .footer-link-content {
+    gap: 0.2rem;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    span {
+      font-size: 0.65rem;
+    }
   }
 }
