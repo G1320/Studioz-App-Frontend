@@ -1,0 +1,464 @@
+@use 'utilities/variables' as vars;
+@use 'sass:color';
+
+// Shared branded form styles
+// Use this mixin for all branded forms (create/edit studio/item forms)
+
+@mixin branded-form-base {
+  background: vars.$bg-color-tertiary;
+  border-radius: vars.$border-radius-large;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: vars.$spacing-xl;
+  color: vars.$text-color-primary;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+@mixin branded-form-group {
+  margin-bottom: vars.$spacing-large;
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 !important;
+  width: 100%;
+
+  .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: vars.$spacing-small;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-medium;
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100% !important;
+    padding: vars.$spacing-medium;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-medium;
+    background: rgba(34, 34, 34, 0.6);
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-medium;
+    transition: border-color 0.2s ease;
+    text-align: left;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: vars.$color-brand;
+    }
+
+    &:hover:not(:focus) {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+  }
+}
+
+@mixin branded-business-hours {
+  padding: vars.$spacing-large;
+  border-radius: vars.$border-radius-medium;
+  background: rgba(34, 34, 34, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: vars.$spacing-large;
+  width: calc(100% - 2 * vars.$spacing-xl);
+  justify-items: start;
+
+  .day-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: vars.$spacing-medium;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: vars.$border-radius-small;
+    }
+
+    .day-switch-container {
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-medium;
+      flex: 0 0 auto;
+    }
+
+    .switch {
+      min-width: 48px;
+      height: 24px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      &.on {
+        background: vars.$color-brand;
+        border-color: vars.$color-brand;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      &.on::after {
+        transform: translateX(24px);
+      }
+    }
+
+    span {
+      min-width: 100px;
+      color: vars.$text-color-primary;
+      font-weight: 500;
+      font-size: vars.$font-size-medium;
+    }
+
+    .hours {
+      display: flex;
+      flex: 1;
+      gap: vars.$spacing-medium;
+      align-items: center;
+      justify-content: flex-end;
+
+      .MuiTextField-root {
+        min-width: 100px;
+
+        .MuiInputBase-root {
+          background: rgba(34, 34, 34, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: vars.$border-radius-medium;
+          color: vars.$text-color-primary;
+          transition: border-color 0.2s ease;
+
+          &:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+          }
+
+          &.Mui-focused {
+            border-color: vars.$color-brand;
+            box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.2);
+          }
+
+          .MuiInputBase-input {
+            color: vars.$text-color-primary;
+            text-align: center;
+          }
+        }
+      }
+
+      > span {
+        min-width: auto;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+@mixin branded-checkbox-group {
+  padding: vars.$spacing-medium;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: vars.$border-radius-medium;
+  background: rgba(34, 34, 34, 0.4);
+
+  label {
+    color: vars.$text-color-primary;
+    cursor: pointer;
+  }
+
+  &.bubble-style {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-medium;
+    border: none;
+    background: transparent;
+  }
+}
+
+@mixin branded-multiselect {
+  .multiselect-option {
+    .multiselect-checkbox {
+      padding: vars.$spacing-small;
+      border-radius: vars.$border-radius-small;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      background: transparent;
+      color: vars.$text-color-primary;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      &.selected {
+        background: vars.$color-brand !important;
+        color: vars.$text-color-dark !important;
+      }
+
+      .multiselect-label {
+        color: inherit;
+      }
+    }
+  }
+
+  .checkbox-group.bubble-style {
+    .multiselect-option {
+      .multiselect-checkbox {
+        padding: vars.$spacing-sm-md vars.$spacing-medium;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: vars.$text-color-primary !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        &.selected {
+          background: vars.$color-brand !important;
+          color: vars.$text-color-dark !important;
+          border-color: vars.$color-brand !important;
+        }
+
+        .multiselect-label {
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+
+@mixin branded-switches {
+  .form-group-checkbox {
+    .switch-group {
+      button.switch {
+        background: rgba(255, 255, 255, 0.1);
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &.on {
+          background: vars.$color-brand;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 2px;
+          width: 20px;
+          height: 20px;
+          background: #fff;
+          border-radius: 50%;
+          transition: transform 0.2s ease;
+        }
+
+        &.on::after {
+          transform: translateX(24px);
+        }
+      }
+
+      .switch-label {
+        color: vars.$text-color-primary;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@mixin branded-dropdowns {
+  .listbox-button {
+    width: 100%;
+    padding: vars.$spacing-medium;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-medium;
+    background: rgba(34, 34, 34, 0.6);
+    color: vars.$text-color-primary;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: vars.$color-brand;
+    }
+  }
+
+  .listbox-options {
+    margin-top: vars.$spacing-xs;
+    padding: vars.$spacing-small;
+    background: vars.$bg-color-tertiary;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-medium;
+    box-shadow: vars.$box-shadow-popup;
+
+    .listbox-option {
+      padding: vars.$spacing-medium;
+      color: vars.$text-color-primary;
+      cursor: pointer;
+      border-radius: vars.$border-radius-small;
+      transition: background-color 0.2s ease;
+
+      &.active,
+      &.selected {
+        background: rgba(vars.$color-brand, 0.2);
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+}
+
+@mixin branded-form-actions {
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: vars.$spacing-xl;
+    padding-top: vars.$spacing-large;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    grid-column: 1 !important;
+    width: 100%;
+
+    .submit-button {
+      padding: vars.$spacing-medium vars.$spacing-xl;
+      font-size: vars.$font-size-medium;
+      font-weight: 600;
+      color: vars.$text-color-dark;
+      background: vars.$color-brand;
+      border: none;
+      border-radius: vars.$border-radius-medium;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: color.adjust(vars.$color-brand, $lightness: 5%);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.3);
+      }
+    }
+  }
+}
+
+@mixin branded-file-uploader {
+  .file-uploader {
+    background: rgba(34, 34, 34, 0.6);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: vars.$border-radius-large;
+
+    &:hover {
+      border-color: vars.$color-brand;
+    }
+
+    small {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .upload-icon-container {
+      background: rgba(255, 255, 255, 0.1);
+
+      .icon {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    &:hover .upload-icon-container {
+      background: vars.$color-brand;
+
+      .icon {
+        color: vars.$text-color-dark;
+      }
+    }
+
+    &.drag-active {
+      border-color: vars.$color-brand;
+      background: rgba(vars.$color-brand, 0.1);
+    }
+  }
+
+  .file-uploader-gallery {
+    .gallery-images-list {
+      background: rgba(34, 34, 34, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: vars.$border-radius-medium;
+
+      .render-item-container {
+        background: rgba(26, 26, 26, 0.8);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+
+        &:hover {
+          border-color: vars.$color-brand;
+        }
+      }
+    }
+  }
+}
+
+// Complete branded form mixin - includes all components
+@mixin branded-form {
+  @include branded-form-base;
+
+  .form-group {
+    @include branded-form-group;
+  }
+
+  .business-hours {
+    @include branded-business-hours;
+  }
+
+  .checkbox-group {
+    @include branded-checkbox-group;
+  }
+
+  @include branded-multiselect;
+  @include branded-switches;
+  @include branded-dropdowns;
+  @include branded-form-actions;
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-large;
+
+    .form-actions {
+      .submit-button {
+        width: 100%;
+      }
+    }
+  }
+}
+
