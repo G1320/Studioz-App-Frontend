@@ -32,7 +32,28 @@ export default defineConfig(({ _command, mode }) => {
       })
     ],
     build: {
-      outDir: 'dist'
+      outDir: 'dist',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Vendor chunks
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': ['@mui/material', '@mui/icons-material', '@mui/x-date-pickers'],
+            'mapbox-vendor': ['react-map-gl', 'mapbox-gl'],
+            'query-vendor': ['@tanstack/react-query', '@tanstack/react-query-persist-client'],
+            'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+            'calendar-vendor': [
+              '@fullcalendar/core',
+              '@fullcalendar/react',
+              '@fullcalendar/daygrid',
+              '@fullcalendar/timegrid',
+              '@fullcalendar/interaction',
+              '@fullcalendar/list'
+            ]
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000
     },
     resolve: {
       alias: {

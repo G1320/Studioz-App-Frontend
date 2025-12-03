@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { CategoryPreview, StudiosList, CityPreview } from '@features/entities';
-import { StudiosMap, GenericCarousel, LocationWelcomePopup, DistanceSlider } from '@shared/components';
+import { GenericCarousel, LocationWelcomePopup, DistanceSlider } from '@shared/components';
+import { LazyStudiosMap } from '@shared/components/maps';
 import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
@@ -108,7 +109,15 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         }}
       />
       {featureFlags.distanceSlider && <DistanceSlider />}
-      <StudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
+      <Suspense
+        fallback={
+          <div className="map-loader">
+            <div className="map-loader__spinner"></div>
+          </div>
+        }
+      >
+        <LazyStudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
+      </Suspense>
       <StudiosList studios={filteredStudios} />
     </section>
   );

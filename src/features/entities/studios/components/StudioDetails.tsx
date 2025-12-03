@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { SmokingRooms, Check, Close, Accessible, Map } from '@mui/icons-material'; // Map icon for location button
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating, Minimap, GenericModal } from '@shared/components';
+import { GenericImageGallery, StudioRating, GenericModal } from '@shared/components';
+import { LazyMinimap } from '@shared/components/maps';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -113,13 +114,21 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           <div className="studio-minimap-modal__content">
             <h2 className="studio-minimap-modal__title">{studio?.name.en}</h2>
             {studio?.address && <p className="studio-minimap-modal__address">{studio.address}</p>}
-            <Minimap
-              latitude={studio.lat!}
-              longitude={studio.lng!}
-              width="100%"
-              height="400px"
-              className="studio-minimap-modal__map"
-            />
+            <Suspense
+              fallback={
+                <div className="map-loader">
+                  <div className="map-loader__spinner"></div>
+                </div>
+              }
+            >
+              <LazyMinimap
+                latitude={studio.lat!}
+                longitude={studio.lng!}
+                width="100%"
+                height="400px"
+                className="studio-minimap-modal__map"
+              />
+            </Suspense>
           </div>
         </GenericModal>
       )}
