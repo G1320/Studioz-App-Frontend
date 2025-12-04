@@ -1,0 +1,56 @@
+.notification-list {
+  max-height: 500px;
+  overflow-y: auto;
+  background: #1f2937;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    background: #1f2937;
+    z-index: 1;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+  }
+
+  &__mark-all-read {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+  }
+
+  &__items {
+    min-height: 100px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  &__loading,
+  &__empty {
+    padding: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+  }
+}
+

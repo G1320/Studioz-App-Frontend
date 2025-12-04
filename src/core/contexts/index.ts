@@ -5,3 +5,4 @@ export * from './UserContext';
 export * from './ModalContext';
 export * from './CookieConsentContext';
 export * from './LocationPermissionContext';
+export * from './NotificationContext';

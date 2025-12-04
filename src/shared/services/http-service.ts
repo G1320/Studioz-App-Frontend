@@ -16,6 +16,7 @@ export const httpService = {
   get: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'GET', data),
   post: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'POST', data),
   put: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'PUT', data),
+  patch: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'PATCH', data),
   delete: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'DELETE', data)
 };
 

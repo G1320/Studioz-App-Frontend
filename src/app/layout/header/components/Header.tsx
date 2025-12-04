@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { NotificationBell } from '@shared/components/notifications';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
@@ -89,14 +90,17 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <LanguageSwitcher aria-label="Switch language" />
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         {user && (
-          <Link
-            to={`${currLang}/profile`}
-            className="header-profile-button-container"
-            aria-label="Go to profile page"
-            onClick={() => scrollToTop()}
-          >
-            <ManageAccountsIcon aria-label="profile icon" />
-          </Link>
+          <>
+            <NotificationBell />
+            <Link
+              to={`${currLang}/profile`}
+              className="header-profile-button-container"
+              aria-label="Go to profile page"
+              onClick={() => scrollToTop()}
+            >
+              <ManageAccountsIcon aria-label="profile icon" />
+            </Link>
+          </>
         )}
         {!user && <LoginButton aria-label="Login" />}
       </div>
