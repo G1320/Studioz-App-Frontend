@@ -1,6 +1,5 @@
 import { Component, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate } from '@shared/hooks/utils';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -14,12 +13,12 @@ interface ErrorFallbackProps {
 
 const ErrorFallback: React.FC<ErrorFallbackProps> = ({ onReset }) => {
   const { t, i18n } = useTranslation('common');
-  const langNavigate = useLanguageNavigate();
   const currLang = i18n.language || 'en';
 
   const handleReturnHome = () => {
     onReset();
-    langNavigate('/');
+    // Use a full page navigation to fully reset the app state after a fatal error
+    window.location.assign(`/${currLang}`);
   };
 
   return (
@@ -51,7 +50,7 @@ export class ErrorBoundaryComponent extends Component<Props, { hasError: boolean
     if (error.message?.includes('Failed to fetch dynamically imported module')) {
       window.location.reload();
     }
-    
+
     // Log error for debugging
     console.error('ErrorBoundary caught an error:', error);
   }
