@@ -89,5 +89,11 @@
     "meters": "m",
     "kilometer": "km",
     "kilometers": "km"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "loading": "Loading notifications...",
+    "empty": "No notifications",
+    "markAllAsRead": "Mark all as read"
   }
 }

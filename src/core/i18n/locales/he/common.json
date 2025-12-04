@@ -89,5 +89,11 @@
     "meters": "מ",
     "kilometer": "ק\"מ",
     "kilometers": "ק\"מ"
+  },
+  "notifications": {
+    "title": "התראות",
+    "loading": "טוען התראות...",
+    "empty": "אין התראות",
+    "markAllAsRead": "סמן הכל כנקרא"
   }
 }

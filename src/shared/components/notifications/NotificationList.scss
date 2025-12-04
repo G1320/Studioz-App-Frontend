@@ -1,56 +1,120 @@
+@use 'utilities/variables' as vars;
+@use 'sass:color';
+
 .notification-list {
   max-height: 500px;
-  overflow-y: auto;
-  background: #1f2937;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: sticky;
     top: 0;
-    background: #1f2937;
+    background: #1a1a1a;
     z-index: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   &__title {
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    color: #fff;
+    color: vars.$text-color-primary;
     margin: 0;
   }
 
   &__mark-all-read {
-    background: none;
+    background: transparent;
     border: none;
-    color: #3b82f6;
+    color: vars.$color-brand;
     cursor: pointer;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 500;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 
     &:hover {
-      background-color: rgba(59, 130, 246, 0.1);
+      background: rgba(vars.$color-brand, 0.1);
     }
   }
 
   &__items {
-    min-height: 100px;
-    max-height: 400px;
+    min-height: 80px;
+    max-height: 420px;
     overflow-y: auto;
+    overflow-x: hidden;
+
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(vars.$color-brand, 0.3);
+      border-radius: 2px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(vars.$color-brand, 0.5);
+      }
+    }
   }
 
   &__loading,
   &__empty {
-    padding: 2rem;
+    padding: 2rem 1rem;
     text-align: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8125rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__loading {
+    &::before {
+      content: '';
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-top-color: vars.$color-brand;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+
+  &__empty {
+    &::before {
+      content: '🔔';
+      font-size: 1.5rem;
+      opacity: 0.4;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
