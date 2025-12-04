@@ -62,7 +62,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
   const cityRenderItem = (city: (typeof cities)[number]) => <CityPreview city={city} />;
 
-  const subcategoryDisplay = subcategory ? getDisplayByEnglish(subcategory) : subcategory;
+  const subcategoryDisplay = subcategory ? getDisplayByEnglish(subcategory) : t('page.categories');
   const translatedCityName = selectedCity ? getDisplayByCityName(selectedCity) : null;
   const cityDisplay = translatedCityName
     ? t('page.city_selected', { city: translatedCityName })

@@ -65,7 +65,7 @@ footer.mobile-footer {
   }
 
   &[aria-current='page'] {
-    border-color: rgba(vars.$color-brand, 0.4);
+    // border-color: rgba(vars.$color-brand, 0.4);
     color: vars.$color-brand;
 
     .footer-link-content {
