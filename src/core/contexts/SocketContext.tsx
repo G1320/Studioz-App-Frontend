@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { invalidateCartQueries, invalidateItemQueries } from '@shared/utils/queryUtils';
 import { removeExpiredItemsFromOfflineCart } from '@shared/utils/cartUtils';
 import { useOfflineCartContext } from './OfflineCartContext';
+import { useUserContext } from './UserContext';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
@@ -23,6 +24,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const queryClient = useQueryClient();
   const { t } = useTranslation('common');
+  const { user } = useUserContext();
 
   const { setOfflineCartContext } = useOfflineCartContext();
 
@@ -32,6 +34,18 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       transports: ['websocket', 'polling'],
       reconnection: true
     });
+
+    newSocket.on('connect', () => {
+      // Join user-specific room for notifications when connected
+      if (user?._id) {
+        newSocket.emit('join:user', { userId: user._id });
+      }
+    });
+
+    // Join user room if user is already available when socket connects
+    if (user?._id && newSocket.connected) {
+      newSocket.emit('join:user', { userId: user._id });
+    }
 
     newSocket.on('availabilityUpdated', (data) => {
       if (data.itemId) {
@@ -61,6 +75,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       }
     };
   }, [queryClient]);
+
+  // Handle user room joining when user changes
+  useEffect(() => {
+    if (socket && user?._id && socket.connected) {
+      socket.emit('join:user', { userId: user._id });
+    }
+  }, [socket, user?._id]);
 
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };
