@@ -6,6 +6,16 @@
   gap: 1rem;
   margin-block-end: 2.5rem;
 
+  article.category-preview {
+    margin-block-end: 0.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    article.category-preview {
+      margin-block-end: 0rem;
+    }
+  }
+
   div.studios-page-options-container {
     display: grid;
     grid-template-columns: 0.75fr 0.25fr;
