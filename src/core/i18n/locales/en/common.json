@@ -71,7 +71,18 @@
     "invalid": "Invalid input",
     "login_required": "Please log in to access this feature",
     "wishlist_empty": "No wishlists available. Create one first.",
-    "cart_expired": "Some items in your cart have expired and have been removed."
+    "cart_expired": "Some items in your cart have expired and have been removed.",
+    "boundary": {
+      "title": "Oops! Something went wrong",
+      "message": "We encountered an unexpected error. Don't worry, our team has been notified.",
+      "return_home": "Return Home"
+    },
+    "not_found": {
+      "title": "Page Not Found",
+      "message": "The page you're looking for doesn't exist or has been moved.",
+      "return_home": "Return Home",
+      "auto_redirect": "Redirecting to home in {{seconds}} seconds..."
+    }
   },
   "distance": {
     "meter": "m",
