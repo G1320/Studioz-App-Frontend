@@ -76,10 +76,28 @@
     border-radius: vars.$border-radius-medium;
     overflow: hidden;
 
-    .cover-image {
+    &.cover-image {
+      aspect-ratio: 16 / 9;
+      min-height: 200px;
+      max-height: 400px;
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+
+    .generic-image.cover-image {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
+      transition: opacity 0.3s ease;
+
+      &.loading {
+        opacity: 0;
+      }
+
+      &.loaded {
+        opacity: 1;
+      }
     }
 
     // Ensure skeleton loader is visible
