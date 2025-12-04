@@ -1,25 +1,38 @@
 # Studioz App Frontend
 
-This repository contains the client-side code for the **Studioz** application, built using **React**, **TypeScript**, **Tanstack Query**, **Vite**, **Auth0**, **Cloudinary API**, and various other libraries for state management, routing, forms and more.
+A modern, full-featured React application for discovering and booking recording studios. Built with TypeScript, React, and a comprehensive tech stack for optimal performance and user experience.
 
-## Getting Started
+## 🚀 Tech Stack
 
-To get the frontend of the **Studioz** app up and running, follow these steps.
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite 5
+- **State Management**: TanStack Query (React Query) with persistence
+- **Routing**: React Router DOM v6 with animated transitions
+- **Authentication**: Auth0
+- **Styling**: SCSS with CSS custom properties and container queries
+- **UI Components**: Material-UI (MUI) v6
+- **Maps**: Mapbox GL JS, Google Maps API
+- **Forms**: React Hook Form
+- **Date/Time**: FullCalendar, MUI Date Pickers with Day.js
+- **Internationalization**: i18next with react-i18next (English & Hebrew)
+- **Image Management**: Cloudinary
+- **Animations**: Framer Motion
+- **Notifications**: Sonner
+- **Payment**: Sumit React SDK
+- **Real-time**: Socket.io Client
 
-### Prerequisites
+## 📋 Prerequisites
 
-Ensure you have the following installed on your system:
+- **Node.js** (v16.x or higher recommended)
+- **npm** or **yarn**
 
-- **Node.js** (v16.x or higher)
-- **Vite** (Vite is used for building and serving the app)
-
-### Installation
+## 🛠️ Installation
 
 1. Clone the repository:
 
    ```bash
    git clone https://github.com/G1320/Studioz-App-Frontend.git
-   cd studioz-app-frontend
+   cd Studioz-App-Frontend
    ```
 
 2. Install dependencies:
@@ -28,75 +41,139 @@ Ensure you have the following installed on your system:
    npm install
    ```
 
-### Set up Environment Variables
+## ⚙️ Environment Variables
 
-The app requires several environment variables for configuration. You can find an example in the `.env.example` file. To get started, create a `.env` file in the root of your project by copying `.env.example`:
+Create a `.env` file in the root directory. Required environment variables:
 
-```bash
-cp .env.example .env
+```env
+# Environment
+VITE_NODE_ENV=development
+
+# Auth0
+VITE_AUTH0_DOMAIN=your-auth0-domain
+VITE_AUTH0_CLIENT_ID=your-auth0-client-id
+
+# Cloudinary
+VITE_CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
+VITE_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
+VITE_CLOUDINARY_API_KEY=your-api-key
+VITE_CLOUDINARY_API_SECRET=your-api-secret
+VITE_CLOUDINARY_CLOUDINARY_URL=your-cloudinary-url
+
+# Maps
+VITE_GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+VITE_MAPBOX_PUBLIC_TOKEN=your-mapbox-public-token
+
+# API
+VITE_API_URL=your-backend-api-url
 ```
 
-Fill in the values for the environment variables in your .env file. Here's an explanation of each:
+## 📜 Available Scripts
 
-VITE_NODE_ENV: The environment in which the app is running (development, production).
+- **`npm start`** - Start the development server (default: http://localhost:5173)
+- **`npm run build`** - Build the production bundle with TypeScript type checking
+- **`npm run preview`** - Preview the production build locally
+- **`npm run lint`** - Run ESLint to check code quality
+- **`npm run format`** - Format code using Prettier
+- **`npm run test:performance`** - Run performance tests with k6
 
-VITE_AUTH0_DOMAIN: The domain for your Auth0 application.
+## 🏗️ Project Structure
 
-VITE_AUTH0_CLIENT_ID: The client ID for your Auth0 application.
-
-VITE_CLOUDINARY_CLOUD_NAME: Your Cloudinary cloud name for managing image uploads.
-
-VITE_CLOUDINARY_UPLOAD_PRESET: Cloudinary preset used for media uploads.
-
-VITE_CLOUDINARY_API_KEY: API key for your Cloudinary account.
-
-VITE_CLOUDINARY_API_SECRET: API secret for your Cloudinary account.
-
-VITE_CLOUDINARY_CLOUDINARY_URL: The full Cloudinary URL for media management.
-
-### Scripts
-
-Here are the available scripts you can use from the package.json file:
-
-Start the Development Server: Runs the app locally in development mode.
-
-```bash
-npm start
+```
+src/
+├── app/                    # Main application setup
+│   ├── layout/            # Header, Footer, Hero components
+│   └── routes/            # Route configuration with animations
+├── assets/                 # Static assets and global styles
+│   └── styles/            # SCSS utilities, variables, base styles
+├── core/                   # Core application logic
+│   ├── config/            # Feature flags, categories, cities, banners
+│   ├── contexts/          # React Context providers
+│   └── i18n/              # Internationalization configuration
+├── features/               # Feature-based modules
+│   ├── auth/              # Authentication components
+│   ├── entities/          # Domain entities (studios, items, cart, etc.)
+│   ├── home/              # Homepage
+│   ├── navigation/        # Navigation components
+│   ├── search/            # Search functionality
+│   └── translation/       # Language switching
+└── shared/                 # Shared utilities and components
+    ├── components/        # Reusable UI components
+    ├── hooks/             # Custom React hooks
+    ├── services/          # API service layer
+    ├── utils/             # Utility functions
+    └── utility-components/ # Higher-level utility components
 ```
 
-Build the App: Builds the project for production. This compiles the TypeScript and bundles the app using Vite.
+## 🎨 Key Features
 
-```bash
-npm run build
-```
+- **Multi-language Support**: English and Hebrew (RTL) with i18next
+- **Responsive Design**: Mobile-first approach with container queries
+- **Location Services**: Geolocation with Mapbox and Google Maps integration
+- **Booking System**: Calendar-based booking with time slot management
+- **Image Optimization**: Cloudinary integration with lazy loading
+- **State Persistence**: TanStack Query with localStorage persistence
+- **Real-time Updates**: Socket.io live updates
+- **Payment Integration**: PayPal checkout flow, live Sumit subscriptions
+- **Accessibility**: ARIA labels, keyboard navigation, focus management
+- **Performance**: Code splitting, lazy loading, optimized bundle chunks
 
-Preview the Build: After running the build command, you can preview the production build.
+## 🧩 Architecture Highlights
 
-```bash
-npm run preview
-```
+- **Feature-based Organization**: Code organized by features for better maintainability
+- **Component Composition**: Reusable components with consistent styling
+- **Type Safety**: Full TypeScript coverage
+- **Custom Hooks**: Encapsulated business logic in reusable hooks
+- **Service Layer**: Centralized API communication
+- **Context Providers**: Global state management with React Context
+- **Route-based Code Splitting**: Lazy-loaded routes for optimal performance
 
-Running the Application:
-Start the development server, By default, the Vite dev server will start on http://localhost:5173.
+## 🎯 Development
 
-```bash
-npm start
-```
+### Code Style
 
-Build and run the production version:
+- ESLint for linting
+- Prettier for code formatting
+- TypeScript strict mode enabled
 
-```bash
-npm run build
-```
+### Styling Guidelines
 
-### Folder Structure
+- SCSS modules with BEM-like naming
+- CSS custom properties for theming
+- Container queries for responsive design
+- Glassmorphic design patterns
+- Brand color system with variables
 
-src/: Contains the source code for the frontend.
+## 📦 Build & Deployment
 
-public/: Static assets like images, icons, and the index.html file.
+The build process:
 
-dist/: Contains built assets, redirects, and an index.html
+1. Type checks TypeScript code
+2. Bundles with Vite
+3. Optimizes assets
+4. Generates sitemap and robots.txt
+5. Outputs to `dist/` directory
 
-### Author
+Manual chunks are configured for optimal loading:
+
+- React vendor bundle
+- UI vendor bundle (MUI)
+- Mapbox vendor bundle
+- React Query vendor bundle
+- i18n vendor bundle
+- Calendar vendor bundle
+
+## 🔧 Configuration
+
+- **TypeScript**: `tsconfig.json` with path aliases
+- **Vite**: `vite.config.js` with React plugin and optimizations
+- **PostCSS**: Configured for SCSS processing
+- **Feature Flags**: Centralized in `src/core/config/featureFlags.ts`
+
+## 📝 Author
 
 Developed by Darnell Green.
+
+## 📄 License
+
+[Add your license information here]
