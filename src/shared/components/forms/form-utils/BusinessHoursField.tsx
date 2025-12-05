@@ -4,6 +4,7 @@ import { Switch } from '@headlessui/react';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import dayjs from 'dayjs';
 import { useDays } from '@shared/hooks';
+import { defaultHours } from './constants';
 
 type Schedule = Record<
   DayOfWeek,
@@ -17,11 +18,6 @@ interface BusinessHoursProps {
   value: StudioAvailability;
   onChange: (value: StudioAvailability) => void;
 }
-
-export const defaultHours = {
-  start: '09:00',
-  end: '17:00'
-};
 
 const defaultSchedule: Schedule = {
   Sunday: { isOpen: false, hours: defaultHours },
