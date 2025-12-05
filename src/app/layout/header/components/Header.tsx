@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         {user && (
           <>
-            <NotificationBell />
+            {featureFlags.notifications && <NotificationBell />}
             <Link
               to={`${currLang}/profile`}
               className="header-profile-button-container"

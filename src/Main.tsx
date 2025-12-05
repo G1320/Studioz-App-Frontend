@@ -11,7 +11,16 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import i18n from './core/i18n/config';
-import { SocketProvider, SearchProvider, OfflineCartProvider, UserProvider, ModalProvider, CookieConsentProvider, LocationPermissionProvider, NotificationProvider } from '@core/contexts';
+import {
+  SocketProvider,
+  SearchProvider,
+  OfflineCartProvider,
+  UserProvider,
+  ModalProvider,
+  CookieConsentProvider,
+  LocationPermissionProvider,
+  NotificationProvider
+} from '@core/contexts';
 import './core/i18n/config';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
