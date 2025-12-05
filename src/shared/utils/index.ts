@@ -10,3 +10,4 @@ export * from './toggleArrayItem';
 export * from './DateTimeUtils';
 export * from './filterUtils';
 export * from './shuffleArrays';
+export * from './reservation-storage';

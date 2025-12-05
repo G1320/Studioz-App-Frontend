@@ -1,0 +1,142 @@
+@use 'utilities/variables' as vars;
+@use 'sass:color';
+
+.reservation-card {
+  background: vars.$bg-color-secondary;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: vars.$border-radius-medium;
+  padding: vars.$spacing-large;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: vars.$spacing-medium;
+
+  &:hover {
+    border-color: vars.$color-brand;
+    transform: translateY(-2px);
+    box-shadow: vars.$box-shadow-medium;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__item-name {
+    font-size: vars.$font-size-large;
+    font-weight: 600;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__studio-name {
+    font-size: vars.$font-size-medium;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-weight: 400;
+  }
+
+  &__status-row {
+    display: flex;
+    margin: vars.$spacing-small 0;
+  }
+
+  &__status {
+    padding: vars.$spacing-xs vars.$spacing-small;
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: inline-block;
+
+    &.status-pending {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+    }
+
+    &.status-confirmed {
+      background: rgba(52, 211, 153, 0.2);
+      color: #34d399;
+    }
+
+    &.status-expired {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: vars.$font-size-medium;
+  }
+
+  &__label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &__value {
+    color: vars.$text-color-primary;
+    font-weight: 500;
+
+    &.reservation-card__price {
+      color: vars.$color-brand;
+      font-weight: 600;
+      font-size: vars.$font-size-large;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: vars.$spacing-small;
+    margin-top: vars.$spacing-small;
+  }
+
+  &__view-button {
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: vars.$color-brand;
+    color: vars.$text-color-primary;
+    border: none;
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: color.adjust(vars.$color-brand, $lightness: -10%);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-medium;
+
+    &__item-name {
+      font-size: vars.$font-size-medium;
+    }
+
+    &__detail-row {
+      font-size: vars.$font-size-sm-md;
+    }
+  }
+}
+

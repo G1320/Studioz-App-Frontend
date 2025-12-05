@@ -1,0 +1,58 @@
+@use 'utilities/variables' as vars;
+
+.my-reservations-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl vars.$spacing-large;
+  min-height: 60vh;
+
+  &__header {
+    margin-bottom: vars.$spacing-2xl;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: vars.$font-size-3xl;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0 0 vars.$spacing-small 0;
+  }
+
+  &__subtitle {
+    font-size: vars.$font-size-large;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+  }
+
+  &__show-more-button {
+    margin-top: vars.$spacing-medium;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: transparent;
+    color: vars.$color-brand;
+    border: 1px solid vars.$color-brand;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: vars.$color-brand;
+      color: vars.$text-color-primary;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-large vars.$spacing-medium;
+
+    &__title {
+      font-size: vars.$font-size-2xl;
+    }
+
+    &__subtitle {
+      font-size: vars.$font-size-medium;
+    }
+  }
+}
+

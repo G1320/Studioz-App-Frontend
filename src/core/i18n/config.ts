@@ -10,6 +10,7 @@ import forms from './locales/en/forms.json';
 import profile from './locales/en/profile.json';
 import subscriptions from './locales/en/subscriptions.json';
 import reservationDetails from './locales/en/reservationDetails.json';
+import reservations from './locales/en/reservations.json';
 import banners from './locales/en/banners.json';
 import dashboard from './locales/en/dashboard.json';
 import studio from './locales/en/studio.json';
@@ -27,6 +28,7 @@ import formsHe from './locales/he/forms.json';
 import profileHe from './locales/he/profile.json';
 import subscriptionsHe from './locales/he/subscriptions.json';
 import reservationDetailsHe from './locales/he/reservationDetails.json';
+import reservationsHe from './locales/he/reservations.json';
 import bannersHe from './locales/he/banners.json';
 import dashboardHe from './locales/he/dashboard.json';
 import studioHe from './locales/he/studio.json';
@@ -50,6 +52,7 @@ i18n
         profile,
         subscriptions,
         reservationDetails,
+        reservations,
         banners,
         dashboard,
         studio,
@@ -68,6 +71,7 @@ i18n
         profile: profileHe,
         subscriptions: subscriptionsHe,
         reservationDetails: reservationDetailsHe,
+        reservations: reservationsHe,
         banners: bannersHe,
         dashboard: dashboardHe,
         studio: studioHe,

@@ -59,3 +59,12 @@ export const deleteReservationById = async (reservationId: string): Promise<Rese
     throw error;
   }
 };
+
+export const getReservationsByPhone = async (phone: string): Promise<Reservation[]> => {
+  try {
+    return await httpService.get(`${reservationEndpoint}/phone/${phone}`);
+  } catch (error) {
+    console.error(`Error fetching reservations for phone ${phone}:`, error);
+    throw error;
+  }
+};

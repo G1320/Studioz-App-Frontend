@@ -1,0 +1,188 @@
+@use 'utilities/variables' as vars;
+
+.reservation-details-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl vars.$spacing-large;
+  min-height: 60vh;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-medium;
+    margin-bottom: vars.$spacing-2xl;
+  }
+
+  &__back-button {
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: transparent;
+    color: vars.$text-color-primary;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: vars.$color-brand;
+      background: rgba(16, 185, 129, 0.1);
+    }
+  }
+
+  &__title {
+    font-size: vars.$font-size-2xl;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-2xl;
+  }
+
+  &__section {
+    background: vars.$bg-color-secondary;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-large;
+    padding: vars.$spacing-xl;
+  }
+
+  &__section-title {
+    font-size: vars.$font-size-xl;
+    font-weight: 600;
+    color: vars.$text-color-primary;
+    margin: 0 0 vars.$spacing-large 0;
+    padding-bottom: vars.$spacing-medium;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__studio-name {
+    font-size: vars.$font-size-medium;
+    color: rgba(255, 255, 255, 0.6);
+    margin: vars.$spacing-small 0 0 0;
+  }
+
+  &__info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: vars.$spacing-small 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &--full {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: vars.$spacing-small;
+    }
+  }
+
+  &__info-label {
+    font-size: vars.$font-size-medium;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+  }
+
+  &__info-value {
+    font-size: vars.$font-size-medium;
+    color: vars.$text-color-primary;
+    font-weight: 500;
+    text-align: right;
+
+    .reservation-details-page__info-row--full & {
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  &__status-badge {
+    padding: vars.$spacing-xs vars.$spacing-small;
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.status-pending {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+    }
+
+    &.status-confirmed {
+      background: rgba(52, 211, 153, 0.2);
+      color: #34d399;
+    }
+
+    &.status-expired {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+    }
+  }
+
+  &__price {
+    color: vars.$color-brand;
+    font-weight: 600;
+    font-size: vars.$font-size-large;
+  }
+
+  &__loading,
+  &__error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    text-align: center;
+    gap: vars.$spacing-large;
+
+    p {
+      font-size: vars.$font-size-large;
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-large vars.$spacing-medium;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: vars.$spacing-small;
+    }
+
+    &__title {
+      font-size: vars.$font-size-xl;
+    }
+
+    &__section {
+      padding: vars.$spacing-large;
+    }
+
+    &__section-title {
+      font-size: vars.$font-size-large;
+    }
+
+    &__info-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: vars.$spacing-xs;
+    }
+
+    &__info-value {
+      text-align: left;
+    }
+  }
+}
+

@@ -7,6 +7,7 @@ export * from './useWishlist';
 export * from './useWishlists';
 export * from './useReservation';
 export * from './useReservations';
+export * from './useReservationsList';
 export * from './useStudioReservations';
 export * from './useWishlists';
 export * from './useReviews';

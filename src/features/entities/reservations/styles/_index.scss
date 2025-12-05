@@ -1,1 +1,6 @@
-@use './reservation-details';
+@use './reservation-details' as reservation-details;
+@use '../components/styles/reservation-card' as reservation-card;
+@use '../components/styles/reservations-list' as reservations-list;
+@use '../components/styles/phone-access-form' as phone-access-form;
+@use '../pages/styles/my-reservations-page' as my-reservations-page;
+@use '../pages/styles/reservation-details-page' as reservation-details-page;

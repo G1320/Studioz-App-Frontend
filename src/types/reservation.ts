@@ -5,6 +5,10 @@ export default interface Reservation {
     en: string;
     he?: string;
   };
+  studioName?: {
+    en?: string;
+    he?: string;
+  };
   userId: string;
   bookingDate: string;
   timeSlots: string[];
