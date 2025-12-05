@@ -1,5 +1,5 @@
 import { useState, Suspense } from 'react';
-import { SmokingRooms, Check, Close, Accessible, Map } from '@mui/icons-material'; // Map icon for location button
+import { SmokingRooms, Check, Close, Accessible, Map, LocalParking } from '@mui/icons-material'; // Map icon for location button
 import ChairIcon from '@mui/icons-material/Chair';
 import { GenericImageGallery, StudioRating, GenericModal } from '@shared/components';
 import { LazyMinimap } from '@shared/components/maps';
@@ -11,6 +11,7 @@ import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDr
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
 import { GenreCard } from '@features/entities/genres';
+import { useTranslation } from 'react-i18next';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -21,8 +22,15 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { getDisplayByEnglish } = useGenres();
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+  const { t } = useTranslation('forms');
 
   const langNavigate = useLanguageNavigate();
+
+  const getParkingLabel = (parking: string) => {
+    if (parking === 'free') return t('form.parking.options.free') || 'Free';
+    if (parking === 'paid') return t('form.parking.options.paid') || 'Paid';
+    return t('form.parking.options.none') || 'None';
+  };
 
   // Convert English genre values to display values
   const displayGenres = studio?.genres?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
@@ -108,6 +116,17 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             {studio?.isWheelchairAccessible ? <Check /> : <Close />}
           </p>
         </div>
+        {studio?.parking && studio.parking !== 'none' && (
+          <div role="group" aria-labelledby="parking">
+            <LocalParking aria-label="Parking icon" />
+            <p
+              id="parking"
+              aria-label={`Parking at ${studio?.name.en}: ${getParkingLabel(studio.parking)}`}
+            >
+              {getParkingLabel(studio.parking)}
+            </p>
+          </div>
+        )}
       </div>
       {hasLocation && (
         <GenericModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} className="studio-minimap-modal">

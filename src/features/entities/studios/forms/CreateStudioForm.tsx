@@ -57,6 +57,7 @@ export const CreateStudioForm = () => {
   );
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(firstDay ? [firstDay.value] : []);
+  const [selectedParking, setSelectedParking] = useState<string>('none');
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
@@ -86,6 +87,10 @@ export const CreateStudioForm = () => {
 
   const handleGenreChange = (values: string[]) => {
     setSelectedGenres(values);
+  };
+
+  const getParkingLabel = (value: string) => {
+    return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
 
   const fields = [
@@ -190,6 +195,16 @@ export const CreateStudioForm = () => {
       name: 'isWheelchairAccessible',
       label: t('form.isWheelchairAccessible.label'),
       type: 'checkbox' as FieldType
+    },
+    {
+      name: 'parking',
+      label: t('form.parking.label') || 'Parking',
+      type: 'select' as FieldType,
+      value: selectedParking,
+      onChange: setSelectedParking,
+      options: ['none', 'free', 'paid'],
+      displayValue: getParkingLabel(selectedParking),
+      getOptionLabel: getParkingLabel
     }
   ];
 
@@ -209,6 +224,7 @@ export const CreateStudioForm = () => {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
+    formData.parking = selectedParking;
 
     if (!user?.subscriptionId || user?.subscriptionStatus !== 'ACTIVE') {
       return toast.error('Please purchase a subscription before creating a studio');

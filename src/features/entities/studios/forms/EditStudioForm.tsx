@@ -63,6 +63,7 @@ export const EditStudioForm = () => {
     useState<string[]>(initialDisplaySubCategories);
   const [selectedGenres, setSelectedGenres] = useState<string[]>(initialDisplayGenres);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
+  const [selectedParking, setSelectedParking] = useState<string>(studio?.parking || 'none');
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 
@@ -93,6 +94,10 @@ export const EditStudioForm = () => {
 
   const handleGenreChange = (values: string[]) => {
     setSelectedGenres(values);
+  };
+
+  const getParkingLabel = (value: string) => {
+    return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
   const fields = [
     {
@@ -206,6 +211,16 @@ export const EditStudioForm = () => {
       label: t('form.isWheelchairAccessible.label'),
       type: 'checkbox' as FieldType,
       value: studio?.isWheelchairAccessible
+    },
+    {
+      name: 'parking',
+      label: t('form.parking.label') || 'Parking',
+      type: 'select' as FieldType,
+      value: selectedParking,
+      onChange: setSelectedParking,
+      options: ['none', 'free', 'paid'],
+      displayValue: getParkingLabel(selectedParking),
+      getOptionLabel: getParkingLabel
     }
   ];
 
@@ -223,6 +238,7 @@ export const EditStudioForm = () => {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
+    formData.parking = selectedParking;
     updateStudioMutation.mutate(formData as Studio);
   };
 

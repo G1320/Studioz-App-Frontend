@@ -53,6 +53,14 @@
     "isWheelchairAccessible": {
       "label": "נגישות לכיסא גלגלים"
     },
+    "parking": {
+      "label": "חניה",
+      "options": {
+        "none": "אין",
+        "free": "חינם",
+        "paid": "בתשלום"
+      }
+    },
     "price": {
       "label": "מחיר"
     },

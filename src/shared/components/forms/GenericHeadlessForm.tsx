@@ -147,23 +147,28 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
                   {({ open }) => (
                     <div className="relative">
                       <Listbox.Button className="listbox-button">
-                        {field.value || 'Select'}
+                        {field.displayValue || field.value || 'Select'}
                         <ChevronUpDownIcon className="listbox-icon" />
                       </Listbox.Button>
                       {open && (
                         <Listbox.Options className="listbox-options">
-                          {field.options.map((option: string) => (
-                            <Listbox.Option key={option} value={option} as={Fragment}>
-                              {({ active, selected }) => (
-                                <li
-                                  className={`listbox-option ${active ? 'active' : ''} ${selected ? 'selected' : ''}`}
-                                >
-                                  {selected && <CheckIcon className="listbox-check" />}
-                                  {option}
-                                </li>
-                              )}
-                            </Listbox.Option>
-                          ))}
+                          {field.options.map((option: string) => {
+                            const optionLabel = field.getOptionLabel 
+                              ? field.getOptionLabel(option) 
+                              : option;
+                            return (
+                              <Listbox.Option key={option} value={option} as={Fragment}>
+                                {({ active, selected }) => (
+                                  <li
+                                    className={`listbox-option ${active ? 'active' : ''} ${selected ? 'selected' : ''}`}
+                                  >
+                                    {selected && <CheckIcon className="listbox-check" />}
+                                    {optionLabel}
+                                  </li>
+                                )}
+                              </Listbox.Option>
+                            );
+                          })}
                         </Listbox.Options>
                       )}
                     </div>

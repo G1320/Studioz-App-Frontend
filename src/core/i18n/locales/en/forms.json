@@ -53,6 +53,14 @@
     "isWheelchairAccessible": {
       "label": "Wheelchair Accessible"
     },
+    "parking": {
+      "label": "Parking",
+      "options": {
+        "none": "None",
+        "free": "Free",
+        "paid": "Paid"
+      }
+    },
     "price": {
       "label": "Price"
     },
