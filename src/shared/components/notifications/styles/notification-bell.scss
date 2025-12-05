@@ -18,10 +18,10 @@
     color: rgba(255, 255, 255, 0.9);
     transition: all 0.25s ease;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
 
     &:hover {
       color: #fff;
@@ -47,8 +47,8 @@
 
   &__badge {
     position: absolute;
-    top: 0.125rem;
-    right: 0.125rem;
+    top: -0.325rem;
+    right: -0.125rem;
     background: vars.$color-brand;
     color: vars.$text-color-dark;
     font-size: 0.625rem;
@@ -144,4 +144,3 @@
     transform: scale(1.1);
   }
 }
-
