@@ -50,7 +50,7 @@ export const CreateReviewForm: React.FC<CreateReviewFormProps> = ({
               onClick={() => handleStarClick(value)}
               onMouseEnter={() => setHoveredRating(value)}
               onMouseLeave={() => setHoveredRating(0)}
-              aria-label={`Rate ${value} out of 5`}
+              aria-label={t('reviews.rateAriaLabel', { value }, `Rate ${value} out of 5`)}
             >
               {value <= displayRating ? (
                 <StarIcon className="create-review-form__star create-review-form__star--filled" />

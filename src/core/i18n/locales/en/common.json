@@ -95,5 +95,20 @@
     "loading": "Loading notifications...",
     "empty": "No notifications",
     "markAllAsRead": "Mark all as read"
+  },
+  "reviews": {
+    "title": "Studio Reviews",
+    "studioNotFound": "Studio not found.",
+    "rating": "Rating",
+    "star": "star",
+    "stars": "stars",
+    "comment": "Comment (optional)",
+    "comment_placeholder": "Share your experience...",
+    "submit": "Submit Review",
+    "submitting": "Submitting...",
+    "empty": "No reviews yet. Be the first to review this studio!",
+    "listTitle": "Reviews",
+    "anonymous": "Anonymous",
+    "rateAriaLabel": "Rate {{value}} out of 5"
   }
 }

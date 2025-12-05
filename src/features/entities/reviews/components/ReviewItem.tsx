@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Review from 'src/types/review';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -8,6 +9,8 @@ interface ReviewItemProps {
 }
 
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
+  const { t, i18n } = useTranslation('common');
+
   const renderStars = () => {
     return Array.from({ length: 5 }).map((_, index) => {
       const starValue = index + 1;
@@ -22,14 +25,15 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   const formatDate = (date: Date | string) => {
     try {
       const dateObj = typeof date === 'string' ? new Date(date) : date;
+      const locale = i18n.language === 'he' ? 'he-IL' : 'en-US';
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-      return dateObj.toLocaleDateString('en-US', options);
+      return dateObj.toLocaleDateString(locale, options);
     } catch {
       return '';
     }
   };
 
-  const userName = review.user?.name || 'Anonymous';
+  const userName = review.user?.name || t('reviews.anonymous', 'Anonymous');
 
   return (
     <article className="review-item">

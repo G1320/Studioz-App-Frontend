@@ -95,5 +95,20 @@
     "loading": "טוען התראות...",
     "empty": "אין התראות",
     "markAllAsRead": "סמן הכל כנקרא"
+  },
+  "reviews": {
+    "title": "ביקורות אולפן",
+    "studioNotFound": "אולפן לא נמצא.",
+    "rating": "דירוג",
+    "star": "כוכב",
+    "stars": "כוכבים",
+    "comment": "תגובה (אופציונלי)",
+    "comment_placeholder": "שתף את החוויה שלך...",
+    "submit": "שלח ביקורת",
+    "submitting": "שולח...",
+    "empty": "אין ביקורות עדיין. היה הראשון לכתוב ביקורת על האולפן הזה!",
+    "listTitle": "ביקורות",
+    "anonymous": "אנונימי",
+    "rateAriaLabel": "דרג {{value}} מתוך 5"
   }
 }
