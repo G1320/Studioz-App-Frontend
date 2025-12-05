@@ -9,7 +9,7 @@ interface DashboardPageProps {
   studios: Studio[];
 }
 
-export const DashboardPage: React.FC<DashboardPageProps> = ({
+const DashboardPage: React.FC<DashboardPageProps> = ({
   user,
   studios
 }) => {

@@ -49,5 +49,3 @@ export const MyStudios: React.FC<MyStudiosProps> = ({ studios }) => {
   );
 };
 
-export default MyStudios;
-

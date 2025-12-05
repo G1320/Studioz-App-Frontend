@@ -16,7 +16,7 @@ interface ProfileDetailsProps {
   user: User | null;
 }
 
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
+export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const { t } = useTranslation('profile');
   const { setUser } = useUserContext();
@@ -117,5 +117,3 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     </div>
   );
 };
-
-export default ProfileDetails;

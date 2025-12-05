@@ -41,5 +41,3 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
   );
 };
 
-export default DashboardCalendar;
-

@@ -8,7 +8,7 @@ interface ItemOptionsProps {
   onEdit: (itemId: string) => void;
 }
 
-const ItemOptions: React.FC<ItemOptionsProps> = ({ item, user, onEdit }) => {
+export const ItemOptions: React.FC<ItemOptionsProps> = ({ item, user, onEdit }) => {
   const canEdit = Boolean(user?._id && user._id === item?.createdBy);
 
   return (
@@ -25,5 +25,3 @@ const ItemOptions: React.FC<ItemOptionsProps> = ({ item, user, onEdit }) => {
     </section>
   );
 };
-
-export default ItemOptions;

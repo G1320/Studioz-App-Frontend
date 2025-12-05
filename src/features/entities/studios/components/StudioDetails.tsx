@@ -6,7 +6,7 @@ import { LazyMinimap } from '@shared/components/maps';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import StudioOptions from './StudioOptions';
+import { StudioOptions } from './StudioOptions';
 import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';

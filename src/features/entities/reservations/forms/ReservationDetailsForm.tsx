@@ -137,5 +137,3 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
     </form>
   );
 };
-
-export default ReservationDetailsForm;

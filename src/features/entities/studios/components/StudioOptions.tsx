@@ -14,7 +14,7 @@ interface StudioOptionsProps {
   onAddNewService: (studioId: string) => void;
 }
 
-const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEdit, onAddNewService }) => {
+export const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEdit, onAddNewService }) => {
   return (
     <section className="studio-details-options-container">
       <div className="details-buttons studio-details-buttons">
@@ -33,5 +33,3 @@ const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEdit, onA
     </section>
   );
 };
-
-export default StudioOptions;

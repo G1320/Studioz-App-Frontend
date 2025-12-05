@@ -164,5 +164,3 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
     </div>
   );
 };
-
-export default Calendar;

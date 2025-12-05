@@ -5,7 +5,7 @@ import { useReviews, useStudio, useCreateReviewMutation } from '@shared/hooks';
 import { CreateReviewForm, ReviewsList } from '@features/entities/reviews';
 import { useUserContext } from '@core/contexts';
 
-export const StudioReviewsPage: React.FC = () => {
+const StudioReviewsPage: React.FC = () => {
   const { studioId = '' } = useParams();
   const { user } = useUserContext();
   const { t } = useTranslation('common');
@@ -55,4 +55,6 @@ export const StudioReviewsPage: React.FC = () => {
     </section>
   );
 };
+
+export default StudioReviewsPage;
 
