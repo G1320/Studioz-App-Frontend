@@ -35,6 +35,26 @@
   "pricePerHour": "Price per Hour",
   "orderId": "Order ID",
   "viewAllReservations": "View All My Reservations",
-  "recentReservations": "Recent Reservations"
+  "recentReservations": "Recent Reservations",
+  "filters": {
+    "statusLabel": "Status",
+    "typeLabel": "Type",
+    "status": {
+      "all": "All Statuses",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "expired": "Expired"
+    },
+    "type": {
+      "all": "All Types",
+      "incoming": "Incoming",
+      "outgoing": "Outgoing"
+    }
+  },
+  "toggle": {
+    "all": "All",
+    "myBookings": "My Bookings",
+    "studioReservations": "Studio Reservations"
+  }
 }
 

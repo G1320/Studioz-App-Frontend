@@ -2,5 +2,7 @@
 @use '../components/styles/reservation-card' as reservation-card;
 @use '../components/styles/reservations-list' as reservations-list;
 @use '../components/styles/phone-access-form' as phone-access-form;
+@use '../components/styles/reservation-filters' as reservation-filters;
+@use '../components/styles/reservation-type-toggle' as reservation-type-toggle;
 @use '../pages/styles/my-reservations-page' as my-reservations-page;
 @use '../pages/styles/reservation-details-page' as reservation-details-page;

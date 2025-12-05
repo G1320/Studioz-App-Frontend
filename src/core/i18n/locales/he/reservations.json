@@ -35,6 +35,26 @@
   "pricePerHour": "מחיר לשעה",
   "orderId": "מספר הזמנה",
   "viewAllReservations": "צפה בכל ההזמנות שלי",
-  "recentReservations": "הזמנות אחרונות"
+  "recentReservations": "הזמנות אחרונות",
+  "filters": {
+    "statusLabel": "סטטוס",
+    "typeLabel": "סוג",
+    "status": {
+      "all": "כל הסטטוסים",
+      "pending": "ממתין",
+      "confirmed": "מאושר",
+      "expired": "פג תוקף"
+    },
+    "type": {
+      "all": "כל הסוגים",
+      "incoming": "נכנס",
+      "outgoing": "יוצא"
+    }
+  },
+  "toggle": {
+    "all": "הכל",
+    "myBookings": "ההזמנות שלי",
+    "studioReservations": "הזמנות סטודיו"
+  }
 }
 

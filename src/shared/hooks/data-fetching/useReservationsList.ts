@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getReservations, getReservationsByPhone, getReservationById } from '@shared/services';
-import { Reservation } from 'src/types/index';
+import { Reservation, Studio } from 'src/types/index';
 import { getLocalUser } from '@shared/services';
 import { useMemo } from 'react';
 import { getStoredReservationIds } from '@shared/utils/reservation-storage';
@@ -8,6 +8,7 @@ import { getStoredReservationIds } from '@shared/utils/reservation-storage';
 interface UseReservationsListOptions {
   phone?: string;
   useStoredIds?: boolean; // If true, fetch reservations from localStorage IDs
+  userStudios?: Studio[]; // User's studios for studio owner filtering
   filters?: {
     status?: 'pending' | 'confirmed' | 'expired' | 'all';
     type?: 'incoming' | 'outgoing' | 'all';
@@ -17,7 +18,7 @@ interface UseReservationsListOptions {
 export const useReservationsList = (options: UseReservationsListOptions = {}) => {
   const queryClient = useQueryClient();
   const user = getLocalUser();
-  const { phone, useStoredIds = false, filters = {} } = options;
+  const { phone, useStoredIds = false, userStudios = [], filters = {} } = options;
 
   // Get stored reservation IDs
   const storedIds = useMemo(() => {
@@ -55,10 +56,9 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
         return await getReservationsByPhone(phone);
       }
       if (accessMethod === 'user' && user?._id) {
-        // For logged-in users, get all reservations and filter client-side
-        // This allows us to show both incoming and outgoing reservations
-        const allReservations = await getReservations();
-        return allReservations.filter((res) => res.userId === user._id || res.customerId === user._id);
+        // For logged-in users, get all reservations
+        // We'll filter by incoming/outgoing in the filtering logic below
+        return await getReservations();
       }
       return [];
     },
@@ -72,20 +72,54 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
   const filteredReservations = useMemo(() => {
     let filtered = [...allReservations];
 
+    // Determine if user is a studio owner
+    const isStudioOwner = userStudios.length > 0 && user?._id;
+
+    if (accessMethod === 'user' && user?._id) {
+      if (isStudioOwner) {
+        // For studio owners, separate incoming and outgoing
+        const userStudioItemIds = new Set(
+          userStudios.flatMap((studio) => studio.items.map((item) => item.itemId))
+        );
+
+        // Filter by type (incoming/outgoing)
+        if (filters.type === 'incoming') {
+          // Incoming: reservations for studio owner's items (not made by them)
+          filtered = filtered.filter(
+            (res) =>
+              userStudioItemIds.has(res.itemId) &&
+              res.userId !== user._id &&
+              res.customerId !== user._id
+          );
+        } else if (filters.type === 'outgoing') {
+          // Outgoing: reservations made by the user
+          filtered = filtered.filter(
+            (res) => res.userId === user._id || res.customerId === user._id
+          );
+        } else {
+          // All: show both incoming and outgoing
+          filtered = filtered.filter(
+            (res) =>
+              userStudioItemIds.has(res.itemId) ||
+              res.userId === user._id ||
+              res.customerId === user._id
+          );
+        }
+      } else {
+        // Regular users: only show their own reservations
+        filtered = filtered.filter(
+          (res) => res.userId === user._id || res.customerId === user._id
+        );
+      }
+    }
+
     // Filter by status
     if (filters.status && filters.status !== 'all') {
       filtered = filtered.filter((res) => res.status === filters.status);
     }
 
-    // Filter by type (incoming/outgoing) - only relevant for studio owners
-    // This will be enhanced in Phase 3 when we add studio owner logic
-    if (filters.type && filters.type !== 'all') {
-      // For now, all reservations are "outgoing" for regular users
-      // Phase 3 will add incoming/outgoing distinction
-    }
-
     return filtered;
-  }, [allReservations, filters]);
+  }, [allReservations, filters, user?._id, userStudios, accessMethod]);
 
   return {
     data: filteredReservations,

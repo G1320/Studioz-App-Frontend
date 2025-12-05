@@ -1,0 +1,50 @@
+@use 'utilities/variables' as vars;
+@use 'sass:color';
+
+.reservation-type-toggle {
+  display: flex;
+  gap: vars.$spacing-small;
+  margin-bottom: vars.$spacing-large;
+  background: vars.$bg-color-secondary;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: vars.$border-radius-medium;
+  padding: vars.$spacing-xs;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__button {
+    flex: 1;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border: none;
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: vars.$text-color-primary;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &.active {
+      background: vars.$color-brand;
+      color: vars.$text-color-primary;
+      box-shadow: vars.$box-shadow-small;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+
+    &__button {
+      width: 100%;
+    }
+  }
+}
+
