@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { NotificationItem } from './NotificationItem';
-import '../styles/_notification-list.scss';
+import '../styles/notification-list.scss';
 
 export const NotificationList: React.FC = () => {
   const { notifications, markAllAsRead, isLoading } = useNotificationContext();

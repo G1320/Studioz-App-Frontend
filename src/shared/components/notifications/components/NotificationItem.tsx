@@ -5,7 +5,7 @@ import { useNotificationContext } from '@core/contexts/NotificationContext';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import DeleteIcon from '@mui/icons-material/Delete';
-import '../styles/_notification-item.scss';
+import '../styles/notification-item.scss';
 
 dayjs.extend(relativeTime);
 
