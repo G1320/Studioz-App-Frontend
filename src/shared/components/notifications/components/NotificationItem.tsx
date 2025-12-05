@@ -4,10 +4,10 @@ import Notification from 'src/types/notification';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import DeleteIcon from '@mui/icons-material/Delete';
+import '../styles/_notification-item.scss';
 
 dayjs.extend(relativeTime);
-import DeleteIcon from '@mui/icons-material/Delete';
-import './NotificationItem.scss';
 
 interface NotificationItemProps {
   notification: Notification;
@@ -44,9 +44,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     }
   };
 
-  const timeAgo = notification.createdAt
-    ? dayjs(notification.createdAt).fromNow()
-    : '';
+  const timeAgo = notification.createdAt ? dayjs(notification.createdAt).fromNow() : '';
 
   const content = (
     <div

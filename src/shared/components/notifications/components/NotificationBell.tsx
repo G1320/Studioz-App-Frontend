@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { NotificationList } from './NotificationList';
-import './NotificationBell.scss';
+import '../styles/_notification-bell.scss';
 
 export const NotificationBell: React.FC = () => {
   const { unreadCount } = useNotificationContext();
