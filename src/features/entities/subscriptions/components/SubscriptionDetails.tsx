@@ -1,32 +1,25 @@
-import { useSubscription } from '@shared/hooks';
+import { useSubscription, useCancelSubscriptionMutation } from '@shared/hooks';
 import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
 import { useUserContext } from '@core/contexts';
 import { useTranslation } from 'react-i18next';
-import { Subscription } from 'src/types/subscription';
-import { sumitService } from '@shared/services';
 
 export const SubscriptionDetails = () => {
   const { isLoading, hasSubscription, isPro, subscription } = useSubscription();
   const { updateSubscription } = useUserContext();
   const { t } = useTranslation('subscriptions');
+  const cancelSubscriptionMutation = useCancelSubscriptionMutation(subscription?._id || '');
 
-  const handleCancelSubscription = async () => {
+  const handleCancelSubscription = () => {
     if (!subscription?._id) return;
 
-    try {
-      if (window.confirm(t('subscriptionDetails.cancellation.confirmMessage'))) {
-        const cancelledSubscription = (await sumitService.cancelSubscription(subscription._id)) as Subscription;
-
-        if (cancelledSubscription) {
-          updateSubscription(cancelledSubscription._id, 'CANCELLED');
+    if (window.confirm(t('subscriptionDetails.cancellation.confirmMessage'))) {
+      cancelSubscriptionMutation.mutate(undefined, {
+        onSuccess: (cancelledSubscription) => {
+          if (cancelledSubscription) {
+            updateSubscription(cancelledSubscription._id, 'CANCELLED');
+          }
         }
-
-        toast.success(t('subscriptionDetails.cancellation.successMessage'));
-      }
-    } catch (error) {
-      console.error('Error canceling subscription:', error);
-      toast.error(t('subscriptionDetails.cancellation.errorMessage'));
+      });
     }
   };
 

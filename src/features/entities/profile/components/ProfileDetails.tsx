@@ -4,8 +4,8 @@ import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
 import { ProfileImageUploader } from '@shared/components';
 import { useUserContext } from '@core/contexts';
-import { updateUser, setLocalUser } from '@shared/services';
-import { toast } from 'sonner';
+import { setLocalUser } from '@shared/services';
+import { useUpdateUserMutation } from '@shared/hooks/mutations';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
@@ -20,25 +20,26 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const { t } = useTranslation('profile');
   const { setUser } = useUserContext();
+  const updateUserMutation = useUpdateUserMutation();
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
   };
 
-  const handleImageUpload = async (imageUrl: string) => {
+  const handleImageUpload = (imageUrl: string) => {
     if (!user?._id) {
-      toast.error('User not found');
       return;
     }
 
-    try {
-      const updatedUser = await updateUser(user._id, { avatar: imageUrl });
-      setLocalUser(updatedUser);
-      setUser(updatedUser);
-    } catch (error) {
-      console.error('Error updating user avatar:', error);
-      toast.error('Failed to update profile picture');
-    }
+    updateUserMutation.mutate(
+      { avatar: imageUrl },
+      {
+        onSuccess: (updatedUser) => {
+          setLocalUser(updatedUser);
+          setUser(updatedUser);
+        }
+      }
+    );
   };
 
   return (

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createVendor, CompanyDetails } from '@shared/services';
-import { toast } from 'sonner';
+import { CompanyDetails } from '@shared/services';
 import { useUserContext } from '@core/contexts';
+import { useCreateVendorMutation } from '@shared/hooks/mutations';
 
 export const VendorOnboardingForm = () => {
   const { t, i18n } = useTranslation('forms');
   const { user } = useUserContext();
   const isRTL = i18n.language === 'he';
+  const createVendorMutation = useCreateVendorMutation(user?._id || '');
 
   const [formData, setFormData] = useState<CompanyDetails>({
     Name: '',
@@ -23,15 +24,9 @@ export const VendorOnboardingForm = () => {
     accountNumber: ''
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await createVendor(formData, user?._id || '');
-      console.log('response: ', response);
-      toast.success(t(`form.vendorOnboarding.success`));
-    } catch (error) {
-      toast.error(t(`form.vendorOnboarding.error`));
-    }
+    createVendorMutation.mutate(formData);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
