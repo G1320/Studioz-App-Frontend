@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { getLocalUser } from '@shared/services';
 import { useMutationHandler } from '@shared/hooks';
 import {
@@ -34,6 +35,7 @@ export const useMarkAllNotificationsAsReadMutation = () => {
 
 export const useDeleteNotificationMutation = () => {
   const userId = getLocalUser()?._id;
+  const queryClient = useQueryClient();
 
   return useMutationHandler<{ message: string }, string>({
     mutationFn: (notificationId: string) => deleteNotification(notificationId),
@@ -41,7 +43,20 @@ export const useDeleteNotificationMutation = () => {
     invalidateQueries: [
       { queryKey: 'notifications', targetId: userId },
       { queryKey: 'notificationCount', targetId: userId }
-    ]
+    ],
+    onSuccess: (_data, notificationId) => {
+      // Optimistically remove the notification from cache for immediate UI update
+      queryClient.setQueryData(['notifications', userId], (old: Notification[] = []) => {
+        const filtered = old.filter((n) => n._id !== notificationId);
+        // Also optimistically update unread count if the deleted notification was unread
+        const deletedNotification = old.find((n) => n._id === notificationId);
+        if (deletedNotification && !deletedNotification.read) {
+          queryClient.setQueryData(['notificationCount', userId], (oldCount: { count: number } = { count: 0 }) => {
+            return { count: Math.max(0, oldCount.count - 1) };
+          });
+        }
+        return filtered;
+      });
+    }
   });
 };
-

@@ -24,6 +24,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault(); // Prevent link navigation
     await deleteNotificationById(notification._id);
   };
 
