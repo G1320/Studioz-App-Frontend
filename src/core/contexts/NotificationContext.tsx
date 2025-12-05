@@ -3,14 +3,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSocket } from './SocketContext';
 import { useUserContext } from './UserContext';
 import Notification from 'src/types/notification';
+import { getNotifications, getUnreadNotificationCount } from '@shared/services/notification-service';
 import {
-  getNotifications,
-  getUnreadNotificationCount,
-  markNotificationAsRead,
-  markAllNotificationsAsRead,
-  deleteNotification
-} from '@shared/services/notification-service';
-import { useQuery, useMutation } from '@tanstack/react-query';
+  useMarkNotificationAsReadMutation,
+  useMarkAllNotificationsAsReadMutation,
+  useDeleteNotificationMutation
+} from '@shared/hooks/mutations';
+import { useQuery } from '@tanstack/react-query';
 
 interface NotificationContextType {
   notifications: Notification[];
@@ -52,32 +51,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 
   const unreadCount = unreadCountData?.count || 0;
 
-  // Mark as read mutation
-  const markAsReadMutation = useMutation({
-    mutationFn: markNotificationAsRead,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', user?._id] });
-      queryClient.invalidateQueries({ queryKey: ['notificationCount', user?._id] });
-    }
-  });
-
-  // Mark all as read mutation
-  const markAllAsReadMutation = useMutation({
-    mutationFn: markAllNotificationsAsRead,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', user?._id] });
-      queryClient.invalidateQueries({ queryKey: ['notificationCount', user?._id] });
-    }
-  });
-
-  // Delete notification mutation
-  const deleteNotificationMutation = useMutation({
-    mutationFn: deleteNotification,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', user?._id] });
-      queryClient.invalidateQueries({ queryKey: ['notificationCount', user?._id] });
-    }
-  });
+  // Notification mutations
+  const markAsReadMutation = useMarkNotificationAsReadMutation();
+  const markAllAsReadMutation = useMarkAllNotificationsAsReadMutation();
+  const deleteNotificationMutation = useDeleteNotificationMutation();
 
   // Handle socket events
   useEffect(() => {
