@@ -78,38 +78,26 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
     if (accessMethod === 'user' && user?._id) {
       if (isStudioOwner) {
         // For studio owners, separate incoming and outgoing
-        const userStudioItemIds = new Set(
-          userStudios.flatMap((studio) => studio.items.map((item) => item.itemId))
-        );
+        const userStudioItemIds = new Set(userStudios.flatMap((studio) => studio.items.map((item) => item.itemId)));
 
         // Filter by type (incoming/outgoing)
         if (filters.type === 'incoming') {
           // Incoming: reservations for studio owner's items (not made by them)
           filtered = filtered.filter(
-            (res) =>
-              userStudioItemIds.has(res.itemId) &&
-              res.userId !== user._id &&
-              res.customerId !== user._id
+            (res) => userStudioItemIds.has(res.itemId) && res.userId !== user._id && res.customerId !== user._id
           );
         } else if (filters.type === 'outgoing') {
           // Outgoing: reservations made by the user
-          filtered = filtered.filter(
-            (res) => res.userId === user._id || res.customerId === user._id
-          );
+          filtered = filtered.filter((res) => res.userId === user._id || res.customerId === user._id);
         } else {
           // All: show both incoming and outgoing
           filtered = filtered.filter(
-            (res) =>
-              userStudioItemIds.has(res.itemId) ||
-              res.userId === user._id ||
-              res.customerId === user._id
+            (res) => userStudioItemIds.has(res.itemId) || res.userId === user._id || res.customerId === user._id
           );
         }
       } else {
         // Regular users: only show their own reservations
-        filtered = filtered.filter(
-          (res) => res.userId === user._id || res.customerId === user._id
-        );
+        filtered = filtered.filter((res) => res.userId === user._id || res.customerId === user._id);
       }
     }
 
