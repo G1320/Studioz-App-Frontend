@@ -38,9 +38,9 @@
     box-sizing: border-box;
     overflow-x: hidden;
 
-    .cart-item-preview {
+    .cart-item-card {
       flex-direction: row;
-      background-color: vars.$preview-bg-color;
+      background-color: vars.$card-bg-color;
       border-radius: vars.$border-radius-medium;
       padding: vars.$spacing-medium;
       box-shadow: vars.$box-shadow-medium;
@@ -60,7 +60,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: vars.$spacing-large;
-  background-color: vars.$preview-bg-color;
+  background-color: vars.$card-bg-color;
   border-radius: vars.$border-radius-medium;
   box-shadow: vars.$box-shadow-medium;
 }
@@ -86,7 +86,7 @@
       gap: vars.$spacing-medium;
       width: 100%;
 
-      .cart-item-preview {
+      .cart-item-card {
         flex-direction: column;
         padding: vars.$spacing-small;
         width: 100%;

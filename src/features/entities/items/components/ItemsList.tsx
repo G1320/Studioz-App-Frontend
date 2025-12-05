@@ -1,4 +1,4 @@
-import { ItemPreview } from '@features/entities';
+import { ItemCard } from '@features/entities';
 import { GenericList } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
@@ -20,10 +20,10 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
     openModal(item);
   };
 
-  // const renderItem = (item: Item) => <ItemPreview item={item} key={item.name} wishlists={wishlists} />;
+  // const renderItem = (item: Item) => <ItemCard item={item} key={item.name} wishlists={wishlists} />;
   const renderItem = (item: Item) => (
     <div onClick={() => handleItemClick(item)} key={item._id}>
-      <ItemPreview item={item} wishlists={wishlists} />
+      <ItemCard item={item} wishlists={wishlists} />
     </div>
   );
 

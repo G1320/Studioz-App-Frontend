@@ -1,5 +1,5 @@
 .studio-details-page {
-  .preview.studio-preview {
+  .card.studio-card {
     max-height: max-content;
     gap: 0.5rem;
     max-width: calc(1200px - 1rem);
@@ -13,7 +13,7 @@
   }
   @media screen and (max-width: 600px) {
     padding: 0;
-    .preview p {
+    .card p {
       -webkit-line-clamp: 4;
     }
   }
@@ -41,7 +41,7 @@
       }
     }
   }
-  .item-preview {
+  .item-card {
     min-height: 8rem;
     footer {
       display: none;

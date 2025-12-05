@@ -1,13 +1,14 @@
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useCategories } from '@shared/hooks';
 import { useParams, useLocation } from 'react-router-dom';
+import '../styles/_category-card.scss';
 
-interface CategoryPreviewProps {
+interface CategoryCardProps {
   pathPrefix?: string;
   category: string;
 }
 
-export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category, pathPrefix = 'studios' }) => {
+export const CategoryCard: React.FC<CategoryCardProps> = ({ category, pathPrefix = 'studios' }) => {
   const langNavigate = useLanguageNavigate();
   const { getEnglishByDisplay } = useCategories();
   const params = useParams();
@@ -34,8 +35,9 @@ export const CategoryPreview: React.FC<CategoryPreviewProps> = ({ category, path
   const isSelected = subcategoryParam === categoryKey;
 
   return (
-    <article className={`category-preview ${isSelected ? 'category-preview--selected' : ''}`} onClick={handleClick}>
+    <article className={`category-card ${isSelected ? 'category-card--selected' : ''}`} onClick={handleClick}>
       <span>{category}</span>
     </article>
   );
 };
+

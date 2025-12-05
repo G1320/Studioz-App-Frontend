@@ -3,13 +3,14 @@ import { Wishlist } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import '../styles/_wishlist-card.scss';
 
-interface WishlistPreviewProps {
+interface WishlistCardProps {
   wishlist: Wishlist;
   onAddItemToWishList?: (wishlistId: string) => void;
 }
 
-export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAddItemToWishList = null }) => {
+export const WishlistCard: React.FC<WishlistCardProps> = ({ wishlist, onAddItemToWishList = null }) => {
   const langNavigate = useLanguageNavigate();
   const { t } = useTranslation('common');
 
@@ -31,17 +32,17 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
     <article
       onClick={handleArticleClick}
       key={wishlist._id}
-      className={`wishlist-preview ${onAddItemToWishList ? 'wishlist-preview--interactive' : ''}`}
+      className={`wishlist-card ${onAddItemToWishList ? 'wishlist-card--interactive' : ''}`}
     >
-      <div className="wishlist-preview__content">
-        <div className="wishlist-preview__header">
-          <small className="wishlist-preview__count">
+      <div className="wishlist-card__content">
+        <div className="wishlist-card__header">
+          <small className="wishlist-card__count">
             {wishlist?.items?.length || 0} {wishlist?.items?.length === 1 ? t('wishlists.item') : t('wishlists.items')}
           </small>
-          <h3 className="wishlist-preview__name">{wishlist.name}</h3>
+          <h3 className="wishlist-card__name">{wishlist.name}</h3>
         </div>
         {onAddItemToWishList && (
-          <Button className="wishlist-preview__button" onClick={handleButtonClick}>
+          <Button className="wishlist-card__button" onClick={handleButtonClick}>
             {t('wishlists.add_to')} {wishlist.name}
           </Button>
         )}
@@ -49,3 +50,4 @@ export const WishlistPreview: React.FC<WishlistPreviewProps> = ({ wishlist, onAd
     </article>
   );
 };
+

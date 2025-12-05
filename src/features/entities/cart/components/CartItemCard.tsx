@@ -4,12 +4,13 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { CloseOutlined } from '@mui/icons-material';
 import { useCartItemQuantityHandler, useLanguageNavigate } from '@shared/hooks';
+import '../styles/_cart-item-card.scss';
 
-interface CartItemPreviewProps {
+interface CartItemCardProps {
   item: CartItem;
 }
 
-export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
+export const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
   const langNavigate = useLanguageNavigate();
 
   const { handleQuantityChange } = useCartItemQuantityHandler(item);
@@ -32,7 +33,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
     <article
       onClick={handleClick}
       onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
-      className="preview cart-item-preview"
+      className="card cart-item-card"
       role="button"
       tabIndex={0}
       aria-label={`Cart item: ${item?.name?.en}`}
@@ -59,7 +60,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
         </div>
         <div>
           <small
-            className="cart-item-preview-price"
+            className="cart-item-card-price"
             tabIndex={0}
             onClick={handleClick}
             aria-label={`Price per hour: ₪${item?.price}`}
@@ -86,7 +87,7 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
           )}
         </button>
         <small
-          className="cart-item-preview-quantity"
+          className="cart-item-card-quantity"
           tabIndex={0}
           aria-live="polite"
           aria-label={`Quantity of ${item?.name.en}: ${item?.quantity} hours`}
@@ -105,3 +106,4 @@ export const CartItemPreview: React.FC<CartItemPreviewProps> = ({ item }) => {
     </article>
   );
 };
+

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { WishlistPreview } from '@features/entities';
-import { GenericList, GenericMultiDropdownEntryPreview, GenericMuiDropdown } from '@shared/components';
+import { WishlistCard } from '@features/entities';
+import { GenericList, GenericMultiDropdownEntryCard, GenericMuiDropdown } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
 import { Wishlist } from 'src/types/index';
@@ -20,9 +20,9 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
 
   const renderItem = (wishlist: Wishlist) =>
     isMultiSelect ? (
-      <GenericMultiDropdownEntryPreview entry={wishlist} key={wishlist?._id} />
+      <GenericMultiDropdownEntryCard entry={wishlist} key={wishlist?._id} />
     ) : (
-      <WishlistPreview wishlist={wishlist} key={wishlist?._id} />
+      <WishlistCard wishlist={wishlist} key={wishlist?._id} />
     );
 
   return (

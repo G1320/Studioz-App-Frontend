@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { ItemPreview } from '@features/entities';
+import { ItemCard } from '@features/entities';
 import { Button } from '@shared/components';
 import { useItem, useWishlists, useDeleteItemMutation, useLanguageNavigate } from '@shared/hooks';
 
@@ -24,7 +24,7 @@ const ItemDetailsPage = () => {
 
   return (
     <section className="item-details-page">
-      {item ? <ItemPreview item={item} wishlists={wishlists || []} /> : <p>Loading...</p>}
+      {item ? <ItemCard item={item} wishlists={wishlists || []} /> : <p>Loading...</p>}
       <section className="details-buttons item-details-buttons">
         <div>
           {user?._id && user._id === item?.createdBy ? (

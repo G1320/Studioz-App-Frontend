@@ -1,14 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGenres } from '@shared/hooks';
+import '../styles/_genre-card.scss';
 
-interface GenrePreviewProps {
+interface GenreCardProps {
   pathPrefix?: string;
   genre: string;
   isInteractive?: boolean;
 }
 
-export const GenrePreview: React.FC<GenrePreviewProps> = ({
+export const GenreCard: React.FC<GenreCardProps> = ({
   genre,
   pathPrefix = 'studios',
   isInteractive = true
@@ -51,12 +52,13 @@ export const GenrePreview: React.FC<GenrePreviewProps> = ({
   };
 
   return isInteractive ? (
-    <article className="genre-preview" onClick={handleClick}>
+    <article className="genre-card" onClick={handleClick}>
       <span>{genre}</span>
     </article>
   ) : (
-    <article className="genre-preview genre-preview--static">
+    <article className="genre-card genre-card--static">
       <span>{genre}</span>
     </article>
   );
 };
+

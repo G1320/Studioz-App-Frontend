@@ -1,6 +1,6 @@
 @use 'utilities/variables' as vars;
 
-.city-preview {
+.city-card {
   display: flex;
   cursor: pointer;
   margin-block-end: 0;
@@ -23,8 +23,9 @@
   }
 
   &--selected {
-    .city-preview__name {
+    .city-card__name {
       color: vars.$color-brand;
     }
   }
 }
+

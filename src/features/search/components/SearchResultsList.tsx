@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useSearchContext, useUserContext } from '@core/contexts';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
-import { StudiosList, ItemPreview, ItemsList } from '@features/entities';
+import { StudiosList, ItemCard, ItemsList } from '@features/entities';
 import { GenericCarousel } from '@shared/components';
 import { StudiosAndItemsSearchResults } from 'src/types/searchResult';
 import { useWishlists } from '@shared/hooks';
@@ -29,7 +29,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios
     return allItems.filter((item) => searchedItems.some((result: Item) => result._id === item._id));
   }, [allItems, results.items]);
 
-  const renderItem = (item: Item) => <ItemPreview item={item} key={item.name.en} wishlists={wishlists} />;
+  const renderItem = (item: Item) => <ItemCard item={item} key={item.name.en} wishlists={wishlists} />;
 
   return (
     <div>

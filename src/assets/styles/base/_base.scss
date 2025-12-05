@@ -123,12 +123,12 @@ body,
   top: 100px;
 }
 
-.preview {
+.card {
   display: grid;
   place-items: center;
   min-height: 215px;
   border-radius: vars.$border-radius-medium;
-  img:not(img.preview.gallery-image) {
+  img:not(img.card.gallery-image) {
     border-bottom-right-radius: 2px !important;
     border-bottom-left-radius: 2px !important;
   }
@@ -195,7 +195,7 @@ body,
   }
 }
 
-.preview {
+.card {
   gap: 1rem;
 
   small,

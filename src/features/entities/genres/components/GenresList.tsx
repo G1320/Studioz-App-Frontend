@@ -1,5 +1,5 @@
 import { GenericList } from '@shared/components';
-import { GenrePreview } from './GenrePreview';
+import { GenreCard } from './GenreCard';
 import { useMusicGenres } from '@shared/hooks';
 
 interface GenresListProps {
@@ -10,7 +10,7 @@ interface GenresListProps {
 export const GenresList: React.FC<GenresListProps> = ({ pathPrefix = 'studios', className }) => {
   const genres = useMusicGenres();
 
-  const renderItem = (genre: string) => <GenrePreview genre={genre} pathPrefix={pathPrefix} />;
+  const renderItem = (genre: string) => <GenreCard genre={genre} pathPrefix={pathPrefix} />;
 
   return (
     <section className={`genres-list ${className || ''}`}>

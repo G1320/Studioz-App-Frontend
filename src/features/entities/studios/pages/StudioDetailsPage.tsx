@@ -1,5 +1,5 @@
 import { GenericCarousel } from '@shared/components';
-import { StudioDetails, ContinueToCheckoutButton, ItemPreview } from '@features/entities';
+import { StudioDetails, ContinueToCheckoutButton, ItemCard } from '@features/entities';
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
 
@@ -55,7 +55,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
           data={filteredItems}
           renderItem={(item) => (
             <div onClick={() => handleItemClick(item)} key={item._id}>
-              <ItemPreview item={item} wishlists={wishlists} showDistanceBadge={false} />
+              <ItemCard item={item} wishlists={wishlists} showDistanceBadge={false} />
             </div>
           )}
         />

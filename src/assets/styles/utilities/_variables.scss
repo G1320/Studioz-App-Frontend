@@ -22,7 +22,8 @@ $text-color-dark: #000000;
 $bg-color-primary: #000000;
 $bg-color-secondary: #242728;
 $bg-color-tertiary: #1a1a1a;
-$preview-bg-color: $bg-color-secondary;
+$card-bg-color: $bg-color-secondary;
+$preview-bg-color: $card-bg-color; // Deprecated: use $card-bg-color instead
 $header-bg-color: $bg-color-secondary;
 $footer-bg-color: $bg-color-secondary;
 

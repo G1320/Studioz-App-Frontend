@@ -1,5 +1,5 @@
 import { useUserContext } from '@core/contexts';
-import { CartItemPreview } from '@features/entities';
+import { CartItemCard } from '@features/entities';
 import { useParams, Navigate } from 'react-router-dom';
 import { Cart, Studio } from 'src/types/index';
 import { PaymeCheckout } from '@shared/components/checkout';
@@ -45,7 +45,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
         {cartItems.length > 0 ? (
           <>
             {cartItems.map((item) => (
-              <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />
+              <CartItemCard key={`${item.itemId}-${item.bookingDate}`} item={item} />
             ))}
             <PaymeCheckout
               cartItems={paymeCartItems}

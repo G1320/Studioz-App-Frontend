@@ -1,4 +1,4 @@
-import { CategoryPreview, ItemsList } from '@features/entities';
+import { CategoryCard, ItemsList } from '@features/entities';
 import { ItemsMap, GenericCarousel } from '@shared/components';
 import { useCategories, useMusicSubCategories } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   const filteredItems = filterItems(items, { category, subCategory });
 
-  const categoryRenderItem = (category: string) => <CategoryPreview category={category} pathPrefix="services" />;
+  const categoryRenderItem = (category: string) => <CategoryCard category={category} pathPrefix="services" />;
 
   const subcategoryDisplay = subCategory ? getDisplayByEnglish(subCategory) : subCategory;
 

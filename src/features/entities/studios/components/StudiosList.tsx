@@ -1,4 +1,4 @@
-import { StudioPreview } from '@features/entities';
+import { StudioCard } from '@features/entities';
 import { GenericList } from '@shared/components';
 import { Studio } from 'src/types/index';
 interface StudiosListProps {
@@ -7,7 +7,7 @@ interface StudiosListProps {
 }
 
 export const StudiosList: React.FC<StudiosListProps> = ({ studios, title }) => {
-  const renderItem = (studio: Studio) => <StudioPreview studio={studio} />;
+  const renderItem = (studio: Studio) => <StudioCard studio={studio} />;
 
   return (
     <section className="studios-list-container">

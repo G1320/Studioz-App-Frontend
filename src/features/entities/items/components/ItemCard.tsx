@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { WishlistPreview } from '@features/entities';
+import { WishlistCard } from '@features/entities';
 import { Button, GenericMuiDropdown, DistanceBadge } from '@shared/components';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
@@ -15,14 +15,15 @@ import { Item, Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { calculateDistance } from '@shared/utils/distanceUtils';
 import { featureFlags } from '@core/config/featureFlags';
+import '../styles/_item-card.scss';
 
-interface ItemPreviewProps {
+interface ItemCardProps {
   item: Item;
   wishlists?: Wishlist[];
   showDistanceBadge?: boolean;
 }
 
-export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], showDistanceBadge = true }) => {
+export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDistanceBadge = true }) => {
   const { studioId, wishlistId } = useParams();
   const { user } = useUserContext();
   // const langNavigate = useLanguageNavigate();
@@ -32,7 +33,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], 
 
   // Calculate distance if user location is available and badge should be shown
   const distance = useMemo(() => {
-    if (!featureFlags.itemPreviewDistanceBadge || !showDistanceBadge || !userLocation || !item?.lat || !item?.lng) {
+    if (!featureFlags.itemCardDistanceBadge || !showDistanceBadge || !userLocation || !item?.lat || !item?.lng) {
       return null;
     }
     return calculateDistance(userLocation.latitude, userLocation.longitude, item.lat, item.lng);
@@ -47,7 +48,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], 
   const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
 
   const renderItem = (wishlist: Wishlist) => (
-    <WishlistPreview
+    <WishlistCard
       wishlist={wishlist}
       key={wishlist._id}
       onAddItemToWishList={() => handleAddItemToWishlist(wishlist._id)}
@@ -76,10 +77,10 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], 
   };
 
   return (
-    <article onMouseEnter={prefetchItem} key={item._id} className="preview item-preview">
-      <header className="item-preview-header">
+    <article onMouseEnter={prefetchItem} key={item._id} className="card item-card">
+      <header className="item-card-header">
         <h3>{item.name.en}</h3>
-        <div className="item-preview-header__right">
+        <div className="item-card-header__right">
           <small className="item-price">
             ₪{item.price}/{getTranslatedPricePer(item.pricePer || '')}
           </small>
@@ -95,7 +96,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], 
           <GenericMuiDropdown
             data={wishlists}
             renderItem={renderItem}
-            className="item-preview-wishlists-dropdown"
+            className="item-card-wishlists-dropdown"
             title={t('buttons.add_to_wishlist')}
           />
         )
@@ -116,3 +117,4 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item, wishlists = [], 
     </article>
   );
 };
+

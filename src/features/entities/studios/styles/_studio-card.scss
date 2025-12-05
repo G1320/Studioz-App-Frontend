@@ -1,13 +1,13 @@
 @use 'utilities/variables' as vars;
 
-.studio-preview {
+.studio-card {
   position: relative;
   min-height: 316px;
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1100px;
 
   gap: 0.5rem;
-  background: vars.$preview-bg-color;
+  background: vars.$card-bg-color;
   cursor: pointer;
   @container (max-width: 270px) {
     container-type: inline-size;
@@ -59,13 +59,13 @@
     max-height: 56px;
   }
 
-  .studio-preview-genres {
+  .studio-card-genres {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
     margin: 0.3rem 0;
 
-    .genre-preview {
+    .genre-card {
       cursor: default;
       pointer-events: none;
 
@@ -156,7 +156,7 @@
     }
   }
 
-  .studio-preview-name-and-city {
+  .studio-card-name-and-city {
     display: flex;
     flex-direction: row;
     max-height: 40px;
@@ -170,3 +170,4 @@
     gap: 0;
   }
 }
+

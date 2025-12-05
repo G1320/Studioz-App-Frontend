@@ -48,7 +48,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
         src={image}
         // blurHash={blurHash}
         alt={entity?.name?.en || `Gallery Image ${index + 1}`}
-        className="preview gallery-image"
+        className="card gallery-image"
         onClick={() => handleImageChange(image)}
         width={800}
       />

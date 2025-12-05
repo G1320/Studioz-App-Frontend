@@ -1,4 +1,4 @@
-import { StudiosList, StudioPreview, ItemPreview, CategoryPreview } from '@features/entities';
+import { StudiosList, StudioCard, ItemCard, CategoryCard } from '@features/entities';
 import { GenericCarousel, Banner } from '@shared/components';
 import { useWishlists, useMusicSubCategories } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
@@ -20,13 +20,13 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
 
   const { openModal } = useModal();
 
-  const studioRenderItem = (studio: Studio) => <StudioPreview studio={studio} />;
+  const studioRenderItem = (studio: Studio) => <StudioCard studio={studio} />;
   const itemRenderItem = (item: Item) => (
     <div onClick={() => handleItemClick(item)} key={item._id}>
-      <ItemPreview item={item} wishlists={wishlists} />
+      <ItemCard item={item} wishlists={wishlists} />
     </div>
   );
-  const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
+  const categoryRenderItem = (category: string) => <CategoryCard category={category} />;
 
   const recordingStudios = filterBySubcategory(studios, 'Vocal & Instrument Recording');
   const mixingStudios = filterBySubcategory(studios, 'Mixing');

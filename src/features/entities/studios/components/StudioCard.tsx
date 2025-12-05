@@ -8,13 +8,14 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { calculateDistance } from '@shared/utils/distanceUtils';
+import '../styles/_studio-card.scss';
 
-interface StudioPreviewProps {
+interface StudioCardProps {
   studio?: Studio;
   navActive?: boolean;
 }
 
-export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive = true }) => {
+export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true }) => {
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
   const { i18n } = useTranslation();
@@ -37,7 +38,7 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
       onMouseEnter={prefetchStudio}
       onClick={() => (navActive ? langNavigate(`/studio/${studio?._id}`) : null)}
       key={studio?._id}
-      className="preview studio-preview"
+      className="card studio-card"
     >
       <GenericImageGallery
         entity={studio}
@@ -46,11 +47,11 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
         isGalleryImagesShown={false}
       />
 
-      <div className="studio-preview-name-and-city">
+      <div className="studio-card-name-and-city">
         <h3 className="title">{studio?.name?.en}</h3>
         <small className="city">{studio?.city}</small>
       </div>
-      <div className="studio-preview__rating-overlay">
+      <div className="studio-card__rating-overlay">
         <StudioRating
           averageRating={studio?.averageRating}
           reviewCount={studio?.reviewCount}
@@ -95,3 +96,4 @@ export const StudioPreview: React.FC<StudioPreviewProps> = ({ studio, navActive 
     </article>
   );
 };
+

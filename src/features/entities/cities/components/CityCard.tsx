@@ -1,13 +1,13 @@
 import { CityConfig } from '@core/config/cities/cities';
 import { useLanguageNavigate, useCities } from '@shared/hooks/utils';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import '../styles/_city-preview.scss';
+import '../styles/_city-card.scss';
 
-interface CityPreviewProps {
+interface CityCardProps {
   city: CityConfig;
 }
 
-export const CityPreview: React.FC<CityPreviewProps> = ({ city }) => {
+export const CityCard: React.FC<CityCardProps> = ({ city }) => {
   const langNavigate = useLanguageNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -34,8 +34,9 @@ export const CityPreview: React.FC<CityPreviewProps> = ({ city }) => {
   const displayName = getDisplayByCityName(city.name);
 
   return (
-    <article className={`city-preview ${isSelected ? 'city-preview--selected' : ''}`} onClick={handleClick}>
-      <span className="city-preview__name">{displayName}</span>
+    <article className={`city-card ${isSelected ? 'city-card--selected' : ''}`} onClick={handleClick}>
+      <span className="city-card__name">{displayName}</span>
     </article>
   );
 };
+

@@ -3,11 +3,11 @@ interface Entry {
   name: string;
 }
 
-interface GenericMultiDropdownEntryPreviewProps {
+interface GenericMultiDropdownEntryCardProps {
   entry: Entry;
 }
 
-export const GenericMultiDropdownEntryPreview: React.FC<GenericMultiDropdownEntryPreviewProps> = ({ entry }) => {
+export const GenericMultiDropdownEntryCard: React.FC<GenericMultiDropdownEntryCardProps> = ({ entry }) => {
   return (
     <>
       <input id={`input-${entry._id}`} type="checkbox" />
@@ -15,3 +15,4 @@ export const GenericMultiDropdownEntryPreview: React.FC<GenericMultiDropdownEntr
     </>
   );
 };
+

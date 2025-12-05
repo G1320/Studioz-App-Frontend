@@ -1,6 +1,6 @@
 import { useMutationHandler } from '@shared/hooks';
-import { createVendor } from '@shared/services/vendor-service';
-import { Company, CompanyDetails } from 'src/types/vendor';
+import { createVendor, CompanyDetails } from '@shared/services/vendor-service';
+import { Company } from 'src/types/company';
 
 export const useCreateVendorMutation = (userId: string) => {
   return useMutationHandler<Company, CompanyDetails>({

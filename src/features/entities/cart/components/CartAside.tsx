@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { CartItemPreview } from '@features/entities';
+import { CartItemCard } from '@features/entities';
 import Cart from 'src/types/cart';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +42,7 @@ export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) =
         </button>
       </div>
       <div className="cart-aside-content">
-        {cart?.items?.map((item) => <CartItemPreview key={`${item.itemId}-${item.bookingDate}`} item={item} />)}
+        {cart?.items?.map((item) => <CartItemCard key={`${item.itemId}-${item.bookingDate}`} item={item} />)}
       </div>
       <div className="cart-aside-footer">
         <div className="total">

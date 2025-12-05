@@ -1,0 +1,49 @@
+@use 'utilities/variables' as vars;
+
+.wishlist-card {
+  padding: vars.$spacing-medium;
+  background: vars.$card-bg-color;
+  border-radius: vars.$border-radius-medium;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: vars.$color-brand;
+    transform: translateY(-2px);
+    box-shadow: vars.$box-shadow-medium;
+  }
+
+  &--interactive {
+    border-color: vars.$color-brand;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__count {
+    font-size: vars.$font-size-small;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &__name {
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__button {
+    margin-top: vars.$spacing-small;
+  }
+}
+

@@ -3,7 +3,7 @@ import { useUserContext } from '@core/contexts';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@shared/components';
-import { StudioPreview } from '@features/entities';
+import { StudioCard } from '@features/entities';
 import { useStudioReservations } from '@shared/hooks';
 import { Calendar } from '@features/entities';
 import { Link } from 'react-router-dom';
@@ -50,7 +50,7 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
 
   const renderItem = (studio: Studio) => (
     <div onClick={() => handleStudioSelect(studio)}>
-      <StudioPreview studio={studio} navActive={false}></StudioPreview>
+      <StudioCard studio={studio} navActive={false}></StudioCard>
     </div>
   );
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense } from 'react';
-import { CategoryPreview, StudiosList, CityPreview } from '@features/entities';
+import { CategoryCard, StudiosList, CityCard } from '@features/entities';
 import { GenericCarousel, LocationWelcomePopup, DistanceSlider } from '@shared/components';
 import { LazyStudiosMap } from '@shared/components/maps';
 import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
@@ -59,8 +59,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     maxDistance: featureFlags.distanceSlider ? maxDistance : undefined
   });
 
-  const categoryRenderItem = (category: string) => <CategoryPreview category={category} />;
-  const cityRenderItem = (city: (typeof cities)[number]) => <CityPreview city={city} />;
+  const categoryRenderItem = (category: string) => <CategoryCard category={category} />;
+  const cityRenderItem = (city: (typeof cities)[number]) => <CityCard city={city} />;
 
   const subcategoryDisplay = subcategory ? getDisplayByEnglish(subcategory) : t('page.categories');
   const translatedCityName = selectedCity ? getDisplayByCityName(selectedCity) : null;

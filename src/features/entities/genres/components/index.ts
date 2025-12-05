@@ -1,3 +1,3 @@
-export * from './GenrePreview';
+export * from './GenreCard';
 export * from './GenresList';
 

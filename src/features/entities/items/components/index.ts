@@ -1,5 +1,5 @@
 export * from './ItemsList';
-export * from './ItemPreview';
+export * from './ItemCard';
 export * from './ItemDetails';
 export * from './ItemHeader';
 export * from './HourSelector';

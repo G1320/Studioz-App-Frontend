@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { Studio } from 'src/types/index';
-import { StudioPreview } from '@features/entities/studios';
+import { StudioCard } from '@features/entities/studios';
 
 interface MyStudiosProps {
   studios: Studio[];
@@ -42,7 +42,7 @@ export const MyStudios: React.FC<MyStudiosProps> = ({ studios }) => {
       </div>
       <div className="studios-grid">
         {studios.map((studio) => (
-          <StudioPreview key={studio._id} studio={studio} navActive={true} />
+          <StudioCard key={studio._id} studio={studio} navActive={true} />
         ))}
       </div>
     </div>

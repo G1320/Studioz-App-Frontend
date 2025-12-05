@@ -10,7 +10,7 @@ import StudioOptions from './StudioOptions';
 import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
-import { GenrePreview } from '@features/entities/genres';
+import { GenreCard } from '@features/entities/genres';
 
 interface StudioDetailsProps {
   studio?: Studio;
@@ -76,7 +76,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       {displayGenres.length > 0 && (
         <div className="studio-genres">
           {displayGenres.map((genre, index) => (
-            <GenrePreview key={index} genre={genre} pathPrefix="studios" isInteractive={false} />
+            <GenreCard key={index} genre={genre} pathPrefix="studios" isInteractive={false} />
           ))}
         </div>
       )}

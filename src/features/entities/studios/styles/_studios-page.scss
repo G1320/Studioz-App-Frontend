@@ -6,12 +6,12 @@
   gap: 1rem;
   margin-block-end: 2.5rem;
 
-  article.category-preview {
+  article.category-card {
     margin-block-end: 0.5rem;
   }
 
   @media screen and (max-width: 768px) {
-    article.category-preview {
+    article.category-card {
       margin-block-end: 0rem;
     }
   }
