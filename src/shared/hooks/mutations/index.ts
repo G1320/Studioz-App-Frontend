@@ -9,3 +9,4 @@ export * from './reviews/reviewMutations';
 export * from './users/userMutations';
 export * from './subscriptions/subscriptionMutations';
 export * from './vendors/vendorMutations';
+export * from './reservations/reservationMutations';

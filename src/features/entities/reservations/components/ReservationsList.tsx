@@ -1,31 +1,47 @@
 import React from 'react';
 import { GenericList } from '@shared/components';
 import { ReservationCard } from './ReservationCard';
+import { ReservationCardSkeleton } from './ReservationCardSkeleton';
+import { EmptyReservationsState } from './EmptyReservationsState';
 import { Reservation } from 'src/types/index';
-import { useTranslation } from 'react-i18next';
 import './styles/_reservations-list.scss';
 
 interface ReservationsListProps {
   reservations: Reservation[];
   isLoading?: boolean;
+  isStudioOwner?: boolean;
+  viewType?: 'incoming' | 'outgoing' | 'all';
+  hasFilters?: boolean;
 }
 
-export const ReservationsList: React.FC<ReservationsListProps> = ({ reservations, isLoading }) => {
-  const { t } = useTranslation('reservations');
-
+export const ReservationsList: React.FC<ReservationsListProps> = ({
+  reservations,
+  isLoading = false,
+  isStudioOwner = false,
+  viewType = 'all',
+  hasFilters = false
+}) => {
   if (isLoading) {
     return (
-      <div className="reservations-list reservations-list--loading">
-        <p>{t('loading')}</p>
-      </div>
+      <section className="reservations-list reservations-list--loading">
+        <div className="reservations-list__grid">
+          {[...Array(3)].map((_, index) => (
+            <ReservationCardSkeleton key={index} />
+          ))}
+        </div>
+      </section>
     );
   }
 
   if (reservations.length === 0) {
     return (
-      <div className="reservations-list reservations-list--empty">
-        <p className="reservations-list__empty-message">{t('noReservations')}</p>
-      </div>
+      <section className="reservations-list reservations-list--empty">
+        <EmptyReservationsState
+          isStudioOwner={isStudioOwner}
+          viewType={viewType}
+          hasFilters={hasFilters}
+        />
+      </section>
     );
   }
 
@@ -34,7 +50,7 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({ reservations
   );
 
   return (
-    <section className="reservations-list">
+    <section className="reservations-list" aria-label="Reservations list">
       <GenericList
         data={reservations}
         renderItem={renderItem}

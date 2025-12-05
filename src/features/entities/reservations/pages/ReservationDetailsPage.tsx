@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useReservation } from '@shared/hooks';
+import { useReservation, useStudios } from '@shared/hooks';
+import { useUserContext } from '@core/contexts';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
+import { ReservationActions } from '../components/ReservationActions';
 import dayjs from 'dayjs';
 import './styles/_reservation-details-page.scss';
 
@@ -10,8 +12,16 @@ const ReservationDetailsPage: React.FC = () => {
   const { reservationId } = useParams<{ reservationId: string }>();
   const { t, i18n } = useTranslation('reservations');
   const langNavigate = useLanguageNavigate();
+  const { user } = useUserContext();
+  const { data: allStudios = [] } = useStudios();
 
   const { data: reservation, isLoading, error } = useReservation(reservationId || '');
+
+  // Get user's studios for studio owner actions
+  const userStudios = useMemo(() => {
+    if (!user?._id) return [];
+    return allStudios.filter((studio) => studio.createdBy === user._id);
+  }, [allStudios, user?._id]);
 
   const handleBack = () => {
     langNavigate('/reservations');
@@ -151,6 +161,16 @@ const ReservationDetailsPage: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Actions Section */}
+        <div className="reservation-details-page__section">
+          <h3 className="reservation-details-page__section-title">{t('actions')}</h3>
+          <ReservationActions
+            reservation={reservation}
+            userStudios={userStudios}
+            onCancel={handleBack}
+          />
         </div>
       </div>
     </div>

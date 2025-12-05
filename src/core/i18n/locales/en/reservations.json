@@ -34,6 +34,7 @@
   "pricing": "Pricing",
   "pricePerHour": "Price per Hour",
   "orderId": "Order ID",
+  "actions": "Actions",
   "viewAllReservations": "View All My Reservations",
   "recentReservations": "Recent Reservations",
   "filters": {
@@ -55,6 +56,28 @@
     "all": "All",
     "myBookings": "My Bookings",
     "studioReservations": "Studio Reservations"
+  },
+  "cancelReservation": "Cancel Reservation",
+  "cancelling": "Cancelling...",
+  "confirmCancel": "Are you sure you want to cancel this reservation?",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "modifyReservation": "Modify Reservation",
+  "contact": "Contact",
+  "contactCustomer": "Contact Customer",
+  "contactStudio": "Contact Studio",
+  "contactStudioMessage": "Please contact the studio directly for assistance.",
+  "noActionsAvailable": "No actions available for this reservation.",
+  "notAvailable": "Not Available",
+  "emptyStates": {
+    "noReservations": "No Reservations Yet",
+    "noIncomingReservations": "No Incoming Reservations",
+    "noOutgoingReservations": "No Outgoing Reservations",
+    "noMatchingFilters": "No Matching Reservations",
+    "noBookingsForStudios": "No bookings have been made for your studios yet.",
+    "bookYourFirstSession": "Start exploring studios and book your first session!",
+    "tryDifferentFilters": "Try adjusting your filters to see more results.",
+    "browseStudios": "Browse Studios"
   }
 }
 

@@ -1,0 +1,107 @@
+@use 'utilities/variables' as vars;
+@use 'sass:color';
+
+.reservation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+  margin-top: vars.$spacing-xl;
+  padding-top: vars.$spacing-xl;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  &__button {
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &--cancel {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+
+      &:hover:not(:disabled) {
+        background: rgba(248, 113, 113, 0.3);
+        transform: translateY(-1px);
+      }
+    }
+
+    &--modify {
+      background: vars.$color-brand;
+      color: vars.$text-color-primary;
+
+      &:hover:not(:disabled) {
+        background: color.adjust(vars.$color-brand, $lightness: -10%);
+        transform: translateY(-1px);
+      }
+    }
+
+    &--contact {
+      background: transparent;
+      color: vars.$text-color-primary;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      &:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: vars.$color-brand;
+      }
+    }
+
+    &--confirm {
+      background: rgba(248, 113, 113, 0.3);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+    }
+
+    &--secondary {
+      background: transparent;
+      color: vars.$text-color-primary;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &__confirm {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+    padding: vars.$spacing-large;
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    border-radius: vars.$border-radius-medium;
+  }
+
+  &__confirm-message {
+    margin: 0;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-medium;
+  }
+
+  &__confirm-buttons {
+    display: flex;
+    gap: vars.$spacing-medium;
+  }
+
+  &__no-access {
+    margin: 0;
+    padding: vars.$spacing-medium;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: vars.$font-size-medium;
+  }
+
+  @media (max-width: 768px) {
+    &__confirm-buttons {
+      flex-direction: column;
+    }
+  }
+}
+

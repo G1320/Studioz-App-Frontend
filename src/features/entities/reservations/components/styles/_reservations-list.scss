@@ -6,25 +6,31 @@
   margin: 0 auto;
   padding: vars.$spacing-large;
 
-  &--loading,
+  &--loading {
+    min-height: 400px;
+  }
+
   &--empty {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 400px;
-    text-align: center;
-  }
-
-  &__empty-message {
-    font-size: vars.$font-size-large;
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: vars.$spacing-large;
+
+    .render-item-container {
+      animation: fadeInUp 0.4s ease-out backwards;
+      
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.05}s;
+        }
+      }
+    }
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -35,8 +41,27 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+}
 
-  @media (max-width: 768px) {
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reservations-list__grid .render-item-container {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .reservations-list {
     padding: vars.$spacing-medium;
   }
 }

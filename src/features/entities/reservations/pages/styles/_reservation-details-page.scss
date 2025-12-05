@@ -6,6 +6,7 @@
   margin: 0 auto;
   padding: vars.$spacing-xl vars.$spacing-large;
   min-height: 60vh;
+  animation: fadeIn 0.3s ease-in;
 
   &__header {
     display: flex;
@@ -183,6 +184,21 @@
     &__info-value {
       text-align: left;
     }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reservation-details-page {
+    animation: none;
   }
 }
 

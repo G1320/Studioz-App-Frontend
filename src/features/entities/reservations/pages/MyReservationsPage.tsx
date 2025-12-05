@@ -120,7 +120,13 @@ const MyReservationsPage: React.FC = () => {
         />
       )}
 
-      <ReservationsList reservations={reservations} isLoading={isLoading} />
+      <ReservationsList
+        reservations={reservations}
+        isLoading={isLoading}
+        isStudioOwner={isStudioOwner}
+        viewType={viewType}
+        hasFilters={statusFilter !== 'all' || typeFilter !== 'all'}
+      />
     </div>
   );
 };

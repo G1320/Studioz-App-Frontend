@@ -34,6 +34,7 @@
   "pricing": "תמחור",
   "pricePerHour": "מחיר לשעה",
   "orderId": "מספר הזמנה",
+  "actions": "פעולות",
   "viewAllReservations": "צפה בכל ההזמנות שלי",
   "recentReservations": "הזמנות אחרונות",
   "filters": {
@@ -55,6 +56,28 @@
     "all": "הכל",
     "myBookings": "ההזמנות שלי",
     "studioReservations": "הזמנות סטודיו"
+  },
+  "cancelReservation": "בטל הזמנה",
+  "cancelling": "מבטל...",
+  "confirmCancel": "האם אתה בטוח שברצונך לבטל את ההזמנה הזו?",
+  "confirm": "אישור",
+  "cancel": "ביטול",
+  "modifyReservation": "ערוך הזמנה",
+  "contact": "צור קשר",
+  "contactCustomer": "צור קשר עם הלקוח",
+  "contactStudio": "צור קשר עם הסטודיו",
+  "contactStudioMessage": "אנא צור קשר ישירות עם הסטודיו לקבלת עזרה.",
+  "noActionsAvailable": "אין פעולות זמינות להזמנה זו.",
+  "notAvailable": "לא זמין",
+  "emptyStates": {
+    "noReservations": "אין הזמנות עדיין",
+    "noIncomingReservations": "אין הזמנות נכנסות",
+    "noOutgoingReservations": "אין הזמנות יוצאות",
+    "noMatchingFilters": "אין הזמנות תואמות",
+    "noBookingsForStudios": "עדיין לא בוצעו הזמנות לסטודיו שלך.",
+    "bookYourFirstSession": "התחל לחקור סטודיו ולהזמין את המפגש הראשון שלך!",
+    "tryDifferentFilters": "נסה להתאים את המסננים שלך כדי לראות תוצאות נוספות.",
+    "browseStudios": "עיין בסטודיו"
   }
 }
 

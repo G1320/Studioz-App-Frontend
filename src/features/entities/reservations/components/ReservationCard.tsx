@@ -46,7 +46,19 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation })
     : null;
 
   return (
-    <article className="reservation-card" onClick={handleCardClick}>
+    <article
+      className="reservation-card"
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleCardClick();
+        }
+      }}
+      aria-label={`${itemName} reservation on ${formattedDate}`}
+    >
       <div className="reservation-card__content">
         <div className="reservation-card__header">
           <h3 className="reservation-card__item-name">{itemName}</h3>

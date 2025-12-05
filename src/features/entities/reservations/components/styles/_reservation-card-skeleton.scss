@@ -1,0 +1,56 @@
+@use 'utilities/variables' as vars;
+
+.reservation-card-skeleton {
+  background: vars.$bg-color-secondary;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: vars.$border-radius-medium;
+  padding: vars.$spacing-large;
+  margin-bottom: vars.$spacing-medium;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__item-name {
+    position: relative;
+    height: 24px;
+  }
+
+  &__studio {
+    position: relative;
+    height: 18px;
+    margin-top: vars.$spacing-xs;
+  }
+
+  &__status {
+    position: relative;
+    height: 24px;
+    margin: vars.$spacing-small 0;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+    
+    .skeleton-loader {
+      position: relative;
+      height: 16px;
+    }
+  }
+
+  &__button {
+    position: relative;
+    height: 36px;
+    margin-top: vars.$spacing-small;
+  }
+}
+
