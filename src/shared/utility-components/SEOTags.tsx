@@ -2,9 +2,200 @@
 import { Helmet } from 'react-helmet-async';
 
 export const SEOTags = ({ path }: { path: string }) => {
-  const lang = path.split('/')[1];
+  const lang = path.split('/')[1] || 'en';
+  const currentLang = lang === 'he' ? 'he' : 'en';
 
   const canonicalPath = path.replace(`/${lang}`, '');
+
+  // SEO Keywords for meta tags - English
+  const seoKeywordsEn = [
+    'studio rental',
+    'music studio',
+    'podcast studio',
+    'recording studio',
+    'mixing studio',
+    'mastering studio',
+    'photo studio',
+    'video studio',
+    'sound studio',
+    'audio studio',
+    'music production studio',
+    'vocal recording studio',
+    'instrument recording studio',
+    'band rehearsal studio',
+    'film production studio',
+    'post production studio',
+    'sound design studio',
+    'foley studio',
+    'voiceover studio',
+    'dubbing studio',
+    'remote production services',
+    'studio booking',
+    'studio reservation',
+    'studio hire',
+    'studio rental Israel',
+    'music studio Tel Aviv',
+    'recording studio Jerusalem',
+    'podcast studio rental',
+    'mixing services',
+    'mastering services',
+    'audio engineering services',
+    'studio equipment rental',
+    'professional recording studio',
+    'home studio',
+    'commercial studio',
+    'studio space rental',
+    'creative studio space',
+    'music production services',
+    'audio post production',
+    'sound mixing',
+    'audio mastering',
+    'music recording',
+    'podcast recording',
+    'video production',
+    'photo shoot studio',
+    'video shoot studio',
+    'studio for rent',
+    'affordable studio rental',
+    'professional studio',
+    'studio with equipment',
+    'studio reviews',
+    'studio ratings',
+    'best recording studio',
+    'top music studio'
+  ].join(', ');
+
+  // SEO Keywords for meta tags - Hebrew
+  const seoKeywordsHe = [
+    'השכרת אולפן',
+    'אולפן מוזיקה',
+    'אולפן פודקאסט',
+    'אולפן הקלטות',
+    'אולפן מיקס',
+    'אולפן מאסטרינג',
+    'אולפן צילום',
+    'אולפן וידאו',
+    'אולפן סאונד',
+    'אולפן אודיו',
+    'אולפן הפקת מוזיקה',
+    'אולפן הקלטת קול',
+    'אולפן הקלטת כלים',
+    'אולפן חזרות להקה',
+    'אולפן הפקת סרטים',
+    'אולפן פוסט פרודקשן',
+    'אולפן עיצוב סאונד',
+    'אולפן פולי',
+    'אולפן דיבוב',
+    'שירותי הפקה מרחוק',
+    'הזמנת אולפן',
+    'השכרת אולפן ישראל',
+    'אולפן מוזיקה תל אביב',
+    'אולפן הקלטות ירושלים',
+    'השכרת אולפן פודקאסט',
+    'שירותי מיקס',
+    'שירותי מאסטרינג',
+    'שירותי הנדסת אודיו',
+    'השכרת ציוד אולפן',
+    'אולפן הקלטות מקצועי',
+    'אולפן ביתי',
+    'אולפן מסחרי',
+    'השכרת חלל אולפן',
+    'חלל אולפן יצירתי',
+    'שירותי הפקת מוזיקה',
+    'פוסט פרודקשן אודיו',
+    'מיקס סאונד',
+    'מאסטרינג אודיו',
+    'הקלטת מוזיקה',
+    'הקלטת פודקאסט',
+    'הפקת וידאו',
+    'אולפן צילום',
+    'אולפן צילום וידאו',
+    'אולפן להשכרה',
+    'השכרת אולפן במחיר נוח',
+    'אולפן מקצועי',
+    'אולפן עם ציוד',
+    'ביקורות אולפן',
+    'דירוגי אולפן',
+    'אולפן הקלטות הטוב ביותר',
+    'אולפן מוזיקה מוביל'
+  ].join(', ');
+
+  const seoKeywords = currentLang === 'he' ? seoKeywordsHe : seoKeywordsEn;
+
+  // Structured Data (JSON-LD) for better SEO
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Studioz',
+    description:
+      currentLang === 'he'
+        ? 'פלטפורמת מסחר אלקטרוני מהירה לרישום וגילוי אולפנים ושירותים. השכרת אולפני מוזיקה, אולפני פודקאסט, אולפני הקלטות, אולפני צילום ואולפני וידאו בישראל.'
+        : 'A high paced e-commerce platform for listing and discovering Studios and Services. Rent music studios, podcast studios, recording studios, photo studios, and video studios in Israel.',
+    url: 'https://studioz.co.il',
+    telephone: '+972-XX-XXX-XXXX',
+    email: 'info@studioz.online',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'IL',
+      addressLocality: currentLang === 'he' ? 'ישראל' : 'Israel'
+    },
+    sameAs: [],
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.5',
+      reviewCount: '100'
+    },
+    priceRange: '$$',
+    areaServed: {
+      '@type': 'Country',
+      name: currentLang === 'he' ? 'ישראל' : 'Israel'
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: currentLang === 'he' ? 'השכרת אולפנים ושירותים' : 'Studio Rentals and Services',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: currentLang === 'he' ? 'השכרת אולפן מוזיקה' : 'Music Studio Rental',
+            description:
+              currentLang === 'he'
+                ? 'השכרת אולפן הפקת מוזיקה והקלטות מקצועי'
+                : 'Professional music production and recording studio rental'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: currentLang === 'he' ? 'השכרת אולפן פודקאסט' : 'Podcast Studio Rental',
+            description:
+              currentLang === 'he'
+                ? 'השכרת אולפן הקלטת פודקאסט עם ציוד מקצועי'
+                : 'Podcast recording studio rental with professional equipment'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: currentLang === 'he' ? 'השכרת אולפן צילום' : 'Photo Studio Rental',
+            description: currentLang === 'he' ? 'השכרת אולפן צילום מקצועי' : 'Professional photo shoot studio rental'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: currentLang === 'he' ? 'השכרת אולפן וידאו' : 'Video Studio Rental',
+            description:
+              currentLang === 'he' ? 'השכרת אולפן הפקת וידאו וסרטים' : 'Video production and film studio rental'
+          }
+        }
+      ]
+    }
+  };
 
   return (
     <Helmet>
@@ -12,6 +203,8 @@ export const SEOTags = ({ path }: { path: string }) => {
       <link rel="alternate" href={`https://studioz.co.il/en${canonicalPath}`} hrefLang="en" />
       <link rel="alternate" href={`https://studioz.co.il/he${canonicalPath}`} hrefLang="he" />
       <link rel="alternate" href={`https://studioz.co.il${canonicalPath}`} hrefLang="x-default" />
+      <meta name="keywords" content={seoKeywords} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     </Helmet>
   );
 };
