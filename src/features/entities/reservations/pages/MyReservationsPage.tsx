@@ -5,7 +5,6 @@ import { useReservationsList, useStudios } from '@shared/hooks';
 import { ReservationsList } from '../components/ReservationsList';
 import { PhoneAccessForm } from '../components/PhoneAccessForm';
 import { ReservationFilters, ReservationTypeToggle, ReservationViewType } from '../components';
-import { getLocalUser } from '@shared/services';
 import { hasStoredReservations, getStoredCustomerPhone } from '@shared/utils/reservation-storage';
 import './styles/_my-reservations-page.scss';
 
@@ -31,7 +30,11 @@ const MyReservationsPage: React.FC = () => {
   const isStudioOwner = userStudios.length > 0;
 
   // Try to use stored reservations first, then phone if needed
-  const { data: reservations, isLoading, accessMethod, refetch } = useReservationsList({
+  const {
+    data: reservations,
+    isLoading,
+    refetch
+  } = useReservationsList({
     useStoredIds: hasStoredReservations() && !user?._id,
     phone: phone || undefined,
     userStudios: isStudioOwner ? userStudios : [],
@@ -90,10 +93,7 @@ const MyReservationsPage: React.FC = () => {
             : t('reservationsCount', { count: reservations.length })}
         </p>
         {!user?._id && reservations.length > 0 && (
-          <button 
-            onClick={handleShowMoreReservations}
-            className="my-reservations-page__show-more-button"
-          >
+          <button onClick={handleShowMoreReservations} className="my-reservations-page__show-more-button">
             {t('viewAllReservations')}
           </button>
         )}
@@ -132,4 +132,3 @@ const MyReservationsPage: React.FC = () => {
 };
 
 export default MyReservationsPage;
-

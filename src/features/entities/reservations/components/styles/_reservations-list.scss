@@ -2,9 +2,11 @@
 
 .reservations-list {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: vars.$spacing-large;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 
   &--loading {
     min-height: 400px;
@@ -17,14 +19,24 @@
     min-height: 400px;
   }
 
+  .render-item-container {
+    max-width: none;
+  }
+
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: vars.$spacing-large;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-medium;
+    width: 100%;
+    box-sizing: border-box;
 
     .render-item-container {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
       animation: fadeInUp 0.4s ease-out backwards;
-      
+
       @for $i from 1 through 10 {
         &:nth-child(#{$i}) {
           animation-delay: #{$i * 0.05}s;
@@ -32,13 +44,22 @@
       }
     }
 
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
+    // Mobile: Single column
+    @media (min-width: 480px) {
+      grid-template-columns: repeat(2, 1fr);
       gap: vars.$spacing-medium;
     }
 
-    @media (min-width: 769px) and (max-width: 1024px) {
+    // Tablet: 2 columns
+    @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
+      gap: vars.$spacing-medium;
+    }
+
+    // Desktop: 3 columns
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: vars.$spacing-medium;
     }
   }
 }
@@ -62,7 +83,6 @@
 
 @media (max-width: 768px) {
   .reservations-list {
-    padding: vars.$spacing-medium;
+    padding: 0;
   }
 }
-

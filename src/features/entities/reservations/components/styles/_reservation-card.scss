@@ -8,8 +8,12 @@
   padding: vars.$spacing-large;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: vars.$spacing-medium;
   animation: fadeIn 0.3s ease-in;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
   &:hover {
     border-color: vars.$color-brand;
@@ -160,4 +164,3 @@
     transform: translateY(0);
   }
 }
-

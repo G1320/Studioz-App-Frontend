@@ -6,6 +6,8 @@
   margin: 0 auto;
   padding: vars.$spacing-xl vars.$spacing-large;
   min-height: 60vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
 
   &__header {
     margin-bottom: vars.$spacing-2xl;
