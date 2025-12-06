@@ -126,8 +126,9 @@
     height: min-content;
     gap: 0.5rem;
     font-size: small;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
+    align-items: center;
 
     @container (max-width: 270px) {
       flex-direction: row;
