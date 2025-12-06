@@ -28,6 +28,7 @@ interface FormData {
   subCategories?: string[];
   genres?: string[];
   studioAvailability?: StudioAvailability;
+  parking?: 'none' | 'free' | 'paid';
 }
 
 export const EditStudioForm = () => {
@@ -63,7 +64,7 @@ export const EditStudioForm = () => {
     useState<string[]>(initialDisplaySubCategories);
   const [selectedGenres, setSelectedGenres] = useState<string[]>(initialDisplayGenres);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
-  const [selectedParking, setSelectedParking] = useState<string>(studio?.parking || 'none');
+  const [selectedParking, setSelectedParking] = useState<'none' | 'free' | 'paid'>(studio?.parking || 'none');
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 

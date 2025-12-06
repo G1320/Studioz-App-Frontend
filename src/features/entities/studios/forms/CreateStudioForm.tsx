@@ -26,6 +26,7 @@ interface FormData {
   subCategories?: string[];
   genres?: string[];
   studioAvailability?: StudioAvailability;
+  parking?: 'none' | 'free' | 'paid';
 }
 
 export const CreateStudioForm = () => {
@@ -57,7 +58,7 @@ export const CreateStudioForm = () => {
   );
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(firstDay ? [firstDay.value] : []);
-  const [selectedParking, setSelectedParking] = useState<string>('none');
+  const [selectedParking, setSelectedParking] = useState<'none' | 'free' | 'paid'>('none');
 
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
