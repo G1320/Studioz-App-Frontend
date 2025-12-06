@@ -218,8 +218,50 @@ export const SEOTags = ({ path }: { path: string }) => {
   const enPath = basePath === '/' ? '/en' : `/en${basePath}`;
   const hePath = basePath === '/' ? '/he' : `/he${basePath}`;
 
+  // Generate dynamic, SEO-friendly titles based on page
+  const getPageTitle = (): string => {
+    const brandName = 'Studioz.co.il';
+
+    // Home page
+    if (basePath === '/' || basePath === '') {
+      return currentLang === 'he'
+        ? `השכרת אולפנים ושירותים בישראל | ${brandName}`
+        : `Studio Rentals & Services in Israel | ${brandName}`;
+    }
+
+    // Studios listing pages
+    if (basePath.startsWith('/studios')) {
+      const category = basePath.split('/').filter(Boolean)[1] || '';
+      if (category) {
+        return currentLang === 'he' ? `אולפנים - ${category} | ${brandName}` : `Studios - ${category} | ${brandName}`;
+      }
+      return currentLang === 'he' ? `אולפנים להשכרה בישראל | ${brandName}` : `Studio Rentals in Israel | ${brandName}`;
+    }
+
+    // Services listing pages
+    if (basePath.startsWith('/services')) {
+      return currentLang === 'he' ? `שירותי אולפן להשכרה | ${brandName}` : `Studio Services for Rent | ${brandName}`;
+    }
+
+    // Studio details page
+    if (basePath.startsWith('/studio/')) {
+      return currentLang === 'he' ? `פרטי אולפן | ${brandName}` : `Studio Details | ${brandName}`;
+    }
+
+    // Wishlists
+    if (basePath.startsWith('/wishlists')) {
+      return currentLang === 'he' ? `רשימות משאלות | ${brandName}` : `Wishlists | ${brandName}`;
+    }
+
+    // Default fallback
+    return currentLang === 'he' ? `אולפנים ושירותים להשכרה | ${brandName}` : `Studio Rentals & Services | ${brandName}`;
+  };
+
+  const pageTitle = getPageTitle();
+
   return (
     <Helmet>
+      <title>{pageTitle}</title>
       <link rel="canonical" href={`https://studioz.co.il${canonicalPath}`} />
       <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="en" />
       <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="he" />
