@@ -5,7 +5,24 @@ export const SEOTags = ({ path }: { path: string }) => {
   const lang = path.split('/')[1] || 'en';
   const currentLang = lang === 'he' ? 'he' : 'en';
 
-  const canonicalPath = path.replace(`/${lang}`, '');
+  // Remove language prefix to get the base path
+  // Handle edge cases: '/', '/en', '/he', '/en/studios', etc.
+  let basePath = path;
+  if (path.startsWith(`/${lang}`)) {
+    basePath = path.replace(`/${lang}`, '') || '/';
+  }
+
+  // Ensure basePath starts with / if it's not empty
+  if (basePath && !basePath.startsWith('/')) {
+    basePath = `/${basePath}`;
+  }
+  if (!basePath || basePath === '') {
+    basePath = '/';
+  }
+
+  // Canonical should point to the English version (primary language)
+  // This ensures all language versions point to the same canonical
+  const canonicalPath = basePath === '/' ? '/en' : `/en${basePath}`;
 
   // SEO Keywords for meta tags - English
   const seoKeywordsEn = [
@@ -197,12 +214,16 @@ export const SEOTags = ({ path }: { path: string }) => {
     }
   };
 
+  // Construct alternate language paths
+  const enPath = basePath === '/' ? '/en' : `/en${basePath}`;
+  const hePath = basePath === '/' ? '/he' : `/he${basePath}`;
+
   return (
     <Helmet>
       <link rel="canonical" href={`https://studioz.co.il${canonicalPath}`} />
-      <link rel="alternate" href={`https://studioz.co.il/en${canonicalPath}`} hrefLang="en" />
-      <link rel="alternate" href={`https://studioz.co.il/he${canonicalPath}`} hrefLang="he" />
-      <link rel="alternate" href={`https://studioz.co.il${canonicalPath}`} hrefLang="x-default" />
+      <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="en" />
+      <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="he" />
+      <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="x-default" />
       <meta name="keywords" content={seoKeywords} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     </Helmet>
