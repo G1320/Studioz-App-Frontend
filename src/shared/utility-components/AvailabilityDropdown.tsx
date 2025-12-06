@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
-import { useDays, useDropdown } from '@shared/hooks';
+import { useDays } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { PopupDropdown } from '@shared/components/drop-downs';
 
 interface AvailabilityDropdownProps {
   availability: StudioAvailability;
@@ -11,52 +12,47 @@ interface AvailabilityDropdownProps {
 const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
   const { i18n } = useTranslation();
   const { getDisplayByEnglish } = useDays();
-  const { isOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
 
-  // Type assertions for specific element types
-  const ulRef = dropdownRef as React.RefObject<HTMLUListElement>;
-  const btnRef = buttonRef as React.RefObject<HTMLButtonElement>;
-  const divRef = containerRef as React.RefObject<HTMLDivElement>;
-
-  const formatAvailability = (days: DayOfWeek[], times: { start: string; end: string }[]) => {
+  const formattedAvailability = useMemo(() => {
     const allDays: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     return allDays.map((day) => {
-      const index = days.indexOf(day);
+      const index = availability?.days?.indexOf(day) ?? -1;
       if (index === -1) {
-        // If day does not exist in availability, return as "Closed"
         return { day, displayDay: getDisplayByEnglish(day), hours: i18n.language === 'he' ? 'סגור' : 'Closed' };
       }
-      // Reverse start and end for Hebrew
       const hours =
         i18n.language === 'he'
-          ? `${times[index]?.end} - ${times[index]?.start}`
-          : `${times[index]?.start} - ${times[index]?.end}`;
+          ? `${availability.times[index]?.end} - ${availability.times[index]?.start}`
+          : `${availability.times[index]?.start} - ${availability.times[index]?.end}`;
       return {
         day,
         displayDay: getDisplayByEnglish(day),
         hours
       };
     });
-  };
-
-  const formattedAvailability = formatAvailability(availability?.days, availability?.times);
+  }, [availability, getDisplayByEnglish, i18n.language]);
 
   return (
-    <div ref={divRef} className="availability-container">
-      <button ref={btnRef} onClick={toggle} className="availability-dropdown-toggle">
-        <AccessTimeIcon className="availability-time-icon" />
-      </button>
-      {isOpen && (
-        <ul ref={ulRef} className="availability-dropdown">
-          {formattedAvailability.map(({ displayDay, hours }, index) => (
-            <li key={index}>
-              <strong>{displayDay}:</strong> <p>{hours}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <PopupDropdown
+      trigger={
+        <button className="availability-dropdown-toggle">
+          <AccessTimeIcon className="availability-time-icon" />
+        </button>
+      }
+      className="availability-container"
+      minWidth="280px"
+      maxWidth="400px"
+    >
+      <ul className="availability-dropdown-list">
+        {formattedAvailability.map(({ displayDay, hours }, index) => (
+          <li key={index}>
+            <strong>{displayDay}:</strong>
+            <p>{hours}</p>
+          </li>
+        ))}
+      </ul>
+    </PopupDropdown>
   );
 };
 
