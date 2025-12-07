@@ -13,6 +13,7 @@ import {
 import { Item } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { CreateAddOnForm } from '@features/entities/addOns/forms';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
@@ -162,9 +163,11 @@ export const CreateItemForm = () => {
       <section className="form-wrapper create-item-form-wrapper">
         <GenericForm className="create-item-form" title={studioName} fields={fields} onSubmit={handleSubmit} />
       </section>
-      <section className="addon-form-section">
-        <CreateAddOnForm />
-      </section>
+      {isFeatureEnabled('addOns') && (
+        <section className="addon-form-section">
+          <CreateAddOnForm />
+        </section>
+      )}
     </section>
   );
 };

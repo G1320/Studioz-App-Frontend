@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils/compareArrays';
 import { useTranslation } from 'react-i18next';
 import { CreateAddOnForm } from '@features/entities/addOns/forms';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 
 interface FormData {
   imageUrl?: string;
@@ -151,9 +152,11 @@ export const EditItemForm = () => {
           onCategoryChange={handleCategoryChange}
         />
       </section>
-      <section className="addon-form-section">
-        <CreateAddOnForm />
-      </section>
+      {isFeatureEnabled('addOns') && (
+        <section className="addon-form-section">
+          <CreateAddOnForm />
+        </section>
+      )}
     </section>
   );
 };
