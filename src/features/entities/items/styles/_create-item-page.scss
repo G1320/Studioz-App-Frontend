@@ -17,12 +17,15 @@
   }
 }
 
+// Scope the form wrapper and form to prevent styles from affecting nested forms
 .create-item-form-wrapper {
   margin-top: vars.$spacing-large;
-}
 
-.create-item-form {
-  @include forms.branded-form;
+  // Scope branded-form mixin to only affect elements within this form
+  // This ensures styles don't leak to nested AddOn forms
+  .create-item-form {
+    @include forms.branded-form;
+  }
 }
 
 // FileUploader in create item context
