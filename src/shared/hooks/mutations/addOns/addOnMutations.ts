@@ -43,12 +43,13 @@ export const useUpdateAddOnMutation = (addOnId: string, itemId?: string) => {
     invalidateQueries: [
       { queryKey: 'addOn', targetId: addOnId },
       { queryKey: 'addOns' },
-      ...(itemId ? [
-        { queryKey: 'addOns', targetId: itemId },
-        { queryKey: 'item', targetId: itemId }
-      ] : [])
+      ...(itemId
+        ? [
+            { queryKey: 'addOns', targetId: itemId },
+            { queryKey: 'item', targetId: itemId }
+          ]
+        : [])
     ],
     undoAction: (_variables, data) => updateAddOn(addOnId, data)
   });
 };
-
