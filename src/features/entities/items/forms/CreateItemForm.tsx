@@ -149,7 +149,7 @@ export const CreateItemForm = () => {
     },
     {
       name: 'instantBook',
-      label: 'Instant Book',
+      label: t('form.instantBook.label'),
       type: 'checkbox' as FieldType,
       value: false
     }

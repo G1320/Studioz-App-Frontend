@@ -106,7 +106,7 @@ export const EditItemForm = () => {
     },
     {
       name: 'instantBook',
-      label: 'Instant Book',
+      label: t('forms:form.instantBook.label'),
       type: 'checkbox' as FieldType,
       value: item?.instantBook || false
     }

@@ -61,6 +61,9 @@
         "paid": "בתשלום"
       }
     },
+    "instantBook": {
+      "label": "הזמנה מיידית"
+    },
     "price": {
       "label": "מחיר"
     },
