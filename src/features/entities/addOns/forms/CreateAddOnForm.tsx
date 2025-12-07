@@ -10,7 +10,7 @@ import './styles/_create-addon-form.scss';
 export const CreateAddOnForm = () => {
   const { itemId } = useParams();
   const { t } = useTranslation('forms');
-  const createAddOnMutation = useCreateAddOnMutation(itemId || '');
+  const createAddOnMutation = useCreateAddOnMutation(itemId);
   const [pricePer, setPricePer] = useState<string>('hour');
   const [formKey, setFormKey] = useState<number>(0);
 
@@ -45,11 +45,6 @@ export const CreateAddOnForm = () => {
       return;
     }
 
-    if (!itemId) {
-      toast.error('Item ID is required');
-      return;
-    }
-
     // Convert string to boolean for isActive (GenericForm passes checkbox values as strings)
     const isActive = formData.isActive === 'true' || formData.isActive === true || formData.isActive === undefined;
 
@@ -67,7 +62,7 @@ export const CreateAddOnForm = () => {
         : undefined,
       price: Number(formData.price),
       pricePer: pricePer as 'hour' | 'session' | 'unit' | 'song',
-      itemId: itemId,
+      itemId: itemId, // Optional - can be undefined when creating addon before item exists
       isActive,
       imageUrl: formData.imageUrl
     };

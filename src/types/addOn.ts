@@ -10,11 +10,10 @@ export default interface AddOn {
   };
   price: number;
   pricePer?: 'hour' | 'session' | 'unit' | 'song';
-  itemId: string;
+  itemId?: string;
   isActive: boolean;
   idx?: number;
   imageUrl?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
-

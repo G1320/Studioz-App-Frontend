@@ -2,14 +2,18 @@ import { useInvalidateQueries, useMutationHandler } from '@shared/hooks';
 import { createAddOn, deleteAddOn, updateAddOn } from '@shared/services';
 import { AddOn } from 'src/types/index';
 
-export const useCreateAddOnMutation = (itemId: string) => {
+export const useCreateAddOnMutation = (itemId?: string) => {
   return useMutationHandler<AddOn, AddOn>({
     mutationFn: (newAddOn) => createAddOn(newAddOn),
     successMessage: 'Add-on created',
     invalidateQueries: [
       { queryKey: 'addOns' },
-      { queryKey: 'addOns', targetId: itemId },
-      { queryKey: 'item', targetId: itemId }
+      ...(itemId
+        ? [
+            { queryKey: 'addOns', targetId: itemId },
+            { queryKey: 'item', targetId: itemId }
+          ]
+        : [])
     ],
     undoAction: (_variables, data) => deleteAddOn(data._id),
     onSuccess: () => {
