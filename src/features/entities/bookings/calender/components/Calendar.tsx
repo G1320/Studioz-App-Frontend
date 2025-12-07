@@ -171,27 +171,42 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
           const rect = info.el.getBoundingClientRect();
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
+          const scrollX = window.scrollX;
+          const scrollY = window.scrollY;
 
-          // Smart positioning: prefer top-right, but adjust if near viewport edges
-          let x = rect.left + window.scrollX + rect.width / 2;
-          let y = rect.top + window.scrollY - 10;
-
-          // Adjust if popup would go off-screen
+          // Popup dimensions
           const popupWidth = 420;
-          const popupHeight = 300; // approximate
+          const popupHeight = 350; // More accurate estimate
+          const spacing = 12; // Space between event and popup
 
-          if (x + popupWidth > viewportWidth + window.scrollX) {
-            x = viewportWidth + window.scrollX - popupWidth - 20;
-          }
-          if (x < window.scrollX + 20) {
-            x = window.scrollX + 20;
+          // Default: position to the right of the event, vertically centered
+          let x = rect.right + scrollX + spacing;
+          let y = rect.top + scrollY + rect.height / 2 - popupHeight / 2;
+
+          // If not enough space on the right, position to the left
+          if (x + popupWidth > viewportWidth + scrollX - 20) {
+            x = rect.left + scrollX - popupWidth - spacing;
           }
 
-          if (y + popupHeight > viewportHeight + window.scrollY) {
-            y = rect.top + window.scrollY - popupHeight - 10;
+          // If not enough space on the left either, center horizontally
+          if (x < scrollX + 20) {
+            x = scrollX + viewportWidth / 2 - popupWidth / 2;
           }
-          if (y < window.scrollY + 20) {
-            y = window.scrollY + 20;
+
+          // Vertical adjustments - keep popup within viewport
+          if (y + popupHeight > viewportHeight + scrollY - 20) {
+            y = viewportHeight + scrollY - popupHeight - 20;
+          }
+          if (y < scrollY + 20) {
+            y = scrollY + 20;
+          }
+
+          // Ensure popup doesn't go off-screen horizontally
+          if (x + popupWidth > viewportWidth + scrollX - 20) {
+            x = viewportWidth + scrollX - popupWidth - 20;
+          }
+          if (x < scrollX + 20) {
+            x = scrollX + 20;
           }
 
           setSelectedEvent({

@@ -37,6 +37,7 @@
   overflow: hidden;
   width: 100%;
   max-width: 100%;
+  min-height: 600px;
   box-sizing: border-box;
 
   // Subtle gradient overlay for depth
@@ -104,57 +105,54 @@
       letter-spacing: 0.01em;
       padding: vars.$spacing-sm-md vars.$spacing-large;
       border-radius: vars.$border-radius-medium;
-      border: 1px solid var(--fc-button-border-color);
-      background: var(--fc-button-bg-color);
-      color: var(--fc-button-text-color);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.2s ease;
       height: auto;
       min-height: 40px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
+      cursor: pointer;
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        transition: left 0.5s ease;
-      }
-
+      // Remove hover effects
       &:hover {
-        background: var(--fc-button-hover-bg-color);
-        border-color: var(--fc-button-hover-border-color);
-        color: vars.$text-color-primary;
-        transform: translateY(-1px);
-
-        &::before {
-          left: 100%;
-        }
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.8);
+        transform: none;
       }
 
       &:active {
-        transform: translateY(0);
+        transform: none;
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
       }
 
+      // Selected state - Underline indicator
       &.fc-button-active {
-        background: var(--fc-button-active-bg-color);
-        border-color: var(--fc-button-active-border-color);
-        color: var(--fc-button-active-text-color);
+        background: transparent;
+        border-color: transparent;
+        color: vars.$text-color-primary;
         font-weight: 500;
-        box-shadow:
-          0 2px 8px rgba(16, 185, 129, 0.2),
-          0 0 0 1px rgba(16, 185, 129, 0.1) inset;
+        box-shadow: none;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: vars.$color-brand;
+          border-radius: 2px 2px 0 0;
+        }
       }
     }
 
@@ -170,6 +168,22 @@
       width: 40px;
       height: 40px;
       border-radius: vars.$border-radius-medium;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.8);
+        transform: none;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+      }
     }
   }
 
@@ -542,7 +556,7 @@
     max-width: 420px;
     width: calc(100vw - vars.$spacing-2xl);
     animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: top center;
+    transform-origin: center center;
 
     &.closing {
       animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
