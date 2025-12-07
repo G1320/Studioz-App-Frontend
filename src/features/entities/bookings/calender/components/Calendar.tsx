@@ -162,26 +162,15 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
         stickyHeaderDates={true}
         eventDisplay="block"
         eventClick={(info) => {
-          const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
-          const scrollX = window.scrollX;
           const scrollY = window.scrollY;
-
-          // Popup dimensions
-          const popupWidth = Math.min(420, viewportWidth - 40);
           const popupHeight = 350; // More accurate estimate
+          const offset = 120; // Move up by this amount
 
-          // Always center the popup
-          let x = scrollX + viewportWidth / 2 - popupWidth / 2;
-          let y = scrollY + viewportHeight / 2 - popupHeight / 2;
+          // Position popup higher than center
+          let y = scrollY + viewportHeight / 2 - popupHeight / 2 - offset;
 
-          // Ensure popup stays within viewport bounds
-          if (x < scrollX + 20) {
-            x = scrollX + 20;
-          }
-          if (x + popupWidth > viewportWidth + scrollX - 20) {
-            x = viewportWidth + scrollX - popupWidth - 20;
-          }
+          // Ensure popup stays within viewport bounds vertically
           if (y < scrollY + 20) {
             y = scrollY + 20;
           }
@@ -197,7 +186,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
             customerName: info.event.extendedProps.customerName,
             customerPhone: info.event.extendedProps.customerPhone,
             comment: info.event.extendedProps.comment,
-            position: { x, y }
+            position: { x: 0, y } // x: 0 means use CSS centering
           });
         }}
         slotLabelFormat={{
@@ -213,7 +202,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
             ref={popupRef}
             className="event-popup"
             style={{
-              left: `${selectedEvent.position.x}px`,
+              left: selectedEvent.position.x === 0 ? undefined : `${selectedEvent.position.x}px`,
               top: `${selectedEvent.position.y}px`
             }}
             role="dialog"
