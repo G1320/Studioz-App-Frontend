@@ -9,7 +9,7 @@ import { EventInput } from '@fullcalendar/core';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import Reservation from 'src/types/reservation';
-import { ReservationDetails } from '@features/entities/reservations';
+import { ReservationCard } from '@features/entities/reservations';
 
 interface CalendarProps {
   title?: string;
@@ -35,6 +35,12 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
   useEffect(() => {
     setSelectedEvent(null);
   }, [studioReservations]);
+
+  // Find the selected reservation from studioReservations
+  const selectedReservation = useMemo(() => {
+    if (!selectedEvent) return null;
+    return studioReservations.find((reservation) => reservation._id === selectedEvent.reservationId) || null;
+  }, [selectedEvent, studioReservations]);
 
   const getDayNumber = (day: DayOfWeek): number => {
     const days: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -144,7 +150,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
           hour12: false
         }}
       />
-      {selectedEvent && (
+      {selectedEvent && selectedReservation && (
         <>
           <div className="event-popup-backdrop" onClick={() => setSelectedEvent(null)} />
           <div
@@ -157,7 +163,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
             {/* <button className="close-button" onClick={() => setSelectedEvent(null)}>
               ×
             </button> */}
-            <ReservationDetails reservationId={selectedEvent.reservationId} />
+            <ReservationCard reservation={selectedReservation} variant="itemCard" />
           </div>
         </>
       )}
