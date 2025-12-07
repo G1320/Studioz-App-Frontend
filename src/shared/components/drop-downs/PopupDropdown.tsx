@@ -7,6 +7,7 @@ interface PopupDropdownProps {
   children: ReactNode; // Content to display in the dropdown
   className?: string;
   align?: 'left' | 'right' | 'center';
+  anchor?: 'bottom-left' | 'bottom-right' | 'bottom-center'; // Where to anchor the dropdown to the button
   minWidth?: string;
   maxWidth?: string;
   width?: string;
@@ -21,6 +22,7 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
   children,
   className = '',
   align = 'left',
+  anchor,
   minWidth = '200px',
   maxWidth = '400px',
   width = 'max-content'
@@ -31,6 +33,11 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
   const divDropdownRef = dropdownRef as React.RefObject<HTMLDivElement>;
   const divContainerRef = containerRef as React.RefObject<HTMLDivElement>;
   const btnRef = buttonRef as React.RefObject<HTMLElement>;
+
+  // Determine anchor class - use anchor prop if provided, otherwise fall back to align
+  const anchorClass = anchor 
+    ? `popup-dropdown--anchor-${anchor}` 
+    : `popup-dropdown--${align}`;
 
   // Clone trigger element to attach ref and onClick
   const triggerWithProps = React.isValidElement(trigger)
@@ -58,7 +65,7 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
       {isOpen && (
         <div
           ref={divDropdownRef}
-          className={`popup-dropdown popup-dropdown--${align}`}
+          className={`popup-dropdown ${anchorClass}`}
           style={{ minWidth, maxWidth, width }}
           onClick={(e) => e.stopPropagation()}
         >

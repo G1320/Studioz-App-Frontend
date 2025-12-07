@@ -27,7 +27,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
 
-  // Alignment
+  // Alignment (legacy - for backward compatibility)
   &--left {
     left: 0;
     transform: translateX(0);
@@ -43,7 +43,26 @@
     transform: translateX(-50%);
   }
 
-  // RTL support
+  // Anchor positioning - controls where dropdown attaches to button
+  &--anchor-bottom-left {
+    left: 0;
+    right: auto;
+    transform: translateX(0);
+  }
+
+  &--anchor-bottom-right {
+    right: 0;
+    left: auto;
+    transform: translateX(0);
+  }
+
+  &--anchor-bottom-center {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  // RTL support for alignment
   html[dir='rtl'] & {
     &--left {
       left: auto;
@@ -60,23 +79,88 @@
       left: auto;
       transform: translateX(50%);
     }
+
+    // RTL support for anchor positioning
+    &--anchor-bottom-left {
+      right: 0;
+      left: auto;
+      transform: translateX(0);
+    }
+
+    &--anchor-bottom-right {
+      left: 0;
+      right: auto;
+      transform: translateX(0);
+    }
+
+    &--anchor-bottom-center {
+      right: 50%;
+      left: auto;
+      transform: translateX(50%);
+    }
   }
 
   // Responsive
   @media (max-width: 768px) {
     min-width: auto !important;
-    max-width: calc(100vw - 3rem) !important;
-    width: max-content !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
     border-radius: 8px;
     padding: 0.375rem 0;
+    box-sizing: border-box;
+
+    // Default: center on mobile for legacy align prop
+    &--left,
+    &--right,
+    &--center {
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+    }
+
+    // Anchor positioning on mobile - anchor to corners
+    &--anchor-bottom-left {
+      left: 0 !important;
+      right: auto !important;
+      transform: none !important;
+    }
+
+    &--anchor-bottom-right {
+      right: 0 !important;
+      left: auto !important;
+      transform: none !important;
+    }
+
+    &--anchor-bottom-center {
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+    }
 
     html[dir='rtl'] & {
-      left: auto !important;
-      right: 50% !important;
-      transform: translateX(50%) !important;
+      &--left,
+      &--right,
+      &--center {
+        left: auto !important;
+        right: 50% !important;
+        transform: translateX(50%) !important;
+      }
+
+      &--anchor-bottom-left {
+        right: 0 !important;
+        left: auto !important;
+        transform: none !important;
+      }
+
+      &--anchor-bottom-right {
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
+      }
+
+      &--anchor-bottom-center {
+        right: 50% !important;
+        left: auto !important;
+        transform: translateX(50%) !important;
+      }
     }
   }
 }
@@ -221,4 +305,3 @@ html[dir='rtl'] .popup-dropdown--center {
     }
   }
 }
-
