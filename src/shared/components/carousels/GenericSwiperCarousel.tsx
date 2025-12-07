@@ -111,6 +111,24 @@ export const GenericCarousel = <T,>({
     }
   }, [swiperRef.current]);
 
+  // Handle focus events to prevent aria-hidden on focused elements
+  useEffect(() => {
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      const slide = target.closest('.swiper-slide') as HTMLElement;
+      
+      if (slide && swiperRef.current) {
+        // When an element receives focus, ensure its slide is not aria-hidden
+        slide.setAttribute('aria-hidden', 'false');
+      }
+    };
+
+    document.addEventListener('focusin', handleFocusIn);
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn);
+    };
+  }, []);
+
   // Center selected index when carousel is ready (only if not already centered)
   useEffect(() => {
     if (selectedIndex !== undefined && selectedIndex >= 0 && selectedIndex < data.length && swiperRef.current) {
@@ -230,6 +248,7 @@ export const GenericCarousel = <T,>({
           }}
           navigation={false}
           breakpoints={breakpoints}
+          watchSlidesProgress={true}
           onTouchStart={() => {
             autoplay && swiperRef.current?.autoplay?.stop();
           }}
@@ -245,6 +264,10 @@ export const GenericCarousel = <T,>({
             checkIfNavigationNeeded(swiper);
 
             swiper.slides.forEach((slide, index) => {
+              // Check if any element within this slide has focus
+              const activeElement = document.activeElement;
+              const hasFocusedElement = activeElement && slide.contains(activeElement);
+              
               // Check if this is the last slide
               const isLastSlide = index === swiper.slides.length - 1;
 
@@ -268,6 +291,11 @@ export const GenericCarousel = <T,>({
                 // Make sure the last slide is never dimmed
                 slide.classList.remove('dimmed');
               }
+              
+              // Ensure slides with focused elements are not aria-hidden
+              if (hasFocusedElement) {
+                slide.setAttribute('aria-hidden', 'false');
+              }
             });
           }}
           onResize={(swiper) => {
@@ -279,7 +307,18 @@ export const GenericCarousel = <T,>({
 
             swiper.slides.forEach((slide, index) => {
               const isVisible = index >= currentIndex && index < currentIndex + slidesPerView;
-              slide.setAttribute('aria-hidden', (!isVisible).toString());
+              
+              // Check if any element within this slide has focus
+              const activeElement = document.activeElement;
+              const hasFocusedElement = activeElement && slide.contains(activeElement);
+              
+              // Only set aria-hidden if the slide is not visible AND doesn't have focus
+              // If a slide has focus, we must not hide it from assistive technology
+              if (!isVisible && !hasFocusedElement) {
+                slide.setAttribute('aria-hidden', 'true');
+              } else {
+                slide.setAttribute('aria-hidden', 'false');
+              }
 
               const focusableElements = slide.querySelectorAll(
                 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
