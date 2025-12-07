@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { NotificationList } from './NotificationList';
@@ -8,7 +7,6 @@ import '../styles/notification-bell.scss';
 
 export const NotificationBell: React.FC = () => {
   const { unreadCount } = useNotificationContext();
-  const { i18n } = useTranslation();
 
   // Always anchor to bottom-right - the RTL CSS will automatically flip it correctly
   // In LTR: anchors to bottom-right, opens left
