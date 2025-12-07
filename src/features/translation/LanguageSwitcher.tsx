@@ -1,22 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu, MenuItem, IconButton } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import { PopupDropdown } from '@shared/components/drop-downs';
 
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const navigate = useNavigate();
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
@@ -38,40 +29,44 @@ export const LanguageSwitcher = () => {
     }
 
     i18n.changeLanguage(lang);
-    handleClose();
     navigate(newPath, { replace: true });
   };
 
   return (
     <section className="lang-switcher">
-      <IconButton
-        aria-label="language-switcher"
-        aria-controls={open ? 'lang-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        sx={{
-          color: '#fff'
-        }}
+      <PopupDropdown
+        trigger={
+          <IconButton
+            aria-label="language-switcher"
+            aria-haspopup="true"
+            sx={{
+              color: '#fff',
+              padding: '0.5rem'
+            }}
+          >
+            <LanguageIcon />
+          </IconButton>
+        }
+        className="lang-switcher"
+        anchor="bottom-right"
+        minWidth="120px"
+        maxWidth="150px"
       >
-        <LanguageIcon />
-      </IconButton>
-      <Menu
-        id="lang-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'language-switcher'
-        }}
-      >
-        <MenuItem sx={{ color: '#fff' }} onClick={() => changeLanguage('en')}>
-          English
-        </MenuItem>
-        <MenuItem sx={{ color: '#fff' }} onClick={() => changeLanguage('he')}>
-          עברית
-        </MenuItem>
-      </Menu>
+        <div className="lang-switcher__menu">
+          <button
+            className={`lang-switcher__option ${i18n.language === 'en' ? 'lang-switcher__option--active' : ''}`}
+            onClick={() => changeLanguage('en')}
+          >
+            English
+          </button>
+          <button
+            className={`lang-switcher__option ${i18n.language === 'he' ? 'lang-switcher__option--active' : ''}`}
+            onClick={() => changeLanguage('he')}
+          >
+            עברית
+          </button>
+        </div>
+      </PopupDropdown>
     </section>
   );
 };
