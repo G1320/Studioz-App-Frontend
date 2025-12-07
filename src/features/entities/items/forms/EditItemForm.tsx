@@ -21,6 +21,7 @@ interface FormData {
   subCategories?: string[];
   studioId?: string;
   pricePer?: string;
+  instantBook?: boolean | string;
 }
 
 export const EditItemForm = () => {
@@ -102,6 +103,12 @@ export const EditItemForm = () => {
       options: pricePerValues,
       value: pricePer,
       onChange: (value: string) => setPricePer(value)
+    },
+    {
+      name: 'instantBook',
+      label: 'Instant Book',
+      type: 'checkbox' as FieldType,
+      value: item?.instantBook || false
     }
   ];
 
@@ -111,6 +118,8 @@ export const EditItemForm = () => {
     formData.subCategories = selectedSubCategories;
     formData.studioId = item?.studioId || '';
     formData.pricePer = pricePer;
+    // Convert string to boolean for instantBook (GenericForm passes checkbox values as strings)
+    formData.instantBook = formData.instantBook === 'true' || formData.instantBook === true;
 
     // console.log('formData: ', formData);
     updateItemMutation.mutate(formData as Item);

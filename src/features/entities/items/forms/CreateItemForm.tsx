@@ -47,6 +47,7 @@ export const CreateItemForm = () => {
     address?: string;
     lat?: number;
     lng?: number;
+    instantBook?: boolean | string;
   }
 
   const pricePerEnglishMap: Record<string, string> = {
@@ -88,6 +89,8 @@ export const CreateItemForm = () => {
     formData.lat = studio?.lat || 0;
     formData.lng = studio?.lng || 0;
     formData.pricePer = pricePerEnglishMap[pricePer] || pricePer;
+    // Convert string to boolean for instantBook (GenericForm passes checkbox values as strings)
+    formData.instantBook = formData.instantBook === 'true' || formData.instantBook === true;
 
     createItemMutation.mutate(formData as Item);
   };
@@ -143,6 +146,12 @@ export const CreateItemForm = () => {
       options: pricePerValues,
       value: pricePer,
       onChange: (value: string) => setPricePer(value)
+    },
+    {
+      name: 'instantBook',
+      label: 'Instant Book',
+      type: 'checkbox' as FieldType,
+      value: false
     }
   ];
 

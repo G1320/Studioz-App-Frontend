@@ -43,7 +43,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
     fields.reduce(
       (acc, field) => {
         if (field.type === 'checkbox') {
-          acc[field.name] = false;
+          acc[field.name] = field.value !== undefined ? field.value : false;
         }
         return acc;
       },
