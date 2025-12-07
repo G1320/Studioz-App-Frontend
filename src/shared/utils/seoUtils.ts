@@ -17,18 +17,33 @@ interface SEOContext {
 
 /**
  * Get translated category/subcategory name
- * The subcategory parameter is the JSON key (e.g., "music_production"), not the English value
+ * The subcategory parameter can be either the JSON key (e.g., "music_production") or the English display name
  */
 const getCategoryDisplayName = (subcategoryKey: string, lang: 'en' | 'he'): string => {
   // Clean the key - remove any URL encoding and normalize
   const cleanKey = decodeURIComponent(subcategoryKey).trim();
   
-  const categories = lang === 'he' ? categoriesHe : categoriesEn;
-  const subCategories = categories.subCategories?.musicAndPodcast || {};
+  // Get both English and Hebrew categories
+  const englishSubCategories = categoriesEn.subCategories?.musicAndPodcast || {};
+  const hebrewSubCategories = categoriesHe.subCategories?.musicAndPodcast || {};
+  const targetSubCategories = lang === 'he' ? hebrewSubCategories : englishSubCategories;
   
-  // The subcategoryKey is the JSON key, so look it up directly
-  const displayName = subCategories[cleanKey as keyof typeof subCategories];
+  // First, try direct lookup by key (e.g., "podcast_recording")
+  let displayName = targetSubCategories[cleanKey as keyof typeof targetSubCategories];
   
+  // If not found, the cleanKey might be an English display name (e.g., "Podcast Recording")
+  // Try to find the key by matching the English value
+  if (!displayName) {
+    for (const [key, englishValue] of Object.entries(englishSubCategories)) {
+      if (englishValue === cleanKey) {
+        // Found the key, now get the translated value
+        displayName = targetSubCategories[key as keyof typeof targetSubCategories];
+        break;
+      }
+    }
+  }
+  
+  // If still not found, return the clean key (fallback)
   return displayName || cleanKey;
 };
 
