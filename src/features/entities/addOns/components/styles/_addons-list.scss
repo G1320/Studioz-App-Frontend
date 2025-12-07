@@ -1,0 +1,12 @@
+.addons-list {
+  display: grid;
+  gap: 1rem;
+
+  &-loading,
+  &-empty {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+  }
+}
+

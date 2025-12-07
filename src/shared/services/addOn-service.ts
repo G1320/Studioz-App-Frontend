@@ -1,0 +1,59 @@
+import { httpService } from '@shared/services';
+import { AddOn } from 'src/types/index';
+
+const addOnEndpoint = '/add-ons';
+
+export const createAddOn = async (addOn: AddOn): Promise<AddOn> => {
+  try {
+    return await httpService.post(addOnEndpoint, addOn);
+  } catch (error) {
+    console.error('Error creating add-on:', error);
+    throw error;
+  }
+};
+
+export const getAddOns = async (params = {}): Promise<AddOn[]> => {
+  try {
+    return await httpService.get(addOnEndpoint, params);
+  } catch (error) {
+    console.error('Error getting add-ons:', error);
+    throw error;
+  }
+};
+
+export const getAddOnById = async (addOnId: string): Promise<AddOn> => {
+  try {
+    return await httpService.get(`${addOnEndpoint}/${addOnId}`);
+  } catch (error) {
+    console.error(`Error getting add-on with ID ${addOnId}:`, error);
+    throw error;
+  }
+};
+
+export const getAddOnsByItemId = async (itemId: string): Promise<AddOn[]> => {
+  try {
+    return await httpService.get(`${addOnEndpoint}/item/${itemId}`);
+  } catch (error) {
+    console.error(`Error getting add-ons for item ${itemId}:`, error);
+    throw error;
+  }
+};
+
+export const updateAddOn = async (addOnId: string, addOn: AddOn): Promise<AddOn> => {
+  try {
+    return await httpService.put(`${addOnEndpoint}/${addOnId}`, addOn);
+  } catch (error) {
+    console.error(`Error updating add-on with ID ${addOnId}:`, error);
+    throw error;
+  }
+};
+
+export const deleteAddOn = async (addOnId: string): Promise<AddOn> => {
+  try {
+    return await httpService.delete(`${addOnEndpoint}/${addOnId}`);
+  } catch (error) {
+    console.error(`Error deleting add-on with ID ${addOnId}:`, error);
+    throw error;
+  }
+};
+

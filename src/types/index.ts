@@ -1,6 +1,7 @@
 export type { AuthResponse, RegisterData, LoginCredentials } from './auth';
 export type { Availability } from './availability';
 export type { default as Item } from './item';
+export type { default as AddOn } from './addOn';
 export type { default as Studio } from './studio';
 export type { default as StudioItem } from './studioItem';
 export type { default as StudioResponse } from './StudioResponse';

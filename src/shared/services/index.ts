@@ -1,6 +1,7 @@
 export * from './auth-service';
 
 export * from './item-service';
+export * from './addOn-service';
 export * from './studio-service';
 export * from './wishlist-service';
 export * from './user-service';

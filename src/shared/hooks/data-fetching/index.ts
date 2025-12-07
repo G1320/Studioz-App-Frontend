@@ -3,6 +3,8 @@ export * from './useStudio';
 export * from './useStudios';
 export * from './useItem';
 export * from './useItems';
+export * from './useAddOn';
+export * from './useAddOns';
 export * from './useWishlist';
 export * from './useWishlists';
 export * from './useReservation';
