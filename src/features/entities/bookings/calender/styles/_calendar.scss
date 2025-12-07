@@ -1,241 +1,908 @@
 @use 'utilities/variables' as vars;
+@use 'sass:color';
 
 .studio-calendar {
-  --fc-border-color: rgba(255, 255, 255, 0.1);
-  --fc-button-bg-color: vars.$color-brand;
-  --fc-button-border-color: vars.$color-brand;
-  --fc-button-hover-bg-color: rgba(16, 185, 129, 0.8);
-  --fc-button-hover-border-color: rgba(16, 185, 129, 0.8);
-  --fc-button-active-bg-color: rgba(16, 185, 129, 0.9);
-  --fc-button-text-color: vars.$text-color-primary;
-  --fc-today-bg-color: rgba(16, 185, 129, 0.15);
+  // FullCalendar CSS Variables - Minimalist Design
+  --fc-border-color: rgba(255, 255, 255, 0.08);
+  --fc-button-bg-color: transparent;
+  --fc-button-border-color: rgba(255, 255, 255, 0.12);
+  --fc-button-hover-bg-color: rgba(255, 255, 255, 0.05);
+  --fc-button-hover-border-color: rgba(255, 255, 255, 0.2);
+  --fc-button-active-bg-color: vars.$color-brand;
+  --fc-button-active-border-color: vars.$color-brand;
+  --fc-button-text-color: rgba(255, 255, 255, 0.85);
+  --fc-button-active-text-color: #000;
+  --fc-today-bg-color: rgba(16, 185, 129, 0.08);
   --fc-page-bg-color: transparent;
-  --fc-list-event-hover-bg-color: transparent;
+  --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.02);
   --fc-event-bg-color: vars.$color-brand;
   --fc-event-border-color: vars.$color-brand;
+  --fc-highlight-color: rgba(16, 185, 129, 0.12);
+  --fc-non-business-color: rgba(0, 0, 0, 0.15);
+  --fc-bg-event-color: rgba(16, 185, 129, 0.1);
+  --fc-neutral-bg-color: rgba(255, 255, 255, 0.03);
+  --fc-neutral-text-color: rgba(255, 255, 255, 0.5);
+  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.15);
 
-  padding: 1.5rem;
-  //   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  // Container
+  padding: vars.$spacing-2xl vars.$spacing-xl;
+  background: vars.$bg-color-tertiary;
+  border-radius: vars.$border-radius-xl;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,
+    0 8px 32px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
-  // Calendar Header
+  // Subtle gradient overlay for depth
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    pointer-events: none;
+  }
+
+  // Calendar Title
   .calendar-title {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: vars.$font-size-2xl;
+    font-weight: 300;
+    letter-spacing: -0.02em;
     width: max-content;
-    margin: auto;
+    margin: 0 auto vars.$spacing-2xl;
     padding: 0;
+    color: vars.$text-color-primary;
+    opacity: 0.95;
   }
 
-  .fc-toolbar-title {
-    font-size: 1.25rem !important;
-    opacity: 0.8;
-    width: max-content;
-    margin: 0 1rem 0 2rem;
-  }
-
+  // Header Toolbar - Minimalist Design
   .fc-header-toolbar {
-    margin-bottom: 1.5rem !important;
-    padding: 0 0.5rem;
-    text-align: center;
+    margin-bottom: vars.$spacing-2xl !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: vars.$spacing-large;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: vars.$spacing-large;
 
-    .fc-button-group,
     .fc-toolbar-chunk {
-      gap: 0.5rem;
-      button {
-        height: 43px;
-      }
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-small;
+    }
+
+    .fc-toolbar-title {
+      font-size: vars.$font-size-xl !important;
+      font-weight: 300 !important;
+      letter-spacing: -0.01em;
+      color: vars.$text-color-primary;
+      opacity: 0.9;
+      margin: 0 !important;
+      padding: 0 vars.$spacing-medium;
+    }
+
+    .fc-button-group {
+      display: flex;
+      gap: vars.$spacing-xs;
+      border: none;
+      background: transparent;
     }
 
     .fc-button-primary {
-      text-transform: capitalize;
-      padding: 0.5rem 1rem;
-      font-weight: 500;
-      border-radius: 6px;
-      transition: all 0.2s ease;
+      text-transform: none;
+      font-weight: 400;
+      font-size: vars.$font-size-sm-md;
+      letter-spacing: 0.01em;
+      padding: vars.$spacing-sm-md vars.$spacing-large;
+      border-radius: vars.$border-radius-medium;
+      border: 1px solid var(--fc-button-border-color);
+      background: var(--fc-button-bg-color);
+      color: var(--fc-button-text-color);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      height: auto;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+      }
+
+      &:hover {
+        background: var(--fc-button-hover-bg-color);
+        border-color: var(--fc-button-hover-border-color);
+        color: vars.$text-color-primary;
+        transform: translateY(-1px);
+
+        &::before {
+          left: 100%;
+        }
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
 
       &:focus {
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
       }
 
       &.fc-button-active {
         background: var(--fc-button-active-bg-color);
+        border-color: var(--fc-button-active-border-color);
+        color: var(--fc-button-active-text-color);
+        font-weight: 500;
+        box-shadow:
+          0 2px 8px rgba(16, 185, 129, 0.2),
+          0 0 0 1px rgba(16, 185, 129, 0.1) inset;
       }
     }
 
     .fc-today-button {
-      text-transform: capitalize;
+      text-transform: none;
+      font-weight: 400;
     }
 
-    .fc-toolbar-title {
-      font-size: 1.5rem !important;
-      font-weight: 600;
+    .fc-prev-button,
+    .fc-next-button {
+      padding: vars.$spacing-sm-md;
+      min-width: 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: vars.$border-radius-medium;
     }
   }
 
+  // Closed Days - Subtle Indication
   .closed-day {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    color: #999 !important;
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    color: rgba(255, 255, 255, 0.25) !important;
     cursor: not-allowed !important;
     position: relative;
+    opacity: 0.4;
 
     &::after {
-      content: 'CLOSED';
+      content: '';
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 0.8em;
-      color: #666;
-      opacity: 0.5;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      width: 60%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+      pointer-events: none;
     }
 
-    // Prevent interactions on closed days
     & > * {
       pointer-events: none;
     }
+
+    .fc-daygrid-day-number {
+      opacity: 0.3;
+    }
   }
 
-  // Optional: Style the day number in closed days
-  .closed-day .fc-daygrid-day-number {
-    opacity: 0.5;
+  // FullCalendar Root - Ensure proper containment
+  .fc {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+
+    @media screen and (max-width: 490px) {
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+    }
   }
 
-  // Calendar Body
+  // Calendar Body - Refined Views
   .fc-view-harness {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+
+    @media screen and (max-width: 490px) {
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .fc-day-today {
       background: var(--fc-today-bg-color) !important;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: vars.$color-brand;
+        opacity: 0.6;
+      }
+    }
+
+    // List View - Clean & Minimal
+    .fc-list-view {
+      border: none;
+    }
+
+    .fc-list-table {
+      border: none;
     }
 
     .fc-list-event {
       cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: vars.$border-radius-small;
+      margin: vars.$spacing-xs 0;
+      padding: vars.$spacing-medium vars.$spacing-large;
+      border: 1px solid transparent;
+      background: transparent;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.04) !important;
+        border-color: rgba(255, 255, 255, 0.08);
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
     }
 
-    .fc-list-event:hover,
-    .fc-list-event-title:hover,
-    .fc-list-event td:hover {
-      background-color: transparent;
+    .fc-list-event-title {
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: vars.$text-color-primary;
     }
 
-    // Optional: Style the event dot in list view
+    .fc-list-event-time {
+      font-weight: 300;
+      opacity: 0.7;
+      font-size: vars.$font-size-sm-md;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
     .fc-list-event-dot {
-      margin: 0 6px;
-      box-shadow: 0 0 0 1px #fff;
+      margin: 0 vars.$spacing-medium 0 vars.$spacing-small;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+      background: vars.$color-brand;
     }
 
-    // Month View
+    // Month View - Elegant Grid
     .fc-daygrid {
-      border-radius: 6px;
-      overflow: hidden;
+      border-radius: 0;
+      overflow: visible;
 
-      .fc-day-header {
-        padding: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.875rem;
+      .fc-col-header {
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .fc-col-header-cell {
+        border: none;
+        padding: vars.$spacing-large vars.$spacing-medium;
+      }
+
+      .fc-col-header-cell-cushion {
+        font-weight: 400;
+        font-size: vars.$font-size-sm-md;
+        text-transform: none;
+        letter-spacing: 0.02em;
+        color: rgba(255, 255, 255, 0.6);
+        padding: 0;
       }
 
       .fc-daygrid-day {
-        transition: background-color 0.2s;
+        border: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 120px;
+        background: transparent;
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.02);
+          background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .fc-daygrid-day-frame {
+          padding: vars.$spacing-small;
         }
 
         .fc-daygrid-day-number {
-          padding: 0.5rem;
-          font-weight: 500;
+          padding: vars.$spacing-xs vars.$spacing-small;
+          font-weight: 400;
+          font-size: vars.$font-size-medium;
+          color: vars.$text-color-primary;
+          opacity: 0.8;
+          border-radius: vars.$border-radius-small;
+          width: fit-content;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.05);
+            opacity: 1;
+          }
         }
+
+        .fc-daygrid-day-top {
+          flex-direction: row;
+          justify-content: flex-start;
+        }
+      }
+
+      .fc-daygrid-day-events {
+        margin-top: vars.$spacing-xs;
       }
     }
 
-    // Week/Day View
+    // Week/Day View - Time Grid
     .fc-timegrid {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+
+      .fc-timegrid-body {
+        min-width: fit-content;
+      }
+
       .fc-timegrid-slot {
-        height: 3rem;
+        height: 3.5rem;
+        border-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .fc-timegrid-slot-label {
+        border-color: rgba(255, 255, 255, 0.06);
+        padding: vars.$spacing-small vars.$spacing-medium;
+      }
+
+      .fc-timegrid-slot-label-cushion {
+        font-weight: 300;
+        font-size: vars.$font-size-sm-md;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: none;
       }
 
       .fc-timegrid-axis {
-        padding: 0.5rem;
-        font-weight: 500;
-        font-size: 0.875rem;
+        border: none;
+        padding: vars.$spacing-small vars.$spacing-medium;
+        background: transparent;
+      }
+
+      .fc-timegrid-axis-cushion {
+        font-weight: 300;
+        font-size: vars.$font-size-sm-md;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .fc-timegrid-col {
+        border-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .fc-timegrid-col-frame {
+        border-color: rgba(255, 255, 255, 0.06);
       }
     }
 
-    // Events
+    // Events - Polished & Professional
     .booking-event {
-      margin: 0.125rem;
-      padding: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 500;
+      margin: vars.$spacing-xs vars.$spacing-small;
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      font-size: vars.$font-size-sm-md;
+      font-weight: 400;
+      letter-spacing: 0.01em;
       border: none !important;
-      background-color: vars.$color-brand !important;
-      border-color: vars.$color-brand !important;
+      border-radius: vars.$border-radius-small;
+      background: linear-gradient(
+        135deg,
+        vars.$color-brand 0%,
+        color.adjust(vars.$color-brand, $lightness: -5%) 100%
+      ) !important;
+      border-left: 3px solid color.adjust(vars.$color-brand, $lightness: 10%) !important;
+      box-shadow:
+        0 2px 8px rgba(16, 185, 129, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
 
       &:hover {
-        transform: scale(1.02);
-        transition: transform 0.2s ease;
-        background-color: rgba(16, 185, 129, 0.9) !important;
+        transform: translateY(-2px) scale(1.01);
+        box-shadow:
+          0 4px 16px rgba(16, 185, 129, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+        background: linear-gradient(
+          135deg,
+          color.adjust(vars.$color-brand, $lightness: 5%) 0%,
+          vars.$color-brand 100%
+        ) !important;
+
+        &::before {
+          left: 100%;
+        }
+      }
+
+      &:active {
+        transform: translateY(0) scale(1);
       }
 
       .fc-event-title {
-        padding: 0.25rem 0.5rem;
+        padding: 0;
         color: #000;
-        font-weight: 600;
+        font-weight: 500;
+        line-height: 1.4;
+        position: relative;
+        z-index: 1;
+      }
+
+      .fc-event-time {
+        font-weight: 300;
+        opacity: 0.9;
+        font-size: vars.$font-size-xs;
+        margin-bottom: 2px;
       }
     }
 
-    // Business Hours
+    // Business Hours - Subtle Indication
     .fc-non-business {
-      background: rgba(0, 0, 0, 0.025);
+      background: rgba(0, 0, 0, 0.15);
+      opacity: 0.5;
+    }
+
+    .fc-bg-event {
+      background: rgba(16, 185, 129, 0.08);
+      border: none;
     }
   }
 
-  // Dark theme styles (always applied)
-  background: vars.$bg-color-tertiary;
-
+  // Typography Refinements
   .fc-toolbar-title,
   .fc-col-header-cell-cushion,
   .fc-daygrid-day-number {
     color: vars.$text-color-primary;
+    font-family:
+      'DM Sans',
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
   }
 
   .fc-timegrid-axis,
   .fc-timegrid-slot-label {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.5);
+    font-family:
+      'DM Sans',
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
   }
 
-  .fc-non-business {
-    background: rgba(0, 0, 0, 0.2);
-  }
-
+  // Subtle hover effects
   .fc-daygrid-day:hover {
-    background-color: rgba(16, 185, 129, 0.05);
+    background-color: rgba(255, 255, 255, 0.02);
   }
 
-  // Responsive adjustments
+  // Event Popup - Elegant Modal
+  .event-popup-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 9998;
+    animation: fadeIn 0.2s ease-out;
+
+    &.closing {
+      animation: fadeOut 0.2s ease-out;
+    }
+  }
+
+  .event-popup {
+    position: fixed;
+    z-index: 9999;
+    max-width: 420px;
+    width: calc(100vw - vars.$spacing-2xl);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top center;
+
+    &.closing {
+      animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .event-popup-close {
+      position: absolute;
+      top: vars.$spacing-medium;
+      right: vars.$spacing-medium;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      padding: 0;
+      backdrop-filter: blur(10px);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: vars.$text-color-primary;
+        transform: rotate(90deg) scale(1.1);
+      }
+
+      &:active {
+        transform: rotate(90deg) scale(0.95);
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      left: 50% !important;
+      top: 50% !important;
+      transform: translate(-50%, -50%);
+      max-width: 90vw;
+
+      &.closing {
+        animation: fadeOut 0.2s ease-out;
+      }
+    }
+  }
+
+  // Responsive Design
   @media screen and (max-width: 768px) {
-    padding: 1rem;
+    padding: vars.$spacing-large vars.$spacing-medium;
+
+    .calendar-title {
+      font-size: vars.$font-size-xl;
+      margin-bottom: vars.$spacing-large;
+    }
 
     .fc-header-toolbar {
       flex-direction: column;
-      gap: 1rem;
+      gap: vars.$spacing-medium;
+      padding-bottom: vars.$spacing-medium;
 
       .fc-toolbar-title {
-        font-size: 1.25rem !important;
+        font-size: vars.$font-size-large !important;
         text-align: center;
+        padding: 0;
+      }
+
+      .fc-toolbar-chunk {
+        width: 100%;
+        justify-content: center;
       }
 
       .fc-button-group {
         justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .fc-button-primary {
+        font-size: vars.$font-size-small;
+        padding: vars.$spacing-xs vars.$spacing-medium;
+        min-height: 36px;
       }
     }
 
     .fc-view-harness {
       .fc-timegrid-axis {
-        font-size: 0.75rem;
+        font-size: vars.$font-size-xs;
+        padding: vars.$spacing-xs vars.$spacing-small;
+      }
+
+      .fc-timegrid-slot {
+        height: 3rem;
+      }
+
+      .fc-daygrid-day {
+        min-height: 80px;
+      }
+
+      // Week view improvements for tablet
+      .fc-timegrid {
+        .fc-timegrid-axis {
+          min-width: 50px;
+        }
+
+        .fc-timegrid-col {
+          min-width: 100px;
+        }
       }
     }
+
+    .booking-event {
+      font-size: vars.$font-size-xs;
+      padding: vars.$spacing-xs vars.$spacing-small;
+      margin: 2px vars.$spacing-xs;
+    }
+  }
+
+  // Small screens (under 490px) - Fix overflow and optimize
+  @media screen and (max-width: 490px) {
+    padding: vars.$spacing-medium vars.$spacing-small;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+
+    .fc {
+      min-width: 0;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: visible;
+    }
+
+    .fc-header-toolbar {
+      .fc-button-primary {
+        font-size: vars.$font-size-xs;
+        padding: vars.$spacing-xs vars.$spacing-sm-md;
+        min-height: 32px;
+      }
+    }
+
+    .fc-view-harness {
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+
+      // Week/Day View - Optimizations
+      .fc-timegrid {
+        width: 100%;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        -webkit-overflow-scrolling: touch;
+
+        .fc-scroller {
+          overflow-x: auto !important;
+          overflow-y: visible !important;
+        }
+
+        .fc-timegrid-body {
+          min-width: 500px; // Minimum width for horizontal scroll
+        }
+
+        .fc-timegrid-axis {
+          min-width: 40px;
+          width: 40px;
+          padding: vars.$spacing-xs;
+          font-size: 9px;
+        }
+
+        .fc-timegrid-axis-cushion {
+          font-size: 9px;
+          padding: 0;
+        }
+
+        .fc-timegrid-slot {
+          height: 2.5rem;
+          min-height: 2.5rem;
+        }
+
+        .fc-timegrid-slot-label {
+          padding: vars.$spacing-xs;
+          min-width: 40px;
+        }
+
+        .fc-timegrid-slot-label-cushion {
+          font-size: 9px;
+        }
+
+        .fc-timegrid-col {
+          min-width: 70px;
+        }
+
+        .fc-timegrid-col-header {
+          padding: vars.$spacing-xs vars.$spacing-small;
+        }
+
+        .fc-col-header-cell-cushion {
+          font-size: vars.$font-size-xs;
+          padding: vars.$spacing-xs;
+        }
+
+        // Compact event styling
+        .booking-event {
+          font-size: 8px;
+          padding: 2px vars.$spacing-xs;
+          margin: 1px;
+          line-height: 1.2;
+          min-height: 20px;
+
+          .fc-event-title {
+            font-size: 8px;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1.2;
+          }
+
+          .fc-event-time {
+            display: none; // Hide time to save space
+          }
+        }
+      }
+
+      // Month view optimizations
+      .fc-daygrid-day {
+        min-height: 60px;
+        padding: vars.$spacing-xs;
+
+        .fc-daygrid-day-number {
+          font-size: vars.$font-size-xs;
+          padding: vars.$spacing-xs;
+        }
+      }
+    }
+  }
+
+  // Extra Small Screens (320px - 360px) - Maximum Compactness
+  @media screen and (max-width: 360px) {
+    .fc-header-toolbar {
+      gap: vars.$spacing-small;
+      padding-bottom: vars.$spacing-small;
+
+      .fc-toolbar-title {
+        font-size: vars.$font-size-medium !important;
+      }
+
+      .fc-button-primary {
+        font-size: 9px;
+        padding: vars.$spacing-xs;
+        min-height: 28px;
+        min-width: auto;
+      }
+    }
+
+    .fc-view-harness {
+      .fc-timegrid {
+        .fc-timegrid-body {
+          min-width: 450px;
+        }
+
+        .fc-timegrid-axis {
+          min-width: 35px;
+          width: 35px;
+          padding: 4px;
+        }
+
+        .fc-timegrid-axis-cushion {
+          font-size: 8px;
+        }
+
+        .fc-timegrid-slot {
+          height: 2rem;
+          min-height: 2rem;
+        }
+
+        .fc-timegrid-slot-label {
+          min-width: 35px;
+          padding: 4px;
+        }
+
+        .fc-timegrid-slot-label-cushion {
+          font-size: 8px;
+        }
+
+        .fc-timegrid-col {
+          min-width: 60px;
+        }
+
+        .fc-col-header-cell {
+          padding: vars.$spacing-xs;
+        }
+
+        .fc-col-header-cell-cushion {
+          font-size: 9px;
+          padding: vars.$spacing-xs;
+        }
+
+        .booking-event {
+          font-size: 7px;
+          padding: 1px vars.$spacing-xs;
+          min-height: 18px;
+
+          .fc-event-title {
+            font-size: 7px;
+            line-height: 1.1;
+          }
+        }
+      }
+
+      .fc-daygrid-day {
+        min-height: 50px;
+      }
+    }
+  }
+}
+
+// Animations - Smooth & Refined
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
   }
 }
