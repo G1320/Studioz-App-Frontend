@@ -1,0 +1,47 @@
+.create-addon-form-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  .create-addon-form-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 1.5rem;
+    text-align: center;
+  }
+
+  .create-addon-form-wrapper {
+    width: 100%;
+  }
+
+  .create-addon-form {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .create-addon-form-container {
+    padding: 1.5rem 1rem;
+
+    .create-addon-form-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .create-addon-form-container {
+    padding: 1rem 0.75rem;
+
+    .create-addon-form-title {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
