@@ -57,6 +57,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           averageRating={studio?.averageRating}
           reviewCount={studio?.reviewCount}
           className="studio-details__rating"
+          variant="badge"
         />
 
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
@@ -119,10 +120,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         {studio?.parking && studio.parking !== 'none' && (
           <div role="group" aria-labelledby="parking">
             <LocalParking aria-label="Parking icon" />
-            <p
-              id="parking"
-              aria-label={`Parking at ${studio?.name.en}: ${getParkingLabel(studio.parking)}`}
-            >
+            <p id="parking" aria-label={`Parking at ${studio?.name.en}: ${getParkingLabel(studio.parking)}`}>
               {getParkingLabel(studio.parking)}
             </p>
           </div>
