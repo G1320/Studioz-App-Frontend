@@ -5,6 +5,8 @@ import { useCreateAddOnMutation } from '@shared/hooks';
 import { AddOn } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import './styles/_create-addon-form.scss';
 
 export const CreateAddOnForm = () => {
@@ -124,11 +126,17 @@ export const CreateAddOnForm = () => {
   return (
     <section className="create-addon-form-container">
       {!isFormVisible ? (
-        <button type="button" className="add-addon-button" onClick={() => setIsFormVisible(true)}>
-          + Add Add-On
+        <button
+          type="button"
+          className="add-addon-button"
+          onClick={() => setIsFormVisible(true)}
+          title={t('form.addAddOn') || 'Add Add-On'}
+          aria-label={t('form.addAddOn') || 'Add Add-On'}
+        >
+          <AddIcon className="add-addon-icon" />
         </button>
       ) : (
-        <>
+        <div className="addon-form-content">
           <div className="create-addon-form-header">
             <h2 className="create-addon-form-title">Add-On</h2>
             <button
@@ -136,14 +144,15 @@ export const CreateAddOnForm = () => {
               className="close-addon-form-button"
               onClick={() => setIsFormVisible(false)}
               aria-label="Close form"
+              title="Close form"
             >
-              ×
+              <CloseIcon />
             </button>
           </div>
           <div className="create-addon-form-wrapper">
             <GenericForm key={formKey} className="create-addon-form" fields={fields} onSubmit={handleSubmit} />
           </div>
-        </>
+        </div>
       )}
     </section>
   );

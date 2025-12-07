@@ -5,28 +5,56 @@
 .create-addon-form-container {
   margin-top: vars.$spacing-large;
 
-  // Add button to show the form
+  // Add button to show the form - icon-only with tooltip
   .add-addon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: vars.$spacing-medium;
+    padding: vars.$spacing-large;
     background: vars.$bg-color-tertiary;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.15);
     border-radius: vars.$border-radius-medium;
     color: vars.$text-color-primary;
-    font-size: vars.$font-size-medium;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    .add-addon-icon {
+      font-size: 2rem;
+      transition: all 0.3s ease;
+      opacity: 0.7;
+    }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(vars.$color-brand, 0.05);
       border-color: vars.$color-brand;
-      color: vars.$color-brand;
+      border-style: solid;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(vars.$color-brand, 0.15);
+
+      .add-addon-icon {
+        color: vars.$color-brand;
+        opacity: 1;
+        transform: scale(1.1) rotate(90deg);
+      }
     }
 
     &:active {
-      transform: scale(0.98);
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(vars.$color-brand, 0.1);
     }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.2);
+    }
+  }
+
+  // Form content wrapper for smooth transitions
+  .addon-form-content {
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   // Form header with title and close button
@@ -47,21 +75,31 @@
       background: transparent;
       border: none;
       color: vars.$text-color-primary;
-      font-size: vars.$font-size-2xl;
-      line-height: 1;
       cursor: pointer;
       padding: vars.$spacing-small;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: vars.$border-radius-small;
       transition: all 0.2s ease;
+      opacity: 0.7;
+
+      svg {
+        font-size: 1.5rem;
+      }
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);
         color: vars.$color-brand;
+        opacity: 1;
+        transform: rotate(90deg);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.3);
       }
     }
   }
@@ -75,6 +113,41 @@
   // This ensures styles don't leak to parent Item forms
   .create-addon-form {
     @include forms.branded-form;
+  }
+}
+
+// Smooth slide-down animation for form appearance
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Respect reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  .create-addon-form-container {
+    .addon-form-content {
+      animation: none;
+    }
+
+    .add-addon-button {
+      .add-addon-icon {
+        transition: none;
+      }
+
+      &:hover {
+        transform: none;
+
+        .add-addon-icon {
+          transform: none;
+        }
+      }
+    }
   }
 }
 
