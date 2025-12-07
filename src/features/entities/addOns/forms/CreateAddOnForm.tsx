@@ -13,6 +13,7 @@ export const CreateAddOnForm = () => {
   const createAddOnMutation = useCreateAddOnMutation(itemId ? itemId : undefined);
   const [pricePer, setPricePer] = useState<string>('hour');
   const [formKey, setFormKey] = useState<number>(0);
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
 
   interface FormData {
     name?: {
@@ -72,6 +73,8 @@ export const CreateAddOnForm = () => {
         // Reset form by changing key to force re-render
         setFormKey((prev) => prev + 1);
         setPricePer('hour');
+        // Hide form after successful submission
+        setIsFormVisible(false);
       }
     });
   };
@@ -120,10 +123,28 @@ export const CreateAddOnForm = () => {
 
   return (
     <section className="create-addon-form-container">
-      <h1 className="create-addon-form-title">Create Add-On</h1>
-      <div className="create-addon-form-wrapper">
-        <GenericForm key={formKey} className="create-addon-form" fields={fields} onSubmit={handleSubmit} />
-      </div>
+      {!isFormVisible ? (
+        <button type="button" className="add-addon-button" onClick={() => setIsFormVisible(true)}>
+          + Add Add-On
+        </button>
+      ) : (
+        <>
+          <div className="create-addon-form-header">
+            <h2 className="create-addon-form-title">Add-On</h2>
+            <button
+              type="button"
+              className="close-addon-form-button"
+              onClick={() => setIsFormVisible(false)}
+              aria-label="Close form"
+            >
+              ×
+            </button>
+          </div>
+          <div className="create-addon-form-wrapper">
+            <GenericForm key={formKey} className="create-addon-form" fields={fields} onSubmit={handleSubmit} />
+          </div>
+        </>
+      )}
     </section>
   );
 };

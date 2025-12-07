@@ -3,9 +3,72 @@
 
 // Scope all styles within this container to prevent affecting other forms
 .create-addon-form-container {
+  margin-top: vars.$spacing-large;
+
+  // Add button to show the form
+  .add-addon-button {
+    width: 100%;
+    padding: vars.$spacing-medium;
+    background: vars.$bg-color-tertiary;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-medium;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: vars.$color-brand;
+      color: vars.$color-brand;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  // Form header with title and close button
+  .create-addon-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: vars.$spacing-large;
+
+    .create-addon-form-title {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+      color: vars.$text-color-primary;
+      margin: 0;
+    }
+
+    .close-addon-form-button {
+      background: transparent;
+      border: none;
+      color: vars.$text-color-primary;
+      font-size: vars.$font-size-2xl;
+      line-height: 1;
+      cursor: pointer;
+      padding: vars.$spacing-small;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: vars.$border-radius-small;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: vars.$color-brand;
+      }
+    }
+  }
+
   .create-addon-form-wrapper {
     width: 100%;
-    margin-top: vars.$spacing-large;
+    margin-top: vars.$spacing-medium;
   }
 
   // Scope branded-form mixin to only affect elements within this form
