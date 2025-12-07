@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '@core/contexts';
-import { useCancelReservationMutation } from '@shared/hooks';
+import { useCancelReservationMutation, useUpdateReservationMutation } from '@shared/hooks';
 import { Reservation, Studio } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { getStoredCustomerPhone } from '@shared/utils/reservation-storage';
@@ -21,6 +21,7 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const cancelMutation = useCancelReservationMutation();
+  const updateReservationMutation = useUpdateReservationMutation();
 
   // Check if user is the reservation owner (logged in)
   const isLoggedInOwner = useMemo(() => {
@@ -103,7 +104,19 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
     }
   };
 
+  const handleConfirmReservation = async () => {
+    try {
+      await updateReservationMutation.mutateAsync({
+        reservationId: reservation._id,
+        updates: { status: 'confirmed' }
+      });
+    } catch (error) {
+      // Error is handled by mutation handler
+    }
+  };
+
   const canModify = reservation.status === 'pending' && isReservationOwner;
+  const canConfirm = reservation.status === 'pending' && isStudioOwnerForReservation;
 
   // Always show actions section - show buttons with appropriate states
   // This ensures users can see what actions are available
@@ -155,6 +168,18 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
             </button>
           )}
         </>
+      )}
+
+      {/* Confirm Reservation button - only for studio owners with pending status */}
+      {canConfirm && (
+        <button
+          className="reservation-actions__button reservation-actions__button--confirm-reservation"
+          onClick={handleConfirmReservation}
+          disabled={updateReservationMutation.isPending}
+          aria-label={t('confirmReservation')}
+        >
+          {updateReservationMutation.isPending ? t('confirming') : t('confirmReservation')}
+        </button>
       )}
 
       {/* Modify button - only for reservation owners with pending status */}

@@ -62,6 +62,8 @@
   "confirmCancel": "האם אתה בטוח שברצונך לבטל את ההזמנה הזו?",
   "confirm": "אישור",
   "cancel": "ביטול",
+  "confirmReservation": "אשר הזמנה",
+  "confirming": "מאשר...",
   "modifyReservation": "ערוך הזמנה",
   "contact": "צור קשר",
   "contactCustomer": "צור קשר עם הלקוח",

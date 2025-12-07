@@ -62,6 +62,8 @@
   "confirmCancel": "Are you sure you want to cancel this reservation?",
   "confirm": "Confirm",
   "cancel": "Cancel",
+  "confirmReservation": "Confirm Reservation",
+  "confirming": "Confirming...",
   "modifyReservation": "Modify Reservation",
   "contact": "Contact",
   "contactCustomer": "Contact Customer",
