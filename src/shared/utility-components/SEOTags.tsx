@@ -2,7 +2,7 @@
 import { Helmet } from 'react-helmet-async';
 import { getPageTitle, getMetaDescription } from '@shared/utils/seoUtils';
 
-export const SEOTags = ({ path }: { path: string }) => {
+export const SEOTags = ({ path, search = '' }: { path: string; search?: string }) => {
   const lang = path.split('/')[1] || 'en';
   const currentLang = lang === 'he' ? 'he' : 'en';
 
@@ -219,8 +219,24 @@ export const SEOTags = ({ path }: { path: string }) => {
   const enPath = basePath === '/' ? '/en' : `/en${basePath}`;
   const hePath = basePath === '/' ? '/he' : `/he${basePath}`;
 
+  // Extract filters from URL and decode them
+  const pathParts = basePath.split('/').filter(Boolean);
+  const category = pathParts[0] === 'studios' ? decodeURIComponent(pathParts[1] || '') : '';
+  const subcategory = pathParts[0] === 'studios' && pathParts[2] ? decodeURIComponent(pathParts[2]) : '';
+  
+  // Extract city from query parameters (URLSearchParams.get() already decodes, but we'll ensure it's clean)
+  const searchParams = new URLSearchParams(search);
+  const cityParam = searchParams.get('city');
+  const city = cityParam ? decodeURIComponent(cityParam) : undefined;
+
   // Generate SEO content using utility functions
-  const seoContext = { basePath, currentLang: currentLang as 'en' | 'he' };
+  const seoContext = { 
+    basePath, 
+    currentLang: currentLang as 'en' | 'he',
+    category: category || undefined,
+    subcategory: subcategory || undefined,
+    city: city
+  };
   const pageTitle = getPageTitle(seoContext);
   const metaDescription = getMetaDescription(seoContext);
 

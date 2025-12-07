@@ -36,7 +36,7 @@ function App() {
     <HelmetProvider>
       <PayPalScriptProvider options={initialOptions}>
         <Header cart={onlineCart || offlineCart} user={user} />
-        <SEOTags path={location.pathname} />
+        <SEOTags path={location.pathname} search={location.search} />
 
         <main className="main-content" id="main-content">
           <ScrollToTop />
