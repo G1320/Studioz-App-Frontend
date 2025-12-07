@@ -18,6 +18,11 @@
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 
     &:disabled {
       opacity: 0.6;
@@ -99,8 +104,31 @@
   }
 
   @media (max-width: 768px) {
+    gap: vars.$spacing-small;
+
+    &__button {
+      padding: vars.$spacing-small vars.$spacing-medium;
+      font-size: vars.$font-size-small;
+    }
+
+    &__confirm {
+      padding: vars.$spacing-medium;
+    }
+
     &__confirm-buttons {
       flex-direction: column;
+      width: 100%;
+    }
+
+    &__confirm-message {
+      font-size: vars.$font-size-small;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__button {
+      padding: vars.$spacing-xs vars.$spacing-small;
+      font-size: vars.$font-size-small;
     }
   }
 }

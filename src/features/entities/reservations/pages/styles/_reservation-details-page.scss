@@ -7,6 +7,8 @@
   padding: vars.$spacing-xl vars.$spacing-large;
   min-height: 60vh;
   animation: fadeIn 0.3s ease-in;
+  box-sizing: border-box;
+  overflow-x: hidden;
 
   &__header {
     display: flex;
@@ -49,6 +51,9 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: vars.$border-radius-large;
     padding: vars.$spacing-xl;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   &__section-title {
@@ -78,6 +83,8 @@
     align-items: center;
     padding: vars.$spacing-small 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    gap: vars.$spacing-small;
+    flex-wrap: wrap;
 
     &:last-child {
       border-bottom: none;
@@ -94,6 +101,8 @@
     font-size: vars.$font-size-medium;
     color: rgba(255, 255, 255, 0.6);
     font-weight: 500;
+    flex-shrink: 0;
+    min-width: fit-content;
   }
 
   &__info-value {
@@ -101,6 +110,10 @@
     color: vars.$text-color-primary;
     font-weight: 500;
     text-align: right;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    flex: 1;
+    min-width: 0;
 
     .reservation-details-page__info-row--full & {
       text-align: left;
@@ -156,6 +169,7 @@
 
   @media (max-width: 768px) {
     padding: vars.$spacing-large vars.$spacing-medium;
+    max-width: 100%;
 
     &__header {
       flex-direction: column;
@@ -165,14 +179,18 @@
 
     &__title {
       font-size: vars.$font-size-xl;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     &__section {
-      padding: vars.$spacing-large;
+      padding: vars.$spacing-large vars.$spacing-medium;
     }
 
     &__section-title {
       font-size: vars.$font-size-large;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     &__info-row {
@@ -183,6 +201,39 @@
 
     &__info-value {
       text-align: left;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: vars.$spacing-medium vars.$spacing-small;
+    max-width: 100%;
+
+    &__header {
+      margin-bottom: vars.$spacing-large;
+    }
+
+    &__title {
+      font-size: vars.$font-size-large;
+    }
+
+    &__section {
+      padding: vars.$spacing-medium vars.$spacing-small;
+    }
+
+    &__section-title {
+      font-size: vars.$font-size-medium;
+      margin-bottom: vars.$spacing-medium;
+    }
+
+    &__info-label,
+    &__info-value {
+      font-size: vars.$font-size-small;
+    }
+
+    &__back-button {
+      padding: vars.$spacing-xs vars.$spacing-small;
+      font-size: vars.$font-size-small;
     }
   }
 }
