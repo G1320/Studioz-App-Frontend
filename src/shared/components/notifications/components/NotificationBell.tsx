@@ -9,12 +9,10 @@ import '../styles/notification-bell.scss';
 export const NotificationBell: React.FC = () => {
   const { unreadCount } = useNotificationContext();
   const { i18n } = useTranslation();
-  const isRTL = i18n.dir() === 'rtl';
 
-  // In LTR: anchor to bottom-right (opens left)
-  // In RTL: anchor to bottom-left (opens right, which is visually on the right side)
-  const anchor = isRTL ? 'bottom-left' : 'bottom-right';
-
+  // Always anchor to bottom-right - the RTL CSS will automatically flip it correctly
+  // In LTR: anchors to bottom-right, opens left
+  // In RTL: CSS flips it to anchor to bottom-left (visually right), opens right
   return (
     <PopupDropdown
       trigger={
@@ -31,7 +29,7 @@ export const NotificationBell: React.FC = () => {
         </button>
       }
       className="notification-bell"
-      anchor={anchor}
+      anchor="bottom-right"
       minWidth="320px"
       maxWidth="420px"
     >
