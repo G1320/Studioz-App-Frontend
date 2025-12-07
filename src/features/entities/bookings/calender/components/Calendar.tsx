@@ -30,22 +30,16 @@ interface EventPopupInfo {
 
 export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, studioReservations = [] }) => {
   const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
   const { i18n } = useTranslation();
 
   useEffect(() => {
     setSelectedEvent(null);
-    setIsClosing(false);
   }, [studioReservations]);
 
-  // Close popup with animation
+  // Close popup immediately
   const handleClosePopup = useCallback(() => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setSelectedEvent(null);
-      setIsClosing(false);
-    }, 200);
+    setSelectedEvent(null);
   }, []);
 
   // Handle click outside
@@ -168,45 +162,31 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
         stickyHeaderDates={true}
         eventDisplay="block"
         eventClick={(info) => {
-          const rect = info.el.getBoundingClientRect();
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
           const scrollX = window.scrollX;
           const scrollY = window.scrollY;
 
           // Popup dimensions
-          const popupWidth = 420;
+          const popupWidth = Math.min(420, viewportWidth - 40);
           const popupHeight = 350; // More accurate estimate
-          const spacing = 12; // Space between event and popup
 
-          // Default: position to the right of the event, vertically centered
-          let x = rect.right + scrollX + spacing;
-          let y = rect.top + scrollY + rect.height / 2 - popupHeight / 2;
+          // Always center the popup
+          let x = scrollX + viewportWidth / 2 - popupWidth / 2;
+          let y = scrollY + viewportHeight / 2 - popupHeight / 2;
 
-          // If not enough space on the right, position to the left
-          if (x + popupWidth > viewportWidth + scrollX - 20) {
-            x = rect.left + scrollX - popupWidth - spacing;
-          }
-
-          // If not enough space on the left either, center horizontally
+          // Ensure popup stays within viewport bounds
           if (x < scrollX + 20) {
-            x = scrollX + viewportWidth / 2 - popupWidth / 2;
+            x = scrollX + 20;
           }
-
-          // Vertical adjustments - keep popup within viewport
-          if (y + popupHeight > viewportHeight + scrollY - 20) {
-            y = viewportHeight + scrollY - popupHeight - 20;
+          if (x + popupWidth > viewportWidth + scrollX - 20) {
+            x = viewportWidth + scrollX - popupWidth - 20;
           }
           if (y < scrollY + 20) {
             y = scrollY + 20;
           }
-
-          // Ensure popup doesn't go off-screen horizontally
-          if (x + popupWidth > viewportWidth + scrollX - 20) {
-            x = viewportWidth + scrollX - popupWidth - 20;
-          }
-          if (x < scrollX + 20) {
-            x = scrollX + 20;
+          if (y + popupHeight > viewportHeight + scrollY - 20) {
+            y = viewportHeight + scrollY - popupHeight - 20;
           }
 
           setSelectedEvent({
@@ -228,14 +208,10 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
       />
       {selectedEvent && selectedReservation && (
         <>
-          <div
-            className={`event-popup-backdrop ${isClosing ? 'closing' : ''}`}
-            onClick={handleClosePopup}
-            aria-hidden="true"
-          />
+          <div className="event-popup-backdrop" onClick={handleClosePopup} aria-hidden="true" />
           <div
             ref={popupRef}
-            className={`event-popup ${isClosing ? 'closing' : ''}`}
+            className="event-popup"
             style={{
               left: `${selectedEvent.position.x}px`,
               top: `${selectedEvent.position.y}px`

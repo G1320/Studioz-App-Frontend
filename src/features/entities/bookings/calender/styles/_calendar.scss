@@ -544,23 +544,16 @@
     backdrop-filter: blur(8px);
     z-index: 9998;
     animation: fadeIn 0.2s ease-out;
-
-    &.closing {
-      animation: fadeOut 0.2s ease-out;
-    }
   }
 
   .event-popup {
     position: fixed;
     z-index: 9999;
     max-width: 420px;
-    width: calc(100vw - vars.$spacing-2xl);
+    width: calc(95vw - vars.$spacing-2xl);
     animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center center;
-
-    &.closing {
-      animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    will-change: transform, opacity;
 
     .event-popup-close {
       position: absolute;
@@ -599,14 +592,7 @@
     }
 
     @media (max-width: 768px) {
-      left: 50% !important;
-      top: 50% !important;
-      transform: translate(-50%, -50%);
       max-width: 90vw;
-
-      &.closing {
-        animation: fadeOut 0.2s ease-out;
-      }
     }
   }
 
@@ -902,21 +888,21 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.98);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes slideDown {
   from {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: translateY(10px) scale(0.98);
+    transform: scale(0.95);
   }
 }
