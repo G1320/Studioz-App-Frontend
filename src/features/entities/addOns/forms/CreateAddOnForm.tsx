@@ -10,7 +10,7 @@ import './styles/_create-addon-form.scss';
 export const CreateAddOnForm = () => {
   const { itemId } = useParams();
   const { t } = useTranslation('forms');
-  const createAddOnMutation = useCreateAddOnMutation(itemId);
+  const createAddOnMutation = useCreateAddOnMutation(itemId ? itemId : undefined);
   const [pricePer, setPricePer] = useState<string>('hour');
   const [formKey, setFormKey] = useState<number>(0);
 

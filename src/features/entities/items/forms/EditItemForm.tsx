@@ -14,6 +14,7 @@ import { Item } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils/compareArrays';
 import { useTranslation } from 'react-i18next';
+import { CreateAddOnForm } from '@features/entities/addOns/forms';
 
 interface FormData {
   imageUrl?: string;
@@ -149,6 +150,9 @@ export const EditItemForm = () => {
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
         />
+      </section>
+      <section className="addon-form-section">
+        <CreateAddOnForm />
       </section>
     </section>
   );
