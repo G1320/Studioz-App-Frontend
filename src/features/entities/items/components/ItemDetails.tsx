@@ -8,7 +8,8 @@ import {
   useCart,
   useLanguageNavigate,
   usePrefetchItem,
-  useReserveStudioItemTimeSlotsMutation
+  useReserveStudioItemTimeSlotsMutation,
+  useReservation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
 import { User, Wishlist } from 'src/types/index';
@@ -16,7 +17,7 @@ import { splitDateTime } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
-import { ReservationDetails } from '@features/entities/reservations';
+import { ReservationCard } from '@features/entities/reservations';
 
 interface ItemDetailsProps {
   itemId: string;
@@ -46,6 +47,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     return localStorage.getItem(`reservation_${itemId}`) || null;
   });
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
+
+  // Fetch reservation data when we have a reservation ID
+  const { data: reservation } = useReservation(currentReservationId || '');
 
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
 
@@ -163,11 +167,14 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         onImageClick={handleImageClicked}
       />
 
-      {currentReservationId && (
-        <ReservationDetails
-          reservationId={currentReservationId}
-          pricePer={item?.pricePer as string}
-          onClear={() => setCurrentReservationId(null)}
+      {currentReservationId && reservation && (
+        <ReservationCard
+          reservation={reservation}
+          variant="itemCard"
+          onCancel={() => {
+            localStorage.removeItem(`reservation_${itemId}`);
+            setCurrentReservationId(null);
+          }}
         />
       )}
       <div className="date-picker-row">

@@ -141,6 +141,116 @@
     }
   }
 
+  &__cancel-button {
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: rgba(248, 113, 113, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.4);
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+
+    &:hover:not(:disabled) {
+      background: rgba(248, 113, 113, 0.3);
+      border-color: #f87171;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__cancel-confirm {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-medium;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: vars.$border-radius-small;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__cancel-message {
+    margin: 0;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-medium;
+    text-align: center;
+  }
+
+  &__cancel-buttons {
+    display: flex;
+    gap: vars.$spacing-small;
+    justify-content: center;
+  }
+
+  &__cancel-confirm-button {
+    padding: vars.$spacing-xs vars.$spacing-medium;
+    background: rgba(248, 113, 113, 0.3);
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.5);
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(248, 113, 113, 0.4);
+      border-color: #f87171;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__cancel-cancel-button {
+    padding: vars.$spacing-xs vars.$spacing-medium;
+    background: rgba(255, 255, 255, 0.1);
+    color: vars.$text-color-primary;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  // Item card variant - not clickable
+  &--item-card {
+    cursor: default;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: none;
+      box-shadow: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
   @media (max-width: 768px) {
     padding: vars.$spacing-medium;
 
