@@ -6,10 +6,11 @@ import { ProfileImageUploader } from '@shared/components';
 import { useUserContext } from '@core/contexts';
 import { setLocalUser } from '@shared/services';
 import { useUpdateUserMutation } from '@shared/hooks/mutations';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface ProfileDetailsProps {
@@ -71,10 +72,16 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           <h2 className="profile-section__title">{t('profile.actions.title')}</h2>
           <div className="profile-actions">
             {user && (
-              <button className="profile-action-button" onClick={() => handleNavigate('/dashboard')}>
-                <DashboardIcon className="profile-action-icon" />
-                <span>{t('profile.buttons.dashboard')}</span>
-              </button>
+              <>
+                <button className="profile-action-button" onClick={() => handleNavigate('/dashboard')}>
+                  <DashboardIcon className="profile-action-icon" />
+                  <span>{t('profile.buttons.dashboard')}</span>
+                </button>
+                <button className="profile-action-button" onClick={() => handleNavigate('/reservations')}>
+                  <EventNoteIcon className="profile-action-icon" />
+                  <span>{t('profile.buttons.reservations')}</span>
+                </button>
+              </>
             )}
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>

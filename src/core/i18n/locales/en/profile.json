@@ -5,7 +5,8 @@
       "title": "Actions"
     },
     "buttons": {
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "reservations": "My reservations"
     },
     "email": {
       "label": "Email",

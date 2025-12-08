@@ -5,7 +5,8 @@
       "title": "פעולות"
     },
     "buttons": {
-      "dashboard": "לוח בקרה"
+      "dashboard": "לוח בקרה",
+      "reservations": "ההזמנות שלי"
     },
     "email": {
       "label": "אימייל",
