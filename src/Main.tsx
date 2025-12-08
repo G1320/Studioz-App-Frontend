@@ -17,6 +17,7 @@ import {
   OfflineCartProvider,
   UserProvider,
   ModalProvider,
+  ReservationModalProvider,
   CookieConsentProvider,
   LocationPermissionProvider,
   NotificationProvider
@@ -59,9 +60,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                         }}
                       >
                         <ModalProvider>
-                          <SearchProvider>
-                            <App />
-                          </SearchProvider>
+                          <ReservationModalProvider>
+                            <SearchProvider>
+                              <App />
+                            </SearchProvider>
+                          </ReservationModalProvider>
                         </ModalProvider>
                       </Auth0Provider>
                     </LocalizationProvider>

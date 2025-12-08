@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCancelReservationMutation } from '@shared/hooks';
-import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
-import { isFeatureEnabled } from '@core/config/featureFlags';
+import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { Reservation } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
 import dayjs from 'dayjs';
@@ -16,7 +15,7 @@ interface ReservationCardProps {
 
 export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, variant = 'list', onCancel }) => {
   const { t, i18n } = useTranslation('reservations');
-  const langNavigate = useLanguageNavigate();
+  const { openReservationModal } = useReservationModal();
   const cancelMutation = useCancelReservationMutation();
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
@@ -70,8 +69,8 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
     : null;
 
   const handleCardClick = () => {
-    if (variant === 'list' && isFeatureEnabled('reservationDetailsPage')) {
-      langNavigate(`/reservations/${reservation._id}`);
+    if (variant === 'list') {
+      openReservationModal(reservation);
     }
   };
 
@@ -155,15 +154,14 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
   );
 
   if (variant === 'list') {
-    const isClickable = isFeatureEnabled('reservationDetailsPage');
     return (
       <article
         className="reservation-card"
-        onClick={isClickable ? handleCardClick : undefined}
-        onKeyDown={isClickable ? handleKeyDown : undefined}
-        role={isClickable ? 'button' : undefined}
-        tabIndex={isClickable ? 0 : undefined}
-        aria-label={isClickable ? `${itemName} reservation on ${formattedDate}` : undefined}
+        onClick={handleCardClick}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-label={`${itemName} reservation on ${formattedDate}`}
       >
         {cardContent}
       </article>

@@ -6,6 +6,7 @@ export * from './ReservationTypeToggle';
 export * from './ReservationActions';
 export * from './ReservationCardSkeleton';
 export * from './EmptyReservationsState';
+export * from './ReservationDetails';
 export * from './ReservationDetailsHeader';
 export * from './ReservationDetailsInfoSection';
 export * from './ReservationDetailsActionsSection';

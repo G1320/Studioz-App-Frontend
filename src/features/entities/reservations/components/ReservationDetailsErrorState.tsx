@@ -24,4 +24,3 @@ export const ReservationDetailsErrorState: React.FC = () => {
     </div>
   );
 };
-

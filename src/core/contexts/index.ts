@@ -3,6 +3,7 @@ export * from './SearchContext';
 export * from './SocketContext';
 export * from './UserContext';
 export * from './ModalContext';
+export * from './ReservationModalContext';
 export * from './CookieConsentContext';
 export * from './LocationPermissionContext';
 export * from './NotificationContext';
