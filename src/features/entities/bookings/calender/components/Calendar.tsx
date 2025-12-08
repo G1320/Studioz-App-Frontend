@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -10,6 +10,7 @@ import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import Reservation from 'src/types/reservation';
 import { ReservationCard } from '@features/entities/reservations';
+import { GenericModal } from '@shared/components';
 
 interface CalendarProps {
   title?: string;
@@ -25,12 +26,10 @@ interface EventPopupInfo {
   customerName: string;
   customerPhone: string;
   comment?: string;
-  position: { x: number; y: number };
 }
 
 export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, studioReservations = [] }) => {
   const [selectedEvent, setSelectedEvent] = useState<EventPopupInfo | null>(null);
-  const popupRef = useRef<HTMLDivElement>(null);
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -41,33 +40,6 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
   const handleClosePopup = useCallback(() => {
     setSelectedEvent(null);
   }, []);
-
-  // Handle click outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (selectedEvent && popupRef.current && !popupRef.current.contains(event.target as Node)) {
-        handleClosePopup();
-      }
-    };
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && selectedEvent) {
-        handleClosePopup();
-      }
-    };
-
-    if (selectedEvent) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = '';
-    };
-  }, [selectedEvent, handleClosePopup]);
 
   // Find the selected reservation from studioReservations
   const selectedReservation = useMemo(() => {
@@ -162,22 +134,6 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
         stickyHeaderDates={true}
         eventDisplay="block"
         eventClick={(info) => {
-          const viewportHeight = window.innerHeight;
-          const scrollY = window.scrollY;
-          const popupHeight = 350; // More accurate estimate
-          const offset = 120; // Move up by this amount
-
-          // Position popup higher than center
-          let y = scrollY + viewportHeight / 2 - popupHeight / 2 - offset;
-
-          // Ensure popup stays within viewport bounds vertically
-          if (y < scrollY + 20) {
-            y = scrollY + 20;
-          }
-          if (y + popupHeight > viewportHeight + scrollY - 20) {
-            y = viewportHeight + scrollY - popupHeight - 20;
-          }
-
           setSelectedEvent({
             title: info.event.title,
             start: info.event.startStr,
@@ -185,8 +141,7 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
             reservationId: info.event.extendedProps.reservationId,
             customerName: info.event.extendedProps.customerName,
             customerPhone: info.event.extendedProps.customerPhone,
-            comment: info.event.extendedProps.comment,
-            position: { x: 0, y } // x: 0 means use CSS centering
+            comment: info.event.extendedProps.comment
           });
         }}
         slotLabelFormat={{
@@ -196,33 +151,9 @@ export const Calendar: React.FC<CalendarProps> = ({ title, studioAvailability, s
         }}
       />
       {selectedEvent && selectedReservation && (
-        <>
-          <div className="event-popup-backdrop" onClick={handleClosePopup} aria-hidden="true" />
-          <div
-            ref={popupRef}
-            className="event-popup"
-            style={{
-              left: selectedEvent.position.x === 0 ? undefined : `${selectedEvent.position.x}px`,
-              top: `${selectedEvent.position.y}px`
-            }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="event-popup-title"
-          >
-            <button className="event-popup-close" onClick={handleClosePopup} aria-label="Close event details">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M15 5L5 15M5 5L15 15"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <ReservationCard reservation={selectedReservation} variant="itemCard" />
-          </div>
-        </>
+        <GenericModal open={!!selectedEvent} onClose={handleClosePopup} className="calendar-event-modal">
+          <ReservationCard reservation={selectedReservation} variant="itemCard" />
+        </GenericModal>
       )}
     </div>
   );

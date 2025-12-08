@@ -14,7 +14,7 @@
   box-sizing: border-box;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
+  margin: 0;
   &:hover {
     border-color: vars.$color-brand;
     transform: translateY(-2px);
