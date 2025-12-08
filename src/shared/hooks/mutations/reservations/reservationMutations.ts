@@ -12,7 +12,8 @@ export const useCancelReservationMutation = () => {
     invalidateQueries: [{ queryKey: 'reservationsList' }, { queryKey: 'reservations' }],
     onSuccess: (_data, reservationId) => {
       // Invalidate the specific reservation query
-      queryClient.invalidateQueries({ queryKey: ['reservation', reservationId] });
+      queryClient.invalidateQueries({ queryKey: ['reservation', reservationId] }),
+        queryClient.invalidateQueries({ queryKey: ['reservationsList'] });
     }
   });
 };

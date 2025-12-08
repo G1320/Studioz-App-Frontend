@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCancelReservationMutation } from '@shared/hooks';
 import { Reservation } from 'src/types/index';
+import { CancelReservationConfirm } from './CancelReservationConfirm';
 import dayjs from 'dayjs';
 import './styles/_reservation-card.scss';
 
@@ -115,47 +116,23 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
       </div>
 
       <div className="reservation-card__actions">
-        {variant === 'itemCard' && (
-          <>
-            {!showCancelConfirm ? (
-              <button
-                className="reservation-card__cancel-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCancel();
-                }}
-                disabled={cancelMutation.isPending}
-              >
-                {cancelMutation.isPending ? t('cancelling') : t('cancelReservation')}
-              </button>
-            ) : (
-              <div className="reservation-card__cancel-confirm">
-                <p className="reservation-card__cancel-message">{t('confirmCancel')}</p>
-                <div className="reservation-card__cancel-buttons">
-                  <button
-                    className="reservation-card__cancel-confirm-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCancel();
-                    }}
-                    disabled={cancelMutation.isPending}
-                  >
-                    {t('confirm')}
-                  </button>
-                  <button
-                    className="reservation-card__cancel-cancel-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowCancelConfirm(false);
-                    }}
-                    disabled={cancelMutation.isPending}
-                  >
-                    {t('cancel')}
-                  </button>
-                </div>
-              </div>
-            )}
-          </>
+        {!showCancelConfirm ? (
+          <button
+            className="reservation-card__cancel-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCancel();
+            }}
+            disabled={cancelMutation.isPending}
+          >
+            {cancelMutation.isPending ? t('cancelling') : t('cancelReservation')}
+          </button>
+        ) : (
+          <CancelReservationConfirm
+            onConfirm={handleCancel}
+            onCancel={() => setShowCancelConfirm(false)}
+            isPending={cancelMutation.isPending}
+          />
         )}
       </div>
     </div>
