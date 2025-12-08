@@ -4,252 +4,35 @@
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: vars.$spacing-xl vars.$spacing-large;
+  padding: vars.$spacing-3xl vars.$spacing-large;
   min-height: 60vh;
-  animation: fadeIn 0.3s ease-in;
   box-sizing: border-box;
   overflow-x: hidden;
-
-  &__header {
-    display: flex;
-    align-items: center;
-    gap: vars.$spacing-medium;
-    margin-bottom: vars.$spacing-2xl;
-  }
-
-  &__back-button {
-    padding: vars.$spacing-small vars.$spacing-medium;
-    background: transparent;
-    color: vars.$text-color-primary;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-medium;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover {
-      border-color: vars.$color-brand;
-      background: rgba(16, 185, 129, 0.1);
-    }
-  }
-
-  &__title {
-    font-size: vars.$font-size-2xl;
-    font-weight: 700;
-    color: vars.$text-color-primary;
-    margin: 0;
-  }
+  animation: fadeIn 0.4s ease-out;
 
   &__content {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-2xl;
+    gap: vars.$spacing-3xl;
   }
 
-  &__section {
-    background: vars.$bg-color-secondary;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: vars.$border-radius-large;
-    padding: vars.$spacing-xl;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    width: 100%;
-  }
-
-  &__section-title {
-    font-size: vars.$font-size-xl;
-    font-weight: 600;
-    color: vars.$text-color-primary;
-    margin: 0 0 vars.$spacing-large 0;
-    padding-bottom: vars.$spacing-medium;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  &__studio-name {
-    font-size: vars.$font-size-medium;
-    color: rgba(255, 255, 255, 0.6);
-    margin: vars.$spacing-small 0 0 0;
-  }
-
-  &__info-grid {
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-medium;
-  }
-
-  &__info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: vars.$spacing-small 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    gap: vars.$spacing-small;
-    flex-wrap: wrap;
-
-    &:last-child {
-      border-bottom: none;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    &--full {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: vars.$spacing-small;
-    }
-  }
-
-  &__info-label {
-    font-size: vars.$font-size-medium;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 500;
-    flex-shrink: 0;
-    min-width: fit-content;
-  }
-
-  &__info-value {
-    font-size: vars.$font-size-medium;
-    color: vars.$text-color-primary;
-    font-weight: 500;
-    text-align: right;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    flex: 1;
-    min-width: 0;
-
-    .reservation-details-page__info-row--full & {
-      text-align: left;
-      width: 100%;
-    }
-  }
-
-  &__status-badge {
-    padding: vars.$spacing-xs vars.$spacing-small;
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-small;
-    font-weight: 600;
-    text-transform: uppercase;
-
-    &.status-pending {
-      background: rgba(251, 191, 36, 0.2);
-      color: #fbbf24;
-    }
-
-    &.status-confirmed {
-      background: rgba(52, 211, 153, 0.2);
-      color: #34d399;
-    }
-
-    &.status-expired {
-      background: rgba(248, 113, 113, 0.2);
-      color: #f87171;
-    }
-  }
-
-  &__price {
-    color: vars.$color-brand;
-    font-weight: 600;
-    font-size: vars.$font-size-large;
-  }
-
-  &__loading,
-  &__error {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-    text-align: center;
-    gap: vars.$spacing-large;
-
-    p {
-      font-size: vars.$font-size-large;
-      color: rgba(255, 255, 255, 0.6);
-      margin: 0;
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-large vars.$spacing-medium;
+    padding: vars.$spacing-2xl vars.$spacing-medium;
     max-width: 100%;
 
-    &__header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: vars.$spacing-small;
-    }
-
-    &__title {
-      font-size: vars.$font-size-xl;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-
-    &__section {
-      padding: vars.$spacing-large vars.$spacing-medium;
-    }
-
-    &__section-title {
-      font-size: vars.$font-size-large;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-
-    &__info-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: vars.$spacing-xs;
-    }
-
-    &__info-value {
-      text-align: left;
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 480px) {
-    padding: vars.$spacing-medium vars.$spacing-small;
-    max-width: 100%;
-
-    &__header {
-      margin-bottom: vars.$spacing-large;
-    }
-
-    &__title {
-      font-size: vars.$font-size-large;
-    }
-
-    &__section {
-      padding: vars.$spacing-medium vars.$spacing-small;
-    }
-
-    &__section-title {
-      font-size: vars.$font-size-medium;
-      margin-bottom: vars.$spacing-medium;
-    }
-
-    &__info-label,
-    &__info-value {
-      font-size: vars.$font-size-small;
-    }
-
-    &__back-button {
-      padding: vars.$spacing-xs vars.$spacing-small;
-      font-size: vars.$font-size-small;
+    &__content {
+      gap: vars.$spacing-2xl;
     }
   }
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reservation-details-page {
-    animation: none;
-  }
-}
-

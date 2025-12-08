@@ -1,0 +1,39 @@
+@use 'utilities/variables' as vars;
+
+.reservation-details-loading-state {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: vars.$spacing-3xl vars.$spacing-large;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: vars.$spacing-2xl;
+  }
+
+  &__message {
+    font-size: vars.$font-size-large;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-2xl vars.$spacing-medium;
+
+    &__message {
+      font-size: vars.$font-size-medium;
+    }
+  }
+}
+

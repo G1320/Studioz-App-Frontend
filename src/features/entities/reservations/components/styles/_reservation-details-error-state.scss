@@ -1,0 +1,81 @@
+@use 'utilities/variables' as vars;
+
+.reservation-details-error-state {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: vars.$spacing-3xl vars.$spacing-large;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: vars.$spacing-2xl;
+    text-align: center;
+  }
+
+  &__message {
+    font-size: vars.$font-size-2xl;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+  }
+
+  &__back-button {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-medium vars.$spacing-2xl;
+    background: transparent;
+    color: vars.$color-brand;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    font-size: vars.$font-size-medium;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.2px;
+
+    &:hover {
+      background: vars.$color-brand;
+      color: vars.$text-color-primary;
+      border-color: vars.$color-brand;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus {
+      outline: 2px solid vars.$color-brand;
+      outline-offset: 4px;
+    }
+  }
+
+  &__back-icon {
+    font-size: 20px;
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-2xl vars.$spacing-medium;
+
+    &__message {
+      font-size: vars.$font-size-xl;
+    }
+
+    &__back-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
