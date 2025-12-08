@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { useCancelReservationMutation } from '@shared/hooks';
 import { Reservation } from 'src/types/index';
 import dayjs from 'dayjs';
@@ -14,7 +13,6 @@ interface ReservationCardProps {
 
 export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, variant = 'list', onCancel }) => {
   const { t, i18n } = useTranslation('reservations');
-  const langNavigate = useLanguageNavigate();
   const cancelMutation = useCancelReservationMutation();
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
@@ -22,13 +20,6 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
   if (!reservation || !reservation.timeSlots || reservation.timeSlots.length === 0 || !reservation.bookingDate) {
     return null;
   }
-
-  const handleCardClick = () => {
-    // Only navigate when in list variant
-    if (variant === 'list') {
-      langNavigate(`/reservations/${reservation._id}`);
-    }
-  };
 
   const handleCancel = async () => {
     if (!showCancelConfirm) {
@@ -124,18 +115,6 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
       </div>
 
       <div className="reservation-card__actions">
-        {variant === 'list' && (
-          <button
-            className="reservation-card__view-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleCardClick();
-            }}
-          >
-            {t('viewDetails')}
-          </button>
-        )}
-
         {variant === 'itemCard' && (
           <>
             {!showCancelConfirm ? (
@@ -182,25 +161,8 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
     </div>
   );
 
-  // If list variant, make the whole card clickable
   if (variant === 'list') {
-    return (
-      <article
-        className="reservation-card"
-        onClick={handleCardClick}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleCardClick();
-          }
-        }}
-        aria-label={`${itemName} reservation on ${formattedDate}`}
-      >
-        {cardContent}
-      </article>
-    );
+    return <article className="reservation-card">{cardContent}</article>;
   }
 
   // If itemCard variant, card is not clickable (just displays info)

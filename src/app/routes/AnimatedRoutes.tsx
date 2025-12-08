@@ -23,7 +23,7 @@ import User from 'src/types/user';
 import { SumitSubscriptionPage, MySubscriptionPage } from '@features/entities/subscriptions';
 import { useTranslation } from 'react-i18next';
 import VendorOnboardingPage from '@features/vendor-onboarding/sumit/pages/VendorOnboardingPage';
-import { featureFlags } from '@core/config/featureFlags';
+import { featureFlags, isFeatureEnabled } from '@core/config/featureFlags';
 
 const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
@@ -301,14 +301,16 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route
-            path="/:lang?/reservations/:reservationId"
-            element={
-              <AnimatedRoute>
-                <ReservationDetailsPage />
-              </AnimatedRoute>
-            }
-          />
+          {isFeatureEnabled('reservationDetailsPage') && (
+            <Route
+              path="/:lang?/reservations/:reservationId"
+              element={
+                <AnimatedRoute>
+                  <ReservationDetailsPage />
+                </AnimatedRoute>
+              }
+            />
+          )}
 
           <Route
             path="/:lang?/privacy"

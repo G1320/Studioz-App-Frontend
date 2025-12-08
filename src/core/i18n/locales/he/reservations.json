@@ -10,8 +10,7 @@
   "loading": "טוען...",
   "noReservations": "עדיין לא ביצעת הזמנות",
   "noReservationsSubtitle": "ההזמנות שלך יופיעו כאן לאחר שתזמין מפגש",
-  "reservationsCount": "יש לך {{count}} הזמנה",
-  "reservationsCount_plural": "יש לך {{count}} הזמנות",
+  "reservationsCount": "{{count}} הזמנות",
   "date": "תאריך",
   "time": "שעה",
   "duration": "משך",
@@ -19,7 +18,7 @@
   "hours": "שעות",
   "total": "סה\"כ",
   "status": "סטטוס",
-  "status.pending": "ממתין",
+  "status.pending": "ממתין לאישור",
   "status.confirmed": "מאושר",
   "status.expired": "פג תוקף",
   "viewDetails": "צפה בפרטים",
@@ -42,7 +41,7 @@
     "typeLabel": "סוג",
     "status": {
       "all": "כל הסטטוסים",
-      "pending": "ממתין",
+      "pending": "ממתין לאישור",
       "confirmed": "מאושר",
       "expired": "פג תוקף"
     },
@@ -82,4 +81,3 @@
     "browseStudios": "עיין בסטודיו"
   }
 }
-

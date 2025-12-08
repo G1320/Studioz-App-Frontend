@@ -8,6 +8,7 @@ export interface FeatureFlags {
   itemCardDistanceBadge: boolean;
   notifications: boolean;
   addOns: boolean;
+  reservationDetailsPage: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -19,7 +20,8 @@ export const featureFlags: FeatureFlags = {
   faviconLogo: true,
   itemCardDistanceBadge: false,
   notifications: true,
-  addOns: false
+  addOns: false,
+  reservationDetailsPage: false
 };
 
 /**

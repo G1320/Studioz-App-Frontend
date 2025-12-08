@@ -6,8 +6,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: vars.$border-radius-medium;
   padding: vars.$spacing-large;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default !important;
   animation: fadeIn 0.3s ease-in;
   width: 100%;
   max-width: 100%;
@@ -16,18 +15,13 @@
   word-wrap: break-word;
   margin: 0;
   &:hover {
-    border-color: vars.$color-brand;
-    transform: translateY(-2px);
-    box-shadow: vars.$box-shadow-medium;
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: none;
+    box-shadow: none;
   }
 
   &:focus {
-    outline: 2px solid vars.$color-brand;
-    outline-offset: 2px;
-  }
-
-  &:active {
-    transform: translateY(0);
+    outline: none;
   }
 
   &__content {
