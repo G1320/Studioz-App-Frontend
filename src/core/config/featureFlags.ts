@@ -21,7 +21,7 @@ export const featureFlags: FeatureFlags = {
   itemCardDistanceBadge: false,
   notifications: true,
   addOns: false,
-  reservationDetailsPage: false
+  reservationDetailsPage: true
 };
 
 /**

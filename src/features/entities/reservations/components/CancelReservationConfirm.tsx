@@ -16,7 +16,10 @@ export const CancelReservationConfirm: React.FC<CancelReservationConfirmProps> =
   const { t } = useTranslation('reservations');
 
   return (
-    <div className="reservation-card__cancel-confirm">
+    <div
+      className="reservation-card__cancel-confirm"
+      onClick={(e) => e.stopPropagation()}
+    >
       <p className="reservation-card__cancel-message">{t('confirmCancel')}</p>
       <div className="reservation-card__cancel-buttons">
         <button

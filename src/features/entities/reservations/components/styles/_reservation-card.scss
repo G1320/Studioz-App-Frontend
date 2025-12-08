@@ -6,7 +6,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: vars.$border-radius-medium;
   padding: vars.$spacing-large;
-  cursor: default !important;
+  cursor: default;
   animation: fadeIn 0.3s ease-in;
   width: 100%;
   max-width: 100%;
@@ -14,14 +14,39 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   margin: 0;
-  &:hover {
-    border-color: rgba(255, 255, 255, 0.1);
-    transform: none;
-    box-shadow: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Clickable card styles (when role="button")
+  &[role='button'] {
+    cursor: pointer;
+
+    &:hover {
+      border-color: vars.$color-brand;
+      transform: translateY(-2px);
+      box-shadow: vars.$box-shadow-medium;
+    }
+
+    &:focus {
+      outline: 2px solid vars.$color-brand;
+      outline-offset: 2px;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 
-  &:focus {
-    outline: none;
+  // Non-clickable card styles
+  &:not([role='button']) {
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: none;
+      box-shadow: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &__content {

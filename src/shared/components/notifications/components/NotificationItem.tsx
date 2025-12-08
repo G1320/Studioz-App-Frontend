@@ -79,4 +79,3 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
 
   return content;
 };
-
