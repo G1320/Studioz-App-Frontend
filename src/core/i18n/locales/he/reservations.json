@@ -21,7 +21,7 @@
   "status.pending": "ממתין לאישור",
   "status.confirmed": "מאושר",
   "status.expired": "פג תוקף",
-  "status.canceled": "בוטל",
+  "status.cancelled": "בוטל",
   "status.rejected": "נדחה",
   "viewDetails": "צפה בפרטים",
   "back": "חזור",
@@ -46,7 +46,7 @@
       "pending": "ממתין לאישור",
       "confirmed": "מאושר",
       "expired": "פג תוקף",
-      "canceled": "בוטלה",
+      "cancelled": "בוטלה",
       "rejected": "נדחתה"
     },
     "type": {

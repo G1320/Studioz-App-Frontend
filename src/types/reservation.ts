@@ -12,7 +12,7 @@ export default interface Reservation {
   userId: string;
   bookingDate: string;
   timeSlots: string[];
-  status: 'pending' | 'confirmed' | 'expired' | 'canceled' | 'rejected';
+  status: 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected';
   expiration: Date;
   createdAt?: Date;
   updatedAt?: Date;

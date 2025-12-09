@@ -21,7 +21,7 @@
   "status.pending": "Pending",
   "status.confirmed": "Confirmed",
   "status.expired": "Expired",
-  "status.canceled": "Canceled",
+  "status.cancelled": "Cancelled",
   "status.rejected": "Rejected",
   "viewDetails": "View Details",
   "back": "Back",
@@ -46,7 +46,7 @@
       "pending": "Pending",
       "confirmed": "Confirmed",
       "expired": "Expired",
-      "canceled": "Canceled",
+      "cancelled": "cancelled",
       "rejected": "Rejected"
     },
     "type": {
@@ -85,4 +85,3 @@
     "browseStudios": "Browse Studios"
   }
 }
-

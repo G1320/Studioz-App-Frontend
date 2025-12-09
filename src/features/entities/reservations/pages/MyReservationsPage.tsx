@@ -11,7 +11,9 @@ const MyReservationsPage: React.FC = () => {
   const { t } = useTranslation('reservations');
   const { user } = useUserContext();
   const { data: allStudios = [] } = useStudios();
-  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'expired' | 'canceled' | 'rejected'>('all');
+  const [statusFilter, setStatusFilter] = useState<
+    'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected'
+  >('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'incoming' | 'outgoing'>('all');
   const [viewType, setViewType] = useState<ReservationViewType>('all');
 

@@ -10,7 +10,7 @@ interface UseReservationsListOptions {
   useStoredIds?: boolean; // If true, fetch reservations from localStorage IDs
   userStudios?: Studio[]; // User's studios for studio owner filtering
   filters?: {
-    status?: 'pending' | 'confirmed' | 'expired' | 'canceled' | 'rejected' | 'all';
+    status?: 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected' | 'all';
     type?: 'incoming' | 'outgoing' | 'all';
   };
 }

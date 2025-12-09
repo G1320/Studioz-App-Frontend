@@ -39,6 +39,8 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   // Only show cancel button if user is NOT a studio owner
   const showCancelButton = !isStudioOwnerForReservation;
 
+  const isCancelledStatus = reservation.status === 'cancelled' || reservation.status === 'rejected';
+
   // Guard against missing reservation data
   if (!reservation || !reservation.timeSlots || reservation.timeSlots.length === 0 || !reservation.bookingDate) {
     return null;
@@ -104,6 +106,15 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
     }
   };
 
+  const handleCreateNewReservation = () => {
+    if (reservation?.itemId) {
+      localStorage.removeItem(`reservation_${reservation.itemId}`);
+    }
+    if (onCancel) {
+      onCancel();
+    }
+  };
+
   const cardContent = (
     <div className="reservation-card__content">
       <div className="reservation-card__header">
@@ -162,7 +173,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                 e.stopPropagation();
                 handleCancel();
               }}
-              disabled={cancelMutation.isPending}
+              disabled={cancelMutation.isPending || isCanceledStatus}
             >
               {cancelMutation.isPending ? t('cancelling') : t('cancelReservation')}
             </button>
@@ -172,6 +183,18 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
               onCancel={() => setShowCancelConfirm(false)}
               isPending={cancelMutation.isPending}
             />
+          )}
+
+          {variant === 'itemCard' && isCanceledStatus && (
+            <button
+              className="reservation-card__cancel-button reservation-card__cancel-button--secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCreateNewReservation();
+              }}
+            >
+              {t('reservations:createNewReservation', 'Create new reservation')}
+            </button>
           )}
         </div>
       )}
