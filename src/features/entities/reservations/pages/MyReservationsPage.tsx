@@ -5,19 +5,15 @@ import { useReservationsList, useStudios } from '@shared/hooks';
 import { ReservationsList } from '../components/ReservationsList';
 import { ReservationFilters, ReservationTypeToggle, ReservationViewType } from '../components';
 import { hasStoredReservations } from '@shared/utils/reservation-storage';
+import { useReservationFilters } from '../hooks/useReservationFilters';
 import './styles/_my-reservations-page.scss';
 
 const MyReservationsPage: React.FC = () => {
   const { t } = useTranslation('reservations');
   const { user } = useUserContext();
   const { data: allStudios = [] } = useStudios();
-  const [statusFilter, setStatusFilter] = useState<
-    'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected'
-  >('all');
-  const [typeFilter, setTypeFilter] = useState<'all' | 'incoming' | 'outgoing'>('all');
-  const [sortOption, setSortOption] = useState<'booking-desc' | 'booking-asc' | 'created-desc' | 'created-asc'>(
-    'booking-desc'
-  );
+
+  const { status, setStatus, type, setType, sort, setSort, statusOptions, sortOptions } = useReservationFilters();
   const [viewType, setViewType] = useState<ReservationViewType>('all');
 
   // Check if user is logged in or has stored reservations
@@ -36,16 +32,16 @@ const MyReservationsPage: React.FC = () => {
     useStoredIds: hasStoredReservations() && !user?._id,
     userStudios: isStudioOwner ? userStudios : [],
     filters: {
-      status: statusFilter,
-      type: typeFilter,
-      sort: sortOption
+      status,
+      type,
+      sort
     }
   });
 
   // Sync viewType with typeFilter for studio owners
   useEffect(() => {
     if (isStudioOwner) {
-      setTypeFilter(viewType === 'all' ? 'all' : viewType);
+      setType(viewType === 'all' ? 'all' : viewType);
     }
   }, [viewType, isStudioOwner]);
 
@@ -72,10 +68,12 @@ const MyReservationsPage: React.FC = () => {
       {/* Filters */}
       {hasAccess && (
         <ReservationFilters
-          status={statusFilter}
-          onStatusChange={setStatusFilter}
-          sort={sortOption}
-          onSortChange={setSortOption}
+          status={status}
+          onStatusChange={setStatus}
+          sort={sort}
+          onSortChange={setSort}
+          statusOptions={statusOptions}
+          sortOptions={sortOptions}
           className="my-reservations-page__filters"
         />
       )}
@@ -85,7 +83,7 @@ const MyReservationsPage: React.FC = () => {
         isLoading={isLoading}
         isStudioOwner={isStudioOwner}
         viewType={viewType}
-        hasFilters={statusFilter !== 'all' || typeFilter !== 'all'}
+        hasFilters={status !== 'all' || type !== 'all'}
         userStudios={userStudios}
       />
     </div>

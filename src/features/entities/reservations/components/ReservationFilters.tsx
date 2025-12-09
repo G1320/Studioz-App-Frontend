@@ -1,17 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DropdownOption } from '@shared/components';
 import './styles/_reservation-filters.scss';
-
-export type ReservationStatusFilter = 'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected';
-export type ReservationSortOption = 'booking-desc' | 'booking-asc' | 'created-desc' | 'created-asc';
+import {
+  ReservationFilterOption,
+  ReservationSortOption,
+  ReservationStatusFilter
+} from '@features/entities/reservations/hooks/useReservationFilters';
 
 interface ReservationFiltersProps {
   status: ReservationStatusFilter;
   onStatusChange: (status: ReservationStatusFilter) => void;
   sort: ReservationSortOption;
   onSortChange: (sort: ReservationSortOption) => void;
-
+  statusOptions: ReservationFilterOption<ReservationStatusFilter>[];
+  sortOptions: ReservationFilterOption<ReservationSortOption>[];
   className?: string;
 }
 
@@ -20,25 +22,11 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
   onStatusChange,
   sort,
   onSortChange,
-
+  statusOptions,
+  sortOptions,
   className = ''
 }) => {
   const { t } = useTranslation('reservations');
-
-  const statusOptions: DropdownOption[] = [
-    { label: t('filters.status.all'), value: 'all' },
-    { label: t('filters.status.pending'), value: 'pending' },
-    { label: t('filters.status.confirmed'), value: 'confirmed' },
-    { label: t('filters.status.expired'), value: 'expired' },
-    { label: t('filters.status.cancelled'), value: 'cancelled' }
-  ];
-
-  const sortOptions: DropdownOption[] = [
-    { label: t('filters.sort.bookingDesc'), value: 'booking-desc' },
-    { label: t('filters.sort.bookingAsc'), value: 'booking-asc' },
-    { label: t('filters.sort.createdDesc'), value: 'created-desc' },
-    { label: t('filters.sort.createdAsc'), value: 'created-asc' }
-  ];
 
   return (
     <div className={`reservation-filters ${className}`}>
@@ -55,7 +43,7 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
           >
             {statusOptions.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {t(option.labelKey)}
               </option>
             ))}
           </select>
@@ -73,7 +61,7 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
           >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {t(option.labelKey)}
               </option>
             ))}
           </select>
