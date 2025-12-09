@@ -173,7 +173,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                 e.stopPropagation();
                 handleCancel();
               }}
-              disabled={cancelMutation.isPending || isCanceledStatus}
+              disabled={cancelMutation.isPending || isCancelledStatus}
             >
               {cancelMutation.isPending ? t('cancelling') : t('cancelReservation')}
             </button>
@@ -185,7 +185,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             />
           )}
 
-          {variant === 'itemCard' && isCanceledStatus && (
+          {variant === 'itemCard' && isCancelledStatus && (
             <button
               className="reservation-card__cancel-button reservation-card__cancel-button--secondary"
               onClick={(e) => {
