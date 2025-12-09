@@ -3,24 +3,24 @@ import { useTranslation } from 'react-i18next';
 import { DropdownOption } from '@shared/components';
 import './styles/_reservation-filters.scss';
 
-export type ReservationStatusFilter = 'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled';
-export type ReservationTypeFilter = 'all' | 'incoming' | 'outgoing';
+export type ReservationStatusFilter = 'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected';
+export type ReservationSortOption = 'booking-desc' | 'booking-asc' | 'created-desc' | 'created-asc';
 
 interface ReservationFiltersProps {
   status: ReservationStatusFilter;
-  type: ReservationTypeFilter;
   onStatusChange: (status: ReservationStatusFilter) => void;
-  onTypeChange: (type: ReservationTypeFilter) => void;
-  showTypeFilter?: boolean; // Only show for studio owners
+  sort: ReservationSortOption;
+  onSortChange: (sort: ReservationSortOption) => void;
+
   className?: string;
 }
 
 export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
   status,
-  type,
   onStatusChange,
-  onTypeChange,
-  showTypeFilter = false,
+  sort,
+  onSortChange,
+
   className = ''
 }) => {
   const { t } = useTranslation('reservations');
@@ -33,10 +33,11 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
     { label: t('filters.status.cancelled'), value: 'cancelled' }
   ];
 
-  const typeOptions: DropdownOption[] = [
-    { label: t('filters.type.all'), value: 'all' },
-    { label: t('filters.type.incoming'), value: 'incoming' },
-    { label: t('filters.type.outgoing'), value: 'outgoing' }
+  const sortOptions: DropdownOption[] = [
+    { label: t('filters.sort.bookingDesc'), value: 'booking-desc' },
+    { label: t('filters.sort.bookingAsc'), value: 'booking-asc' },
+    { label: t('filters.sort.createdDesc'), value: 'created-desc' },
+    { label: t('filters.sort.createdAsc'), value: 'created-asc' }
   ];
 
   return (
@@ -60,25 +61,23 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
           </select>
         </div>
 
-        {showTypeFilter && (
-          <div className="reservation-filters__filter">
-            <label className="reservation-filters__label" htmlFor="type-filter">
-              {t('filters.typeLabel')}
-            </label>
-            <select
-              id="type-filter"
-              className="reservation-filters__select"
-              value={type}
-              onChange={(e) => onTypeChange(e.target.value as ReservationTypeFilter)}
-            >
-              {typeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        <div className="reservation-filters__filter">
+          <label className="reservation-filters__label" htmlFor="sort-filter">
+            {t('filters.sortLabel')}
+          </label>
+          <select
+            id="sort-filter"
+            className="reservation-filters__select"
+            value={sort}
+            onChange={(e) => onSortChange(e.target.value as ReservationSortOption)}
+          >
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );

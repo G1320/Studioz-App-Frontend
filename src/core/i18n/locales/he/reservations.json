@@ -49,18 +49,25 @@
       "pending": "ממתין לאישור",
       "confirmed": "מאושר",
       "expired": "פג תוקף",
-      "cancelled": "בוטלה"
+      "cancelled": "בוטל"
     },
     "type": {
       "all": "כל הסוגים",
-      "incoming": "נכנס",
-      "outgoing": "יוצא"
+      "incoming": "הזמנות נכנסות",
+      "outgoing": "הזמנות יוצאות"
+    },
+    "sortLabel": "מיון לפי",
+    "sort": {
+      "bookingDesc": "תאריך ביקור (חדש → ישן)",
+      "bookingAsc": "תאריך ביקור (ישן → חדש)",
+      "createdDesc": "תאריך הזמנה (חדש → ישן)",
+      "createdAsc": "תאריך הזמנה (ישן → חדש)"
     }
   },
   "toggle": {
     "all": "הכל",
-    "myBookings": "ההזמנות שלי",
-    "studioReservations": "הזמנות סטודיו"
+    "myBookings": " הזמנות יוצאות",
+    "studioReservations": "הזמנות נכנסות"
   },
   "cancelReservation": "בטל הזמנה",
   "cancelling": "מבטל...",

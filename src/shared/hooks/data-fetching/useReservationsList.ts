@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getReservations, getReservationsByPhone, getReservationById } from '@shared/services';
 import { Reservation, Studio } from 'src/types/index';
+import dayjs from 'dayjs';
 import { getLocalUser } from '@shared/services';
 import { useMemo } from 'react';
 import { getStoredReservationIds } from '@shared/utils/reservation-storage';
@@ -12,6 +13,7 @@ interface UseReservationsListOptions {
   filters?: {
     status?: 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected' | 'all';
     type?: 'incoming' | 'outgoing' | 'all';
+    sort?: 'booking-desc' | 'booking-asc' | 'created-desc' | 'created-asc';
   };
 }
 
@@ -106,15 +108,50 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
       filtered = filtered.filter((res) => res.status === filters.status);
     }
 
-    // Sort: pending first, then by most recently updated/created
-    filtered.sort((a, b) => {
-      const aPending = a.status === 'pending';
-      const bPending = b.status === 'pending';
-      if (aPending !== bPending) return aPending ? -1 : 1;
+    // Sorting
+    const sortOption = filters.sort || 'booking-desc';
 
-      const aDate = a.updatedAt || a.createdAt || 0;
-      const bDate = b.updatedAt || b.createdAt || 0;
-      return new Date(bDate).getTime() - new Date(aDate).getTime();
+    const bookingDateTime = (res: Reservation) => {
+      if (!res.bookingDate) return null;
+      const time = res.timeSlots?.[0];
+      if (time) {
+        const dt = dayjs(`${res.bookingDate} ${time}`, 'DD/MM/YYYY HH:mm');
+        if (dt.isValid()) return dt;
+      }
+      const d = dayjs(res.bookingDate, 'DD/MM/YYYY');
+      return d.isValid() ? d : null;
+    };
+
+    const createdDateTime = (res: Reservation) => {
+      if (!res.createdAt) return null;
+      const d = dayjs(res.createdAt);
+      return d.isValid() ? d : null;
+    };
+
+    const compare = (x: dayjs.Dayjs | null, y: dayjs.Dayjs | null, direction: 'asc' | 'desc') => {
+      if (!x && !y) return 0;
+      if (!x) return 1;
+      if (!y) return -1;
+      return direction === 'asc' ? x.valueOf() - y.valueOf() : y.valueOf() - x.valueOf();
+    };
+
+    filtered.sort((a, b) => {
+      const aBooking = bookingDateTime(a);
+      const bBooking = bookingDateTime(b);
+      const aCreated = createdDateTime(a);
+      const bCreated = createdDateTime(b);
+
+      switch (sortOption) {
+        case 'booking-asc':
+          return compare(aBooking, bBooking, 'asc');
+        case 'created-desc':
+          return compare(aCreated, bCreated, 'desc');
+        case 'created-asc':
+          return compare(aCreated, bCreated, 'asc');
+        case 'booking-desc':
+        default:
+          return compare(aBooking, bBooking, 'desc');
+      }
     });
 
     return filtered;

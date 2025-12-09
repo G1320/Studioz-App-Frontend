@@ -15,6 +15,9 @@ const MyReservationsPage: React.FC = () => {
     'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected'
   >('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'incoming' | 'outgoing'>('all');
+  const [sortOption, setSortOption] = useState<'booking-desc' | 'booking-asc' | 'created-desc' | 'created-asc'>(
+    'booking-desc'
+  );
   const [viewType, setViewType] = useState<ReservationViewType>('all');
 
   // Check if user is logged in or has stored reservations
@@ -34,7 +37,8 @@ const MyReservationsPage: React.FC = () => {
     userStudios: isStudioOwner ? userStudios : [],
     filters: {
       status: statusFilter,
-      type: typeFilter
+      type: typeFilter,
+      sort: sortOption
     }
   });
 
@@ -69,10 +73,9 @@ const MyReservationsPage: React.FC = () => {
       {hasAccess && (
         <ReservationFilters
           status={statusFilter}
-          type={typeFilter}
           onStatusChange={setStatusFilter}
-          onTypeChange={setTypeFilter}
-          showTypeFilter={isStudioOwner}
+          sort={sortOption}
+          onSortChange={setSortOption}
           className="my-reservations-page__filters"
         />
       )}

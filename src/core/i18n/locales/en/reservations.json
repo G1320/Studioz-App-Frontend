@@ -55,6 +55,13 @@
       "all": "All Types",
       "incoming": "Incoming",
       "outgoing": "Outgoing"
+    },
+    "sortLabel": "Sort by",
+    "sort": {
+      "bookingDesc": "Visit date (newest first)",
+      "bookingAsc": "Visit date (oldest first)",
+      "createdDesc": "Booking created (newest first)",
+      "createdAsc": "Booking created (oldest first)"
     }
   },
   "toggle": {
