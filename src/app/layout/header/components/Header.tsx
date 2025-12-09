@@ -90,10 +90,10 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         </Link>
         <LanguageSwitcher aria-label="Switch language" />
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
+        <ReservationBell />
         {user && (
           <>
             {featureFlags.notifications && <NotificationBell />}
-            <ReservationBell />
             <Link
               to={`${currLang}/profile`}
               className="header-profile-button-container"

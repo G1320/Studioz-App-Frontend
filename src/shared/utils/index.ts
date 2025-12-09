@@ -11,3 +11,4 @@ export * from './DateTimeUtils';
 export * from './filterUtils';
 export * from './shuffleArrays';
 export * from './reservation-storage';
+export * from './reservation-utils';
