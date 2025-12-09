@@ -81,6 +81,7 @@ const MyReservationsPage: React.FC = () => {
         isStudioOwner={isStudioOwner}
         viewType={viewType}
         hasFilters={statusFilter !== 'all' || typeFilter !== 'all'}
+        userStudios={userStudios}
       />
     </div>
   );

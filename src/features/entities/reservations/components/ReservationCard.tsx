@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCancelReservationMutation } from '@shared/hooks';
+import { useUserContext } from '@core/contexts';
 import { useReservationModal } from '@core/contexts/ReservationModalContext';
-import { Reservation } from 'src/types/index';
+import { Reservation, Studio } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
 import dayjs from 'dayjs';
 import './styles/_reservation-card.scss';
@@ -11,13 +12,32 @@ interface ReservationCardProps {
   reservation: Reservation;
   variant?: 'list' | 'itemCard'; // 'list' for ReservationsList, 'itemCard' for ItemDetails
   onCancel?: () => void; // Callback when cancel is clicked (for itemCard variant)
+  userStudios?: Studio[]; // User's studios to determine if they're a studio owner
 }
 
-export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, variant = 'list', onCancel }) => {
+export const ReservationCard: React.FC<ReservationCardProps> = ({
+  reservation,
+  variant = 'list',
+  onCancel,
+  userStudios = []
+}) => {
   const { t, i18n } = useTranslation('reservations');
+  const { user } = useUserContext();
   const { openReservationModal } = useReservationModal();
   const cancelMutation = useCancelReservationMutation();
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+
+  // Check if user is studio owner for this reservation
+  const isStudioOwnerForReservation = useMemo(() => {
+    if (!user?._id || userStudios.length === 0) return false;
+    return userStudios.some((studio) => {
+      if (!studio.items || studio.items.length === 0) return false;
+      return studio.items.some((item) => item.itemId === reservation.itemId);
+    });
+  }, [user?._id, userStudios, reservation.itemId]);
+
+  // Only show cancel button if user is NOT a studio owner
+  const showCancelButton = !isStudioOwnerForReservation;
 
   // Guard against missing reservation data
   if (!reservation || !reservation.timeSlots || reservation.timeSlots.length === 0 || !reservation.bookingDate) {
@@ -133,26 +153,28 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
         )}
       </div>
 
-      <div className="reservation-card__actions">
-        {!showCancelConfirm ? (
-          <button
-            className="reservation-card__cancel-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleCancel();
-            }}
-            disabled={cancelMutation.isPending}
-          >
-            {cancelMutation.isPending ? t('cancelling') : t('cancelReservation')}
-          </button>
-        ) : (
-          <CancelReservationConfirm
-            onConfirm={handleCancel}
-            onCancel={() => setShowCancelConfirm(false)}
-            isPending={cancelMutation.isPending}
-          />
-        )}
-      </div>
+      {showCancelButton && (
+        <div className="reservation-card__actions">
+          {!showCancelConfirm ? (
+            <button
+              className="reservation-card__cancel-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancel();
+              }}
+              disabled={cancelMutation.isPending}
+            >
+              {cancelMutation.isPending ? t('cancelling') : t('cancelReservation')}
+            </button>
+          ) : (
+            <CancelReservationConfirm
+              onConfirm={handleCancel}
+              onCancel={() => setShowCancelConfirm(false)}
+              isPending={cancelMutation.isPending}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 

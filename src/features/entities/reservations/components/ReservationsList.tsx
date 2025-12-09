@@ -3,7 +3,7 @@ import { GenericList } from '@shared/components';
 import { ReservationCard } from './ReservationCard';
 import { ReservationCardSkeleton } from './ReservationCardSkeleton';
 import { EmptyReservationsState } from './EmptyReservationsState';
-import { Reservation } from 'src/types/index';
+import { Reservation, Studio } from 'src/types/index';
 import './styles/_reservations-list.scss';
 
 interface ReservationsListProps {
@@ -12,6 +12,7 @@ interface ReservationsListProps {
   isStudioOwner?: boolean;
   viewType?: 'incoming' | 'outgoing' | 'all';
   hasFilters?: boolean;
+  userStudios?: Studio[];
 }
 
 export const ReservationsList: React.FC<ReservationsListProps> = ({
@@ -19,7 +20,8 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({
   isLoading = false,
   isStudioOwner = false,
   viewType = 'all',
-  hasFilters = false
+  hasFilters = false,
+  userStudios = []
 }) => {
   if (isLoading) {
     return (
@@ -46,7 +48,7 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({
   }
 
   const renderItem = (reservation: Reservation) => (
-    <ReservationCard key={reservation._id} reservation={reservation} />
+    <ReservationCard key={reservation._id} reservation={reservation} userStudios={userStudios} />
   );
 
   return (

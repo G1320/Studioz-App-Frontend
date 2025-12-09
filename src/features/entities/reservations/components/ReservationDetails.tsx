@@ -24,7 +24,7 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   }, [allStudios, user?._id]);
 
   const { closeReservationModal } = useReservationModal();
-  
+
   const handleClose = () => {
     closeReservationModal();
   };
@@ -55,20 +55,26 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
     );
   }
 
+  // Check if user is studio owner for this reservation
+  const isStudioOwnerForReservation = useMemo(() => {
+    if (!user?._id || userStudios.length === 0) return false;
+    return userStudios.some((studio) => {
+      if (!studio.items || studio.items.length === 0) return false;
+      return studio.items.some((item) => item.itemId === reservation.itemId);
+    });
+  }, [user?._id, userStudios, reservation.itemId]);
+
   return (
     <article className="reservation-details">
       <button className="close-button" onClick={handleClose}>
         ×
       </button>
-      <ReservationCard reservation={reservation} variant="itemCard" />
-      <div className="reservation-details__actions">
-        <ReservationActions
-          reservation={reservation}
-          userStudios={userStudios}
-          onCancel={handleClose}
-        />
-      </div>
+      <ReservationCard reservation={reservation} variant="itemCard" userStudios={userStudios} />
+      {isStudioOwnerForReservation && (
+        <div className="reservation-details__actions">
+          <ReservationActions reservation={reservation} userStudios={userStudios} onCancel={handleClose} />
+        </div>
+      )}
     </article>
   );
 };
-
