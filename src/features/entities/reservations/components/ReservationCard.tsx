@@ -135,10 +135,6 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
           </span>
         </div>
         <div className="reservation-card__detail-row">
-          <span className="reservation-card__label">{t('studio')}:</span>
-          <span className="reservation-card__value">{studioName || '—'}</span>
-        </div>
-        <div className="reservation-card__detail-row">
           <span className="reservation-card__label">{t('reservationDate')}:</span>
           <span className="reservation-card__value">
             {reservation.createdAt ? dayjs(reservation.createdAt).format('MMM DD, YYYY') : '—'}

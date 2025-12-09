@@ -148,9 +148,29 @@
     &.reservation-card__comment {
       white-space: pre-wrap;
       line-height: 1.4;
-      min-height: calc(1.4em * 2);
       display: block;
       width: 100%;
+    }
+  }
+
+  // Comment line handling
+  &:not(.reservation-card--item-card) {
+    .reservation-card__comment {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 1.4em; // single line
+    }
+  }
+
+  &.reservation-card--item-card {
+    .reservation-card__comment {
+      white-space: pre-wrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: calc(1.4em * 3); // reserve three lines
     }
   }
 
