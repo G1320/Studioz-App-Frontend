@@ -9,7 +9,8 @@ export const useReservation = (reservationId: string) => {
     staleTime: 5 * 60 * 1000,
     queryFn: () => getReservationById(reservationId),
     placeholderData: keepPreviousData,
-    initialData: () => queryClient.getQueryData<Reservation>(['reservation', reservationId])
+    initialData: () => queryClient.getQueryData<Reservation>(['reservation', reservationId]),
+    enabled: !!reservationId // Only fetch if reservationId is provided
   });
 
   return { data, isLoading, error, refetch };

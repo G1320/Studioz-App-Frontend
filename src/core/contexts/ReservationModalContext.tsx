@@ -17,7 +17,15 @@ const ReservationModalContext = createContext<ReservationModalContextType | unde
 export const useReservationModal = () => {
   const context = useContext(ReservationModalContext);
   if (!context) {
-    throw new Error('useReservationModal must be used within a ReservationModalProvider');
+    // Return a no-op fallback instead of throwing
+    // This allows ReservationCard to work in contexts where the provider isn't available
+    return {
+      selectedReservation: null,
+      openReservationModal: () => {
+        console.warn('ReservationModalProvider is not available. Cannot open reservation modal.');
+      },
+      closeReservationModal: () => {}
+    };
   }
   return context;
 };

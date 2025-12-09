@@ -74,6 +74,9 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
     }
   };
 
+  // Only make card clickable if modal is available and variant is 'list'
+  const isClickable = variant === 'list';
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -157,11 +160,11 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, v
     return (
       <article
         className="reservation-card"
-        onClick={handleCardClick}
-        onKeyDown={handleKeyDown}
-        role="button"
-        tabIndex={0}
-        aria-label={`${itemName} reservation on ${formattedDate}`}
+        onClick={isClickable ? handleCardClick : undefined}
+        onKeyDown={isClickable ? handleKeyDown : undefined}
+        role={isClickable ? 'button' : undefined}
+        tabIndex={isClickable ? 0 : undefined}
+        aria-label={isClickable ? `${itemName} reservation on ${formattedDate}` : undefined}
       >
         {cardContent}
       </article>
