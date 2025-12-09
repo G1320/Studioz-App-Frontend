@@ -14,8 +14,8 @@ interface ReservationDetailsProps {
 export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId }) => {
   const { t } = useTranslation('reservations');
   const { user } = useUserContext();
-  const { data: allStudios = [] } = useStudios();
-  const { data: reservation, isLoading, error } = useReservation(reservationId);
+  const { data: allStudios = [], isLoading: isLoadingStudios } = useStudios();
+  const { data: reservation, isLoading: isLoadingReservation, error } = useReservation(reservationId);
 
   // Get user's studios for studio owner actions
   const userStudios = useMemo(() => {
@@ -28,6 +28,8 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   const handleClose = () => {
     closeReservationModal();
   };
+
+  const isLoading = isLoadingReservation || isLoadingStudios;
 
   if (isLoading) {
     return (
@@ -56,13 +58,14 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   }
 
   // Check if user is studio owner for this reservation
+  // Only check after both reservation and studios are loaded
   const isStudioOwnerForReservation = useMemo(() => {
-    if (!user?._id || userStudios.length === 0) return false;
+    if (!user?._id || !reservation || userStudios.length === 0) return false;
     return userStudios.some((studio) => {
       if (!studio.items || studio.items.length === 0) return false;
       return studio.items.some((item) => item.itemId === reservation.itemId);
     });
-  }, [user?._id, userStudios, reservation.itemId]);
+  }, [user?._id, userStudios, reservation?.itemId]);
 
   return (
     <article className="reservation-details">
