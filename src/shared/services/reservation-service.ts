@@ -51,11 +51,12 @@ export const updateReservationById = async (
   }
 };
 
-export const deleteReservationById = async (reservationId: string): Promise<Reservation> => {
+export const cancelReservationById = async (reservationId: string): Promise<Reservation> => {
   try {
-    return await httpService.delete(`${reservationEndpoint}/${reservationId}`);
+    // Cancel instead of deleting to keep record/history
+    return await httpService.patch(`${reservationEndpoint}/${reservationId}/cancel`);
   } catch (error) {
-    console.error(`Error deleting reservation with ID ${reservationId}:`, error);
+    console.error(`Error cancelling reservation with ID ${reservationId}:`, error);
     throw error;
   }
 };

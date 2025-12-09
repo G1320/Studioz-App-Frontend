@@ -1,5 +1,5 @@
 import { useMutationHandler } from '@shared/hooks';
-import { deleteReservationById, updateReservationById } from '@shared/services';
+import { cancelReservationById, updateReservationById } from '@shared/services';
 import { Reservation } from 'src/types/index';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -7,7 +7,7 @@ export const useCancelReservationMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutationHandler<Reservation, string>({
-    mutationFn: (reservationId: string) => deleteReservationById(reservationId),
+    mutationFn: (reservationId: string) => cancelReservationById(reservationId),
     successMessage: 'Reservation cancelled successfully',
     invalidateQueries: [{ queryKey: 'reservationsList' }, { queryKey: 'reservations' }],
     onSuccess: (_data, reservationId) => {
