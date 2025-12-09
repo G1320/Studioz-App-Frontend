@@ -10,7 +10,6 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: vars.$spacing-small;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,7 +47,7 @@
 
   &__badge {
     position: absolute;
-    top: 0.125rem;
+    top: -0.325rem;
     right: -0.125rem;
     background: vars.$color-brand;
     color: vars.$text-color-dark;
