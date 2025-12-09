@@ -2,12 +2,10 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
-import { invalidateCartQueries, invalidateItemQueries } from '@shared/utils/queryUtils';
+import { invalidateCartQueries, invalidateItemQueries, invalidateReservationQueries } from '@shared/utils/queryUtils';
 import { removeExpiredItemsFromOfflineCart } from '@shared/utils/cartUtils';
 import { useOfflineCartContext } from './OfflineCartContext';
 import { useUserContext } from './UserContext';
-import { toast } from 'sonner';
-import { useTranslation } from 'react-i18next';
 
 const BASE_URL =
   import.meta.env.VITE_NODE_ENV === 'production' ? 'https://studioz-backend.onrender.com' : 'http://localhost:3003';
@@ -23,7 +21,6 @@ interface SocketProviderProps {
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const queryClient = useQueryClient();
-  const { t } = useTranslation('common');
   const { user } = useUserContext();
 
   const { setOfflineCartContext } = useOfflineCartContext();
@@ -54,13 +51,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     });
 
     newSocket.on('reservationUpdated', (data) => {
-      console.log('data: ', data);
+      // Keep existing offline cart cleanup & toast behavior
       const updatedCart = removeExpiredItemsFromOfflineCart(data.reservationIds);
       if (updatedCart) {
         setOfflineCartContext(updatedCart);
       }
-      invalidateCartQueries(queryClient, data.costumerId);
-      toast.error(t('errors.cart_expired'));
+      invalidateCartQueries(queryClient, data.customerId);
+      invalidateReservationQueries(queryClient, data.reservationIds);
     });
 
     newSocket.on('connect_error', (error) => {
