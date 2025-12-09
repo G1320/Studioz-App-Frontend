@@ -94,7 +94,10 @@
     "title": "Notifications",
     "loading": "Loading notifications...",
     "empty": "No notifications",
-    "markAllAsRead": "Mark all as read"
+    "markAllAsRead": "Mark all as read",
+    "messages": {
+      "reservationBooked": "{{name}} booked {{item}} on {{date}} at {{time}}"
+    }
   },
   "reviews": {
     "title": "Studio Reviews",

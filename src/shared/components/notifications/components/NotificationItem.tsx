@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Notification from 'src/types/notification';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { useReservationModal } from '@core/contexts/ReservationModalContext';
@@ -16,6 +17,7 @@ interface NotificationItemProps {
 }
 
 export const NotificationItem: React.FC<NotificationItemProps> = ({ notification }) => {
+  const { t, i18n } = useTranslation('common');
   const { markAsRead, deleteNotificationById } = useNotificationContext();
   const { openReservationModal } = useReservationModal();
 
@@ -76,6 +78,43 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
 
   const timeAgo = notification.createdAt ? dayjs(notification.createdAt).fromNow() : '';
 
+  const message = useMemo(() => {
+    if (isReservationNotification && reservation) {
+      const name =
+        reservation.customerName || notification.data?.customerName || notification.title || notification.message;
+
+      const item =
+        i18n.language === 'he' && reservation.itemName?.he
+          ? reservation.itemName.he
+          : reservation.itemName?.en || notification.data?.itemName || '';
+
+      const dateStr = reservation.bookingDate
+        ? dayjs(reservation.bookingDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
+        : notification.data?.bookingDate;
+
+      const timeSlot = reservation.timeSlots?.[0];
+      const timeStr = timeSlot ? dayjs(timeSlot, 'HH:mm').format('HH:mm') : notification.data?.time;
+
+      return t('notifications.messages.reservationBooked', {
+        name,
+        item,
+        date: dateStr,
+        time: timeStr,
+        defaultValue: notification.message
+      });
+    }
+
+    return notification.message;
+  }, [
+    i18n.language,
+    isReservationNotification,
+    notification.data,
+    notification.message,
+    notification.title,
+    reservation,
+    t
+  ]);
+
   const content = (
     <div
       className={`notification-item ${notification.read ? 'notification-item--read' : 'notification-item--unread'}`}
@@ -84,7 +123,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
       <div className="notification-item__icon">{getNotificationIcon()}</div>
       <div className="notification-item__content">
         <div className="notification-item__title">{notification.title}</div>
-        <div className="notification-item__message">{notification.message}</div>
+        <div className="notification-item__message">{message}</div>
         <div className="notification-item__time">{timeAgo}</div>
       </div>
       <button

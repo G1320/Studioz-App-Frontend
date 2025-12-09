@@ -94,7 +94,10 @@
     "title": "התראות",
     "loading": "טוען התראות...",
     "empty": "אין התראות",
-    "markAllAsRead": "סמן הכל כנקרא"
+    "markAllAsRead": "סמן הכל כנקרא",
+    "messages": {
+      "reservationBooked": "{{name}} הזמין {{item}} ב {{date}} בשעה {{time}}"
+    }
   },
   "reviews": {
     "title": "ביקורות אולפן",
