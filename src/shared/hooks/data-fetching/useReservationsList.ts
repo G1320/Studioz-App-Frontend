@@ -106,6 +106,17 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
       filtered = filtered.filter((res) => res.status === filters.status);
     }
 
+    // Sort: pending first, then by most recently updated/created
+    filtered.sort((a, b) => {
+      const aPending = a.status === 'pending';
+      const bPending = b.status === 'pending';
+      if (aPending !== bPending) return aPending ? -1 : 1;
+
+      const aDate = a.updatedAt || a.createdAt || 0;
+      const bDate = b.updatedAt || b.createdAt || 0;
+      return new Date(bDate).getTime() - new Date(aDate).getTime();
+    });
+
     return filtered;
   }, [allReservations, filters, user?._id, userStudios, accessMethod]);
 
