@@ -71,9 +71,11 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
   const isReservationOwner = isLoggedInOwner || isPhoneOwner || isStudioOwnerForReservation;
 
   // Check if reservation can be cancelled
-  const canCancel =
-    (reservation.status === 'pending' || reservation.status === 'confirmed') &&
-    !dayjs(reservation.bookingDate).isBefore(dayjs(), 'day');
+  const bookingDate = dayjs(reservation.bookingDate, 'DD/MM/YYYY');
+  const bookingDateIsValid = bookingDate.isValid();
+  const isFutureOrToday = bookingDateIsValid ? !bookingDate.isBefore(dayjs(), 'day') : true;
+
+  const canCancel = (reservation.status === 'pending' || reservation.status === 'confirmed') && isFutureOrToday;
 
   const handleCancel = async () => {
     if (!showCancelConfirm) {
