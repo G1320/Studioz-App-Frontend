@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import { NotificationBell } from '@shared/components/notifications';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
@@ -92,6 +93,14 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         {user && (
           <>
             {featureFlags.notifications && <NotificationBell />}
+            <Link
+              to={`${currLang}/reservations`}
+              className="header-reservations-button-container"
+              aria-label={t('navigation.reservations', 'My Reservations')}
+              onClick={() => scrollToTop()}
+            >
+              <EventNoteIcon aria-label="reservations icon" />
+            </Link>
             <Link
               to={`${currLang}/profile`}
               className="header-profile-button-container"

@@ -23,7 +23,8 @@
     "services": "Services",
     "studios": "Studios",
     "wishlists": "Wishlists",
-    "list_studio": "List Studio"
+    "list_studio": "List Studio",
+    "reservations": "My Reservations"
   },
   "days": {
     "sunday": "Sunday",
