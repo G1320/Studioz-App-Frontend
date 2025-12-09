@@ -50,7 +50,7 @@ export const EmptyReservationsState: React.FC<EmptyReservationsStateProps> = ({
       {!hasFilters && (
         <button
           className="empty-reservations-state__button"
-          onClick={() => langNavigate('/search')}
+          onClick={() => langNavigate('/studios')}
           aria-label={t('emptyStates.browseStudios')}
         >
           {t('emptyStates.browseStudios')}
@@ -59,4 +59,3 @@ export const EmptyReservationsState: React.FC<EmptyReservationsStateProps> = ({
     </div>
   );
 };
-
