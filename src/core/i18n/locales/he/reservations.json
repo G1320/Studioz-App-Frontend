@@ -21,6 +21,8 @@
   "status.pending": "ממתין לאישור",
   "status.confirmed": "מאושר",
   "status.expired": "פג תוקף",
+  "status.canceled": "בוטל",
+  "status.rejected": "נדחה",
   "viewDetails": "צפה בפרטים",
   "back": "חזור",
   "backToReservations": "חזור להזמנות",
@@ -43,7 +45,9 @@
       "all": "כל הסטטוסים",
       "pending": "ממתין לאישור",
       "confirmed": "מאושר",
-      "expired": "פג תוקף"
+      "expired": "פג תוקף",
+      "canceled": "בוטלה",
+      "rejected": "נדחתה"
     },
     "type": {
       "all": "כל הסוגים",

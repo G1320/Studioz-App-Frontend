@@ -21,6 +21,8 @@
   "status.pending": "Pending",
   "status.confirmed": "Confirmed",
   "status.expired": "Expired",
+  "status.canceled": "Canceled",
+  "status.rejected": "Rejected",
   "viewDetails": "View Details",
   "back": "Back",
   "backToReservations": "Back to Reservations",
@@ -43,7 +45,9 @@
       "all": "All Statuses",
       "pending": "Pending",
       "confirmed": "Confirmed",
-      "expired": "Expired"
+      "expired": "Expired",
+      "canceled": "Canceled",
+      "rejected": "Rejected"
     },
     "type": {
       "all": "All Types",
