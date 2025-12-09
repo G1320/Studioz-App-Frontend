@@ -76,6 +76,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
         return 'status-pending';
       case 'expired':
         return 'status-expired';
+      case 'cancelled':
+        return 'status-cancelled';
+      case 'rejected':
+        return 'status-rejected';
       default:
         return '';
     }
