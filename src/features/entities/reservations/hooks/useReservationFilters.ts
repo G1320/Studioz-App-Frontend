@@ -36,8 +36,8 @@ export const useReservationFilters = () => {
     () => [
       { labelKey: 'filters.sort.createdDesc', value: 'created-desc' },
       { labelKey: 'filters.sort.createdAsc', value: 'created-asc' },
-      { labelKey: 'filters.sort.bookingAsc', value: 'booking-asc' },
-      { labelKey: 'filters.sort.bookingDesc', value: 'booking-desc' }
+      { labelKey: 'filters.sort.bookingDesc', value: 'booking-desc' },
+      { labelKey: 'filters.sort.bookingAsc', value: 'booking-asc' }
     ],
     []
   );
