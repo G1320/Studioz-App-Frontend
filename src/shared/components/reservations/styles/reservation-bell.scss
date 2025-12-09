@@ -1,0 +1,71 @@
+@use 'utilities/variables' as vars;
+@use 'sass:color';
+
+.reservation-bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: vars.$spacing-small;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    transition: all 0.25s ease;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid vars.$color-brand;
+      outline-offset: 2px;
+    }
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 0.125rem;
+    right: -0.125rem;
+    background: vars.$color-brand;
+    color: vars.$text-color-dark;
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    text-align: center;
+    line-height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 1px 4px rgba(vars.$color-brand, 0.4),
+      0 0 0 1px rgba(0, 0, 0, 0.3);
+  }
+}
