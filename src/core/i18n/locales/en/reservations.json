@@ -49,8 +49,7 @@
       "pending": "Pending",
       "confirmed": "Confirmed",
       "expired": "Expired",
-      "cancelled": "cancelled",
-      "rejected": "Rejected"
+      "cancelled": "Cancelled"
     },
     "type": {
       "all": "All Types",

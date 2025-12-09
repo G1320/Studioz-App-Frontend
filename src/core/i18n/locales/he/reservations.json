@@ -49,8 +49,7 @@
       "pending": "ממתין לאישור",
       "confirmed": "מאושר",
       "expired": "פג תוקף",
-      "cancelled": "בוטלה",
-      "rejected": "נדחתה"
+      "cancelled": "בוטלה"
     },
     "type": {
       "all": "כל הסוגים",

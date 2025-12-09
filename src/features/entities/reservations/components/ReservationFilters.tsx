@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DropdownOption } from '@shared/components';
 import './styles/_reservation-filters.scss';
 
-export type ReservationStatusFilter = 'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected';
+export type ReservationStatusFilter = 'all' | 'pending' | 'confirmed' | 'expired' | 'cancelled';
 export type ReservationTypeFilter = 'all' | 'incoming' | 'outgoing';
 
 interface ReservationFiltersProps {
@@ -30,8 +30,7 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
     { label: t('filters.status.pending'), value: 'pending' },
     { label: t('filters.status.confirmed'), value: 'confirmed' },
     { label: t('filters.status.expired'), value: 'expired' },
-    { label: t('filters.status.cancelled'), value: 'cancelled' },
-    { label: t('filters.status.rejected'), value: 'rejected' }
+    { label: t('filters.status.cancelled'), value: 'cancelled' }
   ];
 
   const typeOptions: DropdownOption[] = [
