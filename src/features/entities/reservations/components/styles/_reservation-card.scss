@@ -116,6 +116,11 @@
     justify-content: space-between;
     align-items: center;
     font-size: vars.$font-size-medium;
+    gap: vars.$spacing-small;
+
+    &--comment {
+      align-items: flex-start;
+    }
   }
 
   &__label {
@@ -125,11 +130,20 @@
   &__value {
     color: vars.$text-color-primary;
     font-weight: 500;
+    text-align: right;
 
     &.reservation-card__price {
       color: vars.$color-brand;
       font-weight: 600;
       font-size: vars.$font-size-large;
+    }
+
+    &.reservation-card__comment {
+      white-space: pre-wrap;
+      line-height: 1.4;
+      min-height: calc(1.4em * 2);
+      display: block;
+      width: 100%;
     }
   }
 

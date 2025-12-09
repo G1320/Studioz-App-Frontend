@@ -131,8 +131,20 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
       <div className="reservation-card__details">
         <div className="reservation-card__detail-row">
-          <span className="reservation-card__label">{t('date')}:</span>
+          <span className="reservation-card__label">{t('status')}:</span>
+          <span className={`reservation-card__value reservation-card__status ${getStatusColor(reservation.status)}`}>
+            {t(`status.${reservation.status}`)}
+          </span>
+        </div>
+        <div className="reservation-card__detail-row">
+          <span className="reservation-card__label">{t('visitDate')}:</span>
           <span className="reservation-card__value">{formattedDate}</span>
+        </div>
+        <div className="reservation-card__detail-row">
+          <span className="reservation-card__label">{t('reservationDate')}:</span>
+          <span className="reservation-card__value">
+            {reservation.createdAt ? dayjs(reservation.createdAt).format('MMM DD, YYYY h:mm A') : '—'}
+          </span>
         </div>
         <div className="reservation-card__detail-row">
           <span className="reservation-card__label">{t('time')}:</span>
@@ -162,6 +174,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             <span className="reservation-card__value reservation-card__price">₪{reservation.totalPrice}</span>
           </div>
         )}
+        <div className="reservation-card__detail-row reservation-card__detail-row--comment">
+          <span className="reservation-card__label">{t('comment')}:</span>
+          <span className="reservation-card__value reservation-card__comment">{reservation.comment || '—'}</span>
+        </div>
       </div>
 
       {showCancelButton && (
