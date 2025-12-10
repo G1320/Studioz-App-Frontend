@@ -20,7 +20,7 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   // Get user's studios for studio owner actions
   const userStudios = useMemo(() => {
     if (!user?._id) return [];
-    return allStudios.filter((studio) => studio.createdBy === user._id);
+    return allStudios?.filter((studio) => studio.createdBy === user._id);
   }, [allStudios, user?._id]);
 
   const { closeReservationModal } = useReservationModal();
@@ -28,6 +28,16 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   const handleClose = () => {
     closeReservationModal();
   };
+
+  // Check if user is studio owner for this reservation
+  // Only check after both reservation and studios are loaded
+  const isStudioOwnerForReservation = useMemo(() => {
+    if (!user?._id || !reservation || userStudios.length === 0) return false;
+    return userStudios.some((studio) => {
+      if (!studio.items || studio.items.length === 0) return false;
+      return studio.items.some((item) => item.itemId === reservation.itemId);
+    });
+  }, [user?._id, userStudios, reservation?.itemId]);
 
   const isLoading = isLoadingReservation || isLoadingStudios;
 
@@ -56,16 +66,6 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
       </article>
     );
   }
-
-  // Check if user is studio owner for this reservation
-  // Only check after both reservation and studios are loaded
-  const isStudioOwnerForReservation = useMemo(() => {
-    if (!user?._id || !reservation || userStudios.length === 0) return false;
-    return userStudios.some((studio) => {
-      if (!studio.items || studio.items.length === 0) return false;
-      return studio.items.some((item) => item.itemId === reservation.itemId);
-    });
-  }, [user?._id, userStudios, reservation?.itemId]);
 
   return (
     <article className="reservation-details">
