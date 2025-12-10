@@ -244,10 +244,5 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   }
 
   // If itemCard variant, card is not clickable (just displays info)
-  return (
-    <article className="reservation-card reservation-card--item-card">
-      {typeBadge}
-      {cardContent}
-    </article>
-  );
+  return <article className="reservation-card reservation-card--item-card">{cardContent}</article>;
 };
