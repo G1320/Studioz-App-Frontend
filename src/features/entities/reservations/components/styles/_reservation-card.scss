@@ -16,6 +16,10 @@
   margin-block: 0.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  // keep inner content constrained to card
+  .reservation-card__content {
+    overflow: hidden;
+  }
 
   // Clickable card styles (when role="button")
   &[role='button'] {
@@ -97,6 +101,10 @@
     }
   }
 
+  .reservation-card__status {
+    max-width: min-content;
+  }
+
   &__studio-name {
     font-size: vars.$font-size-medium;
     color: rgba(255, 255, 255, 0.7);
@@ -145,6 +153,8 @@
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-small;
+    // width: 100%;
+    // max-width: 100%;
   }
 
   &__detail-row {
@@ -153,6 +163,7 @@
     align-items: center;
     font-size: vars.$font-size-medium;
     gap: vars.$spacing-small;
+    min-width: 0; // allow contents to shrink within the row
 
     &--comment {
       align-items: flex-start;
@@ -161,12 +172,16 @@
 
   &__label {
     color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   &__value {
     color: vars.$text-color-primary;
     font-weight: 500;
     text-align: right;
+    min-width: 0;
+    overflow: hidden;
 
     &.reservation-card__price {
       color: vars.$color-brand;
@@ -179,6 +194,10 @@
       line-height: 1.4;
       display: block;
       width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
     }
   }
 
@@ -189,6 +208,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       min-height: 1.4em; // single line
+      max-width: 100%;
     }
   }
 
@@ -200,6 +220,8 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       min-height: calc(1.4em * 3); // reserve three lines
+      max-width: 100%;
+      word-break: break-word;
     }
   }
 
