@@ -11,6 +11,7 @@
   "noReservations": "עדיין לא ביצעת הזמנות",
   "noReservationsSubtitle": "ההזמנות שלך יופיעו כאן לאחר שתזמין סשן",
   "reservationsCount": "{{count}} הזמנות",
+  "reservationsTotal": "סה\"כ הזמנות: {{count}}",
   "date": "תאריך",
   "time": "שעה",
   "duration": "משך",

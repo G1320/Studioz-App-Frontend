@@ -50,9 +50,7 @@ const MyReservationsPage: React.FC = () => {
       <div className="my-reservations-page__header">
         <h1 className="my-reservations-page__title">{t('myReservations')}</h1>
         <p className="my-reservations-page__subtitle">
-          {reservations.length === 0
-            ? t('noReservationsSubtitle')
-            : t('reservationsCount', { count: reservations.length })}
+          {t('reservationsTotal', { count: reservations.length })}
         </p>
       </div>
 

@@ -11,6 +11,7 @@
   "noReservations": "You haven't made any reservations yet",
   "noReservationsSubtitle": "Your reservations will appear here once you book a session",
   "reservationsCount": "{{count}} reservation",
+  "reservationsTotal": "Total reservations: {{count}}",
   "date": "Date",
   "time": "Time",
   "duration": "Duration",
@@ -67,8 +68,8 @@
   },
   "toggle": {
     "all": "All",
-    "myBookings": "My Bookings",
-    "studioReservations": "Studio Reservations"
+    "myBookings": "Outgoing",
+    "studioReservations": "Incoming"
   },
   "cancelReservation": "Cancel Reservation",
   "cancelling": "Cancelling...",
