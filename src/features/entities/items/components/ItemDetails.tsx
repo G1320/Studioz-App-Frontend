@@ -106,7 +106,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         hours,
         customerName,
         customerPhone,
-        costumerId: user?._id,
+        customerId: user?._id,
         comment
       };
 
