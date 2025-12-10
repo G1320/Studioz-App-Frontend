@@ -15,6 +15,7 @@
   word-wrap: break-word;
   margin-block: 0.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 
   // Clickable card styles (when role="button")
   &[role='button'] {
@@ -66,6 +67,34 @@
     font-weight: 600;
     color: vars.$text-color-primary;
     margin: 0;
+  }
+
+  &__type-badge {
+    position: absolute;
+    top: vars.$spacing-small;
+    right: vars.$spacing-small;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    display: inline-block;
+    z-index: 1;
+    line-height: 1.4;
+
+    &--incoming {
+      background: rgba(59, 130, 246, 0.15);
+      color: #7dd3fc;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+    }
+
+    &--outgoing {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+    }
   }
 
   &__studio-name {
@@ -316,6 +345,13 @@
 
     &__item-name {
       font-size: vars.$font-size-medium;
+    }
+
+    &__type-badge {
+      top: calc(vars.$spacing-small * 0.75);
+      right: calc(vars.$spacing-small * 0.75);
+      font-size: 9px;
+      padding: 2px 5px;
     }
 
     &__detail-row {
