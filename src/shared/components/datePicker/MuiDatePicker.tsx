@@ -42,9 +42,12 @@ export const MuiDateTimePicker = ({
           const targetHour = Array.from(items).find((item) => item.textContent?.includes('12:'));
 
           if (targetHour) {
+            // Only scroll within the list container, not the page
+            // Use scrollIntoView with block: 'nearest' to prevent page scroll
             targetHour.scrollIntoView({
               behavior: 'smooth',
-              block: 'center'
+              block: 'nearest',
+              inline: 'nearest'
             });
           }
         }
@@ -176,15 +179,6 @@ export const MuiDateTimePicker = ({
           fullWidth: true,
           margin: 'dense',
           dir: isRTL ? 'rtl' : 'ltr'
-        },
-        popper: {
-          placement: 'top-start',
-          modifiers: [
-            {
-              name: 'flip',
-              enabled: false // Disable flipping to prevent opening downward
-            }
-          ]
         }
       }}
       slots={{
