@@ -162,6 +162,10 @@
         "general": "An error occurred. Please try again"
       }
     },
+    "errors": {
+      "itemLimitReached": "You have reached the maximum limit of 3 services for free accounts. Please upgrade to a paid plan to create more services."
+    },
+    "itemLimitInfo": "You have {{count}} service{{count, plural, one {} other {s}}} remaining on your free plan. Upgrade to create unlimited services.",
     "vendorOnboarding": {
       "title": "Vendor Registration",
       "subtitle": "Complete your business details to start selling on Studioz",
