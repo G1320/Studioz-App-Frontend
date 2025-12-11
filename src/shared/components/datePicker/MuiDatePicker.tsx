@@ -149,6 +149,29 @@ export const MuiDateTimePicker = ({
         },
         '& .Mui-disabled': {
           color: '#bbb'
+        },
+        // Style the calendar icon button to look more like a button
+        '& .MuiInputAdornment-root': {
+          margin: 0,
+          padding: 0,
+          '& .MuiIconButton-root': {
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderRadius: '8px',
+            height: '32px',
+            width: '32px',
+            margin: 0,
+            padding: '8px',
+            marginInlineEnd: '-8px',
+            transition: 'all 0.2s ease',
+            '&:hover': {
+              backgroundColor: 'rgba(16, 185, 129, 0.2)',
+              borderColor: 'rgb(16, 185, 129)',
+              transform: 'scale(1.05)'
+            },
+            '& .MuiSvgIcon-root': {
+              color: 'rgb(16, 185, 129)'
+            }
+          }
         }
       }}
       slotProps={{
