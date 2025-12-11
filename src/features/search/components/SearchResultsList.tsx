@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useSearchContext, useUserContext } from '@core/contexts';
+import { useSearchContext, useUserContext, useModal } from '@core/contexts';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import { StudiosList, ItemCard, ItemsList } from '@features/entities';
@@ -16,6 +16,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios
   const { searchResults } = useSearchContext();
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
+  const { openModal } = useModal();
 
   const results = searchResults as StudiosAndItemsSearchResults;
   const filteredStudios = useMemo(() => {
@@ -29,7 +30,15 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios
     return allItems.filter((item) => searchedItems.some((result: Item) => result._id === item._id));
   }, [allItems, results.items]);
 
-  const renderItem = (item: Item) => <ItemCard item={item} key={item.name.en} wishlists={wishlists} />;
+  const handleItemClick = (item: Item) => {
+    openModal(item);
+  };
+
+  const renderItem = (item: Item) => (
+    <div onClick={() => handleItemClick(item)} key={item._id}>
+      <ItemCard item={item} wishlists={wishlists} />
+    </div>
+  );
 
   return (
     <div>
