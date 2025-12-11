@@ -37,12 +37,7 @@ export const filterItems = (
     filtered = filtered
       .map((item) => {
         if (item.lat && item.lng) {
-          const distance = calculateDistance(
-            userLocation.latitude,
-            userLocation.longitude,
-            item.lat,
-            item.lng
-          );
+          const distance = calculateDistance(userLocation.latitude, userLocation.longitude, item.lat, item.lng);
           return { item, distance };
         }
         return { item, distance: Infinity };
@@ -59,4 +54,3 @@ export const filterItems = (
 
   return filtered;
 };
-
