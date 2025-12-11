@@ -25,7 +25,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
 
   const musicSubCategories = useMusicSubCategories();
 
-  const filteredItems = filterItems(items, { category, subCategory });
+  const filteredItems = filterItems(items, {
+    category,
+    subCategory,
+    city: selectedCity,
+    userLocation
+  });
 
   // Get location if permission was previously granted but location not in storage
   useEffect(() => {
@@ -88,14 +93,10 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
           </div>
         }
       >
-        <LazyItemsMap
-          items={subCategory ? filteredItems : items}
-          selectedCity={selectedCity}
-          userLocation={userLocation}
-        />
+        <LazyItemsMap items={filteredItems} selectedCity={selectedCity} userLocation={userLocation} />
       </Suspense>
 
-      <ItemsList items={subCategory ? filteredItems : items} className="Items-list-container" />
+      <ItemsList items={filteredItems} className="Items-list-container" />
     </section>
   );
 };

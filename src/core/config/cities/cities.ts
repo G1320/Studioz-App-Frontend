@@ -25,22 +25,6 @@ export const cities: CityConfig[] = [
     image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80'
   },
   {
-    name: 'Ashdod',
-    displayName: 'Ashdod',
-    lat: 31.7946419,
-    lng: 34.6465042,
-    zoom: 11,
-    image: 'https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    name: 'Ramat Gan',
-    displayName: 'Ramat Gan',
-    lat: 32.069,
-    lng: 34.83,
-    zoom: 12,
-    image: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=80'
-  },
-  {
     name: 'Haifa',
     displayName: 'Haifa',
     lat: 32.811354,
@@ -63,6 +47,22 @@ export const cities: CityConfig[] = [
     lng: 34.8039922,
     zoom: 12,
     image: 'https://images.unsplash.com/photo-1470115636492-6d2b56f9146e?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    name: 'Ramat Gan',
+    displayName: 'Ramat Gan',
+    lat: 32.069,
+    lng: 34.83,
+    zoom: 12,
+    image: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    name: 'Ashdod',
+    displayName: 'Ashdod',
+    lat: 31.7946419,
+    lng: 34.6465042,
+    zoom: 11,
+    image: 'https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?auto=format&fit=crop&w=800&q=80'
   },
   {
     name: 'Beit Dagan',
