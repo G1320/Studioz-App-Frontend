@@ -1,5 +1,10 @@
 {
   "page": {
-    "title": "Services"
+    "title": "Services",
+    "cities_title": "Explore by city",
+    "city_selected": "Services in {{city}}"
+  },
+  "sections": {
+    "categories": "Categories "
   }
 }

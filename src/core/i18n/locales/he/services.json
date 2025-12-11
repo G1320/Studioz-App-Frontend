@@ -1,5 +1,10 @@
 {
   "page": {
-    "title": "שירותים"
+    "title": "שירותים",
+    "cities_title": "ערים מובילות",
+    "city_selected": "שירותים ב{{city}}"
+  },
+  "sections": {
+    "categories": "קטגוריות"
   }
 }
