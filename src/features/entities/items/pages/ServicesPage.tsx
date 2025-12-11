@@ -1,6 +1,10 @@
+import { useEffect, Suspense } from 'react';
 import { CategoryCard, ItemsList, CityCard } from '@features/entities';
-import { ItemsMap, GenericCarousel } from '@shared/components';
+import { GenericCarousel } from '@shared/components';
+import { LazyItemsMap } from '@shared/components/maps';
 import { useMusicSubCategories, useCities } from '@shared/hooks/utils';
+import { useGeolocation } from '@shared/hooks/utils/geolocation';
+import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Item } from 'src/types/index';
@@ -16,10 +20,26 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
   const selectedCity = searchParams.get('city');
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('services');
+  const { hasGranted, userLocation, setUserLocation } = useLocationPermission();
+  const { position, getCurrentPosition } = useGeolocation();
 
   const musicSubCategories = useMusicSubCategories();
 
   const filteredItems = filterItems(items, { category, subCategory });
+
+  // Get location if permission was previously granted but location not in storage
+  useEffect(() => {
+    if (hasGranted && !userLocation && !position) {
+      getCurrentPosition();
+    }
+  }, [hasGranted, userLocation, position, getCurrentPosition]);
+
+  // Update context location when position is available (if not already set)
+  useEffect(() => {
+    if (position && !userLocation) {
+      setUserLocation({ latitude: position.latitude, longitude: position.longitude });
+    }
+  }, [position, userLocation, setUserLocation]);
 
   const categoryRenderItem = (category: string) => <CategoryCard category={category} pathPrefix="services" />;
   const cityRenderItem = (city: (typeof cities)[number]) => <CityCard city={city} />;
@@ -61,7 +81,19 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
           1200: { slidesPerView: 5.2 }
         }}
       />
-      <ItemsMap items={subCategory ? filteredItems : items} />
+      <Suspense
+        fallback={
+          <div className="map-loader">
+            <div className="map-loader__spinner"></div>
+          </div>
+        }
+      >
+        <LazyItemsMap
+          items={subCategory ? filteredItems : items}
+          selectedCity={selectedCity}
+          userLocation={userLocation}
+        />
+      </Suspense>
 
       <ItemsList items={subCategory ? filteredItems : items} className="Items-list-container" />
     </section>
