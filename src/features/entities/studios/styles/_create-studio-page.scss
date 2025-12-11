@@ -21,8 +21,11 @@
   margin-top: vars.$spacing-large;
 }
 
-.create-studio-form {
-  @include forms.branded-form;
+.create-studio-page {
+  .create-studio-form {
+    // Increase specificity so it overrides the generic form base styles
+    @include forms.branded-form;
+  }
 }
 
 // FileUploader in create studio context
