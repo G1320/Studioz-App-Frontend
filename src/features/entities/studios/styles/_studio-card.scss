@@ -125,7 +125,6 @@
     flex: 1 1 auto;
     height: min-content;
     gap: 0.5rem;
-    font-size: small;
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
@@ -150,6 +149,7 @@
       span {
         width: 20px;
         height: auto;
+        font-size: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -171,4 +171,3 @@
     gap: 0;
   }
 }
-
