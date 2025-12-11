@@ -131,6 +131,10 @@ export const MuiDateTimePicker = ({
         '& .MuiInputBase-root': {
           color: '#fff'
         },
+        '& .MuiInputBase-input, & .MuiOutlinedInput-input': {
+          paddingInlineStart: 0,
+          paddingInlineEnd: 0
+        },
         '& .MuiInputLabel-root': {
           color: '#fff'
         },
@@ -164,7 +168,7 @@ export const MuiDateTimePicker = ({
             width: '32px',
             margin: 0,
             padding: '8px',
-            marginInlineEnd: '-8px',
+            marginInlineEnd: '8px',
             transition: 'all 0.2s ease',
             '&:hover': {
               borderColor: 'rgb(16, 185, 129)',

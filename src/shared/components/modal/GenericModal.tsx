@@ -13,7 +13,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, child
     if (open) {
       // Store current scroll position
       const scrollY = window.scrollY;
-      
+
       // Prevent background scroll when modal is open
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
