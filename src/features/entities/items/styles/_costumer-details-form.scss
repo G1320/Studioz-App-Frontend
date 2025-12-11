@@ -49,6 +49,17 @@
 
     &.full-width {
       grid-column: 1 / -1;
+
+      // When full-width container has both input and verification button, use flexbox for vertical alignment
+      &:has(.verification-button) {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        .customer-input {
+          flex: 1;
+        }
+      }
     }
 
     &.verification-input {
@@ -74,6 +85,7 @@
     justify-self: center;
     min-width: 120px;
     height: 40px;
+    flex-shrink: 0;
 
     &:hover:not(:disabled) {
       opacity: 0.9;
