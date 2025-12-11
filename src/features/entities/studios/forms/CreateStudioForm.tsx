@@ -9,11 +9,13 @@ import {
   useDays,
   useCategories,
   useMusicGenres,
-  useGenres
+  useGenres,
+  useSubscription
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils';
+import { enforceImageUploadLimit, mergeGalleryImages } from '@shared/utils/uploadLimits';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 
@@ -36,6 +38,7 @@ export const CreateStudioForm = () => {
   const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
 
   const { t } = useTranslation('forms');
+  const { isPro, isStarter } = useSubscription();
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
@@ -238,15 +241,45 @@ export const CreateStudioForm = () => {
   };
 
   const handleFileUpload = async (files: File[], type: string) => {
+    const isFreeTier = !isPro && !isStarter;
+    const MAX_FREE_IMAGES = 3;
+
+    // Enforce free-tier image cap before upload
+    if (type === 'image' && isFreeTier) {
+      const { allowedFiles, blocked } = enforceImageUploadLimit({
+        files,
+        currentCount: galleryImages.length,
+        isFreeTier,
+        maxFreeImages: MAX_FREE_IMAGES
+      });
+
+      if (allowedFiles.length === 0) {
+        return toast.error(`Free plan allows up to ${MAX_FREE_IMAGES} photos. Remove some to upload more.`);
+      }
+
+      if (blocked > 0) {
+        toast.error(
+          `Free plan allows ${allowedFiles.length === 1 ? '1 more photo' : `${allowedFiles.length} more photos`}. Extra files skipped.`
+        );
+      }
+
+      files = allowedFiles;
+    }
+
     const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
     const fileUrls = results.map((result) => result.secure_url);
 
     if (type === 'image') {
-      if (files.length === 1) {
-        return toast.success('Cover image uploaded successfully');
+      const wasEmpty = galleryImages.length === 0;
+
+      setGalleryImages((prev) => mergeGalleryImages(prev, fileUrls, { isFreeTier, maxFreeImages: MAX_FREE_IMAGES }));
+
+      // Success messages
+      if (fileUrls.length === 1 && wasEmpty) {
+        toast.success('Cover image uploaded successfully');
+      } else {
+        toast.success('Gallery images uploaded successfully');
       }
-      setGalleryImages(fileUrls);
-      toast.success('Gallery images uploaded successfully');
     } else if (type === 'audio') {
       setGalleryAudioFiles(fileUrls);
       toast.success('Audio files uploaded successfully');
