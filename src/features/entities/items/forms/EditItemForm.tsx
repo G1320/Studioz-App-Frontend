@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import {
   useItem,
@@ -13,7 +14,6 @@ import { uploadFile } from '@shared/services';
 import { Item } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils/compareArrays';
-import { useTranslation } from 'react-i18next';
 import { CreateAddOnForm } from '@features/entities/addOns/forms';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 
@@ -29,7 +29,7 @@ interface FormData {
 export const EditItemForm = () => {
   const { itemId } = useParams();
   const { data: item } = useItem(itemId || '');
-  const { t } = useTranslation();
+  const { t } = useTranslation('forms');
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
@@ -150,6 +150,7 @@ export const EditItemForm = () => {
           fields={fields}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
+          btnTxt={t('form.submit.editItem')}
         />
       </section>
       {isFeatureEnabled('addOns') && (

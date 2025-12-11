@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { GenericForm, FieldType } from '@shared/components';
 import { useWishlists, useUpdateWishlistMutation, useLanguageNavigate } from '@shared/hooks';
 import { getLocalUser } from '@shared/services';
@@ -8,6 +9,7 @@ export const EditWishlistForm = () => {
   const user = getLocalUser();
   const langNavigate = useLanguageNavigate();
   const { wishlistId } = useParams();
+  const { t } = useTranslation('forms');
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
   const wishlist = wishlists.find((wishlist) => wishlist._id === wishlistId);
@@ -31,7 +33,13 @@ export const EditWishlistForm = () => {
 
   return (
     <section className="form-wrapper edit-wishlist-form-wrapper">
-      <GenericForm className="edit-wishlist-form" title="Edit Wishlist" fields={fields} onSubmit={handleSubmit} />
+      <GenericForm
+        className="edit-wishlist-form"
+        title="Edit Wishlist"
+        fields={fields}
+        onSubmit={handleSubmit}
+        btnTxt={t('form.submit.editWishlist')}
+      />
     </section>
   );
 };

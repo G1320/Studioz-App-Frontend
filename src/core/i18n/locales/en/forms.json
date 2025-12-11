@@ -86,7 +86,16 @@
       "error": "Please complete PayPal onboarding process before creating a studio"
     },
     "submit": {
-      "button": "Create Studio",
+      "button": "Submit",
+      "createStudio": "Create Studio",
+      "editStudio": "Update Studio",
+      "createItem": "Create Item",
+      "editItem": "Update Item",
+      "createAddOn": "Create Add-On",
+      "editAddOn": "Update Add-On",
+      "createWishlist": "Create Wishlist",
+      "editWishlist": "Update Wishlist",
+      "updateUser": "Update User",
       "success": "Studio created successfully",
       "error": "Failed to create studio"
     },

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import {
   useDays,
@@ -17,7 +18,6 @@ import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
-import { useTranslation } from 'react-i18next';
 
 interface FormData {
   coverImage?: string;
@@ -270,6 +270,7 @@ export const EditStudioForm = () => {
           fields={fields}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
+          btnTxt={t('form.submit.editStudio')}
         />
       </section>
     </section>

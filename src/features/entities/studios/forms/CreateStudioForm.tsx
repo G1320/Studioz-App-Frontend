@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import { getLocalUser, uploadFile } from '@shared/services';
 import {
@@ -17,7 +18,6 @@ import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils';
 import { enforceImageUploadLimit, mergeGalleryImages } from '@shared/utils/uploadLimits';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
-import { useTranslation } from 'react-i18next';
 
 interface FormData {
   coverImage?: string;
@@ -303,6 +303,7 @@ export const CreateStudioForm = () => {
           fields={fields}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
+          btnTxt={t('form.submit.createStudio')}
         />
       </section>
     </section>

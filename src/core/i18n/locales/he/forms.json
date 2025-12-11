@@ -86,7 +86,16 @@
       "error": "אנא השלם את תהליך הרישום ל-PayPal לפני יצירת סטודיו"
     },
     "submit": {
-      "button": "צור סטודיו",
+      "button": "שלח",
+      "createStudio": "צור סטודיו",
+      "editStudio": "עדכן סטודיו",
+      "createItem": "צור שירות",
+      "editItem": "עדכן שירות",
+      "createAddOn": "צור תוספת",
+      "editAddOn": "עדכן תוספת",
+      "createWishlist": "צור רשימת משאלות",
+      "editWishlist": "עדכן רשימת משאלות",
+      "updateUser": "עדכן משתמש",
       "success": "הסטודיו נוצר בהצלחה",
       "error": "אירעה שגיאה בעת יצירת הסטודיו"
     },

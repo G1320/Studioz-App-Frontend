@@ -25,7 +25,7 @@ export const EditAddOnForm = () => {
   const { addOnId, itemId } = useParams();
   const { data: addOn } = useAddOn(addOnId || '');
   const updateAddOnMutation = useUpdateAddOnMutation(addOnId || '', itemId);
-  const { t } = useTranslation();
+  const { t } = useTranslation('forms');
 
   const [pricePer, setPricePer] = useState<string>(addOn?.pricePer || 'hour');
 
@@ -101,7 +101,13 @@ export const EditAddOnForm = () => {
     <section>
       <h1>Edit Add-On</h1>
       <section className="form-wrapper edit-addon-form-wrapper">
-        <GenericForm className="edit-addon-form" title="Edit Add-On" fields={fields} onSubmit={handleSubmit} />
+        <GenericForm
+          className="edit-addon-form"
+          title="Edit Add-On"
+          fields={fields}
+          onSubmit={handleSubmit}
+          btnTxt={t('form.submit.editAddOn')}
+        />
       </section>
     </section>
   );

@@ -1,12 +1,12 @@
 import { GenericForm, FieldType } from '@shared/components';
-
+import { useTranslation } from 'react-i18next';
 import { useCreateWishlistMutation } from '@shared/hooks';
 import { getLocalUser } from '@shared/services';
 import { Wishlist } from 'src/types/index';
 
 export const CreateWishlistForm = () => {
   const user = getLocalUser();
-
+  const { t } = useTranslation('forms');
   const createWishlistMutation = useCreateWishlistMutation(user?._id || '');
 
   const handleSubmit = async (formData: Record<string, any>) => {
@@ -24,7 +24,13 @@ export const CreateWishlistForm = () => {
 
   return (
     <section className="form-wrapper create-wishlist-form-wrapper">
-      <GenericForm className="create-wishlist-form" title="Create Wishlist" fields={fields} onSubmit={handleSubmit} />
+      <GenericForm
+        className="create-wishlist-form"
+        title="Create Wishlist"
+        fields={fields}
+        onSubmit={handleSubmit}
+        btnTxt={t('form.submit.createWishlist')}
+      />
     </section>
   );
 };

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { updateUser } from '@shared/services';
 import { GenericForm } from '@shared/components';
 import { useErrorHandling, useLanguageNavigate } from '@shared/hooks';
@@ -6,6 +7,7 @@ import { useErrorHandling, useLanguageNavigate } from '@shared/hooks';
 export function UpdateUserForm() {
   const handleError = useErrorHandling();
   const langNavigate = useLanguageNavigate();
+  const { t } = useTranslation('forms');
 
   interface FormData {
     username?: string;
@@ -87,6 +89,12 @@ export function UpdateUserForm() {
   ];
 
   return (
-    <GenericForm title="Update User" fields={fields} onSubmit={handleSubmit} className="create-form" btnTxt="Submit" />
+    <GenericForm
+      title="Update User"
+      fields={fields}
+      onSubmit={handleSubmit}
+      className="create-form"
+      btnTxt={t('form.submit.updateUser')}
+    />
   );
 }

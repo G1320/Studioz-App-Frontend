@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { useTranslation } from 'react-i18next';
 
 import { GoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
@@ -16,7 +17,8 @@ interface GenericFormProps {
   onCategoryChange?: (values: string[]) => void;
 }
 
-export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) => {
+export const GenericForm = ({ fields, onSubmit, className, btnTxt }: GenericFormProps) => {
+  const { t } = useTranslation('forms');
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
@@ -227,7 +229,7 @@ export const GenericForm = ({ fields, onSubmit, className }: GenericFormProps) =
       })}
       <div className="form-actions">
         <button type="submit" className="submit-button">
-          Submit
+          {btnTxt || t('form.submit.button')}
         </button>
       </div>
     </form>

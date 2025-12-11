@@ -150,7 +150,13 @@ export const CreateAddOnForm = () => {
             </button>
           </div>
           <div className="create-addon-form-wrapper">
-            <GenericForm key={formKey} className="create-addon-form" fields={fields} onSubmit={handleSubmit} />
+            <GenericForm
+              key={formKey}
+              className="create-addon-form"
+              fields={fields}
+              onSubmit={handleSubmit}
+              btnTxt={t('form.submit.createAddOn')}
+            />
           </div>
         </div>
       )}

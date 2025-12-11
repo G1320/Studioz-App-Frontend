@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { GenericForm, FieldType } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import {
@@ -13,7 +14,6 @@ import {
   useSubscription
 } from '@shared/hooks';
 import { Item } from 'src/types/index';
-import { useTranslation } from 'react-i18next';
 import { CreateAddOnForm } from '@features/entities/addOns/forms';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { toast } from 'sonner';
@@ -230,7 +230,13 @@ export const CreateItemForm = () => {
         </div>
       )}
       <section className="form-wrapper create-item-form-wrapper">
-        <GenericForm className="create-item-form" title={studioName} fields={fields} onSubmit={handleSubmit} />
+        <GenericForm
+          className="create-item-form"
+          title={studioName}
+          fields={fields}
+          onSubmit={handleSubmit}
+          btnTxt={t('form.submit.createItem')}
+        />
       </section>
       {isFeatureEnabled('addOns') && (
         <section className="addon-form-section">
