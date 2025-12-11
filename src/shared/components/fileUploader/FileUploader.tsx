@@ -13,6 +13,7 @@ interface FileUploaderProps {
   onFileUpload: OnFileUploadType;
   multiple?: boolean;
   galleryFiles?: string[];
+  showPreviewBeforeUpload?: boolean;
 }
 
 const validMimeTypes: { [key: string]: string[] } = {
@@ -30,7 +31,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   isCoverShown = false,
   onFileUpload,
   multiple = true,
-  galleryFiles = []
+  galleryFiles = [],
+  showPreviewBeforeUpload = true
 }) => {
   const [preview, setPreview] = useState<string>('');
 
@@ -68,12 +70,16 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       });
 
       if (acceptedFiles.length > 0) {
-        const fileReader = new FileReader();
-        fileReader.onloadend = () => {
-          setPreview(fileReader.result as string);
+        if (showPreviewBeforeUpload) {
+          const fileReader = new FileReader();
+          fileReader.onloadend = () => {
+            setPreview(fileReader.result as string);
+            onFileUpload(acceptedFiles, fileType);
+          };
+          fileReader.readAsDataURL(acceptedFiles[0]);
+        } else {
           onFileUpload(acceptedFiles, fileType);
-        };
-        fileReader.readAsDataURL(acceptedFiles[0]);
+        }
       }
 
       showErrorMessages(newErrors);
@@ -121,7 +127,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         <GenericImageGallery
           isCoverShown={isCoverShown}
           isGalleryImagesShown={true}
-          coverImage={preview}
+          coverImage={showPreviewBeforeUpload ? preview : ''}
           galleryImages={galleryFiles}
           onSetPreviewImage={handleSetPreviewFile}
           className="file-uploader-gallery"

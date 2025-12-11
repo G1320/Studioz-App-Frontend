@@ -295,6 +295,7 @@ export const CreateStudioForm = () => {
         onFileUpload={handleFileUpload}
         galleryFiles={galleryImages}
         isCoverShown={false}
+        showPreviewBeforeUpload={false}
       />
       <section className="form-wrapper create-studio-form-wrapper">
         <GenericForm
