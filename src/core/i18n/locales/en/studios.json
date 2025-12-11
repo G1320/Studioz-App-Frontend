@@ -8,6 +8,13 @@
   "distanceFilter": {
     "label": "Max Distance",
     "ariaLabel": "Maximum distance filter"
+  },
+  "emptyStates": {
+    "noStudios": "No studios found",
+    "noMatchingFilters": "No studios match these filters",
+    "tryDifferentFilters": "Try adjusting your filters or explore all studios.",
+    "discoverStudios": "Discover our available studios and start creating.",
+    "browseStudios": "Browse all studios"
   }
 }
 

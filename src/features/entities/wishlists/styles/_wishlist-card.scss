@@ -4,9 +4,9 @@
   padding: vars.$spacing-medium;
   background: vars.$card-bg-color;
   border-radius: vars.$border-radius-medium;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100%;
 
   &:hover {
     border-color: vars.$color-brand;
@@ -46,4 +46,3 @@
     margin-top: vars.$spacing-small;
   }
 }
-

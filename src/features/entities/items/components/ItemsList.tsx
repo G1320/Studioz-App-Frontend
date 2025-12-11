@@ -1,18 +1,23 @@
 import { ItemCard } from '@features/entities';
-import { GenericList } from '@shared/components';
+import { EmptyState, GenericList } from '@shared/components';
+import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
+import { useTranslation } from 'react-i18next';
 import { Item } from 'src/types/index';
 import { useModal } from '@core/contexts';
 
 interface ItemListProps {
   items?: Item[];
   className?: string;
+  hasFilters?: boolean;
 }
 
-export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) => {
+export const ItemsList: React.FC<ItemListProps> = ({ items = [], className = '', hasFilters = false }) => {
   const user = getLocalUser();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
+  const { t } = useTranslation('services');
+  const langNavigate = useLanguageNavigate();
 
   const { openModal } = useModal();
 
@@ -27,8 +32,26 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className }) =>
     </div>
   );
 
+  const containerClassName = ['items', className].filter(Boolean).join(' ');
+
+  if (!items.length) {
+    return (
+      <section className={`${containerClassName} items--empty`.trim()}>
+        <EmptyState
+          icon="🎵"
+          title={hasFilters ? t('emptyStates.noMatchingFilters') : t('emptyStates.noServices')}
+          subtitle={
+            hasFilters ? t('emptyStates.tryDifferentFilters') : t('emptyStates.discoverServices')
+          }
+          actionLabel={t('emptyStates.browseServices')}
+          onAction={() => langNavigate('/services')}
+        />
+      </section>
+    );
+  }
+
   return (
-    <section className={`items ${className}`}>
+    <section className={containerClassName}>
       <GenericList data={items} renderItem={renderItem} className="items-list" />
     </section>
   );

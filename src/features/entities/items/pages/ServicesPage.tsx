@@ -32,6 +32,8 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
     userLocation
   });
 
+  const hasFilters = Boolean(category || subCategory || selectedCity);
+
   // Get location if permission was previously granted but location not in storage
   useEffect(() => {
     if (hasGranted && !userLocation && !position) {
@@ -96,7 +98,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ items = [] }) => {
         <LazyItemsMap items={filteredItems} selectedCity={selectedCity} userLocation={userLocation} />
       </Suspense>
 
-      <ItemsList items={filteredItems} className="Items-list-container" />
+      <ItemsList items={filteredItems} className="Items-list-container" hasFilters={hasFilters} />
     </section>
   );
 };

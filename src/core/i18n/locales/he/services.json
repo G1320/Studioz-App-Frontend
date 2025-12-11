@@ -6,5 +6,12 @@
   },
   "sections": {
     "categories": "קטגוריות"
+  },
+  "emptyStates": {
+    "noServices": "לא נמצאו שירותים",
+    "noMatchingFilters": "אין שירותים שתואמים לסינון",
+    "tryDifferentFilters": "נסו לשנות את הסינון או לעיין בכל השירותים.",
+    "discoverServices": "גלו שירותים זמינים והזמינו את הפעם הבאה שלכם.",
+    "browseServices": "עיין בכל השירותים"
   }
 }

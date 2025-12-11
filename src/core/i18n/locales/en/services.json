@@ -6,5 +6,12 @@
   },
   "sections": {
     "categories": "Categories "
+  },
+  "emptyStates": {
+    "noServices": "No services found",
+    "noMatchingFilters": "No services match these filters",
+    "tryDifferentFilters": "Try adjusting your filters or explore all services.",
+    "discoverServices": "Discover available services and book your next session.",
+    "browseServices": "Browse all services"
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { EmptyState } from '@shared/components';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
-import './styles/_empty-reservations-state.scss';
 
 interface EmptyReservationsStateProps {
   isStudioOwner?: boolean;
@@ -43,19 +43,13 @@ export const EmptyReservationsState: React.FC<EmptyReservationsStateProps> = ({
   };
 
   return (
-    <div className="empty-reservations-state">
-      <div className="empty-reservations-state__icon">📅</div>
-      <h3 className="empty-reservations-state__title">{getMessage()}</h3>
-      <p className="empty-reservations-state__subtitle">{getSubtitle()}</p>
-      {!hasFilters && (
-        <button
-          className="empty-reservations-state__button"
-          onClick={() => langNavigate('/studios')}
-          aria-label={t('emptyStates.browseStudios')}
-        >
-          {t('emptyStates.browseStudios')}
-        </button>
-      )}
-    </div>
+    <EmptyState
+      icon="📅"
+      title={getMessage()}
+      subtitle={getSubtitle()}
+      actionLabel={t('emptyStates.browseStudios')}
+      onAction={() => langNavigate('/studios')}
+      hideAction={hasFilters}
+    />
   );
 };

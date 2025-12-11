@@ -8,6 +8,12 @@
   "distanceFilter": {
     "label": "מרחק מקסימלי",
     "ariaLabel": "מסנן מרחק מקסימלי"
+  },
+  "emptyStates": {
+    "noStudios": "לא נמצאו אולפנים",
+    "noMatchingFilters": "אין אולפנים שתואמים לסינון",
+    "tryDifferentFilters": "נסו לשנות את הסינון או לעיין בכל האולפנים.",
+    "discoverStudios": "גלו את האולפנים הזמינים והתחילו ליצור.",
+    "browseStudios": "עיין בכל האולפנים"
   }
 }
-

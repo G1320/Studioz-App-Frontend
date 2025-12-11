@@ -59,6 +59,10 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     maxDistance: featureFlags.distanceSlider ? maxDistance : undefined
   });
 
+  const hasFilters =
+    Boolean(category || subcategory || selectedCity) ||
+    (featureFlags.distanceSlider && maxDistance !== undefined);
+
   const categoryRenderItem = (category: string) => <CategoryCard category={category} />;
   const cityRenderItem = (city: (typeof cities)[number]) => <CityCard city={city} />;
 
@@ -118,7 +122,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
       >
         <LazyStudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
       </Suspense>
-      <StudiosList studios={filteredStudios} />
+      <StudiosList studios={filteredStudios} hasFilters={hasFilters} />
     </section>
   );
 };
