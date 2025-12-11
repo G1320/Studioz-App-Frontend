@@ -176,6 +176,15 @@ export const MuiDateTimePicker = ({
           fullWidth: true,
           margin: 'dense',
           dir: isRTL ? 'rtl' : 'ltr'
+        },
+        popper: {
+          placement: 'top-start',
+          modifiers: [
+            {
+              name: 'flip',
+              enabled: false // Disable flipping to prevent opening downward
+            }
+          ]
         }
       }}
       slots={{
