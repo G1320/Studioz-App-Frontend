@@ -21,8 +21,11 @@
   margin-top: vars.$spacing-large;
 }
 
-.edit-studio-form {
-  @include forms.branded-form;
+.edit-studio-page {
+  .edit-studio-form {
+    // Increase specificity so it overrides the generic form base styles
+    @include forms.branded-form;
+  }
 }
 
 // FileUploader in edit studio context
