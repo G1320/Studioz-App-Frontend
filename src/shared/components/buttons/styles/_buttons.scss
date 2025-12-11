@@ -1,22 +1,24 @@
 @use 'utilities/variables' as vars;
 button {
   display: flex;
-  height: 1.5rem;
+  height: 32px;
+  min-width: 24px;
+
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 0.75rem;
+  border-radius: vars.$border-radius-medium;
   border: 1px solid transparent;
   font-size: 1em;
   font-family: 'Roboto', sans-serif !important;
   font-weight: 700;
   font-family: inherit;
-  background-color: #fff;
-  color: vars.$text-color-dark;
+  color: vars.$color-brand;
+  background-color: rgba(255, 255, 255, 0.1);
+  // color: vars.$text-color-dark;
   white-space: nowrap;
-  border: 1px solid white;
   box-shadow: inset 0 0 10px 5px rgba(255, 255, 255, 0.03);
-  padding: 0.8em 1.2em;
+  // padding: 0.5rem;
   cursor: pointer;
   transition: border-color 0.25s;
   &:hover {
