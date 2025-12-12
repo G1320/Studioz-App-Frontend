@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import {
   useItem,
@@ -9,9 +10,10 @@ import {
   usePhotoCategories,
   usePhotoSubCategories,
   useUpdateItemMutation,
-  useAddOns
+  useAddOns,
+  useDeleteAddOnMutation
 } from '@shared/hooks';
-import { uploadFile, createAddOnsBatch } from '@shared/services';
+import { uploadFile, createAddOnsBatch, updateAddOn } from '@shared/services';
 import { Item } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils/compareArrays';
@@ -40,6 +42,8 @@ export const EditItemForm = () => {
   const photoSubCategories = usePhotoSubCategories();
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
+  const deleteAddOnMutation = useDeleteAddOnMutation();
+  const queryClient = useQueryClient();
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     item?.categories && item.categories.length > 0 ? [item.categories[0]] : musicCategories
@@ -80,7 +84,54 @@ export const EditItemForm = () => {
   };
 
   const handleRemoveAddOn = (index: number) => {
-    setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
+    const addOnToRemove = pendingAddOns[index];
+
+    // If it's an existing add-on (has _id), delete it from backend
+    if (addOnToRemove._id) {
+      deleteAddOnMutation.mutate(addOnToRemove._id, {
+        onSuccess: () => {
+          // Remove from local state after successful deletion
+          setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
+          toast.success('Add-on deleted successfully');
+        },
+        onError: (error) => {
+          console.error('Error deleting add-on:', error);
+          toast.error('Failed to delete add-on');
+        }
+      });
+    } else {
+      // If it's a new add-on (no _id), just remove from local state
+      setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleUpdateAddOn = async (index: number, updatedAddOn: PendingAddOn) => {
+    const existingAddOn = pendingAddOns[index];
+
+    // If it's an existing add-on (has _id), update it in backend
+    if (existingAddOn._id && updatedAddOn._id) {
+      try {
+        await updateAddOn(existingAddOn._id, updatedAddOn as any);
+        // Update local state after successful update
+        setPendingAddOns((prev) => prev.map((addOn, i) => (i === index ? updatedAddOn : addOn)));
+
+        // Invalidate queries to refresh data
+        await queryClient.invalidateQueries({ queryKey: ['addOn', existingAddOn._id] });
+        await queryClient.invalidateQueries({ queryKey: ['addOns'] });
+        if (itemId) {
+          await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', itemId] });
+          await queryClient.invalidateQueries({ queryKey: ['item', itemId] });
+        }
+
+        toast.success('Add-on updated successfully');
+      } catch (error) {
+        console.error('Error updating add-on:', error);
+        toast.error('Failed to update add-on');
+      }
+    } else {
+      // If it's a new add-on, just update local state
+      setPendingAddOns((prev) => prev.map((addOn, i) => (i === index ? updatedAddOn : addOn)));
+    }
   };
 
   const pricePerOptions = [
@@ -205,6 +256,7 @@ export const EditItemForm = () => {
             mode="local"
             onAdd={handleAddAddOn}
             onRemove={handleRemoveAddOn}
+            onUpdate={handleUpdateAddOn}
             pendingAddOns={pendingAddOns}
           />
         </section>
