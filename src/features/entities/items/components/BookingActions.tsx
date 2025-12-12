@@ -12,17 +12,20 @@ interface BookingActionsProps {
   isBooked: boolean;
   cart?: Cart;
   onBookNow: () => void;
+  addOnsTotal?: number;
 }
 
 export const BookingActions = React.memo(
-  ({ price, quantity, currentReservationId, isPhoneVerified, isBooked, cart, onBookNow }: BookingActionsProps) => {
+  ({ price, quantity, currentReservationId, isPhoneVerified, isBooked, cart, onBookNow, addOnsTotal = 0 }: BookingActionsProps) => {
     const { t } = useTranslation('common');
+
+    const totalPrice = price * quantity + addOnsTotal;
 
     if (!currentReservationId && isPhoneVerified) {
       return (
         <Button className="add-to-cart-button book-now-button" onClick={onBookNow}>
           {t('buttons.add_to_cart')}
-          <span>({price * quantity}₪)</span>
+          <span>({totalPrice}₪)</span>
         </Button>
       );
     }

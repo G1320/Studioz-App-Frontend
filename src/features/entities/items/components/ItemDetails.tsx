@@ -58,6 +58,23 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
 
+  // Calculate total add-on price based on selected add-ons and quantity
+  const addOnsTotal = useMemo(() => {
+    if (!selectedAddOnIds.length || !addOns.length) return 0;
+
+    return selectedAddOnIds.reduce((total, addOnId) => {
+      const addOn = addOns.find((a) => a._id === addOnId);
+      if (!addOn || !addOn.price) return total;
+
+      // If pricePer is "hour", multiply by quantity (hours)
+      if (addOn.pricePer === 'hour') {
+        return total + addOn.price * selectedQuantity;
+      }
+      // For "session", "song", "unit", add once
+      return total + addOn.price;
+    }, 0);
+  }, [selectedAddOnIds, addOns, selectedQuantity]);
+
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
 
@@ -104,6 +121,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     }
 
     if (item) {
+      const itemTotal = (item?.price || 0) * hours;
+      const totalWithAddOns = itemTotal + addOnsTotal;
+
       const newItem = {
         name: {
           en: item?.name?.en,
@@ -114,7 +134,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
           he: item?.studioName?.he
         },
         price: item?.price || 0,
-        total: (item?.price || 0) * hours,
+        total: totalWithAddOns,
         itemId: item?._id,
         studioId: studio._id,
         bookingDate,
@@ -153,7 +173,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     addItemToCartMutation,
     setCurrentReservationId,
     setSelectedDate,
-    selectedAddOnIds
+    selectedAddOnIds,
+    addOnsTotal
   ]);
 
   useEffect(() => {
@@ -258,6 +279,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         isBooked={isBooked as boolean}
         cart={cart}
         onBookNow={handleBookNow}
+        addOnsTotal={addOnsTotal}
       />
     </article>
   );
