@@ -261,7 +261,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       )}
       {isFeatureEnabled('addOns') && (
         <section className="item-addons-section">
-          <h3>{t('addOns', 'Add-Ons')}</h3>
+          {/* <h3>{t('addOns', 'Add-Ons')}</h3> */}
           <AddOnsList
             addOns={addOns}
             isLoading={isAddOnsLoading}

@@ -16,7 +16,16 @@ interface BookingActionsProps {
 }
 
 export const BookingActions = React.memo(
-  ({ price, quantity, currentReservationId, isPhoneVerified, isBooked, cart, onBookNow, addOnsTotal = 0 }: BookingActionsProps) => {
+  ({
+    price,
+    quantity,
+    currentReservationId,
+    isPhoneVerified,
+    isBooked,
+    cart,
+    onBookNow,
+    addOnsTotal = 0
+  }: BookingActionsProps) => {
     const { t } = useTranslation('common');
 
     const totalPrice = price * quantity + addOnsTotal;
