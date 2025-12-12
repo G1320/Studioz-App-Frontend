@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import {
@@ -176,20 +176,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     selectedAddOnIds,
     addOnsTotal
   ]);
-
-  useEffect(() => {
-    if (currentReservationId) {
-      const timer = setTimeout(
-        () => {
-          localStorage.removeItem(`reservation_${itemId}`);
-          setCurrentReservationId(null);
-        },
-        15 * 60 * 1000
-      ); // 15 minutes
-
-      return () => clearTimeout(timer);
-    }
-  }, [currentReservationId, itemId]);
 
   const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
