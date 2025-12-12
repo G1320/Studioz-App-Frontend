@@ -121,6 +121,7 @@ export const EditItemForm = () => {
         if (itemId) {
           await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', itemId] });
           await queryClient.invalidateQueries({ queryKey: ['item', itemId] });
+          await queryClient.invalidateQueries({ queryKey: ['items', {}] });
         }
 
         toast.success('Add-on updated successfully');
