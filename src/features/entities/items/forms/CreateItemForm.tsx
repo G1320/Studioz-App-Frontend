@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { GenericForm, FieldType } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import {
@@ -22,6 +23,7 @@ import { createAddOnsBatch } from '@shared/services';
 export const CreateItemForm = () => {
   const user = getLocalUser();
   const { studioName, studioId } = useParams();
+  const queryClient = useQueryClient();
   const createItemMutation = useCreateItemMutation(studioId || '');
   const { data: studioObj } = useStudio(studioId || '');
   const { data: allItems = [] } = useItems();
@@ -153,6 +155,9 @@ export const CreateItemForm = () => {
             toast.error('Item created but failed to create some add-ons. Please add them manually.');
           }
         }
+        // Invalidate addOns queries
+        await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', createdItem._id] });
+        await queryClient.invalidateQueries({ queryKey: ['addOns'] });
       }
     });
   };

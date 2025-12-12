@@ -221,6 +221,11 @@ export const EditItemForm = () => {
           // All add-ons are existing ones, just show success
           toast.success('Item updated successfully');
         }
+        // Invalidate addOns queries
+        if (itemId) {
+          await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', itemId] });
+        }
+        await queryClient.invalidateQueries({ queryKey: ['addOns'] });
       }
     });
   };
