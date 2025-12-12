@@ -31,4 +31,5 @@
 // FileUploader in edit item context
 .edit-item-page {
   @include forms.branded-file-uploader;
+  @include forms.branded-form-actions;
 }

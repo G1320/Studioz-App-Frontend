@@ -31,4 +31,5 @@
 // FileUploader in create item context
 .create-item-page {
   @include forms.branded-file-uploader;
+  @include forms.branded-form-actions;
 }
