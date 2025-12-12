@@ -1,23 +1,27 @@
 @use 'utilities/variables' as vars;
 
-.add-remove-button {
-  --button-hover-bg: rgba(14, 165, 233, 0.2);
-  --button-shadow: rgba(14, 165, 233, 0.3);
+button.add-remove-button {
+  --button-hover-bg: rgba(16, 185, 129, 0.2);
+  --button-shadow: rgba(16, 185, 129, 0.3);
   --button-focus-shadow: rgba(14, 165, 233, 0.3);
 
-  color: #fff;
-  padding: vars.$spacing-xs;
-  border-radius: vars.$border-radius-small;
+  width: 30px;
+  height: 30px;
+  padding: 0.5rem;
+  align-self: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  //   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
-  backdrop-filter: blur(8px);
-  min-width: auto;
-  height: auto;
+  color: #fff;
 
   &:hover:not(:disabled) {
+    background-color: var(--button-hover-bg);
     border-color: vars.$color-brand;
     transform: scale(1.05);
     box-shadow: 0 4px 12px var(--button-shadow);
@@ -35,15 +39,10 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--button-focus-shadow);
+    box-shadow: none;
     border: 1px solid vars.$color-brand;
     outline: 4px auto vars.$color-brand;
   }
-
-  //   &--remove {
-  //     --button-shadow: rgba(239, 68, 68, 0.3);
-  //     --button-focus-shadow: rgba(239, 68, 68, 0.3);
-  //   }
 
   svg {
     font-size: 1.25rem;

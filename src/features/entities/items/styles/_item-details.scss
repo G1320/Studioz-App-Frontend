@@ -214,37 +214,18 @@
       display: flex;
       gap: 0.5rem;
     }
-    .control-button {
-      width: 32px;
-      height: 32px;
-      padding: 0.5rem;
-      align-self: center;
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
-      &:hover:not(:disabled) {
-        background-color: rgba(16, 185, 129, 0.2);
-        border-color: vars.$color-brand;
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-      }
+    .button-group {
+      width: 104px;
+    }
 
-      &:active:not(:disabled) {
-        transform: scale(0.95);
-      }
+    .hour-value {
+      min-width: 32px;
+    }
 
-      &:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
+    .add-remove-button {
+      min-width: 30px;
+      height: 30px;
     }
   }
 

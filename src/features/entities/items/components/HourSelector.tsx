@@ -1,4 +1,5 @@
 import React from 'react';
+import { AddRemoveButton } from '@shared/components';
 
 interface HourSelectorProps {
   value: number;
@@ -10,15 +11,11 @@ export const HourSelector = React.memo(({ value, onIncrement, onDecrement }: Hou
   return (
     <div className="hour-selection-container full-width">
       <div className="button-group">
-        <button className="control-button minus" onClick={onDecrement}>
-          −
-        </button>
+        <AddRemoveButton variant="remove" onClick={onDecrement} disabled={value <= 1} />
         <div>
           <span className="hour-value">{value}</span>
         </div>
-        <button className="control-button plus" onClick={onIncrement}>
-          +
-        </button>
+        <AddRemoveButton variant="add" onClick={onIncrement} />
       </div>
     </div>
   );
