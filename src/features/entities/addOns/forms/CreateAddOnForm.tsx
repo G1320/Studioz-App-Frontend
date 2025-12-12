@@ -153,6 +153,8 @@ export const CreateAddOnForm = ({
 
   // Get the add-on being edited for form values
   const editingAddOn = editingIndex !== null ? pendingAddOns[editingIndex] : null;
+  // Hide the add-on being edited from the visible list
+  const visibleAddOnsCount = Math.max(0, editingIndex !== null ? pendingAddOns.length - 1 : pendingAddOns.length);
 
   const fields = [
     {
@@ -204,45 +206,47 @@ export const CreateAddOnForm = ({
   return (
     <section className="create-addon-form-container">
       {/* Show pending add-ons list in local mode */}
-      {mode === 'local' && pendingAddOns.length > 0 && (
+      {mode === 'local' && visibleAddOnsCount > 0 && (
         <div className="pending-addons-list">
-          <h3>Pending Add-Ons ({pendingAddOns.length})</h3>
+          <h3>Pending Add-Ons ({visibleAddOnsCount})</h3>
           <div>
-            {pendingAddOns.map((addOn, index) => (
-              <div key={addOn._id || index}>
-                <div>
-                  <div>{addOn.name?.en || 'Untitled Add-On'}</div>
-                  {addOn.price !== undefined && (
-                    <div>
-                      ${addOn.price} / {addOn.pricePer || 'hour'}
-                    </div>
-                  )}
-                  {addOn._id && <div style={{ fontSize: '0.8em', color: '#666' }}>Existing</div>}
+            {pendingAddOns.map((addOn, index) =>
+              editingIndex === index ? null : (
+                <div key={addOn._id || index}>
+                  <div>
+                    <div>{addOn.name?.en || 'Untitled Add-On'}</div>
+                    {addOn.price !== undefined && (
+                      <div>
+                        ${addOn.price} / {addOn.pricePer || 'hour'}
+                      </div>
+                    )}
+                    {addOn._id && <div style={{ fontSize: '0.8em', color: '#666' }}>Existing</div>}
+                  </div>
+                  <div>
+                    {onUpdate && (
+                      <button
+                        type="button"
+                        onClick={() => handleEdit(index)}
+                        title="Edit add-on"
+                        aria-label="Edit add-on"
+                      >
+                        <EditIcon />
+                      </button>
+                    )}
+                    {onRemove && (
+                      <button
+                        type="button"
+                        onClick={() => onRemove(index)}
+                        title="Remove add-on"
+                        aria-label="Remove add-on"
+                      >
+                        <DeleteIcon />
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  {onUpdate && (
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(index)}
-                      title="Edit add-on"
-                      aria-label="Edit add-on"
-                    >
-                      <EditIcon />
-                    </button>
-                  )}
-                  {onRemove && (
-                    <button
-                      type="button"
-                      onClick={() => onRemove(index)}
-                      title="Remove add-on"
-                      aria-label="Remove add-on"
-                    >
-                      <DeleteIcon />
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       )}
@@ -260,9 +264,7 @@ export const CreateAddOnForm = ({
       ) : (
         <div className="addon-form-content">
           <div className="create-addon-form-header">
-            <h2 className="create-addon-form-title">
-              {editingIndex !== null ? 'Edit Add-On' : 'Add-On'}
-            </h2>
+            <h2 className="create-addon-form-title">{editingIndex !== null ? 'Edit Add-On' : 'Add-On'}</h2>
             <button
               type="button"
               className="close-addon-form-button"
@@ -279,7 +281,9 @@ export const CreateAddOnForm = ({
               className="create-addon-form"
               fields={fields}
               onSubmit={handleSubmit}
-              btnTxt={editingIndex !== null ? t('form.submit.editAddOn') || 'Update Add-On' : t('form.submit.createAddOn')}
+              btnTxt={
+                editingIndex !== null ? t('form.submit.editAddOn') || 'Update Add-On' : t('form.submit.createAddOn')
+              }
             />
           </div>
         </div>
