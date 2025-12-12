@@ -138,10 +138,12 @@
       flex-direction: column;
       gap: vars.$spacing-small;
 
-      > div {
+      > div,
+      .pending-addon-card {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+        gap: vars.$spacing-large;
         padding: vars.$spacing-medium;
         background: rgba(34, 34, 34, 0.6);
         border-radius: vars.$border-radius-medium;
@@ -153,20 +155,36 @@
           background: rgba(34, 34, 34, 0.8);
         }
 
-        > div {
+        .pending-addon-content {
+          display: flex;
+          align-items: center;
+          gap: vars.$spacing-medium;
           flex: 1;
+          min-width: 0;
+        }
 
-          > div:first-child {
-            font-weight: 600;
-            margin-bottom: vars.$spacing-xs;
-            color: vars.$text-color-primary;
-            font-size: vars.$font-size-medium;
-          }
+        .pending-addon-title {
+          display: flex;
+          align-items: center;
+          gap: vars.$spacing-xs;
+          font-weight: 600;
+          color: vars.$text-color-primary;
+          font-size: vars.$font-size-medium;
+          white-space: nowrap;
+        }
 
-          > div:last-child {
-            font-size: vars.$font-size-small;
-            color: rgba(255, 255, 255, 0.6);
-          }
+        .pending-addon-price {
+          margin: 0 auto;
+          text-align: center;
+          font-size: vars.$font-size-small;
+          color: rgba(255, 255, 255, 0.8);
+          min-width: 140px;
+        }
+
+        .pending-addon-actions {
+          display: flex;
+          align-items: center;
+          gap: vars.$spacing-xs;
         }
 
         button {
@@ -177,10 +195,9 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.6);
+          color: rgba(255, 255, 255, 0.75);
           border-radius: vars.$border-radius-small;
           transition: all 0.2s ease;
-          margin-left: vars.$spacing-medium;
 
           svg {
             font-size: 1.25rem;
@@ -272,14 +289,29 @@
         font-size: vars.$font-size-medium;
       }
 
-      > div > div {
+      > div > div,
+      .pending-addon-card {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: vars.$spacing-small;
 
-        button {
-          margin-left: 0;
-          align-self: flex-end;
+        .pending-addon-content {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .pending-addon-title {
+          white-space: normal;
+        }
+
+        .pending-addon-price {
+          margin: 0;
+          min-width: auto;
+          text-align: left;
+        }
+
+        .pending-addon-actions {
+          justify-content: flex-end;
         }
       }
     }

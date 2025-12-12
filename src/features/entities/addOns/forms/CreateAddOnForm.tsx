@@ -212,17 +212,16 @@ export const CreateAddOnForm = ({
           <div>
             {pendingAddOns.map((addOn, index) =>
               editingIndex === index ? null : (
-                <div key={addOn._id || index}>
-                  <div>
-                    <div>{addOn.name?.en || 'Untitled Add-On'}</div>
+                <div key={addOn._id || index} className="pending-addon-card">
+                  <div className="pending-addon-content">
+                    <div className="pending-addon-title">{addOn.name?.en || 'Untitled Add-On'}</div>
                     {addOn.price !== undefined && (
-                      <div>
+                      <div className="pending-addon-price">
                         ${addOn.price} / {addOn.pricePer || 'hour'}
                       </div>
                     )}
-                    {addOn._id && <div style={{ fontSize: '0.8em', color: '#666' }}>Existing</div>}
                   </div>
-                  <div>
+                  <div className="pending-addon-actions">
                     {onUpdate && (
                       <button
                         type="button"
