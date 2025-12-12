@@ -20,11 +20,11 @@ interface CreateAddOnFormProps {
   pendingAddOns?: PendingAddOn[];
 }
 
-export const CreateAddOnForm = ({ 
-  mode = 'immediate', 
-  onAdd, 
-  onRemove, 
-  pendingAddOns = [] 
+export const CreateAddOnForm = ({
+  mode = 'immediate',
+  onAdd,
+  onRemove,
+  pendingAddOns = []
 }: CreateAddOnFormProps = {}) => {
   const { itemId } = useParams();
   const { t } = useTranslation('forms');
@@ -162,30 +162,15 @@ export const CreateAddOnForm = ({
     <section className="create-addon-form-container">
       {/* Show pending add-ons list in local mode */}
       {mode === 'local' && pendingAddOns.length > 0 && (
-        <div className="pending-addons-list" style={{ marginBottom: '16px' }}>
-          <h3 style={{ marginBottom: '12px', fontSize: '16px', fontWeight: 600 }}>
-            Pending Add-Ons ({pendingAddOns.length})
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div className="pending-addons-list">
+          <h3>Pending Add-Ons ({pendingAddOns.length})</h3>
+          <div>
             {pendingAddOns.map((addOn, index) => (
-              <div
-                key={index}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '12px',
-                  backgroundColor: '#f5f5f5',
-                  borderRadius: '8px',
-                  border: '1px solid #e0e0e0'
-                }}
-              >
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, marginBottom: '4px' }}>
-                    {addOn.name?.en || 'Untitled Add-On'}
-                  </div>
+              <div key={index}>
+                <div>
+                  <div>{addOn.name?.en || 'Untitled Add-On'}</div>
                   {addOn.price !== undefined && (
-                    <div style={{ fontSize: '14px', color: '#666' }}>
+                    <div>
                       ${addOn.price} / {addOn.pricePer || 'hour'}
                     </div>
                   )}
@@ -194,15 +179,6 @@ export const CreateAddOnForm = ({
                   <button
                     type="button"
                     onClick={() => onRemove(index)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '4px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: '#d32f2f'
-                    }}
                     title="Remove add-on"
                     aria-label="Remove add-on"
                   >

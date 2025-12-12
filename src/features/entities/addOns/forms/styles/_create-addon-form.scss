@@ -114,6 +114,95 @@
   .create-addon-form {
     @include forms.branded-form;
   }
+
+  // Pending add-ons list - styled to match branded form aesthetic
+  .pending-addons-list {
+    background: vars.$bg-color-tertiary;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: vars.$spacing-xl;
+    color: vars.$text-color-primary;
+    margin-bottom: vars.$spacing-large;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin: 0 0 vars.$spacing-medium;
+      font-size: vars.$font-size-large;
+      font-weight: 600;
+      color: vars.$text-color-primary;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-small;
+
+      > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: vars.$spacing-medium;
+        background: rgba(34, 34, 34, 0.6);
+        border-radius: vars.$border-radius-medium;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: rgba(255, 255, 255, 0.2);
+          background: rgba(34, 34, 34, 0.8);
+        }
+
+        > div {
+          flex: 1;
+
+          > div:first-child {
+            font-weight: 600;
+            margin-bottom: vars.$spacing-xs;
+            color: vars.$text-color-primary;
+            font-size: vars.$font-size-medium;
+          }
+
+          > div:last-child {
+            font-size: vars.$font-size-small;
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+
+        button {
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          padding: vars.$spacing-xs;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(255, 255, 255, 0.6);
+          border-radius: vars.$border-radius-small;
+          transition: all 0.2s ease;
+          margin-left: vars.$spacing-medium;
+
+          svg {
+            font-size: 1.25rem;
+          }
+
+          &:hover {
+            color: #d32f2f;
+            background: rgba(211, 47, 47, 0.1);
+          }
+
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.3);
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+      }
+    }
+  }
 }
 
 // Smooth slide-down animation for form appearance
@@ -160,16 +249,39 @@
       font-size: vars.$font-size-large;
       margin-bottom: vars.$spacing-medium;
     }
+
+    .pending-addons-list {
+      padding: vars.$spacing-large;
+    }
   }
 }
 
 @media (max-width: 640px) {
   .create-addon-form-container {
-    padding: vars.$spacing-medium vars.$spacing-small;
+    padding: 0;
 
     .create-addon-form-title {
       font-size: vars.$font-size-medium;
       margin-bottom: vars.$spacing-small;
+    }
+
+    .pending-addons-list {
+      padding: vars.$spacing-medium;
+
+      h3 {
+        font-size: vars.$font-size-medium;
+      }
+
+      > div > div {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: vars.$spacing-small;
+
+        button {
+          margin-left: 0;
+          align-self: flex-end;
+        }
+      }
     }
   }
 }
