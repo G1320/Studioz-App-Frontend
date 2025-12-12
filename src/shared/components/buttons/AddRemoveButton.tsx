@@ -1,11 +1,12 @@
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 import './styles/_add-remove-button.scss';
 
 interface AddRemoveButtonProps {
-  variant?: 'add' | 'remove';
+  variant?: 'add' | 'remove' | 'check';
   onClick?: () => void;
   disabled?: boolean;
   title?: string;
@@ -23,8 +24,23 @@ export const AddRemoveButton: React.FC<AddRemoveButtonProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const defaultTitle = variant === 'add' ? t('common.add', 'Add') : t('common.remove', 'Remove');
-  const defaultAriaLabel = variant === 'add' ? t('common.add', 'Add') : t('common.remove', 'Remove');
+  const getDefaultTitle = () => {
+    if (variant === 'add') return t('common.add', 'Add');
+    if (variant === 'remove') return t('common.remove', 'Remove');
+    return t('common.selected', 'Selected');
+  };
+
+  const getDefaultAriaLabel = () => {
+    if (variant === 'add') return t('common.add', 'Add');
+    if (variant === 'remove') return t('common.remove', 'Remove');
+    return t('common.selected', 'Selected');
+  };
+
+  const renderIcon = () => {
+    if (variant === 'add') return <AddIcon />;
+    if (variant === 'remove') return <RemoveIcon />;
+    return <CheckIcon />;
+  };
 
   return (
     <button
@@ -32,10 +48,10 @@ export const AddRemoveButton: React.FC<AddRemoveButtonProps> = ({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      title={title || defaultTitle}
-      aria-label={ariaLabel || defaultAriaLabel}
+      title={title || getDefaultTitle()}
+      aria-label={ariaLabel || getDefaultAriaLabel()}
     >
-      {variant === 'add' ? <AddIcon /> : <RemoveIcon />}
+      {renderIcon()}
     </button>
   );
 };

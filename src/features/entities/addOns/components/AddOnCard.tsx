@@ -53,7 +53,7 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton, isSel
             </div>
             {showAddButton && (
               <AddRemoveButton
-                variant={isSelected ? 'remove' : 'add'}
+                variant={isSelected ? 'check' : 'add'}
                 disabled={!onAdd}
                 onClick={() => onAdd?.(addOn)}
               />
