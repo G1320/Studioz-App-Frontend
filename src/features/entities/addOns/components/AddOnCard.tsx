@@ -1,21 +1,22 @@
 import { AddOn } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import AddIcon from '@mui/icons-material/Add';
 import './styles/_addon-card.scss';
 
 interface AddOnCardProps {
   addOn: AddOn;
   onEdit?: (addOn: AddOn) => void;
   onDelete?: (addOnId: string) => void;
+  onAdd?: (addOn: AddOn) => void;
+  showAddButton?: boolean;
 }
 
-export const AddOnCard = ({ addOn, onEdit, onDelete }: AddOnCardProps) => {
+export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton }: AddOnCardProps) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
   const name = addOn.name?.[currentLanguage as 'en' | 'he'] || addOn.name?.en || 'Unnamed Add-On';
   const description = addOn.description?.[currentLanguage as 'en' | 'he'] || addOn.description?.en;
-  const pricePerLabel = addOn.pricePer 
-    ? t(`common.items.price_per.${addOn.pricePer}`)
-    : '';
+  const pricePerLabel = addOn.pricePer ? t(`common.items.price_per.${addOn.pricePer}`) : '';
 
   return (
     <div className={`addon-card ${!addOn.isActive ? 'inactive' : ''}`}>
@@ -32,12 +33,22 @@ export const AddOnCard = ({ addOn, onEdit, onDelete }: AddOnCardProps) => {
             <span className="price-amount">{addOn.price}</span>
             {pricePerLabel && <span className="price-per"> / {pricePerLabel}</span>}
           </div>
-          {!addOn.isActive && (
-            <span className="addon-card-status inactive-badge">Inactive</span>
-          )}
+          {!addOn.isActive && <span className="addon-card-status inactive-badge">Inactive</span>}
         </div>
-        {(onEdit || onDelete) && (
+        {(showAddButton || onEdit || onDelete) && (
           <div className="addon-card-actions">
+            {showAddButton && (
+              <button
+                className="btn-add"
+                type="button"
+                disabled={!onAdd}
+                onClick={() => onAdd?.(addOn)}
+                title={t('common.add', 'Add')}
+                aria-label={t('common.add', 'Add')}
+              >
+                <AddIcon />
+              </button>
+            )}
             {onEdit && (
               <button className="btn-edit" onClick={() => onEdit(addOn)}>
                 {t('common.edit')}
@@ -54,4 +65,3 @@ export const AddOnCard = ({ addOn, onEdit, onDelete }: AddOnCardProps) => {
     </div>
   );
 };
-

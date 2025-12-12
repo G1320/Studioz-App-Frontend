@@ -6,10 +6,12 @@ interface AddOnsListProps {
   addOns: AddOn[];
   onEdit?: (addOn: AddOn) => void;
   onDelete?: (addOnId: string) => void;
+  onAdd?: (addOn: AddOn) => void;
+  showAddButton?: boolean;
   isLoading?: boolean;
 }
 
-export const AddOnsList = ({ addOns, onEdit, onDelete, isLoading }: AddOnsListProps) => {
+export const AddOnsList = ({ addOns, onEdit, onDelete, onAdd, showAddButton, isLoading }: AddOnsListProps) => {
   if (isLoading) {
     return <div className="addons-list-loading">Loading add-ons...</div>;
   }
@@ -21,7 +23,14 @@ export const AddOnsList = ({ addOns, onEdit, onDelete, isLoading }: AddOnsListPr
   return (
     <div className="addons-list">
       {addOns.map((addOn) => (
-        <AddOnCard key={addOn._id} addOn={addOn} onEdit={onEdit} onDelete={onDelete} />
+        <AddOnCard
+          key={addOn._id}
+          addOn={addOn}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onAdd={onAdd}
+          showAddButton={showAddButton}
+        />
       ))}
     </div>
   );

@@ -18,6 +18,9 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import { ReservationCard } from '@features/entities/reservations';
+import { AddOnsList } from '@features/entities/addOns/components';
+import { isFeatureEnabled } from '@core/config/featureFlags';
+import { useAddOns } from '@shared/hooks';
 
 interface ItemDetailsProps {
   itemId: string;
@@ -29,6 +32,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
   const { data: cart } = useCart(user?._id || '');
+  const { data: addOns = [], isLoading: isAddOnsLoading } = useAddOns(itemId);
   const studio = data?.currStudio;
 
   const { closeModal } = useModal();
@@ -218,6 +222,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             setIsPhoneVerified(true);
           }}
         />
+      )}
+      {isFeatureEnabled('addOns') && (
+        <section className="item-addons-section">
+          <h3>{t('addOns', 'Add-Ons')}</h3>
+          <AddOnsList addOns={addOns} isLoading={isAddOnsLoading} showAddButton />
+        </section>
       )}
       <BookingActions
         price={item?.price || 0}
