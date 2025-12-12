@@ -20,7 +20,7 @@ export const featureFlags: FeatureFlags = {
   faviconLogo: true,
   itemCardDistanceBadge: false,
   notifications: true,
-  addOns: false,
+  addOns: true,
   reservationDetailsPage: false
 };
 
