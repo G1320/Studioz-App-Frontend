@@ -1,0 +1,52 @@
+@use 'utilities/variables' as vars;
+
+.add-remove-button {
+  --button-hover-bg: rgba(14, 165, 233, 0.2);
+  --button-shadow: rgba(14, 165, 233, 0.3);
+  --button-focus-shadow: rgba(14, 165, 233, 0.3);
+
+  color: #fff;
+  padding: vars.$spacing-xs;
+  border-radius: vars.$border-radius-small;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+  min-width: auto;
+  height: auto;
+
+  &:hover:not(:disabled) {
+    border-color: vars.$color-brand;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px var(--button-shadow);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--button-focus-shadow);
+    border: 1px solid vars.$color-brand;
+    outline: 4px auto vars.$color-brand;
+  }
+
+  //   &--remove {
+  //     --button-shadow: rgba(239, 68, 68, 0.3);
+  //     --button-focus-shadow: rgba(239, 68, 68, 0.3);
+  //   }
+
+  svg {
+    font-size: 1.25rem;
+    transition: transform 0.25s ease;
+  }
+}

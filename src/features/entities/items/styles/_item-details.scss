@@ -376,28 +376,6 @@
           }
         }
       }
-
-      .btn-add {
-        background: #0ea5e9;
-        color: #fff;
-        border: none;
-        padding: vars.$spacing-xs;
-        border-radius: vars.$border-radius-small;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s;
-
-        &:hover:not(:disabled) {
-          background: #0284c7;
-        }
-
-        &:disabled {
-          cursor: not-allowed;
-          opacity: 0.6;
-        }
-      }
     }
   }
 

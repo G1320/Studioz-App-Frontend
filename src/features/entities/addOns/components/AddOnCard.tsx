@@ -1,6 +1,6 @@
 import { AddOn } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
-import AddIcon from '@mui/icons-material/Add';
+import { AddRemoveButton } from '@shared/components';
 import './styles/_addon-card.scss';
 
 interface AddOnCardProps {
@@ -52,16 +52,11 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton, isSel
               {pricePerLabel && `/${pricePerLabel}`}
             </div>
             {showAddButton && (
-              <button
-                className="btn-add"
-                type="button"
+              <AddRemoveButton
+                variant={isSelected ? 'remove' : 'add'}
                 disabled={!onAdd}
                 onClick={() => onAdd?.(addOn)}
-                title={t('common.add', 'Add')}
-                aria-label={t('common.add', 'Add')}
-              >
-                <AddIcon />
-              </button>
+              />
             )}
           </div>
           {(onEdit || onDelete) && (
