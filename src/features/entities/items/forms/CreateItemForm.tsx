@@ -262,18 +262,19 @@ export const CreateItemForm = () => {
           fields={fields}
           onSubmit={handleSubmit}
           btnTxt={t('form.submit.createItem')}
-        />
+        >
+          {isFeatureEnabled('addOns') && (
+            <section className="addon-form-section">
+              <CreateAddOnForm
+                mode="local"
+                onAdd={handleAddAddOn}
+                onRemove={handleRemoveAddOn}
+                pendingAddOns={pendingAddOns}
+              />
+            </section>
+          )}
+        </GenericForm>
       </section>
-      {isFeatureEnabled('addOns') && (
-        <section className="addon-form-section">
-          <CreateAddOnForm
-            mode="local"
-            onAdd={handleAddAddOn}
-            onRemove={handleRemoveAddOn}
-            pendingAddOns={pendingAddOns}
-          />
-        </section>
-      )}
     </section>
   );
 };

@@ -248,19 +248,20 @@ export const EditItemForm = () => {
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
           btnTxt={t('form.submit.editItem')}
-        />
+        >
+          {isFeatureEnabled('addOns') && (
+            <section className="addon-form-section">
+              <CreateAddOnForm
+                mode="local"
+                onAdd={handleAddAddOn}
+                onRemove={handleRemoveAddOn}
+                onUpdate={handleUpdateAddOn}
+                pendingAddOns={pendingAddOns}
+              />
+            </section>
+          )}
+        </GenericForm>
       </section>
-      {isFeatureEnabled('addOns') && (
-        <section className="addon-form-section">
-          <CreateAddOnForm
-            mode="local"
-            onAdd={handleAddAddOn}
-            onRemove={handleRemoveAddOn}
-            onUpdate={handleUpdateAddOn}
-            pendingAddOns={pendingAddOns}
-          />
-        </section>
-      )}
     </section>
   );
 };

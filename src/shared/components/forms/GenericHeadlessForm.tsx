@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, type ReactNode } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'react-i18next';
@@ -15,9 +15,10 @@ interface GenericFormProps {
   onSubmit: (formData: Record<string, any>) => void;
   className?: string;
   onCategoryChange?: (values: string[]) => void;
+  children?: ReactNode;
 }
 
-export const GenericForm = ({ fields, onSubmit, className, btnTxt }: GenericFormProps) => {
+export const GenericForm = ({ fields, onSubmit, className, btnTxt, children }: GenericFormProps) => {
   const { t } = useTranslation('forms');
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
@@ -155,9 +156,7 @@ export const GenericForm = ({ fields, onSubmit, className, btnTxt }: GenericForm
                       {open && (
                         <Listbox.Options className="listbox-options">
                           {field.options.map((option: string) => {
-                            const optionLabel = field.getOptionLabel 
-                              ? field.getOptionLabel(option) 
-                              : option;
+                            const optionLabel = field.getOptionLabel ? field.getOptionLabel(option) : option;
                             return (
                               <Listbox.Option key={option} value={option} as={Fragment}>
                                 {({ active, selected }) => (
@@ -227,6 +226,7 @@ export const GenericForm = ({ fields, onSubmit, className, btnTxt }: GenericForm
             return null;
         }
       })}
+      {children}
       <div className="form-actions">
         <button type="submit" className="submit-button">
           {btnTxt || t('form.submit.button')}
