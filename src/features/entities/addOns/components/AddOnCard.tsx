@@ -13,10 +13,23 @@ interface AddOnCardProps {
 
 export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton }: AddOnCardProps) => {
   const { t, i18n } = useTranslation();
+  const { t: tForms } = useTranslation('forms');
   const currentLanguage = i18n.language;
   const name = addOn.name?.[currentLanguage as 'en' | 'he'] || addOn.name?.en || 'Unnamed Add-On';
   const description = addOn.description?.[currentLanguage as 'en' | 'he'] || addOn.description?.en;
-  const pricePerLabel = addOn.pricePer ? t(`common.items.price_per.${addOn.pricePer}`) : '';
+
+  const getTranslatedPricePer = (pricePer: string) => {
+    const pricePerMap: Record<string, string> = {
+      hour: tForms('forms:form.pricePer.hour'),
+      session: tForms('forms:form.pricePer.session'),
+      unit: tForms('forms:form.pricePer.unit'),
+      song: tForms('forms:form.pricePer.song')
+    };
+
+    return pricePerMap[pricePer] || pricePer;
+  };
+
+  const pricePerLabel = addOn.pricePer ? getTranslatedPricePer(addOn.pricePer) : '';
 
   return (
     <div className={`addon-card ${!addOn.isActive ? 'inactive' : ''}`}>
@@ -32,28 +45,24 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton }: Add
           {!addOn.isActive && <span className="addon-card-status inactive-badge">Inactive</span>}
         </div>
         <div className="addon-card-right">
-          <div className="addon-card-price-container">
+          <div className="addon-card-price-button-row">
             <div className="addon-card-price">
-              <span className="price-amount">{addOn.price}</span>
+              ₪{addOn.price}
+              {pricePerLabel && `/${pricePerLabel}`}
             </div>
-            {pricePerLabel && (
-              <div className="addon-card-price-per">
-                <span className="price-per">{pricePerLabel}</span>
-              </div>
+            {showAddButton && (
+              <button
+                className="btn-add"
+                type="button"
+                disabled={!onAdd}
+                onClick={() => onAdd?.(addOn)}
+                title={t('common.add', 'Add')}
+                aria-label={t('common.add', 'Add')}
+              >
+                <AddIcon />
+              </button>
             )}
           </div>
-          {showAddButton && (
-            <button
-              className="btn-add"
-              type="button"
-              disabled={!onAdd}
-              onClick={() => onAdd?.(addOn)}
-              title={t('common.add', 'Add')}
-              aria-label={t('common.add', 'Add')}
-            >
-              <AddIcon />
-            </button>
-          )}
           {(onEdit || onDelete) && (
             <div className="addon-card-actions">
               {onEdit && (

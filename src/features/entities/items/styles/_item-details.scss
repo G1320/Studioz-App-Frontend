@@ -291,7 +291,7 @@
         display: flex;
         flex-direction: row;
         gap: vars.$spacing-medium;
-        align-items: flex-start;
+        align-items: center;
       }
 
       &-left {
@@ -309,6 +309,13 @@
         gap: vars.$spacing-xs;
       }
 
+      &-price-button-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: vars.$spacing-xs;
+      }
+
       &-name {
         color: #fff;
         margin: 0;
@@ -322,33 +329,11 @@
         font-size: vars.$font-size-small;
       }
 
-      &-price-container {
-        display: flex;
-        flex-direction: row;
-        gap: vars.$spacing-xs;
-        align-items: center;
-      }
-
       &-price {
         margin: 0;
+        font-size: 0.8rem;
         font-weight: 600;
         color: vars.$color-brand;
-
-        .price-amount {
-          color: inherit;
-          font-weight: inherit;
-        }
-      }
-
-      &-price-per {
-        margin: 0;
-        font-weight: 600;
-        color: vars.$color-brand;
-
-        .price-per {
-          color: inherit;
-          font-weight: inherit;
-        }
       }
 
       &-actions {
