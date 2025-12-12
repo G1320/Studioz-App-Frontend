@@ -9,9 +9,10 @@ interface AddOnsListProps {
   onAdd?: (addOn: AddOn) => void;
   showAddButton?: boolean;
   isLoading?: boolean;
+  selectedAddOnIds?: string[];
 }
 
-export const AddOnsList = ({ addOns, onEdit, onDelete, onAdd, showAddButton, isLoading }: AddOnsListProps) => {
+export const AddOnsList = ({ addOns, onEdit, onDelete, onAdd, showAddButton, isLoading, selectedAddOnIds = [] }: AddOnsListProps) => {
   if (isLoading) {
     return <div className="addons-list-loading">Loading add-ons...</div>;
   }
@@ -30,6 +31,7 @@ export const AddOnsList = ({ addOns, onEdit, onDelete, onAdd, showAddButton, isL
           onDelete={onDelete}
           onAdd={onAdd}
           showAddButton={showAddButton}
+          isSelected={selectedAddOnIds.includes(addOn._id)}
         />
       ))}
     </div>

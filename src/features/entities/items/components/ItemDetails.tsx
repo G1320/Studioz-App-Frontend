@@ -12,7 +12,7 @@ import {
   useReservation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
-import { User, Wishlist } from 'src/types/index';
+import { User, Wishlist, AddOn } from 'src/types/index';
 import { splitDateTime } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -51,6 +51,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     return localStorage.getItem(`reservation_${itemId}`) || null;
   });
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
+  const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
 
   // Fetch reservation data when we have a reservation ID
   const { data: reservation } = useReservation(currentReservationId || '');
@@ -71,6 +72,18 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const handleDecrement = () => {
     setSelectedQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
+
+  const handleAddOnToggle = useCallback((addOn: AddOn) => {
+    setSelectedAddOnIds((prev) => {
+      if (prev.includes(addOn._id)) {
+        // Remove add-on if already selected
+        return prev.filter((id) => id !== addOn._id);
+      } else {
+        // Add add-on if not selected
+        return [...prev, addOn._id];
+      }
+    });
+  }, []);
 
   const handleBookNow = useCallback(() => {
     const confirmedDate = selectedDate?.toString() || null;
@@ -111,7 +124,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         customerName,
         customerPhone,
         customerId: user?._id,
-        comment
+        comment,
+        addOnIds: selectedAddOnIds
       };
 
       reserveItemTimeSlotMutation.mutate(newItem, {
@@ -138,7 +152,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     reserveItemTimeSlotMutation,
     addItemToCartMutation,
     setCurrentReservationId,
-    setSelectedDate
+    setSelectedDate,
+    selectedAddOnIds
   ]);
 
   useEffect(() => {
@@ -226,7 +241,13 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       {isFeatureEnabled('addOns') && (
         <section className="item-addons-section">
           <h3>{t('addOns', 'Add-Ons')}</h3>
-          <AddOnsList addOns={addOns} isLoading={isAddOnsLoading} showAddButton />
+          <AddOnsList
+            addOns={addOns}
+            isLoading={isAddOnsLoading}
+            showAddButton
+            onAdd={handleAddOnToggle}
+            selectedAddOnIds={selectedAddOnIds}
+          />
         </section>
       )}
       <BookingActions

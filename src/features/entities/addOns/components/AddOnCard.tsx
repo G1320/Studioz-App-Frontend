@@ -9,9 +9,10 @@ interface AddOnCardProps {
   onDelete?: (addOnId: string) => void;
   onAdd?: (addOn: AddOn) => void;
   showAddButton?: boolean;
+  isSelected?: boolean;
 }
 
-export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton }: AddOnCardProps) => {
+export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton, isSelected = false }: AddOnCardProps) => {
   const { t, i18n } = useTranslation();
   const { t: tForms } = useTranslation('forms');
   const currentLanguage = i18n.language;
@@ -32,7 +33,7 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton }: Add
   const pricePerLabel = addOn.pricePer ? getTranslatedPricePer(addOn.pricePer) : '';
 
   return (
-    <div className={`addon-card ${!addOn.isActive ? 'inactive' : ''}`}>
+    <div className={`addon-card ${!addOn.isActive ? 'inactive' : ''} ${isSelected ? 'selected' : ''}`}>
       <div className="addon-card-content">
         {addOn.imageUrl && (
           <div className="addon-card-image">
