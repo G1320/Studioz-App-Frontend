@@ -61,7 +61,9 @@ export const CreateAddOnForm = ({
 
   const pricePerValues = pricePerOptions.map((option) => option.value);
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (formData: FormData, event?: React.FormEvent<HTMLFormElement>) => {
+    // Prevent bubbling into parent item forms
+    event?.stopPropagation();
     // Validate required fields
     if (!formData.name?.en || !formData.price) {
       toast.error('Please fill in all required fields');

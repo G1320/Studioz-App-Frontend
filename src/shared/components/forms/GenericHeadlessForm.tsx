@@ -12,13 +12,23 @@ interface GenericFormProps {
   title?: string;
   fields: any[];
   btnTxt?: string;
-  onSubmit: (formData: Record<string, any>) => void;
+  onSubmit: (formData: Record<string, any>, event?: React.FormEvent<HTMLFormElement>) => void;
   className?: string;
   onCategoryChange?: (values: string[]) => void;
   children?: ReactNode;
+  formId?: string;
+  hideSubmit?: boolean;
 }
 
-export const GenericForm = ({ fields, onSubmit, className, btnTxt, children }: GenericFormProps) => {
+export const GenericForm = ({
+  fields,
+  onSubmit,
+  className,
+  btnTxt,
+  children,
+  formId,
+  hideSubmit = false
+}: GenericFormProps) => {
   const { t } = useTranslation('forms');
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
@@ -56,6 +66,8 @@ export const GenericForm = ({ fields, onSubmit, className, btnTxt, children }: G
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Prevent nested forms (e.g., add-ons inside item forms) from bubbling up and triggering parent submits
+    event.stopPropagation();
     const formData = new FormData(event.currentTarget);
     const data: Record<string, any> = {};
 
@@ -81,11 +93,11 @@ export const GenericForm = ({ fields, onSubmit, className, btnTxt, children }: G
       data[name] = value.toString();
     });
 
-    onSubmit(data);
+    onSubmit(data, event);
   };
 
   return (
-    <form className={`generic-form ${className}`} onSubmit={handleSubmit}>
+    <form className={`generic-form ${className}`} onSubmit={handleSubmit} id={formId}>
       {fields.map((field) => {
         switch (field.type) {
           case 'text':
@@ -227,11 +239,13 @@ export const GenericForm = ({ fields, onSubmit, className, btnTxt, children }: G
         }
       })}
       {children}
-      <div className="form-actions">
-        <button type="submit" className="submit-button">
-          {btnTxt || t('form.submit.button')}
-        </button>
-      </div>
+      {!hideSubmit && (
+        <div className="form-actions">
+          <button type="submit" className="submit-button">
+            {btnTxt || t('form.submit.button')}
+          </button>
+        </div>
+      )}
     </form>
   );
 };
