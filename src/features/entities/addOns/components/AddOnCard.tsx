@@ -26,41 +26,49 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton }: Add
             <img src={addOn.imageUrl} alt={name} />
           </div>
         )}
-        <div className="addon-card-info">
+        <div className="addon-card-left">
           <h3 className="addon-card-name">{name}</h3>
           {description && <p className="addon-card-description">{description}</p>}
-          <div className="addon-card-price">
-            <span className="price-amount">{addOn.price}</span>
-            {pricePerLabel && <span className="price-per"> / {pricePerLabel}</span>}
-          </div>
           {!addOn.isActive && <span className="addon-card-status inactive-badge">Inactive</span>}
         </div>
-        {(showAddButton || onEdit || onDelete) && (
-          <div className="addon-card-actions">
-            {showAddButton && (
-              <button
-                className="btn-add"
-                type="button"
-                disabled={!onAdd}
-                onClick={() => onAdd?.(addOn)}
-                title={t('common.add', 'Add')}
-                aria-label={t('common.add', 'Add')}
-              >
-                <AddIcon />
-              </button>
-            )}
-            {onEdit && (
-              <button className="btn-edit" onClick={() => onEdit(addOn)}>
-                {t('common.edit')}
-              </button>
-            )}
-            {onDelete && (
-              <button className="btn-delete" onClick={() => onDelete(addOn._id)}>
-                {t('common.delete')}
-              </button>
+        <div className="addon-card-right">
+          <div className="addon-card-price-container">
+            <div className="addon-card-price">
+              <span className="price-amount">{addOn.price}</span>
+            </div>
+            {pricePerLabel && (
+              <div className="addon-card-price-per">
+                <span className="price-per">{pricePerLabel}</span>
+              </div>
             )}
           </div>
-        )}
+          {showAddButton && (
+            <button
+              className="btn-add"
+              type="button"
+              disabled={!onAdd}
+              onClick={() => onAdd?.(addOn)}
+              title={t('common.add', 'Add')}
+              aria-label={t('common.add', 'Add')}
+            >
+              <AddIcon />
+            </button>
+          )}
+          {(onEdit || onDelete) && (
+            <div className="addon-card-actions">
+              {onEdit && (
+                <button className="btn-edit" onClick={() => onEdit(addOn)}>
+                  {t('common.edit')}
+                </button>
+              )}
+              {onDelete && (
+                <button className="btn-delete" onClick={() => onDelete(addOn._id)}>
+                  {t('common.delete')}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
