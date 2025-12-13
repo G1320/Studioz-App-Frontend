@@ -1,0 +1,21 @@
+.studio-badges {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem !important;
+  align-items: center;
+
+  html[dir='rtl'] & {
+    right: auto;
+    left: 0.8rem;
+  }
+
+  .studio-rating {
+    margin-top: 0;
+  }
+}
+

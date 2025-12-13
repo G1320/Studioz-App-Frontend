@@ -1,13 +1,11 @@
 import { useMemo } from 'react';
-import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
-import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating, DistanceBadge } from '@shared/components';
+import { GenericImageGallery } from '@shared/components';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import { useTranslation } from 'react-i18next';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { calculateDistance } from '@shared/utils/distanceUtils';
+import { StudioFeatures } from './StudioFeatures';
 import '../styles/_studio-card.scss';
 
 interface StudioCardProps {
@@ -18,7 +16,6 @@ interface StudioCardProps {
 export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true }) => {
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
-  const { i18n } = useTranslation();
   const { userLocation } = useLocationPermission();
 
   // Calculate distance if user location is available
@@ -28,10 +25,6 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
     }
     return calculateDistance(userLocation.latitude, userLocation.longitude, studio.lat, studio.lng);
   }, [userLocation, studio?.lat, studio?.lng]);
-
-  const getServicesText = (count: number) => {
-    return i18n.language === 'he' ? `שירותים זמינים: ${count}` : `Services Available: ${count}`;
-  };
 
   return (
     <article
@@ -51,49 +44,15 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
         <h3 className="title">{studio?.name?.en}</h3>
         <small className="city">{studio?.city}</small>
       </div>
-      <div className="studio-card__rating-overlay">
-        <StudioRating
-          averageRating={studio?.averageRating}
-          reviewCount={studio?.reviewCount}
-          variant="badge"
-          showCount={false}
-        />
-        {distance !== null && <DistanceBadge distance={distance} />}
-      </div>
 
       <p className="description">{studio?.description?.en}</p>
-      <div className="options-wrapper">
-        <div role="group" aria-labelledby="occupancy">
-          <ChairIcon aria-label="Chair icon" />
-          <span
-            id="occupancy"
-            aria-label={`Maximum occupancy for ${studio?.name?.en}: ${studio?.maxOccupancy || 0} people`}
-          >
-            {studio?.maxOccupancy || 0}
-          </span>
-        </div>
-        <div role="group" aria-labelledby="smoking">
-          <SmokingRooms aria-label="Smoking icon" />
-          <span
-            id="smoking"
-            aria-label={`Smoking allowed at ${studio?.name?.en}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
-          >
-            {studio?.isSmokingAllowed ? <Check /> : <Close />}
-          </span>
-        </div>
-        <div role="group" aria-labelledby="accessible">
-          <Accessible aria-label="Wheelchair accessible icon" />
-          <span
-            id="accessible"
-            aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
-          >
-            {studio?.isWheelchairAccessible ? <Check /> : <Close />}
-          </span>
-        </div>
-
-        <small>{getServicesText(studio?.items.length || 0)}</small>
-      </div>
+      <StudioFeatures
+        studio={studio}
+        showSmoking={false}
+        averageRating={studio?.averageRating}
+        reviewCount={studio?.reviewCount}
+        distance={distance}
+      />
     </article>
   );
 };
-
