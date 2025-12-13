@@ -1,5 +1,6 @@
 @use 'utilities/variables' as vars;
 .item-card {
+  position: relative;
   padding: 0.75rem;
   width: clamp(180px, calc(100% - 1.75rem), calc(100% - 1rem));
   background: vars.$card-bg-color;
@@ -34,7 +35,18 @@
     background: rgba(255, 255, 255, 0.05);
   }
 
-  h3 {
+  .item-card-name-and-description {
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  h3.title {
+    display: flex;
+    place-self: start;
+    white-space: nowrap !important;
+    line-height: 1;
     margin: 0;
     font-size: 1.1rem;
     color: #fff;
@@ -46,36 +58,18 @@
     white-space: nowrap;
   }
 
-  p {
-    color: #999;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    text-overflow: ellipsis;
+  p.description {
+    width: 100%;
     overflow: hidden;
+    text-align: start;
+    hyphens: auto;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  footer {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    align-items: center;
-    .studio-name-location-container {
-      gap: 0.25rem;
-    }
-
-    .locations-icon {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    strong {
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 700;
-    }
+    -webkit-line-clamp: 1;
+    direction: ltr;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
   }
 }
-

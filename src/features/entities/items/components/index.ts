@@ -1,5 +1,7 @@
 export * from './ItemsList';
 export * from './ItemCard';
+export * from './ItemFeatures';
+export * from './ItemBadges';
 export * from './ItemDetails';
 export * from './ItemHeader';
 export * from './HourSelector';

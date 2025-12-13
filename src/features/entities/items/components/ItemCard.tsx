@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { WishlistCard } from '@features/entities';
-import { Button, GenericMuiDropdown, DistanceBadge } from '@shared/components';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { Button } from '@shared/components';
 import {
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
@@ -15,6 +14,7 @@ import { Item, Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { calculateDistance } from '@shared/utils/distanceUtils';
 import { featureFlags } from '@core/config/featureFlags';
+import { ItemFeatures } from './ItemFeatures';
 import '../styles/_item-card.scss';
 
 interface ItemCardProps {
@@ -55,16 +55,6 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
     />
   );
 
-  const getCityForDisplay = (address: string) => {
-    if (!address || !address.includes(',')) return '';
-    const addressParts = address.split(',').map((part) => part.trim());
-    const cityPart = addressParts[addressParts.length - 2];
-    if (/^\d+$/.test(cityPart)) {
-      return addressParts[addressParts.length - 3] || '';
-    }
-    return cityPart || '';
-  };
-
   const getTranslatedPricePer = (pricePer: string) => {
     const pricePerMap: Record<string, string> = {
       hour: t('forms:form.pricePer.hour'),
@@ -78,43 +68,34 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
 
   return (
     <article onMouseEnter={prefetchItem} key={item._id} className="card item-card">
-      <header className="item-card-header">
-        <h3>{item.name.en}</h3>
-        <div className="item-card-header__right">
+      <div className="item-card-name-and-description">
+        <div>
+          <h3 className="title">{item.name.en}</h3>
           <small className="item-price">
             ₪{item.price}/{getTranslatedPricePer(item.pricePer || '')}
           </small>
         </div>
-      </header>
-      <p>{item.description.en}</p>
-      {wishlistId ? (
+        <p className="description">{item.description.en}</p>
+      </div>
+      {wishlistId && (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
           Remove from Wishlist
         </Button>
-      ) : (
-        user?._id && (
-          <GenericMuiDropdown
-            data={wishlists}
-            renderItem={renderItem}
-            className="item-card-wishlists-dropdown"
-            title={t('buttons.add_to_wishlist')}
-          />
-        )
       )}
-      {distance !== null && <DistanceBadge distance={distance} />}
+      <ItemFeatures
+        item={item}
+        wishlists={wishlists}
+        distance={distance}
+        renderWishlistItem={renderItem}
+        userId={user?._id}
+        showDistanceBadge={showDistanceBadge}
+      />
+
       {studioId && user?.isAdmin && (
         <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio-button">
           Remove from Studio
         </Button>
       )}
-      <footer>
-        <div className="studio-name-location-container">
-          <LocationOnIcon className="locations-icon" />
-          <strong>{item.studioName?.en}</strong>
-        </div>
-        {item.address && <small>{getCityForDisplay(item.address)}</small>}
-      </footer>
     </article>
   );
 };
-

@@ -1,0 +1,31 @@
+@use 'utilities/variables' as vars;
+@use '../../../../shared/components/forms/styles' as forms;
+
+.create-wishlist-page {
+  padding: vars.$spacing-xl vars.$spacing-medium;
+  max-width: 800px;
+  margin: 0 auto;
+
+  > section {
+    > h1 {
+      font-size: vars.$font-size-2xl;
+      font-weight: 700;
+      color: vars.$text-color-primary;
+      margin: 0 0 vars.$spacing-xl;
+      text-align: center;
+    }
+  }
+}
+
+.create-wishlist-form-wrapper {
+  margin-top: vars.$spacing-large;
+
+  .create-wishlist-form {
+    @include forms.branded-form;
+  }
+}
+
+.create-wishlist-page {
+  @include forms.branded-form-actions;
+}
+

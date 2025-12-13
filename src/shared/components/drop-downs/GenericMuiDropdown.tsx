@@ -8,6 +8,7 @@ interface GenericMuiDropdownProps<T> {
   title?: string;
   icon?: ReactNode;
   count?: number;
+  emptyState?: ReactNode;
 }
 
 export const GenericMuiDropdown = <T,>({
@@ -16,7 +17,8 @@ export const GenericMuiDropdown = <T,>({
   className = '',
   title,
   icon,
-  count
+  count,
+  emptyState
 }: GenericMuiDropdownProps<T>) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -52,9 +54,15 @@ export const GenericMuiDropdown = <T,>({
         slotProps={{ paper: { style: { backgroundColor: '#411c61' } } }}
       >
         {data.length === 0 ? (
-          <MenuItem onClick={handleClose} sx={{ color: '#fff' }}>
-            No items available
-          </MenuItem>
+          emptyState ? (
+            <MenuItem onClick={handleClose} sx={{ padding: 0 }}>
+              {emptyState}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={handleClose} sx={{ color: '#fff' }}>
+              No items available
+            </MenuItem>
+          )
         ) : (
           data.map((entry, index) => (
             <MenuItem key={index} onClick={handleClose}>

@@ -1,0 +1,62 @@
+@use 'utilities/variables' as vars;
+
+.item-features-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+
+  .item-city-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(15, 15, 15, 0.55);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+
+    span {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.2;
+    }
+  }
+
+  .item-studio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(15, 15, 15, 0.55);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+
+    &__icon {
+      width: 0.75rem;
+      height: 0.75rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.75rem !important;
+    }
+
+    span {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.2;
+    }
+  }
+}

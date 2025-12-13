@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { WishlistCard } from '@features/entities';
-import { GenericList, GenericMultiDropdownEntryCard, GenericMuiDropdown } from '@shared/components';
+import { GenericList, GenericMultiDropdownEntryCard, GenericMuiDropdown, Button } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
 import { Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 import AddIcon from '@mui/icons-material/Add';
 
 interface WishlistListProps {
@@ -15,6 +16,7 @@ interface WishlistListProps {
 export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, isMultiSelect = false }) => {
   const user = getLocalUser();
   const { i18n, t } = useTranslation('common');
+  const langNavigate = useLanguageNavigate();
 
   const { data: wishlists = [] } = useWishlists(user?._id || '');
 
@@ -24,6 +26,18 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
     ) : (
       <WishlistCard wishlist={wishlist} key={wishlist?._id} />
     );
+
+  const handleCreateWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    langNavigate('/create-wishlist');
+  };
+
+  const emptyState = (
+    <Button onClick={handleCreateWishlist} style={{ width: '100%', justifyContent: 'center', padding: '0.75rem 1rem' }}>
+      <AddIcon style={{ marginRight: '0.5rem' }} />
+      {t('wishlists.create_new')}
+    </Button>
+  );
 
   return (
     <section className="wishlists">
@@ -40,7 +54,13 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
         <span>{t('wishlists.create_new')}</span>
       </Link>
       {isDropdown ? (
-        <GenericMuiDropdown data={wishlists} renderItem={renderItem} className="wishlist-list" title={t('navigation.wishlists')} />
+        <GenericMuiDropdown
+          data={wishlists}
+          renderItem={renderItem}
+          className="wishlist-list"
+          title={t('navigation.wishlists')}
+          emptyState={emptyState}
+        />
       ) : (
         <GenericList data={wishlists} renderItem={renderItem} className="wishlist-list" />
       )}
