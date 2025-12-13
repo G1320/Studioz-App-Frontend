@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'studio-features';
 
 .studio-card {
   position: relative;
@@ -86,84 +87,6 @@
     font-size: 0.8125rem;
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.75);
-  }
-
-  .studio-features-container {
-    justify-self: start;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-
-    .distance-badge {
-      gap: 0.25rem;
-    }
-
-    .studio-city-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.25rem 0.5rem;
-      border-radius: 999px;
-      background: rgba(15, 15, 15, 0.55);
-      border: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(10px);
-      font-size: 0.75rem;
-      font-weight: 500;
-      line-height: 1.2;
-
-      span {
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.2;
-      }
-    }
-  }
-
-  .studio-features {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-
-    > div {
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 999px;
-      background: rgba(15, 15, 15, 0.55);
-      border: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(10px);
-      font-size: 0.75rem;
-      font-weight: 500;
-      line-height: 1.2;
-
-      svg {
-        width: 0.75rem;
-        height: 0.75rem;
-        flex-shrink: 0;
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      span {
-        font-size: 0.75rem;
-        font-weight: 500;
-        line-height: 1.2;
-        color: rgba(255, 255, 255, 0.9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: fit-content;
-      }
-    }
   }
 
   .image-gallery-container {

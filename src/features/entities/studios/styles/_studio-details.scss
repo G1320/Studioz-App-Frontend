@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'studio-features';
 
 .studio-details-page {
   max-width: 1540px;
@@ -125,16 +126,6 @@
           }
         }
       }
-      .studio-reviews-section {
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-        @media (max-width: 768px) {
-          margin-top: 1.5rem;
-          padding-top: 1.5rem;
-        }
-      }
 
       .cover-image-overlay {
         position: absolute;
@@ -175,43 +166,17 @@
       }
     }
 
-    .studio-details__rating {
-      margin: 0.25rem;
-    }
-
-    .city {
-      font-size: 0.9rem;
-      color: #c2c2c2;
-    }
-
     .info-option-container {
       justify-self: start;
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
       width: 100%;
-      background: transparent;
       color: #e2e2e2;
       padding: 0.5rem 0;
       border-top: 0.5px solid #f1f1f1;
       border-bottom: 0.5px solid #f1f1f1;
 
-      .studio-details__rating-row {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: space-between;
-
-        .studio-details__reviews-button {
-          min-width: max-content;
-        }
-      }
-
-      p {
-        align-self: center;
-      }
       .availability-container,
       .address-container,
       .phone-container {
@@ -602,29 +567,6 @@
       margin-block: 1rem;
     }
 
-    .options-wrapper {
-      width: calc(100% - 1rem);
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      grid-row: 5;
-
-      div {
-        display: flex;
-        align-items: center;
-        gap: 0rem;
-
-        p {
-          height: 24px;
-          // font-size: 0.9rem;
-          font-size: 16px;
-          color: #f1f1f1;
-          &#occupancy {
-            padding-inline: 0.25rem;
-          }
-        }
-      }
-    }
     h3 {
       font-size: 1.25rem;
       font-weight: bold;
@@ -679,5 +621,3 @@
     }
   }
 }
-
-// Shimmer animation is centralized in utilities/_skeleton-loader.scss

@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { SmokingRooms, Check, Close, Accessible, Map, LocalParking } from '@mui/icons-material'; // Map icon for location button
-import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating } from '@shared/components';
+import { useState, useMemo } from 'react';
+import { Map, LocalParking } from '@mui/icons-material'; // Map icon for location button
+import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
+import { calculateDistance } from '@shared/utils/distanceUtils';
 import { StudioOptions } from './StudioOptions';
 import { StudioInfoModal } from './StudioInfoModal';
+import { StudioFeatures } from './StudioFeatures';
 import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
@@ -23,8 +25,17 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const { getDisplayByEnglish } = useGenres();
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const { t } = useTranslation('forms');
+  const { userLocation } = useLocationPermission();
 
   const langNavigate = useLanguageNavigate();
+
+  // Calculate distance if user location is available
+  const distance = useMemo(() => {
+    if (!userLocation || !studio?.lat || !studio?.lng) {
+      return null;
+    }
+    return calculateDistance(userLocation.latitude, userLocation.longitude, studio.lat, studio.lng);
+  }, [userLocation, studio?.lat, studio?.lng]);
 
   const getParkingLabel = (parking: string) => {
     if (parking === 'free') return t('form.parking.options.free') || 'Free';
@@ -53,13 +64,14 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       />
 
       <div className="info-option-container">
-        <StudioRating
+        <StudioFeatures
+          studio={studio}
+          showSmoking={true}
+          showAccessible={true}
           averageRating={studio?.averageRating}
           reviewCount={studio?.reviewCount}
-          className="studio-details__rating"
-          variant="badge"
+          distance={distance}
         />
-
         <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
         {studio?.address && <AddressDropdown address={studio?.address as string} />}
         {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}
@@ -67,7 +79,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           <button
             onClick={() => setIsMapModalOpen(true)}
             className="studio-details__map-button"
-            aria-label={`View ${studio?.name.en} location on map`}
+            aria-label={`View ${studio?.name.en} information and map`}
           >
             <Map aria-hidden="true" />
           </button>
@@ -88,43 +100,15 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           ))}
         </div>
       )}
-      <div className="options-wrapper">
-        <div role="group" aria-labelledby="occupancy">
-          <ChairIcon aria-label="Chair icon" />
-          <p
-            id="occupancy"
-            aria-label={`Maximum occupancy for ${studio?.name.en}: ${studio?.maxOccupancy || 0} people`}
-          >
-            {studio?.maxOccupancy || 0}
+
+      {studio?.parking && studio.parking !== 'none' && (
+        <div role="group" aria-labelledby="parking">
+          <LocalParking aria-label="Parking icon" />
+          <p id="parking" aria-label={`Parking at ${studio?.name.en}: ${getParkingLabel(studio.parking)}`}>
+            {getParkingLabel(studio.parking)}
           </p>
         </div>
-        <div role="group" aria-labelledby="smoking">
-          <SmokingRooms aria-label="Smoking icon" />
-          <p
-            id="smoking"
-            aria-label={`Smoking allowed at ${studio?.name.en}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
-          >
-            {studio?.isSmokingAllowed ? <Check /> : <Close />}
-          </p>
-        </div>
-        <div role="group" aria-labelledby="accessible">
-          <Accessible aria-label="Wheelchair accessible icon" />
-          <p
-            id="accessible"
-            aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
-          >
-            {studio?.isWheelchairAccessible ? <Check /> : <Close />}
-          </p>
-        </div>
-        {studio?.parking && studio.parking !== 'none' && (
-          <div role="group" aria-labelledby="parking">
-            <LocalParking aria-label="Parking icon" />
-            <p id="parking" aria-label={`Parking at ${studio?.name.en}: ${getParkingLabel(studio.parking)}`}>
-              {getParkingLabel(studio.parking)}
-            </p>
-          </div>
-        )}
-      </div>
+      )}
       <StudioInfoModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} studio={studio} />
     </article>
   );
