@@ -26,6 +26,7 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
         <StudioRating averageRating={averageRating} reviewCount={reviewCount} variant="badge" showCount={false} />
       )}
       {distance !== null && distance !== undefined && <DistanceBadge distance={distance} showIcon={false} />}
+
       <div className="studio-features">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
@@ -56,6 +57,11 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
             >
               {studio?.isWheelchairAccessible ? <Check /> : <Close />}
             </span>
+          </div>
+        )}
+        {studio?.city && (
+          <div className="studio-city-badge">
+            <span>{studio.city}</span>
           </div>
         )}
       </div>

@@ -2,10 +2,9 @@
 
 .studio-card {
   position: relative;
-  min-height: 316px;
+  min-height: 244px;
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1100px;
-  // text-align: start;
   gap: 0.5rem;
   background: vars.$card-bg-color;
   cursor: pointer;
@@ -45,38 +44,17 @@
       }
     }
   }
-
-  // Shimmer animation is centralized in utilities/_skeleton-loader.scss
-
   img {
     max-width: calc(100% + 1rem);
     place-self: center;
   }
-  // * {
-  //   justify-self: start;
-  // }
+  * {
+    justify-self: start;
+  }
   h3.title {
     display: flex;
-    white-space: wrap !important;
+    white-space: nowrap !important;
     max-height: 56px;
-  }
-
-  .studio-card-genres {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin: 0.3rem 0;
-
-    .genre-card {
-      cursor: default;
-      pointer-events: none;
-
-      &:hover {
-        transform: none;
-        box-shadow: none;
-        background-color: rgba(255, 255, 255, 0.15);
-      }
-    }
   }
 
   small {
@@ -87,14 +65,17 @@
     background: rgba(255, 255, 255, 0.05);
   }
   p.description {
-    min-height: 72px;
     width: 100%;
     overflow: hidden;
+    text-align: start;
     hyphens: auto;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 1;
     direction: ltr;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.75);
   }
 
   .studio-features-container {
@@ -106,6 +87,27 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     margin-top: 0.5rem;
+
+    .studio-city-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(15, 15, 15, 0.55);
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.2;
+
+      span {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.2;
+      }
+    }
   }
 
   .studio-features {
@@ -148,15 +150,6 @@
         justify-content: center;
         min-width: fit-content;
       }
-    }
-  }
-
-  .studio-card-name-and-city {
-    display: flex;
-    flex-direction: row;
-    max-height: 40px;
-    @container (max-width: 270px) {
-      gap: 0.25rem;
     }
   }
 

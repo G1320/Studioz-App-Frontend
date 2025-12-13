@@ -40,10 +40,7 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
         isGalleryImagesShown={false}
       />
 
-      <div className="studio-card-name-and-city">
-        <h3 className="title">{studio?.name?.en}</h3>
-        <small className="city">{studio?.city}</small>
-      </div>
+      <h3 className="title">{studio?.name?.en}</h3>
 
       <p className="description">{studio?.description?.en}</p>
       <StudioFeatures
