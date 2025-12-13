@@ -32,7 +32,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
   const { data: cart } = useCart(user?._id || '');
-  const { data: addOns = [], isLoading: isAddOnsLoading } = useAddOns(itemId);
+  const { data: addOns = [] } = useAddOns(itemId);
   const studio = data?.currStudio;
 
   const { closeModal } = useModal();
@@ -192,7 +192,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         onEdit={handleGoToEdit}
         onImageClick={handleImageClicked}
       />
-
       {currentReservationId && reservation && (
         <ReservationCard
           reservation={reservation}
@@ -205,21 +204,26 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       )}
       <div className="date-picker-row">
         {!currentReservationId && (
-          <MuiDateTimePicker
-            value={selectedDate}
-            onChange={handleDateChange}
-            itemAvailability={item?.availability || []}
-            studioAvailability={studio?.studioAvailability}
-          />
-        )}
-        {!currentReservationId && (
-          <fieldset className="hours-fieldset">
-            <legend className="hours-legend">{t('hours', 'Hours')}</legend>
-            <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-          </fieldset>
+          <>
+            <MuiDateTimePicker
+              value={selectedDate}
+              onChange={handleDateChange}
+              itemAvailability={item?.availability || []}
+              studioAvailability={studio?.studioAvailability}
+            />
+
+            <fieldset className="hours-fieldset">
+              <legend className="hours-legend">{t('hours', 'Hours')}</legend>
+              <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+            </fieldset>
+          </>
         )}
       </div>
-
+      {isFeatureEnabled('addOns') && !currentReservationId && (
+        <section className="item-addons-section">
+          <AddOnsList addOns={addOns} showAddButton onAdd={handleAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
+        </section>
+      )}
       {!currentReservationId && (
         <ReservationDetailsForm
           customerName={customerName}
@@ -244,18 +248,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             setIsPhoneVerified(true);
           }}
         />
-      )}
-      {isFeatureEnabled('addOns') && (
-        <section className="item-addons-section">
-          {/* <h3>{t('addOns', 'Add-Ons')}</h3> */}
-          <AddOnsList
-            addOns={addOns}
-            isLoading={isAddOnsLoading}
-            showAddButton
-            onAdd={handleAddOnToggle}
-            selectedAddOnIds={selectedAddOnIds}
-          />
-        </section>
       )}
       <BookingActions
         price={item?.price || 0}

@@ -12,13 +12,16 @@ interface AddOnsListProps {
   selectedAddOnIds?: string[];
 }
 
-export const AddOnsList = ({ addOns, onEdit, onDelete, onAdd, showAddButton, isLoading, selectedAddOnIds = [] }: AddOnsListProps) => {
-  if (isLoading) {
-    return <div className="addons-list-loading">Loading add-ons...</div>;
-  }
-
+export const AddOnsList = ({
+  addOns,
+  onEdit,
+  onDelete,
+  onAdd,
+  showAddButton,
+  selectedAddOnIds = []
+}: AddOnsListProps) => {
   if (!addOns || addOns.length === 0) {
-    return <div className="addons-list-empty">No add-ons available</div>;
+    return null;
   }
 
   return (
@@ -37,4 +40,3 @@ export const AddOnsList = ({ addOns, onEdit, onDelete, onAdd, showAddButton, isL
     </div>
   );
 };
-
