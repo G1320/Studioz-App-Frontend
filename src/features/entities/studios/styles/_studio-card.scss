@@ -55,6 +55,13 @@
     justify-self: start;
   }
 
+  .studio-features-container {
+    .distance-badge,
+    .studio-rating__badge {
+      background: rgba(15, 15, 15, 0.55);
+    }
+  }
+
   .studio-card-name-and-description {
     text-align: start;
     display: flex;

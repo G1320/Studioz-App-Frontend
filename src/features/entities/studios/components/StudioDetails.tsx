@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Map, LocalParking } from '@mui/icons-material'; // Map icon for location button
+import { InfoOutlined, LocalParking } from '@mui/icons-material';
 import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
@@ -81,7 +81,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             className="studio-details__map-button"
             aria-label={`View ${studio?.name.en} information and map`}
           >
-            <Map aria-hidden="true" />
+            <InfoOutlined aria-hidden="true" />
           </button>
         )}
         <StudioOptions
