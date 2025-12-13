@@ -2,7 +2,7 @@
 
 .studio-card {
   position: relative;
-  height: clamp(190px, 234px, 100%);
+  height: clamp(190px, 234px, fit-content);
   min-height: 190px;
 
   padding: 0 0.5rem 0.5rem 0.5rem;
