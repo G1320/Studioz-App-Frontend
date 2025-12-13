@@ -1,12 +1,12 @@
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { SmokingRooms, Check, Close, Accessible, Map, LocalParking } from '@mui/icons-material'; // Map icon for location button
 import ChairIcon from '@mui/icons-material/Chair';
-import { GenericImageGallery, StudioRating, GenericModal } from '@shared/components';
-import { LazyMinimap } from '@shared/components/maps';
+import { GenericImageGallery, StudioRating } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { StudioOptions } from './StudioOptions';
+import { StudioInfoModal } from './StudioInfoModal';
 import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
 import AddressDropdown from '@shared/utility-components/AddressDropdown';
 import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
@@ -70,7 +70,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             aria-label={`View ${studio?.name.en} location on map`}
           >
             <Map aria-hidden="true" />
-            <span>Map</span>
           </button>
         )}
         <StudioOptions
@@ -126,29 +125,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           </div>
         )}
       </div>
-      {hasLocation && (
-        <GenericModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} className="studio-minimap-modal">
-          <div className="studio-minimap-modal__content">
-            <h2 className="studio-minimap-modal__title">{studio?.name.en}</h2>
-            {studio?.address && <p className="studio-minimap-modal__address">{studio.address}</p>}
-            <Suspense
-              fallback={
-                <div className="map-loader">
-                  <div className="map-loader__spinner"></div>
-                </div>
-              }
-            >
-              <LazyMinimap
-                latitude={studio.lat!}
-                longitude={studio.lng!}
-                width="100%"
-                height="400px"
-                className="studio-minimap-modal__map"
-              />
-            </Suspense>
-          </div>
-        </GenericModal>
-      )}
+      <StudioInfoModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} studio={studio} />
     </article>
   );
 };
