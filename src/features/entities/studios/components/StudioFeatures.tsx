@@ -2,6 +2,7 @@ import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { Studio } from 'src/types/index';
 import { StudioRating, DistanceBadge } from '@shared/components';
+import { StudioBadges } from './StudioBadges';
 
 interface StudioFeaturesProps {
   studio?: Studio;
@@ -26,7 +27,11 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
         <StudioRating averageRating={averageRating} reviewCount={reviewCount} variant="badge" showCount={false} />
       )}
       {distance !== null && distance !== undefined && <DistanceBadge distance={distance} showIcon={false} />}
-
+      {studio?.city && (
+        <StudioBadges className="studio-city-badge">
+          <span>{studio.city}</span>
+        </StudioBadges>
+      )}
       <div className="studio-features">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />
@@ -57,11 +62,6 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
             >
               {studio?.isWheelchairAccessible ? <Check /> : <Close />}
             </span>
-          </div>
-        )}
-        {studio?.city && (
-          <div className="studio-city-badge">
-            <span>{studio.city}</span>
           </div>
         )}
       </div>

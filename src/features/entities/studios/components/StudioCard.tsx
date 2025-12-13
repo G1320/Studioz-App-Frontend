@@ -39,10 +39,10 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={false}
       />
-
-      <h3 className="title">{studio?.name?.en}</h3>
-
-      <p className="description">{studio?.description?.en}</p>
+      <div className="studio-card-name-and-description">
+        <h3 className="title">{studio?.name?.en}</h3>
+        <p className="description">{studio?.description?.en}</p>
+      </div>
       <StudioFeatures
         studio={studio}
         showSmoking={false}
