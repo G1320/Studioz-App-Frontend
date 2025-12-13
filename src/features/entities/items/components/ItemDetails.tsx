@@ -219,7 +219,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
           </>
         )}
       </div>
-      {isFeatureEnabled('addOns') && !currentReservationId && (
+      {isFeatureEnabled('addOns') && !currentReservationId && addOns.length > 0 && (
         <section className="item-addons-section">
           <AddOnsList addOns={addOns} showAddButton onAdd={handleAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
         </section>
