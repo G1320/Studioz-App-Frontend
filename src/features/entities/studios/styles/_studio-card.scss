@@ -2,7 +2,9 @@
 
 .studio-card {
   position: relative;
-  min-height: 234px;
+  height: clamp(190px, 234px, 100%);
+  min-height: 190px;
+
   padding: 0 0.5rem 0.5rem 0.5rem;
   max-width: 1100px;
   gap: 0.5rem;
@@ -94,6 +96,10 @@
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: flex-start;
+
+    .distance-badge {
+      gap: 0.25rem;
+    }
 
     .studio-city-badge {
       display: inline-flex;

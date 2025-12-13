@@ -12,8 +12,13 @@
   backdrop-filter: blur(10px);
 
   &__icon {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+    font-size: 0.75rem !important;
+    min-width: 0.75rem !important;
+    min-height: 0.75rem !important;
+    max-width: 0.75rem !important;
+    max-height: 0.75rem !important;
     color: rgba(255, 255, 255, 0.8);
     flex-shrink: 0;
   }

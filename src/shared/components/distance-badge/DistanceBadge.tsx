@@ -11,7 +11,7 @@ interface DistanceBadgeProps {
 
 export const DistanceBadge: React.FC<DistanceBadgeProps> = ({ distance, className = '', showIcon = true }) => {
   const { t } = useTranslation('common');
-  
+
   return (
     <div className={`distance-badge ${className}`}>
       {showIcon && <LocationOnIcon className="distance-badge__icon" aria-hidden="true" />}
@@ -19,4 +19,3 @@ export const DistanceBadge: React.FC<DistanceBadgeProps> = ({ distance, classNam
     </div>
   );
 };
-

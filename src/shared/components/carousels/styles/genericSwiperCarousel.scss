@@ -8,7 +8,7 @@
   border-radius: 8px;
   position: relative;
   .studios-carousel {
-    min-height: 274px;
+    min-height: clamp(190px, 234px, 100%);
   }
 
   .swiper_wrap {
