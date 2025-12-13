@@ -70,6 +70,13 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           distance={distance}
         />
 
+        <StudioOptions
+          studio={studio as Studio}
+          user={user as User}
+          wishlists={wishlists}
+          onEdit={handleGoToEdit}
+          onAddNewService={handleAddNewService}
+        />
         {hasLocation && (
           <button
             onClick={() => setIsMapModalOpen(true)}
@@ -79,13 +86,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             <InfoOutlined aria-hidden="true" />
           </button>
         )}
-        <StudioOptions
-          studio={studio as Studio}
-          user={user as User}
-          wishlists={wishlists}
-          onEdit={handleGoToEdit}
-          onAddNewService={handleAddNewService}
-        />
       </div>
       <p className="description">{studio?.description.en}</p>
       {displayGenres.length > 0 && (
