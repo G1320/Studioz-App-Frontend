@@ -230,14 +230,13 @@
   }
 
   .item-addons-section {
-    width: 100%;
+    width: calc(100% - 1.5rem);
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-small;
-    padding: vars.$spacing-medium;
+    padding: vars.$spacing-medium 0;
     border-radius: vars.$border-radius-medium;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    // border: 1px solid rgba(255, 255, 255, 0.08);
 
     h3 {
       margin: 0;
@@ -256,6 +255,8 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: #f5f5f5;
+      width: 100%;
+      align-self: center;
       display: flex;
       flex-direction: column;
       padding: vars.$spacing-sm-md;
