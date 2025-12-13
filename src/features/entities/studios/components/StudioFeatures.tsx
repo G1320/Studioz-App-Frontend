@@ -1,4 +1,4 @@
-import { SmokingRooms, Check, Close, InfoOutlined } from '@mui/icons-material';
+import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { Studio } from 'src/types/index';
 import { StudioRating, DistanceBadge } from '@shared/components';
@@ -55,7 +55,7 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
         )}
         {showAccessible && (
           <div role="group" aria-labelledby="accessible">
-            <InfoOutlined aria-label="Wheelchair accessible icon" />
+            <Accessible aria-label="Wheelchair accessible icon" />
             <span
               id="accessible"
               aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
