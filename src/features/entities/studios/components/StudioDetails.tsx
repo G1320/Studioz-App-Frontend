@@ -9,9 +9,6 @@ import { calculateDistance } from '@shared/utils/distanceUtils';
 import { StudioOptions } from './StudioOptions';
 import { StudioInfoModal } from './StudioInfoModal';
 import { StudioFeatures } from './StudioFeatures';
-import StudioAvailabilityDisplay from '@shared/utility-components/AvailabilityDropdown';
-import AddressDropdown from '@shared/utility-components/AddressDropdown';
-import PhoneDropdown from '@shared/utility-components/PhoneDropdown';
 import { GenreCard } from '@features/entities/genres';
 import { useTranslation } from 'react-i18next';
 
@@ -72,13 +69,11 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           reviewCount={studio?.reviewCount}
           distance={distance}
         />
-        <StudioAvailabilityDisplay availability={studio?.studioAvailability || { days: [], times: [] }} />
-        {studio?.address && <AddressDropdown address={studio?.address as string} />}
-        {studio?.phone && <PhoneDropdown phone={studio?.phone as string} />}
+
         {hasLocation && (
           <button
             onClick={() => setIsMapModalOpen(true)}
-            className="studio-details__map-button"
+            className="studio-info-modal-button"
             aria-label={`View ${studio?.name.en} information and map`}
           >
             <InfoOutlined aria-hidden="true" />
