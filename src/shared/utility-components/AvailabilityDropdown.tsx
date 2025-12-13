@@ -4,12 +4,14 @@ import { useDays } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { PopupDropdown } from '@shared/components/drop-downs';
+import { GenericList } from '@shared/components';
 
 interface AvailabilityDropdownProps {
   availability: StudioAvailability;
+  variant?: 'popup' | 'list';
 }
 
-const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability }) => {
+const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability, variant = 'popup' }) => {
   const { i18n } = useTranslation();
   const { getDisplayByEnglish } = useDays();
 
@@ -33,6 +35,26 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
     });
   }, [availability, getDisplayByEnglish, i18n.language]);
 
+  const renderItem = (item: { displayDay: string; hours: string }) => (
+    <li className="availability-list-item">
+      <strong>{item.displayDay}:</strong>
+      <p>{item.hours}</p>
+    </li>
+  );
+
+  const listContent = (
+    <GenericList
+      data={formattedAvailability}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.day}
+      className="availability-dropdown-list"
+    />
+  );
+
+  if (variant === 'list') {
+    return <div className="availability-list-container">{listContent}</div>;
+  }
+
   return (
     <PopupDropdown
       trigger={
@@ -44,36 +66,30 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
       minWidth="280px"
       maxWidth="400px"
     >
-      <ul className="availability-dropdown-list">
-        {formattedAvailability.map(({ displayDay, hours }, index) => (
-          <li key={index}>
-            <strong>{displayDay}:</strong>
-            <p>{hours}</p>
-          </li>
-        ))}
-      </ul>
+      {listContent}
     </PopupDropdown>
   );
 };
 
 interface StudioAvailabilityProps {
   availability: StudioAvailability;
+  showFirstLastDay?: boolean;
 }
 
-const StudioAvailabilityDisplay: React.FC<StudioAvailabilityProps> = ({ availability }) => {
-  // const { getDisplayByEnglish } = useDays();
+const StudioAvailabilityDisplay: React.FC<StudioAvailabilityProps> = ({ availability, showFirstLastDay = false }) => {
+  const { getDisplayByEnglish } = useDays();
 
   if (!availability || !availability.days.length || !availability.times.length) {
     return <p>Closed</p>;
   }
 
-  // const firstDay = getDisplayByEnglish(availability.days[0]);
-  // const lastDay = getDisplayByEnglish(availability.days[availability.days.length - 1]);
+  const firstDay = getDisplayByEnglish(availability.days[0]);
+  const lastDay = getDisplayByEnglish(availability.days[availability.days.length - 1]);
 
   return (
     <div>
       <div className="studio-availability">
-        {/* <p>{`${firstDay} - ${lastDay}`}</p> */}
+        {showFirstLastDay && <p>{`${firstDay} - ${lastDay}`}</p>}
         <AvailabilityDropdown availability={availability} />
       </div>
     </div>
