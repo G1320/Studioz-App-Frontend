@@ -101,18 +101,51 @@ export const sumitService = {
   },
 
   getSumitToken: async (formData: FormData) => {
-    const tokenResponse = await fetch('https://api.sumit.co.il/creditguy/vault/tokenizesingleuse', {
-      method: 'POST',
-      headers: { accept: 'text/plain' },
-      body: formData
-    });
+    try {
+      const tokenResponse = await fetch('https://api.sumit.co.il/creditguy/vault/tokenizesingleuse', {
+        method: 'POST',
+        headers: { accept: 'text/plain' },
+        body: formData
+      });
 
-    const tokenData = await tokenResponse.json();
-    if (!tokenResponse.ok || tokenData.Status !== 0) {
-      throw new Error(tokenData.UserErrorMessage || tokenData.TechnicalErrorDetails || 'Failed to get payment token');
+      const tokenData = await tokenResponse.json();
+      
+      if (!tokenResponse.ok || tokenData.Status !== 0) {
+        // Provide user-friendly error messages
+        let errorMessage = tokenData.UserErrorMessage || tokenData.TechnicalErrorDetails;
+        
+        // Map common Sumit error codes to user-friendly messages
+        if (tokenData.Status) {
+          const errorMessages: Record<number, string> = {
+            1: 'Invalid card number. Please check your card details and try again.',
+            2: 'Invalid expiration date. Please check the month and year.',
+            3: 'Invalid CVV. Please check the 3-4 digit code on the back of your card.',
+            4: 'Invalid ID number. Please check your ID number and try again.',
+            5: 'Card expired. Please use a different payment method.',
+            6: 'Insufficient funds. Please check your account balance or use a different card.',
+            7: 'Card declined. Please contact your bank or use a different payment method.',
+            8: 'Payment processing error. Please try again or contact support.',
+          };
+          
+          errorMessage = errorMessages[tokenData.Status] || errorMessage || 'Payment validation failed. Please check your payment details and try again.';
+        }
+        
+        throw new Error(errorMessage || 'Failed to validate payment information. Please check your details and try again.');
+      }
+
+      if (!tokenData.Data?.SingleUseToken) {
+        throw new Error('Failed to process payment token. Please try again.');
+      }
+
+      return tokenData.Data.SingleUseToken;
+    } catch (error: any) {
+      // Re-throw with user-friendly message if it's already an Error with a message
+      if (error instanceof Error) {
+        throw error;
+      }
+      // Handle network errors
+      throw new Error('Network error. Please check your connection and try again.');
     }
-
-    return tokenData.Data?.SingleUseToken;
   },
 
   validateToken: async (singleUseToken: string) => {
