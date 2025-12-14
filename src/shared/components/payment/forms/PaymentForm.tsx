@@ -77,6 +77,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, er
             type="text"
             name="CardHolderId"
             data-og="citizenid"
+            autoComplete="off"
             maxLength={9}
             required
             placeholder={t('form.payment.idNumber.placeholder')}
