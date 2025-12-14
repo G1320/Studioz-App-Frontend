@@ -76,6 +76,10 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   <DashboardIcon className="profile-action-icon" />
                   <span>{t('profile.buttons.dashboard')}</span>
                 </button>
+                <button className="profile-action-button" onClick={() => handleNavigate('/create-studio')}>
+                  <AddBusinessIcon className="profile-action-icon" />
+                  <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
+                </button>
               </>
             )}
             {user?.subscriptionStatus === 'ACTIVE' && (
@@ -83,10 +87,6 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 <button className="profile-action-button" onClick={() => handleNavigate('/calendar')}>
                   <CalendarTodayIcon className="profile-action-icon" />
                   <span>{t('profile.sellerAccount.buttons.calendar')}</span>
-                </button>
-                <button className="profile-action-button" onClick={() => handleNavigate('/create-studio')}>
-                  <AddBusinessIcon className="profile-action-icon" />
-                  <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
                 </button>
                 <button className="profile-action-button" onClick={() => handleNavigate('/my-subscription')}>
                   <CardMembershipIcon className="profile-action-icon" />

@@ -42,7 +42,7 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
         amount: plan.price,
         description: 'Monthly subscription plan',
         durationMonths: 1,
-        recurrence: 48
+        recurrence: 12
       }
     );
 
