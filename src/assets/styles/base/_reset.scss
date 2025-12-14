@@ -19,12 +19,16 @@ h2 {
 }
 
 html,
+body {
+  height: 100%;
+}
+
+html,
 body,
 #root {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
