@@ -85,12 +85,12 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, er
             maxLength={9}
             required
             placeholder={t('form.payment.idNumber.placeholder')}
-            // onFocus={(e) => {
-            //   // Clear any autofilled value on focus
-            //   if (e.target.value && !/^\d+$/.test(e.target.value)) {
-            //     e.target.value = '';
-            //   }
-            // }}
+            onFocus={(e) => {
+              // Clear any autofilled value on focus
+              if (e.target.value && !/^\d+$/.test(e.target.value)) {
+                e.target.value = '';
+              }
+            }}
           />
         </div>
 
