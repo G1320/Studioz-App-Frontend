@@ -82,6 +82,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, er
             autoComplete="one-time-code"
             maxLength={9}
             required
+            placeholder={t('form.payment.idNumber.placeholder')}
           />
         </div>
 
