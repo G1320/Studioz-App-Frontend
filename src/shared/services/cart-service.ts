@@ -13,8 +13,8 @@ export const addItemToCart = async (
   bookingDate: string,
   startTime: string,
   hours?: number,
-  costumerName?: string,
-  costumerPhone?: string,
+  customerName?: string,
+  customerPhone?: string,
   comment?: string,
   reservationId?: string
 ): Promise<Cart> => {
@@ -24,8 +24,8 @@ export const addItemToCart = async (
       bookingDate,
       startTime,
       hours,
-      costumerName,
-      costumerPhone,
+      customerName,
+      customerPhone,
       comment,
       reservationId
     });

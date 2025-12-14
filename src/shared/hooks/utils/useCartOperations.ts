@@ -34,8 +34,8 @@ export const useCartOperations = () => {
         item.startTime || '',
         item.hours || 1,
         item.comment || '',
-        item.costumerName || '',
-        item.costumerPhone || '',
+        item.customerName || '',
+        item.customerPhone || '',
         item.reservationId || ''
       );
     }
@@ -64,8 +64,8 @@ export const useCartOperations = () => {
         itemId: item.itemId,
         bookingDate: item.bookingDate,
         startTime: item.startTime,
-        costumerName: item.costumerName || '',
-        costumerPhone: item.costumerPhone || '',
+        customerName: item.customerName || '',
+        customerPhone: item.customerPhone || '',
         comment: item.comment || '',
         reservationId: item.reservationId || ''
       });

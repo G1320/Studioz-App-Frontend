@@ -199,28 +199,6 @@
         }
       }
 
-      .studio-availability {
-        display: flex;
-        gap: 0.3rem;
-        align-items: center;
-        button {
-          background: transparent;
-          color: #f1f1f1;
-          width: 28px;
-          height: 28px;
-        }
-
-        li {
-          display: flex;
-          gap: 0.35rem;
-          text-align: start;
-          justify-content: space-between;
-        }
-      }
-      p {
-        white-space: nowrap;
-        text-align: start;
-      }
       .studio-details-options-container {
         width: 100%;
         justify-content: flex-end;
@@ -266,6 +244,7 @@
       font-size: 1rem;
       color: #e2e2e2;
       line-height: 1.6;
+      text-align: start;
     }
 
     .studio-genres {

@@ -34,8 +34,8 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
     const paymentResponse = await sumitService.createSubscriptionPayment(
       token,
       {
-        costumerName: user?.name,
-        costumerEmail: user?.email
+        customerName: user?.name,
+        customerEmail: user?.email
       },
       {
         name: `Monthly ${plan.name} Subscription`,

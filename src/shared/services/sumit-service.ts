@@ -3,8 +3,8 @@ import { httpService } from './http-service';
 const SUMIT_ENDPOINT = '/sumit';
 
 interface CustomerInfo {
-  costumerName: string;
-  costumerEmail: string;
+  customerName: string;
+  customerEmail: string;
 }
 
 interface PlanDetails {

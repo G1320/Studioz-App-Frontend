@@ -19,7 +19,7 @@ export default interface CartItem {
   studioId?: string;
   hours?: number;
   reservationId?: string;
-  costumerName?: string;
-  costumerPhone?: string;
+  customerName?: string;
+  customerPhone?: string;
   comment?: string;
 }
