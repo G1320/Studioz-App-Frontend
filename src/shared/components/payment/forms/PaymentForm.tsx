@@ -75,22 +75,13 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, er
           <label>{t('form.payment.idNumber.label')}</label>
           <input
             type="text"
-            name="CardHolderId"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            name="citizen-id"
             data-og="citizenid"
-            autoComplete="off"
-            // data-lpignore="true"
-            // data-form-type="other"
-            data-autocomplete="off"
-            id="card-holder-id-input"
+            autoComplete="one-time-code"
             maxLength={9}
             required
-            placeholder={t('form.payment.idNumber.placeholder')}
-            onFocus={(e) => {
-              // Clear any autofilled value on focus
-              if (e.target.value && !/^\d+$/.test(e.target.value)) {
-                e.target.value = '';
-              }
-            }}
           />
         </div>
 
