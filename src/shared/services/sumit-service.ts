@@ -49,13 +49,13 @@ interface MultiVendorParams {
 }
 
 export const sumitService = {
-  processCreditCardPayment: async (singleUseToken: string, amount: number, description: string, costumerInfo: any) => {
+  processCreditCardPayment: async (singleUseToken: string, amount: number, description: string, customerInfo: any) => {
     try {
       return await httpService.post(`${SUMIT_ENDPOINT}/process-payment`, {
         singleUseToken,
         amount,
         description,
-        costumerInfo
+        customerInfo
       });
     } catch (error) {
       console.error('Error processing Sumit payment:', error);
@@ -65,13 +65,13 @@ export const sumitService = {
 
   createSubscriptionPayment: async (
     singleUseToken: string,
-    costumerInfo: CustomerInfo,
+    customerInfo: CustomerInfo,
     planDetails: PlanDetails
   ): Promise<SumitResponse> => {
     try {
       const response = await httpService.post<SumitResponse>(`${SUMIT_ENDPOINT}/create-subscription`, {
         singleUseToken,
-        costumerInfo,
+        customerInfo,
         planDetails
       });
       return response;
