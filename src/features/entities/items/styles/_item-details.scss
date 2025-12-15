@@ -117,21 +117,13 @@
 
   article.item-card {
     cursor: default;
+    height: auto;
+    min-height: 8rem;
   }
 
   div.date-picker-row {
     width: 100%;
     gap: 0.5rem;
-  }
-
-  div.item-info-container {
-    display: flex;
-    gap: 0.5rem;
-    small.item-price {
-      align-self: center;
-      font-weight: 600;
-      color: vars.$color-brand;
-    }
   }
 
   .hours-fieldset {
