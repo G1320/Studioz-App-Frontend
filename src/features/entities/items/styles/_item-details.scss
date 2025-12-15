@@ -115,6 +115,10 @@
     display: flex;
   }
 
+  article.item-card {
+    cursor: default;
+  }
+
   div.date-picker-row {
     width: 100%;
     gap: 0.5rem;
@@ -128,54 +132,6 @@
       font-weight: 600;
       color: vars.$color-brand;
     }
-  }
-
-  .availability-container,
-  .address-container,
-  .phone-container {
-    position: relative;
-  }
-  .availability-dropdown,
-  .address-dropdown,
-  .phone-dropdown {
-    position: absolute;
-    top: calc(-100% - 2.5rem);
-    left: -100px;
-    background-color: black;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    z-index: 10;
-    border-radius: 8px;
-    li {
-      margin: 0;
-    }
-  }
-
-  .availability-dropdown li,
-  .address-dropdown p,
-  .phone-dropdown a {
-    padding: 0.5rem;
-    border-bottom: 1px solid #eee;
-    white-space: nowrap;
-    border-bottom: none;
-  }
-
-  .availability-dropdown li:last-child {
-    border-bottom: none;
-  }
-
-  .availability-dropdown-toggle,
-  .address-dropdown-toggle,
-  .phone-dropdown-toggle {
-    background: transparent;
-    color: #f1f1f1;
-    border: none;
-    display: flex;
-    align-items: center;
-    width: 24px;
   }
 
   .hours-fieldset {

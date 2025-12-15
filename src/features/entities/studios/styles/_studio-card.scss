@@ -10,6 +10,7 @@
   max-width: 1100px;
   gap: 0.5rem;
   background: vars.$card-bg-color;
+
   cursor: pointer;
   @container (max-width: 270px) {
     container-type: inline-size;
@@ -21,11 +22,11 @@
     place-self: center;
     height: 0;
     aspect-ratio: 3/2;
+    border-top-left-radius: vars.$border-radius-medium;
+    border-top-right-radius: vars.$border-radius-medium;
     padding-bottom: 50.67%;
     overflow: hidden;
     background-color: #f0f0f05b;
-    border-top-right-radius: vars.$border-radius-medium;
-    border-top-left-radius: vars.$border-radius-medium;
     @container (max-width: 270px) {
       height: 115px;
       padding-bottom: 0;
@@ -59,7 +60,9 @@
 
   .studio-features-container {
     .distance-badge,
-    .studio-rating__badge {
+    .studio-rating__badge,
+    .studio-features.div[role='group'] {
+      background: rgba(15, 15, 15, 0.55);
     }
   }
 
