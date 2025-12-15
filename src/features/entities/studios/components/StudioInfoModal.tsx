@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { GenericModal } from '@shared/components';
 import { LazyMinimap } from '@shared/components/maps';
 import { Studio } from 'src/types/index';
+import { StudioAvailabilityList } from '@shared/utility-components';
 import '../styles/_studio-minimap-modal.scss';
 
 interface StudioInfoModalProps {
@@ -20,6 +21,9 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
       <div className="studio-minimap-modal__content">
         <h2 className="studio-minimap-modal__title">{studio?.name.en}</h2>
         {studio?.address && <p className="studio-minimap-modal__address">{studio.address}</p>}
+        {studio?.studioAvailability && (
+          <StudioAvailabilityList availability={studio.studioAvailability} variant="list" />
+        )}
         <Suspense
           fallback={
             <div className="map-loader">

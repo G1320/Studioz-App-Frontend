@@ -1,4 +1,4 @@
 export * from './ScrollToTop';
-export * from './AvailabilityDropdown';
+export * from './StudioAvailabilityList';
 export * from './AddressDropdown';
 export * from './PhoneDropdown';

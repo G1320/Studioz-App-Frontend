@@ -6,12 +6,12 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { GenericList } from '@shared/components';
 
-interface AvailabilityDropdownProps {
+export interface StudioAvailabilityListProps {
   availability: StudioAvailability;
   variant?: 'popup' | 'list';
 }
 
-const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availability, variant = 'popup' }) => {
+export const StudioAvailabilityList: React.FC<StudioAvailabilityListProps> = ({ availability, variant = 'popup' }) => {
   const { i18n } = useTranslation();
   const { getDisplayByEnglish } = useDays();
 
@@ -71,12 +71,15 @@ const AvailabilityDropdown: React.FC<AvailabilityDropdownProps> = ({ availabilit
   );
 };
 
-interface StudioAvailabilityProps {
+export interface StudioAvailabilityDisplayProps {
   availability: StudioAvailability;
   showFirstLastDay?: boolean;
 }
 
-const StudioAvailabilityDisplay: React.FC<StudioAvailabilityProps> = ({ availability, showFirstLastDay = false }) => {
+export const StudioAvailabilityDisplay: React.FC<StudioAvailabilityDisplayProps> = ({
+  availability,
+  showFirstLastDay = false
+}) => {
   const { getDisplayByEnglish } = useDays();
 
   if (!availability || !availability.days.length || !availability.times.length) {
@@ -90,7 +93,7 @@ const StudioAvailabilityDisplay: React.FC<StudioAvailabilityProps> = ({ availabi
     <div>
       <div className="studio-availability">
         {showFirstLastDay && <p>{`${firstDay} - ${lastDay}`}</p>}
-        <AvailabilityDropdown availability={availability} />
+        <StudioAvailabilityList availability={availability} />
       </div>
     </div>
   );
