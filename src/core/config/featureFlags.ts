@@ -16,7 +16,7 @@ export const featureFlags: FeatureFlags = {
   checkout: false,
   checkoutButton: false,
   servicesPage: false,
-  headerCurrentCity: true,
+  headerCurrentCity: false,
   faviconLogo: true,
   itemCardDistanceBadge: false,
   notifications: true,

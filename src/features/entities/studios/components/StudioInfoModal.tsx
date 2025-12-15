@@ -75,12 +75,6 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
           </Suspense>
         </div>
 
-        <section className="studio-minimap-modal__section studio-minimap-modal__section--header">
-          <p className="studio-minimap-modal__section-label">
-            {i18n.language === 'he' ? 'מידע על הסטודיו' : 'Studio Info'}
-          </p>
-        </section>
-
         <section className="studio-minimap-modal__section">
           <div className="studio-minimap-modal__row-between">
             <div>
@@ -104,9 +98,7 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
         {studio?.phone && (
           <section className="studio-minimap-modal__section">
             <div className="studio-minimap-modal__row-between">
-              <span className="studio-minimap-modal__label">
-                {i18n.language === 'he' ? 'טלפון' : 'Phone'}
-              </span>
+              <span className="studio-minimap-modal__label">{i18n.language === 'he' ? 'טלפון' : 'Phone'}</span>
               <a href={`tel:${studio.phone}`} className="studio-minimap-modal__value studio-minimap-modal__link">
                 {studio.phone}
               </a>
@@ -118,15 +110,13 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
           <section className="studio-minimap-modal__section">
             <div className="studio-minimap-modal__row-between studio-minimap-modal__row-between--align-start">
               <div>
-                <span className="studio-minimap-modal__label">
-                  {i18n.language === 'he' ? 'שעות פעילות' : 'Hours'}
-                </span>
+                <span className="studio-minimap-modal__label">{i18n.language === 'he' ? 'שעות פעילות' : 'Hours'}</span>
                 <p className="studio-minimap-modal__sub-label">
                   {todayLabelAndHours
                     ? `${i18n.language === 'he' ? 'היום' : 'Today'} · ${todayLabelAndHours.value}`
                     : i18n.language === 'he'
-                    ? 'ללא שעות פעילות'
-                    : 'No business hours'}
+                      ? 'ללא שעות פעילות'
+                      : 'No business hours'}
                 </p>
               </div>
 
@@ -140,8 +130,8 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
                     ? 'סגור שעות שבועיות'
                     : 'Hide weekly hours'
                   : i18n.language === 'he'
-                  ? 'ראה שעות שבועיות'
-                  : 'See full schedule'}
+                    ? 'ראה שעות שבועיות'
+                    : 'See full schedule'}
               </button>
             </div>
 
@@ -156,4 +146,3 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
     </GenericModal>
   );
 };
-
