@@ -30,8 +30,8 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
   const langNavigate = useLanguageNavigate();
 
   const getCityForDisplay = (address: string) => {
-    if (!address || !address.includes(',')) return '';
-    const addressParts = address.split(',').map((part) => part.trim());
+    if (!address || !address?.includes(',')) return '';
+    const addressParts = address?.split(',').map((part) => part.trim());
     const cityPart = addressParts[addressParts.length - 2];
     if (/^\d+$/.test(cityPart)) {
       return addressParts[addressParts.length - 3] || '';
@@ -39,7 +39,7 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
     return cityPart || '';
   };
 
-  const city = item.address ? getCityForDisplay(item.address) : '';
+  const city = item?.address ? getCityForDisplay(item.address) : '';
 
   const handleCreateWishlist = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -63,7 +63,7 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
           <span>{city}</span>
         </div>
       )}
-      {item.studioName?.en && (
+      {item?.studioName?.en && (
         <div className="item-studio-badge">
           <LocationOnIcon className="item-studio-badge__icon" />
           <span>{item.studioName.en}</span>

@@ -39,18 +39,18 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
     return calculateDistance(userLocation.latitude, userLocation.longitude, item.lat, item.lng);
   }, [showDistanceBadge, userLocation, item?.lat, item?.lng]);
 
-  const addItemToWishlistMutation = useAddItemToWishlistMutation(item._id);
+  const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
   const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
-  const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item._id);
-  const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item._id);
+  const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item?._id);
+  const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item?._id);
 
   const renderItem = (wishlist: Wishlist) => (
     <WishlistCard
       wishlist={wishlist}
-      key={wishlist._id}
+      key={wishlist?._id}
       onAddItemToWishList={() => handleAddItemToWishlist(wishlist._id)}
     />
   );
@@ -67,12 +67,12 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
   };
 
   return (
-    <article onMouseEnter={prefetchItem} key={item._id} className="card item-card">
+    <article onMouseEnter={prefetchItem} key={item?._id} className="card item-card">
       <div className="item-card-name-and-description">
-        <h3 className="title">{item.name.en}</h3>
-        <p className="description">{item.description.en}</p>
+        <h3 className="title">{item?.name.en}</h3>
+        <p className="description">{item?.description.en}</p>
         <small className="item-price">
-          ₪{item.price}/{getTranslatedPricePer(item.pricePer || '')}
+          ₪{item?.price}/{getTranslatedPricePer(item?.pricePer || '')}
         </small>
       </div>
       {wishlistId && (

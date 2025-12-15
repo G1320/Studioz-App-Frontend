@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions } from '@features/entities';
+import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import {
   useAddItemToCartMutation,
@@ -12,7 +12,7 @@ import {
   useReservation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
-import { User, Wishlist, AddOn } from 'src/types/index';
+import { User, Wishlist, AddOn, Item } from 'src/types/index';
 import { splitDateTime } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -192,6 +192,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         onEdit={handleGoToEdit}
         onImageClick={handleImageClicked}
       />
+      <ItemCard item={item as Item} />
       {currentReservationId && reservation && (
         <ReservationCard
           reservation={reservation}
