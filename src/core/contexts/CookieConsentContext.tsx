@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { hasConsent, saveConsent } from '@shared/services/cookie-consent-service';
+import { isBot } from '@shared/utils/botDetection';
 
 interface CookieConsentContextType {
   hasConsented: boolean;
@@ -19,6 +20,13 @@ export const CookieConsentProvider: React.FC<CookieConsentProviderProps> = ({ ch
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
+    // Skip cookie consent banner for bots/crawlers (prevents banner during Google crawling)
+    if (isBot()) {
+      setHasConsented(true); // Mark as consented so banner never shows
+      setShowBanner(false);
+      return;
+    }
+
     // Check consent on mount
     const consent = hasConsent();
     setHasConsented(consent);

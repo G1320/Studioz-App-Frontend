@@ -8,6 +8,7 @@ import {
   isLocationStale
 } from '@shared/services/location-permission-service';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
+import { isBot } from '@shared/utils/botDetection';
 
 interface LocationPermissionContextType {
   hasBeenAsked: boolean;
@@ -36,6 +37,13 @@ export const LocationPermissionProvider: React.FC<LocationPermissionProviderProp
   const { getCurrentPosition } = useGeolocation();
 
   useEffect(() => {
+    // Skip location permission for bots/crawlers (prevents popup during Google crawling)
+    if (isBot()) {
+      setShowPrompt(false);
+      setHasBeenAskedState(true); // Mark as "asked" so popup never shows
+      return;
+    }
+
     // Check permission on mount
     const asked = hasBeenAsked();
     const granted = hasGranted();

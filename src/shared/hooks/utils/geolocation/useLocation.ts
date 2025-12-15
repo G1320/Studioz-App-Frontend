@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { canUseGeolocation } from '@shared/utils/botDetection';
 
 export interface GeolocationPosition {
   latitude: number;
@@ -28,6 +29,18 @@ export const useGeolocation = (): UseGeolocationReturn => {
 
   const getCurrentPosition = useCallback((): Promise<GeolocationPosition | null> => {
     return new Promise((resolve) => {
+      // Skip geolocation API calls for bots/crawlers (prevents errors during Google crawling)
+      if (!canUseGeolocation()) {
+        const error: GeolocationPositionError = {
+          code: 0,
+          message: 'Geolocation is not available'
+        };
+        setError(error);
+        setIsLoading(false);
+        resolve(null);
+        return;
+      }
+
       if (!navigator.geolocation) {
         const error: GeolocationPositionError = {
           code: 0,

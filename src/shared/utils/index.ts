@@ -1,3 +1,4 @@
+export * from './botDetection';
 export * from './cartUtils';
 export * from './compareArrays';
 export * from './compareNums';
