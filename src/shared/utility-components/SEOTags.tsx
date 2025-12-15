@@ -147,8 +147,8 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
     name: 'Studioz',
     description:
       currentLang === 'he'
-        ? 'פלטפורמת מסחר אלקטרוני מהירה לרישום וגילוי אולפנים ושירותים. השכרת אולפני מוזיקה, אולפני פודקאסט, אולפני הקלטות, אולפני צילום ואולפני וידאו בישראל.'
-        : 'A high paced e-commerce platform for listing and discovering Studios and Services. Rent music studios, podcast studios, recording studios, photo studios, and video studios in Israel.',
+        ? 'גלו והזמינו אולפני הקלטה, פודקאסט, צילום ווידאו בכל רחבי ישראל. השוו חללים, ציוד ומחירים והזמינו את האולפן המושלם בדקות.'
+        : 'Discover and book recording, podcast, photo and video studios across Israel. Compare spaces, gear and prices and reserve the perfect studio in minutes.',
     url: 'https://studioz.co.il',
     telephone: '+972-XX-XXX-XXXX',
     email: 'info@studioz.online',
@@ -223,15 +223,15 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
   const pathParts = basePath.split('/').filter(Boolean);
   const category = pathParts[0] === 'studios' ? decodeURIComponent(pathParts[1] || '') : '';
   const subcategory = pathParts[0] === 'studios' && pathParts[2] ? decodeURIComponent(pathParts[2]) : '';
-  
+
   // Extract city from query parameters (URLSearchParams.get() already decodes, but we'll ensure it's clean)
   const searchParams = new URLSearchParams(search);
   const cityParam = searchParams.get('city');
   const city = cityParam ? decodeURIComponent(cityParam) : undefined;
 
   // Generate SEO content using utility functions
-  const seoContext = { 
-    basePath, 
+  const seoContext = {
+    basePath,
     currentLang: currentLang as 'en' | 'he',
     category: category || undefined,
     subcategory: subcategory || undefined,
