@@ -19,7 +19,7 @@ export const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEd
     <section className="studio-details-options-container">
       <div className="details-buttons studio-details-buttons">
         {studio && user?._id === studio?.createdBy && (
-          <div>
+          <>
             <StudioBlockModal studioId={studio?._id} studioAvailability={studio?.studioAvailability} />
             <Button className="add-button" onClick={() => onAddNewService(studio?._id || '')}>
               <LibraryAddIcon />
@@ -27,7 +27,7 @@ export const StudioOptions: React.FC<StudioOptionsProps> = ({ studio, user, onEd
             <Button className="edit-button" onClick={() => onEdit(studio?._id || '')}>
               <EditNoteIcon />
             </Button>
-          </div>
+          </>
         )}
       </div>
     </section>

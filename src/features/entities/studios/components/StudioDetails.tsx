@@ -69,23 +69,25 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
           reviewCount={studio?.reviewCount}
           distance={distance}
         />
+        <div className="studio-options-container">
+          <StudioOptions
+            studio={studio as Studio}
+            user={user as User}
+            wishlists={wishlists}
+            onEdit={handleGoToEdit}
+            onAddNewService={handleAddNewService}
+          />
 
-        <StudioOptions
-          studio={studio as Studio}
-          user={user as User}
-          wishlists={wishlists}
-          onEdit={handleGoToEdit}
-          onAddNewService={handleAddNewService}
-        />
-        {hasLocation && (
-          <button
-            onClick={() => setIsMapModalOpen(true)}
-            className="studio-info-modal-button"
-            aria-label={`View ${studio?.name.en} information and map`}
-          >
-            <InfoOutlined aria-hidden="true" />
-          </button>
-        )}
+          {hasLocation && (
+            <button
+              onClick={() => setIsMapModalOpen(true)}
+              className="studio-info-modal-button"
+              aria-label={`View ${studio?.name.en} information and map`}
+            >
+              <InfoOutlined aria-hidden="true" />
+            </button>
+          )}
+        </div>
       </div>
       <p className="description">{studio?.description.en}</p>
       {displayGenres.length > 0 && (

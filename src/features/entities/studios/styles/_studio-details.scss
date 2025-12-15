@@ -168,18 +168,22 @@
 
     .info-option-container {
       justify-self: start;
-      display: flex;
-      flex-wrap: nowrap;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       align-items: center;
       width: 100%;
       color: #e2e2e2;
       padding: 0.5rem 0;
       border-top: 2px solid #242728;
-      // border-bottom: 2px solid #242728;
+
+      .studio-options-container {
+        justify-self: end;
+        display: flex;
+        flex-direction: row;
+      }
 
       .studio-info-modal-button {
         width: 40px;
-        margin-inline-start: 0.25rem;
         color: #f1f1f1;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -200,7 +204,7 @@
       }
 
       .studio-details-options-container {
-        width: 100%;
+        width: min-content;
         justify-content: flex-end;
 
         .studio-details-buttons {
