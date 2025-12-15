@@ -48,9 +48,9 @@
     overflow: hidden;
     text-align: start;
     hyphens: auto;
-    // display: -webkit-box;
-    // -webkit-box-orient: vertical;
-    // -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
     direction: ltr;
     font-size: 0.8125rem;
     line-height: 1.4;
