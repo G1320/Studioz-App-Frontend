@@ -3,3 +3,6 @@ export * from './genres';
 export * from './paypal/paypalConfig';
 export * from './banners';
 export * from './featureFlags';
+export * from './queryClient';
+export * from './persister';
+export * from './persistenceOptions';

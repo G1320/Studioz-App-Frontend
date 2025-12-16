@@ -21,7 +21,7 @@ export const isBot = (): boolean => {
     'google-inspectiontool',
     'google page speed',
     'google structured data testing tool',
-    
+
     // Other major search engines
     'bingbot',
     'slurp', // Yahoo
@@ -32,20 +32,20 @@ export const isBot = (): boolean => {
     'exabot',
     'facebot',
     'ia_archiver',
-    
+
     // Social media crawlers
     'facebookexternalhit',
     'twitterbot',
     'linkedinbot',
     'pinterest',
-    
+
     // SEO tools
     'ahrefsbot',
     'semrushbot',
     'mj12bot',
     'dotbot',
     'megaindex',
-    
+
     // Generic bot patterns
     'bot',
     'crawler',
@@ -61,33 +61,33 @@ export const isBot = (): boolean => {
     'python-requests',
     'http',
     'scrapy',
-    
+
     // Monitoring tools
     'pingdom',
     'uptimerobot',
     'monitor',
-    
+
     // Pre-rendering services
     'prerender',
     'prerender.io',
-    'browsershot',
+    'browsershot'
   ];
 
   // Check if user agent matches any bot pattern
-  const isBotUserAgent = botPatterns.some(pattern => userAgent.includes(pattern));
+  const isBotUserAgent = botPatterns.some((pattern) => userAgent.includes(pattern));
 
   // Additional checks for headless browsers
-  const isHeadless = 
+  const isHeadless =
     !window.navigator.webdriver === false || // webdriver property exists
     window.navigator.plugins.length === 0 || // No plugins (common in headless)
-    !window.chrome || // Chrome-specific checks
+    !('chrome' in window) || // Chrome-specific checks (using 'in' operator for type safety)
     window.outerHeight === 0 || // Window dimensions
     window.outerWidth === 0;
 
   // Check for common bot indicators in the environment
-  const hasBotIndicators = 
+  const hasBotIndicators =
     !window.navigator.geolocation || // No geolocation API (common in bots)
-    typeof window.navigator.getBattery === 'undefined' || // Missing APIs
+    typeof (window.navigator as any).getBattery === 'undefined' || // Missing APIs (getBattery is experimental)
     !window.navigator.mediaDevices; // Missing media devices
 
   // Return true if any bot indicator is present
@@ -131,9 +131,8 @@ export const isSearchEngineCrawler = (): boolean => {
     'baiduspider',
     'yandexbot',
     'sogou',
-    'exabot',
+    'exabot'
   ];
 
-  return searchEnginePatterns.some(pattern => userAgent.includes(pattern));
+  return searchEnginePatterns.some((pattern) => userAgent.includes(pattern));
 };
-
