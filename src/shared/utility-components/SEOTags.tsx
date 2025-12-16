@@ -21,9 +21,8 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
     basePath = '/';
   }
 
-  // Canonical should point to the English version (primary language)
-  // This ensures all language versions point to the same canonical
-  const canonicalPath = basePath === '/' ? '/en' : `/en${basePath}`;
+  // Canonical should be self-referential per language to allow both locales to index
+  const canonicalPath = basePath === '/' ? `/${currentLang}` : `/${currentLang}${basePath}`;
 
   // SEO Keywords for meta tags - English
   const seoKeywordsEn = [
@@ -80,13 +79,19 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
     'studio reviews',
     'studio ratings',
     'best recording studio',
-    'top music studio'
+    'top music studio',
+    'music studio sessions near me',
+    'music studio for rent near me',
+    'music production israel'
   ].join(', ');
 
   // SEO Keywords for meta tags - Hebrew
   const seoKeywordsHe = [
     'השכרת אולפן',
     'אולפן מוזיקה',
+    'אולפן הקלטות',
+    'אולפני הקלטות',
+    'אולפני פודקאסט',
     'אולפן פודקאסט',
     'אולפן הקלטות',
     'אולפן מיקס',
@@ -120,7 +125,8 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
     'השכרת חלל אולפן',
     'חלל אולפן יצירתי',
     'שירותי הפקת מוזיקה',
-    'פוסט פרודקשן אודיו',
+    'שירותי הפקת מוזיקלית',
+    'פוסט פרודקשן וקריינות',
     'מיקס סאונד',
     'מאסטרינג אודיו',
     'הקלטת מוזיקה',
@@ -130,6 +136,7 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
     'אולפן צילום וידאו',
     'אולפן להשכרה',
     'השכרת אולפן במחיר נוח',
+    'השכרת אולפן לפי שעה',
     'אולפן מקצועי',
     'אולפן עם ציוד',
     'ביקורות אולפן',
@@ -247,7 +254,7 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
       <link rel="canonical" href={`https://studioz.co.il${canonicalPath}`} />
       <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="en" />
       <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="he" />
-      <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="x-default" />
+      <link rel="alternate" href="https://studioz.co.il/en" hrefLang="x-default" />
       <meta name="keywords" content={seoKeywords} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     </Helmet>
