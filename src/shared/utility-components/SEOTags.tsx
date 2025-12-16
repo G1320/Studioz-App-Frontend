@@ -254,7 +254,7 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
       <link rel="canonical" href={`https://studioz.co.il${canonicalPath}`} />
       <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="en" />
       <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="he" />
-      <link rel="alternate" href="https://studioz.co.il/en" hrefLang="x-default" />
+      <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="x-default" />
       <meta name="keywords" content={seoKeywords} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     </Helmet>
