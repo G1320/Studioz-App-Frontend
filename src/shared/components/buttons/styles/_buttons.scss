@@ -23,7 +23,7 @@ button {
   }
   &:focus,
   &:focus-visible {
-    outline: 4px auto vars.$color-brand;
+    // outline: 4px auto vars.$color-brand;
   }
   &:disabled {
     background-color: #dcdcdc;

@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import type { User } from 'src/types/index';
 import { LoginButton, LogoutButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
@@ -9,7 +11,8 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { LanguageSwitcher } from '@features/translation';
+import LanguageIcon from '@mui/icons-material/Language';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import './styles/profile-dropdown.scss';
 
 interface ProfileDropdownProps {
@@ -18,11 +21,32 @@ interface ProfileDropdownProps {
 
 export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const { t } = useTranslation('profile');
+  const { t, i18n } = useTranslation('profile');
+  const navigate = useNavigate();
+  const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
     scrollToTop();
+  };
+
+  const changeLanguage = (lang: string) => {
+    const currentPath = window.location.pathname;
+    let newPath;
+
+    if (currentPath === '/' || currentPath === '/en' || currentPath === '/he') {
+      newPath = `/${lang}`;
+    } else {
+      if (currentPath.match(/^\/[a-z]{2}\//)) {
+        newPath = currentPath.replace(/^\/[a-z]{2}\//, `/${lang}/`);
+      } else {
+        newPath = `/${lang}${currentPath}`;
+      }
+    }
+
+    i18n.changeLanguage(lang);
+    navigate(newPath, { replace: true });
+    setIsLangSubmenuOpen(false);
   };
 
   return (
@@ -80,9 +104,42 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
           </div>
         )}
         <div className="profile-dropdown__divider" />
-        <div className="profile-dropdown__lang-switcher">
-          <span className="profile-dropdown__lang-label">{t('profile.language', 'Language')}</span>
-          <LanguageSwitcher />
+        <div className="profile-dropdown__lang-item-wrapper">
+          <button
+            className="profile-dropdown__item profile-dropdown__item--lang"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLangSubmenuOpen(!isLangSubmenuOpen);
+            }}
+            aria-expanded={isLangSubmenuOpen}
+            aria-haspopup="true"
+          >
+            <LanguageIcon className="profile-dropdown__icon" />
+            <span>{t('profile.language', 'Language')}</span>
+            <ChevronRightIcon className="profile-dropdown__chevron" />
+          </button>
+          {isLangSubmenuOpen && (
+            <div className="profile-dropdown__submenu">
+              <button
+                className={`profile-dropdown__submenu-item ${i18n.language === 'en' ? 'profile-dropdown__submenu-item--active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  changeLanguage('en');
+                }}
+              >
+                English
+              </button>
+              <button
+                className={`profile-dropdown__submenu-item ${i18n.language === 'he' ? 'profile-dropdown__submenu-item--active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  changeLanguage('he');
+                }}
+              >
+                עברית
+              </button>
+            </div>
+          )}
         </div>
         <button
           className="profile-dropdown__item profile-dropdown__item--link"
