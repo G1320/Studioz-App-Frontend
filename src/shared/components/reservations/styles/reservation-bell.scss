@@ -9,7 +9,7 @@
 
   &__badge {
     position: absolute;
-    top: -0.325rem;
+    top: 0rem;
     right: -0.125rem;
     background: vars.$color-brand;
     color: vars.$text-color-dark;
@@ -17,9 +17,9 @@
     font-weight: 700;
     padding: 0;
     border-radius: 50%;
-    width: 1rem;
-    height: 1rem;
-    min-width: 1rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    min-width: 0.8rem;
     text-align: center;
     line-height: 1rem;
     display: flex;
