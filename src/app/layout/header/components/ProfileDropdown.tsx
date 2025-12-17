@@ -9,6 +9,7 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { LanguageSwitcher } from '@features/translation';
 import './styles/profile-dropdown.scss';
 
 interface ProfileDropdownProps {
@@ -27,7 +28,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   return (
     <PopupDropdown
       trigger={
-        <button className="header-profile-button-container" aria-label={user ? 'Profile menu' : 'Login / Sign up'}>
+        <button
+          className="header-profile-button-container header-icon-button"
+          aria-label={user ? 'Profile menu' : 'Login / Sign up'}
+        >
           <ManageAccountsIcon aria-label="profile icon" />
         </button>
       }
@@ -76,6 +80,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
           </div>
         )}
         <div className="profile-dropdown__divider" />
+        <div className="profile-dropdown__lang-switcher">
+          <span className="profile-dropdown__lang-label">{t('profile.language', 'Language')}</span>
+          <LanguageSwitcher />
+        </div>
         <button
           className="profile-dropdown__item profile-dropdown__item--link"
           onClick={() => handleNavigate('/privacy')}

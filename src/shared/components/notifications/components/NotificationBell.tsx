@@ -15,7 +15,7 @@ export const NotificationBell: React.FC = () => {
     <PopupDropdown
       trigger={
         <button
-          className="notification-bell__button"
+          className="notification-bell__button header-icon-button"
           aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
         >
           <NotificationsIcon className="notification-bell__icon" />

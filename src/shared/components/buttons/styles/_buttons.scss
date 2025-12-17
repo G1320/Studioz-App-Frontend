@@ -1,9 +1,8 @@
 @use 'utilities/variables' as vars;
 button {
   display: flex;
-  height: 32px;
   min-width: 24px;
-
+  min-height: 24px;
   align-items: center;
   justify-content: center;
   text-align: center;

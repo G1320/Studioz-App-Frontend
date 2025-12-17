@@ -87,5 +87,25 @@
     background-color: rgba(255, 255, 255, 0.1);
     margin: 0.5rem 0;
   }
+
+  &__lang-switcher {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__lang-label {
+    color: vars.$text-color-primary;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
 }
 

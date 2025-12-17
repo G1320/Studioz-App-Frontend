@@ -43,7 +43,7 @@ export const ReservationBell: React.FC = () => {
   return (
     <Link
       to={`${currLang}/reservations`}
-      className="reservation-bell__button"
+      className="header-icon-button reservation-bell__button"
       aria-label={`${t('navigation.reservations', 'My Reservations')}${reservationCount > 0 ? ` (${reservationCount})` : ''}`}
     >
       <EventNoteIcon className="reservation-bell__icon" />

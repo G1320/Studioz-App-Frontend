@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
-import { LanguageSwitcher } from '@features/translation';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -81,13 +80,12 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
       <div className="cart-options-container">
         <Link
           to={`${currLang}/search`}
-          className="header-search-button-container"
+          className="header-search-button-container header-icon-button"
           aria-label="Go to search page"
           onClick={() => scrollToTop()}
         >
           <SearchIcon aria-label="Search icon" />
         </Link>
-        <LanguageSwitcher aria-label="Switch language" />
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         <ReservationBell />
         {user && featureFlags.notifications && <NotificationBell />}

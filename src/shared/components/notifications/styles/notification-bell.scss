@@ -7,38 +7,6 @@
   display: flex;
   align-items: center;
 
-  &__button {
-    @include mixins.branded-button;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    border-radius: 50%;
-    color: rgba(255, 255, 255, 0.9);
-
-    &:hover {
-      color: #fff;
-    }
-
-    &:focus-visible {
-      outline: 2px solid vars.$color-brand;
-      outline-offset: 2px;
-    }
-  }
-
-  &__icon {
-    font-size: 1.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
   &__badge {
     position: absolute;
     top: -0.325rem;

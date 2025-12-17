@@ -37,12 +37,10 @@ export const LanguageSwitcher = () => {
       <PopupDropdown
         trigger={
           <IconButton
+            className="header-icon-button"
             aria-label="language-switcher"
             aria-haspopup="true"
-            sx={{
-              color: '#fff',
-              padding: '0.5rem'
-            }}
+            disableRipple
           >
             <LanguageIcon />
           </IconButton>
