@@ -1,12 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { LoginButton } from '@features/auth';
 import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
 import { LanguageSwitcher } from '@features/translation';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { NotificationBell } from '@shared/components/notifications';
 import { ReservationBell } from '@shared/components/reservations/components';
@@ -16,6 +14,7 @@ import { useLocationPermission } from '@core/contexts/LocationPermissionContext'
 import { getCityFromCoordinates } from '@shared/services/map-service';
 import { useCities } from '@shared/hooks/utils/cities';
 import { featureFlags } from '@core/config/featureFlags';
+import { ProfileDropdown } from './ProfileDropdown';
 
 interface HeaderProps {
   cart?: Cart;
@@ -91,20 +90,8 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <LanguageSwitcher aria-label="Switch language" />
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         <ReservationBell />
-        {user && (
-          <>
-            {featureFlags.notifications && <NotificationBell />}
-            <Link
-              to={`${currLang}/profile`}
-              className="header-profile-button-container"
-              aria-label="Go to profile page"
-              onClick={() => scrollToTop()}
-            >
-              <ManageAccountsIcon aria-label="profile icon" />
-            </Link>
-          </>
-        )}
-        {!user && <LoginButton aria-label="Login" />}
+        {user && featureFlags.notifications && <NotificationBell />}
+        <ProfileDropdown user={user || null} />
       </div>
       <HeaderNavbar />
     </header>

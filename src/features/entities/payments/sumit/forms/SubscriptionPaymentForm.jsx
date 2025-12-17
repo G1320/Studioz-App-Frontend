@@ -95,7 +95,7 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       });
 
       console.log('Subscription activated successfully');
-      langNavigate('/profile');
+      langNavigate('/dashboard');
     } catch (error) {
       console.error('Subscription process error:', error);
       setError(error.message || 'Failed to complete subscription process');

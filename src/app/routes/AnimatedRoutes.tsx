@@ -14,7 +14,6 @@ import CreateStudioPage from '@features/entities/studios/pages/CreateStudioPage'
 import EditStudioPage from '@features/entities/studios/pages/EditStudioPage';
 import OrderSuccessPage from '@features/entities/orders/pages/OrderSuccessPage';
 import StudioCalendarPage from '@features/entities/bookings/calender/pages/CalenderPage';
-import ProfilePage from '@features/entities/profile/pages/ProfilePage';
 import DashboardPage from '@features/entities/dashboard/pages/DashboardPage';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
@@ -244,15 +243,6 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route
-            path="/:lang?/profile/:onboarding?"
-            element={
-              <AnimatedRoute>
-                <ProfilePage user={user || null} />
-              </AnimatedRoute>
-            }
-          />
-
           <Route
             path="/:lang?/subscription"
             element={
