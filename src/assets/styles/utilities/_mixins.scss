@@ -1,0 +1,20 @@
+@use 'variables' as vars;
+
+@mixin branded-button {
+  // Background color, padding and sizing from add-remove-button
+  width: 30px;
+  height: 30px;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+
+  // Animation from swiper navigation buttons
+  transition: all 0.25s ease;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+}

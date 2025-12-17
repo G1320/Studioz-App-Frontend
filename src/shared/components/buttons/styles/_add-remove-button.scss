@@ -1,18 +1,16 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 button.add-remove-button {
+  @include mixins.branded-button;
+
   --button-hover-bg: rgba(16, 185, 129, 0.2);
   --button-shadow: rgba(16, 185, 129, 0.3);
   --button-focus-shadow: rgba(14, 165, 233, 0.3);
 
-  width: 30px;
-  height: 30px;
-  padding: 0.5rem;
   align-self: center;
-  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.25s ease;
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -22,12 +20,7 @@ button.add-remove-button {
   &:hover:not(:disabled) {
     background-color: var(--button-hover-bg);
     border-color: vars.$color-brand;
-    transform: scale(1.05);
     box-shadow: 0 4px 12px var(--button-shadow);
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.95);
   }
 
   &:disabled {
@@ -36,12 +29,12 @@ button.add-remove-button {
     pointer-events: none;
   }
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
-    border: 1px solid vars.$color-brand;
-    outline: 4px auto vars.$color-brand;
-  }
+  //   &:focus {
+  //     outline: none;
+  //     box-shadow: none;
+  //     border: 1px solid vars.$color-brand;
+  //     outline: 4px auto vars.$color-brand;
+  //   }
 
   svg {
     font-size: 1.25rem;

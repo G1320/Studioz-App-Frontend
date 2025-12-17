@@ -27,11 +27,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   return (
     <PopupDropdown
       trigger={
-        <button
-          className="header-profile-button-container"
-          aria-label={user ? 'Profile menu' : 'Login / Sign up'}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
+        <button className="header-profile-button-container" aria-label={user ? 'Profile menu' : 'Login / Sign up'}>
           <ManageAccountsIcon aria-label="profile icon" />
         </button>
       }
@@ -48,33 +44,21 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
         )}
         {user && (
           <>
-            <button
-              className="profile-dropdown__item"
-              onClick={() => handleNavigate('/dashboard')}
-            >
+            <button className="profile-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
               <DashboardIcon className="profile-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
             </button>
-            <button
-              className="profile-dropdown__item"
-              onClick={() => handleNavigate('/create-studio')}
-            >
+            <button className="profile-dropdown__item" onClick={() => handleNavigate('/create-studio')}>
               <AddBusinessIcon className="profile-dropdown__icon" />
               <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
             </button>
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>
-                <button
-                  className="profile-dropdown__item"
-                  onClick={() => handleNavigate('/calendar')}
-                >
+                <button className="profile-dropdown__item" onClick={() => handleNavigate('/calendar')}>
                   <CalendarTodayIcon className="profile-dropdown__icon" />
                   <span>{t('profile.sellerAccount.buttons.calendar')}</span>
                 </button>
-                <button
-                  className="profile-dropdown__item"
-                  onClick={() => handleNavigate('/my-subscription')}
-                >
+                <button className="profile-dropdown__item" onClick={() => handleNavigate('/my-subscription')}>
                   <CardMembershipIcon className="profile-dropdown__icon" />
                   <span>{t('profile.sellerAccount.buttons.mySubscriptions')}</span>
                 </button>
@@ -82,10 +66,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
             )}
           </>
         )}
-        <button
-          className="profile-dropdown__item"
-          onClick={() => handleNavigate('/subscription')}
-        >
+        <button className="profile-dropdown__item" onClick={() => handleNavigate('/subscription')}>
           <CardMembershipIcon className="profile-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.subscription')}</span>
         </button>
@@ -111,4 +92,3 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
     </PopupDropdown>
   );
 };
-

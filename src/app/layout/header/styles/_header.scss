@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 header.app-header {
   grid-area: header;
@@ -110,13 +111,7 @@ header.app-header {
   }
 
   .lang-switcher {
-    display: flex;
-    justify-content: center;
     width: 24px;
-    span {
-      cursor: pointer;
-      min-width: max-content;
-    }
   }
 
   .cart-options-container {
@@ -126,22 +121,6 @@ header.app-header {
     gap: 0.25rem;
     grid-column: 6 / span 2;
     justify-self: end;
-  }
-
-  .header-search-button-container,
-  .header-reservations-button-container,
-  .header-profile-button-container {
-    width: 24px;
-    height: 24px;
-    align-self: center;
-    cursor: pointer;
-  }
-
-  .login-button,
-  .logout-button {
-    white-space: nowrap;
-    width: 48px;
-    cursor: pointer;
   }
 
   .cart {
@@ -198,11 +177,6 @@ header.app-header {
         margin: 0;
       }
     }
-  }
-
-  .generic-dropdown {
-    max-height: max-content;
-    z-index: 100;
   }
 
   h1 {
@@ -299,10 +273,6 @@ header.app-header {
 
     .cart {
       grid-column: 6;
-    }
-    .login,
-    .logout {
-      grid-column: 7;
     }
   }
 }
