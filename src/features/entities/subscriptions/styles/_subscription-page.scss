@@ -15,11 +15,7 @@ $transition-speed: 0.3s;
 
 .subscription-page {
   min-height: calc(100vh - 10rem);
-  background: radial-gradient(
-      ellipse at 80% 20%,
-      rgba(vars.$color-brand, 0.08) 0%,
-      transparent 60%
-    ),
+  background: radial-gradient(ellipse at 80% 20%, rgba(vars.$color-brand, 0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 20% 90%, rgba(vars.$color-brand, 0.05) 0%, transparent 50%),
     linear-gradient(180deg, vars.$bg-color-primary 0%, vars.$bg-color-secondary 100%);
   padding: vars.$spacing-3xl vars.$spacing-medium;
@@ -29,10 +25,10 @@ $transition-speed: 0.3s;
 
   .header {
     text-align: center;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto vars.$spacing-3xl;
-    padding: vars.$spacing-3xl vars.$spacing-xl;
+    width: clamp(220px, 90%, 900px);
+    max-width: 700px;
+    margin: 0 auto clamp(vars.$spacing-xl, 5vw, vars.$spacing-3xl);
+    padding: clamp(vars.$spacing-xl, 4vw, vars.$spacing-3xl) clamp(vars.$spacing-medium, 3vw, vars.$spacing-xl);
     background: rgba(26, 26, 26, 0.6);
     border-radius: vars.$border-radius-xl;
     backdrop-filter: blur(20px);
@@ -69,14 +65,15 @@ $transition-speed: 0.3s;
     }
 
     p {
-      color: rgba(255, 255, 255, 0.75);
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      line-height: 1.6;
-      max-width: 600px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: clamp(0.95rem, 2vw, 1.125rem);
+      line-height: 1.5;
+      max-width: 500px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
-      font-weight: 400;
+      font-weight: 500;
+      letter-spacing: 0.01em;
     }
   }
 
@@ -277,13 +274,27 @@ $transition-speed: 0.3s;
 }
 
 // Media Queries
+@media (max-width: 390px) {
+  .subscription-page {
+    .header {
+      h1 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+      }
+
+      p {
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .subscription-page {
     padding: vars.$spacing-2xl vars.$spacing-medium;
 
     .header {
-      margin-bottom: vars.$spacing-2xl;
-      padding: vars.$spacing-2xl vars.$spacing-large;
+      margin-bottom: clamp(vars.$spacing-large, 4vw, vars.$spacing-2xl);
+      padding: clamp(vars.$spacing-large, 4vw, vars.$spacing-2xl) clamp(vars.$spacing-medium, 3vw, vars.$spacing-large);
     }
 
     .plans-container {
