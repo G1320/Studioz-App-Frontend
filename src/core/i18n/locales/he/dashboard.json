@@ -22,6 +22,9 @@
   "calendar": {
     "studioOwnerTitle": "יומן סטודיו",
     "userTitle": "ההזמנות שלי"
+  },
+  "subscription": {
+    "title": "מנוי"
   }
 }
 

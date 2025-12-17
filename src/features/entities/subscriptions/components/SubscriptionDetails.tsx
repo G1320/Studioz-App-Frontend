@@ -1,12 +1,13 @@
 import { useSubscription, useCancelSubscriptionMutation } from '@shared/hooks';
-import { Link } from 'react-router-dom';
 import { useUserContext } from '@core/contexts';
 import { useTranslation } from 'react-i18next';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 
 export const SubscriptionDetails = () => {
   const { isLoading, hasSubscription, isPro, subscription } = useSubscription();
   const { updateSubscription } = useUserContext();
   const { t } = useTranslation('subscriptions');
+  const langNavigate = useLanguageNavigate();
   const cancelSubscriptionMutation = useCancelSubscriptionMutation(subscription?._id || '');
 
   const handleCancelSubscription = () => {
@@ -32,9 +33,9 @@ export const SubscriptionDetails = () => {
       <div className="subscription-details no-subscription">
         <h3>{t('subscriptionDetails.noSubscription.title')}</h3>
         <p>{t('subscriptionDetails.noSubscription.description')}</p>
-        <Link to="/subscription" className="primary-button">
+        <button onClick={() => langNavigate('/subscription')} className="primary-button">
           {t('subscriptionDetails.noSubscription.viewPlans')}
-        </Link>
+        </button>
       </div>
     );
   }
@@ -103,9 +104,9 @@ export const SubscriptionDetails = () => {
       <div className="subscription-actions">
         {subscription?.status === 'ACTIVE' && (
           <>
-            <Link to="/subscription" className="manage-link">
+            <button onClick={() => langNavigate('/subscription')} className="manage-link">
               {t(isPro ? 'subscriptionDetails.actions.managePlan' : 'subscriptionDetails.actions.upgradePlan')}
-            </Link>
+            </button>
             <button onClick={handleCancelSubscription} className="cancel-button">
               {t('subscriptionDetails.actions.cancelPlan')}
             </button>

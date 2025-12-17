@@ -200,11 +200,18 @@
       transition: all 0.25s ease;
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
+      cursor: pointer;
+      font-size: inherit;
+      font-family: inherit;
 
       &:hover {
         background: rgba(55, 55, 55, 0.8);
         border-color: rgba(255, 255, 255, 0.2);
         transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     }
 

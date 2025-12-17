@@ -22,5 +22,8 @@
   "calendar": {
     "studioOwnerTitle": "Studio Calendar",
     "userTitle": "My Reservations"
+  },
+  "subscription": {
+    "title": "Subscription"
   }
 }

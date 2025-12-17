@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
 import { DashboardStats, MyStudios, DashboardCalendar } from '../components';
+import { SubscriptionDetails } from '@features/entities/subscriptions';
 
 interface DashboardPageProps {
   user: User | null;
@@ -91,6 +92,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           upcomingBookings={stats.upcomingBookings}
           isStudioOwner={isStudioOwner}
         />
+
+        {/* Subscription Section */}
+        <div className="dashboard-subscription-section">
+          <h2 className="dashboard-section-title">{t('subscription.title')}</h2>
+          <SubscriptionDetails />
+        </div>
 
         {/* My Studios Section - Only show if user has studios */}
         {isStudioOwner && userStudios.length > 0 && (

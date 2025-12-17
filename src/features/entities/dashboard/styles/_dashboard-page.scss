@@ -34,5 +34,11 @@
     margin: 0 0 1.5rem 0;
     color: vars.$text-color-primary;
   }
+
+  .dashboard-subscription-section {
+    .subscription-details {
+      max-width: 100%;
+    }
+  }
 }
 
