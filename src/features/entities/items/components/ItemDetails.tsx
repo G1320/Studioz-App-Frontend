@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard } from '@features/entities';
-import { MuiDateTimePicker } from '@shared/components';
+import { MuiDateTimePicker, SwipeableContainer } from '@shared/components';
 import {
   useAddItemToCartMutation,
   useItem,
@@ -181,85 +181,97 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
 
   return (
-    <article onMouseEnter={prefetchItem} key={item?._id} className={`details item-details `}>
-      <button className="close-button" onClick={closeModal}>
-        ×
-      </button>
-      <ItemHeader
-        studio={studio}
-        item={item}
-        user={user as User}
-        onEdit={handleGoToEdit}
-        onImageClick={handleImageClicked}
-      />
-      <ItemCard item={item as Item} />
-      {currentReservationId && reservation && (
-        <ReservationCard
-          reservation={reservation}
-          variant="itemCard"
-          onCancel={() => {
-            localStorage.removeItem(`reservation_${itemId}`);
-            setCurrentReservationId(null);
-          }}
+    <SwipeableContainer
+      direction="down"
+      onSwipe={closeModal}
+      threshold={100}
+      velocityThreshold={0.5}
+      axis="y"
+      maxDistance={300}
+      showFeedback={true}
+      swipeOpacity={0.5}
+      className="item-details-wrapper"
+    >
+      <article onMouseEnter={prefetchItem} key={item?._id} className={`details item-details `}>
+        <button className="close-button" onClick={closeModal}>
+          ×
+        </button>
+        <ItemHeader
+          studio={studio}
+          item={item}
+          user={user as User}
+          onEdit={handleGoToEdit}
+          onImageClick={handleImageClicked}
         />
-      )}
-      <div className="date-picker-row">
-        {!currentReservationId && (
-          <>
-            <MuiDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
-              itemAvailability={item?.availability || []}
-              studioAvailability={studio?.studioAvailability}
-            />
-
-            <fieldset className="hours-fieldset">
-              <legend className="hours-legend">{t('hours', 'Hours')}</legend>
-              <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-            </fieldset>
-          </>
+        <ItemCard item={item as Item} />
+        {currentReservationId && reservation && (
+          <ReservationCard
+            reservation={reservation}
+            variant="itemCard"
+            onCancel={() => {
+              localStorage.removeItem(`reservation_${itemId}`);
+              setCurrentReservationId(null);
+            }}
+          />
         )}
-      </div>
-      {isFeatureEnabled('addOns') && !currentReservationId && addOns.length > 0 && (
-        <section className="item-addons-section">
-          <AddOnsList addOns={addOns} showAddButton onAdd={handleAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
-        </section>
-      )}
-      {!currentReservationId && (
-        <ReservationDetailsForm
-          customerName={customerName}
-          customerPhone={customerPhone}
-          comment={comment}
-          onNameChange={(value) => {
-            localStorage.setItem('customerName', value);
-            setCustomerName(value);
-          }}
-          onPhoneChange={(value) => {
-            if (value !== customerPhone) {
-              localStorage.removeItem('isPhoneVerified');
-              setIsPhoneVerified(false);
-            }
-            localStorage.setItem('customerPhone', value);
-            setCustomerPhone(value);
-          }}
-          onCommentChange={setComment}
-          isRTL={isRTL}
-          onPhoneVerified={() => {
-            localStorage.setItem('isPhoneVerified', 'true');
-            setIsPhoneVerified(true);
-          }}
+        <div className="date-picker-row">
+          {!currentReservationId && (
+            <>
+              <MuiDateTimePicker
+                value={selectedDate}
+                onChange={handleDateChange}
+                itemAvailability={item?.availability || []}
+                studioAvailability={studio?.studioAvailability}
+              />
+
+              <fieldset className="hours-fieldset">
+                <legend className="hours-legend">{t('hours', 'Hours')}</legend>
+                <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+              </fieldset>
+            </>
+          )}
+        </div>
+        {isFeatureEnabled('addOns') && !currentReservationId && addOns.length > 0 && (
+          <section className="item-addons-section">
+            <AddOnsList addOns={addOns} showAddButton onAdd={handleAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
+          </section>
+        )}
+        {!currentReservationId && (
+          <ReservationDetailsForm
+            customerName={customerName}
+            customerPhone={customerPhone}
+            comment={comment}
+            onNameChange={(value) => {
+              localStorage.setItem('customerName', value);
+              setCustomerName(value);
+            }}
+            onPhoneChange={(value) => {
+              if (value !== customerPhone) {
+                localStorage.removeItem('isPhoneVerified');
+                setIsPhoneVerified(false);
+              }
+              localStorage.setItem('customerPhone', value);
+              setCustomerPhone(value);
+            }}
+            onCommentChange={setComment}
+            isRTL={isRTL}
+            onPhoneVerified={() => {
+              localStorage.setItem('isPhoneVerified', 'true');
+              setIsPhoneVerified(true);
+            }}
+          />
+        )}
+        <BookingActions
+          price={item?.price || 0}
+          quantity={selectedQuantity}
+          currentReservationId={currentReservationId}
+          isPhoneVerified={isPhoneVerified}
+          isBooked={isBooked as boolean}
+          cart={cart}
+          onBookNow={handleBookNow}
+          addOnsTotal={addOnsTotal}
         />
-      )}
-      <BookingActions
-        price={item?.price || 0}
-        quantity={selectedQuantity}
-        currentReservationId={currentReservationId}
-        isPhoneVerified={isPhoneVerified}
-        isBooked={isBooked as boolean}
-        cart={cart}
-        onBookNow={handleBookNow}
-        addOnsTotal={addOnsTotal}
-      />
-    </article>
+      </article>
+    </SwipeableContainer>
   );
 };

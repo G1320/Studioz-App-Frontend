@@ -21,3 +21,4 @@ export * from './location-welcome';
 export * from './profile-image-uploader';
 export * from './skeleton-loader';
 export * from './empty-state';
+export * from './swipeable';
