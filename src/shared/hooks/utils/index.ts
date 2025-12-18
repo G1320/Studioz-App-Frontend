@@ -4,6 +4,7 @@ export * from './useCartItemQuantityHandler';
 export * from './useMutationHandler';
 export * from './useScrollTop';
 export * from './useLangNavigation';
+export * from './useLanguageSwitcher';
 export * from './useDropdown';
 export * from './categories';
 export * from './genres';

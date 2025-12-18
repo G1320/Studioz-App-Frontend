@@ -1,36 +1,10 @@
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
-import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { PopupDropdown } from '@shared/components/drop-downs';
+import { useLanguageSwitcher } from '@shared/hooks/utils';
 
 export const LanguageSwitcher = () => {
-  const { i18n } = useTranslation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    document.documentElement.lang = i18n.language;
-    document.documentElement.dir = i18n.language === 'he' ? 'rtl' : 'ltr';
-  }, [i18n.language]);
-
-  const changeLanguage = (lang: string) => {
-    const currentPath = window.location.pathname;
-    let newPath;
-
-    if (currentPath === '/' || currentPath === '/en' || currentPath === '/he') {
-      newPath = `/${lang}`;
-    } else {
-      if (currentPath.match(/^\/[a-z]{2}\//)) {
-        newPath = currentPath.replace(/^\/[a-z]{2}\//, `/${lang}/`);
-      } else {
-        newPath = `/${lang}${currentPath}`;
-      }
-    }
-
-    i18n.changeLanguage(lang);
-    navigate(newPath, { replace: true });
-  };
+  const { currentLanguage, changeLanguage } = useLanguageSwitcher();
 
   return (
     <section className="lang-switcher">
@@ -52,13 +26,13 @@ export const LanguageSwitcher = () => {
       >
         <div className="lang-switcher__menu">
           <button
-            className={`lang-switcher__option ${i18n.language === 'en' ? 'lang-switcher__option--active' : ''}`}
+            className={`lang-switcher__option ${currentLanguage === 'en' ? 'lang-switcher__option--active' : ''}`}
             onClick={() => changeLanguage('en')}
           >
             English
           </button>
           <button
-            className={`lang-switcher__option ${i18n.language === 'he' ? 'lang-switcher__option--active' : ''}`}
+            className={`lang-switcher__option ${currentLanguage === 'he' ? 'lang-switcher__option--active' : ''}`}
             onClick={() => changeLanguage('he')}
           >
             עברית

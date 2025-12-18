@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useLanguageNavigate, useLanguageSwitcher } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import type { User } from 'src/types/index';
 import { LoginButton, LogoutButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
@@ -21,8 +20,8 @@ interface ProfileDropdownProps {
 
 export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const { t, i18n } = useTranslation('profile');
-  const navigate = useNavigate();
+  const { t } = useTranslation('profile');
+  const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
 
   const handleNavigate = (path: string) => {
@@ -31,21 +30,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   };
 
   const changeLanguage = (lang: string) => {
-    const currentPath = window.location.pathname;
-    let newPath;
-
-    if (currentPath === '/' || currentPath === '/en' || currentPath === '/he') {
-      newPath = `/${lang}`;
-    } else {
-      if (currentPath.match(/^\/[a-z]{2}\//)) {
-        newPath = currentPath.replace(/^\/[a-z]{2}\//, `/${lang}/`);
-      } else {
-        newPath = `/${lang}${currentPath}`;
-      }
-    }
-
-    i18n.changeLanguage(lang);
-    navigate(newPath, { replace: true });
+    switchLanguage(lang);
     setIsLangSubmenuOpen(false);
   };
 
@@ -121,7 +106,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
           {isLangSubmenuOpen && (
             <div className="profile-dropdown__submenu">
               <button
-                className={`profile-dropdown__submenu-item ${i18n.language === 'en' ? 'profile-dropdown__submenu-item--active' : ''}`}
+                className={`profile-dropdown__submenu-item ${currentLanguage === 'en' ? 'profile-dropdown__submenu-item--active' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   changeLanguage('en');
@@ -130,7 +115,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
                 English
               </button>
               <button
-                className={`profile-dropdown__submenu-item ${i18n.language === 'he' ? 'profile-dropdown__submenu-item--active' : ''}`}
+                className={`profile-dropdown__submenu-item ${currentLanguage === 'he' ? 'profile-dropdown__submenu-item--active' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   changeLanguage('he');
