@@ -170,9 +170,31 @@
 
   // RTL support
   html[dir='rtl'] & {
+    &__item {
+      text-align: right;
+      justify-content: start;
+      width: 100%;
+    }
+
+    &__chevron {
+      margin-left: 0;
+      margin-right: auto;
+      // Flip the chevron horizontally for RTL (right arrow becomes left arrow)
+      transform: scaleX(-1);
+    }
+
+    &__item--lang[aria-expanded='true'] {
+      .profile-dropdown__chevron {
+        // When expanded in RTL: flip first (→ becomes ←), then rotate -90deg (← becomes ↓)
+        // Or: rotate 90deg first (→ becomes ↓), then flip (↓ stays ↓)
+        // Actually, we want: flip (→ becomes ←), then rotate 90deg (← becomes ↑) - no wait
+        // Let's use: rotate(-90deg) scaleX(-1) which should give us ↓
+        transform: rotate(-90deg) scaleX(-1);
+      }
+    }
+
     &__submenu {
       padding-left: 0;
-      padding-right: 2.5rem;
     }
 
     &__submenu-item {
