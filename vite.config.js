@@ -78,6 +78,7 @@ export default defineConfig(({ _command, mode }) => {
             'mapbox-vendor': ['react-map-gl', 'mapbox-gl'],
             'query-vendor': ['@tanstack/react-query', '@tanstack/react-query-persist-client'],
             'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+            'animation-vendor': ['react-spring', '@use-gesture/react'],
             'calendar-vendor': [
               '@fullcalendar/core',
               '@fullcalendar/react',
