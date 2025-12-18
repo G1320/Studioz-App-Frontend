@@ -12,7 +12,8 @@ header.app-header {
   grid-template-columns: max-content repeat(5, 1fr) 40px;
   grid-template-rows: 1fr;
   gap: 0.5rem;
-  z-index: 1000;
+  max-width: calc(100% - 2rem);
+  z-index: 1400; // Above MUI Modal (1300) to keep header visible
   padding: 0 1rem;
   background: black;
   text-align: center;

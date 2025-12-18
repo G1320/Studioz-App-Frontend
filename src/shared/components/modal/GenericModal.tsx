@@ -16,6 +16,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, child
       // Store current scroll position from all possible scroll containers
       // BEFORE any DOM changes to prevent scroll jump
       const rootElement = document.getElementById('root');
+      const headerElement = document.querySelector('header.app-header');
       const scrollData = {
         window: window.scrollY || window.pageYOffset || 0,
         root: rootElement?.scrollTop || 0,
@@ -27,6 +28,18 @@ export const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, child
       // Apply styles synchronously before paint to prevent visual jump
       // Use the window scroll position for body positioning
       const scrollY = scrollData.window || scrollData.html || scrollData.root;
+
+      // Store original header position if it exists
+      if (headerElement) {
+        const headerRect = headerElement.getBoundingClientRect();
+        (headerElement as HTMLElement).style.position = 'fixed';
+        (headerElement as HTMLElement).style.top = `${headerRect.top}px`;
+        (headerElement as HTMLElement).style.left = `${headerRect.left}px`;
+        (headerElement as HTMLElement).style.right = `${headerRect.right}px`;
+        (headerElement as HTMLElement).style.width = `${headerRect.width}px`;
+        (headerElement as HTMLElement).style.zIndex = '1400';
+      }
+
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
@@ -41,6 +54,18 @@ export const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, child
         // Restore scroll position when modal closes
         const savedScroll = scrollPositionRef.current;
         const rootElement = document.getElementById('root');
+        const headerElement = document.querySelector('header.app-header');
+
+        // Restore header to sticky positioning
+        if (headerElement) {
+          (headerElement as HTMLElement).style.position = '';
+          (headerElement as HTMLElement).style.top = '';
+          (headerElement as HTMLElement).style.left = '';
+          (headerElement as HTMLElement).style.right = '';
+          (headerElement as HTMLElement).style.width = '';
+          (headerElement as HTMLElement).style.zIndex = '';
+        }
+
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.width = '';
