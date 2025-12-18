@@ -136,7 +136,10 @@ export const MuiDateTimePicker = ({
             alignItems: 'center'
           },
           '& .MuiInputLabel-root': {
-            color: '#fff'
+            color: '#fff !important'
+          },
+          '& .MuiInputLabel-root.Mui-error': {
+            color: '#fff !important'
           },
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: '#fff'
@@ -156,7 +159,8 @@ export const MuiDateTimePicker = ({
           textField: {
             fullWidth: true,
             margin: 'dense',
-            dir: isRTL ? 'rtl' : 'ltr'
+            dir: isRTL ? 'rtl' : 'ltr',
+            error: false
           }
         }}
         slots={{

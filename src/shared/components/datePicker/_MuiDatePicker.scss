@@ -92,6 +92,15 @@
     }
   }
 
+  // Label styling - ensure it stays white even in error state
+  .MuiInputLabel-root {
+    color: #fff !important;
+
+    &.Mui-error {
+      color: #fff !important;
+    }
+  }
+
   // Responsive adjustments
   @media (max-width: 480px) {
     .MuiInputBase-input,
