@@ -7,6 +7,7 @@
     "period": "month",
     "priceLabel": "per {{period}}",
     "popularBadge": "Most Popular",
+    "currentPlan": "Current plan",
     "freeLabel": "Free",
     "free": {
       "name": "Free",

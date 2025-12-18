@@ -1,12 +1,44 @@
 import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/forms';
-import { useState } from 'react';
-
+import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSubscription } from '@shared/hooks';
 
 export const SumitSubscriptionPage = () => {
   const { t } = useTranslation('subscriptions');
+  const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
 
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const paymentFormRef = useRef<HTMLDivElement>(null);
+
+  // Determine current plan
+  const getCurrentPlanId = () => {
+    if (isPro) return 'pro';
+    if (isStarter) return 'starter';
+    return 'free'; // No subscription means free plan
+  };
+
+  const currentPlanId = getCurrentPlanId();
+
+  const handlePlanSelect = (plan: any) => {
+    if (plan.id === 'free') return; // Don't allow selecting free plan
+    setSelectedPlan(plan);
+  };
+
+  const scrollToPaymentForm = () => {
+    setTimeout(() => {
+      paymentFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
+
+  const handleButtonClick = (e: React.MouseEvent, plan: any) => {
+    e.stopPropagation(); // Prevent card click from firing
+    // Select plan if not already selected
+    if (selectedPlan?.id !== plan.id) {
+      setSelectedPlan(plan);
+    }
+    // Scroll to payment form
+    scrollToPaymentForm();
+  };
 
   const plans = [
     {
@@ -65,9 +97,16 @@ export const SumitSubscriptionPage = () => {
 
       <div className="plans-container">
         {plans.map((plan) => (
-          <div key={plan.id} className={`plan-card ${plan.id} ${selectedPlan?.id === plan.id ? 'selected' : ''}`}>
+          <div
+            key={plan.id}
+            className={`plan-card ${plan.id} ${selectedPlan?.id === plan.id ? 'selected' : ''} ${plan.id !== 'free' ? 'clickable' : ''}`}
+            onClick={() => handlePlanSelect(plan)}
+          >
             {plan.highlight === t('plans.pro.highlight') && (
               <div className="popular-badge">{t('plans.popularBadge')}</div>
+            )}
+            {currentPlanId === plan.id && (
+              <div className="current-plan-badge">{t('plans.currentPlan')}</div>
             )}
 
             <div className="plan-header">
@@ -95,15 +134,17 @@ export const SumitSubscriptionPage = () => {
               ))}
             </ul>
 
-            <button className="subscribe-button" onClick={() => setSelectedPlan(plan)}>
-              {t('buttons.getStarted')}
-            </button>
+            {plan.id !== 'free' && (
+              <button className="subscribe-button" onClick={(e) => handleButtonClick(e, plan)}>
+                {t('buttons.getStarted')}
+              </button>
+            )}
           </div>
         ))}
       </div>
 
       {selectedPlan && (
-        <div id="sumit-container">
+        <div id="sumit-container" ref={paymentFormRef}>
           <SumitSubscriptionPaymentForm plan={selectedPlan} />
         </div>
       )}
