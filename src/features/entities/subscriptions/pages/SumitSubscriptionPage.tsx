@@ -5,7 +5,7 @@ import { useSubscription } from '@shared/hooks';
 
 export const SumitSubscriptionPage = () => {
   const { t } = useTranslation('subscriptions');
-  const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
+  const { isPro, isStarter } = useSubscription();
 
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const paymentFormRef = useRef<HTMLDivElement>(null);
@@ -20,8 +20,13 @@ export const SumitSubscriptionPage = () => {
   const currentPlanId = getCurrentPlanId();
 
   const handlePlanSelect = (plan: any) => {
-    if (plan.id === 'free') return; // Don't allow selecting free plan
-    setSelectedPlan(plan);
+    // If clicking the same plan, deselect it
+    if (selectedPlan?.id === plan.id) {
+      setSelectedPlan(null);
+    } else {
+      // Set the selected plan (including free)
+      setSelectedPlan(plan);
+    }
   };
 
   const scrollToPaymentForm = () => {
@@ -99,15 +104,13 @@ export const SumitSubscriptionPage = () => {
         {plans.map((plan) => (
           <div
             key={plan.id}
-            className={`plan-card ${plan.id} ${selectedPlan?.id === plan.id ? 'selected' : ''} ${plan.id !== 'free' ? 'clickable' : ''}`}
+            className={`plan-card ${plan.id} ${selectedPlan?.id === plan.id ? 'selected' : ''} clickable`}
             onClick={() => handlePlanSelect(plan)}
           >
             {plan.highlight === t('plans.pro.highlight') && (
               <div className="popular-badge">{t('plans.popularBadge')}</div>
             )}
-            {currentPlanId === plan.id && (
-              <div className="current-plan-badge">{t('plans.currentPlan')}</div>
-            )}
+            {currentPlanId === plan.id && <div className="current-plan-badge">{t('plans.currentPlan')}</div>}
 
             <div className="plan-header">
               <h2>{plan.name}</h2>
@@ -143,7 +146,7 @@ export const SumitSubscriptionPage = () => {
         ))}
       </div>
 
-      {selectedPlan && (
+      {selectedPlan && selectedPlan.id !== 'free' && (
         <div id="sumit-container" ref={paymentFormRef}>
           <SumitSubscriptionPaymentForm plan={selectedPlan} />
         </div>

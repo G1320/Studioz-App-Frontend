@@ -111,33 +111,15 @@ $transition-speed: 0.3s;
     }
 
     &.selected {
-      border-color: rgba(vars.$color-brand, 0.5);
+      border-color: rgba(255, 255, 255, 0.25);
       box-shadow:
         0 8px 25px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(vars.$color-brand, 0.3);
+        0 0 0 1px rgba(255, 255, 255, 0.15);
 
       .subscribe-button {
         background: vars.$color-brand;
         color: vars.$text-color-dark;
       }
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, vars.$color-brand 0%, transparent 100%);
-      opacity: 0;
-      transition: opacity $transition-speed ease;
-      border-radius: $border-radius $border-radius 0 0;
-    }
-
-    &:hover::before,
-    &.selected::before {
-      opacity: 1;
     }
   }
 
