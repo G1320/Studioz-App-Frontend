@@ -7,6 +7,17 @@
     "period": "חודש",
     "priceLabel": "ל{{period}}",
     "popularBadge": "הכי פופולרי",
+    "freeLabel": "חינם",
+    "free": {
+      "name": "חינם",
+      "highlight": "התחל בחינם",
+      "features": {
+        "listing": "מודעה אחת פעילה",
+        "photos": "עד 3 תמונות לכל מודעה",
+        "booking": "קביעת תורים אונליין",
+        "support": "תמיכה סטנדרטית"
+      }
+    },
     "starter": {
       "name": "בסיס",
       "highlight": "מושלם למתחילים",
@@ -59,10 +70,12 @@
       "cancelled": "מבוטל"
     },
     "planNames": {
+      "free": "מנוי חינם",
       "pro": " מנוי פרו",
       "starter": " מנוי מתחילים"
     },
     "badges": {
+      "free": "חינם",
       "pro": "PRO",
       "starter": "STARTER"
     },

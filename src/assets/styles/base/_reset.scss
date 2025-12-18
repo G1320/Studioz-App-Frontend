@@ -18,9 +18,12 @@ h2 {
   }
 }
 
-html,
-body {
+html {
   height: 100%;
+}
+
+body {
+  min-height: 100%;
 }
 
 html,
@@ -33,4 +36,9 @@ body,
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+#root {
+  min-height: 100%;
+  flex: 1;
 }

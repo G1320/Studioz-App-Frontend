@@ -10,6 +10,20 @@ export const SumitSubscriptionPage = () => {
 
   const plans = [
     {
+      id: 'free',
+      name: 'Free',
+      planId: 'free',
+      price: 0,
+      period: t('plans.period'),
+      highlight: t('plans.free.highlight'),
+      features: [
+        t('plans.free.features.listing'),
+        t('plans.free.features.photos'),
+        t('plans.free.features.booking'),
+        t('plans.free.features.support')
+      ]
+    },
+    {
       id: 'starter',
       name: 'Starter',
       planId: 'starter',
@@ -62,8 +76,14 @@ export const SumitSubscriptionPage = () => {
             </div>
 
             <div className="price">
-              <span className="amount">₪{plan.price}</span>
-              <span className="period">{t('plans.priceLabel', { period: plan.period })}</span>
+              {plan.price === 0 ? (
+                <span className="amount">{t('plans.freeLabel')}</span>
+              ) : (
+                <>
+                  <span className="amount">₪{plan.price}</span>
+                  <span className="period">{t('plans.priceLabel', { period: plan.period })}</span>
+                </>
+              )}
             </div>
 
             <ul className="features">

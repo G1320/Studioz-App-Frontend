@@ -7,6 +7,17 @@
     "period": "month",
     "priceLabel": "per {{period}}",
     "popularBadge": "Most Popular",
+    "freeLabel": "Free",
+    "free": {
+      "name": "Free",
+      "highlight": "Get started for free",
+      "features": {
+        "listing": "1 active listing",
+        "photos": "Max 3 photos per listing",
+        "booking": "Online booking",
+        "support": "Standard support"
+      }
+    },
     "starter": {
       "name": "Starter",
       "highlight": "Perfect for beginners",
@@ -59,10 +70,12 @@
       "cancelled": "Cancelled"
     },
     "planNames": {
+      "free": "Free Plan",
       "pro": "Professional Plan",
       "starter": "Starter Plan"
     },
     "badges": {
+      "free": "FREE",
       "pro": "PRO",
       "starter": "STARTER"
     },
