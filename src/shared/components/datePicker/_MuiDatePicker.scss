@@ -1,0 +1,136 @@
+@use '../../../assets/styles/utilities/variables' as vars;
+
+.date-picker-container {
+  width: 100%;
+  position: relative;
+
+  // Main input container - ensure proper layout
+  .MuiInputBase-root {
+    color: #fff;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+
+  .MuiInputAdornment-root {
+    .MuiIconButton-root {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      border-radius: 8px;
+      height: 32px;
+      width: 32px;
+      min-width: 32px;
+      max-width: 32px;
+      margin-inline-end: 10px;
+      @media screen and (max-width: 480px) {
+        margin-inline-end: 2px;
+        [dir='rtl'] & {
+          margin-inline-end: 8px;
+        }
+      }
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgb(16, 185, 129);
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      .MuiSvgIcon-root {
+        color: #fff !important;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  // Label styling
+  .MuiInputLabel-root {
+    color: #fff !important;
+    transform-origin: top left;
+
+    [dir='rtl'] & {
+      transform-origin: top right;
+    }
+  }
+
+  // Outline border
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #fff !important;
+  }
+
+  &:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #fff !important;
+  }
+
+  // Calendar day styling
+  .MuiPickersDay-daySelected,
+  .MuiPickersDay-today {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  // Disabled state
+  .Mui-disabled {
+    color: #bbb !important;
+  }
+
+  // Focus state
+  .MuiOutlinedInput-root {
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: #fff !important;
+      border-width: 2px;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 480px) {
+    .MuiInputBase-input,
+    .MuiOutlinedInput-input {
+      padding: 10px !important;
+      padding-inline-start: 10px !important;
+      padding-inline-end: 10px !important;
+      font-size: 0.9rem;
+    }
+
+    .MuiInputAdornment-root {
+      margin-inline-end: 6px !important;
+
+      [dir='rtl'] & {
+        margin-right: 0 !important;
+        margin-left: 6px !important;
+        margin-inline-end: 0 !important;
+        margin-inline-start: 6px !important;
+      }
+
+      [dir='ltr'] & {
+        margin-right: 6px !important;
+        margin-left: 0 !important;
+        margin-inline-end: 6px !important;
+        margin-inline-start: 0 !important;
+      }
+
+      .MuiIconButton-root {
+        height: 28px;
+        width: 28px;
+        min-width: 28px;
+        max-width: 28px;
+        padding: 6px !important;
+
+        .MuiSvgIcon-root {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+}

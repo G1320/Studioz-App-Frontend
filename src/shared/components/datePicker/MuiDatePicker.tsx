@@ -5,6 +5,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import './_MuiDatePicker.scss';
 
 dayjs.extend(customParseFormat);
 
@@ -111,82 +112,58 @@ export const MuiDateTimePicker = ({
   );
 
   return (
-    <DateTimePicker
-      label={isRTL ? 'בחר תאריך ושעה' : 'Select date and time'}
-      value={internalValue}
-      onChange={handleChange}
-      format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
-      views={['year', 'month', 'day', 'hours']}
-      disablePast
-      shouldDisableDate={shouldDisableDate}
-      shouldDisableTime={shouldDisableTime}
-      minutesStep={60}
-      ampm={false}
-      onOpen={() => setIsOpen(true)}
-      onClose={() => setIsOpen(false)}
-      timeSteps={{ hours: 1, minutes: 60 }}
-      desktopModeMediaQuery="@media (min-width: 0px)"
-      sx={{
-        width: '100%',
-        '& .MuiInputBase-root': {
-          color: '#fff'
-        },
-        '& .MuiInputBase-input, & .MuiOutlinedInput-input': {
-          paddingInlineStart: '8px',
-          paddingInlineEnd: 0
-        },
-        '& .MuiInputLabel-root': {
-          color: '#fff'
-        },
-        '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#fff'
-        },
-        '&:hover .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#fff'
-        },
-        '& .MuiSvgIcon-root': {
-          color: '#fff'
-        },
-        '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
-          backgroundColor: '#fff',
-          color: '#000'
-        },
-
-        '& .Mui-disabled': {
-          color: '#bbb'
-        },
-        // Style the calendar icon button to look more like a button
-        '& .MuiInputAdornment-root': {
-          margin: 0,
-          padding: 0,
-          '& .MuiIconButton-root': {
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: '8px',
-            height: '32px',
-            width: '32px',
-            margin: 0,
-            padding: '8px',
-            marginInlineEnd: '-6px',
-            transition: 'all 0.2s ease',
-            '&:hover': {
-              borderColor: 'rgb(16, 185, 129)',
-              transform: 'scale(1.05)'
-            },
-            '& .MuiSvgIcon-root': {}
+    <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
+      <DateTimePicker
+        label={isRTL ? 'בחר תאריך ושעה' : 'Select date and time'}
+        value={internalValue}
+        onChange={handleChange}
+        format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
+        views={['year', 'month', 'day', 'hours']}
+        disablePast
+        shouldDisableDate={shouldDisableDate}
+        shouldDisableTime={shouldDisableTime}
+        minutesStep={60}
+        ampm={false}
+        onOpen={() => setIsOpen(true)}
+        onClose={() => setIsOpen(false)}
+        timeSteps={{ hours: 1, minutes: 60 }}
+        desktopModeMediaQuery="@media (min-width: 0px)"
+        sx={{
+          width: '100%',
+          '& .MuiInputBase-root': {
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center'
+          },
+          '& .MuiInputLabel-root': {
+            color: '#fff'
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#fff'
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#fff'
+          },
+          '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
+            backgroundColor: '#fff',
+            color: '#000'
+          },
+          '& .Mui-disabled': {
+            color: '#bbb'
           }
-        }
-      }}
-      slotProps={{
-        textField: {
-          fullWidth: true,
-          margin: 'dense',
-          dir: isRTL ? 'rtl' : 'ltr'
-        }
-      }}
-      slots={{
-        leftArrowIcon: isRTL ? ArrowForwardIos : ArrowBackIosNew,
-        rightArrowIcon: isRTL ? ArrowBackIosNew : ArrowForwardIos
-      }}
-    />
+        }}
+        slotProps={{
+          textField: {
+            fullWidth: true,
+            margin: 'dense',
+            dir: isRTL ? 'rtl' : 'ltr'
+          }
+        }}
+        slots={{
+          leftArrowIcon: isRTL ? ArrowForwardIos : ArrowBackIosNew,
+          rightArrowIcon: isRTL ? ArrowBackIosNew : ArrowForwardIos
+        }}
+      />
+    </div>
   );
 };
