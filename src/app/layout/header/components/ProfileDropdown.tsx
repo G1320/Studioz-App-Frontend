@@ -115,7 +115,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
             aria-haspopup="true"
           >
             <LanguageIcon className="profile-dropdown__icon" />
-            <span>{t('profile.language', 'Language')}</span>
+            <span>{t('profile.language')}</span>
             <ChevronRightIcon className="profile-dropdown__chevron" />
           </button>
           {isLangSubmenuOpen && (
