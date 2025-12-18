@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { httpService } from '@shared/services';
 import { Wishlist, WishlistResponse } from 'src/types/index';
 
@@ -25,6 +26,10 @@ export const getWishlists = async (userId: string): Promise<Wishlist[]> => {
   try {
     return await httpService.get(`${wishlistEndpoint}/${userId}`);
   } catch (error) {
+    // Handle 404 gracefully - user doesn't have wishlists yet
+    if (error instanceof AxiosError && error.response?.status === 404) {
+      return [];
+    }
     console.error('Failed to get wishlists', error);
     throw error;
   }

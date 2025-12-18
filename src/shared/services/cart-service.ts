@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { parseJSON, stringifyJSON } from '@shared/utils';
 import { httpService } from '@shared/services';
 import { Cart, CartItem } from 'src/types/index';
@@ -68,7 +69,11 @@ export const getUserCart = async (userId: string): Promise<Cart> => {
   if (offlineCart) return offlineCart;
   try {
     return await httpService.get(`${cartEndpoint}/${userId}`);
-  } catch (error: unknown) {
+  } catch (error) {
+    // Handle 404 gracefully - user doesn't have a cart yet
+    if (error instanceof AxiosError && error.response?.status === 404) {
+      return { items: [] };
+    }
     console.error('Failed to get user cart', error);
     throw error;
   }
