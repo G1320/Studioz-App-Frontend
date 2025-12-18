@@ -9,7 +9,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import './styles/profile-dropdown.scss';
@@ -37,11 +37,8 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   return (
     <PopupDropdown
       trigger={
-        <button
-          className="header-profile-button-container header-icon-button"
-          aria-label={user ? 'Profile menu' : 'Login / Sign up'}
-        >
-          <ManageAccountsIcon aria-label="profile icon" />
+        <button className="header-profile-button-container header-icon-button" aria-label="Menu">
+          <WavyMenuIcon className="wavy-menu-icon" aria-label="menu icon" />
         </button>
       }
       className="profile-dropdown"
