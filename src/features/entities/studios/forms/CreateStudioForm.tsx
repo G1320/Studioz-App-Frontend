@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FileUploader, GenericForm, FieldType } from '@shared/components';
+import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import {
   useCreateStudioMutation,
@@ -17,7 +17,6 @@ import {
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
-import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { loadFormState } from '@shared/utils/formAutoSaveUtils';
 
@@ -98,9 +97,13 @@ export const CreateStudioForm = () => {
     setGalleryAudioFiles
   });
 
+  // Note: Uncontrolled auto-save is disabled for stepped forms
+  // Controlled state auto-save handles categories, genres, etc.
+  // Form field data is collected by SteppedForm on step changes
   const { clearSavedData } = useFormAutoSaveUncontrolled({
     formId: FORM_ID,
-    formRef: FORM_ID
+    formRef: FORM_ID,
+    enabled: false // Disabled since SteppedForm handles data collection
   });
 
   const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(
@@ -179,6 +182,40 @@ export const CreateStudioForm = () => {
     return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
 
+  // Define form steps
+  const steps: FormStep[] = [
+    {
+      id: 'basic-info',
+      title: t('form.steps.basicInfo') || 'Basic Information',
+      description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
+      fieldNames: ['name.en', 'name.he', 'subtitle.en', 'subtitle.he', 'description.en', 'description.he']
+    },
+    {
+      id: 'categories',
+      title: t('form.steps.categories') || 'Categories & Genres',
+      description: t('form.steps.categoriesDesc') || 'Select categories and genres',
+      fieldNames: ['categories', 'subCategories', 'genres']
+    },
+    {
+      id: 'availability',
+      title: t('form.steps.availability') || 'Availability',
+      description: t('form.steps.availabilityDesc') || 'Set your studio hours',
+      fieldNames: ['studioAvailability']
+    },
+    {
+      id: 'location',
+      title: t('form.steps.location') || 'Location & Contact',
+      description: t('form.steps.locationDesc') || 'Add address and contact information',
+      fieldNames: ['address', 'phone']
+    },
+    {
+      id: 'details',
+      title: t('form.steps.details') || 'Details',
+      description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
+      fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking']
+    }
+  ];
+
   const fields = [
     {
       name: 'name.en',
@@ -220,7 +257,7 @@ export const CreateStudioForm = () => {
     },
     {
       name: 'subCategories',
-      label: arraysEqual(selectedCategories, musicCategories) ? [musicCategories] : [photoCategories],
+      label: t('form.subCategories.label') || 'Sub Categories',
       type: 'multiSelect' as FieldType,
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
@@ -346,13 +383,16 @@ export const CreateStudioForm = () => {
         showPreviewBeforeUpload={false}
       />
       <section className="form-wrapper create-studio-form-wrapper">
-        <GenericForm
+        <SteppedForm
           className="create-studio-form"
           formId={FORM_ID}
+          steps={steps}
           fields={fields}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
-          btnTxt={t('form.submit.createStudio')}
+          submitButtonText={t('form.submit.createStudio')}
+          nextButtonText={t('form.buttons.next') || 'Next'}
+          previousButtonText={t('form.buttons.previous') || 'Previous'}
         />
       </section>
     </section>

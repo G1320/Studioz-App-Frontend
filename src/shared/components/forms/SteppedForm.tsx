@@ -1,5 +1,7 @@
-import { useState, useCallback, useMemo, type ReactNode } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } from 'react';
 import { GenericForm, FieldType } from './GenericHeadlessForm';
+import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
+import { useDebounce } from '@shared/hooks/debauncing';
 import './styles/_steppedForm.scss';
 
 /**
@@ -106,8 +108,14 @@ export const SteppedForm = ({
   allowBackNavigation = true
 }: SteppedFormProps) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, any>>(() => {
+    // Load saved form data on mount
+    const savedData = loadFormData(formId);
+    // loadFormData returns the data object directly (not wrapped)
+    return savedData || {};
+  });
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const isInitialMount = useRef(true);
 
   const currentStep = steps[currentStepIndex];
   const isFirstStep = currentStepIndex === 0;
@@ -117,6 +125,134 @@ export const SteppedForm = ({
   const currentStepFields = useMemo(() => {
     return fields.filter((field) => currentStep.fieldNames.includes(field.name));
   }, [fields, currentStep.fieldNames]);
+
+  // Restore form data to form fields and set up input listeners when step changes
+  useEffect(() => {
+    let cleanup: (() => void) | undefined;
+    
+    // Small delay to ensure form is rendered
+    const timeoutId = setTimeout(() => {
+      const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
+      if (!form) return;
+
+      // Restore values for each field in current step
+      currentStepFields.forEach((field) => {
+        // Skip fields with onChange handlers (they're controlled)
+        if (field.onChange) return;
+
+        // Handle nested fields like 'name.en'
+        if (field.name.includes('.')) {
+          const [parent, child] = field.name.split('.');
+          const parentValue = formData[parent];
+          if (parentValue && typeof parentValue === 'object' && parentValue[child]) {
+            const input = form.querySelector(`[name="${field.name}"]`) as HTMLInputElement | HTMLTextAreaElement;
+            if (input && !input.value) {
+              input.value = String(parentValue[child]);
+            }
+          }
+        } else {
+          const fieldValue = formData[field.name];
+          if (fieldValue === undefined || fieldValue === null) return;
+
+          const input = form.querySelector(`[name="${field.name}"]`) as HTMLInputElement | HTMLTextAreaElement;
+          if (input) {
+            if (input.type === 'checkbox') {
+              (input as HTMLInputElement).checked = Boolean(fieldValue);
+            } else if (input.type === 'radio') {
+              const radio = form.querySelector(`[name="${field.name}"][value="${fieldValue}"]`) as HTMLInputElement;
+              if (radio) radio.checked = true;
+            } else {
+              if (!input.value) {
+                input.value = String(fieldValue);
+              }
+            }
+          }
+        }
+      });
+
+      // Add input listeners to capture changes for uncontrolled fields
+      const handleInput = (e: Event) => {
+        const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+        if (!target.name) return;
+
+        const fieldName = target.name;
+        let value: any;
+
+        if (target.type === 'checkbox') {
+          const checkboxes = form.querySelectorAll(`[name="${fieldName}"]:checked`) as NodeListOf<HTMLInputElement>;
+          value = checkboxes.length > 0 ? Array.from(checkboxes).map((cb) => cb.value) : false;
+        } else if (target.type === 'radio') {
+          const radio = form.querySelector(`[name="${fieldName}"]:checked`) as HTMLInputElement;
+          value = radio ? radio.value : '';
+        } else {
+          value = target.value;
+        }
+
+        // Update formData
+        if (fieldName.includes('.')) {
+          const [parent, child] = fieldName.split('.');
+          setFormData((prev) => ({
+            ...prev,
+            [parent]: {
+              ...prev[parent],
+              [child]: value
+            }
+          }));
+        } else {
+          setFormData((prev) => ({
+            ...prev,
+            [fieldName]: value
+          }));
+        }
+      };
+
+      // Add listeners to all inputs in the form
+      const inputs = form.querySelectorAll('input, textarea');
+      inputs.forEach((input) => {
+        input.addEventListener('input', handleInput);
+        input.addEventListener('change', handleInput);
+      });
+
+      cleanup = () => {
+        inputs.forEach((input) => {
+          input.removeEventListener('input', handleInput);
+          input.removeEventListener('change', handleInput);
+        });
+      };
+    }, 50);
+
+    return () => {
+      clearTimeout(timeoutId);
+      cleanup?.();
+    };
+  }, [currentStepIndex, formId, currentStepFields, formData]);
+
+  // Auto-save form data when it changes (debounced)
+  const debouncedFormData = useDebounce(formData, 1000);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    // Don't save empty forms
+    if (!debouncedFormData || Object.keys(debouncedFormData).length === 0) {
+      return;
+    }
+
+    // Don't save if all values are empty
+    const hasAnyValue = Object.values(debouncedFormData).some((value) => {
+      if (value === null || value === undefined || value === '') return false;
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        return Object.values(value).some((v) => v !== null && v !== undefined && v !== '');
+      }
+      return true;
+    });
+
+    if (hasAnyValue) {
+      saveFormData(formId, debouncedFormData);
+    }
+  }, [debouncedFormData, formId]);
 
   // Validate current step
   const validateCurrentStep = useCallback((): boolean => {
@@ -331,16 +467,32 @@ export const SteppedForm = ({
 
         <GenericForm
           formId={`${formId}-step-${currentStepIndex}`}
-          fields={currentStepFields.map((field) => ({
-            ...field,
-            // Update onChange handlers to also update our formData state
-            onChange: field.onChange
-              ? (value: any) => {
-                  handleFieldChange(field.name, value);
-                  field.onChange?.(value);
-                }
-              : undefined
-          }))}
+          fields={currentStepFields.map((field) => {
+            // Get saved value for this field
+            let savedValue: any = undefined;
+            if (field.name.includes('.')) {
+              const [parent, child] = field.name.split('.');
+              const parentValue = formData[parent];
+              if (parentValue && typeof parentValue === 'object') {
+                savedValue = parentValue[child];
+              }
+            } else {
+              savedValue = formData[field.name];
+            }
+
+            return {
+              ...field,
+              // Use saved value as defaultValue if field doesn't have a value prop
+              value: field.value !== undefined ? field.value : savedValue,
+              // Update onChange handlers to also update our formData state
+              onChange: field.onChange
+                ? (value: any) => {
+                    handleFieldChange(field.name, value);
+                    field.onChange?.(value);
+                  }
+                : undefined
+            };
+          })}
           onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
           onCategoryChange={onCategoryChange}
           hideSubmit={true}
