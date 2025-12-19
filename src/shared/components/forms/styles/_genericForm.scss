@@ -96,6 +96,7 @@
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: #333;
+      text-align: start;
     }
 
     .form-input,
@@ -107,9 +108,14 @@
       color: #333;
       background-color: #fff;
       width: 95%;
+      text-align: start;
       transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease;
+
+      &::placeholder {
+        text-align: start;
+      }
 
       &:focus {
         outline: none;
