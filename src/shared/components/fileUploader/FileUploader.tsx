@@ -98,7 +98,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   const handleSetPreviewFile = (file: string) => setPreview(file);
 
   return (
-    <article>
+    <article className="file-uploader-container">
       <div
         className={`file-uploader ${fileType}-uploader ${multiple ? 'multiple' : ''} ${isDragActive ? 'drag-active' : ''}`}
         {...getRootProps()}

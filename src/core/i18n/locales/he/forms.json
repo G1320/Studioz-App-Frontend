@@ -93,8 +93,8 @@
       "editItem": "עדכן שירות",
       "createAddOn": "שמור תוספת",
       "editAddOn": "עדכן תוספת",
-      "createWishlist": "צור רשימת משאלות",
-      "editWishlist": "עדכן רשימת משאלות",
+      "createWishlist": "צור רשימה",
+      "editWishlist": "עדכן רשימה",
       "updateUser": "עדכן משתמש",
       "success": "הסטודיו נוצר בהצלחה",
       "error": "אירעה שגיאה בעת יצירת הסטודיו"
@@ -177,15 +177,15 @@
     "itemLimitInfo": "נותרו לך {{count}} שירות{{count, plural, one {} other {ים}}} בתוכנית החינמית שלך. שדרג כדי ליצור שירותים ללא הגבלה.",
     "steps": {
       "basicInfo": "מידע בסיסי",
-      "basicInfoDesc": "הכנס את שם הסטודיו והתיאור",
-      "categories": "קטגוריות וז'אנרים",
+      "basicInfoDesc": "  הוסף שם ותיאור ",
+      "categories": "קטגוריות",
       "categoriesDesc": "בחר קטגוריות וז'אנרים",
       "availability": "זמינות",
-      "availabilityDesc": "הגדר את שעות הסטודיו",
+      "availabilityDesc": "הגדר את שעות הפעילות",
       "location": "מיקום ופרטי קשר",
       "locationDesc": "הוסף כתובת ופרטי קשר",
-      "details": "פרטים",
-      "detailsDesc": "הגדר תפוסה ושירותים"
+      "details": "פרטים נוספים",
+      "detailsDesc": "הגדר פרטים נלווים "
     },
     "buttons": {
       "next": "הבא",

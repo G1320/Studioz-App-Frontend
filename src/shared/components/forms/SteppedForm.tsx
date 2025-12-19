@@ -269,47 +269,6 @@ export const SteppedForm = ({
 
   return (
     <div className={`stepped-form ${className}`}>
-      {/* Step Indicators */}
-      <div className="stepped-form__indicators">
-        <div className="stepped-form__progress-bar">
-          <div className="stepped-form__progress-fill" style={{ width: `${progress}%` }} />
-        </div>
-        <div className="stepped-form__steps">
-          {steps.map((step, index) => {
-            const isActive = index === currentStepIndex;
-            const isCompleted = index < currentStepIndex;
-            const isAccessible = allowBackNavigation || index <= currentStepIndex;
-
-            return (
-              <div
-                key={step.id}
-                className={`stepped-form__step ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isAccessible ? 'disabled' : ''}`}
-                onClick={() => {
-                  if (isAccessible && allowBackNavigation && index !== currentStepIndex) {
-                    setCurrentStepIndex(index);
-                    onStepChange?.(index, currentStepIndex);
-                  }
-                }}
-              >
-                <div className="stepped-form__step-indicator">
-                  {isCompleted ? (
-                    <svg className="stepped-form__check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : (
-                    showStepNumbers && <span className="stepped-form__step-number">{index + 1}</span>
-                  )}
-                </div>
-                <div className="stepped-form__step-info">
-                  <div className="stepped-form__step-title">{step.title}</div>
-                  {step.description && <div className="stepped-form__step-description">{step.description}</div>}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Current Step Content */}
       <div className="stepped-form__content">
         {validationErrors[currentStep.id] && (
@@ -355,6 +314,47 @@ export const SteppedForm = ({
               {submitBtnText}
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Step Indicators - At bottom */}
+      <div className="stepped-form__indicators">
+        <div className="stepped-form__progress-bar">
+          <div className="stepped-form__progress-fill" style={{ width: `${progress}%` }} />
+        </div>
+        <div className="stepped-form__steps">
+          {steps.map((step, index) => {
+            const isActive = index === currentStepIndex;
+            const isCompleted = index < currentStepIndex;
+            const isAccessible = allowBackNavigation || index <= currentStepIndex;
+
+            return (
+              <div
+                key={step.id}
+                className={`stepped-form__step ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isAccessible ? 'disabled' : ''}`}
+                onClick={() => {
+                  if (isAccessible && allowBackNavigation && index !== currentStepIndex) {
+                    setCurrentStepIndex(index);
+                    onStepChange?.(index, currentStepIndex);
+                  }
+                }}
+              >
+                <div className="stepped-form__step-indicator">
+                  {isCompleted ? (
+                    <svg className="stepped-form__check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    showStepNumbers && <span className="stepped-form__step-number">{index + 1}</span>
+                  )}
+                </div>
+                <div className="stepped-form__step-info">
+                  <div className="stepped-form__step-title">{step.title}</div>
+                  {step.description && <div className="stepped-form__step-description">{step.description}</div>}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
