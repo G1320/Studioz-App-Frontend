@@ -11,7 +11,8 @@ import {
   useCategories,
   useMusicGenres,
   useGenres,
-  useStudioFileUpload
+  useStudioFileUpload,
+  useFormAutoSaveUncontrolled
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
@@ -71,6 +72,12 @@ export const CreateStudioForm = () => {
     setGalleryImages,
     galleryAudioFiles,
     setGalleryAudioFiles
+  });
+
+  const FORM_ID = 'create-studio';
+  const { clearSavedData } = useFormAutoSaveUncontrolled({
+    formId: FORM_ID,
+    formRef: FORM_ID
   });
 
   const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(
@@ -239,10 +246,18 @@ export const CreateStudioForm = () => {
       return toast.error('Please purchase a subscription before creating a studio');
     }
 
-    createStudioMutation.mutate({
-      userId: user?._id || '',
-      newStudio: formData as Studio
-    });
+    createStudioMutation.mutate(
+      {
+        userId: user?._id || '',
+        newStudio: formData as Studio
+      },
+      {
+        onSuccess: () => {
+          // Clear saved form data after successful submission
+          clearSavedData();
+        }
+      }
+    );
   };
 
   return (
@@ -259,6 +274,7 @@ export const CreateStudioForm = () => {
       <section className="form-wrapper create-studio-form-wrapper">
         <GenericForm
           className="create-studio-form"
+          formId={FORM_ID}
           fields={fields}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
