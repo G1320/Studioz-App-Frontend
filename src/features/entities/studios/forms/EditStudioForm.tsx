@@ -11,11 +11,10 @@ import {
   useUpdateStudioMutation,
   useCategories,
   useMusicGenres,
-  useGenres
+  useGenres,
+  useStudioFileUpload
 } from '@shared/hooks';
-import { uploadFile } from '@shared/services';
 import { Studio } from 'src/types/index';
-import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
@@ -81,6 +80,16 @@ export const EditStudioForm = () => {
   const [galleryImages, setGalleryImages] = useState<string[]>(studio?.galleryImages || []);
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>(studio?.galleryAudioFiles || []);
+
+  const { handleFileUpload } = useStudioFileUpload({
+    galleryImages,
+    setGalleryImages,
+    galleryAudioFiles,
+    setGalleryAudioFiles,
+    coverImage,
+    setCoverImage,
+    handleCoverImageSeparately: true
+  });
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
@@ -241,23 +250,6 @@ export const EditStudioForm = () => {
     };
     formData.parking = selectedParking;
     updateStudioMutation.mutate(formData as Studio);
-  };
-
-  const handleFileUpload = async (files: File[], type: string) => {
-    const results = await Promise.all(files.map((file) => uploadFile(file)));
-    const urls = results.map((result) => result.secure_url);
-
-    if (type === 'image') {
-      if (files.length === 1) {
-        setCoverImage(urls[0]);
-        return toast.success('Cover image uploaded successfully');
-      }
-      setGalleryImages(urls);
-      toast.success('Gallery images uploaded successfully');
-    } else if (type === 'audio') {
-      setGalleryAudioFiles(urls);
-      toast.success('Audio files uploaded successfully');
-    }
   };
 
   return (
