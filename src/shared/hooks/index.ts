@@ -6,3 +6,4 @@ export * from './error-handling';
 export * from './phone-verification';
 export * from './subscriptions';
 export * from './prefetching';
+export * from './forms';
