@@ -175,6 +175,27 @@
       "itemLimitReached": "הגעת למגבלה המקסימלית של 3 שירותים לחשבונות חינמיים. אנא שדרג למנוי בתשלום כדי ליצור שירותים נוספים."
     },
     "itemLimitInfo": "נותרו לך {{count}} שירות{{count, plural, one {} other {ים}}} בתוכנית החינמית שלך. שדרג כדי ליצור שירותים ללא הגבלה.",
+    "steps": {
+      "basicInfo": "מידע בסיסי",
+      "basicInfoDesc": "הכנס את שם הסטודיו והתיאור",
+      "categories": "קטגוריות וז'אנרים",
+      "categoriesDesc": "בחר קטגוריות וז'אנרים",
+      "availability": "זמינות",
+      "availabilityDesc": "הגדר את שעות הסטודיו",
+      "location": "מיקום ופרטי קשר",
+      "locationDesc": "הוסף כתובת ופרטי קשר",
+      "details": "פרטים",
+      "detailsDesc": "הגדר תפוסה ושירותים"
+    },
+    "buttons": {
+      "next": "הבא",
+      "previous": "הקודם",
+      "submit": "שלח"
+    },
+    "validation": {
+      "required": "אנא השלם את כל השדות הנדרשים",
+      "fieldRequired": "{{field}} נדרש"
+    },
     "vendorOnboarding": {
       "title": "הרשמת ספק",
       "subtitle": "השלם את פרטי העסק שלך כדי להתחיל למכור ב-Studioz",

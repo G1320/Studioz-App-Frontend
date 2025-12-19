@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GenericForm, FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
@@ -124,19 +125,25 @@ export const SteppedForm = ({
   onSubmit,
   formId = 'stepped-form',
   className = '',
-  submitButtonText = 'Submit',
-  nextButtonText = 'Next',
-  previousButtonText = 'Previous',
+  submitButtonText,
+  nextButtonText,
+  previousButtonText,
   onStepChange,
   onCategoryChange,
   children,
   showStepNumbers = true,
   allowBackNavigation = true
 }: SteppedFormProps) => {
+  const { t } = useTranslation('forms');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>(() => loadFormData(formId) || {});
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const isInitialMount = useRef(true);
+
+  // Use translations with fallback to props or defaults
+  const submitBtnText = submitButtonText || t('form.buttons.submit', 'Submit');
+  const nextBtnText = nextButtonText || t('form.buttons.next', 'Next');
+  const prevBtnText = previousButtonText || t('form.buttons.previous', 'Previous');
 
   const currentStep = steps[currentStepIndex];
   const isFirstStep = currentStepIndex === 0;
@@ -166,7 +173,8 @@ export const SteppedForm = ({
     if (currentStep.validate) {
       const result = currentStep.validate(formData);
       if (result !== true) {
-        errors[currentStep.id] = typeof result === 'string' ? result : 'Please complete all required fields';
+        errors[currentStep.id] =
+          typeof result === 'string' ? result : t('form.validation.required', 'Please complete all required fields');
         setValidationErrors(errors);
         return false;
       }
@@ -177,7 +185,9 @@ export const SteppedForm = ({
 
       const fieldValue = getNestedValue(formData, field.name);
       if (fieldValue === undefined || fieldValue === null || fieldValue === '') {
-        errors[field.name] = `${field.label} is required`;
+        errors[field.name] = t('form.validation.fieldRequired', '{{field}} is required', {
+          field: field.label
+        });
       }
     });
 
@@ -188,7 +198,7 @@ export const SteppedForm = ({
 
     setValidationErrors({});
     return true;
-  }, [currentStep, currentStepFields, formData]);
+  }, [currentStep, currentStepFields, formData, t]);
 
   // Navigation handlers
   const handleNext = useCallback(() => {
@@ -326,12 +336,12 @@ export const SteppedForm = ({
               className="stepped-form__button stepped-form__button--previous"
               disabled={!allowBackNavigation}
             >
-              {previousButtonText}
+              {prevBtnText}
             </button>
           )}
           {!isLastStep ? (
             <button type="button" onClick={handleNext} className="stepped-form__button stepped-form__button--next">
-              {nextButtonText}
+              {nextBtnText}
             </button>
           ) : (
             <button
@@ -342,7 +352,7 @@ export const SteppedForm = ({
               }}
               className="stepped-form__button stepped-form__button--submit"
             >
-              {submitButtonText}
+              {submitBtnText}
             </button>
           )}
         </div>

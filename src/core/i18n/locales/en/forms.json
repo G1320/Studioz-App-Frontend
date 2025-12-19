@@ -175,6 +175,27 @@
       "itemLimitReached": "You have reached the maximum limit of 3 services for free accounts. Please upgrade to a paid plan to create more services."
     },
     "itemLimitInfo": "You have {{count}} service{{count, plural, one {} other {s}}} remaining on your free plan. Upgrade to create unlimited services.",
+    "steps": {
+      "basicInfo": "Basic Information",
+      "basicInfoDesc": "Enter your studio name and description",
+      "categories": "Categories & Genres",
+      "categoriesDesc": "Select categories and genres",
+      "availability": "Availability",
+      "availabilityDesc": "Set your studio hours",
+      "location": "Location & Contact",
+      "locationDesc": "Add address and contact information",
+      "details": "Details",
+      "detailsDesc": "Set capacity and amenities"
+    },
+    "buttons": {
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Submit"
+    },
+    "validation": {
+      "required": "Please complete all required fields",
+      "fieldRequired": "{{field}} is required"
+    },
     "vendorOnboarding": {
       "title": "Vendor Registration",
       "subtitle": "Complete your business details to start selling on Studioz",
