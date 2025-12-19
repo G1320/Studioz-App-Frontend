@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { GenericForm, FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
@@ -135,10 +136,75 @@ export const SteppedForm = ({
   allowBackNavigation = true
 }: SteppedFormProps) => {
   const { t } = useTranslation('forms');
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<Record<string, any>>(() => loadFormData(formId) || {});
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const isInitialMount = useRef(true);
+  const isUpdatingUrlRef = useRef(false);
+
+  // Get step from URL or default to 0
+  const getStepFromUrl = useCallback((): number => {
+    const stepParam = searchParams.get('step');
+    if (stepParam) {
+      // Try to find by step ID first
+      const stepIndexById = steps.findIndex((step) => step.id === stepParam);
+      if (stepIndexById !== -1) {
+        return stepIndexById;
+      }
+      // Fallback to numeric index
+      const stepIndex = parseInt(stepParam, 10);
+      if (!isNaN(stepIndex) && stepIndex >= 0 && stepIndex < steps.length) {
+        return stepIndex;
+      }
+    }
+    return 0;
+  }, [searchParams, steps]);
+
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl());
+
+  // Update URL with current step
+  const updateUrlStep = useCallback(
+    (stepIndex: number, replace: boolean = false) => {
+      if (isUpdatingUrlRef.current) return;
+
+      isUpdatingUrlRef.current = true;
+      const stepId = steps[stepIndex]?.id || stepIndex.toString();
+      const newSearchParams = new URLSearchParams(location.search);
+      newSearchParams.set('step', stepId);
+
+      const searchString = newSearchParams.toString();
+      const newUrl = `${location.pathname}${searchString ? `?${searchString}` : ''}`;
+
+      navigate(newUrl, { replace });
+
+      // Reset flag after navigation
+      setTimeout(() => {
+        isUpdatingUrlRef.current = false;
+      }, 50);
+    },
+    [steps, location.pathname, location.search, navigate]
+  );
+
+  // Sync URL changes (from browser back/forward) with form state
+  useEffect(() => {
+    if (isUpdatingUrlRef.current) return;
+
+    const urlStepIndex = getStepFromUrl();
+    if (urlStepIndex !== currentStepIndex && urlStepIndex >= 0 && urlStepIndex < steps.length) {
+      setCurrentStepIndex(urlStepIndex);
+      onStepChange?.(urlStepIndex, currentStepIndex);
+    }
+  }, [searchParams, getStepFromUrl, currentStepIndex, steps.length, onStepChange]);
+
+  // Initialize URL on mount if no step param exists
+  useEffect(() => {
+    if (!searchParams.get('step')) {
+      updateUrlStep(currentStepIndex, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   // Use translations with fallback to props or defaults
   const submitBtnText = submitButtonText || t('form.buttons.submit', 'Submit');
@@ -208,9 +274,10 @@ export const SteppedForm = ({
     if (validateCurrentStep() && currentStepIndex < steps.length - 1) {
       const nextIndex = currentStepIndex + 1;
       setCurrentStepIndex(nextIndex);
+      updateUrlStep(nextIndex, false); // Don't replace, allow browser history
       onStepChange?.(nextIndex, currentStepIndex);
     }
-  }, [currentStepIndex, steps.length, validateCurrentStep, onStepChange, collectCurrentStepData]);
+  }, [currentStepIndex, steps.length, validateCurrentStep, onStepChange, collectCurrentStepData, updateUrlStep]);
 
   const handlePrevious = useCallback(() => {
     const currentData = collectCurrentStepData();
@@ -219,9 +286,10 @@ export const SteppedForm = ({
     if (currentStepIndex > 0 && allowBackNavigation) {
       const nextIndex = currentStepIndex - 1;
       setCurrentStepIndex(nextIndex);
+      updateUrlStep(nextIndex, false); // Don't replace, allow browser history
       onStepChange?.(nextIndex, currentStepIndex);
     }
-  }, [currentStepIndex, allowBackNavigation, onStepChange, collectCurrentStepData]);
+  }, [currentStepIndex, allowBackNavigation, onStepChange, collectCurrentStepData, updateUrlStep]);
 
   // Form submission
   const handleSubmit = useCallback(
@@ -334,7 +402,10 @@ export const SteppedForm = ({
                 className={`stepped-form__step ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isAccessible ? 'disabled' : ''}`}
                 onClick={() => {
                   if (isAccessible && allowBackNavigation && index !== currentStepIndex) {
+                    const currentData = collectCurrentStepData();
+                    setFormData((prev) => ({ ...prev, ...currentData }));
                     setCurrentStepIndex(index);
+                    updateUrlStep(index, false); // Don't replace, allow browser history
                     onStepChange?.(index, currentStepIndex);
                   }
                 }}

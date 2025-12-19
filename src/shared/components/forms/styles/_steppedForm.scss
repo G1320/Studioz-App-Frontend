@@ -1,9 +1,11 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'sass:color';
 
 .stepped-form {
   width: 100%;
   max-width: 800px;
+  box-sizing: border-box;
   margin: 0 auto;
   padding: vars.$spacing-xl;
 
@@ -28,21 +30,13 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(
-        90deg,
-        rgba(vars.$color-brand, 0.3) 0%,
-        rgba(vars.$color-brand, 0.1) 100%
-      );
+      background: linear-gradient(90deg, rgba(vars.$color-brand, 0.3) 0%, rgba(vars.$color-brand, 0.1) 100%);
     }
   }
 
   &__progress-fill {
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      vars.$color-brand 0%,
-      rgba(vars.$color-brand, 0.8) 100%
-    );
+    background: linear-gradient(90deg, vars.$color-brand 0%, rgba(vars.$color-brand, 0.8) 100%);
     border-radius: vars.$border-radius-small;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 10px rgba(vars.$color-brand, 0.5);
@@ -217,21 +211,18 @@
   &__button {
     padding: vars.$spacing-medium vars.$spacing-xl;
     font-size: vars.$font-size-medium;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: vars.$border-radius-medium;
-    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 120px;
     width: auto;
     height: auto;
-    backdrop-filter: blur(8px);
-    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 
     &:hover:not(:disabled) {
-      border-color: vars.$color-brand;
-      box-shadow: 0 4px 12px rgba(vars.$color-brand, 0.3);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
     &:active:not(:disabled) {
@@ -239,32 +230,50 @@
     }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
       pointer-events: none;
     }
 
     &--previous {
-      background: rgba(255, 255, 255, 0.05);
-      color: vars.$text-color-primary;
+      background: transparent;
+      color: rgba(vars.$text-color-primary, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       margin-right: auto;
+
+      &:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: vars.$text-color-primary;
+      }
     }
 
     &--next {
-      background: rgba(vars.$color-brand, 0.2);
-      color: vars.$color-brand;
+      background: vars.$color-brand;
+      color: #000;
+      border: 1px solid vars.$color-brand;
       margin-left: auto;
+      font-weight: 600;
+
+      &:hover:not(:disabled) {
+        background: color.adjust(vars.$color-brand, $lightness: 8%);
+        border-color: color.adjust(vars.$color-brand, $lightness: 8%);
+        box-shadow: 0 4px 16px rgba(vars.$color-brand, 0.4);
+      }
     }
 
     &--submit {
       background: vars.$color-brand;
       color: #000;
+      border: 1px solid vars.$color-brand;
       margin-left: auto;
-      box-shadow: 0 4px 15px rgba(vars.$color-brand, 0.4);
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
 
       &:hover:not(:disabled) {
-        background: rgba(vars.$color-brand, 0.9);
-        box-shadow: 0 6px 20px rgba(vars.$color-brand, 0.5);
+        background: color.adjust(vars.$color-brand, $lightness: 8%);
+        border-color: color.adjust(vars.$color-brand, $lightness: 8%);
+        box-shadow: 0 4px 16px rgba(vars.$color-brand, 0.5);
       }
     }
   }
@@ -274,31 +283,11 @@
     padding: vars.$spacing-large;
 
     &__steps {
-      flex-direction: column;
-      gap: vars.$spacing-large;
-      align-items: flex-start;
-
-      &::before {
-        display: none;
-      }
+      display: none; // Hide step indicators on mobile
     }
 
-    &__step {
-      flex-direction: row;
-      width: 100%;
-      align-items: flex-start;
-    }
-
-    &__step-indicator {
-      margin-right: vars.$spacing-medium;
-      margin-bottom: 0;
-      flex-shrink: 0;
-    }
-
-    &__step-info {
-      text-align: left;
-      margin-top: 0;
-      flex: 1;
+    &__progress-bar {
+      margin-bottom: vars.$spacing-medium; // Keep progress bar visible
     }
 
     &__content {
@@ -345,4 +334,3 @@
     }
   }
 }
-
