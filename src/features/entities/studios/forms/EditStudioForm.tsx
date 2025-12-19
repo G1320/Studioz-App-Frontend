@@ -12,7 +12,9 @@ import {
   useCategories,
   useMusicGenres,
   useGenres,
-  useStudioFileUpload
+  useStudioFileUpload,
+  useFormAutoSaveUncontrolled,
+  useControlledStateAutoSave
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { arraysEqual } from '@shared/utils';
@@ -89,6 +91,72 @@ export const EditStudioForm = () => {
     coverImage,
     setCoverImage,
     handleCoverImageSeparately: true
+  });
+
+  const FORM_ID = `edit-studio-${studioId}`;
+  const { clearSavedData } = useFormAutoSaveUncontrolled({
+    formId: FORM_ID,
+    formRef: FORM_ID
+  });
+
+  // Controlled state object for auto-save
+  const controlledState = {
+    selectedCategories,
+    selectedDisplaySubCategories,
+    selectedGenres,
+    selectedDisplayDays,
+    selectedParking,
+    studioHours,
+    galleryImages,
+    coverImage,
+    galleryAudioFiles,
+    openingHour,
+    closingHour
+  };
+
+  // Auto-save controlled state
+  const { clearSavedState } = useControlledStateAutoSave({
+    formId: FORM_ID,
+    state: controlledState,
+    onRestore: (restored) => {
+      // Only restore if we have saved data (don't overwrite initial studio data on first load)
+      // Restore all state values, but use studio data as fallback
+      setSelectedCategories(
+        restored.selectedCategories ||
+          (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories)
+      );
+      setSelectedGenres(restored.selectedGenres || initialDisplayGenres);
+      setSelectedDisplayDays(restored.selectedDisplayDays || initialDisplayDays);
+      setSelectedParking(restored.selectedParking || studio?.parking || 'none');
+      setStudioHours(restored.studioHours || {});
+      setGalleryImages(restored.galleryImages || studio?.galleryImages || []);
+      setCoverImage(restored.coverImage || studio?.coverImage || '');
+      setGalleryAudioFiles(restored.galleryAudioFiles || studio?.galleryAudioFiles || []);
+      setOpeningHour(restored.openingHour || studio?.studioAvailability?.times[0]?.start || '09:00');
+      setClosingHour(restored.closingHour || studio?.studioAvailability?.times[0]?.end || '17:00');
+
+      // Handle displaySubCategories - it's derived from selectedCategories
+      const restoredCategories =
+        restored.selectedCategories ||
+        (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories);
+      const newSubCategories = restoredCategories.includes(`${musicCategories}`)
+        ? musicSubCategoriesDisplay
+        : photoSubCategories;
+      setDisplaySubCategories(newSubCategories);
+
+      // Restore selectedDisplaySubCategories, but validate against available options
+      const restoredSubCategories = restored.selectedDisplaySubCategories || initialDisplaySubCategories;
+      const validSubCategories = restoredSubCategories.filter((subCat) => newSubCategories.includes(subCat));
+      setSelectedDisplaySubCategories(
+        validSubCategories.length > 0
+          ? validSubCategories
+          : initialDisplaySubCategories.length > 0
+            ? initialDisplaySubCategories
+            : newSubCategories.length > 0
+              ? [newSubCategories[0]]
+              : []
+      );
+    }
   });
 
   const handleCategoryChange = (values: string[]) => {
@@ -249,7 +317,13 @@ export const EditStudioForm = () => {
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
     formData.parking = selectedParking;
-    updateStudioMutation.mutate(formData as Studio);
+    updateStudioMutation.mutate(formData as Studio, {
+      onSuccess: () => {
+        // Clear saved form data and controlled state after successful submission
+        clearSavedData();
+        clearSavedState();
+      }
+    });
   };
 
   return (
@@ -258,6 +332,7 @@ export const EditStudioForm = () => {
       <section className="form-wrapper edit-studio-form-wrapper">
         <GenericForm
           className="edit-studio-form"
+          formId={FORM_ID}
           title="Edit Studio"
           fields={fields}
           onSubmit={handleSubmit}

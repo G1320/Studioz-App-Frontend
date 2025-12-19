@@ -96,6 +96,88 @@ export const getFormDataTimestamp = (formId: string): number | null => {
 };
 
 /**
+ * Generate a storage key for form state (controlled React state)
+ * @param formId - Unique identifier for the form
+ * @returns Storage key string
+ */
+export const getFormStateStorageKey = (formId: string): string => {
+  return `${FORM_AUTO_SAVE_PREFIX}${formId}_state`;
+};
+
+/**
+ * Save controlled form state to localStorage
+ * @param formId - Unique identifier for the form
+ * @param stateData - Controlled state data to save
+ * @param version - Optional version string for schema migrations
+ */
+export const saveFormState = <T = Record<string, any>>(
+  formId: string,
+  stateData: T,
+  version?: string
+): void => {
+  const storageKey = getFormStateStorageKey(formId);
+  const storedData: StoredFormData = {
+    data: stateData as Record<string, any>,
+    timestamp: Date.now(),
+    ...(version && { version })
+  };
+
+  stringifyJSON(storageKey, storedData);
+};
+
+/**
+ * Load controlled form state from localStorage
+ * @param formId - Unique identifier for the form
+ * @returns State data or null if not found
+ */
+export const loadFormState = <T = Record<string, any>>(formId: string): T | null => {
+  const storageKey = getFormStateStorageKey(formId);
+  const stored = parseJSON<StoredFormData>(storageKey, null);
+
+  if (!stored || !stored.data) {
+    return null;
+  }
+
+  return stored.data as T;
+};
+
+/**
+ * Clear saved controlled form state from localStorage
+ * @param formId - Unique identifier for the form
+ */
+export const clearFormState = (formId: string): void => {
+  const storageKey = getFormStateStorageKey(formId);
+  try {
+    localStorage.removeItem(storageKey);
+  } catch (error) {
+    console.error(`Error clearing form state for "${formId}":`, error);
+  }
+};
+
+/**
+ * Clear both form fields and controlled state for a form
+ * @param formId - Unique identifier for the form
+ */
+export const clearAllFormData = (formId: string): void => {
+  clearFormData(formId);
+  clearFormState(formId);
+};
+
+/**
+ * Check if form state exists in localStorage
+ * @param formId - Unique identifier for the form
+ * @returns True if form state exists
+ */
+export const hasFormState = (formId: string): boolean => {
+  const storageKey = getFormStateStorageKey(formId);
+  try {
+    return localStorage.getItem(storageKey) !== null;
+  } catch {
+    return false;
+  }
+};
+
+/**
  * Clean up old form auto-save data (older than specified days)
  * @param maxAgeDays - Maximum age in days (default: 7)
  */

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import { getLocalUser } from '@shared/services';
@@ -12,12 +12,14 @@ import {
   useMusicGenres,
   useGenres,
   useStudioFileUpload,
-  useFormAutoSaveUncontrolled
+  useFormAutoSaveUncontrolled,
+  useControlledStateAutoSave
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+import { loadFormState } from '@shared/utils/formAutoSaveUtils';
 
 interface FormData {
   coverImage?: string;
@@ -52,20 +54,42 @@ export const CreateStudioForm = () => {
 
   const createStudioMutation = useCreateStudioMutation();
 
-  // States for form fields
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
+  const FORM_ID = 'create-studio';
+
+  // Load saved state on mount (before initializing useState)
+  const savedState = loadFormState<{
+    selectedCategories?: string[];
+    selectedDisplaySubCategories?: string[];
+    selectedGenres?: string[];
+    selectedDisplayDays?: string[];
+    selectedParking?: 'none' | 'free' | 'paid';
+    studioHours?: Record<string, { start: string; end: string }>;
+    galleryImages?: string[];
+    galleryAudioFiles?: string[];
+    openingHour?: string;
+    closingHour?: string;
+  }>(FORM_ID);
+
+  // States for form fields - initialize from saved state if available
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    savedState?.selectedCategories || musicCategories
+  );
   const [displaySubCategories, setDisplaySubCategories] = useState<string[]>(musicSubCategoriesDisplay);
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] = useState<string[]>(
-    firstSubCategory ? [firstSubCategory.value] : []
+    savedState?.selectedDisplaySubCategories || (firstSubCategory ? [firstSubCategory.value] : [])
   );
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(firstDay ? [firstDay.value] : []);
-  const [selectedParking, setSelectedParking] = useState<'none' | 'free' | 'paid'>('none');
+  const [selectedGenres, setSelectedGenres] = useState<string[]>(savedState?.selectedGenres || []);
+  const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(
+    savedState?.selectedDisplayDays || (firstDay ? [firstDay.value] : [])
+  );
+  const [selectedParking, setSelectedParking] = useState<'none' | 'free' | 'paid'>(
+    savedState?.selectedParking || 'none'
+  );
 
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
-  const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>([]);
-  const [openingHour, setOpeningHour] = useState<string>('08:00');
-  const [closingHour, setClosingHour] = useState<string>('18:00');
+  const [galleryImages, setGalleryImages] = useState<string[]>(savedState?.galleryImages || []);
+  const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>(savedState?.galleryAudioFiles || []);
+  const [openingHour, setOpeningHour] = useState<string>(savedState?.openingHour || '08:00');
+  const [closingHour, setClosingHour] = useState<string>(savedState?.closingHour || '18:00');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -74,21 +98,67 @@ export const CreateStudioForm = () => {
     setGalleryAudioFiles
   });
 
-  const FORM_ID = 'create-studio';
   const { clearSavedData } = useFormAutoSaveUncontrolled({
     formId: FORM_ID,
     formRef: FORM_ID
   });
 
   const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(
-    selectedDisplayDays.reduce(
-      (acc, day) => {
-        acc[day] = { start: openingHour, end: closingHour };
-        return acc;
-      },
-      {} as Record<string, { start: string; end: string }>
-    )
+    savedState?.studioHours ||
+      selectedDisplayDays.reduce(
+        (acc, day) => {
+          acc[day] = { start: openingHour, end: closingHour };
+          return acc;
+        },
+        {} as Record<string, { start: string; end: string }>
+      )
   );
+
+  // Restore displaySubCategories based on saved categories (if saved state exists)
+  useEffect(() => {
+    if (savedState?.selectedCategories) {
+      const restoredCategories = savedState.selectedCategories;
+      const newSubCategories = restoredCategories.includes(`${musicCategories}`)
+        ? musicSubCategoriesDisplay
+        : photoSubCategories;
+      setDisplaySubCategories(newSubCategories);
+    }
+  }, []); // Only run once on mount
+
+  // Controlled state object for auto-save (memoized to prevent unnecessary re-renders)
+  const controlledState = useMemo(
+    () => ({
+      selectedCategories,
+      selectedDisplaySubCategories,
+      selectedGenres,
+      selectedDisplayDays,
+      selectedParking,
+      studioHours,
+      galleryImages,
+      galleryAudioFiles,
+      openingHour,
+      closingHour
+    }),
+    [
+      selectedCategories,
+      selectedDisplaySubCategories,
+      selectedGenres,
+      selectedDisplayDays,
+      selectedParking,
+      studioHours,
+      galleryImages,
+      galleryAudioFiles,
+      openingHour,
+      closingHour
+    ]
+  );
+
+  // Auto-save controlled state (restoreOnMount is false since we're initializing from saved state directly)
+  const { clearSavedState } = useControlledStateAutoSave({
+    formId: FORM_ID,
+    state: controlledState,
+    restoreOnMount: false // We already initialized from saved state above
+  });
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
@@ -169,7 +239,10 @@ export const CreateStudioForm = () => {
       name: 'studioAvailability',
       type: 'businessHours' as const,
       label: t('form.studioAvailability.label'),
-      value: { days: [], times: [{ start: '09:00', end: '17:00' }] },
+      value: {
+        days: selectedDisplayDays,
+        times: selectedDisplayDays.map((day) => studioHours[day] || { start: openingHour, end: closingHour })
+      },
       onChange: (value: StudioAvailability) => {
         setSelectedDisplayDays(value.days);
         setStudioHours((prev) => {
@@ -180,8 +253,8 @@ export const CreateStudioForm = () => {
           return newHours;
         });
 
-        setOpeningHour(value.times[0]?.start);
-        setClosingHour(value.times[0]?.end);
+        setOpeningHour(value.times[0]?.start || openingHour);
+        setClosingHour(value.times[0]?.end || closingHour);
       }
     },
     {
@@ -253,8 +326,9 @@ export const CreateStudioForm = () => {
       },
       {
         onSuccess: () => {
-          // Clear saved form data after successful submission
+          // Clear saved form data and controlled state after successful submission
           clearSavedData();
+          clearSavedState();
         }
       }
     );
