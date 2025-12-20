@@ -177,17 +177,17 @@
     "itemLimitInfo": "You have {{count}} service{{count, plural, one {} other {s}}} remaining on your free plan. Upgrade to create unlimited services.",
     "steps": {
       "basicInfo": "Basic Information",
-      "basicInfoDesc": "Enter your studio name and description",
+      "basicInfoDesc": "Enter studio name and description",
       "categories": "Categories & Genres",
       "categoriesDesc": "Select categories and genres",
       "availability": "Availability",
-      "availabilityDesc": "Set your studio hours",
+      "availabilityDesc": "Set studio business hours",
       "location": "Location & Contact",
       "locationDesc": "Add address and contact information",
       "files": "Files & Media",
       "filesDesc": "Upload images for your studio",
       "details": "Details",
-      "detailsDesc": "Set capacity and amenities"
+      "detailsDesc": "Set attributes and amenities"
     },
     "buttons": {
       "next": "Next",

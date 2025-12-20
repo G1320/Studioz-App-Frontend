@@ -5,6 +5,7 @@ import { Cart, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { NotificationBell } from '@shared/components/notifications';
 import { ReservationBell } from '@shared/components/reservations/components';
 import { BackButton } from '@shared/components';
@@ -14,9 +15,6 @@ import { getCityFromCoordinates } from '@shared/services/map-service';
 import { useCities } from '@shared/hooks/utils/cities';
 import { featureFlags } from '@core/config/featureFlags';
 import { ProfileDropdown } from './ProfileDropdown';
-import { useUserContext } from '@core/contexts';
-import { useLanguageNavigate } from '@shared/hooks/utils';
-import { toast } from 'sonner';
 
 interface HeaderProps {
   cart?: Cart;
@@ -36,22 +34,8 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
   const { userLocation } = useLocationPermission();
   const { getDisplayByCityName } = useCities();
   const [currentCity, setCurrentCity] = useState<string | null>(null);
-  const { user: contextUser } = useUserContext();
-  const langNavigate = useLanguageNavigate();
-
   const currLang = i18n.language || 'en';
   const showBackButton = shouldShowBackButton(location.pathname);
-  const currentUser = user || contextUser;
-
-  const handleListStudioClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (!currentUser?._id) {
-      toast.error(t('errors.login_required'));
-    } else {
-      langNavigate('/create-studio');
-      scrollToTop();
-    }
-  };
 
   useEffect(() => {
     const fetchCity = async () => {
@@ -113,11 +97,11 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
       <Link
         to={`/${currLang}/create-studio`}
         className="header-list-studio-button-mobile"
-        aria-label={t('navigation.list_studio')}
-        onClick={handleListStudioClick}
+        aria-label={t('navigation.create_studio')}
+        onClick={() => scrollToTop()}
       >
-        <span className="header-list-studio-button-mobile__text--full">{t('navigation.list_studio')}</span>
-        <span className="header-list-studio-button-mobile__text--short">{t('navigation.list_studio_short')}</span>
+        {t('navigation.create_studio')}
+        <AddBusinessIcon className="header-list-studio-button-mobile__icon" />
       </Link>
     </header>
   );
