@@ -171,14 +171,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route
-            path="/:lang?/create-studio"
-            element={
-              <AnimatedRoute>
-                <CreateStudioPage />
-              </AnimatedRoute>
-            }
-          />
+          <Route path="/:lang?/create-studio" element={<CreateStudioPage />} />
           <Route
             path="/:lang?/edit-wishlist/:wishlistId"
             element={

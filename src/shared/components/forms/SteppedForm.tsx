@@ -347,16 +347,16 @@ export const SteppedForm = ({
         {currentStep.customContent ? (
           currentStep.customContent
         ) : (
-          <GenericForm
-            formId={`${formId}-step-${currentStepIndex}`}
-            fields={fieldsWithValues}
-            onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
-            onCategoryChange={onCategoryChange}
-            hideSubmit={true}
-            className="stepped-form__form"
-          >
-            {children}
-          </GenericForm>
+        <GenericForm
+          formId={`${formId}-step-${currentStepIndex}`}
+          fields={fieldsWithValues}
+          onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
+          onCategoryChange={onCategoryChange}
+          hideSubmit={true}
+          className="stepped-form__form"
+        >
+          {children}
+        </GenericForm>
         )}
 
         {/* Navigation Buttons */}
@@ -384,8 +384,8 @@ export const SteppedForm = ({
                   handleSubmit({});
                 } else {
                   // For regular form steps, trigger form submission
-                  const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-                  form?.requestSubmit();
+                const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
+                form?.requestSubmit();
                 }
               }}
               className="stepped-form__button stepped-form__button--submit"
