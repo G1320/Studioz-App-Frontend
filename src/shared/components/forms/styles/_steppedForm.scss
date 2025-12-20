@@ -168,9 +168,10 @@
     background: vars.$bg-color-tertiary;
     border-radius: vars.$border-radius-large;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: vars.$spacing-2xl;
+    padding: vars.$spacing-xl;
     min-height: 400px;
     position: relative;
+    overflow: hidden;
   }
 
   &__error-message {
@@ -196,12 +197,15 @@
     border: none;
     padding: 0;
     box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xl;
 
     // Masonry-style layout for step 0 (basic info)
     &#create-studio-step-0 {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
-      gap: vars.$spacing-large;
+      gap: vars.$spacing-xl;
       max-width: 100%;
 
       .form-group {
@@ -218,11 +222,21 @@
       // Responsive: stack on smaller screens
       @media screen and (max-width: 768px) {
         grid-template-columns: 1fr !important;
+        gap: vars.$spacing-large;
 
         .form-group {
           grid-column: span 1 !important;
         }
       }
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    // Better spacing for business hours
+    .business-hours {
+      margin: 0;
     }
   }
 
@@ -230,8 +244,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: vars.$spacing-2xl;
-    padding-top: vars.$spacing-xl;
+    margin-top: vars.$spacing-xl;
+    padding-top: vars.$spacing-large;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     gap: vars.$spacing-medium;
   }

@@ -17,7 +17,7 @@
 }
 
 @mixin branded-form-group {
-  margin-bottom: vars.$spacing-large;
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
   grid-column: 1 !important;

@@ -388,7 +388,7 @@ export const CreateStudioForm = () => {
 
   return (
     <section>
-      <h1>{t('form.AddStudioTitle')}</h1>
+      {/* <h1>{t('form.AddStudioTitle')}</h1> */}
 
       <section className="form-wrapper create-studio-form-wrapper">
         <SteppedForm
