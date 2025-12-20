@@ -51,7 +51,9 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: vars.$border-radius-medium;
-    transition: border-color 0.15s ease, background-color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
 
     &:hover {
       background: rgba(255, 255, 255, 0.05);
@@ -87,7 +89,10 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   color: vars.$text-color-primary;
-  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.12s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.12s ease;
 
   &:hover {
     background: rgba(255, 255, 255, 0.08);
@@ -125,6 +130,3 @@
     }
   }
 }
-
-
-
