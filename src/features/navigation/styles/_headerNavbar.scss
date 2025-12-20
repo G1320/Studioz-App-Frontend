@@ -3,6 +3,7 @@
 .navbar {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
   a {
     cursor: pointer;
     white-space: nowrap;
@@ -18,7 +19,24 @@
     text-shadow: 0 0 12px 7px white;
   }
 
-  .navbar-link[aria-current='page'] {
-    color: vars.$color-brand;
+  .navbar-link {
+    position: relative;
+    padding: 0 0.75rem;
+
+    // Add separator after every link except the last one
+    &:not(:first-child):after {
+      content: '';
+      position: absolute;
+      right: -0.375rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 1rem;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    &[aria-current='page'] {
+      color: vars.$color-brand;
+    }
   }
 }

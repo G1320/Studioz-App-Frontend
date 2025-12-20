@@ -67,6 +67,23 @@ export function HeaderNavbar() {
       >
         {t('navigation.wishlists')}
       </Link>
+      <Link
+        to={`/${currLang}/create-studio`}
+        className="navbar-link"
+        aria-label={t('navigation.list_studio')}
+        aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
+        onClick={(e) => {
+          e.preventDefault();
+          if (!user?._id) {
+            toast.error(t('errors.login_required'));
+          } else {
+            langNavigate('/create-studio');
+            scrollToTop();
+          }
+        }}
+      >
+        {t('navigation.list_studio')}
+      </Link>
     </nav>
   );
 }
