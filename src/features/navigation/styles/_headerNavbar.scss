@@ -25,10 +25,11 @@
     padding: 0 0.75rem;
 
     // Add separator after every link except the last one
-    &:not(:first-child):after {
+    // inset-inline-end automatically adjusts: right in LTR, left in RTL
+    &:not(:last-child):after {
       content: '';
       position: absolute;
-      right: -0.375rem;
+      inset-inline-end: -0.375rem;
       top: 50%;
       transform: translateY(-50%);
       width: 1px;
@@ -40,35 +41,14 @@
       color: vars.$color-brand;
     }
 
-    // Show/hide full and short text based on screen size
-    .navbar-link__text--short {
-      display: none;
-    }
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
-    .navbar-link__text--full {
-      display: inline;
-    }
-
-    @media screen and (max-width: 375px) {
-      @include mixins.branded-button;
-      // Override fixed dimensions for text button
-      width: auto;
-      height: auto;
-      min-width: min-content;
-      min-height: 24px;
-      padding: 0.25rem 0.5rem;
-      border-radius: vars.$border-radius-medium;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .navbar-link__text--full {
-        display: none;
-      }
-
-      .navbar-link__text--short {
-        display: inline;
-      }
+    .navbar-link__icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
   }
 }

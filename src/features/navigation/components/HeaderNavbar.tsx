@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { featureFlags } from '@core/config/featureFlags';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 export function HeaderNavbar() {
   const { user } = useUserContext();
@@ -70,20 +71,12 @@ export function HeaderNavbar() {
       <Link
         to={`/${currLang}/create-studio`}
         className="navbar-link"
-        aria-label={t('navigation.list_studio')}
+        aria-label={t('navigation.create_studio')}
         aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
-        onClick={(e) => {
-          e.preventDefault();
-          if (!user?._id) {
-            toast.error(t('errors.login_required'));
-          } else {
-            langNavigate('/create-studio');
-            scrollToTop();
-          }
-        }}
+        onClick={() => scrollToTop()}
       >
-        <span className="navbar-link__text--full">{t('navigation.list_studio')}</span>
-        <span className="navbar-link__text--short">{t('navigation.list_studio_short')}</span>
+        {t('navigation.create_studio')}
+        <AddBusinessIcon className="navbar-link__icon" />
       </Link>
     </nav>
   );
