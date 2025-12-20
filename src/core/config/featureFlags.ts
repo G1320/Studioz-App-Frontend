@@ -9,6 +9,7 @@ export interface FeatureFlags {
   notifications: boolean;
   addOns: boolean;
   reservationDetailsPage: boolean;
+  headerSearchIcon: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -21,7 +22,8 @@ export const featureFlags: FeatureFlags = {
   itemCardDistanceBadge: false,
   notifications: true,
   addOns: true,
-  reservationDetailsPage: false
+  reservationDetailsPage: false,
+  headerSearchIcon: false
 };
 
 /**

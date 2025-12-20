@@ -301,5 +301,71 @@ header.app-header {
     .cart {
       grid-column: 6;
     }
+
+    .header-list-studio-button-mobile {
+      display: block;
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: start;
+      align-self: center;
+      align-content: center;
+      // padding: 0.25rem;
+      margin: 0 0.25rem;
+      min-width: min-content;
+      min-height: 24px;
+      background: transparent;
+      // border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: vars.$border-radius-medium;
+      color: inherit;
+      text-decoration: none;
+      font-size: vars.$font-size-small;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      // Show/hide full and short text based on screen size
+      .header-list-studio-button-mobile__text--short {
+        display: none;
+      }
+
+      .header-list-studio-button-mobile__text--full {
+        display: inline;
+      }
+
+      @media screen and (max-width: 375px) {
+        @include mixins.branded-button;
+        // Override fixed dimensions for text button
+        width: auto;
+        height: auto;
+        min-width: min-content;
+        min-height: 24px;
+        padding: 0.25rem 0.5rem;
+        border-radius: vars.$border-radius-medium;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .header-list-studio-button-mobile__text--full {
+          display: none;
+        }
+
+        .header-list-studio-button-mobile__text--short {
+          display: inline;
+        }
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
   }
+}
+
+.header-list-studio-button-mobile {
+  display: none;
 }

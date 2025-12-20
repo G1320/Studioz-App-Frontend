@@ -82,7 +82,8 @@ export function HeaderNavbar() {
           }
         }}
       >
-        {t('navigation.list_studio')}
+        <span className="navbar-link__text--full">{t('navigation.list_studio')}</span>
+        <span className="navbar-link__text--short">{t('navigation.list_studio_short')}</span>
       </Link>
     </nav>
   );

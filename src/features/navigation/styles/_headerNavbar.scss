@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .navbar {
   display: flex;
@@ -37,6 +38,37 @@
 
     &[aria-current='page'] {
       color: vars.$color-brand;
+    }
+
+    // Show/hide full and short text based on screen size
+    .navbar-link__text--short {
+      display: none;
+    }
+
+    .navbar-link__text--full {
+      display: inline;
+    }
+
+    @media screen and (max-width: 375px) {
+      @include mixins.branded-button;
+      // Override fixed dimensions for text button
+      width: auto;
+      height: auto;
+      min-width: min-content;
+      min-height: 24px;
+      padding: 0.25rem 0.5rem;
+      border-radius: vars.$border-radius-medium;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .navbar-link__text--full {
+        display: none;
+      }
+
+      .navbar-link__text--short {
+        display: inline;
+      }
     }
   }
 }
