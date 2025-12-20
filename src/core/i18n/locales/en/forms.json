@@ -184,6 +184,8 @@
       "availabilityDesc": "Set your studio hours",
       "location": "Location & Contact",
       "locationDesc": "Add address and contact information",
+      "files": "Files & Media",
+      "filesDesc": "Upload images for your studio",
       "details": "Details",
       "detailsDesc": "Set capacity and amenities"
     },

@@ -39,6 +39,7 @@ export interface FormStep {
   description?: string;
   fieldNames: string[];
   validate?: (formData: Record<string, any>) => boolean | string;
+  customContent?: ReactNode;
 }
 
 type ExtendedFieldType = FieldType | 'multiSelect';
@@ -343,16 +344,20 @@ export const SteppedForm = ({
           <div className="stepped-form__error-message">{validationErrors[currentStep.id]}</div>
         )}
 
-        <GenericForm
-          formId={`${formId}-step-${currentStepIndex}`}
-          fields={fieldsWithValues}
-          onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
-          onCategoryChange={onCategoryChange}
-          hideSubmit={true}
-          className="stepped-form__form"
-        >
-          {children}
-        </GenericForm>
+        {currentStep.customContent ? (
+          currentStep.customContent
+        ) : (
+          <GenericForm
+            formId={`${formId}-step-${currentStepIndex}`}
+            fields={fieldsWithValues}
+            onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
+            onCategoryChange={onCategoryChange}
+            hideSubmit={true}
+            className="stepped-form__form"
+          >
+            {children}
+          </GenericForm>
+        )}
 
         {/* Navigation Buttons */}
         <div className="stepped-form__navigation">
@@ -374,8 +379,14 @@ export const SteppedForm = ({
             <button
               type="button"
               onClick={() => {
-                const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-                form?.requestSubmit();
+                if (currentStep.customContent) {
+                  // For steps with custom content, directly call handleSubmit
+                  handleSubmit({});
+                } else {
+                  // For regular form steps, trigger form submission
+                  const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
+                  form?.requestSubmit();
+                }
               }}
               className="stepped-form__button stepped-form__button--submit"
             >

@@ -209,6 +209,21 @@ export const CreateStudioForm = () => {
       fieldNames: ['address', 'phone']
     },
     {
+      id: 'files',
+      title: t('form.steps.files') || 'Files & Media',
+      description: t('form.steps.filesDesc') || 'Upload images for your studio',
+      fieldNames: [],
+      customContent: (
+        <FileUploader
+          fileType="image"
+          onFileUpload={handleFileUpload}
+          galleryFiles={galleryImages}
+          isCoverShown={false}
+          showPreviewBeforeUpload={false}
+        />
+      )
+    },
+    {
       id: 'details',
       title: t('form.steps.details') || 'Details',
       description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
@@ -375,13 +390,6 @@ export const CreateStudioForm = () => {
     <section>
       <h1>{t('form.AddStudioTitle')}</h1>
 
-      <FileUploader
-        fileType="image"
-        onFileUpload={handleFileUpload}
-        galleryFiles={galleryImages}
-        isCoverShown={false}
-        showPreviewBeforeUpload={false}
-      />
       <section className="form-wrapper create-studio-form-wrapper">
         <SteppedForm
           className="create-studio-form"
