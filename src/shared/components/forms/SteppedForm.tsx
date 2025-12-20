@@ -41,6 +41,7 @@ export interface FormStep {
   fieldNames: string[];
   validate?: (formData: Record<string, any>) => boolean | string;
   customContent?: ReactNode;
+  languageToggle?: boolean; // Enable language toggle for dual-language fields
 }
 
 type ExtendedFieldType = FieldType | 'multiSelect';
@@ -167,6 +168,7 @@ export const SteppedForm = ({
   const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl());
   const [direction, setDirection] = useState<number>(1);
   const previousStepIndexRef = useRef(currentStepIndex);
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
 
   // Update URL with current step
   const updateUrlStep = useCallback(
@@ -225,8 +227,25 @@ export const SteppedForm = ({
 
   // Filter fields for current step
   const currentStepFields = useMemo(() => {
-    return fields.filter((field) => currentStep.fieldNames.includes(field.name));
-  }, [fields, currentStep.fieldNames]);
+    let filteredFields = fields.filter((field) => currentStep.fieldNames.includes(field.name));
+    
+    // If language toggle is enabled, filter to show only selected language
+    if (currentStep.languageToggle) {
+      filteredFields = filteredFields.filter((field) => {
+        // Keep fields that match the selected language
+        if (field.name.endsWith(`.${selectedLanguage}`)) {
+          return true;
+        }
+        // Keep fields that don't have a language suffix (non-language fields)
+        if (!field.name.includes('.en') && !field.name.includes('.he')) {
+          return true;
+        }
+        return false;
+      });
+    }
+    
+    return filteredFields;
+  }, [fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage]);
 
   // Collect data from current form
   const collectCurrentStepData = useCallback(() => {
@@ -316,6 +335,11 @@ export const SteppedForm = ({
     [formData, validateCurrentStep, onSubmit, collectCurrentStepData]
   );
 
+  // Reset language when step changes
+  useEffect(() => {
+    setSelectedLanguage('en');
+  }, [currentStepIndex]);
+
   // Auto-save form data (debounced)
   const debouncedFormData = useDebounce(formData, 1000);
   useEffect(() => {
@@ -389,16 +413,36 @@ export const SteppedForm = ({
             {currentStep.customContent ? (
               currentStep.customContent
             ) : (
-              <GenericForm
-                formId={`${formId}-step-${currentStepIndex}`}
-                fields={fieldsWithValues}
-                onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
-                onCategoryChange={onCategoryChange}
-                hideSubmit={true}
-                className="stepped-form__form"
-              >
-                {children}
-              </GenericForm>
+              <>
+                {currentStep.languageToggle && (
+                  <div className="stepped-form__language-toggle">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedLanguage('en')}
+                      className={`stepped-form__language-btn ${selectedLanguage === 'en' ? 'active' : ''}`}
+                    >
+                      English
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedLanguage('he')}
+                      className={`stepped-form__language-btn ${selectedLanguage === 'he' ? 'active' : ''}`}
+                    >
+                      עברית
+                    </button>
+                  </div>
+                )}
+                <GenericForm
+                  formId={`${formId}-step-${currentStepIndex}`}
+                  fields={fieldsWithValues}
+                  onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
+                  onCategoryChange={onCategoryChange}
+                  hideSubmit={true}
+                  className="stepped-form__form"
+                >
+                  {children}
+                </GenericForm>
+              </>
             )}
           </motion.div>
         </AnimatePresence>

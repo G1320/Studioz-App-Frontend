@@ -192,6 +192,53 @@
     }
   }
 
+  &__language-toggle {
+    position: sticky;
+    top: vars.$spacing-medium;
+    z-index: 10;
+    display: flex;
+    gap: vars.$spacing-small;
+    justify-content: center;
+    margin-bottom: vars.$spacing-large;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: vars.$spacing-small;
+    border-radius: vars.$border-radius-medium;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &__language-btn {
+    padding: vars.$spacing-small vars.$spacing-medium;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: vars.$border-radius-small;
+    background: rgba(255, 255, 255, 0.05);
+    color: vars.$text-color-secondary;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: vars.$text-color-primary;
+    }
+
+    &.active {
+      background: vars.$color-brand;
+      border-color: vars.$color-brand;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.5);
+    }
+  }
+
   &__form {
     background: transparent;
     border: none;

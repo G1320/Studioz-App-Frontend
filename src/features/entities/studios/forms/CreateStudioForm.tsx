@@ -188,7 +188,8 @@ export const CreateStudioForm = () => {
       id: 'basic-info',
       title: t('form.steps.basicInfo') || 'Basic Information',
       description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
-      fieldNames: ['name.en', 'name.he', 'subtitle.en', 'subtitle.he', 'description.en', 'description.he']
+      fieldNames: ['name.en', 'name.he', 'subtitle.en', 'subtitle.he', 'description.en', 'description.he'],
+      languageToggle: true
     },
     {
       id: 'categories',
