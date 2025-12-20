@@ -196,6 +196,34 @@
     border: none;
     padding: 0;
     box-shadow: none;
+
+    // Masonry-style layout for step 0 (basic info)
+    &#create-studio-step-0 {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: vars.$spacing-large;
+      max-width: 100%;
+
+      .form-group {
+        margin-bottom: 0;
+        grid-column: span 1 !important; // Override generic form's span 2
+
+        // Ensure inputs and textareas take full width of their container
+        .form-input,
+        .form-textarea {
+          width: 100%;
+        }
+      }
+
+      // Responsive: stack on smaller screens
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr !important;
+
+        .form-group {
+          grid-column: span 1 !important;
+        }
+      }
+    }
   }
 
   &__navigation {
