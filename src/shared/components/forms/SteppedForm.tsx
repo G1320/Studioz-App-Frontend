@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { GenericForm, FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
@@ -164,6 +165,8 @@ export const SteppedForm = ({
   }, [searchParams, steps]);
 
   const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl());
+  const [direction, setDirection] = useState<number>(1);
+  const previousStepIndexRef = useRef(currentStepIndex);
 
   // Update URL with current step
   const updateUrlStep = useCallback(
@@ -194,6 +197,9 @@ export const SteppedForm = ({
 
     const urlStepIndex = getStepFromUrl();
     if (urlStepIndex !== currentStepIndex && urlStepIndex >= 0 && urlStepIndex < steps.length) {
+      // Determine direction based on step index change
+      setDirection(urlStepIndex > currentStepIndex ? 1 : -1);
+      previousStepIndexRef.current = currentStepIndex;
       setCurrentStepIndex(urlStepIndex);
       onStepChange?.(urlStepIndex, currentStepIndex);
     }
@@ -274,6 +280,8 @@ export const SteppedForm = ({
 
     if (validateCurrentStep() && currentStepIndex < steps.length - 1) {
       const nextIndex = currentStepIndex + 1;
+      setDirection(1); // Forward direction
+      previousStepIndexRef.current = currentStepIndex;
       setCurrentStepIndex(nextIndex);
       updateUrlStep(nextIndex, false); // Don't replace, allow browser history
       onStepChange?.(nextIndex, currentStepIndex);
@@ -286,6 +294,8 @@ export const SteppedForm = ({
 
     if (currentStepIndex > 0 && allowBackNavigation) {
       const nextIndex = currentStepIndex - 1;
+      setDirection(-1); // Backward direction
+      previousStepIndexRef.current = currentStepIndex;
       setCurrentStepIndex(nextIndex);
       updateUrlStep(nextIndex, false); // Don't replace, allow browser history
       onStepChange?.(nextIndex, currentStepIndex);
@@ -336,6 +346,27 @@ export const SteppedForm = ({
     });
   }, [currentStepFields, formData, handleFieldChange]);
 
+  // Slide animation variants
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? '-100%' : '100%',
+      opacity: 0
+    })
+  };
+
+  const slideTransition = {
+    x: { type: 'spring', stiffness: 300, damping: 30 },
+    opacity: { duration: 0.2 }
+  };
+
   return (
     <div className={`stepped-form ${className}`}>
       {/* Current Step Content */}
@@ -344,20 +375,33 @@ export const SteppedForm = ({
           <div className="stepped-form__error-message">{validationErrors[currentStep.id]}</div>
         )}
 
-        {currentStep.customContent ? (
-          currentStep.customContent
-        ) : (
-        <GenericForm
-          formId={`${formId}-step-${currentStepIndex}`}
-          fields={fieldsWithValues}
-          onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
-          onCategoryChange={onCategoryChange}
-          hideSubmit={true}
-          className="stepped-form__form"
-        >
-          {children}
-        </GenericForm>
-        )}
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
+          <motion.div
+            key={currentStepIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+            style={{ width: '100%' }}
+          >
+            {currentStep.customContent ? (
+              currentStep.customContent
+            ) : (
+              <GenericForm
+                formId={`${formId}-step-${currentStepIndex}`}
+                fields={fieldsWithValues}
+                onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
+                onCategoryChange={onCategoryChange}
+                hideSubmit={true}
+                className="stepped-form__form"
+              >
+                {children}
+              </GenericForm>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Navigation Buttons */}
         <div className="stepped-form__navigation">
@@ -415,6 +459,8 @@ export const SteppedForm = ({
                   if (isAccessible && allowBackNavigation && index !== currentStepIndex) {
                     const currentData = collectCurrentStepData();
                     setFormData((prev) => ({ ...prev, ...currentData }));
+                    setDirection(index > currentStepIndex ? 1 : -1);
+                    previousStepIndexRef.current = currentStepIndex;
                     setCurrentStepIndex(index);
                     updateUrlStep(index, false); // Don't replace, allow browser history
                     onStepChange?.(index, currentStepIndex);
