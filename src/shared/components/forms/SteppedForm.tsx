@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } fro
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ZodSchema } from 'zod';
+import { ZodSchema, ZodError } from 'zod';
 import { FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
@@ -16,7 +16,8 @@ import {
   filterStepFields,
   prepareFieldsWithValues,
   validateStep,
-  mergeFormData
+  mergeFormData,
+  collectFormData
 } from './steppedForm/utils';
 import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
 import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
@@ -284,11 +285,63 @@ export const SteppedForm = ({
   const validateCurrentStep = useCallback((): boolean => {
     setValidatedSteps((prev) => new Set(prev).add(currentStep.id));
 
-    const zodResult = currentStep.schema ? stepValidation.validate() : undefined;
+    // Collect current form data from HTML form to ensure we have latest values (especially for address field)
+    const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
+    let latestFormData = formDataForValidation;
+    if (form) {
+      const currentFormData = collectFormData(form);
+      // Merge current form data with formDataForValidation, prioritizing current form data
+      latestFormData = { ...formDataForValidation, ...currentFormData };
+    }
+
+    // Use stepValidation but with latest form data if available
+    // Note: stepValidation is memoized with formDataForValidation, so we need to validate manually with latest data
+    let zodResult = undefined;
+    if (currentStep.schema) {
+      try {
+        // Extract only step-specific data if validateOnlyStepFields is true
+        let dataToValidate = latestFormData;
+        if (currentStep.fieldNames.length > 0) {
+          dataToValidate = {};
+          for (const fieldName of currentStep.fieldNames) {
+            // Handle nested fields (e.g., 'name.en')
+            if (fieldName.includes('.')) {
+              const [parent, child] = fieldName.split('.');
+              if (!dataToValidate[parent]) {
+                dataToValidate[parent] = {};
+              }
+              if (latestFormData[parent]?.[child] !== undefined) {
+                dataToValidate[parent][child] = latestFormData[parent][child];
+              }
+            } else {
+              if (latestFormData[fieldName] !== undefined) {
+                dataToValidate[fieldName] = latestFormData[fieldName];
+              }
+            }
+          }
+        }
+        // Validate with latest data
+        currentStep.schema.parse(dataToValidate);
+        zodResult = { isValid: true, errors: {} };
+      } catch (error: any) {
+        if (error instanceof ZodError) {
+          // Format errors similar to useStepValidation
+          const errors: Record<string, string> = {};
+          error.issues?.forEach((issue) => {
+            const fieldPath = issue.path.map(String).join('.');
+            errors[fieldPath] = issue.message || 'Validation error';
+          });
+          zodResult = { isValid: false, errors };
+        } else {
+          zodResult = { isValid: false, errors: {} };
+        }
+      }
+    }
+
     const validationResult = validateStep({
       schema: currentStep.schema,
       validate: currentStep.validate,
-      formData: formDataForValidation,
+      formData: latestFormData,
       fields: currentStepFields as Array<{ name: string; label?: string; onChange?: any; [key: string]: any }>,
       stepId: currentStep.id,
       zodValidationResult: zodResult,
@@ -297,7 +350,7 @@ export const SteppedForm = ({
 
     setValidationErrors(validationResult.errors);
     return validationResult.isValid;
-  }, [currentStep, currentStepFields, formDataForValidation, t, stepValidation]);
+  }, [currentStep, currentStepFields, formDataForValidation, t, formId, currentStepIndex]);
 
   // Navigation handlers
   const { handleNext, handlePrevious, handleStepClick, collectCurrentStepData } = useStepNavigation({
