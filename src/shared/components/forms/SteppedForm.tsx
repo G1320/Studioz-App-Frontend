@@ -14,7 +14,8 @@ import {
   updateUrlStep,
   filterStepFields,
   prepareFieldsWithValues,
-  validateStep
+  validateStep,
+  mergeFormData
 } from './steppedForm/utils';
 import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
 import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
@@ -266,7 +267,8 @@ export const SteppedForm = ({
   const handleSubmit = useCallback(
     (data: Record<string, any>, event?: React.FormEvent<HTMLFormElement>) => {
       const currentData = collectCurrentStepData();
-      const mergedData = { ...formData, ...currentData, ...data };
+      // Use mergeFormData to preserve both languages in nested objects
+      const mergedData = mergeFormData(mergeFormData(formData, currentData), data);
       setFormData(mergedData);
 
       if (validateCurrentStep()) {

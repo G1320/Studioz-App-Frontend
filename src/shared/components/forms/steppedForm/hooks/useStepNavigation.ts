@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { updateUrlStep } from '../utils/urlUtils';
-import { collectFormData } from '../utils/formDataUtils';
+import { collectFormData, mergeFormData } from '../utils/formDataUtils';
 
 interface UseStepNavigationOptions {
   currentStepIndex: number;
@@ -44,7 +44,8 @@ export const useStepNavigation = ({
 
   const handleNext = useCallback(() => {
     const currentData = collectCurrentStepData();
-    setFormData((prev) => ({ ...prev, ...currentData }));
+    // Use mergeFormData to preserve both languages in nested objects
+    setFormData((prev) => mergeFormData(prev, currentData));
 
     if (validateCurrentStep() && currentStepIndex < steps.length - 1) {
       const nextIndex = currentStepIndex + 1;
@@ -70,7 +71,8 @@ export const useStepNavigation = ({
 
   const handlePrevious = useCallback(() => {
     const currentData = collectCurrentStepData();
-    setFormData((prev) => ({ ...prev, ...currentData }));
+    // Use mergeFormData to preserve both languages in nested objects
+    setFormData((prev) => mergeFormData(prev, currentData));
 
     if (currentStepIndex > 0 && allowBackNavigation) {
       const nextIndex = currentStepIndex - 1;
@@ -97,7 +99,8 @@ export const useStepNavigation = ({
     (index: number) => {
       if (allowBackNavigation && index !== currentStepIndex) {
         const currentData = collectCurrentStepData();
-        setFormData((prev) => ({ ...prev, ...currentData }));
+        // Use mergeFormData to preserve both languages in nested objects
+        setFormData((prev) => mergeFormData(prev, currentData));
         setDirection(index > currentStepIndex ? 1 : -1);
         previousStepIndexRef.current = currentStepIndex;
         setCurrentStepIndex(index);
