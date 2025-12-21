@@ -343,7 +343,7 @@ export const CreateStudioForm = () => {
         schema: studioStepSchemas.details
       }
     ],
-    [t]
+    [t, galleryImages, galleryAudioFiles, handleFileUpload]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
