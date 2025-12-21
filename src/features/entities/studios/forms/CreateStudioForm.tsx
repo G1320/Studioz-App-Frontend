@@ -34,6 +34,8 @@ interface FormData {
 
 export const CreateStudioForm = () => {
   const user = getLocalUser();
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
   const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
@@ -387,11 +389,37 @@ export const CreateStudioForm = () => {
     );
   };
 
+  const currentStep = steps[currentStepIndex];
+  const showLanguageToggle = currentStep?.languageToggle;
+
+  // Reset language when step changes
+  useEffect(() => {
+    setSelectedLanguage('en');
+  }, [currentStepIndex]);
+
   return (
     <section>
       {/* <h1>{t('form.AddStudioTitle')}</h1> */}
 
       <section className="form-wrapper create-studio-form-wrapper">
+        {showLanguageToggle && (
+          <div className="create-studio-form-wrapper__language-toggle">
+            <button
+              type="button"
+              onClick={() => setSelectedLanguage('en')}
+              className={`create-studio-form-wrapper__language-btn ${selectedLanguage === 'en' ? 'active' : ''}`}
+            >
+              English
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedLanguage('he')}
+              className={`create-studio-form-wrapper__language-btn ${selectedLanguage === 'he' ? 'active' : ''}`}
+            >
+              עברית
+            </button>
+          </div>
+        )}
         <SteppedForm
           className="create-studio-form"
           formId={FORM_ID}
@@ -402,6 +430,9 @@ export const CreateStudioForm = () => {
           submitButtonText={t('form.submit.createStudio')}
           nextButtonText={t('form.buttons.next') || 'Next'}
           previousButtonText={t('form.buttons.previous') || 'Previous'}
+          selectedLanguage={selectedLanguage}
+          onLanguageChange={setSelectedLanguage}
+          onStepChange={(current) => setCurrentStepIndex(current)}
         />
       </section>
     </section>

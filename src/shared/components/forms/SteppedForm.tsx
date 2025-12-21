@@ -65,6 +65,8 @@ export interface SteppedFormProps {
   children?: ReactNode;
   showStepNumbers?: boolean;
   allowBackNavigation?: boolean;
+  selectedLanguage?: 'en' | 'he';
+  onLanguageChange?: (language: 'en' | 'he') => void;
 }
 
 // Helper functions
@@ -136,7 +138,9 @@ export const SteppedForm = ({
   onCategoryChange,
   children,
   showStepNumbers = true,
-  allowBackNavigation = true
+  allowBackNavigation = true,
+  selectedLanguage: externalSelectedLanguage,
+  onLanguageChange
 }: SteppedFormProps) => {
   const { t } = useTranslation('forms');
   const [searchParams] = useSearchParams();
@@ -168,7 +172,11 @@ export const SteppedForm = ({
   const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl());
   const [direction, setDirection] = useState<number>(1);
   const previousStepIndexRef = useRef(currentStepIndex);
-  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
+  const [internalSelectedLanguage, setInternalSelectedLanguage] = useState<'en' | 'he'>('en');
+  
+  // Use external language state if provided, otherwise use internal
+  const selectedLanguage = externalSelectedLanguage ?? internalSelectedLanguage;
+  const setSelectedLanguage = onLanguageChange ?? setInternalSelectedLanguage;
 
   // Update URL with current step
   const updateUrlStep = useCallback(
@@ -335,10 +343,12 @@ export const SteppedForm = ({
     [formData, validateCurrentStep, onSubmit, collectCurrentStepData]
   );
 
-  // Reset language when step changes
+  // Reset language when step changes (only if using internal state)
   useEffect(() => {
-    setSelectedLanguage('en');
-  }, [currentStepIndex]);
+    if (!externalSelectedLanguage && !onLanguageChange) {
+      setInternalSelectedLanguage('en');
+    }
+  }, [currentStepIndex, externalSelectedLanguage, onLanguageChange]);
 
   // Auto-save form data (debounced)
   const debouncedFormData = useDebounce(formData, 1000);
@@ -413,36 +423,16 @@ export const SteppedForm = ({
             {currentStep.customContent ? (
               currentStep.customContent
             ) : (
-              <>
-                {currentStep.languageToggle && (
-                  <div className="stepped-form__language-toggle">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedLanguage('en')}
-                      className={`stepped-form__language-btn ${selectedLanguage === 'en' ? 'active' : ''}`}
-                    >
-                      English
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedLanguage('he')}
-                      className={`stepped-form__language-btn ${selectedLanguage === 'he' ? 'active' : ''}`}
-                    >
-                      עברית
-                    </button>
-                  </div>
-                )}
-                <GenericForm
-                  formId={`${formId}-step-${currentStepIndex}`}
-                  fields={fieldsWithValues}
-                  onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
-                  onCategoryChange={onCategoryChange}
-                  hideSubmit={true}
-                  className="stepped-form__form"
-                >
-                  {children}
-                </GenericForm>
-              </>
+              <GenericForm
+                formId={`${formId}-step-${currentStepIndex}`}
+                fields={fieldsWithValues}
+                onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
+                onCategoryChange={onCategoryChange}
+                hideSubmit={true}
+                className="stepped-form__form"
+              >
+                {children}
+              </GenericForm>
             )}
           </motion.div>
         </AnimatePresence>
