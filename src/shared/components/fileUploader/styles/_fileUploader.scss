@@ -214,6 +214,16 @@ article.file-uploader-container {
         display: flex;
         align-items: center;
         justify-content: center;
+        
+        // Override base styles that might affect image sizing
+        .image-container {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
 
         &::before {
           content: '';
@@ -256,9 +266,23 @@ article.file-uploader-container {
           transform: translateY(-2px) scale(1.01);
         }
 
-        .gallery-image {
+        // Ensure image container maintains aspect ratio
+        .image-container {
           width: 100%;
           height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+
+        .gallery-image,
+        .image-container img,
+        .image-container .generic-image {
+          width: 100% !important;
+          height: 100% !important;
+          max-width: 100% !important;
+          max-height: 100% !important;
           object-fit: cover;
           border-radius: calc(#{vars.$border-radius-medium} - 2px);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -277,6 +301,31 @@ article.file-uploader-container {
         .render-item-container {
           width: 120px;
           min-width: 120px;
+          max-width: 120px;
+          // Ensure aspect ratio is maintained on mobile - calculate height from width
+          aspect-ratio: 16 / 9;
+          height: calc(120px * 9 / 16); // ~67.5px
+          max-height: calc(120px * 9 / 16);
+        }
+        
+        // Override any base styles that might affect image sizing
+        .image-container {
+          width: 100% !important;
+          height: 100% !important;
+          max-height: 100% !important;
+        }
+        
+        .gallery-image,
+        .image-container img,
+        .image-container .generic-image,
+        .card.gallery-image {
+          width: 100% !important;
+          height: 100% !important;
+          max-width: 100% !important;
+          max-height: 100% !important;
+          object-fit: cover;
+          // Override base card img styles
+          min-height: auto !important;
         }
       }
     }
