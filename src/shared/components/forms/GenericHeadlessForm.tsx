@@ -1,7 +1,11 @@
-import { Fragment, useState, type ReactNode } from 'react';
+import { Fragment, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'react-i18next';
+import { ZodSchema } from 'zod';
+import { ValidationMode } from '@shared/validation/types';
+import { useZodForm } from '@shared/validation/hooks/useZodForm';
+import { FieldError } from '@shared/validation/components';
 
 import { GoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
@@ -18,6 +22,14 @@ interface GenericFormProps {
   children?: ReactNode;
   formId?: string;
   hideSubmit?: boolean;
+  /** Zod schema for validation */
+  schema?: ZodSchema;
+  /** Validation mode */
+  validationMode?: 'onBlur' | 'onChange' | 'onSubmit' | 'all';
+  /** Callback when validation state changes */
+  onValidationChange?: (isValid: boolean) => void;
+  /** Whether to show field errors */
+  showFieldErrors?: boolean;
 }
 
 export const GenericForm = ({
@@ -27,13 +39,44 @@ export const GenericForm = ({
   btnTxt,
   children,
   formId,
-  hideSubmit = false
+  hideSubmit = false,
+  schema,
+  validationMode = 'onSubmit',
+  onValidationChange,
+  showFieldErrors = true
 }: GenericFormProps) => {
   const { t } = useTranslation('forms');
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
   const [city, setCity] = useState<string>('');
+
+  // Initialize form data from field values
+  const initialFormData = fields.reduce((acc, field) => {
+    if (field.name.includes('.')) {
+      const [parent, child] = field.name.split('.');
+      acc[parent] = acc[parent] || {};
+      acc[parent][child] = field.value;
+    } else {
+      acc[field.name] = field.value;
+    }
+    return acc;
+  }, {} as Record<string, any>);
+
+  // Use Zod validation if schema is provided
+  const zodForm = schema
+    ? useZodForm(schema, {
+        initialData: initialFormData,
+        mode: validationMode as ValidationMode
+      })
+    : null;
+
+  // Notify parent of validation state changes
+  useEffect(() => {
+    if (onValidationChange && zodForm) {
+      onValidationChange(zodForm.isValid);
+    }
+  }, [zodForm?.isValid, onValidationChange]);
 
   const handlePlaceSelected = (place: google.maps.places.PlaceResult) => {
     if (place.geometry && place.geometry.location) {
@@ -93,8 +136,38 @@ export const GenericForm = ({
       data[name] = value.toString();
     });
 
+    // Validate with Zod if schema is provided
+    if (schema && zodForm) {
+      // Update form data first
+      zodForm.setFormData(data);
+      const validationError = zodForm.validate();
+      if (validationError) {
+        return; // Don't submit if validation fails
+      }
+    }
+
     onSubmit(data, event);
   };
+
+  // Handle field blur for validation
+  const handleFieldBlur = useCallback(
+    (fieldName: string, value: any) => {
+      if (zodForm && (validationMode === 'onBlur' || validationMode === 'all')) {
+        zodForm.setField(fieldName, value);
+      }
+    },
+    [validationMode, zodForm]
+  );
+
+  // Handle field change for validation
+  const handleFieldChange = useCallback(
+    (fieldName: string, value: any) => {
+      if (zodForm && (validationMode === 'onChange' || validationMode === 'all')) {
+        zodForm.setField(fieldName, value);
+      }
+    },
+    [validationMode, zodForm]
+  );
 
   return (
     <form className={`generic-form ${className}`} onSubmit={handleSubmit} id={formId}>
@@ -113,7 +186,7 @@ export const GenericForm = ({
               );
             }
             return (
-              <div key={field.name} className="form-group">
+              <div key={field.name} className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}>
                 <label htmlFor={field.name} className="form-label">
                   {field.label}
                 </label>
@@ -122,15 +195,28 @@ export const GenericForm = ({
                   id={field.name}
                   name={field.name}
                   defaultValue={field.value}
-                  className="form-input"
+                  className={`form-input ${zodForm?.errors[field.name] ? 'error' : ''}`}
                   required
+                  onBlur={(e) => {
+                    const value = e.target.value;
+                    handleFieldBlur(field.name, value);
+                    field.onBlur?.(e);
+                  }}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    handleFieldChange(field.name, value);
+                    field.onChange?.(e);
+                  }}
                 />
+                {showFieldErrors && zodForm && (
+                  <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />
+                )}
               </div>
             );
 
           case 'textarea':
             return (
-              <div key={field.name} className="form-group">
+              <div key={field.name} className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}>
                 <label htmlFor={field.name} className="form-label">
                   {field.label}
                 </label>
@@ -138,10 +224,23 @@ export const GenericForm = ({
                   id={field.name}
                   name={field.name}
                   defaultValue={field.value}
-                  className="form-textarea"
+                  className={`form-textarea ${zodForm?.errors[field.name] ? 'error' : ''}`}
                   rows={4}
                   required
+                  onBlur={(e) => {
+                    const value = e.target.value;
+                    handleFieldBlur(field.name, value);
+                    field.onBlur?.(e);
+                  }}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    handleFieldChange(field.name, value);
+                    field.onChange?.(e);
+                  }}
                 ></textarea>
+                {showFieldErrors && zodForm && (
+                  <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />
+                )}
               </div>
             );
           case 'businessHours':

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
+import { itemEditSchema } from '@shared/validation/schemas';
 import {
   useItem,
   useMusicCategories,
@@ -256,6 +257,9 @@ export const EditItemForm = () => {
           btnTxt={t('form.submit.editItem')}
           formId="edit-item-form"
           hideSubmit
+          schema={itemEditSchema}
+          validationMode="onSubmit"
+          showFieldErrors={true}
         />
       </section>
       {isFeatureEnabled('addOns') && (

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { GenericForm, FieldType } from '@shared/components';
 import { getLocalUser } from '@shared/services';
+import { itemCreateSchema } from '@shared/validation/schemas';
 import {
   useCreateItemMutation,
   useMusicCategories,
@@ -269,6 +270,9 @@ export const CreateItemForm = () => {
           btnTxt={t('form.submit.createItem')}
           formId="create-item-form"
           hideSubmit
+          schema={itemCreateSchema}
+          validationMode="onSubmit"
+          showFieldErrors={true}
         />
       </section>
       {isFeatureEnabled('addOns') && (

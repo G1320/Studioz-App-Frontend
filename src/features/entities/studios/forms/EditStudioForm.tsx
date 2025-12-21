@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
+import { studioEditSchema } from '@shared/validation/schemas';
 import {
   useDays,
   useMusicCategories,
@@ -338,6 +339,9 @@ export const EditStudioForm = () => {
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
           btnTxt={t('form.submit.editStudio')}
+          schema={studioEditSchema}
+          validationMode="onSubmit"
+          showFieldErrors={true}
         />
       </section>
     </section>

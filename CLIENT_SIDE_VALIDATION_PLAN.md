@@ -433,7 +433,6 @@ This document outlines the comprehensive plan for implementing client-side form 
 4. **Performance Optimization**
    - Debounce real-time validation
    - Validate only visible fields
-   - Cache validation results
    - Lazy load schemas
 
 **Deliverables**:
