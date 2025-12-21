@@ -120,10 +120,10 @@ export function translationSchema<T extends z.ZodTypeAny>(schemas: {
 export function optionalTranslationSchema<T extends z.ZodTypeAny>(schemas: {
   en: T;
   he: T;
-}): z.ZodObject<{
-  en: T;
-  he: T;
-}> {
+}): z.ZodOptional<z.ZodObject<{
+  en: z.ZodOptional<T>;
+  he: z.ZodOptional<T>;
+}>> {
   return z
     .object({
       en: schemas.en.optional(),

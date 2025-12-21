@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
 import { GenericForm } from '../../GenericHeadlessForm';
-import { StepError } from '@shared/validation/components';
 
 interface StepContentProps {
   stepId: string;
@@ -13,7 +12,7 @@ interface StepContentProps {
   validatedSteps: Set<string>;
   validationErrors: Record<string, string>;
   stepValidationErrors: Record<string, string>;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (formData: Record<string, any>, event?: React.FormEvent<HTMLFormElement>) => void;
   onCategoryChange?: (values: string[]) => void;
   children?: ReactNode;
 }
@@ -49,7 +48,11 @@ export const StepContent = ({
         className:
           hasValidated && (validationErrors[field.name] || stepValidationErrors[field.name]) ? 'has-error' : ''
       }))}
-      onSubmit={isLastStep ? onSubmit : (e) => e.preventDefault()}
+      onSubmit={isLastStep ? onSubmit : (_formData, event) => {
+        if (event) {
+          event.preventDefault();
+        }
+      }}
       onCategoryChange={onCategoryChange}
       hideSubmit={true}
       className="stepped-form__form"

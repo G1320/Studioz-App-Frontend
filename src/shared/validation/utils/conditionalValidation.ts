@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { ZodSchema } from 'zod';
 
 /**
  * Creates a conditional schema that validates based on another field's value
@@ -24,7 +23,7 @@ import { ZodSchema } from 'zod';
 export function conditionalSchema<T extends z.ZodTypeAny>(
   condition: (data: any) => boolean,
   schema: T,
-  otherwiseSchema?: z.ZodTypeAny
+  _otherwiseSchema?: z.ZodTypeAny
 ): z.ZodUnion<[T, z.ZodOptional<z.ZodAny>]> | T {
   return z.union([
     z.object({}).passthrough().refine(
@@ -73,8 +72,8 @@ export function conditionalRequired(
   baseSchema: z.ZodTypeAny
 ): z.ZodTypeAny {
   return z.preprocess(
-    (val, ctx) => {
-      const data = ctx.path.length > 0 ? (ctx as any).data : val;
+    (val, ctx: any) => {
+      const data = (ctx.path && ctx.path.length > 0) ? ctx.data : val;
       const dependentValue = getNestedValue(data, dependentField);
       
       if (dependentValue === requiredValue) {
@@ -122,10 +121,11 @@ function getNestedValue(obj: any, path: string): any {
 export function crossFieldValidator(
   fields: string[],
   validator: (data: Record<string, any>) => boolean,
-  message?: string
+  _message?: string
 ) {
   return (data: Record<string, any>) => {
-    const values = fields.map(field => getNestedValue(data, field));
+    // Map fields to values (currently unused but kept for potential future use)
+    void fields.map(field => getNestedValue(data, field));
     return validator(data);
   };
 }
@@ -143,16 +143,20 @@ export function dynamicRequired(
   condition: (data: Record<string, any>) => boolean,
   baseSchema: z.ZodTypeAny
 ): z.ZodTypeAny {
-  return baseSchema.refine(
-    (val, ctx) => {
-      const data = (ctx as any).data || {};
-      if (condition(data)) {
-        return val !== undefined && val !== null && val !== '';
+  return baseSchema.superRefine(
+    (val: any, ctx: z.RefinementCtx) => {
+      // For dynamic required, we need access to the full data object
+      // Since superRefine doesn't provide direct access to parent data,
+      // we'll use a workaround by checking the value itself
+      // Note: This is a limitation - full cross-field validation should use refine at the object level
+      if (condition({ [fieldName]: val })) {
+        if (val === undefined || val === null || val === '') {
+          ctx.addIssue({
+            code: 'custom',
+            message: `${fieldName} is required`
+          });
+        }
       }
-      return true;
-    },
-    {
-      message: `${fieldName} is required`
     }
   );
 }

@@ -32,7 +32,7 @@ export function formatZodError(
   const errors: FieldError[] = [];
 
   for (const issue of error.issues) {
-    const fieldPath = mapPathToField(issue.path);
+    const fieldPath = mapPathToField(issue.path as (string | number)[]);
     const message = options?.formatMessage
       ? options.formatMessage(issue)
       : issue.message;
@@ -66,7 +66,7 @@ export function formatZodError(
  */
 export function formatZodIssue(issue: ZodIssue): FieldError {
   return {
-    path: mapPathToField(issue.path),
+    path: mapPathToField(issue.path as (string | number)[]),
     message: issue.message,
     code: issue.code
   };

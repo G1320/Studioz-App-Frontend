@@ -32,7 +32,7 @@ export const useStepNavigation = ({
   onStepChange,
   allowBackNavigation,
   validateCurrentStep,
-  isUpdatingUrlRef
+  isUpdatingUrlRef: _isUpdatingUrlRef
 }: UseStepNavigationOptions) => {
   const previousStepIndexRef = useRef(currentStepIndex);
 

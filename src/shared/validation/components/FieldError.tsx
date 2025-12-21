@@ -36,7 +36,7 @@ export const FieldError: React.FC<FieldErrorProps> = ({
   showIcon = true,
   formatMessage
 }) => {
-  const { t } = useTranslation('forms');
+  const { t: _t } = useTranslation('forms');
 
   if (!error) {
     return null;

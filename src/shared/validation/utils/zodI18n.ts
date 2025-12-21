@@ -92,14 +92,20 @@ export function formatZodIssueWithI18n(
       return 'At least one gallery image is required';
     }
     if (fieldName === 'maxOccupancy') {
-      if (issue.received === 'string') {
-        return 'Max occupancy must be a number';
+      if (issue.code === 'invalid_type') {
+        const invalidTypeIssue = issue as { received?: string };
+        if (invalidTypeIssue.received === 'string') {
+          return 'Max occupancy must be a number';
+        }
       }
       return 'Max occupancy is required';
     }
     if (fieldName === 'isSmokingAllowed' || fieldName === 'isWheelchairAccessible') {
-      if (issue.received === 'string') {
-        return 'This field must be a valid selection';
+      if (issue.code === 'invalid_type') {
+        const invalidTypeIssue = issue as { received?: string };
+        if (invalidTypeIssue.received === 'string') {
+          return 'This field must be a valid selection';
+        }
       }
       return 'This field is required';
     }
@@ -124,23 +130,26 @@ function interpolateMessage(message: string, issue: ZodIssue): string {
   let interpolated = message;
 
   // Replace common Zod error parameters
-  if (issue.code === 'too_small' || issue.code === 'too_big') {
-    if (typeof issue.minimum === 'number') {
-      interpolated = interpolated.replace(/\{\{minimum\}\}/g, String(issue.minimum));
+  if (issue.code === 'too_small') {
+    const tooSmallIssue = issue as { minimum?: number; exact?: number };
+    if (typeof tooSmallIssue.minimum === 'number') {
+      interpolated = interpolated.replace(/\{\{minimum\}\}/g, String(tooSmallIssue.minimum));
     }
-    if (typeof issue.maximum === 'number') {
-      interpolated = interpolated.replace(/\{\{maximum\}\}/g, String(issue.maximum));
+    if (typeof tooSmallIssue.exact === 'number') {
+      interpolated = interpolated.replace(/\{\{exact\}\}/g, String(tooSmallIssue.exact));
     }
-    if (typeof issue.exact === 'number') {
-      interpolated = interpolated.replace(/\{\{exact\}\}/g, String(issue.exact));
+  }
+  if (issue.code === 'too_big') {
+    const tooBigIssue = issue as { maximum?: number; exact?: number };
+    if (typeof tooBigIssue.maximum === 'number') {
+      interpolated = interpolated.replace(/\{\{maximum\}\}/g, String(tooBigIssue.maximum));
+    }
+    if (typeof tooBigIssue.exact === 'number') {
+      interpolated = interpolated.replace(/\{\{exact\}\}/g, String(tooBigIssue.exact));
     }
   }
 
-  if (issue.code === 'invalid_string') {
-    if (issue.validation) {
-      interpolated = interpolated.replace(/\{\{validation\}\}/g, issue.validation);
-    }
-  }
+  // Note: 'invalid_string' is not a valid Zod error code, removed this check
 
   // Replace path information
   if (issue.path.length > 0) {
