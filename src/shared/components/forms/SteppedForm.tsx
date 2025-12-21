@@ -11,7 +11,9 @@ import {
   setNestedValue,
   hasAnyValue,
   getStepFromUrl,
+  getLanguageFromUrl,
   updateUrlStep,
+  updateUrlLanguage,
   filterStepFields,
   prepareFieldsWithValues,
   validateStep,
@@ -123,7 +125,12 @@ export const SteppedForm = ({
   const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl(searchParams, steps));
   const [direction, setDirection] = useState<number>(1);
   const previousStepIndexRef = useRef(currentStepIndex);
-  const [internalSelectedLanguage, setInternalSelectedLanguage] = useState<'en' | 'he'>('en');
+
+  // Initialize language from URL or default to 'en'
+  const [internalSelectedLanguage, setInternalSelectedLanguage] = useState<'en' | 'he'>(() => {
+    const urlLang = getLanguageFromUrl(searchParams);
+    return urlLang || 'en';
+  });
 
   // Use external language state if provided, otherwise use internal
   const selectedLanguage = externalSelectedLanguage ?? internalSelectedLanguage;
@@ -160,27 +167,51 @@ export const SteppedForm = ({
     formData
   });
 
-  // Update URL with current step
+  // Update URL with current step and language
   const updateUrlStepCallback = useCallback(
     (stepIndex: number, replace: boolean = false) => {
       if (isUpdatingUrlRef.current) return;
 
       isUpdatingUrlRef.current = true;
-      updateUrlStep(stepIndex, steps, location, navigate, replace);
+      updateUrlStep(stepIndex, steps, location, navigate, replace, selectedLanguage);
 
       // Reset flag after navigation
       setTimeout(() => {
         isUpdatingUrlRef.current = false;
       }, 50);
     },
-    [steps, location, navigate]
+    [steps, location, navigate, selectedLanguage]
   );
+
+  // Update URL when language changes (only if using internal state)
+  useEffect(() => {
+    if (!externalSelectedLanguage && !onLanguageChange) {
+      // Only update URL if language actually changed
+      const urlLang = getLanguageFromUrl(searchParams);
+      if (urlLang !== internalSelectedLanguage) {
+        updateUrlLanguage(internalSelectedLanguage, location, navigate, false);
+      }
+    }
+  }, [internalSelectedLanguage, externalSelectedLanguage, onLanguageChange, searchParams, location, navigate]);
+
+  // Update URL when external language changes
+  useEffect(() => {
+    if (externalSelectedLanguage && onLanguageChange) {
+      const urlLang = getLanguageFromUrl(searchParams);
+      if (urlLang !== externalSelectedLanguage) {
+        updateUrlLanguage(externalSelectedLanguage, location, navigate, false);
+      }
+    }
+  }, [externalSelectedLanguage, onLanguageChange, searchParams, location, navigate]);
 
   // Sync URL changes (from browser back/forward) with form state
   useEffect(() => {
     if (isUpdatingUrlRef.current) return;
 
     const urlStepIndex = getStepFromUrl(searchParams, steps);
+    const urlLanguage = getLanguageFromUrl(searchParams);
+
+    // Update step if changed
     if (urlStepIndex !== currentStepIndex && urlStepIndex >= 0 && urlStepIndex < steps.length) {
       // Determine direction based on step index change
       setDirection(urlStepIndex > currentStepIndex ? 1 : -1);
@@ -188,7 +219,27 @@ export const SteppedForm = ({
       setCurrentStepIndex(urlStepIndex);
       onStepChange?.(urlStepIndex, currentStepIndex);
     }
-  }, [searchParams, currentStepIndex, steps, onStepChange]);
+
+    // Update language if changed in URL (only if using internal state)
+    if (urlLanguage && !externalSelectedLanguage && !onLanguageChange) {
+      if (urlLanguage !== internalSelectedLanguage) {
+        setInternalSelectedLanguage(urlLanguage);
+      }
+    } else if (urlLanguage && externalSelectedLanguage && onLanguageChange) {
+      // If using external state, notify parent of language change from URL
+      if (urlLanguage !== externalSelectedLanguage) {
+        onLanguageChange(urlLanguage);
+      }
+    }
+  }, [
+    searchParams,
+    currentStepIndex,
+    steps,
+    onStepChange,
+    externalSelectedLanguage,
+    onLanguageChange,
+    internalSelectedLanguage
+  ]);
 
   // Initialize URL on mount if no step param exists
   useEffect(() => {
@@ -260,7 +311,8 @@ export const SteppedForm = ({
     onStepChange,
     allowBackNavigation,
     validateCurrentStep,
-    isUpdatingUrlRef
+    isUpdatingUrlRef,
+    selectedLanguage
   });
 
   // Form submission
