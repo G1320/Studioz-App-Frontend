@@ -54,6 +54,14 @@ export const useStepNavigation = ({
       setCurrentStepIndex(nextIndex);
       updateUrlStep(nextIndex, steps, location, navigate, false);
       onStepChange?.(nextIndex, currentStepIndex);
+      
+      // Smooth scroll form into view after step change
+      setTimeout(() => {
+        const formElement = document.querySelector(`.stepped-form`) as HTMLElement;
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     }
   }, [
     currentStepIndex,
@@ -81,6 +89,14 @@ export const useStepNavigation = ({
       setCurrentStepIndex(nextIndex);
       updateUrlStep(nextIndex, steps, location, navigate, false);
       onStepChange?.(nextIndex, currentStepIndex);
+      
+      // Smooth scroll form into view after step change
+      setTimeout(() => {
+        const formElement = document.querySelector(`.stepped-form`) as HTMLElement;
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     }
   }, [
     currentStepIndex,
@@ -106,6 +122,14 @@ export const useStepNavigation = ({
         setCurrentStepIndex(index);
         updateUrlStep(index, steps, location, navigate, false);
         onStepChange?.(index, currentStepIndex);
+        
+        // Smooth scroll form into view after step change
+        setTimeout(() => {
+          const formElement = document.querySelector(`.stepped-form`) as HTMLElement;
+          if (formElement) {
+            formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
       }
     },
     [
