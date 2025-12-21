@@ -110,7 +110,14 @@ export const GenericForm = ({
     fields.reduce(
       (acc, field) => {
         if (field.type === 'checkbox') {
-          acc[field.name] = field.value !== undefined ? field.value : false;
+          // Convert string "false"/"true" to boolean, handle undefined/null, default to false
+          if (field.value === undefined || field.value === null) {
+            acc[field.name] = false;
+          } else if (typeof field.value === 'string') {
+            acc[field.name] = field.value === 'true' || field.value === '1' || field.value === 'on';
+          } else {
+            acc[field.name] = Boolean(field.value);
+          }
         }
         return acc;
       },
@@ -352,19 +359,26 @@ export const GenericForm = ({
             );
 
           case 'checkbox':
+            // Ensure checked is always a boolean, not a string
+            const checkboxValue = checkboxStates[field.name];
+            const isChecked =
+              typeof checkboxValue === 'string'
+                ? checkboxValue === 'true' || checkboxValue === '1' || checkboxValue === 'on'
+                : Boolean(checkboxValue);
+
             return (
               <div key={field.name} className="form-group-checkbox">
                 <Field as="div" className="switch-group">
                   <Switch
                     name={field.name}
-                    checked={checkboxStates[field.name]}
+                    checked={isChecked}
                     onChange={(checked) => {
                       setCheckboxStates((prev) => ({
                         ...prev,
                         [field.name]: checked
                       }));
                     }}
-                    className={`switch ${checkboxStates[field.name] ? 'on' : ''}`}
+                    className={`switch ${isChecked ? 'on' : ''}`}
                   ></Switch>
                   <Label className="switch-label">{field.label}</Label>
                 </Field>
