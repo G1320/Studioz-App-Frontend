@@ -54,7 +54,7 @@ export const studioStep1Schema = z.object({
 export const studioStep2Schema = z.object({
   categories: stringArraySchema(1, 'At least one category is required'),
   subCategories: stringArraySchema(1, 'At least one subcategory is required'),
-  genres: z.array(z.string()).optional()
+  genres: stringArraySchema(1, 'At least one genre is required')
 });
 
 /**
@@ -112,7 +112,7 @@ export const studioFullSchema = z.object({
   // Categories & Genres
   categories: stringArraySchema(1, 'At least one category is required'),
   subCategories: stringArraySchema(1, 'At least one subcategory is required'),
-  genres: z.array(z.string()).optional(),
+  genres: stringArraySchema(1, 'At least one genre is required'),
 
   // Availability
   studioAvailability: studioAvailabilitySchema.optional(),
