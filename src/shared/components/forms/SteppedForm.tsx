@@ -7,7 +7,7 @@ import { GenericForm, FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
 import { useStepValidation } from '@shared/validation/hooks/useStepValidation';
-import { FieldError, StepError } from '@shared/validation/components';
+import { StepError } from '@shared/validation/components';
 import './styles/_steppedForm.scss';
 
 /**
@@ -154,6 +154,7 @@ export const SteppedForm = ({
   const navigate = useNavigate();
   const [formData, setFormData] = useState<Record<string, any>>(() => loadFormData(formId) || {});
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [validatedSteps, setValidatedSteps] = useState<Set<string>>(new Set());
   const isInitialMount = useRef(true);
   const isUpdatingUrlRef = useRef(false);
 
@@ -179,10 +180,38 @@ export const SteppedForm = ({
   const [direction, setDirection] = useState<number>(1);
   const previousStepIndexRef = useRef(currentStepIndex);
   const [internalSelectedLanguage, setInternalSelectedLanguage] = useState<'en' | 'he'>('en');
-  
+
   // Use external language state if provided, otherwise use internal
   const selectedLanguage = externalSelectedLanguage ?? internalSelectedLanguage;
-  const setSelectedLanguage = onLanguageChange ?? setInternalSelectedLanguage;
+  const previousLanguageRef = useRef(selectedLanguage);
+
+  // Collect form data when language changes to preserve values
+  useEffect(() => {
+    const step = steps[currentStepIndex];
+    // Only collect if language actually changed and language toggle is enabled
+    if (step?.languageToggle && previousLanguageRef.current !== selectedLanguage) {
+      const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
+      if (form) {
+        const currentData = collectFormData(form);
+        if (Object.keys(currentData).length > 0) {
+          setFormData((prev) => {
+            // Merge with existing formData to preserve all values
+            const merged = { ...prev };
+            Object.entries(currentData).forEach(([key, value]) => {
+              if (key.includes('.')) {
+                const [parent, child] = key.split('.');
+                merged[parent] = { ...merged[prev[parent] || {}], [child]: value };
+              } else {
+                merged[key] = value;
+              }
+            });
+            return merged;
+          });
+        }
+      }
+      previousLanguageRef.current = selectedLanguage;
+    }
+  }, [selectedLanguage, steps, currentStepIndex, formId]);
 
   // Update URL with current step
   const updateUrlStep = useCallback(
@@ -242,7 +271,7 @@ export const SteppedForm = ({
   // Filter fields for current step
   const currentStepFields = useMemo(() => {
     let filteredFields = fields.filter((field) => currentStep.fieldNames.includes(field.name));
-    
+
     // If language toggle is enabled, filter to show only selected language
     if (currentStep.languageToggle) {
       filteredFields = filteredFields.filter((field) => {
@@ -257,34 +286,39 @@ export const SteppedForm = ({
         return false;
       });
     }
-    
+
     return filteredFields;
   }, [fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage]);
 
   // Collect data from current form
   const collectCurrentStepData = useCallback(() => {
     const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-    return form ? collectFormData(form) : {};
-  }, [formId, currentStepIndex]);
+    if (!form) return {};
+
+    const collectedData = collectFormData(form);
+    // Also merge with current formData to preserve nested values
+    return { ...formData, ...collectedData };
+  }, [formId, currentStepIndex, formData]);
 
   // Update form data when controlled fields change
   const handleFieldChange = useCallback((fieldName: string, value: any) => {
-    setFormData((prev) => setNestedValue(prev, fieldName, value));
+    setFormData((prev) => {
+      const updated = setNestedValue(prev, fieldName, value);
+      return updated;
+    });
   }, []);
 
   // Use Zod validation if schema is provided
-  const stepValidation = useStepValidation(
-    currentStep.schema,
-    formData,
-    currentStep.id,
-    {
-      validateOnlyStepFields: true,
-      stepFieldNames: currentStep.fieldNames
-    }
-  );
+  const stepValidation = useStepValidation(currentStep.schema, formData, currentStep.id, {
+    validateOnlyStepFields: true,
+    stepFieldNames: currentStep.fieldNames
+  });
 
   // Validate current step
   const validateCurrentStep = useCallback((): boolean => {
+    // Mark this step as validated
+    setValidatedSteps((prev) => new Set(prev).add(currentStep.id));
+
     const errors: Record<string, string> = {};
 
     // Use Zod validation if schema is provided
@@ -396,16 +430,20 @@ export const SteppedForm = ({
   // Prepare fields with saved values
   const fieldsWithValues = useMemo(() => {
     return currentStepFields.map((field) => {
+      // Always get the latest value from formData (not from field.value which might be stale)
       const savedValue = getNestedValue(formData, field.name);
+      // Use formData value if available, otherwise use field.value, otherwise undefined
+      const fieldValue = savedValue !== undefined ? savedValue : field.value !== undefined ? field.value : undefined;
+
       return {
         ...field,
-        value: field.value !== undefined ? field.value : savedValue,
-        onChange: field.onChange
-          ? (value: any) => {
-              handleFieldChange(field.name, value);
-              field.onChange?.(value);
-            }
-          : undefined
+        value: fieldValue,
+        onChange: (value: any) => {
+          // Always update formData immediately when field changes
+          handleFieldChange(field.name, value);
+          // Also call original onChange if provided
+          field.onChange?.(value);
+        }
       };
     });
   }, [currentStepFields, formData, handleFieldChange]);
@@ -435,8 +473,8 @@ export const SteppedForm = ({
     <div className={`stepped-form ${className}`}>
       {/* Current Step Content */}
       <div className="stepped-form__content">
-        {/* Step-level error display */}
-        {currentStep.schema && !stepValidation.isValid && (
+        {/* Step-level error display - only show if step has been validated */}
+        {currentStep.schema && validatedSteps.has(currentStep.id) && !stepValidation.isValid && (
           <StepError
             message={stepValidation.message}
             errors={stepValidation.errors}
@@ -445,8 +483,8 @@ export const SteppedForm = ({
           />
         )}
 
-        {/* Legacy error display for custom validate functions */}
-        {!currentStep.schema && validationErrors[currentStep.id] && (
+        {/* Legacy error display for custom validate functions - only show if step has been validated */}
+        {!currentStep.schema && validatedSteps.has(currentStep.id) && validationErrors[currentStep.id] && (
           <div className="stepped-form__error-message">{validationErrors[currentStep.id]}</div>
         )}
 
@@ -468,8 +506,14 @@ export const SteppedForm = ({
                 formId={`${formId}-step-${currentStepIndex}`}
                 fields={fieldsWithValues.map((field) => ({
                   ...field,
-                  error: validationErrors[field.name] || stepValidation.errors[field.name],
-                  className: validationErrors[field.name] || stepValidation.errors[field.name] ? 'has-error' : ''
+                  error: validatedSteps.has(currentStep.id)
+                    ? validationErrors[field.name] || stepValidation.errors[field.name]
+                    : undefined,
+                  className:
+                    validatedSteps.has(currentStep.id) &&
+                    (validationErrors[field.name] || stepValidation.errors[field.name])
+                      ? 'has-error'
+                      : ''
                 }))}
                 onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
                 onCategoryChange={onCategoryChange}
@@ -507,8 +551,8 @@ export const SteppedForm = ({
                   handleSubmit({});
                 } else {
                   // For regular form steps, trigger form submission
-                const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-                form?.requestSubmit();
+                  const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
+                  form?.requestSubmit();
                 }
               }}
               className="stepped-form__button stepped-form__button--submit"

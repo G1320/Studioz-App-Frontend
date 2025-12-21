@@ -159,9 +159,13 @@ export const GenericForm = ({
     [validationMode, zodForm]
   );
 
-  // Handle field change for validation
+  // Handle field change for validation and form data
   const handleFieldChange = useCallback(
-    (fieldName: string, value: any) => {
+    (fieldName: string, value: any, originalOnChange?: (value: any) => void) => {
+      // Call original onChange if provided
+      originalOnChange?.(value);
+      
+      // Update validation if schema is provided
       if (zodForm && (validationMode === 'onChange' || validationMode === 'all')) {
         zodForm.setField(fieldName, value);
       }
@@ -194,7 +198,7 @@ export const GenericForm = ({
                   type={field.type}
                   id={field.name}
                   name={field.name}
-                  defaultValue={field.value}
+                  value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
                   className={`form-input ${zodForm?.errors[field.name] ? 'error' : ''}`}
                   required
                   onBlur={(e) => {
@@ -204,8 +208,7 @@ export const GenericForm = ({
                   }}
                   onChange={(e) => {
                     const value = e.target.value;
-                    handleFieldChange(field.name, value);
-                    field.onChange?.(e);
+                    handleFieldChange(field.name, value, field.onChange);
                   }}
                 />
                 {showFieldErrors && zodForm && (
@@ -223,7 +226,7 @@ export const GenericForm = ({
                 <textarea
                   id={field.name}
                   name={field.name}
-                  defaultValue={field.value}
+                  value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
                   className={`form-textarea ${zodForm?.errors[field.name] ? 'error' : ''}`}
                   rows={4}
                   required
@@ -234,8 +237,7 @@ export const GenericForm = ({
                   }}
                   onChange={(e) => {
                     const value = e.target.value;
-                    handleFieldChange(field.name, value);
-                    field.onChange?.(e);
+                    handleFieldChange(field.name, value, field.onChange);
                   }}
                 ></textarea>
                 {showFieldErrors && zodForm && (
