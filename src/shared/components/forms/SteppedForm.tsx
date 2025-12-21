@@ -8,6 +8,9 @@ import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
 import { useStepValidation } from '@shared/validation/hooks/useStepValidation';
 import { StepError } from '@shared/validation/components';
+import { getNestedValue, setNestedValue, hasAnyValue, getStepFromUrl, updateUrlStep } from './steppedForm/utils';
+import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
+import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
 import './styles/_steppedForm.scss';
 
 /**
@@ -75,62 +78,6 @@ export interface SteppedFormProps {
   onLanguageChange?: (language: 'en' | 'he') => void;
 }
 
-// Helper functions
-const getNestedValue = (data: Record<string, any>, fieldName: string): any => {
-  if (fieldName.includes('.')) {
-    const [parent, child] = fieldName.split('.');
-    return data[parent]?.[child];
-  }
-  return data[fieldName];
-};
-
-const setNestedValue = (data: Record<string, any>, fieldName: string, value: any): Record<string, any> => {
-  if (fieldName.includes('.')) {
-    const [parent, child] = fieldName.split('.');
-    return {
-      ...data,
-      [parent]: {
-        ...data[parent],
-        [child]: value
-      }
-    };
-  }
-  return { ...data, [fieldName]: value };
-};
-
-const collectFormData = (form: HTMLFormElement): Record<string, any> => {
-  const formData = new FormData(form);
-  const data: Record<string, any> = {};
-
-  for (const [key, value] of formData.entries()) {
-    if (key.includes('.')) {
-      const [parent, child] = key.split('.');
-      data[parent] = data[parent] || {};
-      data[parent][child] = value;
-    } else {
-      const element = form.querySelector(`[name="${key}"]`) as HTMLInputElement;
-      if (element?.type === 'checkbox') {
-        const checkboxes = form.querySelectorAll(`[name="${key}"]:checked`) as NodeListOf<HTMLInputElement>;
-        data[key] = checkboxes.length > 0 ? Array.from(checkboxes).map((cb) => cb.value) : false;
-      } else {
-        data[key] = value;
-      }
-    }
-  }
-
-  return data;
-};
-
-const hasAnyValue = (data: Record<string, any>): boolean => {
-  return Object.values(data).some((value) => {
-    if (value === null || value === undefined || value === '') return false;
-    if (typeof value === 'object' && !Array.isArray(value)) {
-      return Object.values(value).some((v) => v !== null && v !== undefined && v !== '');
-    }
-    return true;
-  });
-};
-
 export const SteppedForm = ({
   steps,
   fields,
@@ -152,95 +99,75 @@ export const SteppedForm = ({
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<Record<string, any>>(() => loadFormData(formId) || {});
+  // Initialize formData from localStorage
+  const [formData, setFormData] = useState<Record<string, any>>(() => {
+    const saved = loadFormData(formId);
+    return saved || {};
+  });
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [validatedSteps, setValidatedSteps] = useState<Set<string>>(new Set());
   const isInitialMount = useRef(true);
   const isUpdatingUrlRef = useRef(false);
 
-  // Get step from URL or default to 0
-  const getStepFromUrl = useCallback((): number => {
-    const stepParam = searchParams.get('step');
-    if (stepParam) {
-      // Try to find by step ID first
-      const stepIndexById = steps.findIndex((step) => step.id === stepParam);
-      if (stepIndexById !== -1) {
-        return stepIndexById;
-      }
-      // Fallback to numeric index
-      const stepIndex = parseInt(stepParam, 10);
-      if (!isNaN(stepIndex) && stepIndex >= 0 && stepIndex < steps.length) {
-        return stepIndex;
-      }
-    }
-    return 0;
-  }, [searchParams, steps]);
-
-  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl());
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl(searchParams, steps));
   const [direction, setDirection] = useState<number>(1);
   const previousStepIndexRef = useRef(currentStepIndex);
   const [internalSelectedLanguage, setInternalSelectedLanguage] = useState<'en' | 'he'>('en');
 
   // Use external language state if provided, otherwise use internal
   const selectedLanguage = externalSelectedLanguage ?? internalSelectedLanguage;
-  const previousLanguageRef = useRef(selectedLanguage);
 
-  // Collect form data when language changes to preserve values
+  // Reload formData from localStorage when step or language changes (to ensure we have latest saved data)
   useEffect(() => {
-    const step = steps[currentStepIndex];
-    // Only collect if language actually changed and language toggle is enabled
-    if (step?.languageToggle && previousLanguageRef.current !== selectedLanguage) {
-      const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-      if (form) {
-        const currentData = collectFormData(form);
-        if (Object.keys(currentData).length > 0) {
-          setFormData((prev) => {
-            // Merge with existing formData to preserve all values
-            const merged = { ...prev };
-            Object.entries(currentData).forEach(([key, value]) => {
-              if (key.includes('.')) {
-                const [parent, child] = key.split('.');
-                merged[parent] = { ...merged[prev[parent] || {}], [child]: value };
-              } else {
-                merged[key] = value;
-              }
-            });
-            return merged;
-          });
-        }
-      }
-      previousLanguageRef.current = selectedLanguage;
+    const saved = loadFormData(formId);
+    if (saved && Object.keys(saved).length > 0) {
+      setFormData((prev) => {
+        // Start with saved data (has all languages)
+        const merged = { ...saved };
+        // Merge with current state to preserve any unsaved changes
+        Object.entries(prev).forEach(([key, value]) => {
+          if (key.includes('.')) {
+            const [parent, child] = key.split('.');
+            merged[parent] = { ...(merged[parent] || {}), [child]: value };
+          } else {
+            merged[key] = value;
+          }
+        });
+        return merged;
+      });
     }
-  }, [selectedLanguage, steps, currentStepIndex, formId]);
+  }, [currentStepIndex, selectedLanguage, formId]);
+
+  // Handle language toggle and preserve form data
+  useLanguageToggle({
+    selectedLanguage,
+    currentStepIndex,
+    formId,
+    steps,
+    setFormData
+  });
 
   // Update URL with current step
-  const updateUrlStep = useCallback(
+  const updateUrlStepCallback = useCallback(
     (stepIndex: number, replace: boolean = false) => {
       if (isUpdatingUrlRef.current) return;
 
       isUpdatingUrlRef.current = true;
-      const stepId = steps[stepIndex]?.id || stepIndex.toString();
-      const newSearchParams = new URLSearchParams(location.search);
-      newSearchParams.set('step', stepId);
-
-      const searchString = newSearchParams.toString();
-      const newUrl = `${location.pathname}${searchString ? `?${searchString}` : ''}`;
-
-      navigate(newUrl, { replace });
+      updateUrlStep(stepIndex, steps, location, navigate, replace);
 
       // Reset flag after navigation
       setTimeout(() => {
         isUpdatingUrlRef.current = false;
       }, 50);
     },
-    [steps, location.pathname, location.search, navigate]
+    [steps, location, navigate]
   );
 
   // Sync URL changes (from browser back/forward) with form state
   useEffect(() => {
     if (isUpdatingUrlRef.current) return;
 
-    const urlStepIndex = getStepFromUrl();
+    const urlStepIndex = getStepFromUrl(searchParams, steps);
     if (urlStepIndex !== currentStepIndex && urlStepIndex >= 0 && urlStepIndex < steps.length) {
       // Determine direction based on step index change
       setDirection(urlStepIndex > currentStepIndex ? 1 : -1);
@@ -248,12 +175,12 @@ export const SteppedForm = ({
       setCurrentStepIndex(urlStepIndex);
       onStepChange?.(urlStepIndex, currentStepIndex);
     }
-  }, [searchParams, getStepFromUrl, currentStepIndex, steps.length, onStepChange]);
+  }, [searchParams, currentStepIndex, steps, onStepChange]);
 
   // Initialize URL on mount if no step param exists
   useEffect(() => {
     if (!searchParams.get('step')) {
-      updateUrlStep(currentStepIndex, true);
+      updateUrlStepCallback(currentStepIndex, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
@@ -289,16 +216,6 @@ export const SteppedForm = ({
 
     return filteredFields;
   }, [fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage]);
-
-  // Collect data from current form
-  const collectCurrentStepData = useCallback(() => {
-    const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-    if (!form) return {};
-
-    const collectedData = collectFormData(form);
-    // Also merge with current formData to preserve nested values
-    return { ...formData, ...collectedData };
-  }, [formId, currentStepIndex, formData]);
 
   // Update form data when controlled fields change
   const handleFieldChange = useCallback((fieldName: string, value: any) => {
@@ -365,33 +282,20 @@ export const SteppedForm = ({
   }, [currentStep, currentStepFields, formData, t, stepValidation]);
 
   // Navigation handlers
-  const handleNext = useCallback(() => {
-    const currentData = collectCurrentStepData();
-    setFormData((prev) => ({ ...prev, ...currentData }));
-
-    if (validateCurrentStep() && currentStepIndex < steps.length - 1) {
-      const nextIndex = currentStepIndex + 1;
-      setDirection(1); // Forward direction
-      previousStepIndexRef.current = currentStepIndex;
-      setCurrentStepIndex(nextIndex);
-      updateUrlStep(nextIndex, false); // Don't replace, allow browser history
-      onStepChange?.(nextIndex, currentStepIndex);
-    }
-  }, [currentStepIndex, steps.length, validateCurrentStep, onStepChange, collectCurrentStepData, updateUrlStep]);
-
-  const handlePrevious = useCallback(() => {
-    const currentData = collectCurrentStepData();
-    setFormData((prev) => ({ ...prev, ...currentData }));
-
-    if (currentStepIndex > 0 && allowBackNavigation) {
-      const nextIndex = currentStepIndex - 1;
-      setDirection(-1); // Backward direction
-      previousStepIndexRef.current = currentStepIndex;
-      setCurrentStepIndex(nextIndex);
-      updateUrlStep(nextIndex, false); // Don't replace, allow browser history
-      onStepChange?.(nextIndex, currentStepIndex);
-    }
-  }, [currentStepIndex, allowBackNavigation, onStepChange, collectCurrentStepData, updateUrlStep]);
+  const { handleNext, handlePrevious, handleStepClick, collectCurrentStepData } = useStepNavigation({
+    currentStepIndex,
+    steps,
+    setCurrentStepIndex,
+    setDirection,
+    setFormData,
+    formId,
+    location,
+    navigate,
+    onStepChange,
+    allowBackNavigation,
+    validateCurrentStep,
+    isUpdatingUrlRef
+  });
 
   // Form submission
   const handleSubmit = useCallback(
@@ -503,6 +407,7 @@ export const SteppedForm = ({
               currentStep.customContent
             ) : (
               <GenericForm
+                key={`${formId}-step-${currentStepIndex}-${selectedLanguage}`}
                 formId={`${formId}-step-${currentStepIndex}`}
                 fields={fieldsWithValues.map((field) => ({
                   ...field,
@@ -578,17 +483,7 @@ export const SteppedForm = ({
               <div
                 key={step.id}
                 className={`stepped-form__step ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isAccessible ? 'disabled' : ''}`}
-                onClick={() => {
-                  if (isAccessible && allowBackNavigation && index !== currentStepIndex) {
-                    const currentData = collectCurrentStepData();
-                    setFormData((prev) => ({ ...prev, ...currentData }));
-                    setDirection(index > currentStepIndex ? 1 : -1);
-                    previousStepIndexRef.current = currentStepIndex;
-                    setCurrentStepIndex(index);
-                    updateUrlStep(index, false); // Don't replace, allow browser history
-                    onStepChange?.(index, currentStepIndex);
-                  }
-                }}
+                onClick={() => handleStepClick(index)}
               >
                 <div className="stepped-form__step-indicator">
                   {isCompleted ? (
