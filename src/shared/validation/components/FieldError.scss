@@ -1,0 +1,47 @@
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  color: #dc3545;
+  font-size: 0.875rem;
+  line-height: 1.4;
+
+  &__icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 0.125rem;
+  }
+
+  &__message {
+    flex: 1;
+  }
+
+  // RTL support
+  [dir='rtl'] & {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+// Integration with form fields
+input:invalid + .field-error,
+textarea:invalid + .field-error,
+select:invalid + .field-error {
+  display: flex;
+}
+
+// When field has error, add visual indicator
+.has-error {
+  input,
+  textarea,
+  select {
+    border-color: #dc3545;
+    
+    &:focus {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+  }
+}
+

@@ -1,0 +1,171 @@
+import { ZodIssue } from 'zod';
+import { useTranslation } from 'react-i18next';
+import { FieldError } from '../types';
+
+/**
+ * Default i18n key mapping for Zod error codes
+ * Maps Zod error codes to translation keys in forms.json
+ */
+export const ZOD_ERROR_I18N_MAP: Record<string, string> = {
+  invalid_type: 'validation.errors.invalidType',
+  invalid_literal: 'validation.errors.invalidLiteral',
+  unrecognized_keys: 'validation.errors.unrecognizedKeys',
+  invalid_union: 'validation.errors.invalidUnion',
+  invalid_union_discriminator: 'validation.errors.invalidUnionDiscriminator',
+  invalid_enum_value: 'validation.errors.invalidEnumValue',
+  invalid_arguments: 'validation.errors.invalidArguments',
+  invalid_return_type: 'validation.errors.invalidReturnType',
+  invalid_date: 'validation.errors.invalidDate',
+  custom: 'validation.errors.custom',
+  invalid_string: 'validation.errors.invalidString',
+  too_small: 'validation.errors.tooSmall',
+  too_big: 'validation.errors.tooBig',
+  invalid_intersection_types: 'validation.errors.invalidIntersectionTypes',
+  not_multiple_of: 'validation.errors.notMultipleOf',
+  not_finite: 'validation.errors.notFinite'
+};
+
+/**
+ * Gets the i18n translation key for a Zod error code
+ * 
+ * @param code - The Zod error code
+ * @returns The i18n translation key
+ */
+export function getI18nKeyForZodCode(code: string): string {
+  return ZOD_ERROR_I18N_MAP[code] || 'validation.errors.generic';
+}
+
+/**
+ * Formats a Zod issue with i18n translation
+ * 
+ * @param issue - The ZodIssue instance
+ * @param t - Translation function from react-i18next
+ * @param fieldName - Optional field name for field-specific messages
+ * @returns Translated error message
+ */
+export function formatZodIssueWithI18n(
+  issue: ZodIssue,
+  t: (key: string, options?: any) => string,
+  fieldName?: string
+): string {
+  // Try field-specific error message first (e.g., validation.fields.name.he.invalidType)
+  if (fieldName) {
+    const fieldSpecificKey = `validation.fields.${fieldName}.${issue.code}`;
+    const fieldSpecificMessage = t(fieldSpecificKey, { defaultValue: '' });
+    if (fieldSpecificMessage && fieldSpecificMessage !== fieldSpecificKey) {
+      return interpolateMessage(fieldSpecificMessage, issue);
+    }
+  }
+
+  // Try generic field error (e.g., validation.fields.name.he.error)
+  if (fieldName) {
+    const genericFieldKey = `validation.fields.${fieldName}.error`;
+    const genericFieldMessage = t(genericFieldKey, { defaultValue: '' });
+    if (genericFieldMessage && genericFieldMessage !== genericFieldKey) {
+      return interpolateMessage(genericFieldMessage, issue);
+    }
+  }
+
+  // For invalid_type errors on translation fields, provide a nicer default message
+  if (issue.code === 'invalid_type' && fieldName) {
+    // Check if it's a translation field (e.g., name.en, name.he)
+    const parts = fieldName.split('.');
+    if (parts.length === 2) {
+      const [field, lang] = parts;
+      if (lang === 'en' || lang === 'he') {
+        const langName = lang === 'en' ? 'English' : 'Hebrew (עברית)';
+        return `Please enter the ${field} in ${langName}`;
+      }
+    }
+  }
+
+  // Use Zod error code mapping
+  const i18nKey = getI18nKeyForZodCode(issue.code);
+  const baseMessage = t(i18nKey, { defaultValue: issue.message });
+
+  return interpolateMessage(baseMessage, issue);
+}
+
+/**
+ * Interpolates variables in error messages
+ * Replaces placeholders like {{minimum}} with actual values from the issue
+ * 
+ * @param message - The message template
+ * @param issue - The ZodIssue with validation details
+ * @returns Interpolated message
+ */
+function interpolateMessage(message: string, issue: ZodIssue): string {
+  let interpolated = message;
+
+  // Replace common Zod error parameters
+  if (issue.code === 'too_small' || issue.code === 'too_big') {
+    if (typeof issue.minimum === 'number') {
+      interpolated = interpolated.replace(/\{\{minimum\}\}/g, String(issue.minimum));
+    }
+    if (typeof issue.maximum === 'number') {
+      interpolated = interpolated.replace(/\{\{maximum\}\}/g, String(issue.maximum));
+    }
+    if (typeof issue.exact === 'number') {
+      interpolated = interpolated.replace(/\{\{exact\}\}/g, String(issue.exact));
+    }
+  }
+
+  if (issue.code === 'invalid_string') {
+    if (issue.validation) {
+      interpolated = interpolated.replace(/\{\{validation\}\}/g, issue.validation);
+    }
+  }
+
+  // Replace path information
+  if (issue.path.length > 0) {
+    const pathStr = issue.path.join('.');
+    interpolated = interpolated.replace(/\{\{path\}\}/g, pathStr);
+  }
+
+  return interpolated;
+}
+
+/**
+ * Hook to format Zod errors with i18n translations
+ * 
+ * @returns Function to format Zod issues with translations
+ * 
+ * @example
+ * ```tsx
+ * const { formatError } = useZodI18n();
+ * const errorMessage = formatError(zodIssue, 'name.en');
+ * ```
+ */
+export function useZodI18n() {
+  const { t } = useTranslation('forms');
+
+  const formatError = (issue: ZodIssue, fieldName?: string): string => {
+    return formatZodIssueWithI18n(issue, t, fieldName);
+  };
+
+  return { formatError, t };
+}
+
+/**
+ * Formats a FieldError with i18n translation
+ * 
+ * @param fieldError - The FieldError to format
+ * @param t - Translation function
+ * @returns Translated error message
+ */
+export function formatFieldErrorWithI18n(
+  fieldError: FieldError,
+  t: (key: string, options?: any) => string
+): string {
+  // Try to get field-specific error
+  const fieldSpecificKey = `validation.fields.${fieldError.path}.error`;
+  const fieldSpecificMessage = t(fieldSpecificKey, { defaultValue: '' });
+  
+  if (fieldSpecificMessage) {
+    return fieldSpecificMessage;
+  }
+
+  // Fall back to the error message from Zod
+  return fieldError.message;
+}
+

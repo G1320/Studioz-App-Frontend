@@ -196,7 +196,101 @@
     },
     "validation": {
       "required": "Please complete all required fields",
-      "fieldRequired": "{{field}} is required"
+      "fieldRequired": "{{field}} is required",
+      "errors": {
+        "invalidType": "Invalid value type",
+        "invalidLiteral": "Invalid value",
+        "unrecognizedKeys": "Unrecognized field",
+        "invalidUnion": "Invalid value",
+        "invalidUnionDiscriminator": "Invalid value",
+        "invalidEnumValue": "Invalid option selected",
+        "invalidArguments": "Invalid arguments",
+        "invalidReturnType": "Invalid return type",
+        "invalidDate": "Invalid date",
+        "custom": "Validation failed",
+        "invalidString": "Invalid text format",
+        "tooSmall": "Value is too small (minimum: {{minimum}})",
+        "tooBig": "Value is too large (maximum: {{maximum}})",
+        "notMultipleOf": "Value must be a multiple of {{multipleOf}}",
+        "notFinite": "Value must be a finite number",
+        "generic": "This field has an error"
+      },
+      "fields": {
+        "name": {
+          "en": {
+            "error": "Please enter the name in English",
+            "invalidType": "Please enter the name in English",
+            "too_small": "Name must be at least 3 characters",
+            "too_big": "Name must be at most 20 characters"
+          },
+          "he": {
+            "error": "Please enter the name in Hebrew (עברית)",
+            "invalidType": "Please enter the name in Hebrew (עברית)",
+            "too_small": "השם חייב להיות לפחות 3 תווים",
+            "too_big": "השם חייב להיות לכל היותר 20 תווים"
+          }
+        },
+        "subtitle": {
+          "en": {
+            "error": "Please enter the subtitle in English",
+            "invalidType": "Please enter the subtitle in English",
+            "too_big": "Subtitle must be at most 20 characters"
+          },
+          "he": {
+            "error": "Please enter the subtitle in Hebrew (עברית)",
+            "invalidType": "Please enter the subtitle in Hebrew (עברית)",
+            "too_big": "כותרת משנה חייבת להיות לכל היותר 20 תווים"
+          }
+        },
+        "description": {
+          "en": {
+            "error": "Please enter the description in English",
+            "invalidType": "Please enter the description in English",
+            "too_big": "Description must be at most 2000 characters"
+          },
+          "he": {
+            "error": "Please enter the description in Hebrew (עברית)",
+            "invalidType": "Please enter the description in Hebrew (עברית)",
+            "too_big": "תיאור חייב להיות לכל היותר 2000 תווים"
+          }
+        },
+        "categories": {
+          "error": "At least one category is required"
+        },
+        "subCategories": {
+          "error": "At least one subcategory is required"
+        },
+        "address": {
+          "error": "Address is required",
+          "too_big": "Address must be at most 200 characters"
+        },
+        "phone": {
+          "error": "Phone number is required",
+          "invalid_string": "Invalid phone number format"
+        },
+        "maxOccupancy": {
+          "error": "Max occupancy is required",
+          "too_small": "Max occupancy must be at least 1",
+          "too_big": "Max occupancy must be at most 1000"
+        },
+        "coverImage": {
+          "error": "Cover image is required",
+          "invalid_string": "Invalid image URL"
+        },
+        "galleryImages": {
+          "error": "At least one gallery image is required",
+          "too_small": "At least one gallery image is required"
+        },
+        "price": {
+          "error": "Price is invalid",
+          "too_small": "Price must be at least 0.01",
+          "too_big": "Price must be at most 999,999"
+        },
+        "studioAvailability": {
+          "error": "Studio availability is invalid",
+          "too_small": "At least one day is required"
+        }
+      }
     },
     "vendorOnboarding": {
       "title": "Vendor Registration",

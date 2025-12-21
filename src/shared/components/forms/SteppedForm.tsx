@@ -2,9 +2,12 @@ import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } fro
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ZodSchema } from 'zod';
 import { GenericForm, FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
+import { useStepValidation } from '@shared/validation/hooks/useStepValidation';
+import { FieldError, StepError } from '@shared/validation/components';
 import './styles/_steppedForm.scss';
 
 /**
@@ -39,6 +42,9 @@ export interface FormStep {
   title: string;
   description?: string;
   fieldNames: string[];
+  /** Zod schema for validation (takes precedence over validate function) */
+  schema?: ZodSchema;
+  /** Custom validation function (kept for backward compatibility) */
   validate?: (formData: Record<string, any>) => boolean | string;
   customContent?: ReactNode;
   languageToggle?: boolean; // Enable language toggle for dual-language fields
@@ -266,10 +272,33 @@ export const SteppedForm = ({
     setFormData((prev) => setNestedValue(prev, fieldName, value));
   }, []);
 
+  // Use Zod validation if schema is provided
+  const stepValidation = useStepValidation(
+    currentStep.schema,
+    formData,
+    currentStep.id,
+    {
+      validateOnlyStepFields: true,
+      stepFieldNames: currentStep.fieldNames
+    }
+  );
+
   // Validate current step
   const validateCurrentStep = useCallback((): boolean => {
     const errors: Record<string, string> = {};
 
+    // Use Zod validation if schema is provided
+    if (currentStep.schema) {
+      const validationResult = stepValidation.validate();
+      if (!validationResult.isValid) {
+        setValidationErrors(validationResult.errors);
+        return false;
+      }
+      setValidationErrors({});
+      return true;
+    }
+
+    // Fallback to custom validate function (backward compatibility)
     if (currentStep.validate) {
       const result = currentStep.validate(formData);
       if (result !== true) {
@@ -280,6 +309,7 @@ export const SteppedForm = ({
       }
     }
 
+    // Fallback to basic required field validation
     currentStepFields.forEach((field) => {
       if (field.onChange) return; // Skip controlled fields
 
@@ -298,7 +328,7 @@ export const SteppedForm = ({
 
     setValidationErrors({});
     return true;
-  }, [currentStep, currentStepFields, formData, t]);
+  }, [currentStep, currentStepFields, formData, t, stepValidation]);
 
   // Navigation handlers
   const handleNext = useCallback(() => {
@@ -405,7 +435,18 @@ export const SteppedForm = ({
     <div className={`stepped-form ${className}`}>
       {/* Current Step Content */}
       <div className="stepped-form__content">
-        {validationErrors[currentStep.id] && (
+        {/* Step-level error display */}
+        {currentStep.schema && !stepValidation.isValid && (
+          <StepError
+            message={stepValidation.message}
+            errors={stepValidation.errors}
+            stepTitle={currentStep.title}
+            className="stepped-form__step-error"
+          />
+        )}
+
+        {/* Legacy error display for custom validate functions */}
+        {!currentStep.schema && validationErrors[currentStep.id] && (
           <div className="stepped-form__error-message">{validationErrors[currentStep.id]}</div>
         )}
 
@@ -425,7 +466,11 @@ export const SteppedForm = ({
             ) : (
               <GenericForm
                 formId={`${formId}-step-${currentStepIndex}`}
-                fields={fieldsWithValues}
+                fields={fieldsWithValues.map((field) => ({
+                  ...field,
+                  error: validationErrors[field.name] || stepValidation.errors[field.name],
+                  className: validationErrors[field.name] || stepValidation.errors[field.name] ? 'has-error' : ''
+                }))}
                 onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
                 onCategoryChange={onCategoryChange}
                 hideSubmit={true}
