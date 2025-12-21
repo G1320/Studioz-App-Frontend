@@ -9,6 +9,7 @@ import { useDebounce } from '@shared/hooks/debauncing';
 import { useStepValidation } from '@shared/validation/hooks/useStepValidation';
 import {
   setNestedValue,
+  getNestedValue,
   hasAnyValue,
   getStepFromUrl,
   updateUrlStep,
@@ -213,6 +214,32 @@ export const SteppedForm = ({
     () => filterStepFields(fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage),
     [fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage]
   );
+
+  // Sync field values into formData when step loads (for controlled fields like categories)
+  // This ensures fields with a value prop are properly initialized in formData
+  // This runs after the localStorage load effect to initialize missing values
+  useEffect(() => {
+    setFormData((prev) => {
+      let updated = { ...prev };
+      let hasChanges = false;
+
+      currentStepFields.forEach((field) => {
+        // Only sync if field has a value prop and formData doesn't have it yet
+        if (field.value !== undefined) {
+          const existingValue = getNestedValue(prev, field.name);
+          // If formData doesn't have this value, initialize it from field.value
+          // This handles controlled fields like categories that have a default value
+          // We only initialize if the value is truly missing (undefined), not if it's null or empty string
+          if (existingValue === undefined) {
+            updated = setNestedValue(updated, field.name, field.value);
+            hasChanges = true;
+          }
+        }
+      });
+
+      return hasChanges ? updated : prev;
+    });
+  }, [currentStepIndex, currentStepFields]); // Sync when step or fields change
 
   // Update form data when controlled fields change
   const handleFieldChange = useCallback((fieldName: string, value: any) => {
