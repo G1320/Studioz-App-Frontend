@@ -172,7 +172,8 @@
       }
     },
     "errors": {
-      "itemLimitReached": "You have reached the maximum limit of 3 services for free accounts. Please upgrade to a paid plan to create more services."
+      "itemLimitReached": "You have reached the maximum limit of 3 services for free accounts. Please upgrade to a paid plan to create more services.",
+      "studioLimitReached": "Free accounts are limited to 1 studio. Please upgrade to a paid plan to create more studios."
     },
     "itemLimitInfo": "You have {{count}} service{{count, plural, one {} other {s}}} remaining on your free plan. Upgrade to create unlimited services.",
     "steps": {

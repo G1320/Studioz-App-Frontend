@@ -14,7 +14,9 @@ import {
   useGenres,
   useStudioFileUpload,
   useFormAutoSaveUncontrolled,
-  useControlledStateAutoSave
+  useControlledStateAutoSave,
+  useSubscription,
+  useStudios
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
@@ -40,6 +42,8 @@ export const CreateStudioForm = () => {
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
   const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
+  const { isPro, isStarter } = useSubscription();
+  const { data: allStudios = [] } = useStudios();
 
   const { t } = useTranslation('forms');
 
@@ -57,6 +61,15 @@ export const CreateStudioForm = () => {
   const createStudioMutation = useCreateStudioMutation();
 
   const FORM_ID = 'create-studio';
+
+  // Count user's existing studios
+  const userStudioCount = useMemo(() => {
+    if (!user?._id) return 0;
+    return allStudios.filter((studio) => studio.createdBy === user._id).length;
+  }, [allStudios, user?._id]);
+
+  // Check if user has paid subscription (Starter or Pro)
+  const hasPaidSubscription = isPro || isStarter;
 
   // Load saved state on mount (before initializing useState)
   const savedState = loadFormState<{
@@ -401,8 +414,14 @@ export const CreateStudioForm = () => {
     };
     formData.parking = selectedParking;
 
-    if (!user?.subscriptionId || user?.subscriptionStatus !== 'ACTIVE') {
-      return toast.error('Please purchase a subscription before creating a studio');
+    // Check if user can create a studio
+    // Free users (without paid subscription) are limited to 1 studio
+    if (!hasPaidSubscription && userStudioCount >= 1) {
+      return toast.error(
+        t('form.errors.studioLimitReached', {
+          defaultValue: 'Free accounts are limited to 1 studio. Please upgrade to a paid plan to create more studios.'
+        })
+      );
     }
 
     createStudioMutation.mutate(
