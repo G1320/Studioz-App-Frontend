@@ -1,8 +1,10 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
+import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import {
   useCreateStudioMutation,
   useMusicCategories,
@@ -37,8 +39,8 @@ interface FormData {
 
 export const CreateStudioForm = () => {
   const user = getLocalUser();
+  const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
   const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
@@ -278,60 +280,75 @@ export const CreateStudioForm = () => {
   };
 
   // Define form steps with Zod schemas
-  const steps: FormStep[] = [
-    {
-      id: 'basic-info',
-      title: t('form.steps.basicInfo') || 'Basic Information',
-      description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
-      fieldNames: ['name.en', 'name.he', 'subtitle.en', 'subtitle.he', 'description.en', 'description.he'],
-      schema: studioStepSchemas['basic-info'],
-      languageToggle: true
-    },
-    {
-      id: 'categories',
-      title: t('form.steps.categories') || 'Categories & Genres',
-      description: t('form.steps.categoriesDesc') || 'Select categories and genres',
-      fieldNames: ['categories', 'subCategories', 'genres'],
-      schema: studioStepSchemas.categories
-    },
-    {
-      id: 'availability',
-      title: t('form.steps.availability') || 'Availability',
-      description: t('form.steps.availabilityDesc') || 'Set your studio hours',
-      fieldNames: ['studioAvailability'],
-      schema: studioStepSchemas.availability
-    },
-    {
-      id: 'location',
-      title: t('form.steps.location') || 'Location & Contact',
-      description: t('form.steps.locationDesc') || 'Add address and contact information',
-      fieldNames: ['address', 'phone'],
-      schema: studioStepSchemas.location
-    },
-    {
-      id: 'files',
-      title: t('form.steps.files') || 'Files & Media',
-      description: t('form.steps.filesDesc') || 'Upload images for your studio',
-      fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
-      schema: studioStepSchemas.files,
-      customContent: (
-        <FileUploader
-          fileType="image"
-          onFileUpload={handleFileUpload}
-          galleryFiles={galleryImages}
-          isCoverShown={false}
-          showPreviewBeforeUpload={false}
-        />
-      )
-    },
-    {
-      id: 'details',
-      title: t('form.steps.details') || 'Details',
-      description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
-      fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
-      schema: studioStepSchemas.details
+  const steps: FormStep[] = useMemo(
+    () => [
+      {
+        id: 'basic-info',
+        title: t('form.steps.basicInfo') || 'Basic Information',
+        description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
+        fieldNames: ['name.en', 'name.he', 'subtitle.en', 'subtitle.he', 'description.en', 'description.he'],
+        schema: studioStepSchemas['basic-info'],
+        languageToggle: true
+      },
+      {
+        id: 'categories',
+        title: t('form.steps.categories') || 'Categories & Genres',
+        description: t('form.steps.categoriesDesc') || 'Select categories and genres',
+        fieldNames: ['categories', 'subCategories', 'genres'],
+        schema: studioStepSchemas.categories
+      },
+      {
+        id: 'availability',
+        title: t('form.steps.availability') || 'Availability',
+        description: t('form.steps.availabilityDesc') || 'Set your studio hours',
+        fieldNames: ['studioAvailability'],
+        schema: studioStepSchemas.availability
+      },
+      {
+        id: 'location',
+        title: t('form.steps.location') || 'Location & Contact',
+        description: t('form.steps.locationDesc') || 'Add address and contact information',
+        fieldNames: ['address', 'phone'],
+        schema: studioStepSchemas.location
+      },
+      {
+        id: 'files',
+        title: t('form.steps.files') || 'Files & Media',
+        description: t('form.steps.filesDesc') || 'Upload images for your studio',
+        fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
+        schema: studioStepSchemas.files,
+        customContent: (
+          <FileUploader
+            fileType="image"
+            onFileUpload={handleFileUpload}
+            galleryFiles={galleryImages}
+            isCoverShown={false}
+            showPreviewBeforeUpload={false}
+          />
+        )
+      },
+      {
+        id: 'details',
+        title: t('form.steps.details') || 'Details',
+        description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
+        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
+        schema: studioStepSchemas.details
+      }
+    ],
+    [t]
+  );
+
+  // Initialize currentStepIndex from URL on mount (after steps are defined)
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl(searchParams, steps));
+
+  // Sync currentStepIndex with URL on refresh or URL change
+  useEffect(() => {
+    const urlStepIndex = getStepFromUrl(searchParams, steps);
+    if (urlStepIndex !== currentStepIndex) {
+      setCurrentStepIndex(urlStepIndex);
     }
-  ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]); // Only sync when URL changes, not when currentStepIndex changes
 
   const fields = [
     {
@@ -519,7 +536,7 @@ export const CreateStudioForm = () => {
   };
 
   const currentStep = steps[currentStepIndex];
-  const showLanguageToggle = currentStep?.languageToggle;
+  const showLanguageToggle = currentStepIndex === 0 && currentStep?.languageToggle;
 
   // Reset language when step changes
   useEffect(() => {
