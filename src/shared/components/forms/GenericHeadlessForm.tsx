@@ -56,9 +56,6 @@ export const GenericForm = ({
   const { t } = useTranslation('forms');
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
-  // Initialize address from field value if available
-  const addressField = fields.find((f) => f.name === 'address');
-  const [address, setAddress] = useState<string>(addressField?.value || '');
   const [city, setCity] = useState<string>('');
 
   // Initialize form data from field values
@@ -91,50 +88,20 @@ export const GenericForm = ({
     }
   }, [zodForm?.isValid, onValidationChange]);
 
-  // Sync address state with field value when it changes externally
-  useEffect(() => {
-    const addressField = fields.find((f) => f.name === 'address');
-    if (addressField?.value && addressField.value !== address) {
-      setAddress(addressField.value);
-      // Also update zodForm if it exists
-      if (zodForm && (validationMode === 'onChange' || validationMode === 'all')) {
-        zodForm.setField('address', addressField.value);
-      }
-    }
-  }, [fields, address, zodForm, validationMode]);
-
   const handlePlaceSelected = (place: google.maps.places.PlaceResult) => {
     if (place.geometry && place.geometry.location) {
       setLat(place.geometry.location.lat());
       setLng(place.geometry.location.lng());
 
       if (place.formatted_address) {
-        const addressValue = place.formatted_address;
-        setAddress(addressValue);
-
-        // Find the address field
         const addressField = fields.find((f) => f.name === 'address');
-
-        // Update the form field value for validation
-        handleFieldChange('address', addressValue, addressField?.onChange);
-
-        // Also update zodForm immediately for validation
-        if (zodForm) {
-          zodForm.setField('address', addressValue);
-        }
-
-        // Update hidden input value directly to ensure it's captured in form submission
-        const hiddenInput = document.querySelector(`input[name="address"][type="hidden"]`) as HTMLInputElement;
-        if (hiddenInput) {
-          hiddenInput.value = addressValue;
-          // Trigger input event to ensure form data is updated
-          hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
-        }
+        // Update the form field value - this will trigger SteppedForm's handleFieldChange
+        handleFieldChange('address', place.formatted_address, addressField?.onChange);
       }
       if (place.address_components) {
-        const city = place.address_components.find((component) => component.types.includes('locality'));
-        if (city) {
-          setCity(city.long_name);
+        const cityComponent = place.address_components.find((component) => component.types.includes('locality'));
+        if (cityComponent) {
+          setCity(cityComponent.long_name);
         }
       }
     }
@@ -177,10 +144,9 @@ export const GenericForm = ({
       }
     }
 
-    // Add location data (use formData value if available, otherwise use state)
+    // Add location data (address is already in formData from the input)
     data.lat = lat.toString();
     data.lng = lng.toString();
-    data.address = data.address || address || '';
     data.city = city;
 
     // Add checkbox states
@@ -232,34 +198,17 @@ export const GenericForm = ({
           case 'text':
           case 'number':
             if (field.name === 'address') {
-              // Sync address state with field value when it changes
-              const currentAddress = address || field.value || '';
-
               return (
                 <div key={field.name} className={`form-group ${zodForm?.errors[field.name] ? 'has-error' : ''}`}>
                   <label htmlFor={field.name} className="form-label">
                     {field.label}
                   </label>
                   <GoogleAddressAutocomplete
-                    defaultValue={currentAddress}
+                    defaultValue={field.value || ''}
                     onPlaceSelected={handlePlaceSelected}
                     fieldName={field.name}
                     onInputChange={(value: string) => {
-                      setAddress(value);
                       handleFieldChange('address', value, field.onChange);
-                      if (zodForm) {
-                        zodForm.setField('address', value);
-                      }
-                    }}
-                  />
-                  {/* Hidden input to capture the address value for form submission and validation */}
-                  <input
-                    type="hidden"
-                    name={field.name}
-                    value={currentAddress}
-                    onChange={(e) => {
-                      setAddress(e.target.value);
-                      handleFieldChange('address', e.target.value, field.onChange);
                     }}
                   />
                   {showFieldErrors && zodForm && (

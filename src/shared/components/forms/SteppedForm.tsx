@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } fro
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ZodSchema, ZodError } from 'zod';
+import { ZodSchema } from 'zod';
 import { FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
@@ -285,55 +285,36 @@ export const SteppedForm = ({
   const validateCurrentStep = useCallback((): boolean => {
     setValidatedSteps((prev) => new Set(prev).add(currentStep.id));
 
-    // Collect current form data from HTML form to ensure we have latest values (especially for address field)
+    // Collect current form data from HTML form to ensure we have latest values
     const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-    let latestFormData = formDataForValidation;
-    if (form) {
-      const currentFormData = collectFormData(form);
-      // Merge current form data with formDataForValidation, prioritizing current form data
-      latestFormData = { ...formDataForValidation, ...currentFormData };
-    }
+    const latestFormData = form ? { ...formDataForValidation, ...collectFormData(form) } : formDataForValidation;
 
-    // Use stepValidation but with latest form data if available
-    // Note: stepValidation is memoized with formDataForValidation, so we need to validate manually with latest data
+    // Validate with latest data if schema exists
     let zodResult = undefined;
     if (currentStep.schema) {
       try {
-        // Extract only step-specific data if validateOnlyStepFields is true
-        let dataToValidate = latestFormData;
-        if (currentStep.fieldNames.length > 0) {
-          dataToValidate = {};
-          for (const fieldName of currentStep.fieldNames) {
-            // Handle nested fields (e.g., 'name.en')
-            if (fieldName.includes('.')) {
-              const [parent, child] = fieldName.split('.');
-              if (!dataToValidate[parent]) {
-                dataToValidate[parent] = {};
-              }
-              if (latestFormData[parent]?.[child] !== undefined) {
-                dataToValidate[parent][child] = latestFormData[parent][child];
-              }
-            } else {
-              if (latestFormData[fieldName] !== undefined) {
-                dataToValidate[fieldName] = latestFormData[fieldName];
-              }
+        // Extract only step-specific fields
+        const dataToValidate: Record<string, any> = {};
+        currentStep.fieldNames.forEach((fieldName) => {
+          if (fieldName.includes('.')) {
+            const [parent, child] = fieldName.split('.');
+            if (!dataToValidate[parent]) dataToValidate[parent] = {};
+            if (latestFormData[parent]?.[child] !== undefined) {
+              dataToValidate[parent][child] = latestFormData[parent][child];
             }
+          } else if (latestFormData[fieldName] !== undefined) {
+            dataToValidate[fieldName] = latestFormData[fieldName];
           }
-        }
-        // Validate with latest data
+        });
         currentStep.schema.parse(dataToValidate);
         zodResult = { isValid: true, errors: {} };
       } catch (error: any) {
-        if (error instanceof ZodError) {
-          // Format errors similar to useStepValidation
+        if (error.name === 'ZodError') {
           const errors: Record<string, string> = {};
-          error.issues?.forEach((issue) => {
-            const fieldPath = issue.path.map(String).join('.');
-            errors[fieldPath] = issue.message || 'Validation error';
+          error.issues?.forEach((issue: any) => {
+            errors[issue.path.map(String).join('.')] = issue.message;
           });
           zodResult = { isValid: false, errors };
-        } else {
-          zodResult = { isValid: false, errors: {} };
         }
       }
     }

@@ -29,10 +29,9 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
       const place = autocompleteRef.current.getPlace();
       onPlaceSelected(place);
       
-      // Update the input value to the formatted address
+      // Update the input value and notify parent
       if (inputRef.current && place.formatted_address) {
         inputRef.current.value = place.formatted_address;
-        // Notify parent of the change
         onInputChange?.(place.formatted_address);
       }
     }
