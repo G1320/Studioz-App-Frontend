@@ -15,7 +15,6 @@ interface UseStepNavigationOptions {
   allowBackNavigation: boolean;
   validateCurrentStep: () => boolean;
   isUpdatingUrlRef: React.MutableRefObject<boolean>;
-  selectedLanguage: 'en' | 'he';
 }
 
 /**
@@ -33,8 +32,7 @@ export const useStepNavigation = ({
   onStepChange,
   allowBackNavigation,
   validateCurrentStep,
-  isUpdatingUrlRef,
-  selectedLanguage
+  isUpdatingUrlRef
 }: UseStepNavigationOptions) => {
   const previousStepIndexRef = useRef(currentStepIndex);
 
@@ -54,23 +52,22 @@ export const useStepNavigation = ({
       setDirection(1);
       previousStepIndexRef.current = currentStepIndex;
       setCurrentStepIndex(nextIndex);
-      updateUrlStep(nextIndex, steps, location, navigate, false, selectedLanguage);
+      updateUrlStep(nextIndex, steps, location, navigate, false);
       onStepChange?.(nextIndex, currentStepIndex);
     }
-  },     [
-      currentStepIndex,
-      steps.length,
-      validateCurrentStep,
-      onStepChange,
-      collectCurrentStepData,
-      setFormData,
-      setDirection,
-      setCurrentStepIndex,
-      location,
-      navigate,
-      steps,
-      selectedLanguage
-    ]);
+  }, [
+    currentStepIndex,
+    steps.length,
+    validateCurrentStep,
+    onStepChange,
+    collectCurrentStepData,
+    setFormData,
+    setDirection,
+    setCurrentStepIndex,
+    location,
+    navigate,
+    steps
+  ]);
 
   const handlePrevious = useCallback(() => {
     const currentData = collectCurrentStepData();
@@ -82,22 +79,21 @@ export const useStepNavigation = ({
       setDirection(-1);
       previousStepIndexRef.current = currentStepIndex;
       setCurrentStepIndex(nextIndex);
-      updateUrlStep(nextIndex, steps, location, navigate, false, selectedLanguage);
+      updateUrlStep(nextIndex, steps, location, navigate, false);
       onStepChange?.(nextIndex, currentStepIndex);
     }
-  },     [
-      currentStepIndex,
-      allowBackNavigation,
-      onStepChange,
-      collectCurrentStepData,
-      setFormData,
-      setDirection,
-      setCurrentStepIndex,
-      location,
-      navigate,
-      steps,
-      selectedLanguage
-    ]);
+  }, [
+    currentStepIndex,
+    allowBackNavigation,
+    onStepChange,
+    collectCurrentStepData,
+    setFormData,
+    setDirection,
+    setCurrentStepIndex,
+    location,
+    navigate,
+    steps
+  ]);
 
   const handleStepClick = useCallback(
     (index: number) => {
@@ -122,8 +118,7 @@ export const useStepNavigation = ({
       location,
       navigate,
       steps,
-      onStepChange,
-      selectedLanguage
+      onStepChange
     ]
   );
 
