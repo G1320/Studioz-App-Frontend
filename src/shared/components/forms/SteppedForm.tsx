@@ -3,14 +3,24 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ZodSchema } from 'zod';
-import { GenericForm, FieldType } from './GenericHeadlessForm';
+import { FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
 import { useStepValidation } from '@shared/validation/hooks/useStepValidation';
-import { StepError } from '@shared/validation/components';
-import { getNestedValue, setNestedValue, hasAnyValue, getStepFromUrl, updateUrlStep } from './steppedForm/utils';
+import {
+  setNestedValue,
+  hasAnyValue,
+  getStepFromUrl,
+  updateUrlStep,
+  filterStepFields,
+  prepareFieldsWithValues,
+  validateStep
+} from './steppedForm/utils';
 import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
 import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
+import { StepContent } from './steppedForm/components/StepContent';
+import { StepErrors } from './steppedForm/components/StepErrors';
+import { StepNavigation } from './steppedForm/components/StepNavigation';
 import './styles/_steppedForm.scss';
 
 /**
@@ -196,26 +206,10 @@ export const SteppedForm = ({
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
 
   // Filter fields for current step
-  const currentStepFields = useMemo(() => {
-    let filteredFields = fields.filter((field) => currentStep.fieldNames.includes(field.name));
-
-    // If language toggle is enabled, filter to show only selected language
-    if (currentStep.languageToggle) {
-      filteredFields = filteredFields.filter((field) => {
-        // Keep fields that match the selected language
-        if (field.name.endsWith(`.${selectedLanguage}`)) {
-          return true;
-        }
-        // Keep fields that don't have a language suffix (non-language fields)
-        if (!field.name.includes('.en') && !field.name.includes('.he')) {
-          return true;
-        }
-        return false;
-      });
-    }
-
-    return filteredFields;
-  }, [fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage]);
+  const currentStepFields = useMemo(
+    () => filterStepFields(fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage),
+    [fields, currentStep.fieldNames, currentStep.languageToggle, selectedLanguage]
+  );
 
   // Update form data when controlled fields change
   const handleFieldChange = useCallback((fieldName: string, value: any) => {
@@ -233,52 +227,21 @@ export const SteppedForm = ({
 
   // Validate current step
   const validateCurrentStep = useCallback((): boolean => {
-    // Mark this step as validated
     setValidatedSteps((prev) => new Set(prev).add(currentStep.id));
 
-    const errors: Record<string, string> = {};
-
-    // Use Zod validation if schema is provided
-    if (currentStep.schema) {
-      const validationResult = stepValidation.validate();
-      if (!validationResult.isValid) {
-        setValidationErrors(validationResult.errors);
-        return false;
-      }
-      setValidationErrors({});
-      return true;
-    }
-
-    // Fallback to custom validate function (backward compatibility)
-    if (currentStep.validate) {
-      const result = currentStep.validate(formData);
-      if (result !== true) {
-        errors[currentStep.id] =
-          typeof result === 'string' ? result : t('form.validation.required', 'Please complete all required fields');
-        setValidationErrors(errors);
-        return false;
-      }
-    }
-
-    // Fallback to basic required field validation
-    currentStepFields.forEach((field) => {
-      if (field.onChange) return; // Skip controlled fields
-
-      const fieldValue = getNestedValue(formData, field.name);
-      if (fieldValue === undefined || fieldValue === null || fieldValue === '') {
-        errors[field.name] = t('form.validation.fieldRequired', '{{field}} is required', {
-          field: field.label
-        });
-      }
+    const zodResult = currentStep.schema ? stepValidation.validate() : undefined;
+    const validationResult = validateStep({
+      schema: currentStep.schema,
+      validate: currentStep.validate,
+      formData,
+      fields: currentStepFields as Array<{ name: string; label?: string; onChange?: any; [key: string]: any }>,
+      stepId: currentStep.id,
+      zodValidationResult: zodResult,
+      t: t as any
     });
 
-    if (Object.keys(errors).length > 0) {
-      setValidationErrors(errors);
-      return false;
-    }
-
-    setValidationErrors({});
-    return true;
+    setValidationErrors(validationResult.errors);
+    return validationResult.isValid;
   }, [currentStep, currentStepFields, formData, t, stepValidation]);
 
   // Navigation handlers
@@ -332,25 +295,10 @@ export const SteppedForm = ({
   }, [debouncedFormData, formId]);
 
   // Prepare fields with saved values
-  const fieldsWithValues = useMemo(() => {
-    return currentStepFields.map((field) => {
-      // Always get the latest value from formData (not from field.value which might be stale)
-      const savedValue = getNestedValue(formData, field.name);
-      // Use formData value if available, otherwise use field.value, otherwise undefined
-      const fieldValue = savedValue !== undefined ? savedValue : field.value !== undefined ? field.value : undefined;
-
-      return {
-        ...field,
-        value: fieldValue,
-        onChange: (value: any) => {
-          // Always update formData immediately when field changes
-          handleFieldChange(field.name, value);
-          // Also call original onChange if provided
-          field.onChange?.(value);
-        }
-      };
-    });
-  }, [currentStepFields, formData, handleFieldChange]);
+  const fieldsWithValues = useMemo(
+    () => prepareFieldsWithValues(currentStepFields, formData, handleFieldChange),
+    [currentStepFields, formData, handleFieldChange]
+  );
 
   // Slide animation variants
   const slideVariants = {
@@ -377,20 +325,16 @@ export const SteppedForm = ({
     <div className={`stepped-form ${className}`}>
       {/* Current Step Content */}
       <div className="stepped-form__content">
-        {/* Step-level error display - only show if step has been validated */}
-        {currentStep.schema && validatedSteps.has(currentStep.id) && !stepValidation.isValid && (
-          <StepError
-            message={stepValidation.message}
-            errors={stepValidation.errors}
-            stepTitle={currentStep.title}
-            className="stepped-form__step-error"
-          />
-        )}
-
-        {/* Legacy error display for custom validate functions - only show if step has been validated */}
-        {!currentStep.schema && validatedSteps.has(currentStep.id) && validationErrors[currentStep.id] && (
-          <div className="stepped-form__error-message">{validationErrors[currentStep.id]}</div>
-        )}
+        <StepErrors
+          stepId={currentStep.id}
+          stepTitle={currentStep.title}
+          hasSchema={!!currentStep.schema}
+          isValid={stepValidation.isValid}
+          validatedSteps={validatedSteps}
+          validationMessage={stepValidation.message}
+          validationErrors={stepValidation.errors}
+          legacyError={validationErrors[currentStep.id]}
+        />
 
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div
@@ -403,69 +347,39 @@ export const SteppedForm = ({
             transition={slideTransition}
             style={{ width: '100%' }}
           >
-            {currentStep.customContent ? (
-              currentStep.customContent
-            ) : (
-              <GenericForm
-                key={`${formId}-step-${currentStepIndex}-${selectedLanguage}`}
-                formId={`${formId}-step-${currentStepIndex}`}
-                fields={fieldsWithValues.map((field) => ({
-                  ...field,
-                  error: validatedSteps.has(currentStep.id)
-                    ? validationErrors[field.name] || stepValidation.errors[field.name]
-                    : undefined,
-                  className:
-                    validatedSteps.has(currentStep.id) &&
-                    (validationErrors[field.name] || stepValidation.errors[field.name])
-                      ? 'has-error'
-                      : ''
-                }))}
-                onSubmit={isLastStep ? handleSubmit : (e) => e.preventDefault()}
-                onCategoryChange={onCategoryChange}
-                hideSubmit={true}
-                className="stepped-form__form"
-              >
-                {children}
-              </GenericForm>
-            )}
+            <StepContent
+              stepId={currentStep.id}
+              formId={formId}
+              currentStepIndex={currentStepIndex}
+              selectedLanguage={selectedLanguage}
+              customContent={currentStep.customContent}
+              fields={fieldsWithValues}
+              isLastStep={isLastStep}
+              validatedSteps={validatedSteps}
+              validationErrors={validationErrors}
+              stepValidationErrors={stepValidation.errors}
+              onSubmit={handleSubmit}
+              onCategoryChange={onCategoryChange}
+            >
+              {children}
+            </StepContent>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Buttons */}
-        <div className="stepped-form__navigation">
-          {!isFirstStep && (
-            <button
-              type="button"
-              onClick={handlePrevious}
-              className="stepped-form__button stepped-form__button--previous"
-              disabled={!allowBackNavigation}
-            >
-              {prevBtnText}
-            </button>
-          )}
-          {!isLastStep ? (
-            <button type="button" onClick={handleNext} className="stepped-form__button stepped-form__button--next">
-              {nextBtnText}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                if (currentStep.customContent) {
-                  // For steps with custom content, directly call handleSubmit
-                  handleSubmit({});
-                } else {
-                  // For regular form steps, trigger form submission
-                  const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
-                  form?.requestSubmit();
-                }
-              }}
-              className="stepped-form__button stepped-form__button--submit"
-            >
-              {submitBtnText}
-            </button>
-          )}
-        </div>
+        <StepNavigation
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          allowBackNavigation={allowBackNavigation}
+          hasCustomContent={!!currentStep.customContent}
+          formId={formId}
+          currentStepIndex={currentStepIndex}
+          prevBtnText={prevBtnText}
+          nextBtnText={nextBtnText}
+          submitBtnText={submitBtnText}
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          onSubmit={() => handleSubmit({})}
+        />
       </div>
 
       {/* Step Indicators - At bottom */}
