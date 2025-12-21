@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
@@ -39,6 +40,7 @@ interface FormData {
 
 export const CreateStudioForm = () => {
   const user = getLocalUser();
+  const { loginWithPopup } = useAuth0();
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
@@ -508,6 +510,19 @@ export const CreateStudioForm = () => {
   ];
 
   const handleSubmit = async (formData: FormData) => {
+    // Check if user is logged in
+    if (!user || !user._id) {
+      return toast.error(t('form.errors.loginRequired', { defaultValue: 'Please log in to create a studio.' }), {
+        action: {
+          label: t('buttons.log_in', { defaultValue: 'Log In' }),
+          onClick: () => {
+            loginWithPopup();
+          }
+        },
+        duration: 5000
+      });
+    }
+
     const englishSubCategories = selectedDisplaySubCategories.map((subCat) => getEnglishByDisplay(subCat));
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
