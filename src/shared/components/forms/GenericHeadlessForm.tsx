@@ -10,7 +10,15 @@ import { FieldError } from '@shared/validation/components';
 import { GoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
 
-export type FieldType = 'text' | 'password' | 'email' | 'textarea' | 'checkbox' | 'select' | 'businessHours';
+export type FieldType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'textarea'
+  | 'checkbox'
+  | 'select'
+  | 'businessHours'
+  | 'languageToggle';
 
 interface GenericFormProps {
   title?: string;
@@ -259,6 +267,28 @@ export const GenericForm = ({
                   field.onChange(newValue);
                 }}
               />
+            );
+          case 'languageToggle':
+            return (
+              <div key={field.name} className={`form-group ${field.className || ''}`}>
+                {field.label && <label className="form-label">{field.label}</label>}
+                <div className="form-language-toggle">
+                  <button
+                    type="button"
+                    onClick={() => field.onChange?.('en')}
+                    className={`form-language-toggle__btn ${field.value === 'en' ? 'active' : ''}`}
+                  >
+                    English
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => field.onChange?.('he')}
+                    className={`form-language-toggle__btn ${field.value === 'he' ? 'active' : ''}`}
+                  >
+                    עברית
+                  </button>
+                </div>
+              </div>
             );
           case 'select':
             return (

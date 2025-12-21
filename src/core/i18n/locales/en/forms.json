@@ -25,6 +25,9 @@
     "genres": {
       "label": "Genres"
     },
+    "languageToggle": {
+      "label": "Select language for editing"
+    },
     "studioAvailability": {
       "label": "Business Hours",
       "days": {

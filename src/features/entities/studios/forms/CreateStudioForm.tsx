@@ -286,7 +286,15 @@ export const CreateStudioForm = () => {
         id: 'basic-info',
         title: t('form.steps.basicInfo') || 'Basic Information',
         description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
-        fieldNames: ['name.en', 'name.he', 'subtitle.en', 'subtitle.he', 'description.en', 'description.he'],
+        fieldNames: [
+          'name.en',
+          'name.he',
+          'subtitle.en',
+          'subtitle.he',
+          'description.en',
+          'description.he',
+          'languageToggle'
+        ],
         schema: studioStepSchemas['basic-info'],
         languageToggle: true
       },
@@ -353,33 +361,40 @@ export const CreateStudioForm = () => {
   const fields = [
     {
       name: 'name.en',
-      label: t('form.name.en'),
+      label: `${t('form.name.en')} 🇺🇸`,
       type: 'text' as FieldType
     },
     {
       name: 'name.he',
-      label: t('form.name.he'),
+      label: `${t('form.name.he')} 🇮🇱`,
       type: 'text' as FieldType
     },
     {
       name: 'subtitle.en',
-      label: t('form.subtitle.en'),
+      label: `${t('form.subtitle.en')} 🇺🇸`,
       type: 'text' as FieldType
     },
     {
       name: 'subtitle.he',
-      label: t('form.subtitle.he'),
+      label: `${t('form.subtitle.he')} 🇮🇱`,
       type: 'text' as FieldType
     },
     {
       name: 'description.en',
-      label: t('form.description.en'),
+      label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType
     },
     {
       name: 'description.he',
-      label: t('form.description.he'),
+      label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType
+    },
+    {
+      name: 'languageToggle',
+      label: t('form.languageToggle.label') || 'Select language for editing',
+      type: 'languageToggle' as FieldType,
+      value: selectedLanguage,
+      onChange: setSelectedLanguage
     },
     {
       name: 'categories',
@@ -535,9 +550,6 @@ export const CreateStudioForm = () => {
     );
   };
 
-  const currentStep = steps[currentStepIndex];
-  const showLanguageToggle = currentStepIndex === 0 && currentStep?.languageToggle;
-
   // Reset language when step changes
   useEffect(() => {
     setSelectedLanguage('en');
@@ -548,24 +560,6 @@ export const CreateStudioForm = () => {
       {/* <h1>{t('form.AddStudioTitle')}</h1> */}
 
       <section className="form-wrapper create-studio-form-wrapper">
-        {showLanguageToggle && (
-          <div className="create-studio-form-wrapper__language-toggle">
-            <button
-              type="button"
-              onClick={() => setSelectedLanguage('en')}
-              className={`create-studio-form-wrapper__language-btn ${selectedLanguage === 'en' ? 'active' : ''}`}
-            >
-              English
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedLanguage('he')}
-              className={`create-studio-form-wrapper__language-btn ${selectedLanguage === 'he' ? 'active' : ''}`}
-            >
-              עברית
-            </button>
-          </div>
-        )}
         <SteppedForm
           className="create-studio-form"
           formId={FORM_ID}

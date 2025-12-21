@@ -221,12 +221,29 @@
         }
       }
 
+      // Textarea fields (description) span both columns
+      // Target by name attribute containing "description"
+      // .form-group:has(textarea[name*='description']),
+      // .form-group:has(.form-textarea) {
+      //   grid-column: span 2 !important;
+      // }
+
+      // Language toggle field spans both columns
+      // .form-group:has(.form-language-toggle) {
+      //   grid-column: span 2 !important;
+      // }
+
       // Responsive: stack on smaller screens
       @media screen and (max-width: 768px) {
         grid-template-columns: 1fr !important;
         gap: vars.$spacing-large;
 
         .form-group {
+          grid-column: span 1 !important;
+        }
+
+        // Textareas still span full width on mobile (which is 1 column)
+        .form-group:has(.form-textarea) {
           grid-column: span 1 !important;
         }
       }

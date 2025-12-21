@@ -25,6 +25,9 @@
     "genres": {
       "label": "ז'אנרים"
     },
+    "languageToggle": {
+      "label": "בחר שפה לעריכה"
+    },
     "studioAvailability": {
       "label": "שעות פעילות",
       "days": {
