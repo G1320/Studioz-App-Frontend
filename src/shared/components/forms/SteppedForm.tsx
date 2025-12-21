@@ -107,7 +107,7 @@ export const SteppedForm = ({
   selectedLanguage: externalSelectedLanguage,
   onLanguageChange
 }: SteppedFormProps) => {
-  const { t } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -356,20 +356,30 @@ export const SteppedForm = ({
     [currentStepFields, formData, handleFieldChange]
   );
 
+  // Check if current language is RTL (Hebrew)
+  const isRTL = i18n.language === 'he';
+
   // Slide animation variants
+  // In RTL mode, reverse the direction for proper animation flow
   const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? '100%' : '-100%',
-      opacity: 0
-    }),
+    enter: (direction: number) => {
+      const effectiveDirection = isRTL ? -direction : direction;
+      return {
+        x: effectiveDirection > 0 ? '100%' : '-100%',
+        opacity: 0
+      };
+    },
     center: {
       x: 0,
       opacity: 1
     },
-    exit: (direction: number) => ({
-      x: direction > 0 ? '-100%' : '100%',
-      opacity: 0
-    })
+    exit: (direction: number) => {
+      const effectiveDirection = isRTL ? -direction : direction;
+      return {
+        x: effectiveDirection > 0 ? '-100%' : '100%',
+        opacity: 0
+      };
+    }
   };
 
   const slideTransition = {
