@@ -70,7 +70,10 @@ export const studioStep3Schema = z.object({
  * Validates: address, phone
  */
 export const studioStep4Schema = z.object({
-  address: z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters'),
+  address: z.preprocess(
+    (val) => (val === undefined || val === null ? '' : val),
+    z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters')
+  ),
   phone: phoneSchema
 });
 
@@ -80,8 +83,17 @@ export const studioStep4Schema = z.object({
  * Note: This step has custom content (FileUploader), but we still validate the data
  */
 export const studioStep5Schema = z.object({
-  coverImage: urlSchema,
-  galleryImages: z.array(urlSchema).min(1, 'At least one gallery image is required'),
+  coverImage: z.preprocess((val) => {
+    // Convert undefined/null/empty string to undefined (so it becomes optional)
+    if (val === undefined || val === null || val === '') {
+      return undefined;
+    }
+    return val;
+  }, urlSchema.optional()),
+  galleryImages: z.preprocess(
+    (val) => (val === undefined || val === null ? [] : val),
+    z.array(urlSchema).min(1, 'At least one gallery image is required')
+  ),
   coverAudioFile: urlSchema.optional(),
   galleryAudioFiles: z.array(urlSchema).optional()
 });
@@ -118,7 +130,10 @@ export const studioFullSchema = z.object({
   studioAvailability: studioAvailabilitySchema.optional(),
 
   // Location & Contact
-  address: z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters'),
+  address: z.preprocess(
+    (val) => (val === undefined || val === null ? '' : val),
+    z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters')
+  ),
   phone: phoneSchema,
   city: z.string().min(1, 'City is required').max(100, 'City must be at most 100 characters'),
   lat: z.number().optional(),

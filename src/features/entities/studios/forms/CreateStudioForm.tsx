@@ -220,7 +220,7 @@ export const CreateStudioForm = () => {
       id: 'files',
       title: t('form.steps.files') || 'Files & Media',
       description: t('form.steps.filesDesc') || 'Upload images for your studio',
-      fieldNames: [],
+      fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
       schema: studioStepSchemas.files,
       customContent: (
         <FileUploader
@@ -356,6 +356,30 @@ export const CreateStudioForm = () => {
       options: ['none', 'free', 'paid'],
       displayValue: getParkingLabel(selectedParking),
       getOptionLabel: getParkingLabel
+    },
+    {
+      name: 'coverImage',
+      label: 'Cover Image',
+      type: 'text' as FieldType,
+      value: galleryImages[0] || undefined
+    },
+    {
+      name: 'galleryImages',
+      label: 'Gallery Images',
+      type: 'text' as FieldType,
+      value: galleryImages
+    },
+    {
+      name: 'coverAudioFile',
+      label: 'Cover Audio File',
+      type: 'text' as FieldType,
+      value: galleryAudioFiles[0] || undefined
+    },
+    {
+      name: 'galleryAudioFiles',
+      label: 'Gallery Audio Files',
+      type: 'text' as FieldType,
+      value: galleryAudioFiles
     }
   ];
 

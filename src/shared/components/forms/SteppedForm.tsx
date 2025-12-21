@@ -218,19 +218,26 @@ export const SteppedForm = ({
   // Sync field values into formData when step loads (for controlled fields like categories)
   // This ensures fields with a value prop are properly initialized in formData
   // This runs after the localStorage load effect to initialize missing values
+  // Also updates values when they change (for dynamic fields like galleryImages)
   useEffect(() => {
     setFormData((prev) => {
       let updated = { ...prev };
       let hasChanges = false;
 
       currentStepFields.forEach((field) => {
-        // Only sync if field has a value prop and formData doesn't have it yet
+        // Sync if field has a value prop
         if (field.value !== undefined) {
           const existingValue = getNestedValue(prev, field.name);
-          // If formData doesn't have this value, initialize it from field.value
-          // This handles controlled fields like categories that have a default value
-          // We only initialize if the value is truly missing (undefined), not if it's null or empty string
-          if (existingValue === undefined) {
+
+          // For steps with custom content (like file upload), always sync the value
+          // This ensures galleryImages and other dynamic fields stay in sync
+          const isCustomContentStep = currentStep.customContent !== undefined;
+
+          // Initialize if missing, or update if it's a custom content step (to keep dynamic values in sync)
+          if (
+            existingValue === undefined ||
+            (isCustomContentStep && JSON.stringify(existingValue) !== JSON.stringify(field.value))
+          ) {
             updated = setNestedValue(updated, field.name, field.value);
             hasChanges = true;
           }
@@ -239,7 +246,7 @@ export const SteppedForm = ({
 
       return hasChanges ? updated : prev;
     });
-  }, [currentStepIndex, currentStepFields]); // Sync when step or fields change
+  }, [currentStepIndex, currentStepFields, currentStep.customContent]); // Sync when step, fields, or custom content changes
 
   // Update form data when controlled fields change
   const handleFieldChange = useCallback((fieldName: string, value: any) => {
@@ -249,8 +256,26 @@ export const SteppedForm = ({
     });
   }, []);
 
+  // Merge current field values into formData for validation (ensures we have latest values, especially for custom content steps)
+  const formDataForValidation = useMemo(() => {
+    let merged = { ...formData };
+    currentStepFields.forEach((field) => {
+      if (field.value !== undefined) {
+        // For custom content steps, always use the latest field value
+        // For regular steps, only use field value if formData doesn't have it
+        const isCustomContentStep = currentStep.customContent !== undefined;
+        const existingValue = getNestedValue(merged, field.name);
+
+        if (isCustomContentStep || existingValue === undefined) {
+          merged = setNestedValue(merged, field.name, field.value);
+        }
+      }
+    });
+    return merged;
+  }, [formData, currentStepFields, currentStep.customContent]);
+
   // Use Zod validation if schema is provided
-  const stepValidation = useStepValidation(currentStep.schema, formData, currentStep.id, {
+  const stepValidation = useStepValidation(currentStep.schema, formDataForValidation, currentStep.id, {
     validateOnlyStepFields: true,
     stepFieldNames: currentStep.fieldNames
   });
@@ -263,7 +288,7 @@ export const SteppedForm = ({
     const validationResult = validateStep({
       schema: currentStep.schema,
       validate: currentStep.validate,
-      formData,
+      formData: formDataForValidation,
       fields: currentStepFields as Array<{ name: string; label?: string; onChange?: any; [key: string]: any }>,
       stepId: currentStep.id,
       zodValidationResult: zodResult,
@@ -272,7 +297,7 @@ export const SteppedForm = ({
 
     setValidationErrors(validationResult.errors);
     return validationResult.isValid;
-  }, [currentStep, currentStepFields, formData, t, stepValidation]);
+  }, [currentStep, currentStepFields, formDataForValidation, t, stepValidation]);
 
   // Navigation handlers
   const { handleNext, handlePrevious, handleStepClick, collectCurrentStepData } = useStepNavigation({

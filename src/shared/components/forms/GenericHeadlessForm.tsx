@@ -177,7 +177,7 @@ export const GenericForm = ({
   );
 
   return (
-    <form className={`generic-form ${className}`} onSubmit={handleSubmit} id={formId}>
+    <form className={`generic-form ${className}`} onSubmit={handleSubmit} id={formId} noValidate>
       {fields.map((field) => {
         switch (field.type) {
           case 'text':
@@ -206,7 +206,7 @@ export const GenericForm = ({
                   name={field.name}
                   value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
                   className={`form-input ${zodForm?.errors[field.name] ? 'error' : ''}`}
-                  required
+                  required={!schema}
                   onBlur={(e) => {
                     const value = e.target.value;
                     handleFieldBlur(field.name, value);
@@ -236,7 +236,7 @@ export const GenericForm = ({
                   value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
                   className={`form-textarea ${zodForm?.errors[field.name] ? 'error' : ''}`}
                   rows={4}
-                  required
+                  required={!schema}
                   onBlur={(e) => {
                     const value = e.target.value;
                     handleFieldBlur(field.name, value);

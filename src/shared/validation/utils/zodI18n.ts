@@ -77,6 +77,20 @@ export function formatZodIssueWithI18n(
         return `Please enter the ${field} in ${langName}`;
       }
     }
+    
+    // Handle common required fields with nicer messages
+    if (fieldName === 'address') {
+      return 'Address is required';
+    }
+    if (fieldName === 'phone') {
+      return 'Phone number is required';
+    }
+    if (fieldName === 'coverImage') {
+      return 'Cover image is required';
+    }
+    if (fieldName === 'galleryImages') {
+      return 'At least one gallery image is required';
+    }
   }
 
   // Use Zod error code mapping
