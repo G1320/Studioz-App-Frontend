@@ -52,16 +52,19 @@ export const GenericForm = ({
   const [city, setCity] = useState<string>('');
 
   // Initialize form data from field values
-  const initialFormData = fields.reduce((acc, field) => {
-    if (field.name.includes('.')) {
-      const [parent, child] = field.name.split('.');
-      acc[parent] = acc[parent] || {};
-      acc[parent][child] = field.value;
-    } else {
-      acc[field.name] = field.value;
-    }
-    return acc;
-  }, {} as Record<string, any>);
+  const initialFormData = fields.reduce(
+    (acc, field) => {
+      if (field.name.includes('.')) {
+        const [parent, child] = field.name.split('.');
+        acc[parent] = acc[parent] || {};
+        acc[parent][child] = field.value;
+      } else {
+        acc[field.name] = field.value;
+      }
+      return acc;
+    },
+    {} as Record<string, any>
+  );
 
   // Use Zod validation if schema is provided
   const zodForm = schema
@@ -164,7 +167,7 @@ export const GenericForm = ({
     (fieldName: string, value: any, originalOnChange?: (value: any) => void) => {
       // Call original onChange if provided
       originalOnChange?.(value);
-      
+
       // Update validation if schema is provided
       if (zodForm && (validationMode === 'onChange' || validationMode === 'all')) {
         zodForm.setField(fieldName, value);
@@ -190,7 +193,10 @@ export const GenericForm = ({
               );
             }
             return (
-              <div key={field.name} className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}>
+              <div
+                key={field.name}
+                className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}
+              >
                 <label htmlFor={field.name} className="form-label">
                   {field.label}
                 </label>
@@ -211,15 +217,16 @@ export const GenericForm = ({
                     handleFieldChange(field.name, value, field.onChange);
                   }}
                 />
-                {showFieldErrors && zodForm && (
-                  <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />
-                )}
+                {showFieldErrors && zodForm && <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />}
               </div>
             );
 
           case 'textarea':
             return (
-              <div key={field.name} className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}>
+              <div
+                key={field.name}
+                className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}
+              >
                 <label htmlFor={field.name} className="form-label">
                   {field.label}
                 </label>
@@ -240,9 +247,7 @@ export const GenericForm = ({
                     handleFieldChange(field.name, value, field.onChange);
                   }}
                 ></textarea>
-                {showFieldErrors && zodForm && (
-                  <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />
-                )}
+                {showFieldErrors && zodForm && <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />}
               </div>
             );
           case 'businessHours':
