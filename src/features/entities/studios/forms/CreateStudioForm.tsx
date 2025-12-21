@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
 import { getLocalUser } from '@shared/services';
@@ -45,7 +45,7 @@ export const CreateStudioForm = () => {
   const { isPro, isStarter } = useSubscription();
   const { data: allStudios = [] } = useStudios();
 
-  const { t } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
@@ -133,16 +133,95 @@ export const CreateStudioForm = () => {
       )
   );
 
+  // Get English category values for comparison (language-agnostic)
+  const musicCategoryEnglish = 'Music / Podcast Studio';
+  const photoCategoryEnglish = 'Photo / Video Studio';
+  const musicCategoryHebrew = 'סטודיו מוזיקה / פודקאסט';
+  const photoCategoryHebrew = 'סטודיו צילום / וידאו';
+
+  // Helper to check if category is music (works with both English and Hebrew)
+  const isMusicCategory = (category: string): boolean => {
+    return category === musicCategories[0] || category === musicCategoryEnglish || category === musicCategoryHebrew;
+  };
+
+  // Helper to convert category to current language
+  const convertCategoryToCurrentLanguage = (cat: string): string => {
+    // If it's the English music category, return current language's music category
+    if (cat === musicCategoryEnglish || cat === 'Music / Podcast Studio') {
+      return musicCategories[0];
+    }
+    // If it's the English photo category, return current language's photo category
+    if (cat === photoCategoryEnglish || cat === 'Photo / Video Studio') {
+      return photoCategories[0];
+    }
+    // If it's the Hebrew music category, return current language's music category
+    if (cat === musicCategoryHebrew || cat === 'סטודיו מוזיקה / פודקאסט') {
+      return musicCategories[0];
+    }
+    // If it's the Hebrew photo category, return current language's photo category
+    if (cat === photoCategoryHebrew || cat === 'סטודיו צילום / וידאו') {
+      return photoCategories[0];
+    }
+    // If it's already in current language, keep it
+    if (cat === musicCategories[0] || cat === photoCategories[0]) {
+      return cat;
+    }
+    // Fallback: keep as is
+    return cat;
+  };
+
+  // Track previous language to detect actual language changes
+  const previousLanguageRef = useRef(i18n.language);
+
   // Restore displaySubCategories based on saved categories (if saved state exists)
+  // Only run once on mount
   useEffect(() => {
     if (savedState?.selectedCategories) {
       const restoredCategories = savedState.selectedCategories;
-      const newSubCategories = restoredCategories.includes(`${musicCategories}`)
-        ? musicSubCategoriesDisplay
-        : photoSubCategories;
+
+      // Convert saved categories to current language
+      const updatedCategories = restoredCategories.map(convertCategoryToCurrentLanguage);
+
+      // Update selectedCategories to current language
+      setSelectedCategories(updatedCategories);
+
+      // Set subcategories based on category
+      const newSubCategories = isMusicCategory(updatedCategories[0]) ? musicSubCategoriesDisplay : photoSubCategories;
       setDisplaySubCategories(newSubCategories);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
+
+  // Update selectedCategories when i18n language actually changes (for existing selections)
+  useEffect(() => {
+    // Only update if language actually changed
+    if (previousLanguageRef.current === i18n.language) {
+      return;
+    }
+
+    setSelectedCategories((prevCategories) => {
+      if (prevCategories.length === 0) {
+        previousLanguageRef.current = i18n.language;
+        return prevCategories;
+      }
+
+      const updatedCategories = prevCategories.map(convertCategoryToCurrentLanguage);
+
+      // Only update if categories actually changed
+      if (JSON.stringify(updatedCategories) !== JSON.stringify(prevCategories)) {
+        // Update subcategories based on updated category
+        const newSubCategories = isMusicCategory(updatedCategories[0]) ? musicSubCategoriesDisplay : photoSubCategories;
+        setDisplaySubCategories(newSubCategories);
+
+        previousLanguageRef.current = i18n.language;
+        return updatedCategories;
+      }
+
+      previousLanguageRef.current = i18n.language;
+      return prevCategories;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language]); // Only depend on language, not category arrays
 
   // Controlled state object for auto-save (memoized to prevent unnecessary re-renders)
   const controlledState = useMemo(
@@ -181,7 +260,7 @@ export const CreateStudioForm = () => {
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
-    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategoriesDisplay : photoSubCategories;
+    const newSubCategories = isMusicCategory(values[0]) ? musicSubCategoriesDisplay : photoSubCategories;
     setDisplaySubCategories(newSubCategories);
     setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
   };
