@@ -103,11 +103,56 @@ export const studioStep5Schema = z.object({
  * Validates: maxOccupancy, isSmokingAllowed, isWheelchairAccessible, parking
  */
 export const studioStep6Schema = z.object({
-  maxOccupancy: positiveNumberSchema
-    .min(1, 'Max occupancy must be at least 1')
-    .max(1000, 'Max occupancy must be at most 1000'),
-  isSmokingAllowed: z.boolean().default(false),
-  isWheelchairAccessible: z.boolean().optional(),
+  maxOccupancy: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === '') {
+        return undefined;
+      }
+      // Convert string to number
+      if (typeof val === 'string') {
+        const num = Number(val);
+        return isNaN(num) ? undefined : num;
+      }
+      return val;
+    },
+    positiveNumberSchema
+      .min(1, 'Max occupancy is required and must be at least 1')
+      .max(1000, 'Max occupancy must be at most 1000')
+  ),
+  isSmokingAllowed: z.preprocess((val) => {
+    // Convert string to boolean, handle various formats
+    if (val === undefined || val === null || val === '') {
+      return false;
+    }
+    // Already a boolean, return as-is
+    if (typeof val === 'boolean') {
+      return val;
+    }
+    // Convert string to boolean
+    if (typeof val === 'string') {
+      // Handle "true"/"false" strings, "1"/"0", "on"/"off"
+      const lowerVal = val.toLowerCase();
+      return lowerVal === 'true' || lowerVal === '1' || lowerVal === 'on';
+    }
+    return Boolean(val);
+  }, z.boolean().default(false)),
+  isWheelchairAccessible: z.preprocess((val) => {
+    // Convert string to boolean, handle various formats
+    if (val === undefined || val === null || val === '') {
+      return false;
+    }
+    // Already a boolean, return as-is
+    if (typeof val === 'boolean') {
+      return val;
+    }
+    // Convert string to boolean
+    if (typeof val === 'string') {
+      // Handle "true"/"false" strings, "1"/"0", "on"/"off"
+      const lowerVal = val.toLowerCase();
+      return lowerVal === 'true' || lowerVal === '1' || lowerVal === 'on';
+    }
+    return Boolean(val);
+  }, z.boolean().optional()),
   parking: parkingSchema.optional()
 });
 

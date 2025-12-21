@@ -91,6 +91,18 @@ export function formatZodIssueWithI18n(
     if (fieldName === 'galleryImages') {
       return 'At least one gallery image is required';
     }
+    if (fieldName === 'maxOccupancy') {
+      if (issue.received === 'string') {
+        return 'Max occupancy must be a number';
+      }
+      return 'Max occupancy is required';
+    }
+    if (fieldName === 'isSmokingAllowed' || fieldName === 'isWheelchairAccessible') {
+      if (issue.received === 'string') {
+        return 'This field must be a valid selection';
+      }
+      return 'This field is required';
+    }
   }
 
   // Use Zod error code mapping
