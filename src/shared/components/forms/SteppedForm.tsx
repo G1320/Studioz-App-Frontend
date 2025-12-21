@@ -127,7 +127,8 @@ export const SteppedForm = ({
   // Use external language state if provided, otherwise use internal
   const selectedLanguage = externalSelectedLanguage ?? internalSelectedLanguage;
 
-  // Reload formData from localStorage when step or language changes (to ensure we have latest saved data)
+  // Reload formData from localStorage when step changes (to ensure we have latest saved data)
+  // Note: Language changes are handled by useLanguageToggle hook which preserves both languages
   useEffect(() => {
     const saved = loadFormData(formId);
     if (saved && Object.keys(saved).length > 0) {
@@ -146,7 +147,7 @@ export const SteppedForm = ({
         return merged;
       });
     }
-  }, [currentStepIndex, selectedLanguage, formId]);
+  }, [currentStepIndex, formId]); // Removed selectedLanguage to avoid conflicts with useLanguageToggle
 
   // Handle language toggle and preserve form data
   useLanguageToggle({
@@ -154,7 +155,8 @@ export const SteppedForm = ({
     currentStepIndex,
     formId,
     steps,
-    setFormData
+    setFormData,
+    formData
   });
 
   // Update URL with current step

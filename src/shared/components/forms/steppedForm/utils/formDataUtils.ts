@@ -71,6 +71,7 @@ export const hasAnyValue = (data: Record<string, any>): boolean => {
 
 /**
  * Merge form data objects, handling nested structures
+ * Preserves existing nested values (e.g., both .en and .he in name object)
  */
 export const mergeFormData = (
   target: Record<string, any>,
@@ -81,9 +82,16 @@ export const mergeFormData = (
   Object.entries(source).forEach(([key, value]) => {
     if (key.includes('.')) {
       const [parent, child] = key.split('.');
-      merged[parent] = { ...merged[parent] || {}, [child]: value };
+      // Preserve existing nested values - merge, don't replace
+      merged[parent] = { ...(merged[parent] || {}), [child]: value };
+    } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      // If source value is an object, merge it with existing (preserves both languages)
+      merged[key] = { ...(merged[key] || {}), ...value };
     } else {
-      merged[key] = value;
+      // For primitive values, only overwrite if target is empty
+      if (merged[key] === undefined || merged[key] === null || merged[key] === '') {
+        merged[key] = value;
+      }
     }
   });
   
