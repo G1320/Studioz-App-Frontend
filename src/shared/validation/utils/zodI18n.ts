@@ -67,7 +67,7 @@ export function formatZodIssueWithI18n(
   }
 
   // Handle invalid_enum_value errors for days field with a nicer message
-  if (issue.code === 'invalid_enum_value' && fieldName) {
+  if ((issue.code as string) === 'invalid_enum_value' && fieldName) {
     // Handle days field specifically
     if (fieldName === 'studioAvailability.days' || fieldName === 'days' || fieldName.includes('days')) {
       return 'Please select at least one day when your studio is open';
