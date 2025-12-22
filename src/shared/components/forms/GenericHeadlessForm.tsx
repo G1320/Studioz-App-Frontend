@@ -354,8 +354,8 @@ export const GenericForm = ({
             const initialVisibleCount = field.initialVisibleCount ?? field.options.length;
             const shouldShowExpandButton = field.options.length > initialVisibleCount;
             const isExpanded = expandedMultiSelects[field.name] || false;
-            const visibleOptions =
-              isExpanded || !shouldShowExpandButton ? field.options : field.options.slice(0, initialVisibleCount);
+            // Show all options - CSS will handle the height cutoff for partial rows
+            const visibleOptions = field.options;
 
             return (
               <div key={field.name} className="form-group">
