@@ -289,6 +289,11 @@ export const SteppedForm = ({
     const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
     const latestFormData = form ? { ...formDataForValidation, ...collectFormData(form) } : formDataForValidation;
 
+    // For language-toggle steps, merge with saved formData to ensure both languages are available
+    // This is needed because filterStepFields only shows fields for the selected language,
+    // but validation requires all fields (e.g., both name.en and name.he)
+    const dataForValidation = currentStep.languageToggle ? { ...formData, ...latestFormData } : latestFormData;
+
     // Validate with latest data if schema exists
     let zodResult = undefined;
     if (currentStep.schema) {
@@ -299,11 +304,17 @@ export const SteppedForm = ({
           if (fieldName.includes('.')) {
             const [parent, child] = fieldName.split('.');
             if (!dataToValidate[parent]) dataToValidate[parent] = {};
-            if (latestFormData[parent]?.[child] !== undefined) {
-              dataToValidate[parent][child] = latestFormData[parent][child];
+            // Check both latestFormData and formData to ensure we get all language variants
+            const value = dataForValidation[parent]?.[child] ?? formData[parent]?.[child];
+            if (value !== undefined) {
+              dataToValidate[parent][child] = value;
             }
-          } else if (latestFormData[fieldName] !== undefined) {
-            dataToValidate[fieldName] = latestFormData[fieldName];
+          } else {
+            // Check both latestFormData and formData
+            const value = dataForValidation[fieldName] ?? formData[fieldName];
+            if (value !== undefined) {
+              dataToValidate[fieldName] = value;
+            }
           }
         });
         currentStep.schema.parse(dataToValidate);
@@ -322,7 +333,7 @@ export const SteppedForm = ({
     const validationResult = validateStep({
       schema: currentStep.schema,
       validate: currentStep.validate,
-      formData: latestFormData,
+      formData: dataForValidation,
       fields: currentStepFields as Array<{ name: string; label?: string; onChange?: any; [key: string]: any }>,
       stepId: currentStep.id,
       zodValidationResult: zodResult,
@@ -331,7 +342,7 @@ export const SteppedForm = ({
 
     setValidationErrors(validationResult.errors);
     return validationResult.isValid;
-  }, [currentStep, currentStepFields, formDataForValidation, t, formId, currentStepIndex]);
+  }, [currentStep, currentStepFields, formDataForValidation, formData, t, formId, currentStepIndex]);
 
   // Navigation handlers
   const { handleNext, handlePrevious, handleStepClick, collectCurrentStepData } = useStepNavigation({
