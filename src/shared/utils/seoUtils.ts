@@ -127,6 +127,11 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
     return currentLang === 'he' ? `רשימות משאלות | ${brandName}` : `Wishlists | ${brandName}`;
   }
 
+  // For Owners page
+  if (basePath.startsWith('/for-owners')) {
+    return currentLang === 'he' ? `הצטרפו כמארחים | ${brandName}` : `List Your Studio | ${brandName}`;
+  }
+
   // Default fallback
   return currentLang === 'he' ? `אולפנים ושירותים להשכרה | ${brandName}` : `Studio Rentals & Services | ${brandName}`;
 };
@@ -198,6 +203,13 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
     return currentLang === 'he'
       ? 'נהלו את רשימות המשאלות שלכם - שמרו אולפנים ושירותים מועדפים להזמנה מאוחרת יותר.'
       : 'Manage your wishlists - save favorite studios and services for later booking.';
+  }
+
+  // For Owners page
+  if (basePath.startsWith('/for-owners')) {
+    return currentLang === 'he'
+      ? 'הצטרפו ל-Studioz והתחילו להרוויח מהסטודיו שלכם. פרסמו את הסטודיו שלכם תוך דקות והתחברו עם יוצרים מקצועיים.'
+      : 'Join Studioz and start earning from your studio. List your studio in minutes and connect with professional creators looking for the perfect location.';
   }
 
   // Default fallback

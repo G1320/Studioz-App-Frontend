@@ -1,0 +1,431 @@
+@use 'utilities/variables' as vars;
+
+.for-owners-page {
+  width: 100%;
+  min-height: 100vh;
+  background: vars.$bg-color-primary;
+  color: vars.$text-color-primary;
+
+  // Hero Section
+  .for-owners-hero {
+    position: relative;
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: vars.$spacing-3xl vars.$spacing-medium;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+    text-align: center;
+
+    &__content {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 vars.$spacing-large 0;
+      color: vars.$text-color-primary;
+      text-shadow: 0 2px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    &__subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      line-height: 1.6;
+      margin: 0 0 vars.$spacing-2xl 0;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &__cta {
+      display: flex;
+      justify-content: center;
+      gap: vars.$spacing-medium;
+    }
+
+    &__button {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background-color: vars.$color-brand;
+      color: vars.$text-color-dark;
+      border: none;
+      border-radius: vars.$border-radius-large;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-small;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+      }
+
+      &-icon {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  // Testimonial Section
+  .for-owners-testimonial {
+    padding: vars.$spacing-3xl vars.$spacing-medium;
+    background: vars.$bg-color-secondary;
+
+    &__content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    &__quote {
+      text-align: center;
+      padding: vars.$spacing-2xl;
+      background: vars.$card-bg-color;
+      border-radius: vars.$border-radius-large;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    &__text {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      line-height: 1.8;
+      font-style: italic;
+      color: vars.$text-color-primary;
+      margin: 0 0 vars.$spacing-large 0;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &__author {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-xs;
+      align-items: center;
+    }
+
+    &__name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: vars.$color-brand;
+    }
+
+    &__location {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  // Shoot Types Section
+  .for-owners-shoot-types {
+    padding: vars.$spacing-3xl vars.$spacing-medium;
+    background: vars.$bg-color-primary;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 vars.$spacing-3xl 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: vars.$spacing-xl;
+    }
+  }
+
+  .for-owners-shoot-type-card {
+    padding: vars.$spacing-2xl;
+    background: vars.$card-bg-color;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: vars.$color-brand;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+    }
+
+    &__icon {
+      font-size: 3rem;
+      color: vars.$color-brand;
+      margin-bottom: vars.$spacing-large;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 vars.$spacing-medium 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0;
+    }
+  }
+
+  // How It Works Section
+  .for-owners-how-it-works {
+    padding: vars.$spacing-3xl vars.$spacing-medium;
+    background: vars.$bg-color-secondary;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 vars.$spacing-3xl 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__steps {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-2xl;
+    }
+  }
+
+  .for-owners-step {
+    display: flex;
+    gap: vars.$spacing-xl;
+    padding: vars.$spacing-2xl;
+    background: vars.$card-bg-color;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: vars.$color-brand;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+    }
+
+    &__number {
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: vars.$color-brand;
+      color: vars.$text-color-dark;
+      border-radius: 50%;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    &__content {
+      flex: 1;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 vars.$spacing-medium 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0 0 vars.$spacing-large 0;
+    }
+
+    &__details {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-small;
+    }
+
+    &__detail {
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-small;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.85);
+
+      &-icon {
+        color: vars.$color-brand;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  // Benefits Section
+  .for-owners-benefits {
+    padding: vars.$spacing-3xl vars.$spacing-medium;
+    background: vars.$bg-color-primary;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 vars.$spacing-3xl 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: vars.$spacing-xl;
+    }
+  }
+
+  .for-owners-benefit-card {
+    padding: vars.$spacing-xl;
+    background: vars.$card-bg-color;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: vars.$color-brand;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+    }
+
+    &__icon {
+      font-size: 2.5rem;
+      color: vars.$color-brand;
+      margin-bottom: vars.$spacing-medium;
+    }
+
+    &__title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0 0 vars.$spacing-small 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0;
+    }
+  }
+
+  // Final CTA Section
+  .for-owners-final-cta {
+    padding: vars.$spacing-3xl vars.$spacing-medium;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+    text-align: center;
+
+    &__content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin: 0 0 vars.$spacing-large 0;
+      color: vars.$text-color-primary;
+    }
+
+    &__subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0 0 vars.$spacing-2xl 0;
+    }
+
+    &__button {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background-color: vars.$color-brand;
+      color: vars.$text-color-dark;
+      border: none;
+      border-radius: vars.$border-radius-large;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: vars.$spacing-small;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+      }
+
+      &-icon {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  // RTL Support
+  html[dir='rtl'] &,
+  html[lang='he'] & {
+    .for-owners-step {
+      flex-direction: row-reverse;
+    }
+
+    .for-owners-step__detail {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    .for-owners-hero {
+      min-height: 50vh;
+      padding: vars.$spacing-2xl vars.$spacing-medium;
+    }
+
+    .for-owners-step {
+      flex-direction: column;
+      text-align: center;
+
+      &__number {
+        margin: 0 auto;
+      }
+    }
+
+    .for-owners-shoot-types__grid,
+    .for-owners-benefits__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .for-owners-testimonial__quote {
+      padding: vars.$spacing-xl;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .for-owners-hero__button,
+    .for-owners-final-cta__button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+

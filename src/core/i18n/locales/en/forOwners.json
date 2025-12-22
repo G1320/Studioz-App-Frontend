@@ -1,0 +1,75 @@
+{
+  "hero": {
+    "title": "Turn Your Studio Into Income",
+    "subtitle": "Join Studioz and start earning from your space. List your studio in minutes and connect with professional creators looking for the perfect location.",
+    "cta": "List Your Studio"
+  },
+  "testimonial": {
+    "quote": "I've been hosting sessions for years and Studioz was by far the smoothest experience I've had. Their quality renters and amazing customer support made this as easy as can be.",
+    "name": "John D.",
+    "location": "Tel Aviv, Israel"
+  },
+  "shootTypes": {
+    "title": "What types of sessions can I host?",
+    "photoshoots": {
+      "title": "Recording Sessions",
+      "description": "Recording sessions are straightforward and low impact. They typically last a few hours and include a small team of less than 10 people."
+    },
+    "commercials": {
+      "title": "Production Projects",
+      "description": "Production projects come in all shapes and sizes. On average, they last about a day and require a team of 10-20 people."
+    },
+    "filmShoots": {
+      "title": "Long-term Productions",
+      "description": "Big budget productions run over multiple days and require larger teams. They also pay the best and give you the best chance to work with top professionals."
+    }
+  },
+  "howItWorks": {
+    "title": "How Studioz Works in 3 Simple Steps",
+    "step1": {
+      "title": "Sign up as a host",
+      "description": "List your property in 5 minutes on Studioz",
+      "detail1": "Create your listing with basic info like price, photos and features",
+      "detail2": "Click 'Publish' and start receiving booking requests"
+    },
+    "step2": {
+      "title": "Receive bookings from renters",
+      "description": "Accept the sessions you want to host, decline the ones you don't.",
+      "detail1": "Your address and contact info are always kept private",
+      "detail2": "Renters will message you through Studioz with questions and booking requests",
+      "detail3": "You can schedule location scouts and negotiate timings for setup and teardown"
+    },
+    "step3": {
+      "title": "Host a session - Get paid",
+      "description": "Earn extra income with complete peace of mind",
+      "detail1": "If you don't want to be present, Studioz can provide support",
+      "detail2": "Renters are charged as soon as you accept their booking request",
+      "detail3": "Final payout is deposited into your preferred bank account within 7 days"
+    }
+  },
+  "benefits": {
+    "title": "Why Choose Studioz?",
+    "security": {
+      "title": "Secure & Protected",
+      "description": "All renters are verified professionals. Your property is protected with comprehensive insurance coverage for every booking."
+    },
+    "payment": {
+      "title": "Fast Payments",
+      "description": "Get paid quickly and securely. Payments are processed automatically and deposited directly to your account."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Our dedicated support team is always available to help you with any questions or issues that may arise."
+    },
+    "earnings": {
+      "title": "Maximize Earnings",
+      "description": "Set your own rates and availability. You're in complete control of your pricing and schedule."
+    }
+  },
+  "finalCta": {
+    "title": "Ready to get started?",
+    "subtitle": "Join thousands of studio owners already earning with Studioz",
+    "button": "List Your Studio"
+  }
+}
+

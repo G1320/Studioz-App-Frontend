@@ -27,6 +27,7 @@ import { featureFlags, isFeatureEnabled } from '@core/config/featureFlags';
 const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
 const NotFoundPage = lazy(() => import('@features/static/pages/NotFoundPage'));
+const ForOwnersPage = lazy(() => import('@features/static/pages/ForOwnersPage'));
 const ServicesPage = lazy(() => import('@features/entities/items/pages/ServicesPage'));
 const StudiosPage = lazy(() => import('@features/entities/studios/pages/StudiosPage'));
 const CreateItemPage = lazy(() => import('@features/entities/items/pages/CreateItemPage'));
@@ -311,6 +312,16 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
+          {isFeatureEnabled('forOwnersPage') && (
+            <Route
+              path="/:lang?/for-owners"
+              element={
+                <AnimatedRoute>
+                  <ForOwnersPage />
+                </AnimatedRoute>
+              }
+            />
+          )}
           {/* Catch-all route for 404 */}
           <Route
             path="*"

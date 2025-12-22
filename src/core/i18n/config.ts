@@ -19,6 +19,7 @@ import studios from './locales/en/studios.json';
 import cities from './locales/en/cities.json';
 import cookieConsent from './locales/en/cookieConsent.json';
 import location from './locales/en/location.json';
+import forOwners from './locales/en/forOwners.json';
 
 import homePageHe from './locales/he/homePage.json';
 import commonHe from './locales/he/common.json';
@@ -37,6 +38,7 @@ import studiosHe from './locales/he/studios.json';
 import citiesHe from './locales/he/cities.json';
 import cookieConsentHe from './locales/he/cookieConsent.json';
 import locationHe from './locales/he/location.json';
+import forOwnersHe from './locales/he/forOwners.json';
 
 i18n
   .use(LanguageDetector)
@@ -60,7 +62,8 @@ i18n
         studios,
         cities,
         cookieConsent,
-        location
+        location,
+        forOwners
       },
       he: {
         homePage: homePageHe,
@@ -79,7 +82,8 @@ i18n
         studios: studiosHe,
         cities: citiesHe,
         cookieConsent: cookieConsentHe,
-        location: locationHe
+        location: locationHe,
+        forOwners: forOwnersHe
       }
     },
     fallbackLng: 'en',
