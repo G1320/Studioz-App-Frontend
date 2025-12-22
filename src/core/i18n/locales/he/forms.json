@@ -23,7 +23,9 @@
       "label": "תת-קטגוריות"
     },
     "genres": {
-      "label": "ז'אנרים"
+      "label": "ז'אנרים",
+      "showAll": "הצג הכל",
+      "showLess": "הצג פחות"
     },
     "languageToggle": {
       "label": "בחר שפה לעריכה"

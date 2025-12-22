@@ -273,6 +273,8 @@
   }
 
   .checkbox-group.bubble-style {
+    position: relative;
+
     .multiselect-option {
       .multiselect-checkbox {
         padding: vars.$spacing-sm-md vars.$spacing-medium;
@@ -295,6 +297,117 @@
           color: inherit;
         }
       }
+    }
+
+    // Fade effect when collapsed - production-level UX hint
+    // Clearly indicates more content is available below
+    &.collapsed-with-fade {
+      position: relative;
+      overflow: hidden; // Ensure fade stays within bounds
+      margin-bottom: vars.$spacing-small; // Space for the fade effect
+
+      // Gradient overlay that smoothly fades the bottom items
+      // Blends seamlessly with form background while clearly indicating more content
+      // Only fades out at the bottom - starts fully visible, fades to background
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 140px;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          transparent 50%,
+          color.mix(transparent, vars.$bg-color-tertiary, 25%) 70%,
+          color.mix(transparent, vars.$bg-color-tertiary, 55%) 85%,
+          vars.$bg-color-tertiary 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+        // Subtle pulsing animation to draw attention (very gentle)
+        animation: fadeHint 4s ease-in-out infinite;
+
+        // Higher fade on mobile for better visibility
+        @media screen and (max-width: 768px) {
+          height: 180px;
+        }
+
+        @media screen and (max-width: 480px) {
+          height: 200px;
+        }
+      }
+
+      // Subtle highlight line at the fade boundary for better visibility
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          rgba(255, 255, 255, 0.08) 20%,
+          rgba(255, 255, 255, 0.12) 50%,
+          rgba(255, 255, 255, 0.08) 80%,
+          transparent 100%
+        );
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  // Subtle pulsing animation for fade hint
+  // Gently draws attention to indicate more content is available
+  @keyframes fadeHint {
+    0%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  }
+
+  // Show All / Show Less button for expandable multiSelect fields
+  // Positioned right after the fade effect for clear visual connection
+  .show-all-button {
+    margin-top: vars.$spacing-small;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-medium;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2; // Ensure button appears above fade effect
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.3);
     }
   }
 }

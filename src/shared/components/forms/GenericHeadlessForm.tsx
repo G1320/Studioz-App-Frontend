@@ -126,6 +126,9 @@ export const GenericForm = ({
     )
   );
 
+  // Track which multiSelect fields are expanded (show all options)
+  const [expandedMultiSelects, setExpandedMultiSelects] = useState<Record<string, boolean>>({});
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Prevent nested forms (e.g., add-ons inside item forms) from bubbling up and triggering parent submits
@@ -348,11 +351,19 @@ export const GenericForm = ({
             );
 
           case 'multiSelect':
+            const initialVisibleCount = field.initialVisibleCount ?? field.options.length;
+            const shouldShowExpandButton = field.options.length > initialVisibleCount;
+            const isExpanded = expandedMultiSelects[field.name] || false;
+            const visibleOptions =
+              isExpanded || !shouldShowExpandButton ? field.options : field.options.slice(0, initialVisibleCount);
+
             return (
               <div key={field.name} className="form-group">
                 <label className="form-label">{field.label}</label>
-                <div className={`checkbox-group ${field.bubbleStyle ? 'bubble-style' : ''}`}>
-                  {field.options.map((option: string) => (
+                <div
+                  className={`checkbox-group ${field.bubbleStyle ? 'bubble-style' : ''} ${shouldShowExpandButton && !isExpanded ? 'collapsed-with-fade' : ''}`}
+                >
+                  {visibleOptions.map((option: string) => (
                     <Field key={option} as="div" className="multiselect-option">
                       <Switch
                         checked={field.value?.includes(option)}
@@ -369,6 +380,17 @@ export const GenericForm = ({
                     </Field>
                   ))}
                 </div>
+                {shouldShowExpandButton && (
+                  <button
+                    type="button"
+                    onClick={() => setExpandedMultiSelects((prev) => ({ ...prev, [field.name]: !isExpanded }))}
+                    className="show-all-button"
+                  >
+                    {isExpanded
+                      ? field.showLessLabel || 'Show Less'
+                      : field.showAllLabel || `Show All (${field.options.length - initialVisibleCount} more)`}
+                  </button>
+                )}
               </div>
             );
 

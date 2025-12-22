@@ -423,7 +423,10 @@ export const CreateStudioForm = () => {
       options: genres,
       value: selectedGenres,
       onChange: handleGenreChange,
-      bubbleStyle: true
+      bubbleStyle: true,
+      initialVisibleCount: 14, // Show first 14 genres initially with fade effect, rest can be expanded
+      showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
+      showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
     },
     {
       name: 'studioAvailability',

@@ -23,7 +23,9 @@
       "label": "Subcategories"
     },
     "genres": {
-      "label": "Genres"
+      "label": "Genres",
+      "showAll": "Show All",
+      "showLess": "Show Less"
     },
     "languageToggle": {
       "label": "Select language for editing"
