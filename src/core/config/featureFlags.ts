@@ -10,6 +10,7 @@ export interface FeatureFlags {
   addOns: boolean;
   reservationDetailsPage: boolean;
   headerSearchIcon: boolean;
+  dynamicCategorySelector: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -23,7 +24,8 @@ export const featureFlags: FeatureFlags = {
   notifications: true,
   addOns: true,
   reservationDetailsPage: false,
-  headerSearchIcon: false
+  headerSearchIcon: false,
+  dynamicCategorySelector: false
 };
 
 /**

@@ -6,6 +6,7 @@ import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/componen
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import {
   useCreateStudioMutation,
   useMusicCategories,
@@ -404,7 +405,8 @@ export const CreateStudioForm = () => {
       type: 'select' as FieldType,
       options: [musicCategories, photoCategories],
       value: selectedCategories,
-      onChange: handleCategoryChange
+      onChange: handleCategoryChange,
+      className: !isFeatureEnabled('dynamicCategorySelector') ? 'hide-category-selector' : ''
     },
     {
       name: 'subCategories',

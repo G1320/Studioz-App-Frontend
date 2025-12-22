@@ -309,7 +309,11 @@ export const GenericForm = ({
             );
           case 'select':
             return (
-              <div key={field.name} className="form-group select-container">
+              <div
+                key={field.name}
+                className={`form-group select-container ${field.className || ''}`}
+                data-field-name={field.name}
+              >
                 <label className="form-label">{field.label}</label>
                 <Listbox value={field.value} onChange={field.onChange}>
                   {({ open }) => (

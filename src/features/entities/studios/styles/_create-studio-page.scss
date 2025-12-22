@@ -79,3 +79,21 @@
 .create-studio-page {
   @include forms.branded-file-uploader;
 }
+
+// Hide category selector when feature flag is disabled
+.create-studio-form,
+.stepped-form,
+.create-studio-form-wrapper {
+  .form-group.hide-category-selector,
+  .select-container.hide-category-selector,
+  .form-group.select-container.hide-category-selector,
+  [data-field-name='categories'].hide-category-selector,
+  [data-field-name='categories'] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+}
