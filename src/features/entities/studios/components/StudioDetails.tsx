@@ -21,8 +21,11 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { getDisplayByEnglish } = useGenres();
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
-  const { t } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
   const { userLocation } = useLocationPermission();
+
+  // Get the current language (default to 'en' if not 'he')
+  const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
   const langNavigate = useLanguageNavigate();
 
@@ -45,7 +48,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
 
   const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/edit-studio/${studioId}`) : null);
   const handleAddNewService = (studioId: string) =>
-    studioId ? langNavigate(`/create-item/${studio?.name.en}/${studioId}`) : null;
+    studioId ? langNavigate(`/create-item/${studio?.name[currentLang] || studio?.name.en}/${studioId}`) : null;
 
   const hasLocation = studio?.lat && studio?.lng;
 
@@ -82,14 +85,14 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             <button
               onClick={() => setIsMapModalOpen(true)}
               className="studio-info-modal-button"
-              aria-label={`View ${studio?.name.en} information and map`}
+              aria-label={`View ${studio?.name[currentLang] || studio?.name.en} information and map`}
             >
               <InfoOutlined aria-hidden="true" />
             </button>
           )}
         </div>
       </div>
-      <p className="description">{studio?.description.en}</p>
+      <p className="description">{studio?.description[currentLang] || studio?.description.en}</p>
       {displayGenres.length > 0 && (
         <div className="studio-genres">
           {displayGenres.map((genre, index) => (
@@ -101,7 +104,10 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       {studio?.parking && studio.parking !== 'none' && (
         <div role="group" aria-labelledby="parking">
           <LocalParking aria-label="Parking icon" />
-          <p id="parking" aria-label={`Parking at ${studio?.name.en}: ${getParkingLabel(studio.parking)}`}>
+          <p
+            id="parking"
+            aria-label={`Parking at ${studio?.name[currentLang] || studio?.name.en}: ${getParkingLabel(studio.parking)}`}
+          >
             {getParkingLabel(studio.parking)}
           </p>
         </div>

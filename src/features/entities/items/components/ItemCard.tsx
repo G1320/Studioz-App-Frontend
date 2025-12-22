@@ -28,8 +28,11 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
   const { user } = useUserContext();
   // const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { t } = useTranslation(['common', 'forms']);
+  const { t, i18n } = useTranslation(['common', 'forms']);
   const { userLocation } = useLocationPermission();
+
+  // Get the current language (default to 'en' if not 'he')
+  const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
   // Calculate distance if user location is available and badge should be shown
   const distance = useMemo(() => {
@@ -70,7 +73,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
     <article onMouseEnter={prefetchItem} key={item?._id} className="card item-card">
       <div className="item-card-name-and-description">
         <h3 className="title">{item?.name.en}</h3>
-        <p className="description">{item?.description.en}</p>
+        <p className="description">{item?.description[currentLang] || item?.description.en}</p>
         <small className="item-price">
           ₪{item?.price}/{getTranslatedPricePer(item?.pricePer || '')}
         </small>

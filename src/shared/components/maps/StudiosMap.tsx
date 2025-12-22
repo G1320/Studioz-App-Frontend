@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import Map, {
   Marker,
   Popup,
@@ -26,6 +27,10 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity, us
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
   const langNavigate = useLanguageNavigate();
+  const { i18n } = useTranslation();
+
+  // Get the current language (default to 'en' if not 'he')
+  const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
   // Use custom hook for map viewState and flyTo logic
   const { viewState, setViewState, updateViewState } = useStudiosMap({
@@ -139,10 +144,10 @@ export const StudiosMap: React.FC<StudioMapProps> = ({ studios, selectedCity, us
               <img
                 src={popupInfo.coverImage}
                 onClick={() => handleNavigateToStudio(popupInfo._id)}
-                alt={popupInfo.name.en}
+                alt={popupInfo.name[currentLang] || popupInfo.name.en}
               />
               <div className="popup-content">
-                <h3 className="popup-title">{popupInfo.name.en}</h3>
+                <h3 className="popup-title">{popupInfo.name[currentLang] || popupInfo.name.en}</h3>
                 {/* <p className="popup-description">{popupInfo.description}</p> */}
                 <p className="popup-city">{popupInfo.address}</p>
               </div>
