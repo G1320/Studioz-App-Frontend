@@ -7,6 +7,7 @@ import { FieldType } from './GenericHeadlessForm';
 import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { useDebounce } from '@shared/hooks/debauncing';
 import { useStepValidation } from '@shared/validation/hooks/useStepValidation';
+import { formatZodIssueWithI18n } from '@shared/validation/utils/zodI18n';
 import {
   setNestedValue,
   getNestedValue,
@@ -323,7 +324,10 @@ export const SteppedForm = ({
         if (error.name === 'ZodError') {
           const errors: Record<string, string> = {};
           error.issues?.forEach((issue: any) => {
-            errors[issue.path.map(String).join('.')] = issue.message;
+            const fieldPath = issue.path.map(String).join('.');
+            // Use i18n formatter to get user-friendly error messages
+            const formattedMessage = formatZodIssueWithI18n(issue, t, fieldPath);
+            errors[fieldPath] = formattedMessage;
           });
           zodResult = { isValid: false, errors };
         }

@@ -189,7 +189,7 @@ export const timeSlotSchema = z.object({
  * Studio availability schema
  */
 export const studioAvailabilitySchema = z.object({
-  days: z.array(dayOfWeekSchema).min(1, 'At least one day is required'),
+  days: z.array(dayOfWeekSchema).min(1, 'Please select at least one day when your studio is open'),
   times: z.array(timeSlotSchema).min(1, 'At least one time slot is required')
 }).refine(
   (data) => data.days.length === data.times.length,

@@ -295,7 +295,13 @@
         },
         "studioAvailability": {
           "error": "Studio availability is invalid",
-          "too_small": "At least one day is required"
+          "too_small": "Please select at least one day when your studio is open",
+          "invalidEnumValue": "Please select at least one day when your studio is open"
+        },
+        "studioAvailability.days": {
+          "error": "Please select at least one day when your studio is open",
+          "invalidEnumValue": "Please select at least one day when your studio is open",
+          "too_small": "Please select at least one day when your studio is open"
         }
       }
     },
