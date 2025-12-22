@@ -94,10 +94,18 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
-    direction: ltr;
     font-size: 0.8125rem;
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.75);
+    word-break: break-word;
+    text-overflow: ellipsis;
+    
+    // Support RTL for Hebrew text
+    html[dir='rtl'] &,
+    html[lang='he'] & {
+      direction: rtl;
+      text-align: right;
+    }
   }
 
   .image-gallery-container {
