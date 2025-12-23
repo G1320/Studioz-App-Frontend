@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { GenericImage } from './GenericImage';
 import { GenericList } from '@shared/components';
+import { useStyledDragImage } from '@shared/hooks/utils/useStyledDragImage';
 
 interface GenericImageGalleryProps {
   isGalleryImagesShown?: boolean;
@@ -35,7 +36,10 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  const dragImageRef = useRef<HTMLElement | null>(null);
+  const { setStyledDragImage, cleanupDragImage } = useStyledDragImage({
+    border: '2px solid rgba(255, 255, 255, 0.35)',
+    opacity: '0.9'
+  });
 
   const handleImageChange = (image: string) => {
     setCurrCoverImage(image);
@@ -51,24 +55,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', index.toString());
 
-    // Styled clone so the drag preview matches the tile size/aspect
-    const target = e.currentTarget as HTMLElement | null;
-    if (target) {
-      const rect = target.getBoundingClientRect();
-      const clone = target.cloneNode(true) as HTMLElement;
-      clone.style.position = 'absolute';
-      clone.style.top = '-9999px';
-      clone.style.left = '-9999px';
-      clone.style.width = `${rect.width}px`;
-      clone.style.height = `${rect.height}px`;
-      clone.style.pointerEvents = 'none';
-      clone.style.opacity = '0.9';
-      clone.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.35), 0 0 0 2px rgba(255,255,255,0.08)';
-      clone.style.borderRadius = '12px';
-      document.body.appendChild(clone);
-      dragImageRef.current = clone;
-      e.dataTransfer.setDragImage(clone, rect.width / 2, rect.height / 2);
-    }
+    setStyledDragImage(e);
   };
 
   const handleDragOver = (e: React.DragEvent, index: number) => {
@@ -124,10 +111,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   const handleDragEnd = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
-    if (dragImageRef.current) {
-      dragImageRef.current.remove();
-      dragImageRef.current = null;
-    }
+    cleanupDragImage();
   };
 
   const renderItem = (image: string, index: number) => {
