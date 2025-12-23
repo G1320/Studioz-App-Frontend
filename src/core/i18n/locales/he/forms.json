@@ -20,7 +20,9 @@
       "photo": "צילום"
     },
     "subCategories": {
-      "label": "תת-קטגוריות"
+      "label": "תת-קטגוריות",
+      "showAll": "הצג הכל",
+      "showLess": "הצג פחות"
     },
     "genres": {
       "label": "ז'אנרים",

@@ -236,7 +236,11 @@ export const EditStudioForm = () => {
       type: 'multiSelect' as FieldType,
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
-      onChange: handleSubCategoryChange
+      onChange: handleSubCategoryChange,
+      initialVisibleCount: 10, // enable expand with fade for longer lists
+      showAllLabel: t('form.showAll', 'Show All'),
+      showLessLabel: t('form.showLess', 'Show Less'),
+      className: 'subcategories-plain'
     },
     {
       name: 'genres',
@@ -338,7 +342,9 @@ export const EditStudioForm = () => {
     <section>
       <FileUploader
         fileType="image"
-        onFileUpload={handleFileUpload}
+        onFileUpload={async (files, type) => {
+          await handleFileUpload(files, type);
+        }}
         galleryFiles={galleryImages}
         isCoverShown={true}
         onRemoveImage={handleRemoveImage}

@@ -331,7 +331,9 @@ export const CreateStudioForm = () => {
         customContent: (
           <FileUploader
             fileType="image"
-            onFileUpload={handleFileUpload}
+            onFileUpload={async (files, type) => {
+              await handleFileUpload(files, type);
+            }}
             galleryFiles={galleryImages}
             isCoverShown={false}
             showPreviewBeforeUpload={false}
@@ -418,7 +420,11 @@ export const CreateStudioForm = () => {
       type: 'multiSelect' as FieldType,
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
-      onChange: handleSubCategoryChange
+      onChange: handleSubCategoryChange,
+      initialVisibleCount: 12, // enable expand with fade for longer lists
+      showAllLabel: t('form.subCategories.showAll', 'Show All'),
+      showLessLabel: t('form.subCategories.showLess', 'Show Less'),
+      className: 'subcategories-plain'
     },
     {
       name: 'genres',

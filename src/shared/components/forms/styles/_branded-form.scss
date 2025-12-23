@@ -228,13 +228,62 @@
 
 @mixin branded-checkbox-group {
   padding: vars.$spacing-medium;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: vars.$border-radius-medium;
-  background: rgba(34, 34, 34, 0.4);
 
   label {
     color: vars.$text-color-primary;
     cursor: pointer;
+  }
+
+  & button {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: vars.$border-radius-medium;
+  }
+
+  // Allow expandable lists (with fade) for both bubble and standard layouts
+  &.collapsed-with-fade {
+    position: relative;
+    overflow: hidden; // Keep the fade inside the container
+    margin-bottom: vars.$spacing-small;
+    max-height: 120px;
+    border: none;
+    background: transparent;
+
+    @media screen and (max-width: 768px) {
+      max-height: 140px;
+    }
+
+    @media screen and (max-width: 480px) {
+      max-height: 150px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 140px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 50%,
+        color.mix(transparent, vars.$bg-color-tertiary, 25%) 70%,
+        color.mix(transparent, vars.$bg-color-tertiary, 55%) 85%,
+        vars.$bg-color-tertiary 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      animation: fadeHint 4s ease-in-out infinite;
+
+      @media screen and (max-width: 768px) {
+        height: 180px;
+      }
+
+      @media screen and (max-width: 480px) {
+        height: 200px;
+      }
+    }
   }
 
   &.bubble-style {
@@ -250,20 +299,23 @@
 @mixin branded-multiselect {
   .multiselect-option {
     .multiselect-checkbox {
-      padding: vars.$spacing-small;
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      width: 100%;
       border-radius: vars.$border-radius-small;
       cursor: pointer;
+
       transition: background-color 0.2s ease;
-      background: transparent;
       color: vars.$text-color-primary;
-
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: vars.$font-size-sm-md;
       &:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.15) !important;
       }
-
       &.selected {
         background: vars.$color-brand !important;
         color: vars.$text-color-dark !important;
+        border-color: vars.$color-brand !important;
       }
 
       .multiselect-label {
@@ -279,13 +331,9 @@
       .multiselect-checkbox {
         padding: vars.$spacing-sm-md vars.$spacing-medium;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.1) !important;
         color: vars.$text-color-primary !important;
+        background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.15) !important;
-        }
 
         &.selected {
           background: vars.$color-brand !important;
@@ -295,66 +343,6 @@
 
         .multiselect-label {
           color: inherit;
-        }
-      }
-    }
-
-    // Fade effect when collapsed - production-level UX hint
-    // Clearly indicates more content is available below
-    // Shows approximately 2.3 rows to create natural cutoff
-    &.collapsed-with-fade {
-      position: relative;
-      overflow: hidden; // Ensure fade stays within bounds and cuts off partial row
-      margin-bottom: vars.$spacing-small; // Space for the fade effect
-
-      // Limit height to show approximately 2.3 rows of genres
-      // This creates a natural cutoff where part of the third row is visible
-
-      // Fallback calculation: approximately 2.3 rows
-      // Each row is roughly: button height (~40px) + gap (0.5rem = 8px) = ~48px
-      // 2.3 rows = ~110px, plus some padding
-      max-height: 120px;
-
-      @media screen and (max-width: 768px) {
-        // On tablet, adjust for potentially different button sizes
-        max-height: 140px;
-      }
-
-      @media screen and (max-width: 480px) {
-        // On mobile, buttons might be slightly different
-        max-height: 150px;
-      }
-
-      // Gradient overlay that smoothly fades the bottom items
-      // Blends seamlessly with form background while clearly indicating more content
-      // Only fades out at the bottom - starts fully visible, fades to background
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 140px;
-        background: linear-gradient(
-          to bottom,
-          transparent 0%,
-          transparent 50%,
-          color.mix(transparent, vars.$bg-color-tertiary, 25%) 70%,
-          color.mix(transparent, vars.$bg-color-tertiary, 55%) 85%,
-          vars.$bg-color-tertiary 100%
-        );
-        pointer-events: none;
-        z-index: 1;
-        // Subtle pulsing animation to draw attention (very gentle)
-        animation: fadeHint 4s ease-in-out infinite;
-
-        // Higher fade on mobile for better visibility
-        @media screen and (max-width: 768px) {
-          height: 180px;
-        }
-
-        @media screen and (max-width: 480px) {
-          height: 200px;
         }
       }
     }

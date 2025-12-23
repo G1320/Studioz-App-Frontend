@@ -20,7 +20,9 @@
       "photo": "Photo"
     },
     "subCategories": {
-      "label": "Subcategories"
+      "label": "Subcategories",
+      "showAll": "Show All",
+      "showLess": "Show Less"
     },
     "genres": {
       "label": "Genres",
