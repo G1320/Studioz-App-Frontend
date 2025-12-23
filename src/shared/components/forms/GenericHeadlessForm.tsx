@@ -197,12 +197,18 @@ export const GenericForm = ({
   return (
     <form className={`generic-form ${className}`} onSubmit={handleSubmit} id={formId} noValidate>
       {fields.map((field) => {
+        // Check for errors from both zodForm and field.error prop (from SteppedForm)
+        const fieldError = field.error || zodForm?.errors[field.name];
+        const hasError = !!fieldError;
+        const errorClassName = hasError ? 'has-error' : '';
+        const inputErrorClassName = hasError ? 'error' : '';
+
         switch (field.type) {
           case 'text':
           case 'number':
             if (field.name === 'address') {
               return (
-                <div key={field.name} className={`form-group ${zodForm?.errors[field.name] ? 'has-error' : ''}`}>
+                <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                   <label htmlFor={field.name} className="form-label">
                     {field.label}
                   </label>
@@ -214,17 +220,12 @@ export const GenericForm = ({
                       handleFieldChange('address', value, field.onChange);
                     }}
                   />
-                  {showFieldErrors && zodForm && (
-                    <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />
-                  )}
+                  {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
                 </div>
               );
             }
             return (
-              <div
-                key={field.name}
-                className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}
-              >
+              <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                 <label htmlFor={field.name} className="form-label">
                   {field.label}
                 </label>
@@ -233,7 +234,7 @@ export const GenericForm = ({
                   id={field.name}
                   name={field.name}
                   value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
-                  className={`form-input ${zodForm?.errors[field.name] ? 'error' : ''}`}
+                  className={`form-input ${inputErrorClassName}`}
                   required={!schema}
                   onBlur={(e) => {
                     const value = e.target.value;
@@ -245,16 +246,13 @@ export const GenericForm = ({
                     handleFieldChange(field.name, value, field.onChange);
                   }}
                 />
-                {showFieldErrors && zodForm && <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />}
+                {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
 
           case 'textarea':
             return (
-              <div
-                key={field.name}
-                className={`form-group ${field.className || ''} ${zodForm?.errors[field.name] ? 'has-error' : ''}`}
-              >
+              <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                 <label htmlFor={field.name} className="form-label">
                   {field.label}
                 </label>
@@ -262,7 +260,7 @@ export const GenericForm = ({
                   id={field.name}
                   name={field.name}
                   value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
-                  className={`form-textarea ${zodForm?.errors[field.name] ? 'error' : ''}`}
+                  className={`form-textarea ${inputErrorClassName}`}
                   rows={4}
                   required={!schema}
                   onBlur={(e) => {
@@ -275,7 +273,7 @@ export const GenericForm = ({
                     handleFieldChange(field.name, value, field.onChange);
                   }}
                 ></textarea>
-                {showFieldErrors && zodForm && <FieldError error={zodForm.errors[field.name]} fieldName={field.name} />}
+                {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
           case 'businessHours':
@@ -314,14 +312,14 @@ export const GenericForm = ({
             return (
               <div
                 key={field.name}
-                className={`form-group select-container ${field.className || ''}`}
+                className={`form-group select-container ${field.className || ''} ${errorClassName}`}
                 data-field-name={field.name}
               >
                 <label className="form-label">{field.label}</label>
                 <Listbox value={field.value} onChange={field.onChange}>
                   {({ open }) => (
                     <div className="relative">
-                      <Listbox.Button className="listbox-button">
+                      <Listbox.Button className={`listbox-button ${inputErrorClassName}`}>
                         {field.displayValue || field.value || 'Select'}
                         <ChevronUpDownIcon className="listbox-icon" />
                       </Listbox.Button>
@@ -347,6 +345,7 @@ export const GenericForm = ({
                     </div>
                   )}
                 </Listbox>
+                {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
 
@@ -358,7 +357,7 @@ export const GenericForm = ({
             const visibleOptions = field.options;
 
             return (
-              <div key={field.name} className="form-group">
+              <div key={field.name} className={`form-group ${errorClassName}`}>
                 <label className="form-label">{field.label}</label>
                 <div
                   className={`checkbox-group ${field.bubbleStyle ? 'bubble-style' : ''} ${shouldShowExpandButton && !isExpanded ? 'collapsed-with-fade' : ''}`}
@@ -391,6 +390,7 @@ export const GenericForm = ({
                       : field.showAllLabel || `Show All (${field.options.length - initialVisibleCount} more)`}
                   </button>
                 )}
+                {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
 
