@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { GenericImage } from './GenericImage';
 import { GenericList } from '@shared/components';
-import { useStyledDragImage } from '@shared/hooks/utils/useStyledDragImage';
+import { useGalleryReorder } from '@shared/hooks/utils/useGalleryReorder';
 
 interface GenericImageGalleryProps {
   isGalleryImagesShown?: boolean;
@@ -34,11 +34,25 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
     coverImage && !galleryImages?.includes(coverImage) ? [coverImage, ...(galleryImages || [])] : galleryImages || [];
 
   const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  const { setStyledDragImage, cleanupDragImage } = useStyledDragImage({
-    border: '2px solid rgba(255, 255, 255, 0.35)',
-    opacity: '0.9'
+  const {
+    draggedIndex,
+    dragOverIndex,
+    isCoverImage,
+    isDraggable,
+    handleDragStart,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleDragEnd
+  } = useGalleryReorder({
+    galleryImages,
+    coverImage,
+    isCoverShown,
+    onReorderImages,
+    dragPreviewOptions: {
+      border: '2px solid rgba(255, 255, 255, 0.35)',
+      opacity: '0.9'
+    }
   });
 
   const handleImageChange = (image: string) => {
@@ -50,89 +64,22 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
     setCurrCoverImage(coverImage);
   }, [coverImage, galleryImages]);
 
-  const handleDragStart = (e: React.DragEvent, index: number) => {
-    setDraggedIndex(index);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', index.toString());
-
-    setStyledDragImage(e);
-  };
-
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    if (draggedIndex !== null && draggedIndex !== index) {
-      setDragOverIndex(index);
-    }
-  };
-
-  const handleDragLeave = () => {
-    setDragOverIndex(null);
-  };
-
-  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
-    e.preventDefault();
-    setDragOverIndex(null);
-
-    if (draggedIndex === null || draggedIndex === dropIndex || !onReorderImages) {
-      setDraggedIndex(null);
-      return;
-    }
-
-    // Check if cover image is included in combinedGalleryImages at index 0
-    const hasCoverAtStart = coverImage && !galleryImages?.includes(coverImage) && !isCoverShown;
-
-    // Map indices from combinedGalleryImages to galleryImages
-    const getGalleryIndex = (combinedIndex: number): number => {
-      if (hasCoverAtStart) {
-        return combinedIndex - 1; // Skip cover image at index 0
-      }
-      return combinedIndex;
-    };
-
-    const draggedGalleryIndex = getGalleryIndex(draggedIndex);
-    const dropGalleryIndex = getGalleryIndex(dropIndex);
-
-    // Don't allow dragging the cover image (if it's at index 0)
-    if (hasCoverAtStart && draggedIndex === 0) {
-      setDraggedIndex(null);
-      return;
-    }
-
-    // Work with the actual gallery images array
-    const imagesToReorder = [...(galleryImages || [])];
-    const [draggedImage] = imagesToReorder.splice(draggedGalleryIndex, 1);
-    imagesToReorder.splice(dropGalleryIndex, 0, draggedImage);
-
-    onReorderImages(imagesToReorder);
-    setDraggedIndex(null);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedIndex(null);
-    setDragOverIndex(null);
-    cleanupDragImage();
-  };
-
   const renderItem = (image: string, index: number) => {
     const isDragging = draggedIndex === index;
     const isDragOver = dragOverIndex === index;
-
-    // Check if this is the cover image (shouldn't be draggable)
-    const hasCoverAtStart = coverImage && !galleryImages?.includes(coverImage) && !isCoverShown;
-    const isCoverImage = hasCoverAtStart && index === 0;
-    const isDraggable = !!onReorderImages && !isCoverImage;
+    const cover = isCoverImage(index);
+    const draggable = isDraggable(index);
 
     return (
       <div
         className={`gallery-image-wrapper ${isDragging ? 'dragging' : ''} ${isDragOver ? 'drag-over' : ''}`}
         key={index}
-        draggable={isDraggable}
-        onDragStart={isDraggable ? (e) => handleDragStart(e, index) : undefined}
-        onDragOver={isDraggable ? (e) => handleDragOver(e, index) : undefined}
-        onDragLeave={isDraggable ? handleDragLeave : undefined}
-        onDrop={isDraggable ? (e) => handleDrop(e, index) : undefined}
-        onDragEnd={isDraggable ? handleDragEnd : undefined}
+        draggable={draggable}
+        onDragStart={draggable ? (e) => handleDragStart(e, index) : undefined}
+        onDragOver={draggable ? (e) => handleDragOver(e, index) : undefined}
+        onDragLeave={draggable ? handleDragLeave : undefined}
+        onDrop={draggable ? (e) => handleDrop(e, index) : undefined}
+        onDragEnd={draggable ? handleDragEnd : undefined}
       >
         <GenericImage
           src={image}
@@ -155,7 +102,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
             ×
           </button>
         )}
-        {onReorderImages && !isCoverImage && (
+        {onReorderImages && !cover && (
           <div className="gallery-image-drag-handle" aria-label="Drag to reorder">
             ⋮⋮
           </div>
