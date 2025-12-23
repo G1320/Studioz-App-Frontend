@@ -342,6 +342,7 @@ export const EditStudioForm = () => {
         galleryFiles={galleryImages}
         isCoverShown={true}
         onRemoveImage={handleRemoveImage}
+        onReorderImages={setGalleryImages}
       />
       <section className="form-wrapper edit-studio-form-wrapper">
         <GenericForm

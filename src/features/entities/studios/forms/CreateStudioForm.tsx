@@ -338,6 +338,7 @@ export const CreateStudioForm = () => {
             onRemoveImage={(image) => {
               setGalleryImages((prev) => prev.filter((url) => url !== image));
             }}
+            onReorderImages={setGalleryImages}
           />
         )
       },

@@ -18,6 +18,7 @@ interface FileUploaderProps {
   hasError?: boolean;
   fieldNames?: string[];
   onRemoveImage?: (image: string) => void;
+  onReorderImages?: (reorderedImages: string[]) => void;
 }
 
 const validMimeTypes: { [key: string]: string[] } = {
@@ -38,7 +39,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   galleryFiles = [],
   showPreviewBeforeUpload = true,
   hasError = false,
-  onRemoveImage
+  onRemoveImage,
+  onReorderImages
 }) => {
   const [preview, setPreview] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
@@ -176,6 +178,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           galleryImages={galleryFiles}
           onSetPreviewImage={handleSetPreviewFile}
           onRemoveImage={onRemoveImage ? handleRemoveImage : undefined}
+          onReorderImages={onReorderImages}
           className="file-uploader-gallery"
         />
       ) : (
