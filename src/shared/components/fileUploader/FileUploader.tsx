@@ -5,7 +5,7 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { GenericImageGallery, GenericAudioGallery } from '@shared/components';
 import { toast } from 'sonner';
 
-type OnFileUploadType = (files: File[], type: string) => void;
+type OnFileUploadType = (files: File[], type: string) => void | Promise<void>;
 
 interface FileUploaderProps {
   fileType: 'audio' | 'image';
@@ -17,6 +17,7 @@ interface FileUploaderProps {
   errors?: string[];
   hasError?: boolean;
   fieldNames?: string[];
+  onRemoveImage?: (image: string) => void;
 }
 
 const validMimeTypes: { [key: string]: string[] } = {
@@ -36,7 +37,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   multiple = true,
   galleryFiles = [],
   showPreviewBeforeUpload = true,
-  hasError = false
+  hasError = false,
+  onRemoveImage
 }) => {
   const [preview, setPreview] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
@@ -115,6 +117,15 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   const handleSetPreviewFile = (file: string) => setPreview(file);
 
+  const handleRemoveImage = (image: string) => {
+    if (onRemoveImage) {
+      onRemoveImage(image);
+    }
+    if (preview === image) {
+      setPreview('');
+    }
+  };
+
   // When gallery updates (upload finished), hide loader
   useEffect(() => {
     const snapshot = JSON.stringify(galleryFiles || []);
@@ -164,6 +175,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           coverImage={showPreviewBeforeUpload ? preview : ''}
           galleryImages={galleryFiles}
           onSetPreviewImage={handleSetPreviewFile}
+          onRemoveImage={onRemoveImage ? handleRemoveImage : undefined}
           className="file-uploader-gallery"
         />
       ) : (

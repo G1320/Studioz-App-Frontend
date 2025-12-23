@@ -115,6 +115,13 @@ export const EditStudioForm = () => {
     closingHour
   };
 
+  const handleRemoveImage = (image: string) => {
+    setGalleryImages((prev) => prev.filter((url) => url !== image));
+    if (coverImage === image) {
+      setCoverImage('');
+    }
+  };
+
   // Auto-save controlled state
   const { clearSavedState } = useControlledStateAutoSave({
     formId: FORM_ID,
@@ -329,7 +336,13 @@ export const EditStudioForm = () => {
 
   return (
     <section>
-      <FileUploader fileType="image" onFileUpload={handleFileUpload} galleryFiles={galleryImages} isCoverShown={true} />
+      <FileUploader
+        fileType="image"
+        onFileUpload={handleFileUpload}
+        galleryFiles={galleryImages}
+        isCoverShown={true}
+        onRemoveImage={handleRemoveImage}
+      />
       <section className="form-wrapper edit-studio-form-wrapper">
         <GenericForm
           className="edit-studio-form"

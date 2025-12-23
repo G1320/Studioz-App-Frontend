@@ -335,6 +335,9 @@ export const CreateStudioForm = () => {
             galleryFiles={galleryImages}
             isCoverShown={false}
             showPreviewBeforeUpload={false}
+            onRemoveImage={(image) => {
+              setGalleryImages((prev) => prev.filter((url) => url !== image));
+            }}
           />
         )
       },

@@ -12,6 +12,7 @@ interface GenericImageGalleryProps {
   subTitle?: string;
   galleryImages?: string[];
   onSetPreviewImage?: (image: string) => void;
+  onRemoveImage?: (image: string) => void;
 }
 
 export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
@@ -22,6 +23,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   coverImage,
   galleryImages,
   onSetPreviewImage,
+  onRemoveImage,
   title,
   subTitle
 }) => {
@@ -43,15 +45,29 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
     // const blurHash = 'LEHV6nWB2yk8pyo0adR*.7kCMdnj';
 
     return (
-      <GenericImage
-        key={index}
-        src={image}
-        // blurHash={blurHash}
-        alt={entity?.name?.en || `Gallery Image ${index + 1}`}
-        className="card gallery-image"
-        onClick={() => handleImageChange(image)}
-        width={800}
-      />
+      <div className="gallery-image-wrapper" key={index}>
+        <GenericImage
+          src={image}
+          // blurHash={blurHash}
+          alt={entity?.name?.en || `Gallery Image ${index + 1}`}
+          className="card gallery-image"
+          onClick={() => handleImageChange(image)}
+          width={800}
+        />
+        {onRemoveImage && (
+          <button
+            type="button"
+            className="gallery-image-remove"
+            aria-label="Remove image"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemoveImage(image);
+            }}
+          >
+            ×
+          </button>
+        )}
+      </div>
     );
   };
 
