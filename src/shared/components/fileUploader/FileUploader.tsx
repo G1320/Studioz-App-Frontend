@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
@@ -39,12 +39,15 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   hasError = false
 }) => {
   const [preview, setPreview] = useState<string>('');
+  const [isUploading, setIsUploading] = useState(false);
+  const gallerySnapshotRef = useRef<string>(JSON.stringify(galleryFiles || []));
 
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const newErrors: string[] = [];
+      const hadAcceptedFiles = acceptedFiles.length > 0;
 
       const showErrorMessages = async (errors: string[]) => {
         for (const error of errors) {
@@ -74,21 +77,32 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       });
 
       if (acceptedFiles.length > 0) {
+        setIsUploading(true);
         if (showPreviewBeforeUpload) {
           const fileReader = new FileReader();
           fileReader.onloadend = () => {
             setPreview(fileReader.result as string);
-            onFileUpload(acceptedFiles, fileType);
+            const maybePromise = onFileUpload(acceptedFiles, fileType);
+            if (maybePromise && typeof (maybePromise as Promise<void>).finally === 'function') {
+              (maybePromise as Promise<void>).finally(() => setIsUploading(false));
+            }
           };
           fileReader.readAsDataURL(acceptedFiles[0]);
         } else {
-          onFileUpload(acceptedFiles, fileType);
+          const maybePromise = onFileUpload(acceptedFiles, fileType);
+          if (maybePromise && typeof (maybePromise as Promise<void>).finally === 'function') {
+            (maybePromise as Promise<void>).finally(() => setIsUploading(false));
+          }
         }
       }
 
-      showErrorMessages(newErrors);
+      showErrorMessages(newErrors).finally(() => {
+        if (!hadAcceptedFiles) {
+          setIsUploading(false);
+        }
+      });
     },
-    [onFileUpload, fileType]
+    [onFileUpload, fileType, showPreviewBeforeUpload]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -100,6 +114,15 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   });
 
   const handleSetPreviewFile = (file: string) => setPreview(file);
+
+  // When gallery updates (upload finished), hide loader
+  useEffect(() => {
+    const snapshot = JSON.stringify(galleryFiles || []);
+    if (isUploading && snapshot !== gallerySnapshotRef.current) {
+      setIsUploading(false);
+    }
+    gallerySnapshotRef.current = snapshot;
+  }, [galleryFiles, isUploading]);
 
   return (
     <article className={`file-uploader-container ${hasError ? 'has-error' : ''}`}>
@@ -126,6 +149,13 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
             </div>
           )}
         </div>
+
+        {isUploading && (
+          <div className="file-uploader-loading" role="status" aria-live="polite" aria-label="Uploading files">
+            <div className="file-uploader-loading__spinner" />
+            <span className="file-uploader-loading__label">Uploading…</span>
+          </div>
+        )}
       </div>
       {fileType === 'image' ? (
         <GenericImageGallery
