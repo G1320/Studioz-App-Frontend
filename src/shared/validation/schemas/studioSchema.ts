@@ -17,24 +17,26 @@ import {
  * Requires both English and Hebrew names, 3-50 characters each
  */
 export const studioNameSchema = translationSchema({
-  en: englishTextSchema.min(3, 'Name must be at least 3 characters').max(20, 'Name must be at most 20 characters'),
-  he: hebrewTextSchema.min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים')
+  en: englishTextSchema('name')
+    .min(3, 'Name must be at least 3 characters')
+    .max(20, 'Name must be at most 20 characters'),
+  he: hebrewTextSchema('name').min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים')
 });
 
 /**
  * Studio subtitle schema (optional)
  */
 export const studioSubtitleSchema = optionalTranslationSchema({
-  en: z.string().max(20, 'Subtitle must be at most 100 characters').optional(),
-  he: z.string().max(20, 'כותרת משנה חייבת להיות לכל היותר 20 תווים').optional()
+  en: englishTextSchema('subtitle').max(100, 'Subtitle must be at most 100 characters').optional(),
+  he: hebrewTextSchema('subtitle').max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
 });
 
 /**
  * Studio description schema (optional)
  */
 export const studioDescriptionSchema = optionalTranslationSchema({
-  en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
-  he: hebrewTextSchema.max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+  en: englishTextSchema('description').max(2000, 'Description must be at most 2000 characters').optional(),
+  he: hebrewTextSchema('description').max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
 });
 
 /**

@@ -14,8 +14,13 @@ import {
  * Requires English name, Hebrew is optional
  */
 export const itemNameSchema = z.object({
-  en: englishTextSchema.min(3, 'Name must be at least 3 characters').max(20, 'Name must be at most 50 characters'),
-  he: hebrewTextSchema.min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 50 תווים').optional()
+  en: englishTextSchema('name')
+    .min(3, 'Name must be at least 3 characters')
+    .max(50, 'Name must be at most 50 characters'),
+  he: hebrewTextSchema('name')
+    .min(3, 'השם חייב להיות לפחות 3 תווים')
+    .max(50, 'השם חייב להיות לכל היותר 50 תווים')
+    .optional()
 });
 
 /**
@@ -23,8 +28,10 @@ export const itemNameSchema = z.object({
  * Requires English description, Hebrew is optional
  */
 export const itemDescriptionSchema = z.object({
-  en: z.string().min(1, 'Description is required').max(2000, 'Description must be at most 2000 characters'),
-  he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+  en: englishTextSchema('description')
+    .min(1, 'Please enter a description in English')
+    .max(2000, 'Description must be at most 2000 characters'),
+  he: hebrewTextSchema('description').max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
 });
 
 /**
