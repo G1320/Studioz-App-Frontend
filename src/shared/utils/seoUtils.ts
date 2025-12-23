@@ -22,15 +22,15 @@ interface SEOContext {
 const getCategoryDisplayName = (subcategoryKey: string, lang: 'en' | 'he'): string => {
   // Clean the key - remove any URL encoding and normalize
   const cleanKey = decodeURIComponent(subcategoryKey).trim();
-  
+
   // Get both English and Hebrew categories
   const englishSubCategories = categoriesEn.subCategories?.musicAndPodcast || {};
   const hebrewSubCategories = categoriesHe.subCategories?.musicAndPodcast || {};
   const targetSubCategories = lang === 'he' ? hebrewSubCategories : englishSubCategories;
-  
+
   // First, try direct lookup by key (e.g., "podcast_recording")
   let displayName = targetSubCategories[cleanKey as keyof typeof targetSubCategories];
-  
+
   // If not found, the cleanKey might be an English display name (e.g., "Podcast Recording")
   // Try to find the key by matching the English value
   if (!displayName) {
@@ -42,7 +42,7 @@ const getCategoryDisplayName = (subcategoryKey: string, lang: 'en' | 'he'): stri
       }
     }
   }
-  
+
   // If still not found, return the clean key (fallback)
   return displayName || cleanKey;
 };
@@ -53,15 +53,12 @@ const getCategoryDisplayName = (subcategoryKey: string, lang: 'en' | 'he'): stri
 const getCityDisplayName = (cityName: string, lang: 'en' | 'he'): string => {
   // Clean the city name - remove any URL encoding
   const cleanCityName = decodeURIComponent(cityName).trim();
-  
+
   const cities = lang === 'he' ? citiesHe : citiesEn;
-  
+
   // Convert city name to key format (e.g., "Tel Aviv-Yafo" -> "tel_aviv_yafo")
-  const key = cleanCityName
-    .toLowerCase()
-    .replace(/\s+/g, '_')
-    .replace(/-/g, '_');
-  
+  const key = cleanCityName.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_');
+
   return cities[key as keyof typeof cities] || cleanCityName;
 };
 
@@ -81,7 +78,7 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
   // Studios listing pages
   if (basePath.startsWith('/studios')) {
     const parts: string[] = [];
-    
+
     // Add subcategory (most specific)
     if (subcategory) {
       const subcategoryDisplay = getCategoryDisplayName(subcategory, currentLang);
@@ -89,26 +86,22 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
     }
     // Add category if no subcategory
     else if (category) {
-      const categoryDisplay = category === 'music' 
-        ? (currentLang === 'he' ? 'מוזיקה' : 'Music')
-        : category;
+      const categoryDisplay = category === 'music' ? (currentLang === 'he' ? 'מוזיקה' : 'Music') : category;
       parts.push(categoryDisplay);
     }
-    
+
     // Add city if present
     if (city) {
       const cityDisplay = getCityDisplayName(city, currentLang);
       parts.push(cityDisplay);
     }
-    
+
     // Build title
     if (parts.length > 0) {
       const filtersText = parts.join(' - ');
-      return currentLang === 'he' 
-        ? `אולפנים - ${filtersText} | ${brandName}` 
-        : `${filtersText} Studios | ${brandName}`;
+      return currentLang === 'he' ? `אולפנים - ${filtersText} | ${brandName}` : `${filtersText} Studios | ${brandName}`;
     }
-    
+
     return currentLang === 'he' ? `אולפנים להשכרה בישראל | ${brandName}` : `Studio Rentals in Israel | ${brandName}`;
   }
 
@@ -144,14 +137,14 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
   // Home page
   if (basePath === '/' || basePath === '') {
     return currentLang === 'he'
-      ? 'השכרת אולפנים מקצועיים בישראל - אולפני מוזיקה, פודקאסט, הקלטות, צילום ווידאו. מצאו את האולפן המושלם עבורכם עם ציוד מקצועי ומחירים תחרותיים.'
-      : 'Rent professional studios in Israel - music studios, podcast studios, recording studios, photo studios, and video studios. Find the perfect studio with professional equipment and competitive prices.';
+      ? 'השכרת אולפנים מקצועיים בישראל – מוזיקה, פודקאסט, הקלטות, צילום ווידאו בכל הערים. השוו חללים, ציוד ומחירים, צפו בזמינות בזמן אמת והזמינו את האולפן המושלם בדקות.'
+      : 'Rent professional studios in Israel—music, podcast, recording, photo, and video across all cities. Compare spaces, gear, prices, check live availability, and book the perfect studio in minutes.';
   }
 
   // Studios listing pages
   if (basePath.startsWith('/studios')) {
     const parts: string[] = [];
-    
+
     // Add subcategory (most specific)
     if (subcategory) {
       const subcategoryDisplay = getCategoryDisplayName(subcategory, currentLang);
@@ -159,43 +152,41 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
     }
     // Add category if no subcategory
     else if (category) {
-      const categoryDisplay = category === 'music' 
-        ? (currentLang === 'he' ? 'מוזיקה' : 'Music')
-        : category;
+      const categoryDisplay = category === 'music' ? (currentLang === 'he' ? 'מוזיקה' : 'Music') : category;
       parts.push(categoryDisplay);
     }
-    
+
     // Add city if present
     if (city) {
       const cityDisplay = getCityDisplayName(city, currentLang);
       parts.push(cityDisplay);
     }
-    
+
     // Build description
     if (parts.length > 0) {
       const filtersText = parts.join(' ');
       return currentLang === 'he'
-        ? `אולפני ${filtersText} להשכרה בישראל. מצאו אולפן מקצועי עם ציוד מתקדם ומחירים נוחים. הזמינו עכשיו!`
-        : `${filtersText} studios for rent in Israel. Find professional studios with advanced equipment and affordable prices. Book now!`;
+        ? `אולפני ${filtersText} להשכרה בישראל עם ציוד מתקדם, חדרים אקוסטיים, חנייה נגישה וזמינות בזמן אמת. השוו מחירים, קראו ביקורות והזמינו אונליין בדקות.`
+        : `${filtersText} studios for rent in Israel with pro gear, treated rooms, easy access, real-time availability, reviews, and fast online booking.`;
     }
-    
+
     return currentLang === 'he'
-      ? 'אולפנים להשכרה בישראל - אולפני מוזיקה, הקלטות, פודקאסט, צילום ווידאו. ציוד מקצועי, מחירים תחרותיים, הזמנה קלה.'
-      : 'Studio rentals in Israel - music studios, recording studios, podcast studios, photo and video studios. Professional equipment, competitive prices, easy booking.';
+      ? 'אולפני מוזיקה, הקלטות, פודקאסט, צילום ווידאו להשכרה בכל רחבי ישראל. ציוד מקצועי, חדרים אקוסטיים, מחירים שקופים, זמינות מיידית והזמנה מקוונת.'
+      : 'Music, recording, podcast, photo, and video studios for rent across Israel. Pro equipment, treated rooms, transparent pricing, instant availability, and easy online booking.';
   }
 
   // Services listing pages
   if (basePath.startsWith('/services')) {
     return currentLang === 'he'
-      ? 'שירותי אולפן להשכרה בישראל - מיקס, מאסטרינג, עריכה, הפקה. שירותים מקצועיים במחירים נוחים.'
-      : 'Studio services for rent in Israel - mixing, mastering, editing, production. Professional services at affordable prices.';
+      ? 'שירותי אולפן בישראל: מיקס, מאסטרינג, עריכה והפקה עם טכנאי סאונד מנוסים. מחירים שקופים, זמינות מהירה ותיאום אונליין.'
+      : 'Studio services in Israel: mixing, mastering, editing, and production with experienced engineers. Transparent pricing, fast availability, and easy scheduling.';
   }
 
   // Studio details page
   if (basePath.startsWith('/studio/')) {
     return currentLang === 'he'
-      ? 'פרטי אולפן מקצועי להשכרה. צפו בתמונות, ציוד, מחירים וזמינות. הזמינו את האולפן המושלם עבורכם.'
-      : 'Professional studio rental details. View photos, equipment, prices, and availability. Book the perfect studio for you.';
+      ? 'פרטי אולפן מקצועי להשכרה: תמונות, רשימת ציוד מלאה, מחירים, חנייה וזמינות בלייב. הזמינו את האולפן המושלם עבורכם בדקות.'
+      : 'Professional studio rental details: photos, full equipment list, pricing, parking, and live availability. Book the perfect studio in minutes.';
   }
 
   // Wishlists
