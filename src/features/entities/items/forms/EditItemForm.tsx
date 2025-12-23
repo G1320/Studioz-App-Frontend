@@ -238,7 +238,8 @@ export const EditItemForm = () => {
     if (type === 'image') {
       if (files.length === 1) {
         setImageUrl(urls[0]);
-        return toast.success('Image uploaded successfully');
+        toast.success('Image uploaded successfully');
+        return;
       }
       toast.success('Gallery images uploaded successfully');
     }
