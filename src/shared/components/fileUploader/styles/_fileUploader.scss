@@ -7,6 +7,18 @@ article.file-uploader-container {
   // margin-block-end: vars.$spacing-2xl;
   // width: 100%;
   // max-width: 100%;
+
+  &.has-error {
+    .file-uploader {
+      border-color: #dc3545;
+      background-color: rgba(220, 53, 69, 0.05);
+
+      &:hover {
+        border-color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.1);
+      }
+    }
+  }
 }
 
 .file-uploader {
@@ -22,6 +34,16 @@ article.file-uploader-container {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+
+  &.error {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+
+    &:hover {
+      border-color: #dc3545;
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+  }
 
   &::before {
     content: '';
@@ -307,14 +329,14 @@ article.file-uploader-container {
           height: calc(120px * 9 / 16); // ~67.5px
           max-height: calc(120px * 9 / 16);
         }
-        
+
         // Override any base styles that might affect image sizing
         .image-container {
           width: 100% !important;
           height: 100% !important;
           max-height: 100% !important;
         }
-        
+
         .gallery-image,
         .image-container img,
         .image-container .generic-image,

@@ -14,6 +14,9 @@ interface FileUploaderProps {
   multiple?: boolean;
   galleryFiles?: string[];
   showPreviewBeforeUpload?: boolean;
+  errors?: string[];
+  hasError?: boolean;
+  fieldNames?: string[];
 }
 
 const validMimeTypes: { [key: string]: string[] } = {
@@ -32,7 +35,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   onFileUpload,
   multiple = true,
   galleryFiles = [],
-  showPreviewBeforeUpload = true
+  showPreviewBeforeUpload = true,
+  errors = [],
+  hasError = false
 }) => {
   const [preview, setPreview] = useState<string>('');
 
@@ -98,9 +103,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   const handleSetPreviewFile = (file: string) => setPreview(file);
 
   return (
-    <article className="file-uploader-container">
+    <article className={`file-uploader-container ${hasError ? 'has-error' : ''}`}>
       <div
-        className={`file-uploader ${fileType}-uploader ${multiple ? 'multiple' : ''} ${isDragActive ? 'drag-active' : ''}`}
+        className={`file-uploader ${fileType}-uploader ${multiple ? 'multiple' : ''} ${isDragActive ? 'drag-active' : ''} ${hasError ? 'error' : ''}`}
         {...getRootProps()}
       >
         <input {...getInputProps()} />

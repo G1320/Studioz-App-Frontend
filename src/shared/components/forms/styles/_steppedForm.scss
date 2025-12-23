@@ -376,6 +376,40 @@
     }
   }
 
+  &__custom-content {
+    width: 100%;
+
+    &.has-error {
+      // Error styling is handled by child components
+    }
+  }
+
+  .custom-content-errors {
+    margin-top: vars.$spacing-medium;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+
+    .field-error {
+      display: flex;
+      align-items: flex-start;
+      gap: vars.$spacing-small;
+      color: #dc3545;
+      font-size: vars.$font-size-sm-md;
+      line-height: 1.4;
+
+      &__icon {
+        flex-shrink: 0;
+        font-size: vars.$font-size-medium;
+        margin-top: 0.125rem;
+      }
+
+      &__message {
+        flex: 1;
+      }
+    }
+  }
+
   @media screen and (max-width: 480px) {
     &__step-title {
       font-size: vars.$font-size-small;

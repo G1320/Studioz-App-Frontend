@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, cloneElement, isValidElement } from 'react';
 import { GenericForm } from '../../GenericHeadlessForm';
 
 interface StepContentProps {
@@ -32,10 +32,6 @@ export const StepContent = ({
   onCategoryChange,
   children
 }: StepContentProps) => {
-  if (customContent) {
-    return <>{customContent}</>;
-  }
-
   const hasValidated = validatedSteps.has(stepId);
 
   // Helper function to get error for a field (including nested errors)
@@ -55,6 +51,58 @@ export const StepContent = ({
     }
     return nestedErrors.length > 0 ? nestedErrors[0] : undefined;
   };
+
+  // Get all errors for fields in this step
+  const getAllStepErrors = (): string[] => {
+    const allErrors: string[] = [];
+    fields.forEach((field) => {
+      const error = hasValidated
+        ? getFieldError(field.name, validationErrors) || getFieldError(field.name, stepValidationErrors)
+        : undefined;
+      if (error) {
+        allErrors.push(error);
+      }
+    });
+    return allErrors;
+  };
+
+  if (customContent) {
+    // Get errors for step fields
+    const stepErrors = getAllStepErrors();
+    const hasErrors = stepErrors.length > 0;
+    
+    // Try to clone the element and pass errors as props
+    let contentWithErrors = customContent;
+    if (isValidElement(customContent)) {
+      // Check if it's a FileUploader component (by checking if it accepts errors prop)
+      try {
+        contentWithErrors = cloneElement(customContent as React.ReactElement<any>, {
+          errors: stepErrors,
+          hasError: hasErrors,
+          fieldNames: fields.map(f => f.name)
+        } as any);
+      } catch (e) {
+        // If cloning fails, just use the original content
+        contentWithErrors = customContent;
+      }
+    }
+
+    return (
+      <div className={`stepped-form__custom-content ${hasErrors ? 'has-error' : ''}`}>
+        {contentWithErrors}
+        {hasValidated && hasErrors && (
+          <div className="custom-content-errors">
+            {stepErrors.map((error, index) => (
+              <div key={index} className="field-error">
+                <span className="field-error__icon" aria-hidden="true">⚠️</span>
+                <span className="field-error__message">{error}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <GenericForm
