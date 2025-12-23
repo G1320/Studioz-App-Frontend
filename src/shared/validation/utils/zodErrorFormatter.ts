@@ -4,11 +4,11 @@ import { mapPathToField } from './fieldPathMapper';
 
 /**
  * Formats a Zod error into a ValidationError object
- * 
+ *
  * @param error - The ZodError instance
  * @param options - Optional formatting options
  * @returns ValidationError with field errors mapped
- * 
+ *
  * @example
  * ```ts
  * try {
@@ -25,32 +25,27 @@ import { mapPathToField } from './fieldPathMapper';
  * Determines which error message is more specific/important
  * Prioritizes required/empty field errors over length/format errors
  */
-function getMostRelevantError(
-  existingMessage: string,
-  newMessage: string,
-  existingCode?: string,
-  newCode?: string
-): string {
+function getMostRelevantError(existingMessage: string, newMessage: string): string {
   const existingLower = existingMessage.toLowerCase();
   const newLower = newMessage.toLowerCase();
-  
+
   // Prioritize "Please enter..." messages (required field errors)
   const existingIsRequired = existingLower.includes('please enter') || existingLower.includes('enter the');
   const newIsRequired = newLower.includes('please enter') || newLower.includes('enter the');
-  
+
   if (newIsRequired && !existingIsRequired) {
     return newMessage;
   }
-  
+
   if (existingIsRequired && !newIsRequired) {
     return existingMessage;
   }
-  
+
   // If both are required messages, prefer the one with field name
   if (existingIsRequired && newIsRequired) {
     const existingHasField = /(name|title|subtitle|description|address|phone|text)/i.test(existingMessage);
     const newHasField = /(name|title|subtitle|description|address|phone|text)/i.test(newMessage);
-    
+
     // Prefer messages that mention specific field names over generic "text"
     if (newHasField && !existingHasField) {
       return newMessage;
@@ -58,23 +53,23 @@ function getMostRelevantError(
     if (existingHasField && !newHasField) {
       return existingMessage;
     }
-    
+
     // If both have field names, prefer the shorter one (usually more direct)
     return newMessage.length < existingMessage.length ? newMessage : existingMessage;
   }
-  
+
   // For non-required errors, prefer messages with field names
   const existingHasFieldName = /(name|title|subtitle|description|address|phone)/i.test(existingMessage);
   const newHasFieldName = /(name|title|subtitle|description|address|phone)/i.test(newMessage);
-  
+
   if (newHasFieldName && !existingHasFieldName) {
     return newMessage;
   }
-  
+
   if (existingHasFieldName && !newHasFieldName) {
     return existingMessage;
   }
-  
+
   // Default: prefer the new message if it's more specific
   return newMessage;
 }
@@ -92,18 +87,11 @@ export function formatZodError(
 
   for (const issue of error.issues) {
     const fieldPath = mapPathToField(issue.path as (string | number)[]);
-    const message = options?.formatMessage
-      ? options.formatMessage(issue)
-      : issue.message;
+    const message = options?.formatMessage ? options.formatMessage(issue) : issue.message;
 
     // If multiple errors for same field, choose the most relevant one
     if (fieldErrors[fieldPath]) {
-      const mostRelevant = getMostRelevantError(
-        fieldErrors[fieldPath],
-        message,
-        fieldErrorCodes[fieldPath],
-        issue.code
-      );
+      const mostRelevant = getMostRelevantError(fieldErrors[fieldPath], message);
       // Only update if we got a different (better) message
       if (mostRelevant !== fieldErrors[fieldPath]) {
         fieldErrors[fieldPath] = mostRelevant;
@@ -130,7 +118,7 @@ export function formatZodError(
 
 /**
  * Formats a single Zod issue into a FieldError
- * 
+ *
  * @param issue - The ZodIssue instance
  * @returns FieldError object
  */
@@ -144,11 +132,11 @@ export function formatZodIssue(issue: ZodIssue): FieldError {
 
 /**
  * Gets the error message for a specific field from a ZodError
- * 
+ *
  * @param error - The ZodError instance
  * @param fieldName - The field name to get error for (e.g., 'name.en')
  * @returns Error message or undefined if no error for that field
- * 
+ *
  * @example
  * ```ts
  * const errorMessage = getFieldError(zodError, 'name.en');
@@ -157,17 +145,14 @@ export function formatZodIssue(issue: ZodIssue): FieldError {
  * }
  * ```
  */
-export function getFieldError(
-  error: ZodError,
-  fieldName: string
-): string | undefined {
+export function getFieldError(error: ZodError, fieldName: string): string | undefined {
   const validationError = formatZodError(error);
   return validationError.fieldErrors[fieldName];
 }
 
 /**
  * Checks if a ZodError has an error for a specific field
- * 
+ *
  * @param error - The ZodError instance
  * @param fieldName - The field name to check
  * @returns Whether the field has an error
@@ -179,21 +164,18 @@ export function hasFieldError(error: ZodError, fieldName: string): boolean {
 /**
  * Gets all field errors for fields matching a pattern
  * Useful for getting all errors for a parent field (e.g., 'name.*')
- * 
+ *
  * @param error - The ZodError instance
  * @param pattern - The field pattern to match (supports wildcards)
  * @returns Record of matching field errors
- * 
+ *
  * @example
  * ```ts
  * const nameErrors = getFieldErrorsByPattern(zodError, 'name.*');
  * // Returns { 'name.en': 'Required', 'name.he': 'Required' }
  * ```
  */
-export function getFieldErrorsByPattern(
-  error: ZodError,
-  pattern: string
-): Record<string, string> {
+export function getFieldErrorsByPattern(error: ZodError, pattern: string): Record<string, string> {
   const validationError = formatZodError(error);
   const matchingErrors: Record<string, string> = {};
 
@@ -205,4 +187,3 @@ export function getFieldErrorsByPattern(
 
   return matchingErrors;
 }
-

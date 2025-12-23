@@ -36,7 +36,6 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   multiple = true,
   galleryFiles = [],
   showPreviewBeforeUpload = true,
-  errors = [],
   hasError = false
 }) => {
   const [preview, setPreview] = useState<string>('');
