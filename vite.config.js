@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import fs from 'fs';
 import Sitemap from 'vite-plugin-sitemap';
 import categoriesJson from './src/core/i18n/locales/en/categories.json';
 import { cities } from './src/core/config/cities/cities';
@@ -58,6 +59,27 @@ export default defineConfig(({ _command, mode }) => {
               defer>
             </script>`
           );
+        }
+      },
+      {
+        name: 'copy-logo',
+        buildStart() {
+          // Copy logo file for SEO schema (build time)
+          const logoSource = path.resolve(__dirname, 'public/android-chrome-512x512.png');
+          const logoDest = path.resolve(__dirname, 'public/logo.png');
+          if (fs.existsSync(logoSource) && !fs.existsSync(logoDest)) {
+            fs.copyFileSync(logoSource, logoDest);
+          }
+        },
+        configureServer(server) {
+          // Ensure logo exists in dev mode
+          server.httpServer?.once('listening', () => {
+            const logoSource = path.resolve(__dirname, 'public/android-chrome-512x512.png');
+            const logoDest = path.resolve(__dirname, 'public/logo.png');
+            if (fs.existsSync(logoSource) && !fs.existsSync(logoDest)) {
+              fs.copyFileSync(logoSource, logoDest);
+            }
+          });
         }
       },
       react(),
