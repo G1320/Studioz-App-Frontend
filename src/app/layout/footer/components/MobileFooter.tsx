@@ -15,6 +15,11 @@ export const MobileFooter = () => {
 
   const currLang = i18n.language || 'en';
 
+  // Hide mobile footer on create studio flow to reduce clutter on small screens
+  if (currentPath.includes('/create-studio')) {
+    return null;
+  }
+
   const isCurrentPage = (path: string) => {
     // For home page, check exact match only (no sub-routes)
     if (path === `/${currLang}` || path === currLang) {
