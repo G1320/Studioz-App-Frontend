@@ -23,7 +23,6 @@ import {
 import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
 import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
 import { StepContent } from './steppedForm/components/StepContent';
-import { StepErrors } from './steppedForm/components/StepErrors';
 import { StepNavigation } from './steppedForm/components/StepNavigation';
 import './styles/_steppedForm.scss';
 
@@ -440,17 +439,6 @@ export const SteppedForm = ({
     <div className={`stepped-form ${className}`}>
       {/* Current Step Content */}
       <div className="stepped-form__content">
-        <StepErrors
-          stepId={currentStep.id}
-          stepTitle={currentStep.title}
-          hasSchema={!!currentStep.schema}
-          isValid={stepValidation.isValid}
-          validatedSteps={validatedSteps}
-          validationMessage={stepValidation.message}
-          validationErrors={stepValidation.errors}
-          legacyError={validationErrors[currentStep.id]}
-        />
-
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div
             key={currentStepIndex}

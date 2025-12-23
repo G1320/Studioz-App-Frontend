@@ -20,11 +20,11 @@ export interface FieldErrorProps {
 
 /**
  * FieldError component for displaying field-level validation errors
- * 
+ *
  * @example
  * ```tsx
- * <FieldError 
- *   error={errors['name.en']} 
+ * <FieldError
+ *   error={errors['name.en']}
  *   fieldName="name.en"
  * />
  * ```
@@ -33,7 +33,7 @@ export const FieldError: React.FC<FieldErrorProps> = ({
   error,
   fieldName,
   className = '',
-  showIcon = true,
+  showIcon = false,
   formatMessage
 }) => {
   const { t: _t } = useTranslation('forms');
@@ -63,4 +63,3 @@ export const FieldError: React.FC<FieldErrorProps> = ({
 };
 
 export default FieldError;
-
