@@ -278,13 +278,17 @@ export const GenericForm = ({
             );
           case 'businessHours':
             return (
-              <BusinessHours
-                key={field.name}
-                value={field.value || { days: [], times: [defaultHours] }}
-                onChange={(newValue) => {
-                  field.onChange(newValue);
-                }}
-              />
+              <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
+                {field.label && <label className="form-label">{field.label}</label>}
+                <BusinessHours
+                  value={field.value || { days: [], times: [defaultHours] }}
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  error={fieldError}
+                  fieldName={field.name}
+                />
+              </div>
             );
           case 'languageToggle':
             return (

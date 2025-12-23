@@ -61,5 +61,26 @@ select:invalid + .field-error {
       box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
     }
   }
+
+  .business-hours {
+    border-color: #dc3545;
+
+    .day-row {
+      .hours {
+        .MuiTextField-root {
+          .MuiOutlinedInput-root {
+            &.Mui-focused {
+              fieldset {
+                border-color: #dc3545;
+              }
+            }
+            fieldset {
+              border-color: #dc3545;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 

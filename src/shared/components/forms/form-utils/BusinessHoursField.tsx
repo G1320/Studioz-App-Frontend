@@ -5,6 +5,7 @@ import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import dayjs from 'dayjs';
 import { useDays } from '@shared/hooks';
 import { defaultHours } from './constants';
+import { FieldError } from '@shared/validation/components';
 
 type Schedule = Record<
   DayOfWeek,
@@ -17,6 +18,8 @@ type Schedule = Record<
 interface BusinessHoursProps {
   value: StudioAvailability;
   onChange: (value: StudioAvailability) => void;
+  error?: string;
+  fieldName?: string;
 }
 
 const defaultSchedule: Schedule = {
@@ -29,7 +32,7 @@ const defaultSchedule: Schedule = {
   Saturday: { isOpen: false, hours: defaultHours }
 };
 
-export const BusinessHours = ({ value, onChange }: BusinessHoursProps) => {
+export const BusinessHours = ({ value, onChange, error, fieldName = 'studioAvailability' }: BusinessHoursProps) => {
   const { getDisplayByEnglish } = useDays();
 
   // Convert studioAvailability to schedule format
@@ -78,7 +81,7 @@ export const BusinessHours = ({ value, onChange }: BusinessHoursProps) => {
   };
 
   return (
-    <div className="business-hours">
+    <div className={`business-hours ${error ? 'has-error' : ''}`}>
       {(Object.keys(schedule) as DayOfWeek[]).map((day) => (
         <div key={day} className="day-row">
           <div className="day-switch-container">
@@ -114,6 +117,7 @@ export const BusinessHours = ({ value, onChange }: BusinessHoursProps) => {
           )}
         </div>
       ))}
+      {error && <FieldError error={error} fieldName={fieldName} />}
     </div>
   );
 };

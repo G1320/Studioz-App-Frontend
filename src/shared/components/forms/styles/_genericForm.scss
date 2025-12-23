@@ -16,6 +16,29 @@
     width: 100%;
     justify-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease;
+
+    &.has-error {
+      border-color: #dc3545;
+
+      .day-row {
+        .hours {
+          .MuiTextField-root {
+            .MuiOutlinedInput-root {
+              &.Mui-focused {
+                fieldset {
+                  border-color: #dc3545;
+                }
+              }
+              fieldset {
+                border-color: #dc3545;
+              }
+            }
+          }
+        }
+      }
+    }
 
     .day-row {
       display: flex;
