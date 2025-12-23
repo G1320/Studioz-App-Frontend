@@ -14,11 +14,11 @@ const StudioReviewsPage: React.FC = () => {
   const { data: reviews = [] } = useReviews(studioId);
   const createReviewMutation = useCreateReviewMutation(studioId);
 
-  const handleReviewSubmit = (rating: number, comment?: string) => {
+  const handleReviewSubmit = (rating: number, name?: { en?: string; he?: string }, comment?: { en?: string; he?: string }) => {
     if (!studioId) {
       return;
     }
-    createReviewMutation.mutate({ rating, comment });
+    createReviewMutation.mutate({ rating, name, comment });
   };
 
   if (!studioId) {

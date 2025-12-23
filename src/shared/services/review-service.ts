@@ -1,11 +1,11 @@
 import { httpService } from '@shared/services';
-import Review from '../../types/review';
+import Review, { Translation } from '../../types/review';
 
 const reviewEndpoint = '/reviews';
 
 export const createReview = async (
   studioId: string,
-  reviewData: { rating: number; comment?: string }
+  reviewData: { rating: number; name?: Translation; comment?: Translation }
 ): Promise<Review> => {
   try {
     return await httpService.post(`${reviewEndpoint}/${studioId}`, reviewData);
@@ -27,7 +27,7 @@ export const getReviewsByStudioId = async (studioId: string): Promise<Review[]> 
 
 export const updateReview = async (
   reviewId: string,
-  reviewData: { rating?: number; comment?: string }
+  reviewData: { rating?: number; name?: Translation; comment?: Translation }
 ): Promise<Review> => {
   try {
     return await httpService.put(`${reviewEndpoint}/${reviewId}`, reviewData);

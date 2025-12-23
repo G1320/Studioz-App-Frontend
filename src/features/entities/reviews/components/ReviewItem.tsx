@@ -10,6 +10,7 @@ interface ReviewItemProps {
 
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   const { t, i18n } = useTranslation('common');
+  const currentLanguage = i18n.language as 'en' | 'he';
 
   const renderStars = () => {
     return Array.from({ length: 5 }).map((_, index) => {
@@ -34,6 +35,8 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   };
 
   const userName = review.user?.name || t('reviews.anonymous', 'Anonymous');
+  const reviewName = review.name?.[currentLanguage] || review.name?.en;
+  const reviewComment = review.comment?.[currentLanguage] || review.comment?.en;
 
   return (
     <article className="review-item">
@@ -47,7 +50,8 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
         </div>
         <div className="review-item__rating">{renderStars()}</div>
       </div>
-      {review.comment && <p className="review-item__comment">{review.comment}</p>}
+      {reviewName && <h5 className="review-item__name">{reviewName}</h5>}
+      {reviewComment && <p className="review-item__comment">{reviewComment}</p>}
     </article>
   );
 };

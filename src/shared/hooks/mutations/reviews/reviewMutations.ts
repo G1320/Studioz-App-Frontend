@@ -1,9 +1,9 @@
 import { useMutationHandler } from '@shared/hooks';
 import { createReview, updateReview, deleteReview } from '@shared/services/review-service';
-import Review from 'src/types/review';
+import Review, { Translation } from 'src/types/review';
 
 export const useCreateReviewMutation = (studioId: string) => {
-  return useMutationHandler<Review, { rating: number; comment?: string }>({
+  return useMutationHandler<Review, { rating: number; name?: Translation; comment?: Translation }>({
     mutationFn: (reviewData) => createReview(studioId, reviewData),
     successMessage: 'Review submitted successfully',
     invalidateQueries: [
@@ -14,7 +14,7 @@ export const useCreateReviewMutation = (studioId: string) => {
 };
 
 export const useUpdateReviewMutation = (reviewId: string, studioId: string) => {
-  return useMutationHandler<Review, { rating?: number; comment?: string }>({
+  return useMutationHandler<Review, { rating?: number; name?: Translation; comment?: Translation }>({
     mutationFn: (reviewData) => updateReview(reviewId, reviewData),
     successMessage: 'Review updated successfully',
     invalidateQueries: [
