@@ -94,7 +94,7 @@ export const studioStep5Schema = z.object({
   }, urlSchema.optional()),
   galleryImages: z.preprocess(
     (val) => (val === undefined || val === null ? [] : val),
-    z.array(urlSchema).min(1, 'At least one gallery image is required')
+    z.array(urlSchema).min(1, 'At least one image is required')
   ),
   coverAudioFile: urlSchema.optional(),
   galleryAudioFiles: z.array(urlSchema).optional()

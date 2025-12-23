@@ -27,7 +27,7 @@ export const ZOD_ERROR_I18N_MAP: Record<string, string> = {
 
 /**
  * Gets the i18n translation key for a Zod error code
- * 
+ *
  * @param code - The Zod error code
  * @returns The i18n translation key
  */
@@ -37,7 +37,7 @@ export function getI18nKeyForZodCode(code: string): string {
 
 /**
  * Formats a Zod issue with i18n translation
- * 
+ *
  * @param issue - The ZodIssue instance
  * @param t - Translation function from react-i18next
  * @param fieldName - Optional field name for field-specific messages
@@ -85,7 +85,7 @@ export function formatZodIssueWithI18n(
         return `Please enter the ${field} in ${langName}`;
       }
     }
-    
+
     // Handle common required fields with nicer messages
     if (fieldName === 'address') {
       return 'Address is required';
@@ -94,10 +94,10 @@ export function formatZodIssueWithI18n(
       return 'Phone number is required';
     }
     if (fieldName === 'coverImage') {
-      return 'Cover image is required';
+      return 'At least one image is required';
     }
     if (fieldName === 'galleryImages') {
-      return 'At least one gallery image is required';
+      return 'At least one image is required';
     }
     if (fieldName === 'maxOccupancy') {
       if (issue.code === 'invalid_type') {
@@ -129,7 +129,7 @@ export function formatZodIssueWithI18n(
 /**
  * Interpolates variables in error messages
  * Replaces placeholders like {{minimum}} with actual values from the issue
- * 
+ *
  * @param message - The message template
  * @param issue - The ZodIssue with validation details
  * @returns Interpolated message
@@ -170,9 +170,9 @@ function interpolateMessage(message: string, issue: ZodIssue): string {
 
 /**
  * Hook to format Zod errors with i18n translations
- * 
+ *
  * @returns Function to format Zod issues with translations
- * 
+ *
  * @example
  * ```tsx
  * const { formatError } = useZodI18n();
@@ -191,19 +191,16 @@ export function useZodI18n() {
 
 /**
  * Formats a FieldError with i18n translation
- * 
+ *
  * @param fieldError - The FieldError to format
  * @param t - Translation function
  * @returns Translated error message
  */
-export function formatFieldErrorWithI18n(
-  fieldError: FieldError,
-  t: (key: string, options?: any) => string
-): string {
+export function formatFieldErrorWithI18n(fieldError: FieldError, t: (key: string, options?: any) => string): string {
   // Try to get field-specific error
   const fieldSpecificKey = `validation.fields.${fieldError.path}.error`;
   const fieldSpecificMessage = t(fieldSpecificKey, { defaultValue: '' });
-  
+
   if (fieldSpecificMessage) {
     return fieldSpecificMessage;
   }
@@ -211,4 +208,3 @@ export function formatFieldErrorWithI18n(
   // Fall back to the error message from Zod
   return fieldError.message;
 }
-
