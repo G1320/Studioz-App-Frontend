@@ -29,11 +29,24 @@ export const filterStepFields = (
  * Prepare fields with values from formData
  */
 export const prepareFieldsWithValues = (
-  fields: Array<{ name: string; value?: any; onChange?: (value: any) => void; [key: string]: any }>,
+  fields: Array<{ name: string; value?: any; onChange?: (value: any) => void; type?: string; [key: string]: any }>,
   formData: Record<string, any>,
   onFieldChange: (fieldName: string, value: any) => void
 ) => {
   return fields.map((field) => {
+    // For languageToggle fields, always use the field's value prop (current selectedLanguage state)
+    // This ensures the toggle UI stays in sync with the actual language selection
+    if (field.type === 'languageToggle') {
+      return {
+        ...field,
+        value: field.value, // Always use the prop value for languageToggle
+        onChange: (value: any) => {
+          onFieldChange(field.name, value);
+          field.onChange?.(value);
+        }
+      };
+    }
+
     const savedValue = getNestedValue(formData, field.name);
     const fieldValue = savedValue !== undefined ? savedValue : field.value;
 
