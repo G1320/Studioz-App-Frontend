@@ -21,6 +21,64 @@ import { mapPathToField } from './fieldPathMapper';
  * }
  * ```
  */
+/**
+ * Determines which error message is more specific/important
+ * Prioritizes required/empty field errors over length/format errors
+ */
+function getMostRelevantError(
+  existingMessage: string,
+  newMessage: string,
+  existingCode?: string,
+  newCode?: string
+): string {
+  const existingLower = existingMessage.toLowerCase();
+  const newLower = newMessage.toLowerCase();
+  
+  // Prioritize "Please enter..." messages (required field errors)
+  const existingIsRequired = existingLower.includes('please enter') || existingLower.includes('enter the');
+  const newIsRequired = newLower.includes('please enter') || newLower.includes('enter the');
+  
+  if (newIsRequired && !existingIsRequired) {
+    return newMessage;
+  }
+  
+  if (existingIsRequired && !newIsRequired) {
+    return existingMessage;
+  }
+  
+  // If both are required messages, prefer the one with field name
+  if (existingIsRequired && newIsRequired) {
+    const existingHasField = /(name|title|subtitle|description|address|phone|text)/i.test(existingMessage);
+    const newHasField = /(name|title|subtitle|description|address|phone|text)/i.test(newMessage);
+    
+    // Prefer messages that mention specific field names over generic "text"
+    if (newHasField && !existingHasField) {
+      return newMessage;
+    }
+    if (existingHasField && !newHasField) {
+      return existingMessage;
+    }
+    
+    // If both have field names, prefer the shorter one (usually more direct)
+    return newMessage.length < existingMessage.length ? newMessage : existingMessage;
+  }
+  
+  // For non-required errors, prefer messages with field names
+  const existingHasFieldName = /(name|title|subtitle|description|address|phone)/i.test(existingMessage);
+  const newHasFieldName = /(name|title|subtitle|description|address|phone)/i.test(newMessage);
+  
+  if (newHasFieldName && !existingHasFieldName) {
+    return newMessage;
+  }
+  
+  if (existingHasFieldName && !newHasFieldName) {
+    return existingMessage;
+  }
+  
+  // Default: prefer the new message if it's more specific
+  return newMessage;
+}
+
 export function formatZodError(
   error: ZodError,
   options?: {
@@ -29,6 +87,7 @@ export function formatZodError(
   }
 ): ValidationError {
   const fieldErrors: Record<string, string> = {};
+  const fieldErrorCodes: Record<string, string> = {};
   const errors: FieldError[] = [];
 
   for (const issue of error.issues) {
@@ -37,11 +96,22 @@ export function formatZodError(
       ? options.formatMessage(issue)
       : issue.message;
 
-    // If multiple errors for same field, combine them
+    // If multiple errors for same field, choose the most relevant one
     if (fieldErrors[fieldPath]) {
-      fieldErrors[fieldPath] = `${fieldErrors[fieldPath]}, ${message}`;
+      const mostRelevant = getMostRelevantError(
+        fieldErrors[fieldPath],
+        message,
+        fieldErrorCodes[fieldPath],
+        issue.code
+      );
+      // Only update if we got a different (better) message
+      if (mostRelevant !== fieldErrors[fieldPath]) {
+        fieldErrors[fieldPath] = mostRelevant;
+        fieldErrorCodes[fieldPath] = issue.code;
+      }
     } else {
       fieldErrors[fieldPath] = message;
+      fieldErrorCodes[fieldPath] = issue.code;
     }
 
     errors.push({
