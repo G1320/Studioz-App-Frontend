@@ -31,7 +31,7 @@ export function hebrewTextSchema(fieldName?: string): z.ZodString {
   const fieldLabel = fieldName ? getFieldLabel(fieldName) : 'text';
   return z
     .string()
-    .min(1, `Please enter the ${fieldLabel} in Hebrew (עברית)`)
+    .min(1, `Please enter the ${fieldLabel} in Hebrew`)
     .refine((val) => REGEX_PATTERNS.HEBREW.test(val) || val.length === 0, {
       message: `${fieldLabel.charAt(0).toUpperCase() + fieldLabel.slice(1)} must contain Hebrew characters`
     });

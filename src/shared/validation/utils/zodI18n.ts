@@ -81,7 +81,7 @@ export function formatZodIssueWithI18n(
     if (parts.length === 2) {
       const [field, lang] = parts;
       if (lang === 'en' || lang === 'he') {
-        const langName = lang === 'en' ? 'English' : 'Hebrew (עברית)';
+        const langName = lang === 'en' ? 'English' : 'Hebrew';
         return `Please enter the ${field} in ${langName}`;
       }
     }

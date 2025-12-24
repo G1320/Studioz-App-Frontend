@@ -301,7 +301,7 @@ export const GenericForm = ({
                     type="button"
                     onClick={() => field.onChange?.('en')}
                     className={`form-language-toggle__btn ${field.value === 'en' ? 'active' : ''} ${hasOtherLanguageErrors && field.value === 'he' ? 'has-errors' : ''}`}
-                    title={hasOtherLanguageErrors && field.value === 'he' ? 'Switch to English to see validation errors' : ''}
+                    title={hasOtherLanguageErrors && field.value === 'he' ? 'Switch to English to see errors' : ''}
                   >
                     English
                   </button>
@@ -309,14 +309,14 @@ export const GenericForm = ({
                     type="button"
                     onClick={() => field.onChange?.('he')}
                     className={`form-language-toggle__btn ${field.value === 'he' ? 'active' : ''} ${hasOtherLanguageErrors && field.value === 'en' ? 'has-errors' : ''}`}
-                    title={hasOtherLanguageErrors && field.value === 'en' ? 'Switch to Hebrew to see validation errors' : ''}
+                    title={hasOtherLanguageErrors && field.value === 'en' ? 'Switch to Hebrew to see errors' : ''}
                   >
                     עברית
                   </button>
                 </div>
                 {hasOtherLanguageErrors && (
                   <div className="form-language-toggle__hint">
-                    Switch to {otherLanguage === 'en' ? 'English' : 'עברית'} to view and fix validation errors
+                    Switch to {otherLanguage === 'en' ? 'English' : 'Hebrew'} to view and fix errors
                   </div>
                 )}
               </div>
