@@ -110,19 +110,12 @@
 }
 
 @mixin branded-business-hours {
-  padding: vars.$spacing-large;
-  border-radius: vars.$border-radius-medium;
-  background: rgba(34, 34, 34, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: vars.$spacing-large;
-  width: calc(100% - 2 * vars.$spacing-xl);
   justify-items: start;
 
   .day-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: vars.$spacing-medium;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: background-color 0.2s ease;
 
@@ -137,7 +130,6 @@
 
     .day-switch-container {
       display: flex;
-      align-items: center;
       gap: vars.$spacing-medium;
       flex: 0 0 auto;
     }

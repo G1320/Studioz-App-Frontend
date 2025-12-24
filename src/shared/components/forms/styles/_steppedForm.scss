@@ -254,11 +254,6 @@
       position: relative; // allow absolute-positioned errors without affecting layout
       padding-bottom: 0.75rem; // reserve space so errors don't cause layout shift
     }
-
-    // Better spacing for business hours
-    .business-hours {
-      margin: 0;
-    }
   }
 
   // Keep field errors visually below inputs but out of normal flow to avoid layout shifts
