@@ -69,10 +69,17 @@ export const studioStep3Schema = z.object({
 
 /**
  * Social media links schema
+ * Only validates if there is text, otherwise ignores the field completely
  */
 export const socialsSchema = z.object({
-  instagram: urlSchema.optional(),
-  facebook: urlSchema.optional()
+  instagram: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    urlSchema.optional()
+  ),
+  facebook: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    urlSchema.optional()
+  )
 }).optional();
 
 /**

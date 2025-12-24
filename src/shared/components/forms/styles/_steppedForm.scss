@@ -249,6 +249,46 @@
       }
     }
 
+    // Two-column layout for step 3 (location)
+    &#create-studio-step-3 {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: vars.$spacing-xl;
+      max-width: 100%;
+
+      .form-group {
+        margin-bottom: 0;
+        grid-column: span 1 !important; // Each field takes half width by default
+
+        // Ensure inputs take full width of their container
+        .form-input {
+          width: 100%;
+        }
+      }
+
+      // Address field spans full width (2 columns)
+      .form-group:has(input[name='address']),
+      .form-group:has([name='address']) {
+        grid-column: span 2 !important;
+      }
+
+      // Responsive: stack on smaller screens
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr !important;
+        gap: vars.$spacing-large;
+
+        .form-group {
+          grid-column: span 1 !important;
+        }
+
+        // Address still spans full width on mobile
+        .form-group:has(input[name='address']),
+        .form-group:has([name='address']) {
+          grid-column: span 1 !important;
+        }
+      }
+    }
+
     .form-group {
       margin-bottom: 0;
       position: relative; // allow absolute-positioned errors without affecting layout
