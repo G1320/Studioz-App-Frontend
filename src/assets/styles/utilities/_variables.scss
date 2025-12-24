@@ -42,9 +42,12 @@ $white-opacity-20: rgba(255, 255, 255, 0.2);
 $white-opacity-25: rgba(255, 255, 255, 0.25);
 $white-opacity-30: rgba(255, 255, 255, 0.3);
 $white-opacity-40: rgba(255, 255, 255, 0.4);
+$white-opacity-50: rgba(255, 255, 255, 0.5);
 $white-opacity-60: rgba(255, 255, 255, 0.6);
+$white-opacity-678: rgba(255, 255, 255, 0.678);
 $white-opacity-70: rgba(255, 255, 255, 0.7);
 $white-opacity-80: rgba(255, 255, 255, 0.8);
+$white-opacity-90: rgba(255, 255, 255, 0.9);
 
 // Dark backgrounds with opacity
 $dark-bg-40: rgba(34, 34, 34, 0.4);
@@ -66,7 +69,10 @@ $warning-opacity-70: rgba(245, 158, 11, 0.7);
 // Error colors (red)
 $color-error: #ef4444;
 $color-error-light: #fca5a5;
+$color-error-dark: #7f1d1d;
+$color-error-pale: #fecaca;
 $error-opacity-10: rgba(239, 68, 68, 0.1);
+$error-opacity-20: rgba(239, 68, 68, 0.2);
 $error-opacity-30: rgba(239, 68, 68, 0.3);
 
 // Success colors (green)
@@ -74,6 +80,7 @@ $color-success: #10b981;
 
 // Light theme colors (for generic forms)
 $light-gray-ccc: #ccc;
+$light-gray-dcdcdc: #dcdcdc;
 $light-gray-ddd: #ddd;
 $light-gray-e5e7eb: #e5e7eb;
 $light-gray-e8e8e8: #e8e8e8;
@@ -91,8 +98,10 @@ $color-blue-light: #3b82f6;
 $blue-opacity-30: rgba(37, 99, 235, 0.3);
 
 // Black with opacity (for shadows)
+$black-opacity-06: rgba(0, 0, 0, 0.06);
 $black-opacity-10: rgba(0, 0, 0, 0.1);
 $black-opacity-20: rgba(0, 0, 0, 0.2);
+$black-opacity-30: rgba(0, 0, 0, 0.3);
 $black-opacity-40: rgba(0, 0, 0, 0.4);
 
 // Font Sizes

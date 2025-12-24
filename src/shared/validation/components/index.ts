@@ -3,5 +3,3 @@
  */
 
 export * from './FieldError';
-export * from './StepError';
-
