@@ -34,6 +34,8 @@ $border-color-tertiary: #e5e5e5;
 $border-color-quaternary: #cccccc;
 
 // White with opacity (for borders, backgrounds, text)
+$white-opacity-01: rgba(255, 255, 255, 0.01);
+$white-opacity-02: rgba(255, 255, 255, 0.02);
 $white-opacity-03: rgba(255, 255, 255, 0.03);
 $white-opacity-05: rgba(255, 255, 255, 0.05);
 $white-opacity-10: rgba(255, 255, 255, 0.1);
@@ -41,6 +43,7 @@ $white-opacity-15: rgba(255, 255, 255, 0.15);
 $white-opacity-20: rgba(255, 255, 255, 0.2);
 $white-opacity-25: rgba(255, 255, 255, 0.25);
 $white-opacity-30: rgba(255, 255, 255, 0.3);
+$white-opacity-35: rgba(255, 255, 255, 0.35);
 $white-opacity-40: rgba(255, 255, 255, 0.4);
 $white-opacity-50: rgba(255, 255, 255, 0.5);
 $white-opacity-60: rgba(255, 255, 255, 0.6);
@@ -71,7 +74,10 @@ $color-error: #ef4444;
 $color-error-light: #fca5a5;
 $color-error-dark: #7f1d1d;
 $color-error-pale: #fecaca;
+$color-error-alt: #dc3545; // Alternative red error color
+$error-opacity-05: rgba(220, 53, 69, 0.05);
 $error-opacity-10: rgba(239, 68, 68, 0.1);
+$error-opacity-10-alt: rgba(220, 53, 69, 0.1);
 $error-opacity-20: rgba(239, 68, 68, 0.2);
 $error-opacity-30: rgba(239, 68, 68, 0.3);
 
@@ -101,8 +107,15 @@ $blue-opacity-30: rgba(37, 99, 235, 0.3);
 $black-opacity-06: rgba(0, 0, 0, 0.06);
 $black-opacity-10: rgba(0, 0, 0, 0.1);
 $black-opacity-20: rgba(0, 0, 0, 0.2);
+$black-opacity-25: rgba(0, 0, 0, 0.25);
+$black-opacity-28: rgba(0, 0, 0, 0.28);
 $black-opacity-30: rgba(0, 0, 0, 0.3);
+$black-opacity-35: rgba(0, 0, 0, 0.35);
 $black-opacity-40: rgba(0, 0, 0, 0.4);
+$black-opacity-55: rgba(0, 0, 0, 0.55);
+$black-opacity-60: rgba(0, 0, 0, 0.6);
+$black-opacity-75: rgba(0, 0, 0, 0.75);
+$black-opacity-80: rgba(0, 0, 0, 0.8);
 
 // Font Sizes
 $font-size-xs: 10px;

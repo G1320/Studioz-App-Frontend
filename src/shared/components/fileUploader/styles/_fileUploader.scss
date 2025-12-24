@@ -10,12 +10,12 @@ article.file-uploader-container {
 
   &.has-error {
     .file-uploader {
-      border-color: #dc3545;
-      background-color: rgba(220, 53, 69, 0.05);
+      border-color: vars.$color-error-alt;
+      background-color: vars.$error-opacity-05;
 
       &:hover {
-        border-color: #dc3545;
-        background-color: rgba(220, 53, 69, 0.1);
+        border-color: vars.$color-error-alt;
+        background-color: vars.$error-opacity-10-alt;
       }
     }
   }
@@ -24,8 +24,8 @@ article.file-uploader-container {
 .file-uploader {
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 2px dashed rgba(255, 255, 255, 0.15);
+  background-color: vars.$white-opacity-02;
+  border: 2px dashed vars.$white-opacity-15;
   border-radius: vars.$border-radius-large;
   min-height: 180px;
   // width: 100%;
@@ -36,12 +36,12 @@ article.file-uploader-container {
   overflow: hidden;
 
   &.error {
-    border-color: #dc3545;
-    background-color: rgba(220, 53, 69, 0.05);
+    border-color: vars.$color-error-alt;
+    background-color: vars.$error-opacity-05;
 
     &:hover {
-      border-color: #dc3545;
-      background-color: rgba(220, 53, 69, 0.1);
+      border-color: vars.$color-error-alt;
+      background-color: vars.$error-opacity-10-alt;
     }
   }
 
@@ -49,7 +49,7 @@ article.file-uploader-container {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
+    background: linear-gradient(135deg, vars.$white-opacity-02 0%, vars.$white-opacity-01 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -102,8 +102,8 @@ article.file-uploader-container {
       aspect-ratio: 16 / 9;
       border-radius: vars.$border-radius-medium;
       object-fit: contain;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-      background-color: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 16px vars.$black-opacity-20;
+      background-color: vars.$white-opacity-05;
     }
 
     audio {
@@ -119,17 +119,17 @@ article.file-uploader-container {
     justify-content: center;
     width: 64px;
     height: 64px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: vars.$white-opacity-05;
     border-radius: 50%;
     margin-bottom: vars.$spacing-xs;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px vars.$black-opacity-10;
+    border: 1px solid vars.$white-opacity-10;
 
     .icon {
       width: 32px;
       height: 32px;
-      color: rgba(vars.$text-color-primary, 0.6);
+      color: vars.$white-opacity-60;
       transition: all 0.3s ease;
     }
   }
@@ -141,7 +141,7 @@ article.file-uploader-container {
     border-color: vars.$color-brand;
 
     .icon {
-      color: #000;
+      color: vars.$text-color-dark;
     }
   }
 
@@ -168,7 +168,7 @@ article.file-uploader-container {
       box-shadow: 0 8px 24px rgba(vars.$color-brand, 0.5);
 
       .icon {
-        color: #000;
+        color: vars.$text-color-dark;
       }
     }
   }
@@ -186,14 +186,14 @@ article.file-uploader-container {
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-small;
-    background: rgba(0, 0, 0, 0.35);
+    background: vars.$black-opacity-35;
     backdrop-filter: blur(2px);
     z-index: 3;
 
     &__spinner {
       width: 44px;
       height: 44px;
-      border: 3px solid rgba(vars.$text-color-primary, 0.25);
+      border: 3px solid vars.$white-opacity-25;
       border-top-color: vars.$color-brand;
       border-radius: 50%;
       animation: file-uploader-spin 0.9s linear infinite;
@@ -225,9 +225,9 @@ article.file-uploader-container {
       gap: vars.$spacing-small;
       padding: vars.$spacing-medium;
       border-radius: vars.$border-radius-large;
-      background-color: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: vars.$white-opacity-02;
+      border: 1px solid vars.$white-opacity-10;
+      box-shadow: 0 2px 8px vars.$black-opacity-10;
 
       // If there are many items, allow horizontal scroll on mobile
       @media screen and (max-width: 768px) {
@@ -235,24 +235,24 @@ article.file-uploader-container {
         overflow-x: auto;
         overflow-y: hidden;
         scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        scrollbar-color: vars.$white-opacity-20 transparent;
 
         &::-webkit-scrollbar {
           height: 6px;
         }
 
         &::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
+          background: vars.$white-opacity-05;
           border-radius: 3px;
         }
 
         &::-webkit-scrollbar-thumb {
-          background-color: rgba(255, 255, 255, 0.2);
+          background-color: vars.$white-opacity-20;
           border-radius: 3px;
           transition: background-color 0.2s ease;
 
           &:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: vars.$white-opacity-30;
           }
         }
       }
@@ -265,8 +265,8 @@ article.file-uploader-container {
         overflow: hidden;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        background-color: rgba(255, 255, 255, 0.03);
+        border: 2px solid vars.$white-opacity-10;
+        background-color: vars.$white-opacity-03;
         position: relative;
         display: flex;
         align-items: center;
@@ -291,7 +291,7 @@ article.file-uploader-container {
             border-color: vars.$color-brand;
             box-shadow:
               0 0 0 2px rgba(vars.$color-brand, 0.3),
-              0 8px 24px rgba(0, 0, 0, 0.25);
+              0 8px 24px vars.$black-opacity-25;
             transform: scale(1.02) translateY(-2px);
           }
 
@@ -305,7 +305,7 @@ article.file-uploader-container {
 
           &:hover {
             transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+            box-shadow: 0 10px 28px vars.$black-opacity-28;
           }
         }
 
@@ -317,8 +317,8 @@ article.file-uploader-container {
           width: 24px;
           height: 20px;
           border-radius: 4px;
-          background: rgba(0, 0, 0, 0.6);
-          color: rgba(255, 255, 255, 0.8);
+          background: vars.$black-opacity-60;
+          color: vars.$white-opacity-80;
           font-size: 0.75rem;
           display: flex;
           align-items: center;
@@ -332,8 +332,8 @@ article.file-uploader-container {
           padding: 0 4px;
 
           &:hover {
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
+            background: vars.$black-opacity-80;
+            color: vars.$text-color-primary;
           }
 
           .gallery-image-wrapper.dragging & {
@@ -348,10 +348,10 @@ article.file-uploader-container {
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          background: rgba(0, 0, 0, 0.55);
-          color: #fff;
-          font-size: 1rem;
+          border: 1px solid vars.$white-opacity-20;
+          background: vars.$black-opacity-55;
+          color: vars.$text-color-primary;
+          font-size: vars.$font-size-medium;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -360,8 +360,8 @@ article.file-uploader-container {
           z-index: 3;
 
           &:hover {
-            background: rgba(0, 0, 0, 0.75);
-            border-color: rgba(255, 255, 255, 0.35);
+            background: vars.$black-opacity-75;
+            border-color: vars.$white-opacity-35;
             transform: scale(1.05);
           }
         }
@@ -381,7 +381,7 @@ article.file-uploader-container {
           position: absolute;
           inset: 0;
           border-radius: vars.$border-radius-medium;
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+          background: linear-gradient(135deg, vars.$white-opacity-05 0%, vars.$white-opacity-02 100%);
           opacity: 0;
           transition: opacity 0.3s ease;
           pointer-events: none;
@@ -393,7 +393,7 @@ article.file-uploader-container {
           position: absolute;
           inset: 0;
           border-radius: vars.$border-radius-medium;
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+          box-shadow: inset 0 0 0 1px vars.$white-opacity-10;
           pointer-events: none;
           z-index: 2;
         }
