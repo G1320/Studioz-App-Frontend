@@ -38,6 +38,11 @@ interface FormData {
   genres?: string[];
   studioAvailability?: StudioAvailability;
   parking?: 'none' | 'free' | 'paid';
+  website?: string;
+  socials?: {
+    instagram?: string;
+    facebook?: string;
+  };
 }
 
 export const CreateStudioForm = () => {
@@ -321,7 +326,7 @@ export const CreateStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone'],
+        fieldNames: ['address', 'phone', 'website', 'socials.instagram', 'socials.facebook'],
         schema: studioStepSchemas.location
       },
       {
@@ -475,6 +480,24 @@ export const CreateStudioForm = () => {
       placeholder: t('form.customerDetails.phone.placeholder')
     },
     {
+      name: 'website',
+      label: t('form.website.label') || 'Website',
+      type: 'text' as FieldType,
+      placeholder: t('form.website.placeholder') || 'https://example.com'
+    },
+    {
+      name: 'socials.instagram',
+      label: t('form.socials.instagram.label') || 'Instagram URL',
+      type: 'text' as FieldType,
+      placeholder: t('form.socials.instagram.placeholder') || 'https://instagram.com/yourstudio'
+    },
+    {
+      name: 'socials.facebook',
+      label: t('form.socials.facebook.label') || 'Facebook URL',
+      type: 'text' as FieldType,
+      placeholder: t('form.socials.facebook.placeholder') || 'https://facebook.com/yourstudio'
+    },
+    {
       name: 'maxOccupancy',
       label: t('form.maxOccupancy.label'),
       type: 'number' as FieldType,
@@ -556,6 +579,22 @@ export const CreateStudioForm = () => {
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
     formData.parking = selectedParking;
+
+    // Clean up socials object - remove if both fields are empty
+    if (formData.socials) {
+      const hasSocials = formData.socials.instagram || formData.socials.facebook;
+      if (!hasSocials) {
+        delete formData.socials;
+      } else {
+        // Remove empty social fields
+        if (!formData.socials.instagram) {
+          delete formData.socials.instagram;
+        }
+        if (!formData.socials.facebook) {
+          delete formData.socials.facebook;
+        }
+      }
+    }
 
     // Check if user can create a studio
     // Free users (without paid subscription) are limited to 1 studio

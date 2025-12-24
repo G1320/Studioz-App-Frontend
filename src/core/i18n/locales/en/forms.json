@@ -50,6 +50,20 @@
       "label": "Address",
       "placeholder": "Enter studio address"
     },
+    "website": {
+      "label": "Website",
+      "placeholder": "https://example.com"
+    },
+    "socials": {
+      "instagram": {
+        "label": "Instagram URL",
+        "placeholder": "https://instagram.com/yourstudio"
+      },
+      "facebook": {
+        "label": "Facebook URL",
+        "placeholder": "https://facebook.com/yourstudio"
+      }
+    },
     "maxOccupancy": {
       "label": "Max Occupancy",
       "placeholder": "Enter maximum number of people"

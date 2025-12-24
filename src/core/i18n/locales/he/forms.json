@@ -50,6 +50,20 @@
       "label": "כתובת",
       "placeholder": "הכנס כתובת סטודיו"
     },
+    "website": {
+      "label": "אתר אינטרנט",
+      "placeholder": "https://example.com"
+    },
+    "socials": {
+      "instagram": {
+        "label": "קישור לאינסטגרם",
+        "placeholder": "https://instagram.com/yourstudio"
+      },
+      "facebook": {
+        "label": "קישור לפייסבוק",
+        "placeholder": "https://facebook.com/yourstudio"
+      }
+    },
     "maxOccupancy": {
       "label": "תפוסה מרבית",
       "placeholder": "הכנס מספר מקסימלי של אנשים"
