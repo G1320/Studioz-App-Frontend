@@ -51,7 +51,7 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
       <StudioFeatures
         studio={studio}
         showSmoking={false}
-        showAccessible={true}
+        // showAccessible={true}
         averageRating={studio?.averageRating}
         reviewCount={studio?.reviewCount}
         distance={distance}

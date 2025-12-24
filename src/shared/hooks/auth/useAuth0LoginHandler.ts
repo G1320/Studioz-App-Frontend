@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@shared/services';
 import { useUserContext, useOfflineCartContext } from '@core/contexts';
@@ -13,43 +13,75 @@ import { User } from 'src/types/index';
  */
 export const useAuth0LoginHandler = () => {
   const { user: auth0User, loginWithPopup, isAuthenticated } = useAuth0();
-  const { setUser: setUserContext } = useUserContext();
+  const { setUser: setUserContext, user: currentUser } = useUserContext();
   const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
   const handleError = useErrorHandling();
+  const processedSubRef = useRef<string | null>(null);
+  const isProcessingRef = useRef(false);
 
   useEffect(() => {
     const handleUserLogin = async () => {
-      if (isAuthenticated && auth0User) {
-        const { name = '', sub, nickname: username = '', picture, email = '', email_verified = false } = auth0User;
-        if (!sub) throw new Error('User sub is undefined');
+      // Prevent concurrent processing
+      if (isProcessingRef.current) {
+        return;
+      }
 
-        try {
-          let loggedInUser: User;
-          // Check if the user already exists in the DB
-          const dbUser = await getUserBySub(sub);
-          if (!dbUser) {
-            // Register a new user if not found in the DB
-            loggedInUser = await register({ name, sub, picture, username, email, email_verified });
-          } else {
-            // Login the existing user
-            loggedInUser = await login({ sub });
-          }
-          setLocalUser(loggedInUser);
-          setUserContext(loggedInUser);
+      if (!isAuthenticated || !auth0User) {
+        return;
+      }
 
-          // If there are items in the offline cart, add them to the user's cart
-          if (offlineCart.items?.length > 0) {
-            setOfflineCartContext({ items: [] });
-            setLocalOfflineCart({ items: [] });
-          }
-        } catch (error) {
-          handleError(error);
+      const { name = '', sub, nickname: username = '', picture, email = '', email_verified = false } = auth0User;
+      
+      if (!sub) {
+        console.error('Auth0 user sub is undefined');
+        return;
+      }
+
+      // Skip if we've already processed this sub
+      if (processedSubRef.current === sub) {
+        return;
+      }
+
+      // Skip if this user is already logged in locally with the same sub
+      if (currentUser?.sub === sub) {
+        processedSubRef.current = sub;
+        return;
+      }
+
+      // Mark as processing to prevent concurrent calls
+      isProcessingRef.current = true;
+
+      try {
+        let loggedInUser: User;
+        // Check if the user already exists in the DB
+        const dbUser = await getUserBySub(sub);
+        if (!dbUser) {
+          // Register a new user if not found in the DB
+          loggedInUser = await register({ name, sub, picture, username, email, email_verified });
+        } else {
+          // Login the existing user
+          loggedInUser = await login({ sub });
         }
+        setLocalUser(loggedInUser);
+        setUserContext(loggedInUser);
+        processedSubRef.current = sub;
+
+        // If there are items in the offline cart, add them to the user's cart
+        if (offlineCart.items?.length > 0) {
+          setOfflineCartContext({ items: [] });
+          setLocalOfflineCart({ items: [] });
+        }
+      } catch (error) {
+        handleError(error);
+        // Reset processed ref on error so we can retry
+        processedSubRef.current = null;
+      } finally {
+        isProcessingRef.current = false;
       }
     };
 
     handleUserLogin();
-  }, [isAuthenticated, auth0User, handleError, offlineCart, setOfflineCartContext, setUserContext]);
+  }, [isAuthenticated, auth0User?.sub, currentUser?.sub, handleError, offlineCart?.items?.length, setOfflineCartContext, setUserContext]);
 
   return {
     loginWithPopup,
