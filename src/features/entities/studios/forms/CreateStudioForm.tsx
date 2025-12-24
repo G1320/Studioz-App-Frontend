@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
@@ -20,8 +19,10 @@ import {
   useFormAutoSaveUncontrolled,
   useControlledStateAutoSave,
   useSubscription,
-  useStudios
+  useStudios,
+  useAuth0LoginHandler
 } from '@shared/hooks';
+import { useUserContext } from '@core/contexts';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
@@ -40,8 +41,9 @@ interface FormData {
 }
 
 export const CreateStudioForm = () => {
-  const user = getLocalUser();
-  const { loginWithPopup } = useAuth0();
+  const { user: contextUser } = useUserContext();
+  const user = contextUser || getLocalUser();
+  const { loginWithPopup } = useAuth0LoginHandler();
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();

@@ -6,7 +6,7 @@ div.studio-features-container {
   flex-direction: row;
   max-width: 1600px;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0rem;
   flex-wrap: nowrap;
   justify-content: flex-start;
 
@@ -51,7 +51,7 @@ div.studio-features-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0rem !important;
   justify-content: flex-start;
 
   > div {
@@ -59,7 +59,7 @@ div.studio-features-container {
     flex-direction: row;
     align-items: center;
     background: #242728 !important;
-
+    width: min-content;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;

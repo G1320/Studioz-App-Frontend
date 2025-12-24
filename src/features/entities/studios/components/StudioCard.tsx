@@ -46,11 +46,12 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
       />
       <div className="studio-card-name-and-description">
         <h3 className="title">{studio?.name?.en}</h3>
-        <p className="description">{studio?.description?.[currentLang] || studio?.description?.en}</p>
+        <p className="description">{studio?.subtitle?.[currentLang] || studio?.description?.en}</p>
       </div>
       <StudioFeatures
         studio={studio}
         showSmoking={false}
+        showAccessible={true}
         averageRating={studio?.averageRating}
         reviewCount={studio?.reviewCount}
         distance={distance}
