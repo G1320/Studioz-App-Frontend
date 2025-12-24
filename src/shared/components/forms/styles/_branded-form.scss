@@ -131,10 +131,22 @@
 
     .day-switch-container {
       display: flex;
+      flex-direction: row;
+      align-items: center;
       gap: vars.$spacing-medium;
       flex: 0 0 auto;
       justify-content: flex-end;
       min-width: 0;
+      border-radius: vars.$border-radius-medium;
+    }
+
+    // When switch is on (selected), make container vertical with label on top (only on small screens)
+    @media (max-width: 420px) {
+      .day-switch-container:has(.switch.on) {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        gap: vars.$spacing-small;
+      }
     }
 
     .switch {
@@ -186,7 +198,6 @@
       gap: vars.$spacing-sm-md;
       align-items: center;
       justify-content: flex-start;
-      min-width: 0;
 
       .MuiTextField-root {
         min-width: 100px;
@@ -224,7 +235,6 @@
       }
 
       > span {
-        min-width: auto;
         color: rgba(255, 255, 255, 0.6);
         font-weight: 400;
       }
