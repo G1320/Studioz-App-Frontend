@@ -1,14 +1,16 @@
+@use '../../../assets/styles/utilities/variables' as vars;
+
 .field-error {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  color: #fbbf24;
-  font-size: 0.875rem;
+  color: vars.$color-warning-light;
+  font-size: vars.$font-size-sm-md;
   line-height: 1.4;
 
   &__icon {
     flex-shrink: 0;
-    font-size: 1rem;
+    font-size: vars.$font-size-medium;
     margin-top: 0.125rem;
   }
 
@@ -35,29 +37,29 @@ select:invalid + .field-error {
   input,
   textarea,
   select {
-    border-color: #f59e0b;
+    border-color: vars.$color-warning;
 
     &:focus {
-      border-color: #f59e0b;
-      box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
     }
   }
 
   .listbox-button {
-    border-color: #f59e0b;
+    border-color: vars.$color-warning;
 
     &:focus {
-      border-color: #f59e0b;
-      box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
     }
   }
 
   .listbox-button.error {
-    border-color: #f59e0b;
+    border-color: vars.$color-warning;
 
     &:focus {
-      border-color: #f59e0b;
-      box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
     }
   }
 }
