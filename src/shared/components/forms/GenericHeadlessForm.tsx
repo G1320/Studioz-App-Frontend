@@ -291,6 +291,8 @@ export const GenericForm = ({
               </div>
             );
           case 'languageToggle':
+            const hasOtherLanguageErrors = (field as any).hasOtherLanguageErrors || false;
+            const otherLanguage = field.value === 'en' ? 'he' : 'en';
             return (
               <div key={field.name} className={`form-group ${field.className || ''}`}>
                 {field.label && <label className="form-label">{field.label}</label>}
@@ -298,18 +300,25 @@ export const GenericForm = ({
                   <button
                     type="button"
                     onClick={() => field.onChange?.('en')}
-                    className={`form-language-toggle__btn ${field.value === 'en' ? 'active' : ''}`}
+                    className={`form-language-toggle__btn ${field.value === 'en' ? 'active' : ''} ${hasOtherLanguageErrors && field.value === 'he' ? 'has-errors' : ''}`}
+                    title={hasOtherLanguageErrors && field.value === 'he' ? 'Switch to English to see validation errors' : ''}
                   >
                     English
                   </button>
                   <button
                     type="button"
                     onClick={() => field.onChange?.('he')}
-                    className={`form-language-toggle__btn ${field.value === 'he' ? 'active' : ''}`}
+                    className={`form-language-toggle__btn ${field.value === 'he' ? 'active' : ''} ${hasOtherLanguageErrors && field.value === 'en' ? 'has-errors' : ''}`}
+                    title={hasOtherLanguageErrors && field.value === 'en' ? 'Switch to Hebrew to see validation errors' : ''}
                   >
                     עברית
                   </button>
                 </div>
+                {hasOtherLanguageErrors && (
+                  <div className="form-language-toggle__hint">
+                    Switch to {otherLanguage === 'en' ? 'English' : 'עברית'} to view and fix validation errors
+                  </div>
+                )}
               </div>
             );
           case 'select':

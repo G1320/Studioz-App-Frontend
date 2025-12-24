@@ -18,7 +18,8 @@ import {
   prepareFieldsWithValues,
   validateStep,
   mergeFormData,
-  collectFormData
+  collectFormData,
+  hasErrorsInOtherLanguage
 } from './steppedForm/utils';
 import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
 import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
@@ -347,6 +348,18 @@ export const SteppedForm = ({
     return validationResult.isValid;
   }, [currentStep, currentStepFields, formDataForValidation, formData, t, formId, currentStepIndex]);
 
+  // Validate when language changes on a step with languageToggle
+  // This ensures the error hint appears/disappears when errors are fixed
+  useEffect(() => {
+    if (currentStep?.languageToggle) {
+      // Use a small delay to ensure formData is updated after language toggle
+      const timeoutId = setTimeout(() => {
+        validateCurrentStep();
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [selectedLanguage, currentStep?.languageToggle, currentStep?.id, validateCurrentStep]);
+
   // Navigation handlers
   const { handleNext, handlePrevious, handleStepClick, collectCurrentStepData } = useStepNavigation({
     currentStepIndex,
@@ -398,11 +411,31 @@ export const SteppedForm = ({
     }
   }, [debouncedFormData, formId]);
 
+  // Check if there are validation errors in the other language
+  const hasOtherLanguageErrors = useMemo(() => {
+    if (!currentStep.languageToggle) return false;
+    return hasErrorsInOtherLanguage(validationErrors, selectedLanguage, currentStep.fieldNames);
+  }, [validationErrors, selectedLanguage, currentStep.languageToggle, currentStep.fieldNames]);
+
   // Prepare fields with saved values
-  const fieldsWithValues = useMemo(
-    () => prepareFieldsWithValues(currentStepFields, formData, handleFieldChange),
-    [currentStepFields, formData, handleFieldChange]
-  );
+  const fieldsWithValues = useMemo(() => {
+    const prepared = prepareFieldsWithValues(currentStepFields, formData, handleFieldChange);
+    
+    // Add error indicator to languageToggle field if there are errors in the other language
+    if (currentStep.languageToggle && hasOtherLanguageErrors) {
+      return prepared.map((field) => {
+        if (field.type === 'languageToggle') {
+          return {
+            ...field,
+            hasOtherLanguageErrors: true
+          };
+        }
+        return field;
+      });
+    }
+    
+    return prepared;
+  }, [currentStepFields, formData, handleFieldChange, currentStep.languageToggle, hasOtherLanguageErrors]);
 
   // Check if current language is RTL (Hebrew)
   const isRTL = i18n.language === 'he';

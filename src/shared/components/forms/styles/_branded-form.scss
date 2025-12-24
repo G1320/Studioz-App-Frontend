@@ -87,6 +87,10 @@
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-xs;
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);
@@ -101,10 +105,50 @@
         box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
       }
 
+      &.has-errors {
+        border-color: #f59e0b;
+        animation: borderGlow 2s ease-in-out infinite;
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+      }
+
+      &.has-errors:hover {
+        border-color: #fbbf24;
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+      }
+
       &:focus {
         outline: none;
         box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.5);
       }
+
+      &.has-errors:focus {
+        box-shadow:
+          0 0 0 2px rgba(245, 158, 11, 0.5),
+          0 0 12px rgba(245, 158, 11, 0.6);
+      }
+    }
+
+    &__hint {
+      margin-top: vars.$spacing-small;
+      padding: vars.$spacing-small;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: vars.$border-radius-small;
+      color: #fbbf24;
+      font-size: vars.$font-size-small;
+      text-align: start;
+    }
+  }
+
+  @keyframes borderGlow {
+    0%,
+    100% {
+      border-color: #f59e0b;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
+    50% {
+      border-color: #fbbf24;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
     }
   }
 }
