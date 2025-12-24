@@ -247,8 +247,8 @@
             "too_big": "Name must be at most 20 characters"
           },
           "he": {
-            "error": "Please enter the name in Hebrew (עברית)",
-            "invalidType": "Please enter the name in Hebrew (עברית)",
+            "error": "Please enter the name in Hebrew",
+            "invalidType": "Please enter the name in Hebrew",
             "too_small": "השם חייב להיות לפחות 3 תווים",
             "too_big": "השם חייב להיות לכל היותר 20 תווים"
           }
@@ -260,8 +260,8 @@
             "too_big": "Subtitle must be at most 20 characters"
           },
           "he": {
-            "error": "Please enter the subtitle in Hebrew (עברית)",
-            "invalidType": "Please enter the subtitle in Hebrew (עברית)",
+            "error": "Please enter the subtitle in Hebrew",
+            "invalidType": "Please enter the subtitle in Hebrew",
             "too_big": "כותרת משנה חייבת להיות לכל היותר 20 תווים"
           }
         },
@@ -272,8 +272,8 @@
             "too_big": "Description must be at most 2000 characters"
           },
           "he": {
-            "error": "Please enter the description in Hebrew (עברית)",
-            "invalidType": "Please enter the description in Hebrew (עברית)",
+            "error": "Please enter the description in Hebrew",
+            "invalidType": "Please enter the description in Hebrew",
             "too_big": "תיאור חייב להיות לכל היותר 2000 תווים"
           }
         },
