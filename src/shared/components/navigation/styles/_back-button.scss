@@ -21,12 +21,12 @@
   touch-action: manipulation;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: vars.$black-opacity-05;
   }
 
   &:active {
     transform: scale(0.95);
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: vars.$black-opacity-10;
   }
 
   &:focus-visible {
@@ -38,8 +38,8 @@
     width: 18px;
     height: 18px;
     display: block;
-    color: white;
-    fill: white;
+    color: vars.$text-color-primary;
+    fill: vars.$text-color-primary;
   }
 }
 

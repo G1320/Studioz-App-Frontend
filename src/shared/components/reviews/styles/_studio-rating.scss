@@ -1,8 +1,10 @@
+@use 'utilities/variables' as vars;
+
 .studio-rating {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #f1f1f1;
+  color: vars.$color-text-light-gray;
 
   &__stars {
     display: inline-flex;
@@ -12,10 +14,10 @@
 
   &__star {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: vars.$white-opacity-40;
 
     &--filled {
-      color: #ffd166;
+      color: vars.$color-rating-yellow;
     }
   }
 
@@ -23,7 +25,7 @@
     margin: 0;
     font-size: 0.9rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
+    color: vars.$white-opacity-85;
   }
 
   &--sm {
@@ -53,9 +55,9 @@
       gap: 0.25rem;
       padding: 0.25rem 0.5rem;
       border-radius: 999px;
-      background: rgba(15, 15, 15, 0.55);
+      background: vars.$dark-bg-15-55;
       border: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 12px vars.$black-opacity-25;
       backdrop-filter: blur(10px);
       font-size: 0.75rem;
       font-weight: 500;
@@ -65,20 +67,20 @@
     .studio-rating__badge-icon {
       width: 0.75rem;
       height: 0.75rem;
-      color: #ffd166;
+      color: vars.$color-rating-yellow;
       flex-shrink: 0;
     }
 
     .studio-rating__badge-value {
       font-size: 0.75rem;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.9);
+      color: vars.$white-opacity-90;
       line-height: 1.2;
     }
 
     .studio-rating__badge-count {
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: vars.$white-opacity-70;
       font-weight: 500;
       line-height: 1.2;
     }

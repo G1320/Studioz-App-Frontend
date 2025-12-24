@@ -1,9 +1,9 @@
 // Colors
-$color-brand: rgba(44, 165, 226, 0.953);
+// $color-brand: rgba(44, 165, 226, 0.953);
 // $color-brand: #9460f6;
-$color-brand: rgb(168, 85, 247);
-$color-brand: rgb(132, 204, 22);
-$color-brand: rgb(22, 163, 74);
+// $color-brand: rgb(168, 85, 247);
+// $color-brand: rgb(132, 204, 22);
+// $color-brand: rgb(22, 163, 74);
 $color-brand: #10b981;
 
 $color-accent: rgba(88, 132, 201, 0.8);
@@ -38,6 +38,7 @@ $white-opacity-01: rgba(255, 255, 255, 0.01);
 $white-opacity-02: rgba(255, 255, 255, 0.02);
 $white-opacity-03: rgba(255, 255, 255, 0.03);
 $white-opacity-05: rgba(255, 255, 255, 0.05);
+$white-opacity-08: rgba(255, 255, 255, 0.08);
 $white-opacity-10: rgba(255, 255, 255, 0.1);
 $white-opacity-15: rgba(255, 255, 255, 0.15);
 $white-opacity-20: rgba(255, 255, 255, 0.2);
@@ -49,10 +50,13 @@ $white-opacity-50: rgba(255, 255, 255, 0.5);
 $white-opacity-60: rgba(255, 255, 255, 0.6);
 $white-opacity-678: rgba(255, 255, 255, 0.678);
 $white-opacity-70: rgba(255, 255, 255, 0.7);
+$white-opacity-75: rgba(255, 255, 255, 0.75);
 $white-opacity-80: rgba(255, 255, 255, 0.8);
+$white-opacity-85: rgba(255, 255, 255, 0.85);
 $white-opacity-90: rgba(255, 255, 255, 0.9);
 
 // Dark backgrounds with opacity
+$dark-bg-15-55: rgba(15, 15, 15, 0.55);
 $dark-bg-40: rgba(34, 34, 34, 0.4);
 $dark-bg-60: rgba(34, 34, 34, 0.6);
 $dark-bg-80: rgba(26, 26, 26, 0.8);
@@ -75,14 +79,20 @@ $color-error-light: #fca5a5;
 $color-error-dark: #7f1d1d;
 $color-error-pale: #fecaca;
 $color-error-alt: #dc3545; // Alternative red error color
+$color-error-delete: #f87171; // Delete/remove action red
 $error-opacity-05: rgba(220, 53, 69, 0.05);
 $error-opacity-10: rgba(239, 68, 68, 0.1);
 $error-opacity-10-alt: rgba(220, 53, 69, 0.1);
+$error-opacity-10-delete: rgba(248, 113, 113, 0.1);
 $error-opacity-20: rgba(239, 68, 68, 0.2);
 $error-opacity-30: rgba(239, 68, 68, 0.3);
 
 // Success colors (green)
 $color-success: #10b981;
+
+// Rating/Star colors
+$color-rating-yellow: #ffd166;
+$color-text-light-gray: #f1f1f1;
 
 // Light theme colors (for generic forms)
 $light-gray-ccc: #ccc;
@@ -104,6 +114,7 @@ $color-blue-light: #3b82f6;
 $blue-opacity-30: rgba(37, 99, 235, 0.3);
 
 // Black with opacity (for shadows)
+$black-opacity-05: rgba(0, 0, 0, 0.05);
 $black-opacity-06: rgba(0, 0, 0, 0.06);
 $black-opacity-10: rgba(0, 0, 0, 0.1);
 $black-opacity-20: rgba(0, 0, 0, 0.2);
