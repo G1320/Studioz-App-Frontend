@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { loadFormData } from '@shared/utils/formAutoSaveUtils';
+import { loadFormData, saveFormData } from '@shared/utils/formAutoSaveUtils';
 import { collectFormData, mergeFormData } from '../utils/formDataUtils';
 
 interface UseLanguageToggleOptions {
@@ -35,35 +35,46 @@ export const useLanguageToggle = ({
       const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
 
       // Collect visible fields from DOM (current language before toggle)
+      // This captures the latest typed text even if debounced save hasn't completed
       const visibleData = form ? collectFormData(form) : {};
+
+      // Immediately save current formData + visibleData to ensure latest changes are persisted
+      // This prevents data loss when toggling quickly
+      const currentData = { ...formData };
+      const dataToSave = mergeFormData(currentData, visibleData);
+      if (Object.keys(dataToSave).length > 0) {
+        saveFormData(formId, dataToSave);
+      }
 
       // Load saved data from localStorage (has both languages from previous saves)
       const savedData = loadFormData(formId) || {};
 
-      // Merge strategy: current formData state -> saved data -> visible DOM data
-      // The formData state already has both languages because handleFieldChange updates it
+      // Merge strategy: visible DOM data (latest) -> current formData state -> saved data
+      // Prioritize visible DOM data as it has the most recent user input
       setFormData((prev) => {
-        // Start with current formData state (has both languages from handleFieldChange)
-        const merged = { ...prev };
+        // Start with visible DOM data (most recent)
+        const merged = { ...visibleData };
 
-        // Merge with saved data from localStorage (ensures we have persisted data)
-        // This is important in case formData state was lost or reset
-        Object.entries(savedData).forEach(([key, value]) => {
+        // Merge with current formData state (has both languages from handleFieldChange)
+        Object.entries(prev).forEach(([key, value]) => {
           if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
             // Merge nested objects (like { name: { en: "...", he: "..." } })
-            // This preserves both languages
             merged[key] = { ...(merged[key] || {}), ...value };
-          } else {
-            // Only overwrite if current value is empty and saved value exists
-            if ((merged[key] === undefined || merged[key] === null || merged[key] === '') && value) {
-              merged[key] = value;
-            }
+          } else if (merged[key] === undefined || merged[key] === null || merged[key] === '') {
+            merged[key] = value;
           }
         });
 
-        // Finally, merge with visible DOM data (captures any last-minute changes)
-        // mergeFormData will preserve both languages in nested objects
-        return mergeFormData(merged, visibleData);
+        // Finally merge with saved data (fallback for any missing data)
+        Object.entries(savedData).forEach(([key, value]) => {
+          if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+            merged[key] = { ...(merged[key] || {}), ...value };
+          } else if ((merged[key] === undefined || merged[key] === null || merged[key] === '') && value) {
+            merged[key] = value;
+          }
+        });
+
+        return merged;
       });
 
       previousLanguageRef.current = selectedLanguage;

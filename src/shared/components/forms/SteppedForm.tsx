@@ -350,15 +350,16 @@ export const SteppedForm = ({
 
   // Validate when language changes on a step with languageToggle
   // This ensures the error hint appears/disappears when errors are fixed
+  // Only validate if the step has been validated before (user has tried to proceed)
   useEffect(() => {
-    if (currentStep?.languageToggle) {
+    if (currentStep?.languageToggle && validatedSteps.has(currentStep.id)) {
       // Use a small delay to ensure formData is updated after language toggle
       const timeoutId = setTimeout(() => {
         validateCurrentStep();
       }, 100);
       return () => clearTimeout(timeoutId);
     }
-  }, [selectedLanguage, currentStep?.languageToggle, currentStep?.id, validateCurrentStep]);
+  }, [selectedLanguage, currentStep?.languageToggle, currentStep?.id, validatedSteps, validateCurrentStep]);
 
   // Navigation handlers
   const { handleNext, handlePrevious, handleStepClick, collectCurrentStepData } = useStepNavigation({
@@ -398,8 +399,8 @@ export const SteppedForm = ({
     }
   }, [currentStepIndex, externalSelectedLanguage, onLanguageChange]);
 
-  // Auto-save form data (debounced)
-  const debouncedFormData = useDebounce(formData, 1000);
+  // Auto-save form data (debounced) - reduced delay for faster saves
+  const debouncedFormData = useDebounce(formData, 300);
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
