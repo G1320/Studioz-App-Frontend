@@ -7,7 +7,7 @@
 @mixin branded-form-base {
   background: vars.$bg-color-tertiary;
   border-radius: vars.$border-radius-large;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid vars.$white-opacity-10;
   padding: vars.$spacing-xl;
   color: vars.$text-color-primary;
   max-width: 100%;
@@ -36,9 +36,9 @@
   .form-textarea {
     width: 100% !important;
     padding: vars.$spacing-medium;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     border-radius: vars.$border-radius-medium;
-    background: rgba(34, 34, 34, 0.6);
+    background: vars.$dark-bg-60;
     color: vars.$text-color-primary;
     font-size: vars.$font-size-medium;
     transition: border-color 0.2s ease;
@@ -46,7 +46,7 @@
     box-sizing: border-box;
 
     &::placeholder {
-      color: rgba(255, 255, 255, 0.4);
+      color: vars.$white-opacity-40;
       text-align: start;
     }
 
@@ -56,7 +56,7 @@
     }
 
     &:hover:not(:focus) {
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: vars.$white-opacity-20;
     }
   }
 
@@ -69,18 +69,18 @@
   .form-language-toggle {
     display: flex;
     gap: vars.$spacing-small;
-    background: rgba(255, 255, 255, 0.05);
+    background: vars.$white-opacity-05;
     backdrop-filter: blur(10px);
     padding: vars.$spacing-small;
     border-radius: vars.$border-radius-medium;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid vars.$white-opacity-10;
+    box-shadow: 0 2px 8px vars.$black-opacity-10;
 
     &__btn {
       padding: vars.$spacing-small vars.$spacing-medium;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid vars.$white-opacity-20;
       border-radius: vars.$border-radius-small;
-      background: rgba(255, 255, 255, 0.05);
+      background: vars.$white-opacity-05;
       color: vars.$text-color-secondary;
       font-size: vars.$font-size-small;
       font-weight: 500;
@@ -93,27 +93,27 @@
       gap: vars.$spacing-xs;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.3);
+        background: vars.$white-opacity-10;
+        border-color: vars.$white-opacity-30;
         color: vars.$text-color-primary;
       }
 
       &.active {
         background: vars.$color-brand;
         border-color: vars.$color-brand;
-        color: #fff;
+        color: vars.$text-color-primary;
         box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
       }
 
       &.has-errors {
-        border-color: #f59e0b;
+        border-color: vars.$color-warning;
         animation: borderGlow 2s ease-in-out infinite;
-        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        box-shadow: 0 0 8px vars.$warning-opacity-40;
       }
 
       &.has-errors:hover {
-        border-color: #fbbf24;
-        box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+        border-color: vars.$color-warning-light;
+        box-shadow: 0 0 12px vars.$warning-opacity-60;
       }
 
       &:focus {
@@ -123,18 +123,18 @@
 
       &.has-errors:focus {
         box-shadow:
-          0 0 0 2px rgba(245, 158, 11, 0.5),
-          0 0 12px rgba(245, 158, 11, 0.6);
+          0 0 0 2px vars.$warning-opacity-50,
+          0 0 12px vars.$warning-opacity-60;
       }
     }
 
     &__hint {
       margin-top: vars.$spacing-small;
       padding: vars.$spacing-small;
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid rgba(245, 158, 11, 0.3);
+      background: vars.$warning-opacity-10;
+      border: 1px solid vars.$warning-opacity-30;
       border-radius: vars.$border-radius-small;
-      color: #fbbf24;
+      color: vars.$color-warning-light;
       font-size: vars.$font-size-small;
       text-align: start;
     }
@@ -143,12 +143,12 @@
   @keyframes borderGlow {
     0%,
     100% {
-      border-color: #f59e0b;
-      box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 8px vars.$warning-opacity-40;
     }
     50% {
-      border-color: #fbbf24;
-      box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
+      border-color: vars.$color-warning-light;
+      box-shadow: 0 0 16px vars.$warning-opacity-70;
     }
   }
 }
@@ -161,7 +161,7 @@
     gap: vars.$spacing-large;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid vars.$white-opacity-10;
     transition: background-color 0.2s ease;
 
     &:last-child {
@@ -169,7 +169,7 @@
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.03);
+      background: vars.$white-opacity-03;
       border-radius: vars.$border-radius-small;
     }
 
@@ -199,11 +199,11 @@
       height: 24px;
       overflow: hidden;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.1);
+      background: vars.$white-opacity-10;
       transition: all 0.2s ease;
       position: relative;
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid vars.$white-opacity-10;
 
       &.on {
         background: vars.$color-brand;
@@ -217,10 +217,10 @@
         top: 2px;
         width: 20px;
         height: 20px;
-        background: #fff;
+        background: vars.$text-color-primary;
         border-radius: 50%;
         transition: transform 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 4px vars.$black-opacity-20;
       }
 
       &.on::after {
@@ -247,14 +247,14 @@
         min-width: 100px;
 
         .MuiInputBase-root {
-          background: rgba(34, 34, 34, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: vars.$dark-bg-60;
+          border: 1px solid vars.$white-opacity-10;
           border-radius: vars.$border-radius-medium;
           color: vars.$text-color-primary;
           transition: border-color 0.2s ease;
 
           &:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: vars.$white-opacity-20;
           }
 
           &.Mui-focused {
@@ -271,7 +271,7 @@
           .MuiInputAdornment-root {
             .MuiIconButton-root {
               .MuiSvgIcon-root {
-                color: #fff !important;
+                color: vars.$text-color-primary !important;
               }
             }
           }
@@ -279,7 +279,7 @@
       }
 
       > span {
-        color: rgba(255, 255, 255, 0.6);
+        color: vars.$white-opacity-60;
         font-weight: 400;
       }
     }
@@ -296,7 +296,7 @@
   }
 
   & button {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: vars.$white-opacity-10 !important;
     border-radius: vars.$border-radius-medium;
   }
 
@@ -366,11 +366,11 @@
 
       transition: background-color 0.2s ease;
       color: vars.$text-color-primary;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: vars.$white-opacity-05;
+      border: 1px solid vars.$white-opacity-10;
       font-size: vars.$font-size-sm-md;
       &:hover {
-        background: rgba(255, 255, 255, 0.15) !important;
+        background: vars.$white-opacity-15 !important;
       }
       &.selected {
         background: vars.$color-brand !important;
@@ -392,8 +392,8 @@
         padding: vars.$spacing-sm-md vars.$spacing-medium;
         border-radius: 999px;
         color: vars.$text-color-primary !important;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: vars.$white-opacity-05;
+        border: 1px solid vars.$white-opacity-10;
 
         &.selected {
           background: vars.$color-brand !important;
@@ -416,8 +416,8 @@
   .show-all-button {
     margin-top: vars.$spacing-small;
     padding: vars.$spacing-small vars.$spacing-medium;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: vars.$white-opacity-05;
+    border: 1px solid vars.$white-opacity-10;
     border-radius: vars.$border-radius-medium;
     color: vars.$text-color-primary;
     font-size: vars.$font-size-small;
@@ -431,8 +431,8 @@
     z-index: 2; // Ensure button appears above fade effect
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: vars.$white-opacity-10;
+      border-color: vars.$white-opacity-20;
       transform: translateY(-1px);
     }
 
@@ -451,7 +451,7 @@
   .form-group-checkbox {
     .switch-group {
       button.switch {
-        background: rgba(255, 255, 255, 0.1);
+        background: vars.$white-opacity-10;
         position: relative;
         cursor: pointer;
         transition: background-color 0.2s ease;
@@ -473,7 +473,7 @@
           top: 2px;
           width: 20px;
           height: 20px;
-          background: #fff;
+          background: vars.$text-color-primary;
           border-radius: 50%;
           transition: transform 0.2s ease;
         }
@@ -495,15 +495,15 @@
   .listbox-button {
     width: 100%;
     padding: vars.$spacing-medium;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     border-radius: vars.$border-radius-medium;
-    background: rgba(34, 34, 34, 0.6);
+    background: vars.$dark-bg-60;
     color: vars.$text-color-primary;
     cursor: pointer;
     transition: border-color 0.2s ease;
 
     &:hover {
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: vars.$white-opacity-20;
     }
 
     &:focus {
@@ -516,7 +516,7 @@
     margin-top: vars.$spacing-xs;
     padding: vars.$spacing-small;
     background: vars.$bg-color-tertiary;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     border-radius: vars.$border-radius-medium;
     box-shadow: vars.$box-shadow-popup;
 
@@ -533,7 +533,7 @@
       }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: vars.$white-opacity-05;
       }
     }
   }
@@ -545,7 +545,7 @@
     justify-content: flex-end;
     margin-top: vars.$spacing-xl;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid vars.$white-opacity-10;
     grid-column: 1 !important;
     width: 100%;
 
@@ -579,8 +579,8 @@
 
 @mixin branded-file-uploader {
   .file-uploader {
-    background: rgba(34, 34, 34, 0.6);
-    border: 2px dashed rgba(255, 255, 255, 0.2);
+    background: vars.$dark-bg-60;
+    border: 2px dashed vars.$white-opacity-20;
     border-radius: vars.$border-radius-large;
 
     &:hover {
@@ -588,14 +588,14 @@
     }
 
     small {
-      color: rgba(255, 255, 255, 0.8);
+      color: vars.$white-opacity-80;
     }
 
     .upload-icon-container {
-      background: rgba(255, 255, 255, 0.1);
+      background: vars.$white-opacity-10;
 
       .icon {
-        color: rgba(255, 255, 255, 0.7);
+        color: vars.$white-opacity-70;
       }
     }
 
@@ -615,13 +615,13 @@
 
   .file-uploader-gallery {
     .gallery-images-list {
-      background: rgba(34, 34, 34, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: vars.$dark-bg-40;
+      border: 1px solid vars.$white-opacity-10;
       border-radius: vars.$border-radius-medium;
 
       .render-item-container {
-        background: rgba(26, 26, 26, 0.8);
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        background: vars.$dark-bg-80;
+        border: 2px solid vars.$white-opacity-10;
 
         &:hover {
           border-color: vars.$color-brand;
@@ -643,20 +643,20 @@
   .form-language-toggle {
     display: flex;
     gap: vars.$spacing-small;
-    background: rgba(255, 255, 255, 0.05);
+    background: vars.$white-opacity-05;
     backdrop-filter: blur(10px);
     padding: vars.$spacing-small;
     border-radius: vars.$border-radius-medium;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid vars.$white-opacity-10;
+    box-shadow: 0 2px 8px vars.$black-opacity-10;
     width: fit-content;
     width: fit-content;
 
     &__btn {
       padding: vars.$spacing-small vars.$spacing-medium;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid vars.$white-opacity-20;
       border-radius: vars.$border-radius-small;
-      background: rgba(255, 255, 255, 0.05);
+      background: vars.$white-opacity-05;
       color: vars.$text-color-secondary;
       font-size: vars.$font-size-small;
       font-weight: 500;
@@ -665,15 +665,15 @@
       white-space: nowrap;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.3);
+        background: vars.$white-opacity-10;
+        border-color: vars.$white-opacity-30;
         color: vars.$text-color-primary;
       }
 
       &.active {
         background: vars.$color-brand;
         border-color: vars.$color-brand;
-        color: #fff;
+        color: vars.$text-color-primary;
         box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
       }
 
