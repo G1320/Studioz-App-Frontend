@@ -39,6 +39,7 @@ $white-opacity-05: rgba(255, 255, 255, 0.05);
 $white-opacity-10: rgba(255, 255, 255, 0.1);
 $white-opacity-15: rgba(255, 255, 255, 0.15);
 $white-opacity-20: rgba(255, 255, 255, 0.2);
+$white-opacity-25: rgba(255, 255, 255, 0.25);
 $white-opacity-30: rgba(255, 255, 255, 0.3);
 $white-opacity-40: rgba(255, 255, 255, 0.4);
 $white-opacity-60: rgba(255, 255, 255, 0.6);
@@ -60,6 +61,12 @@ $warning-opacity-40: rgba(245, 158, 11, 0.4);
 $warning-opacity-50: rgba(245, 158, 11, 0.5);
 $warning-opacity-60: rgba(245, 158, 11, 0.6);
 $warning-opacity-70: rgba(245, 158, 11, 0.7);
+
+// Error colors (red)
+$color-error: #ef4444;
+$color-error-light: #fca5a5;
+$error-opacity-10: rgba(239, 68, 68, 0.1);
+$error-opacity-30: rgba(239, 68, 68, 0.3);
 
 // Black with opacity (for shadows)
 $black-opacity-10: rgba(0, 0, 0, 0.1);

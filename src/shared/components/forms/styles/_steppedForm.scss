@@ -17,7 +17,7 @@
   &__progress-bar {
     width: 100%;
     height: 4px;
-    background: rgba(255, 255, 255, 0.1);
+    background: vars.$white-opacity-10;
     border-radius: vars.$border-radius-small;
     overflow: hidden;
     margin-bottom: vars.$spacing-xl;
@@ -55,7 +55,7 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: rgba(255, 255, 255, 0.1);
+      background: vars.$white-opacity-10;
       z-index: 0;
     }
   }
@@ -87,8 +87,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: vars.$white-opacity-10;
+    border: 2px solid vars.$white-opacity-20;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: vars.$spacing-small;
     position: relative;
@@ -121,14 +121,14 @@
     }
 
     .stepped-form__step.completed & {
-      color: #000;
+      color: vars.$text-color-dark;
     }
   }
 
   &__check-icon {
     width: 24px;
     height: 24px;
-    color: #000;
+    color: vars.$text-color-dark;
     stroke-width: 3;
   }
 
@@ -149,17 +149,17 @@
     }
 
     .stepped-form__step.completed & {
-      color: rgba(vars.$text-color-primary, 0.7);
+      color: vars.$white-opacity-70;
     }
 
     .stepped-form__step.disabled & {
-      color: rgba(vars.$text-color-primary, 0.4);
+      color: vars.$white-opacity-40;
     }
   }
 
   &__step-description {
     font-size: vars.$font-size-small;
-    color: rgba(vars.$text-color-primary, 0.6);
+    color: vars.$white-opacity-60;
     margin-top: vars.$spacing-xs;
     line-height: 1.4;
   }
@@ -167,7 +167,7 @@
   &__content {
     background: vars.$bg-color-tertiary;
     border-radius: vars.$border-radius-large;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     padding: vars.$spacing-xl;
     min-height: 400px;
     position: relative;
@@ -177,9 +177,9 @@
   }
 
   &__error-message {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #fca5a5;
+    background: vars.$error-opacity-10;
+    border: 1px solid vars.$error-opacity-30;
+    color: vars.$color-error-light;
     padding: vars.$spacing-medium;
     border-radius: vars.$border-radius-medium;
     margin-bottom: vars.$spacing-large;
@@ -311,7 +311,7 @@
     align-items: center;
     margin-top: vars.$spacing-xl;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid vars.$white-opacity-10;
     gap: vars.$spacing-medium;
   }
 
@@ -344,20 +344,20 @@
 
     &--previous {
       background: transparent;
-      color: rgba(vars.$text-color-primary, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: vars.$white-opacity-70;
+      border: 1px solid vars.$white-opacity-15;
       margin-right: auto;
 
       &:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 255, 255, 0.25);
+        background: vars.$white-opacity-05;
+        border-color: vars.$white-opacity-25;
         color: vars.$text-color-primary;
       }
     }
 
     &--next {
       background: vars.$color-brand;
-      color: #000;
+      color: vars.$text-color-dark;
       border: 1px solid vars.$color-brand;
       margin-left: auto;
       font-weight: 600;
@@ -371,7 +371,7 @@
 
     &--submit {
       background: vars.$color-brand;
-      color: #000;
+      color: vars.$text-color-dark;
       border: 1px solid vars.$color-brand;
       margin-left: auto;
       font-weight: 600;
@@ -440,7 +440,7 @@
       display: flex;
       align-items: flex-start;
       gap: vars.$spacing-small;
-      color: #fbbf24;
+      color: vars.$color-warning-light;
       font-size: vars.$font-size-sm-md;
       line-height: 1.4;
 
