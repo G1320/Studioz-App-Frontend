@@ -118,6 +118,10 @@
     cursor: default;
     height: auto;
     min-height: 8rem;
+
+    p.description {
+      -webkit-line-clamp: 4;
+    }
   }
 
   div.date-picker-row {
