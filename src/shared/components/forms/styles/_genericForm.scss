@@ -11,7 +11,7 @@
 
   .business-hours {
     &.has-error {
-      border-color: #dc3545;
+      border-color: #f59e0b;
 
       .day-row {
         .hours {
@@ -19,11 +19,11 @@
             .MuiOutlinedInput-root {
               &.Mui-focused {
                 fieldset {
-                  border-color: #dc3545;
+                  border-color: #f59e0b;
                 }
               }
               fieldset {
-                border-color: #dc3545;
+                border-color: #f59e0b;
               }
             }
           }

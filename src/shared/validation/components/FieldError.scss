@@ -2,8 +2,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  margin-top: 0.25rem;
-  color: #dc3545;
+  color: #fbbf24;
   font-size: 0.875rem;
   line-height: 1.4;
 
@@ -36,29 +35,29 @@ select:invalid + .field-error {
   input,
   textarea,
   select {
-    border-color: #dc3545;
+    border-color: #f59e0b;
 
     &:focus {
-      border-color: #dc3545;
-      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
     }
   }
 
   .listbox-button {
-    border-color: #dc3545;
+    border-color: #f59e0b;
 
     &:focus {
-      border-color: #dc3545;
-      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
     }
   }
 
   .listbox-button.error {
-    border-color: #dc3545;
+    border-color: #f59e0b;
 
     &:focus {
-      border-color: #dc3545;
-      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
     }
   }
 }
