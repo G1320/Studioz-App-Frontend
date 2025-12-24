@@ -46,6 +46,8 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        flex: 0 0 25%;
+        justify-content: flex-end;
       }
 
       .switch {
@@ -71,12 +73,24 @@
 
       .hours {
         display: flex;
-        flex: 1;
+        flex: 0 0 75%;
         gap: 1rem;
         align-items: center;
+        justify-content: flex-start;
 
         .MuiTextField-root {
           min-width: 80px;
+
+          .MuiInputBase-root {
+            // Make clock icon white
+            .MuiInputAdornment-root {
+              .MuiIconButton-root {
+                .MuiSvgIcon-root {
+                  color: #fff !important;
+                }
+              }
+            }
+          }
         }
 
         span {
