@@ -35,6 +35,39 @@ export const itemDescriptionSchema = z.object({
 });
 
 /**
+ * Duration schema (for booking duration, preparation time, etc.)
+ */
+export const durationSchema = z.object({
+  value: positiveNumberSchema.min(1, 'Value must be at least 1'),
+  unit: z.enum(['minutes', 'hours', 'days'], {
+    message: 'Unit must be minutes, hours, or days'
+  })
+}).optional();
+
+/**
+ * Advance booking required schema
+ */
+export const advanceBookingRequiredSchema = z.object({
+  value: positiveNumberSchema.min(1, 'Value must be at least 1'),
+  unit: z.enum(['hours', 'days'], {
+    message: 'Unit must be hours or days'
+  })
+}).optional();
+
+/**
+ * Cancellation policy schema
+ */
+export const cancellationPolicySchema = z.object({
+  type: z.enum(['flexible', 'moderate', 'strict'], {
+    message: 'Type must be flexible, moderate, or strict'
+  }),
+  notes: z.object({
+    en: z.string().max(500, 'Notes must be at most 500 characters').optional(),
+    he: z.string().max(500, 'הערות חייבות להיות לכל היותר 500 תווים').optional()
+  }).optional()
+}).optional();
+
+/**
  * Full Item Schema
  * Validates all fields for complete item submission
  */
@@ -79,7 +112,31 @@ export const itemFullSchema = z.object({
 
   // Optional fields
   addOnIds: z.array(z.string()).optional(),
-  availability: z.array(z.any()).optional() // Availability array - can be refined later
+  availability: z.array(z.any()).optional(), // Availability array - can be refined later
+  
+  // Booking Requirements
+  minimumBookingDuration: durationSchema,
+  minimumQuantity: positiveNumberSchema.min(1, 'Minimum quantity must be at least 1').optional(),
+  maximumBookingDuration: durationSchema,
+  advanceBookingRequired: advanceBookingRequiredSchema,
+  
+  // Setup & Preparation
+  preparationTime: durationSchema,
+  bufferTime: durationSchema,
+  
+  // Policies
+  cancellationPolicy: cancellationPolicySchema,
+  
+  // Remote Service
+  remoteService: z.boolean().optional(),
+  remoteAccessMethod: z.enum(['zoom', 'teams', 'skype', 'custom', 'other']).optional(),
+  softwareRequirements: z.array(z.string()).optional(),
+  
+  // Quantity Management
+  maxQuantityPerBooking: positiveNumberSchema.min(1, 'Max quantity per booking must be at least 1').optional(),
+  
+  // Same-Day Booking
+  allowSameDayBooking: z.boolean().optional()
 });
 
 /**

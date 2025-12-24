@@ -68,15 +68,28 @@ export const studioStep3Schema = z.object({
 });
 
 /**
+ * Social media links schema
+ */
+export const socialsSchema = z.object({
+  instagram: urlSchema.optional(),
+  facebook: urlSchema.optional()
+}).optional();
+
+/**
  * Step 4: Location & Contact Schema
- * Validates: address, phone
+ * Validates: address, phone, website, socials
  */
 export const studioStep4Schema = z.object({
   address: z.preprocess(
     (val) => (val === undefined || val === null ? '' : val),
     z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters')
   ),
-  phone: phoneSchema
+  phone: phoneSchema,
+  website: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    urlSchema.optional()
+  ),
+  socials: socialsSchema
 });
 
 /**
@@ -182,6 +195,11 @@ export const studioFullSchema = z.object({
     z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters')
   ),
   phone: phoneSchema,
+  website: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    urlSchema.optional()
+  ),
+  socials: socialsSchema,
   city: z.string().min(1, 'City is required').max(100, 'City must be at most 100 characters'),
   lat: z.number().optional(),
   lng: z.number().optional(),
