@@ -7,7 +7,7 @@
   padding: vars.$spacing-medium;
   background-color: vars.$card-bg-color;
   border-radius: vars.$border-radius-medium;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid vars.$white-opacity-10;
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -48,7 +48,7 @@
         p {
           margin: vars.$spacing-xs 0 0 0;
           font-size: vars.$font-size-sm-md;
-          color: rgba(255, 255, 255, 0.6);
+          color: vars.$white-opacity-60;
         }
       }
     }
@@ -62,7 +62,7 @@
         flex-direction: column;
         gap: vars.$spacing-xs;
         font-size: vars.$font-size-sm-md;
-        color: rgba(255, 255, 255, 0.7);
+        color: vars.$white-opacity-70;
       }
     }
 
@@ -80,7 +80,7 @@
 
     button {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid vars.$white-opacity-20;
       border-radius: vars.$border-radius-small;
       color: vars.$text-color-primary;
       cursor: pointer;
@@ -92,7 +92,7 @@
 
       &:hover {
         border-color: vars.$color-brand;
-        background: rgba(16, 185, 129, 0.1);
+        background: vars.$brand-opacity-20;
       }
 
       .icon {

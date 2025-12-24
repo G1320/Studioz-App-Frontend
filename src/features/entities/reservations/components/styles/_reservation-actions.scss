@@ -6,7 +6,7 @@
   flex-direction: column;
   gap: vars.$spacing-medium;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid vars.$white-opacity-10;
 
   &__button {
     padding: vars.$spacing-medium vars.$spacing-large;
@@ -29,12 +29,12 @@
     }
 
     &--cancel {
-      background: rgba(248, 113, 113, 0.2);
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.3);
+      background: vars.$status-red-bg;
+      color: vars.$status-red-text;
+      border: 1px solid vars.$status-red-border-30;
 
       &:hover:not(:disabled) {
-        background: rgba(248, 113, 113, 0.3);
+        background: vars.$status-red-bg-30;
         transform: translateY(-1px);
       }
     }
@@ -50,13 +50,13 @@
     }
 
     &--confirm-reservation {
-      background: rgba(52, 211, 153, 0.2);
-      color: #34d399;
-      border: 1px solid rgba(52, 211, 153, 0.3);
+      background: vars.$status-green-bg;
+      color: vars.$status-green-text;
+      border: 1px solid vars.$status-green-border;
 
       &:hover:not(:disabled) {
-        background: rgba(52, 211, 153, 0.3);
-        border-color: rgba(52, 211, 153, 0.5);
+        background: vars.$status-green-bg-30;
+        border-color: vars.$status-green-border-50;
         transform: translateY(-1px);
       }
     }
@@ -64,24 +64,24 @@
     &--contact {
       background: transparent;
       color: vars.$text-color-primary;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid vars.$white-opacity-20;
 
       &:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.05);
+        background: vars.$white-opacity-05;
         border-color: vars.$color-brand;
       }
     }
 
     &--confirm {
-      background: rgba(248, 113, 113, 0.3);
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.5);
+      background: vars.$status-red-bg-30;
+      color: vars.$status-red-text;
+      border: 1px solid vars.$status-red-border-50;
     }
 
     &--secondary {
       background: transparent;
       color: vars.$text-color-primary;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid vars.$white-opacity-20;
     }
   }
 
@@ -90,8 +90,8 @@
     flex-direction: column;
     gap: vars.$spacing-medium;
     padding: vars.$spacing-large;
-    background: rgba(248, 113, 113, 0.1);
-    border: 1px solid rgba(248, 113, 113, 0.2);
+    background: vars.$error-opacity-10-delete;
+    border: 1px solid vars.$status-red-border-20;
     border-radius: vars.$border-radius-medium;
   }
 
@@ -110,7 +110,7 @@
     margin: 0;
     padding: vars.$spacing-medium;
     text-align: center;
-    color: rgba(255, 255, 255, 0.6);
+    color: vars.$white-opacity-60;
     font-size: vars.$font-size-medium;
   }
 

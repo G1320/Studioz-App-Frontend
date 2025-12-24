@@ -10,7 +10,7 @@
   gap: 0.25rem;
   cursor: pointer;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid vars.$white-opacity-05;
   transition:
     transform 0.2s ease,
     border-color 0.2s ease;
@@ -47,7 +47,7 @@
     line-height: 1;
     margin: 0;
     font-size: 1.1rem;
-    color: #fff;
+    color: vars.$text-color-primary;
     justify-content: flex-end;
   }
 
@@ -67,7 +67,7 @@
     -webkit-line-clamp: 2;
     font-size: 0.8125rem;
     line-height: 1.4;
-    color: rgba(255, 255, 255, 0.75);
+    color: vars.$white-opacity-75;
     margin: 0;
     word-break: break-word;
     text-overflow: ellipsis;

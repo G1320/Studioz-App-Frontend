@@ -9,7 +9,7 @@
   background: vars.$card-bg-color;
   place-self: center;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px vars.$black-opacity-10;
   padding: 0.5rem;
   overflow: auto;
   position: relative;
@@ -28,7 +28,7 @@
     border-radius: 50%;
     background: black;
     border: none;
-    color: #666;
+    color: vars.$text-color-secondary;
     font-size: 24px;
     line-height: 1;
     cursor: pointer;
@@ -41,8 +41,8 @@
     z-index: 10;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.2);
-      color: #333;
+      background: vars.$black-opacity-20;
+      color: vars.$dark-gray-333;
     }
 
     &:active {
@@ -73,7 +73,7 @@
   &__actions {
     margin-top: vars.$spacing-medium;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid vars.$white-opacity-10;
   }
 
   @keyframes reservationDetailsEnter {

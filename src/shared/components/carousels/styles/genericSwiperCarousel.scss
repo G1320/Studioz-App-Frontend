@@ -49,8 +49,8 @@
     width: 84px;
     align-content: center;
     align-self: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: vars.$white-opacity-10;
+    border: 1px solid vars.$white-opacity-20;
 
     border-radius: 6px;
   }
@@ -87,7 +87,7 @@
 
     position: static;
     margin: 1rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid vars.$white-opacity-20;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -96,9 +96,9 @@
     backdrop-filter: blur(8px);
 
     &:hover {
-      background-color: rgba(16, 185, 129, 0.2);
+      background-color: vars.$brand-opacity-20;
       border-color: vars.$color-brand;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 12px vars.$brand-opacity-30;
     }
 
     &:disabled {
@@ -112,7 +112,7 @@
   .swiper-button-next::after {
     font-size: 18px;
     font-weight: 700;
-    color: #fff;
+    color: vars.$text-color-primary;
     display: flex;
     align-items: center;
     justify-content: center;

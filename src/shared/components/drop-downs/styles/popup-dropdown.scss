@@ -10,11 +10,11 @@
 .popup-dropdown {
   position: absolute;
   top: calc(100% + 0.75rem);
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: vars.$bg-color-tertiary;
+  border: 1px solid vars.$white-opacity-10;
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.2);
+    0 8px 24px vars.$black-opacity-40,
+    0 4px 8px vars.$black-opacity-20;
   border-radius: 12px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -217,7 +217,7 @@ html[dir='rtl'] .popup-dropdown--center {
     max-height: 400px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: vars.$white-opacity-20 transparent;
 
     &::-webkit-scrollbar {
       width: 6px;
@@ -228,11 +228,11 @@ html[dir='rtl'] .popup-dropdown--center {
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: vars.$white-opacity-20;
       border-radius: 3px;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.3);
+        background-color: vars.$white-opacity-30;
       }
     }
 
@@ -242,7 +242,7 @@ html[dir='rtl'] .popup-dropdown--center {
 
     li {
       padding: 0.75rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid vars.$white-opacity-05;
       display: flex;
       gap: 0.75rem;
       align-items: center;
@@ -255,7 +255,7 @@ html[dir='rtl'] .popup-dropdown--center {
       }
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: vars.$white-opacity-05;
       }
 
       @media (max-width: 768px) {
@@ -272,7 +272,7 @@ html[dir='rtl'] .popup-dropdown--center {
 
       p {
         margin: 0;
-        color: rgba(255, 255, 255, 0.75);
+        color: vars.$white-opacity-75;
         font-size: vars.$font-size-small;
         line-height: 1.5;
       }

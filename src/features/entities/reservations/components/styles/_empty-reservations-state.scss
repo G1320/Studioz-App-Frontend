@@ -24,7 +24,7 @@
 
   &__subtitle {
     font-size: vars.$font-size-large;
-    color: rgba(255, 255, 255, 0.6);
+    color: vars.$white-opacity-60;
     margin: 0 0 vars.$spacing-xl 0;
     max-width: 500px;
   }

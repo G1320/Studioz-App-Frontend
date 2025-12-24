@@ -11,7 +11,7 @@
   min-width: 0;
   border-radius: vars.$border-radius-2xl;
   padding: 0.5rem 0.75rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px vars.$black-opacity-10;
   transition:
     box-shadow 0.2s ease,
     border-color 0.2s ease,
@@ -33,12 +33,12 @@
     transition: all 0.2s ease-in-out;
     color: vars.$text-color-dark;
     &:focus {
-      background-color: #ffffff;
+      background-color: vars.$text-color-primary;
       box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.35);
     }
 
     &::placeholder {
-      color: #7c7f86;
+      color: vars.$light-gray-7c7f86;
       font-size: 0.95rem;
     }
   }

@@ -13,7 +13,7 @@ div.studio-features-container {
   .distance-badge {
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    background: #242728;
+    background: vars.$bg-color-secondary;
 
     .distance-badge__value {
       flex-wrap: nowrap;
@@ -22,7 +22,7 @@ div.studio-features-container {
   }
 
   .studio-rating__badge {
-    background: #242728;
+    background: vars.$bg-color-secondary;
   }
 
   .studio-city-badge {
@@ -30,9 +30,9 @@ div.studio-features-container {
     align-items: center;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    background: rgba(15, 15, 15, 0.55);
+    background: vars.$dark-bg-15-55;
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px vars.$black-opacity-25;
     backdrop-filter: blur(10px);
     font-size: 0.75rem;
     font-weight: 500;
@@ -41,7 +41,7 @@ div.studio-features-container {
     span {
       font-size: 0.75rem;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.9);
+      color: vars.$white-opacity-90;
       line-height: 1.2;
     }
   }
@@ -58,14 +58,14 @@ div.studio-features-container {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    background: #242728 !important;
+    background: vars.$bg-color-secondary !important;
     width: min-content;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    background: rgba(15, 15, 15, 0.55);
+    background: vars.$dark-bg-15-55;
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px vars.$black-opacity-25;
     backdrop-filter: blur(10px);
     font-size: 0.75rem;
     font-weight: 500;
@@ -75,14 +75,14 @@ div.studio-features-container {
       width: 0.75rem;
       height: 0.75rem;
       flex-shrink: 0;
-      color: rgba(255, 255, 255, 0.8);
+      color: vars.$white-opacity-80;
     }
 
     span {
       font-size: 0.75rem;
       font-weight: 500;
       line-height: 1.2;
-      color: rgba(255, 255, 255, 0.9);
+      color: vars.$white-opacity-90;
       display: flex;
       align-items: center;
       justify-content: center;

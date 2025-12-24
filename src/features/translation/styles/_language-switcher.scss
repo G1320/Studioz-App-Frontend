@@ -16,7 +16,7 @@
   &__option {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.8);
+    color: vars.$white-opacity-80;
     cursor: pointer;
     font-size: vars.$font-size-sm-md;
     font-weight: 400;
@@ -46,14 +46,14 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, vars.$white-opacity-03 50%, transparent 100%);
       transition: left 0.5s ease;
       pointer-events: none;
     }
 
     &:hover {
       color: vars.$text-color-primary;
-      background: rgba(255, 255, 255, 0.03);
+      background: vars.$white-opacity-03;
       transform: translateX(2px);
 
       &::after {

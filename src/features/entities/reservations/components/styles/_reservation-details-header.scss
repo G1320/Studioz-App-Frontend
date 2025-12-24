@@ -11,7 +11,7 @@
     height: 48px;
     padding: 0;
     background: transparent;
-    color: rgba(255, 255, 255, 0.7);
+    color: vars.$white-opacity-70;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -22,7 +22,7 @@
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: vars.$white-opacity-05;
       color: vars.$text-color-primary;
       transform: translateX(-2px);
     }

@@ -4,9 +4,9 @@
 button.add-remove-button {
   @include mixins.branded-button;
 
-  --button-hover-bg: rgba(16, 185, 129, 0.2);
-  --button-shadow: rgba(16, 185, 129, 0.3);
-  --button-focus-shadow: rgba(14, 165, 233, 0.3);
+  --button-hover-bg: #{vars.$brand-opacity-20};
+  --button-shadow: #{vars.$brand-opacity-30};
+  --button-focus-shadow: #{vars.$blue-opacity-30-alt};
 
   align-self: center;
   border-radius: 8px;
@@ -15,7 +15,7 @@ button.add-remove-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: vars.$text-color-primary;
 
   &:hover:not(:disabled) {
     background-color: var(--button-hover-bg);

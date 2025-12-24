@@ -1,13 +1,15 @@
+@use 'utilities/variables' as vars;
+
 .addon-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background: white;
+  border: 1px solid vars.$light-gray-e0e0e0;
+  border-radius: vars.$border-radius-medium;
+  padding: vars.$spacing-medium;
+  margin-bottom: vars.$spacing-medium;
+  background: vars.$text-color-primary;
   transition: box-shadow 0.2s;
 
   &:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px vars.$black-opacity-10;
   }
 
   &.inactive {
@@ -46,7 +48,7 @@
 
   &-description {
     margin: 0 0 0.5rem 0;
-    color: #666;
+    color: vars.$text-color-secondary;
     font-size: 0.9rem;
   }
 
@@ -59,12 +61,12 @@
     .price-amount {
       font-size: 1.2rem;
       font-weight: 700;
-      color: #333;
+      color: vars.$dark-gray-333;
     }
 
     .price-per {
       font-size: 0.9rem;
-      color: #666;
+      color: vars.$text-color-secondary;
     }
   }
 
@@ -76,39 +78,39 @@
     font-weight: 500;
 
     &.inactive-badge {
-      background: #ffebee;
-      color: #c62828;
+      background: vars.$status-inactive-bg;
+      color: vars.$status-inactive-text;
     }
   }
 
   &-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: vars.$spacing-sm-md;
     flex-shrink: 0;
 
     button {
-      padding: 0.5rem 1rem;
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
       border: none;
-      border-radius: 4px;
+      border-radius: vars.$border-radius-small;
       cursor: pointer;
       font-size: 0.9rem;
       transition: background 0.2s;
 
       &.btn-edit {
-        background: #2196f3;
-        color: white;
+        background: vars.$action-blue-primary;
+        color: vars.$text-color-primary;
 
         &:hover {
-          background: #1976d2;
+          background: vars.$action-blue-dark;
         }
       }
 
       &.btn-delete {
-        background: #f44336;
-        color: white;
+        background: vars.$action-red-primary;
+        color: vars.$text-color-primary;
 
         &:hover {
-          background: #d32f2f;
+          background: vars.$action-red-dark;
         }
       }
     }

@@ -89,15 +89,15 @@
     line-height: 1.4;
 
     &--incoming {
-      background: rgba(59, 130, 246, 0.15);
-      color: #7dd3fc;
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: vars.$status-blue-bg;
+      color: vars.$status-blue-text;
+      border: 1px solid vars.$status-blue-border;
     }
 
     &--outgoing {
-      background: rgba(139, 92, 246, 0.15);
-      color: #c4b5fd;
-      border: 1px solid rgba(139, 92, 246, 0.25);
+      background: vars.$status-purple-bg;
+      color: vars.$status-purple-text;
+      border: 1px solid vars.$status-purple-border;
     }
   }
 
@@ -107,7 +107,7 @@
 
   &__studio-name {
     font-size: vars.$font-size-medium;
-    color: rgba(255, 255, 255, 0.7);
+    color: vars.$white-opacity-70;
     margin: 0;
     font-weight: 400;
   }
@@ -127,25 +127,25 @@
     display: inline-block;
 
     &.status-pending {
-      background: rgba(251, 191, 36, 0.2);
-      color: #fbbf24;
+      background: vars.$warning-opacity-20;
+      color: vars.$color-warning-light;
     }
 
     &.status-confirmed {
-      background: rgba(52, 211, 153, 0.2);
-      color: #34d399;
+      background: vars.$status-green-bg;
+      color: vars.$status-green-text;
     }
 
     &.status-cancelled,
     &.status-rejected {
-      background: rgba(248, 113, 113, 0.2);
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.4);
+      background: vars.$status-red-bg;
+      color: vars.$status-red-text;
+      border: 1px solid vars.$status-red-border;
     }
 
     &.status-expired {
-      background: rgba(248, 113, 113, 0.2);
-      color: #f87171;
+      background: vars.$status-red-bg;
+      color: vars.$status-red-text;
     }
   }
 
@@ -171,7 +171,7 @@
   }
 
   &__label {
-    color: rgba(255, 255, 255, 0.6);
+    color: vars.$white-opacity-60;
     flex-shrink: 0;
     white-space: nowrap;
   }
@@ -254,9 +254,9 @@
 
   &__cancel-button {
     padding: vars.$spacing-small vars.$spacing-medium;
-    background: rgba(248, 113, 113, 0.2);
-    color: #f87171;
-    border: 1px solid rgba(248, 113, 113, 0.4);
+    background: vars.$status-red-bg;
+    color: vars.$status-red-text;
+    border: 1px solid vars.$status-red-border;
     border-radius: vars.$border-radius-small;
     font-size: vars.$font-size-medium;
     font-weight: 600;
@@ -265,8 +265,8 @@
     width: 100%;
 
     &:hover:not(:disabled) {
-      background: rgba(248, 113, 113, 0.3);
-      border-color: #f87171;
+      background: vars.$error-opacity-30;
+      border-color: vars.$status-red-text;
       transform: translateY(-1px);
     }
 
@@ -285,9 +285,9 @@
     flex-direction: column;
     gap: vars.$spacing-small;
     padding: vars.$spacing-medium;
-    background: rgba(0, 0, 0, 0.3);
+    background: vars.$black-opacity-30;
     border-radius: vars.$border-radius-small;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
   }
 
   &__cancel-message {
@@ -305,9 +305,9 @@
 
   &__cancel-confirm-button {
     padding: vars.$spacing-xs vars.$spacing-medium;
-    background: rgba(248, 113, 113, 0.3);
-    color: #f87171;
-    border: 1px solid rgba(248, 113, 113, 0.5);
+    background: vars.$error-opacity-30;
+    color: vars.$status-red-text;
+    border: 1px solid vars.$error-opacity-50;
     border-radius: vars.$border-radius-small;
     font-size: vars.$font-size-small;
     font-weight: 600;
@@ -315,8 +315,8 @@
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: rgba(248, 113, 113, 0.4);
-      border-color: #f87171;
+      background: vars.$error-opacity-40;
+      border-color: vars.$status-red-text;
     }
 
     &:disabled {
@@ -327,9 +327,9 @@
 
   &__cancel-cancel-button {
     padding: vars.$spacing-xs vars.$spacing-medium;
-    background: rgba(255, 255, 255, 0.1);
+    background: vars.$white-opacity-10;
     color: vars.$text-color-primary;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid vars.$white-opacity-20;
     border-radius: vars.$border-radius-small;
     font-size: vars.$font-size-small;
     font-weight: 600;
@@ -337,8 +337,8 @@
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: vars.$white-opacity-15;
+      border-color: vars.$white-opacity-30;
     }
 
     &:disabled {

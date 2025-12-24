@@ -10,7 +10,7 @@
   place-self: center;
   width: clamp(250px, 50vw, 100%);
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px vars.$black-opacity-10;
   padding: 0.5rem;
   overflow: auto;
   position: relative;
@@ -28,7 +28,7 @@
     border-radius: 50%;
     background: black;
     border: none;
-    color: #666;
+    color: vars.$text-color-secondary;
     font-size: 24px;
     line-height: 1;
     cursor: pointer;
@@ -41,8 +41,8 @@
     z-index: 10;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.2);
-      color: #333;
+      background: vars.$black-opacity-20;
+      color: vars.$dark-gray-333;
     }
 
     &:active {
@@ -79,7 +79,7 @@
       aspect-ratio: 16 / 9;
       min-height: 200px;
       max-height: 400px;
-      background-color: rgba(255, 255, 255, 0.04);
+      background-color: vars.$white-opacity-04;
     }
 
     .generic-image.cover-image {
@@ -187,12 +187,12 @@
     gap: vars.$spacing-small;
     padding: vars.$spacing-medium;
     border-radius: vars.$border-radius-medium;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: vars.$white-opacity-03;
+    border: 1px solid vars.$white-opacity-08;
 
     h3 {
       margin: 0;
-      color: #fff;
+      color: vars.$text-color-primary;
       font-size: vars.$font-size-large;
       font-weight: 600;
     }
@@ -204,9 +204,9 @@
     }
 
     .addon-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #f5f5f5;
+      background: vars.$white-opacity-03;
+      border: 1px solid vars.$white-opacity-08;
+      color: vars.$light-gray-f5f5f5;
       display: flex;
       flex-direction: column;
       padding: vars.$spacing-sm-md;
@@ -215,24 +215,24 @@
       border-radius: vars.$border-radius-medium;
       transition: all 0.25s ease;
       &:hover {
-        border-color: rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.05);
+        border-color: vars.$white-opacity-18;
+        background: vars.$white-opacity-05;
       }
 
       &.selected {
-        border-color: rgba(255, 255, 255, 0.25);
-        background: rgba(255, 255, 255, 0.08);
+        border-color: vars.$white-opacity-25;
+        background: vars.$white-opacity-08;
         box-shadow:
-          0 2px 8px rgba(0, 0, 0, 0.15),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          0 2px 8px vars.$black-opacity-15,
+          inset 0 1px 0 vars.$white-opacity-10;
         transform: translateY(-1px);
 
         &:hover {
-          border-color: rgba(255, 255, 255, 0.3);
-          background: rgba(255, 255, 255, 0.1);
+          border-color: vars.$white-opacity-30;
+          background: vars.$white-opacity-10;
           box-shadow:
-            0 4px 12px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            0 4px 12px vars.$black-opacity-20,
+            inset 0 1px 0 vars.$white-opacity-15;
         }
       }
       &-content {
@@ -265,7 +265,7 @@
       }
 
       &-name {
-        color: #fff;
+        color: vars.$text-color-primary;
         margin: 0;
         font-size: vars.$font-size-medium;
         font-weight: 600;
@@ -291,24 +291,24 @@
         gap: vars.$spacing-xs;
 
         button {
-          background: rgba(255, 255, 255, 0.08);
-          color: #fff;
+          background: vars.$white-opacity-08;
+          color: vars.$text-color-primary;
           padding: vars.$spacing-xs vars.$spacing-xs;
           border-radius: vars.$border-radius-small;
 
           &.btn-edit {
-            background: #2563eb;
+            background: vars.$color-blue-primary;
 
             &:hover {
-              background: #1d4ed8;
+              background: vars.$color-blue-darker;
             }
           }
 
           &.btn-delete {
-            background: #ef4444;
+            background: vars.$color-red-primary;
 
             &:hover {
-              background: #dc2626;
+              background: vars.$color-red-dark;
             }
           }
         }

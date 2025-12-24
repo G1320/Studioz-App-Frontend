@@ -22,7 +22,7 @@
 
   &__message {
     font-size: vars.$font-size-2xl;
-    color: rgba(255, 255, 255, 0.6);
+    color: vars.$white-opacity-60;
     margin: 0;
     font-weight: 400;
     letter-spacing: -0.3px;
@@ -35,7 +35,7 @@
     padding: vars.$spacing-medium vars.$spacing-2xl;
     background: transparent;
     color: vars.$color-brand;
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 1px solid vars.$brand-opacity-30;
     border-radius: 12px;
     font-size: vars.$font-size-medium;
     font-weight: 500;
@@ -48,7 +48,7 @@
       color: vars.$text-color-primary;
       border-color: vars.$color-brand;
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 8px 24px vars.$brand-opacity-20;
     }
 
     &:active {

@@ -37,10 +37,14 @@ $border-color-quaternary: #cccccc;
 $white-opacity-01: rgba(255, 255, 255, 0.01);
 $white-opacity-02: rgba(255, 255, 255, 0.02);
 $white-opacity-03: rgba(255, 255, 255, 0.03);
+$white-opacity-04: rgba(255, 255, 255, 0.04);
 $white-opacity-05: rgba(255, 255, 255, 0.05);
+$white-opacity-06: rgba(255, 255, 255, 0.06);
 $white-opacity-08: rgba(255, 255, 255, 0.08);
 $white-opacity-10: rgba(255, 255, 255, 0.1);
+$white-opacity-12: rgba(255, 255, 255, 0.12);
 $white-opacity-15: rgba(255, 255, 255, 0.15);
+$white-opacity-18: rgba(255, 255, 255, 0.18);
 $white-opacity-20: rgba(255, 255, 255, 0.2);
 $white-opacity-25: rgba(255, 255, 255, 0.25);
 $white-opacity-30: rgba(255, 255, 255, 0.3);
@@ -86,6 +90,8 @@ $error-opacity-10-alt: rgba(220, 53, 69, 0.1);
 $error-opacity-10-delete: rgba(248, 113, 113, 0.1);
 $error-opacity-20: rgba(239, 68, 68, 0.2);
 $error-opacity-30: rgba(239, 68, 68, 0.3);
+$error-opacity-40: rgba(239, 68, 68, 0.4);
+$error-opacity-50: rgba(248, 113, 113, 0.5);
 
 // Success colors (green)
 $color-success: #10b981;
@@ -93,6 +99,19 @@ $color-success: #10b981;
 // Rating/Star colors
 $color-rating-yellow: #ffd166;
 $color-text-light-gray: #f1f1f1;
+$color-text-medium-gray: #b3b2b2;
+
+// Brand color opacity variants
+$brand-opacity-05: rgba(16, 185, 129, 0.05);
+$brand-opacity-08: rgba(16, 185, 129, 0.08);
+$brand-opacity-20: rgba(16, 185, 129, 0.2);
+$brand-opacity-30: rgba(16, 185, 129, 0.3);
+
+// Blue color opacity
+$blue-opacity-30-alt: rgba(14, 165, 233, 0.3);
+
+// Light gray with opacity
+$light-gray-f0f0f0-5b: #f0f0f05b;
 
 // Light theme colors (for generic forms)
 $light-gray-ccc: #ccc;
@@ -110,19 +129,70 @@ $gray-text-6b7280: #6b7280;
 // Blue colors (for light theme forms)
 $color-blue-primary: #2563eb;
 $color-blue-dark: #1e40af;
+$color-blue-darker: #1d4ed8;
 $color-blue-light: #3b82f6;
 $blue-opacity-30: rgba(37, 99, 235, 0.3);
+
+// Red colors (for delete/error actions)
+$color-red-primary: #ef4444;
+$color-red-dark: #dc2626;
+$color-red-badge: #ff0000;
+
+// Light gray colors
+$light-gray-e0e0e0: #e0e0e0;
+$light-gray-e2e2e2: #e2e2e2;
+$light-gray-e8e8e8: #e8e8e8;
+$light-gray-f5f5f5: #f5f5f5;
+$light-gray-slate-241-245-249-80: rgba(241, 245, 249, 0.8);
+$light-gray-7c7f86: #7c7f86;
+
+// Status colors (for badges, cards)
+$status-blue-bg: rgba(59, 130, 246, 0.15);
+$status-blue-border: rgba(59, 130, 246, 0.25);
+$status-blue-text: #7dd3fc;
+$status-purple-bg: rgba(139, 92, 246, 0.15);
+$status-purple-border: rgba(139, 92, 246, 0.25);
+$status-purple-text: #c4b5fd;
+$status-green-bg: rgba(52, 211, 153, 0.2);
+$status-green-bg-15: rgba(52, 211, 153, 0.15);
+$status-green-bg-30: rgba(52, 211, 153, 0.3);
+$status-green-border: rgba(52, 211, 153, 0.3);
+$status-green-border-20: rgba(52, 211, 153, 0.2);
+$status-green-border-50: rgba(52, 211, 153, 0.5);
+$status-green-text: #34d399;
+$status-red-bg: rgba(248, 113, 113, 0.2);
+$status-red-bg-15: rgba(248, 113, 113, 0.15);
+$status-red-bg-30: rgba(248, 113, 113, 0.3);
+$status-red-border: rgba(248, 113, 113, 0.4);
+$status-red-border-20: rgba(248, 113, 113, 0.2);
+$status-red-border-30: rgba(248, 113, 113, 0.3);
+$status-red-border-50: rgba(248, 113, 113, 0.5);
+$status-red-text: #f87171;
+$status-warning-bg-15: rgba(251, 191, 36, 0.15);
+$status-warning-border-20: rgba(251, 191, 36, 0.2);
+$status-inactive-bg: #ffebee;
+$status-inactive-text: #c62828;
+
+// Blue action colors
+$action-blue-primary: #2196f3;
+$action-blue-dark: #1976d2;
+$action-red-primary: #f44336;
+$action-red-dark: #d32f2f;
 
 // Black with opacity (for shadows)
 $black-opacity-05: rgba(0, 0, 0, 0.05);
 $black-opacity-06: rgba(0, 0, 0, 0.06);
+$black-opacity-08: rgba(0, 0, 0, 0.08);
 $black-opacity-10: rgba(0, 0, 0, 0.1);
+$black-opacity-12: rgba(0, 0, 0, 0.12);
+$black-opacity-15: rgba(0, 0, 0, 0.15);
 $black-opacity-20: rgba(0, 0, 0, 0.2);
 $black-opacity-25: rgba(0, 0, 0, 0.25);
 $black-opacity-28: rgba(0, 0, 0, 0.28);
 $black-opacity-30: rgba(0, 0, 0, 0.3);
 $black-opacity-35: rgba(0, 0, 0, 0.35);
 $black-opacity-40: rgba(0, 0, 0, 0.4);
+$black-opacity-50: rgba(0, 0, 0, 0.5);
 $black-opacity-55: rgba(0, 0, 0, 0.55);
 $black-opacity-60: rgba(0, 0, 0, 0.6);
 $black-opacity-75: rgba(0, 0, 0, 0.75);

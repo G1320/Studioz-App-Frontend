@@ -18,11 +18,11 @@
   &__container {
     max-width: 600px;
     width: 100%;
-    background: rgba(26, 26, 26, 0.7);
+    background: vars.$dark-bg-80;
     border-radius: vars.$border-radius-xl;
     box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
+      0 10px 30px vars.$black-opacity-50,
+      0 0 0 1px vars.$white-opacity-05;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     padding: vars.$spacing-3xl vars.$spacing-xl;
@@ -31,7 +31,7 @@
     align-items: center;
     text-align: center;
     gap: vars.$spacing-large;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     position: relative;
     overflow: hidden;
 
@@ -78,7 +78,7 @@
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
     margin: 0;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    background: linear-gradient(135deg, vars.$text-color-primary 0%, vars.$white-opacity-80 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
@@ -86,7 +86,7 @@
 
   &__message {
     font-size: clamp(1rem, 2vw, 1.125rem);
-    color: rgba(255, 255, 255, 0.8);
+    color: vars.$white-opacity-80;
     margin: 0;
     line-height: 1.6;
     max-width: 500px;
@@ -111,21 +111,21 @@
       background-color 0.25s ease;
     box-shadow:
       0 4px 12px rgba(vars.$color-brand, 0.3),
-      0 2px 4px rgba(0, 0, 0, 0.2);
+      0 2px 4px vars.$black-opacity-20;
 
     &:hover {
       transform: translateY(-2px);
       background: color.adjust(vars.$color-brand, $lightness: 5%);
       box-shadow:
         0 6px 16px rgba(vars.$color-brand, 0.4),
-        0 4px 8px rgba(0, 0, 0, 0.3);
+        0 4px 8px vars.$black-opacity-30;
     }
 
     &:active {
       transform: translateY(0);
       box-shadow:
         0 2px 8px rgba(vars.$color-brand, 0.3),
-        0 1px 2px rgba(0, 0, 0, 0.2);
+        0 1px 2px vars.$black-opacity-20;
     }
 
     &-icon {

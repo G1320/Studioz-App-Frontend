@@ -6,7 +6,7 @@
   gap: vars.$spacing-small;
   margin-bottom: vars.$spacing-large;
   background: vars.$bg-color-secondary;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid vars.$white-opacity-10;
   border-radius: vars.$border-radius-medium;
   padding: vars.$spacing-xs;
   width: 100%;
@@ -19,7 +19,7 @@
     flex: 1;
     padding: vars.$spacing-small vars.$spacing-medium;
     background: transparent;
-    color: rgba(255, 255, 255, 0.6);
+    color: vars.$white-opacity-60;
     border: none;
     border-radius: vars.$border-radius-small;
     font-size: vars.$font-size-medium;
@@ -29,7 +29,7 @@
 
     &:hover {
       color: vars.$text-color-primary;
-      background: rgba(255, 255, 255, 0.05);
+      background: vars.$white-opacity-05;
     }
 
     &.active {

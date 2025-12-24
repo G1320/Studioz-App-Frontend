@@ -21,7 +21,7 @@
 
   &__message {
     font-size: vars.$font-size-large;
-    color: rgba(255, 255, 255, 0.4);
+    color: vars.$white-opacity-40;
     margin: 0;
     text-align: center;
     font-weight: 400;
