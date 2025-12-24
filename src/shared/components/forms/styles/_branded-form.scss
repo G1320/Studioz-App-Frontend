@@ -183,7 +183,7 @@
     .hours {
       display: flex;
       flex: 1;
-      gap: vars.$spacing-medium;
+      gap: vars.$spacing-sm-md;
       align-items: center;
       justify-content: flex-start;
       min-width: 0;
