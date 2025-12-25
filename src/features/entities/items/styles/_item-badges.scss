@@ -18,7 +18,7 @@
 
   html[dir='rtl'] & {
     right: auto;
-    left: 0;
+    left: 0.5rem; // Move from edge in RTL
   }
 
   // Allow pointer events on interactive children (like dropdown buttons)
