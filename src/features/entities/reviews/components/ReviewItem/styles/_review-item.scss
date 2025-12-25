@@ -2,14 +2,14 @@
 
 .review-item {
   padding: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background-color: vars.$white-opacity-03;
+  border: 1px solid vars.$white-opacity-10;
+  border-radius: vars.$border-radius-xl;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.15);
+    background-color: vars.$white-opacity-05;
+    border-color: vars.$white-opacity-15;
   }
 
   @media (max-width: 768px) {
@@ -47,7 +47,7 @@
     justify-content: center;
     font-size: 1.125rem;
     font-weight: 700;
-    color: #fff;
+    color: vars.$text-color-primary;
     flex-shrink: 0;
   }
 
@@ -61,12 +61,12 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
-    color: #f1f1f1;
+    color: vars.$color-text-light-gray;
   }
 
   &__date {
     font-size: 0.8125rem;
-    color: #9ca3af;
+    color: vars.$light-gray-9ca3af;
   }
 
   &__rating {
@@ -77,7 +77,7 @@
 
   &__star {
     font-size: 1.125rem;
-    color: #666;
+    color: vars.$text-color-secondary;
     transition: color 0.2s ease;
 
     &--filled {
@@ -89,7 +89,7 @@
     margin: 0;
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: #d1d5db;
+    color: vars.$light-gray-d1d5db;
     white-space: pre-wrap;
     word-wrap: break-word;
   }

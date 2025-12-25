@@ -1,8 +1,10 @@
+@use 'utilities/variables' as vars;
+
 .studio-reviews-page {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 2rem 1rem;
+  padding: vars.$spacing-xl vars.$spacing-medium;
 
   @media (max-width: 768px) {
     padding: 1.5rem 0.75rem;
@@ -19,13 +21,13 @@
     h1 {
       margin: 0;
       font-size: clamp(1.5rem, 3vw, 2.25rem);
-      color: #f1f1f1;
+      color: vars.$color-text-light-gray;
     }
   }
 
   &__location {
     margin: 0.25rem 0 0;
-    color: #9ca3af;
+    color: vars.$light-gray-9ca3af;
   }
 
   &__rating {

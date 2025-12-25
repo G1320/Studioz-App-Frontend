@@ -28,19 +28,19 @@
     z-index: 10;
     display: flex;
     gap: vars.$spacing-small;
-    background: rgba(255, 255, 255, 0.05);
+    background: vars.$white-opacity-05;
     backdrop-filter: blur(10px);
     padding: vars.$spacing-small;
     border-radius: vars.$border-radius-medium;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid vars.$white-opacity-10;
+    box-shadow: 0 2px 8px vars.$black-opacity-10;
   }
 
   &__language-btn {
     padding: vars.$spacing-small vars.$spacing-medium;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid vars.$white-opacity-20;
     border-radius: vars.$border-radius-small;
-    background: rgba(255, 255, 255, 0.05);
+    background: vars.$white-opacity-05;
     color: vars.$text-color-secondary;
     font-size: vars.$font-size-small;
     font-weight: 500;
@@ -49,15 +49,15 @@
     white-space: nowrap;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: vars.$white-opacity-10;
+      border-color: vars.$white-opacity-30;
       color: vars.$text-color-primary;
     }
 
     &.active {
       background: vars.$color-brand;
       border-color: vars.$color-brand;
-      color: #fff;
+      color: vars.$text-color-primary;
       box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
     }
 

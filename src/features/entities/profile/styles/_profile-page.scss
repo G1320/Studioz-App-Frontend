@@ -3,7 +3,7 @@
 .profile-page {
   min-height: calc(100vh - 200px);
   padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background: linear-gradient(135deg, vars.$brand-opacity-03 0%, vars.$black-opacity-50 100%);
   position: relative;
   overflow: hidden;
 
@@ -14,8 +14,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 50%, vars.$brand-opacity-05 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, vars.$brand-opacity-03 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -28,10 +28,10 @@
   background: vars.$bg-color-tertiary;
   border-radius: vars.$border-radius-xl;
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.4),
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+    0 20px 60px vars.$black-opacity-40,
+    0 8px 24px vars.$black-opacity-30,
+    inset 0 1px 0 vars.$white-opacity-05;
+  border: 1px solid vars.$white-opacity-10;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   color: vars.$text-color-primary;
@@ -51,7 +51,7 @@
   align-items: center;
   gap: clamp(1.5rem, 4vw, 2.5rem);
   padding-bottom: clamp(2rem, 5vw, 3rem);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid vars.$white-opacity-10;
   margin-bottom: clamp(2rem, 5vw, 3rem);
   position: relative;
 
@@ -96,7 +96,7 @@
     right: -4px;
     bottom: -4px;
     border-radius: 50%;
-    background: linear-gradient(135deg, vars.$color-brand 0%, rgba(16, 185, 129, 0.5) 100%);
+    background: linear-gradient(135deg, vars.$color-brand 0%, vars.$brand-opacity-50 100%);
     opacity: 0.6;
     z-index: -1;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -112,11 +112,11 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.05) 100%);
+  background: linear-gradient(135deg, vars.$brand-opacity-20 0%, vars.$brand-opacity-05 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid rgba(255, 255, 255, 0.1);
+  border: 3px solid vars.$white-opacity-10;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   position: relative;
@@ -129,7 +129,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+    background: radial-gradient(circle at 30% 30%, vars.$brand-opacity-30 0%, transparent 70%);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -144,7 +144,7 @@
   }
 
   &--guest {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    background: linear-gradient(135deg, vars.$white-opacity-10 0%, vars.$white-opacity-05 100%);
   }
 
   .avatar-icon {
@@ -180,7 +180,7 @@
     margin: 0;
     font-weight: 700;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    background: linear-gradient(135deg, vars.$text-color-primary 0%, vars.$white-opacity-80 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -190,7 +190,7 @@
 
   .profile-email {
     font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-    color: rgba(255, 255, 255, 0.7);
+    color: vars.$white-opacity-70;
     margin: 0;
     font-weight: 400;
     transition: color 0.3s ease;
@@ -204,13 +204,13 @@
 }
 
 .profile-section {
-  background: rgba(26, 26, 26, 0.6);
+  background: vars.$dark-bg-80;
   padding: clamp(1.5rem, 4vw, 2.5rem);
   border-radius: vars.$border-radius-large;
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+    0 8px 24px vars.$black-opacity-30,
+    inset 0 1px 0 vars.$white-opacity-05;
+  border: 1px solid vars.$white-opacity-08;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s ease;
@@ -230,10 +230,10 @@
   }
 
   &:hover {
-    border-color: rgba(16, 185, 129, 0.2);
+    border-color: vars.$brand-opacity-20;
     box-shadow:
-      0 12px 32px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 12px 32px vars.$black-opacity-40,
+      inset 0 1px 0 vars.$white-opacity-08;
 
     &::before {
       opacity: 1;
@@ -244,7 +244,7 @@
     font-size: clamp(1.3rem, 3.5vw, 1.75rem);
     margin: 0 0 clamp(1.5rem, 4vw, 2rem);
     padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid vars.$white-opacity-10;
     position: relative;
     font-weight: 600;
     color: vars.$text-color-primary;
@@ -280,9 +280,9 @@
   font-size: 1rem;
   font-weight: 600;
   border-radius: vars.$border-radius-medium;
-  background: rgba(255, 255, 255, 0.05);
+  background: vars.$white-opacity-05;
   color: vars.$text-color-primary;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid vars.$white-opacity-10;
   cursor: pointer;
   transition: all 0.25s ease;
   position: relative;
@@ -302,7 +302,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%);
+    background: linear-gradient(135deg, vars.$brand-opacity-10 0%, transparent 100%);
     opacity: 0;
     transition: opacity 0.25s ease;
   }
@@ -326,10 +326,10 @@
   &:hover {
     transform: translateY(-2px);
     border-color: vars.$color-brand;
-    background: rgba(16, 185, 129, 0.1);
-    box-shadow:
-      0 8px 20px rgba(16, 185, 129, 0.2),
-      0 4px 8px rgba(0, 0, 0, 0.2);
+      background: vars.$brand-opacity-10;
+      box-shadow:
+        0 8px 20px vars.$brand-opacity-20,
+        0 4px 8px vars.$black-opacity-20;
 
     &::before {
       opacity: 1;
@@ -343,17 +343,17 @@
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+      box-shadow: 0 2px 8px vars.$brand-opacity-15;
   }
 
   &--logout {
     &:hover {
-      background: rgba(255, 77, 77, 0.1);
-      border-color: rgba(255, 77, 77, 0.3);
-      color: #ff6b6b;
+      background: vars.$error-opacity-10;
+      border-color: vars.$error-opacity-30;
+      color: vars.$color-error-light;
 
       .profile-action-icon {
-        color: #ff6b6b;
+        color: vars.$color-error-light;
       }
     }
   }
@@ -372,14 +372,14 @@
   }
 
   .link-button {
-    background: rgba(255, 255, 255, 0.05);
+    background: vars.$white-opacity-05;
     padding: 1rem 1.5rem;
     border-radius: vars.$border-radius-medium;
-    color: rgba(255, 255, 255, 0.8);
+    color: vars.$white-opacity-80;
     font-size: 1rem;
     font-weight: 500;
     transition: all 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     cursor: pointer;
     width: 100%;
     text-align: center;
@@ -387,11 +387,11 @@
     -webkit-backdrop-filter: blur(5px);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: vars.$white-opacity-08;
+      border-color: vars.$white-opacity-20;
       color: vars.$text-color-primary;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px vars.$black-opacity-20;
     }
 
     &:active {

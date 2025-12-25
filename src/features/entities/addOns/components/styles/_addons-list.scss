@@ -1,12 +1,14 @@
+@use 'utilities/variables' as vars;
+
 .addons-list {
   display: grid;
-  gap: 1rem;
+  gap: vars.$spacing-medium;
 
   &-loading,
   &-empty {
     text-align: center;
-    padding: 2rem;
-    color: #666;
+    padding: vars.$spacing-xl;
+    color: vars.$text-color-secondary;
   }
 }
 

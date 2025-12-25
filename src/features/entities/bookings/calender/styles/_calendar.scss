@@ -3,35 +3,35 @@
 
 .studio-calendar {
   // FullCalendar CSS Variables - Minimalist Design
-  --fc-border-color: rgba(255, 255, 255, 0.08);
+  --fc-border-color: vars.$white-opacity-08;
   --fc-button-bg-color: transparent;
-  --fc-button-border-color: rgba(255, 255, 255, 0.12);
-  --fc-button-hover-bg-color: rgba(255, 255, 255, 0.05);
-  --fc-button-hover-border-color: rgba(255, 255, 255, 0.2);
+  --fc-button-border-color: vars.$white-opacity-12;
+  --fc-button-hover-bg-color: vars.$white-opacity-05;
+  --fc-button-hover-border-color: vars.$white-opacity-20;
   --fc-button-active-bg-color: vars.$color-brand;
   --fc-button-active-border-color: vars.$color-brand;
-  --fc-button-text-color: rgba(255, 255, 255, 0.85);
-  --fc-button-active-text-color: #000;
-  --fc-today-bg-color: rgba(16, 185, 129, 0.08);
+  --fc-button-text-color: vars.$white-opacity-85;
+  --fc-button-active-text-color: vars.$text-color-dark;
+  --fc-today-bg-color: vars.$brand-opacity-08;
   --fc-page-bg-color: transparent;
-  --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.02);
+  --fc-list-event-hover-bg-color: vars.$white-opacity-02;
   --fc-event-bg-color: vars.$color-brand;
   --fc-event-border-color: vars.$color-brand;
-  --fc-highlight-color: rgba(16, 185, 129, 0.12);
-  --fc-non-business-color: rgba(0, 0, 0, 0.15);
-  --fc-bg-event-color: rgba(16, 185, 129, 0.1);
-  --fc-neutral-bg-color: rgba(255, 255, 255, 0.03);
-  --fc-neutral-text-color: rgba(255, 255, 255, 0.5);
-  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.15);
+  --fc-highlight-color: vars.$brand-opacity-12;
+  --fc-non-business-color: vars.$black-opacity-15;
+  --fc-bg-event-color: vars.$brand-opacity-10;
+  --fc-neutral-bg-color: vars.$white-opacity-03;
+  --fc-neutral-text-color: vars.$white-opacity-50;
+  --fc-event-selected-overlay-color: vars.$black-opacity-15;
 
   // Container
   padding: vars.$spacing-2xl vars.$spacing-xl;
   background: vars.$bg-color-tertiary;
   border-radius: vars.$border-radius-xl;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid vars.$white-opacity-06;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.03) inset,
-    0 8px 32px rgba(0, 0, 0, 0.24);
+    0 1px 0 vars.$white-opacity-03 inset,
+    0 8px 32px vars.$black-opacity-24;
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
@@ -48,7 +48,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, vars.$white-opacity-10, transparent);
     pointer-events: none;
   }
 
@@ -105,9 +105,9 @@
       letter-spacing: 0.01em;
       padding: vars.$spacing-sm-md vars.$spacing-large;
       border-radius: vars.$border-radius-medium;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid vars.$white-opacity-10;
       background: transparent;
-      color: rgba(255, 255, 255, 0.6);
+      color: vars.$white-opacity-60;
       transition: all 0.2s ease;
       height: auto;
       min-height: 40px;
@@ -120,8 +120,8 @@
       // Remove hover effects
       &:hover {
         background: transparent;
-        border-color: rgba(255, 255, 255, 0.15);
-        color: rgba(255, 255, 255, 0.8);
+        border-color: vars.$white-opacity-15;
+        color: vars.$white-opacity-80;
         transform: none;
       }
 
@@ -131,7 +131,7 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+        box-shadow: 0 0 0 2px vars.$brand-opacity-15;
       }
 
       // Selected state - Underline indicator
@@ -168,29 +168,29 @@
       width: 40px;
       height: 40px;
       border-radius: vars.$border-radius-medium;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid vars.$white-opacity-10;
       background: transparent;
-      color: rgba(255, 255, 255, 0.6);
+      color: vars.$white-opacity-60;
       transition: all 0.2s ease;
 
       &:hover {
         background: transparent;
-        border-color: rgba(255, 255, 255, 0.15);
-        color: rgba(255, 255, 255, 0.8);
+        border-color: vars.$white-opacity-15;
+        color: vars.$white-opacity-80;
         transform: none;
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+        box-shadow: 0 0 0 2px vars.$brand-opacity-15;
       }
     }
   }
 
   // Closed Days - Subtle Indication
   .closed-day {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-    color: rgba(255, 255, 255, 0.25) !important;
+    background-color: vars.$black-opacity-20 !important;
+    color: vars.$white-opacity-25 !important;
     cursor: not-allowed !important;
     position: relative;
     opacity: 0.4;
@@ -203,7 +203,7 @@
       transform: translate(-50%, -50%) rotate(-45deg);
       width: 60%;
       height: 1px;
-      background: rgba(255, 255, 255, 0.15);
+      background: vars.$white-opacity-15;
       pointer-events: none;
     }
 
@@ -277,10 +277,10 @@
       background: transparent;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.04) !important;
-        border-color: rgba(255, 255, 255, 0.08);
+        background-color: vars.$white-opacity-04 !important;
+        border-color: vars.$white-opacity-08;
         transform: translateX(4px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 8px vars.$black-opacity-10;
       }
     }
 
@@ -302,7 +302,7 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 2px vars.$white-opacity-10;
       background: vars.$color-brand;
     }
 
@@ -313,7 +313,7 @@
 
       .fc-col-header {
         border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid vars.$white-opacity-06;
       }
 
       .fc-col-header-cell {
@@ -326,20 +326,20 @@
         font-size: vars.$font-size-sm-md;
         text-transform: none;
         letter-spacing: 0.02em;
-        color: rgba(255, 255, 255, 0.6);
+        color: vars.$white-opacity-60;
         padding: 0;
       }
 
       .fc-daygrid-day {
         border: none;
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-right: 1px solid vars.$white-opacity-06;
+        border-bottom: 1px solid vars.$white-opacity-06;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         min-height: 120px;
         background: transparent;
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.02);
+          background-color: vars.$white-opacity-02;
         }
 
         .fc-daygrid-day-frame {
@@ -357,7 +357,7 @@
           transition: all 0.2s ease;
 
           &:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: vars.$white-opacity-05;
             opacity: 1;
           }
         }
@@ -387,18 +387,18 @@
 
       .fc-timegrid-slot {
         height: 3.5rem;
-        border-color: rgba(255, 255, 255, 0.06);
+        border-color: vars.$white-opacity-06;
       }
 
       .fc-timegrid-slot-label {
-        border-color: rgba(255, 255, 255, 0.06);
+        border-color: vars.$white-opacity-06;
         padding: vars.$spacing-small vars.$spacing-medium;
       }
 
       .fc-timegrid-slot-label-cushion {
         font-weight: 300;
         font-size: vars.$font-size-sm-md;
-        color: rgba(255, 255, 255, 0.5);
+        color: vars.$white-opacity-50;
         text-transform: none;
       }
 
@@ -411,15 +411,15 @@
       .fc-timegrid-axis-cushion {
         font-weight: 300;
         font-size: vars.$font-size-sm-md;
-        color: rgba(255, 255, 255, 0.5);
+        color: vars.$white-opacity-50;
       }
 
       .fc-timegrid-col {
-        border-color: rgba(255, 255, 255, 0.06);
+        border-color: vars.$white-opacity-06;
       }
 
       .fc-timegrid-col-frame {
-        border-color: rgba(255, 255, 255, 0.06);
+        border-color: vars.$white-opacity-06;
       }
     }
 
@@ -439,8 +439,8 @@
       ) !important;
       border-left: 3px solid color.adjust(vars.$color-brand, $lightness: 10%) !important;
       box-shadow:
-        0 2px 8px rgba(16, 185, 129, 0.2),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        0 2px 8px vars.$brand-opacity-20,
+        0 0 0 1px vars.$white-opacity-10 inset;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
@@ -453,15 +453,15 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        background: linear-gradient(90deg, transparent, vars.$white-opacity-20, transparent);
         transition: left 0.5s ease;
       }
 
       &:hover {
         transform: translateY(-2px) scale(1.01);
         box-shadow:
-          0 4px 16px rgba(16, 185, 129, 0.3),
-          0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+          0 4px 16px vars.$brand-opacity-30,
+          0 0 0 1px vars.$white-opacity-15 inset;
         background: linear-gradient(
           135deg,
           color.adjust(vars.$color-brand, $lightness: 5%) 0%,
@@ -496,12 +496,12 @@
 
     // Business Hours - Subtle Indication
     .fc-non-business {
-      background: rgba(0, 0, 0, 0.15);
+      background: vars.$black-opacity-15;
       opacity: 0.5;
     }
 
     .fc-bg-event {
-      background: rgba(16, 185, 129, 0.08);
+      background: vars.$brand-opacity-08;
       border: none;
     }
   }
@@ -562,9 +562,9 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.05);
-      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid vars.$white-opacity-15;
+      background: vars.$white-opacity-05;
+      color: vars.$white-opacity-70;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -575,8 +575,8 @@
       backdrop-filter: blur(10px);
 
       &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.25);
+        background: vars.$white-opacity-10;
+        border-color: vars.$white-opacity-25;
         color: vars.$text-color-primary;
         transform: rotate(90deg) scale(1.1);
       }

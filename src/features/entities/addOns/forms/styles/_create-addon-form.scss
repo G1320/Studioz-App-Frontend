@@ -13,7 +13,7 @@
     width: 100%;
     padding: vars.$spacing-large;
     background: vars.$bg-color-tertiary;
-    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border: 2px dashed vars.$white-opacity-15;
     border-radius: vars.$border-radius-medium;
     color: vars.$text-color-primary;
     cursor: pointer;
@@ -91,7 +91,7 @@
       }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: vars.$white-opacity-10;
         color: vars.$color-brand;
         opacity: 1;
         transform: rotate(90deg);
@@ -119,7 +119,7 @@
   .pending-addons-list {
     background: vars.$bg-color-tertiary;
     border-radius: vars.$border-radius-large;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid vars.$white-opacity-10;
     padding: vars.$spacing-xl;
     color: vars.$text-color-primary;
     margin-bottom: vars.$spacing-large;
@@ -145,14 +145,14 @@
         justify-content: space-between;
         gap: vars.$spacing-large;
         padding: vars.$spacing-medium;
-        background: rgba(34, 34, 34, 0.6);
+        background: vars.$dark-bg-60;
         border-radius: vars.$border-radius-medium;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid vars.$white-opacity-10;
         transition: all 0.2s ease;
 
         &:hover {
-          border-color: rgba(255, 255, 255, 0.2);
-          background: rgba(34, 34, 34, 0.8);
+          border-color: vars.$white-opacity-20;
+          background: vars.$dark-bg-80;
         }
 
         .pending-addon-content {
@@ -177,7 +177,7 @@
           margin: 0 auto;
           text-align: center;
           font-size: vars.$font-size-small;
-          color: rgba(255, 255, 255, 0.8);
+          color: vars.$white-opacity-80;
           min-width: 140px;
         }
 
@@ -195,7 +195,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.75);
+          color: vars.$white-opacity-75;
           border-radius: vars.$border-radius-small;
           transition: all 0.2s ease;
 
@@ -204,13 +204,13 @@
           }
 
           &:hover {
-            color: #d32f2f;
-            background: rgba(211, 47, 47, 0.1);
+            color: vars.$color-error-d32f2f;
+            background: vars.$error-opacity-10;
           }
 
           &:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.3);
+            box-shadow: 0 0 0 2px vars.$error-opacity-30;
           }
 
           &:active {

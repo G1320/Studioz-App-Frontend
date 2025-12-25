@@ -40,11 +40,11 @@
   &__placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.05) 100%);
+    background: linear-gradient(135deg, vars.$brand-opacity-20 0%, vars.$brand-opacity-05 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    border: 3px solid vars.$white-opacity-10;
   }
 
   &__icon {
@@ -60,7 +60,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: vars.$black-opacity-50;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,14 +74,14 @@
   &__camera-icon {
     width: 32px;
     height: 32px;
-    color: #fff;
+    color: vars.$text-color-primary;
   }
 
   &__spinner {
     width: 32px;
     height: 32px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #fff;
+    border: 3px solid vars.$white-opacity-30;
+    border-top-color: vars.$text-color-primary;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }

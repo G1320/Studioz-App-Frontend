@@ -16,12 +16,12 @@
     .customer-input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
-      background: #f8f8f8;
+      border: 1px solid vars.$light-gray-e0e0e0;
+      border-radius: vars.$border-radius-medium;
+      font-size: vars.$font-size-sm-md;
+      background: vars.$light-gray-f5f5f5;
       transition: all 0.3s ease;
-      color: #1a1a1a;
+      color: vars.$bg-color-tertiary;
       text-align: start;
 
       &[dir='rtl'] {
@@ -32,13 +32,13 @@
       }
       &:focus {
         outline: none;
-        border-color: #1a1a1a;
-        background: #ffffff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-color: vars.$bg-color-tertiary;
+        background: vars.$text-color-primary;
+        box-shadow: 0 2px 4px vars.$black-opacity-10;
       }
 
       &::placeholder {
-        color: #999;
+        color: vars.$text-color-secondary;
       }
 
       &:disabled {
@@ -107,11 +107,11 @@
     font-size: 14px;
 
     &.verified {
-      color: #10b981;
+      color: vars.$color-success;
     }
 
     &.pending {
-      color: #f59e0b;
+      color: vars.$color-warning;
     }
   }
 }

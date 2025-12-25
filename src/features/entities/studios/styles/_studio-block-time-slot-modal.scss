@@ -3,11 +3,11 @@
 // Block time modal styling - uses popup-base class
 .block-time-modal {
   .MuiDialog-paper {
-    background-color: #1a1a1a !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background-color: vars.$bg-color-tertiary !important;
+    border: 1px solid vars.$white-opacity-10 !important;
     box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.4),
-      0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      0 8px 24px vars.$black-opacity-40,
+      0 4px 8px vars.$black-opacity-20 !important;
     border-radius: 12px !important;
     backdrop-filter: blur(10px);
     z-index: 1000;
@@ -26,7 +26,7 @@
     flex-direction: column;
     gap: 1.5rem;
     padding: 2rem;
-    color: #f1f1f1;
+    color: vars.$color-text-light-gray;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -40,7 +40,7 @@
       margin: 0;
       font-size: 1.5rem;
       font-weight: 700;
-      color: #f1f1f1;
+      color: vars.$color-text-light-gray;
       text-align: center;
 
       @media (max-width: 768px) {
@@ -53,9 +53,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: vars.$white-opacity-05;
+      border-radius: vars.$border-radius-medium;
+      border: 1px solid vars.$white-opacity-10;
 
       @media (max-width: 768px) {
         padding: 0.75rem;
@@ -69,13 +69,13 @@
         .hour-label {
           font-size: 1rem;
           font-weight: 600;
-          color: #d1d5db;
+          color: vars.$light-gray-d1d5db;
         }
 
         .hour-value {
           font-size: 1.5rem;
           font-weight: 700;
-          color: #f1f1f1;
+          color: vars.$color-text-light-gray;
           min-width: 32px;
           text-align: center;
         }
@@ -90,9 +90,9 @@
           width: 36px;
           height: 36px;
           border-radius: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          background-color: rgba(255, 255, 255, 0.1);
-          color: #f1f1f1;
+          border: 1px solid vars.$white-opacity-20;
+          background-color: vars.$white-opacity-10;
+          color: vars.$color-text-light-gray;
           font-size: 1.25rem;
           font-weight: 600;
           cursor: pointer;
@@ -104,10 +104,10 @@
           padding: 0;
 
           &:hover:not(:disabled) {
-            background-color: rgba(16, 185, 129, 0.2);
+            background-color: vars.$brand-opacity-20;
             border-color: vars.$color-brand;
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px vars.$brand-opacity-30;
           }
 
           &:active:not(:disabled) {
@@ -134,22 +134,22 @@
       max-width: 100%;
       box-sizing: border-box;
       padding: 0.875rem 1rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: #f1f1f1;
+      background-color: vars.$white-opacity-05;
+      border: 1px solid vars.$white-opacity-10;
+      border-radius: vars.$border-radius-medium;
+      color: vars.$color-text-light-gray;
       font-size: 1rem;
       font-family: inherit;
       transition: all 0.2s ease;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: vars.$white-opacity-50;
       }
 
       &:focus {
         outline: none;
         border-color: vars.$color-brand;
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: vars.$white-opacity-08;
         box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
       }
 
@@ -193,11 +193,11 @@
       }
 
       .cancel-button {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #f1f1f1;
+        background-color: vars.$white-opacity-10;
+        color: vars.$color-text-light-gray;
 
         &:hover:not(:disabled) {
-          background-color: rgba(255, 255, 255, 0.15);
+          background-color: vars.$white-opacity-15;
         }
 
         &:disabled {
@@ -208,12 +208,12 @@
 
       .block-button {
         background-color: vars.$color-brand;
-        color: #fff;
+        color: vars.$text-color-primary;
 
         &:hover:not(:disabled) {
-          background-color: #3a7bc8;
+          background-color: vars.$color-blue-3a7bc8;
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+          box-shadow: 0 4px 12px vars.$blue-opacity-74-144-226-30;
         }
 
         &:active:not(:disabled) {
@@ -243,7 +243,7 @@
   justify-content: center;
 
   &:hover {
-    background-color: rgba(74, 144, 226, 0.1);
+    background-color: vars.$blue-opacity-74-144-226-20;
     transform: scale(1.05);
   }
 

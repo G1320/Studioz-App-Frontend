@@ -46,6 +46,7 @@ $white-opacity-12: rgba(255, 255, 255, 0.12);
 $white-opacity-15: rgba(255, 255, 255, 0.15);
 $white-opacity-18: rgba(255, 255, 255, 0.18);
 $white-opacity-20: rgba(255, 255, 255, 0.2);
+$white-opacity-24: rgba(255, 255, 255, 0.24);
 $white-opacity-25: rgba(255, 255, 255, 0.25);
 $white-opacity-30: rgba(255, 255, 255, 0.3);
 $white-opacity-35: rgba(255, 255, 255, 0.35);
@@ -60,10 +61,18 @@ $white-opacity-85: rgba(255, 255, 255, 0.85);
 $white-opacity-90: rgba(255, 255, 255, 0.9);
 
 // Dark backgrounds with opacity
+$dark-bg-050608: #050608;
 $dark-bg-15-55: rgba(15, 15, 15, 0.55);
+$dark-bg-26-60: rgba(26, 26, 26, 0.6);
+$dark-bg-26-70: rgba(26, 26, 26, 0.7);
+$dark-bg-26-80: rgba(26, 26, 26, 0.8);
+$dark-bg-31-41-55-80: rgba(31, 41, 55, 0.8);
 $dark-bg-40: rgba(34, 34, 34, 0.4);
 $dark-bg-60: rgba(34, 34, 34, 0.6);
-$dark-bg-80: rgba(26, 26, 26, 0.8);
+$dark-bg-80: rgba(34, 34, 34, 0.8);
+$dark-bg-45-45-45-70: rgba(45, 45, 45, 0.7);
+$dark-bg-55-55-55-80: rgba(55, 55, 55, 0.8);
+$dark-bg-55-65-81-95: rgba(55, 65, 81, 0.95);
 
 // Warning/Error colors (amber/yellow)
 $color-warning: #f59e0b;
@@ -76,6 +85,7 @@ $warning-opacity-40: rgba(245, 158, 11, 0.4);
 $warning-opacity-50: rgba(245, 158, 11, 0.5);
 $warning-opacity-60: rgba(245, 158, 11, 0.6);
 $warning-opacity-70: rgba(245, 158, 11, 0.7);
+$warning-opacity-80: rgba(251, 191, 36, 0.8);
 
 // Error colors (red)
 $color-error: #ef4444;
@@ -84,6 +94,7 @@ $color-error-dark: #7f1d1d;
 $color-error-pale: #fecaca;
 $color-error-alt: #dc3545; // Alternative red error color
 $color-error-delete: #f87171; // Delete/remove action red
+$color-error-d32f2f: #d32f2f;
 $error-opacity-05: rgba(220, 53, 69, 0.05);
 $error-opacity-10: rgba(239, 68, 68, 0.1);
 $error-opacity-10-alt: rgba(220, 53, 69, 0.1);
@@ -95,6 +106,8 @@ $error-opacity-50: rgba(248, 113, 113, 0.5);
 
 // Success colors (green)
 $color-success: #10b981;
+$color-success-4caf50: #4caf50;
+$color-success-45a049: #45a049;
 
 // Rating/Star colors
 $color-rating-yellow: #ffd166;
@@ -102,10 +115,16 @@ $color-text-light-gray: #f1f1f1;
 $color-text-medium-gray: #b3b2b2;
 
 // Brand color opacity variants
+$brand-opacity-03: rgba(16, 185, 129, 0.03);
 $brand-opacity-05: rgba(16, 185, 129, 0.05);
 $brand-opacity-08: rgba(16, 185, 129, 0.08);
+$brand-opacity-10: rgba(16, 185, 129, 0.1);
+$brand-opacity-12: rgba(16, 185, 129, 0.12);
+$brand-opacity-15: rgba(16, 185, 129, 0.15);
 $brand-opacity-20: rgba(16, 185, 129, 0.2);
 $brand-opacity-30: rgba(16, 185, 129, 0.3);
+$brand-opacity-50: rgba(16, 185, 129, 0.5);
+$brand-opacity-85: rgba(16, 185, 129, 0.85);
 
 // Blue color opacity
 $blue-opacity-30-alt: rgba(14, 165, 233, 0.3);
@@ -131,7 +150,11 @@ $color-blue-primary: #2563eb;
 $color-blue-dark: #1e40af;
 $color-blue-darker: #1d4ed8;
 $color-blue-light: #3b82f6;
+$color-blue-4a90e2: #4a90e2;
+$color-blue-3a7bc8: #3a7bc8;
 $blue-opacity-30: rgba(37, 99, 235, 0.3);
+$blue-opacity-74-144-226-20: rgba(74, 144, 226, 0.2);
+$blue-opacity-74-144-226-30: rgba(74, 144, 226, 0.3);
 
 // Red colors (for delete/error actions)
 $color-red-primary: #ef4444;
@@ -143,6 +166,11 @@ $light-gray-e0e0e0: #e0e0e0;
 $light-gray-e2e2e2: #e2e2e2;
 $light-gray-e8e8e8: #e8e8e8;
 $light-gray-f5f5f5: #f5f5f5;
+$light-gray-9ca3af: #9ca3af;
+$light-gray-d1d5db: #d1d5db;
+$light-gray-6b7280: #6b7280;
+$light-gray-e5e7eb: #e5e7eb;
+$light-gray-f9fafb: #f9fafb;
 $light-gray-slate-241-245-249-80: rgba(241, 245, 249, 0.8);
 $light-gray-7c7f86: #7c7f86;
 
@@ -187,6 +215,7 @@ $black-opacity-10: rgba(0, 0, 0, 0.1);
 $black-opacity-12: rgba(0, 0, 0, 0.12);
 $black-opacity-15: rgba(0, 0, 0, 0.15);
 $black-opacity-20: rgba(0, 0, 0, 0.2);
+$black-opacity-24: rgba(0, 0, 0, 0.24);
 $black-opacity-25: rgba(0, 0, 0, 0.25);
 $black-opacity-28: rgba(0, 0, 0, 0.28);
 $black-opacity-30: rgba(0, 0, 0, 0.3);

@@ -26,7 +26,7 @@
     content: '';
     width: 32px;
     height: 32px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    border: 3px solid vars.$white-opacity-10;
     border-top: 3px solid vars.$color-brand;
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -45,15 +45,15 @@
 .subscription-details {
   max-width: 800px;
   margin: 0 auto;
-  background: rgba(26, 26, 26, 0.7);
+  background: vars.$dark-bg-26-70;
   border-radius: vars.$border-radius-xl;
   padding: vars.$spacing-xl;
   box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    0 10px 30px vars.$black-opacity-50,
+    0 0 0 1px vars.$white-opacity-05;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid vars.$white-opacity-10;
 
   &.no-subscription {
     text-align: center;
@@ -67,7 +67,7 @@
     }
 
     p {
-      color: rgba(255, 255, 255, 0.7);
+      color: vars.$white-opacity-70;
       margin-bottom: vars.$spacing-large;
       font-size: vars.$font-size-medium;
     }
@@ -83,14 +83,14 @@
       transition: all 0.25s ease;
       box-shadow:
         0 4px 12px rgba(vars.$color-brand, 0.3),
-        0 2px 4px rgba(0, 0, 0, 0.2);
+          0 2px 4px vars.$black-opacity-20;
 
       &:hover {
         background: color.adjust(vars.$color-brand, $lightness: 5%);
         transform: translateY(-2px);
         box-shadow:
           0 6px 16px rgba(vars.$color-brand, 0.4),
-          0 4px 8px rgba(0, 0, 0, 0.3);
+          0 4px 8px vars.$black-opacity-30;
       }
 
       &:active {
@@ -105,7 +105,7 @@
     align-items: flex-start;
     margin-bottom: vars.$spacing-large;
     padding-bottom: vars.$spacing-large;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid vars.$white-opacity-10;
     position: relative;
 
     &::after {
@@ -148,9 +148,9 @@
       }
 
       &.starter {
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: vars.$white-opacity-10;
+        color: vars.$white-opacity-80;
+        border: 1px solid vars.$white-opacity-20;
       }
     }
   }
@@ -163,14 +163,14 @@
       justify-content: space-between;
       align-items: center;
       padding: vars.$spacing-medium 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid vars.$white-opacity-05;
 
       &:last-child {
         border-bottom: none;
       }
 
       .label {
-        color: rgba(255, 255, 255, 0.7);
+        color: vars.$white-opacity-70;
         font-size: vars.$font-size-sm-md;
       }
 
@@ -186,14 +186,14 @@
     display: flex;
     gap: vars.$spacing-medium;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid vars.$white-opacity-10;
     flex-wrap: wrap;
 
     .manage-link {
       padding: vars.$spacing-medium vars.$spacing-xl;
-      background: rgba(45, 45, 45, 0.7);
+      background: vars.$dark-bg-45-45-45-70;
       color: vars.$text-color-primary;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid vars.$white-opacity-10;
       border-radius: vars.$border-radius-medium;
       text-decoration: none;
       font-weight: 600;
@@ -205,8 +205,8 @@
       font-family: inherit;
 
       &:hover {
-        background: rgba(55, 55, 55, 0.8);
-        border-color: rgba(255, 255, 255, 0.2);
+        background: vars.$dark-bg-55-55-55-80;
+        border-color: vars.$white-opacity-20;
         transform: translateY(-1px);
       }
 
@@ -218,17 +218,17 @@
     .cancel-button {
       padding: vars.$spacing-medium vars.$spacing-xl;
       background: transparent;
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.3);
+      color: vars.$color-error-delete;
+      border: 1px solid vars.$error-opacity-30;
       border-radius: vars.$border-radius-medium;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.25s ease;
 
       &:hover {
-        background: rgba(248, 113, 113, 0.1);
-        border-color: rgba(248, 113, 113, 0.5);
-        color: #fca5a5;
+      background: vars.$error-opacity-10-delete;
+      border-color: vars.$error-opacity-50;
+      color: vars.$color-error-light;
         transform: translateY(-1px);
       }
 
@@ -241,10 +241,10 @@
   .cancelled-notice {
     margin-top: vars.$spacing-large;
     padding: vars.$spacing-large;
-    background: rgba(251, 191, 36, 0.1);
-    border: 1px solid rgba(251, 191, 36, 0.3);
+    background: vars.$warning-opacity-10;
+    border: 1px solid vars.$warning-opacity-30;
     border-radius: vars.$border-radius-medium;
-    color: #fbbf24;
+    color: vars.$color-warning-light;
 
     p {
       margin-bottom: vars.$spacing-small;
@@ -258,7 +258,7 @@
     .access-until {
       font-size: vars.$font-size-sm-md;
       opacity: 0.9;
-      color: rgba(251, 191, 36, 0.8);
+      color: vars.$color-warning-light;
     }
   }
 

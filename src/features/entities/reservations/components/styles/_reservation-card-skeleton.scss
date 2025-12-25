@@ -2,7 +2,7 @@
 
 .reservation-card-skeleton {
   background: vars.$bg-color-secondary;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid vars.$white-opacity-10;
   border-radius: vars.$border-radius-medium;
   padding: vars.$spacing-large;
   margin-bottom: vars.$spacing-medium;
