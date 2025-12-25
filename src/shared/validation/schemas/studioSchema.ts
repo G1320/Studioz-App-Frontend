@@ -227,7 +227,8 @@ export const studioFullSchema = z.object({
 
   // Optional fields
   isSelfService: z.boolean().optional(),
-  isFeatured: z.boolean().optional()
+  isFeatured: z.boolean().optional(),
+  totalBookings: z.number().int().min(0).optional()
 });
 
 /**
