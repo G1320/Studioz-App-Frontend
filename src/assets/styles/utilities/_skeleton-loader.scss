@@ -2,12 +2,12 @@
 
 // Centralized skeleton loader styles
 // All skeleton loaders across the app use these base styles
+// Minimal, calm, professional loader for studioz.co.il
 .skeleton-loader {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;
@@ -15,21 +15,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  // Black background panel
+  background: rgba(0, 0, 0, 0.734);
+  // Instant appearance, smooth fade-out on image load
+  opacity: 1;
+  transition: opacity 100ms ease-out;
 
   // Simple spinning loader
   &::before {
     content: '';
     position: absolute;
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: vars.$color-brand;
+    width: 20px;
+    height: 20px;
+    // Thin stroke (1.5-2px) - using 1.5px for ultra-minimal feel
+    border: 1.5px solid transparent;
+    // Neutral gray base with subtle brand accent
+    border-top-color: vars.$white-opacity-20;
+    border-right-color: vars.$white-opacity-20;
+    // Subtle brand accent on one segment (optional - can be removed for pure neutral)
+    border-bottom-color: rgba(16, 185, 129, 0.3); // vars.$color-brand with low opacity
     border-radius: 50%;
-    animation: skeleton-spin 0.8s linear infinite;
+    // Smooth continuous rotation, linear timing, perfect infinite loop
+    animation: skeleton-spin 1s linear infinite;
+    // GPU-friendly transform
+    will-change: transform;
+    // RTL/LTR safe (rotation is direction-agnostic)
   }
 }
 
-// Simple spinning animation
+// Smooth continuous rotation animation
+// Linear timing ensures no perceptible start/end
 @keyframes skeleton-spin {
   0% {
     transform: rotate(0deg);
@@ -40,11 +55,16 @@
 }
 
 // Respect reduced motion preference
+// Disable animation but keep the element visible for accessibility
 @media (prefers-reduced-motion: reduce) {
   .skeleton-loader {
     &::before {
       animation: none;
-      border-top-color: rgba(255, 255, 255, 0.1);
+      // Show static indicator instead of animation
+      border-top-color: vars.$white-opacity-15;
+      border-right-color: vars.$white-opacity-15;
+      border-bottom-color: vars.$white-opacity-15;
+      border-left-color: vars.$white-opacity-15;
     }
   }
 }

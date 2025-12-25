@@ -5,11 +5,27 @@
   // Allow custom animation speed via CSS variable
   &[style*='--skeleton-animation-speed'] {
     &::before {
-      animation-duration: calc(1.8s / var(--skeleton-animation-speed, 1));
+      animation-duration: calc(1s / var(--skeleton-animation-speed, 1));
     }
+  }
 
-    &::after {
-      animation-duration: calc(2.5s / var(--skeleton-animation-speed, 1));
+  // Size variants for different contexts
+  // Small size (16px) for compact spaces
+  &--small {
+    &::before {
+      width: 16px;
+      height: 16px;
+      border-width: 1.5px;
+    }
+  }
+
+  // Default size (20px) - already set in base
+  // Large size (24px) for prominent loading states
+  &--large {
+    &::before {
+      width: 24px;
+      height: 24px;
+      border-width: 2px;
     }
   }
 }
