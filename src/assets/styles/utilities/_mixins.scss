@@ -16,3 +16,199 @@
     transform: scale(0.95);
   }
 }
+
+@mixin menu-dropdown {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    color: vars.$text-color-primary;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+    width: 100%;
+
+    &:hover {
+      background-color: vars.$white-opacity-10;
+    }
+
+    &--login {
+      padding: 0.5rem 1rem;
+      justify-content: flex-start;
+
+      .login-button {
+        width: 100%;
+        min-width: auto;
+        margin: 0;
+        text-align: left;
+        justify-content: flex-start;
+        display: flex;
+      }
+    }
+
+    &--logout {
+      padding: 0.5rem 1rem;
+      justify-content: flex-start;
+    }
+
+    &--link {
+      font-size: 0.85rem;
+      color: vars.$text-color-secondary;
+    }
+
+    &--lang {
+      justify-content: space-between;
+    }
+
+    &--lang[aria-expanded='true'] {
+      background-color: vars.$white-opacity-05;
+
+      .menu-dropdown__chevron {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &__logout-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: vars.$text-color-primary;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: left;
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    .profile-action-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background-color: vars.$white-opacity-10;
+    margin: 0.5rem 0;
+  }
+
+  &__chevron {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: transform 0.2s ease;
+  }
+
+  &__submenu {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    animation: submenuFadeIn 0.2s ease-out;
+  }
+
+  &__submenu-item {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: vars.$text-color-primary;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    position: relative;
+
+    &:hover {
+      background-color: vars.$white-opacity-10;
+    }
+
+    &--active {
+      color: vars.$text-color-primary;
+      background-color: vars.$white-opacity-08;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2px;
+        height: 16px;
+        background: vars.$white-opacity-40;
+        border-radius: 0 1px 1px 0;
+      }
+
+      &:hover {
+        background-color: vars.$white-opacity-12;
+      }
+    }
+  }
+
+  // RTL support
+  html[dir='rtl'] & {
+    &__item {
+      text-align: right;
+      justify-content: start;
+      width: 100%;
+    }
+
+    &__chevron {
+      margin-left: 0;
+      margin-right: auto;
+      // Flip the chevron horizontally for RTL (right arrow becomes left arrow)
+      transform: scaleX(-1);
+    }
+
+    &__item--lang[aria-expanded='true'] {
+      .menu-dropdown__chevron {
+        // When expanded in RTL: flip first (→ becomes ←), then rotate -90deg (← becomes ↓)
+        // Or: rotate 90deg first (→ becomes ↓), then flip (↓ stays ↓)
+        // Actually, we want: flip (→ becomes ←), then rotate 90deg (← becomes ↑) - no wait
+        // Let's use: rotate(-90deg) scaleX(-1) which should give us ↓
+        transform: rotate(-90deg) scaleX(-1);
+      }
+    }
+
+    &__submenu {
+      padding-left: 0;
+    }
+
+    &__submenu-item {
+      text-align: right;
+
+      &--active::before {
+        left: auto;
+        right: 0;
+        border-radius: 1px 0 0 1px;
+      }
+    }
+  }
+}
