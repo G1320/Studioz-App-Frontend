@@ -116,5 +116,10 @@
     "listTitle": "ביקורות",
     "anonymous": "אנונימי",
     "rateAriaLabel": "דרג {{value}} מתוך 5"
+  },
+  "badges": {
+    "highly_rated": "דירוג גבוה",
+    "popular": "פופולרי",
+    "new": "חדש"
   }
 }

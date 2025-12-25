@@ -1,7 +1,7 @@
 import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
 import ChairIcon from '@mui/icons-material/Chair';
 import { Studio } from 'src/types/index';
-import { StudioRating, DistanceBadge } from '@shared/components';
+import { StudioRating, DistanceBadge, StatusBadge } from '@shared/components';
 import { StudioBadges } from './StudioBadges';
 
 interface StudioFeaturesProps {
@@ -23,6 +23,11 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
 }) => {
   return (
     <div className="studio-features-container">
+      <StatusBadge
+        averageRating={averageRating}
+        reviewCount={reviewCount}
+        createdAt={studio?.createdAt}
+      />
       {averageRating !== undefined && (
         <StudioRating averageRating={averageRating} reviewCount={reviewCount} variant="badge" showCount={false} />
       )}

@@ -22,3 +22,4 @@ export * from './profile-image-uploader';
 export * from './skeleton-loader';
 export * from './empty-state';
 export * from './swipeable';
+export * from './status-badge';

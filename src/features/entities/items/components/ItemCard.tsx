@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button } from '@shared/components';
+import { Button, StatusBadge } from '@shared/components';
 import {
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
@@ -65,9 +65,12 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
       <div className="item-card-name-and-description">
         <h3 className="title">{item?.name.en}</h3>
         <p className="description">{item?.description[currentLang] || item?.description.en}</p>
-        <small className="item-price">
-          ₪{item?.price}/{getTranslatedPricePer(item?.pricePer || '')}
-        </small>
+        <div className="item-price-container">
+          <small className="item-price">
+            ₪{item?.price}/{getTranslatedPricePer(item?.pricePer || '')}
+          </small>
+          <StatusBadge createdAt={item?.createdAt} />
+        </div>
       </div>
       {wishlistId && (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>

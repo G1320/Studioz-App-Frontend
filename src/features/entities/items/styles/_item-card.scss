@@ -40,7 +40,10 @@
     }
   }
 
-  .item-price {
+  .item-price-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     align-self: start;
 
     // Support RTL for Hebrew text
@@ -48,6 +51,10 @@
     html[lang='he'] & {
       align-self: flex-end;
     }
+  }
+
+  .item-price {
+    // Price styles remain the same, container handles alignment
   }
 
   h3.title {

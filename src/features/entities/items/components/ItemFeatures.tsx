@@ -49,20 +49,22 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
 
   return (
     <div className="item-features-container">
-      {showDistanceBadge && distance !== null && distance !== undefined && (
-        <DistanceBadge distance={distance} showIcon={true} />
-      )}
-      {city && (
-        <div className="item-city-badge">
-          <span>{city}</span>
-        </div>
-      )}
       {item?.studioName?.en && (
         <div className="item-studio-badge">
           <LocationOnIcon className="item-studio-badge__icon" />
           <span>{item.studioName.en}</span>
         </div>
       )}
+
+      {city && (
+        <div className="item-city-badge">
+          <span>{city}</span>
+        </div>
+      )}
+      {showDistanceBadge && distance !== null && distance !== undefined && (
+        <DistanceBadge distance={distance} showIcon={true} />
+      )}
+
       {userId && (
         <ItemBadges>
           <PopupDropdown

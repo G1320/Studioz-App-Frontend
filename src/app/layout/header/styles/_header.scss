@@ -292,16 +292,13 @@ header.app-header {
       align-self: center;
       align-content: center;
       padding: 0.25rem;
-      // margin: 0 0.25rem;
       min-width: min-content;
       min-height: 24px;
       white-space: nowrap;
       background: transparent;
-      // border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: vars.$border-radius-medium;
       color: inherit;
       text-decoration: none;
-      // font-size: vars.$font-size-small;
       transition: all 0.2s ease;
       cursor: pointer;
 

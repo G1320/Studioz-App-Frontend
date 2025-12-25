@@ -116,5 +116,10 @@
     "listTitle": "Reviews",
     "anonymous": "Anonymous",
     "rateAriaLabel": "Rate {{value}} out of 5"
+  },
+  "badges": {
+    "highly_rated": "Highly Rated",
+    "popular": "Popular",
+    "new": "New"
   }
 }
