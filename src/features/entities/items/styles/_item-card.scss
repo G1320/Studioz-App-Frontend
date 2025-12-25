@@ -84,9 +84,33 @@
   }
 }
 
-// Style the wishlists dropdown trigger to match header-menu-button-container
+// Style the wishlists dropdown trigger - simple icon without background
 .item-card-wishlists-dropdown-trigger {
-  @include mixins.header-icon-button;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: inherit;
+  transition: all 0.25s ease;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 // The menu-dropdown class already includes the mixin via menu-dropdown.scss
