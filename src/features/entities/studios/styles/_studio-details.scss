@@ -19,8 +19,9 @@
         gap: 1rem;
         position: absolute;
         height: min-content;
-        bottom: 3.5rem;
-        padding-inline: 1rem;
+        // Position above gallery (2rem) + margin (0.5rem) = 2.5rem from bottom
+        bottom: calc(2rem + 0.5rem);
+        padding: 0.75rem;
         font-size: clamp(1rem, 3vw, 2.5rem);
         font-weight: 700;
         color: vars.$color-text-light-gray;
@@ -32,7 +33,7 @@
         text-overflow: ellipsis;
 
         @media (max-width: 768px) {
-          bottom: 4rem;
+          bottom: calc(2rem + 0.5rem);
           max-width: calc(100% - 1.75rem);
         }
 
@@ -127,33 +128,49 @@
         }
       }
 
-      .cover-image-overlay {
-        position: absolute;
-        bottom: 48px;
-        left: 0;
-        width: 100%;
-        height: 70px;
-        background: linear-gradient(to bottom, transparent, vars.$black-opacity-40);
-        z-index: 10;
-        max-width: 100%;
-        box-sizing: border-box;
-
-        @media (max-width: 768px) {
-          bottom: 44px;
-          height: 60px;
-        }
-
-        @media (max-width: 480px) {
-          bottom: 36px;
-          height: 50px;
-        }
-      }
-
       .gallery-images-list {
         display: flex;
         gap: 0.5rem;
         overflow-x: auto;
-        height: 60px;
+        height: 2rem !important;
+        margin-top: 0.5rem;
+        align-items: center; // Center items vertically
+
+        .render-item-container {
+          height: 2rem !important;
+          aspect-ratio: unset !important;
+          max-height: 2rem !important;
+          overflow: hidden;
+        }
+      }
+
+      .cover-image-overlay {
+        position: absolute;
+        // Position at the bottom of the cover image (above gallery images list)
+        // Gallery list is 2rem + 0.5rem margin, so overlay starts there
+        bottom: calc(2rem + 0.5rem);
+        // Match cover image width: calc(100% + 0.5rem) and center it
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% + 0.5rem);
+        // Height covers the title area and extends upward for smooth fade
+        height: 5rem;
+        // Fade from transparent (top) to darker (bottom) for text readability
+        background: linear-gradient(to bottom, transparent, vars.$black-opacity-40);
+        z-index: 10;
+        pointer-events: none; // Allow clicks to pass through
+        box-sizing: border-box;
+
+        @media (max-width: 768px) {
+          bottom: calc(2rem + 0.5rem);
+          height: 4.5rem;
+        }
+
+        @media (max-width: 480px) {
+          bottom: calc(2rem + 0.5rem);
+          width: 100%; // Cover image is 100% width on mobile
+          height: 4rem;
+        }
       }
     }
 
@@ -267,10 +284,20 @@
         gap: 0.5rem;
         overflow-x: auto;
         height: 60px;
+        align-items: center; // Center items vertically
 
         .render-item-container {
           position: relative;
-          place-items: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 2rem !important; // Constrain height to match gallery list (2rem)
+          width: auto;
+          flex-shrink: 0; // Prevent shrinking
+          aspect-ratio: unset !important; // Override aspect-ratio from fileUploader styles
+          min-height: 0; // Prevent min-height from causing issues
+          max-height: 2rem !important; // Ensure it doesn't exceed gallery height
+          overflow: hidden; // Prevent content overflow
 
           .skeleton-loader {
             // Positioning specific to gallery thumbnails
@@ -282,11 +309,23 @@
             // Background and animation are centralized in utilities/_skeleton-loader.scss
           }
 
+          .gallery-image-wrapper {
+            height: 2rem !important;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-height: 2rem;
+          }
+
           .gallery-image {
-            height: 40px;
-            align-self: start;
+            height: 1.5rem;
+            width: auto;
+            object-fit: cover;
+            align-self: center;
             gap: 0;
             transition: opacity 0.3s ease;
+            max-height: 1.5rem;
 
             &.loading {
               opacity: 0;
