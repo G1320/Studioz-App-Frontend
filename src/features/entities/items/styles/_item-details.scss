@@ -123,6 +123,11 @@
     p.description {
       -webkit-line-clamp: 4;
     }
+
+    // Move wishlist toggle higher up in modal
+    .item-badges {
+      top: 0.4rem;
+    }
   }
 
   div.date-picker-row {
