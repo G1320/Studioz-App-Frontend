@@ -154,15 +154,6 @@
         gap: 0.5rem;
         overflow-x: auto;
         height: 60px;
-        .render-item-container {
-          height: calc(100% - 1rem);
-          place-items: center;
-          .gallery-image {
-            height: 40px;
-            align-self: start;
-            gap: 0;
-          }
-        }
       }
     }
 
@@ -279,9 +270,7 @@
 
         .render-item-container {
           position: relative;
-          height: calc(100% - 1rem);
           place-items: center;
-          overflow: hidden;
 
           .skeleton-loader {
             // Positioning specific to gallery thumbnails

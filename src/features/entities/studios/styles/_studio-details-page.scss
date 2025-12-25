@@ -1,35 +1,10 @@
 .studio-details-page {
-  .card.studio-card {
-    max-height: max-content;
-    gap: 0.5rem;
-    max-width: calc(1200px - 1rem);
-    .cover-image-container {
-      display: grid;
-      max-height: 600px;
-    }
-    button {
-      display: none;
-    }
-  }
-  @media screen and (max-width: 600px) {
-    padding: 0;
-    .card p {
-      -webkit-line-clamp: 4;
-    }
-  }
-
-  .items {
-    width: 100%;
-  }
   .gallery-images-list {
     flex-grow: 0;
     overflow-x: auto;
     gap: 0.5rem;
-    .render-item-container {
-      min-width: min-content;
-    }
+    padding: 0.25rem 0;
     div {
-      padding: 0.25rem;
       img {
         width: 100%;
         min-width: 48px;
