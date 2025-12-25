@@ -19,6 +19,11 @@
   // keep inner content constrained to card
   .reservation-card__content {
     overflow: hidden;
+    .reservation-card__value {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   // Clickable card styles (when role="button")
