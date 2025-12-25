@@ -1,4 +1,6 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
 .item-card {
   position: relative;
   padding: 0.75rem;

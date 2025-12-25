@@ -14,11 +14,11 @@ import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import './styles/menu-dropdown.scss';
 
-interface ProfileDropdownProps {
+interface MenuDropdownProps {
   user: User | null;
 }
 
-export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
+export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const { t } = useTranslation('profile');
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
@@ -37,7 +37,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   return (
     <PopupDropdown
       trigger={
-        <button className="header-profile-button-container header-icon-button" aria-label="Menu">
+        <button className="header-menu-button-container header-icon-button" aria-label="Menu">
           <WavyMenuIcon className="wavy-menu-icon" aria-label="menu icon" />
         </button>
       }

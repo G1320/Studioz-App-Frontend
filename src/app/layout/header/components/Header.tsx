@@ -14,7 +14,7 @@ import { useLocationPermission } from '@core/contexts/LocationPermissionContext'
 import { getCityFromCoordinates } from '@shared/services/map-service';
 import { useCities } from '@shared/hooks/utils/cities';
 import { featureFlags } from '@core/config/featureFlags';
-import { ProfileDropdown } from './ProfileDropdown';
+import { MenuDropdown } from './MenuDropdown';
 
 interface HeaderProps {
   cart?: Cart;
@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
         <ReservationBell />
         {user && featureFlags.notifications && <NotificationBell />}
-        <ProfileDropdown user={user || null} />
+        <MenuDropdown user={user || null} />
       </div>
       <HeaderNavbar />
       <Link
