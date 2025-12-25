@@ -217,11 +217,50 @@
 
         .studio-details-buttons {
           display: flex;
+          gap: vars.$spacing-small;
+
           button {
-            padding: 0.25rem;
-            background-color: transparent;
-            border: none;
-            color: vars.$color-brand;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: vars.$spacing-small vars.$spacing-medium;
+            background-color: vars.$white-opacity-10;
+            border: 1px solid vars.$white-opacity-20;
+            border-radius: vars.$border-radius-medium;
+            color: vars.$text-color-primary;
+            font-size: vars.$font-size-small;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            box-shadow: inset 0 0 10px 5px vars.$white-opacity-03;
+
+            &:hover {
+              background-color: vars.$white-opacity-15;
+              border-color: vars.$white-opacity-30;
+              transform: translateY(-1px);
+              box-shadow:
+                inset 0 0 10px 5px vars.$white-opacity-03,
+                0 2px 8px vars.$black-opacity-20;
+            }
+
+            &:active {
+              transform: translateY(0);
+              box-shadow: inset 0 0 10px 5px vars.$white-opacity-03;
+            }
+
+            &:focus {
+              outline: none;
+              box-shadow:
+                inset 0 0 10px 5px vars.$white-opacity-03,
+                0 0 0 2px vars.$white-opacity-30;
+            }
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+              pointer-events: none;
+            }
           }
         }
       }

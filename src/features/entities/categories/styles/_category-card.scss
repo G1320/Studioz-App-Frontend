@@ -38,8 +38,7 @@ article.category-card {
   }
 
   &--selected {
-    background-color: vars.$light-gray-f0f0f0-5b;
-    // border-color: vars.$text-color-primary;
+    background-color: vars.$light-gray-f0f0f021;
     box-shadow:
       0 2px 8px vars.$black-opacity-10,
       0 0 0 1px vars.$black-opacity-05;
