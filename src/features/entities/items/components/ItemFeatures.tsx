@@ -1,19 +1,20 @@
-import { ReactNode } from 'react';
-import { GenericMuiDropdown, DistanceBadge, Button } from '@shared/components';
+import { PopupDropdown, DistanceBadge } from '@shared/components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddIcon from '@mui/icons-material/Add';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ListIcon from '@mui/icons-material/List';
 import { Item, Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { ItemBadges } from './ItemBadges';
 import '../styles/_item-features.scss';
+import '../../../../app/layout/header/components/styles/menu-dropdown.scss';
 
 interface ItemFeaturesProps {
   item: Item;
   wishlists?: Wishlist[];
   distance?: number | null;
-  renderWishlistItem: (wishlist: Wishlist) => ReactNode;
+  onAddToWishlist?: (wishlistId: string) => void;
   userId?: string;
   showDistanceBadge?: boolean;
 }
@@ -22,7 +23,7 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
   item,
   wishlists = [],
   distance,
-  renderWishlistItem,
+  onAddToWishlist,
   userId,
   showDistanceBadge = true
 }) => {
@@ -46,13 +47,6 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
     langNavigate('/create-wishlist');
   };
 
-  const emptyState = (
-    <Button onClick={handleCreateWishlist} style={{ width: '100%', justifyContent: 'center', padding: '0.75rem 1rem' }}>
-      <AddIcon style={{ marginRight: '0.5rem' }} />
-      {t('wishlists.create_new')}
-    </Button>
-  );
-
   return (
     <div className="item-features-container">
       {showDistanceBadge && distance !== null && distance !== undefined && (
@@ -71,13 +65,48 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
       )}
       {userId && (
         <ItemBadges>
-          <GenericMuiDropdown
-            data={wishlists}
-            renderItem={renderWishlistItem}
-            className="item-card-wishlists-dropdown"
-            icon={<FavoriteBorderIcon />}
-            emptyState={emptyState}
-          />
+          <PopupDropdown
+            trigger={
+              <button className="item-card-wishlists-dropdown-trigger" aria-label="Add to wishlist">
+                <FavoriteBorderIcon />
+              </button>
+            }
+            className="menu-dropdown item-card-wishlists-dropdown"
+            anchor="bottom-right"
+            minWidth="200px"
+            maxWidth="300px"
+          >
+            <div className="menu-dropdown__content">
+              {wishlists.length === 0 ? (
+                <button className="menu-dropdown__item menu-dropdown__item--login" onClick={handleCreateWishlist}>
+                  <AddIcon className="menu-dropdown__icon" />
+                  <span>{t('wishlists.create_new')}</span>
+                </button>
+              ) : (
+                <>
+                  <button className="menu-dropdown__item menu-dropdown__item--login" onClick={handleCreateWishlist}>
+                    <AddIcon className="menu-dropdown__icon" />
+                    <span>{t('wishlists.create_new')}</span>
+                  </button>
+                  {wishlists.map((wishlist) => (
+                    <button
+                      key={wishlist._id}
+                      className="menu-dropdown__item"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onAddToWishlist) {
+                          onAddToWishlist(wishlist._id);
+                        }
+                      }}
+                    >
+                      <ListIcon className="menu-dropdown__icon" />
+                      <span>{wishlist.name}</span>
+                    </button>
+                  ))}
+                </>
+              )}
+            </div>
+          </PopupDropdown>
         </ItemBadges>
       )}
     </div>

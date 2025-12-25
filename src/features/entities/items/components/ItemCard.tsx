@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { WishlistCard } from '@features/entities';
 import { Button } from '@shared/components';
 import {
   useAddItemToWishlistMutation,
@@ -50,15 +49,6 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
   const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item?._id);
   const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item?._id);
 
-  const renderItem = (wishlist: Wishlist) => (
-    <WishlistCard
-      className="item-card-wishlist-card"
-      wishlist={wishlist}
-      key={wishlist?._id}
-      onAddItemToWishList={() => handleAddItemToWishlist(wishlist._id)}
-    />
-  );
-
   const getTranslatedPricePer = (pricePer: string) => {
     const pricePerMap: Record<string, string> = {
       hour: t('forms:form.pricePer.hour'),
@@ -88,7 +78,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
         item={item}
         wishlists={wishlists}
         distance={distance}
-        renderWishlistItem={renderItem}
+        onAddToWishlist={handleAddItemToWishlist}
         userId={user?._id}
         showDistanceBadge={showDistanceBadge}
       />

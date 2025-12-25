@@ -83,3 +83,14 @@
     }
   }
 }
+
+// Style the wishlists dropdown trigger to match header-menu-button-container
+.item-card-wishlists-dropdown-trigger {
+  @include mixins.header-icon-button;
+}
+
+// The menu-dropdown class already includes the mixin via menu-dropdown.scss
+// No additional styles needed - it uses only the menu-dropdown mixin
+.item-card-wishlists-dropdown {
+  // All styles come from the menu-dropdown mixin via the .menu-dropdown class
+}
