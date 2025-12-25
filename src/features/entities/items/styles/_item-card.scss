@@ -16,6 +16,11 @@
   transition:
     transform 0.2s ease,
     border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    -webkit-tap-highlight-color: transparent;
+  }
 
   .item-card-name-and-description {
     text-align: start;
@@ -24,6 +29,7 @@
     flex-direction: column;
     gap: 0.25rem;
     width: 100%;
+    min-width: 0; // Allow flex container to shrink
 
     // Support RTL for Hebrew text
     html[dir='rtl'] &,
@@ -44,14 +50,17 @@
   }
 
   h3.title {
-    display: flex;
-    place-self: start;
+    display: block;
     white-space: nowrap !important;
     line-height: 1;
     margin: 0;
     font-size: 1.1rem;
     color: vars.$text-color-primary;
-    justify-content: flex-end;
+    max-width: 89%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0; // Allow flex item to shrink below content size
+    flex-shrink: 1; // Allow title to shrink
   }
 
   small.item-price {
@@ -92,11 +101,9 @@
   background: transparent;
   border: none;
   border-radius: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: inherit;
+  box-shadow: none;
+  min-width: 24px;
+  min-height: 24px;
   transition: all 0.25s ease;
 
   &:hover:not(:disabled) {
