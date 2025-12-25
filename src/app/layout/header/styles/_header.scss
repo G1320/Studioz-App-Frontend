@@ -287,13 +287,12 @@ header.app-header {
       display: flex;
       grid-column: 2;
       grid-row: 1;
-      gap: 0.5rem;
       align-self: center;
 
       align-self: center;
       align-content: center;
       padding: 0.25rem;
-      margin: 0 0.25rem;
+      // margin: 0 0.25rem;
       min-width: min-content;
       min-height: 24px;
       white-space: nowrap;
@@ -305,6 +304,11 @@ header.app-header {
       // font-size: vars.$font-size-small;
       transition: all 0.2s ease;
       cursor: pointer;
+
+      // Hide icon on mobile
+      &__icon {
+        display: none;
+      }
     }
   }
 }
