@@ -12,7 +12,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import './styles/profile-dropdown.scss';
+import './styles/menu-dropdown.scss';
 
 interface ProfileDropdownProps {
   user: User | null;
@@ -41,54 +41,54 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
           <WavyMenuIcon className="wavy-menu-icon" aria-label="menu icon" />
         </button>
       }
-      className="profile-dropdown"
+      className="menu-dropdown"
       anchor="bottom-right"
       minWidth="200px"
       maxWidth="300px"
     >
-      <div className="profile-dropdown__content">
+      <div className="menu-dropdown__content">
         {!user && (
-          <div className="profile-dropdown__item profile-dropdown__item--login">
+          <div className="menu-dropdown__item menu-dropdown__item--login">
             <LoginButton aria-label="Login" />
           </div>
         )}
         {user && (
           <>
-            <button className="profile-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
-              <DashboardIcon className="profile-dropdown__icon" />
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
+              <DashboardIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
             </button>
-            <button className="profile-dropdown__item" onClick={() => handleNavigate('/create-studio')}>
-              <AddBusinessIcon className="profile-dropdown__icon" />
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/create-studio')}>
+              <AddBusinessIcon className="menu-dropdown__icon" />
               <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
             </button>
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>
-                <button className="profile-dropdown__item" onClick={() => handleNavigate('/calendar')}>
-                  <CalendarTodayIcon className="profile-dropdown__icon" />
+                <button className="menu-dropdown__item" onClick={() => handleNavigate('/calendar')}>
+                  <CalendarTodayIcon className="menu-dropdown__icon" />
                   <span>{t('profile.sellerAccount.buttons.calendar')}</span>
                 </button>
-                <button className="profile-dropdown__item" onClick={() => handleNavigate('/my-subscription')}>
-                  <CardMembershipIcon className="profile-dropdown__icon" />
+                <button className="menu-dropdown__item" onClick={() => handleNavigate('/my-subscription')}>
+                  <CardMembershipIcon className="menu-dropdown__icon" />
                   <span>{t('profile.sellerAccount.buttons.mySubscriptions')}</span>
                 </button>
               </>
             )}
           </>
         )}
-        <button className="profile-dropdown__item" onClick={() => handleNavigate('/subscription')}>
-          <CardMembershipIcon className="profile-dropdown__icon" />
+        <button className="menu-dropdown__item" onClick={() => handleNavigate('/subscription')}>
+          <CardMembershipIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.subscription')}</span>
         </button>
         {user && (
-          <div className="profile-dropdown__item profile-dropdown__item--logout">
-            <LogoutButton aria-label="Logout" className="profile-dropdown__logout-button" />
+          <div className="menu-dropdown__item menu-dropdown__item--logout">
+            <LogoutButton aria-label="Logout" className="menu-dropdown__logout-button" />
           </div>
         )}
-        <div className="profile-dropdown__divider" />
-        <div className="profile-dropdown__lang-item-wrapper">
+        <div className="menu-dropdown__divider" />
+        <div className="menu-dropdown__lang-item-wrapper">
           <button
-            className="profile-dropdown__item profile-dropdown__item--lang"
+            className="menu-dropdown__item menu-dropdown__item--lang"
             onClick={(e) => {
               e.stopPropagation();
               setIsLangSubmenuOpen(!isLangSubmenuOpen);
@@ -96,14 +96,14 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
             aria-expanded={isLangSubmenuOpen}
             aria-haspopup="true"
           >
-            <LanguageIcon className="profile-dropdown__icon" />
+            <LanguageIcon className="menu-dropdown__icon" />
             <span>{t('profile.language')}</span>
-            <ChevronRightIcon className="profile-dropdown__chevron" />
+            <ChevronRightIcon className="menu-dropdown__chevron" />
           </button>
           {isLangSubmenuOpen && (
-            <div className="profile-dropdown__submenu">
+            <div className="menu-dropdown__submenu">
               <button
-                className={`profile-dropdown__submenu-item ${currentLanguage === 'en' ? 'profile-dropdown__submenu-item--active' : ''}`}
+                className={`menu-dropdown__submenu-item ${currentLanguage === 'en' ? 'menu-dropdown__submenu-item--active' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   changeLanguage('en');
@@ -112,7 +112,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
                 English
               </button>
               <button
-                className={`profile-dropdown__submenu-item ${currentLanguage === 'he' ? 'profile-dropdown__submenu-item--active' : ''}`}
+                className={`menu-dropdown__submenu-item ${currentLanguage === 'he' ? 'menu-dropdown__submenu-item--active' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   changeLanguage('he');
@@ -123,16 +123,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
             </div>
           )}
         </div>
-        <button
-          className="profile-dropdown__item profile-dropdown__item--link"
-          onClick={() => handleNavigate('/privacy')}
-        >
+        <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/privacy')}>
           {t('profile.legal.privacy')}
         </button>
-        <button
-          className="profile-dropdown__item profile-dropdown__item--link"
-          onClick={() => handleNavigate('/terms')}
-        >
+        <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/terms')}>
           {t('profile.legal.terms')}
         </button>
       </div>

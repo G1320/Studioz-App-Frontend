@@ -2,18 +2,18 @@
 @use 'sass:color';
 
 // Allow dropdown to expand when submenu is open
-.popup-dropdown.profile-dropdown {
+.popup-dropdown.menu-dropdown {
   transition:
     min-width 0.2s ease,
     max-width 0.2s ease;
 
-  &:has(.profile-dropdown__submenu) {
+  &:has(.menu-dropdown__submenu) {
     min-width: 320px !important;
     max-width: 400px !important;
   }
 }
 
-.profile-dropdown {
+.menu-dropdown {
   &__content {
     display: flex;
     flex-direction: column;
@@ -115,7 +115,7 @@
   &__item--lang[aria-expanded='true'] {
     background-color: rgba(255, 255, 255, 0.05);
 
-    .profile-dropdown__chevron {
+    .menu-dropdown__chevron {
       transform: rotate(90deg);
     }
   }
@@ -184,7 +184,7 @@
     }
 
     &__item--lang[aria-expanded='true'] {
-      .profile-dropdown__chevron {
+      .menu-dropdown__chevron {
         // When expanded in RTL: flip first (→ becomes ←), then rotate -90deg (← becomes ↓)
         // Or: rotate 90deg first (→ becomes ↓), then flip (↓ stays ↓)
         // Actually, we want: flip (→ becomes ←), then rotate 90deg (← becomes ↑) - no wait
