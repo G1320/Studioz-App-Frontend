@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Reservation } from 'src/types/index';
 import { GenericModal } from '@shared/components';
 import { ReservationDetails } from '@features/entities/reservations/components/ReservationDetails';
@@ -36,6 +37,7 @@ interface ReservationModalProviderProps {
 }
 
 export const ReservationModalProvider: React.FC<ReservationModalProviderProps> = ({ children }) => {
+  const location = useLocation();
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
 
   const openReservationModal = (reservation: Reservation) => {
@@ -45,6 +47,14 @@ export const ReservationModalProvider: React.FC<ReservationModalProviderProps> =
   const closeReservationModal = () => {
     setSelectedReservation(null);
   };
+
+  // Close modal when navigation occurs
+  useEffect(() => {
+    if (selectedReservation) {
+      closeReservationModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   return (
     <ReservationModalContext.Provider value={{ selectedReservation, openReservationModal, closeReservationModal }}>

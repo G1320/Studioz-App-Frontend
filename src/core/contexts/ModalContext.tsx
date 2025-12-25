@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Item } from 'src/types/index';
 import { getLocalModalOpen, setLocalModalOpen, getLocalSelectedItem, setLocalSelectedItem } from '@shared/services';
 import { GenericModal } from '@shared/components';
@@ -29,6 +30,7 @@ interface ModalProviderProps {
 }
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
+  const location = useLocation();
   const [selectedItem, setSelectedItem] = useState<Item | null>(() => {
     // Initialize state from localStorage
     const storedItem = getLocalSelectedItem();
@@ -55,6 +57,14 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
       setSelectedItem(storedItem);
     }
   }, []);
+
+  // Close modal when navigation occurs
+  useEffect(() => {
+    if (selectedItem) {
+      closeModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   return (
     <ModalContext.Provider value={{ selectedItem, openModal, closeModal }}>
