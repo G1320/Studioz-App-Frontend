@@ -53,3 +53,5 @@ export const clearConsent = (): void => {
   Cookies.remove(COOKIE_NAME);
 };
 
+
+

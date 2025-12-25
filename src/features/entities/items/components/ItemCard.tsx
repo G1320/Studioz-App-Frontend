@@ -52,6 +52,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
 
   const renderItem = (wishlist: Wishlist) => (
     <WishlistCard
+      className="item-card-wishlist-card"
       wishlist={wishlist}
       key={wishlist?._id}
       onAddItemToWishList={() => handleAddItemToWishlist(wishlist._id)}

@@ -6,11 +6,12 @@ import { useTranslation } from 'react-i18next';
 import '../styles/_wishlist-card.scss';
 
 interface WishlistCardProps {
+  className?: string;
   wishlist: Wishlist;
   onAddItemToWishList?: (wishlistId: string) => void;
 }
 
-export const WishlistCard: React.FC<WishlistCardProps> = ({ wishlist, onAddItemToWishList = null }) => {
+export const WishlistCard: React.FC<WishlistCardProps> = ({ wishlist, onAddItemToWishList = null, className = '' }) => {
   const langNavigate = useLanguageNavigate();
   const { t } = useTranslation('common');
 
@@ -32,7 +33,7 @@ export const WishlistCard: React.FC<WishlistCardProps> = ({ wishlist, onAddItemT
     <article
       onClick={handleArticleClick}
       key={wishlist._id}
-      className={`wishlist-card ${onAddItemToWishList ? 'wishlist-card--interactive' : ''}`}
+      className={`${className}   wishlist-card ${onAddItemToWishList ? 'wishlist-card--interactive' : ''}`}
     >
       <div className="wishlist-card__content">
         <div className="wishlist-card__header">
@@ -50,4 +51,3 @@ export const WishlistCard: React.FC<WishlistCardProps> = ({ wishlist, onAddItemT
     </article>
   );
 };
-

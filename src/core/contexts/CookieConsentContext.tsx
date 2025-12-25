@@ -30,13 +30,13 @@ export const CookieConsentProvider: React.FC<CookieConsentProviderProps> = ({ ch
     // Check consent on mount
     const consent = hasConsent();
     setHasConsented(consent);
-    
+
     // Wait 2.5 seconds before showing banner for a more thoughtful, less intrusive experience
     if (!consent) {
       const timer = setTimeout(() => {
         setShowBanner(true);
       }, 2500);
-      
+
       return () => clearTimeout(timer);
     }
   }, []);
@@ -67,4 +67,3 @@ export const useCookieConsent = (): CookieConsentContextType => {
   }
   return context;
 };
-
