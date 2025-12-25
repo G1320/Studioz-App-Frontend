@@ -9,6 +9,8 @@ interface ButtonProps {
   style?: CSSProperties;
   icon?: ReactNode;
   children: ReactNode;
+  'aria-label'?: string;
+  ariaLabel?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -19,12 +21,16 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   style = {},
   icon,
-  children
+  children,
+  'aria-label': ariaLabelProp,
+  ariaLabel
 }) => {
   const buttonStyle: CSSProperties = {
     ...style,
     ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : {})
   };
+
+  const ariaLabelValue = ariaLabel || ariaLabelProp;
 
   return (
     <button
@@ -34,6 +40,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       type={type}
       style={buttonStyle}
+      aria-label={ariaLabelValue}
     >
       {icon && <span className="button-icon">{icon}</span>}
       {children}

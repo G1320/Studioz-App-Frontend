@@ -7,7 +7,7 @@ export const DesktopFooter = () => {
   const currentLang = i18n.language || 'en';
 
   return (
-    <footer className="desktop-footer">
+    <footer id="main-footer" className="desktop-footer" aria-label={t('navigation.footer', 'Footer')}>
       <div className="footer-content">
         <div className="footer-section">
           <div className="links">

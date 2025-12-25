@@ -1,15 +1,54 @@
 import { Modal } from '@mui/material';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useEffect, useId } from 'react';
 
 interface GenericModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
   className?: string;
+  /** Optional title ID for aria-labelledby. If not provided, will search for h1-h6 in children */
+  titleId?: string;
+  /** Optional description ID for aria-describedby */
+  descriptionId?: string;
+  /** Optional aria-label if title cannot be determined */
+  ariaLabel?: string;
 }
 
-export const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, children, className = '' }) => {
+export const GenericModal: React.FC<GenericModalProps> = ({
+  open,
+  onClose,
+  children,
+  className = '',
+  titleId,
+  descriptionId,
+  ariaLabel
+}) => {
   const scrollPositionRef = useRef<{ window: number; root: number; html: number }>({ window: 0, root: 0, html: 0 });
+  const modalContentRef = useRef<HTMLDivElement>(null);
+  const previousActiveElementRef = useRef<HTMLElement | null>(null);
+  const modalId = useId();
+  const defaultTitleId = `${modalId}-title`;
+
+  // Find title element in children for aria-labelledby and set ID if needed
+  useEffect(() => {
+    if (open && !titleId && !ariaLabel && modalContentRef.current) {
+      // Search for heading elements (h1-h6) in the modal content
+      const heading = modalContentRef.current.querySelector('h1, h2, h3, h4, h5, h6');
+      if (heading && !heading.id) {
+        heading.id = defaultTitleId;
+      }
+    }
+  }, [open, titleId, ariaLabel, defaultTitleId]);
+
+  // Focus management: store previous active element
+  // Note: MUI Modal handles focus restoration with disableRestoreFocus={false},
+  // but we store it as a backup
+  useEffect(() => {
+    if (open) {
+      // Store the element that had focus before modal opened
+      previousActiveElementRef.current = document.activeElement as HTMLElement;
+    }
+  }, [open]);
 
   useLayoutEffect(() => {
     if (open) {
@@ -94,21 +133,41 @@ export const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, child
     }
   }, [open]);
 
+  // Determine aria-labelledby: use provided titleId, or search for heading, or use default
+  const getAriaLabelledBy = () => {
+    if (titleId) return titleId;
+    if (ariaLabel) return undefined; // If aria-label is provided, don't use aria-labelledby
+    if (open && modalContentRef.current) {
+      const heading = modalContentRef.current.querySelector('h1, h2, h3, h4, h5, h6');
+      if (heading?.id) return heading.id;
+    }
+    return defaultTitleId;
+  };
+
+  const ariaLabelledBy = getAriaLabelledBy();
+
   return (
     <Modal
       open={open}
       onClose={onClose}
       className={`generic-modal ${className}`}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={ariaLabelledBy}
+      aria-describedby={descriptionId || undefined}
+      aria-label={ariaLabel || undefined}
       disableAutoFocus={false}
       disableEnforceFocus={false}
+      disableRestoreFocus={false}
       disableScrollLock={true}
       slotProps={{
         backdrop: {
-          timeout: 500
+          timeout: 500,
+          'aria-hidden': 'true'
         }
       }}
     >
-      <div className="modal-wrapper">
+      <div className="modal-wrapper" ref={modalContentRef}>
         <div className="modal-content">{children}</div>
       </div>
     </Modal>

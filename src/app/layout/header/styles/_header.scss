@@ -29,18 +29,34 @@ header.app-header {
     -webkit-overflow-scrolling: touch;
   }
 
+  .skip-links-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   .skip-link {
     position: absolute;
     top: -100px;
     left: 0;
     background: vars.$bg-color-primary;
     color: vars.$text-color-primary;
-    padding: 8px;
-    z-index: 1000;
+    padding: 8px 16px;
+    z-index: 10001;
     text-decoration: none;
+    border: 2px solid vars.$color-brand;
+    border-radius: vars.$border-radius-small;
+    font-weight: 600;
+    transition: top 0.2s ease;
   }
   .skip-link:focus {
     top: 0;
+    outline: 2px solid vars.$color-brand;
+    outline-offset: 2px;
   }
 
   .logo {

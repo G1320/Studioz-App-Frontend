@@ -30,7 +30,7 @@ export const MobileFooter = () => {
   };
 
   return (
-    <footer className="mobile-footer">
+    <footer id="main-footer" className="mobile-footer" aria-label={t('navigation.footer', 'Footer')}>
       <nav className="footer-grid">
         <Link
           to={`${currLang}`}

@@ -219,6 +219,8 @@ export const GenericForm = ({
                     onInputChange={(value: string) => {
                       handleFieldChange('address', value, field.onChange);
                     }}
+                    aria-describedby={hasError ? `error-${field.name}` : undefined}
+                    aria-invalid={hasError}
                   />
                   {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
                 </div>
@@ -236,6 +238,8 @@ export const GenericForm = ({
                   value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
                   className={`form-input ${inputErrorClassName}`}
                   required={!schema}
+                  aria-describedby={hasError ? `error-${field.name}` : undefined}
+                  aria-invalid={hasError}
                   onBlur={(e) => {
                     const value = e.target.value;
                     handleFieldBlur(field.name, value);
@@ -263,6 +267,8 @@ export const GenericForm = ({
                   className={`form-textarea ${inputErrorClassName}`}
                   rows={4}
                   required={!schema}
+                  aria-describedby={hasError ? `error-${field.name}` : undefined}
+                  aria-invalid={hasError}
                   onBlur={(e) => {
                     const value = e.target.value;
                     handleFieldBlur(field.name, value);
@@ -332,7 +338,11 @@ export const GenericForm = ({
                 <Listbox value={field.value} onChange={field.onChange}>
                   {({ open }) => (
                     <div className="relative">
-                      <Listbox.Button className={`listbox-button ${inputErrorClassName}`}>
+                      <Listbox.Button
+                        className={`listbox-button ${inputErrorClassName}`}
+                        aria-describedby={hasError ? `error-${field.name}` : undefined}
+                        aria-invalid={hasError}
+                      >
                         {field.displayValue || field.value || 'Select'}
                         <ChevronUpDownIcon className="listbox-icon" />
                       </Listbox.Button>

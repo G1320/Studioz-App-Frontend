@@ -17,7 +17,12 @@ export const ItemHeader = React.memo(({ item, studio, onImageClick }: ItemHeader
     <div className="image-container cover-image">
       {!studio?.coverImage && <SkeletonLoader />}
       {studio?.coverImage && (
-        <GenericImage className="cover-image" src={studio.coverImage} onClick={onImageClick} />
+        <GenericImage
+          className="cover-image"
+          src={studio.coverImage}
+          alt={studio?.name?.en ? `${studio.name.en} cover image` : 'Studio cover image'}
+          onClick={onImageClick}
+        />
       )}
     </div>
   );

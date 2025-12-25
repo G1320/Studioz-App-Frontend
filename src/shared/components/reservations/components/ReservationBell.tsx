@@ -41,17 +41,23 @@ export const ReservationBell: React.FC = () => {
   }, [reservations]);
 
   return (
-    <Link
-      to={`${currLang}/reservations`}
-      className="header-icon-button reservation-bell__button"
-      aria-label={`${t('navigation.reservations', 'My Reservations')}${reservationCount > 0 ? ` (${reservationCount})` : ''}`}
-    >
-      <EventNoteIcon className="reservation-bell__icon" />
-      {reservationCount > 0 && (
-        <span className="reservation-bell__badge" aria-label={`${reservationCount} reservations`}>
-          {reservationCount > 99 ? '99+' : reservationCount}
-        </span>
-      )}
-    </Link>
+    <>
+      {/* Screen reader announcement for reservation count changes */}
+      <div aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {reservationCount > 0 && `${reservationCount} active reservation${reservationCount === 1 ? '' : 's'}`}
+      </div>
+      <Link
+        to={`${currLang}/reservations`}
+        className="header-icon-button reservation-bell__button"
+        aria-label={`${t('navigation.reservations', 'My Reservations')}${reservationCount > 0 ? ` (${reservationCount})` : ''}`}
+      >
+        <EventNoteIcon className="reservation-bell__icon" />
+        {reservationCount > 0 && (
+          <span className="reservation-bell__badge" aria-label={`${reservationCount} reservations`}>
+            {reservationCount > 99 ? '99+' : reservationCount}
+          </span>
+        )}
+      </Link>
+    </>
   );
 };

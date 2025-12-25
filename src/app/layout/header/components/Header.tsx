@@ -56,10 +56,19 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
   }, [userLocation]);
 
   return (
-    <header className="app-header">
-      <a href="#main-content" className="skip-link">
-        Skip to Content
-      </a>
+    <>
+      <div className="skip-links-container">
+        <a href="#main-content" className="skip-link">
+          {t('navigation.skipToContent', 'Skip to Content')}
+        </a>
+        <a href="#main-navigation" className="skip-link">
+          {t('navigation.skipToNavigation', 'Skip to Navigation')}
+        </a>
+        <a href="#main-footer" className="skip-link">
+          {t('navigation.skipToFooter', 'Skip to Footer')}
+        </a>
+      </div>
+      <header className="app-header">
       <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
 
       <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
@@ -104,5 +113,6 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <AddBusinessIcon className="header-list-studio-button-mobile__icon" />
       </Link>
     </header>
+    </>
   );
 };

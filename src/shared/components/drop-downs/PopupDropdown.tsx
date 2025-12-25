@@ -39,7 +39,7 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
     ? `popup-dropdown--anchor-${anchor}` 
     : `popup-dropdown--${align}`;
 
-  // Clone trigger element to attach ref and onClick
+  // Clone trigger element to attach ref, onClick, and aria attributes
   const triggerWithProps = React.isValidElement(trigger)
     ? React.cloneElement(trigger as React.ReactElement<any>, {
         ref: btnRef,
@@ -51,10 +51,28 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
           if (originalOnClick && typeof originalOnClick === 'function') {
             originalOnClick(e);
           }
-        }
+        },
+        'aria-expanded': isOpen,
+        'aria-haspopup': 'true',
+        'aria-controls': isOpen ? `${className}-dropdown` : undefined
       })
     : (
-        <div ref={btnRef as React.RefObject<HTMLDivElement>} onClick={toggle} style={{ display: 'inline-block' }}>
+        <div
+          ref={btnRef as React.RefObject<HTMLDivElement>}
+          onClick={toggle}
+          style={{ display: 'inline-block' }}
+          role="button"
+          tabIndex={0}
+          aria-expanded={isOpen}
+          aria-haspopup="true"
+          aria-controls={isOpen ? `${className}-dropdown` : undefined}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggle();
+            }
+          }}
+        >
           {trigger}
         </div>
       );
@@ -65,9 +83,11 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
       {isOpen && (
         <div
           ref={divDropdownRef}
+          id={className ? `${className}-dropdown` : 'popup-dropdown-content'}
           className={`popup-dropdown ${anchorClass}`}
           style={{ minWidth, maxWidth, width }}
           onClick={(e) => e.stopPropagation()}
+          role="menu"
         >
           {children}
         </div>

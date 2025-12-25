@@ -7,6 +7,8 @@ interface GoogleAddressAutocompleteProps {
   defaultValue?: string;
   fieldName?: string;
   onInputChange?: (value: string) => void;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
 }
 
 export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps> = ({
@@ -14,7 +16,9 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
   placeholder = 'Enter an address',
   defaultValue = '',
   fieldName = 'address',
-  onInputChange
+  onInputChange,
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid
 }) => {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -60,6 +64,8 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
         placeholder={placeholder}
         defaultValue={defaultValue}
         onChange={handleInputChange}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={ariaInvalid}
         style={{
           width: '100%',
           padding: '0.5rem',

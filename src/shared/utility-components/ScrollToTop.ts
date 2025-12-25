@@ -36,7 +36,45 @@ export const scrollToTop = () => {
   });
 };
 
-// Component that handles scroll-to-top for non-animated routes
+// Function to manage focus on route change
+export const focusMainContent = () => {
+  // Try to focus the main content element
+  const mainContent = document.getElementById('main-content');
+  if (mainContent) {
+    // Make it focusable temporarily if it's not already
+    const originalTabIndex = mainContent.getAttribute('tabindex');
+    if (!originalTabIndex) {
+      mainContent.setAttribute('tabindex', '-1');
+    }
+    
+    mainContent.focus();
+    
+    // Remove tabindex after focus to restore normal behavior
+    // Use setTimeout to ensure focus happens first
+    setTimeout(() => {
+      if (!originalTabIndex) {
+        mainContent.removeAttribute('tabindex');
+      }
+    }, 0);
+  } else {
+    // Fallback: try to focus the first heading on the page
+    const firstHeading = document.querySelector('main h1, main h2, main h3, main h4, main h5, main h6');
+    if (firstHeading instanceof HTMLElement) {
+      const originalTabIndex = firstHeading.getAttribute('tabindex');
+      if (!originalTabIndex) {
+        firstHeading.setAttribute('tabindex', '-1');
+      }
+      firstHeading.focus();
+      setTimeout(() => {
+        if (!originalTabIndex) {
+          firstHeading.removeAttribute('tabindex');
+        }
+      }, 0);
+    }
+  }
+};
+
+// Component that handles scroll-to-top and focus management for non-animated routes
 export const ScrollToTop = () => {
   const location = useLocation();
 
@@ -44,6 +82,14 @@ export const ScrollToTop = () => {
     // Scroll immediately for non-animated routes
     // Animated routes handle scrolling via onAnimationComplete
     scrollToTop();
+    
+    // Move focus to main content for accessibility
+    // Use a small delay to ensure DOM has updated
+    const focusTimeout = setTimeout(() => {
+      focusMainContent();
+    }, 100);
+
+    return () => clearTimeout(focusTimeout);
   }, [location.pathname]);
 
   return null;

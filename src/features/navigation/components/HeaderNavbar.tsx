@@ -33,7 +33,7 @@ export function HeaderNavbar() {
   };
 
   return (
-    <nav className="navbar">
+    <nav id="main-navigation" className="navbar" aria-label={t('navigation.mainNavigation', 'Main Navigation')}>
       <Link
         to={`/${currLang}/studios`}
         className="navbar-link"

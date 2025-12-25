@@ -3,12 +3,14 @@ import { SkeletonLoader } from '@shared/components';
 
 interface GenericImageProps {
   src: string;
-  alt?: string;
+  alt: string; // Required - must provide alt text for accessibility
   className?: string;
   onClick?: () => void;
   width?: number;
   loading?: 'lazy' | 'eager';
   blurHash?: string;
+  /** Set to true if image is decorative (will use empty alt) */
+  decorative?: boolean;
 }
 
 export const GenericImage: React.FC<GenericImageProps> = ({
@@ -17,7 +19,8 @@ export const GenericImage: React.FC<GenericImageProps> = ({
   className,
   onClick,
   width = 800,
-  loading = 'lazy'
+  loading = 'lazy',
+  decorative = false
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,7 +42,7 @@ export const GenericImage: React.FC<GenericImageProps> = ({
                (max-width: 899px) 900px,
                (max-width: 1199px) 1200px,
                1200px"
-        alt={alt}
+        alt={decorative ? '' : alt}
         loading={loading}
         className={`generic-image ${className} ${isLoading ? 'loading' : 'loaded'}`}
         onClick={onClick}

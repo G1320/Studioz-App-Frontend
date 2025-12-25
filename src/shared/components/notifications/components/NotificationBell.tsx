@@ -12,20 +12,25 @@ export const NotificationBell: React.FC = () => {
   // In LTR: anchors to bottom-right, opens left
   // In RTL: CSS flips it to anchor to bottom-left (visually right), opens right
   return (
-    <PopupDropdown
-      trigger={
-        <button
-          className="notification-bell__button header-icon-button"
-          aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
-        >
-          <NotificationsIcon className="notification-bell__icon" />
-          {unreadCount > 0 && (
-            <span className="notification-bell__badge" aria-label={`${unreadCount} unread notifications`}>
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
-          )}
-        </button>
-      }
+    <>
+      {/* Screen reader announcement for notification count changes */}
+      <div aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {unreadCount > 0 && `${unreadCount} unread notification${unreadCount === 1 ? '' : 's'}`}
+      </div>
+      <PopupDropdown
+        trigger={
+          <button
+            className="notification-bell__button header-icon-button"
+            aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
+          >
+            <NotificationsIcon className="notification-bell__icon" />
+            {unreadCount > 0 && (
+              <span className="notification-bell__badge" aria-label={`${unreadCount} unread notifications`}>
+                {unreadCount > 99 ? '99+' : unreadCount}
+              </span>
+            )}
+          </button>
+        }
       className="notification-bell"
       anchor="bottom-right"
       minWidth="320px"
@@ -33,5 +38,6 @@ export const NotificationBell: React.FC = () => {
     >
       <NotificationList />
     </PopupDropdown>
+    </>
   );
 };

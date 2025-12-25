@@ -39,7 +39,11 @@ export const PhoneAccessForm: React.FC<PhoneAccessFormProps> = ({ onPhoneSubmit,
         <p className="phone-access-form__subtitle">{t('enterPhoneToView')}</p>
         <form onSubmit={handleSubmit} className="phone-access-form__form">
           <div className="phone-access-form__input-container">
+            <label htmlFor="phone-input" className="phone-access-form__label">
+              {t('phoneLabel', 'Phone Number')}
+            </label>
             <input
+              id="phone-input"
               type="tel"
               className="phone-access-form__input"
               placeholder={t('phonePlaceholder')}
@@ -48,6 +52,7 @@ export const PhoneAccessForm: React.FC<PhoneAccessFormProps> = ({ onPhoneSubmit,
               dir={isRTL ? 'rtl' : 'ltr'}
               disabled={isLoading}
               pattern="[0-9]*"
+              aria-required="true"
             />
           </div>
           <button type="submit" className="phone-access-form__submit-button" disabled={isLoading || !phone.trim()}>

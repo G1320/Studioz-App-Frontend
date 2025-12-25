@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense, useMemo } from 'react';
-import { scrollToTop } from '@shared/utility-components/ScrollToTop';
+import { scrollToTop, focusMainContent } from '@shared/utility-components/ScrollToTop';
 
 import HomePage from '@features/home/pages/HomePage';
 import WishListsPage from '@features/entities/wishlists/pages/WishlistsPage';
@@ -87,6 +87,11 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           // Only scroll on enter animation, not exit
           if (definition === 'enter') {
             scrollToTop();
+            // Move focus to main content for accessibility
+            // Use a small delay to ensure DOM has updated
+            setTimeout(() => {
+              focusMainContent();
+            }, 100);
           }
         }}
         style={{
