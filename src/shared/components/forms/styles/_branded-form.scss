@@ -168,11 +168,6 @@
       border-bottom: none;
     }
 
-    &:hover {
-      background: vars.$white-opacity-03;
-      border-radius: vars.$border-radius-small;
-    }
-
     .day-switch-container {
       display: flex;
       flex-direction: row;

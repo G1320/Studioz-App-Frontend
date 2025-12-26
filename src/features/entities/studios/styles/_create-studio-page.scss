@@ -2,9 +2,7 @@
 @use '../../../../shared/components/forms/styles' as forms;
 
 .create-studio-page {
-  padding: vars.$spacing-xl vars.$spacing-medium;
   max-width: 800px;
-  margin: 0 auto;
 
   > section {
     > h1 {

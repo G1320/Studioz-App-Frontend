@@ -40,10 +40,6 @@
       border-bottom: 1px solid vars.$light-gray-e5e7eb;
       transition: background-color 0.2s;
 
-      &:hover {
-        background: vars.$light-gray-f8fafc;
-      }
-
       .day-switch-container {
         display: flex;
         align-items: center;

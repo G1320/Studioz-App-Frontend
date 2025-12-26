@@ -48,7 +48,7 @@
     },
     "address": {
       "label": "כתובת",
-      "placeholder": "הכנס כתובת סטודיו"
+      "placeholder": "נא לבחור מהרשימה"
     },
     "website": {
       "label": "אתר אינטרנט",

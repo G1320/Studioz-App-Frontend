@@ -214,6 +214,7 @@ export const GenericForm = ({
                   </label>
                   <GoogleAddressAutocomplete
                     defaultValue={field.value || ''}
+                    placeholder={field.placeholder}
                     onPlaceSelected={handlePlaceSelected}
                     fieldName={field.name}
                     onInputChange={(value: string) => {

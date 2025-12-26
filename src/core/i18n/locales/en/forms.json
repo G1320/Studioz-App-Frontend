@@ -48,7 +48,7 @@
     },
     "address": {
       "label": "Address",
-      "placeholder": "Enter studio address"
+      "placeholder": "Please select from list"
     },
     "website": {
       "label": "Website",
