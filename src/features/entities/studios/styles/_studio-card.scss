@@ -5,6 +5,9 @@
   position: relative;
   height: clamp(190px, 234px, fit-content);
   min-height: 190px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   padding: 0 0.5rem 0.5rem 0.5rem;
   gap: 0.5rem;
