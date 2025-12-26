@@ -5,7 +5,7 @@ import { refreshAccessToken } from '@shared/services/auth-service';
 
 const BASE_URL: string =
   import.meta.env.VITE_NODE_ENV === 'production'
-    ? 'https://api.studioz.co.il/api'
+    ? 'https://studioz-backend.onrender.com/api' // Temporarily using old domain until SSL certificate is ready for api.studioz.co.il
     : 'http://localhost:3003/api';
 
 const axios = Axios.create({
