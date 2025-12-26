@@ -6,11 +6,6 @@ main {
   max-width: clamp(100%, 80vw, 2300px);
   padding: 0.5rem 1rem 0.5rem 1rem;
   padding-top: 2rem;
-  .studio-details-page {
-    .hero {
-      display: none;
-    }
-  }
 }
 
 body:has(.home-page) main {
