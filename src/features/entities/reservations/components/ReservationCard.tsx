@@ -65,7 +65,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
   const startTime = reservation.timeSlots[0];
   const startDateTime = dayjs(`${reservation.bookingDate} ${startTime}`, 'DD/MM/YYYY HH:mm');
-  const formattedStartTime = startDateTime.format('h:mm A');
+  const endDateTime = startDateTime.add(reservation.timeSlots.length, 'hour');
+  const formattedStartTime = startDateTime.format('HH:mm');
+  const formattedEndTime = endDateTime.format('HH:mm');
+  const formattedTimeRange = `${formattedStartTime} - ${formattedEndTime}`;
   const formattedDate = dayjs(reservation.bookingDate, 'DD/MM/YYYY').format('MMM DD, YYYY');
 
   const getStatusColor = (status: string) => {
@@ -144,15 +147,16 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
           <span className="reservation-card__label">{t('visitDate')}:</span>
           <span className="reservation-card__value">{formattedDate}</span>
         </div>
-        <div className="reservation-card__detail-row">
-          <span className="reservation-card__label">{t('time')}:</span>
-          <span className="reservation-card__value">{formattedStartTime}</span>
-        </div>
+
         <div className="reservation-card__detail-row">
           <span className="reservation-card__label">{t('duration')}:</span>
           <span className="reservation-card__value">
             {reservation.timeSlots.length} {reservation.timeSlots.length === 1 ? t('hour') : t('hours')}
           </span>
+        </div>
+        <div className="reservation-card__detail-row">
+          <span className="reservation-card__label">{t('time')}:</span>
+          <span className="reservation-card__value">{formattedTimeRange}</span>
         </div>
         {reservation.customerName && (
           <div className="reservation-card__detail-row">

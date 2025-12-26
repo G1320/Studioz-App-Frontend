@@ -4,9 +4,7 @@ import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { refreshAccessToken } from '@shared/services/auth-service';
 
 const BASE_URL: string =
-  import.meta.env.VITE_NODE_ENV === 'production'
-    ? 'https://studioz-backend.onrender.com/api' // Temporarily using old domain until SSL certificate is ready for api.studioz.co.il
-    : 'http://localhost:3003/api';
+  import.meta.env.VITE_NODE_ENV === 'production' ? 'https://api.studioz.co.il/api' : 'http://localhost:3003/api';
 
 const axios = Axios.create({
   withCredentials: true
