@@ -64,6 +64,13 @@ footer.mobile-footer {
       0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
+  // Remove outline and border on focus - only color change for selected state
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, 0.1); // Keep default border, no change
+  }
+
   &[aria-current='page'] {
     // border-color: rgba(vars.$color-brand, 0.4);
     color: vars.$color-brand;
@@ -78,6 +85,13 @@ footer.mobile-footer {
 
     &:hover {
       border-color: rgba(vars.$color-brand, 0.5);
+    }
+
+    // Ensure no outline or border change on focus for selected links
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      border: 1px solid rgba(255, 255, 255, 0.1); // Keep default border
     }
   }
 }
