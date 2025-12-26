@@ -27,6 +27,22 @@
   .swiper-slide {
     height: 100%;
     overflow: hidden;
+    // Ensure consistent sizing for studio cards
+    display: flex;
+    align-items: stretch;
+    // Force consistent width calculation - Swiper will still calculate based on slidesPerView
+    // but this ensures cards fill their container
+    width: auto;
+
+    .studio-card {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      // Ensure card doesn't shrink or grow
+      min-width: 0;
+      max-width: 100%;
+    }
   }
 
   .swiper-slide.dimmed {

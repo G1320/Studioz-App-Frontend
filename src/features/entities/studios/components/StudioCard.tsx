@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GenericImageGallery } from '@shared/components';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { calculateDistance } from '@shared/utils/distanceUtils';
 import { StudioFeatures } from './StudioFeatures';
+import { StudioCardHeader } from './StudioCardHeader';
 import '../styles/_studio-card.scss';
 
 interface StudioCardProps {
@@ -38,12 +38,7 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
       key={studio?._id}
       className="card studio-card"
     >
-      <GenericImageGallery
-        entity={studio}
-        coverImage={studio?.coverImage}
-        galleryImages={studio?.galleryImages}
-        isGalleryImagesShown={false}
-      />
+      <StudioCardHeader studio={studio} />
       <div className="studio-card-name-and-description">
         <h3 className="title">{studio?.name?.en}</h3>
         <p className="description">{studio?.subtitle?.[currentLang] || studio?.description?.en}</p>

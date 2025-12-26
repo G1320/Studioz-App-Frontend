@@ -5,41 +5,54 @@
   position: relative;
   height: clamp(190px, 234px, fit-content);
   min-height: 190px;
-
+  overflow: hidden;
   padding: 0 0.5rem 0.5rem 0.5rem;
-  max-width: 1100px;
   gap: 0.5rem;
   background: vars.$card-bg-color;
+  box-sizing: border-box;
 
   cursor: pointer;
   @container (max-width: 270px) {
     container-type: inline-size;
   }
 
-  .image-container {
+  .studio-card-header {
     position: relative;
-    width: calc(100% + 1rem);
-    place-self: center;
-    height: 0;
-    aspect-ratio: 3/2;
-    border-top-left-radius: vars.$border-radius-medium;
-    border-top-right-radius: vars.$border-radius-medium;
-    padding-bottom: 50.67%;
+    // Extend to cover left (0.5rem) + right (0.5rem) padding = 1rem total
+    width: calc(100% + 2rem);
+    // Offset to cover left padding and reach the left edge
+    // margin-left: -0.5rem;
+    // Offset to reach the top edge (card has no top padding, but ensure it's flush)
+    margin-top: -0.5rem;
+    aspect-ratio: 2/1;
+
     overflow: hidden;
     background-color: vars.$light-gray-f0f0f0-5b;
+    flex-shrink: 0;
+    // Ensure consistent sizing - prevent any content from affecting dimensions
+    min-height: 0;
+    // Force layout containment to prevent content from affecting size
+    contain: layout style;
+    // Ensure aspect ratio is always enforced
+    min-width: 0;
     @container (max-width: 270px) {
       height: 115px;
-      padding-bottom: 0;
       aspect-ratio: unset;
     }
+
+    // Target the GenericImage component's structure - ensure it fills the header
 
     .generic-image {
       position: absolute;
       top: 0;
       left: 0;
-
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       transition: opacity 0.3s ease;
+
+      max-width: 100%;
+      max-height: 100%;
 
       &.loading {
         opacity: 0;
@@ -50,15 +63,13 @@
       }
     }
   }
-  img {
-    max-width: calc(100% + 1rem);
-    place-self: center;
-  }
+
   * {
     justify-self: start;
   }
 
   .studio-features-container {
+    align-self: start;
     .distance-badge,
     .studio-rating__badge,
     .studio-features.div[role='group'] {
@@ -68,10 +79,12 @@
 
   .studio-features {
     gap: 0.25rem;
+    align-self: start;
   }
 
   .studio-card-name-and-description {
     text-align: start;
+    align-self: start;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
