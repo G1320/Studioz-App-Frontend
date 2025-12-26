@@ -31,7 +31,7 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
       {averageRating !== undefined && (
         <StudioRating averageRating={averageRating} reviewCount={reviewCount} variant="badge" showCount={false} />
       )}
-      {distance !== null && distance !== undefined && <DistanceBadge distance={distance} showIcon={false} />}
+      {distance !== null && distance !== undefined && <DistanceBadge distance={distance} />}
       {studio?.city && (
         <StudioBadges className="studio-city-badge">
           <span>{studio.city}</span>
