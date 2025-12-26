@@ -35,10 +35,17 @@ html[lang='en'] {
   direction: ltr;
 }
 
+// Prevent scroll restoration to avoid jerky scroll on page load
+html {
+  scroll-behavior: auto; // Use 'auto' instead of 'smooth' to prevent unwanted scrolling
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   font-size: vars.$font-size-medium;
   font-weight: 400;
+  // Prevent scroll restoration
+  overflow-x: hidden;
 }
 
 p {
