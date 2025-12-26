@@ -96,8 +96,24 @@
       "song": "שיר"
     },
     "fileUploader": {
-      "image": "העלאת תמונות",
+      "image": " תמונות",
       "audio": "העלאת קבצי שמע",
+      "fileType": {
+        "image": "תמונה",
+        "audio": "שמע"
+      },
+      "dropZone": {
+        "multiple": "גרור תמונות לכאן",
+        "single": "גרור את קובץ ה-{{fileType}} הראשי שלך לכאן"
+      },
+      "uploading": "מעלה…",
+      "uploadingAriaLabel": "מעלה קבצים",
+      "errors": {
+        "invalidMimeType": "דולג על \"{{fileName}}\" מכיוון שזה לא סוג MIME תקין.",
+        "invalidExtension": "דולג על \"{{fileName}}\" מכיוון שסיומת הקובץ לא תקינה.",
+        "fileTooLarge": "דולג על \"{{fileName}}\" מכיוון שהוא גדול מהמקסימום המותר של 9MB.",
+        "generic": "דולג על \"{{fileName}}\" עקב שגיאה: {{errorMessage}}."
+      },
       "success": {
         "image": "התמונות הועלו בהצלחה",
         "audio": "קבצי השמע הועלו בהצלחה"

@@ -98,6 +98,22 @@
     "fileUploader": {
       "image": "Upload Images",
       "audio": "Upload Audio Files",
+      "fileType": {
+        "image": "image",
+        "audio": "audio"
+      },
+      "dropZone": {
+        "multiple": "Drop {{fileType}} files here",
+        "single": "Drop your main {{fileType}} file here"
+      },
+      "uploading": "Uploading…",
+      "uploadingAriaLabel": "Uploading files",
+      "errors": {
+        "invalidMimeType": "Skipped \"{{fileName}}\" because it is not a valid MIME type.",
+        "invalidExtension": "Skipped \"{{fileName}}\" because an invalid file extension was provided.",
+        "fileTooLarge": "Skipped \"{{fileName}}\" because it is larger than the maximum 9MB allowed.",
+        "generic": "Skipped \"{{fileName}}\" due to error: {{errorMessage}}."
+      },
       "success": {
         "image": "Images uploaded successfully",
         "audio": "Audio files uploaded successfully"

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
+import { useTranslation } from 'react-i18next';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { GenericImageGallery, GenericAudioGallery } from '@shared/components';
@@ -42,6 +43,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   onRemoveImage,
   onReorderImages
 }) => {
+  const { t } = useTranslation('forms');
   const [preview, setPreview] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
   const gallerySnapshotRef = useRef<string>(JSON.stringify(galleryFiles || []));
@@ -63,19 +65,19 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       acceptedFiles.forEach((file) => {
         const extension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
         if (!Object.keys(validMimeTypes).includes(file.type)) {
-          newErrors.push(`Skipped "${file.name}" because it is not a valid MIME type.`);
+          newErrors.push(t('form.fileUploader.errors.invalidMimeType', { fileName: file.name }));
         }
         if (!validMimeTypes[file.type]?.includes(extension)) {
-          newErrors.push(`Skipped "${file.name}" because an invalid file extension was provided.`);
+          newErrors.push(t('form.fileUploader.errors.invalidExtension', { fileName: file.name }));
         }
       });
 
       fileRejections.forEach(({ file, errors }) => {
         errors.forEach((error) => {
           if (error.code === 'file-too-large') {
-            newErrors.push(`Skipped "${file.name}" because it is larger than the maximum 9MB allowed.`);
+            newErrors.push(t('form.fileUploader.errors.fileTooLarge', { fileName: file.name }));
           } else {
-            newErrors.push(`Skipped "${file.name}" due to error: ${error.message}.`);
+            newErrors.push(t('form.fileUploader.errors.generic', { fileName: file.name, errorMessage: error.message }));
           }
         });
       });
@@ -148,7 +150,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           {isDragActive ? (
             <ArrowDropDownCircleIcon className="icon" />
           ) : (
-            <small>{multiple ? `Drop ${fileType} files here` : `Drop your main ${fileType} file here`}</small>
+            <small>
+              {multiple
+                ? t('form.fileUploader.dropZone.multiple', { fileType: t(`form.fileUploader.fileType.${fileType}`) })
+                : t('form.fileUploader.dropZone.single', { fileType: t(`form.fileUploader.fileType.${fileType}`) })}
+            </small>
           )}
           {preview ? (
             fileType === 'image' ? (
@@ -164,9 +170,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         </div>
 
         {isUploading && (
-          <div className="file-uploader-loading" role="status" aria-live="polite" aria-label="Uploading files">
+          <div className="file-uploader-loading" role="status" aria-live="polite" aria-label={t('form.fileUploader.uploadingAriaLabel')}>
             <div className="file-uploader-loading__spinner" />
-            <span className="file-uploader-loading__label">Uploading…</span>
+            <span className="file-uploader-loading__label">{t('form.fileUploader.uploading')}</span>
           </div>
         )}
       </div>

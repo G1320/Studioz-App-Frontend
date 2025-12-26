@@ -88,6 +88,10 @@ body,
   border-radius: vars.$border-radius-medium;
 }
 
+.render-item-container {
+  min-height: fit-content;
+}
+
 // Styles for the general Paper components
 .MuiPaper-root {
   .MuiPaper-elevation {
