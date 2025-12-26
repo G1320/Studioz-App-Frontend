@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, StatusBadge } from '@shared/components';
+import { Button, StatusBadge, InstantBookBadge } from '@shared/components';
 import {
   useAddItemToWishlistMutation,
   useRemoveItemFromStudioMutation,
@@ -70,6 +70,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
             ₪{item?.price}/{getTranslatedPricePer(item?.pricePer || '')}
           </small>
           <StatusBadge createdAt={item?.createdAt} />
+          <InstantBookBadge instantBook={item?.instantBook} />
         </div>
       </div>
       {wishlistId && (

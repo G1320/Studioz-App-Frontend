@@ -23,3 +23,4 @@ export * from './skeleton-loader';
 export * from './empty-state';
 export * from './swipeable';
 export * from './status-badge';
+export * from './instant-book-badge';
