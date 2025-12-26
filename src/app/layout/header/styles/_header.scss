@@ -313,9 +313,9 @@ header.app-header {
       grid-column: 2;
       grid-row: 1;
       align-self: center;
-
-      align-self: center;
       align-content: center;
+      align-items: center;
+      gap: 0.25rem;
       padding: 0.25rem;
       min-width: min-content;
       min-height: 24px;
@@ -327,7 +327,21 @@ header.app-header {
       transition: all 0.2s ease;
       cursor: pointer;
 
-      // Hide icon on mobile
+      // Show icon by default on mobile
+      &__icon {
+        display: block;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+// Hide icon only on XS screens (very small devices)
+@media screen and (max-width: 480px) {
+  header {
+    .header-list-studio-button-mobile {
       &__icon {
         display: none;
       }
