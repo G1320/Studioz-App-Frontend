@@ -4,7 +4,7 @@ import type { User } from 'src/types/index';
 
 const BASE_URL =
   import.meta.env.VITE_NODE_ENV === 'production'
-    ? '/api' // Use relative URL to go through Netlify proxy
+    ? 'https://studioz-backend.onrender.com/api'
     : 'http://localhost:3003/api';
 
 interface PayPalOnboardingProps {
