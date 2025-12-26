@@ -5,7 +5,7 @@ import { refreshAccessToken } from '@shared/services/auth-service';
 
 const BASE_URL: string =
   import.meta.env.VITE_NODE_ENV === 'production'
-    ? 'https://studioz-backend.onrender.com/api'
+    ? '/api' // Use relative URL to go through Netlify proxy
     : 'http://localhost:3003/api';
 
 const axios = Axios.create({
