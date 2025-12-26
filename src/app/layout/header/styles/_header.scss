@@ -64,7 +64,7 @@ header.app-header {
 
   @supports (-webkit-overflow-scrolling: touch) {
     /* iOS-specific styles */
-    position: -webkit-sticky;
+    // position: -webkit-sticky;
     -webkit-overflow-scrolling: touch;
   }
 
