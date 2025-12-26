@@ -22,6 +22,7 @@ export const ItemHeader = React.memo(({ item, studio, onImageClick }: ItemHeader
           src={studio.coverImage}
           alt={studio?.name?.en ? `${studio.name.en} cover image` : 'Studio cover image'}
           onClick={onImageClick}
+          loading="eager"
         />
       )}
     </div>
