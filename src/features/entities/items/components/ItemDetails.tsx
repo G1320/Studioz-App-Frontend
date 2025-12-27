@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard, ItemOptions } from '@features/entities';
+import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import {
   useAddItemToCartMutation,
