@@ -580,6 +580,9 @@ export const CreateStudioForm = () => {
     };
     formData.parking = selectedParking;
 
+    // Remove UI-only fields that shouldn't be sent to the API
+    delete formData.languageToggle;
+
     // Clean up socials object - remove if both fields are empty
     if (formData.socials) {
       const hasSocials = formData.socials.instagram || formData.socials.facebook;

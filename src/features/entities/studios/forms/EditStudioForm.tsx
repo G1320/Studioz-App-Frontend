@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FileUploader, GenericForm, FieldType } from '@shared/components';
-import { studioEditSchema } from '@shared/validation/schemas';
+import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
+import { studioEditSchema, studioStepSchemas } from '@shared/validation/schemas';
 import { ZodError } from 'zod';
+import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import {
   useDays,
   useMusicCategories,
@@ -37,7 +38,9 @@ interface FormData {
 export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
-  const { t } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
+  const [searchParams] = useSearchParams();
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
 
   const studio = data?.currStudio;
   const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
@@ -96,9 +99,13 @@ export const EditStudioForm = () => {
   });
 
   const FORM_ID = `edit-studio-${studioId}`;
+  // Note: Uncontrolled auto-save is disabled for stepped forms
+  // Controlled state auto-save handles categories, genres, etc.
+  // Form field data is collected by SteppedForm on step changes
   const { clearSavedData } = useFormAutoSaveUncontrolled({
     formId: FORM_ID,
-    formRef: FORM_ID
+    formRef: FORM_ID,
+    enabled: false // Disabled since SteppedForm handles data collection
   });
 
   // Controlled state object for auto-save
@@ -186,42 +193,137 @@ export const EditStudioForm = () => {
   const getParkingLabel = (value: string) => {
     return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
+
+  // Guard: Don't render form until studio data is loaded
+  if (!studio) {
+    return <div>Loading...</div>;
+  }
+
+  // Define form steps with Zod schemas (same structure as CreateStudioForm)
+  const steps: FormStep[] = useMemo(
+    () => [
+      {
+        id: 'basic-info',
+        title: t('form.steps.basicInfo') || 'Basic Information',
+        description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
+        fieldNames: [
+          'name.en',
+          'name.he',
+          'subtitle.en',
+          'subtitle.he',
+          'description.en',
+          'description.he',
+          'languageToggle'
+        ],
+        schema: studioStepSchemas['basic-info'],
+        languageToggle: true
+      },
+      {
+        id: 'categories',
+        title: t('form.steps.categories') || 'Categories & Genres',
+        description: t('form.steps.categoriesDesc') || 'Select categories and genres',
+        fieldNames: ['categories', 'subCategories', 'genres'],
+        schema: studioStepSchemas.categories
+      },
+      {
+        id: 'availability',
+        title: t('form.steps.availability') || 'Availability',
+        description: t('form.steps.availabilityDesc') || 'Set your studio hours',
+        fieldNames: ['studioAvailability'],
+        schema: studioStepSchemas.availability
+      },
+      {
+        id: 'location',
+        title: t('form.steps.location') || 'Location & Contact',
+        description: t('form.steps.locationDesc') || 'Add address and contact information',
+        fieldNames: ['address', 'phone'],
+        schema: studioStepSchemas.location
+      },
+      {
+        id: 'files',
+        title: t('form.steps.files') || 'Files & Media',
+        description: t('form.steps.filesDesc') || 'Upload images for your studio',
+        fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
+        schema: studioStepSchemas.files,
+        customContent: (
+          <FileUploader
+            fileType="image"
+            onFileUpload={async (files, type) => {
+              await handleFileUpload(files, type);
+            }}
+            galleryFiles={galleryImages}
+            isCoverShown={true}
+            onRemoveImage={handleRemoveImage}
+            onReorderImages={setGalleryImages}
+          />
+        )
+      },
+      {
+        id: 'details',
+        title: t('form.steps.details') || 'Details',
+        description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
+        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
+        schema: studioStepSchemas.details
+      }
+    ],
+    [t, galleryImages, handleFileUpload, handleRemoveImage]
+  );
+
+  // Initialize currentStepIndex from URL on mount (after steps are defined)
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl(searchParams, steps));
+
+  // Sync currentStepIndex with URL on refresh or URL change
+  useEffect(() => {
+    const urlStepIndex = getStepFromUrl(searchParams, steps);
+    if (urlStepIndex !== currentStepIndex) {
+      setCurrentStepIndex(urlStepIndex);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]); // Only sync when URL changes, not when currentStepIndex changes
+
   const fields = [
     {
       name: 'name.en',
-      label: t('form.name.en'),
+      label: `${t('form.name.en')} 🇺🇸`,
       type: 'text' as FieldType,
       value: studio?.name.en
     },
     {
       name: 'name.he',
-      label: t('form.name.he'),
+      label: `${t('form.name.he')} 🇮🇱`,
       type: 'text' as FieldType,
       value: studio?.name.he
     },
     {
       name: 'subtitle.en',
-      label: t('form.subtitle.en'),
+      label: `${t('form.subtitle.en')} 🇺🇸`,
       type: 'text' as FieldType,
       value: studio?.subtitle?.en
     },
     {
       name: 'subtitle.he',
-      label: t('form.subtitle.he'),
+      label: `${t('form.subtitle.he')} 🇮🇱`,
       type: 'text' as FieldType,
       value: studio?.subtitle?.he
     },
     {
       name: 'description.en',
-      label: t('form.description.en'),
+      label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType,
       value: studio?.description?.en
     },
     {
       name: 'description.he',
-      label: t('form.description.he'),
+      label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType,
       value: studio?.description?.he
+    },
+    {
+      name: 'languageToggle',
+      label: t('form.languageToggle.label') || 'Select language for editing',
+      type: 'languageToggle' as FieldType,
+      value: selectedLanguage,
+      onChange: setSelectedLanguage
     },
     {
       name: 'categories',
@@ -233,14 +335,14 @@ export const EditStudioForm = () => {
     },
     {
       name: 'subCategories',
-      label: arraysEqual(selectedCategories, musicCategories) ? [musicCategories] : [photoCategories],
+      label: t('form.subCategories.label') || 'Sub Categories',
       type: 'multiSelect' as FieldType,
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
       onChange: handleSubCategoryChange,
-      initialVisibleCount: 10, // enable expand with fade for longer lists
-      showAllLabel: t('form.showAll', 'Show All'),
-      showLessLabel: t('form.showLess', 'Show Less'),
+      initialVisibleCount: 12,
+      showAllLabel: t('form.subCategories.showAll', 'Show All'),
+      showLessLabel: t('form.subCategories.showLess', 'Show Less'),
       className: 'subcategories-plain'
     },
     {
@@ -250,13 +352,19 @@ export const EditStudioForm = () => {
       options: genres,
       value: selectedGenres,
       onChange: handleGenreChange,
-      bubbleStyle: true
+      bubbleStyle: true,
+      initialVisibleCount: 14,
+      showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
+      showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
     },
     {
       name: 'studioAvailability',
       type: 'businessHours' as const,
       label: t('form.studioAvailability.label'),
-      value: studio?.studioAvailability || { days: [], times: [{ start: '09:00', end: '17:00' }] },
+      value: {
+        days: selectedDisplayDays,
+        times: selectedDisplayDays.map((day) => studioHours[day] || { start: openingHour, end: closingHour })
+      },
       onChange: (value: StudioAvailability) => {
         setSelectedDisplayDays(value.days);
         setStudioHours((prev) => {
@@ -267,8 +375,8 @@ export const EditStudioForm = () => {
           return newHours;
         });
 
-        setOpeningHour(value.times[0]?.start);
-        setClosingHour(value.times[0]?.end);
+        setOpeningHour(value.times[0]?.start || openingHour);
+        setClosingHour(value.times[0]?.end || closingHour);
       }
     },
     {
@@ -282,7 +390,32 @@ export const EditStudioForm = () => {
       name: 'phone',
       label: t('form.customerDetails.phone.label'),
       type: 'text' as FieldType,
+      value: studio?.phone,
       placeholder: t('form.customerDetails.phone.placeholder')
+    },
+    {
+      name: 'coverImage',
+      label: 'Cover Image',
+      type: 'text' as FieldType,
+      value: coverImage || galleryImages[0] || undefined
+    },
+    {
+      name: 'galleryImages',
+      label: 'Gallery Images',
+      type: 'text' as FieldType,
+      value: galleryImages
+    },
+    {
+      name: 'coverAudioFile',
+      label: 'Cover Audio File',
+      type: 'text' as FieldType,
+      value: galleryAudioFiles[0] || undefined
+    },
+    {
+      name: 'galleryAudioFiles',
+      label: 'Gallery Audio Files',
+      type: 'text' as FieldType,
+      value: galleryAudioFiles
     },
     {
       name: 'maxOccupancy',
@@ -373,6 +506,9 @@ export const EditStudioForm = () => {
       formData.isWheelchairAccessible = studio?.isWheelchairAccessible || false;
     }
 
+    // Remove UI-only fields that shouldn't be sent to the API
+    delete formData.languageToggle;
+
     // Validate enriched data
     try {
       studioEditSchema.parse(formData);
@@ -395,30 +531,27 @@ export const EditStudioForm = () => {
     });
   };
 
+  // Reset language when step changes
+  useEffect(() => {
+    setSelectedLanguage('en');
+  }, [currentStepIndex]);
+
   return (
     <section>
-      <FileUploader
-        fileType="image"
-        onFileUpload={async (files, type) => {
-          await handleFileUpload(files, type);
-        }}
-        galleryFiles={galleryImages}
-        isCoverShown={true}
-        onRemoveImage={handleRemoveImage}
-        onReorderImages={setGalleryImages}
-      />
       <section className="form-wrapper edit-studio-form-wrapper">
-        <GenericForm
+        <SteppedForm
           className="edit-studio-form"
           formId={FORM_ID}
-          title="Edit Studio"
+          steps={steps}
           fields={fields}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
-          btnTxt={t('form.submit.editStudio')}
-          schema={undefined}
-          validationMode="onSubmit"
-          showFieldErrors={true}
+          submitButtonText={t('form.submit.editStudio')}
+          nextButtonText={t('form.buttons.next') || 'Next'}
+          previousButtonText={t('form.buttons.previous') || 'Previous'}
+          selectedLanguage={selectedLanguage}
+          onLanguageChange={setSelectedLanguage}
+          onStepChange={(current) => setCurrentStepIndex(current)}
         />
       </section>
     </section>
