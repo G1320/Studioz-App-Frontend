@@ -227,6 +227,10 @@ export const GenericForm = ({
                 </div>
               );
             }
+            // Use controlled input if onChange is provided (for stepped forms), otherwise use uncontrolled (for regular forms)
+            const isControlled = !!field.onChange;
+            const inputValue = field.value !== undefined && field.value !== null ? String(field.value) : '';
+            
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                 <label htmlFor={field.name} className="form-label">
@@ -236,7 +240,10 @@ export const GenericForm = ({
                   type={field.type}
                   id={field.name}
                   name={field.name}
-                  value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
+                  {...(isControlled 
+                    ? { value: inputValue }
+                    : { defaultValue: inputValue }
+                  )}
                   className={`form-input ${inputErrorClassName}`}
                   required={!schema}
                   aria-describedby={hasError ? `error-${field.name}` : undefined}
@@ -256,6 +263,10 @@ export const GenericForm = ({
             );
 
           case 'textarea':
+            // Use controlled textarea if onChange is provided (for stepped forms), otherwise use uncontrolled (for regular forms)
+            const isTextareaControlled = !!field.onChange;
+            const textareaValue = field.value !== undefined && field.value !== null ? String(field.value) : '';
+            
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                 <label htmlFor={field.name} className="form-label">
@@ -264,7 +275,10 @@ export const GenericForm = ({
                 <textarea
                   id={field.name}
                   name={field.name}
-                  value={field.value !== undefined && field.value !== null ? String(field.value) : ''}
+                  {...(isTextareaControlled 
+                    ? { value: textareaValue }
+                    : { defaultValue: textareaValue }
+                  )}
                   className={`form-textarea ${inputErrorClassName}`}
                   rows={4}
                   required={!schema}
