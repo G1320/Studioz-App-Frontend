@@ -24,6 +24,9 @@ export type {
 export type {
   ItemFormData,
   ItemEditData,
-  ItemCreateData
+  ItemCreateData,
+  ItemStep1Data,
+  ItemStep2Data,
+  ItemStep3Data
 } from './itemSchema';
 

@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
-import { studioEditSchema, studioStepSchemas } from '@shared/validation/schemas';
+import { studioEditSchema, studioStepSchemasEdit } from '@shared/validation/schemas';
 import { ZodError } from 'zod';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import {
@@ -215,7 +215,7 @@ export const EditStudioForm = () => {
           'description.he',
           'languageToggle'
         ],
-        schema: studioStepSchemas['basic-info'],
+        schema: studioStepSchemasEdit['basic-info'],
         languageToggle: true
       },
       {
@@ -223,28 +223,28 @@ export const EditStudioForm = () => {
         title: t('form.steps.categories') || 'Categories & Genres',
         description: t('form.steps.categoriesDesc') || 'Select categories and genres',
         fieldNames: ['categories', 'subCategories', 'genres'],
-        schema: studioStepSchemas.categories
+        schema: studioStepSchemasEdit.categories
       },
       {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
         fieldNames: ['studioAvailability'],
-        schema: studioStepSchemas.availability
+        schema: studioStepSchemasEdit.availability
       },
       {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
         fieldNames: ['address', 'phone'],
-        schema: studioStepSchemas.location
+        schema: studioStepSchemasEdit.location
       },
       {
         id: 'files',
         title: t('form.steps.files') || 'Files & Media',
         description: t('form.steps.filesDesc') || 'Upload images for your studio',
         fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
-        schema: studioStepSchemas.files,
+        schema: studioStepSchemasEdit.files,
         customContent: (
           <FileUploader
             fileType="image"
@@ -263,7 +263,7 @@ export const EditStudioForm = () => {
         title: t('form.steps.details') || 'Details',
         description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
         fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
-        schema: studioStepSchemas.details
+        schema: studioStepSchemasEdit.details
       }
     ],
     [t, galleryImages, handleFileUpload, handleRemoveImage]

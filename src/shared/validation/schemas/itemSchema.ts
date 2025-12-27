@@ -181,8 +181,79 @@ export const itemCreateSchema = z.object({
 });
 
 /**
+ * Step 1: Basic Information Schema
+ * Validates: name, description
+ */
+export const itemStep1Schema = z.object({
+  name: itemNameSchema,
+  description: itemDescriptionSchema
+});
+
+/**
+ * Step 2: Categories Schema
+ * Validates: categories, subCategories
+ */
+export const itemStep2Schema = z.object({
+  categories: stringArraySchema(1, 'At least one category is required'),
+  subCategories: stringArraySchema(1, 'At least one subcategory is required')
+});
+
+/**
+ * Step 3: Pricing & Options Schema
+ * Validates: price, pricePer, instantBook
+ */
+export const itemStep3Schema = z.object({
+  price: z
+    .preprocess(
+      (val) => {
+        if (val === undefined || val === null || val === '') {
+          return undefined;
+        }
+        if (typeof val === 'string') {
+          const num = Number(val);
+          return isNaN(num) ? undefined : num;
+        }
+        return val;
+      },
+      z
+        .number()
+        .min(0.01, 'Price must be at least 0.01')
+        .max(999999, 'Price must be at most 999,999')
+        .optional()
+    ),
+  pricePer: pricePerSchema.optional(),
+  instantBook: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === '') {
+        return false;
+      }
+      if (typeof val === 'boolean') {
+        return val;
+      }
+      if (typeof val === 'string') {
+        return val === 'true' || val === '1' || val === 'on';
+      }
+      return Boolean(val);
+    },
+    z.boolean().optional()
+  )
+});
+
+/**
+ * Step schema map for easy access
+ */
+export const itemStepSchemas = {
+  'basic-info': itemStep1Schema,
+  categories: itemStep2Schema,
+  pricing: itemStep3Schema
+} as const;
+
+/**
  * Type inference from schemas
  */
 export type ItemFormData = z.infer<typeof itemFullSchema>;
 export type ItemEditData = z.infer<typeof itemEditSchema>;
 export type ItemCreateData = z.infer<typeof itemCreateSchema>;
+export type ItemStep1Data = z.infer<typeof itemStep1Schema>;
+export type ItemStep2Data = z.infer<typeof itemStep2Schema>;
+export type ItemStep3Data = z.infer<typeof itemStep3Schema>;

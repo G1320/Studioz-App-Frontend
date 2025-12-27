@@ -247,9 +247,24 @@ export const studioFullSchema = z.object({
 /**
  * Studio Edit Schema
  * Similar to full schema but with more optional fields for partial updates
+ * Allows dual-language names (English text in Hebrew field and vice versa)
  */
 export const studioEditSchema = studioFullSchema.partial().extend({
-  name: studioNameSchema.optional(),
+  // Allow dual-language names - remove Hebrew/English character restrictions for edit
+  name: z
+    .object({
+      en: z
+        .string()
+        .min(3, 'Name must be at least 3 characters')
+        .max(20, 'Name must be at most 20 characters')
+        .optional(),
+      he: z
+        .string()
+        .min(3, 'השם חייב להיות לפחות 3 תווים')
+        .max(20, 'השם חייב להיות לכל היותר 20 תווים')
+        .optional()
+    })
+    .optional(),
   categories: stringArraySchema(1).optional(),
   subCategories: stringArraySchema(1).optional(),
   maxOccupancy: z.preprocess(
@@ -284,10 +299,43 @@ export type StudioFormData = z.infer<typeof studioFullSchema>;
 export type StudioEditData = z.infer<typeof studioEditSchema>;
 
 /**
+ * Step 1 Schema for Edit (allows dual-language names)
+ * Allows English text in Hebrew field and vice versa
+ */
+export const studioStep1EditSchema = z.object({
+  name: z.object({
+    en: z
+      .string()
+      .min(3, 'Name must be at least 3 characters')
+      .max(20, 'Name must be at most 20 characters')
+      .optional(),
+    he: z
+      .string()
+      .min(3, 'השם חייב להיות לפחות 3 תווים')
+      .max(20, 'השם חייב להיות לכל היותר 20 תווים')
+      .optional()
+  }),
+  subtitle: studioSubtitleSchema.optional(),
+  description: studioDescriptionSchema.optional()
+});
+
+/**
  * Step schema map for easy access
  */
 export const studioStepSchemas = {
   'basic-info': studioStep1Schema,
+  categories: studioStep2Schema,
+  availability: studioStep3Schema,
+  location: studioStep4Schema,
+  files: studioStep5Schema,
+  details: studioStep6Schema
+} as const;
+
+/**
+ * Step schema map for edit (with flexible name validation)
+ */
+export const studioStepSchemasEdit = {
+  'basic-info': studioStep1EditSchema,
   categories: studioStep2Schema,
   availability: studioStep3Schema,
   location: studioStep4Schema,
