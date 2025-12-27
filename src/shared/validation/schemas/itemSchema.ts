@@ -240,10 +240,44 @@ export const itemStep3Schema = z.object({
 });
 
 /**
+ * Step 1 Schema for Edit (allows dual-language names and descriptions)
+ * Allows English text in Hebrew field and vice versa
+ */
+export const itemStep1EditSchema = z.object({
+  name: z.object({
+    en: z
+      .string()
+      .min(3, 'Name must be at least 3 characters')
+      .max(50, 'Name must be at most 50 characters')
+      .optional(),
+    he: z
+      .string()
+      .min(3, 'השם חייב להיות לפחות 3 תווים')
+      .max(50, 'השם חייב להיות לכל היותר 50 תווים')
+      .optional()
+  }),
+  description: z
+    .object({
+      en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
+      he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+    })
+    .optional()
+});
+
+/**
  * Step schema map for easy access
  */
 export const itemStepSchemas = {
   'basic-info': itemStep1Schema,
+  categories: itemStep2Schema,
+  pricing: itemStep3Schema
+} as const;
+
+/**
+ * Step schema map for edit (with flexible name and description validation)
+ */
+export const itemStepSchemasEdit = {
+  'basic-info': itemStep1EditSchema,
   categories: itemStep2Schema,
   pricing: itemStep3Schema
 } as const;
@@ -257,3 +291,4 @@ export type ItemCreateData = z.infer<typeof itemCreateSchema>;
 export type ItemStep1Data = z.infer<typeof itemStep1Schema>;
 export type ItemStep2Data = z.infer<typeof itemStep2Schema>;
 export type ItemStep3Data = z.infer<typeof itemStep3Schema>;
+export type ItemStep1EditData = z.infer<typeof itemStep1EditSchema>;
