@@ -47,10 +47,10 @@ export const FanMenu: React.FC<FanMenuProps> = ({ buttons, className = '' }) => 
     const spread = 90; // degrees (reduced from 120 for tighter spread)
     const radius = 72; // pixels (4.5rem)
 
-    // For RTL, reverse the direction: start from positive angle and go to negative
-    // For LTR, start from negative angle and go to positive
-    const startAngle = isRTL ? 45 : -45; // degrees (adjusted for smaller spread)
-    const angleDirection = isRTL ? -1 : 1; // Reverse direction for RTL
+    // For RTL (Hebrew): Open to the right - start from negative angle and go to positive
+    // For LTR (English): Open to the left - flip 180 degrees, start from positive angle and go to negative
+    const startAngle = isRTL ? -45 : 225; // degrees (135 = 180 - 45, flips the direction)
+    const angleDirection = isRTL ? 1 : -1; // RTL goes positive (right), LTR goes negative (left)
 
     return buttons.map((_, index) => {
       const angle = startAngle + (spread / Math.max(1, buttons.length - 1)) * index * angleDirection;

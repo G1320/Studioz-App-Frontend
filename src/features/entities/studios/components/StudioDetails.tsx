@@ -80,7 +80,6 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             onEdit={handleGoToEdit}
             onAddNewService={handleAddNewService}
           />
-
           {hasLocation && (
             <button
               onClick={() => setIsMapModalOpen(true)}
