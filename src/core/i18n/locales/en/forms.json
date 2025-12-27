@@ -136,6 +136,22 @@
       "success": "Studio created successfully",
       "error": "Failed to create studio"
     },
+    "addOn": {
+      "title": "Add-On",
+      "editTitle": "Edit Add-On",
+      "addButton": "Add Add-On",
+      "active": "Active",
+      "pending": "Pending Add-Ons",
+      "untitled": "Untitled Add-On",
+      "edit": "Edit add-on",
+      "remove": "Remove add-on",
+      "close": "Close form",
+      "addedToList": "Add-on added to list",
+      "errors": {
+        "requiredFields": "Please fill in all required fields",
+        "itemIdRequired": "Item ID is required to create add-on"
+      }
+    },
     "customerDetails": {
       "title": "Customer Details",
       "name": {

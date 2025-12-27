@@ -265,12 +265,18 @@ export const itemStep1EditSchema = z.object({
 });
 
 /**
+ * Step 4: Add-ons Schema (optional - no validation required, always passes)
+ */
+export const itemStep4Schema = z.object({}).passthrough();
+
+/**
  * Step schema map for easy access
  */
 export const itemStepSchemas = {
   'basic-info': itemStep1Schema,
   categories: itemStep2Schema,
-  pricing: itemStep3Schema
+  pricing: itemStep3Schema,
+  'add-ons': itemStep4Schema
 } as const;
 
 /**
@@ -279,7 +285,8 @@ export const itemStepSchemas = {
 export const itemStepSchemasEdit = {
   'basic-info': itemStep1EditSchema,
   categories: itemStep2Schema,
-  pricing: itemStep3Schema
+  pricing: itemStep3Schema,
+  'add-ons': itemStep4Schema
 } as const;
 
 /**

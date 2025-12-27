@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
@@ -88,61 +88,67 @@ export const EditItemForm = () => {
     setSelectedSubCategories(values);
   };
 
-  const handleAddAddOn = (addOn: PendingAddOn) => {
+  const handleAddAddOn = useCallback((addOn: PendingAddOn) => {
     setPendingAddOns((prev) => [...prev, addOn]);
-  };
+  }, []);
 
-  const handleRemoveAddOn = (index: number) => {
-    const addOnToRemove = pendingAddOns[index];
+  const handleRemoveAddOn = useCallback(
+    (index: number) => {
+      const addOnToRemove = pendingAddOns[index];
 
-    // If it's an existing add-on (has _id), delete it from backend
-    if (addOnToRemove._id) {
-      deleteAddOnMutation.mutate(addOnToRemove._id, {
-        onSuccess: () => {
-          // Remove from local state after successful deletion
-          setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
-          toast.success('Add-on deleted successfully');
-        },
-        onError: (error) => {
-          console.error('Error deleting add-on:', error);
-          toast.error('Failed to delete add-on');
-        }
-      });
-    } else {
-      // If it's a new add-on (no _id), just remove from local state
-      setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
-    }
-  };
-
-  const handleUpdateAddOn = async (index: number, updatedAddOn: PendingAddOn) => {
-    const existingAddOn = pendingAddOns[index];
-
-    // If it's an existing add-on (has _id), update it in backend
-    if (existingAddOn._id && updatedAddOn._id) {
-      try {
-        await updateAddOn(existingAddOn._id, updatedAddOn as any);
-        // Update local state after successful update
-        setPendingAddOns((prev) => prev.map((addOn, i) => (i === index ? updatedAddOn : addOn)));
-
-        // Invalidate queries to refresh data
-        await queryClient.invalidateQueries({ queryKey: ['addOn', existingAddOn._id] });
-        await queryClient.invalidateQueries({ queryKey: ['addOns'] });
-        if (itemId) {
-          await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', itemId] });
-          await queryClient.invalidateQueries({ queryKey: ['item', itemId] });
-          await queryClient.invalidateQueries({ queryKey: ['items', {}] });
-        }
-
-        toast.success('Add-on updated successfully');
-      } catch (error) {
-        console.error('Error updating add-on:', error);
-        toast.error('Failed to update add-on');
+      // If it's an existing add-on (has _id), delete it from backend
+      if (addOnToRemove._id) {
+        deleteAddOnMutation.mutate(addOnToRemove._id, {
+          onSuccess: () => {
+            // Remove from local state after successful deletion
+            setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
+            toast.success('Add-on deleted successfully');
+          },
+          onError: (error) => {
+            console.error('Error deleting add-on:', error);
+            toast.error('Failed to delete add-on');
+          }
+        });
+      } else {
+        // If it's a new add-on (no _id), just remove from local state
+        setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
       }
-    } else {
-      // If it's a new add-on, just update local state
-      setPendingAddOns((prev) => prev.map((addOn, i) => (i === index ? updatedAddOn : addOn)));
-    }
-  };
+    },
+    [pendingAddOns, deleteAddOnMutation]
+  );
+
+  const handleUpdateAddOn = useCallback(
+    async (index: number, updatedAddOn: PendingAddOn) => {
+      const existingAddOn = pendingAddOns[index];
+
+      // If it's an existing add-on (has _id), update it in backend
+      if (existingAddOn._id && updatedAddOn._id) {
+        try {
+          await updateAddOn(existingAddOn._id, updatedAddOn as any);
+          // Update local state after successful update
+          setPendingAddOns((prev) => prev.map((addOn, i) => (i === index ? updatedAddOn : addOn)));
+
+          // Invalidate queries to refresh data
+          await queryClient.invalidateQueries({ queryKey: ['addOn', existingAddOn._id] });
+          await queryClient.invalidateQueries({ queryKey: ['addOns'] });
+          if (itemId) {
+            await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', itemId] });
+            await queryClient.invalidateQueries({ queryKey: ['item', itemId] });
+            await queryClient.invalidateQueries({ queryKey: ['items', {}] });
+          }
+
+          toast.success('Add-on updated successfully');
+        } catch (error) {
+          console.error('Error updating add-on:', error);
+          toast.error('Failed to update add-on');
+        }
+      } else {
+        // If it's a new add-on, just update local state
+        setPendingAddOns((prev) => prev.map((addOn, i) => (i === index ? updatedAddOn : addOn)));
+      }
+    },
+    [pendingAddOns, queryClient, itemId]
+  );
 
   const pricePerOptions = [
     { value: 'hour', label: t('form.pricePer.hour') },
@@ -184,9 +190,29 @@ export const EditItemForm = () => {
         description: t('form.steps.pricingDesc') || 'Set price and booking options',
         fieldNames: ['price', 'pricePer', 'instantBook'],
         schema: itemStepSchemasEdit.pricing
-      }
+      },
+      ...(isFeatureEnabled('addOns')
+        ? [
+            {
+              id: 'add-ons',
+              title: t('form.steps.addOns') || 'Add-Ons',
+              description: t('form.steps.addOnsDesc') || 'Add optional add-ons to your item',
+              fieldNames: [],
+              schema: itemStepSchemasEdit['add-ons'],
+              customContent: (
+                <CreateAddOnForm
+                  mode="local"
+                  onAdd={handleAddAddOn}
+                  onRemove={handleRemoveAddOn}
+                  onUpdate={handleUpdateAddOn}
+                  pendingAddOns={pendingAddOns}
+                />
+              )
+            }
+          ]
+        : [])
     ],
-    [t]
+    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn, handleUpdateAddOn]
   );
 
   // Initialize currentStepIndex from URL on mount
@@ -363,17 +389,6 @@ export const EditItemForm = () => {
           onStepChange={(current) => setCurrentStepIndex(current)}
         />
       </section>
-      {isFeatureEnabled('addOns') && (
-        <section className="addon-form-section">
-          <CreateAddOnForm
-            mode="local"
-            onAdd={handleAddAddOn}
-            onRemove={handleRemoveAddOn}
-            onUpdate={handleUpdateAddOn}
-            pendingAddOns={pendingAddOns}
-          />
-        </section>
-      )}
     </section>
   );
 };

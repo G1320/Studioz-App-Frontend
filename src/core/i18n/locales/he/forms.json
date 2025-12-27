@@ -136,6 +136,22 @@
       "success": "הסטודיו נוצר בהצלחה",
       "error": "אירעה שגיאה בעת יצירת הסטודיו"
     },
+    "addOn": {
+      "title": "תוספת",
+      "editTitle": "ערוך תוספת",
+      "addButton": "הוסף תוספת",
+      "active": "פעיל",
+      "pending": "תוספות ממתינות",
+      "untitled": "תוספת ללא שם",
+      "edit": "ערוך תוספת",
+      "remove": "הסר תוספת",
+      "close": "סגור טופס",
+      "addedToList": "תוספת נוספה לרשימה",
+      "errors": {
+        "requiredFields": "אנא מלא את כל השדות הנדרשים",
+        "itemIdRequired": "נדרש מזהה שירות ליצירת תוספת"
+      }
+    },
     "customerDetails": {
       "title": "פרטי לקוח",
       "name": {

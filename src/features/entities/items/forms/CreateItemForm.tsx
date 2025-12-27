@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
@@ -111,13 +111,13 @@ export const CreateItemForm = () => {
     setSelectedSubCategories(values);
   };
 
-  const handleAddAddOn = (addOn: PendingAddOn) => {
+  const handleAddAddOn = useCallback((addOn: PendingAddOn) => {
     setPendingAddOns((prev) => [...prev, addOn]);
-  };
+  }, []);
 
-  const handleRemoveAddOn = (index: number) => {
+  const handleRemoveAddOn = useCallback((index: number) => {
     setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
-  };
+  }, []);
 
   // Define form steps with Zod schemas
   const steps: FormStep[] = useMemo(
@@ -143,9 +143,28 @@ export const CreateItemForm = () => {
         description: t('form.steps.pricingDesc') || 'Set price and booking options',
         fieldNames: ['price', 'pricePer', 'instantBook'],
         schema: itemStepSchemas.pricing
-      }
+      },
+      ...(isFeatureEnabled('addOns')
+        ? [
+            {
+              id: 'add-ons',
+              title: t('form.steps.addOns') || 'Add-Ons',
+              description: t('form.steps.addOnsDesc') || 'Add optional add-ons to your item',
+              fieldNames: [],
+              schema: itemStepSchemas['add-ons'],
+              customContent: (
+                <CreateAddOnForm
+                  mode="local"
+                  onAdd={handleAddAddOn}
+                  onRemove={handleRemoveAddOn}
+                  pendingAddOns={pendingAddOns}
+                />
+              )
+            }
+          ]
+        : [])
     ],
-    [t]
+    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -338,16 +357,6 @@ export const CreateItemForm = () => {
           onStepChange={(current) => setCurrentStepIndex(current)}
         />
       </section>
-      {isFeatureEnabled('addOns') && (
-        <section className="addon-form-section">
-          <CreateAddOnForm
-            mode="local"
-            onAdd={handleAddAddOn}
-            onRemove={handleRemoveAddOn}
-            pendingAddOns={pendingAddOns}
-          />
-        </section>
-      )}
     </section>
   );
 };

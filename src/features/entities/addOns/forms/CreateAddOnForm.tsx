@@ -61,12 +61,18 @@ export const CreateAddOnForm = ({
 
   const pricePerValues = pricePerOptions.map((option) => option.value);
 
+  // Helper to get display label for a value
+  const getPricePerLabel = (value: string) => {
+    const option = pricePerOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
+
   const handleSubmit = async (formData: FormData, event?: React.FormEvent<HTMLFormElement>) => {
     // Prevent bubbling into parent item forms
     event?.stopPropagation();
     // Validate required fields
     if (!formData.name?.en || !formData.price) {
-      toast.error('Please fill in all required fields');
+      toast.error(t('form.addOn.errors.requiredFields'));
       return;
     }
 
@@ -114,11 +120,11 @@ export const CreateAddOnForm = ({
       setFormKey((prev) => prev + 1);
       setPricePer('hour');
       setIsFormVisible(false);
-      toast.success('Add-on added to list');
+      toast.success(t('form.addOn.addedToList'));
     } else {
       // Immediate mode: submit to backend (needs _id for type compatibility)
       if (!itemId) {
-        toast.error('Item ID is required to create add-on');
+        toast.error(t('form.addOn.errors.itemIdRequired'));
         return;
       }
       const addOnForBackend: AddOn = {
@@ -195,11 +201,13 @@ export const CreateAddOnForm = ({
       type: 'select' as FieldType,
       options: pricePerValues,
       value: pricePer,
+      displayValue: getPricePerLabel(pricePer),
+      getOptionLabel: getPricePerLabel,
       onChange: (value: string) => setPricePer(value)
     },
     {
       name: 'isActive',
-      label: 'Active',
+      label: t('form.addOn.active'),
       type: 'checkbox' as FieldType,
       value: editingAddOn?.isActive ?? true
     }
@@ -210,16 +218,18 @@ export const CreateAddOnForm = ({
       {/* Show pending add-ons list in local mode */}
       {mode === 'local' && visibleAddOnsCount > 0 && (
         <div className="pending-addons-list">
-          <h3>Pending Add-Ons ({visibleAddOnsCount})</h3>
+          <h3>
+            {t('form.addOn.pending')} ({visibleAddOnsCount})
+          </h3>
           <div>
             {pendingAddOns.map((addOn, index) =>
               editingIndex === index ? null : (
                 <div key={addOn._id || index} className="pending-addon-card">
                   <div className="pending-addon-content">
-                    <div className="pending-addon-title">{addOn.name?.en || 'Untitled Add-On'}</div>
+                    <div className="pending-addon-title">{addOn.name?.en || t('form.addOn.untitled')}</div>
                     {addOn.price !== undefined && (
                       <div className="pending-addon-price">
-                        ${addOn.price} / {addOn.pricePer || 'hour'}
+                        ${addOn.price} / {getPricePerLabel(addOn.pricePer || 'hour')}
                       </div>
                     )}
                   </div>
@@ -228,8 +238,8 @@ export const CreateAddOnForm = ({
                       <button
                         type="button"
                         onClick={() => handleEdit(index)}
-                        title="Edit add-on"
-                        aria-label="Edit add-on"
+                        title={t('form.addOn.edit')}
+                        aria-label={t('form.addOn.edit')}
                       >
                         <EditIcon />
                       </button>
@@ -238,8 +248,8 @@ export const CreateAddOnForm = ({
                       <button
                         type="button"
                         onClick={() => onRemove(index)}
-                        title="Remove add-on"
-                        aria-label="Remove add-on"
+                        title={t('form.addOn.remove')}
+                        aria-label={t('form.addOn.remove')}
                       >
                         <DeleteIcon />
                       </button>
@@ -257,21 +267,23 @@ export const CreateAddOnForm = ({
           type="button"
           className="add-addon-button"
           onClick={() => setIsFormVisible(true)}
-          title={t('form.addAddOn') || 'Add Add-On'}
-          aria-label={t('form.addAddOn') || 'Add Add-On'}
+          title={t('form.addOn.addButton')}
+          aria-label={t('form.addOn.addButton')}
         >
           <AddIcon className="add-addon-icon" />
         </button>
       ) : (
         <div className="addon-form-content">
           <div className="create-addon-form-header">
-            <h2 className="create-addon-form-title">{editingIndex !== null ? 'Edit Add-On' : 'Add-On'}</h2>
+            <h2 className="create-addon-form-title">
+              {editingIndex !== null ? t('form.addOn.editTitle') : t('form.addOn.title')}
+            </h2>
             <button
               type="button"
               className="close-addon-form-button"
               onClick={handleCancelEdit}
-              aria-label="Close form"
-              title="Close form"
+              aria-label={t('form.addOn.close')}
+              title={t('form.addOn.close')}
             >
               <CloseIcon />
             </button>
