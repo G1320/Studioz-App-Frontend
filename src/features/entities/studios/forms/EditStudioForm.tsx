@@ -516,6 +516,25 @@ export const EditStudioForm = () => {
       formData.isWheelchairAccessible = studio?.isWheelchairAccessible || false;
     }
 
+    // Ensure Hebrew fields are preserved from existing studio if not provided in formData
+    // Merge name object to preserve both English and Hebrew
+    formData.name = {
+      en: formData.name?.en || studio?.name?.en || '',
+      he: formData.name?.he || studio?.name?.he || ''
+    };
+
+    // Merge subtitle object to preserve both English and Hebrew
+    formData.subtitle = {
+      en: formData.subtitle?.en || studio?.subtitle?.en || '',
+      he: formData.subtitle?.he || studio?.subtitle?.he || ''
+    };
+
+    // Merge description object to preserve both English and Hebrew
+    formData.description = {
+      en: formData.description?.en || studio?.description?.en || '',
+      he: formData.description?.he || studio?.description?.he || ''
+    };
+
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;
 

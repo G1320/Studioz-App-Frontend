@@ -261,6 +261,20 @@ export const studioEditSchema = studioFullSchema.partial().extend({
       he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים').optional()
     })
     .optional(),
+  // Allow dual-language subtitle - remove Hebrew/English character restrictions for edit
+  subtitle: z
+    .object({
+      en: z.string().max(100, 'Subtitle must be at most 100 characters').optional(),
+      he: z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+    })
+    .optional(),
+  // Allow dual-language description - remove Hebrew/English character restrictions for edit
+  description: z
+    .object({
+      en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
+      he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+    })
+    .optional(),
   categories: stringArraySchema(1).optional(),
   subCategories: stringArraySchema(1).optional(),
   maxOccupancy: z.preprocess((val) => {
