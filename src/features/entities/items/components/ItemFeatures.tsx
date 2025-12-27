@@ -3,7 +3,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddIcon from '@mui/icons-material/Add';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ListIcon from '@mui/icons-material/List';
-import { Item, Wishlist } from 'src/types/index';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import { Item, Wishlist, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { ItemBadges } from './ItemBadges';
@@ -17,6 +18,8 @@ interface ItemFeaturesProps {
   onAddToWishlist?: (wishlistId: string) => void;
   userId?: string;
   showDistanceBadge?: boolean;
+  user?: User;
+  onEdit?: (itemId: string) => void;
 }
 
 export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
@@ -25,7 +28,9 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
   distance,
   onAddToWishlist,
   userId,
-  showDistanceBadge = true
+  showDistanceBadge = true,
+  user,
+  onEdit
 }) => {
   const { t } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
@@ -109,6 +114,15 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
               )}
             </div>
           </PopupDropdown>
+          {user?._id && user._id === item?.createdBy && onEdit && (
+            <button
+              className="item-card-edit-button"
+              onClick={() => onEdit(item?._id || '')}
+              aria-label="Edit item"
+            >
+              <EditNoteIcon />
+            </button>
+          )}
         </ItemBadges>
       )}
     </div>

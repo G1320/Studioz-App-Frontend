@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard } from '@features/entities';
+import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard, ItemOptions } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import {
   useAddItemToCartMutation,
@@ -192,7 +192,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         onEdit={handleGoToEdit}
         onImageClick={handleImageClicked}
       />
-      <ItemCard item={item as Item} />
+      <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} />
       {currentReservationId && reservation && (
         <ReservationCard
           reservation={reservation}

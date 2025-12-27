@@ -9,7 +9,7 @@ import {
 } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
-import { Item, Wishlist } from 'src/types/index';
+import { Item, Wishlist, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { calculateDistance } from '@shared/utils/distanceUtils';
 import { featureFlags } from '@core/config/featureFlags';
@@ -20,11 +20,20 @@ interface ItemCardProps {
   item: Item;
   wishlists?: Wishlist[];
   showDistanceBadge?: boolean;
+  user?: User;
+  onEdit?: (itemId: string) => void;
 }
 
-export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDistanceBadge = true }) => {
+export const ItemCard: React.FC<ItemCardProps> = ({
+  item,
+  wishlists = [],
+  showDistanceBadge = true,
+  user: propUser,
+  onEdit
+}) => {
   const { studioId, wishlistId } = useParams();
-  const { user } = useUserContext();
+  const { user: contextUser } = useUserContext();
+  const user = propUser || contextUser;
   // const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t, i18n } = useTranslation(['common', 'forms']);
@@ -85,6 +94,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, wishlists = [], showDi
         onAddToWishlist={handleAddItemToWishlist}
         userId={user?._id}
         showDistanceBadge={showDistanceBadge}
+        user={user || undefined}
+        onEdit={onEdit}
       />
 
       {studioId && user?.isAdmin && (
