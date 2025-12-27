@@ -12,10 +12,15 @@ import { StudioAvailability } from 'src/types/studio';
 interface StudioBlockModalProps {
   studioId: string;
   studioAvailability?: StudioAvailability;
+  onClose?: () => void;
+  open?: boolean;
 }
 
-export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, studioAvailability }) => {
+export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, studioAvailability, onClose, open }) => {
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Use controlled open prop if provided, otherwise use internal state
+  const isModalOpen = open !== undefined ? open : isOpen;
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const [reason, setReason] = useState('');
@@ -68,7 +73,10 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
       });
 
       toast.success(t('studio:success.blocked_successfully'));
-      setIsOpen(false);
+      if (open === undefined) {
+        setIsOpen(false);
+      }
+      onClose?.();
       setSelectedDate(null);
       setSelectedHours(1);
       setReason('');
@@ -80,13 +88,19 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
     }
   };
 
-  return (
-    <>
-      <button onClick={() => setIsOpen(true)} className="block-time-button" title={t('studio:block_time')}>
-        <LockClockIcon className="clock-icon" />
-      </button>
+  const handleClose = () => {
+    if (!isLoading) {
+      if (open === undefined) {
+        setIsOpen(false);
+      }
+      onClose?.();
+    }
+  };
 
-      <Dialog open={isOpen} onClose={() => !isLoading && setIsOpen(false)} className="block-time-modal">
+  // If onClose is provided, this is a controlled component - don't render the trigger button
+  if (onClose !== undefined) {
+    return (
+      <Dialog open={isModalOpen} onClose={handleClose} className="block-time-modal">
         <div className="modal-content">
           <h2>{t('studio:block_time')}</h2>
 
@@ -117,7 +131,57 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
           />
 
           <div className="modal-actions">
-            <Button onClick={() => setIsOpen(false)} className="cancel-button" disabled={isLoading}>
+            <Button onClick={handleClose} className="cancel-button" disabled={isLoading}>
+              {t('common:cancel')}
+            </Button>
+            <Button onClick={handleBlockTime} className="block-button" disabled={!selectedDate || isLoading}>
+              {isLoading ? t('studio:blocking') : t('studio:block_time')}
+            </Button>
+          </div>
+        </div>
+      </Dialog>
+    );
+  }
+
+  // Default behavior: render trigger button
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)} className="block-time-button" title={t('studio:block_time')}>
+        <LockClockIcon className="clock-icon" />
+      </button>
+
+      <Dialog open={isModalOpen} onClose={handleClose} className="block-time-modal">
+        <div className="modal-content">
+          <h2>{t('studio:block_time')}</h2>
+
+          <div className="hour-selection-container">
+            <div>
+              <span className="hour-label">{t('common:hours')}:</span>
+              <span className="hour-value">{selectedHours}</span>
+            </div>
+            <div className="button-group">
+              <button className="control-button minus" onClick={handleDecrement} disabled={isLoading}>
+                −
+              </button>
+              <button className="control-button plus" onClick={handleIncrement} disabled={isLoading}>
+                +
+              </button>
+            </div>
+          </div>
+
+          <MuiDateTimePicker value={selectedDate} onChange={handleDateChange} studioAvailability={studioAvailability} />
+
+          <input
+            type="text"
+            placeholder={t('studio:block_reason')}
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            className="reason-input"
+            disabled={isLoading}
+          />
+
+          <div className="modal-actions">
+            <Button onClick={handleClose} className="cancel-button" disabled={isLoading}>
               {t('common:cancel')}
             </Button>
             <Button onClick={handleBlockTime} className="block-button" disabled={!selectedDate || isLoading}>

@@ -1,5 +1,8 @@
 {
   "block_time": "Block Studio Time",
+  "block_time_slot": "Block Time Slot",
+  "add_service": "Add Service",
+  "edit_studio": "Edit Studio",
   "block_reason": "Reason for blocking (optional)",
   "blocking": "Blocking...",
   "errors": {

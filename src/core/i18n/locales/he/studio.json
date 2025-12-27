@@ -1,5 +1,8 @@
 {
   "block_time": "חסום זמן באולפן",
+  "block_time_slot": "חסום זמן אולפן ",
+  "add_service": "הוסף שירות",
+  "edit_studio": "ערוך אולפן",
   "block_reason": "סיבה לחסימה (אופציונלי)",
   "blocking": "חוסם...",
   "errors": {
@@ -13,4 +16,3 @@
     "blocked_successfully": "משכי הזמן באולפן נחסמו בהצלחה"
   }
 }
-
