@@ -71,16 +71,18 @@ export const studioStep3Schema = z.object({
  * Social media links schema
  * Only validates if there is text, otherwise ignores the field completely
  */
-export const socialsSchema = z.object({
-  instagram: z.preprocess(
-    (val) => (val === undefined || val === null || val === '' ? undefined : val),
-    urlSchema.optional()
-  ),
-  facebook: z.preprocess(
-    (val) => (val === undefined || val === null || val === '' ? undefined : val),
-    urlSchema.optional()
-  )
-}).optional();
+export const socialsSchema = z
+  .object({
+    instagram: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    ),
+    facebook: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    )
+  })
+  .optional();
 
 /**
  * Step 4: Location & Contact Schema
@@ -230,9 +232,7 @@ export const studioFullSchema = z.object({
       }
       return val;
     },
-    positiveNumberSchema
-      .min(1, 'Max occupancy must be at least 1')
-      .max(1000, 'Max occupancy must be at most 1000')
+    positiveNumberSchema.min(1, 'Max occupancy must be at least 1').max(1000, 'Max occupancy must be at most 1000')
   ),
   isSmokingAllowed: z.boolean().default(false),
   isWheelchairAccessible: z.boolean().optional(),
@@ -258,32 +258,22 @@ export const studioEditSchema = studioFullSchema.partial().extend({
         .min(3, 'Name must be at least 3 characters')
         .max(20, 'Name must be at most 20 characters')
         .optional(),
-      he: z
-        .string()
-        .min(3, 'השם חייב להיות לפחות 3 תווים')
-        .max(20, 'השם חייב להיות לכל היותר 20 תווים')
-        .optional()
+      he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים').optional()
     })
     .optional(),
   categories: stringArraySchema(1).optional(),
   subCategories: stringArraySchema(1).optional(),
-  maxOccupancy: z.preprocess(
-    (val) => {
-      if (val === undefined || val === null || val === '') {
-        return undefined;
-      }
-      // Convert string to number
-      if (typeof val === 'string') {
-        const num = Number(val);
-        return isNaN(num) ? undefined : num;
-      }
-      return val;
-    },
-    positiveNumberSchema
-      .min(1, 'Max occupancy must be at least 1')
-      .max(1000, 'Max occupancy must be at most 1000')
-      .optional()
-  )
+  maxOccupancy: z.preprocess((val) => {
+    if (val === undefined || val === null || val === '') {
+      return undefined;
+    }
+    // Convert string to number
+    if (typeof val === 'string') {
+      const num = Number(val);
+      return isNaN(num) ? undefined : num;
+    }
+    return val;
+  }, positiveNumberSchema.min(1, 'Max occupancy must be at least 1').max(1000, 'Max occupancy must be at most 1000').optional())
 });
 
 /**
@@ -299,7 +289,7 @@ export type StudioFormData = z.infer<typeof studioFullSchema>;
 export type StudioEditData = z.infer<typeof studioEditSchema>;
 
 /**
- * Step 1 Schema for Edit (allows dual-language names)
+ * Step 1 Schema for Edit (allows dual-language names and descriptions)
  * Allows English text in Hebrew field and vice versa
  */
 export const studioStep1EditSchema = z.object({
@@ -309,14 +299,20 @@ export const studioStep1EditSchema = z.object({
       .min(3, 'Name must be at least 3 characters')
       .max(20, 'Name must be at most 20 characters')
       .optional(),
-    he: z
-      .string()
-      .min(3, 'השם חייב להיות לפחות 3 תווים')
-      .max(20, 'השם חייב להיות לכל היותר 20 תווים')
-      .optional()
+    he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים').optional()
   }),
-  subtitle: studioSubtitleSchema.optional(),
-  description: studioDescriptionSchema.optional()
+  subtitle: z
+    .object({
+      en: z.string().max(100, 'Subtitle must be at most 100 characters').optional(),
+      he: z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+    })
+    .optional(),
+  description: z
+    .object({
+      en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
+      he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+    })
+    .optional()
 });
 
 /**

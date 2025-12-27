@@ -20,10 +20,9 @@ import {
   useControlledStateAutoSave
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
-import { arraysEqual } from '@shared/utils';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
-interface FormData {
+interface StudioFormData {
   coverImage?: string;
   galleryImages?: string[];
   coverAudioFile?: string;
@@ -33,12 +32,19 @@ interface FormData {
   genres?: string[];
   studioAvailability?: StudioAvailability;
   parking?: 'none' | 'free' | 'paid';
+  lat?: number | string;
+  lng?: number | string;
+  city?: string;
+  isSmokingAllowed?: boolean | string;
+  isWheelchairAccessible?: boolean | string;
+  languageToggle?: string;
+  [key: string]: any; // Allow additional properties from form
 }
 
 export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
-  const { t, i18n } = useTranslation('forms');
+  const { t } = useTranslation('forms');
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
 
@@ -194,11 +200,6 @@ export const EditStudioForm = () => {
     return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
 
-  // Guard: Don't render form until studio data is loaded
-  if (!studio) {
-    return <div>Loading...</div>;
-  }
-
   // Define form steps with Zod schemas (same structure as CreateStudioForm)
   const steps: FormStep[] = useMemo(
     () => [
@@ -270,7 +271,7 @@ export const EditStudioForm = () => {
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
-  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl(searchParams, steps));
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   // Sync currentStepIndex with URL on refresh or URL change
   useEffect(() => {
@@ -448,25 +449,28 @@ export const EditStudioForm = () => {
     }
   ];
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (formData: StudioFormData) => {
     const englishSubCategories = selectedDisplaySubCategories.map((displayValue) => getEnglishByDisplay(displayValue));
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     // Enrich form data with controlled state
     formData.coverImage = coverImage || studio?.coverImage || '';
-    formData.galleryImages = galleryImages.length > 0 ? galleryImages : (studio?.galleryImages || []);
+    formData.galleryImages = galleryImages.length > 0 ? galleryImages : studio?.galleryImages || [];
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
-    formData.genres = englishGenres.length > 0 ? englishGenres : (studio?.genres || []);
+    formData.genres = englishGenres.length > 0 ? englishGenres : studio?.genres || [];
     formData.galleryAudioFiles = galleryAudioFiles;
-    
+
     // Ensure studioAvailability has valid days and times
     const availabilityDays = selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[];
     const availabilityTimes = selectedDisplayDays.map((day) => studioHours[day]).filter(Boolean);
-    
+
     formData.studioAvailability = {
-      days: availabilityDays.length > 0 ? availabilityDays : (studio?.studioAvailability?.days || []),
-      times: availabilityTimes.length > 0 ? availabilityTimes : (studio?.studioAvailability?.times || [{ start: '09:00', end: '17:00' }])
+      days: availabilityDays.length > 0 ? availabilityDays : studio?.studioAvailability?.days || [],
+      times:
+        availabilityTimes.length > 0
+          ? availabilityTimes
+          : studio?.studioAvailability?.times || [{ start: '09:00', end: '17:00' }]
     };
     formData.parking = selectedParking;
 
@@ -477,7 +481,7 @@ export const EditStudioForm = () => {
     } else if (!formData.lat) {
       formData.lat = studio?.lat;
     }
-    
+
     if (formData.lng && typeof formData.lng === 'string') {
       formData.lng = parseFloat(formData.lng) || studio?.lng || undefined;
     } else if (!formData.lng) {
@@ -492,7 +496,10 @@ export const EditStudioForm = () => {
     // Convert booleans from strings to booleans
     if (formData.isSmokingAllowed !== undefined) {
       if (typeof formData.isSmokingAllowed === 'string') {
-        formData.isSmokingAllowed = formData.isSmokingAllowed === 'true' || formData.isSmokingAllowed === 'on' || formData.isSmokingAllowed === '1';
+        formData.isSmokingAllowed =
+          formData.isSmokingAllowed === 'true' ||
+          formData.isSmokingAllowed === 'on' ||
+          formData.isSmokingAllowed === '1';
       }
     } else {
       formData.isSmokingAllowed = studio?.isSmokingAllowed || false;
@@ -500,7 +507,10 @@ export const EditStudioForm = () => {
 
     if (formData.isWheelchairAccessible !== undefined) {
       if (typeof formData.isWheelchairAccessible === 'string') {
-        formData.isWheelchairAccessible = formData.isWheelchairAccessible === 'true' || formData.isWheelchairAccessible === 'on' || formData.isWheelchairAccessible === '1';
+        formData.isWheelchairAccessible =
+          formData.isWheelchairAccessible === 'true' ||
+          formData.isWheelchairAccessible === 'on' ||
+          formData.isWheelchairAccessible === '1';
       }
     } else {
       formData.isWheelchairAccessible = studio?.isWheelchairAccessible || false;
@@ -535,6 +545,12 @@ export const EditStudioForm = () => {
   useEffect(() => {
     setSelectedLanguage('en');
   }, [currentStepIndex]);
+
+  // Guard: Don't render form until studio data is loaded
+  // Must be after all hooks to maintain hook order
+  if (!studio) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section>

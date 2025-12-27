@@ -28,7 +28,7 @@ import { toast } from 'sonner';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { loadFormState } from '@shared/utils/formAutoSaveUtils';
 
-interface FormData {
+interface StudioFormData {
   coverImage?: string;
   galleryImages?: string[];
   coverAudioFile?: string;
@@ -43,6 +43,8 @@ interface FormData {
     instagram?: string;
     facebook?: string;
   };
+  languageToggle?: string;
+  [key: string]: any; // Allow additional properties from form
 }
 
 export const CreateStudioForm = () => {
@@ -549,7 +551,7 @@ export const CreateStudioForm = () => {
     }
   ];
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (formData: StudioFormData) => {
     // Check if user is logged in
     if (!user || !user._id) {
       return toast.error(t('form.errors.loginRequired', { defaultValue: 'Please log in to create a studio.' }), {
