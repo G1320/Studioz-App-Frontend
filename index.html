@@ -65,7 +65,42 @@
   <meta name="description"
     content="Discover and book recording, podcast, photo and video studios across Israel. Compare spaces, gear and prices and reserve the perfect studio in minutes.">
 
+  <style>
+    /* Hide Brevo chat widget on mobile devices */
+    @media screen and (max-width: 768px) {
+
+      #brevo-conversations-container,
+      [id*="brevo-conversations"],
+      iframe[src*="brevo-conversations"],
+      iframe[src*="conversations-widget.brevo.com"] {
+        display: none !important;
+      }
+    }
+  </style>
+
   <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+  <!-- Brevo Conversations {literal} -->
+  <script>
+    (function (d, w, c) {
+      w.BrevoConversationsID = 'BREVO_CHAT_ID_PLACEHOLDER';
+      w[c] = w[c] || function () {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      var s = d.createElement('script');
+      s.async = true;
+      s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
+      s.onload = function () {
+        // Set initial language based on HTML lang attribute or default to Hebrew
+        var currentLang = d.documentElement.lang || 'he';
+        var brevoLang = currentLang === 'he' ? 'he' : 'en';
+        if (w.BrevoConversations) {
+          w.BrevoConversations('set', 'language', brevoLang);
+        }
+      };
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'BrevoConversations');
+  </script>
+  <!-- /Brevo Conversations {/literal} -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script src="https://app.sumit.co.il/scripts/payments.js"></script>

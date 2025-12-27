@@ -52,13 +52,24 @@ export default defineConfig(({ _command, mode }) => {
       {
         name: 'html-transform',
         transformIndexHtml(html) {
-          return html.replace(
+          let transformedHtml = html;
+          
+          // Replace Google Maps API placeholder
+          transformedHtml = transformedHtml.replace(
             '<!-- GOOGLE_MAPS_API -->',
             `<script 
               src="https://maps.googleapis.com/maps/api/js?key=${env.VITE_GOOGLE_MAPS_API_KEY}&loading=async&libraries=places" 
               defer>
             </script>`
           );
+          
+          // Replace Brevo Chat ID placeholder
+          transformedHtml = transformedHtml.replace(
+            /BREVO_CHAT_ID_PLACEHOLDER/g,
+            env.VITE_BREVO_CHAT_ID || ''
+          );
+          
+          return transformedHtml;
         }
       },
       {
