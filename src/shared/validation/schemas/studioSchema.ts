@@ -218,9 +218,22 @@ export const studioFullSchema = z.object({
   galleryAudioFiles: z.array(urlSchema).optional(),
 
   // Details
-  maxOccupancy: positiveNumberSchema
-    .min(1, 'Max occupancy must be at least 1')
-    .max(1000, 'Max occupancy must be at most 1000'),
+  maxOccupancy: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === '') {
+        return undefined;
+      }
+      // Convert string to number
+      if (typeof val === 'string') {
+        const num = Number(val);
+        return isNaN(num) ? undefined : num;
+      }
+      return val;
+    },
+    positiveNumberSchema
+      .min(1, 'Max occupancy must be at least 1')
+      .max(1000, 'Max occupancy must be at most 1000')
+  ),
   isSmokingAllowed: z.boolean().default(false),
   isWheelchairAccessible: z.boolean().optional(),
   parking: parkingSchema.optional(),
@@ -238,7 +251,24 @@ export const studioFullSchema = z.object({
 export const studioEditSchema = studioFullSchema.partial().extend({
   name: studioNameSchema.optional(),
   categories: stringArraySchema(1).optional(),
-  subCategories: stringArraySchema(1).optional()
+  subCategories: stringArraySchema(1).optional(),
+  maxOccupancy: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === '') {
+        return undefined;
+      }
+      // Convert string to number
+      if (typeof val === 'string') {
+        const num = Number(val);
+        return isNaN(num) ? undefined : num;
+      }
+      return val;
+    },
+    positiveNumberSchema
+      .min(1, 'Max occupancy must be at least 1')
+      .max(1000, 'Max occupancy must be at most 1000')
+      .optional()
+  )
 });
 
 /**

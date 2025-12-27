@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, GenericForm, FieldType } from '@shared/components';
 import { studioEditSchema } from '@shared/validation/schemas';
+import { ZodError } from 'zod';
 import {
   useDays,
   useMusicCategories,
@@ -318,17 +319,73 @@ export const EditStudioForm = () => {
     const englishSubCategories = selectedDisplaySubCategories.map((displayValue) => getEnglishByDisplay(displayValue));
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
-    formData.coverImage = coverImage;
-    formData.galleryImages = galleryImages;
+    // Enrich form data with controlled state
+    formData.coverImage = coverImage || studio?.coverImage || '';
+    formData.galleryImages = galleryImages.length > 0 ? galleryImages : (studio?.galleryImages || []);
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
-    formData.genres = englishGenres;
+    formData.genres = englishGenres.length > 0 ? englishGenres : (studio?.genres || []);
     formData.galleryAudioFiles = galleryAudioFiles;
+    
+    // Ensure studioAvailability has valid days and times
+    const availabilityDays = selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[];
+    const availabilityTimes = selectedDisplayDays.map((day) => studioHours[day]).filter(Boolean);
+    
     formData.studioAvailability = {
-      days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
-      times: selectedDisplayDays.map((day) => studioHours[day])
+      days: availabilityDays.length > 0 ? availabilityDays : (studio?.studioAvailability?.days || []),
+      times: availabilityTimes.length > 0 ? availabilityTimes : (studio?.studioAvailability?.times || [{ start: '09:00', end: '17:00' }])
     };
     formData.parking = selectedParking;
+
+    // Fix type conversions
+    // Convert lat/lng from strings to numbers (from GenericForm)
+    if (formData.lat && typeof formData.lat === 'string') {
+      formData.lat = parseFloat(formData.lat) || studio?.lat || undefined;
+    } else if (!formData.lat) {
+      formData.lat = studio?.lat;
+    }
+    
+    if (formData.lng && typeof formData.lng === 'string') {
+      formData.lng = parseFloat(formData.lng) || studio?.lng || undefined;
+    } else if (!formData.lng) {
+      formData.lng = studio?.lng;
+    }
+
+    // Ensure city is set (use existing studio city or extract from address if needed)
+    if (!formData.city || formData.city === '') {
+      formData.city = studio?.city || '';
+    }
+
+    // Convert booleans from strings to booleans
+    if (formData.isSmokingAllowed !== undefined) {
+      if (typeof formData.isSmokingAllowed === 'string') {
+        formData.isSmokingAllowed = formData.isSmokingAllowed === 'true' || formData.isSmokingAllowed === 'on' || formData.isSmokingAllowed === '1';
+      }
+    } else {
+      formData.isSmokingAllowed = studio?.isSmokingAllowed || false;
+    }
+
+    if (formData.isWheelchairAccessible !== undefined) {
+      if (typeof formData.isWheelchairAccessible === 'string') {
+        formData.isWheelchairAccessible = formData.isWheelchairAccessible === 'true' || formData.isWheelchairAccessible === 'on' || formData.isWheelchairAccessible === '1';
+      }
+    } else {
+      formData.isWheelchairAccessible = studio?.isWheelchairAccessible || false;
+    }
+
+    // Validate enriched data
+    try {
+      studioEditSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Validation failed:', error);
+        console.error('Form data:', formData);
+        // Errors will be shown by the form component
+        return;
+      }
+      throw error;
+    }
+
     updateStudioMutation.mutate(formData as Studio, {
       onSuccess: () => {
         // Clear saved form data and controlled state after successful submission
@@ -359,7 +416,7 @@ export const EditStudioForm = () => {
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
           btnTxt={t('form.submit.editStudio')}
-          schema={studioEditSchema}
+          schema={undefined}
           validationMode="onSubmit"
           showFieldErrors={true}
         />

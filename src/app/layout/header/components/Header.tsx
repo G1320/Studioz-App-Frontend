@@ -69,50 +69,50 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         </a>
       </div>
       <header className="app-header">
-      <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
+        <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
 
-      <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
-        <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
-          {featureFlags.faviconLogo ? (
-            <img src="/android-chrome-512x512.png" alt="Studioz" className="logo-image" />
-          ) : (
-            'Studioz'
-          )}
-        </Link>
-      </h1>
-      {featureFlags.headerCurrentCity && currentCity && (
-        <span className="header-current-city" aria-label={`Current city: ${getDisplayByCityName(currentCity)}`}>
-          <LocationOnIcon className="header-current-city__icon" aria-hidden="true" />
-          {getDisplayByCityName(currentCity)}
-        </span>
-      )}
-      <div className="cart-options-container">
-        {featureFlags.headerSearchIcon && (
-          <Link
-            to={`${currLang}/search`}
-            className="header-search-button-container header-icon-button"
-            aria-label="Go to search page"
-            onClick={() => scrollToTop()}
-          >
-            <SearchIcon aria-label="Search icon" />
+        <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
+          <Link className="logo" to={`${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
+            {featureFlags.faviconLogo ? (
+              <img src="/android-chrome-512x512.png" alt="Studioz" className="logo-image" />
+            ) : (
+              'Studioz'
+            )}
           </Link>
+        </h1>
+        {featureFlags.headerCurrentCity && currentCity && (
+          <span className="header-current-city" aria-label={`Current city: ${getDisplayByCityName(currentCity)}`}>
+            <LocationOnIcon className="header-current-city__icon" aria-hidden="true" />
+            {getDisplayByCityName(currentCity)}
+          </span>
         )}
-        {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
-        <ReservationBell />
-        {user && featureFlags.notifications && <NotificationBell />}
-        <MenuDropdown user={user || null} />
-      </div>
-      <HeaderNavbar />
-      <Link
-        to={`/${currLang}/create-studio`}
-        className="header-list-studio-button-mobile"
-        aria-label={t('navigation.create_studio')}
-        onClick={() => scrollToTop()}
-      >
-        {t('navigation.create_studio')}
-        <AddBusinessIcon className="header-list-studio-button-mobile__icon" />
-      </Link>
-    </header>
+        <div className="header-options-container">
+          {featureFlags.headerSearchIcon && (
+            <Link
+              to={`${currLang}/search`}
+              className="header-search-button-container header-icon-button"
+              aria-label="Go to search page"
+              onClick={() => scrollToTop()}
+            >
+              <SearchIcon aria-label="Search icon" />
+            </Link>
+          )}
+          {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
+          <ReservationBell />
+          {user && featureFlags.notifications && <NotificationBell />}
+          <MenuDropdown user={user || null} />
+        </div>
+        <HeaderNavbar />
+        <Link
+          to={`/${currLang}/create-studio`}
+          className="header-list-studio-button-mobile"
+          aria-label={t('navigation.create_studio')}
+          onClick={() => scrollToTop()}
+        >
+          {t('navigation.create_studio')}
+          <AddBusinessIcon className="header-list-studio-button-mobile__icon" />
+        </Link>
+      </header>
     </>
   );
 };

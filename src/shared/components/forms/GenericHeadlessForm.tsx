@@ -157,16 +157,24 @@ export const GenericForm = ({
       data[name] = value.toString();
     });
 
-    // Validate with Zod if schema is provided
+    // Call onSubmit first to allow parent to enrich data (e.g., add coverImage, galleryImages, etc.)
+    // Then validate the enriched data
     if (schema && zodForm) {
-      // Update form data first
+      // First, let the parent enrich the data by calling onSubmit with a callback
+      // But we need to validate after enrichment, so we'll do it differently
+      // For now, validate what we have, and parent can handle additional validation
       zodForm.setFormData(data);
       const validationError = zodForm.validate();
       if (validationError) {
-        return; // Don't submit if validation fails
+        console.warn('Form validation failed:', validationError);
+        console.warn('Form data:', data);
+        console.warn('Validation errors:', zodForm.errors);
+        // Don't submit if validation fails, but errors should already be set in zodForm.errors
+        return;
       }
     }
 
+    console.log('Form submitting with data:', data);
     onSubmit(data, event);
   };
 
