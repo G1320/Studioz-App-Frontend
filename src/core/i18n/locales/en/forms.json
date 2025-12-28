@@ -212,6 +212,20 @@
         "text": "Total ",
         "processing": "Processing..."
       },
+      "coupon": {
+        "label": "Coupon Code",
+        "placeholder": "Enter coupon code",
+        "apply": "Apply",
+        "remove": "Remove",
+        "validating": "Validating...",
+        "errorEmpty": "Please enter a coupon code",
+        "errorInvalid": "Invalid coupon code",
+        "successPercent": "{{percent}}% discount applied!",
+        "successFixed": "₪{{amount}} discount applied!"
+      },
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total",
       "footer": {
         "secured": "Secured by",
         "solutions": "Payment Solutions"

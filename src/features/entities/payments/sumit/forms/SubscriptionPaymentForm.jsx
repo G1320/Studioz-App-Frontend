@@ -1,5 +1,5 @@
 import { useUserContext } from '@core/contexts';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { sumitService } from '@shared/services/sumit-service';
 import { createSubscription, activateSubscription } from '@shared/services/subscription-service';
 import { useTranslation } from 'react-i18next';
@@ -7,11 +7,17 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import { sendSubscriptionConfirmation } from '@shared/services/email-service';
 import { SumitPaymentForm } from '@shared/components';
 import { prepareFormData } from '../utils';
+import { applyCoupon } from '@shared/services/coupon-service';
 
 export const SumitSubscriptionPaymentForm = ({ plan }) => {
   const [error, setError] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
   const { user, updateSubscription } = useUserContext();
   const langNavigate = useLanguageNavigate();
+
+  const handleCouponApplied = useCallback((coupon) => {
+    setAppliedCoupon(coupon);
+  }, []);
 
   const createPendingSubscription = async () => {
     try {
@@ -30,7 +36,7 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
     }
   };
 
-  const processPayment = async (token) => {
+  const processPayment = async (token, finalPrice) => {
     const paymentResponse = await sumitService.createSubscriptionPayment(
       token,
       {
@@ -39,8 +45,10 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       },
       {
         name: `Monthly ${plan.name} Subscription`,
-        amount: plan.price,
-        description: 'Monthly subscription plan',
+        amount: finalPrice,
+        description: appliedCoupon 
+          ? `Monthly subscription plan (Coupon: ${appliedCoupon.code})`
+          : 'Monthly subscription plan',
         durationMonths: 1,
         recurrence: 12
       }
@@ -64,9 +72,17 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
     }
   };
 
+  // Calculate final price after coupon discount
+  const getFinalPrice = () => {
+    if (!appliedCoupon) return plan.price;
+    return Math.max(0, plan.price - appliedCoupon.discountAmount);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    const finalPrice = getFinalPrice();
 
     try {
       // 1. Create pending subscription
@@ -76,12 +92,23 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       const formData = prepareFormData(e.target);
       const token = await sumitService.getSumitToken(formData);
 
-      // 3. Process payment with Sumit
-      const paymentResponse = await processPayment(token);
+      // 3. Process payment with Sumit (with discounted price)
+      const paymentResponse = await processPayment(token, finalPrice);
       if (!paymentResponse.data) {
         throw new Error('Invalid payment response');
       }
-      // 4. Activate subscription
+
+      // 4. Mark coupon as used if applied
+      if (appliedCoupon) {
+        try {
+          await applyCoupon(appliedCoupon.code);
+        } catch (couponError) {
+          console.error('Failed to mark coupon as used:', couponError);
+          // Don't fail the subscription if coupon tracking fails
+        }
+      }
+
+      // 5. Activate subscription
       const activeSubscription = await activateSubscriptionWithPayment(pendingSubscription._id, paymentResponse.data);
 
       updateSubscription(activeSubscription._id, 'ACTIVE');
@@ -101,7 +128,17 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       setError(error.message || 'Failed to complete subscription process');
     }
   };
-  return <SumitPaymentForm onSubmit={handleSubmit} error={error} totalAmount={plan.price} />;
+
+  return (
+    <SumitPaymentForm
+      onSubmit={handleSubmit}
+      error={error}
+      totalAmount={plan.price}
+      planId={plan.planId}
+      onCouponApplied={handleCouponApplied}
+      showCouponInput={true}
+    />
+  );
 };
 
 export default SumitSubscriptionPaymentForm;

@@ -212,6 +212,20 @@
         "text": "לתשלום ",
         "processing": "מעבד..."
       },
+      "coupon": {
+        "label": "קוד קופון",
+        "placeholder": "הכנס קוד קופון",
+        "apply": "החל",
+        "remove": "הסר",
+        "validating": "מאמת...",
+        "errorEmpty": "אנא הכנס קוד קופון",
+        "errorInvalid": "קוד קופון לא תקף",
+        "successPercent": "הנחה של {{percent}}% הוחלה!",
+        "successFixed": "הנחה של ₪{{amount}} הוחלה!"
+      },
+      "subtotal": "סכום ביניים",
+      "discount": "הנחה",
+      "total": "סה\"כ",
       "footer": {
         "secured": "מאובטח על ידי",
         "solutions": "פתרונות תשלום"

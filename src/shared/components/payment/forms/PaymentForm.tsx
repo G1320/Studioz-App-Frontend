@@ -1,13 +1,72 @@
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { validateCoupon, CouponValidationResult } from '@shared/services/coupon-service';
 
 interface SumitPaymentFormProps {
   onSubmit: (e: React.FormEvent) => Promise<void>;
   error?: string;
   totalAmount?: number;
+  planId?: string;
+  onCouponApplied?: (coupon: CouponValidationResult['coupon'] | null) => void;
+  showCouponInput?: boolean;
 }
 
-export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, error, totalAmount }) => {
+export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
+  onSubmit,
+  error,
+  totalAmount,
+  planId,
+  onCouponApplied,
+  showCouponInput = true
+}) => {
   const { t } = useTranslation('forms');
+  const [couponCode, setCouponCode] = useState('');
+  const [couponError, setCouponError] = useState('');
+  const [couponSuccess, setCouponSuccess] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<CouponValidationResult['coupon'] | null>(null);
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) {
+      setCouponError(t('form.payment.coupon.errorEmpty', 'Please enter a coupon code'));
+      return;
+    }
+
+    setIsValidatingCoupon(true);
+    setCouponError('');
+    setCouponSuccess('');
+
+    try {
+      const result = await validateCoupon(couponCode, planId, totalAmount);
+      if (result.valid) {
+        setAppliedCoupon(result.coupon);
+        setCouponSuccess(
+          result.coupon.discountType === 'percentage'
+            ? t('form.payment.coupon.successPercent', { percent: result.coupon.discountValue })
+            : t('form.payment.coupon.successFixed', { amount: result.coupon.discountValue })
+        );
+        onCouponApplied?.(result.coupon);
+      }
+    } catch (err: any) {
+      setCouponError(err.message || t('form.payment.coupon.errorInvalid', 'Invalid coupon code'));
+      setAppliedCoupon(null);
+      onCouponApplied?.(null);
+    } finally {
+      setIsValidatingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponCode('');
+    setAppliedCoupon(null);
+    setCouponError('');
+    setCouponSuccess('');
+    onCouponApplied?.(null);
+  };
+
+  const finalAmount = appliedCoupon
+    ? Math.max(0, (totalAmount || 0) - appliedCoupon.discountAmount)
+    : totalAmount;
 
   return (
     <div className="sumit-payment-form">
@@ -17,6 +76,60 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, er
       </div>
 
       {error && <div className="sumit-payment-form__error">{error}</div>}
+
+      {showCouponInput && (
+        <div className="sumit-payment-form__coupon">
+          <label>{t('form.payment.coupon.label', 'Coupon Code')}</label>
+          <div className="sumit-payment-form__coupon-input">
+            <input
+              type="text"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+              placeholder={t('form.payment.coupon.placeholder', 'Enter coupon code')}
+              disabled={!!appliedCoupon || isValidatingCoupon}
+            />
+            {!appliedCoupon ? (
+              <button
+                type="button"
+                onClick={handleApplyCoupon}
+                disabled={isValidatingCoupon}
+                className="sumit-payment-form__coupon-btn"
+              >
+                {isValidatingCoupon
+                  ? t('form.payment.coupon.validating', 'Validating...')
+                  : t('form.payment.coupon.apply', 'Apply')}
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleRemoveCoupon}
+                className="sumit-payment-form__coupon-btn sumit-payment-form__coupon-btn--remove"
+              >
+                {t('form.payment.coupon.remove', 'Remove')}
+              </button>
+            )}
+          </div>
+          {couponError && <div className="sumit-payment-form__coupon-error">{couponError}</div>}
+          {couponSuccess && <div className="sumit-payment-form__coupon-success">{couponSuccess}</div>}
+        </div>
+      )}
+
+      {appliedCoupon && totalAmount && (
+        <div className="sumit-payment-form__discount-summary">
+          <div className="sumit-payment-form__discount-row">
+            <span>{t('form.payment.subtotal', 'Subtotal')}:</span>
+            <span>₪{totalAmount}</span>
+          </div>
+          <div className="sumit-payment-form__discount-row sumit-payment-form__discount-row--discount">
+            <span>{t('form.payment.discount', 'Discount')} ({appliedCoupon.code}):</span>
+            <span>-₪{appliedCoupon.discountAmount}</span>
+          </div>
+          <div className="sumit-payment-form__discount-row sumit-payment-form__discount-row--total">
+            <span>{t('form.payment.total', 'Total')}:</span>
+            <span>₪{finalAmount}</span>
+          </div>
+        </div>
+      )}
 
       <form className="sumit-payment-form__form" onSubmit={onSubmit}>
         <div className="sumit-payment-form__field">
@@ -89,7 +202,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({ onSubmit, er
         <div className="sumit-payment-form__submit">
           <button type="submit">
             {t('form.payment.submit.text')}
-            {totalAmount && `${totalAmount}₪`}
+            {finalAmount !== undefined && `${finalAmount}₪`}
           </button>
         </div>
       </form>
