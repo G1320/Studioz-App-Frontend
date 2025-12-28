@@ -209,7 +209,10 @@ export const studioFullSchema = z.object({
     urlSchema.optional()
   ),
   socials: socialsSchema,
-  city: z.string().min(1, 'City is required').max(100, 'City must be at most 100 characters'),
+  city: z.preprocess(
+    (val) => (val === undefined || val === null ? '' : val),
+    z.string().max(100, 'City must be at most 100 characters').optional()
+  ),
   lat: z.number().optional(),
   lng: z.number().optional(),
 
