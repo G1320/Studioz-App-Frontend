@@ -280,10 +280,20 @@ export const CreateStudioForm = () => {
   };
 
   const handleSubCategoryChange = (values: string[]) => {
+    // Limit to 6 subcategories
+    if (values.length > 6) {
+      toast.error(t('form.subCategories.maxLimit', 'Maximum 6 subcategories allowed'));
+      return;
+    }
     setSelectedDisplaySubCategories(values);
   };
 
   const handleGenreChange = (values: string[]) => {
+    // Limit to 6 genres
+    if (values.length > 6) {
+      toast.error(t('form.genres.maxLimit', 'Maximum 6 genres allowed'));
+      return;
+    }
     setSelectedGenres(values);
   };
 

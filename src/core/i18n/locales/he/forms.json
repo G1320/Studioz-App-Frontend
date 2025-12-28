@@ -20,14 +20,16 @@
       "photo": "צילום"
     },
     "subCategories": {
-      "label": "תת-קטגוריות",
+      "label": "קטגוריות",
       "showAll": "הצג הכל",
-      "showLess": "הצג פחות"
+      "showLess": "הצג פחות",
+      "maxLimit": "ניתן לבחור עד 6 קטגוריות"
     },
     "genres": {
       "label": "ז'אנרים",
       "showAll": "הצג הכל",
-      "showLess": "הצג פחות"
+      "showLess": "הצג פחות",
+      "maxLimit": "ניתן לבחור עד 6 ז'אנרים"
     },
     "languageToggle": {
       "label": "בחר שפה לעריכה"

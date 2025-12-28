@@ -22,12 +22,14 @@
     "subCategories": {
       "label": "Subcategories",
       "showAll": "Show All",
-      "showLess": "Show Less"
+      "showLess": "Show Less",
+      "maxLimit": "Maximum 6 subcategories allowed"
     },
     "genres": {
       "label": "Genres",
       "showAll": "Show All",
-      "showLess": "Show Less"
+      "showLess": "Show Less",
+      "maxLimit": "Maximum 6 genres allowed"
     },
     "languageToggle": {
       "label": "Select language for editing"
