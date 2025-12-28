@@ -1,11 +1,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, StatusBadge, InstantBookBadge } from '@shared/components';
-import {
-  useAddItemToWishlistMutation,
-  useRemoveItemFromWishlistMutation,
-  usePrefetchItem
-} from '@shared/hooks';
+import { useAddItemToWishlistMutation, useRemoveItemFromWishlistMutation, usePrefetchItem } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { Item, Wishlist, User } from 'src/types/index';
@@ -96,7 +92,6 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         user={user || undefined}
         onEdit={onEdit}
       />
-
     </article>
   );
 };

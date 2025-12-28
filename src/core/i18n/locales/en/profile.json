@@ -6,7 +6,8 @@
     },
     "buttons": {
       "dashboard": "Dashboard",
-      "reservations": "My reservations"
+      "reservations": "My reservations",
+      "wishlists": "Wishlists"
     },
     "email": {
       "label": "Email",

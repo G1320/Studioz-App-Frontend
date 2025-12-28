@@ -7,7 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { NotificationBell } from '@shared/components/notifications';
-import { ReservationBell } from '@shared/components/reservations/components';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
@@ -98,7 +97,6 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
             </Link>
           )}
           {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
-          <ReservationBell />
           {user && featureFlags.notifications && <NotificationBell />}
           <MenuDropdown user={user || null} />
         </div>

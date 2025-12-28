@@ -6,7 +6,8 @@
     },
     "buttons": {
       "dashboard": "לוח בקרה",
-      "reservations": "ההזמנות שלי"
+      "reservations": "ההזמנות שלי",
+      "wishlists": "רשימות"
     },
     "email": {
       "label": "אימייל",

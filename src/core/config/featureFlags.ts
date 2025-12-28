@@ -25,7 +25,7 @@ export const featureFlags: FeatureFlags = {
   notifications: true,
   addOns: true,
   reservationDetailsPage: false,
-  headerSearchIcon: false,
+  headerSearchIcon: true,
   dynamicCategorySelector: false,
   forOwnersPage: true
 };

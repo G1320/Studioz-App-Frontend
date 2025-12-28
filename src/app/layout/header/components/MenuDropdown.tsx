@@ -9,6 +9,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -57,6 +58,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
               <DashboardIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
+            </button>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
+              <FavoriteIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.wishlists')}</span>
             </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/create-studio')}>
               <AddBusinessIcon className="menu-dropdown__icon" />

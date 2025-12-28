@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import SearchIcon from '@mui/icons-material/Search';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import BusinessIcon from '@mui/icons-material/Business';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
@@ -71,15 +71,15 @@ export const MobileFooter = () => {
           </Link>
         )}
         <Link
-          to={`/${currLang}/search`}
+          to={`/${currLang}/reservations`}
           className="footer-icon-link"
-          aria-label={t('navigation.search')}
-          aria-current={isCurrentPage(`/${currLang}/search`) ? 'page' : undefined}
+          aria-label={t('navigation.reservations')}
+          aria-current={isCurrentPage(`/${currLang}/reservations`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
           <div className="footer-link-content">
-            <SearchIcon aria-hidden="true" />
-            <span>{t('navigation.search')}</span>
+            <EventNoteIcon aria-hidden="true" />
+            <span>{t('navigation.reservations')}</span>
           </div>
         </Link>
       </nav>
