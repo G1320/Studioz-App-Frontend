@@ -3,6 +3,7 @@ import {
   getGoogleCalendarAuthUrl,
   disconnectGoogleCalendar,
   getGoogleCalendarStatus,
+  syncGoogleCalendar,
   GoogleCalendarStatus
 } from '@shared/services/google-calendar-service';
 
@@ -13,6 +14,7 @@ interface UseGoogleCalendarReturn {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   refreshStatus: () => Promise<void>;
+  syncCalendar: () => Promise<void>;
 }
 
 /**
@@ -25,12 +27,31 @@ export const useGoogleCalendar = (): UseGoogleCalendarReturn => {
   const [error, setError] = useState<Error | null>(null);
 
   // Fetch connection status
-  const fetchStatus = useCallback(async () => {
+  const fetchStatus = useCallback(async (autoSync: boolean = true) => {
     try {
       setIsLoading(true);
       setError(null);
       const statusData = await getGoogleCalendarStatus();
       setStatus(statusData);
+      
+      // Auto-sync if connected and it's been more than 5 minutes since last sync
+      if (autoSync && statusData.connected) {
+        const lastSync = statusData.lastSyncAt ? new Date(statusData.lastSyncAt) : null;
+        const shouldSync = !lastSync || (Date.now() - lastSync.getTime()) > 5 * 60 * 1000; // 5 minutes
+        
+        if (shouldSync) {
+          console.log('Auto-syncing Google Calendar...');
+          try {
+            await syncGoogleCalendar();
+            // Refresh status after sync
+            const updatedStatus = await getGoogleCalendarStatus();
+            setStatus(updatedStatus);
+          } catch (syncErr) {
+            console.warn('Auto-sync failed (non-critical):', syncErr);
+            // Don't set error for auto-sync failures
+          }
+        }
+      }
     } catch (err) {
       // Silently fail - user might not be authenticated or API might not be available
       console.log('Could not fetch Google Calendar status:', err);
@@ -74,13 +95,27 @@ export const useGoogleCalendar = (): UseGoogleCalendarReturn => {
     }
   }, [fetchStatus]);
 
+  // Sync Google Calendar events
+  const syncCalendar = useCallback(async () => {
+    try {
+      setError(null);
+      await syncGoogleCalendar();
+      await fetchStatus(false); // Refresh status after sync (disable auto-sync to avoid double sync)
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('Failed to sync calendar');
+      setError(error);
+      throw error;
+    }
+  }, [fetchStatus]);
+
   return {
     isConnected: status.connected,
     isLoading,
     error,
     connect,
     disconnect,
-    refreshStatus: fetchStatus
+    refreshStatus: fetchStatus,
+    syncCalendar
   };
 };
 
