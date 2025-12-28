@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguageNavigate, useLanguageSwitcher } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
-import { LoginButton, LogoutButton, GoogleCalendarConnectButton } from '@features/auth';
+import { LogoutButton, GoogleCalendarConnectButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -10,9 +10,11 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useAuth0LoginHandler } from '@shared/hooks';
 import './styles/menu-dropdown.scss';
 
 interface MenuDropdownProps {
@@ -21,9 +23,10 @@ interface MenuDropdownProps {
 
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
+  const { loginWithPopup } = useAuth0LoginHandler();
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
@@ -49,9 +52,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
     >
       <div className="menu-dropdown__content">
         {!user && (
-          <div className="menu-dropdown__item menu-dropdown__item--login">
-            <LoginButton aria-label="Login" />
-          </div>
+          <button className="menu-dropdown__item" onClick={() => loginWithPopup()}>
+            <PersonOutlineIcon className="menu-dropdown__icon" />
+            <span>{t('common:buttons.loginSignup')}</span>
+          </button>
         )}
         {user && (
           <>
