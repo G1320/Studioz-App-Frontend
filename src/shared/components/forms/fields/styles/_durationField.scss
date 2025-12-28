@@ -58,12 +58,11 @@
     display: flex;
     gap: 0.75rem;
     align-items: center;
-    justify-content: flex-start;
   }
 
   &__value {
-    flex: 0 0 auto;
-    width: 100px;
+    flex: 1;
+    max-width: 120px;
     padding: 0.625rem 0.875rem;
     font-size: vars.$font-size-medium;
     border: 1px solid vars.$white-opacity-15;
@@ -71,7 +70,6 @@
     background: vars.$bg-color-tertiary;
     color: vars.$text-color-primary;
     transition: border-color 0.2s ease;
-    text-align: start;
 
     &:focus {
       outline: none;
@@ -95,8 +93,8 @@
   }
 
   &__unit {
-    flex: 0 0 auto;
-    width: 120px;
+    flex: 1;
+    max-width: 140px;
     padding: 0.625rem 0.875rem;
     font-size: vars.$font-size-medium;
     border: 1px solid vars.$white-opacity-15;
@@ -105,7 +103,6 @@
     color: vars.$text-color-primary;
     cursor: pointer;
     transition: border-color 0.2s ease;
-    text-align: start;
 
     &:focus {
       outline: none;
