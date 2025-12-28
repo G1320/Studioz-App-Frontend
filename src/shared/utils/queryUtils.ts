@@ -1,9 +1,21 @@
 import { QueryClient } from '@tanstack/react-query';
 
-export const invalidateItemQueries = (queryClient: QueryClient, itemId: string) => {
-  queryClient.invalidateQueries({
-    queryKey: ['item', itemId]
+/**
+ * Invalidate item queries
+ * Supports both single itemId and array of itemIds for bulk operations
+ */
+export const invalidateItemQueries = (queryClient: QueryClient, itemId?: string | string[]) => {
+  // Handle both single itemId and array of itemIds
+  const ids = Array.isArray(itemId) ? itemId : itemId ? [itemId] : [];
+  
+  // Invalidate individual item queries
+  ids.forEach(id => {
+    queryClient.invalidateQueries({
+      queryKey: ['item', id]
+    });
   });
+  
+  // Invalidate items list query once (not per item)
   queryClient.invalidateQueries({
     queryKey: ['items']
   });

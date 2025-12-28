@@ -45,7 +45,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     }
 
     newSocket.on('availabilityUpdated', (data) => {
-      if (data.itemId) {
+      // Handle both single itemId and batched itemIds
+      if (data.itemIds && Array.isArray(data.itemIds)) {
+        invalidateItemQueries(queryClient, data.itemIds);
+      } else if (data.itemId) {
         invalidateItemQueries(queryClient, data.itemId);
       }
     });
