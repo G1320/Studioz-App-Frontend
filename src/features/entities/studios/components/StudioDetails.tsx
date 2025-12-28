@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { InfoOutlined, LocalParking } from '@mui/icons-material';
+import { InfoOutlined } from '@mui/icons-material';
 import { GenericImageGallery } from '@shared/components';
 import { Studio, User } from 'src/types/index';
 import { useWishlists, useGenres } from '@shared/hooks';
@@ -50,7 +50,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const handleAddNewService = (studioId: string) =>
     studioId ? langNavigate(`/create-item/${studio?.name[currentLang] || studio?.name.en}/${studioId}`) : null;
 
-  const hasLocation = studio?.lat && studio?.lng;
+  const hasLocation = studio?.lat !== undefined && studio?.lng !== undefined;
 
   return (
     <article key={studio?._id} className="details studio-details">

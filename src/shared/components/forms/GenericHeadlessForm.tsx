@@ -88,18 +88,29 @@ export const GenericForm = ({
     }
   }, [zodForm?.isValid, onValidationChange]);
 
-  const handlePlaceSelected = (place: google.maps.places.PlaceResult) => {
+  const handlePlaceSelected = (
+    place: google.maps.places.PlaceResult,
+    englishData?: { address: string; city: string }
+  ) => {
     if (place.geometry && place.geometry.location) {
       setLat(place.geometry.location.lat());
       setLng(place.geometry.location.lng());
 
-      if (place.formatted_address) {
+      // Use English address for storage (from geocoding), fall back to formatted_address
+      const addressToStore = englishData?.address || place.formatted_address;
+      if (addressToStore) {
         const addressField = fields.find((f) => f.name === 'address');
-        // Update the form field value - this will trigger SteppedForm's handleFieldChange
-        handleFieldChange('address', place.formatted_address, addressField?.onChange);
+        // Update the form field value with the English address
+        handleFieldChange('address', addressToStore, addressField?.onChange);
       }
-      if (place.address_components) {
-        const cityComponent = place.address_components.find((component) => component.types.includes('locality'));
+
+      // Use English city name for storage, fall back to address_components
+      if (englishData?.city) {
+        setCity(englishData.city);
+      } else if (place.address_components) {
+        const cityComponent = place.address_components.find((component) =>
+          component.types.includes('locality')
+        );
         if (cityComponent) {
           setCity(cityComponent.long_name);
         }

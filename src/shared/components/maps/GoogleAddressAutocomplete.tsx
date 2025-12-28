@@ -1,8 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 
+interface EnglishAddressData {
+  address: string;
+  city: string;
+}
+
 interface GoogleAddressAutocompleteProps {
-  onPlaceSelected: (place: google.maps.places.PlaceResult) => void;
+  onPlaceSelected: (place: google.maps.places.PlaceResult, englishData?: EnglishAddressData) => void;
   placeholder?: string;
   defaultValue?: string;
   fieldName?: string;
@@ -10,6 +15,39 @@ interface GoogleAddressAutocompleteProps {
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
 }
+
+/**
+ * Fetches the English version of an address using the Geocoder API
+ * This ensures we always store addresses in English regardless of the user's language settings
+ */
+const getEnglishAddress = async (
+  lat: number,
+  lng: number
+): Promise<EnglishAddressData | null> => {
+  return new Promise((resolve) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+      {
+        location: { lat, lng },
+        language: 'en'
+      },
+      (results, status) => {
+        if (status === 'OK' && results && results[0]) {
+          const result = results[0];
+          const cityComponent = result.address_components?.find((component) =>
+            component.types.includes('locality')
+          );
+          resolve({
+            address: result.formatted_address || '',
+            city: cityComponent?.long_name || ''
+          });
+        } else {
+          resolve(null);
+        }
+      }
+    );
+  });
+};
 
 export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps> = ({
   onPlaceSelected,
@@ -28,12 +66,27 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
     autocompleteInstance.setComponentRestrictions({ country: 'il' });
   };
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = async () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-      onPlaceSelected(place);
       
-      // Update the input value and notify parent
+      // Get English address using geocoding if we have coordinates
+      let englishData: EnglishAddressData | undefined;
+      if (place.geometry?.location) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        const result = await getEnglishAddress(lat, lng);
+        if (result) {
+          englishData = result;
+        }
+      }
+      
+      // Pass both the original place and English data to parent
+      // Parent should use englishData.address for storage
+      onPlaceSelected(place, englishData);
+      
+      // Update the input value with the display address (user's language)
+      // The stored value will be the English version from englishData
       if (inputRef.current && place.formatted_address) {
         inputRef.current.value = place.formatted_address;
         onInputChange?.(place.formatted_address);
