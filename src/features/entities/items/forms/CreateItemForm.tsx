@@ -169,23 +169,26 @@ export const CreateItemForm = () => {
             />
           </div>
 
-          <div className="booking-settings-step__field">
-            <label className="booking-settings-step__label">
-              {t('form.bookingSettings.minimumQuantity.label')}
-            </label>
-            <p className="booking-settings-step__description">
-              {t('form.bookingSettings.minimumQuantity.description')}
-            </p>
-            <input
-              type="number"
-              name="minimumQuantity"
-              value={minimumQuantity ?? ''}
-              onChange={(e) => setMinimumQuantity(e.target.value ? Number(e.target.value) : undefined)}
-              min={1}
-              placeholder="1"
-              className="booking-settings-step__input"
-            />
-          </div>
+          {/* Only show minimumQuantity for non-hourly pricing */}
+          {pricePer !== 'hour' && (
+            <div className="booking-settings-step__field">
+              <label className="booking-settings-step__label">
+                {t('form.bookingSettings.minimumQuantity.label')}
+              </label>
+              <p className="booking-settings-step__description">
+                {t('form.bookingSettings.minimumQuantity.description')}
+              </p>
+              <input
+                type="number"
+                name="minimumQuantity"
+                value={minimumQuantity ?? ''}
+                onChange={(e) => setMinimumQuantity(e.target.value ? Number(e.target.value) : undefined)}
+                min={1}
+                placeholder="1"
+                className="booking-settings-step__input"
+              />
+            </div>
+          )}
 
           <DurationField
             name="advanceBookingRequired"
@@ -240,6 +243,7 @@ export const CreateItemForm = () => {
     ),
     [
       t,
+      pricePer,
       minimumBookingDuration,
       maximumBookingDuration,
       minimumQuantity,
