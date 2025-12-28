@@ -21,7 +21,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { getDisplayByEnglish } = useGenres();
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
-  const { t, i18n } = useTranslation('forms');
+  const { i18n } = useTranslation('forms');
   const { userLocation } = useLocationPermission();
 
   // Get the current language (default to 'en' if not 'he')
@@ -37,11 +37,11 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
     return calculateDistance(userLocation.latitude, userLocation.longitude, studio.lat, studio.lng);
   }, [userLocation, studio?.lat, studio?.lng]);
 
-  const getParkingLabel = (parking: string) => {
-    if (parking === 'free') return t('form.parking.options.free') || 'Free';
-    if (parking === 'paid') return t('form.parking.options.paid') || 'Paid';
-    return t('form.parking.options.none') || 'None';
-  };
+  // const getParkingLabel = (parking: string) => {
+  //   if (parking === 'free') return t('form.parking.options.free') || 'Free';
+  //   if (parking === 'paid') return t('form.parking.options.paid') || 'Paid';
+  //   return t('form.parking.options.none') || 'None';
+  // };
 
   // Convert English genre values to display values
   const displayGenres = studio?.genres?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
@@ -94,13 +94,13 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
       <p className="description">{studio?.description[currentLang] || studio?.description.en}</p>
       {displayGenres.length > 0 && (
         <div className="studio-genres">
-          {displayGenres.map((genre, index) => (
+          {displayGenres.slice(0, 8).map((genre, index) => (
             <GenreCard key={index} genre={genre} pathPrefix="studios" isInteractive={false} />
           ))}
         </div>
       )}
 
-      {studio?.parking && studio.parking !== 'none' && (
+      {/* {studio?.parking && studio.parking !== 'none' && (
         <div role="group" aria-labelledby="parking">
           <LocalParking aria-label="Parking icon" />
           <p
@@ -110,7 +110,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
             {getParkingLabel(studio.parking)}
           </p>
         </div>
-      )}
+      )} */}
       <StudioInfoModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} studio={studio} />
     </article>
   );
