@@ -57,7 +57,7 @@ export const studioStep1Schema = z.object({
 export const studioStep2Schema = z.object({
   categories: stringArraySchema(1, 'At least one category is required'),
   subCategories: stringArraySchema(1, 'At least one subcategory is required').max(6, 'Maximum 6 subcategories allowed'),
-  genres: stringArraySchema(1, 'At least one genre is required').max(6, 'Maximum 6 genres allowed')
+  genres: z.array(z.string())
 });
 
 /**
@@ -194,7 +194,7 @@ export const studioFullSchema = z.object({
   // Categories & Genres (max 6 subcategories and 6 genres)
   categories: stringArraySchema(1, 'At least one category is required'),
   subCategories: stringArraySchema(1, 'At least one subcategory is required').max(6, 'Maximum 6 subcategories allowed'),
-  genres: stringArraySchema(1, 'At least one genre is required').max(6, 'Maximum 6 genres allowed'),
+  genres: z.array(z.string()).max(6, 'Maximum 6 genres allowed'),
 
   // Availability
   studioAvailability: studioAvailabilitySchema.optional(),
@@ -281,7 +281,6 @@ export const studioEditSchema = studioFullSchema.partial().extend({
     .optional(),
   categories: stringArraySchema(1).optional(),
   subCategories: stringArraySchema(1).max(6, 'Maximum 6 subcategories allowed').optional(),
-  genres: stringArraySchema(1).max(6, 'Maximum 6 genres allowed').optional(),
   maxOccupancy: z.preprocess((val) => {
     if (val === undefined || val === null || val === '') {
       return undefined;
