@@ -5,9 +5,9 @@ import { Reservation } from 'src/types/index';
 export const useReservations = () => {
   const queryClient = useQueryClient();
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['reservations', {}],
+    queryKey: ['reservations'],
     staleTime: 5 * 60 * 1000,
-    queryFn: getReservations,
+    queryFn: () => getReservations(),
     placeholderData: keepPreviousData,
     initialData: () => queryClient.getQueryData<Reservation[]>(['reservations'])
   });
