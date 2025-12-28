@@ -14,7 +14,6 @@
       "highlight": "Get started for free",
       "features": {
         "listing": "1 active listing",
-        "photos": "Max 3 photos per listing",
         "booking": "Online booking",
         "support": "Standard support"
       }
@@ -26,6 +25,7 @@
         "listing": "1 active listing",
         "booking": "Online booking ",
         "calendar": "Digital calendar",
+        "googleCalendar": "Google Calendar sync",
         "support": "Standard support",
         "cancel": "Cancel anytime"
       }
@@ -37,6 +37,7 @@
         "listing": "Unlimited active listings",
         "booking": "Online booking ",
         "calendar": "Digital calendar",
+        "googleCalendar": "Google Calendar sync",
         "support": "Priority support",
         "payment": "Secure payments (Soon!)",
         "cancel": "Cancel anytime"

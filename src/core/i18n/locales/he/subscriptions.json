@@ -14,7 +14,6 @@
       "highlight": "התחל בחינם",
       "features": {
         "listing": "מודעה אחת פעילה",
-        "photos": "עד 3 תמונות לכל מודעה",
         "booking": "קביעת תורים אונליין",
         "support": "תמיכה סטנדרטית"
       }
@@ -25,6 +24,7 @@
       "features": {
         "listing": "מודעה אחת פעילה",
         "calendar": "יומן דיגיטאלי",
+        "googleCalendar": "סנכרון Google Calendar",
         "booking": "קביעת תורים אונליין",
         "support": "תמיכה סטנדרטית",
         "cancel": "ניתן לבטל את המנוי בכל עת"
@@ -37,6 +37,7 @@
         "listing": "מודעות פעילות ללא הגבלה",
         "booking": "קביעת תורים אונליין",
         "calendar": "יומן דיגיטאלי",
+        "googleCalendar": "סנכרון Google Calendar",
         "support": "תמיכה בעדיפות גבוהה",
         "payment": "סליקה מאובטחת (בקרוב!)",
         "cancel": "ניתן לבטל את המנוי בכל עת"

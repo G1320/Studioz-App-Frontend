@@ -55,7 +55,7 @@ export const SumitSubscriptionPage = () => {
       highlight: t('plans.free.highlight'),
       features: [
         t('plans.free.features.listing'),
-        t('plans.free.features.photos'),
+        // t('plans.free.features.photos'),
         t('plans.free.features.booking'),
         t('plans.free.features.support')
       ]
@@ -71,6 +71,7 @@ export const SumitSubscriptionPage = () => {
         t('plans.starter.features.listing'),
         t('plans.starter.features.booking'),
         t('plans.starter.features.calendar'),
+        t('plans.starter.features.googleCalendar'),
         t('plans.starter.features.cancel'),
         t('plans.starter.features.support')
       ]
@@ -86,6 +87,7 @@ export const SumitSubscriptionPage = () => {
         t('plans.pro.features.listing'),
         t('plans.pro.features.booking'),
         t('plans.pro.features.calendar'),
+        t('plans.pro.features.googleCalendar'),
         t('plans.pro.features.cancel'),
         t('plans.pro.features.support'),
         t('plans.pro.features.payment')
