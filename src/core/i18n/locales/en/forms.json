@@ -238,7 +238,8 @@
         "sending": "Sending...",
         "sent": "Code Sent",
         "submit": "Submit Code",
-        "verifying": "Verifying..."
+        "verifying": "Verifying...",
+        "tryAgain": "Try Again"
       },
       "code": {
         "placeholder": "Enter verification code",

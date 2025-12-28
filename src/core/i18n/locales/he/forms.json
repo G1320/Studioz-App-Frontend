@@ -238,7 +238,8 @@
         "sending": "שולח...",
         "sent": "קוד נשלח",
         "submit": "שלח קוד",
-        "verifying": "מאמת..."
+        "verifying": "מאמת...",
+        "tryAgain": "נסה שוב"
       },
       "code": {
         "placeholder": "הכנס קוד אימות",

@@ -72,6 +72,12 @@
   .input-container .verification-box {
   }
 
+  .verification-buttons {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
   .verification-button {
     padding: 8px 16px;
     border-radius: 8px;
@@ -94,6 +100,14 @@
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    &--secondary {
+      background-color: transparent;
+      color: vars.$color-brand;
+      &:hover:not(:disabled) {
+        background-color: rgba(vars.$color-brand, 0.1);
+      }
     }
   }
 

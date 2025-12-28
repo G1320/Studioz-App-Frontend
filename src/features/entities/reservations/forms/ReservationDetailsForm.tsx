@@ -51,6 +51,11 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
     }
   };
 
+  const handleTryAgain = () => {
+    setCodeSent(false);
+    setVerificationCode('');
+  };
+
   const handleVerifyCode = async () => {
     if (!verificationCode) {
       toast.error(t('form.verification.code.error'));
@@ -124,14 +129,24 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
             pattern="[0-9]*"
             style={{ fontSize: '16px' }}
           />
-          <button
-            type="button"
-            className="verification-button"
-            onClick={handleVerifyCode}
-            disabled={isVerifying || !verificationCode}
-          >
-            {isVerifying ? t('form.verification.buttons.verifying') : t('form.verification.buttons.submit')}{' '}
-          </button>
+          <div className="verification-buttons">
+            <button
+              type="button"
+              className="verification-button"
+              onClick={handleVerifyCode}
+              disabled={isVerifying || !verificationCode}
+            >
+              {isVerifying ? t('form.verification.buttons.verifying') : t('form.verification.buttons.submit')}
+            </button>
+            <button
+              type="button"
+              className="verification-button verification-button--secondary"
+              onClick={handleTryAgain}
+              disabled={isVerifying}
+            >
+              {t('form.verification.buttons.tryAgain')}
+            </button>
+          </div>
         </div>
       )}
     </form>
