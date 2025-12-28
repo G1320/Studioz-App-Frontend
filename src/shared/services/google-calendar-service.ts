@@ -37,11 +37,3 @@ export const getGoogleCalendarStatus = async (): Promise<GoogleCalendarStatus> =
   return await httpService.get<GoogleCalendarStatus>(`${googleCalendarEndpoint}/status`);
 };
 
-/**
- * Sync Google Calendar events to block time slots
- * @returns Sync result
- */
-export const syncGoogleCalendar = async (): Promise<{ message: string; syncToken?: string }> => {
-  return await httpService.post<{ message: string; syncToken?: string }>(`${googleCalendarEndpoint}/sync`);
-};
-
