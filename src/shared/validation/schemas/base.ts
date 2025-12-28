@@ -209,4 +209,4 @@ export const parkingSchema = z.enum(['none', 'free', 'paid']);
 /**
  * Price per unit enum schema
  */
-export const pricePerSchema = z.enum(['hour', 'session', 'unit', 'project', 'day']);
+export const pricePerSchema = z.enum(['hour', 'session', 'unit', 'song', 'project', 'day']);

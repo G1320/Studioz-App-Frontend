@@ -155,6 +155,7 @@
       "hour": "Hour",
       "session": "Session",
       "unit": "Unit",
+      "song": "Song",
       "project": "Project",
       "day": "Day"
     },

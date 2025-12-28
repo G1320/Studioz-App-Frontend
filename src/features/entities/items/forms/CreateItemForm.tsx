@@ -113,6 +113,7 @@ export const CreateItemForm = () => {
     { value: 'hour', label: t('form.pricePer.hour') },
     { value: 'session', label: t('form.pricePer.session') },
     { value: 'unit', label: t('form.pricePer.unit') },
+    { value: 'song', label: t('form.pricePer.song') },
     { value: 'project', label: t('form.pricePer.project') },
     { value: 'day', label: t('form.pricePer.day') }
   ];

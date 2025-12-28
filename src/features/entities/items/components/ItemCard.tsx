@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Button, StatusBadge, InstantBookBadge } from '@shared/components';
 import {
   useAddItemToWishlistMutation,
-  useRemoveItemFromStudioMutation,
   useRemoveItemFromWishlistMutation,
   usePrefetchItem
 } from '@shared/hooks';
@@ -31,7 +30,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   user: propUser,
   onEdit
 }) => {
-  const { studioId, wishlistId } = useParams();
+  const { wishlistId } = useParams();
   const { user: contextUser } = useUserContext();
   const user = propUser || contextUser;
   // const langNavigate = useLanguageNavigate();
@@ -52,17 +51,17 @@ export const ItemCard: React.FC<ItemCardProps> = ({
 
   const addItemToWishlistMutation = useAddItemToWishlistMutation(item?._id);
   const removeItemFromWishlistMutation = useRemoveItemFromWishlistMutation(wishlistId || '');
-  const removeItemFromStudioMutation = useRemoveItemFromStudioMutation(studioId || '');
 
   const handleAddItemToWishlist = (wishlistId: string) => addItemToWishlistMutation.mutate(wishlistId);
   const handleRemoveItemFromWishlist = () => removeItemFromWishlistMutation.mutate(item?._id);
-  const handleRemoveItemFromStudio = () => removeItemFromStudioMutation.mutate(item?._id);
 
   const getTranslatedPricePer = (pricePer: string) => {
     const pricePerMap: Record<string, string> = {
       hour: t('forms:form.pricePer.hour'),
       session: t('forms:form.pricePer.session'),
       unit: t('forms:form.pricePer.unit'),
+      project: t('forms:form.pricePer.project'),
+      day: t('forms:form.pricePer.day'),
       song: t('forms:form.pricePer.song')
     };
 
@@ -98,11 +97,6 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         onEdit={onEdit}
       />
 
-      {studioId && user?.isAdmin && (
-        <Button onClick={handleRemoveItemFromStudio} className="remove-from-studio-button">
-          Remove from Studio
-        </Button>
-      )}
     </article>
   );
 };
