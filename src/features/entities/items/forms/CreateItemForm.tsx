@@ -113,7 +113,8 @@ export const CreateItemForm = () => {
     { value: 'hour', label: t('form.pricePer.hour') },
     { value: 'session', label: t('form.pricePer.session') },
     { value: 'unit', label: t('form.pricePer.unit') },
-    { value: 'song', label: t('form.pricePer.song') }
+    { value: 'project', label: t('form.pricePer.project') },
+    { value: 'day', label: t('form.pricePer.day') }
   ];
 
   // Use English values for options (what gets submitted)
@@ -190,6 +191,28 @@ export const CreateItemForm = () => {
             </div>
           )}
 
+          <Field as="div" className="booking-settings-step__switch-group">
+            <Switch
+              checked={allowSameDayBooking}
+              onChange={(checked) => {
+                setAllowSameDayBooking(checked);
+                // Clear advance booking required when same-day booking is enabled
+                if (checked) {
+                  setAdvanceBookingRequired({});
+                }
+              }}
+              className={`booking-settings-step__switch ${allowSameDayBooking ? 'on' : ''}`}
+            />
+            <div className="booking-settings-step__switch-content">
+              <Label className="booking-settings-step__switch-label">
+                {t('form.bookingSettings.allowSameDayBooking.label')}
+              </Label>
+              <p className="booking-settings-step__switch-description">
+                {t('form.bookingSettings.allowSameDayBooking.description')}
+              </p>
+            </div>
+          </Field>
+
           <DurationField
             name="advanceBookingRequired"
             label={t('form.bookingSettings.advanceBookingRequired.label')}
@@ -197,6 +220,7 @@ export const CreateItemForm = () => {
             value={advanceBookingRequired}
             onChange={setAdvanceBookingRequired}
             unitOptions={['hours', 'days']}
+            disabled={allowSameDayBooking}
           />
         </div>
 
@@ -220,24 +244,6 @@ export const CreateItemForm = () => {
               onChange={setBufferTime}
             />
           </div>
-        </div>
-
-        <div className="booking-settings-step__section">
-          <Field as="div" className="booking-settings-step__switch-group">
-            <Switch
-              checked={allowSameDayBooking}
-              onChange={setAllowSameDayBooking}
-              className={`booking-settings-step__switch ${allowSameDayBooking ? 'on' : ''}`}
-            />
-            <div className="booking-settings-step__switch-content">
-              <Label className="booking-settings-step__switch-label">
-                {t('form.bookingSettings.allowSameDayBooking.label')}
-              </Label>
-              <p className="booking-settings-step__switch-description">
-                {t('form.bookingSettings.allowSameDayBooking.description')}
-              </p>
-            </div>
-          </Field>
         </div>
       </div>
     ),

@@ -15,6 +15,7 @@ interface DurationFieldProps {
   unitOptions?: ('minutes' | 'hours' | 'days')[];
   className?: string;
   error?: string;
+  disabled?: boolean;
 }
 
 export const DurationField = ({
@@ -25,7 +26,8 @@ export const DurationField = ({
   onChange,
   unitOptions = ['minutes', 'hours', 'days'],
   className = '',
-  error
+  error,
+  disabled = false
 }: DurationFieldProps) => {
   const { t } = useTranslation('forms');
 
@@ -46,7 +48,7 @@ export const DurationField = ({
   };
 
   return (
-    <div className={`duration-field ${className} ${error ? 'has-error' : ''}`}>
+    <div className={`duration-field ${className} ${error ? 'has-error' : ''} ${disabled ? 'disabled' : ''}`}>
       <div className="duration-field__header">
         <label className="duration-field__label">{label}</label>
         {description && <p className="duration-field__description">{description}</p>}
@@ -61,6 +63,7 @@ export const DurationField = ({
           placeholder="0"
           className="duration-field__value"
           aria-label={t('form.bookingSettings.minimumBookingDuration.value')}
+          disabled={disabled}
         />
         <select
           name={`${name}.unit`}
@@ -68,6 +71,7 @@ export const DurationField = ({
           onChange={handleUnitChange}
           className="duration-field__unit"
           aria-label={t('form.bookingSettings.minimumBookingDuration.unit')}
+          disabled={disabled}
         >
           <option value="">{t('form.bookingSettings.minimumBookingDuration.unit')}</option>
           {unitOptions.map((unit) => (

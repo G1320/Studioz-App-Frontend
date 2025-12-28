@@ -8,6 +8,7 @@
   background: vars.$bg-color-secondary;
   border-radius: vars.$border-radius-large;
   border: 1px solid vars.$white-opacity-15;
+  text-align: start;
 
   &.has-error {
     border-color: vars.$color-warning;

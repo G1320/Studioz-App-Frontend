@@ -155,7 +155,8 @@
       "hour": "שעה",
       "session": "סשן",
       "unit": "יחידה",
-      "song": "שיר"
+      "project": "פרויקט",
+      "day": "יום"
     },
     "fileUploader": {
       "image": " תמונות",

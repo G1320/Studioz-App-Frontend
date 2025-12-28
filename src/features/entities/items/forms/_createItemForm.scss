@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  text-align: start;
 
   &__section {
     display: flex;
@@ -18,6 +19,7 @@
     margin: 0 0 0.5rem 0;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid vars.$white-opacity-10;
+    text-align: start;
   }
 
   &__grid {
@@ -56,8 +58,9 @@
     border-radius: vars.$border-radius-medium;
     background: vars.$bg-color-tertiary;
     color: vars.$text-color-primary;
-    max-width: 120px;
+    width: 100px;
     transition: border-color 0.2s ease;
+    text-align: start;
 
     &:focus {
       outline: none;
@@ -87,6 +90,7 @@
     background: vars.$bg-color-secondary;
     border-radius: vars.$border-radius-large;
     border: 1px solid vars.$white-opacity-15;
+    text-align: start;
   }
 
   &__switch {
