@@ -85,6 +85,68 @@
     "instantBook": {
       "label": "Instant Book"
     },
+    "bookingSettings": {
+      "minimumBookingDuration": {
+        "label": "Minimum Booking Duration",
+        "description": "The minimum time a customer must book",
+        "value": "Duration",
+        "unit": "Unit"
+      },
+      "maximumBookingDuration": {
+        "label": "Maximum Booking Duration",
+        "description": "The maximum time a customer can book",
+        "value": "Duration",
+        "unit": "Unit"
+      },
+      "minimumQuantity": {
+        "label": "Minimum Quantity",
+        "description": "Minimum number of units/people per booking"
+      },
+      "advanceBookingRequired": {
+        "label": "Advance Booking Required",
+        "description": "How far in advance customers must book",
+        "value": "Duration",
+        "unit": "Unit"
+      },
+      "preparationTime": {
+        "label": "Preparation Time",
+        "description": "Time needed to prepare before the session",
+        "value": "Duration",
+        "unit": "Unit"
+      },
+      "bufferTime": {
+        "label": "Buffer Time",
+        "description": "Time between sessions for cleanup/setup",
+        "value": "Duration",
+        "unit": "Unit"
+      },
+      "allowSameDayBooking": {
+        "label": "Allow Same-Day Booking",
+        "description": "Allow customers to book for today"
+      },
+      "units": {
+        "minutes": "Minutes",
+        "hours": "Hours",
+        "days": "Days"
+      }
+    },
+    "cancellationPolicy": {
+      "label": "Cancellation Policy",
+      "description": "Define your cancellation terms",
+      "type": {
+        "label": "Policy Type",
+        "flexible": "Flexible",
+        "flexibleDesc": "Full refund up to 24 hours before",
+        "moderate": "Moderate",
+        "moderateDesc": "Full refund up to 5 days before",
+        "strict": "Strict",
+        "strictDesc": "50% refund up to 7 days before"
+      },
+      "notes": {
+        "label": "Additional Notes",
+        "placeholder": "Add any additional cancellation terms..."
+      }
+    },
     "price": {
       "label": "Price"
     },
@@ -249,6 +311,14 @@
       "basicInfoDesc": "Enter studio name and description",
       "categories": "Categories & Genres",
       "categoriesDesc": "Select categories and genres",
+      "pricing": "Pricing & Options",
+      "pricingDesc": "Set price and booking options",
+      "bookingSettings": "Booking Settings",
+      "bookingSettingsDesc": "Set booking rules and preparation times",
+      "policies": "Policies",
+      "policiesDesc": "Define cancellation and booking policies",
+      "addOns": "Add-Ons",
+      "addOnsDesc": "Add optional add-ons to your item",
       "availability": "Availability",
       "availabilityDesc": "Set studio business hours",
       "location": "Location & Contact",

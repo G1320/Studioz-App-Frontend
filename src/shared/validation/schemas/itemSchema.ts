@@ -265,9 +265,79 @@ export const itemStep1EditSchema = z.object({
 });
 
 /**
- * Step 4: Add-ons Schema (optional - no validation required, always passes)
+ * Step 4: Booking Settings Schema
+ * Validates: minimumBookingDuration, maximumBookingDuration, minimumQuantity,
+ * advanceBookingRequired, preparationTime, bufferTime, allowSameDayBooking
  */
-export const itemStep4Schema = z.object({}).passthrough();
+export const itemStep4Schema = z.object({
+  minimumBookingDuration: z.object({
+    value: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
+  }).optional(),
+  maximumBookingDuration: z.object({
+    value: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
+  }).optional(),
+  minimumQuantity: z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+    z.number().positive().optional()
+  ),
+  advanceBookingRequired: z.object({
+    value: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    unit: z.enum(['hours', 'days']).optional()
+  }).optional(),
+  preparationTime: z.object({
+    value: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
+  }).optional(),
+  bufferTime: z.object({
+    value: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
+  }).optional(),
+  allowSameDayBooking: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === '') return false;
+      if (typeof val === 'boolean') return val;
+      if (typeof val === 'string') return val === 'true' || val === '1' || val === 'on';
+      return Boolean(val);
+    },
+    z.boolean().optional()
+  )
+}).passthrough();
+
+/**
+ * Step 5: Policies Schema
+ * Validates: cancellationPolicy
+ */
+export const itemStep5Schema = z.object({
+  cancellationPolicy: z.object({
+    type: z.enum(['flexible', 'moderate', 'strict']).optional(),
+    notes: z.object({
+      en: z.string().max(500).optional(),
+      he: z.string().max(500).optional()
+    }).optional()
+  }).optional()
+}).passthrough();
+
+/**
+ * Step 6: Add-ons Schema (optional - no validation required, always passes)
+ */
+export const itemStep6Schema = z.object({}).passthrough();
 
 /**
  * Step schema map for easy access
@@ -276,7 +346,9 @@ export const itemStepSchemas = {
   'basic-info': itemStep1Schema,
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
-  'add-ons': itemStep4Schema
+  'booking-settings': itemStep4Schema,
+  policies: itemStep5Schema,
+  'add-ons': itemStep6Schema
 } as const;
 
 /**
@@ -286,7 +358,9 @@ export const itemStepSchemasEdit = {
   'basic-info': itemStep1EditSchema,
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
-  'add-ons': itemStep4Schema
+  'booking-settings': itemStep4Schema,
+  policies: itemStep5Schema,
+  'add-ons': itemStep6Schema
 } as const;
 
 /**
@@ -298,4 +372,6 @@ export type ItemCreateData = z.infer<typeof itemCreateSchema>;
 export type ItemStep1Data = z.infer<typeof itemStep1Schema>;
 export type ItemStep2Data = z.infer<typeof itemStep2Schema>;
 export type ItemStep3Data = z.infer<typeof itemStep3Schema>;
+export type ItemStep4Data = z.infer<typeof itemStep4Schema>;
+export type ItemStep5Data = z.infer<typeof itemStep5Schema>;
 export type ItemStep1EditData = z.infer<typeof itemStep1EditSchema>;

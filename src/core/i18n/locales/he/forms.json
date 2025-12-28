@@ -85,6 +85,68 @@
     "instantBook": {
       "label": "הזמנה מיידית"
     },
+    "bookingSettings": {
+      "minimumBookingDuration": {
+        "label": "משך הזמנה מינימלי",
+        "description": "הזמן המינימלי שלקוח חייב להזמין",
+        "value": "משך",
+        "unit": "יחידה"
+      },
+      "maximumBookingDuration": {
+        "label": "משך הזמנה מקסימלי",
+        "description": "הזמן המקסימלי שלקוח יכול להזמין",
+        "value": "משך",
+        "unit": "יחידה"
+      },
+      "minimumQuantity": {
+        "label": "כמות מינימלית",
+        "description": "מספר יחידות/אנשים מינימלי להזמנה"
+      },
+      "advanceBookingRequired": {
+        "label": "הזמנה מראש נדרשת",
+        "description": "כמה זמן מראש לקוחות חייבים להזמין",
+        "value": "משך",
+        "unit": "יחידה"
+      },
+      "preparationTime": {
+        "label": "זמן הכנה",
+        "description": "זמן הנדרש להכנה לפני הסשן",
+        "value": "משך",
+        "unit": "יחידה"
+      },
+      "bufferTime": {
+        "label": "זמן מעבר",
+        "description": "זמן בין סשנים לניקיון/הכנה",
+        "value": "משך",
+        "unit": "יחידה"
+      },
+      "allowSameDayBooking": {
+        "label": "אפשר הזמנה לאותו יום",
+        "description": "אפשר ללקוחות להזמין להיום"
+      },
+      "units": {
+        "minutes": "דקות",
+        "hours": "שעות",
+        "days": "ימים"
+      }
+    },
+    "cancellationPolicy": {
+      "label": "מדיניות ביטול",
+      "description": "הגדר את תנאי הביטול שלך",
+      "type": {
+        "label": "סוג מדיניות",
+        "flexible": "גמישה",
+        "flexibleDesc": "החזר מלא עד 24 שעות לפני",
+        "moderate": "מתונה",
+        "moderateDesc": "החזר מלא עד 5 ימים לפני",
+        "strict": "נוקשה",
+        "strictDesc": "החזר 50% עד 7 ימים לפני"
+      },
+      "notes": {
+        "label": "הערות נוספות",
+        "placeholder": "הוסף תנאי ביטול נוספים..."
+      }
+    },
     "price": {
       "label": "מחיר"
     },
@@ -246,9 +308,17 @@
     "itemLimitInfo": "נותרו לך {{count}} שירות{{count, plural, one {} other {ים}}} בתוכנית החינמית שלך. שדרג כדי ליצור שירותים ללא הגבלה.",
     "steps": {
       "basicInfo": "מידע בסיסי",
-      "basicInfoDesc": "  הוסף שם ותיאור ",
+      "basicInfoDesc": "הוסף שם ותיאור",
       "categories": "קטגוריות",
       "categoriesDesc": "בחר קטגוריות וז'אנרים",
+      "pricing": "תמחור ואפשרויות",
+      "pricingDesc": "הגדר מחיר ואפשרויות הזמנה",
+      "bookingSettings": "הגדרות הזמנה",
+      "bookingSettingsDesc": "הגדר כללי הזמנה וזמני הכנה",
+      "policies": "מדיניות",
+      "policiesDesc": "הגדר מדיניות ביטול והזמנה",
+      "addOns": "תוספות",
+      "addOnsDesc": "הוסף תוספות אופציונליות לשירות",
       "availability": "זמינות",
       "availabilityDesc": "הגדר את שעות הפעילות",
       "location": "מיקום ופרטי קשר",
@@ -256,7 +326,7 @@
       "files": "קבצים ומדיה",
       "filesDesc": "העלה תמונות לסטודיו שלך",
       "details": "הגדרות נוספות",
-      "detailsDesc": "הגדר פרטים נלווים "
+      "detailsDesc": "הגדר פרטים נלווים"
     },
     "buttons": {
       "next": "הבא",

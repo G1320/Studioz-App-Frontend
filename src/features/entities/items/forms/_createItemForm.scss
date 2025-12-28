@@ -1,0 +1,158 @@
+@use 'utilities/variables' as vars;
+
+.booking-settings-step {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__section-title {
+    font-size: vars.$font-size-large;
+    font-weight: 600;
+    color: vars.$text-color-primary;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid vars.$white-opacity-10;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: vars.$bg-color-secondary;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid vars.$white-opacity-15;
+  }
+
+  &__label {
+    font-weight: 600;
+    font-size: vars.$font-size-sm-md;
+    color: vars.$text-color-primary;
+  }
+
+  &__description {
+    font-size: vars.$font-size-small;
+    color: vars.$white-opacity-60;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  &__input {
+    padding: 0.625rem 0.875rem;
+    font-size: vars.$font-size-medium;
+    border: 1px solid vars.$white-opacity-15;
+    border-radius: vars.$border-radius-medium;
+    background: vars.$bg-color-tertiary;
+    color: vars.$text-color-primary;
+    max-width: 120px;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$white-opacity-30;
+    }
+
+    &::placeholder {
+      color: vars.$white-opacity-40;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+
+  &__switch-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: vars.$bg-color-secondary;
+    border-radius: vars.$border-radius-large;
+    border: 1px solid vars.$white-opacity-15;
+  }
+
+  &__switch {
+    flex-shrink: 0;
+    width: 44px;
+    height: 24px;
+    background: vars.$white-opacity-20;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: vars.$text-color-primary;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+      box-shadow: 0 1px 3px vars.$black-opacity-20;
+    }
+
+    &.on {
+      background: vars.$color-brand;
+
+      &::after {
+        transform: translateX(20px);
+      }
+    }
+  }
+
+  &__switch-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__switch-label {
+    font-weight: 600;
+    font-size: vars.$font-size-sm-md;
+    color: vars.$text-color-primary;
+    cursor: pointer;
+  }
+
+  &__switch-description {
+    font-size: vars.$font-size-small;
+    color: vars.$white-opacity-60;
+    margin: 0;
+  }
+}
+
+.policies-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .booking-settings-step {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
