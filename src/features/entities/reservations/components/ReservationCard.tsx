@@ -129,6 +129,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
       </div>
 
       {studioName && <div className="reservation-card__studio-name">{studioName}</div>}
+      {reservation.address && <div className="reservation-card__address">{reservation.address}</div>}
 
       <div className="reservation-card__details">
         <div className="reservation-card__detail-row">

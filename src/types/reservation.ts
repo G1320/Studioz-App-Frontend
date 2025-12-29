@@ -9,6 +9,9 @@ export default interface Reservation {
     en?: string;
     he?: string;
   };
+  studioId?: string;
+  studioImgUrl?: string;
+  address?: string;
   userId: string;
   bookingDate: string;
   timeSlots: string[];

@@ -160,6 +160,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         bookingDate,
         startTime,
         studioImgUrl: item?.studioImgUrl,
+        address: item?.address || studio?.address,
         hours,
         customerName,
         customerPhone,

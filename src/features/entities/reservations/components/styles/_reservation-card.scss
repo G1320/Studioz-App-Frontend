@@ -119,6 +119,13 @@
     font-weight: 400;
   }
 
+  &__address {
+    font-size: vars.$font-size-small;
+    color: vars.$white-opacity-50;
+    margin: 0;
+    font-weight: 400;
+  }
+
   &__status-row {
     display: flex;
     margin: vars.$spacing-small 0;
