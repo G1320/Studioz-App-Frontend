@@ -11,6 +11,18 @@ import { featureFlags } from '@core/config/featureFlags';
 import { ItemFeatures } from './ItemFeatures';
 import '../styles/_item-card.scss';
 
+/**
+ * Detects if text content is RTL based on the first strong directional character.
+ * Checks for Hebrew (U+0590-U+05FF) and Arabic (U+0600-U+06FF) character ranges.
+ */
+const isRTLText = (text: string): boolean => {
+  if (!text) return false;
+  // Match first strong directional character (Hebrew or Arabic)
+  const rtlRegex = /[\u0590-\u05FF\u0600-\u06FF]/;
+  const firstChar = text.trim().charAt(0);
+  return rtlRegex.test(firstChar);
+};
+
 interface ItemCardProps {
   item: Item;
   wishlists?: Wishlist[];
@@ -64,10 +76,15 @@ export const ItemCard: React.FC<ItemCardProps> = ({
     return pricePerMap[pricePer] || pricePer;
   };
 
+  const titleText = item?.name?.en || '';
+  const titleDir = isRTLText(titleText) ? 'rtl' : 'ltr';
+
   return (
     <article onMouseEnter={prefetchItem} key={item?._id} className="card item-card">
       <div className="item-card-name-and-description">
-        <h3 className="title">{item?.name.en}</h3>
+        <h3 className="title" dir={titleDir}>
+          {titleText}
+        </h3>
         <p className="description">{item?.description[currentLang] || item?.description.en}</p>
         <div className="item-price-container">
           <small className="item-price">

@@ -71,6 +71,12 @@
     flex-shrink: 1; // Allow title to shrink
     align-self: flex-start; // Always position at start
     text-align: start; // Ensure text alignment is at start
+
+    // RTL text (Hebrew/Arabic content) - ellipsis on left side
+    &[dir='rtl'] {
+      text-align: right;
+      align-self: flex-end;
+    }
   }
 
   small.item-price {
