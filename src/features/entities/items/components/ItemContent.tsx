@@ -6,6 +6,7 @@ import { ReservationCard } from '@features/entities/reservations';
 import { AddOnsList } from '@features/entities/addOns/components';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { AddOn, Cart, Item, Reservation, Studio, StudioAvailability } from 'src/types/index';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ItemContentProps {
   item: Item;
@@ -35,6 +36,27 @@ interface ItemContentProps {
   onBookNow: () => void;
   onCancelReservation: () => void;
 }
+
+// Slide animation variants (same as SteppedForm)
+const slideVariants = {
+  enter: (isRTL: boolean) => ({
+    x: isRTL ? '-100%' : '100%',
+    opacity: 0
+  }),
+  center: {
+    x: 0,
+    opacity: 1
+  },
+  exit: (isRTL: boolean) => ({
+    x: isRTL ? '100%' : '-100%',
+    opacity: 0
+  })
+};
+
+const slideTransition = {
+  x: { type: 'spring', stiffness: 300, damping: 30 },
+  opacity: { duration: 0.2 }
+};
 
 export const ItemContent: React.FC<ItemContentProps> = ({
   item,
@@ -67,48 +89,68 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   const { i18n, t } = useTranslation('common');
   const isRTL = i18n.language === 'he';
 
+  const showReservation = currentReservationId && reservation;
+
   return (
     <>
-      {currentReservationId && reservation && (
-        <ReservationCard reservation={reservation} variant="itemCard" onCancel={onCancelReservation} />
-      )}
+      <AnimatePresence mode="wait" initial={false} custom={isRTL}>
+        {showReservation ? (
+          <motion.div
+            key="reservation-card"
+            custom={isRTL}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+            className="item-content-animated"
+          >
+            <ReservationCard reservation={reservation} variant="itemCard" onCancel={onCancelReservation} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="booking-form"
+            custom={isRTL}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+            className="item-content-animated"
+          >
+            <div className="date-picker-row">
+              <MuiDateTimePicker
+                value={selectedDate}
+                onChange={onDateChange}
+                itemAvailability={item?.availability || []}
+                studioAvailability={studio?.studioAvailability as StudioAvailability}
+              />
 
-      <div className="date-picker-row">
-        {!currentReservationId && (
-          <>
-            <MuiDateTimePicker
-              value={selectedDate}
-              onChange={onDateChange}
-              itemAvailability={item?.availability || []}
-              studioAvailability={studio?.studioAvailability as StudioAvailability}
+              <fieldset className="hours-fieldset">
+                <legend className="hours-legend">{t('hours', 'Hours')}</legend>
+                <HourSelector value={selectedQuantity} onIncrement={onIncrement} onDecrement={onDecrement} />
+              </fieldset>
+            </div>
+
+            {isFeatureEnabled('addOns') && addOns.length > 0 && (
+              <section className="item-addons-section">
+                <AddOnsList addOns={addOns} showAddButton onAdd={onAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
+              </section>
+            )}
+
+            <ReservationDetailsForm
+              customerName={customerName}
+              customerPhone={customerPhone}
+              comment={comment}
+              onNameChange={onNameChange}
+              onPhoneChange={onPhoneChange}
+              onCommentChange={onCommentChange}
+              isRTL={isRTL}
+              onPhoneVerified={onPhoneVerified}
             />
-
-            <fieldset className="hours-fieldset">
-              <legend className="hours-legend">{t('hours', 'Hours')}</legend>
-              <HourSelector value={selectedQuantity} onIncrement={onIncrement} onDecrement={onDecrement} />
-            </fieldset>
-          </>
+          </motion.div>
         )}
-      </div>
-
-      {isFeatureEnabled('addOns') && !currentReservationId && addOns.length > 0 && (
-        <section className="item-addons-section">
-          <AddOnsList addOns={addOns} showAddButton onAdd={onAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
-        </section>
-      )}
-
-      {!currentReservationId && (
-        <ReservationDetailsForm
-          customerName={customerName}
-          customerPhone={customerPhone}
-          comment={comment}
-          onNameChange={onNameChange}
-          onPhoneChange={onPhoneChange}
-          onCommentChange={onCommentChange}
-          isRTL={isRTL}
-          onPhoneVerified={onPhoneVerified}
-        />
-      )}
+      </AnimatePresence>
 
       <BookingActions
         price={item?.price || 0}
