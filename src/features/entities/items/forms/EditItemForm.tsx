@@ -23,6 +23,7 @@ import { toast } from 'sonner';
 import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { Switch, Field, Label } from '@headlessui/react';
+import { clearAllFormData } from '@shared/utils/formAutoSaveUtils';
 import './_createItemForm.scss';
 
 interface ItemFormData {
@@ -57,6 +58,16 @@ export const EditItemForm = () => {
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const hasPopulatedAddOns = useRef(false);
+
+  // Unique formId per item to prevent autoSave data from one item bleeding into another
+  const formId = `edit-item-form-${itemId}`;
+
+  // Clear autoSave data for this item when component mounts to ensure fresh data from API
+  useEffect(() => {
+    if (itemId) {
+      clearAllFormData(formId);
+    }
+  }, [itemId, formId]);
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
@@ -600,7 +611,7 @@ export const EditItemForm = () => {
       <section className="form-wrapper edit-item-form-wrapper">
         <SteppedForm
           className="edit-item-form"
-          formId="edit-item-form"
+          formId={formId}
           steps={steps}
           fields={fields}
           onSubmit={handleSubmit}
