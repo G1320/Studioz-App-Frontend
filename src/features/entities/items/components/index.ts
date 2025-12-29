@@ -3,6 +3,7 @@ export * from './ItemCard';
 export * from './ItemFeatures';
 export * from './ItemBadges';
 export * from './ItemDetails';
+export * from './ItemContent';
 export * from './ItemHeader';
 export * from './ItemOptions';
 export * from './HourSelector';

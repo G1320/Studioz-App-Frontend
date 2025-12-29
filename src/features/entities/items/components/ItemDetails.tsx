@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ReservationDetailsForm, ItemHeader, HourSelector, BookingActions, ItemCard } from '@features/entities';
-import { MuiDateTimePicker } from '@shared/components';
+import { ItemHeader, ItemCard, ItemContent } from '@features/entities';
 import {
   useAddItemToCartMutation,
   useItem,
@@ -14,12 +13,8 @@ import {
 import { useModal, useUserContext } from '@core/contexts';
 import { User, Wishlist, AddOn, Item } from 'src/types/index';
 import { splitDateTime } from '@shared/utils';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
-import { ReservationCard } from '@features/entities/reservations';
-import { AddOnsList } from '@features/entities/addOns/components';
-import { isFeatureEnabled } from '@core/config/featureFlags';
 import { useAddOns } from '@shared/hooks';
 
 interface ItemDetailsProps {
@@ -39,8 +34,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
-  const { i18n, t } = useTranslation('common');
-  const isRTL = i18n.language === 'he';
 
   const [customerPhone, setCustomerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
   const [customerName, setCustomerName] = useState(() => localStorage.getItem('customerName') || '');
@@ -78,29 +71,54 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
 
-  const handleDateChange = (newDate: Date | null) => {
+  const handleDateChange = useCallback((newDate: Date | null) => {
     setSelectedDate(newDate);
-  };
+  }, []);
 
-  const handleIncrement = () => {
+  const handleIncrement = useCallback(() => {
     setSelectedQuantity((prev) => prev + 1);
-  };
+  }, []);
 
-  const handleDecrement = () => {
+  const handleDecrement = useCallback(() => {
     setSelectedQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  };
+  }, []);
 
   const handleAddOnToggle = useCallback((addOn: AddOn) => {
     setSelectedAddOnIds((prev) => {
       if (prev.includes(addOn._id)) {
-        // Remove add-on if already selected
         return prev.filter((id) => id !== addOn._id);
       } else {
-        // Add add-on if not selected
         return [...prev, addOn._id];
       }
     });
   }, []);
+
+  const handleNameChange = useCallback((value: string) => {
+    localStorage.setItem('customerName', value);
+    setCustomerName(value);
+  }, []);
+
+  const handlePhoneChange = useCallback(
+    (value: string) => {
+      if (value !== customerPhone) {
+        localStorage.removeItem('isPhoneVerified');
+        setIsPhoneVerified(false);
+      }
+      localStorage.setItem('customerPhone', value);
+      setCustomerPhone(value);
+    },
+    [customerPhone]
+  );
+
+  const handlePhoneVerified = useCallback(() => {
+    localStorage.setItem('isPhoneVerified', 'true');
+    setIsPhoneVerified(true);
+  }, []);
+
+  const handleCancelReservation = useCallback(() => {
+    localStorage.removeItem(`reservation_${itemId}`);
+    setCurrentReservationId(null);
+  }, [itemId]);
 
   const handleBookNow = useCallback(() => {
     const confirmedDate = selectedDate?.toString() || null;
@@ -171,17 +189,21 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     itemId,
     reserveItemTimeSlotMutation,
     addItemToCartMutation,
-    setCurrentReservationId,
-    setSelectedDate,
     selectedAddOnIds,
     addOnsTotal
   ]);
 
-  const handleGoToEdit = (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null);
-  const handleImageClicked = () => langNavigate(`/studio/${item?.studioId}`);
+  const handleGoToEdit = useCallback(
+    (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null),
+    [langNavigate]
+  );
+  const handleImageClicked = useCallback(
+    () => langNavigate(`/studio/${item?.studioId}`),
+    [langNavigate, item?.studioId]
+  );
 
   return (
-    <article onMouseEnter={prefetchItem} key={item?._id} className={`details item-details `}>
+    <article onMouseEnter={prefetchItem} key={item?._id} className="details item-details">
       <button className="close-button" onClick={closeModal}>
         ×
       </button>
@@ -193,73 +215,33 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         onImageClick={handleImageClicked}
       />
       <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} />
-      {currentReservationId && reservation && (
-        <ReservationCard
-          reservation={reservation}
-          variant="itemCard"
-          onCancel={() => {
-            localStorage.removeItem(`reservation_${itemId}`);
-            setCurrentReservationId(null);
-          }}
-        />
-      )}
-      <div className="date-picker-row">
-        {!currentReservationId && (
-          <>
-            <MuiDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
-              itemAvailability={item?.availability || []}
-              studioAvailability={studio?.studioAvailability}
-            />
-
-            <fieldset className="hours-fieldset">
-              <legend className="hours-legend">{t('hours', 'Hours')}</legend>
-              <HourSelector value={selectedQuantity} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-            </fieldset>
-          </>
-        )}
-      </div>
-      {isFeatureEnabled('addOns') && !currentReservationId && addOns.length > 0 && (
-        <section className="item-addons-section">
-          <AddOnsList addOns={addOns} showAddButton onAdd={handleAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
-        </section>
-      )}
-      {!currentReservationId && (
-        <ReservationDetailsForm
-          customerName={customerName}
-          customerPhone={customerPhone}
-          comment={comment}
-          onNameChange={(value) => {
-            localStorage.setItem('customerName', value);
-            setCustomerName(value);
-          }}
-          onPhoneChange={(value) => {
-            if (value !== customerPhone) {
-              localStorage.removeItem('isPhoneVerified');
-              setIsPhoneVerified(false);
-            }
-            localStorage.setItem('customerPhone', value);
-            setCustomerPhone(value);
-          }}
-          onCommentChange={setComment}
-          isRTL={isRTL}
-          onPhoneVerified={() => {
-            localStorage.setItem('isPhoneVerified', 'true');
-            setIsPhoneVerified(true);
-          }}
-        />
-      )}
-      <BookingActions
-        price={item?.price || 0}
-        quantity={selectedQuantity}
+      <ItemContent
+        item={item as Item}
+        studio={studio}
+        cart={cart}
+        addOns={addOns}
+        reservation={reservation}
         currentReservationId={currentReservationId}
+        selectedDate={selectedDate}
+        selectedQuantity={selectedQuantity}
+        customerName={customerName}
+        customerPhone={customerPhone}
+        comment={comment}
         isPhoneVerified={isPhoneVerified}
         isBooked={isBooked as boolean}
-        cart={cart}
-        onBookNow={handleBookNow}
-        addOnsTotal={addOnsTotal}
         isLoading={reserveItemTimeSlotMutation.isPending}
+        selectedAddOnIds={selectedAddOnIds}
+        addOnsTotal={addOnsTotal}
+        onDateChange={handleDateChange}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
+        onAddOnToggle={handleAddOnToggle}
+        onNameChange={handleNameChange}
+        onPhoneChange={handlePhoneChange}
+        onCommentChange={setComment}
+        onPhoneVerified={handlePhoneVerified}
+        onBookNow={handleBookNow}
+        onCancelReservation={handleCancelReservation}
       />
     </article>
   );
