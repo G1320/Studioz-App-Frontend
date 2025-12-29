@@ -275,14 +275,14 @@ export const itemStep4Schema = z.object({
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['minutes', 'hours', 'days']).optional()
+    unit: z.enum(['hours', 'days']).optional()
   }).optional(),
   maximumBookingDuration: z.object({
     value: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['minutes', 'hours', 'days']).optional()
+    unit: z.enum(['hours', 'days']).optional()
   }).optional(),
   minimumQuantity: z.preprocess(
     (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
@@ -300,14 +300,14 @@ export const itemStep4Schema = z.object({
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['minutes', 'hours', 'days']).optional()
+    unit: z.enum(['hours', 'days']).optional()
   }).optional(),
   bufferTime: z.object({
     value: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['minutes', 'hours', 'days']).optional()
+    unit: z.enum(['hours', 'days']).optional()
   }).optional(),
   allowSameDayBooking: z.preprocess(
     (val) => {

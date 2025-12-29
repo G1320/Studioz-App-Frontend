@@ -43,8 +43,8 @@ export const BookingActions = React.memo(
             <span className="button-loading-spinner" />
           ) : (
             <>
-              {t('buttons.add_to_cart')}
-              <span>({totalPrice}₪)</span>
+          {t('buttons.add_to_cart')}
+          <span>({totalPrice}₪)</span>
             </>
           )}
         </Button>

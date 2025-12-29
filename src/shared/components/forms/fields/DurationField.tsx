@@ -3,7 +3,7 @@ import './styles/_durationField.scss';
 
 export interface Duration {
   value?: number;
-  unit?: 'minutes' | 'hours' | 'days';
+  unit?: 'hours' | 'days';
 }
 
 interface DurationFieldProps {
@@ -12,7 +12,7 @@ interface DurationFieldProps {
   description?: string;
   value?: Duration;
   onChange: (value: Duration) => void;
-  unitOptions?: ('minutes' | 'hours' | 'days')[];
+  unitOptions?: ('hours' | 'days')[];
   className?: string;
   error?: string;
   disabled?: boolean;
@@ -24,7 +24,7 @@ export const DurationField = ({
   description,
   value = {},
   onChange,
-  unitOptions = ['minutes', 'hours', 'days'],
+  unitOptions = ['hours', 'days'],
   className = '',
   error,
   disabled = false
@@ -33,7 +33,9 @@ export const DurationField = ({
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = e.target.value === '' ? undefined : Number(e.target.value);
-    onChange({ ...value, value: numValue });
+    // Default unit to 'hours' when setting a value if no unit is set
+    const unit = value.unit ?? 'hours';
+    onChange({ ...value, value: numValue, unit });
   };
 
   const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,10 +44,12 @@ export const DurationField = ({
   };
 
   const unitLabels: Record<string, string> = {
-    minutes: t('form.bookingSettings.units.minutes'),
     hours: t('form.bookingSettings.units.hours'),
     days: t('form.bookingSettings.units.days')
   };
+
+  // Default to 'hours' if no unit selected
+  const effectiveUnit = value.unit ?? 'hours';
 
   return (
     <div className={`duration-field ${className} ${error ? 'has-error' : ''} ${disabled ? 'disabled' : ''}`}>
@@ -67,13 +71,12 @@ export const DurationField = ({
         />
         <select
           name={`${name}.unit`}
-          value={value.unit ?? ''}
+          value={effectiveUnit}
           onChange={handleUnitChange}
           className="duration-field__unit"
           aria-label={t('form.bookingSettings.minimumBookingDuration.unit')}
           disabled={disabled}
         >
-          <option value="">{t('form.bookingSettings.minimumBookingDuration.unit')}</option>
           {unitOptions.map((unit) => (
             <option key={unit} value={unit}>
               {unitLabels[unit]}
