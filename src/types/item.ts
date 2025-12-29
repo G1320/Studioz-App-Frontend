@@ -1,8 +1,8 @@
 import { Availability } from './availability';
 
 export interface Duration {
-  value: number;
-  unit: 'minutes' | 'hours' | 'days';
+  value?: number;
+  unit?: 'hours' | 'days';
 }
 
 export interface AdvanceBookingRequired {
