@@ -42,8 +42,8 @@ export const StepContent = ({
     }
     // Check for nested errors (e.g., studioAvailability.days, studioAvailability.times)
     const nestedErrors = Object.keys(errors)
-      .filter(key => key.startsWith(`${fieldName}.`))
-      .map(key => errors[key])
+      .filter((key) => key.startsWith(`${fieldName}.`))
+      .map((key) => errors[key])
       .filter(Boolean);
     // If multiple nested errors, combine them; otherwise return the first one
     if (nestedErrors.length > 1) {
@@ -70,17 +70,18 @@ export const StepContent = ({
     // Get errors for step fields
     const stepErrors = getAllStepErrors();
     const hasErrors = stepErrors.length > 0;
-    
+
     // Try to clone the element and pass errors as props
     let contentWithErrors = customContent;
     if (isValidElement(customContent)) {
       // Check if it's a FileUploader component (by checking if it accepts errors prop)
       try {
-        contentWithErrors = cloneElement(customContent as React.ReactElement<any>, {
-          errors: stepErrors,
-          hasError: hasErrors,
-          fieldNames: fields.map(f => f.name)
-        } as any);
+        contentWithErrors = cloneElement(
+          customContent as React.ReactElement<any>,
+          {
+            errors: stepErrors
+          } as any
+        );
       } catch (e) {
         // If cloning fails, just use the original content
         contentWithErrors = customContent;
@@ -94,7 +95,9 @@ export const StepContent = ({
           <div className="custom-content-errors">
             {stepErrors.map((error, index) => (
               <div key={index} className="field-error">
-                <span className="field-error__icon" aria-hidden="true">⚠️</span>
+                <span className="field-error__icon" aria-hidden="true">
+                  ⚠️
+                </span>
                 <span className="field-error__message">{error}</span>
               </div>
             ))}
@@ -109,7 +112,7 @@ export const StepContent = ({
       key={`${formId}-step-${currentStepIndex}-${selectedLanguage}`}
       formId={`${formId}-step-${currentStepIndex}`}
       fields={fields.map((field) => {
-        const error = hasValidated 
+        const error = hasValidated
           ? getFieldError(field.name, validationErrors) || getFieldError(field.name, stepValidationErrors)
           : undefined;
         return {
@@ -118,11 +121,15 @@ export const StepContent = ({
           className: hasValidated && error ? 'has-error' : ''
         };
       })}
-      onSubmit={isLastStep ? onSubmit : (_formData, event) => {
-        if (event) {
-          event.preventDefault();
-        }
-      }}
+      onSubmit={
+        isLastStep
+          ? onSubmit
+          : (_formData, event) => {
+              if (event) {
+                event.preventDefault();
+              }
+            }
+      }
       onCategoryChange={onCategoryChange}
       hideSubmit={true}
       className="stepped-form__form"
@@ -131,4 +138,3 @@ export const StepContent = ({
     </GenericForm>
   );
 };
-

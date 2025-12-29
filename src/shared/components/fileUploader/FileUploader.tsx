@@ -17,7 +17,6 @@ interface FileUploaderProps {
   showPreviewBeforeUpload?: boolean;
   errors?: string[];
   hasError?: boolean;
-  fieldNames?: string[];
   onRemoveImage?: (image: string) => void;
   onReorderImages?: (reorderedImages: string[]) => void;
 }
