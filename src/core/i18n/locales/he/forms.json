@@ -85,7 +85,7 @@
       }
     },
     "instantBook": {
-      "label": "הזמנה מיידית"
+      "label": "אישור הזמנה מיידי"
     },
     "bookingSettings": {
       "minimumBookingDuration": {
@@ -102,7 +102,7 @@
       },
       "minimumQuantity": {
         "label": "כמות מינימלית",
-        "description": "מספר יחידות/אנשים מינימלי להזמנה"
+        "description": "מספר יחידות מינימלי להזמנה"
       },
       "advanceBookingRequired": {
         "label": "הזמנה מראש נדרשת",
