@@ -128,10 +128,6 @@
     outline: none;
   }
 
-  div {
-    display: flex;
-  }
-
   article.item-card {
     cursor: default;
     height: auto;
@@ -147,10 +143,18 @@
     }
   }
 
+  .item-content-animated {
+    div {
+      display: flex;
+    }
+  }
+
   div.date-picker-row {
     width: 100%;
     gap: 0.5rem;
   }
+
+  // Ensure customer details form has proper grid layout
 
   .hours-fieldset {
     border: none;

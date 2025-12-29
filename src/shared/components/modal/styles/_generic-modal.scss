@@ -27,7 +27,7 @@
       place-self: center;
       height: auto;
       max-width: 100%;
-      width: 100%;
+      width: clamp(300px, 100%, 600px);
       box-sizing: border-box;
       overflow: hidden;
     }
