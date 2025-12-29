@@ -13,6 +13,7 @@ interface BookingActionsProps {
   cart?: Cart;
   onBookNow: () => void;
   addOnsTotal?: number;
+  isLoading?: boolean;
 }
 
 export const BookingActions = React.memo(
@@ -24,7 +25,8 @@ export const BookingActions = React.memo(
     isBooked,
     cart,
     onBookNow,
-    addOnsTotal = 0
+    addOnsTotal = 0,
+    isLoading = false
   }: BookingActionsProps) => {
     const { t } = useTranslation('common');
 
@@ -32,9 +34,19 @@ export const BookingActions = React.memo(
 
     if (!currentReservationId && isPhoneVerified) {
       return (
-        <Button className="add-to-cart-button book-now-button" onClick={onBookNow}>
-          {t('buttons.add_to_cart')}
-          <span>({totalPrice}₪)</span>
+        <Button
+          className="add-to-cart-button book-now-button"
+          onClick={onBookNow}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <span className="button-loading-spinner" />
+          ) : (
+            <>
+              {t('buttons.add_to_cart')}
+              <span>({totalPrice}₪)</span>
+            </>
+          )}
         </Button>
       );
     }

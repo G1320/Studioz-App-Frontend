@@ -259,6 +259,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         cart={cart}
         onBookNow={handleBookNow}
         addOnsTotal={addOnsTotal}
+        isLoading={reserveItemTimeSlotMutation.isPending}
       />
     </article>
   );

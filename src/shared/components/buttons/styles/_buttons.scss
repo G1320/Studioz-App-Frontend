@@ -60,6 +60,21 @@ button:is(.add-to-cart-button) {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+
+  .button-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid vars.$text-color-dark;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .checkout-button {
