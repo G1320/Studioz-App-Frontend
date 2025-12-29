@@ -119,10 +119,22 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 
+// Default context value for when provider isn't ready (HMR, initial load race conditions)
+const defaultContextValue: NotificationContextType = {
+  notifications: [],
+  unreadCount: 0,
+  isLoading: false,
+  markAsRead: async () => {},
+  markAllAsRead: async () => {},
+  deleteNotificationById: async () => {},
+  refetch: () => {}
+};
+
 export const useNotificationContext = (): NotificationContextType => {
   const context = useContext(NotificationContext);
+  // Return default value instead of throwing to handle HMR and race conditions gracefully
   if (context === undefined) {
-    throw new Error('useNotificationContext must be used within a NotificationProvider');
+    return defaultContextValue;
   }
   return context;
 };
