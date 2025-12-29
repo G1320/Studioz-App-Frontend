@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ReservationCard } from '@features/entities/reservations';
 import { AddOnsList } from '@features/entities/addOns/components';
 import { isFeatureEnabled } from '@core/config/featureFlags';
-import { AddOn, Cart, Item, Reservation, Studio, StudioAvailability } from 'src/types/index';
+import { AddOn, Cart, Item, Reservation, Studio } from 'src/types/index';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface ItemContentProps {
@@ -123,7 +123,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
                 value={selectedDate}
                 onChange={onDateChange}
                 itemAvailability={item?.availability || []}
-                studioAvailability={studio?.studioAvailability as StudioAvailability}
+                studioAvailability={studio?.studioAvailability}
               />
 
               <fieldset className="hours-fieldset">
