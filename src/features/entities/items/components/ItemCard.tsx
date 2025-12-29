@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, StatusBadge, InstantBookBadge } from '@shared/components';
 import { useAddItemToWishlistMutation, useRemoveItemFromWishlistMutation, usePrefetchItem } from '@shared/hooks';
-import { useUserContext } from '@core/contexts';
+import { useUserContext, useModal } from '@core/contexts';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { Item, Wishlist, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
@@ -40,11 +40,13 @@ export const ItemCard: React.FC<ItemCardProps> = ({
 }) => {
   const { wishlistId } = useParams();
   const { user: contextUser } = useUserContext();
+  const { loadingItemId } = useModal();
   const user = propUser || contextUser;
-  // const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
   const { t, i18n } = useTranslation(['common', 'forms']);
   const { userLocation } = useLocationPermission();
+
+  const isLoading = loadingItemId === item?._id;
 
   // Get the current language (default to 'en' if not 'he')
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
@@ -80,7 +82,16 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   const titleDir = isRTLText(titleText) ? 'rtl' : 'ltr';
 
   return (
-    <article onMouseEnter={prefetchItem} key={item?._id} className="card item-card">
+    <article
+      onMouseEnter={prefetchItem}
+      key={item?._id}
+      className={`card item-card ${isLoading ? 'item-card--loading' : ''}`}
+    >
+      {isLoading && (
+        <div className="item-card__loading-overlay">
+          <div className="item-card__spinner" />
+        </div>
+      )}
       <div className="item-card-name-and-description">
         <h3 className="title" dir={titleDir}>
           {titleText}

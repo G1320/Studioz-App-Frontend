@@ -1,13 +1,15 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Item } from 'src/types/index';
 import { getLocalModalOpen, setLocalModalOpen, getLocalSelectedItem, setLocalSelectedItem } from '@shared/services';
 import { GenericModal } from '@shared/components';
 import { ItemDetails } from '@features/entities';
+import { getStudioById } from '@shared/services/studio-service';
 
 // Define types for the context
 interface ModalContextType {
   selectedItem: Item | null;
+  loadingItemId: string | null;
   openModal: (item: Item) => void;
   closeModal: () => void;
 }
@@ -24,6 +26,18 @@ export const useModal = () => {
   return context;
 };
 
+/**
+ * Preload an image and return a promise that resolves when loaded
+ */
+const preloadImage = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => resolve(); // Resolve even on error to not block the modal
+    img.src = src;
+  });
+};
+
 // Provider Component
 interface ModalProviderProps {
   children: ReactNode;
@@ -36,18 +50,40 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const storedItem = getLocalSelectedItem();
     return storedItem;
   });
+  const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
 
-  const openModal = (item: Item) => {
+  const openModal = useCallback(async (item: Item) => {
+    // Set loading state on the clicked item
+    setLoadingItemId(item._id);
+
+    try {
+      // Fetch studio data to get cover image URL
+      if (item.studioId) {
+        const studioData = await getStudioById(item.studioId);
+        const coverImageUrl = studioData?.currStudio?.coverImage;
+
+        // Preload the cover image if available
+        if (coverImageUrl) {
+          await preloadImage(coverImageUrl);
+        }
+      }
+    } catch (error) {
+      // If fetching fails, still open the modal
+      console.error('Error preloading modal data:', error);
+    }
+
+    // Clear loading and open modal
+    setLoadingItemId(null);
     setSelectedItem(item);
     setLocalModalOpen(true);
     setLocalSelectedItem(item);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedItem(null);
     setLocalModalOpen(false);
     setLocalSelectedItem(null);
-  };
+  }, []);
 
   useEffect(() => {
     // Synchronize state on component mount (e.g., page reload)
@@ -67,7 +103,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <ModalContext.Provider value={{ selectedItem, openModal, closeModal }}>
+    <ModalContext.Provider value={{ selectedItem, loadingItemId, openModal, closeModal }}>
       {children}
       <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
         {selectedItem && <ItemDetails itemId={selectedItem._id} />}
