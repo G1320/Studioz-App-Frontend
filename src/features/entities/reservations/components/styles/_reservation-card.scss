@@ -29,6 +29,7 @@
   // Clickable card styles (when role="button")
   &[role='button'] {
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
       border-color: vars.$color-brand;
@@ -36,13 +37,14 @@
       box-shadow: vars.$box-shadow-medium;
     }
 
-    &:focus {
-      // outline: 2px solid vars.$color-brand;
-      outline-offset: 2px;
+    &:focus,
+    &:focus-visible {
+      outline: none;
     }
 
     &:active {
       transform: translateY(0);
+      border-color: rgba(255, 255, 255, 0.1);
     }
   }
 
