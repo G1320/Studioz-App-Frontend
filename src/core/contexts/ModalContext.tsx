@@ -5,6 +5,7 @@ import { getLocalModalOpen, setLocalModalOpen, getLocalSelectedItem, setLocalSel
 import { GenericModal } from '@shared/components';
 import { ItemDetails } from '@features/entities';
 import { getStudioById } from '@shared/services/studio-service';
+import { preloadImage } from '@shared/utils/preloadUtils';
 
 // Define types for the context
 interface ModalContextType {
@@ -24,18 +25,6 @@ export const useModal = () => {
     throw new Error('useModal must be used within a ModalProvider');
   }
   return context;
-};
-
-/**
- * Preload an image and return a promise that resolves when loaded
- */
-const preloadImage = (src: string): Promise<void> => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve();
-    img.onerror = () => resolve(); // Resolve even on error to not block the modal
-    img.src = src;
-  });
 };
 
 // Provider Component
