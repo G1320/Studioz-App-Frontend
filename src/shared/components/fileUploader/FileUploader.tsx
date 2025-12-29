@@ -169,7 +169,12 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         </div>
 
         {isUploading && (
-          <div className="file-uploader-loading" role="status" aria-live="polite" aria-label={t('form.fileUploader.uploadingAriaLabel')}>
+          <div
+            className="file-uploader-loading"
+            role="status"
+            aria-live="polite"
+            aria-label={t('form.fileUploader.uploadingAriaLabel')}
+          >
             <div className="file-uploader-loading__spinner" />
             <span className="file-uploader-loading__label">{t('form.fileUploader.uploading')}</span>
           </div>
