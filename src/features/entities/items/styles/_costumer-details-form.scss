@@ -50,14 +50,27 @@
     &.full-width {
       grid-column: 1 / -1;
 
-      // When full-width container has both input and verification button, use flexbox for vertical alignment
-      &:has(.verification-button) {
+      // When full-width container has both input and verification buttons
+      &:has(.verification-buttons) {
         display: flex;
         gap: 10px;
         align-items: center;
 
         .customer-input {
           flex: 1;
+        }
+
+        // Mobile: stack vertically with equal-width buttons
+        @media (max-width: 480px) {
+          flex-wrap: wrap;
+
+          .customer-input {
+            flex: 1 1 100%;
+          }
+
+          .verification-buttons {
+            flex: 1 1 100%;
+          }
         }
       }
     }
@@ -69,17 +82,22 @@
     }
   }
 
-  .input-container .verification-box {
-  }
-
   .verification-buttons {
     display: flex;
     gap: 10px;
     flex-shrink: 0;
+
+    // Mobile: equal-width buttons
+    @media (max-width: 480px) {
+      .verification-button {
+        flex: 1;
+        min-width: 0;
+      }
+    }
   }
 
   .verification-button {
-    padding: 8px 16px;
+    padding: 10px 16px;
     border-radius: 8px;
     background-color: vars.$color-brand;
     color: white;
@@ -90,8 +108,7 @@
     grid-column: 1 / -1;
     justify-self: center;
     min-width: 120px;
-    height: 40px;
-    flex-shrink: 0;
+    height: 44px;
 
     &:hover:not(:disabled) {
       opacity: 0.9;
@@ -104,7 +121,9 @@
 
     &--secondary {
       background-color: transparent;
+      border: 1px solid vars.$color-brand;
       color: vars.$color-brand;
+
       &:hover:not(:disabled) {
         background-color: rgba(vars.$color-brand, 0.1);
       }
