@@ -15,7 +15,8 @@ import {
   useUpdateItemMutation,
   useAddOns,
   useDeleteAddOnMutation,
-  useStudio
+  useStudio,
+  useCategories
 } from '@shared/hooks';
 import { createAddOnsBatch, updateAddOn } from '@shared/services';
 import { Item } from 'src/types/index';
@@ -73,6 +74,7 @@ export const EditItemForm = () => {
   const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const { getEnglishByDisplay } = useCategories();
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
   const deleteAddOnMutation = useDeleteAddOnMutation();
@@ -516,9 +518,12 @@ export const EditItemForm = () => {
   ];
 
   const handleSubmit = async (formData: ItemFormData) => {
+    // Convert subCategories to English values for consistent database storage
+    const englishSubCategories = selectedSubCategories.map((subCat) => getEnglishByDisplay(subCat));
+
     formData.imageUrl = imageUrl;
     formData.categories = selectedCategories;
-    formData.subCategories = selectedSubCategories;
+    formData.subCategories = englishSubCategories;
     formData.studioId = item?.studioId || '';
     formData.pricePer = pricePer;
     // Convert string to boolean for instantBook (SteppedForm passes checkbox values as strings)

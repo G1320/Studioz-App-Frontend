@@ -15,7 +15,8 @@ import {
   usePhotoSubCategories,
   useStudio,
   useItems,
-  useSubscription
+  useSubscription,
+  useCategories
 } from '@shared/hooks';
 import { Item } from 'src/types/index';
 import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
@@ -61,6 +62,7 @@ export const CreateItemForm = () => {
   const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const { getEnglishByDisplay } = useCategories();
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
@@ -367,9 +369,12 @@ export const CreateItemForm = () => {
       return;
     }
 
+    // Convert subCategories to English values for consistent database storage
+    const englishSubCategories = selectedSubCategories.map((subCat) => getEnglishByDisplay(subCat));
+
     formData.createdBy = user?._id || '';
     formData.categories = selectedCategories;
-    formData.subCategories = selectedSubCategories;
+    formData.subCategories = englishSubCategories;
     formData.studioName = {
       en: studioName || ''
     };
