@@ -16,6 +16,7 @@ import { splitDateTime } from '@shared/utils';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import { useAddOns } from '@shared/hooks';
+import { useTranslation } from 'react-i18next';
 
 interface ItemDetailsProps {
   itemId: string;
@@ -29,6 +30,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const { data: cart } = useCart(user?._id || '');
   const { data: addOns = [] } = useAddOns(itemId);
   const studio = data?.currStudio;
+  const { t } = useTranslation('common');
 
   const { closeModal } = useModal();
 
@@ -125,17 +127,17 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     const hours = selectedQuantity;
 
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
-    if (!bookingDate || !startTime) return toast.error('Please select a valid date and time');
+    if (!bookingDate || !startTime) return toast.error(t('toasts.error.selectDateTime'));
 
     const closingTime = studio?.studioAvailability?.times[0]?.end;
-    if (!closingTime) return toast.error('Studio closing time is unavailable');
+    if (!closingTime) return toast.error(t('toasts.error.closingTimeUnavailable'));
 
     const startDateTime = dayjs(`${bookingDate} ${startTime}`, 'DD/MM/YYYY HH:mm');
     const endDateTime = startDateTime.add(hours, 'hour');
     const closingDateTime = dayjs(`${bookingDate} ${closingTime}`, 'DD/MM/YYYY HH:mm');
 
     if (endDateTime.isAfter(closingDateTime)) {
-      return toast.error('Selected hours exceed the studio closing time. Please adjust your booking.');
+      return toast.error(t('toasts.error.hoursExceedClosing'));
     }
 
     if (item) {

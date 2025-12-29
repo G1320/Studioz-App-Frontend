@@ -122,5 +122,36 @@
     "highly_rated": "Highly Rated",
     "popular": "Popular",
     "new": "New"
+  },
+  "toasts": {
+    "success": {
+      "itemUpdated": "Item updated successfully",
+      "itemCreated": "Item created successfully",
+      "itemWithAddOns": "Item and {{count}} add-on(s) created successfully",
+      "itemUpdatedWithAddOns": "Item updated and {{count}} add-on(s) created successfully",
+      "addOnDeleted": "Add-on deleted successfully",
+      "addOnUpdated": "Add-on updated successfully",
+      "coverImageUploaded": "Cover image uploaded successfully",
+      "galleryImagesUploaded": "Gallery images uploaded successfully",
+      "audioFilesUploaded": "Audio files uploaded successfully",
+      "profilePictureUpdated": "Profile picture updated successfully!",
+      "searchResults": "Found {{count}} results for \"{{term}}\""
+    },
+    "error": {
+      "selectDateTime": "Please select a valid date and time",
+      "closingTimeUnavailable": "Studio closing time is unavailable",
+      "hoursExceedClosing": "Selected hours exceed the studio closing time. Please adjust your booking.",
+      "addOnDeleteFailed": "Failed to delete add-on",
+      "addOnUpdateFailed": "Failed to update add-on",
+      "itemCreatedAddOnsFailed": "Item created but failed to create some add-ons. Please add them manually.",
+      "itemUpdatedAddOnsFailed": "Item updated but failed to create some add-ons. Please add them manually.",
+      "noSearchResults": "No results found for \"{{term}}\"",
+      "searchFailed": "Error occurred while searching: {{message}}",
+      "genericError": "An error occurred",
+      "invalidImageType": "Please upload a valid image file (PNG, JPEG, or WebP)",
+      "imageSizeTooLarge": "Image size must be less than 5MB",
+      "imageUploadFailed": "Failed to upload image. Please try again.",
+      "verificationFailed": "Verification failed. Please check the code and try again."
+    }
   }
 }

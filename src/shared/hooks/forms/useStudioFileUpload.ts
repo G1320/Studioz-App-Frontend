@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 import { uploadFile } from '@shared/services';
+import { useTranslation } from 'react-i18next';
 
 export interface UseStudioFileUploadOptions {
   /**
@@ -64,6 +65,8 @@ export const useStudioFileUpload = ({
   setCoverImage,
   handleCoverImageSeparately = false
 }: UseStudioFileUploadOptions) => {
+  const { t } = useTranslation('common');
+
   const handleFileUpload = useCallback(
     async (files: File[], type: string) => {
       const results = await Promise.all(files.map(async (file) => await uploadFile(file)));
@@ -73,7 +76,7 @@ export const useStudioFileUpload = ({
         // Handle cover image separately (for edit forms)
         if (handleCoverImageSeparately && files.length === 1 && setCoverImage) {
           setCoverImage(fileUrls[0]);
-          toast.success('Cover image uploaded successfully');
+          toast.success(t('toasts.success.coverImageUploaded'));
           return;
         }
 
@@ -84,16 +87,16 @@ export const useStudioFileUpload = ({
 
         // Success messages
         if (fileUrls.length === 1 && wasEmpty) {
-          toast.success('Cover image uploaded successfully');
+          toast.success(t('toasts.success.coverImageUploaded'));
         } else {
-          toast.success('Gallery images uploaded successfully');
+          toast.success(t('toasts.success.galleryImagesUploaded'));
         }
       } else if (type === 'audio') {
         setGalleryAudioFiles(fileUrls);
-        toast.success('Audio files uploaded successfully');
+        toast.success(t('toasts.success.audioFilesUploaded'));
       }
     },
-    [galleryImages.length, handleCoverImageSeparately, setCoverImage, setGalleryImages, setGalleryAudioFiles]
+    [galleryImages.length, handleCoverImageSeparately, setCoverImage, setGalleryImages, setGalleryAudioFiles, t]
   );
 
   return {

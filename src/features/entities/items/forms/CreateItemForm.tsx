@@ -33,7 +33,7 @@ export const CreateItemForm = () => {
   const { data: studioObj } = useStudio(studioId || '');
   const { data: allItems = [] } = useItems();
   const { hasSubscription, isPro, isStarter, isLoading: isSubscriptionLoading } = useSubscription();
-  const { t } = useTranslation('forms');
+  const { t } = useTranslation(['forms', 'common']);
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
 
@@ -424,11 +424,11 @@ export const CreateItemForm = () => {
         if (pendingAddOns.length > 0) {
           try {
             await createAddOnsBatch(createdItem._id, pendingAddOns);
-            toast.success(`Item and ${pendingAddOns.length} add-on(s) created successfully`);
+            toast.success(t('common:toasts.success.itemWithAddOns', { count: pendingAddOns.length }));
             setPendingAddOns([]); // Clear pending add-ons
           } catch (error) {
             console.error('Error creating add-ons:', error);
-            toast.error('Item created but failed to create some add-ons. Please add them manually.');
+            toast.error(t('common:toasts.error.itemCreatedAddOnsFailed'));
           }
         }
         // Invalidate addOns queries

@@ -122,5 +122,36 @@
     "highly_rated": "דירוג גבוה",
     "popular": "פופולרי",
     "new": "חדש"
+  },
+  "toasts": {
+    "success": {
+      "itemUpdated": "הפריט עודכן בהצלחה",
+      "itemCreated": "הפריט נוצר בהצלחה",
+      "itemWithAddOns": "הפריט ו-{{count}} תוספות נוצרו בהצלחה",
+      "itemUpdatedWithAddOns": "הפריט עודכן ו-{{count}} תוספות נוצרו בהצלחה",
+      "addOnDeleted": "התוספת נמחקה בהצלחה",
+      "addOnUpdated": "התוספת עודכנה בהצלחה",
+      "coverImageUploaded": "תמונת השער הועלתה בהצלחה",
+      "galleryImagesUploaded": "תמונות הגלריה הועלו בהצלחה",
+      "audioFilesUploaded": "קבצי האודיו הועלו בהצלחה",
+      "profilePictureUpdated": "תמונת הפרופיל עודכנה בהצלחה!",
+      "searchResults": "נמצאו {{count}} תוצאות עבור \"{{term}}\""
+    },
+    "error": {
+      "selectDateTime": "אנא בחר תאריך ושעה תקינים",
+      "closingTimeUnavailable": "שעת הסגירה של האולפן אינה זמינה",
+      "hoursExceedClosing": "השעות שנבחרו חורגות משעת הסגירה של האולפן. אנא התאם את ההזמנה.",
+      "addOnDeleteFailed": "מחיקת התוספת נכשלה",
+      "addOnUpdateFailed": "עדכון התוספת נכשל",
+      "itemCreatedAddOnsFailed": "הפריט נוצר אך יצירת חלק מהתוספות נכשלה. אנא הוסף אותן ידנית.",
+      "itemUpdatedAddOnsFailed": "הפריט עודכן אך יצירת חלק מהתוספות נכשלה. אנא הוסף אותן ידנית.",
+      "noSearchResults": "לא נמצאו תוצאות עבור \"{{term}}\"",
+      "searchFailed": "שגיאה בחיפוש: {{message}}",
+      "genericError": "אירעה שגיאה",
+      "invalidImageType": "אנא העלה קובץ תמונה תקין (PNG, JPEG או WebP)",
+      "imageSizeTooLarge": "גודל התמונה חייב להיות קטן מ-5MB",
+      "imageUploadFailed": "העלאת התמונה נכשלה. אנא נסה שוב.",
+      "verificationFailed": "האימות נכשל. אנא בדוק את הקוד ונסה שוב."
+    }
   }
 }

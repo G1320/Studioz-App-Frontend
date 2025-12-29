@@ -5,11 +5,13 @@ import { SearchResult, StudiosAndItemsSearchResults } from 'src/types/index';
 import { useErrorHandling } from '@shared/hooks';
 import { useSearchContext } from '@core/contexts';
 import { setLocalSearchResults } from '@shared/services';
+import { useTranslation } from 'react-i18next';
 
 export const useSearchStudiosAndItemsMutation = () => {
   const { setSearchResults } = useSearchContext();
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutation<StudiosAndItemsSearchResults, Error, string>({
     mutationFn: async (searchTerm: string) => {
@@ -28,13 +30,12 @@ export const useSearchStudiosAndItemsMutation = () => {
       setSearchResults(data);
       setLocalSearchResults(data);
       if (data.items.length === 0 && data.studios.length === 0) {
-        toast.error(`No results found for items or studios with "${searchTerm}"`);
+        toast.error(t('toasts.error.noSearchResults', { term: searchTerm }));
         return;
       }
-      //   toast.success(`Found ${data.studios.length + data.items.length} results for items with "${searchTerm}"`);
     },
     onError: (error) => {
-      toast.error(`Error occurred while searching: ${error.message}`);
+      toast.error(t('toasts.error.searchFailed', { message: error.message }));
     }
   });
 };
@@ -43,6 +44,7 @@ export const useSearchItemsMutation = () => {
   const { setSearchResults } = useSearchContext();
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutation<SearchResult[], Error, string>({
     mutationFn: async (searchTerm: string) => {
@@ -59,19 +61,19 @@ export const useSearchItemsMutation = () => {
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
       setLocalSearchResults(data);
-      toast.success(`Found ${data.length} results for items with "${searchTerm}"`);
+      toast.success(t('toasts.success.searchResults', { count: data.length, term: searchTerm }));
     },
     onError: (error) => {
-      toast.error(`Error occurred while searching items: ${error.message}`);
+      toast.error(t('toasts.error.searchFailed', { message: error.message }));
     }
   });
 };
 
 export const useSearchStudiosMutation = () => {
   const { setSearchResults } = useSearchContext();
-
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutation<SearchResult[], Error, string>({
     mutationFn: async (searchTerm: string) => {
@@ -88,20 +90,19 @@ export const useSearchStudiosMutation = () => {
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
       setLocalSearchResults(data);
-
-      toast.success(`Found ${data.length} results for studios with "${searchTerm}"`);
+      toast.success(t('toasts.success.searchResults', { count: data.length, term: searchTerm }));
     },
     onError: (error) => {
-      toast.error(`Error occurred while searching studios: ${error.message}`);
+      toast.error(t('toasts.error.searchFailed', { message: error.message }));
     }
   });
 };
 
 export const useSearchUsersMutation = () => {
   const { setSearchResults } = useSearchContext();
-
   const handleError = useErrorHandling();
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutation<SearchResult[], Error, string>({
     mutationFn: async (searchTerm: string) => {
@@ -118,11 +119,10 @@ export const useSearchUsersMutation = () => {
     onSuccess: (data, searchTerm) => {
       setSearchResults(data);
       setLocalSearchResults(data);
-
-      toast.success(`Found ${data.length} results for users with "${searchTerm}"`);
+      toast.success(t('toasts.success.searchResults', { count: data.length, term: searchTerm }));
     },
     onError: (error) => {
-      toast.error(`Error occurred while searching users: ${error.message}`);
+      toast.error(t('toasts.error.searchFailed', { message: error.message }));
     }
   });
 };

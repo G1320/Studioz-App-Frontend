@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { uploadFile } from '@shared/services/file-upload-service';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileImageUploaderProps {
   currentImageUrl?: string;
@@ -18,6 +19,7 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation('common');
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -28,13 +30,13 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
       // Validate file type
       const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
       if (!validTypes.includes(file.type)) {
-        toast.error('Please upload a valid image file (PNG, JPEG, or WebP)');
+        toast.error(t('toasts.error.invalidImageType'));
         return;
       }
 
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size must be less than 5MB');
+        toast.error(t('toasts.error.imageSizeTooLarge'));
         return;
       }
 
@@ -54,16 +56,16 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
 
         // Call the callback with the new image URL
         onImageUpload(imageUrl);
-        toast.success('Profile picture updated successfully!');
+        toast.success(t('toasts.success.profilePictureUpdated'));
       } catch (error) {
         console.error('Error uploading image:', error);
-        toast.error('Failed to upload image. Please try again.');
+        toast.error(t('toasts.error.imageUploadFailed'));
         setPreview(null);
       } finally {
         setIsUploading(false);
       }
     },
-    [onImageUpload]
+    [onImageUpload, t]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -110,4 +112,3 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
     </div>
   );
 };
-

@@ -53,7 +53,7 @@ export const EditItemForm = () => {
   const { data: studioData } = useStudio(item?.studioId || '');
   const studio = studioData?.currStudio;
   const { data: existingAddOns = [] } = useAddOns(itemId);
-  const { t } = useTranslation('forms');
+  const { t } = useTranslation(['forms', 'common']);
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const hasPopulatedAddOns = useRef(false);
@@ -143,11 +143,11 @@ export const EditItemForm = () => {
           onSuccess: () => {
             // Remove from local state after successful deletion
             setPendingAddOns((prev) => prev.filter((_, i) => i !== index));
-            toast.success('Add-on deleted successfully');
+            toast.success(t('common:toasts.success.addOnDeleted'));
           },
           onError: (error) => {
             console.error('Error deleting add-on:', error);
-            toast.error('Failed to delete add-on');
+            toast.error(t('common:toasts.error.addOnDeleteFailed'));
           }
         });
       } else {
@@ -178,10 +178,10 @@ export const EditItemForm = () => {
             await queryClient.invalidateQueries({ queryKey: ['items', {}] });
           }
 
-          toast.success('Add-on updated successfully');
+          toast.success(t('common:toasts.success.addOnUpdated'));
         } catch (error) {
           console.error('Error updating add-on:', error);
-          toast.error('Failed to update add-on');
+          toast.error(t('common:toasts.error.addOnUpdateFailed'));
         }
       } else {
         // If it's a new add-on, just update local state
@@ -566,16 +566,16 @@ export const EditItemForm = () => {
         if (newAddOns.length > 0 && itemId) {
           try {
             await createAddOnsBatch(itemId, newAddOns);
-            toast.success(`Item updated and ${newAddOns.length} add-on(s) created successfully`);
+            toast.success(t('common:toasts.success.itemUpdatedWithAddOns', { count: newAddOns.length }));
             // Remove created add-ons from pending list, keep existing ones
             setPendingAddOns((prev) => prev.filter((addOn) => addOn._id));
           } catch (error) {
             console.error('Error creating add-ons:', error);
-            toast.error('Item updated but failed to create some add-ons. Please add them manually.');
+            toast.error(t('common:toasts.error.itemUpdatedAddOnsFailed'));
           }
         } else if (pendingAddOns.length > 0) {
           // All add-ons are existing ones, just show success
-          toast.success('Item updated successfully');
+          toast.success(t('common:toasts.success.itemUpdated'));
         }
         // Invalidate addOns queries
         if (itemId) {
