@@ -53,7 +53,7 @@ export default defineConfig(({ _command, mode }) => {
         name: 'html-transform',
         transformIndexHtml(html) {
           let transformedHtml = html;
-          
+
           // Replace Google Maps API placeholder
           transformedHtml = transformedHtml.replace(
             '<!-- GOOGLE_MAPS_API -->',
@@ -62,13 +62,7 @@ export default defineConfig(({ _command, mode }) => {
               defer>
             </script>`
           );
-          
-          // Replace Brevo Chat ID placeholder
-          transformedHtml = transformedHtml.replace(
-            /BREVO_CHAT_ID_PLACEHOLDER/g,
-            env.VITE_BREVO_CHAT_ID || ''
-          );
-          
+
           return transformedHtml;
         }
       },
