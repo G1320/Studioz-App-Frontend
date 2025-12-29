@@ -18,13 +18,24 @@ interface ModalContextType {
 // Create the context
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-// Custom hook to use the context
-export const useModal = () => {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw new Error('useModal must be used within a ModalProvider');
+// Default noop functions for when context is not available
+const defaultContextValue: ModalContextType = {
+  selectedItem: null,
+  loadingItemId: null,
+  openModal: () => {
+    console.warn('useModal: openModal called outside of ModalProvider');
+  },
+  closeModal: () => {
+    console.warn('useModal: closeModal called outside of ModalProvider');
   }
-  return context;
+};
+
+// Custom hook to use the context
+// Returns safe defaults if used outside provider (handles HMR edge cases)
+export const useModal = (): ModalContextType => {
+  const context = useContext(ModalContext);
+  // Return default value instead of throwing to handle HMR/Fast Refresh edge cases
+  return context ?? defaultContextValue;
 };
 
 // Provider Component
