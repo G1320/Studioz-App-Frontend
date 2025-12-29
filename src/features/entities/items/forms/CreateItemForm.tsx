@@ -151,9 +151,7 @@ export const CreateItemForm = () => {
     () => (
       <div className="booking-settings-step">
         <div className="booking-settings-step__section">
-          <h3 className="booking-settings-step__section-title">
-            {t('form.steps.bookingSettings')}
-          </h3>
+          <h3 className="booking-settings-step__section-title">{t('form.steps.bookingSettings')}</h3>
           {/* Only show duration fields for hourly pricing */}
           {pricePer === 'hour' && (
             <div className="booking-settings-step__grid">
@@ -177,9 +175,7 @@ export const CreateItemForm = () => {
           {/* Only show minimumQuantity for non-hourly pricing */}
           {pricePer !== 'hour' && (
             <div className="booking-settings-step__field">
-              <label className="booking-settings-step__label">
-                {t('form.bookingSettings.minimumQuantity.label')}
-              </label>
+              <label className="booking-settings-step__label">{t('form.bookingSettings.minimumQuantity.label')}</label>
               <p className="booking-settings-step__description">
                 {t('form.bookingSettings.minimumQuantity.description')}
               </p>
@@ -229,9 +225,7 @@ export const CreateItemForm = () => {
         </div>
 
         <div className="booking-settings-step__section">
-          <h3 className="booking-settings-step__section-title">
-            {t('form.bookingSettings.preparationTime.label')}
-          </h3>
+          <h3 className="booking-settings-step__section-title">{t('form.bookingSettings.preparationTime.label')}</h3>
           <div className="booking-settings-step__grid">
             <DurationField
               name="preparationTime"
@@ -268,10 +262,7 @@ export const CreateItemForm = () => {
   const policiesContent = useMemo(
     () => (
       <div className="policies-step">
-        <CancellationPolicyField
-          value={cancellationPolicy}
-          onChange={setCancellationPolicy}
-        />
+        <CancellationPolicyField value={cancellationPolicy} onChange={setCancellationPolicy} />
       </div>
     ),
     [cancellationPolicy]

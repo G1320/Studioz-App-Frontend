@@ -219,22 +219,22 @@ export const EditItemForm = () => {
           </h3>
           {/* Only show duration fields for hourly pricing */}
           {pricePer === 'hour' && (
-            <div className="booking-settings-step__grid">
-              <DurationField
-                name="minimumBookingDuration"
-                label={t('form.bookingSettings.minimumBookingDuration.label')}
-                description={t('form.bookingSettings.minimumBookingDuration.description')}
-                value={minimumBookingDuration}
-                onChange={setMinimumBookingDuration}
-              />
-              <DurationField
-                name="maximumBookingDuration"
-                label={t('form.bookingSettings.maximumBookingDuration.label')}
-                description={t('form.bookingSettings.maximumBookingDuration.description')}
-                value={maximumBookingDuration}
-                onChange={setMaximumBookingDuration}
-              />
-            </div>
+          <div className="booking-settings-step__grid">
+            <DurationField
+              name="minimumBookingDuration"
+              label={t('form.bookingSettings.minimumBookingDuration.label')}
+              description={t('form.bookingSettings.minimumBookingDuration.description')}
+              value={minimumBookingDuration}
+              onChange={setMinimumBookingDuration}
+            />
+            <DurationField
+              name="maximumBookingDuration"
+              label={t('form.bookingSettings.maximumBookingDuration.label')}
+              description={t('form.bookingSettings.maximumBookingDuration.description')}
+              value={maximumBookingDuration}
+              onChange={setMaximumBookingDuration}
+            />
+          </div>
           )}
 
           {/* Only show minimumQuantity for non-hourly pricing */}

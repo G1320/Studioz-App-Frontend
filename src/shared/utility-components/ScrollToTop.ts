@@ -2,15 +2,31 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Scroll to top function - can be called from anywhere
-export const scrollToTop = () => {
+// Internal scroll function
+const doScroll = () => {
   const rootElement = document.getElementById('root');
   if (rootElement) {
     rootElement.scrollTop = 0;
   }
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+};
+
+// Scroll to top function - can be called from anywhere
+// Uses requestAnimationFrame and a small retry to handle layout shifts
+export const scrollToTop = () => {
+  // Immediate scroll
+  doScroll();
+
+  // Scroll again after next paint to handle any layout shifts
+  requestAnimationFrame(() => {
+    doScroll();
+    // One more scroll after a short delay to catch lazy-loaded content
+    requestAnimationFrame(() => {
+      doScroll();
+    });
+  });
 };
 
 // Component that scrolls to top on route changes
