@@ -67,6 +67,30 @@ const pageVariants = {
   }
 };
 
+// Moved outside AnimatedRoutes to prevent recreation on every render
+const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <motion.div
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      variants={pageVariants}
+      onAnimationComplete={(definition) => {
+        // Only scroll on enter animation, not exit
+        if (definition === 'enter') {
+          scrollToTop();
+        }
+      }}
+      style={{
+        position: 'relative',
+        minHeight: '100%'
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineCart, offlineCart, user }) => {
   const location = useLocation();
   const { i18n } = useTranslation();
@@ -75,29 +99,6 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
     if (!user?._id) return [];
     return studios.filter((studio) => studio.createdBy === user._id);
   }, [studios, user?._id]);
-
-  const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return (
-      <motion.div
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={pageVariants}
-        onAnimationComplete={(definition) => {
-          // Only scroll on enter animation, not exit
-          if (definition === 'enter') {
-            scrollToTop();
-          }
-        }}
-        style={{
-          position: 'relative',
-          minHeight: '100%'
-        }}
-      >
-        {children}
-      </motion.div>
-    );
-  };
 
   return (
     <AnimatePresence mode="wait">
