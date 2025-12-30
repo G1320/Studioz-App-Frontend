@@ -233,26 +233,36 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     top: calc(100% + vars.$spacing-small);
     left: 0;
     right: 0;
-    background: $landing-surface;
-    border: 1px solid $landing-border;
-    border-radius: vars.$border-radius-large;
-    max-height: 280px;
+    background: rgba(20, 20, 20, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-xl;
+    max-height: 320px;
     overflow-y: auto;
     z-index: 100;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.1),
+      0 10px 40px rgba(0, 0, 0, 0.5);
+    padding: vars.$spacing-small;
 
     // Custom scrollbar
     &::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
 
     &::-webkit-scrollbar-track {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 4px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
     }
   }
 
@@ -261,19 +271,31 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     background: transparent;
     border: none;
-    color: vars.$text-color-primary;
+    border-radius: vars.$border-radius-medium;
+    color: rgba(255, 255, 255, 0.8);
     font-size: vars.$font-size-sm-md;
     text-align: start;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.08);
+      color: vars.$text-color-primary;
     }
 
     &--selected {
       background: rgba($landing-primary, 0.15);
       color: $landing-primary;
+      font-weight: 500;
+
+      &:hover {
+        background: rgba($landing-primary, 0.2);
+      }
     }
   }
 }

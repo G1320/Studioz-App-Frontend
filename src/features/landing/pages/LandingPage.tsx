@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -48,6 +48,24 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isCityOpen, setIsCityOpen] = useState(false);
+
+  const categoryDropdownRef = useRef<HTMLDivElement>(null);
+  const cityDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target as Node)) {
+        setIsCategoryOpen(false);
+      }
+      if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target as Node)) {
+        setIsCityOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const musicSubCategories = useMemo(() => getMusicSubCategories(), [getMusicSubCategories]);
   const cityOptions = useMemo(() => getCityOptions(), [getCityOptions]);
@@ -109,7 +127,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
 
           <motion.div className="landing-hero__search" {...fadeInUp} transition={{ duration: 0.8, delay: 0.4 }}>
             {/* Category Dropdown */}
-            <div className="landing-dropdown">
+            <div className="landing-dropdown" ref={categoryDropdownRef}>
               <button
                 className={`landing-dropdown__trigger ${isCategoryOpen ? 'landing-dropdown__trigger--open' : ''}`}
                 onClick={() => {
@@ -141,7 +159,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
             </div>
 
             {/* City Dropdown */}
-            <div className="landing-dropdown">
+            <div className="landing-dropdown" ref={cityDropdownRef}>
               <button
                 className={`landing-dropdown__trigger ${isCityOpen ? 'landing-dropdown__trigger--open' : ''}`}
                 onClick={() => {
