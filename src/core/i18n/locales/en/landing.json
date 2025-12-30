@@ -2,7 +2,7 @@
   "hero": {
     "title_part1": "Create Your",
     "title_accent": "Masterpiece",
-    "description": "Discover and book the perfect recording, podcast, and photo studios across Israel. Professional spaces for professional creators.",
+    "description": "Discover and book the perfect recording and podcast studios across Israel. Professional spaces for professional creators.",
     "category_placeholder": "What are you looking for?",
     "city_placeholder": "Select a city",
     "search_btn": "Search"
@@ -33,17 +33,17 @@
     },
     "community": {
       "title": "Community First",
-      "description": "Join thousands of creators and connect with the best audio engineers in the country."
+      "description": "Join community of creators and connect with the best audio engineers in the country."
     }
   },
   "cta": {
     "title": "Ready to create?",
-    "description": "Join the largest network of studios in Israel. Whether you're recording a hit song or your next podcast episode.",
+    "description": "Join the best network of studios in Israel. Whether you're recording a hit song or your next podcast episode.",
     "find_studio": "Find a Studio",
     "list_space": "List Your Space"
   },
   "footer": {
-    "tagline": "The leading marketplace for creative spaces in Israel.",
+    "tagline": "The leading platform for creative spaces in Israel.",
     "platform": "Platform",
     "browse": "Browse Studios",
     "how_it_works": "How it works",
