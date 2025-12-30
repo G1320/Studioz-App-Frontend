@@ -502,7 +502,7 @@ $owners-orange: #fb923c;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: vars.$spacing-large;
+    margin: 0 auto vars.$spacing-large;
     transition: transform 0.3s;
 
     svg {

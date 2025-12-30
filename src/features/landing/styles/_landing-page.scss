@@ -45,7 +45,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
   font-size: vars.$font-size-sm-md;
   cursor: pointer;
   transition: opacity 0.2s;
-  
+
   &:hover {
     opacity: 0.8;
     text-decoration: underline;
@@ -54,7 +54,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
   svg {
     width: 18px;
     height: 18px;
-    
+
     // Flip arrow for RTL languages
     [dir='rtl'] & {
       transform: scaleX(-1);
@@ -95,12 +95,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
   &__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.7) 0%,
-      rgba(0, 0, 0, 0.5) 50%,
-      vars.$bg-color-primary 100%
-    );
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, vars.$bg-color-primary 100%);
   }
 
   &__content {
@@ -360,11 +355,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
 // ==========================================
 .landing-featured {
   padding: vars.$spacing-3xl 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.02) 0%,
-    vars.$bg-color-primary 100%
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 0%, vars.$bg-color-primary 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
@@ -387,7 +378,9 @@ $landing-muted: rgba(255, 255, 255, 0.6);
 
     // Style the actual StudioCard component within the grid
     .studio-card {
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition:
+        transform 0.3s,
+        box-shadow 0.3s;
 
       &:hover {
         transform: translateY(-5px);
@@ -396,7 +389,6 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     }
   }
 }
-
 
 // ==========================================
 // VALUE PROPS SECTION
@@ -412,12 +404,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba($landing-primary, 0.5) 50%,
-      transparent 100%
-    );
+    background: linear-gradient(to right, transparent 0%, rgba($landing-primary, 0.5) 50%, transparent 100%);
   }
 
   &__grid {
