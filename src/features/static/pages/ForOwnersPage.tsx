@@ -23,7 +23,7 @@ const fadeInUp = {
  * Main Owners Page Component for Studioz
  */
 const ForOwnersPage: React.FC = () => {
-  const { t, i18n } = useTranslation('forOwners');
+  const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
 
   const handleListStudio = () => {
@@ -34,12 +34,12 @@ const ForOwnersPage: React.FC = () => {
     navigate('/studios');
   };
 
-  const stats = [
-    { label: t('stats.active_studios'), value: '500+' },
-    { label: t('stats.monthly_bookings'), value: '2.5k+' },
-    { label: t('stats.owner_earnings'), value: '₪2M+' },
-    { label: t('stats.cities'), value: '15+' }
-  ];
+  // const stats = [
+  //   { label: t('stats.active_studios'), value: '500+' },
+  //   { label: t('stats.monthly_bookings'), value: '2.5k+' },
+  //   { label: t('stats.owner_earnings'), value: '₪2M+' },
+  //   { label: t('stats.cities'), value: '15+' }
+  // ];
 
   const features = [
     {
@@ -83,7 +83,7 @@ const ForOwnersPage: React.FC = () => {
 
   const studioFeatures = [
     t('studio_preview.feature1'),
-    t('studio_preview.feature2'),
+    // t('studio_preview.feature2'),
     t('studio_preview.feature3'),
     t('studio_preview.feature4'),
     t('studio_preview.feature5')
@@ -118,7 +118,7 @@ const ForOwnersPage: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="owners-stats">
+      {/* <section className="owners-stats">
         <div className="owners-container">
           <div className="owners-stats__grid">
             {stats.map((stat, i) => (
@@ -129,7 +129,7 @@ const ForOwnersPage: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Dashboard Preview Section */}
       <section className="owners-dashboard">
@@ -253,26 +253,6 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="owners-footer">
-        <div className="owners-container">
-          <div className="owners-footer__content">
-            <div className="owners-footer__logo">
-              <img src="https://www.studioz.co.il/android-chrome-512x512.png" alt="Studioz" />
-              <span>Studioz</span>
-            </div>
-            <div className="owners-footer__links">
-              <a href={`/${i18n.language}/terms`}>{t('footer.terms')}</a>
-              <a href={`/${i18n.language}/privacy`}>{t('footer.privacy')}</a>
-              <a href="mailto:info@studioz.online">{t('footer.contact')}</a>
-            </div>
-            <div className="owners-footer__copyright">
-              © {new Date().getFullYear()} Studioz. {t('footer.rights')}
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

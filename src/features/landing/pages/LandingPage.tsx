@@ -18,10 +18,6 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-// import InstagramIcon from '@mui/icons-material/Instagram';
-// import FacebookIcon from '@mui/icons-material/Facebook';
-// import XIcon from '@mui/icons-material/X';
-import EmailIcon from '@mui/icons-material/Email';
 
 /**
  * Animation variants for Framer Motion
@@ -307,85 +303,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="landing-footer">
-        <div className="landing-container">
-          <div className="landing-footer__grid">
-            <div className="landing-footer__brand">
-              <div className="landing-footer__logo">
-                <img src="https://www.studioz.co.il/android-chrome-512x512.png" alt="Studioz Logo" />
-                <span>Studioz</span>
-              </div>
-              <p>{t('footer.tagline')}</p>
-            </div>
-
-            <div className="landing-footer__links">
-              <h3>{t('footer.platform')}</h3>
-              <ul>
-                <li>
-                  <a href={`/${i18n.language}/studios`}>{t('footer.browse')}</a>
-                </li>
-                <li>
-                  <a href={`/${i18n.language}/for-owners`}>{t('footer.how_it_works')}</a>
-                </li>
-                <li>
-                  <a href={`/${i18n.language}/subscription`}>{t('footer.pricing')}</a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="landing-footer__links">
-              <h3>{t('footer.company')}</h3>
-              <ul>
-                <li>
-                  <a href={`/${i18n.language}/terms`}>{t('footer.terms')}</a>
-                </li>
-                <li>
-                  <a href={`/${i18n.language}/privacy`}>{t('footer.privacy')}</a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="landing-footer__contact">
-              <h3>{t('footer.contact')}</h3>
-              <a href="mailto:info@studioz.online" className="landing-footer__email">
-                <EmailIcon />
-                <span>info@studioz.online</span>
-              </a>
-            </div>
-
-            {/* <div className="landing-footer__social">
-              <h3>{t('footer.social')}</h3>
-              <div className="landing-footer__social-icons">
-                <a
-                  href="https://instagram.com/studioz.co.il"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                >
-                  <InstagramIcon />
-                </a>
-                <a
-                  href="https://facebook.com/studioz.co.il"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                >
-                  <FacebookIcon />
-                </a>
-                <a href="https://x.com/studioz_il" target="_blank" rel="noopener noreferrer" aria-label="X">
-                  <XIcon />
-                </a>
-              </div>
-            </div> */}
-          </div>
-
-          <div className="landing-footer__bottom">
-            © {new Date().getFullYear()} Studioz. {t('footer.rights')}
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

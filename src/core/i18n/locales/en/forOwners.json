@@ -25,7 +25,7 @@
     "subtitle": "Professional tools designed to help you save time and increase bookings.",
     "booking": {
       "title": "Advanced Booking System",
-      "description": "Real-time availability management prevents double bookings. Set custom rules, buffer times, and minimum booking durations."
+      "description": "Real-time availability management prevents double bookings. Set business hours, custom rules, buffer times, and minimum or maximum booking durations."
     },
     "calendar": {
       "title": "Google Calendar Sync",
@@ -37,11 +37,11 @@
     },
     "exposure": {
       "title": "Maximum Exposure",
-      "description": "Get discovered by thousands of musicians, podcasters, and photographers looking for space in your area every month."
+      "description": "Get discovered by musicians, podcasters, and photographers looking for spaces in your area."
     },
     "crm": {
       "title": "Reservation Management",
-      "description": "Keep track of all client details, special requests, and booking history in one secure, organized CRM system."
+      "description": "Keep track of all client details, special requests, and booking history in one secure, organized system."
     },
     "payments": {
       "title": "Secure Payments",
@@ -61,7 +61,7 @@
     "cta": "See example page"
   },
   "cta": {
-    "title": "Ready to fill your schedule?",
+    "title": "Ready to get started?",
     "description": "Join hundreds of studio owners who trust Studioz to manage and grow their business.",
     "button": "List Your Studio Now",
     "note": "No credit card required for signup • Cancel anytime"

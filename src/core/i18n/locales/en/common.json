@@ -53,11 +53,16 @@
     "placeholder": "Search studios and services"
   },
   "footer": {
-    "impact": "Studioz.co.il - Your one-stop shop for creative tools and inspiration.",
-    "about": "About",
-    "contact": "Contact",
+    "tagline": "The leading platform for creative spaces in Israel.",
+    "platform": "Platform",
+    "browse": "Browse Studios",
+    "how_it_works": "How it works",
+    "pricing": "Pricing",
+    "company": "Company",
     "terms": "Terms",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "rights": "All rights reserved."
   },
   "hours": "Hours",
   "wishlists": {
