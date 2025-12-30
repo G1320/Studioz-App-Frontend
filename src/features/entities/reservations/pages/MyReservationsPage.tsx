@@ -54,27 +54,30 @@ const MyReservationsPage: React.FC = () => {
         </p>
       </div>
 
-      {/* Studio Owner Toggle */}
-      {isStudioOwner && user?._id && (
-        <ReservationTypeToggle
-          viewType={viewType}
-          onViewTypeChange={setViewType}
-          className="my-reservations-page__toggle"
-        />
-      )}
+      {/* Controls Container */}
+      <div className="my-reservations-page__controls">
+        {/* Studio Owner Toggle */}
+        {isStudioOwner && user?._id && (
+          <ReservationTypeToggle
+            viewType={viewType}
+            onViewTypeChange={setViewType}
+            className="my-reservations-page__toggle"
+          />
+        )}
 
-      {/* Filters */}
-      {hasAccess && (
-        <ReservationFilters
-          status={status}
-          onStatusChange={setStatus}
-          sort={sort}
-          onSortChange={setSort}
-          statusOptions={statusOptions}
-          sortOptions={sortOptions}
-          className="my-reservations-page__filters"
-        />
-      )}
+        {/* Filters */}
+        {hasAccess && (
+          <ReservationFilters
+            status={status}
+            onStatusChange={setStatus}
+            sort={sort}
+            onSortChange={setSort}
+            statusOptions={statusOptions}
+            sortOptions={sortOptions}
+            className="my-reservations-page__filters"
+          />
+        )}
+      </div>
 
       <ReservationsList
         reservations={reservations}

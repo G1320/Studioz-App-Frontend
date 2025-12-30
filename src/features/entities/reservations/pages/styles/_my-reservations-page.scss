@@ -1,60 +1,93 @@
 @use 'utilities/variables' as vars;
 
+// ==========================================
+// MY RESERVATIONS PAGE - StudioZ Design System
+// Theme: Dark Mode
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$page-primary: #ffd166;
+$page-surface: #18181b; // zinc-900
+$page-border: rgba(39, 39, 42, 1); // zinc-800
+$page-muted: rgba(161, 161, 170, 1); // zinc-400
+$page-label: rgba(113, 113, 122, 1); // zinc-500
+
 .my-reservations-page {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: vars.$spacing-xl vars.$spacing-large;
+  padding: vars.$spacing-2xl vars.$spacing-large;
   min-height: 60vh;
   box-sizing: border-box;
   overflow-x: hidden;
 
   &__header {
-    margin-bottom: vars.$spacing-2xl;
+    margin-bottom: vars.$spacing-xl;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
   }
 
   &__title {
-    font-size: vars.$font-size-3xl;
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     color: vars.$text-color-primary;
-    margin: 0 0 vars.$spacing-small 0;
+    margin: 0;
+    letter-spacing: -0.025em;
   }
 
   &__subtitle {
-    font-size: vars.$font-size-large;
-    color: vars.$white-opacity-60;
+    font-size: vars.$font-size-medium;
+    color: $page-muted;
     margin: 0;
+  }
+
+  // Controls container - wraps toggle and filters
+  &__controls {
+    max-width: 900px;
+    margin: 0 auto vars.$spacing-xl;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__toggle {
+    margin-bottom: 0; // Override default margin, controlled by controls gap
+  }
+
+  &__filters {
+    margin-bottom: 0; // Override default margin, controlled by controls gap
   }
 
   &__show-more-button {
     margin-top: vars.$spacing-medium;
     padding: vars.$spacing-small vars.$spacing-medium;
     background: transparent;
-    color: vars.$color-brand;
-    border: 1px solid vars.$color-brand;
-    border-radius: vars.$border-radius-medium;
+    color: $page-primary;
+    border: 1px solid $page-primary;
+    border-radius: vars.$border-radius-xl;
     font-size: vars.$font-size-medium;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: vars.$color-brand;
-      color: vars.$text-color-primary;
+      background: $page-primary;
+      color: vars.$bg-color-primary;
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
     }
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-large vars.$spacing-medium;
+    padding: vars.$spacing-xl vars.$spacing-medium;
 
     &__title {
       font-size: vars.$font-size-2xl;
     }
 
     &__subtitle {
-      font-size: vars.$font-size-medium;
+      font-size: vars.$font-size-sm-md;
     }
   }
 }
-
