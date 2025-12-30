@@ -110,15 +110,15 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang"
             element={
               <AnimatedRoute>
-                <DiscoverPage studios={studios} items={items} />
+                <LandingPage studios={studios} />
               </AnimatedRoute>
             }
           />
           <Route
-            path="/:lang/landing"
+            path="/:lang/discover"
             element={
               <AnimatedRoute>
-                <LandingPage studios={studios} />
+                <DiscoverPage studios={studios} items={items} />
               </AnimatedRoute>
             }
           />

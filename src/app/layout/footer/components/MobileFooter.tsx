@@ -21,9 +21,9 @@ export const MobileFooter = () => {
   }
 
   const isCurrentPage = (path: string) => {
-    // For home page, check exact match only (no sub-routes)
-    if (path === `/${currLang}` || path === currLang) {
-      return currentPath === `/${currLang}` || currentPath === `/${currLang}/`;
+    // For discover page, check exact match only (no sub-routes)
+    if (path === `/${currLang}/discover`) {
+      return currentPath === `/${currLang}/discover` || currentPath === `/${currLang}/discover/`;
     }
     // For other pages, check exact match or if path starts with the base path (for sub-routes)
     return currentPath === path || currentPath.startsWith(`${path}/`);
@@ -33,10 +33,10 @@ export const MobileFooter = () => {
     <footer id="main-footer" className="mobile-footer" aria-label={t('navigation.footer', 'Footer')}>
       <nav className="footer-grid">
         <Link
-          to={`${currLang}`}
+          to={`/${currLang}/discover`}
           className="footer-icon-link"
           aria-label={t('navigation.home')}
-          aria-current={isCurrentPage(`/${currLang}`) ? 'page' : undefined}
+          aria-current={isCurrentPage(`/${currLang}/discover`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
           <div className="footer-link-content">
