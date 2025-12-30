@@ -8,8 +8,8 @@ import { StudioCard } from '@features/entities';
 import { Studio } from 'src/types/index';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MicIcon from '@mui/icons-material/Mic';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import VideocamIcon from '@mui/icons-material/Videocam';
+// import CameraAltIcon from '@mui/icons-material/CameraAlt';
+// import VideocamIcon from '@mui/icons-material/Videocam';
 import TuneIcon from '@mui/icons-material/Tune';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import StarIcon from '@mui/icons-material/Star';
@@ -20,7 +20,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import XIcon from '@mui/icons-material/X';
+// import XIcon from '@mui/icons-material/X';
 
 /**
  * Animation variants for Framer Motion
@@ -206,16 +206,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
               label={t('categories.podcast')}
               onClick={() => navigate(`/${i18n.language}/studios/music/Podcast%20Recording`)}
             />
-            <CategoryCard
+            {/* <CategoryCard
               icon={<CameraAltIcon />}
               label={t('categories.photography')}
               onClick={() => navigate(`/${i18n.language}/studios/photo`)}
-            />
-            <CategoryCard
+            /> */}
+            {/* <CategoryCard
               icon={<VideocamIcon />}
               label={t('categories.video')}
               onClick={() => navigate(`/${i18n.language}/studios/photo`)}
-            />
+            /> */}
             <CategoryCard
               icon={<TuneIcon />}
               label={t('categories.mixing')}
@@ -355,9 +355,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                 >
                   <FacebookIcon />
                 </a>
-                <a href="https://x.com/studioz_il" target="_blank" rel="noopener noreferrer" aria-label="X">
+                {/* <a href="https://x.com/studioz_il" target="_blank" rel="noopener noreferrer" aria-label="X">
                   <XIcon />
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
