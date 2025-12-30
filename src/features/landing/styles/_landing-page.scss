@@ -1,0 +1,727 @@
+@use 'utilities/variables' as vars;
+
+// ==========================================
+// LANDING PAGE STYLES - StudioZ Design System
+// Theme: Dark Mode Dominant, Professional, High-Contrast
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$landing-primary: #ffd166;
+$landing-primary-foreground: #000000;
+$landing-surface: #18181b; // zinc-900
+$landing-border: rgba(255, 255, 255, 0.1);
+$landing-muted: rgba(255, 255, 255, 0.6);
+
+// Container
+.landing-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 vars.$spacing-medium;
+}
+
+// Section Titles
+.landing-section-title {
+  font-size: vars.$font-size-2xl;
+  font-weight: 700;
+  margin-bottom: vars.$spacing-small;
+  color: vars.$text-color-primary;
+}
+
+.landing-section-subtitle {
+  color: $landing-muted;
+  font-size: vars.$font-size-medium;
+  margin: 0;
+}
+
+// View All Link
+.landing-view-all {
+  display: none;
+  align-items: center;
+  gap: vars.$spacing-small;
+  background: transparent;
+  border: none;
+  color: $landing-primary;
+  font-weight: 700;
+  font-size: vars.$font-size-sm-md;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+}
+
+// ==========================================
+// HERO SECTION
+// ==========================================
+.landing-hero {
+  position: relative;
+  min-height: 80vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: unset;
+    border-radius: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      vars.$bg-color-primary 100%
+    );
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 vars.$spacing-medium;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 700;
+    margin-bottom: vars.$spacing-large;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  &__accent {
+    color: $landing-primary;
+  }
+
+  &__description {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: vars.$spacing-xl;
+    max-width: 640px;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  &__search {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: vars.$spacing-small;
+    border-radius: vars.$border-radius-2xl;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+    max-width: 640px;
+    margin: 0 auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  &__search-btn {
+    background: $landing-primary;
+    color: $landing-primary-foreground;
+    font-weight: 700;
+    font-size: vars.$font-size-medium;
+    padding: vars.$spacing-sm-md vars.$spacing-xl;
+    border: none;
+    border-radius: vars.$border-radius-large;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba($landing-primary, 0.9);
+      box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
+      transform: scale(1.02);
+    }
+  }
+}
+
+// ==========================================
+// DROPDOWN COMPONENT
+// ==========================================
+.landing-dropdown {
+  position: relative;
+  flex: 1;
+
+  &__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm-md;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid transparent;
+    border-radius: vars.$border-radius-large;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-medium;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    text-align: start;
+
+    &:focus,
+    &--open {
+      border-color: rgba($landing-primary, 0.5);
+      outline: none;
+    }
+  }
+
+  &__icon {
+    color: rgba(255, 255, 255, 0.4);
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+
+    &:empty::before {
+      content: attr(data-placeholder);
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  &__arrow {
+    color: rgba(255, 255, 255, 0.4);
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + vars.$spacing-small);
+    left: 0;
+    right: 0;
+    background: $landing-surface;
+    border: 1px solid $landing-border;
+    border-radius: vars.$border-radius-large;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+  }
+
+  &__option {
+    width: 100%;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    background: transparent;
+    border: none;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-sm-md;
+    text-align: start;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &--selected {
+      background: rgba($landing-primary, 0.15);
+      color: $landing-primary;
+    }
+  }
+}
+
+// ==========================================
+// CATEGORIES SECTION
+// ==========================================
+.landing-categories {
+  padding: vars.$spacing-3xl 0;
+  background: vars.$bg-color-primary;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: vars.$spacing-xl;
+    text-align: start;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-medium;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+}
+
+// Category Card
+.landing-category-card {
+  background: rgba($landing-surface, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: vars.$spacing-large;
+  border-radius: vars.$border-radius-2xl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-medium;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 140px;
+
+  &:hover {
+    background: rgba($landing-surface, 0.8);
+    border-color: rgba($landing-primary, 0.5);
+
+    .landing-category-card__icon {
+      color: $landing-primary;
+    }
+  }
+
+  &__icon {
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.3s;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__label {
+    font-weight: 500;
+    font-size: vars.$font-size-sm-md;
+    color: vars.$text-color-primary;
+  }
+}
+
+// ==========================================
+// FEATURED STUDIOS SECTION
+// ==========================================
+.landing-featured {
+  padding: vars.$spacing-3xl 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0%,
+    vars.$bg-color-primary 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  .landing-section-title {
+    margin-bottom: vars.$spacing-xl;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-xl;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    // Style the actual StudioCard component within the grid
+    .studio-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+
+// ==========================================
+// VALUE PROPS SECTION
+// ==========================================
+.landing-value-props {
+  padding: vars.$spacing-3xl 0;
+  position: relative;
+  overflow: hidden;
+
+  &__line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba($landing-primary, 0.5) 50%,
+      transparent 100%
+    );
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-xl;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Value Prop
+.landing-value-prop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &__icon {
+    width: 80px;
+    height: 80px;
+    background: rgba($landing-primary, 0.1);
+    border: 1px solid rgba($landing-primary, 0.2);
+    border-radius: vars.$border-radius-2xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: vars.$spacing-large;
+
+    svg {
+      width: 40px;
+      height: 40px;
+      color: $landing-primary;
+    }
+  }
+
+  &__title {
+    font-size: vars.$font-size-large;
+    font-weight: 700;
+    margin-bottom: vars.$spacing-sm-md;
+    color: vars.$text-color-primary;
+  }
+
+  &__description {
+    color: $landing-muted;
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0;
+  }
+}
+
+// ==========================================
+// CTA SECTION
+// ==========================================
+.landing-cta {
+  padding: vars.$spacing-3xl 0;
+
+  &__card {
+    background: linear-gradient(135deg, $landing-surface 0%, vars.$bg-color-primary 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: vars.$border-radius-3xl;
+    padding: vars.$spacing-3xl vars.$spacing-xl;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    @media (min-width: 768px) {
+      padding: vars.$spacing-3xl vars.$spacing-3xl;
+    }
+  }
+
+  &__glow {
+    position: absolute;
+    width: 256px;
+    height: 256px;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+
+    &--primary {
+      top: -64px;
+      right: -64px;
+      background: rgba($landing-primary, 0.2);
+
+      [dir='rtl'] & {
+        right: auto;
+        left: -64px;
+      }
+    }
+
+    &--blue {
+      bottom: -64px;
+      left: -64px;
+      background: rgba(59, 130, 246, 0.2);
+
+      [dir='rtl'] & {
+        left: auto;
+        right: -64px;
+      }
+    }
+  }
+
+  &__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: vars.$spacing-large;
+    position: relative;
+    z-index: 10;
+    color: vars.$text-color-primary;
+  }
+
+  &__description {
+    font-size: vars.$font-size-large;
+    color: $landing-muted;
+    max-width: 640px;
+    margin: 0 auto vars.$spacing-xl;
+    position: relative;
+    z-index: 10;
+    line-height: 1.6;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+
+    @media (min-width: 480px) {
+      flex-direction: row;
+    }
+  }
+
+  &__btn {
+    padding: vars.$spacing-medium vars.$spacing-xl;
+    border-radius: vars.$border-radius-large;
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &--primary {
+      background: $landing-primary;
+      color: $landing-primary-foreground;
+      border: none;
+
+      &:hover {
+        background: rgba($landing-primary, 0.9);
+        transform: scale(1.05);
+      }
+    }
+
+    &--secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: vars.$text-color-primary;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+// ==========================================
+// FOOTER
+// ==========================================
+.landing-footer {
+  background: #09090b; // zinc-950
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: vars.$spacing-3xl 0;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-xl;
+    margin-bottom: vars.$spacing-xl;
+    text-align: start;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+  }
+
+  &__brand {
+    p {
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+      line-height: 1.6;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    margin-bottom: vars.$spacing-large;
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: vars.$border-radius-small;
+      filter: grayscale(1);
+      opacity: 0.8;
+      aspect-ratio: 1;
+    }
+
+    span {
+      font-size: vars.$font-size-large;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &__links {
+    h3 {
+      font-weight: 700;
+      font-size: vars.$font-size-medium;
+      margin-bottom: vars.$spacing-medium;
+      color: vars.$text-color-primary;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-small;
+    }
+
+    a {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: vars.$font-size-sm-md;
+      text-decoration: none;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $landing-primary;
+        text-shadow: none;
+      }
+    }
+  }
+
+  &__social {
+    h3 {
+      font-weight: 700;
+      font-size: vars.$font-size-medium;
+      margin-bottom: vars.$spacing-medium;
+      color: vars.$text-color-primary;
+    }
+  }
+
+  &__social-icons {
+    display: flex;
+    gap: vars.$spacing-medium;
+
+    a {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: rgba(255, 255, 255, 0.6);
+
+      &:hover {
+        background: $landing-primary;
+        color: $landing-primary-foreground;
+        text-shadow: none;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  &__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: vars.$spacing-xl;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: vars.$font-size-sm-md;
+  }
+}
+
+// ==========================================
+// LANDING PAGE CONTAINER
+// ==========================================
+.landing-page {
+  min-height: 100vh;
+  background: vars.$bg-color-primary;
+  color: vars.$text-color-primary;
+  overflow-x: hidden;
+
+  // Override global img styles for landing page
+  img {
+    border-radius: 0;
+    aspect-ratio: unset;
+  }
+}
