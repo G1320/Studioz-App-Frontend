@@ -23,8 +23,6 @@ $modal-map-bg: rgba(39, 39, 42, 1); // zinc-800
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: vars.$spacing-medium;
-    height: 100%;
   }
 
   .modal-content {
@@ -113,7 +111,8 @@ $modal-map-bg: rgba(39, 39, 42, 1); // zinc-800
   }
 
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
       opacity: 0.6;
     }
@@ -467,4 +466,3 @@ $modal-map-bg: rgba(39, 39, 42, 1); // zinc-800
     }
   }
 }
-
