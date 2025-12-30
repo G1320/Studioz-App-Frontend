@@ -67,10 +67,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
-              <AddBusinessIcon className="menu-dropdown__icon" />
-              <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
-            </button>
             {/* Show Google Calendar connect for all logged-in users (useful for studio owners) */}
             <GoogleCalendarConnectButton variant="menu-item" />
             {user?.subscriptionStatus === 'ACTIVE' && (
@@ -87,6 +83,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
             )}
           </>
         )}
+        <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
+          <AddBusinessIcon className="menu-dropdown__icon" />
+          <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
+        </button>
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/subscription')}>
           <CardMembershipIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.subscription')}</span>

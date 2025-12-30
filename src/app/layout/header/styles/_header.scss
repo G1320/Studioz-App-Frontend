@@ -44,9 +44,9 @@ header.app-header {
   grid-area: header;
   position: fixed;
   top: 0;
-  height: 2.5rem;
+  height: 2.75rem;
   min-height: 2.5rem;
-  max-height: 2.5rem;
+  max-height: 2.75rem;
   display: grid;
   grid-template-columns: max-content repeat(5, 1fr) 40px;
   grid-template-rows: 1fr;
@@ -136,6 +136,7 @@ header.app-header {
     grid-row: 1;
     display: flex;
     align-self: end;
+    margin-bottom: 2px;
   }
 
   .header-options-container {

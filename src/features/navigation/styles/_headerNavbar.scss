@@ -23,6 +23,10 @@
   .navbar-link {
     position: relative;
     padding: 0 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
 
     // Add separator after every link except the last one
     // inset-inline-end automatically adjusts: right in LTR, left in RTL
@@ -37,22 +41,47 @@
       background: vars.$white-opacity-30;
     }
 
-    &[aria-current='page'] {
-      color: vars.$color-brand;
+    // Underline element (hidden by default)
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 32px;
+      height: 2px;
+      background: vars.$text-color-primary;
+      border-radius: 1px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 0 16px rgba(255, 255, 255, 0.3);
+      opacity: 0;
+      transform: translateX(-50%) translateY(4px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    &[aria-current='page'] {
+      // Show the animated underline with glow - slides up into place
+      &::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        animation: navbar-underline-glow 2s ease-in-out infinite;
+      }
+    }
 
     .navbar-link__icon {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      stroke: currentColor;
+      stroke-width: 1px;
     }
+  }
+}
+
+@keyframes navbar-underline-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 0 16px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 24px rgba(255, 255, 255, 0.5);
   }
 }

@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { featureFlags } from '@core/config/featureFlags';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import AddIcon from '@mui/icons-material/Add';
 
 export function HeaderNavbar() {
   const { t, i18n } = useTranslation('common');
@@ -49,14 +49,14 @@ export function HeaderNavbar() {
         {t('navigation.reservations')}
       </Link>
       <Link
-        to={`/${currLang}/create-studio`}
+        to={`/${currLang}/for-owners`}
         className="navbar-link"
         aria-label={t('navigation.create_studio')}
         aria-current={isCurrentPage(`/${currLang}/for-owners`) ? 'page' : undefined}
         onClick={() => scrollToTop()}
       >
         {t('navigation.create_studio')}
-        <AddBusinessIcon className="navbar-link__icon" />
+        <AddIcon className="navbar-link__icon" />
       </Link>
     </nav>
   );
