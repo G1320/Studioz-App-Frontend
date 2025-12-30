@@ -1,328 +1,515 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
 
-$border-radius: vars.$border-radius-large;
-$transition-speed: 0.3s;
+// ==========================================
+// SUBSCRIPTIONS PAGE - StudioZ Design System
+// Theme: Dark Mode Dominant, Professional, High-Contrast
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
 
-// Mixins
-@mixin card-hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 12px 24px vars.$black-opacity-40,
-    0 6px 12px vars.$black-opacity-30;
-  border-color: rgba(vars.$color-brand, 0.3);
+$subscriptions-primary: #ffd166;
+$subscriptions-primary-foreground: #000000;
+$subscriptions-surface: #18181b; // zinc-900
+$subscriptions-surface-dark: #09090b; // zinc-950
+$subscriptions-border: rgba(255, 255, 255, 0.1);
+$subscriptions-muted: rgba(255, 255, 255, 0.6);
+
+// Container
+.subscriptions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 vars.$spacing-medium;
 }
 
-.subscription-page {
-  min-height: calc(100vh - 10rem);
-  background: radial-gradient(ellipse at 80% 20%, rgba(vars.$color-brand, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 20% 90%, rgba(vars.$color-brand, 0.05) 0%, transparent 50%),
-    linear-gradient(180deg, vars.$bg-color-primary 0%, vars.$bg-color-secondary 100%);
-  padding: vars.$spacing-3xl vars.$spacing-medium;
+// Section Titles
+.subscriptions-section-title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: vars.$spacing-medium;
+  color: vars.$text-color-primary;
+}
+
+.subscriptions-section-subtitle {
+  font-size: vars.$font-size-medium;
+  color: $subscriptions-muted;
+  max-width: 640px;
+}
+
+// ==========================================
+// BUTTONS
+// ==========================================
+.subscriptions-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-small;
+  font-weight: 700;
+  font-size: vars.$font-size-medium;
+  padding: vars.$spacing-medium vars.$spacing-xl;
+  border-radius: vars.$border-radius-3xl;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  white-space: nowrap;
+  text-decoration: none;
+
+  svg {
+    width: 20px;
+    height: 20px;
+
+    [dir='rtl'] & {
+      transform: scaleX(-1);
+    }
+  }
+
+  &--primary {
+    background: $subscriptions-primary;
+    color: $subscriptions-primary-foreground;
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+
+    &:hover {
+      background: rgba($subscriptions-primary, 0.9);
+      box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
+      transform: scale(1.02);
+    }
+  }
+
+  &--secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: vars.$text-color-primary;
+    border: 1px solid $subscriptions-border;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+// ==========================================
+// PAGE CONTAINER
+// ==========================================
+.subscriptions-page {
+  min-height: 100vh;
+  background: vars.$bg-color-primary;
+  color: vars.$text-color-primary;
+  overflow-x: hidden;
+  position: relative;
+
+  &__glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+
+    &--primary {
+      top: 0;
+      left: 20%;
+      width: 500px;
+      height: 500px;
+      background: $subscriptions-primary;
+
+      [dir='rtl'] & {
+        left: auto;
+        right: 20%;
+      }
+    }
+
+    &--blue {
+      top: 10%;
+      right: 20%;
+      width: 400px;
+      height: 400px;
+      background: #3b82f6;
+
+      [dir='rtl'] & {
+        right: auto;
+        left: 20%;
+      }
+    }
+  }
+}
+
+// ==========================================
+// HERO SECTION
+// ==========================================
+.subscriptions-hero {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 0 3rem;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    padding: 8rem 0 4rem;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: vars.$spacing-large;
+  }
+
+  &__accent {
+    color: $subscriptions-primary;
+  }
+
+  &__description {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: $subscriptions-muted;
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+// ==========================================
+// PRICING GRID
+// ==========================================
+.subscriptions-pricing {
+  position: relative;
+  z-index: 1;
+  padding: vars.$spacing-2xl 0;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-xl;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+    }
+  }
+}
+
+// ==========================================
+// PRICING CARDS
+// ==========================================
+.subscriptions-card {
+  position: relative;
+  background: vars.$bg-color-primary;
+  border: 1px solid $subscriptions-border;
+  border-radius: vars.$border-radius-3xl;
+  padding: vars.$spacing-xl;
   display: flex;
   flex-direction: column;
-  gap: vars.$spacing-large;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
-  .header {
-    text-align: center;
-    width: clamp(220px, 90%, 900px);
-    max-width: 700px;
-    margin: 0 auto clamp(vars.$spacing-xl, 5vw, vars.$spacing-3xl);
-    padding: clamp(vars.$spacing-xl, 4vw, vars.$spacing-3xl) clamp(vars.$spacing-medium, 3vw, vars.$spacing-xl);
-    background: vars.$dark-bg-26-60;
-    border-radius: vars.$border-radius-xl;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow:
-      0 20px 60px vars.$black-opacity-40,
-      0 8px 24px vars.$black-opacity-30;
-    position: relative;
-    overflow: hidden;
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(vars.$color-brand, 0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      color: vars.$text-color-primary;
-      margin: 0 0 vars.$spacing-medium 0;
-      font-weight: 700;
-      line-height: 1.2;
-      position: relative;
-      z-index: 1;
-      background: linear-gradient(135deg, vars.$text-color-primary 0%, vars.$white-opacity-85 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    p {
-      color: vars.$white-opacity-80;
-      font-size: clamp(0.95rem, 2vw, 1.125rem);
-      line-height: 1.5;
-      max-width: 500px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-    }
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: $subscriptions-surface-dark;
   }
 
-  .plans-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: vars.$spacing-xl;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 vars.$spacing-medium;
-    margin-block-end: vars.$spacing-2xl;
-  }
+  &--popular {
+    background: $subscriptions-surface;
+    border-color: rgba($subscriptions-primary, 0.5);
+    box-shadow: 0 0 40px rgba(255, 209, 102, 0.1);
 
-  .plan-card {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto;
-    position: relative;
-    background: vars.$dark-bg-26-70;
-    border-radius: $border-radius;
-    padding: vars.$spacing-xl;
-    transition: all $transition-speed ease;
-    border: 1px solid vars.$white-opacity-10;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow:
-      0 4px 15px vars.$black-opacity-30,
-      0 0 0 1px vars.$white-opacity-05;
+    @media (min-width: 768px) {
+      transform: scale(1.05);
+      z-index: 10;
 
-    &.clickable {
-      cursor: pointer;
-    }
-
-    &:hover {
-      @include card-hover;
-    }
-
-    &.selected {
-      border-color: vars.$white-opacity-25;
-      box-shadow:
-        0 8px 25px vars.$black-opacity-40,
-        0 0 0 1px vars.$white-opacity-15;
-
-      .subscribe-button {
-        background: vars.$color-brand;
-        color: vars.$text-color-dark;
+      &:hover {
+        transform: scale(1.05) translateY(-4px);
       }
     }
   }
 
-  .popular-badge {
-    position: absolute;
-    top: -12px;
-    right: 20px;
-    background: vars.$color-brand;
-    color: vars.$text-color-dark;
-    padding: vars.$spacing-xs vars.$spacing-medium;
-    border-radius: 999px;
-    font-size: vars.$font-size-sm-md;
-    font-weight: 600;
-    box-shadow:
-      0 4px 12px rgba(vars.$color-brand, 0.4),
-      0 2px 4px vars.$black-opacity-30;
-    z-index: 1;
+  &--selected {
+    border-color: $subscriptions-primary;
+    box-shadow: 0 0 30px rgba(255, 209, 102, 0.2);
   }
 
-  .current-plan-badge {
+  &__badge {
     position: absolute;
-    top: -12px;
-    left: 20px;
-    background: vars.$white-opacity-15;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $subscriptions-primary;
+    color: $subscriptions-primary-foreground;
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    padding: vars.$spacing-xs vars.$spacing-medium;
+    border-radius: vars.$border-radius-3xl;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
+    white-space: nowrap;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__current {
+    position: absolute;
+    top: -14px;
+    left: vars.$spacing-xl;
+    background: rgba(255, 255, 255, 0.15);
     color: vars.$text-color-primary;
-    padding: vars.$spacing-xs vars.$spacing-medium;
-    border-radius: 999px;
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
     font-weight: 600;
-    border: 1px solid vars.$white-opacity-20;
-    box-shadow:
-      0 4px 12px vars.$black-opacity-30,
-      0 2px 4px vars.$black-opacity-20;
-    z-index: 1;
+    padding: vars.$spacing-xs vars.$spacing-medium;
+    border-radius: vars.$border-radius-3xl;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-  }
 
-  .plan-header {
-    margin-bottom: vars.$spacing-large;
-
-    h2 {
-      font-size: vars.$font-size-xl;
-      color: vars.$text-color-primary;
-      font-weight: 700;
-      margin-bottom: vars.$spacing-small;
-    }
-
-    .highlight {
-      color: vars.$white-opacity-70;
-      font-size: vars.$font-size-sm-md;
+    [dir='rtl'] & {
+      left: auto;
+      right: vars.$spacing-xl;
     }
   }
 
-  .price {
-    margin-bottom: vars.$spacing-large;
-
-    .amount {
-      font-size: clamp(2rem, 4vw, 2.5rem);
-      font-weight: 700;
-      color: vars.$text-color-primary;
-    }
-
-    .period {
-      color: vars.$white-opacity-60;
-      font-size: vars.$font-size-medium;
-      margin-left: vars.$spacing-xs;
-    }
-  }
-
-  .features {
+  &__header {
     margin-bottom: vars.$spacing-xl;
-    list-style: none;
-    padding: 0;
-    flex: 1;
-
-    li {
-      display: flex;
-      align-items: center;
-      margin-bottom: vars.$spacing-medium;
-      color: vars.$white-opacity-90;
-      font-size: vars.$font-size-medium;
-      line-height: 1.5;
-
-      .check-icon {
-        color: vars.$color-brand;
-        margin-right: vars.$spacing-medium;
-        font-weight: bold;
-        font-size: vars.$font-size-large;
-        flex-shrink: 0;
-      }
-    }
   }
 
-  .subscribe-button {
+  &__name {
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    margin-bottom: vars.$spacing-small;
+    color: vars.$text-color-primary;
+  }
+
+  &__highlight {
+    color: $subscriptions-muted;
+    font-size: vars.$font-size-sm-md;
+    margin: 0;
+    min-height: 2.5em;
+  }
+
+  &__price {
+    margin-bottom: vars.$spacing-xl;
+    display: flex;
+    align-items: baseline;
+    gap: vars.$spacing-xs;
+  }
+
+  &__amount {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: vars.$text-color-primary;
+  }
+
+  &__period {
+    color: $subscriptions-muted;
+    font-size: vars.$font-size-medium;
+  }
+
+  &__cta {
     width: 100%;
     padding: vars.$spacing-medium vars.$spacing-xl;
-    border-radius: vars.$border-radius-medium;
-    border: 1px solid vars.$white-opacity-10;
-    background: vars.$dark-bg-45-45-45-70;
-    color: vars.$text-color-primary;
+    border-radius: vars.$border-radius-3xl;
+    border: none;
     font-size: vars.$font-size-medium;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: all $transition-speed ease;
-    align-self: end;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-small;
+    margin-bottom: vars.$spacing-xl;
+    background: rgba(255, 255, 255, 0.1);
+    color: vars.$text-color-primary;
+
+    svg {
+      width: 18px;
+      height: 18px;
+
+      [dir='rtl'] & {
+        transform: scaleX(-1);
+      }
+    }
 
     &:hover {
-      background: vars.$dark-bg-55-55-55-80;
-      border-color: vars.$white-opacity-20;
-      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    &:active {
-      transform: translateY(0);
+    &--primary {
+      background: $subscriptions-primary;
+      color: $subscriptions-primary-foreground;
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+
+      &:hover {
+        background: rgba($subscriptions-primary, 0.9);
+        box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
+      }
     }
   }
 
-  #sumit-container {
+  &__features {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__features-label {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: vars.$text-color-primary;
+    margin: 0 0 vars.$spacing-small;
+  }
+
+  &__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: vars.$spacing-sm-md;
+    font-size: vars.$font-size-sm-md;
+    color: rgba(255, 255, 255, 0.8);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $subscriptions-primary;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    &--disabled {
+      color: rgba(255, 255, 255, 0.35);
+
+      span {
+        text-decoration: line-through;
+      }
+
+      svg {
+        color: rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+}
+
+// ==========================================
+// PAYMENT SECTION
+// ==========================================
+.subscriptions-payment {
+  position: relative;
+  z-index: 1;
+  padding: vars.$spacing-2xl 0;
+
+  &__wrapper {
     max-width: 800px;
-    margin: vars.$spacing-2xl auto;
+    margin: 0 auto;
     animation: slideIn 0.5s ease forwards;
   }
+}
 
-  .benefits {
+// ==========================================
+// FAQ SECTION
+// ==========================================
+.subscriptions-faq {
+  position: relative;
+  z-index: 1;
+  padding: vars.$spacing-3xl 0;
+
+  &__header {
     text-align: center;
-    margin-top: vars.$spacing-3xl;
+    margin-bottom: vars.$spacing-2xl;
+  }
 
-    h3 {
-      color: vars.$white-opacity-80;
-      font-size: vars.$font-size-large;
-      margin-bottom: vars.$spacing-large;
+  &__list {
+    max-width: 768px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__item {
+    background: rgba($subscriptions-surface, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: vars.$border-radius-2xl;
+    overflow: hidden;
+  }
+
+  &__question {
+    width: 100%;
+    padding: vars.$spacing-large vars.$spacing-xl;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: start;
+    background: transparent;
+    border: none;
+    color: vars.$text-color-primary;
+    font-size: vars.$font-size-large;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    .benefit-items {
-      display: flex;
-      justify-content: center;
-      gap: vars.$spacing-2xl;
-      flex-wrap: wrap;
+    svg {
+      color: $subscriptions-muted;
+      flex-shrink: 0;
     }
+  }
 
-    .benefit {
-      display: flex;
-      align-items: center;
-      color: vars.$white-opacity-70;
-      font-size: vars.$font-size-medium;
+  &__answer-wrapper {
+    overflow: hidden;
+  }
 
-      .check-icon {
-        color: vars.$color-brand;
-        margin-right: vars.$spacing-small;
-        font-weight: bold;
-      }
-    }
+  &__answer {
+    padding: 0 vars.$spacing-xl vars.$spacing-xl;
+    color: $subscriptions-muted;
+    line-height: 1.6;
   }
 }
 
-// Media Queries
-@media (max-width: 390px) {
-  .subscription-page {
-    .header {
-      h1 {
-        font-size: clamp(1.5rem, 4vw, 2rem);
-      }
+// ==========================================
+// CTA SECTION
+// ==========================================
+.subscriptions-cta {
+  position: relative;
+  z-index: 1;
+  padding: vars.$spacing-3xl 0;
+  overflow: hidden;
 
-      p {
-        font-size: clamp(0.875rem, 1.5vw, 1rem);
-      }
-    }
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba($subscriptions-primary, 0.08);
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin-bottom: vars.$spacing-medium;
+    color: vars.$text-color-primary;
+  }
+
+  &__description {
+    font-size: vars.$font-size-medium;
+    color: $subscriptions-muted;
+    margin-bottom: vars.$spacing-xl;
+    line-height: 1.6;
   }
 }
 
-@media (max-width: 768px) {
-  .subscription-page {
-    padding: vars.$spacing-2xl vars.$spacing-medium;
-
-    .header {
-      margin-bottom: clamp(vars.$spacing-large, 4vw, vars.$spacing-2xl);
-      padding: clamp(vars.$spacing-large, 4vw, vars.$spacing-2xl) clamp(vars.$spacing-medium, 3vw, vars.$spacing-large);
-    }
-
-    .plans-container {
-      grid-template-columns: 1fr;
-      gap: vars.$spacing-large;
-    }
-
-    .plan-card {
-      padding: vars.$spacing-large;
-    }
-
-    .benefits {
-      margin-top: vars.$spacing-2xl;
-
-      .benefit-items {
-        flex-direction: column;
-        gap: vars.$spacing-large;
-      }
-    }
-  }
-}
-
-// Animations
+// ==========================================
+// ANIMATIONS
+// ==========================================
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -334,7 +521,21 @@ $transition-speed: 0.3s;
   }
 }
 
-.plan-card {
-  animation: slideIn 0.5s ease forwards;
-  animation-delay: calc(var(--animation-order) * 0.1s);
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 768px) {
+  .subscriptions-pricing__grid {
+    gap: vars.$spacing-2xl;
+  }
+
+  .subscriptions-card {
+    &--popular {
+      order: -1;
+    }
+
+    &__badge {
+      top: -12px;
+    }
+  }
 }

@@ -1,14 +1,16 @@
 {
   "header": {
-    "title": "Choose Your Plan",
-    "subtitle": "Find the perfect fit for your business"
+    "title_part1": "Simple, transparent",
+    "title_accent": "pricing",
+    "subtitle": "Choose the plan that fits your studio's needs. No hidden fees. Upgrade or cancel anytime."
   },
   "plans": {
     "period": "month",
     "priceLabel": "per {{period}}",
     "popularBadge": "Most Popular",
-    "currentPlan": "Current plan",
+    "currentPlan": "Current Plan",
     "freeLabel": "Free",
+    "includes": "Includes",
     "free": {
       "name": "Free",
       "highlight": "Get started for free",
@@ -16,36 +18,71 @@
         "listing": "1 active listing",
         "booking": "Online booking",
         "support": "Standard support"
+      },
+      "notIncluded": {
+        "calendar": "Digital calendar",
+        "googleCalendar": "Google Calendar sync",
+        "priority": "Priority support"
       }
     },
     "starter": {
       "name": "Starter",
-      "highlight": "Perfect for beginners",
+      "highlight": "Perfect for new studios just getting started",
       "features": {
         "listing": "1 active listing",
-        "booking": "Online booking ",
+        "booking": "Online booking",
         "calendar": "Digital calendar",
         "googleCalendar": "Google Calendar sync",
         "support": "Standard support",
         "cancel": "Cancel anytime"
+      },
+      "notIncluded": {
+        "unlimited": "Unlimited listings",
+        "priority": "Priority support"
       }
     },
     "pro": {
       "name": "Professional",
-      "highlight": "Most Popular",
+      "highlight": "Everything you need to grow your bookings",
       "features": {
         "listing": "Unlimited active listings",
-        "booking": "Online booking ",
+        "booking": "Online booking",
         "calendar": "Digital calendar",
         "googleCalendar": "Google Calendar sync",
         "support": "Priority support",
-        "payment": "Secure payments (Soon!)",
+        "payment": "Secure payments (Coming Soon)",
         "cancel": "Cancel anytime"
       }
     }
   },
   "buttons": {
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "currentPlan": "Current Plan"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our pricing and billing",
+    "switch": {
+      "question": "Can I switch plans later?",
+      "answer": "Absolutely. You can upgrade or downgrade your plan at any time from your dashboard. Changes take effect immediately."
+    },
+    "contract": {
+      "question": "Is there a long-term contract?",
+      "answer": "No contracts. You can cancel your subscription at any time. If you cancel, your plan will remain active until the end of your current billing period."
+    },
+    "payment": {
+      "question": "What payment methods do you accept?",
+      "answer": "We accept all major credit cards including Visa, Mastercard, and American Express. All payments are securely processed."
+    },
+    "cancel": {
+      "question": "How do I cancel my subscription?",
+      "answer": "You can cancel your subscription at any time from your dashboard. Your access will continue until the end of your billing period."
+    }
+  },
+  "cta": {
+    "title": "Still have questions?",
+    "description": "Our support team is available to help you find the perfect plan for your studio business.",
+    "button": "Contact Support"
   },
   "paypal": {
     "title": "Subscribe to {{planName}} Plan"
