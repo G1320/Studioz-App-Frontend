@@ -24,7 +24,7 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
   }
 
   const [showFullHours, setShowFullHours] = useState(false);
-  const { i18n, t } = useTranslation('studios');
+  const { i18n } = useTranslation('studios');
   const { getDisplayByEnglish } = useDays();
 
   const todayLabelAndHours = useMemo(() => {
@@ -105,9 +105,7 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
             <h2 className="studio-minimap-modal__title">{studioName}</h2>
 
             <div className="studio-minimap-modal__address-row">
-              {studio?.address && (
-                <p className="studio-minimap-modal__address">{studio.address}</p>
-              )}
+              {studio?.address && <p className="studio-minimap-modal__address">{studio.address}</p>}
 
               {studio?.address && (
                 <a
