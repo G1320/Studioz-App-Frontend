@@ -108,9 +108,9 @@ const ForOwnersPage: React.FC = () => {
                 <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
                   {t('hero.cta_primary')} <ArrowForwardIcon />
                 </button>
-                <button className="owners-btn owners-btn--secondary" onClick={handleViewDemo} type="button">
+                {/* <button className="owners-btn owners-btn--secondary" onClick={handleViewDemo} type="button">
                   {t('hero.cta_secondary')}
-                </button>
+                </button> */}
               </div>
             </motion.div>
           </div>
