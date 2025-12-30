@@ -1,75 +1,75 @@
 {
   "hero": {
-    "title": "Turn Your Studio Into Income",
-    "subtitle": "Join Studioz and start earning from your space. List your studio in minutes and connect with professional creators looking for the perfect location.",
-    "cta": "List Your Studio"
+    "title_part1": "Turn your studio into a",
+    "title_accent": "thriving business",
+    "description": "Manage bookings, sync calendars, and accept payments—all in one place. The professional platform for Israel's creative spaces.",
+    "cta_primary": "Start for Free",
+    "cta_secondary": "View Demo"
   },
-  "testimonial": {
-    "quote": "I've been hosting sessions for years and Studioz was by far the smoothest experience I've had. Their quality renters and amazing customer support made this as easy as can be.",
-    "name": "John D.",
-    "location": "Tel Aviv, Israel"
+  "stats": {
+    "active_studios": "Active Studios",
+    "monthly_bookings": "Monthly Bookings",
+    "owner_earnings": "Owner Earnings",
+    "cities": "Cities"
   },
-  "shootTypes": {
-    "title": "What types of sessions can I host?",
-    "photoshoots": {
-      "title": "Recording Sessions",
-      "description": "Recording sessions are straightforward and low impact. They typically last a few hours and include a small team of less than 10 people."
+  "dashboard": {
+    "title": "Centralized Management",
+    "description": "Everything you need to run your studio in one dashboard. From bookings to payments, we've got you covered.",
+    "event1_title": "Podcast Booking",
+    "event1_time": "14:00 - 16:00",
+    "event2_title": "Photo Shoot",
+    "event2_time": "09:00 - 18:00"
+  },
+  "features": {
+    "title": "Built for Studio Owners",
+    "subtitle": "Professional tools designed to help you save time and increase bookings.",
+    "booking": {
+      "title": "Advanced Booking System",
+      "description": "Real-time availability management prevents double bookings. Set custom rules, buffer times, and minimum booking durations."
     },
-    "commercials": {
-      "title": "Production Projects",
-      "description": "Production projects come in all shapes and sizes. On average, they last about a day and require a team of 10-20 people."
+    "calendar": {
+      "title": "Google Calendar Sync",
+      "description": "Automatically sync your Studioz bookings with your personal Google Calendar. Never miss a session or get double-booked."
     },
-    "filmShoots": {
-      "title": "Long-term Productions",
-      "description": "Big budget productions run over multiple days and require larger teams. They also pay the best and give you the best chance to work with top professionals."
+    "page": {
+      "title": "Beautiful Studio Page",
+      "description": "Get a stunning, SEO-optimized profile page to showcase your gear, photos, and amenities. Share it directly with clients."
+    },
+    "exposure": {
+      "title": "Maximum Exposure",
+      "description": "Get discovered by thousands of musicians, podcasters, and photographers looking for space in your area every month."
+    },
+    "crm": {
+      "title": "Reservation Management",
+      "description": "Keep track of all client details, special requests, and booking history in one secure, organized CRM system."
+    },
+    "payments": {
+      "title": "Secure Payments",
+      "description": "Process payments securely. Clients pre-pay for bookings, reducing cancellations and no-shows.",
+      "badge": "Coming Soon"
     }
   },
-  "howItWorks": {
-    "title": "How Studioz Works in 3 Simple Steps",
-    "step1": {
-      "title": "Sign up as a host",
-      "description": "List your property in 5 minutes on Studioz",
-      "detail1": "Create your listing with basic info like price, photos and features",
-      "detail2": "Click 'Publish' and start receiving booking requests"
-    },
-    "step2": {
-      "title": "Receive bookings from renters",
-      "description": "Accept the sessions you want to host, decline the ones you don't.",
-      "detail1": "Your address and contact info are always kept private",
-      "detail2": "Renters will message you through Studioz with questions and booking requests",
-      "detail3": "You can schedule location scouts and negotiate timings for setup and teardown"
-    },
-    "step3": {
-      "title": "Host a session - Get paid",
-      "description": "Earn extra income with complete peace of mind",
-      "detail1": "If you don't want to be present, Studioz can provide support",
-      "detail2": "Renters are charged as soon as you accept their booking request",
-      "detail3": "Final payout is deposited into your preferred bank account within 7 days"
-    }
+  "studio_preview": {
+    "title_part1": "Your studio,",
+    "title_accent": "beautifully presented",
+    "description": "Stand out from the competition with a professional listing that highlights your equipment, amenities, and unique vibe.",
+    "feature1": "High-resolution image gallery",
+    "feature2": "Detailed gear & equipment list",
+    "feature3": "Interactive location map",
+    "feature4": "Verified reviews & ratings",
+    "feature5": "Direct booking link",
+    "cta": "See example page"
   },
-  "benefits": {
-    "title": "Why Choose Studioz?",
-    "security": {
-      "title": "Secure & Protected",
-      "description": "All renters are verified professionals. Your property is protected with comprehensive insurance coverage for every booking."
-    },
-    "payment": {
-      "title": "Fast Payments",
-      "description": "Get paid quickly and securely. Payments are processed automatically and deposited directly to your account."
-    },
-    "support": {
-      "title": "24/7 Support",
-      "description": "Our dedicated support team is always available to help you with any questions or issues that may arise."
-    },
-    "earnings": {
-      "title": "Maximize Earnings",
-      "description": "Set your own rates and availability. You're in complete control of your pricing and schedule."
-    }
+  "cta": {
+    "title": "Ready to fill your schedule?",
+    "description": "Join hundreds of studio owners who trust Studioz to manage and grow their business.",
+    "button": "List Your Studio Now",
+    "note": "No credit card required for signup • Cancel anytime"
   },
-  "finalCta": {
-    "title": "Ready to get started?",
-    "subtitle": "Join thousands of studio owners already earning with Studioz",
-    "button": "List Your Studio"
+  "footer": {
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "rights": "All rights reserved."
   }
 }
-

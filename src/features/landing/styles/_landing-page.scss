@@ -669,6 +669,35 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     }
   }
 
+  &__contact {
+    h3 {
+      font-weight: 700;
+      font-size: vars.$font-size-medium;
+      margin-bottom: vars.$spacing-medium;
+      color: vars.$text-color-primary;
+    }
+  }
+
+  &__email {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: vars.$font-size-sm-md;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      color: $landing-primary;
+      text-shadow: none;
+    }
+  }
+
   &__social {
     h3 {
       font-weight: 700;
