@@ -1,7 +1,7 @@
 @use 'utilities/variables' as vars;
 @use 'sass:color';
 
-footer.mobile-footer {
+.mobile-navigation {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -13,7 +13,7 @@ footer.mobile-footer {
   pointer-events: none; // Allow clicks to pass through to buttons
 }
 
-.footer-grid {
+.mobile-navigation__grid {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,7 @@ footer.mobile-footer {
   pointer-events: auto; // Re-enable pointer events for buttons
 }
 
-.footer-icon-link {
+.mobile-navigation__link {
   color: vars.$text-color-primary;
   text-decoration: none;
   display: flex;
@@ -46,7 +46,6 @@ footer.mobile-footer {
     border-color 0.25s ease;
   flex: 1;
   min-width: 0;
-  // width: 80%;
 
   &:hover {
     transform: translateY(-2px);
@@ -72,10 +71,9 @@ footer.mobile-footer {
   }
 
   &[aria-current='page'] {
-    // border-color: rgba(vars.$color-brand, 0.4);
     color: vars.$color-brand;
 
-    .footer-link-content {
+    .mobile-navigation__link-content {
       color: vars.$color-brand;
 
       span {
@@ -96,7 +94,7 @@ footer.mobile-footer {
   }
 }
 
-.footer-link-content {
+.mobile-navigation__link-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,7 +118,7 @@ footer.mobile-footer {
     line-height: 1;
   }
 
-  .footer-icon-link:hover & {
+  .mobile-navigation__link:hover & {
     svg {
       transform: scale(1.1);
     }
@@ -128,19 +126,19 @@ footer.mobile-footer {
 }
 
 @media (max-width: 600px) {
-  footer.mobile-footer {
+  .mobile-navigation {
     padding: 0.5rem 0.5rem;
   }
 
-  .footer-grid {
+  .mobile-navigation__grid {
     gap: 0.6rem;
   }
 
-  .footer-icon-link {
+  .mobile-navigation__link {
     padding: 0.45rem 0.55rem;
   }
 
-  .footer-link-content {
+  .mobile-navigation__link-content {
     gap: 0.2rem;
 
     svg {

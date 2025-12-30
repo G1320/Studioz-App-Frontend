@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MobileFooter } from './MobileFooter';
+import { MobileNavigation } from './MobileNavigation';
 import { DesktopFooter } from './DesktopFooter';
 
 export const ResponsiveFooter = () => {
@@ -12,5 +12,10 @@ export const ResponsiveFooter = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return isMobile ? <MobileFooter /> : <DesktopFooter />;
+  return (
+    <>
+      {isMobile && <MobileNavigation />}
+      <DesktopFooter />
+    </>
+  );
 };

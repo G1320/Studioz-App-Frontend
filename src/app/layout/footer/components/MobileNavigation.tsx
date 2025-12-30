@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { featureFlags } from '@core/config/featureFlags';
 
-export const MobileFooter = () => {
+export const MobileNavigation = () => {
   const location = useLocation();
   const { t, i18n } = useTranslation('common');
 
@@ -15,7 +15,7 @@ export const MobileFooter = () => {
 
   const currLang = i18n.language || 'en';
 
-  // Hide mobile footer on create studio flow to reduce clutter on small screens
+  // Hide mobile navigation on create studio flow to reduce clutter on small screens
   if (currentPath.includes('/create-studio')) {
     return null;
   }
@@ -30,28 +30,28 @@ export const MobileFooter = () => {
   };
 
   return (
-    <footer id="main-footer" className="mobile-footer" aria-label={t('navigation.footer', 'Footer')}>
-      <nav className="footer-grid">
+    <nav className="mobile-navigation" aria-label={t('navigation.main', 'Main navigation')}>
+      <div className="mobile-navigation__grid">
         <Link
           to={`/${currLang}/discover`}
-          className="footer-icon-link"
+          className="mobile-navigation__link"
           aria-label={t('navigation.home')}
           aria-current={isCurrentPage(`/${currLang}/discover`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
-          <div className="footer-link-content">
+          <div className="mobile-navigation__link-content">
             <HomeIcon aria-hidden="true" />
             <span>{t('navigation.home')}</span>
           </div>
         </Link>
         <Link
           to={`/${currLang}/studios`}
-          className="footer-icon-link"
+          className="mobile-navigation__link"
           aria-label={t('navigation.studios')}
           aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
-          <div className="footer-link-content">
+          <div className="mobile-navigation__link-content">
             <BusinessIcon aria-hidden="true" />
             <span>{t('navigation.studios')}</span>
           </div>
@@ -59,12 +59,12 @@ export const MobileFooter = () => {
         {featureFlags.servicesPage && (
           <Link
             to={`/${currLang}/services`}
-            className="footer-icon-link"
+            className="mobile-navigation__link"
             aria-label={t('navigation.services')}
             aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
             onClick={() => scrollToTop()}
           >
-            <div className="footer-link-content">
+            <div className="mobile-navigation__link-content">
               <GraphicEqIcon aria-hidden="true" />
               <span>{t('navigation.services')}</span>
             </div>
@@ -72,17 +72,17 @@ export const MobileFooter = () => {
         )}
         <Link
           to={`/${currLang}/reservations`}
-          className="footer-icon-link"
+          className="mobile-navigation__link"
           aria-label={t('navigation.reservations')}
           aria-current={isCurrentPage(`/${currLang}/reservations`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
-          <div className="footer-link-content">
+          <div className="mobile-navigation__link-content">
             <EventNoteIcon aria-hidden="true" />
             <span>{t('navigation.reservations')}</span>
           </div>
         </Link>
-      </nav>
-    </footer>
+      </div>
+    </nav>
   );
 };

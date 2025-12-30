@@ -1,3 +1,3 @@
 export * from './DesktopFooter';
-export * from './MobileFooter';
+export * from './MobileNavigation';
 export * from './Footer';
