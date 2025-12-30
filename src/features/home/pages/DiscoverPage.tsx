@@ -7,15 +7,15 @@ import { filterBySubcategory } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { homeBanners } from '@core/config';
 
-interface HomePageProps {
+interface DiscoverPageProps {
   studios: Studio[];
   items: Item[];
 }
 
-const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
+const DiscoverPage: React.FC<DiscoverPageProps> = ({ studios, items }) => {
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
-  const { t } = useTranslation('homePage');
+  const { t } = useTranslation('discoverPage');
   const musicSubCategories = useMusicSubCategories();
 
   const { openModal } = useModal();
@@ -41,7 +41,7 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   };
 
   return (
-    <section className="home-page">
+    <section className="discover-page">
       <GenericCarousel
         data={musicSubCategories}
         className="categories-carousel slider-gradient"
@@ -120,4 +120,4 @@ const HomePage: React.FC<HomePageProps> = ({ studios, items }) => {
   );
 };
 
-export default HomePage;
+export default DiscoverPage;

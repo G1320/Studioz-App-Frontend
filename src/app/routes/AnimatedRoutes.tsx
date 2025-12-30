@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense, useMemo } from 'react';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 
-import HomePage from '@features/home/pages/HomePage';
+import DiscoverPage from '@features/home/pages/DiscoverPage';
 import WishListsPage from '@features/entities/wishlists/pages/WishlistsPage';
 import StudioDetailsPage from '@features/entities/studios/pages/StudioDetailsPage';
 import StudioReviewsPage from '@features/entities/studios/pages/StudioReviewsPage';
@@ -110,7 +110,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang"
             element={
               <AnimatedRoute>
-                <HomePage studios={studios} items={items} />
+                <DiscoverPage studios={studios} items={items} />
               </AnimatedRoute>
             }
           />

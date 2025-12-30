@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import homePage from './locales/en/homePage.json';
+import discoverPage from './locales/en/discoverPage.json';
 import common from './locales/en/common.json';
 import categories from './locales/en/categories.json';
 import genres from './locales/en/genres.json';
@@ -22,7 +22,7 @@ import location from './locales/en/location.json';
 import forOwners from './locales/en/forOwners.json';
 import landing from './locales/en/landing.json';
 
-import homePageHe from './locales/he/homePage.json';
+import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
 import categoriesHe from './locales/he/categories.json';
 import genresHe from './locales/he/genres.json';
@@ -48,7 +48,7 @@ i18n
   .init({
     resources: {
       en: {
-        homePage,
+        discoverPage,
         common,
         categories,
         genres,
@@ -69,7 +69,7 @@ i18n
         landing
       },
       he: {
-        homePage: homePageHe,
+        discoverPage: discoverPageHe,
         common: commonHe,
         categories: categoriesHe,
         genres: genresHe,

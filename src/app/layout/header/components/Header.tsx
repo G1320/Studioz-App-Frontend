@@ -21,10 +21,10 @@ interface HeaderProps {
 }
 
 const shouldShowBackButton = (pathname: string): boolean => {
-  // Show back button on all pages except home page
-  // Home page patterns: /en, /he, /en/, /he/
-  const homePagePattern = /^\/[a-z]{2}\/?$/;
-  return !homePagePattern.test(pathname);
+  // Show back button on all pages except discover page
+  // Discover page patterns: /en, /he, /en/, /he/
+  const discoverPagePattern = /^\/[a-z]{2}\/?$/;
+  return !discoverPagePattern.test(pathname);
 };
 
 export const Header: React.FC<HeaderProps> = ({ user }) => {
