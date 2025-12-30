@@ -52,7 +52,7 @@ export function HeaderNavbar() {
         to={`/${currLang}/create-studio`}
         className="navbar-link"
         aria-label={t('navigation.create_studio')}
-        aria-current={isCurrentPage(`/${currLang}/create-studio`) ? 'page' : undefined}
+        aria-current={isCurrentPage(`/${currLang}/for-owners`) ? 'page' : undefined}
         onClick={() => scrollToTop()}
       >
         {t('navigation.create_studio')}

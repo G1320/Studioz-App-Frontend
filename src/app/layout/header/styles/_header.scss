@@ -308,47 +308,19 @@ header.app-header {
       grid-column: 6;
     }
 
-    .header-list-studio-button-mobile {
-      display: flex;
+    .header-logo-text {
+      display: block;
       grid-column: 2;
       grid-row: 1;
       align-self: center;
-      align-content: center;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.25rem;
-      min-width: min-content;
-      min-height: 24px;
-      white-space: nowrap;
-      background: transparent;
-      border-radius: vars.$border-radius-medium;
-      color: inherit;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      cursor: pointer;
-
-      // Show icon by default on mobile
-      &__icon {
-        display: block;
-        width: 18px;
-        height: 18px;
-        flex-shrink: 0;
-      }
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: vars.$text-color-primary;
     }
   }
 }
 
-// Hide icon only on XS screens (very small devices)
-@media screen and (max-width: 480px) {
-  header {
-    .header-list-studio-button-mobile {
-      &__icon {
-        display: none;
-      }
-    }
-  }
-}
-
-.header-list-studio-button-mobile {
+.header-logo-text {
   display: none;
 }

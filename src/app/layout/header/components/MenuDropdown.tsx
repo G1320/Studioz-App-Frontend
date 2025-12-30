@@ -67,7 +67,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/create-studio')}>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
               <AddBusinessIcon className="menu-dropdown__icon" />
               <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
             </button>
