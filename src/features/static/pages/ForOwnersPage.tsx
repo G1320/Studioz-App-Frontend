@@ -105,18 +105,10 @@ const ForOwnersPage: React.FC = () => {
               </h1>
               <p className="owners-hero__description">{t('hero.description')}</p>
               <div className="owners-hero__buttons">
-                <button
-                  className="owners-btn owners-btn--primary"
-                  onClick={handleListStudio}
-                  type="button"
-                >
+                <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
                   {t('hero.cta_primary')} <ArrowForwardIcon />
                 </button>
-                <button
-                  className="owners-btn owners-btn--secondary"
-                  onClick={handleViewDemo}
-                  type="button"
-                >
+                <button className="owners-btn owners-btn--secondary" onClick={handleViewDemo} type="button">
                   {t('hero.cta_secondary')}
                 </button>
               </div>
@@ -250,7 +242,11 @@ const ForOwnersPage: React.FC = () => {
           <div className="owners-cta__content">
             <h2 className="owners-cta__title">{t('cta.title')}</h2>
             <p className="owners-cta__description">{t('cta.description')}</p>
-            <button className="owners-btn owners-btn--primary owners-btn--large" onClick={handleListStudio} type="button">
+            <button
+              className="owners-btn owners-btn--primary owners-btn--large"
+              onClick={handleListStudio}
+              type="button"
+            >
               {t('cta.button')}
             </button>
             <p className="owners-cta__note">{t('cta.note')}</p>
