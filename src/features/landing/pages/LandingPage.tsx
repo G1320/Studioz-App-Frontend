@@ -294,7 +294,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
               </button>
               <button
                 className="landing-cta__btn landing-cta__btn--secondary"
-                onClick={() => navigate(`/${i18n.language}/create-studio`)}
+                onClick={() => navigate(`/${i18n.language}/for-owners`)}
                 type="button"
               >
                 {t('cta.list_space')}
