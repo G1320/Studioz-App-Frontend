@@ -8,10 +8,10 @@ import { StudioCard } from '@features/entities';
 import { Studio } from 'src/types/index';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MicIcon from '@mui/icons-material/Mic';
-// import CameraAltIcon from '@mui/icons-material/CameraAlt';
-// import VideocamIcon from '@mui/icons-material/Videocam';
 import TuneIcon from '@mui/icons-material/Tune';
-import HeadphonesIcon from '@mui/icons-material/Headphones';
+import PianoIcon from '@mui/icons-material/Piano';
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import StarIcon from '@mui/icons-material/Star';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -222,7 +222,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
               onClick={() => navigate(`/${i18n.language}/studios/music/Mixing`)}
             />
             <CategoryCard
-              icon={<HeadphonesIcon />}
+              icon={<GraphicEqIcon />}
+              label={t('categories.mastering')}
+              onClick={() => navigate(`/${i18n.language}/studios/music/Mastering`)}
+            />
+            <CategoryCard
+              icon={<RecordVoiceOverIcon />}
+              label={t('categories.vocal_recording')}
+              onClick={() => navigate(`/${i18n.language}/studios/music/Vocal%20%26%20Instrument%20Recording`)}
+            />
+            <CategoryCard
+              icon={<PianoIcon />}
               label={t('categories.rehearsal')}
               onClick={() => navigate(`/${i18n.language}/studios/music/Band%20rehearsal`)}
             />
