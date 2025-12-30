@@ -28,24 +28,23 @@ export const HourSelector = React.memo(({ value, onIncrement, onDecrement }: Hou
     setIsAnimating(true);
     const difference = targetValue - startValue;
     const absDifference = Math.abs(difference);
-    const duration = Math.min(1000, Math.max(400, absDifference * 80));
+    // Faster: reduced from 400-1000ms to 150-400ms
+    const duration = Math.min(400, Math.max(150, absDifference * 40));
     const direction = difference > 0 ? 1 : -1;
 
     const container = valueRef.current.parentElement;
     if (!container) return;
 
-    // Create rolling numbers effect
+    // Create rolling numbers effect - simplified for speed
     const numbers: number[] = [];
-    if (absDifference <= 10) {
+    if (absDifference <= 3) {
       // For small differences, show all intermediate numbers
       for (let i = 0; i <= absDifference; i++) {
         numbers.push(startValue + i * direction);
       }
     } else {
-      // For large differences, show key numbers
+      // For larger differences, just show start and end (faster)
       numbers.push(startValue);
-      const mid = Math.floor(absDifference / 2);
-      numbers.push(startValue + mid * direction);
       numbers.push(targetValue);
     }
 
@@ -64,12 +63,12 @@ export const HourSelector = React.memo(({ value, onIncrement, onDecrement }: Hou
     // Hide current value
     valueRef.current.style.opacity = '0';
 
-    // Animate rolling
+    // Animate rolling - smoother easing
     const finalIndex = numbers.length - 1;
     animate(rollingContainer, {
       translateY: [`${-finalIndex * 100}%`, '0%'],
       duration: duration,
-      easing: 'easeOutCubic',
+      easing: 'easeOutExpo',
       onComplete: () => {
         // Update display value
         if (valueRef.current) {

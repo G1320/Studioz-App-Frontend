@@ -1,5 +1,17 @@
 @use 'utilities/variables' as vars;
 
+// ==========================================
+// CUSTOMER DETAILS FORM - StudioZ Design System
+// Theme: Dark Mode, Glassmorphic Inputs
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$item-primary: #ffd166;
+$item-surface: rgba(24, 24, 27, 0.5); // zinc-900/50
+$item-border: rgba(63, 63, 70, 1); // zinc-700
+$item-border-focus: $item-primary;
+$item-muted: rgba(113, 113, 122, 1); // zinc-500
+
 .item-modal {
   overflow-y: auto;
 }
@@ -8,21 +20,51 @@
   display: grid;
   width: 100%;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: vars.$spacing-medium;
 
   .input-container {
     position: relative;
 
+    // Icon styling for inputs with icons
+    .input-icon {
+      position: absolute;
+      left: vars.$spacing-medium;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: $item-muted;
+      transition: color 0.2s ease;
+      pointer-events: none;
+      z-index: 1;
+
+      [dir='rtl'] & {
+        left: auto;
+        right: vars.$spacing-medium;
+      }
+    }
+
+    // When input is focused, highlight the icon
+    &:focus-within .input-icon {
+      color: $item-primary;
+    }
+
     .customer-input {
       width: 100%;
-      padding: 12px;
-      border: 1px solid vars.$light-gray-e0e0e0;
-      border-radius: vars.$border-radius-medium;
-      font-size: vars.$font-size-sm-md;
-      background: vars.$light-gray-f5f5f5;
-      transition: all 0.3s ease;
-      color: vars.$bg-color-tertiary;
+      padding: vars.$spacing-medium;
+      padding-inline-start: vars.$spacing-medium;
+      border: 1px solid $item-border;
+      border-radius: vars.$border-radius-xl;
+      font-size: vars.$font-size-medium;
+      background: $item-surface;
+      color: vars.$text-color-primary;
       text-align: start;
+      transition: all 0.2s ease;
+
+      // Inputs with icons get extra padding
+      &.has-icon {
+        padding-inline-start: 2.75rem;
+      }
 
       &[dir='rtl'] {
         text-align: right;
@@ -30,20 +72,36 @@
       &[dir='ltr'] {
         text-align: left;
       }
-      &:focus {
-        outline: none;
-        border-color: vars.$bg-color-tertiary;
-        background: vars.$text-color-primary;
-        box-shadow: 0 2px 4px vars.$black-opacity-10;
-      }
 
       &::placeholder {
-        color: vars.$text-color-secondary;
+        color: $item-muted;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $item-primary;
+        box-shadow: 0 0 0 1px $item-primary;
+        background: $item-surface;
+      }
+
+      &:hover:not(:focus):not(:disabled) {
+        border-color: rgba(82, 82, 91, 1); // zinc-600
       }
 
       &:disabled {
-        opacity: 0.7;
+        opacity: 0.5;
         cursor: not-allowed;
+      }
+    }
+
+    // Textarea specific styles
+    textarea.customer-input {
+      min-height: 100px;
+      resize: none;
+      padding-top: vars.$spacing-medium;
+
+      &.has-icon {
+        padding-inline-start: 2.75rem;
       }
     }
 
@@ -53,7 +111,7 @@
       // When full-width container has both input and verification buttons
       &:has(.verification-buttons) {
         display: flex;
-        gap: 10px;
+        gap: vars.$spacing-sm-md;
         align-items: center;
 
         .customer-input {
@@ -77,14 +135,20 @@
 
     &.verification-input {
       display: flex;
-      gap: 10px;
+      gap: vars.$spacing-sm-md;
       align-items: center;
+    }
+
+    // For textarea, position icon at top
+    &:has(textarea) .input-icon {
+      top: vars.$spacing-medium;
+      transform: none;
     }
   }
 
   .verification-buttons {
     display: flex;
-    gap: 10px;
+    gap: vars.$spacing-sm-md;
     flex-shrink: 0;
 
     // Mobile: equal-width buttons
@@ -97,21 +161,27 @@
   }
 
   .verification-button {
-    padding: 10px 16px;
-    border-radius: 8px;
-    background-color: vars.$color-brand;
-    color: white;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    border-radius: vars.$border-radius-xl;
+    background-color: $item-primary;
+    color: vars.$bg-color-primary;
     border: none;
-    font-size: 14px;
+    font-size: vars.$font-size-sm-md;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     grid-column: 1 / -1;
     justify-self: center;
     min-width: 120px;
     height: 44px;
 
     &:hover:not(:disabled) {
-      opacity: 0.9;
+      background-color: rgba($item-primary, 0.9);
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
     }
 
     &:disabled {
@@ -121,11 +191,12 @@
 
     &--secondary {
       background-color: transparent;
-      border: 1px solid vars.$color-brand;
-      color: vars.$color-brand;
+      border: 1px solid $item-border;
+      color: vars.$text-color-primary;
 
       &:hover:not(:disabled) {
-        background-color: rgba(vars.$color-brand, 0.1);
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
       }
     }
   }
@@ -135,9 +206,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: vars.$spacing-small;
     grid-column: 1 / -1;
-    font-size: 14px;
+    font-size: vars.$font-size-sm-md;
 
     &.verified {
       color: vars.$color-success;
@@ -145,6 +216,217 @@
 
     &.pending {
       color: vars.$color-warning;
+    }
+  }
+}
+
+// ==========================================
+// DATE PICKER ROW - StudioZ Design System
+// ==========================================
+
+.date-picker-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: vars.$spacing-medium;
+  width: 100%;
+  align-items: start; // Align items to top so labels line up
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+
+  // MUI DateTimePicker wrapper styling
+  .MuiFormControl-root,
+  .MuiTextField-root {
+    width: 100%;
+    margin: 0 !important; // Remove MUI default margins
+
+    .MuiInputBase-root {
+      background: $item-surface;
+      border: 1px solid $item-border;
+      border-radius: vars.$border-radius-xl;
+      color: vars.$text-color-primary;
+      transition: all 0.2s ease;
+      height: 50px;
+      box-sizing: border-box;
+
+      &:hover {
+        border-color: rgba(82, 82, 91, 1);
+      }
+
+      &.Mui-focused {
+        border-color: $item-primary;
+        box-shadow: 0 0 0 1px $item-primary;
+      }
+
+      .MuiInputBase-input {
+        padding: vars.$spacing-medium;
+        color: vars.$text-color-primary;
+        font-size: vars.$font-size-medium;
+      }
+
+      .MuiInputAdornment-root {
+        .MuiIconButton-root {
+          color: $item-muted;
+
+          &:hover {
+            color: vars.$text-color-primary;
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+
+      // Remove default MUI fieldset border
+      .MuiOutlinedInput-notchedOutline {
+        border: none;
+      }
+    }
+
+    // Label styling - make it match hours-label style
+    .MuiInputLabel-root {
+      position: relative;
+      transform: none;
+      font-size: vars.$font-size-small;
+      font-weight: 700;
+      color: $item-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: vars.$spacing-small;
+      text-align: start;
+      width: 100%;
+
+      &.Mui-focused,
+      &.MuiFormLabel-filled {
+        color: $item-muted;
+        transform: none;
+      }
+    }
+
+    // When label is shrunk (has value or focused), keep it in place
+    .MuiInputLabel-shrink {
+      transform: none;
+    }
+  }
+}
+
+// ==========================================
+// HOURS WRAPPER - StudioZ Design System
+// ==========================================
+
+.hours-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .hours-label {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    color: $item-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: vars.$spacing-small;
+    text-align: start;
+  }
+}
+
+.hour-selection-container {
+  display: flex;
+  align-items: center;
+  background: $item-surface;
+  border: 1px solid $item-border;
+  border-radius: vars.$border-radius-xl;
+  padding: vars.$spacing-xs vars.$spacing-small;
+  height: 50px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: rgba(82, 82, 91, 1);
+  }
+
+  &:focus-within {
+    border-color: $item-primary;
+    box-shadow: 0 0 0 1px $item-primary;
+  }
+
+  .button-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hour-value-container {
+    position: relative;
+    min-width: 32px;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hour-value {
+    font-size: vars.$font-size-large;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    min-width: 32px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .counter-rolling-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 2;
+  }
+
+  .counter-rolling-number {
+    font-size: vars.$font-size-large;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    line-height: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100%;
+    flex-shrink: 0;
+  }
+
+  .add-remove-button {
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: $item-muted;
+    cursor: pointer;
+    border-radius: vars.$border-radius-medium;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      color: vars.$text-color-primary;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
     }
   }
 }

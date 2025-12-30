@@ -126,10 +126,10 @@ export const ItemContent: React.FC<ItemContentProps> = ({
                 studioAvailability={studio?.studioAvailability}
               />
 
-              <fieldset className="hours-fieldset">
-                <legend className="hours-legend">{t('hours', 'Hours')}</legend>
+              <div className="hours-wrapper">
+                <label className="hours-label">{t('hours', 'Hours')}</label>
                 <HourSelector value={selectedQuantity} onIncrement={onIncrement} onDecrement={onDecrement} />
-              </fieldset>
+              </div>
             </div>
 
             {isFeatureEnabled('addOns') && addOns.length > 0 && (

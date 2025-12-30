@@ -2,6 +2,9 @@ import { usePhoneVerification } from '@shared/hooks/phone-verification';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import PersonIcon from '@mui/icons-material/Person';
+import PhoneIcon from '@mui/icons-material/Phone';
+import NotesIcon from '@mui/icons-material/Notes';
 
 interface ReservationDetailsFormProps {
   customerName: string;
@@ -67,38 +70,38 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
   return (
     <form className="customer-details">
       <div className="input-container">
+        <PersonIcon className="input-icon" />
         <input
           type="text"
-          className="customer-input"
+          className="customer-input has-icon"
           placeholder={t('form.customerDetails.name.placeholder')}
           value={customerName}
           onChange={(e) => onNameChange(e.target.value)}
           disabled={disabled}
-          style={{ fontSize: '16px' }}
         />
       </div>
       <div className="input-container">
+        <PhoneIcon className="input-icon" />
         <input
           type="tel"
-          className="customer-input"
+          className="customer-input has-icon"
           placeholder={t('form.customerDetails.phone.placeholder')}
           value={customerPhone}
           onChange={(e) => onPhoneChange(e.target.value)}
           dir={isRTL ? 'rtl' : 'ltr'}
           disabled={disabled || codeSent}
           pattern="[0-9]*"
-          style={{ fontSize: '16px' }}
         />
       </div>
 
       <div className="input-container full-width">
+        <NotesIcon className="input-icon" />
         <textarea
-          className="customer-input"
+          className="customer-input has-icon"
           placeholder={t('form.customerDetails.comment.placeholder')}
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
           disabled={disabled}
-          style={{ fontSize: '16px' }}
         />
       </div>
 
@@ -127,15 +130,14 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
             onChange={(e) => setVerificationCode(e.target.value)}
             maxLength={6}
             pattern="[0-9]*"
-            style={{ fontSize: '16px' }}
           />
           <div className="verification-buttons">
-          <button
-            type="button"
-            className="verification-button"
-            onClick={handleVerifyCode}
-            disabled={isVerifying || !verificationCode}
-          >
+            <button
+              type="button"
+              className="verification-button"
+              onClick={handleVerifyCode}
+              disabled={isVerifying || !verificationCode}
+            >
               {isVerifying ? t('form.verification.buttons.verifying') : t('form.verification.buttons.submit')}
             </button>
             <button
@@ -145,7 +147,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
               disabled={isVerifying}
             >
               {t('form.verification.buttons.tryAgain')}
-          </button>
+            </button>
           </div>
         </div>
       )}

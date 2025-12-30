@@ -158,7 +158,7 @@ export const MuiDateTimePicker = ({
         slotProps={{
           textField: {
             fullWidth: true,
-            margin: 'dense',
+            margin: 'none',
             dir: isRTL ? 'rtl' : 'ltr',
             error: false
           }
