@@ -37,7 +37,7 @@ const studiosCategoryRoutesWithCities = [
 
 // Base static routes (only publicly accessible pages)
 // Note: /wishlists and /create-studio require authentication, so they're excluded from sitemap
-const baseRoutes = ['/studios'];
+const baseRoutes = ['/discover', '/studios', '/for-owners', '/subscription', '/privacy', '/terms'];
 
 // Combine all routes (base + category/subcategory + city variations)
 const allRoutes = ['/', ...baseRoutes, ...studiosCategoryRoutes, ...studiosCategoryRoutesWithCities].flatMap((route) =>

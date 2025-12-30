@@ -68,11 +68,18 @@ const getCityDisplayName = (cityName: string, lang: 'en' | 'he'): string => {
 export const getPageTitle = ({ basePath, currentLang, category, subcategory, city }: SEOContext): string => {
   const brandName = 'Studioz.co.il';
 
-  // Home page
+  // Landing page (root)
   if (basePath === '/' || basePath === '') {
     return currentLang === 'he'
       ? `השכרת אולפנים ושירותים בישראל | ${brandName}`
       : `Studio Rentals & Services in Israel | ${brandName}`;
+  }
+
+  // Discover page
+  if (basePath === '/discover' || basePath.startsWith('/discover')) {
+    return currentLang === 'he'
+      ? `גלו אולפנים ושירותים מובילים | ${brandName}`
+      : `Discover Top Studios & Services | ${brandName}`;
   }
 
   // Studios listing pages
@@ -134,11 +141,18 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
  * Optional - Google can generate its own, but having control is better for CTR
  */
 export const getMetaDescription = ({ basePath, currentLang, category, subcategory, city }: SEOContext): string => {
-  // Home page
+  // Landing page (root)
   if (basePath === '/' || basePath === '') {
     return currentLang === 'he'
       ? 'השכרת אולפנים מקצועיים בישראל – מוזיקה, פודקאסט, הקלטות, צילום ווידאו בכל הערים. השוו חללים, ציוד ומחירים, צפו בזמינות בזמן אמת והזמינו את האולפן המושלם בדקות.'
       : 'Rent professional studios in Israel—music, podcast, recording, photo, and video across all cities. Compare spaces, gear, prices, check live availability, and book the perfect studio in minutes.';
+  }
+
+  // Discover page
+  if (basePath === '/discover' || basePath.startsWith('/discover')) {
+    return currentLang === 'he'
+      ? 'גלו את האולפנים והשירותים הטובים ביותר בישראל. הקלטות, מיקס, מאסטרינג, פודקאסטים ועוד – הכל במקום אחד עם זמינות בזמן אמת והזמנה מהירה.'
+      : 'Discover the best studios and services in Israel. Recording, mixing, mastering, podcasts and more—all in one place with real-time availability and fast booking.';
   }
 
   // Studios listing pages
