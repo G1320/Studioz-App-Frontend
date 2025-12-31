@@ -25,5 +25,16 @@
   },
   "subscription": {
     "title": "Subscription"
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "loading": "Loading activity...",
+    "empty": "No recent activity",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "hours": "h",
+    "bookedAt": "Booked {{item}}",
+    "anonymousClient": "Anonymous",
+    "viewAll": "View Full History"
   }
 }

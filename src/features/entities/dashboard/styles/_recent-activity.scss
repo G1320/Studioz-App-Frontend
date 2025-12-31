@@ -1,0 +1,258 @@
+@use 'utilities/variables' as vars;
+
+// ==========================================
+// RECENT ACTIVITY - StudioZ Design System
+// Theme: Dark Mode (Midnight Pro)
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$activity-primary: #ffd166;
+$activity-bg-deep: #111111;
+$activity-bg-surface: #1e1e1e;
+$activity-bg-button: rgba(24, 24, 27, 1); // zinc-900
+$activity-border: rgba(39, 39, 42, 1); // zinc-800
+$activity-border-light: rgba(63, 63, 70, 1); // zinc-700
+$activity-text-primary: #ffffff;
+$activity-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+$activity-text-muted: rgba(113, 113, 122, 1); // zinc-500
+
+// Status colors
+$status-confirmed: #10b981; // emerald-500
+$status-pending: #f59e0b; // amber-500
+$status-completed: #3b82f6; // blue-500
+$status-cancelled: #ef4444; // red-500
+
+.recent-activity {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-large;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: $activity-text-primary;
+    margin: 0;
+  }
+
+  &__title-icon {
+    color: $activity-primary;
+    width: 24px;
+    height: 24px;
+  }
+
+  &__container {
+    background: $activity-bg-deep;
+    border: 1px solid $activity-border;
+    border-radius: vars.$border-radius-2xl;
+    padding: vars.$spacing-large;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-large;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: vars.$spacing-medium;
+    padding-bottom: vars.$spacing-large;
+    border-bottom: 1px solid $activity-border;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: vars.$border-radius-medium;
+    margin: 0 calc(-1 * vars.$spacing-small);
+    padding: vars.$spacing-small;
+    padding-bottom: vars.$spacing-large;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    &:focus {
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &--last {
+      border-bottom: none;
+      padding-bottom: vars.$spacing-small;
+    }
+  }
+
+  &__timeline-line {
+    position: absolute;
+    inset-inline-start: 19px; // Center of the 40px indicator
+    top: 40px;
+    bottom: 0;
+    width: 2px;
+    background: $activity-border;
+  }
+
+  &__status-indicator {
+    position: relative;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $activity-bg-surface;
+    border: 1px solid $activity-border-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &__status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+    &.status--confirmed {
+      background: $status-confirmed;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    }
+
+    &.status--pending {
+      background: $status-pending;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    }
+
+    &.status--completed {
+      background: $status-completed;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    }
+
+    &.status--cancelled {
+      background: $status-cancelled;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 2px;
+  }
+
+  &__content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: vars.$spacing-xs;
+    gap: vars.$spacing-small;
+  }
+
+  &__client-name {
+    font-size: vars.$font-size-sm-md;
+    font-weight: 700;
+    color: $activity-text-primary;
+    margin: 0;
+  }
+
+  &__amount {
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    color: $activity-text-muted;
+    background: $activity-bg-button;
+    border: 1px solid $activity-border;
+    padding: 2px vars.$spacing-small;
+    border-radius: vars.$border-radius-small;
+    white-space: nowrap;
+  }
+
+  &__description {
+    font-size: vars.$font-size-small;
+    color: $activity-text-secondary;
+    margin: 0 0 vars.$spacing-small 0;
+    line-height: 1.4;
+
+    span {
+      color: rgba(212, 212, 216, 1); // zinc-300
+      font-weight: 500;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm-md;
+    flex-wrap: wrap;
+  }
+
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    font-size: vars.$font-size-small;
+    color: $activity-text-muted;
+  }
+
+  &__meta-icon {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  &__view-all {
+    width: 100%;
+    margin-top: vars.$spacing-large;
+    padding: vars.$spacing-sm-md;
+    background: $activity-bg-button;
+    border: 1px solid $activity-border;
+    border-radius: vars.$border-radius-xl;
+    color: $activity-text-secondary;
+    font-size: vars.$font-size-sm-md;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $activity-border;
+      color: $activity-text-primary;
+      border-color: $activity-border-light;
+    }
+  }
+
+  &__loading,
+  &__empty {
+    padding: vars.$spacing-2xl vars.$spacing-medium;
+    text-align: center;
+    color: $activity-text-secondary;
+    font-size: vars.$font-size-sm-md;
+  }
+
+  // Responsive
+  @media (max-width: 480px) {
+    &__container {
+      padding: vars.$spacing-medium;
+    }
+
+    &__content-header {
+      flex-direction: column;
+      gap: vars.$spacing-xs;
+    }
+
+    &__amount {
+      align-self: flex-start;
+    }
+
+    &__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: vars.$spacing-xs;
+    }
+  }
+}

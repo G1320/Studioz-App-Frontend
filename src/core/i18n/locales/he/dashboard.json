@@ -25,6 +25,16 @@
   },
   "subscription": {
     "title": "מנוי"
+  },
+  "recentActivity": {
+    "title": "פעילות אחרונה",
+    "loading": "טוען פעילות...",
+    "empty": "אין פעילות אחרונה",
+    "today": "היום",
+    "tomorrow": "מחר",
+    "hours": " שע'",
+    "bookedAt": "הזמין {{item}}",
+    "anonymousClient": "אנונימי",
+    "viewAll": "צפה בכל ההיסטוריה"
   }
 }
-
