@@ -1,60 +1,98 @@
 @use 'utilities/variables' as vars;
 
+// ==========================================
+// DASHBOARD STATS - StudioZ Design System
+// Theme: Dark Mode (Midnight)
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$stat-primary: #ffd166;
+$stat-bg-card: #1e1e1e;
+$stat-bg-hover: #252525;
+$stat-bg-icon: rgba(39, 39, 42, 0.5); // zinc-800/50
+$stat-border: rgba(39, 39, 42, 1); // zinc-800
+$stat-border-hover: rgba(63, 63, 70, 1); // zinc-700
+$stat-text-primary: #ffffff;
+$stat-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+
 .dashboard-stats {
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(1, 1fr);
+    gap: vars.$spacing-large;
 
-    @media (max-width: 768px) {
+    @media (min-width: 640px) {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
     }
 
-    @media (max-width: 480px) {
-      grid-template-columns: 1fr;
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
   .stat-card {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: vars.$card-bg-color;
-    border-radius: vars.$border-radius-large;
-    border: 1px solid vars.$white-opacity-10;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    gap: vars.$spacing-medium;
+    padding: vars.$spacing-large;
+    background: $stat-bg-card;
+    border-radius: vars.$border-radius-xl;
+    border: 1px solid $stat-border;
+    transition: all 0.2s ease;
 
     &:hover {
+      border-color: $stat-border-hover;
+      background: $stat-bg-hover;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px vars.$black-opacity-30;
+    }
+
+    .stat-icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: vars.$spacing-sm-md;
+      background: $stat-bg-icon;
+      border-radius: vars.$border-radius-medium;
+      flex-shrink: 0;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        color: $stat-primary;
+      }
     }
 
     .stat-icon {
-      font-size: 2rem;
+      font-size: 1.5rem;
       line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: vars.$spacing-sm-md;
+      background: $stat-bg-icon;
+      border-radius: vars.$border-radius-medium;
     }
 
     .stat-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: vars.$spacing-xs;
+      min-width: 0;
     }
 
     .stat-value {
-      font-size: 1.5rem;
+      font-size: vars.$font-size-2xl;
       font-weight: 700;
-      color: vars.$color-brand;
+      color: $stat-text-primary;
       line-height: 1.2;
     }
 
     .stat-label {
-      font-size: 0.875rem;
-      color: vars.$text-color-secondary;
+      font-size: vars.$font-size-sm-md;
+      font-weight: 500;
+      color: $stat-text-secondary;
       line-height: 1.4;
     }
   }
 }
-
