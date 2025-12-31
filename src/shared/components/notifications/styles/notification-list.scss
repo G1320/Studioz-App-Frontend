@@ -1,17 +1,28 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
+
+// ==========================================
+// NOTIFICATION LIST - StudioZ Design System
+// Theme: Dark Mode
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$notif-primary: #ffd166;
+$notif-primary-hover: #ffca4d;
+$notif-bg-main: #1a1a1a;
+$notif-bg-header: #1f1f1f;
+$notif-bg-deep: #111;
+$notif-border: rgba(39, 39, 42, 1); // zinc-800
+$notif-text-primary: #ffffff;
+$notif-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+$notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
 
 .notification-list {
   max-height: 500px;
   overflow: hidden;
-  background-color: vars.$bg-color-tertiary;
+  background-color: $notif-bg-main;
   border-radius: vars.$border-radius-xl;
-  box-shadow:
-    0 8px 24px vars.$black-opacity-40,
-    0 4px 8px vars.$black-opacity-20;
-  border: 1px solid vars.$white-opacity-10;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid $notif-border;
   display: flex;
   flex-direction: column;
 
@@ -19,36 +30,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid vars.$white-opacity-10;
+    padding: vars.$spacing-medium;
+    border-bottom: 1px solid $notif-border;
     position: sticky;
     top: 0;
-    background: vars.$bg-color-tertiary;
+    background: $notif-bg-header;
     z-index: 1;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
 
   &__title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: vars.$text-color-primary;
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: $notif-text-primary;
     margin: 0;
+    letter-spacing: -0.01em;
   }
 
   &__mark-all-read {
-    background: transparent;
+    background: rgba($notif-primary, 0.1);
     border: none;
-    color: vars.$color-brand;
+    color: $notif-primary;
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: vars.$font-size-sm-md;
     font-weight: 500;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    padding: vars.$spacing-xs vars.$spacing-sm-md;
+    border-radius: 999px;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(vars.$color-brand, 0.1);
+      background: rgba($notif-primary, 0.2);
+      color: $notif-primary-hover;
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
 
@@ -60,35 +75,34 @@
 
     // Custom scrollbar styling
     &::-webkit-scrollbar {
-      width: 4px;
+      width: 6px;
     }
 
     &::-webkit-scrollbar-track {
-      background: vars.$white-opacity-05;
-      border-radius: 2px;
+      background: $notif-bg-deep;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(vars.$color-brand, 0.3);
-      border-radius: 2px;
+      background: $notif-primary;
+      border-radius: 4px;
       transition: background 0.2s ease;
 
       &:hover {
-        background: rgba(vars.$color-brand, 0.5);
+        background: #eebb44;
       }
     }
   }
 
   &__loading,
   &__empty {
-    padding: 2rem 1rem;
+    padding: vars.$spacing-2xl vars.$spacing-medium;
     text-align: center;
-    color: vars.$white-opacity-50;
-    font-size: 0.8125rem;
+    color: $notif-text-secondary;
+    font-size: vars.$font-size-sm-md;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: vars.$spacing-medium;
   }
 
   &__loading {
@@ -96,8 +110,8 @@
       content: '';
       width: 24px;
       height: 24px;
-      border: 2px solid vars.$white-opacity-10;
-      border-top-color: vars.$color-brand;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-top-color: $notif-primary;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -118,3 +132,39 @@
   }
 }
 
+// ==========================================
+// RESPONSIVE - Medium to Small Screens
+// ==========================================
+
+@media (max-width: 768px) {
+  .notification-list {
+    max-height: 400px;
+
+    &__header {
+      padding: vars.$spacing-small vars.$spacing-sm-md;
+    }
+
+    &__title {
+      font-size: vars.$font-size-large;
+    }
+
+    &__mark-all-read {
+      font-size: vars.$font-size-small;
+      padding: vars.$spacing-xs vars.$spacing-small;
+    }
+
+    &__items {
+      max-height: 340px;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+    }
+
+    &__loading,
+    &__empty {
+      padding: vars.$spacing-xl vars.$spacing-small;
+      font-size: vars.$font-size-small;
+    }
+  }
+}

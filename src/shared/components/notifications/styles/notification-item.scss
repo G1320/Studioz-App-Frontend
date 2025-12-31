@@ -1,39 +1,72 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
+
+// ==========================================
+// NOTIFICATION ITEM - StudioZ Design System
+// Theme: Dark Mode
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+$notif-primary: #ffd166;
+$notif-bg-hover: rgba(39, 39, 42, 0.5); // zinc-800/50
+$notif-border: rgba(39, 39, 42, 0.5); // zinc-800/50
+$notif-icon-bg: rgba(24, 24, 27, 0.8); // zinc-900/80
+$notif-icon-border: rgba(63, 63, 70, 0.5); // zinc-700/50
+$notif-text-primary: #ffffff;
+$notif-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+$notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
+$notif-error: #ef4444; // red-500
+$notif-warning: #fb7185; // rose-400
 
 .notification-item {
   display: flex;
   align-items: flex-start;
-  padding: 0.625rem 1rem;
-  border-bottom: 1px solid vars.$white-opacity-05;
+  padding: vars.$spacing-medium vars.$spacing-large;
+  border-bottom: 1px solid $notif-border;
   cursor: pointer;
   transition: background-color 0.2s ease;
   position: relative;
-  gap: 0.625rem;
+  gap: vars.$spacing-medium;
 
   &:last-child {
     border-bottom: none;
   }
 
   &:hover {
-    background-color: vars.$white-opacity-03;
+    background-color: $notif-bg-hover;
+
+    .notification-item__title {
+      color: $notif-primary;
+    }
   }
 
   &--unread {
-    background: rgba(vars.$color-brand, 0.05);
-    border-left: 2px solid vars.$color-brand;
+    // Unread indicator dot
+    &::after {
+      content: '';
+      position: absolute;
+      top: vars.$spacing-medium;
+      inset-inline-end: vars.$spacing-medium;
+      width: 8px;
+      height: 8px;
+      background: $notif-primary;
+      border-radius: 50%;
+      box-shadow: 0 0 5px $notif-primary;
+    }
 
     .notification-item__title {
-      font-weight: 600;
-      color: vars.$text-color-primary;
+      font-weight: 700;
+      color: $notif-text-primary;
     }
   }
 
   &--read {
-    opacity: 0.7;
-
     .notification-item__title {
-      font-weight: 500;
+      font-weight: 700;
+      color: $notif-text-primary;
+    }
+
+    .notification-item__icon {
+      opacity: 0.6;
     }
   }
 
@@ -45,14 +78,22 @@
   }
 
   &__icon {
-    font-size: 1.125rem;
     flex-shrink: 0;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.8;
+    background: $notif-icon-bg;
+    border: 1px solid $notif-icon-border;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 2px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &__content {
@@ -60,59 +101,64 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: vars.$spacing-xs;
   }
 
   &__title {
-    font-size: 0.8125rem;
-    font-weight: 500;
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
     margin: 0;
-    color: vars.$text-color-primary;
+    color: $notif-text-primary;
     line-height: 1.3;
     word-break: break-word;
+    transition: color 0.2s ease;
   }
 
   &__message {
-    font-size: 0.75rem;
-    color: vars.$white-opacity-70;
+    font-size: vars.$font-size-sm-md;
+    font-weight: 300;
+    color: $notif-text-secondary;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
     word-break: break-word;
   }
 
   &__time {
-    font-size: 0.6875rem;
-    color: vars.$white-opacity-40;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    color: $notif-text-muted;
     margin: 0;
-    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: end;
   }
 
   &__delete {
     background: transparent;
     border: none;
-    color: vars.$white-opacity-40;
+    color: $notif-text-muted;
     cursor: pointer;
-    padding: 0.25rem;
+    padding: vars.$spacing-xs;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transition: all 0.2s ease;
     flex-shrink: 0;
-    border-radius: vars.$border-radius-small;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
 
     &:hover {
-      color: vars.$color-error-delete;
-      background: vars.$error-opacity-10-delete;
+      color: $notif-error;
+      background: rgba($notif-error, 0.1);
     }
 
     svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
     }
   }
 
@@ -123,3 +169,80 @@
   }
 }
 
+// Notification type-specific icon styling (for emoji icons)
+.notification-item[data-type='new_reservation'],
+.notification-item[data-type='reservation_confirmed'] {
+  .notification-item__icon {
+    filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.5));
+  }
+}
+
+.notification-item[data-type='reservation_cancelled'] {
+  .notification-item__icon {
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+  }
+}
+
+.notification-item[data-type='reservation_expired'] {
+  .notification-item__icon {
+    filter: drop-shadow(0 0 8px rgba(251, 113, 133, 0.5));
+  }
+}
+
+// ==========================================
+// RESPONSIVE - Medium to Small Screens
+// ==========================================
+
+@media (max-width: 768px) {
+  .notification-item {
+    padding: vars.$spacing-small vars.$spacing-sm-md;
+    gap: vars.$spacing-small;
+
+    // Smaller unread indicator
+    &--unread::after {
+      width: 6px;
+      height: 6px;
+      top: vars.$spacing-small;
+      inset-inline-end: vars.$spacing-small;
+    }
+
+    &__icon {
+      width: 36px;
+      height: 36px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &__content {
+      gap: 2px;
+    }
+
+    &__title {
+      font-size: vars.$font-size-sm-md;
+    }
+
+    &__message {
+      font-size: vars.$font-size-small;
+      line-height: 1.4;
+    }
+
+    &__time {
+      font-size: 10px;
+    }
+
+    &__delete {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      min-height: 28px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

@@ -8,6 +8,12 @@ import { useReservation } from '@shared/hooks';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import DeleteIcon from '@mui/icons-material/Delete';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EditIcon from '@mui/icons-material/Edit';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import '../styles/notification-item.scss';
 
 dayjs.extend(relativeTime);
@@ -60,19 +66,45 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
   };
 
   const getNotificationIcon = () => {
+    const iconStyle = { fontSize: 24 };
+    
     switch (notification.type) {
       case 'new_reservation':
-        return '🔔';
+        return (
+          <NotificationsIcon 
+            style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
+          />
+        );
       case 'reservation_confirmed':
-        return '✅';
+        return (
+          <CheckCircleIcon 
+            style={{ ...iconStyle, color: '#22c55e', filter: 'drop-shadow(0 0 8px rgba(34,197,94,0.5))' }} 
+          />
+        );
       case 'reservation_cancelled':
-        return '❌';
+        return (
+          <CancelIcon 
+            style={{ ...iconStyle, color: '#ef4444', filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.5))' }} 
+          />
+        );
       case 'reservation_expired':
-        return '⏰';
+        return (
+          <AccessTimeIcon 
+            style={{ ...iconStyle, color: '#fb7185', filter: 'drop-shadow(0 0 8px rgba(251,113,133,0.5))' }} 
+          />
+        );
       case 'reservation_modified':
-        return '✏️';
+        return (
+          <EditIcon 
+            style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
+          />
+        );
       default:
-        return '📢';
+        return (
+          <CampaignIcon 
+            style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
+          />
+        );
     }
   };
 
