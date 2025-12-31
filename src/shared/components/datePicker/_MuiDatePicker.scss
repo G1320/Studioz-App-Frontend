@@ -1,12 +1,29 @@
 @use '../../../assets/styles/utilities/variables' as vars;
 
+// ==========================================
+// MUI DATE PICKER - StudioZ Design System
+// Theme: Dark Mode
+// Primary Accent: #ffd166 (Gold/Yellow)
+// ==========================================
+
+// Color variables
+$picker-primary: #ffd166;
+$picker-bg-deep: #0a0a0a;
+$picker-bg-surface: #121212;
+$picker-border: rgba(39, 39, 42, 1); // zinc-800
+$picker-text-primary: #ffffff;
+$picker-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+$picker-text-muted: rgba(113, 113, 122, 1); // zinc-500
+$picker-text-disabled: rgba(39, 39, 42, 1); // zinc-800
+$picker-hover: rgba(39, 39, 42, 1); // zinc-800
+
 .date-picker-container {
   width: 100%;
   position: relative;
 
-  // Main input container - ensure proper layout
+  // Main input container
   .MuiInputBase-root {
-    color: #fff;
+    color: $picker-text-primary;
     min-height: 48px;
     display: flex;
     align-items: center;
@@ -15,11 +32,12 @@
 
   .MuiInputBase-input {
     padding: 8px;
+    color: $picker-text-primary;
   }
 
   .MuiInputAdornment-root {
     .MuiIconButton-root {
-      background-color: rgba(255, 255, 255, 0.1) !important;
+      background-color: $picker-hover !important;
       border-radius: 8px;
       height: 32px;
       width: 32px;
@@ -45,9 +63,7 @@
       flex-shrink: 0;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.15) !important;
-        border-color: rgb(16, 185, 129);
-        transform: scale(1.05);
+        background-color: rgba(63, 63, 70, 1) !important; // zinc-700
       }
 
       &:active {
@@ -55,7 +71,7 @@
       }
 
       .MuiSvgIcon-root {
-        color: #fff !important;
+        color: $picker-text-secondary !important;
         width: 20px;
         height: 20px;
         flex-shrink: 0;
@@ -65,39 +81,31 @@
 
   // Outline border
   .MuiOutlinedInput-notchedOutline {
-    border-color: #fff !important;
+    border-color: $picker-border !important;
   }
 
   &:hover .MuiOutlinedInput-notchedOutline {
-    border-color: #fff !important;
-  }
-
-  // Calendar day styling
-  .MuiPickersDay-daySelected,
-  .MuiPickersDay-today {
-    background-color: #fff !important;
-    color: #000 !important;
-  }
-
-  // Disabled state
-  .Mui-disabled {
-    color: #bbb !important;
+    border-color: rgba(63, 63, 70, 1) !important; // zinc-700
   }
 
   // Focus state
   .MuiOutlinedInput-root {
     &.Mui-focused .MuiOutlinedInput-notchedOutline {
-      border-color: #fff !important;
+      border-color: $picker-primary !important;
       border-width: 2px;
     }
   }
 
-  // Label styling - ensure it stays white even in error state
+  // Label styling
   .MuiInputLabel-root {
-    color: #fff !important;
+    color: $picker-text-muted !important;
+
+    &.Mui-focused {
+      color: $picker-primary !important;
+    }
 
     &.Mui-error {
-      color: #fff !important;
+      color: $picker-text-muted !important;
     }
   }
 
@@ -141,5 +149,310 @@
         }
       }
     }
+  }
+}
+
+// ==========================================
+// PICKER POPOVER STYLES
+// ==========================================
+
+.MuiPickersPopper-root {
+  .MuiPickersPopper-paper,
+  .MuiPaper-root {
+    background-color: $picker-bg-surface !important;
+    border: 1px solid $picker-border;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+}
+
+// Desktop picker layout
+.MuiPickersLayout-root {
+  background-color: $picker-bg-surface !important;
+  overflow: hidden;
+  border-radius: 16px;
+
+  .MuiPickersLayout-contentWrapper {
+    background-color: $picker-bg-surface;
+    overflow: hidden;
+  }
+}
+
+// Calendar header (month/year navigation)
+.MuiPickersCalendarHeader-root {
+  background-color: $picker-bg-surface;
+
+  .MuiPickersCalendarHeader-label {
+    color: $picker-text-primary !important;
+    font-weight: 700;
+  }
+
+  .MuiPickersCalendarHeader-labelContainer {
+    color: $picker-text-primary;
+  }
+
+  .MuiPickersCalendarHeader-switchViewButton {
+    color: $picker-text-secondary !important;
+
+    &:hover {
+      background-color: $picker-hover !important;
+      color: $picker-text-primary !important;
+    }
+  }
+}
+
+// Arrow navigation buttons
+.MuiPickersArrowSwitcher-root {
+  .MuiPickersArrowSwitcher-button {
+    color: $picker-text-secondary !important;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $picker-hover !important;
+      color: $picker-text-primary !important;
+    }
+
+    &.Mui-disabled {
+      color: $picker-text-disabled !important;
+    }
+  }
+}
+
+// Weekday labels
+.MuiDayCalendar-weekDayLabel {
+  color: $picker-text-muted !important;
+  font-weight: 500;
+}
+
+.MuiDayCalendar-header {
+  background-color: $picker-bg-surface;
+}
+
+.MuiDayCalendar-weekContainer {
+  background-color: $picker-bg-surface;
+}
+
+.MuiDayCalendar-slideTransition {
+  background-color: $picker-bg-surface;
+}
+
+// Calendar days
+.MuiPickersDay-root {
+  color: $picker-text-secondary !important;
+  background-color: transparent !important;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $picker-hover !important;
+    color: $picker-text-primary !important;
+  }
+
+  // Today
+  &.MuiPickersDay-today {
+    border-color: rgba($picker-primary, 0.5) !important;
+    color: $picker-primary !important;
+    background-color: transparent !important;
+
+    &:not(.Mui-selected) {
+      border: 1px solid rgba($picker-primary, 0.5) !important;
+    }
+  }
+
+  // Selected
+  &.Mui-selected {
+    background-color: $picker-primary !important;
+    color: #000000 !important;
+    font-weight: 700;
+    box-shadow: 0 0 20px -5px rgba(255, 209, 102, 0.5);
+
+    &:hover {
+      background-color: $picker-primary !important;
+    }
+
+    &:focus {
+      background-color: $picker-primary !important;
+    }
+  }
+
+  // Disabled / outside current month
+  &.MuiPickersDay-dayOutsideMonth,
+  &.Mui-disabled {
+    color: $picker-text-disabled !important;
+    background-color: transparent !important;
+  }
+}
+
+// Day calendar container
+.MuiDayCalendar-root {
+  background-color: $picker-bg-surface;
+}
+
+.MuiDateCalendar-root {
+  background-color: $picker-bg-surface !important;
+}
+
+// Year picker
+.MuiYearCalendar-root {
+  background-color: $picker-bg-surface;
+
+  .MuiPickersYear-yearButton {
+    color: $picker-text-secondary;
+
+    &:hover {
+      background-color: $picker-hover;
+      color: $picker-text-primary;
+    }
+
+    &.Mui-selected {
+      background-color: $picker-primary !important;
+      color: #000000 !important;
+      font-weight: 700;
+    }
+  }
+}
+
+// Month picker
+.MuiMonthCalendar-root {
+  background-color: $picker-bg-surface;
+
+  .MuiPickersMonth-monthButton {
+    color: $picker-text-secondary;
+
+    &:hover {
+      background-color: $picker-hover;
+      color: $picker-text-primary;
+    }
+
+    &.Mui-selected {
+      background-color: $picker-primary !important;
+      color: #000000 !important;
+      font-weight: 700;
+    }
+  }
+}
+
+// Digital clock (time picker)
+.MuiDigitalClock-root {
+  background-color: $picker-bg-deep !important;
+  border-inline-start: 1px solid $picker-border;
+  overflow: hidden;
+
+  .MuiDigitalClock-list {
+    background-color: $picker-bg-deep !important;
+    padding-top: 0;
+  }
+
+  .MuiDigitalClock-item {
+    color: $picker-text-secondary !important;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    margin: 2px 4px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: $picker-hover !important;
+      color: $picker-text-primary !important;
+    }
+
+    &.Mui-selected {
+      background-color: $picker-primary !important;
+      color: #000000 !important;
+      font-weight: 700;
+      border-radius: 8px;
+      box-shadow: 0 0 15px -3px rgba(255, 209, 102, 0.4);
+    }
+  }
+}
+
+// Multi-section digital clock
+.MuiMultiSectionDigitalClock-root {
+  background-color: $picker-bg-deep;
+
+  .MuiMultiSectionDigitalClockSection-root {
+    border-color: $picker-border;
+
+    &::after {
+      background: linear-gradient(to bottom, transparent, $picker-bg-deep);
+    }
+  }
+
+  .MuiMultiSectionDigitalClockSection-item {
+    color: $picker-text-secondary;
+
+    &:hover {
+      background-color: $picker-hover;
+      color: $picker-text-primary;
+    }
+
+    &.Mui-selected {
+      background-color: $picker-primary !important;
+      color: #000000 !important;
+      font-weight: 700;
+    }
+  }
+}
+
+// Action buttons (Cancel, OK)
+.MuiDialogActions-root,
+.MuiPickersLayout-actionBar {
+  background-color: $picker-bg-surface;
+  border-top: 1px solid $picker-border;
+
+  .MuiButton-root {
+    color: $picker-text-secondary;
+
+    &:hover {
+      background-color: $picker-hover;
+      color: $picker-text-primary;
+    }
+
+    &.MuiButton-containedPrimary {
+      background-color: $picker-text-primary;
+      color: #000000;
+      font-weight: 700;
+
+      &:hover {
+        background-color: rgba(228, 228, 231, 1); // zinc-200
+      }
+    }
+  }
+}
+
+// Toolbar (shows selected date/time)
+.MuiPickersToolbar-root {
+  background-color: $picker-bg-surface;
+  border-bottom: 1px solid $picker-border;
+
+  .MuiPickersToolbar-content {
+    .MuiTypography-root {
+      color: $picker-text-primary;
+    }
+
+    .MuiPickersToolbarText-root {
+      color: $picker-text-secondary;
+
+      &.Mui-selected {
+        color: $picker-primary;
+      }
+    }
+  }
+}
+
+// Tabs (Date/Time switch)
+.MuiTabs-root {
+  background-color: $picker-bg-surface;
+  border-bottom: 1px solid $picker-border;
+
+  .MuiTab-root {
+    color: $picker-text-secondary;
+
+    &.Mui-selected {
+      color: $picker-primary;
+    }
+  }
+
+  .MuiTabs-indicator {
+    background-color: $picker-primary;
   }
 }

@@ -61,20 +61,20 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
             {t('filters.statusLabel')}
           </label>
           <div className="reservation-filters__select-wrapper">
-            <select
-              id="status-filter"
-              className="reservation-filters__select"
-              value={status}
-              onChange={(e) => onStatusChange(e.target.value as ReservationStatusFilter)}
-            >
-              {statusOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {t(option.labelKey)}
-                </option>
-              ))}
-            </select>
+          <select
+            id="status-filter"
+            className="reservation-filters__select"
+            value={status}
+            onChange={(e) => onStatusChange(e.target.value as ReservationStatusFilter)}
+          >
+            {statusOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {t(option.labelKey)}
+              </option>
+            ))}
+          </select>
             <FilterListIcon className="reservation-filters__icon" />
-          </div>
+        </div>
         </div>
       </div>
     </div>
