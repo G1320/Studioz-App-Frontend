@@ -1,8 +1,15 @@
 @use 'utilities/variables' as vars;
 @use '../../../../shared/components/forms/styles' as forms;
+@use '../../../../shared/components/forms/styles/design-system' as ds;
+
+// ============================================
+// Create Studio Page - StudioZ Design System
+// ============================================
 
 .create-studio-page {
-  max-width: 800px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl vars.$spacing-medium;
 
   > section {
     > h1 {
@@ -26,20 +33,20 @@
     z-index: 10;
     display: flex;
     gap: vars.$spacing-small;
-    background: vars.$white-opacity-05;
+    background: ds.$zinc-900;
     backdrop-filter: blur(10px);
-    padding: vars.$spacing-small;
-    border-radius: vars.$border-radius-medium;
-    border: 1px solid vars.$white-opacity-10;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 2px 8px vars.$black-opacity-10;
   }
 
   &__language-btn {
     padding: vars.$spacing-small vars.$spacing-medium;
-    border: 1px solid vars.$white-opacity-20;
-    border-radius: vars.$border-radius-small;
-    background: vars.$white-opacity-05;
-    color: vars.$text-color-secondary;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: ds.$zinc-500;
     font-size: vars.$font-size-small;
     font-weight: 500;
     cursor: pointer;
@@ -47,35 +54,78 @@
     white-space: nowrap;
 
     &:hover {
-      background: vars.$white-opacity-10;
-      border-color: vars.$white-opacity-30;
-      color: vars.$text-color-primary;
+      color: ds.$zinc-400;
     }
 
     &.active {
-      background: vars.$color-brand;
-      border-color: vars.$color-brand;
-      color: vars.$text-color-primary;
-      box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
+      background: ds.$zinc-800;
+      color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.5);
+      box-shadow: 0 0 0 2px rgba(ds.$primary-yellow, 0.5);
     }
   }
 }
 
 .create-studio-page {
   .create-studio-form {
-    // Increase specificity so it overrides the generic form base styles
     @include forms.branded-form;
+
+    // Override with new design system
+    background: transparent;
+    border: none;
+    padding: 0;
+
+    .form-group {
+      .form-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: ds.$zinc-500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .form-input,
+      .form-textarea {
+        background: ds.$zinc-900-50;
+        border: 1px solid ds.$zinc-700;
+        border-radius: 12px;
+        padding: vars.$spacing-medium vars.$spacing-large;
+
+        &::placeholder {
+          color: ds.$zinc-600;
+        }
+
+        &:hover {
+          background: rgba(24, 24, 27, 0.8);
+        }
+
+        &:focus {
+          border-color: ds.$primary-yellow;
+          box-shadow: 0 0 0 1px ds.$primary-yellow;
+        }
+      }
+    }
   }
 }
 
 // FileUploader in create studio context
 .create-studio-page {
   @include forms.branded-file-uploader;
+
+  .file-uploader {
+    background: ds.$zinc-900-50;
+    border: 2px dashed ds.$zinc-700;
+    border-radius: 16px;
+
+    &:hover {
+      border-color: ds.$primary-yellow;
+      background: rgba(ds.$primary-yellow, 0.05);
+    }
+  }
 }
 
 // Hide category selector when feature flag is disabled

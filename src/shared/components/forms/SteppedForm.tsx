@@ -65,6 +65,8 @@ export interface FormStep {
   validate?: (formData: Record<string, any>) => boolean | string;
   customContent?: ReactNode;
   languageToggle?: boolean; // Enable language toggle for dual-language fields
+  /** Icon component to display in the step indicator */
+  icon?: React.ElementType;
 }
 
 type ExtendedFieldType = FieldType | 'multiSelect';
@@ -541,6 +543,8 @@ export const SteppedForm = ({
                     <svg className="stepped-form__check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
+                  ) : step.icon ? (
+                    <step.icon className="stepped-form__step-icon" />
                   ) : (
                     showStepNumbers && <span className="stepped-form__step-number">{index + 1}</span>
                   )}

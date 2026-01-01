@@ -6,6 +6,13 @@ import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import { isFeatureEnabled } from '@core/config/featureFlags';
+// Step icons
+import TextFieldsIcon from '@mui/icons-material/TextFields';
+import CategoryIcon from '@mui/icons-material/Category';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import TuneIcon from '@mui/icons-material/Tune';
 import {
   useCreateStudioMutation,
   useMusicCategories,
@@ -291,7 +298,7 @@ export const CreateStudioForm = () => {
     return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
 
-  // Define form steps with Zod schemas
+  // Define form steps with Zod schemas and icons
   const steps: FormStep[] = useMemo(
     () => [
       {
@@ -308,28 +315,32 @@ export const CreateStudioForm = () => {
           'languageToggle'
         ],
         schema: studioStepSchemas['basic-info'],
-        languageToggle: true
+        languageToggle: true,
+        icon: TextFieldsIcon
       },
       {
         id: 'categories',
         title: t('form.steps.categories') || 'Categories & Genres',
         description: t('form.steps.categoriesDesc') || 'Select categories and genres',
         fieldNames: ['categories', 'subCategories', 'genres'],
-        schema: studioStepSchemas.categories
+        schema: studioStepSchemas.categories,
+        icon: CategoryIcon
       },
       {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
         fieldNames: ['studioAvailability'],
-        schema: studioStepSchemas.availability
+        schema: studioStepSchemas.availability,
+        icon: ScheduleIcon
       },
       {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
         fieldNames: ['address', 'phone', 'website', 'socials.instagram', 'socials.facebook'],
-        schema: studioStepSchemas.location
+        schema: studioStepSchemas.location,
+        icon: LocationOnIcon
       },
       {
         id: 'files',
@@ -337,6 +348,7 @@ export const CreateStudioForm = () => {
         description: t('form.steps.filesDesc') || 'Upload images for your studio',
         fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
         schema: studioStepSchemas.files,
+        icon: PhotoLibraryIcon,
         customContent: (
           <FileUploader
             fileType="image"
@@ -358,7 +370,8 @@ export const CreateStudioForm = () => {
         title: t('form.steps.details') || 'Details',
         description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
         fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
-        schema: studioStepSchemas.details
+        schema: studioStepSchemas.details,
+        icon: TuneIcon
       }
     ],
     [t, galleryImages, galleryAudioFiles, handleFileUpload]

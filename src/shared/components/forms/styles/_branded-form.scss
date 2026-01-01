@@ -1,13 +1,14 @@
 @use 'utilities/variables' as vars;
 @use 'sass:color';
+@use 'design-system' as ds;
 
 // Shared branded form styles
 // Use this mixin for all branded forms (create/edit studio/item forms)
 
 @mixin branded-form-base {
-  background: vars.$bg-color-tertiary;
+  background: transparent;
   border-radius: vars.$border-radius-large;
-  border: 1px solid vars.$white-opacity-10;
+  border: none;
   padding: vars.$spacing-xl;
   color: vars.$text-color-primary;
   max-width: 100%;
@@ -22,41 +23,45 @@
   flex-direction: column;
   grid-column: 1 !important;
   width: 100%;
+  gap: vars.$spacing-small;
 
   .form-label {
     display: block;
-    font-weight: 600;
-    margin-bottom: vars.$spacing-small;
-    color: vars.$text-color-primary;
-    font-size: vars.$font-size-medium;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: ds.$zinc-500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: vars.$spacing-xs;
     text-align: start;
   }
 
   .form-input,
   .form-textarea {
     width: 100% !important;
-    padding: vars.$spacing-medium;
-    border: 1px solid vars.$white-opacity-10;
-    border-radius: vars.$border-radius-medium;
-    background: vars.$dark-bg-60;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    background: ds.$zinc-900-50;
     color: vars.$text-color-primary;
     font-size: vars.$font-size-medium;
-    transition: border-color 0.2s ease;
+    transition: all 0.3s ease;
     text-align: start;
     box-sizing: border-box;
 
     &::placeholder {
-      color: vars.$white-opacity-40;
+      color: ds.$zinc-600;
       text-align: start;
+    }
+
+    &:hover {
+      background: rgba(24, 24, 27, 0.8);
     }
 
     &:focus {
       outline: none;
-      border-color: vars.$color-brand;
-    }
-
-    &:hover:not(:focus) {
-      border-color: vars.$white-opacity-20;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
     }
   }
 
@@ -64,24 +69,29 @@
     resize: vertical;
     min-height: 120px;
     font-family: inherit;
+    line-height: 1.6;
+  }
+
+  .form-helper-text {
+    font-size: vars.$font-size-xs;
+    color: ds.$zinc-500;
+    margin-top: vars.$spacing-xs;
   }
 
   .form-language-toggle {
     display: flex;
-    gap: vars.$spacing-small;
-    background: vars.$white-opacity-05;
-    backdrop-filter: blur(10px);
-    padding: vars.$spacing-small;
-    border-radius: vars.$border-radius-medium;
-    border: 1px solid vars.$white-opacity-10;
-    box-shadow: 0 2px 8px vars.$black-opacity-10;
+    background: ds.$zinc-900;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: fit-content;
 
     &__btn {
       padding: vars.$spacing-small vars.$spacing-medium;
-      border: 1px solid vars.$white-opacity-20;
-      border-radius: vars.$border-radius-small;
-      background: vars.$white-opacity-05;
-      color: vars.$text-color-secondary;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: ds.$zinc-500;
       font-size: vars.$font-size-small;
       font-weight: 500;
       cursor: pointer;
@@ -93,20 +103,17 @@
       gap: vars.$spacing-xs;
 
       &:hover {
-        background: vars.$white-opacity-10;
-        border-color: vars.$white-opacity-30;
-        color: vars.$text-color-primary;
+        color: ds.$zinc-300;
       }
 
       &.active {
-        background: vars.$color-brand;
-        border-color: vars.$color-brand;
-        color: vars.$text-color-primary;
-        box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
+        background: ds.$zinc-800;
+        color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       }
 
       &.has-errors {
-        border-color: vars.$color-warning;
+        border: 1px solid vars.$color-warning;
         animation: borderGlow 2s ease-in-out infinite;
         box-shadow: 0 0 8px vars.$warning-opacity-40;
       }
@@ -118,7 +125,7 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.5);
+        box-shadow: 0 0 0 2px rgba(ds.$primary-yellow, 0.5);
       }
 
       &.has-errors:focus {
@@ -161,8 +168,9 @@
     gap: vars.$spacing-large;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid vars.$white-opacity-10;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: background-color 0.2s ease;
+    padding: vars.$spacing-medium 0;
 
     &:last-child {
       border-bottom: none;
@@ -194,15 +202,15 @@
       height: 24px;
       overflow: hidden;
       border-radius: 12px;
-      background: vars.$white-opacity-10;
-      transition: all 0.2s ease;
+      background: ds.$zinc-800;
+      transition: all 0.3s ease;
       position: relative;
       cursor: pointer;
-      border: 1px solid vars.$white-opacity-10;
+      border: 1px solid ds.$zinc-700;
 
       &.on {
-        background: vars.$color-brand;
-        border-color: vars.$color-brand;
+        background: ds.$primary-yellow;
+        border-color: ds.$primary-yellow;
       }
 
       &::after {
@@ -212,14 +220,15 @@
         top: 2px;
         width: 20px;
         height: 20px;
-        background: vars.$text-color-primary;
+        background: white;
         border-radius: 50%;
         transition: transform 0.2s ease;
-        box-shadow: 0 2px 4px vars.$black-opacity-20;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       &.on::after {
         transform: translateX(24px);
+        background: black;
       }
     }
 
@@ -242,19 +251,19 @@
         min-width: 100px;
 
         .MuiInputBase-root {
-          background: vars.$dark-bg-60;
-          border: 1px solid vars.$white-opacity-10;
-          border-radius: vars.$border-radius-medium;
+          background: ds.$zinc-900-50;
+          border: 1px solid ds.$zinc-700;
+          border-radius: 12px;
           color: vars.$text-color-primary;
-          transition: border-color 0.2s ease;
+          transition: all 0.3s ease;
 
           &:hover {
-            border-color: vars.$white-opacity-20;
+            background: rgba(24, 24, 27, 0.8);
           }
 
           &.Mui-focused {
-            border-color: vars.$color-brand;
-            box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.2);
+            border-color: ds.$primary-yellow;
+            box-shadow: 0 0 0 1px ds.$primary-yellow;
           }
 
           .MuiInputBase-input {
@@ -274,7 +283,7 @@
       }
 
       > span {
-        color: vars.$white-opacity-60;
+        color: ds.$zinc-500;
         font-weight: 400;
       }
     }
@@ -356,21 +365,22 @@
     .multiselect-checkbox {
       padding: vars.$spacing-sm-md vars.$spacing-medium;
       width: 100%;
-      border-radius: vars.$border-radius-small;
+      border-radius: 12px;
       cursor: pointer;
 
-      transition: background-color 0.2s ease;
+      transition: all 0.3s ease;
       color: vars.$text-color-primary;
-      background: vars.$white-opacity-05;
-      border: 1px solid vars.$white-opacity-10;
+      background: ds.$zinc-900-50;
+      border: 1px solid ds.$zinc-700;
       font-size: vars.$font-size-sm-md;
       &:hover {
-        background: vars.$white-opacity-15 !important;
+        background: rgba(24, 24, 27, 0.8) !important;
+        border-color: ds.$zinc-600;
       }
       &.selected {
-        background: vars.$color-brand !important;
-        color: vars.$text-color-dark !important;
-        border-color: vars.$color-brand !important;
+        background: ds.$primary-yellow !important;
+        color: black !important;
+        border-color: ds.$primary-yellow !important;
       }
 
       .multiselect-label {
@@ -387,13 +397,17 @@
         padding: vars.$spacing-sm-md vars.$spacing-medium;
         border-radius: 999px;
         color: vars.$text-color-primary !important;
-        background: vars.$white-opacity-05;
-        border: 1px solid vars.$white-opacity-10;
+        background: ds.$zinc-900-50;
+        border: 1px solid ds.$zinc-700;
+
+        &:hover {
+          background: rgba(24, 24, 27, 0.8) !important;
+        }
 
         &.selected {
-          background: vars.$color-brand !important;
-          color: vars.$text-color-dark !important;
-          border-color: vars.$color-brand !important;
+          background: ds.$primary-yellow !important;
+          color: black !important;
+          border-color: ds.$primary-yellow !important;
         }
 
         .multiselect-label {
@@ -446,19 +460,20 @@
   .form-group-checkbox {
     .switch-group {
       button.switch {
-        background: vars.$white-opacity-10;
+        background: ds.$zinc-800;
+        border: 1px solid ds.$zinc-700;
         position: relative;
         cursor: pointer;
-        transition: background-color 0.2s ease;
+        transition: all 0.3s ease;
         width: 48px;
         height: 24px;
         border-radius: 12px;
-        border: none;
         padding: 0;
         overflow: hidden;
 
         &.on {
-          background: vars.$color-brand;
+          background: ds.$primary-yellow;
+          border-color: ds.$primary-yellow;
         }
 
         &::after {
@@ -468,13 +483,15 @@
           top: 2px;
           width: 20px;
           height: 20px;
-          background: vars.$text-color-primary;
+          background: white;
           border-radius: 50%;
           transition: transform 0.2s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         &.on::after {
           transform: translateX(24px);
+          background: black;
         }
       }
 
@@ -489,46 +506,48 @@
 @mixin branded-dropdowns {
   .listbox-button {
     width: 100%;
-    padding: vars.$spacing-medium;
-    border: 1px solid vars.$white-opacity-10;
-    border-radius: vars.$border-radius-medium;
-    background: vars.$dark-bg-60;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    background: ds.$zinc-900-50;
     color: vars.$text-color-primary;
     cursor: pointer;
-    transition: border-color 0.2s ease;
+    transition: all 0.3s ease;
 
     &:hover {
-      border-color: vars.$white-opacity-20;
+      background: rgba(24, 24, 27, 0.8);
     }
 
     &:focus {
       outline: none;
-      border-color: vars.$color-brand;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
     }
   }
 
   .listbox-options {
     margin-top: vars.$spacing-xs;
     padding: vars.$spacing-small;
-    background: vars.$bg-color-tertiary;
-    border: 1px solid vars.$white-opacity-10;
-    border-radius: vars.$border-radius-medium;
-    box-shadow: vars.$box-shadow-popup;
+    background: ds.$zinc-900;
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
     .listbox-option {
       padding: vars.$spacing-medium;
       color: vars.$text-color-primary;
       cursor: pointer;
-      border-radius: vars.$border-radius-small;
-      transition: background-color 0.2s ease;
+      border-radius: 8px;
+      transition: all 0.2s ease;
 
       &.active,
       &.selected {
-        background: rgba(vars.$color-brand, 0.2);
+        background: rgba(ds.$primary-yellow, 0.1);
+        color: ds.$primary-yellow;
       }
 
       &:hover {
-        background: vars.$white-opacity-05;
+        background: ds.$zinc-800;
       }
     }
   }
@@ -540,24 +559,26 @@
     justify-content: flex-end;
     margin-top: vars.$spacing-xl;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid vars.$white-opacity-10;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     grid-column: 1 !important;
     width: 100%;
 
     .submit-button {
       padding: vars.$spacing-medium vars.$spacing-xl;
       font-size: vars.$font-size-medium;
-      font-weight: 600;
-      color: vars.$text-color-dark;
-      background: vars.$color-brand;
+      font-weight: 700;
+      color: black;
+      background: ds.$primary-yellow;
       border: none;
-      border-radius: vars.$border-radius-medium;
+      border-radius: 999px;
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(ds.$primary-yellow, 0.3);
 
       &:hover {
-        background: color.adjust(vars.$color-brand, $lightness: 5%);
+        background: color.adjust(ds.$primary-yellow, $lightness: 5%);
         transform: translateY(-1px);
+        box-shadow: 0 0 30px rgba(ds.$primary-yellow, 0.5);
       }
 
       &:active {
@@ -566,7 +587,7 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(vars.$color-brand, 0.3);
+        box-shadow: 0 0 0 3px rgba(ds.$primary-yellow, 0.3);
       }
     }
   }
@@ -574,52 +595,58 @@
 
 @mixin branded-file-uploader {
   .file-uploader {
-    background: vars.$dark-bg-60;
-    border: 2px dashed vars.$white-opacity-20;
-    border-radius: vars.$border-radius-large;
+    background: ds.$zinc-900-50;
+    border: 2px dashed ds.$zinc-700;
+    border-radius: 16px;
+    transition: all 0.3s ease;
 
     &:hover {
-      border-color: vars.$color-brand;
+      border-color: ds.$primary-yellow;
+      background: rgba(ds.$primary-yellow, 0.05);
     }
 
     small {
-      color: vars.$white-opacity-80;
+      color: ds.$zinc-400;
     }
 
     .upload-icon-container {
-      background: vars.$white-opacity-10;
+      background: ds.$zinc-800;
+      border-radius: 50%;
+      transition: all 0.3s ease;
 
       .icon {
-        color: vars.$white-opacity-70;
+        color: ds.$zinc-400;
       }
     }
 
     &:hover .upload-icon-container {
-      background: vars.$color-brand;
+      background: ds.$primary-yellow;
 
       .icon {
-        color: vars.$text-color-dark;
+        color: black;
       }
     }
 
     &.drag-active {
-      border-color: vars.$color-brand;
-      background: rgba(vars.$color-brand, 0.1);
+      border-color: ds.$primary-yellow;
+      background: rgba(ds.$primary-yellow, 0.1);
     }
   }
 
   .file-uploader-gallery {
     .gallery-images-list {
-      background: vars.$dark-bg-40;
-      border: 1px solid vars.$white-opacity-10;
-      border-radius: vars.$border-radius-medium;
+      background: ds.$zinc-900-50;
+      border: 1px solid ds.$zinc-700;
+      border-radius: 12px;
 
       .render-item-container {
-        background: vars.$dark-bg-80;
-        border: 2px solid vars.$white-opacity-10;
+        background: ds.$zinc-800;
+        border: 2px solid ds.$zinc-700;
+        border-radius: 12px;
+        transition: all 0.3s ease;
 
         &:hover {
-          border-color: vars.$color-brand;
+          border-color: ds.$primary-yellow;
         }
       }
     }
@@ -637,22 +664,18 @@
   // Language toggle styles (also available at form level)
   .form-language-toggle {
     display: flex;
-    gap: vars.$spacing-small;
-    background: vars.$white-opacity-05;
-    backdrop-filter: blur(10px);
-    padding: vars.$spacing-small;
-    border-radius: vars.$border-radius-medium;
-    border: 1px solid vars.$white-opacity-10;
-    box-shadow: 0 2px 8px vars.$black-opacity-10;
-    width: fit-content;
+    background: ds.$zinc-900;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     width: fit-content;
 
     &__btn {
       padding: vars.$spacing-small vars.$spacing-medium;
-      border: 1px solid vars.$white-opacity-20;
-      border-radius: vars.$border-radius-small;
-      background: vars.$white-opacity-05;
-      color: vars.$text-color-secondary;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: ds.$zinc-500;
       font-size: vars.$font-size-small;
       font-weight: 500;
       cursor: pointer;
@@ -660,21 +683,18 @@
       white-space: nowrap;
 
       &:hover {
-        background: vars.$white-opacity-10;
-        border-color: vars.$white-opacity-30;
-        color: vars.$text-color-primary;
+        color: ds.$zinc-300;
       }
 
       &.active {
-        background: vars.$color-brand;
-        border-color: vars.$color-brand;
-        color: vars.$text-color-primary;
-        box-shadow: 0 2px 8px rgba(vars.$color-brand, 0.3);
+        background: ds.$zinc-800;
+        color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.5);
+        box-shadow: 0 0 0 2px rgba(ds.$primary-yellow, 0.5);
       }
     }
   }
