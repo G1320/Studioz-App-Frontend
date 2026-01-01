@@ -27,4 +27,5 @@ export default interface Reservation {
   customerId?: string;
   comment?: string;
   addOnIds?: string[];
+  quantity?: number;
 }

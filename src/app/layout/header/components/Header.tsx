@@ -102,7 +102,9 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           <MenuDropdown user={user || null} />
         </div>
         <HeaderNavbar />
-        <span className="header-logo-text">Studioz</span>
+        <Link to={`/${i18n.language}/discover`} className="header-logo-text" onClick={() => scrollToTop()}>
+          Studioz
+        </Link>
       </header>
     </>
   );
