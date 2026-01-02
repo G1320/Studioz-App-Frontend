@@ -146,15 +146,6 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       >
         <input {...getInputProps()} />
         <div className="file-uploader-content-container">
-          {isDragActive ? (
-            <ArrowDropDownCircleIcon className="icon" />
-          ) : (
-            <small>
-              {multiple
-                ? t('form.fileUploader.dropZone.multiple', { fileType: t(`form.fileUploader.fileType.${fileType}`) })
-                : t('form.fileUploader.dropZone.single', { fileType: t(`form.fileUploader.fileType.${fileType}`) })}
-            </small>
-          )}
           {preview ? (
             fileType === 'image' ? (
               <img src={preview} alt="preview" />
@@ -162,9 +153,23 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
               <audio src={preview} controls className="gallery-audio-file" />
             )
           ) : (
-            <div className=" upload-icon-container">
-              <UploadFileIcon className="icon" />
-            </div>
+            <>
+              <div className="upload-icon-container">
+                {isDragActive ? (
+                  <ArrowDropDownCircleIcon className="icon" />
+                ) : (
+                  <UploadFileIcon className="icon" />
+                )}
+              </div>
+              <h3 className="upload-heading">
+                {t('form.fileUploader.dropZone.heading', { defaultValue: 'Click to upload or drag and drop' })}
+              </h3>
+              <small>
+                {multiple
+                  ? t('form.fileUploader.dropZone.multiple', { fileType: t(`form.fileUploader.fileType.${fileType}`) })
+                  : t('form.fileUploader.dropZone.single', { fileType: t(`form.fileUploader.fileType.${fileType}`) })}
+              </small>
+            </>
           )}
         </div>
 

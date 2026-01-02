@@ -341,7 +341,9 @@ export const EditStudioForm = () => {
       label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType,
       value: studio?.description?.en,
-      placeholder: t('form.description.placeholder', { defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..." }),
+      placeholder: t('form.description.placeholder', {
+        defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..."
+      }),
       helperText: t('form.description.helperText')
     },
     {
@@ -349,7 +351,9 @@ export const EditStudioForm = () => {
       label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType,
       value: studio?.description?.he,
-      placeholder: t('form.description.placeholderHe', { defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...' }),
+      placeholder: t('form.description.placeholderHe', {
+        defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
+      }),
       helperText: t('form.description.helperText')
     },
     {
@@ -519,7 +523,7 @@ export const EditStudioForm = () => {
           ? availabilityTimes
           : studio?.studioAvailability?.times || [{ start: '09:00', end: '17:00' }]
     };
-    
+
     formData.amenities = selectedAmenities.length > 0 ? selectedAmenities : studio?.amenities || [];
     // Convert equipment string to array (split by newlines, filter empty lines)
     formData.equipment = equipmentList

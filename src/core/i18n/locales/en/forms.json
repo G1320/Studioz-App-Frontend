@@ -188,7 +188,8 @@
         "audio": "audio"
       },
       "dropZone": {
-        "multiple": "Drop {{fileType}} files here",
+        "heading": "Click to upload or drag and drop",
+        "multiple": "PNG, JPG or WEBP (max. 9MB per file)",
         "single": "Drop your main {{fileType}} file here"
       },
       "uploading": "Uploading…",

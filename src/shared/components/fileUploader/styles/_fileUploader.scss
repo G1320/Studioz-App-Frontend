@@ -1,12 +1,20 @@
 @use 'utilities/variables' as vars;
 
+// Design system colors
+$primary-yellow: #ffd166;
+$zinc-500: #71717a;
+$zinc-700: #3f3f46;
+$zinc-800: #27272a;
+$zinc-900: #18181b;
+$zinc-900-20: rgba(24, 24, 27, 0.2);
+$zinc-900-30: rgba(24, 24, 27, 0.3);
+$zinc-900-40: rgba(24, 24, 27, 0.4);
+$zinc-900-80: rgba(24, 24, 27, 0.8);
+
 article.file-uploader-container {
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-large;
-  // margin-block-end: vars.$spacing-2xl;
-  // width: 100%;
-  // max-width: 100%;
 
   &.has-error {
     .file-uploader {
@@ -21,17 +29,17 @@ article.file-uploader-container {
   }
 }
 
+// Upload Dropzone
 .file-uploader {
   display: flex;
   flex-direction: column;
-  background-color: vars.$white-opacity-02;
-  border: 2px dashed vars.$white-opacity-15;
-  border-radius: vars.$border-radius-large;
+  background-color: $zinc-900-20;
+  border: 1px dashed $zinc-700;
+  border-radius: 24px; // rounded-3xl
   min-height: 180px;
-  // width: 100%;
   cursor: pointer;
-  padding: vars.$spacing-xl;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: vars.$spacing-2xl vars.$spacing-xl;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 
@@ -45,44 +53,34 @@ article.file-uploader-container {
     }
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, vars.$white-opacity-02 0%, vars.$white-opacity-01 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
   &:hover {
-    border-color: vars.$color-brand;
-    background-color: rgba(vars.$color-brand, 0.05);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(vars.$color-brand, 0.15);
+    border-color: rgba($primary-yellow, 0.5);
+    background-color: $zinc-900-40;
 
-    &::before {
-      opacity: 1;
+    .upload-icon-container {
+      transform: scale(1.1);
+
+      .icon {
+        color: $primary-yellow;
+      }
     }
   }
 
-  &:active {
-    transform: translateY(0);
-  }
+  // Drag active state
+  &.drag-active {
+    border-color: $primary-yellow;
+    background-color: $zinc-900-40;
+    box-shadow: 0 0 0 4px rgba($primary-yellow, 0.2);
 
-  small {
-    height: max-content;
-    color: rgba(vars.$text-color-primary, 0.7);
-    font-size: vars.$font-size-sm-md;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: vars.$spacing-small;
-    transition: color 0.2s ease;
-    z-index: 1;
-  }
+    .upload-icon-container {
+      transform: scale(1.1);
+      background-color: $primary-yellow;
+      border-color: $primary-yellow;
 
-  &:hover small {
-    color: vars.$text-color-primary;
+      .icon {
+        color: black;
+      }
+    }
   }
 
   .file-uploader-content-container {
@@ -93,14 +91,13 @@ article.file-uploader-container {
     flex: 1;
     gap: vars.$spacing-medium;
     width: 100%;
-    position: relative;
-    z-index: 1;
+    text-align: center;
 
     img {
       width: 100%;
       max-width: 100%;
       aspect-ratio: 16 / 9;
-      border-radius: vars.$border-radius-medium;
+      border-radius: 16px;
       object-fit: contain;
       box-shadow: 0 4px 16px vars.$black-opacity-20;
       background-color: vars.$white-opacity-05;
@@ -113,68 +110,45 @@ article.file-uploader-container {
     }
   }
 
+  // Upload icon circle
   .upload-icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 64px;
     height: 64px;
-    background-color: vars.$white-opacity-05;
+    background-color: $zinc-900-80;
     border-radius: 50%;
-    margin-bottom: vars.$spacing-xs;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px vars.$black-opacity-10;
-    border: 1px solid vars.$white-opacity-10;
+    margin-bottom: vars.$spacing-medium;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid $zinc-800;
 
     .icon {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       color: vars.$white-opacity-60;
       transition: all 0.3s ease;
     }
   }
 
-  &:hover .upload-icon-container {
-    background-color: vars.$color-brand;
-    transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(vars.$color-brand, 0.4);
-    border-color: vars.$color-brand;
-
-    .icon {
-      color: vars.$text-color-dark;
-    }
+  // Heading text
+  h3,
+  .upload-heading {
+    font-size: vars.$font-size-large;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin-bottom: vars.$spacing-xs;
   }
 
-  // Drag active state
-  &.drag-active {
-    border-color: vars.$color-brand;
-    background-color: rgba(vars.$color-brand, 0.1);
-    box-shadow:
-      0 0 0 4px rgba(vars.$color-brand, 0.2),
-      0 8px 24px rgba(vars.$color-brand, 0.25);
-    transform: scale(1.01);
-
-    &::before {
-      opacity: 1;
-    }
-
-    small {
-      color: vars.$color-brand;
-    }
-
-    .upload-icon-container {
-      background-color: vars.$color-brand;
-      transform: scale(1.12);
-      box-shadow: 0 8px 24px rgba(vars.$color-brand, 0.5);
-
-      .icon {
-        color: vars.$text-color-dark;
-      }
-    }
-  }
-
-  .files-list {
-    margin-block-start: vars.$spacing-medium;
+  // Helper text
+  small {
+    height: max-content;
+    color: $zinc-500;
+    font-size: vars.$font-size-small;
+    font-weight: 400;
+    text-align: center;
+    transition: color 0.2s ease;
   }
 
   // Uploading overlay
@@ -186,7 +160,7 @@ article.file-uploader-container {
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-small;
-    background: vars.$black-opacity-35;
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2px);
     z-index: 3;
 
@@ -194,7 +168,7 @@ article.file-uploader-container {
       width: 44px;
       height: 44px;
       border: 3px solid vars.$white-opacity-25;
-      border-top-color: vars.$color-brand;
+      border-top-color: $primary-yellow;
       border-radius: 50%;
       animation: file-uploader-spin 0.9s linear infinite;
     }
@@ -213,7 +187,7 @@ article.file-uploader-container {
   }
 }
 
-// Gallery images list styling specifically for file uploader context
+// Media Cards Grid
 article.file-uploader-container {
   .file-uploader-gallery {
     width: 100%;
@@ -221,58 +195,27 @@ article.file-uploader-container {
     .gallery-images-list {
       margin-block-start: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: vars.$spacing-small;
-      padding: vars.$spacing-medium;
-      border-radius: vars.$border-radius-large;
-      background-color: vars.$white-opacity-02;
-      border: 1px solid vars.$white-opacity-10;
-      box-shadow: 0 2px 8px vars.$black-opacity-10;
+      grid-template-columns: repeat(2, 1fr);
+      gap: vars.$spacing-medium;
 
-      // If there are many items, allow horizontal scroll on mobile
-      @media screen and (max-width: 768px) {
-        display: flex;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: thin;
-        scrollbar-color: vars.$white-opacity-20 transparent;
-
-        &::-webkit-scrollbar {
-          height: 6px;
-        }
-
-        &::-webkit-scrollbar-track {
-          background: vars.$white-opacity-05;
-          border-radius: 3px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background-color: vars.$white-opacity-20;
-          border-radius: 3px;
-          transition: background-color 0.2s ease;
-
-          &:hover {
-            background-color: vars.$white-opacity-30;
-          }
-        }
+      @media screen and (min-width: 768px) {
+        grid-template-columns: repeat(4, 1fr);
       }
 
       .render-item-container {
-        display: flex;
-
-        aspect-ratio: 16 / 9;
-        border-radius: vars.$border-radius-medium;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
+        aspect-ratio: 1 / 1; // aspect-square
+        border-radius: 16px; // rounded-2xl
+        overflow: hidden;
+        border: 1px solid $zinc-800;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        background-color: $zinc-900-30;
 
         .gallery-image-wrapper {
-          height: 60px;
-          transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease,
-            border-color 0.2s ease;
+          width: 100%;
+          height: 100%;
+          transition: transform 0.2s ease;
 
           &.dragging {
             opacity: 0.5;
@@ -281,11 +224,9 @@ article.file-uploader-container {
           }
 
           &.drag-over {
-            border-color: vars.$color-brand;
-            box-shadow:
-              0 0 0 2px rgba(vars.$color-brand, 0.3),
-              0 8px 24px vars.$black-opacity-25;
-            transform: scale(1.02) translateY(-2px);
+            border-color: $primary-yellow;
+            box-shadow: 0 0 0 2px rgba($primary-yellow, 0.3);
+            transform: scale(1.02);
           }
 
           &[draggable='true'] {
@@ -295,55 +236,60 @@ article.file-uploader-container {
               cursor: grabbing;
             }
           }
-
-          &:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 10px 28px vars.$black-opacity-28;
-          }
         }
 
-        .gallery-image-drag-handle {
+        // Image styling
+        .gallery-image,
+        .image-container img,
+        .image-container .generic-image {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover;
+          transition: transform 0.7s ease;
+        }
+
+        // Hover overlay
+        &::before {
+          content: '';
           position: absolute;
-          bottom: 4px;
-          inset-inline-start: 60%;
-          transform: translateX(-50%);
-          width: 24px;
-          height: 20px;
-          border-radius: 4px;
-          background: vars.$black-opacity-60;
-          color: vars.$white-opacity-80;
-          font-size: 0.75rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: grab;
-          transition: all 0.2s ease;
-          z-index: 2;
-          user-select: none;
-          line-height: 1;
-          letter-spacing: -2px;
-          padding: 0 4px;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(2px);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+          z-index: 1;
+        }
 
-          &:hover {
-            background: vars.$black-opacity-80;
-            color: vars.$text-color-primary;
+        &:hover {
+          .gallery-image,
+          .image-container img,
+          .image-container .generic-image {
+            transform: scale(1.05);
           }
 
-          .gallery-image-wrapper.dragging & {
-            cursor: grabbing;
+          &::before {
+            opacity: 1;
+          }
+
+          .gallery-image-remove,
+          .gallery-image-drag-handle {
+            opacity: 1;
           }
         }
 
+        // Remove button (trash icon)
         .gallery-image-remove {
           position: absolute;
-          top: 4px;
-          inset-inline-end: 2px;
-          width: 24px;
-          height: 24px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
-          border: 1px solid vars.$white-opacity-20;
-          background: vars.$black-opacity-55;
-          color: vars.$text-color-primary;
+          border: none;
+          background: rgba(239, 68, 68, 0.8); // red-500/80
+          color: white;
           font-size: vars.$font-size-medium;
           display: flex;
           align-items: center;
@@ -351,153 +297,99 @@ article.file-uploader-container {
           cursor: pointer;
           transition: all 0.2s ease;
           z-index: 3;
+          opacity: 0;
 
           &:hover {
-            background: vars.$black-opacity-75;
-            border-color: vars.$white-opacity-35;
-            transform: scale(1.05);
+            background: rgb(239, 68, 68); // red-500
+            transform: translate(-50%, -50%) scale(1.1);
           }
         }
 
-        // Override base styles that might affect image sizing
-        .image-container {
-          width: 100%;
-          height: 100%;
+        // Drag handle
+        .gallery-image-drag-handle {
+          position: absolute;
+          bottom: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 28px;
+          height: 20px;
+          border-radius: 4px;
+          background: rgba(0, 0, 0, 0.6);
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.75rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
-        }
-
-        &::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: vars.$border-radius-medium;
-          background: linear-gradient(135deg, vars.$white-opacity-05 0%, vars.$white-opacity-02 100%);
+          cursor: grab;
+          transition: all 0.2s ease;
+          z-index: 3;
           opacity: 0;
-          transition: opacity 0.3s ease;
-          pointer-events: none;
-          z-index: 1;
-        }
+          user-select: none;
+          line-height: 1;
+          letter-spacing: -2px;
 
-        &::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: vars.$border-radius-medium;
-          box-shadow: inset 0 0 0 1px vars.$white-opacity-10;
-          pointer-events: none;
-          z-index: 2;
-        }
-
-        &:hover {
-          transform: translateY(-4px) scale(1.03);
-          border-color: vars.$color-brand;
-          box-shadow: 0 8px 20px rgba(vars.$color-brand, 0.3);
-          background-color: rgba(vars.$color-brand, 0.1);
-
-          &::before {
-            opacity: 1;
-          }
-
-          &::after {
-            box-shadow: inset 0 0 0 1px rgba(vars.$color-brand, 0.3);
+          &:hover {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
           }
         }
 
-        &:active {
-          transform: translateY(-2px) scale(1.01);
-        }
-
-        // Ensure image container maintains aspect ratio
-        .image-container {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-        }
-
-        .gallery-image,
-        .image-container img,
-        .image-container .generic-image {
-          width: 100% !important;
-          height: 100% !important;
-          max-width: 100% !important;
-          max-height: 100% !important;
-          object-fit: cover;
-          border-radius: calc(#{vars.$border-radius-medium} - 2px);
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          display: block;
-          position: relative;
-          z-index: 0;
-        }
-
-        &:hover .gallery-image {
-          transform: scale(1.05);
+        // Cover badge for first image
+        &:first-child {
+          .gallery-image-wrapper::after {
+            content: '★ Cover';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: $primary-yellow;
+            color: black;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+          }
         }
       }
 
-      // Mobile specific adjustments
-      @media screen and (max-width: 768px) {
-        .render-item-container {
-          width: 120px;
-          min-width: 120px;
-          max-width: 120px;
-          // Ensure aspect ratio is maintained on mobile - calculate height from width
-          aspect-ratio: 16 / 9;
-          height: calc(120px * 9 / 16); // ~67.5px
-          max-height: calc(120px * 9 / 16);
-        }
+      // Placeholder slots
+      .gallery-placeholder {
+        aspect-ratio: 1 / 1;
+        border-radius: 16px;
+        background-color: $zinc-900-30;
+        border: 1px dashed rgba($zinc-800, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        // Override any base styles that might affect image sizing
-        .image-container {
-          width: 100% !important;
-          height: 100% !important;
-          max-height: 100% !important;
-        }
-
-        .gallery-image,
-        .image-container img,
-        .image-container .generic-image,
-        .card.gallery-image {
-          width: 100% !important;
-          height: 100% !important;
-          max-width: 100% !important;
-          max-height: 100% !important;
-          object-fit: cover;
-          // Override base card img styles
-          min-height: auto !important;
+        .placeholder-icon {
+          color: $zinc-700;
+          width: 24px;
+          height: 24px;
         }
       }
     }
 
-    // Hide cover image in file uploader context
-    .cover-image {
-      display: none;
-    }
-
-    .cover-image-overlay {
-      display: none;
-    }
-
+    // Hide cover image section in file uploader context
+    .cover-image,
+    .cover-image-overlay,
     .title-container {
       display: none;
     }
   }
 }
 
-// Responsive design for file uploader
+// Responsive design
 @media screen and (max-width: 768px) {
   article.file-uploader-container {
-    gap: vars.$spacing-large;
+    gap: vars.$spacing-medium;
   }
 
   .file-uploader {
-    padding: vars.$spacing-large;
+    padding: vars.$spacing-xl;
     min-height: 160px;
+    border-radius: 20px;
 
     .file-uploader-content-container {
       gap: vars.$spacing-small;
@@ -512,8 +404,8 @@ article.file-uploader-container {
       height: 56px;
 
       .icon {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
       }
     }
 
@@ -525,8 +417,7 @@ article.file-uploader-container {
   article.file-uploader-container {
     .file-uploader-gallery {
       .gallery-images-list {
-        padding: vars.$spacing-small;
-        gap: vars.$spacing-xs;
+        gap: vars.$spacing-small;
       }
     }
   }
@@ -534,21 +425,22 @@ article.file-uploader-container {
 
 @media screen and (max-width: 480px) {
   .file-uploader {
-    padding: vars.$spacing-medium;
+    padding: vars.$spacing-large;
     min-height: 140px;
+    border-radius: 16px;
 
     .upload-icon-container {
       width: 48px;
       height: 48px;
 
       .icon {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
       }
     }
 
     small {
-      font-size: vars.$font-size-small;
+      font-size: vars.$font-size-xs;
     }
   }
 }

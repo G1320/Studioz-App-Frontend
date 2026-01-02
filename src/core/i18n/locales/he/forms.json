@@ -188,7 +188,8 @@
         "audio": "שמע"
       },
       "dropZone": {
-        "multiple": "גרור תמונות לכאן",
+        "heading": "לחץ להעלאה או גרור ושחרר",
+        "multiple": "PNG, JPG או WEBP (עד 9MB לקובץ)",
         "single": "גרור את קובץ ה-{{fileType}} הראשי שלך לכאן"
       },
       "uploading": "מעלה…",
