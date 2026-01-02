@@ -403,6 +403,11 @@
         grid-column: span 1 !important;
       }
 
+      // Section headers span full width
+      .form-group.section-header-wrapper {
+        grid-column: span 2 !important;
+      }
+
       // Textareas span full width
       .form-group:has(.form-textarea) {
         grid-column: span 2 !important;
@@ -432,6 +437,11 @@
 
       .form-group {
         grid-column: span 1 !important;
+      }
+
+      // Section headers span full width
+      .form-group.section-header-wrapper {
+        grid-column: span 2 !important;
       }
 
       .form-group:has(input[name='address']),
