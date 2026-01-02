@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
+import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
@@ -13,6 +14,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import TuneIcon from '@mui/icons-material/Tune';
+import WeekendIcon from '@mui/icons-material/Weekend';
 import { ProTip } from '@shared/components/pro-tip';
 import {
   useCreateStudioMutation,
@@ -44,6 +46,8 @@ interface StudioFormData {
   categories?: string[];
   subCategories?: string[];
   genres?: string[];
+  amenities?: string[];
+  equipment?: string[];
   studioAvailability?: StudioAvailability;
   parking?: 'none' | 'free' | 'paid';
   website?: string;
@@ -105,6 +109,8 @@ export const CreateStudioForm = () => {
     galleryAudioFiles?: string[];
     openingHour?: string;
     closingHour?: string;
+    selectedAmenities?: string[];
+    equipmentList?: string;
   }>(FORM_ID);
 
   // States for form fields - initialize from saved state if available
@@ -127,6 +133,8 @@ export const CreateStudioForm = () => {
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>(savedState?.galleryAudioFiles || []);
   const [openingHour, setOpeningHour] = useState<string>(savedState?.openingHour || '08:00');
   const [closingHour, setClosingHour] = useState<string>(savedState?.closingHour || '18:00');
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>(savedState?.selectedAmenities || []);
+  const [equipmentList, setEquipmentList] = useState<string>(savedState?.equipmentList || '');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -257,7 +265,9 @@ export const CreateStudioForm = () => {
       galleryImages,
       galleryAudioFiles,
       openingHour,
-      closingHour
+      closingHour,
+      selectedAmenities,
+      equipmentList
     }),
     [
       selectedCategories,
@@ -269,7 +279,9 @@ export const CreateStudioForm = () => {
       galleryImages,
       galleryAudioFiles,
       openingHour,
-      closingHour
+      closingHour,
+      selectedAmenities,
+      equipmentList
     ]
   );
 
@@ -322,7 +334,7 @@ export const CreateStudioForm = () => {
           <ProTip dangerouslySetInnerHTML>
             {t('form.proTips.basicInfo', {
               defaultValue:
-                'Studios with detailed descriptions in both English and Hebrew get <strong>2x more bookings</strong>. Don\'t forget to switch languages and fill out both!'
+                "Studios with detailed descriptions in both English and Hebrew get <strong>2x more bookings</strong>. Don't forget to switch languages and fill out both!"
             })}
           </ProTip>
         )
@@ -377,13 +389,28 @@ export const CreateStudioForm = () => {
       {
         id: 'details',
         title: t('form.steps.details') || 'Details',
-        description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
+        description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
         fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
         schema: studioStepSchemas.details,
         icon: TuneIcon
+      },
+      {
+        id: 'amenities-gear',
+        title: t('form.steps.amenitiesGear') || 'Amenities & Gear',
+        description: t('form.steps.amenitiesGearDesc') || 'Select amenities and list equipment',
+        fieldNames: ['amenities', 'equipment'],
+        icon: WeekendIcon,
+        customContent: (
+          <AmenitiesSelector
+            selectedAmenities={selectedAmenities}
+            onAmenitiesChange={setSelectedAmenities}
+            equipment={equipmentList}
+            onEquipmentChange={setEquipmentList}
+          />
+        )
       }
     ],
-    [t, galleryImages, galleryAudioFiles, handleFileUpload]
+    [t, galleryImages, galleryAudioFiles, handleFileUpload, selectedAmenities, equipmentList]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -431,14 +458,18 @@ export const CreateStudioForm = () => {
       name: 'description.en',
       label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType,
-      placeholder: t('form.description.placeholder', { defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..." }),
+      placeholder: t('form.description.placeholder', {
+        defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..."
+      }),
       helperText: t('form.description.helperText')
     },
     {
       name: 'description.he',
       label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType,
-      placeholder: t('form.description.placeholderHe', { defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...' }),
+      placeholder: t('form.description.placeholderHe', {
+        defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
+      }),
       helperText: t('form.description.helperText')
     },
     {
@@ -584,6 +615,18 @@ export const CreateStudioForm = () => {
       label: 'Gallery Audio Files',
       type: 'text' as FieldType,
       value: galleryAudioFiles
+    },
+    {
+      name: 'amenities',
+      label: t('form.amenities.label') || 'Amenities',
+      type: 'text' as FieldType,
+      value: selectedAmenities
+    },
+    {
+      name: 'equipment',
+      label: t('form.equipment.label') || 'Equipment',
+      type: 'text' as FieldType,
+      value: equipmentList
     }
   ];
 
@@ -617,6 +660,12 @@ export const CreateStudioForm = () => {
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
     formData.parking = selectedParking;
+    formData.amenities = selectedAmenities;
+    // Convert equipment string to array (split by newlines, filter empty lines)
+    formData.equipment = equipmentList
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
 
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;

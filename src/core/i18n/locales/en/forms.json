@@ -94,6 +94,17 @@
     "instantBook": {
       "label": "Instant Book"
     },
+    "amenities": {
+      "title": "Amenities",
+      "label": "Amenities",
+      "helperText": "Select all amenities available at your studio."
+    },
+    "equipment": {
+      "title": "Equipment & Gear List",
+      "label": "Equipment",
+      "placeholder": "List your gear here (one item per line)...\ne.g.\nNeumann U87\nApollo Twin X\nFocal Alpha 65",
+      "helperText": "Being detailed about your gear helps musicians find exactly what they need."
+    },
     "bookingSettings": {
       "minimumBookingDuration": {
         "label": "Minimum Booking Duration",
@@ -339,7 +350,9 @@
       "files": "Files & Media",
       "filesDesc": "Upload images for your studio",
       "details": "Details",
-      "detailsDesc": "Set attributes and amenities"
+      "detailsDesc": "Set capacity and accessibility",
+      "amenitiesGear": "Amenities & Gear",
+      "amenitiesGearDesc": "Select amenities and list equipment"
     },
     "proTip": "Pro Tip",
     "editingLanguage": "Editing Language",

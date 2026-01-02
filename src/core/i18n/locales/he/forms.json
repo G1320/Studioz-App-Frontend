@@ -94,6 +94,17 @@
     "instantBook": {
       "label": "אישור הזמנה מיידי"
     },
+    "amenities": {
+      "title": "שירותים",
+      "label": "שירותים",
+      "helperText": "בחרו את כל השירותים הזמינים בסטודיו שלכם."
+    },
+    "equipment": {
+      "title": "רשימת ציוד",
+      "label": "ציוד",
+      "placeholder": "רשמו את הציוד שלכם כאן (פריט בכל שורה)...\nלדוגמה:\nNeumann U87\nApollo Twin X\nFocal Alpha 65",
+      "helperText": "פירוט הציוד שלכם עוזר למוזיקאים למצוא בדיוק את מה שהם צריכים."
+    },
     "bookingSettings": {
       "minimumBookingDuration": {
         "label": "משך הזמנה מינימלי",
@@ -339,7 +350,9 @@
       "files": "קבצים ומדיה",
       "filesDesc": "העלה תמונות לסטודיו שלך",
       "details": "הגדרות נוספות",
-      "detailsDesc": "הגדר פרטים נלווים"
+      "detailsDesc": "הגדר קיבולת ונגישות",
+      "amenitiesGear": "שירותים וציוד",
+      "amenitiesGearDesc": "בחר שירותים ורשום ציוד"
     },
     "proTip": "טיפ מקצועי",
     "editingLanguage": "שפת עריכה",

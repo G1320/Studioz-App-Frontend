@@ -1,0 +1,165 @@
+@use 'utilities/variables' as vars;
+@use '../../forms/styles/design-system' as ds;
+
+.amenities-selector {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-xl;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__title-icon {
+    color: ds.$primary-yellow;
+    font-size: 1.5rem !important;
+  }
+
+  &__helper {
+    font-size: vars.$font-size-xs;
+    color: ds.$zinc-500;
+    margin: 0;
+    text-align: start;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-sm-md;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm-md;
+    padding: vars.$spacing-medium;
+    border-radius: 12px;
+    border: 1px solid ds.$zinc-700;
+    background: ds.$zinc-900-50;
+    color: ds.$zinc-400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: start;
+    font-family: inherit;
+
+    &:hover {
+      border-color: ds.$zinc-500;
+      color: vars.$text-color-primary;
+    }
+
+    &--selected {
+      background: ds.$primary-yellow;
+      color: black;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+
+      .amenities-selector__item-icon {
+        color: black;
+      }
+
+      &:hover {
+        background: ds.$primary-yellow;
+        border-color: ds.$primary-yellow;
+        color: black;
+      }
+    }
+  }
+
+  &__item-icon {
+    font-size: 1.25rem !important;
+    color: ds.$zinc-500;
+    flex-shrink: 0;
+  }
+
+  &__item-label {
+    font-weight: 700;
+    font-size: vars.$font-size-small;
+  }
+
+  &__textarea-container {
+    position: relative;
+
+    &:focus-within {
+      .amenities-selector__textarea-icon {
+        color: ds.$primary-yellow;
+      }
+    }
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 160px;
+    padding: vars.$spacing-medium;
+    padding-right: vars.$spacing-xl;
+    border-radius: 12px;
+    border: 1px solid ds.$zinc-700;
+    background: ds.$zinc-900-50;
+    color: vars.$text-color-primary;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: vars.$font-size-small;
+    resize: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: ds.$zinc-600;
+      white-space: pre-line;
+    }
+
+    &:hover {
+      background: rgba(24, 24, 27, 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
+    }
+  }
+
+  &__textarea-icon {
+    position: absolute;
+    top: vars.$spacing-medium;
+    right: vars.$spacing-medium;
+    color: ds.$zinc-600;
+    transition: color 0.2s ease;
+
+    svg {
+      font-size: 1rem;
+    }
+  }
+
+  &__errors {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: vars.$border-radius-medium;
+    color: #ef4444;
+    font-size: vars.$font-size-small;
+  }
+}

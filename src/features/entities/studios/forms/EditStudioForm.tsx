@@ -2,9 +2,11 @@ import { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
+import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { studioEditSchema, studioStepSchemasEdit } from '@shared/validation/schemas';
 import { ZodError } from 'zod';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
+import WeekendIcon from '@mui/icons-material/Weekend';
 import {
   useDays,
   useMusicCategories,
@@ -30,6 +32,8 @@ interface StudioFormData {
   categories?: string[];
   subCategories?: string[];
   genres?: string[];
+  amenities?: string[];
+  equipment?: string[];
   studioAvailability?: StudioAvailability;
   parking?: 'none' | 'free' | 'paid';
   lat?: number | string;
@@ -93,6 +97,8 @@ export const EditStudioForm = () => {
   const [galleryImages, setGalleryImages] = useState<string[]>(studio?.galleryImages || []);
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>(studio?.galleryAudioFiles || []);
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>(studio?.amenities || []);
+  const [equipmentList, setEquipmentList] = useState<string>(studio?.equipment?.join('\n') || '');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -262,12 +268,27 @@ export const EditStudioForm = () => {
       {
         id: 'details',
         title: t('form.steps.details') || 'Details',
-        description: t('form.steps.detailsDesc') || 'Set capacity and amenities',
+        description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
         fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
         schema: studioStepSchemasEdit.details
+      },
+      {
+        id: 'amenities-gear',
+        title: t('form.steps.amenitiesGear') || 'Amenities & Gear',
+        description: t('form.steps.amenitiesGearDesc') || 'Select amenities and list equipment',
+        fieldNames: ['amenities', 'equipment'],
+        icon: WeekendIcon,
+        customContent: (
+          <AmenitiesSelector
+            selectedAmenities={selectedAmenities}
+            onAmenitiesChange={setSelectedAmenities}
+            equipment={equipmentList}
+            onEquipmentChange={setEquipmentList}
+          />
+        )
       }
     ],
-    [t, galleryImages, handleFileUpload, handleRemoveImage]
+    [t, galleryImages, handleFileUpload, handleRemoveImage, selectedAmenities, equipmentList]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -460,6 +481,18 @@ export const EditStudioForm = () => {
       options: ['none', 'free', 'paid'],
       displayValue: getParkingLabel(selectedParking),
       getOptionLabel: getParkingLabel
+    },
+    {
+      name: 'amenities',
+      label: t('form.amenities.label') || 'Amenities',
+      type: 'text' as FieldType,
+      value: selectedAmenities
+    },
+    {
+      name: 'equipment',
+      label: t('form.equipment.label') || 'Equipment',
+      type: 'text' as FieldType,
+      value: equipmentList
     }
   ];
 
@@ -486,6 +519,15 @@ export const EditStudioForm = () => {
           ? availabilityTimes
           : studio?.studioAvailability?.times || [{ start: '09:00', end: '17:00' }]
     };
+    
+    formData.amenities = selectedAmenities.length > 0 ? selectedAmenities : studio?.amenities || [];
+    // Convert equipment string to array (split by newlines, filter empty lines)
+    formData.equipment = equipmentList
+      ? equipmentList
+          .split('\n')
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0)
+      : studio?.equipment || [];
     formData.parking = selectedParking;
 
     // Fix type conversions
