@@ -13,7 +13,6 @@ import CategoryIcon from '@mui/icons-material/Category';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
-import TuneIcon from '@mui/icons-material/Tune';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import { ProTip } from '@shared/components/pro-tip';
 import {
@@ -359,7 +358,7 @@ export const CreateStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone', 'website'],
+        fieldNames: ['address', 'phone', 'website', 'maxOccupancy'],
         schema: studioStepSchemas.location,
         icon: LocationOnIcon
       },
@@ -385,14 +384,6 @@ export const CreateStudioForm = () => {
             onReorderImages={setGalleryImages}
           />
         )
-      },
-      {
-        id: 'details',
-        title: t('form.steps.details') || 'Details',
-        description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
-        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible'],
-        schema: studioStepSchemas.details,
-        icon: TuneIcon
       }
     ],
     [t, galleryImages, galleryAudioFiles, handleFileUpload, selectedAmenities, equipmentList]
@@ -544,16 +535,6 @@ export const CreateStudioForm = () => {
       label: t('form.maxOccupancy.label'),
       type: 'number' as FieldType,
       placeholder: t('form.maxOccupancy.placeholder')
-    },
-    {
-      name: 'isSmokingAllowed',
-      label: t('form.isSmokingAllowed.label'),
-      type: 'checkbox' as FieldType
-    },
-    {
-      name: 'isWheelchairAccessible',
-      label: t('form.isWheelchairAccessible.label'),
-      type: 'checkbox' as FieldType
     },
     {
       name: 'coverImage',

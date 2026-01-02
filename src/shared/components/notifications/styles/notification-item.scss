@@ -193,7 +193,7 @@ $notif-warning: #fb7185; // rose-400
 // RESPONSIVE - Medium to Small Screens
 // ==========================================
 
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
   .notification-item {
     padding: vars.$spacing-small vars.$spacing-sm-md;
     gap: vars.$spacing-small;

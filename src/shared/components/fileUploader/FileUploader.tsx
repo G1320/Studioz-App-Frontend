@@ -158,9 +158,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                 {isDragActive ? (
                   <ArrowDropDownCircleIcon className="icon" />
                 ) : (
-                  <UploadFileIcon className="icon" />
+              <UploadFileIcon className="icon" />
                 )}
-              </div>
+            </div>
               <h3 className="upload-heading">
                 {t('form.fileUploader.dropZone.heading', { defaultValue: 'Click to upload or drag and drop' })}
               </h3>

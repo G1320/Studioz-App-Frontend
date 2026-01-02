@@ -47,7 +47,8 @@
   &__item {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-sm-md;
+    justify-content: flex-start;
+    gap: vars.$spacing-small;
     padding: vars.$spacing-medium;
     border-radius: 12px;
     border: 1px solid ds.$zinc-700;
@@ -57,6 +58,8 @@
     transition: all 0.2s ease;
     text-align: start;
     font-family: inherit;
+    overflow: hidden;
+    min-width: 0;
 
     &:hover {
       border-color: ds.$zinc-500;
@@ -90,6 +93,10 @@
   &__item-label {
     font-weight: 700;
     font-size: vars.$font-size-small;
+    white-space: normal;
+    min-width: 0;
+    flex: 1;
+    line-height: 1.3;
   }
 
   &__textarea-container {

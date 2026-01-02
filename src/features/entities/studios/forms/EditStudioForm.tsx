@@ -38,8 +38,6 @@ interface StudioFormData {
   lat?: number | string;
   lng?: number | string;
   city?: string;
-  isSmokingAllowed?: boolean | string;
-  isWheelchairAccessible?: boolean | string;
   languageToggle?: string;
   [key: string]: any; // Allow additional properties from form
 }
@@ -250,7 +248,7 @@ export const EditStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone'],
+        fieldNames: ['address', 'phone', 'maxOccupancy'],
         schema: studioStepSchemasEdit.location
       },
       {
@@ -271,13 +269,6 @@ export const EditStudioForm = () => {
             onReorderImages={setGalleryImages}
           />
         )
-      },
-      {
-        id: 'details',
-        title: t('form.steps.details') || 'Details',
-        description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
-        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible'],
-        schema: studioStepSchemasEdit.details
       }
     ],
     [t, galleryImages, handleFileUpload, handleRemoveImage, selectedAmenities, equipmentList]
@@ -457,18 +448,6 @@ export const EditStudioForm = () => {
       placeholder: t('form.maxOccupancy.placeholder')
     },
     {
-      name: 'isSmokingAllowed',
-      label: t('form.isSmokingAllowed.label'),
-      type: 'checkbox' as FieldType,
-      value: studio?.isSmokingAllowed
-    },
-    {
-      name: 'isWheelchairAccessible',
-      label: t('form.isWheelchairAccessible.label'),
-      type: 'checkbox' as FieldType,
-      value: studio?.isWheelchairAccessible
-    },
-    {
       name: 'amenities',
       label: t('form.amenities.label') || 'Amenities',
       type: 'text' as FieldType,
@@ -532,29 +511,6 @@ export const EditStudioForm = () => {
     // Ensure city is set (use existing studio city or extract from address if needed)
     if (!formData.city || formData.city === '') {
       formData.city = studio?.city || '';
-    }
-
-    // Convert booleans from strings to booleans
-    if (formData.isSmokingAllowed !== undefined) {
-      if (typeof formData.isSmokingAllowed === 'string') {
-        formData.isSmokingAllowed =
-          formData.isSmokingAllowed === 'true' ||
-          formData.isSmokingAllowed === 'on' ||
-          formData.isSmokingAllowed === '1';
-      }
-    } else {
-      formData.isSmokingAllowed = studio?.isSmokingAllowed || false;
-    }
-
-    if (formData.isWheelchairAccessible !== undefined) {
-      if (typeof formData.isWheelchairAccessible === 'string') {
-        formData.isWheelchairAccessible =
-          formData.isWheelchairAccessible === 'true' ||
-          formData.isWheelchairAccessible === 'on' ||
-          formData.isWheelchairAccessible === '1';
-      }
-    } else {
-      formData.isWheelchairAccessible = studio?.isWheelchairAccessible || false;
     }
 
     // Ensure Hebrew fields are preserved from existing studio if not provided in formData

@@ -15,6 +15,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import TvIcon from '@mui/icons-material/Tv';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
+import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
+import AccessibleIcon from '@mui/icons-material/Accessible';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import './styles/_amenities-selector.scss';
 
@@ -32,7 +34,9 @@ const amenityIcons: Record<string, React.ElementType> = {
   '24_7_access': AccessTimeIcon,
   private_parking: LocalParkingIcon,
   tv_monitor: TvIcon,
-  changing_room: CheckroomIcon
+  changing_room: CheckroomIcon,
+  smoking_allowed: SmokingRoomsIcon,
+  wheelchair_accessible: AccessibleIcon
 };
 
 interface AmenitiesSelectorProps {

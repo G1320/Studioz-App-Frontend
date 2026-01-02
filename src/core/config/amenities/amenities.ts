@@ -12,7 +12,9 @@ export const amenities = [
   'Acoustic Treatment',
   '24/7 Access',
   'Private Parking',
-  'TV/Monitor'
+  'TV/Monitor',
+  'Smoking Allowed',
+  'Wheelchair Accessible'
 ];
 
 // List of studio equipment
