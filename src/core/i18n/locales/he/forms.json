@@ -89,14 +89,19 @@
       "label": "נגישות לכיסא גלגלים"
     },
     "parking": {
-      "label": "חניה",
+      "label": "חניה וגישה",
       "question": "מהי אפשרות החנייה?",
       "options": {
-        "private_spot": "חניה פרטית",
-        "street_parking": "חניה ברחוב",
-        "paid_garage": "חניון בתשלום",
-        "no_parking": "אין חניה"
+        "private": "חניה פרטית",
+        "street": "חניה ברחוב",
+        "paid": "חניון בתשלום",
+        "none": "אין חניה"
       }
+    },
+    "arrivalInstructions": {
+      "label": "הוראות הגעה",
+      "placeholder": "לדוגמה: הקלידו קוד 1234# בשער הראשי, עלו במעלית לקומה 3...",
+      "helperText": "עזרו למבקרים למצוא את הדרך לסטודיו שלכם."
     },
     "instantBook": {
       "label": "אישור הזמנה מיידי"

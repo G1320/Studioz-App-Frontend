@@ -638,6 +638,59 @@
   }
 }
 
+@mixin branded-parking-select {
+  .parking-select {
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: vars.$spacing-sm-md;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: vars.$spacing-xs;
+      padding: vars.$spacing-sm-md;
+      border-radius: 12px;
+      border: 1px solid ds.$zinc-700;
+      background: ds.$zinc-900-50;
+      color: ds.$zinc-400;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      text-align: center;
+
+      &:hover {
+        border-color: ds.$zinc-500;
+        color: ds.$zinc-300;
+      }
+
+      &--selected {
+        background: rgba(ds.$primary-yellow, 0.1);
+        border-color: ds.$primary-yellow;
+        color: ds.$primary-yellow;
+
+        &:hover {
+          background: rgba(ds.$primary-yellow, 0.15);
+          border-color: ds.$primary-yellow;
+          color: ds.$primary-yellow;
+        }
+      }
+    }
+
+    &__icon {
+      font-size: 1.25rem;
+    }
+
+    &__label {
+      font-weight: 500;
+      font-size: vars.$font-size-small;
+    }
+  }
+}
+
 @mixin branded-form-actions {
   .form-actions {
     display: flex;
@@ -795,6 +848,7 @@
   @include branded-multiselect;
   @include branded-switches;
   @include branded-dropdowns;
+  @include branded-parking-select;
   @include branded-form-actions;
 
   @media (max-width: 768px) {

@@ -125,7 +125,7 @@ export const studioStep5Schema = z.object({
 
 /**
  * Step 6: Details Schema
- * Validates: maxOccupancy, isSmokingAllowed, isWheelchairAccessible, parking
+ * Validates: maxOccupancy, isSmokingAllowed, isWheelchairAccessible, parking, arrivalInstructions
  */
 export const studioStep6Schema = z.object({
   maxOccupancy: z.preprocess(
@@ -178,7 +178,11 @@ export const studioStep6Schema = z.object({
     }
     return Boolean(val);
   }, z.boolean().optional()),
-  parking: parkingSchema.optional()
+  parking: parkingSchema.optional(),
+  arrivalInstructions: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    z.string().max(500, 'Arrival instructions must be at most 500 characters').optional()
+  )
 });
 
 /**
@@ -241,6 +245,10 @@ export const studioFullSchema = z.object({
   isSmokingAllowed: z.boolean().default(false),
   isWheelchairAccessible: z.boolean().optional(),
   parking: parkingSchema.optional(),
+  arrivalInstructions: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    z.string().max(500, 'Arrival instructions must be at most 500 characters').optional()
+  ),
 
   // Optional fields
   isSelfService: z.boolean().optional(),

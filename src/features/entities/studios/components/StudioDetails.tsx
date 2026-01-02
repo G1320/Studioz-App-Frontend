@@ -39,12 +39,12 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
 
   // const getParkingLabel = (parking: string) => {
   //   const options: Record<string, string> = {
-  //     private_spot: t('form.parking.options.private_spot') || 'Private Spot',
-  //     street_parking: t('form.parking.options.street_parking') || 'Street Parking',
-  //     paid_garage: t('form.parking.options.paid_garage') || 'Paid Garage',
-  //     no_parking: t('form.parking.options.no_parking') || 'No Parking'
+  //     private: t('form.parking.options.private') || 'Private Spot',
+  //     street: t('form.parking.options.street') || 'Street Parking',
+  //     paid: t('form.parking.options.paid') || 'Paid Garage',
+  //     none: t('form.parking.options.none') || 'No Parking'
   //   };
-  //   return options[parking] || options.no_parking;
+  //   return options[parking] || options.none;
   // };
 
   // Convert English genre values to display values
@@ -104,7 +104,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         </div>
       )}
 
-      {/* {studio?.parking && studio.parking !== 'no_parking' && (
+      {/* {studio?.parking && studio.parking !== 'none' && (
         <div role="group" aria-labelledby="parking">
           <LocalParking aria-label="Parking icon" />
           <p

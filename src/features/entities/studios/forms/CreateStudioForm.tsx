@@ -49,6 +49,8 @@ interface StudioFormData {
   equipment?: string[];
   studioAvailability?: StudioAvailability;
   website?: string;
+  parking?: 'private' | 'street' | 'paid' | 'none';
+  arrivalInstructions?: string;
   languageToggle?: string;
   [key: string]: any; // Allow additional properties from form
 }
@@ -104,6 +106,8 @@ export const CreateStudioForm = () => {
     closingHour?: string;
     selectedAmenities?: string[];
     equipmentList?: string;
+    selectedParking?: 'private' | 'street' | 'paid' | 'none';
+    arrivalInstructions?: string;
   }>(FORM_ID);
 
   // States for form fields - initialize from saved state if available
@@ -125,6 +129,10 @@ export const CreateStudioForm = () => {
   const [closingHour, setClosingHour] = useState<string>(savedState?.closingHour || '18:00');
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>(savedState?.selectedAmenities || []);
   const [equipmentList, setEquipmentList] = useState<string>(savedState?.equipmentList || '');
+  const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
+    savedState?.selectedParking || 'street'
+  );
+  const [arrivalInstructions, setArrivalInstructions] = useState<string>(savedState?.arrivalInstructions || '');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -256,7 +264,9 @@ export const CreateStudioForm = () => {
       openingHour,
       closingHour,
       selectedAmenities,
-      equipmentList
+      equipmentList,
+      selectedParking,
+      arrivalInstructions
     }),
     [
       selectedCategories,
@@ -269,7 +279,9 @@ export const CreateStudioForm = () => {
       openingHour,
       closingHour,
       selectedAmenities,
-      equipmentList
+      equipmentList,
+      selectedParking,
+      arrivalInstructions
     ]
   );
 
@@ -358,7 +370,7 @@ export const CreateStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone', 'website', 'maxOccupancy', 'size'],
+        fieldNames: ['address', 'phone', 'website', 'maxOccupancy', 'size', 'parking', 'arrivalInstructions'],
         schema: studioStepSchemas.location,
         icon: LocationOnIcon
       },
@@ -543,6 +555,22 @@ export const CreateStudioForm = () => {
       placeholder: t('form.size.placeholder') || 'e.g. 50'
     },
     {
+      name: 'parking',
+      label: t('form.parking.label') || 'Parking',
+      type: 'parkingSelect' as FieldType,
+      value: selectedParking,
+      onChange: setSelectedParking,
+      options: ['private', 'street', 'paid', 'none']
+    },
+    {
+      name: 'arrivalInstructions',
+      label: t('form.arrivalInstructions.label') || 'Arrival Instructions',
+      type: 'textarea' as FieldType,
+      value: arrivalInstructions,
+      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => setArrivalInstructions(e.target.value),
+      placeholder: t('form.arrivalInstructions.placeholder') || 'e.g. Enter code 1234# at the main gate...'
+    },
+    {
       name: 'coverImage',
       label: 'Cover Image',
       type: 'text' as FieldType,
@@ -615,6 +643,8 @@ export const CreateStudioForm = () => {
       .split('\n')
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
+    formData.parking = selectedParking;
+    formData.arrivalInstructions = arrivalInstructions;
 
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;

@@ -18,7 +18,8 @@ export type FieldType =
   | 'checkbox'
   | 'select'
   | 'businessHours'
-  | 'languageToggle';
+  | 'languageToggle'
+  | 'parkingSelect';
 
 interface GenericFormProps {
   title?: string;
@@ -364,6 +365,32 @@ export const GenericForm = ({
                     Switch to {otherLanguage === 'en' ? 'English' : 'Hebrew'} to view and fix errors
                   </div>
                 )}
+              </div>
+            );
+          case 'parkingSelect':
+            const parkingOptions = [
+              { id: 'private', labelKey: 'private' },
+              { id: 'street', labelKey: 'street' },
+              { id: 'paid', labelKey: 'paid' },
+              { id: 'none', labelKey: 'none' }
+            ];
+            return (
+              <div key={field.name} className={`form-group parking-select ${field.className || ''}`}>
+                {field.label && <label className="form-label form-label--title">{field.label}</label>}
+                <div className="parking-select__grid">
+                  {parkingOptions.map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => field.onChange?.(option.id)}
+                      className={`parking-select__item ${field.value === option.id ? 'parking-select__item--selected' : ''}`}
+                    >
+                      <span className="parking-select__label">
+                        {t(`form.parking.options.${option.labelKey}`)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             );
           case 'select':
