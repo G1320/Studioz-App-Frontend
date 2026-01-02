@@ -7,6 +7,8 @@ import { studioEditSchema, studioStepSchemasEdit } from '@shared/validation/sche
 import { ZodError } from 'zod';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import WeekendIcon from '@mui/icons-material/Weekend';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import {
   useDays,
   useMusicCategories,
@@ -254,7 +256,16 @@ export const EditStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone', 'maxOccupancy', 'size', 'parking', 'arrivalInstructions'],
+        fieldNames: [
+          'locationHeader',
+          'address',
+          'phone',
+          'specsHeader',
+          'maxOccupancy',
+          'size',
+          'parking',
+          'arrivalInstructions'
+        ],
         schema: studioStepSchemasEdit.location
       },
       {
@@ -409,6 +420,13 @@ export const EditStudioForm = () => {
       }
     },
     {
+      name: 'locationHeader',
+      label: t('form.sections.locationContact') || 'Location & Contact',
+      subtitle: t('form.sections.locationContactDesc') || 'Where can clients find and reach you?',
+      type: 'sectionHeader' as FieldType,
+      icon: LocationOnIcon
+    },
+    {
       name: 'address',
       label: t('form.address.label'),
       type: 'text' as FieldType,
@@ -445,6 +463,13 @@ export const EditStudioForm = () => {
       label: 'Gallery Audio Files',
       type: 'text' as FieldType,
       value: galleryAudioFiles
+    },
+    {
+      name: 'specsHeader',
+      label: t('form.sections.specs') || 'Specs',
+      subtitle: t('form.sections.specsDesc') || 'Size and capacity details',
+      type: 'sectionHeader' as FieldType,
+      icon: SquareFootIcon
     },
     {
       name: 'maxOccupancy',

@@ -103,6 +103,12 @@
       "placeholder": "e.g. Enter code 1234# at the main gate, take the elevator to the 3rd floor...",
       "helperText": "Help visitors find their way to your studio."
     },
+    "sections": {
+      "locationContact": "Location & Contact",
+      "locationContactDesc": "Where can clients find and reach you?",
+      "specs": "Specs",
+      "specsDesc": "Size and capacity details"
+    },
     "instantBook": {
       "label": "Instant Book"
     },

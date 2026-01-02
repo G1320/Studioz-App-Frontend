@@ -10,6 +10,14 @@ import { FieldError } from '@shared/validation/components';
 import { GoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
 
+// Icons for parking and sections
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LocalParkingOutlinedIcon from '@mui/icons-material/LocalParkingOutlined';
+import BlockIcon from '@mui/icons-material/Block';
+import MapPinIcon from '@mui/icons-material/LocationOn';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
+
 export type FieldType =
   | 'text'
   | 'password'
@@ -19,7 +27,8 @@ export type FieldType =
   | 'select'
   | 'businessHours'
   | 'languageToggle'
-  | 'parkingSelect';
+  | 'parkingSelect'
+  | 'sectionHeader';
 
 interface GenericFormProps {
   title?: string;
@@ -368,28 +377,48 @@ export const GenericForm = ({
               </div>
             );
           case 'parkingSelect':
-            const parkingOptions = [
-              { id: 'private', labelKey: 'private' },
-              { id: 'street', labelKey: 'street' },
-              { id: 'paid', labelKey: 'paid' },
-              { id: 'none', labelKey: 'none' }
+            const parkingOptionsConfig = [
+              { id: 'private', labelKey: 'private', Icon: LocalParkingIcon },
+              { id: 'street', labelKey: 'street', Icon: DirectionsCarIcon },
+              { id: 'paid', labelKey: 'paid', Icon: LocalParkingOutlinedIcon },
+              { id: 'none', labelKey: 'none', Icon: BlockIcon }
             ];
             return (
               <div key={field.name} className={`form-group parking-select ${field.className || ''}`}>
-                {field.label && <label className="form-label form-label--title">{field.label}</label>}
+                <div className="section-header">
+                  <div className="section-header__title-row">
+                    <DirectionsCarIcon className="section-header__icon" />
+                    <h3 className="section-header__title">{field.label || t('form.parking.label')}</h3>
+                  </div>
+                  <p className="section-header__subtitle">{t('form.parking.question')}</p>
+                </div>
                 <div className="parking-select__grid">
-                  {parkingOptions.map((option) => (
+                  {parkingOptionsConfig.map((option) => (
                     <button
                       key={option.id}
                       type="button"
                       onClick={() => field.onChange?.(option.id)}
                       className={`parking-select__item ${field.value === option.id ? 'parking-select__item--selected' : ''}`}
                     >
+                      <option.Icon className="parking-select__icon" />
                       <span className="parking-select__label">
                         {t(`form.parking.options.${option.labelKey}`)}
                       </span>
                     </button>
                   ))}
+                </div>
+              </div>
+            );
+          case 'sectionHeader':
+            const IconComponent = field.icon;
+            return (
+              <div key={field.name} className={`form-group section-header-wrapper ${field.className || ''}`}>
+                <div className="section-header">
+                  <div className="section-header__title-row">
+                    {IconComponent && <IconComponent className="section-header__icon" />}
+                    <h3 className="section-header__title">{field.label}</h3>
+                  </div>
+                  {field.subtitle && <p className="section-header__subtitle">{field.subtitle}</p>}
                 </div>
               </div>
             );

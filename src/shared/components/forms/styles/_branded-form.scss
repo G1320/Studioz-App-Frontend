@@ -638,8 +638,52 @@
   }
 }
 
+@mixin branded-section-header {
+  .section-header-wrapper {
+    margin-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: vars.$spacing-xs;
+    margin-bottom: vars.$spacing-medium;
+    text-align: start;
+
+    &__title-row {
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-small;
+    }
+
+    &__icon {
+      color: ds.$primary-yellow;
+      font-size: 1.5rem !important;
+      flex-shrink: 0;
+    }
+
+    &__title {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+      color: vars.$text-color-primary;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    &__subtitle {
+      font-size: vars.$font-size-small;
+      color: ds.$zinc-400;
+      margin: 0;
+    }
+  }
+}
+
 @mixin branded-parking-select {
   .parking-select {
+    .section-header {
+      margin-bottom: vars.$spacing-medium;
+    }
     &__grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -649,7 +693,7 @@
     &__item {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       gap: vars.$spacing-xs;
       padding: vars.$spacing-sm-md;
@@ -660,7 +704,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       font-family: inherit;
-      text-align: center;
+      text-align: start;
 
       &:hover {
         border-color: ds.$zinc-500;
@@ -848,6 +892,7 @@
   @include branded-multiselect;
   @include branded-switches;
   @include branded-dropdowns;
+  @include branded-section-header;
   @include branded-parking-select;
   @include branded-form-actions;
 

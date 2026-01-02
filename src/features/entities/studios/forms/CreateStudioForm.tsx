@@ -14,6 +14,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import WeekendIcon from '@mui/icons-material/Weekend';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { ProTip } from '@shared/components/pro-tip';
 import {
   useCreateStudioMutation,
@@ -370,7 +371,17 @@ export const CreateStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone', 'website', 'maxOccupancy', 'size', 'parking', 'arrivalInstructions'],
+        fieldNames: [
+          'locationHeader',
+          'address',
+          'phone',
+          'website',
+          'specsHeader',
+          'maxOccupancy',
+          'size',
+          'parking',
+          'arrivalInstructions'
+        ],
         schema: studioStepSchemas.location,
         icon: LocationOnIcon
       },
@@ -525,6 +536,13 @@ export const CreateStudioForm = () => {
       }
     },
     {
+      name: 'locationHeader',
+      label: t('form.sections.locationContact') || 'Location & Contact',
+      subtitle: t('form.sections.locationContactDesc') || 'Where can clients find and reach you?',
+      type: 'sectionHeader' as FieldType,
+      icon: LocationOnIcon
+    },
+    {
       name: 'address',
       label: t('form.address.label'),
       type: 'text' as FieldType,
@@ -541,6 +559,13 @@ export const CreateStudioForm = () => {
       label: t('form.website.label') || 'Website',
       type: 'text' as FieldType,
       placeholder: t('form.website.placeholder') || 'https://example.com'
+    },
+    {
+      name: 'specsHeader',
+      label: t('form.sections.specs') || 'Specs',
+      subtitle: t('form.sections.specsDesc') || 'Size and capacity details',
+      type: 'sectionHeader' as FieldType,
+      icon: SquareFootIcon
     },
     {
       name: 'maxOccupancy',
