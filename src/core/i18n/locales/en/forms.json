@@ -77,6 +77,11 @@
       "placeholder": "Enter maximum number of people",
       "helperText": "How many people can comfortably use this space at once?"
     },
+    "size": {
+      "label": "Size (m²)",
+      "placeholder": "e.g. 50",
+      "helperText": "The total area of your studio in square meters."
+    },
     "isSmokingAllowed": {
       "label": "Smoking Allowed"
     },

@@ -248,7 +248,7 @@ export const EditStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone', 'maxOccupancy'],
+        fieldNames: ['address', 'phone', 'maxOccupancy', 'size'],
         schema: studioStepSchemasEdit.location
       },
       {
@@ -446,6 +446,13 @@ export const EditStudioForm = () => {
       type: 'number' as FieldType,
       value: studio?.maxOccupancy,
       placeholder: t('form.maxOccupancy.placeholder')
+    },
+    {
+      name: 'size',
+      label: t('form.size.label') || 'Size (m²)',
+      type: 'number' as FieldType,
+      value: studio?.size,
+      placeholder: t('form.size.placeholder') || 'e.g. 50'
     },
     {
       name: 'amenities',

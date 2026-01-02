@@ -358,7 +358,7 @@ export const CreateStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: ['address', 'phone', 'website', 'maxOccupancy'],
+        fieldNames: ['address', 'phone', 'website', 'maxOccupancy', 'size'],
         schema: studioStepSchemas.location,
         icon: LocationOnIcon
       },
@@ -535,6 +535,12 @@ export const CreateStudioForm = () => {
       label: t('form.maxOccupancy.label'),
       type: 'number' as FieldType,
       placeholder: t('form.maxOccupancy.placeholder')
+    },
+    {
+      name: 'size',
+      label: t('form.size.label') || 'Size (m²)',
+      type: 'number' as FieldType,
+      placeholder: t('form.size.placeholder') || 'e.g. 50'
     },
     {
       name: 'coverImage',
