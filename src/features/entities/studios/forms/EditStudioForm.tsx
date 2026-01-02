@@ -287,37 +287,49 @@ export const EditStudioForm = () => {
       name: 'name.en',
       label: `${t('form.name.en')} 🇺🇸`,
       type: 'text' as FieldType,
-      value: studio?.name.en
+      value: studio?.name.en,
+      placeholder: t('form.name.placeholder', { defaultValue: 'e.g. The Sound Garden' }),
+      helperText: t('form.name.helperText')
     },
     {
       name: 'name.he',
       label: `${t('form.name.he')} 🇮🇱`,
       type: 'text' as FieldType,
-      value: studio?.name.he
+      value: studio?.name.he,
+      placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
+      helperText: t('form.name.helperText')
     },
     {
       name: 'subtitle.en',
       label: `${t('form.subtitle.en')} 🇺🇸`,
       type: 'text' as FieldType,
-      value: studio?.subtitle?.en
+      value: studio?.subtitle?.en,
+      placeholder: t('form.subtitle.placeholder', { defaultValue: 'e.g. Professional Recording & Mixing' }),
+      helperText: t('form.subtitle.helperText')
     },
     {
       name: 'subtitle.he',
       label: `${t('form.subtitle.he')} 🇮🇱`,
       type: 'text' as FieldType,
-      value: studio?.subtitle?.he
+      value: studio?.subtitle?.he,
+      placeholder: t('form.subtitle.placeholderHe', { defaultValue: 'לדוגמה: הקלטות ומיקס מקצועי' }),
+      helperText: t('form.subtitle.helperText')
     },
     {
       name: 'description.en',
       label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType,
-      value: studio?.description?.en
+      value: studio?.description?.en,
+      placeholder: t('form.description.placeholder', { defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..." }),
+      helperText: t('form.description.helperText')
     },
     {
       name: 'description.he',
       label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType,
-      value: studio?.description?.he
+      value: studio?.description?.he,
+      placeholder: t('form.description.placeholderHe', { defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...' }),
+      helperText: t('form.description.helperText')
     },
     {
       name: 'languageToggle',
@@ -344,11 +356,13 @@ export const EditStudioForm = () => {
       initialVisibleCount: 12,
       showAllLabel: t('form.subCategories.showAll', 'Show All'),
       showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain'
+      className: 'subcategories-plain',
+      helperText: t('form.subCategories.helperText')
     },
     {
       name: 'genres',
       label: t('form.genres.label') || 'Genres',
+      helperText: t('form.genres.helperText'),
       type: 'multiSelect' as FieldType,
       options: genres,
       value: selectedGenres,

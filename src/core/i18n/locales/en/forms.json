@@ -4,15 +4,18 @@
     "AddStudioTitle": "Add new Studio",
     "name": {
       "en": "Name (English)",
-      "he": "Name (Hebrew)"
+      "he": "Name (Hebrew)",
+      "helperText": "This is the main name that will appear in search results."
     },
     "subtitle": {
       "en": "Subtitle (English)",
-      "he": "Subtitle (Hebrew)"
+      "he": "Subtitle (Hebrew)",
+      "helperText": "A catchy tagline that appears below your studio name."
     },
     "description": {
       "en": "Description (English)",
-      "he": "Description (Hebrew)"
+      "he": "Description (Hebrew)",
+      "helperText": "Write at least 150 characters for better visibility."
     },
     "categories": {
       "label": "Category",
@@ -23,13 +26,15 @@
       "label": "Subcategories",
       "showAll": "Show All",
       "showLess": "Show Less",
-      "maxLimit": "Maximum 6 subcategories allowed"
+      "maxLimit": "Maximum 6 subcategories allowed",
+      "helperText": "Select all relevant subcategories for your studio."
     },
     "genres": {
       "label": "Genres",
       "showAll": "Show All",
       "showLess": "Show Less",
-      "maxLimit": "Maximum 6 genres allowed"
+      "maxLimit": "Maximum 6 genres allowed",
+      "helperText": "Choose the music genres you specialize in."
     },
     "languageToggle": {
       "label": "Select language for editing"
@@ -50,7 +55,8 @@
     },
     "address": {
       "label": "Address",
-      "placeholder": "Please select from list"
+      "placeholder": "Please select from list",
+      "helperText": "Start typing your address and select from the suggestions."
     },
     "website": {
       "label": "Website",
@@ -68,7 +74,8 @@
     },
     "maxOccupancy": {
       "label": "Max Occupancy",
-      "placeholder": "Enter maximum number of people"
+      "placeholder": "Enter maximum number of people",
+      "helperText": "How many people can comfortably use this space at once?"
     },
     "isSmokingAllowed": {
       "label": "Smoking Allowed"
@@ -150,7 +157,8 @@
       }
     },
     "price": {
-      "label": "Price"
+      "label": "Price",
+      "helperText": "Set a competitive price for your service."
     },
     "pricePer": {
       "label": "Price Per",

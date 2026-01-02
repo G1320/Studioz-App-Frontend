@@ -446,25 +446,33 @@ export const EditItemForm = () => {
       name: 'name.en',
       label: `${t('form.name.en')} 🇺🇸`,
       type: 'text' as FieldType,
-      value: item?.name.en
+      value: item?.name.en,
+      placeholder: t('form.name.placeholder', { defaultValue: 'e.g. The Sound Garden' }),
+      helperText: t('form.name.helperText')
     },
     {
       name: 'name.he',
       label: `${t('form.name.he')} 🇮🇱`,
       type: 'text' as FieldType,
-      value: item?.name.he
+      value: item?.name.he,
+      placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
+      helperText: t('form.name.helperText')
     },
     {
       name: 'description.en',
       label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType,
-      value: item?.description?.en
+      value: item?.description?.en,
+      placeholder: t('form.description.placeholder', { defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..." }),
+      helperText: t('form.description.helperText')
     },
     {
       name: 'description.he',
       label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType,
-      value: item?.description?.he
+      value: item?.description?.he,
+      placeholder: t('form.description.placeholderHe', { defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...' }),
+      helperText: t('form.description.helperText')
     },
     {
       name: 'languageToggle',
@@ -491,13 +499,15 @@ export const EditItemForm = () => {
       initialVisibleCount: 12,
       showAllLabel: t('form.subCategories.showAll', 'Show All'),
       showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain'
+      className: 'subcategories-plain',
+      helperText: t('form.subCategories.helperText')
     },
     {
       name: 'price',
       label: t('form.price.label'),
       type: 'number' as FieldType,
-      value: item?.price
+      value: item?.price,
+      helperText: t('form.price.helperText')
     },
     {
       name: 'pricePer',
