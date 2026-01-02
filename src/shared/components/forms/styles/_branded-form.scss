@@ -34,6 +34,18 @@
     letter-spacing: 0.05em;
     margin-bottom: vars.$spacing-xs;
     text-align: start;
+
+    // Section title style (for multiselect groups)
+    &--title {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+      color: vars.$text-color-primary;
+      text-transform: none;
+      letter-spacing: normal;
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-xs;
+    }
   }
 
   .form-input,
@@ -162,81 +174,84 @@
 }
 
 @mixin branded-business-hours {
-  justify-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-sm-md;
 
   .day-row {
     display: flex;
-    gap: vars.$spacing-large;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: background-color 0.2s ease;
-    padding: vars.$spacing-medium 0;
+    gap: vars.$spacing-large;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border-radius: 12px;
+    border: 1px solid ds.$zinc-800;
+    background: ds.$zinc-900-50;
+    transition: all 0.2s ease;
+    min-height: 56px;
 
-    &:last-child {
-      border-bottom: none;
+    &:hover {
+      border-color: ds.$zinc-700;
+    }
+
+    // Disabled/closed state
+    &:has(.switch:not(.on)) {
+      background: rgba(9, 9, 11, 0.8);
+      border-color: rgba(39, 39, 42, 0.5);
+
+      .day-switch-container span {
+        color: ds.$zinc-500;
+      }
     }
 
     .day-switch-container {
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: vars.$spacing-medium;
-      flex: 0 0 auto;
-      justify-content: flex-end;
-      min-width: 0;
-      border-radius: vars.$border-radius-medium;
-    }
-
-    // When switch is on (selected), make container vertical with label on top (only on small screens)
-    @media (max-width: 420px) {
-      .day-switch-container:has(.switch.on) {
-        flex-direction: column-reverse;
-        align-items: flex-end;
-        gap: vars.$spacing-small;
-      }
+      gap: vars.$spacing-sm-md;
+      min-width: 120px;
+      flex-shrink: 0;
     }
 
     .switch {
-      min-width: 48px;
-      width: 48px;
-      height: 24px;
+      min-width: 22px;
+      width: 22px;
+      height: 22px;
       overflow: hidden;
-      border-radius: 12px;
+      border-radius: 6px;
       background: ds.$zinc-800;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       position: relative;
       cursor: pointer;
       border: 1px solid ds.$zinc-700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
 
       &.on {
         background: ds.$primary-yellow;
         border-color: ds.$primary-yellow;
+
+        // Checkmark icon via pseudo-element
+        &::before {
+          content: '✓';
+          font-size: 13px;
+          color: black;
+          font-weight: bold;
+          line-height: 1;
+        }
       }
 
+      // Remove the toggle knob for checkbox style
       &::after {
-        content: '';
-        position: absolute;
-        left: 2px;
-        top: 2px;
-        width: 20px;
-        height: 20px;
-        background: white;
-        border-radius: 50%;
-        transition: transform 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      &.on::after {
-        transform: translateX(24px);
-        background: black;
+        display: none;
       }
     }
 
     .day-switch-container span {
-      min-width: 0;
       color: vars.$text-color-primary;
-      font-weight: 500;
+      font-weight: 600;
       font-size: vars.$font-size-medium;
       white-space: nowrap;
     }
@@ -244,22 +259,24 @@
     .hours {
       display: flex;
       flex: 1;
-      gap: vars.$spacing-sm-md;
+      gap: vars.$spacing-medium;
       align-items: center;
       justify-content: flex-start;
 
       .MuiTextField-root {
-        min-width: 100px;
+        width: 140px;
+        flex-shrink: 0;
 
         .MuiInputBase-root {
-          background: ds.$zinc-900-50;
-          border: 1px solid ds.$zinc-700;
-          border-radius: 12px;
+          background: rgba(9, 9, 11, 1);
+          border: 1px solid ds.$zinc-800;
+          border-radius: 8px;
           color: vars.$text-color-primary;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          height: 40px;
 
           &:hover {
-            background: rgba(24, 24, 27, 0.8);
+            border-color: ds.$zinc-700;
           }
 
           &.Mui-focused {
@@ -270,13 +287,20 @@
           .MuiInputBase-input {
             color: vars.$text-color-primary;
             text-align: center;
+            font-size: vars.$font-size-small;
+            font-weight: 500;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            padding: vars.$spacing-small vars.$spacing-medium;
           }
 
-          // Make clock icon white
+          // Style the clock icon
           .MuiInputAdornment-root {
             .MuiIconButton-root {
+              padding: vars.$spacing-xs;
+
               .MuiSvgIcon-root {
-                color: vars.$text-color-primary !important;
+                color: ds.$zinc-500 !important;
+                font-size: 18px;
               }
             }
           }
@@ -284,8 +308,43 @@
       }
 
       > span {
-        color: ds.$zinc-500;
+        color: ds.$zinc-600;
         font-weight: 400;
+        flex-shrink: 0;
+      }
+    }
+
+    // Responsive: stack on mobile
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: vars.$spacing-small;
+      padding: vars.$spacing-medium vars.$spacing-sm-md;
+
+      .day-switch-container {
+        min-width: 0;
+        justify-content: flex-start;
+      }
+
+      .hours {
+        width: 100%;
+        gap: 0;
+        flex-direction: column;
+        align-items: stretch;
+
+        .MuiTextField-root {
+          width: 100%;
+          min-width: 0;
+
+          .MuiInputBase-root {
+            width: 100%;
+          }
+        }
+
+        > span {
+          text-align: center;
+          padding: vars.$spacing-xs 0;
+        }
       }
     }
   }
@@ -303,6 +362,20 @@
   & button {
     background: vars.$white-opacity-10 !important;
     border-radius: vars.$border-radius-medium;
+  }
+
+  // Plain subcategories grid layout
+  &.subcategories-plain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-sm-md;
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   // Allow expandable lists (with fade) for both bubble and standard layouts
@@ -364,28 +437,33 @@
 @mixin branded-multiselect {
   .multiselect-option {
     .multiselect-checkbox {
-      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      padding: vars.$spacing-medium;
       width: 100%;
       border-radius: 12px;
       cursor: pointer;
-
-      transition: all 0.3s ease;
-      color: vars.$text-color-primary;
+      transition: all 0.2s ease;
+      color: ds.$zinc-400;
       background: ds.$zinc-900-50;
       border: 1px solid ds.$zinc-700;
-      font-size: vars.$font-size-sm-md;
+      font-size: vars.$font-size-small;
+      font-weight: 700;
+
       &:hover {
         background: rgba(24, 24, 27, 0.8) !important;
-        border-color: ds.$zinc-600;
+        border-color: ds.$zinc-500;
+        color: vars.$text-color-primary;
       }
+
       &.selected {
         background: ds.$primary-yellow !important;
         color: black !important;
         border-color: ds.$primary-yellow !important;
+        box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
       }
 
       .multiselect-label {
         color: inherit;
+        font-weight: 700;
       }
     }
   }
@@ -397,22 +475,28 @@
       .multiselect-checkbox {
         padding: vars.$spacing-sm-md vars.$spacing-medium;
         border-radius: 999px;
-        color: vars.$text-color-primary !important;
+        color: ds.$zinc-400 !important;
         background: ds.$zinc-900-50;
         border: 1px solid ds.$zinc-700;
+        font-weight: 700;
+        transition: all 0.2s ease;
 
         &:hover {
           background: rgba(24, 24, 27, 0.8) !important;
+          border-color: ds.$zinc-500;
+          color: vars.$text-color-primary !important;
         }
 
         &.selected {
           background: ds.$primary-yellow !important;
           color: black !important;
           border-color: ds.$primary-yellow !important;
+          box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
         }
 
         .multiselect-label {
           color: inherit;
+          font-weight: 700;
         }
       }
     }
