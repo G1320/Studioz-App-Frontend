@@ -90,10 +90,12 @@
     },
     "parking": {
       "label": "חניה",
+      "question": "מהי אפשרות החנייה?",
       "options": {
-        "none": "אין",
-        "free": "חינם",
-        "paid": "בתשלום"
+        "private_spot": "חניה פרטית",
+        "street_parking": "חניה ברחוב",
+        "paid_garage": "חניון בתשלום",
+        "no_parking": "אין חניה"
       }
     },
     "instantBook": {

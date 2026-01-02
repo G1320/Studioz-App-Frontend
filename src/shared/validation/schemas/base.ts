@@ -204,7 +204,7 @@ export const studioAvailabilitySchema = z
 /**
  * Parking option enum schema
  */
-export const parkingSchema = z.enum(['none', 'free', 'paid']);
+export const parkingSchema = z.enum(['private_spot', 'street_parking', 'paid_garage', 'no_parking']);
 
 /**
  * Price per unit enum schema

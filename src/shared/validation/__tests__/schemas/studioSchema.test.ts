@@ -17,7 +17,7 @@ describe('studioFullSchema', () => {
       galleryImages: ['https://example.com/image1.jpg'],
       maxOccupancy: 10,
       isSmokingAllowed: false,
-      parking: 'free'
+      parking: 'street_parking'
     };
 
     expect(() => studioFullSchema.parse(validData)).not.toThrow();

@@ -90,10 +90,12 @@
     },
     "parking": {
       "label": "Parking",
+      "question": "What's the parking situation like?",
       "options": {
-        "none": "None",
-        "free": "Free",
-        "paid": "Paid"
+        "private_spot": "Private Spot",
+        "street_parking": "Street Parking",
+        "paid_garage": "Paid Garage",
+        "no_parking": "No Parking"
       }
     },
     "instantBook": {
