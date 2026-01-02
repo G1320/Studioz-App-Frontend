@@ -104,10 +104,20 @@
       "helperText": "Help visitors find their way to your studio."
     },
     "sections": {
+      "basicInfo": "Basic Information",
+      "basicInfoDesc": "Give your studio a clear name and description so users know what to expect.",
       "locationContact": "Location & Contact",
       "locationContactDesc": "Where can clients find and reach you?",
       "specs": "Specs",
-      "specsDesc": "Size and capacity details"
+      "specsDesc": "Size and capacity details",
+      "studioPhotos": "Studio Photos",
+      "studioPhotosDesc": "Add high quality photos",
+      "weeklySchedule": "Weekly Schedule",
+      "weeklyScheduleDesc": "Set your standard operating hours",
+      "categories": "Categories & Genres",
+      "categoriesDesc": "Select all relevant categories for your studio.",
+      "genres": "Genres",
+      "genresDesc": "Select the music styles you specialize in."
     },
     "instantBook": {
       "label": "Instant Book"

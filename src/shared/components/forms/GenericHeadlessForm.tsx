@@ -17,6 +17,7 @@ import LocalParkingOutlinedIcon from '@mui/icons-material/LocalParkingOutlined';
 import BlockIcon from '@mui/icons-material/Block';
 import MapPinIcon from '@mui/icons-material/LocationOn';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 
 export type FieldType =
   | 'text'
@@ -334,7 +335,13 @@ export const GenericForm = ({
           case 'businessHours':
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
-                {field.label && <label className="form-label">{field.label}</label>}
+                <div className="section-header">
+                  <div className="section-header__title-row">
+                    <ScheduleIcon className="section-header__icon" />
+                    <h3 className="section-header__title">{t('form.sections.weeklySchedule') || 'Weekly Schedule'}</h3>
+                  </div>
+                  <p className="section-header__subtitle">{t('form.sections.weeklyScheduleDesc') || 'Set your standard operating hours'}</p>
+                </div>
                 <BusinessHours
                   value={field.value || { days: [], times: [defaultHours] }}
                   onChange={(newValue) => {

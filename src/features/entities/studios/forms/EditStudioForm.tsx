@@ -9,6 +9,10 @@ import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import CategoryIcon from '@mui/icons-material/Category';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
   useDays,
   useMusicCategories,
@@ -212,6 +216,7 @@ export const EditStudioForm = () => {
         title: t('form.steps.basicInfo') || 'Basic Information',
         description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
         fieldNames: [
+          'basicInfoHeader',
           'name.en',
           'name.he',
           'subtitle.en',
@@ -227,7 +232,7 @@ export const EditStudioForm = () => {
         id: 'categories',
         title: t('form.steps.categories') || 'Categories & Genres',
         description: t('form.steps.categoriesDesc') || 'Select categories and genres',
-        fieldNames: ['categories', 'subCategories', 'genres'],
+        fieldNames: ['categoriesHeader', 'categories', 'subCategories', 'genresHeader', 'genres'],
         schema: studioStepSchemasEdit.categories
       },
       {
@@ -275,16 +280,27 @@ export const EditStudioForm = () => {
         fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
         schema: studioStepSchemasEdit.files,
         customContent: (
-          <FileUploader
-            fileType="image"
-            onFileUpload={async (files, type) => {
-              await handleFileUpload(files, type);
-            }}
-            galleryFiles={galleryImages}
-            isCoverShown={true}
-            onRemoveImage={handleRemoveImage}
-            onReorderImages={setGalleryImages}
-          />
+          <>
+            <div className="section-header">
+              <div className="section-header__title-row">
+                <PhotoLibraryIcon className="section-header__icon" />
+                <h3 className="section-header__title">{t('form.sections.studioPhotos') || 'Studio Photos'}</h3>
+              </div>
+              <p className="section-header__subtitle">
+                {t('form.sections.studioPhotosDesc') || 'Add high quality photos'}
+              </p>
+            </div>
+            <FileUploader
+              fileType="image"
+              onFileUpload={async (files, type) => {
+                await handleFileUpload(files, type);
+              }}
+              galleryFiles={galleryImages}
+              isCoverShown={true}
+              onRemoveImage={handleRemoveImage}
+              onReorderImages={setGalleryImages}
+            />
+          </>
         )
       }
     ],
@@ -304,6 +320,15 @@ export const EditStudioForm = () => {
   }, [searchParams]); // Only sync when URL changes, not when currentStepIndex changes
 
   const fields = [
+    {
+      name: 'basicInfoHeader',
+      label: t('form.sections.basicInfo') || 'Basic Information',
+      subtitle:
+        t('form.sections.basicInfoDesc') ||
+        'Give your studio a clear name and description so users know what to expect.',
+      type: 'sectionHeader' as FieldType,
+      icon: InfoOutlinedIcon
+    },
     {
       name: 'name.en',
       label: `${t('form.name.en')} 🇺🇸`,
@@ -364,6 +389,13 @@ export const EditStudioForm = () => {
       onChange: setSelectedLanguage
     },
     {
+      name: 'categoriesHeader',
+      label: t('form.sections.categories') || 'Categories',
+      subtitle: t('form.sections.categoriesDesc') || 'Select all relevant categories for your studio.',
+      type: 'sectionHeader' as FieldType,
+      icon: CategoryIcon
+    },
+    {
       name: 'categories',
       label: t('form.categories.label'),
       type: 'select' as FieldType,
@@ -373,7 +405,7 @@ export const EditStudioForm = () => {
     },
     {
       name: 'subCategories',
-      label: t('form.subCategories.label') || 'Sub Categories',
+      label: '',
       type: 'multiSelect' as FieldType,
       options: displaySubCategories,
       value: selectedDisplaySubCategories,
@@ -381,13 +413,18 @@ export const EditStudioForm = () => {
       initialVisibleCount: 12,
       showAllLabel: t('form.subCategories.showAll', 'Show All'),
       showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain',
-      helperText: t('form.subCategories.helperText')
+      className: 'subcategories-plain'
+    },
+    {
+      name: 'genresHeader',
+      label: t('form.sections.genres') || 'Genres',
+      subtitle: t('form.sections.genresDesc') || 'Select the music styles you specialize in.',
+      type: 'sectionHeader' as FieldType,
+      icon: LibraryMusicIcon
     },
     {
       name: 'genres',
-      label: t('form.genres.label') || 'Genres',
-      helperText: t('form.genres.helperText'),
+      label: '',
       type: 'multiSelect' as FieldType,
       options: genres,
       value: selectedGenres,
