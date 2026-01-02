@@ -12,7 +12,7 @@ import WeekendIcon from '@mui/icons-material/Weekend';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ChairIcon from '@mui/icons-material/Chair';
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import TvIcon from '@mui/icons-material/Tv';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -30,7 +30,7 @@ const amenityIcons: Record<string, React.ElementType> = {
   natural_light: WbSunnyIcon,
   acoustic_treatment: GraphicEqIcon,
   '24_7_access': AccessTimeIcon,
-  waiting_area: ChairIcon,
+  private_parking: LocalParkingIcon,
   tv_monitor: TvIcon,
   changing_room: CheckroomIcon
 };

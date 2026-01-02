@@ -35,7 +35,6 @@ interface StudioFormData {
   amenities?: string[];
   equipment?: string[];
   studioAvailability?: StudioAvailability;
-  parking?: 'none' | 'free' | 'paid';
   lat?: number | string;
   lng?: number | string;
   city?: string;
@@ -80,7 +79,6 @@ export const EditStudioForm = () => {
     useState<string[]>(initialDisplaySubCategories);
   const [selectedGenres, setSelectedGenres] = useState<string[]>(initialDisplayGenres);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
-  const [selectedParking, setSelectedParking] = useState<'none' | 'free' | 'paid'>(studio?.parking || 'none');
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 
@@ -126,7 +124,6 @@ export const EditStudioForm = () => {
     selectedDisplaySubCategories,
     selectedGenres,
     selectedDisplayDays,
-    selectedParking,
     studioHours,
     galleryImages,
     coverImage,
@@ -155,7 +152,6 @@ export const EditStudioForm = () => {
       );
       setSelectedGenres(restored.selectedGenres || initialDisplayGenres);
       setSelectedDisplayDays(restored.selectedDisplayDays || initialDisplayDays);
-      setSelectedParking(restored.selectedParking || studio?.parking || 'none');
       setStudioHours(restored.studioHours || {});
       setGalleryImages(restored.galleryImages || studio?.galleryImages || []);
       setCoverImage(restored.coverImage || studio?.coverImage || '');
@@ -200,10 +196,6 @@ export const EditStudioForm = () => {
 
   const handleGenreChange = (values: string[]) => {
     setSelectedGenres(values);
-  };
-
-  const getParkingLabel = (value: string) => {
-    return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
 
   // Define form steps with Zod schemas (same structure as CreateStudioForm)
@@ -284,7 +276,7 @@ export const EditStudioForm = () => {
         id: 'details',
         title: t('form.steps.details') || 'Details',
         description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
-        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
+        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible'],
         schema: studioStepSchemasEdit.details
       }
     ],
@@ -477,16 +469,6 @@ export const EditStudioForm = () => {
       value: studio?.isWheelchairAccessible
     },
     {
-      name: 'parking',
-      label: t('form.parking.label') || 'Parking',
-      type: 'select' as FieldType,
-      value: selectedParking,
-      onChange: setSelectedParking,
-      options: ['none', 'free', 'paid'],
-      displayValue: getParkingLabel(selectedParking),
-      getOptionLabel: getParkingLabel
-    },
-    {
       name: 'amenities',
       label: t('form.amenities.label') || 'Amenities',
       type: 'text' as FieldType,
@@ -532,7 +514,6 @@ export const EditStudioForm = () => {
           .map((line) => line.trim())
           .filter((line) => line.length > 0)
       : studio?.equipment || [];
-    formData.parking = selectedParking;
 
     // Fix type conversions
     // Convert lat/lng from strings to numbers (from GenericForm)

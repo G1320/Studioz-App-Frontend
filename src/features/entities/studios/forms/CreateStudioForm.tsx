@@ -49,7 +49,6 @@ interface StudioFormData {
   amenities?: string[];
   equipment?: string[];
   studioAvailability?: StudioAvailability;
-  parking?: 'none' | 'free' | 'paid';
   website?: string;
   languageToggle?: string;
   [key: string]: any; // Allow additional properties from form
@@ -99,7 +98,6 @@ export const CreateStudioForm = () => {
     selectedDisplaySubCategories?: string[];
     selectedGenres?: string[];
     selectedDisplayDays?: string[];
-    selectedParking?: 'none' | 'free' | 'paid';
     studioHours?: Record<string, { start: string; end: string }>;
     galleryImages?: string[];
     galleryAudioFiles?: string[];
@@ -120,9 +118,6 @@ export const CreateStudioForm = () => {
   const [selectedGenres, setSelectedGenres] = useState<string[]>(savedState?.selectedGenres || []);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(
     savedState?.selectedDisplayDays || (firstDay ? [firstDay.value] : [])
-  );
-  const [selectedParking, setSelectedParking] = useState<'none' | 'free' | 'paid'>(
-    savedState?.selectedParking || 'none'
   );
 
   const [galleryImages, setGalleryImages] = useState<string[]>(savedState?.galleryImages || []);
@@ -256,7 +251,6 @@ export const CreateStudioForm = () => {
       selectedDisplaySubCategories,
       selectedGenres,
       selectedDisplayDays,
-      selectedParking,
       studioHours,
       galleryImages,
       galleryAudioFiles,
@@ -270,7 +264,6 @@ export const CreateStudioForm = () => {
       selectedDisplaySubCategories,
       selectedGenres,
       selectedDisplayDays,
-      selectedParking,
       studioHours,
       galleryImages,
       galleryAudioFiles,
@@ -301,10 +294,6 @@ export const CreateStudioForm = () => {
 
   const handleGenreChange = (values: string[]) => {
     setSelectedGenres(values);
-  };
-
-  const getParkingLabel = (value: string) => {
-    return t(`form.parking.options.${value}`) || value.charAt(0).toUpperCase() + value.slice(1);
   };
 
   // Define form steps with Zod schemas and icons
@@ -401,7 +390,7 @@ export const CreateStudioForm = () => {
         id: 'details',
         title: t('form.steps.details') || 'Details',
         description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
-        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
+        fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible'],
         schema: studioStepSchemas.details,
         icon: TuneIcon
       }
@@ -567,16 +556,6 @@ export const CreateStudioForm = () => {
       type: 'checkbox' as FieldType
     },
     {
-      name: 'parking',
-      label: t('form.parking.label') || 'Parking',
-      type: 'select' as FieldType,
-      value: selectedParking,
-      onChange: setSelectedParking,
-      options: ['none', 'free', 'paid'],
-      displayValue: getParkingLabel(selectedParking),
-      getOptionLabel: getParkingLabel
-    },
-    {
       name: 'coverImage',
       label: 'Cover Image',
       type: 'text' as FieldType,
@@ -643,7 +622,6 @@ export const CreateStudioForm = () => {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
-    formData.parking = selectedParking;
     formData.amenities = selectedAmenities;
     // Convert equipment string to array (split by newlines, filter empty lines)
     formData.equipment = equipmentList
