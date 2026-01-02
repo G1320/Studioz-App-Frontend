@@ -333,6 +333,16 @@
       "details": "הגדרות נוספות",
       "detailsDesc": "הגדר פרטים נלווים"
     },
+    "proTip": "טיפ מקצועי",
+    "editingLanguage": "שפת עריכה",
+    "stepCounter": "שלב {{current}} מתוך {{total}}",
+    "autoSaved": "נשמר אוטומטית",
+    "switchToEnglish": "עבור לאנגלית לצפייה בשגיאות",
+    "switchToHebrew": "עבור לעברית לצפייה בשגיאות",
+    "switchLanguageHint": "עבור ל{{language}} לצפייה ותיקון שגיאות",
+    "proTips": {
+      "basicInfo": "סטודיואים עם תיאורים מפורטים באנגלית ובעברית מקבלים <strong>פי 2 יותר הזמנות</strong>. אל תשכחו להחליף שפה ולמלא את שניהם!"
+    },
     "buttons": {
       "next": "הבא",
       "previous": "הקודם",

@@ -9,13 +9,12 @@
 
 .stepped-form {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: vars.$spacing-xl;
+  padding: vars.$spacing-xl vars.$spacing-medium;
 
   &__indicators {
-    margin-top: vars.$spacing-2xl;
     margin-bottom: vars.$spacing-xl;
   }
 
@@ -179,7 +178,7 @@
     background: rgba(ds.$zinc-900, 0.5);
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: vars.$spacing-xl vars.$spacing-xl vars.$spacing-large;
+    padding: vars.$spacing-2xl;
     min-height: 400px;
     position: relative;
     overflow: hidden;
@@ -204,16 +203,82 @@
   &__step-header {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
-    margin-bottom: vars.$spacing-xl;
-    padding-bottom: vars.$spacing-large;
+    gap: vars.$spacing-medium;
+    margin-bottom: vars.$spacing-2xl;
+    padding-bottom: vars.$spacing-xl;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
     z-index: 1;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  &__step-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__step-header-right {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+    position: relative;
+
+    .form-language-toggle__hint {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: vars.$spacing-xs;
+      font-size: vars.$font-size-xs;
+      color: #fca5a5;
+      padding: vars.$spacing-xs vars.$spacing-small;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 6px;
+      white-space: nowrap;
+      animation: fadeInHint 0.3s ease;
+      z-index: 10;
+
+      [dir='rtl'] & {
+        right: auto;
+        left: 0;
+      }
+    }
+  }
+
+  @keyframes fadeInHint {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // Hide the language toggle field when using step header toggle
+  &__form {
+    .form-group:has(.form-language-toggle) {
+      display: none;
+    }
+  }
+
+  &__language-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: ds.$zinc-500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   &__step-header-title {
-    font-size: vars.$font-size-2xl;
+    font-size: 1.875rem; // ~30px
     font-weight: 700;
     color: white;
     display: flex;
@@ -236,6 +301,7 @@
     font-size: vars.$font-size-medium;
     color: ds.$zinc-400;
     margin: 0;
+    margin-top: vars.$spacing-xs;
   }
 
   &__error-message {
@@ -484,15 +550,31 @@
     margin-top: vars.$spacing-xs;
   }
 
-  // Navigation buttons
+  // Navigation buttons - fixed bottom bar
   &__navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: vars.$spacing-xl;
-    padding-top: vars.$spacing-large;
+    padding: vars.$spacing-medium vars.$spacing-xl;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    gap: vars.$spacing-medium;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(12px);
+    z-index: 40;
+  }
+
+  &__navigation-right {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-large;
+  }
+
+  // Add margin to bottom of form to account for fixed nav
+  &__content {
+    margin-bottom: 100px;
   }
 
   &__button {
@@ -502,7 +584,6 @@
     border-radius: 999px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -525,7 +606,7 @@
       background: transparent;
       color: ds.$zinc-400;
       border: none;
-      margin-right: auto;
+      padding-inline-start: 0;
 
       &:hover:not(:disabled) {
         color: white;
@@ -542,7 +623,7 @@
       background: ds.$primary-yellow;
       color: black;
       border: none;
-      margin-left: auto;
+      padding: vars.$spacing-medium vars.$spacing-2xl;
       box-shadow: 0 0 20px rgba(ds.$primary-yellow, 0.3);
 
       &:hover:not(:disabled) {
@@ -565,29 +646,39 @@
 
   // Responsive
   @media screen and (max-width: 850px) {
-    padding: vars.$spacing-large;
+    padding: vars.$spacing-medium;
+
+    &__indicators {
+      margin-bottom: vars.$spacing-medium;
+    }
 
     &__steps {
       display: none;
-    }
-
-    &__progress-bar {
-      margin-bottom: vars.$spacing-medium;
     }
 
     &__content {
       padding: vars.$spacing-large;
       min-height: auto;
       border-radius: 16px;
+      margin-bottom: 80px;
+    }
+
+    &__auto-save {
+      display: none;
     }
 
     &__navigation {
-      flex-direction: column-reverse;
-      gap: vars.$spacing-medium;
+      padding: vars.$spacing-medium;
+    }
 
-      .stepped-form__button {
-        width: 100%;
-        margin: 0;
+    &__navigation-right {
+      gap: vars.$spacing-small;
+    }
+
+    &__button {
+      &--next,
+      &--submit {
+        padding: vars.$spacing-medium vars.$spacing-large;
       }
     }
   }
@@ -596,6 +687,12 @@
     &__step-header-title {
       font-size: vars.$font-size-xl;
       flex-wrap: wrap;
+    }
+
+    &__step-header {
+      gap: vars.$spacing-small;
+      margin-bottom: vars.$spacing-large;
+      padding-bottom: vars.$spacing-medium;
     }
 
     &__content {
@@ -649,4 +746,3 @@
     box-shadow: 0 0 16px vars.$warning-opacity-70;
   }
 }
-

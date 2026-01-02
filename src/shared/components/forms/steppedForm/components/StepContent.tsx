@@ -15,6 +15,8 @@ interface StepContentProps {
   onSubmit: (formData: Record<string, any>, event?: React.FormEvent<HTMLFormElement>) => void;
   onCategoryChange?: (values: string[]) => void;
   children?: ReactNode;
+  /** Optional Pro Tip content to display at the bottom of the step */
+  proTip?: ReactNode;
 }
 
 export const StepContent = ({
@@ -30,7 +32,8 @@ export const StepContent = ({
   stepValidationErrors,
   onSubmit,
   onCategoryChange,
-  children
+  children,
+  proTip
 }: StepContentProps) => {
   const hasValidated = validatedSteps.has(stepId);
 
@@ -108,33 +111,36 @@ export const StepContent = ({
   }
 
   return (
-    <GenericForm
-      key={`${formId}-step-${currentStepIndex}-${selectedLanguage}`}
-      formId={`${formId}-step-${currentStepIndex}`}
-      fields={fields.map((field) => {
-        const error = hasValidated
-          ? getFieldError(field.name, validationErrors) || getFieldError(field.name, stepValidationErrors)
-          : undefined;
-        return {
-          ...field,
-          error,
-          className: hasValidated && error ? 'has-error' : ''
-        };
-      })}
-      onSubmit={
-        isLastStep
-          ? onSubmit
-          : (_formData, event) => {
-              if (event) {
-                event.preventDefault();
+    <>
+      <GenericForm
+        key={`${formId}-step-${currentStepIndex}-${selectedLanguage}`}
+        formId={`${formId}-step-${currentStepIndex}`}
+        fields={fields.map((field) => {
+          const error = hasValidated
+            ? getFieldError(field.name, validationErrors) || getFieldError(field.name, stepValidationErrors)
+            : undefined;
+          return {
+            ...field,
+            error,
+            className: hasValidated && error ? 'has-error' : ''
+          };
+        })}
+        onSubmit={
+          isLastStep
+            ? onSubmit
+            : (_formData, event) => {
+                if (event) {
+                  event.preventDefault();
+                }
               }
-            }
-      }
-      onCategoryChange={onCategoryChange}
-      hideSubmit={true}
-      className="stepped-form__form"
-    >
-      {children}
-    </GenericForm>
+        }
+        onCategoryChange={onCategoryChange}
+        hideSubmit={true}
+        className="stepped-form__form"
+      >
+        {children}
+      </GenericForm>
+      {proTip}
+    </>
   );
 };

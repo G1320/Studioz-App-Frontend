@@ -13,6 +13,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import TuneIcon from '@mui/icons-material/Tune';
+import { ProTip } from '@shared/components/pro-tip';
 import {
   useCreateStudioMutation,
   useMusicCategories,
@@ -316,7 +317,15 @@ export const CreateStudioForm = () => {
         ],
         schema: studioStepSchemas['basic-info'],
         languageToggle: true,
-        icon: TextFieldsIcon
+        icon: TextFieldsIcon,
+        proTip: (
+          <ProTip dangerouslySetInnerHTML>
+            {t('form.proTips.basicInfo', {
+              defaultValue:
+                'Studios with detailed descriptions in both English and Hebrew get <strong>2x more bookings</strong>. Don\'t forget to switch languages and fill out both!'
+            })}
+          </ProTip>
+        )
       },
       {
         id: 'categories',

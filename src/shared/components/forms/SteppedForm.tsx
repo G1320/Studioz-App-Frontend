@@ -67,6 +67,8 @@ export interface FormStep {
   languageToggle?: boolean; // Enable language toggle for dual-language fields
   /** Icon component to display in the step indicator */
   icon?: React.ElementType;
+  /** Optional Pro Tip content to display at the bottom of the step */
+  proTip?: ReactNode;
 }
 
 type ExtendedFieldType = FieldType | 'multiSelect';
@@ -211,7 +213,7 @@ export const SteppedForm = ({
   const currentStep = steps[currentStepIndex];
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === steps.length - 1;
-  const progress = ((currentStepIndex + 1) / steps.length) * 100;
+  // const progress = ((currentStepIndex + 1) / steps.length) * 100;
 
   // Filter fields for current step
   const currentStepFields = useMemo(
@@ -423,7 +425,7 @@ export const SteppedForm = ({
   // Prepare fields with saved values
   const fieldsWithValues = useMemo(() => {
     const prepared = prepareFieldsWithValues(currentStepFields, formData, handleFieldChange);
-    
+
     // Add error indicator to languageToggle field if there are errors in the other language
     if (currentStep.languageToggle && hasOtherLanguageErrors) {
       return prepared.map((field) => {
@@ -436,9 +438,15 @@ export const SteppedForm = ({
         return field;
       });
     }
-    
+
     return prepared;
   }, [currentStepFields, formData, handleFieldChange, currentStep.languageToggle, hasOtherLanguageErrors]);
+
+  // Get the languageToggle field's onChange handler to reuse in the step header toggle
+  const languageToggleField = useMemo(
+    () => fieldsWithValues.find((field) => field.type === 'languageToggle'),
+    [fieldsWithValues]
+  );
 
   // Check if current language is RTL (Hebrew)
   const isRTL = i18n.language === 'he';
@@ -473,59 +481,8 @@ export const SteppedForm = ({
 
   return (
     <div className={`stepped-form ${className}`}>
-      {/* Current Step Content */}
-      <div className="stepped-form__content">
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
-          <motion.div
-            key={currentStepIndex}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={slideTransition}
-            style={{ width: '100%' }}
-          >
-            <StepContent
-              stepId={currentStep.id}
-              formId={formId}
-              currentStepIndex={currentStepIndex}
-              selectedLanguage={selectedLanguage}
-              customContent={currentStep.customContent}
-              fields={fieldsWithValues}
-              isLastStep={isLastStep}
-              validatedSteps={validatedSteps}
-              validationErrors={validationErrors}
-              stepValidationErrors={stepValidation.errors}
-              onSubmit={handleSubmit}
-              onCategoryChange={onCategoryChange}
-            >
-              {children}
-            </StepContent>
-          </motion.div>
-        </AnimatePresence>
-
-        <StepNavigation
-          isFirstStep={isFirstStep}
-          isLastStep={isLastStep}
-          allowBackNavigation={allowBackNavigation}
-          hasCustomContent={!!currentStep.customContent}
-          formId={formId}
-          currentStepIndex={currentStepIndex}
-          prevBtnText={prevBtnText}
-          nextBtnText={nextBtnText}
-          submitBtnText={submitBtnText}
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          onSubmit={() => handleSubmit({})}
-        />
-      </div>
-
-      {/* Step Indicators - At bottom */}
+      {/* Step Indicators - At top */}
       <div className="stepped-form__indicators">
-        <div className="stepped-form__progress-bar">
-          <div className="stepped-form__progress-fill" style={{ width: `${progress}%` }} />
-        </div>
         <div className="stepped-form__steps">
           {steps.map((step, index) => {
             const isActive = index === currentStepIndex;
@@ -551,13 +508,123 @@ export const SteppedForm = ({
                 </div>
                 <div className="stepped-form__step-info">
                   <div className="stepped-form__step-title">{step.title}</div>
-                  {step.description && <div className="stepped-form__step-description">{step.description}</div>}
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Main Content Container */}
+      <div className="stepped-form__content">
+        {/* Step Header */}
+        <div className="stepped-form__step-header">
+          <div className="stepped-form__step-header-left">
+            <h1 className="stepped-form__step-header-title">
+              {currentStep.title}
+              <span className="stepped-form__step-counter">
+                {t('form.stepCounter', {
+                  current: currentStepIndex + 1,
+                  total: steps.length,
+                  defaultValue: `Step ${currentStepIndex + 1} of ${steps.length}`
+                })}
+              </span>
+            </h1>
+            {currentStep.description && (
+              <p className="stepped-form__step-header-description">{currentStep.description}</p>
+            )}
+          </div>
+
+          {/* Language Toggle for steps that support it - reuses the field's onChange handler */}
+          {currentStep.languageToggle && languageToggleField && (
+            <div className="stepped-form__step-header-right">
+              <label className="stepped-form__language-label">{t('form.editingLanguage', 'Editing Language')}</label>
+              <div className="form-language-toggle">
+                <button
+                  type="button"
+                  className={`form-language-toggle__btn ${languageToggleField.value === 'en' ? 'active' : ''} ${hasOtherLanguageErrors && languageToggleField.value === 'he' ? 'has-errors' : ''}`}
+                  onClick={() => languageToggleField.onChange?.('en')}
+                  title={
+                    hasOtherLanguageErrors && languageToggleField.value === 'he'
+                      ? t('form.switchToEnglish', 'Switch to English to see errors')
+                      : ''
+                  }
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  className={`form-language-toggle__btn ${languageToggleField.value === 'he' ? 'active' : ''} ${hasOtherLanguageErrors && languageToggleField.value === 'en' ? 'has-errors' : ''}`}
+                  onClick={() => languageToggleField.onChange?.('he')}
+                  title={
+                    hasOtherLanguageErrors && languageToggleField.value === 'en'
+                      ? t('form.switchToHebrew', 'Switch to Hebrew to see errors')
+                      : ''
+                  }
+                >
+                  עברית
+                </button>
+              </div>
+              {hasOtherLanguageErrors && (
+                <div className="form-language-toggle__hint">
+                  {t('form.switchLanguageHint', {
+                    language: languageToggleField.value === 'en' ? 'Hebrew' : 'English',
+                    defaultValue: `Switch to ${languageToggleField.value === 'en' ? 'Hebrew' : 'English'} to view and fix errors`
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Form Content */}
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
+          <motion.div
+            key={currentStepIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+            style={{ width: '100%' }}
+          >
+            <StepContent
+              stepId={currentStep.id}
+              formId={formId}
+              currentStepIndex={currentStepIndex}
+              selectedLanguage={selectedLanguage}
+              customContent={currentStep.customContent}
+              fields={fieldsWithValues}
+              isLastStep={isLastStep}
+              validatedSteps={validatedSteps}
+              validationErrors={validationErrors}
+              stepValidationErrors={stepValidation.errors}
+              onSubmit={handleSubmit}
+              onCategoryChange={onCategoryChange}
+              proTip={currentStep.proTip}
+            >
+              {children}
+            </StepContent>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Fixed Bottom Navigation */}
+      <StepNavigation
+        isFirstStep={isFirstStep}
+        isLastStep={isLastStep}
+        allowBackNavigation={allowBackNavigation}
+        hasCustomContent={!!currentStep.customContent}
+        formId={formId}
+        currentStepIndex={currentStepIndex}
+        prevBtnText={prevBtnText}
+        nextBtnText={nextBtnText}
+        submitBtnText={submitBtnText}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        onSubmit={() => handleSubmit({})}
+      />
     </div>
   );
 };

@@ -333,6 +333,16 @@
       "details": "Details",
       "detailsDesc": "Set attributes and amenities"
     },
+    "proTip": "Pro Tip",
+    "editingLanguage": "Editing Language",
+    "stepCounter": "Step {{current}} of {{total}}",
+    "autoSaved": "Auto-saved",
+    "switchToEnglish": "Switch to English to see errors",
+    "switchToHebrew": "Switch to Hebrew to see errors",
+    "switchLanguageHint": "Switch to {{language}} to view and fix errors",
+    "proTips": {
+      "basicInfo": "Studios with detailed descriptions in both English and Hebrew get <strong>2x more bookings</strong>. Don't forget to switch languages and fill out both!"
+    },
     "buttons": {
       "next": "Next",
       "previous": "Previous",
