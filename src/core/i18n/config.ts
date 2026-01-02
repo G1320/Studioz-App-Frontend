@@ -6,6 +6,7 @@ import discoverPage from './locales/en/discoverPage.json';
 import common from './locales/en/common.json';
 import categories from './locales/en/categories.json';
 import genres from './locales/en/genres.json';
+import amenities from './locales/en/amenities.json';
 import forms from './locales/en/forms.json';
 import profile from './locales/en/profile.json';
 import subscriptions from './locales/en/subscriptions.json';
@@ -26,6 +27,7 @@ import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
 import categoriesHe from './locales/he/categories.json';
 import genresHe from './locales/he/genres.json';
+import amenitiesHe from './locales/he/amenities.json';
 import formsHe from './locales/he/forms.json';
 import profileHe from './locales/he/profile.json';
 import subscriptionsHe from './locales/he/subscriptions.json';
@@ -52,6 +54,7 @@ i18n
         common,
         categories,
         genres,
+        amenities,
         forms,
         profile,
         subscriptions,
@@ -73,6 +76,7 @@ i18n
         common: commonHe,
         categories: categoriesHe,
         genres: genresHe,
+        amenities: amenitiesHe,
         forms: formsHe,
         profile: profileHe,
         subscriptions: subscriptionsHe,

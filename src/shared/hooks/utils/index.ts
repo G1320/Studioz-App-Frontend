@@ -9,6 +9,7 @@ export * from './useDropdown';
 export * from './useSwipeGesture';
 export * from './categories';
 export * from './genres';
+export * from './amenities';
 export * from './cities';
 export * from './dates/useDays';
 export * from './geolocation';

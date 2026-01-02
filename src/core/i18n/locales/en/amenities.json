@@ -1,0 +1,15 @@
+{
+  "air_conditioning": "Air Conditioning",
+  "wifi": "WiFi",
+  "kitchen": "Kitchen",
+  "live_room": "Live Room",
+  "vocal_booth": "Vocal Booth",
+  "green_screen": "Green Screen",
+  "lounge_area": "Lounge Area",
+  "natural_light": "Natural Light",
+  "acoustic_treatment": "Acoustic Treatment",
+  "24_7_access": "24/7 Access",
+  "waiting_area": "Waiting Area",
+  "tv_monitor": "TV/Monitor",
+  "projector": "Projector"
+}
