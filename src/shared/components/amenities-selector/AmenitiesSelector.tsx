@@ -14,7 +14,6 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ChairIcon from '@mui/icons-material/Chair';
 import TvIcon from '@mui/icons-material/Tv';
-import PresentToAllIcon from '@mui/icons-material/PresentToAll';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import './styles/_amenities-selector.scss';
@@ -33,7 +32,6 @@ const amenityIcons: Record<string, React.ElementType> = {
   '24_7_access': AccessTimeIcon,
   waiting_area: ChairIcon,
   tv_monitor: TvIcon,
-  projector: PresentToAllIcon,
   changing_room: CheckroomIcon
 };
 
@@ -60,7 +58,7 @@ export const AmenitiesSelector = ({
   const toggleAmenity = (amenityDisplay: string) => {
     const englishValue = getEnglishByDisplay(amenityDisplay);
     const isSelected = selectedAmenities.includes(englishValue);
-    
+
     if (isSelected) {
       onAmenitiesChange(selectedAmenities.filter((a) => a !== englishValue));
     } else {
@@ -94,7 +92,7 @@ export const AmenitiesSelector = ({
           {amenities.map((amenity) => {
             const isSelected = isAmenitySelected(amenity.value);
             const IconComponent = amenityIcons[getAmenityKey(amenity)] || WeekendIcon;
-            
+
             return (
               <button
                 key={amenity.key}
@@ -120,7 +118,8 @@ export const AmenitiesSelector = ({
           <textarea
             className="amenities-selector__textarea"
             placeholder={t('form.equipment.placeholder', {
-              defaultValue: 'List your gear here (one item per line)...\ne.g.\nNeumann U87\nApollo Twin X\nFocal Alpha 65'
+              defaultValue:
+                'List your gear here (one item per line)...\ne.g.\nNeumann U87\nApollo Twin X\nFocal Alpha 65'
             })}
             value={equipment}
             onChange={(e) => onEquipmentChange?.(e.target.value)}

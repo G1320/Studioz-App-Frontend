@@ -233,6 +233,21 @@ export const EditStudioForm = () => {
         schema: studioStepSchemasEdit.categories
       },
       {
+        id: 'amenities-gear',
+        title: t('form.steps.amenitiesGear') || 'Amenities & Gear',
+        description: t('form.steps.amenitiesGearDesc') || 'Select amenities and list equipment',
+        fieldNames: ['amenities', 'equipment'],
+        icon: WeekendIcon,
+        customContent: (
+          <AmenitiesSelector
+            selectedAmenities={selectedAmenities}
+            onAmenitiesChange={setSelectedAmenities}
+            equipment={equipmentList}
+            onEquipmentChange={setEquipmentList}
+          />
+        )
+      },
+      {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
@@ -271,21 +286,6 @@ export const EditStudioForm = () => {
         description: t('form.steps.detailsDesc') || 'Set capacity and accessibility',
         fieldNames: ['maxOccupancy', 'isSmokingAllowed', 'isWheelchairAccessible', 'parking'],
         schema: studioStepSchemasEdit.details
-      },
-      {
-        id: 'amenities-gear',
-        title: t('form.steps.amenitiesGear') || 'Amenities & Gear',
-        description: t('form.steps.amenitiesGearDesc') || 'Select amenities and list equipment',
-        fieldNames: ['amenities', 'equipment'],
-        icon: WeekendIcon,
-        customContent: (
-          <AmenitiesSelector
-            selectedAmenities={selectedAmenities}
-            onAmenitiesChange={setSelectedAmenities}
-            equipment={equipmentList}
-            onEquipmentChange={setEquipmentList}
-          />
-        )
       }
     ],
     [t, galleryImages, handleFileUpload, handleRemoveImage, selectedAmenities, equipmentList]

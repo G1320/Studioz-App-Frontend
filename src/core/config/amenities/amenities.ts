@@ -12,8 +12,7 @@ export const amenities = [
   'Acoustic Treatment',
   '24/7 Access',
   'Waiting Area',
-  'TV/Monitor',
-  'Projector'
+  'TV/Monitor'
 ];
 
 // List of studio equipment
