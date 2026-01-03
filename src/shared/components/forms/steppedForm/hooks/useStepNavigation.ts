@@ -2,6 +2,18 @@ import { useCallback, useRef } from 'react';
 import { updateUrlStep } from '../utils/urlUtils';
 import { collectFormData, mergeFormData } from '../utils/formDataUtils';
 
+// Scroll to form with offset to show more content in the viewport
+const scrollToFormWithOffset = (offset: number = 100) => {
+  const formElement = document.querySelector('.stepped-form') as HTMLElement;
+  if (formElement) {
+    const elementPosition = formElement.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({
+      top: elementPosition - offset,
+      behavior: 'smooth'
+    });
+  }
+};
+
 interface UseStepNavigationOptions {
   currentStepIndex: number;
   steps: Array<{ id: string }>;
@@ -55,13 +67,8 @@ export const useStepNavigation = ({
       updateUrlStep(nextIndex, steps, location, navigate, false);
       onStepChange?.(nextIndex, currentStepIndex);
       
-      // Smooth scroll form into view after step change
-      setTimeout(() => {
-        const formElement = document.querySelector(`.stepped-form`) as HTMLElement;
-        if (formElement) {
-          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
+      // Smooth scroll form into view after step change (with offset for better visibility)
+      setTimeout(() => scrollToFormWithOffset(100), 100);
     }
   }, [
     currentStepIndex,
@@ -90,13 +97,8 @@ export const useStepNavigation = ({
       updateUrlStep(nextIndex, steps, location, navigate, false);
       onStepChange?.(nextIndex, currentStepIndex);
       
-      // Smooth scroll form into view after step change
-      setTimeout(() => {
-        const formElement = document.querySelector(`.stepped-form`) as HTMLElement;
-        if (formElement) {
-          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
+      // Smooth scroll form into view after step change (with offset for better visibility)
+      setTimeout(() => scrollToFormWithOffset(100), 100);
     }
   }, [
     currentStepIndex,
@@ -123,13 +125,8 @@ export const useStepNavigation = ({
         updateUrlStep(index, steps, location, navigate, false);
         onStepChange?.(index, currentStepIndex);
         
-        // Smooth scroll form into view after step change
-        setTimeout(() => {
-          const formElement = document.querySelector(`.stepped-form`) as HTMLElement;
-          if (formElement) {
-            formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
+        // Smooth scroll form into view after step change (with offset for better visibility)
+        setTimeout(() => scrollToFormWithOffset(100), 100);
       }
     },
     [

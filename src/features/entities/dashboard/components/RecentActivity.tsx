@@ -27,11 +27,7 @@ interface RecentActivityProps {
   isStudioOwner?: boolean;
 }
 
-export const RecentActivity: React.FC<RecentActivityProps> = ({
-  limit = 5,
-  studioIds = [],
-  isStudioOwner = false
-}) => {
+export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 5, studioIds = [], isStudioOwner = false }) => {
   const { t, i18n } = useTranslation('dashboard');
   const navigate = useNavigate();
   const { data: reservations = [], isLoading } = useReservations();
@@ -95,9 +91,8 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
   };
 
   const getActivityMessage = (reservation: Reservation) => {
-    const itemName = i18n.language === 'he' && reservation.itemName?.he
-      ? reservation.itemName.he
-      : reservation.itemName?.en || '';
+    const itemName =
+      i18n.language === 'he' && reservation.itemName?.he ? reservation.itemName.he : reservation.itemName?.en || '';
 
     return t('recentActivity.bookedAt', { item: itemName });
   };
@@ -107,7 +102,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
   };
 
   const handleViewHistory = () => {
-    navigate('/my-reservations');
+    navigate('/reservations');
   };
 
   if (isLoading) {
@@ -120,9 +115,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
           </h2>
         </div>
         <div className="recent-activity__container">
-          <div className="recent-activity__loading">
-            {t('recentActivity.loading')}
-          </div>
+          <div className="recent-activity__loading">{t('recentActivity.loading')}</div>
         </div>
       </div>
     );
@@ -138,9 +131,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
           </h2>
         </div>
         <div className="recent-activity__container">
-          <div className="recent-activity__empty">
-            {t('recentActivity.empty')}
-          </div>
+          <div className="recent-activity__empty">{t('recentActivity.empty')}</div>
         </div>
       </div>
     );
@@ -167,9 +158,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
               onKeyDown={(e) => e.key === 'Enter' && handleActivityClick(reservation)}
             >
               {/* Timeline Line */}
-              {index < recentActivities.length - 1 && (
-                <div className="recent-activity__timeline-line" />
-              )}
+              {index < recentActivities.length - 1 && <div className="recent-activity__timeline-line" />}
 
               {/* Status Indicator */}
               <div className="recent-activity__status-indicator">
@@ -182,14 +171,10 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
                   <h4 className="recent-activity__client-name">
                     {reservation.customerName || t('recentActivity.anonymousClient')}
                   </h4>
-                  <span className="recent-activity__amount">
-                    ₪{reservation.totalPrice?.toLocaleString() || 0}
-                  </span>
+                  <span className="recent-activity__amount">₪{reservation.totalPrice?.toLocaleString() || 0}</span>
                 </div>
 
-                <p className="recent-activity__description">
-                  {getActivityMessage(reservation)}
-                </p>
+                <p className="recent-activity__description">{getActivityMessage(reservation)}</p>
 
                 <div className="recent-activity__meta">
                   <span className="recent-activity__meta-item">
@@ -206,10 +191,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
           ))}
         </div>
 
-        <button
-          className="recent-activity__view-all"
-          onClick={handleViewHistory}
-        >
+        <button className="recent-activity__view-all" onClick={handleViewHistory}>
           {t('recentActivity.viewAll')}
         </button>
       </div>
