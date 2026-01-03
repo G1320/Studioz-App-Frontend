@@ -13,28 +13,43 @@
   box-sizing: border-box;
   margin: 0 auto;
   padding: vars.$spacing-xl vars.$spacing-medium;
+  display: flex;
+  flex-direction: column;
 
   &__indicators {
     margin-bottom: vars.$spacing-xl;
+    order: 0;
   }
 
-  // New progress bar with animated fill
+  &__content {
+    order: 1;
+  }
+
+  // Mobile progress bar - hidden on desktop
   &__progress-bar {
+    display: none;
     width: 100%;
-    height: 2px;
+    height: 4px;
     background: ds.$zinc-800;
-    border-radius: 1px;
+    border-radius: 2px;
     overflow: hidden;
-    margin-bottom: vars.$spacing-xl;
     position: relative;
   }
 
   &__progress-fill {
     height: 100%;
     background: ds.$primary-yellow;
-    border-radius: 1px;
+    border-radius: 2px;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 10px rgba(ds.$primary-yellow, 0.5);
+  }
+
+  &__progress-text {
+    display: none;
+    font-size: vars.$font-size-small;
+    color: ds.$zinc-400;
+    text-align: center;
+    margin-top: vars.$spacing-small;
   }
 
   // Step indicators with icons
@@ -611,14 +626,21 @@
     padding: vars.$spacing-medium;
 
     &__indicators {
-      margin-bottom: vars.$spacing-medium;
+      order: 2;
+      margin-bottom: 0;
+      margin-top: vars.$spacing-xl;
     }
 
     &__steps {
       display: none;
     }
 
+    &__progress-bar {
+      display: block;
+    }
+
     &__content {
+      order: 1;
       padding: vars.$spacing-large;
       min-height: auto;
       border-radius: 16px;

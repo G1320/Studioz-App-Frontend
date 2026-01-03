@@ -9,7 +9,7 @@
 .create-studio-page {
   min-height: 100vh;
   background: black;
-  padding: vars.$spacing-xl vars.$spacing-medium;
+  padding: 0 vars.$spacing-medium;
 
   > section {
     > h1 {

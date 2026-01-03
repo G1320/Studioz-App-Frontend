@@ -483,10 +483,29 @@ export const SteppedForm = ({
     opacity: { duration: 0.2 }
   };
 
+  // Calculate progress percentage
+  const progress = ((currentStepIndex + 1) / steps.length) * 100;
+
   return (
     <div className={`stepped-form ${className}`}>
       {/* Step Indicators - At top */}
       <div className="stepped-form__indicators">
+        {/* Mobile progress bar */}
+        <div className="stepped-form__progress-bar">
+          <div 
+            className="stepped-form__progress-fill" 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div className="stepped-form__progress-text">
+          {t('form.stepCounter', {
+            current: currentStepIndex + 1,
+            total: steps.length,
+            defaultValue: `Step ${currentStepIndex + 1} of ${steps.length}`
+          })}
+        </div>
+        
+        {/* Desktop step indicators */}
         <div className="stepped-form__steps">
           {steps.map((step, index) => {
             const isActive = index === currentStepIndex;
