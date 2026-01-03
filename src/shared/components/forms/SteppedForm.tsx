@@ -521,19 +521,6 @@ export const SteppedForm = ({
 
       {/* Main Content Container */}
       <div className="stepped-form__content">
-        {/* Step Header */}
-        <div className="stepped-form__step-header">
-          <div className="stepped-form__step-header-left">
-            <h1 className="stepped-form__step-header-title">
-              {currentStep.title}
-            </h1>
-            {currentStep.description && (
-              <p className="stepped-form__step-header-description">{currentStep.description}</p>
-            )}
-          </div>
-
-        </div>
-
         {/* Form Content */}
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div
