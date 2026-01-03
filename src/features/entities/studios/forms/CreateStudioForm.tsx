@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
+import type { CancellationPolicy } from '@shared/components';
 import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
@@ -17,6 +18,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import ShieldIcon from '@mui/icons-material/Shield';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { ProTip } from '@shared/components/pro-tip';
 import {
   useCreateStudioMutation,
@@ -54,6 +58,8 @@ interface StudioFormData {
   website?: string;
   parking?: 'private' | 'street' | 'paid' | 'none';
   languageToggle?: string;
+  cancellationPolicy?: CancellationPolicy;
+  houseRules?: string;
   [key: string]: any; // Allow additional properties from form
 }
 
@@ -133,6 +139,10 @@ export const CreateStudioForm = () => {
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     savedState?.selectedParking || 'street'
   );
+
+  // Policies State
+  const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>({});
+  const [houseRules, setHouseRules] = useState<string>('');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -305,6 +315,109 @@ export const CreateStudioForm = () => {
     setSelectedGenres(values);
   };
 
+  // Policies step content
+  const POLICIES = [
+    {
+      id: 'flexible' as const,
+      label: t('form.policies.flexible.label', { defaultValue: 'Flexible' }),
+      description: t('form.policies.flexible.description', {
+        defaultValue: 'Full refund up to 24 hours before session start time.'
+      }),
+      colorClass: 'policies-step__policy-card--flexible'
+    },
+    {
+      id: 'moderate' as const,
+      label: t('form.policies.moderate.label', { defaultValue: 'Moderate' }),
+      description: t('form.policies.moderate.description', {
+        defaultValue: 'Full refund up to 5 days before session. 50% refund up to 24h before.'
+      }),
+      colorClass: 'policies-step__policy-card--moderate'
+    },
+    {
+      id: 'strict' as const,
+      label: t('form.policies.strict.label', { defaultValue: 'Strict' }),
+      description: t('form.policies.strict.description', {
+        defaultValue: '50% refund up to 7 days before session. No refund within 7 days.'
+      }),
+      colorClass: 'policies-step__policy-card--strict'
+    }
+  ];
+
+  const policiesContent = useMemo(
+    () => (
+      <div className="policies-step">
+        {/* Header */}
+        <div className="policies-step__header">
+          <h2 className="policies-step__title">
+            <ShieldIcon className="policies-step__title-icon" />
+            {t('form.policies.title', { defaultValue: 'Policies & Rules' })}
+          </h2>
+          <p className="policies-step__description">
+            {t('form.policies.subtitle', { defaultValue: 'Set clear expectations for your guests.' })}
+          </p>
+        </div>
+
+        {/* Cancellation Policy */}
+        <div className="policies-step__section">
+          <label className="policies-step__section-label">
+            {t('form.policies.cancellation.label', { defaultValue: 'Cancellation Policy' })}
+          </label>
+          <div className="policies-step__policy-grid">
+            {POLICIES.map((policy) => {
+              const isSelected = cancellationPolicy.type === policy.id;
+              return (
+                <button
+                  key={policy.id}
+                  type="button"
+                  onClick={() => setCancellationPolicy({ ...cancellationPolicy, type: policy.id })}
+                  className={`policies-step__policy-card ${policy.colorClass} ${isSelected ? 'policies-step__policy-card--selected' : ''}`}
+                >
+                  <div className={`policies-step__radio ${isSelected ? 'policies-step__radio--selected' : ''}`}>
+                    {isSelected && <div className="policies-step__radio-dot" />}
+                  </div>
+                  <div className="policies-step__policy-content">
+                    <h3
+                      className={`policies-step__policy-label ${isSelected ? 'policies-step__policy-label--selected' : ''}`}
+                    >
+                      {policy.label}
+                    </h3>
+                    <p className="policies-step__policy-description">{policy.description}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* House Rules */}
+        <div className="policies-step__section">
+          <label className="policies-step__section-label policies-step__section-label--with-icon">
+            <DescriptionIcon className="policies-step__section-icon" />
+            {t('form.policies.houseRules.label', { defaultValue: 'Studio Rules' })}
+          </label>
+          <div className="policies-step__textarea-wrapper">
+            <textarea
+              value={houseRules}
+              onChange={(e) => setHouseRules(e.target.value)}
+              placeholder={t('form.policies.houseRules.placeholder', {
+                defaultValue: 'e.g. No smoking inside, No food near the console, Maximum 5 guests...'
+              })}
+              className="policies-step__textarea"
+              rows={5}
+            />
+          </div>
+          <div className="policies-step__info-note">
+            <ErrorOutlineIcon className="policies-step__info-note-icon" />
+            <p>
+              {t('form.policies.houseRules.note', { defaultValue: 'Guests must agree to these rules before booking.' })}
+            </p>
+          </div>
+        </div>
+      </div>
+    ),
+    [t, cancellationPolicy, houseRules]
+  );
+
   // Define form steps with Zod schemas and icons
   const steps: FormStep[] = useMemo(
     () => [
@@ -395,9 +508,18 @@ export const CreateStudioForm = () => {
             onReorderImages={setGalleryImages}
           />
         )
+      },
+      {
+        id: 'policies',
+        title: t('form.steps.policies') || 'Policies',
+        description: t('form.steps.policiesDesc') || 'Define cancellation and booking policies',
+        fieldNames: ['cancellationPolicy', 'houseRules'],
+        schema: studioStepSchemas.policies,
+        icon: ShieldIcon,
+        customContent: policiesContent
       }
     ],
-    [t, galleryImages, galleryAudioFiles, handleFileUpload, selectedAmenities, equipmentList]
+    [t, galleryImages, galleryAudioFiles, handleFileUpload, selectedAmenities, equipmentList, policiesContent]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -677,6 +799,16 @@ export const CreateStudioForm = () => {
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
     formData.parking = selectedParking;
+
+    // Add cancellation policy (only include if type is selected)
+    if (cancellationPolicy.type) {
+      formData.cancellationPolicy = cancellationPolicy;
+    }
+
+    // Add house rules if provided
+    if (houseRules.trim()) {
+      formData.houseRules = houseRules.trim();
+    }
 
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;

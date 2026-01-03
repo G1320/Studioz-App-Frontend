@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { SteppedForm, FieldType, FormStep } from '@shared/components';
-import type { Duration, CancellationPolicy } from '@shared/components';
+import type { Duration } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { itemStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
@@ -29,9 +29,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import BoltIcon from '@mui/icons-material/Bolt';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import ShieldIcon from '@mui/icons-material/Shield';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import './_createItemForm.scss';
 
 export const CreateItemForm = () => {
@@ -89,8 +86,6 @@ export const CreateItemForm = () => {
   const [instantBook, setInstantBook] = useState<boolean>(false);
 
   // Policies State
-  const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>({});
-  const [houseRules, setHouseRules] = useState<string>('');
 
   interface FormData {
     coverImage?: string;
@@ -115,9 +110,6 @@ export const CreateItemForm = () => {
     minimumQuantity?: number;
     advanceBookingRequired?: Duration;
     preparationTime?: Duration;
-    // Policies
-    cancellationPolicy?: CancellationPolicy;
-    houseRules?: string;
   }
 
   const pricePerOptions = [
@@ -491,109 +483,6 @@ export const CreateItemForm = () => {
     [t, pricePer, minimumQuantity, advanceBookingRequired, preparationTime, instantBook]
   );
 
-  // Policies custom content
-  const POLICIES = [
-    {
-      id: 'flexible' as const,
-      label: t('form.policies.flexible.label', { defaultValue: 'Flexible' }),
-      description: t('form.policies.flexible.description', {
-        defaultValue: 'Full refund up to 24 hours before session start time.'
-      }),
-      colorClass: 'policies-step__policy-card--flexible'
-    },
-    {
-      id: 'moderate' as const,
-      label: t('form.policies.moderate.label', { defaultValue: 'Moderate' }),
-      description: t('form.policies.moderate.description', {
-        defaultValue: 'Full refund up to 5 days before session. 50% refund up to 24h before.'
-      }),
-      colorClass: 'policies-step__policy-card--moderate'
-    },
-    {
-      id: 'strict' as const,
-      label: t('form.policies.strict.label', { defaultValue: 'Strict' }),
-      description: t('form.policies.strict.description', {
-        defaultValue: '50% refund up to 7 days before session. No refund within 7 days.'
-      }),
-      colorClass: 'policies-step__policy-card--strict'
-    }
-  ];
-
-  const policiesContent = useMemo(
-    () => (
-      <div className="policies-step">
-        {/* Header */}
-        <div className="policies-step__header">
-          <h2 className="policies-step__title">
-            <ShieldIcon className="policies-step__title-icon" />
-            {t('form.policies.title', { defaultValue: 'Policies & Rules' })}
-          </h2>
-          <p className="policies-step__description">
-            {t('form.policies.subtitle', { defaultValue: 'Set clear expectations for your guests.' })}
-          </p>
-        </div>
-
-        {/* Cancellation Policy */}
-        <div className="policies-step__section">
-          <label className="policies-step__section-label">
-            {t('form.policies.cancellation.label', { defaultValue: 'Cancellation Policy' })}
-          </label>
-          <div className="policies-step__policy-grid">
-            {POLICIES.map((policy) => {
-              const isSelected = cancellationPolicy.type === policy.id;
-              return (
-                <button
-                  key={policy.id}
-                  type="button"
-                  onClick={() => setCancellationPolicy({ ...cancellationPolicy, type: policy.id })}
-                  className={`policies-step__policy-card ${policy.colorClass} ${isSelected ? 'policies-step__policy-card--selected' : ''}`}
-                >
-                  <div className={`policies-step__radio ${isSelected ? 'policies-step__radio--selected' : ''}`}>
-                    {isSelected && <div className="policies-step__radio-dot" />}
-                  </div>
-                  <div className="policies-step__policy-content">
-                    <h3
-                      className={`policies-step__policy-label ${isSelected ? 'policies-step__policy-label--selected' : ''}`}
-                    >
-                      {policy.label}
-                    </h3>
-                    <p className="policies-step__policy-description">{policy.description}</p>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* House Rules */}
-        <div className="policies-step__section">
-          <label className="policies-step__section-label policies-step__section-label--with-icon">
-            <DescriptionIcon className="policies-step__section-icon" />
-            {t('form.policies.houseRules.label', { defaultValue: 'Studio Rules' })}
-          </label>
-          <div className="policies-step__textarea-wrapper">
-            <textarea
-              value={houseRules}
-              onChange={(e) => setHouseRules(e.target.value)}
-              placeholder={t('form.policies.houseRules.placeholder', {
-                defaultValue: 'e.g. No smoking inside, No food near the console, Maximum 5 guests...'
-              })}
-              className="policies-step__textarea"
-              rows={5}
-            />
-          </div>
-          <div className="policies-step__info-note">
-            <ErrorOutlineIcon className="policies-step__info-note-icon" />
-            <p>
-              {t('form.policies.houseRules.note', { defaultValue: 'Guests must agree to these rules before booking.' })}
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
-    [t, cancellationPolicy, houseRules]
-  );
-
   // Define form steps with Zod schemas
   const steps: FormStep[] = useMemo(
     () => [
@@ -628,14 +517,6 @@ export const CreateItemForm = () => {
         schema: itemStepSchemas['booking-settings'],
         customContent: bookingSettingsContent
       },
-      {
-        id: 'policies',
-        title: t('form.steps.policies') || 'Policies',
-        description: t('form.steps.policiesDesc') || 'Define cancellation and booking policies',
-        fieldNames: ['cancellationPolicy'],
-        schema: itemStepSchemas.policies,
-        customContent: policiesContent
-      },
       ...(isFeatureEnabled('addOns')
         ? [
             {
@@ -656,7 +537,7 @@ export const CreateItemForm = () => {
           ]
         : [])
     ],
-    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn, pricingContent, bookingSettingsContent, policiesContent]
+    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn, pricingContent, bookingSettingsContent]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -722,16 +603,6 @@ export const CreateItemForm = () => {
     }
     if (preparationTime.value && preparationTime.unit) {
       formData.preparationTime = preparationTime;
-    }
-
-    // Add cancellation policy (only include if type is selected)
-    if (cancellationPolicy.type) {
-      formData.cancellationPolicy = cancellationPolicy;
-    }
-
-    // Add house rules if provided
-    if (houseRules.trim()) {
-      formData.houseRules = houseRules.trim();
     }
 
     // Remove UI-only fields that shouldn't be sent to the API

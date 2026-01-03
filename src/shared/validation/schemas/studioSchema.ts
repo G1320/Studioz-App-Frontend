@@ -186,6 +186,28 @@ export const studioStep6Schema = z.object({
 });
 
 /**
+ * Step 7: Policies Schema
+ * Validates: cancellationPolicy, houseRules
+ */
+export const studioStep7Schema = z.object({
+  cancellationPolicy: z
+    .object({
+      type: z.enum(['flexible', 'moderate', 'strict']).optional(),
+      notes: z
+        .object({
+          en: z.string().max(500).optional(),
+          he: z.string().max(500).optional()
+        })
+        .optional()
+    })
+    .optional(),
+  houseRules: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    z.string().max(2000, 'House rules must be at most 2000 characters').optional()
+  )
+});
+
+/**
  * Full Studio Schema
  * Validates all fields for complete studio submission
  */
@@ -311,6 +333,7 @@ export type StudioStep3Data = z.infer<typeof studioStep3Schema>;
 export type StudioStep4Data = z.infer<typeof studioStep4Schema>;
 export type StudioStep5Data = z.infer<typeof studioStep5Schema>;
 export type StudioStep6Data = z.infer<typeof studioStep6Schema>;
+export type StudioStep7Data = z.infer<typeof studioStep7Schema>;
 export type StudioFormData = z.infer<typeof studioFullSchema>;
 export type StudioEditData = z.infer<typeof studioEditSchema>;
 
@@ -350,7 +373,8 @@ export const studioStepSchemas = {
   availability: studioStep3Schema,
   location: studioStep4Schema,
   files: studioStep5Schema,
-  details: studioStep6Schema
+  details: studioStep6Schema,
+  policies: studioStep7Schema
 } as const;
 
 /**
@@ -362,5 +386,6 @@ export const studioStepSchemasEdit = {
   availability: studioStep3Schema,
   location: studioStep4Schema,
   files: studioStep5Schema,
-  details: studioStep6Schema
+  details: studioStep6Schema,
+  policies: studioStep7Schema
 } as const;
