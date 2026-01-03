@@ -8,6 +8,9 @@
 
 .create-studio-page {
   min-height: 100vh;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   background: black;
   padding: 0 vars.$spacing-medium;
 

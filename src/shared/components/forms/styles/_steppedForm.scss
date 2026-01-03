@@ -193,9 +193,12 @@
     // background: rgba(ds.$zinc-900, 0.5);
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: vars.$spacing-2xl;
     min-height: 400px;
     position: relative;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 
     // Subtle glow effect in corner
     &::before {
@@ -340,6 +343,9 @@
     gap: vars.$spacing-xl;
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 
     // New input styling
     .form-group {
@@ -681,8 +687,10 @@
   // Custom content wrapper
   &__custom-content {
     width: 100%;
+    max-width: 100%;
     position: relative;
     z-index: 1;
+    box-sizing: border-box;
   }
 
   .custom-content-errors {
