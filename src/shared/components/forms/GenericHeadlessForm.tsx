@@ -15,8 +15,6 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalParkingOutlinedIcon from '@mui/icons-material/LocalParkingOutlined';
 import BlockIcon from '@mui/icons-material/Block';
-import MapPinIcon from '@mui/icons-material/LocationOn';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
 
 export type FieldType =
   | 'text'
@@ -118,9 +116,7 @@ export const GenericForm = ({
       if (englishData?.city) {
         setCity(englishData.city);
       } else if (place.address_components) {
-        const cityComponent = place.address_components.find((component) =>
-          component.types.includes('locality')
-        );
+        const cityComponent = place.address_components.find((component) => component.types.includes('locality'));
         if (cityComponent) {
           setCity(cityComponent.long_name);
         }
@@ -249,10 +245,16 @@ export const GenericForm = ({
                     onInputChange={(value: string) => {
                       handleFieldChange('address', value, field.onChange);
                     }}
-                    aria-describedby={hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined}
+                    aria-describedby={
+                      hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined
+                    }
                     aria-invalid={hasError}
                   />
-                  {field.helperText && <p id={`helper-${field.name}`} className="form-helper-text">{field.helperText}</p>}
+                  {field.helperText && (
+                    <p id={`helper-${field.name}`} className="form-helper-text">
+                      {field.helperText}
+                    </p>
+                  )}
                   {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
                 </div>
               );
@@ -260,7 +262,7 @@ export const GenericForm = ({
             // Use controlled input if onChange is provided (for stepped forms), otherwise use uncontrolled (for regular forms)
             const isControlled = !!field.onChange;
             const inputValue = field.value !== undefined && field.value !== null ? String(field.value) : '';
-            
+
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                 <label htmlFor={field.name} className="form-label">
@@ -271,13 +273,12 @@ export const GenericForm = ({
                   id={field.name}
                   name={field.name}
                   placeholder={field.placeholder}
-                  {...(isControlled 
-                    ? { value: inputValue }
-                    : { defaultValue: inputValue }
-                  )}
+                  {...(isControlled ? { value: inputValue } : { defaultValue: inputValue })}
                   className={`form-input ${inputErrorClassName}`}
                   required={!schema}
-                  aria-describedby={hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined}
+                  aria-describedby={
+                    hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined
+                  }
                   aria-invalid={hasError}
                   onBlur={(e) => {
                     const value = e.target.value;
@@ -289,7 +290,11 @@ export const GenericForm = ({
                     handleFieldChange(field.name, value, field.onChange);
                   }}
                 />
-                {field.helperText && <p id={`helper-${field.name}`} className="form-helper-text">{field.helperText}</p>}
+                {field.helperText && (
+                  <p id={`helper-${field.name}`} className="form-helper-text">
+                    {field.helperText}
+                  </p>
+                )}
                 {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
@@ -298,7 +303,7 @@ export const GenericForm = ({
             // Use controlled textarea if onChange is provided (for stepped forms), otherwise use uncontrolled (for regular forms)
             const isTextareaControlled = !!field.onChange;
             const textareaValue = field.value !== undefined && field.value !== null ? String(field.value) : '';
-            
+
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
                 <label htmlFor={field.name} className="form-label">
@@ -308,14 +313,13 @@ export const GenericForm = ({
                   id={field.name}
                   name={field.name}
                   placeholder={field.placeholder}
-                  {...(isTextareaControlled 
-                    ? { value: textareaValue }
-                    : { defaultValue: textareaValue }
-                  )}
+                  {...(isTextareaControlled ? { value: textareaValue } : { defaultValue: textareaValue })}
                   className={`form-textarea ${inputErrorClassName}`}
                   rows={field.rows || 4}
                   required={!schema}
-                  aria-describedby={hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined}
+                  aria-describedby={
+                    hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined
+                  }
                   aria-invalid={hasError}
                   onBlur={(e) => {
                     const value = e.target.value;
@@ -327,7 +331,11 @@ export const GenericForm = ({
                     handleFieldChange(field.name, value, field.onChange);
                   }}
                 ></textarea>
-                {field.helperText && <p id={`helper-${field.name}`} className="form-helper-text">{field.helperText}</p>}
+                {field.helperText && (
+                  <p id={`helper-${field.name}`} className="form-helper-text">
+                    {field.helperText}
+                  </p>
+                )}
                 {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
@@ -400,9 +408,7 @@ export const GenericForm = ({
                       className={`parking-select__item ${field.value === option.id ? 'parking-select__item--selected' : ''}`}
                     >
                       <option.Icon className="parking-select__icon" />
-                      <span className="parking-select__label">
-                        {t(`form.parking.options.${option.labelKey}`)}
-                      </span>
+                      <span className="parking-select__label">{t(`form.parking.options.${option.labelKey}`)}</span>
                     </button>
                   ))}
                 </div>
@@ -444,7 +450,9 @@ export const GenericForm = ({
                     <div className="relative">
                       <Listbox.Button
                         className={`listbox-button ${inputErrorClassName}`}
-                        aria-describedby={hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined}
+                        aria-describedby={
+                          hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined
+                        }
                         aria-invalid={hasError}
                       >
                         {field.displayValue || field.value || 'Select'}
@@ -472,7 +480,11 @@ export const GenericForm = ({
                     </div>
                   )}
                 </Listbox>
-                {field.helperText && <p id={`helper-${field.name}`} className="form-helper-text">{field.helperText}</p>}
+                {field.helperText && (
+                  <p id={`helper-${field.name}`} className="form-helper-text">
+                    {field.helperText}
+                  </p>
+                )}
                 {showFieldErrors && fieldError && <FieldError error={fieldError} fieldName={field.name} />}
               </div>
             );
@@ -487,7 +499,11 @@ export const GenericForm = ({
             return (
               <div key={field.name} className={`form-group ${errorClassName}`}>
                 <label className="form-label">{field.label}</label>
-                {field.helperText && <p id={`helper-${field.name}`} className="form-helper-text">{field.helperText}</p>}
+                {field.helperText && (
+                  <p id={`helper-${field.name}`} className="form-helper-text">
+                    {field.helperText}
+                  </p>
+                )}
                 <div
                   className={`checkbox-group ${field.bubbleStyle ? 'bubble-style' : ''} ${shouldShowExpandButton && !isExpanded ? 'collapsed-with-fade' : ''}`}
                 >
