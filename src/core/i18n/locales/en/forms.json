@@ -26,14 +26,13 @@
       "label": "Subcategories",
       "showAll": "Show All",
       "showLess": "Show Less",
-      "maxLimit": "Maximum 6 subcategories allowed",
       "helperText": "Select all relevant subcategories for your studio."
     },
     "genres": {
       "label": "Genres",
       "showAll": "Show All",
       "showLess": "Show Less",
-      "maxLimit": "Maximum 6 genres allowed",
+      "maxLimit": "Maximum 12 genres allowed",
       "helperText": "Choose the music genres you specialize in."
     },
     "languageToggle": {
