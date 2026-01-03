@@ -160,7 +160,9 @@
           "none": "None",
           "15min": "15 minutes",
           "30min": "30 minutes",
-          "1hour": "1 hour"
+          "1hour": "1 hour",
+          "2hours": "2 hours",
+          "3hours": "3 hours"
         }
       },
       "minimumBookingDuration": {
@@ -200,6 +202,30 @@
       "notes": {
         "label": "Additional Notes",
         "placeholder": "Add any additional cancellation terms..."
+      }
+    },
+    "policies": {
+      "title": "Policies & Rules",
+      "subtitle": "Set clear expectations for your guests.",
+      "cancellation": {
+        "label": "Cancellation Policy"
+      },
+      "flexible": {
+        "label": "Flexible",
+        "description": "Full refund up to 24 hours before session start time."
+      },
+      "moderate": {
+        "label": "Moderate",
+        "description": "Full refund up to 5 days before session. 50% refund up to 24h before."
+      },
+      "strict": {
+        "label": "Strict",
+        "description": "50% refund up to 7 days before session. No refund within 7 days."
+      },
+      "houseRules": {
+        "label": "Studio Rules",
+        "placeholder": "e.g. No smoking inside, No food near the console, Maximum 5 guests...",
+        "note": "Guests must agree to these rules before booking."
       }
     },
     "price": {
