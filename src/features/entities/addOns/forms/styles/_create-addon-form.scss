@@ -1,13 +1,15 @@
 @use 'utilities/variables' as vars;
 @use '../../../../../shared/components/forms/styles/design-system' as ds;
 
-// Scope all styles within this container to prevent affecting other forms
 .create-addon-form-container {
   display: flex;
   flex-direction: column;
-  gap: vars.$spacing-2xl;
+  gap: 2rem;
   animation: fadeInSlide 0.5s ease-out;
+  width: 100%;
   max-width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
 
   @keyframes fadeInSlide {
     from {
@@ -20,18 +22,29 @@
     }
   }
 
-  // Header section
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  // Header
   .addon-step-header {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
+    gap: 0.5rem;
   }
 
   .addon-step-title {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-small;
-    font-size: vars.$font-size-xl;
+    gap: 0.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -43,135 +56,154 @@
   }
 
   .addon-step-description {
-    font-size: vars.$font-size-small;
-    color: ds.$zinc-500;
+    font-size: 0.875rem;
+    color: #71717a; // zinc-500
     margin: 0;
   }
 
-  // Pending add-ons list
+  // Add-ons List
   .pending-addons-list {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
+    gap: 0.75rem;
 
     h3 {
-      display: none; // Hide the old header, we use the new one above
+      display: none;
     }
 
     > div {
       display: flex;
       flex-direction: column;
-      gap: vars.$spacing-small;
+      gap: 0.75rem;
     }
   }
 
-  // Add-on card
+  // Add-on Card
   .pending-addon-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: vars.$spacing-medium;
-    background: rgba(ds.$zinc-900, 0.5);
-    border: 1px solid ds.$zinc-800;
-    border-radius: 12px;
+    padding: 1rem;
+    background: rgba(24, 24, 27, 0.5); // zinc-900/50
+    border: 1px solid #27272a; // zinc-800
+    border-radius: 0.75rem;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: ds.$zinc-600;
+      border-color: #52525b; // zinc-600
     }
 
-    .pending-addon-content {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .pending-addon-title {
-      font-weight: 700;
-      color: white;
-      font-size: vars.$font-size-medium;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .pending-addon-type {
-      font-size: vars.$font-size-xs;
-      color: ds.$zinc-500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .pending-addon-price {
-      font-weight: 700;
-      color: ds.$primary-yellow;
-      font-size: vars.$font-size-medium;
-      margin: 0;
-      text-align: end;
-    }
-
-    .pending-addon-actions {
-      display: flex;
-      align-items: center;
-      gap: vars.$spacing-medium;
-    }
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: ds.$zinc-800;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      color: ds.$zinc-500;
-      transition: all 0.2s ease;
-
-      svg {
-        font-size: 1rem !important;
-      }
-
-      &:hover {
-        color: #f87171; // red-400
-        background: rgba(239, 68, 68, 0.1); // red-500/10
-      }
-
-      &:active {
-        transform: scale(0.95);
-      }
-
-      &:focus {
-        outline: none;
-      }
+    &.inactive {
+      opacity: 0.6;
+      filter: grayscale(0.5);
     }
   }
 
-  // Add button (dashed border style)
+  .pending-addon-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .pending-addon-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pending-addon-title {
+    font-weight: 700;
+    color: white;
+  }
+
+  .pending-addon-title-he {
+    font-size: 0.75rem;
+    color: #71717a; // zinc-500
+  }
+
+  .pending-addon-badge {
+    font-size: 10px;
+    background: #27272a; // zinc-800
+    color: #a1a1aa; // zinc-400
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .pending-addon-description {
+    font-size: 0.875rem;
+    color: #a1a1aa; // zinc-400
+    max-width: 28rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pending-addon-type {
+    font-size: 0.75rem;
+    color: #71717a; // zinc-500
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+
+  .pending-addon-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .pending-addon-price {
+    font-weight: 700;
+    color: ds.$primary-yellow;
+  }
+
+  .pending-addon-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: #27272a; // zinc-800
+    border: none;
+    border-radius: 50%;
+    color: #71717a; // zinc-500
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      font-size: 0.875rem !important;
+    }
+
+    &:hover {
+      color: #f87171; // red-400
+      background: rgba(248, 113, 113, 0.1); // red-400/10
+    }
+  }
+
+  // Add Button (Dashed)
   .add-addon-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: vars.$spacing-small;
+    gap: 0.5rem;
     width: 100%;
-    padding: vars.$spacing-large;
+    padding: 1.25rem;
     background: transparent;
-    border: 1px dashed ds.$zinc-700;
-    border-radius: 12px;
-    color: ds.$zinc-400;
+    border: 1px dashed #3f3f46; // zinc-700
+    border-radius: 0.75rem;
+    color: #a1a1aa; // zinc-400
     cursor: pointer;
     transition: all 0.2s ease;
 
     .add-addon-icon {
-      font-size: 1.125rem !important;
+      font-size: 1.25rem !important;
       transition: transform 0.2s ease;
     }
 
     .add-addon-text {
-      font-size: vars.$font-size-small;
+      font-size: 0.875rem;
       font-weight: 700;
     }
 
@@ -184,208 +216,276 @@
         transform: scale(1.1);
       }
     }
+  }
 
-    &:active {
-      transform: scale(0.98);
+  // Form Modal
+  .addon-form-content {
+    background: #18181b; // zinc-900
+    border: 1px solid #3f3f46; // zinc-700
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: zoomIn 0.2s ease-out;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  // Form Header
+  .addon-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(39, 39, 42, 0.5); // zinc-800/50
+  }
+
+  .addon-form-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+  }
+
+  .addon-form-close {
+    background: transparent;
+    border: none;
+    color: #71717a; // zinc-500
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+
+    svg {
+      font-size: 1.125rem !important;
+    }
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  // Form Fields Container
+  .addon-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  // Form Field
+  .addon-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0; // Prevent flex overflow
+  }
+
+  // Label
+  .addon-form-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #71717a; // zinc-500
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: start;
+  }
+
+  // Inputs
+  .addon-form-input,
+  .addon-form-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(9, 9, 11, 0.5); // zinc-950/50
+    border: 1px solid #3f3f46; // zinc-700
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: #52525b; // zinc-600
     }
 
     &:focus {
       outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
+    }
+
+    &[dir='rtl'] {
+      text-align: right;
     }
   }
 
-  // Form content wrapper
-  .addon-form-content {
-    background: ds.$zinc-900;
-    border: 1px solid ds.$zinc-700;
-    border-radius: 12px;
-    padding: vars.$spacing-large;
-    animation: zoomIn 0.2s ease-out;
-
-    @keyframes zoomIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+  .addon-form-textarea {
+    min-height: 70px;
+    resize: none;
   }
 
-  // Form header
-  .create-addon-form-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: vars.$spacing-medium;
-
-    .create-addon-form-title {
-      font-size: vars.$font-size-small;
-      font-weight: 700;
-      color: white;
-      margin: 0;
-    }
-
-    .close-addon-form-button {
-      background: transparent;
-      border: none;
-      color: ds.$zinc-500;
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s ease;
-
-      svg {
-        font-size: 1rem !important;
-      }
-
-      &:hover {
-        color: white;
-      }
-
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-
-  .create-addon-form-wrapper {
+  // Select
+  .addon-form-select-wrapper {
+    position: relative;
     width: 100%;
   }
 
-  // Form styles
-  .create-addon-form {
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-medium;
+  .addon-form-select {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(9, 9, 11, 0.5); // zinc-950/50
+    border: 1px solid #3f3f46; // zinc-700
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    padding-right: 2.5rem;
+    color: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.2s ease;
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: vars.$spacing-small;
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
     }
 
-    label {
-      font-size: vars.$font-size-xs;
-      font-weight: 700;
-      color: ds.$zinc-500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      background: rgba(ds.$zinc-900, 0.5);
-      border: 1px solid ds.$zinc-700;
-      border-radius: 8px;
-      padding: 10px 12px;
+    option {
+      background: #18181b; // zinc-900
       color: white;
-      font-size: vars.$font-size-small;
-      transition: all 0.2s ease;
-
-      &::placeholder {
-        color: ds.$zinc-600;
-      }
-
-      &:focus {
-        outline: none;
-        border-color: ds.$primary-yellow;
-      }
     }
+  }
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
+  .addon-form-select-arrow {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #71717a; // zinc-500
+  }
+
+  // Grid for Price/Unit
+  .addon-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
     }
+  }
 
-    select {
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      background-size: 16px;
-      padding-right: 32px;
+  // Toggle Row
+  .addon-form-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+  }
 
-      option {
-        background: ds.$zinc-900;
-        color: white;
-      }
-    }
+  .addon-form-toggle-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+  }
 
-    // Price and type grid
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: vars.$spacing-medium;
+  // Toggle Button
+  .addon-form-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 3rem;
+    height: 1.75rem;
+    background: #3f3f46; // zinc-700
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    padding: 0;
 
-      @media (max-width: 480px) {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    // Checkbox styling
-    input[type='checkbox'] {
-      width: auto;
-      accent-color: ds.$primary-yellow;
-    }
-
-    // Submit button
-    button[type='submit'],
-    .form-submit-btn {
-      width: 100%;
+    &.active {
       background: ds.$primary-yellow;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      color: black;
-      font-size: vars.$font-size-small;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      margin-top: vars.$spacing-small;
-
-      &:hover {
-        background: #ffc133;
-      }
-
-      &:active {
-        transform: scale(0.98);
-      }
-
-      &:focus {
-        outline: none;
-      }
     }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px ds.$primary-yellow, 0 0 0 4px rgba(9, 9, 11, 1);
+    }
+  }
+
+  .toggle-thumb {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: black;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+    margin-left: 0.25rem;
+
+    .addon-form-toggle.active & {
+      transform: translateX(1.25rem);
+    }
+  }
+
+  // Form Footer
+  .addon-form-footer {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(39, 39, 42, 0.5); // zinc-800/50
+  }
+
+  // Submit Button
+  .addon-form-submit {
+    width: 100%;
+    background: ds.$primary-yellow;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.875rem;
+    color: black;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 20px -5px rgba(255, 209, 102, 0.3);
+
+    &:hover:not(:disabled) {
+      background: #ffc133;
+      box-shadow: 0 0 25px -5px rgba(255, 209, 102, 0.5);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // Hide legacy elements
+  .create-addon-form-wrapper,
+  .create-addon-form-header {
+    display: none;
   }
 }
 
-// Responsive styles
+// Responsive
 @media (max-width: 640px) {
   .create-addon-form-container {
     .pending-addon-card {
       flex-direction: column;
-      align-items: stretch;
-      gap: vars.$spacing-small;
-
-      .pending-addon-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      align-items: flex-start;
+      gap: 0.75rem;
 
       .pending-addon-actions {
-        justify-content: space-between;
         width: 100%;
-      }
-
-      .pending-addon-price {
-        text-align: start;
+        justify-content: space-between;
       }
     }
   }

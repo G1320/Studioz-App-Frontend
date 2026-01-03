@@ -3,7 +3,7 @@ import './styles/_durationField.scss';
 
 export interface Duration {
   value?: number;
-  unit?: 'hours' | 'days';
+  unit?: 'minutes' | 'hours' | 'days';
 }
 
 interface DurationFieldProps {

@@ -308,8 +308,8 @@
       "createNew": "Create New Add-on",
       "newAddOn": "New Add-on",
       "addItem": "Add Item",
-      "perHour": "Per Hour",
-      "flatFee": "Flat Fee",
+      "addItemBtn": "Add Item (הוסף פריט)",
+      "inactive": "Inactive",
       "active": "Active",
       "pending": "Pending Add-Ons",
       "untitled": "Untitled Add-On",
@@ -317,6 +317,30 @@
       "remove": "Remove add-on",
       "close": "Close form",
       "addedToList": "Add-on added to list",
+      "fields": {
+        "nameEn": "Name (English)",
+        "nameHe": "Name (Hebrew)",
+        "descriptionEn": "Description (English)",
+        "descriptionHe": "Description (Hebrew)",
+        "price": "Price (₪)",
+        "priceUnit": "Price Unit",
+        "activeStatus": "Active Status"
+      },
+      "placeholders": {
+        "nameEn": "e.g. Drum Kit Rental",
+        "nameHe": "לדוגמה: השכרת מערכת תופים",
+        "descriptionEn": "Describe what's included...",
+        "descriptionHe": "תאר מה כלול..."
+      },
+      "pricePer": {
+        "label": "Pricing Type",
+        "flat": "Flat Fee",
+        "hour": "Per Hour",
+        "day": "Per Day",
+        "flatOption": "Flat Fee (מחיר בסיסי)",
+        "hourOption": "Per Hour (לשעה)",
+        "dayOption": "Per Day (ליום)"
+      },
       "errors": {
         "requiredFields": "Please fill in all required fields",
         "itemIdRequired": "Item ID is required to create add-on"

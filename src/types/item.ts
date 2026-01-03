@@ -2,12 +2,12 @@ import { Availability } from './availability';
 
 export interface Duration {
   value?: number;
-  unit?: 'hours' | 'days';
+  unit?: 'minutes' | 'hours' | 'days';
 }
 
 export interface AdvanceBookingRequired {
   value: number;
-  unit: 'hours' | 'days';
+  unit: 'minutes' | 'hours' | 'days';
 }
 
 export interface CancellationPolicy {

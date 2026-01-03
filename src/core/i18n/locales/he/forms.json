@@ -138,7 +138,7 @@
       "subtitle": "שלוט באופן שבו משתמשים מזמינים את המקום שלך ונהל את לוח הזמנים שלך.",
       "requestToBook": {
         "title": "הזמנה לאישור",
-        "description": "בדוק כל בקשת הזמנה לפני אישור. מתאים לסטודיואים שצריכים לסנן לקוחות."
+        "description": "בדוק כל בקשת הזמנה לפני אישור. מתאים למרחבים שצריכים לסנן לקוחות."
       },
       "instantBook": {
         "title": "הזמנה מיידית",
@@ -308,8 +308,8 @@
       "createNew": "צור תוספת חדשה",
       "newAddOn": "תוספת חדשה",
       "addItem": "הוסף פריט",
-      "perHour": "לשעה",
-      "flatFee": "מחיר קבוע",
+      "addItemBtn": "הוסף פריט (Add Item)",
+      "inactive": "לא פעיל",
       "active": "פעיל",
       "pending": "תוספות ממתינות",
       "untitled": "תוספת ללא שם",
@@ -317,6 +317,30 @@
       "remove": "הסר תוספת",
       "close": "סגור טופס",
       "addedToList": "תוספת נוספה לרשימה",
+      "fields": {
+        "nameEn": "שם (אנגלית)",
+        "nameHe": "שם (עברית)",
+        "descriptionEn": "תיאור (אנגלית)",
+        "descriptionHe": "תיאור (עברית)",
+        "price": "מחיר (₪)",
+        "priceUnit": "מחיר ל",
+        "activeStatus": "סטטוס פעיל"
+      },
+      "placeholders": {
+        "nameEn": "e.g. Drum Kit Rental",
+        "nameHe": "לדוגמה: השכרת מערכת תופים",
+        "descriptionEn": "Describe what's included...",
+        "descriptionHe": "תאר מה כלול..."
+      },
+      "pricePer": {
+        "label": "סוג תמחור",
+        "flat": "מחיר קבוע",
+        "hour": "מחיר לשעה",
+        "day": "מחיר ליום",
+        "flatOption": "מחיר קבוע (Flat Fee)",
+        "hourOption": "לשעה (Per Hour)",
+        "dayOption": "ליום (Per Day)"
+      },
       "errors": {
         "requiredFields": "אנא מלא את כל השדות הנדרשים",
         "itemIdRequired": "נדרש מזהה שירות ליצירת תוספת"
@@ -442,7 +466,7 @@
     "proTip": "טיפ מקצועי",
     "editingLanguage": "שפת עריכה",
     "stepCounter": "שלב {{current}} מתוך {{total}}",
-    "autoSaved": "נשמר אוטומטית",
+    "autoSaved": "טיוטה נשמרה",
     "switchToEnglish": "עבור לאנגלית לצפייה בשגיאות",
     "switchToHebrew": "עבור לעברית לצפייה בשגיאות",
     "switchLanguageHint": "עבור ל{{language}} לצפייה ותיקון שגיאות",

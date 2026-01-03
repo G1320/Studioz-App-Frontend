@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { SteppedForm, FieldType, FormStep, DurationField, CancellationPolicyField } from '@shared/components';
+import { SteppedForm, FieldType, FormStep, CancellationPolicyField } from '@shared/components';
 import type { Duration, CancellationPolicy } from '@shared/components';
 import { itemStepSchemasEdit } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
@@ -97,24 +97,14 @@ export const EditItemForm = () => {
   const [pendingAddOns, setPendingAddOns] = useState<PendingAddOn[]>([]);
 
   // Booking Settings State - Initialize from item data
-  const [minimumBookingDuration, setMinimumBookingDuration] = useState<Duration>(
-    item?.minimumBookingDuration || {}
-  );
-  const [minimumQuantity, setMinimumQuantity] = useState<number | undefined>(
-    item?.minimumQuantity
-  );
-  const [advanceBookingRequired, setAdvanceBookingRequired] = useState<Duration>(
-    item?.advanceBookingRequired || {}
-  );
-  const [preparationTime, setPreparationTime] = useState<Duration>(
-    item?.preparationTime || {}
-  );
+  const [minimumBookingDuration, setMinimumBookingDuration] = useState<Duration>(item?.minimumBookingDuration || {});
+  const [minimumQuantity, setMinimumQuantity] = useState<number | undefined>(item?.minimumQuantity);
+  const [advanceBookingRequired, setAdvanceBookingRequired] = useState<Duration>(item?.advanceBookingRequired || {});
+  const [preparationTime, setPreparationTime] = useState<Duration>(item?.preparationTime || {});
   const [instantBook, setInstantBook] = useState<boolean>(item?.instantBook || false);
 
   // Policies State
-  const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>(
-    item?.cancellationPolicy || {}
-  );
+  const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>(item?.cancellationPolicy || {});
 
   // Populate pending add-ons with existing add-ons when they're loaded
   useEffect(() => {
@@ -230,7 +220,9 @@ export const EditItemForm = () => {
             {t('form.pricing.title', { defaultValue: 'Pricing & Rates' })}
           </h2>
           <p className="pricing-step__description">
-            {t('form.pricing.description', { defaultValue: 'Set your base rates. You can add special discounts later.' })}
+            {t('form.pricing.description', {
+              defaultValue: 'Set your base rates. You can add special discounts later.'
+            })}
           </p>
         </div>
 
@@ -257,9 +249,7 @@ export const EditItemForm = () => {
           <div className="pricing-step__grid">
             {/* Price Input */}
             <div className="pricing-step__field">
-              <label className="pricing-step__label">
-                {t('form.pricing.priceLabel', { defaultValue: 'Price' })}
-              </label>
+              <label className="pricing-step__label">{t('form.pricing.priceLabel', { defaultValue: 'Price' })}</label>
               <div className="pricing-step__input-wrapper">
                 <span className="pricing-step__input-prefix">₪</span>
                 <input
@@ -396,7 +386,9 @@ export const EditItemForm = () => {
             {t('form.bookingSettings.title', { defaultValue: 'Booking Settings' })}
           </h2>
           <p className="booking-settings-step__description">
-            {t('form.bookingSettings.subtitle', { defaultValue: 'Control how users book your space and manage your schedule.' })}
+            {t('form.bookingSettings.subtitle', {
+              defaultValue: 'Control how users book your space and manage your schedule.'
+            })}
           </p>
         </div>
 
@@ -407,14 +399,21 @@ export const EditItemForm = () => {
             onClick={() => setInstantBook(false)}
             className={`booking-settings-step__mode-card ${!instantBook ? 'booking-settings-step__mode-card--active' : ''}`}
           >
-            <div className={`booking-settings-step__mode-icon ${!instantBook ? 'booking-settings-step__mode-icon--active' : 'booking-settings-step__mode-icon--default'}`}>
+            <div
+              className={`booking-settings-step__mode-icon ${!instantBook ? 'booking-settings-step__mode-icon--active' : 'booking-settings-step__mode-icon--default'}`}
+            >
               <EventAvailableIcon />
             </div>
-            <h3 className={`booking-settings-step__mode-title ${!instantBook ? 'booking-settings-step__mode-title--active' : 'booking-settings-step__mode-title--default'}`}>
+            <h3
+              className={`booking-settings-step__mode-title ${!instantBook ? 'booking-settings-step__mode-title--active' : 'booking-settings-step__mode-title--default'}`}
+            >
               {t('form.bookingSettings.requestToBook.title', { defaultValue: 'Request to Book' })}
             </h3>
             <p className="booking-settings-step__mode-description">
-              {t('form.bookingSettings.requestToBook.description', { defaultValue: 'Review every booking request before accepting. Best for studios that need to screen clients.' })}
+              {t('form.bookingSettings.requestToBook.description', {
+                defaultValue:
+                  'Review every booking request before accepting. Best for studios that need to screen clients.'
+              })}
             </p>
           </button>
 
@@ -423,14 +422,20 @@ export const EditItemForm = () => {
             onClick={() => setInstantBook(true)}
             className={`booking-settings-step__mode-card ${instantBook ? 'booking-settings-step__mode-card--active' : ''}`}
           >
-            <div className={`booking-settings-step__mode-icon ${instantBook ? 'booking-settings-step__mode-icon--active' : 'booking-settings-step__mode-icon--default'}`}>
+            <div
+              className={`booking-settings-step__mode-icon ${instantBook ? 'booking-settings-step__mode-icon--active' : 'booking-settings-step__mode-icon--default'}`}
+            >
               <BoltIcon />
             </div>
-            <h3 className={`booking-settings-step__mode-title ${instantBook ? 'booking-settings-step__mode-title--active' : 'booking-settings-step__mode-title--default'}`}>
+            <h3
+              className={`booking-settings-step__mode-title ${instantBook ? 'booking-settings-step__mode-title--active' : 'booking-settings-step__mode-title--default'}`}
+            >
               {t('form.bookingSettings.instantBook.title', { defaultValue: 'Instant Book' })}
             </h3>
             <p className="booking-settings-step__mode-description">
-              {t('form.bookingSettings.instantBook.description', { defaultValue: 'Allow users to book instantly without approval. Gets 2x more bookings on average.' })}
+              {t('form.bookingSettings.instantBook.description', {
+                defaultValue: 'Allow users to book instantly without approval. Gets 2x more bookings on average.'
+              })}
             </p>
           </button>
         </div>
@@ -445,16 +450,36 @@ export const EditItemForm = () => {
             <div className="booking-settings-step__select-wrapper">
               <select
                 className="booking-settings-step__select"
-                value={advanceBookingRequired.value && advanceBookingRequired.unit ? `${advanceBookingRequired.value}-${advanceBookingRequired.unit}` : '1-hours'}
+                value={
+                  advanceBookingRequired.value && advanceBookingRequired.unit
+                    ? `${advanceBookingRequired.value}-${advanceBookingRequired.unit}`
+                    : '1-hours'
+                }
                 onChange={(e) => {
                   const [value, unit] = e.target.value.split('-');
                   setAdvanceBookingRequired({ value: parseInt(value), unit: unit as 'hours' | 'days' });
                 }}
               >
-                <option value="1-hours">{t('form.bookingSettings.advanceNotice.options.1hour', { defaultValue: 'At least 1 hour in advance' })}</option>
-                <option value="24-hours">{t('form.bookingSettings.advanceNotice.options.24hours', { defaultValue: 'At least 24 hours in advance' })}</option>
-                <option value="48-hours">{t('form.bookingSettings.advanceNotice.options.48hours', { defaultValue: 'At least 48 hours in advance' })}</option>
-                <option value="3-days">{t('form.bookingSettings.advanceNotice.options.3days', { defaultValue: 'At least 3 days in advance' })}</option>
+                <option value="1-hours">
+                  {t('form.bookingSettings.advanceNotice.options.1hour', {
+                    defaultValue: 'At least 1 hour in advance'
+                  })}
+                </option>
+                <option value="24-hours">
+                  {t('form.bookingSettings.advanceNotice.options.24hours', {
+                    defaultValue: 'At least 24 hours in advance'
+                  })}
+                </option>
+                <option value="48-hours">
+                  {t('form.bookingSettings.advanceNotice.options.48hours', {
+                    defaultValue: 'At least 48 hours in advance'
+                  })}
+                </option>
+                <option value="3-days">
+                  {t('form.bookingSettings.advanceNotice.options.3days', {
+                    defaultValue: 'At least 3 days in advance'
+                  })}
+                </option>
               </select>
               <span className="booking-settings-step__select-arrow">▼</span>
             </div>
@@ -467,7 +492,11 @@ export const EditItemForm = () => {
             <div className="booking-settings-step__select-wrapper">
               <select
                 className="booking-settings-step__select"
-                value={preparationTime.value && preparationTime.unit ? `${preparationTime.value}-${preparationTime.unit}` : '0'}
+                value={
+                  preparationTime.value && preparationTime.unit
+                    ? `${preparationTime.value}-${preparationTime.unit}`
+                    : '0'
+                }
                 onChange={(e) => {
                   if (e.target.value === '0') {
                     setPreparationTime({});
@@ -477,10 +506,18 @@ export const EditItemForm = () => {
                   }
                 }}
               >
-                <option value="0">{t('form.bookingSettings.preparationTime.options.none', { defaultValue: 'None' })}</option>
-                <option value="15-minutes">{t('form.bookingSettings.preparationTime.options.15min', { defaultValue: '15 minutes' })}</option>
-                <option value="30-minutes">{t('form.bookingSettings.preparationTime.options.30min', { defaultValue: '30 minutes' })}</option>
-                <option value="60-minutes">{t('form.bookingSettings.preparationTime.options.1hour', { defaultValue: '1 hour' })}</option>
+                <option value="0">
+                  {t('form.bookingSettings.preparationTime.options.none', { defaultValue: 'None' })}
+                </option>
+                <option value="15-minutes">
+                  {t('form.bookingSettings.preparationTime.options.15min', { defaultValue: '15 minutes' })}
+                </option>
+                <option value="30-minutes">
+                  {t('form.bookingSettings.preparationTime.options.30min', { defaultValue: '30 minutes' })}
+                </option>
+                <option value="60-minutes">
+                  {t('form.bookingSettings.preparationTime.options.1hour', { defaultValue: '1 hour' })}
+                </option>
               </select>
               <span className="booking-settings-step__select-arrow">▼</span>
             </div>
@@ -490,9 +527,7 @@ export const EditItemForm = () => {
         {/* Minimum Quantity - only for non-hourly pricing */}
         {pricePer !== 'hour' && (
           <div className="booking-settings-step__field">
-            <label className="booking-settings-step__label">
-              {t('form.bookingSettings.minimumQuantity.label')}
-            </label>
+            <label className="booking-settings-step__label">{t('form.bookingSettings.minimumQuantity.label')}</label>
             <input
               type="number"
               name="minimumQuantity"
@@ -506,24 +541,14 @@ export const EditItemForm = () => {
         )}
       </div>
     ),
-    [
-      t,
-      pricePer,
-      minimumQuantity,
-      advanceBookingRequired,
-      preparationTime,
-      instantBook
-    ]
+    [t, pricePer, minimumQuantity, advanceBookingRequired, preparationTime, instantBook]
   );
 
   // Policies custom content
   const policiesContent = useMemo(
     () => (
       <div className="policies-step">
-        <CancellationPolicyField
-          value={cancellationPolicy}
-          onChange={setCancellationPolicy}
-        />
+        <CancellationPolicyField value={cancellationPolicy} onChange={setCancellationPolicy} />
       </div>
     ),
     [cancellationPolicy]
@@ -559,11 +584,7 @@ export const EditItemForm = () => {
         id: 'booking-settings',
         title: t('form.steps.bookingSettings') || 'Booking Settings',
         description: t('form.steps.bookingSettingsDesc') || 'Set booking rules and preparation times',
-        fieldNames: [
-          'minimumQuantity',
-          'advanceBookingRequired',
-          'preparationTime'
-        ],
+        fieldNames: ['minimumQuantity', 'advanceBookingRequired', 'preparationTime'],
         schema: itemStepSchemasEdit['booking-settings'],
         customContent: bookingSettingsContent
       },
@@ -596,7 +617,16 @@ export const EditItemForm = () => {
           ]
         : [])
     ],
-    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn, handleUpdateAddOn, pricingContent, bookingSettingsContent, policiesContent]
+    [
+      t,
+      pendingAddOns,
+      handleAddAddOn,
+      handleRemoveAddOn,
+      handleUpdateAddOn,
+      pricingContent,
+      bookingSettingsContent,
+      policiesContent
+    ]
   );
 
   // Initialize currentStepIndex from URL on mount
@@ -636,7 +666,9 @@ export const EditItemForm = () => {
       label: `${t('form.description.en')} 🇺🇸`,
       type: 'textarea' as FieldType,
       value: item?.description?.en,
-      placeholder: t('form.description.placeholder', { defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..." }),
+      placeholder: t('form.description.placeholder', {
+        defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..."
+      }),
       helperText: t('form.description.helperText')
     },
     {
@@ -644,7 +676,9 @@ export const EditItemForm = () => {
       label: `${t('form.description.he')} 🇮🇱`,
       type: 'textarea' as FieldType,
       value: item?.description?.he,
-      placeholder: t('form.description.placeholderHe', { defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...' }),
+      placeholder: t('form.description.placeholderHe', {
+        defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
+      }),
       helperText: t('form.description.helperText')
     },
     {

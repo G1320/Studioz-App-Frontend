@@ -49,8 +49,8 @@ export const durationSchema = z.object({
  */
 export const advanceBookingRequiredSchema = z.object({
   value: positiveNumberSchema.min(1, 'Value must be at least 1'),
-  unit: z.enum(['hours', 'days'], {
-    message: 'Unit must be hours or days'
+  unit: z.enum(['minutes', 'hours', 'days'], {
+    message: 'Unit must be minutes, hours, or days'
   })
 }).optional();
 
@@ -238,7 +238,7 @@ export const itemStep3Schema = z.object({
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['hours', 'days']).optional()
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
   }).optional(),
   blockDiscounts: z.object({
     eightHour: z.preprocess(
@@ -303,7 +303,7 @@ export const itemStep4Schema = z.object({
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['hours', 'days']).optional()
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
   }).optional(),
   minimumQuantity: z.preprocess(
     (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
@@ -314,14 +314,14 @@ export const itemStep4Schema = z.object({
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['hours', 'days']).optional()
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
   }).optional(),
   preparationTime: z.object({
     value: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
     ),
-    unit: z.enum(['hours', 'days']).optional()
+    unit: z.enum(['minutes', 'hours', 'days']).optional()
   }).optional()
 }).passthrough();
 

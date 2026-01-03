@@ -21,10 +21,9 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton, isSel
 
   const getTranslatedPricePer = (pricePer: string) => {
     const pricePerMap: Record<string, string> = {
-      hour: tForms('forms:form.pricePer.hour'),
-      session: tForms('forms:form.pricePer.session'),
-      unit: tForms('forms:form.pricePer.unit'),
-      song: tForms('forms:form.pricePer.song')
+      flat: tForms('forms:form.addOn.pricePer.flat'),
+      hour: tForms('forms:form.addOn.pricePer.hour'),
+      day: tForms('forms:form.addOn.pricePer.day')
     };
 
     return pricePerMap[pricePer] || pricePer;
