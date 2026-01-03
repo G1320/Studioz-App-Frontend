@@ -244,17 +244,6 @@ export const EditStudioForm = () => {
   const policiesContent = useMemo(
     () => (
       <div className="policies-step">
-        {/* Header */}
-        <div className="policies-step__header">
-          <h2 className="policies-step__title">
-            <ShieldIcon className="policies-step__title-icon" />
-            {t('form.policies.title', { defaultValue: 'Policies & Rules' })}
-          </h2>
-          <p className="policies-step__description">
-            {t('form.policies.subtitle', { defaultValue: 'Set clear expectations for your guests.' })}
-          </p>
-        </div>
-
         {/* Cancellation Policy */}
         <div className="policies-step__section">
           <label className="policies-step__section-label">
