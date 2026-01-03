@@ -132,7 +132,6 @@ export const itemFullSchema = z.object({
   // Booking Requirements
   minimumBookingDuration: durationSchema,
   minimumQuantity: positiveNumberSchema.min(1, 'Minimum quantity must be at least 1').optional(),
-  maximumBookingDuration: durationSchema,
   advanceBookingRequired: advanceBookingRequiredSchema,
   
   // Setup & Preparation
@@ -148,10 +147,7 @@ export const itemFullSchema = z.object({
   softwareRequirements: z.array(z.string()).optional(),
   
   // Quantity Management
-  maxQuantityPerBooking: positiveNumberSchema.min(1, 'Max quantity per booking must be at least 1').optional(),
-  
-  // Same-Day Booking
-  allowSameDayBooking: z.boolean().optional()
+  maxQuantityPerBooking: positiveNumberSchema.min(1, 'Max quantity per booking must be at least 1').optional()
 });
 
 /**
@@ -299,18 +295,11 @@ export const itemStep1EditSchema = z.object({
 
 /**
  * Step 4: Booking Settings Schema
- * Validates: minimumBookingDuration, maximumBookingDuration, minimumQuantity,
- * advanceBookingRequired, preparationTime, bufferTime, allowSameDayBooking
+ * Validates: minimumBookingDuration, minimumQuantity,
+ * advanceBookingRequired, preparationTime, bufferTime
  */
 export const itemStep4Schema = z.object({
   minimumBookingDuration: z.object({
-    value: z.preprocess(
-      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
-      z.number().positive().optional()
-    ),
-    unit: z.enum(['hours', 'days']).optional()
-  }).optional(),
-  maximumBookingDuration: z.object({
     value: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()
@@ -341,16 +330,7 @@ export const itemStep4Schema = z.object({
       z.number().positive().optional()
     ),
     unit: z.enum(['hours', 'days']).optional()
-  }).optional(),
-  allowSameDayBooking: z.preprocess(
-    (val) => {
-      if (val === undefined || val === null || val === '') return false;
-      if (typeof val === 'boolean') return val;
-      if (typeof val === 'string') return val === 'true' || val === '1' || val === 'on';
-      return Boolean(val);
-    },
-    z.boolean().optional()
-  )
+  }).optional()
 }).passthrough();
 
 /**

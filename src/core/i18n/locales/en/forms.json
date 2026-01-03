@@ -140,12 +140,6 @@
         "value": "Duration",
         "unit": "Unit"
       },
-      "maximumBookingDuration": {
-        "label": "Maximum Booking Duration",
-        "description": "The maximum time a customer can book",
-        "value": "Duration",
-        "unit": "Unit"
-      },
       "minimumQuantity": {
         "label": "Minimum Quantity",
         "description": "Minimum number of units/people per booking"
@@ -167,10 +161,6 @@
         "description": "Time between sessions for cleanup/setup",
         "value": "Duration",
         "unit": "Unit"
-      },
-      "allowSameDayBooking": {
-        "label": "Allow Same-Day Booking",
-        "description": "Allow customers to book for today"
       },
       "units": {
         "minutes": "Minutes",
@@ -226,6 +216,10 @@
       "description": "Set your base rates. You can add special discounts later.",
       "pricePerHour": "Price per Hour",
       "pricePerDay": "Price per Day",
+      "priceLabel": "Price",
+      "pricePerLabel": "Price per",
+      "minimumBooking": "Minimum Booking",
+      "hours": "hours",
       "per": {
         "hour": "/ hr",
         "session": "/ session",

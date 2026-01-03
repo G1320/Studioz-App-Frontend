@@ -65,7 +65,6 @@ export default interface Item {
   // Booking Requirements
   minimumBookingDuration?: Duration;
   minimumQuantity?: number;
-  maximumBookingDuration?: Duration;
   advanceBookingRequired?: AdvanceBookingRequired;
   
   // Setup & Preparation
@@ -82,7 +81,4 @@ export default interface Item {
   
   // Quantity Management
   maxQuantityPerBooking?: number;
-  
-  // Same-Day Booking
-  allowSameDayBooking?: boolean;
 }

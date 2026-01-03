@@ -40,12 +40,10 @@ interface ItemFormData {
   languageToggle?: string;
   // Booking Settings
   minimumBookingDuration?: Duration;
-  maximumBookingDuration?: Duration;
   minimumQuantity?: number;
   advanceBookingRequired?: Duration;
   preparationTime?: Duration;
   bufferTime?: Duration;
-  allowSameDayBooking?: boolean;
   // Policies
   cancellationPolicy?: CancellationPolicy;
   [key: string]: any; // Allow additional properties from form
@@ -100,9 +98,6 @@ export const EditItemForm = () => {
   const [minimumBookingDuration, setMinimumBookingDuration] = useState<Duration>(
     item?.minimumBookingDuration || {}
   );
-  const [maximumBookingDuration, setMaximumBookingDuration] = useState<Duration>(
-    item?.maximumBookingDuration || {}
-  );
   const [minimumQuantity, setMinimumQuantity] = useState<number | undefined>(
     item?.minimumQuantity
   );
@@ -114,9 +109,6 @@ export const EditItemForm = () => {
   );
   const [bufferTime, setBufferTime] = useState<Duration>(
     item?.bufferTime || {}
-  );
-  const [allowSameDayBooking, setAllowSameDayBooking] = useState<boolean>(
-    item?.allowSameDayBooking || false
   );
   const [instantBook, setInstantBook] = useState<boolean>(item?.instantBook || false);
 
@@ -244,13 +236,30 @@ export const EditItemForm = () => {
         </div>
 
         <div className="pricing-step__section">
+          {/* Pricing Type Radio Buttons */}
+          <div className="pricing-step__field pricing-step__field--full">
+            <label className="pricing-step__label">
+              {t('form.pricing.pricePerLabel', { defaultValue: 'Price per' })}
+            </label>
+            <div className="pricing-step__radio-group">
+              {pricePerOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setPricePer(option.value)}
+                  className={`pricing-step__radio-btn ${pricePer === option.value ? 'pricing-step__radio-btn--active' : ''}`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="pricing-step__grid">
             {/* Price Input */}
             <div className="pricing-step__field">
               <label className="pricing-step__label">
-                {pricePer === 'hour'
-                  ? t('form.pricing.pricePerHour', { defaultValue: 'Price per Hour' })
-                  : t('form.pricing.pricePerDay', { defaultValue: 'Price per Day' })}
+                {t('form.pricing.priceLabel', { defaultValue: 'Price' })}
               </label>
               <div className="pricing-step__input-wrapper">
                 <span className="pricing-step__input-prefix">₪</span>
@@ -268,24 +277,33 @@ export const EditItemForm = () => {
               </div>
             </div>
 
-            {/* Price Per Select */}
-            <div className="pricing-step__field">
-              <label className="pricing-step__label">
-                {t('form.pricePer.label', { defaultValue: 'Pricing Type' })}
-              </label>
-              <select
-                name="pricePer"
-                value={pricePer}
-                onChange={(e) => setPricePer(e.target.value)}
-                className="pricing-step__select"
-              >
-                {pricePerOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* Minimum Booking Duration - Only show for hourly pricing */}
+            {pricePer === 'hour' && (
+              <div className="pricing-step__field">
+                <label className="pricing-step__label">
+                  {t('form.pricing.minimumBooking', { defaultValue: 'Minimum Booking' })}
+                </label>
+                <div className="pricing-step__input-wrapper">
+                  <input
+                    type="number"
+                    name="minimumBookingDuration"
+                    placeholder="1"
+                    min={1}
+                    value={minimumBookingDuration.value ?? ''}
+                    onChange={(e) =>
+                      setMinimumBookingDuration({
+                        value: e.target.value ? Number(e.target.value) : undefined,
+                        unit: 'hours'
+                      })
+                    }
+                    className="pricing-step__input pricing-step__input--with-suffix"
+                  />
+                  <span className="pricing-step__input-suffix">
+                    {t('form.pricing.hours', { defaultValue: 'hours' })}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Block Discounts - Only show for hourly pricing */}
@@ -366,7 +384,7 @@ export const EditItemForm = () => {
         </div>
       </div>
     ),
-    [t, pricePer, price, blockDiscounts, pricePerOptions]
+    [t, pricePer, price, blockDiscounts, pricePerOptions, minimumBookingDuration]
   );
 
   // Booking Settings custom content
@@ -387,26 +405,6 @@ export const EditItemForm = () => {
               <p className="booking-settings-step__switch-description">{t('form.instantBook.description')}</p>
             </div>
           </Field>
-
-          {/* Only show duration fields for hourly pricing */}
-          {pricePer === 'hour' && (
-          <div className="booking-settings-step__grid">
-            <DurationField
-              name="minimumBookingDuration"
-              label={t('form.bookingSettings.minimumBookingDuration.label')}
-              description={t('form.bookingSettings.minimumBookingDuration.description')}
-              value={minimumBookingDuration}
-              onChange={setMinimumBookingDuration}
-            />
-            <DurationField
-              name="maximumBookingDuration"
-              label={t('form.bookingSettings.maximumBookingDuration.label')}
-              description={t('form.bookingSettings.maximumBookingDuration.description')}
-              value={maximumBookingDuration}
-              onChange={setMaximumBookingDuration}
-            />
-          </div>
-          )}
 
           {/* Only show minimumQuantity for non-hourly pricing */}
           {pricePer !== 'hour' && (
@@ -429,28 +427,6 @@ export const EditItemForm = () => {
             </div>
           )}
 
-          <Field as="div" className="booking-settings-step__switch-group">
-            <Switch
-              checked={allowSameDayBooking}
-              onChange={(checked) => {
-                setAllowSameDayBooking(checked);
-                // Clear advance booking required when same-day booking is enabled
-                if (checked) {
-                  setAdvanceBookingRequired({});
-                }
-              }}
-              className={`booking-settings-step__switch ${allowSameDayBooking ? 'on' : ''}`}
-            />
-            <div className="booking-settings-step__switch-content">
-              <Label className="booking-settings-step__switch-label">
-                {t('form.bookingSettings.allowSameDayBooking.label')}
-              </Label>
-              <p className="booking-settings-step__switch-description">
-                {t('form.bookingSettings.allowSameDayBooking.description')}
-              </p>
-            </div>
-          </Field>
-
           <DurationField
             name="advanceBookingRequired"
             label={t('form.bookingSettings.advanceBookingRequired.label')}
@@ -458,7 +434,6 @@ export const EditItemForm = () => {
             value={advanceBookingRequired}
             onChange={setAdvanceBookingRequired}
             unitOptions={['hours', 'days']}
-            disabled={allowSameDayBooking}
           />
         </div>
 
@@ -488,13 +463,10 @@ export const EditItemForm = () => {
     [
       t,
       pricePer,
-      minimumBookingDuration,
-      maximumBookingDuration,
       minimumQuantity,
       advanceBookingRequired,
       preparationTime,
       bufferTime,
-      allowSameDayBooking,
       instantBook
     ]
   );
@@ -534,7 +506,7 @@ export const EditItemForm = () => {
         id: 'pricing',
         title: t('form.steps.pricing') || 'Pricing & Options',
         description: t('form.steps.pricingDesc') || 'Set price and booking options',
-        fieldNames: ['price', 'pricePer', 'blockDiscounts'],
+        fieldNames: ['price', 'pricePer', 'blockDiscounts', 'minimumBookingDuration'],
         schema: itemStepSchemasEdit.pricing,
         customContent: pricingContent
       },
@@ -543,13 +515,10 @@ export const EditItemForm = () => {
         title: t('form.steps.bookingSettings') || 'Booking Settings',
         description: t('form.steps.bookingSettingsDesc') || 'Set booking rules and preparation times',
         fieldNames: [
-          'minimumBookingDuration',
-          'maximumBookingDuration',
           'minimumQuantity',
           'advanceBookingRequired',
           'preparationTime',
-          'bufferTime',
-          'allowSameDayBooking'
+          'bufferTime'
         ],
         schema: itemStepSchemasEdit['booking-settings'],
         customContent: bookingSettingsContent
@@ -721,9 +690,6 @@ export const EditItemForm = () => {
     if (minimumBookingDuration.value && minimumBookingDuration.unit) {
       formData.minimumBookingDuration = minimumBookingDuration;
     }
-    if (maximumBookingDuration.value && maximumBookingDuration.unit) {
-      formData.maximumBookingDuration = maximumBookingDuration;
-    }
     if (minimumQuantity !== undefined && minimumQuantity > 0) {
       formData.minimumQuantity = minimumQuantity;
     }
@@ -736,7 +702,6 @@ export const EditItemForm = () => {
     if (bufferTime.value && bufferTime.unit) {
       formData.bufferTime = bufferTime;
     }
-    formData.allowSameDayBooking = allowSameDayBooking;
 
     // Add cancellation policy (only include if type is selected)
     if (cancellationPolicy.type) {
