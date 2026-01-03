@@ -55,19 +55,6 @@ export const advanceBookingRequiredSchema = z.object({
 }).optional();
 
 /**
- * Cancellation policy schema
- */
-export const cancellationPolicySchema = z.object({
-  type: z.enum(['flexible', 'moderate', 'strict'], {
-    message: 'Type must be flexible, moderate, or strict'
-  }),
-  notes: z.object({
-    en: z.string().max(500, 'Notes must be at most 500 characters').optional(),
-    he: z.string().max(500, 'הערות חייבות להיות לכל היותר 500 תווים').optional()
-  }).optional()
-}).optional();
-
-/**
  * Block discounts schema (8-hour and 12-hour day rates)
  */
 export const blockDiscountsSchema = z.object({
@@ -136,9 +123,6 @@ export const itemFullSchema = z.object({
   
   // Setup & Preparation
   preparationTime: durationSchema,
-  
-  // Policies
-  cancellationPolicy: cancellationPolicySchema,
   
   // Remote Service
   remoteService: z.boolean().optional(),
@@ -326,23 +310,9 @@ export const itemStep4Schema = z.object({
 }).passthrough();
 
 /**
- * Step 5: Policies Schema
- * Validates: cancellationPolicy
+ * Step 5: Add-ons Schema (optional - no validation required, always passes)
  */
-export const itemStep5Schema = z.object({
-  cancellationPolicy: z.object({
-    type: z.enum(['flexible', 'moderate', 'strict']).optional(),
-    notes: z.object({
-      en: z.string().max(500).optional(),
-      he: z.string().max(500).optional()
-    }).optional()
-  }).optional()
-}).passthrough();
-
-/**
- * Step 6: Add-ons Schema (optional - no validation required, always passes)
- */
-export const itemStep6Schema = z.object({}).passthrough();
+export const itemStep5Schema = z.object({}).passthrough();
 
 /**
  * Step schema map for easy access
@@ -352,8 +322,7 @@ export const itemStepSchemas = {
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
   'booking-settings': itemStep4Schema,
-  policies: itemStep5Schema,
-  'add-ons': itemStep6Schema
+  'add-ons': itemStep5Schema
 } as const;
 
 /**
@@ -364,8 +333,7 @@ export const itemStepSchemasEdit = {
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
   'booking-settings': itemStep4Schema,
-  policies: itemStep5Schema,
-  'add-ons': itemStep6Schema
+  'add-ons': itemStep5Schema
 } as const;
 
 /**
@@ -378,5 +346,4 @@ export type ItemStep1Data = z.infer<typeof itemStep1Schema>;
 export type ItemStep2Data = z.infer<typeof itemStep2Schema>;
 export type ItemStep3Data = z.infer<typeof itemStep3Schema>;
 export type ItemStep4Data = z.infer<typeof itemStep4Schema>;
-export type ItemStep5Data = z.infer<typeof itemStep5Schema>;
 export type ItemStep1EditData = z.infer<typeof itemStep1EditSchema>;

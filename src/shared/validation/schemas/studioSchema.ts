@@ -187,24 +187,20 @@ export const studioStep6Schema = z.object({
 
 /**
  * Step 7: Policies Schema
- * Validates: cancellationPolicy, houseRules
+ * Validates: cancellationPolicy (includes type and houseRules)
  */
 export const studioStep7Schema = z.object({
   cancellationPolicy: z
     .object({
       type: z.enum(['flexible', 'moderate', 'strict']).optional(),
-      notes: z
+      houseRules: z
         .object({
-          en: z.string().max(500).optional(),
-          he: z.string().max(500).optional()
+          en: z.string().max(1000).optional(),
+          he: z.string().max(1000).optional()
         })
         .optional()
     })
-    .optional(),
-  houseRules: z.preprocess(
-    (val) => (val === undefined || val === null || val === '' ? undefined : val),
-    z.string().max(2000, 'House rules must be at most 2000 characters').optional()
-  )
+    .optional()
 });
 
 /**
@@ -271,6 +267,17 @@ export const studioFullSchema = z.object({
     (val) => (val === undefined || val === null || val === '' ? undefined : val),
     z.string().max(500, 'Arrival instructions must be at most 500 characters').optional()
   ),
+  cancellationPolicy: z
+    .object({
+      type: z.enum(['flexible', 'moderate', 'strict']).optional(),
+      houseRules: z
+        .object({
+          en: z.string().max(1000).optional(),
+          he: z.string().max(1000).optional()
+        })
+        .optional()
+    })
+    .optional(),
 
   // Optional fields
   isSelfService: z.boolean().optional(),
