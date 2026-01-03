@@ -262,13 +262,6 @@
     }
   }
 
-  // Hide the language toggle field when using step header toggle
-  &__form {
-    .form-group:has(.form-language-toggle) {
-      display: none;
-    }
-  }
-
   &__language-label {
     font-size: 0.75rem;
     font-weight: 700;
@@ -403,6 +396,11 @@
         grid-column: span 1 !important;
       }
 
+      // Section header spans full width
+      .form-group.section-header-wrapper {
+        grid-column: span 2 !important;
+      }
+
       // Textareas span full width
       .form-group:has(.form-textarea) {
         grid-column: span 2 !important;
@@ -417,6 +415,7 @@
         grid-template-columns: 1fr !important;
 
         .form-group,
+        .form-group.section-header-wrapper,
         .form-group:has(.form-textarea),
         .form-group:has(.form-language-toggle) {
           grid-column: span 1 !important;

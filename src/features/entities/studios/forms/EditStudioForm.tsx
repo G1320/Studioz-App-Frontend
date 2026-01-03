@@ -215,13 +215,13 @@ export const EditStudioForm = () => {
         description: t('form.steps.basicInfoDesc') || 'Enter your studio name and description',
         fieldNames: [
           'basicInfoHeader',
+          'languageToggle',
           'name.en',
           'name.he',
           'subtitle.en',
           'subtitle.he',
           'description.en',
-          'description.he',
-          'languageToggle'
+          'description.he'
         ],
         schema: studioStepSchemasEdit['basic-info'],
         languageToggle: true

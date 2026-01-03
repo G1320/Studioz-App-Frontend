@@ -442,12 +442,6 @@ export const SteppedForm = ({
     return prepared;
   }, [currentStepFields, formData, handleFieldChange, currentStep.languageToggle, hasOtherLanguageErrors]);
 
-  // Get the languageToggle field's onChange handler to reuse in the step header toggle
-  const languageToggleField = useMemo(
-    () => fieldsWithValues.find((field) => field.type === 'languageToggle'),
-    [fieldsWithValues]
-  );
-
   // Check if current language is RTL (Hebrew)
   const isRTL = i18n.language === 'he';
 
@@ -535,46 +529,6 @@ export const SteppedForm = ({
             )}
           </div>
 
-          {/* Language Toggle for steps that support it - reuses the field's onChange handler */}
-          {currentStep.languageToggle && languageToggleField && (
-            <div className="stepped-form__step-header-right">
-              <label className="stepped-form__language-label">{t('form.editingLanguage', 'Editing Language')}</label>
-              <div className="form-language-toggle">
-                <button
-                  type="button"
-                  className={`form-language-toggle__btn ${languageToggleField.value === 'en' ? 'active' : ''} ${hasOtherLanguageErrors && languageToggleField.value === 'he' ? 'has-errors' : ''}`}
-                  onClick={() => languageToggleField.onChange?.('en')}
-                  title={
-                    hasOtherLanguageErrors && languageToggleField.value === 'he'
-                      ? t('form.switchToEnglish', 'Switch to English to see errors')
-                      : ''
-                  }
-                >
-                  English
-                </button>
-                <button
-                  type="button"
-                  className={`form-language-toggle__btn ${languageToggleField.value === 'he' ? 'active' : ''} ${hasOtherLanguageErrors && languageToggleField.value === 'en' ? 'has-errors' : ''}`}
-                  onClick={() => languageToggleField.onChange?.('he')}
-                  title={
-                    hasOtherLanguageErrors && languageToggleField.value === 'en'
-                      ? t('form.switchToHebrew', 'Switch to Hebrew to see errors')
-                      : ''
-                  }
-                >
-                  עברית
-                </button>
-              </div>
-              {hasOtherLanguageErrors && (
-                <div className="form-language-toggle__hint">
-                  {t('form.switchLanguageHint', {
-                    language: languageToggleField.value === 'en' ? 'Hebrew' : 'English',
-                    defaultValue: `Switch to ${languageToggleField.value === 'en' ? 'Hebrew' : 'English'} to view and fix errors`
-                  })}
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Form Content */}

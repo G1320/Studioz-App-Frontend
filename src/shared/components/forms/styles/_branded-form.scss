@@ -641,6 +641,11 @@
 @mixin branded-section-header {
   .section-header-wrapper {
     margin-bottom: 0;
+    grid-column: span 2;
+
+    @media screen and (max-width: 768px) {
+      grid-column: span 1;
+    }
   }
 
   .section-header {
