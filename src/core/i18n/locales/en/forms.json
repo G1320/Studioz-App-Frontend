@@ -134,6 +134,35 @@
       "helperText": "Being detailed about your gear helps musicians find exactly what they need."
     },
     "bookingSettings": {
+      "title": "Booking Settings",
+      "subtitle": "Control how users book your space and manage your schedule.",
+      "requestToBook": {
+        "title": "Request to Book",
+        "description": "Review every booking request before accepting. Best for studios that need to screen clients."
+      },
+      "instantBook": {
+        "title": "Instant Book",
+        "description": "Allow users to book instantly without approval. Gets 2x more bookings on average."
+      },
+      "advanceNotice": {
+        "label": "Advance Notice",
+        "options": {
+          "1hour": "At least 1 hour in advance",
+          "24hours": "At least 24 hours in advance",
+          "48hours": "At least 48 hours in advance",
+          "3days": "At least 3 days in advance"
+        }
+      },
+      "preparationTime": {
+        "label": "Preparation Time (Buffer)",
+        "description": "Time needed to prepare before the session",
+        "options": {
+          "none": "None",
+          "15min": "15 minutes",
+          "30min": "30 minutes",
+          "1hour": "1 hour"
+        }
+      },
       "minimumBookingDuration": {
         "label": "Minimum Booking Duration",
         "description": "The minimum time a customer must book",
@@ -147,12 +176,6 @@
       "advanceBookingRequired": {
         "label": "Advance Booking Required",
         "description": "How far in advance customers must book",
-        "value": "Duration",
-        "unit": "Unit"
-      },
-      "preparationTime": {
-        "label": "Preparation Time",
-        "description": "Time needed to prepare before the session",
         "value": "Duration",
         "unit": "Unit"
       },

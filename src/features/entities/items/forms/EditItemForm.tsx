@@ -23,10 +23,13 @@ import { Item } from 'src/types/index';
 import { toast } from 'sonner';
 import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
 import { isFeatureEnabled } from '@core/config/featureFlags';
-import { Switch, Field, Label } from '@headlessui/react';
 import { clearAllFormData } from '@shared/utils/formAutoSaveUtils';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import BoltIcon from '@mui/icons-material/Bolt';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import './_createItemForm.scss';
 
 interface ItemFormData {
@@ -387,66 +390,120 @@ export const EditItemForm = () => {
   const bookingSettingsContent = useMemo(
     () => (
       <div className="booking-settings-step">
-        <div className="booking-settings-step__section">
-          <h3 className="booking-settings-step__section-title">{t('form.steps.bookingSettings')}</h3>
-
-          <Field as="div" className="booking-settings-step__switch-group">
-            <Switch
-              checked={instantBook}
-              onChange={setInstantBook}
-              className={`booking-settings-step__switch ${instantBook ? 'on' : ''}`}
-            />
-            <div className="booking-settings-step__switch-content">
-              <Label className="booking-settings-step__switch-label">{t('form.instantBook.label')}</Label>
-              <p className="booking-settings-step__switch-description">{t('form.instantBook.description')}</p>
-            </div>
-          </Field>
-
-          {/* Only show minimumQuantity for non-hourly pricing */}
-          {pricePer !== 'hour' && (
-            <div className="booking-settings-step__field">
-              <label className="booking-settings-step__label">
-                {t('form.bookingSettings.minimumQuantity.label')}
-              </label>
-              <p className="booking-settings-step__description">
-                {t('form.bookingSettings.minimumQuantity.description')}
-              </p>
-              <input
-                type="number"
-                name="minimumQuantity"
-                value={minimumQuantity ?? ''}
-                onChange={(e) => setMinimumQuantity(e.target.value ? Number(e.target.value) : undefined)}
-                min={1}
-                placeholder="1"
-                className="booking-settings-step__input"
-              />
-            </div>
-          )}
-
-          <DurationField
-            name="advanceBookingRequired"
-            label={t('form.bookingSettings.advanceBookingRequired.label')}
-            description={t('form.bookingSettings.advanceBookingRequired.description')}
-            value={advanceBookingRequired}
-            onChange={setAdvanceBookingRequired}
-            unitOptions={['hours', 'days']}
-          />
+        <div className="booking-settings-step__header">
+          <h2 className="booking-settings-step__title">
+            <CalendarMonthIcon className="booking-settings-step__title-icon" />
+            {t('form.bookingSettings.title', { defaultValue: 'Booking Settings' })}
+          </h2>
+          <p className="booking-settings-step__description">
+            {t('form.bookingSettings.subtitle', { defaultValue: 'Control how users book your space and manage your schedule.' })}
+          </p>
         </div>
 
-        <div className="booking-settings-step__section">
-          <h3 className="booking-settings-step__section-title">
-            {t('form.bookingSettings.preparationTime.label')}
-          </h3>
-          <div className="booking-settings-step__grid">
-            <DurationField
-              name="preparationTime"
-              label={t('form.bookingSettings.preparationTime.label')}
-              description={t('form.bookingSettings.preparationTime.description')}
-              value={preparationTime}
-              onChange={setPreparationTime}
-            />
+        {/* Booking Mode Selection */}
+        <div className="booking-settings-step__mode-grid">
+          <button
+            type="button"
+            onClick={() => setInstantBook(false)}
+            className={`booking-settings-step__mode-card ${!instantBook ? 'booking-settings-step__mode-card--active' : ''}`}
+          >
+            <div className={`booking-settings-step__mode-icon ${!instantBook ? 'booking-settings-step__mode-icon--active' : 'booking-settings-step__mode-icon--default'}`}>
+              <EventAvailableIcon />
+            </div>
+            <h3 className={`booking-settings-step__mode-title ${!instantBook ? 'booking-settings-step__mode-title--active' : 'booking-settings-step__mode-title--default'}`}>
+              {t('form.bookingSettings.requestToBook.title', { defaultValue: 'Request to Book' })}
+            </h3>
+            <p className="booking-settings-step__mode-description">
+              {t('form.bookingSettings.requestToBook.description', { defaultValue: 'Review every booking request before accepting. Best for studios that need to screen clients.' })}
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setInstantBook(true)}
+            className={`booking-settings-step__mode-card ${instantBook ? 'booking-settings-step__mode-card--active' : ''}`}
+          >
+            <div className={`booking-settings-step__mode-icon ${instantBook ? 'booking-settings-step__mode-icon--active' : 'booking-settings-step__mode-icon--default'}`}>
+              <BoltIcon />
+            </div>
+            <h3 className={`booking-settings-step__mode-title ${instantBook ? 'booking-settings-step__mode-title--active' : 'booking-settings-step__mode-title--default'}`}>
+              {t('form.bookingSettings.instantBook.title', { defaultValue: 'Instant Book' })}
+            </h3>
+            <p className="booking-settings-step__mode-description">
+              {t('form.bookingSettings.instantBook.description', { defaultValue: 'Allow users to book instantly without approval. Gets 2x more bookings on average.' })}
+            </p>
+          </button>
+        </div>
+
+        {/* Settings Dropdowns */}
+        <div className="booking-settings-step__settings-grid">
+          <div className="booking-settings-step__field">
+            <label className="booking-settings-step__label">
+              {t('form.bookingSettings.advanceNotice.label', { defaultValue: 'Advance Notice' })}
+              <HourglassEmptyIcon />
+            </label>
+            <div className="booking-settings-step__select-wrapper">
+              <select
+                className="booking-settings-step__select"
+                value={advanceBookingRequired.value && advanceBookingRequired.unit ? `${advanceBookingRequired.value}-${advanceBookingRequired.unit}` : '1-hours'}
+                onChange={(e) => {
+                  const [value, unit] = e.target.value.split('-');
+                  setAdvanceBookingRequired({ value: parseInt(value), unit: unit as 'hours' | 'days' });
+                }}
+              >
+                <option value="1-hours">{t('form.bookingSettings.advanceNotice.options.1hour', { defaultValue: 'At least 1 hour in advance' })}</option>
+                <option value="24-hours">{t('form.bookingSettings.advanceNotice.options.24hours', { defaultValue: 'At least 24 hours in advance' })}</option>
+                <option value="48-hours">{t('form.bookingSettings.advanceNotice.options.48hours', { defaultValue: 'At least 48 hours in advance' })}</option>
+                <option value="3-days">{t('form.bookingSettings.advanceNotice.options.3days', { defaultValue: 'At least 3 days in advance' })}</option>
+              </select>
+              <span className="booking-settings-step__select-arrow">▼</span>
+            </div>
+          </div>
+
+          <div className="booking-settings-step__field">
+            <label className="booking-settings-step__label">
+              {t('form.bookingSettings.preparationTime.label', { defaultValue: 'Preparation Time (Buffer)' })}
+            </label>
+            <div className="booking-settings-step__select-wrapper">
+              <select
+                className="booking-settings-step__select"
+                value={preparationTime.value && preparationTime.unit ? `${preparationTime.value}-${preparationTime.unit}` : '0'}
+                onChange={(e) => {
+                  if (e.target.value === '0') {
+                    setPreparationTime({});
+                  } else {
+                    const [value, unit] = e.target.value.split('-');
+                    setPreparationTime({ value: parseInt(value), unit: unit as 'minutes' | 'hours' });
+                  }
+                }}
+              >
+                <option value="0">{t('form.bookingSettings.preparationTime.options.none', { defaultValue: 'None' })}</option>
+                <option value="15-minutes">{t('form.bookingSettings.preparationTime.options.15min', { defaultValue: '15 minutes' })}</option>
+                <option value="30-minutes">{t('form.bookingSettings.preparationTime.options.30min', { defaultValue: '30 minutes' })}</option>
+                <option value="60-minutes">{t('form.bookingSettings.preparationTime.options.1hour', { defaultValue: '1 hour' })}</option>
+              </select>
+              <span className="booking-settings-step__select-arrow">▼</span>
+            </div>
           </div>
         </div>
+
+        {/* Minimum Quantity - only for non-hourly pricing */}
+        {pricePer !== 'hour' && (
+          <div className="booking-settings-step__field">
+            <label className="booking-settings-step__label">
+              {t('form.bookingSettings.minimumQuantity.label')}
+            </label>
+            <input
+              type="number"
+              name="minimumQuantity"
+              value={minimumQuantity ?? ''}
+              onChange={(e) => setMinimumQuantity(e.target.value ? Number(e.target.value) : undefined)}
+              min={1}
+              placeholder="1"
+              className="booking-settings-step__input"
+            />
+          </div>
+        )}
       </div>
     ),
     [
