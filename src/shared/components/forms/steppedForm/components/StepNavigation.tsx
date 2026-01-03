@@ -31,7 +31,12 @@ export const StepNavigation = ({
   onNext,
   onSubmit
 }: StepNavigationProps) => {
-  const { t } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
+  const isRTL = i18n.dir() === 'rtl';
+  
+  // Flip arrows for RTL languages
+  const PrevIcon = isRTL ? ChevronRightIcon : ChevronLeftIcon;
+  const NextIcon = isRTL ? ChevronLeftIcon : ChevronRightIcon;
   
   const handleSubmit = () => {
     if (hasCustomContent) {
@@ -50,7 +55,7 @@ export const StepNavigation = ({
         className="stepped-form__button stepped-form__button--previous"
         disabled={isFirstStep || !allowBackNavigation}
       >
-        <ChevronLeftIcon />
+        <PrevIcon />
         {prevBtnText}
       </button>
 
@@ -61,12 +66,12 @@ export const StepNavigation = ({
         {!isLastStep ? (
           <button type="button" onClick={onNext} className="stepped-form__button stepped-form__button--next">
             {nextBtnText}
-            <ChevronRightIcon />
+            <NextIcon />
           </button>
         ) : (
           <button type="button" onClick={handleSubmit} className="stepped-form__button stepped-form__button--submit">
             {submitBtnText}
-            <ChevronRightIcon />
+            <NextIcon />
           </button>
         )}
       </div>
