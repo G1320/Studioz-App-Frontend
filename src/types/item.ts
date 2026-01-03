@@ -69,7 +69,6 @@ export default interface Item {
   
   // Setup & Preparation
   preparationTime?: Duration;
-  bufferTime?: Duration;
   
   // Policies
   cancellationPolicy?: CancellationPolicy;

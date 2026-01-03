@@ -80,7 +80,6 @@ export const CreateItemForm = () => {
   const [minimumQuantity, setMinimumQuantity] = useState<number | undefined>();
   const [advanceBookingRequired, setAdvanceBookingRequired] = useState<Duration>({});
   const [preparationTime, setPreparationTime] = useState<Duration>({});
-  const [bufferTime, setBufferTime] = useState<Duration>({});
   const [instantBook, setInstantBook] = useState<boolean>(false);
 
   // Policies State
@@ -109,7 +108,6 @@ export const CreateItemForm = () => {
     minimumQuantity?: number;
     advanceBookingRequired?: Duration;
     preparationTime?: Duration;
-    bufferTime?: Duration;
     // Policies
     cancellationPolicy?: CancellationPolicy;
   }
@@ -375,13 +373,6 @@ export const CreateItemForm = () => {
               value={preparationTime}
               onChange={setPreparationTime}
             />
-            <DurationField
-              name="bufferTime"
-              label={t('form.bookingSettings.bufferTime.label')}
-              description={t('form.bookingSettings.bufferTime.description')}
-              value={bufferTime}
-              onChange={setBufferTime}
-            />
           </div>
         </div>
       </div>
@@ -392,7 +383,6 @@ export const CreateItemForm = () => {
       minimumQuantity,
       advanceBookingRequired,
       preparationTime,
-      bufferTime,
       instantBook
     ]
   );
@@ -440,8 +430,7 @@ export const CreateItemForm = () => {
         fieldNames: [
           'minimumQuantity',
           'advanceBookingRequired',
-          'preparationTime',
-          'bufferTime'
+          'preparationTime'
         ],
         schema: itemStepSchemas['booking-settings'],
         customContent: bookingSettingsContent
@@ -540,9 +529,6 @@ export const CreateItemForm = () => {
     }
     if (preparationTime.value && preparationTime.unit) {
       formData.preparationTime = preparationTime;
-    }
-    if (bufferTime.value && bufferTime.unit) {
-      formData.bufferTime = bufferTime;
     }
 
     // Add cancellation policy (only include if type is selected)

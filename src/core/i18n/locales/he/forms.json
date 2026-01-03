@@ -156,12 +156,6 @@
         "value": "משך",
         "unit": "יחידה"
       },
-      "bufferTime": {
-        "label": "זמן מעבר",
-        "description": "זמן בין סשנים לניקיון/הכנה",
-        "value": "משך",
-        "unit": "יחידה"
-      },
       "units": {
         "minutes": "דקות",
         "hours": "שעות",

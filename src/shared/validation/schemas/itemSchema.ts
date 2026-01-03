@@ -136,7 +136,6 @@ export const itemFullSchema = z.object({
   
   // Setup & Preparation
   preparationTime: durationSchema,
-  bufferTime: durationSchema,
   
   // Policies
   cancellationPolicy: cancellationPolicySchema,
@@ -296,7 +295,7 @@ export const itemStep1EditSchema = z.object({
 /**
  * Step 4: Booking Settings Schema
  * Validates: minimumBookingDuration, minimumQuantity,
- * advanceBookingRequired, preparationTime, bufferTime
+ * advanceBookingRequired, preparationTime
  */
 export const itemStep4Schema = z.object({
   minimumBookingDuration: z.object({
@@ -318,13 +317,6 @@ export const itemStep4Schema = z.object({
     unit: z.enum(['hours', 'days']).optional()
   }).optional(),
   preparationTime: z.object({
-    value: z.preprocess(
-      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
-      z.number().positive().optional()
-    ),
-    unit: z.enum(['hours', 'days']).optional()
-  }).optional(),
-  bufferTime: z.object({
     value: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().positive().optional()

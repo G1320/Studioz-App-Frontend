@@ -43,7 +43,6 @@ interface ItemFormData {
   minimumQuantity?: number;
   advanceBookingRequired?: Duration;
   preparationTime?: Duration;
-  bufferTime?: Duration;
   // Policies
   cancellationPolicy?: CancellationPolicy;
   [key: string]: any; // Allow additional properties from form
@@ -106,9 +105,6 @@ export const EditItemForm = () => {
   );
   const [preparationTime, setPreparationTime] = useState<Duration>(
     item?.preparationTime || {}
-  );
-  const [bufferTime, setBufferTime] = useState<Duration>(
-    item?.bufferTime || {}
   );
   const [instantBook, setInstantBook] = useState<boolean>(item?.instantBook || false);
 
@@ -449,13 +445,6 @@ export const EditItemForm = () => {
               value={preparationTime}
               onChange={setPreparationTime}
             />
-            <DurationField
-              name="bufferTime"
-              label={t('form.bookingSettings.bufferTime.label')}
-              description={t('form.bookingSettings.bufferTime.description')}
-              value={bufferTime}
-              onChange={setBufferTime}
-            />
           </div>
         </div>
       </div>
@@ -466,7 +455,6 @@ export const EditItemForm = () => {
       minimumQuantity,
       advanceBookingRequired,
       preparationTime,
-      bufferTime,
       instantBook
     ]
   );
@@ -517,8 +505,7 @@ export const EditItemForm = () => {
         fieldNames: [
           'minimumQuantity',
           'advanceBookingRequired',
-          'preparationTime',
-          'bufferTime'
+          'preparationTime'
         ],
         schema: itemStepSchemasEdit['booking-settings'],
         customContent: bookingSettingsContent
@@ -698,9 +685,6 @@ export const EditItemForm = () => {
     }
     if (preparationTime.value && preparationTime.unit) {
       formData.preparationTime = preparationTime;
-    }
-    if (bufferTime.value && bufferTime.unit) {
-      formData.bufferTime = bufferTime;
     }
 
     // Add cancellation policy (only include if type is selected)

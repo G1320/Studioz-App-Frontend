@@ -156,12 +156,6 @@
         "value": "Duration",
         "unit": "Unit"
       },
-      "bufferTime": {
-        "label": "Buffer Time",
-        "description": "Time between sessions for cleanup/setup",
-        "value": "Duration",
-        "unit": "Unit"
-      },
       "units": {
         "minutes": "Minutes",
         "hours": "Hours",
