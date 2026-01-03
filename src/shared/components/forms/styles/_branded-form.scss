@@ -406,9 +406,9 @@
         to bottom,
         transparent 0%,
         transparent 50%,
-        color.mix(transparent, vars.$bg-color-tertiary, 25%) 70%,
-        color.mix(transparent, vars.$bg-color-tertiary, 55%) 85%,
-        vars.$bg-color-tertiary 100%
+        rgba(0, 0, 0, 0.25) 70%,
+        rgba(0, 0, 0, 0.55) 85%,
+        black 100%
       );
       pointer-events: none;
       z-index: 1;
@@ -442,16 +442,16 @@
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
-      color: ds.$zinc-400;
-      background: ds.$zinc-900-50;
-      border: 1px solid ds.$zinc-700;
+      color: ds.$zinc-400 !important;
+      background: ds.$zinc-900-50 !important;
+      border: 1px solid ds.$zinc-700 !important;
       font-size: vars.$font-size-small;
       font-weight: 700;
 
       &:hover {
         background: rgba(24, 24, 27, 0.8) !important;
-        border-color: ds.$zinc-500;
-        color: vars.$text-color-primary;
+        border-color: ds.$zinc-500 !important;
+        color: vars.$text-color-primary !important;
       }
 
       &.selected {
@@ -476,14 +476,14 @@
         padding: vars.$spacing-sm-md vars.$spacing-medium;
         border-radius: 999px;
         color: ds.$zinc-400 !important;
-        background: ds.$zinc-900-50;
-        border: 1px solid ds.$zinc-700;
+        background: ds.$zinc-900-50 !important;
+        border: 1px solid ds.$zinc-700 !important;
         font-weight: 700;
         transition: all 0.2s ease;
 
         &:hover {
           background: rgba(24, 24, 27, 0.8) !important;
-          border-color: ds.$zinc-500;
+          border-color: ds.$zinc-500 !important;
           color: vars.$text-color-primary !important;
         }
 

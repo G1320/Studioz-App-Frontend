@@ -53,7 +53,6 @@ interface StudioFormData {
   studioAvailability?: StudioAvailability;
   website?: string;
   parking?: 'private' | 'street' | 'paid' | 'none';
-  arrivalInstructions?: string;
   languageToggle?: string;
   [key: string]: any; // Allow additional properties from form
 }
@@ -110,7 +109,6 @@ export const CreateStudioForm = () => {
     selectedAmenities?: string[];
     equipmentList?: string;
     selectedParking?: 'private' | 'street' | 'paid' | 'none';
-    arrivalInstructions?: string;
   }>(FORM_ID);
 
   // States for form fields - initialize from saved state if available
@@ -135,7 +133,6 @@ export const CreateStudioForm = () => {
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     savedState?.selectedParking || 'street'
   );
-  const [arrivalInstructions, setArrivalInstructions] = useState<string>(savedState?.arrivalInstructions || '');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -268,8 +265,7 @@ export const CreateStudioForm = () => {
       closingHour,
       selectedAmenities,
       equipmentList,
-      selectedParking,
-      arrivalInstructions
+      selectedParking
     }),
     [
       selectedCategories,
@@ -283,8 +279,7 @@ export const CreateStudioForm = () => {
       closingHour,
       selectedAmenities,
       equipmentList,
-      selectedParking,
-      arrivalInstructions
+      selectedParking
     ]
   );
 
@@ -382,8 +377,7 @@ export const CreateStudioForm = () => {
           'specsHeader',
           'maxOccupancy',
           'size',
-          'parking',
-          'arrivalInstructions'
+          'parking'
         ],
         schema: studioStepSchemas.location,
         icon: LocationOnIcon
@@ -623,14 +617,6 @@ export const CreateStudioForm = () => {
       options: ['private', 'street', 'paid', 'none']
     },
     {
-      name: 'arrivalInstructions',
-      label: t('form.arrivalInstructions.label') || 'Arrival Instructions',
-      type: 'textarea' as FieldType,
-      value: arrivalInstructions,
-      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => setArrivalInstructions(e.target.value),
-      placeholder: t('form.arrivalInstructions.placeholder') || 'e.g. Enter code 1234# at the main gate...'
-    },
-    {
       name: 'coverImage',
       label: 'Cover Image',
       type: 'text' as FieldType,
@@ -704,7 +690,6 @@ export const CreateStudioForm = () => {
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
     formData.parking = selectedParking;
-    formData.arrivalInstructions = arrivalInstructions;
 
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;

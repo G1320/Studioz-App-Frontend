@@ -45,7 +45,6 @@ interface StudioFormData {
   lng?: number | string;
   city?: string;
   parking?: 'private' | 'street' | 'paid' | 'none';
-  arrivalInstructions?: string;
   languageToggle?: string;
   [key: string]: any; // Allow additional properties from form
 }
@@ -106,7 +105,6 @@ export const EditStudioForm = () => {
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     (studio?.parking as 'private' | 'street' | 'paid' | 'none') || 'street'
   );
-  const [arrivalInstructions, setArrivalInstructions] = useState<string>((studio as any)?.arrivalInstructions || '');
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -268,8 +266,7 @@ export const EditStudioForm = () => {
           'specsHeader',
           'maxOccupancy',
           'size',
-          'parking',
-          'arrivalInstructions'
+          'parking'
         ],
         schema: studioStepSchemasEdit.location
       },
@@ -531,14 +528,6 @@ export const EditStudioForm = () => {
       options: ['private', 'street', 'paid', 'none']
     },
     {
-      name: 'arrivalInstructions',
-      label: t('form.arrivalInstructions.label') || 'Arrival Instructions',
-      type: 'textarea' as FieldType,
-      value: arrivalInstructions,
-      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => setArrivalInstructions(e.target.value),
-      placeholder: t('form.arrivalInstructions.placeholder') || 'e.g. Enter code 1234# at the main gate...'
-    },
-    {
       name: 'amenities',
       label: t('form.amenities.label') || 'Amenities',
       type: 'text' as FieldType,
@@ -585,7 +574,6 @@ export const EditStudioForm = () => {
           .filter((line) => line.length > 0)
       : studio?.equipment || [];
     formData.parking = selectedParking;
-    formData.arrivalInstructions = arrivalInstructions || (studio as any)?.arrivalInstructions || '';
 
     // Fix type conversions
     // Convert lat/lng from strings to numbers (from GenericForm)

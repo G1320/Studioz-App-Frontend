@@ -8,7 +8,7 @@
   padding: 1.5rem;
   border: 1px solid vars.$light-gray-ddd;
   border-radius: vars.$border-radius-medium;
-  background-color: vars.$text-color-primary;
+  // background-color: vars.$text-color-primary;
   box-shadow: 0 4px 6px vars.$black-opacity-10;
 
   .business-hours {
@@ -130,7 +130,7 @@
       border-radius: vars.$border-radius-small;
       font-size: vars.$font-size-medium;
       color: vars.$dark-gray-333;
-      background-color: vars.$text-color-primary;
+      // background-color: vars.$text-color-primary;
       width: 95%;
       text-align: start;
       transition:
