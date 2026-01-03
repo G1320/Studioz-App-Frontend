@@ -369,16 +369,7 @@ export const CreateStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: [
-          'locationHeader',
-          'address',
-          'phone',
-          'website',
-          'specsHeader',
-          'maxOccupancy',
-          'size',
-          'parking'
-        ],
+        fieldNames: ['locationHeader', 'address', 'phone', 'website', 'specsHeader', 'maxOccupancy', 'size', 'parking'],
         schema: studioStepSchemas.location,
         icon: LocationOnIcon
       },
