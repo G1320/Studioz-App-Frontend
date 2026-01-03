@@ -84,14 +84,6 @@ export const AmenitiesSelector = ({
     <div className="amenities-selector">
       {/* Amenities Section */}
       <div className="amenities-selector__section">
-        <h2 className="amenities-selector__title">
-          <WeekendIcon className="amenities-selector__title-icon" />
-          {t('form.amenities.title', { defaultValue: 'Amenities' })}
-        </h2>
-        <p className="amenities-selector__helper">
-          {t('form.amenities.helperText', { defaultValue: 'Select all amenities available at your studio.' })}
-        </p>
-
         <div className="amenities-selector__grid">
           {amenities.map((amenity) => {
             const isSelected = isAmenitySelected(amenity.value);

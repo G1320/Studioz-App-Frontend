@@ -426,21 +426,31 @@ export const SteppedForm = ({
   const fieldsWithValues = useMemo(() => {
     const prepared = prepareFieldsWithValues(currentStepFields, formData, handleFieldChange);
 
-    // Add error indicator to languageToggle field if there are errors in the other language
-    if (currentStep.languageToggle && hasOtherLanguageErrors) {
-      return prepared.map((field) => {
-        if (field.type === 'languageToggle') {
-          return {
-            ...field,
-            hasOtherLanguageErrors: true
-          };
-        }
-        return field;
-      });
-    }
+    // Add step counter to the first sectionHeader field
+    let foundFirstSectionHeader = false;
+    const withStepCounter = prepared.map((field) => {
+      if (field.type === 'sectionHeader' && !foundFirstSectionHeader) {
+        foundFirstSectionHeader = true;
+        return {
+          ...field,
+          stepCounter: {
+            current: currentStepIndex + 1,
+            total: steps.length
+          }
+        };
+      }
+      // Add error indicator to languageToggle field if there are errors in the other language
+      if (field.type === 'languageToggle' && currentStep.languageToggle && hasOtherLanguageErrors) {
+        return {
+          ...field,
+          hasOtherLanguageErrors: true
+        };
+      }
+      return field;
+    });
 
-    return prepared;
-  }, [currentStepFields, formData, handleFieldChange, currentStep.languageToggle, hasOtherLanguageErrors]);
+    return withStepCounter;
+  }, [currentStepFields, formData, handleFieldChange, currentStep.languageToggle, hasOtherLanguageErrors, currentStepIndex, steps.length]);
 
   // Check if current language is RTL (Hebrew)
   const isRTL = i18n.language === 'he';
@@ -516,13 +526,6 @@ export const SteppedForm = ({
           <div className="stepped-form__step-header-left">
             <h1 className="stepped-form__step-header-title">
               {currentStep.title}
-              <span className="stepped-form__step-counter">
-                {t('form.stepCounter', {
-                  current: currentStepIndex + 1,
-                  total: steps.length,
-                  defaultValue: `Step ${currentStepIndex + 1} of ${steps.length}`
-                })}
-              </span>
             </h1>
             {currentStep.description && (
               <p className="stepped-form__step-header-description">{currentStep.description}</p>
@@ -557,6 +560,10 @@ export const SteppedForm = ({
               onSubmit={handleSubmit}
               onCategoryChange={onCategoryChange}
               proTip={currentStep.proTip}
+              stepCounter={currentStep.customContent ? { current: currentStepIndex + 1, total: steps.length } : undefined}
+              stepIcon={currentStep.icon}
+              stepTitle={currentStep.customContent ? currentStep.title : undefined}
+              stepSubtitle={currentStep.customContent ? currentStep.description : undefined}
             >
               {children}
             </StepContent>

@@ -1,4 +1,5 @@
 import { type ReactNode, cloneElement, isValidElement } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GenericForm } from '../../GenericHeadlessForm';
 
 interface StepContentProps {
@@ -17,6 +18,14 @@ interface StepContentProps {
   children?: ReactNode;
   /** Optional Pro Tip content to display at the bottom of the step */
   proTip?: ReactNode;
+  /** Step counter info for custom content steps */
+  stepCounter?: { current: number; total: number };
+  /** Step icon for custom content steps */
+  stepIcon?: React.ElementType;
+  /** Step title for custom content section header */
+  stepTitle?: string;
+  /** Step subtitle for custom content section header */
+  stepSubtitle?: string;
 }
 
 export const StepContent = ({
@@ -33,8 +42,13 @@ export const StepContent = ({
   onSubmit,
   onCategoryChange,
   children,
-  proTip
+  proTip,
+  stepCounter,
+  stepIcon: StepIcon,
+  stepTitle,
+  stepSubtitle
 }: StepContentProps) => {
+  const { t } = useTranslation('forms');
   const hasValidated = validatedSteps.has(stepId);
 
   // Helper function to get error for a field (including nested errors)
@@ -93,6 +107,25 @@ export const StepContent = ({
 
     return (
       <div className={`stepped-form__custom-content ${hasErrors ? 'has-error' : ''}`}>
+        {/* Section header with step counter for custom content steps */}
+        {stepTitle && stepCounter && (
+          <div className="form-group section-header-wrapper">
+            <div className="section-header">
+              <div className="section-header__title-row">
+                {StepIcon && <StepIcon className="section-header__icon" />}
+                <h3 className="section-header__title">{stepTitle}</h3>
+                <span className="section-header__step-counter">
+                  {t('form.stepCounter', {
+                    current: stepCounter.current,
+                    total: stepCounter.total,
+                    defaultValue: `Step ${stepCounter.current} of ${stepCounter.total}`
+                  })}
+                </span>
+              </div>
+              {stepSubtitle && <p className="section-header__subtitle">{stepSubtitle}</p>}
+            </div>
+          </div>
+        )}
         {contentWithErrors}
         {hasValidated && hasErrors && (
           <div className="custom-content-errors">

@@ -17,7 +17,6 @@ import LocalParkingOutlinedIcon from '@mui/icons-material/LocalParkingOutlined';
 import BlockIcon from '@mui/icons-material/Block';
 import MapPinIcon from '@mui/icons-material/LocationOn';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import ScheduleIcon from '@mui/icons-material/Schedule';
 
 export type FieldType =
   | 'text'
@@ -335,13 +334,6 @@ export const GenericForm = ({
           case 'businessHours':
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
-                <div className="section-header">
-                  <div className="section-header__title-row">
-                    <ScheduleIcon className="section-header__icon" />
-                    <h3 className="section-header__title">{t('form.sections.weeklySchedule') || 'Weekly Schedule'}</h3>
-                  </div>
-                  <p className="section-header__subtitle">{t('form.sections.weeklyScheduleDesc') || 'Set your standard operating hours'}</p>
-                </div>
                 <BusinessHours
                   value={field.value || { days: [], times: [defaultHours] }}
                   onChange={(newValue) => {
@@ -418,12 +410,22 @@ export const GenericForm = ({
             );
           case 'sectionHeader':
             const IconComponent = field.icon;
+            const stepCounter = (field as any).stepCounter;
             return (
               <div key={field.name} className={`form-group section-header-wrapper ${field.className || ''}`}>
                 <div className="section-header">
                   <div className="section-header__title-row">
                     {IconComponent && <IconComponent className="section-header__icon" />}
                     <h3 className="section-header__title">{field.label}</h3>
+                    {stepCounter && (
+                      <span className="section-header__step-counter">
+                        {t('form.stepCounter', {
+                          current: stepCounter.current,
+                          total: stepCounter.total,
+                          defaultValue: `Step ${stepCounter.current} of ${stepCounter.total}`
+                        })}
+                      </span>
+                    )}
                   </div>
                   {field.subtitle && <p className="section-header__subtitle">{field.subtitle}</p>}
                 </div>

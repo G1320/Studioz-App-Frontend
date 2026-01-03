@@ -361,7 +361,7 @@ export const CreateStudioForm = () => {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
-        fieldNames: ['studioAvailability'],
+        fieldNames: ['availabilityHeader', 'studioAvailability'],
         schema: studioStepSchemas.availability,
         icon: ScheduleIcon
       },
@@ -381,30 +381,19 @@ export const CreateStudioForm = () => {
         schema: studioStepSchemas.files,
         icon: PhotoLibraryIcon,
         customContent: (
-          <>
-            <div className="section-header">
-              <div className="section-header__title-row">
-                <PhotoLibraryIcon className="section-header__icon" />
-                <h3 className="section-header__title">{t('form.sections.studioPhotos') || 'Studio Photos'}</h3>
-              </div>
-              <p className="section-header__subtitle">
-                {t('form.sections.studioPhotosDesc') || 'Add high quality photos'}
-              </p>
-            </div>
-            <FileUploader
-              fileType="image"
-              onFileUpload={async (files, type) => {
-                await handleFileUpload(files, type);
-              }}
-              galleryFiles={galleryImages}
-              isCoverShown={false}
-              showPreviewBeforeUpload={false}
-              onRemoveImage={(image) => {
-                setGalleryImages((prev) => prev.filter((url) => url !== image));
-              }}
-              onReorderImages={setGalleryImages}
-            />
-          </>
+          <FileUploader
+            fileType="image"
+            onFileUpload={async (files, type) => {
+              await handleFileUpload(files, type);
+            }}
+            galleryFiles={galleryImages}
+            isCoverShown={false}
+            showPreviewBeforeUpload={false}
+            onRemoveImage={(image) => {
+              setGalleryImages((prev) => prev.filter((url) => url !== image));
+            }}
+            onReorderImages={setGalleryImages}
+          />
         )
       }
     ],
@@ -532,6 +521,13 @@ export const CreateStudioForm = () => {
       initialVisibleCount: 14, // Show first 14 genres initially with fade effect, rest can be expanded
       showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
       showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
+    },
+    {
+      name: 'availabilityHeader',
+      label: t('form.sections.weeklySchedule') || 'Weekly Schedule',
+      subtitle: t('form.sections.weeklyScheduleDesc') || 'Set your studio availability for each day.',
+      type: 'sectionHeader' as FieldType,
+      icon: ScheduleIcon
     },
     {
       name: 'studioAvailability',

@@ -676,6 +676,17 @@
       line-height: 1.2;
     }
 
+    &__step-counter {
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+      color: ds.$zinc-500;
+      background: ds.$zinc-900;
+      padding: vars.$spacing-xs vars.$spacing-medium;
+      border-radius: 999px;
+      white-space: nowrap;
+      margin-inline-start: vars.$spacing-small;
+    }
+
     &__subtitle {
       font-size: vars.$font-size-small;
       color: ds.$zinc-400;

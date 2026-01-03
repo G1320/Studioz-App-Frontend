@@ -423,14 +423,25 @@
       }
     }
 
-    // Location step layout
+    // Availability step layout - single column, stacked
     &#create-studio-step-3 {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: vars.$spacing-large;
+    }
+
+    // Location step layout
+    &#create-studio-step-4 {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
       gap: vars.$spacing-xl;
 
       .form-group {
         grid-column: span 1 !important;
+      }
+
+      .form-group.section-header-wrapper {
+        grid-column: span 2 !important;
       }
 
       .form-group:has(input[name='address']),
@@ -442,6 +453,7 @@
         grid-template-columns: 1fr !important;
 
         .form-group,
+        .form-group.section-header-wrapper,
         .form-group:has(input[name='address']),
         .form-group:has([name='address']) {
           grid-column: span 1 !important;

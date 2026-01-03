@@ -13,6 +13,7 @@ import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import CategoryIcon from '@mui/icons-material/Category';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import {
   useDays,
   useMusicCategories,
@@ -252,7 +253,7 @@ export const EditStudioForm = () => {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
-        fieldNames: ['studioAvailability'],
+        fieldNames: ['availabilityHeader', 'studioAvailability'],
         schema: studioStepSchemasEdit.availability
       },
       {
@@ -276,28 +277,18 @@ export const EditStudioForm = () => {
         description: t('form.steps.filesDesc') || 'Upload images for your studio',
         fieldNames: ['coverImage', 'galleryImages', 'coverAudioFile', 'galleryAudioFiles'],
         schema: studioStepSchemasEdit.files,
+        icon: PhotoLibraryIcon,
         customContent: (
-          <>
-            <div className="section-header">
-              <div className="section-header__title-row">
-                <PhotoLibraryIcon className="section-header__icon" />
-                <h3 className="section-header__title">{t('form.sections.studioPhotos') || 'Studio Photos'}</h3>
-              </div>
-              <p className="section-header__subtitle">
-                {t('form.sections.studioPhotosDesc') || 'Add high quality photos'}
-              </p>
-            </div>
-            <FileUploader
-              fileType="image"
-              onFileUpload={async (files, type) => {
-                await handleFileUpload(files, type);
-              }}
-              galleryFiles={galleryImages}
-              isCoverShown={true}
-              onRemoveImage={handleRemoveImage}
-              onReorderImages={setGalleryImages}
-            />
-          </>
+          <FileUploader
+            fileType="image"
+            onFileUpload={async (files, type) => {
+              await handleFileUpload(files, type);
+            }}
+            galleryFiles={galleryImages}
+            isCoverShown={true}
+            onRemoveImage={handleRemoveImage}
+            onReorderImages={setGalleryImages}
+          />
         )
       }
     ],
@@ -430,6 +421,13 @@ export const EditStudioForm = () => {
       initialVisibleCount: 14,
       showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
       showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
+    },
+    {
+      name: 'availabilityHeader',
+      label: t('form.sections.weeklySchedule') || 'Weekly Schedule',
+      subtitle: t('form.sections.weeklyScheduleDesc') || 'Set your studio availability for each day.',
+      type: 'sectionHeader' as FieldType,
+      icon: ScheduleIcon
     },
     {
       name: 'studioAvailability',
