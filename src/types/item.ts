@@ -18,6 +18,11 @@ export interface CancellationPolicy {
   };
 }
 
+export interface BlockDiscounts {
+  eightHour?: number;
+  twelveHour?: number;
+}
+
 export default interface Item {
   _id: string;
   studio: string;
@@ -42,6 +47,7 @@ export default interface Item {
   genres?: string[];
   price?: number;
   pricePer?: 'hour' | 'session' | 'unit' | 'song' | 'project' | 'day';
+  blockDiscounts?: BlockDiscounts;
   imageUrl?: string;
   idx?: number;
   inStock: boolean;

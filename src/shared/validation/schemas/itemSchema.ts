@@ -68,6 +68,20 @@ export const cancellationPolicySchema = z.object({
 }).optional();
 
 /**
+ * Block discounts schema (8-hour and 12-hour day rates)
+ */
+export const blockDiscountsSchema = z.object({
+  eightHour: z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+    z.number().positive('8-hour price must be positive').optional()
+  ),
+  twelveHour: z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+    z.number().positive('12-hour price must be positive').optional()
+  )
+}).optional();
+
+/**
  * Full Item Schema
  * Validates all fields for complete item submission
  */
@@ -87,6 +101,7 @@ export const itemFullSchema = z.object({
     .max(9999, 'Price must be at most 999,999')
     .optional(),
   pricePer: pricePerSchema.optional(),
+  blockDiscounts: blockDiscountsSchema,
 
   // Media
   imageUrl: urlSchema.optional(),
@@ -168,6 +183,7 @@ export const itemCreateSchema = z.object({
   // Pricing
   price: z.number().min(0.01, 'Price must be at least 0.01').max(999999, 'Price must be at most 999,999').optional(),
   pricePer: pricePerSchema.optional(),
+  blockDiscounts: blockDiscountsSchema,
 
   // Options
   instantBook: z.boolean().optional(),
@@ -200,7 +216,7 @@ export const itemStep2Schema = z.object({
 
 /**
  * Step 3: Pricing & Options Schema
- * Validates: price, pricePer, instantBook
+ * Validates: price, pricePer, blockDiscounts, instantBook
  */
 export const itemStep3Schema = z.object({
   price: z
@@ -222,6 +238,23 @@ export const itemStep3Schema = z.object({
         .optional()
     ),
   pricePer: pricePerSchema.optional(),
+  minimumBookingDuration: z.object({
+    value: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    unit: z.enum(['hours', 'days']).optional()
+  }).optional(),
+  blockDiscounts: z.object({
+    eightHour: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    twelveHour: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    )
+  }).optional(),
   instantBook: z.preprocess(
     (val) => {
       if (val === undefined || val === null || val === '') {

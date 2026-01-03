@@ -79,6 +79,7 @@ export const CreateItemForm = () => {
   const [preparationTime, setPreparationTime] = useState<Duration>({});
   const [bufferTime, setBufferTime] = useState<Duration>({});
   const [allowSameDayBooking, setAllowSameDayBooking] = useState<boolean>(false);
+  const [instantBook, setInstantBook] = useState<boolean>(false);
 
   // Policies State
   const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>({});
@@ -154,6 +155,19 @@ export const CreateItemForm = () => {
       <div className="booking-settings-step">
         <div className="booking-settings-step__section">
           <h3 className="booking-settings-step__section-title">{t('form.steps.bookingSettings')}</h3>
+
+          <Field as="div" className="booking-settings-step__switch-group">
+            <Switch
+              checked={instantBook}
+              onChange={setInstantBook}
+              className={`booking-settings-step__switch ${instantBook ? 'on' : ''}`}
+            />
+            <div className="booking-settings-step__switch-content">
+              <Label className="booking-settings-step__switch-label">{t('form.instantBook.label')}</Label>
+              <p className="booking-settings-step__switch-description">{t('form.instantBook.description')}</p>
+            </div>
+          </Field>
+
           {/* Only show duration fields for hourly pricing */}
           {pricePer === 'hour' && (
           <div className="booking-settings-step__grid">
@@ -256,7 +270,8 @@ export const CreateItemForm = () => {
       advanceBookingRequired,
       preparationTime,
       bufferTime,
-      allowSameDayBooking
+      allowSameDayBooking,
+      instantBook
     ]
   );
 
@@ -292,7 +307,7 @@ export const CreateItemForm = () => {
         id: 'pricing',
         title: t('form.steps.pricing') || 'Pricing & Options',
         description: t('form.steps.pricingDesc') || 'Set price and booking options',
-        fieldNames: ['price', 'pricePer', 'instantBook'],
+        fieldNames: ['price', 'pricePer'],
         schema: itemStepSchemas.pricing
       },
       {
@@ -384,8 +399,8 @@ export const CreateItemForm = () => {
     formData.lng = studio?.lng || 0;
     // pricePer is already in English ('hour', 'session', etc.)
     formData.pricePer = pricePer;
-    // Convert string to boolean for instantBook (SteppedForm passes checkbox values as strings)
-    formData.instantBook = formData.instantBook === 'true' || formData.instantBook === true;
+    // Use the state value for instantBook
+    formData.instantBook = instantBook;
 
     // Add booking settings (only include if they have values)
     if (minimumBookingDuration.value && minimumBookingDuration.unit) {
@@ -509,12 +524,6 @@ export const CreateItemForm = () => {
       displayValue: getPricePerLabel(pricePer),
       getOptionLabel: getPricePerLabel,
       onChange: (value: string) => setPricePer(value)
-    },
-    {
-      name: 'instantBook',
-      label: t('form.instantBook.label'),
-      type: 'checkbox' as FieldType,
-      value: false
     }
   ];
 

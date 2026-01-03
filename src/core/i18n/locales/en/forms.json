@@ -119,7 +119,8 @@
       "genresDesc": "Select the music styles you specialize in."
     },
     "instantBook": {
-      "label": "Instant Book"
+      "label": "Instant Book",
+      "description": "Allow customers to book instantly without waiting for approval"
     },
     "amenities": {
       "title": "Amenities",
@@ -206,6 +207,19 @@
       "song": "Song",
       "project": "Project",
       "day": "Day"
+    },
+    "blockDiscounts": {
+      "label": "Block Discounts (Optional)",
+      "eightHour": {
+        "label": "8 Hour Block Price",
+        "placeholder": "Discounted total",
+        "helperText": "Total price for an 8-hour booking"
+      },
+      "twelveHour": {
+        "label": "12 Hour Block Price",
+        "placeholder": "Discounted total",
+        "helperText": "Total price for a 12-hour booking"
+      }
     },
     "fileUploader": {
       "image": "Upload Images",

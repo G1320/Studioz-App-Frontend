@@ -119,7 +119,8 @@
       "genresDesc": "בחרו את סגנונות המוזיקה שבהם אתם מתמחים."
     },
     "instantBook": {
-      "label": "אישור הזמנה מיידי"
+      "label": "אישור הזמנה מיידי",
+      "description": "אפשר ללקוחות להזמין מיידית ללא המתנה לאישור"
     },
     "amenities": {
       "title": "מתקנים",
@@ -206,6 +207,19 @@
       "song": "שיר",
       "project": "פרויקט",
       "day": "יום"
+    },
+    "blockDiscounts": {
+      "label": "הנחות חבילה (אופציונלי)",
+      "eightHour": {
+        "label": "מחיר חבילת 8 שעות",
+        "placeholder": "סה״כ מוזל",
+        "helperText": "מחיר כולל להזמנה של 8 שעות"
+      },
+      "twelveHour": {
+        "label": "מחיר חבילת 12 שעות",
+        "placeholder": "סה״כ מוזל",
+        "helperText": "מחיר כולל להזמנה של 12 שעות"
+      }
     },
     "fileUploader": {
       "image": " תמונות",
