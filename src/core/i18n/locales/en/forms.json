@@ -221,6 +221,31 @@
         "helperText": "Total price for a 12-hour booking"
       }
     },
+    "pricing": {
+      "title": "Pricing & Rates",
+      "description": "Set your base rates. You can add special discounts later.",
+      "pricePerHour": "Price per Hour",
+      "pricePerDay": "Price per Day",
+      "per": {
+        "hour": "/ hr",
+        "session": "/ session",
+        "unit": "/ unit",
+        "song": "/ song",
+        "project": "/ project",
+        "day": "/ day"
+      },
+      "blockDiscounts": {
+        "title": "Block Discounts (Optional)",
+        "eightHour": "8 Hour Block Price",
+        "twelveHour": "12 Hour Block Price",
+        "placeholder": "Discounted total",
+        "total": "total"
+      },
+      "platformFee": {
+        "title": "Platform Fee",
+        "description": "StudioZ takes a 10% commission on confirmed bookings. Your payout will be calculated automatically."
+      }
+    },
     "fileUploader": {
       "image": "Upload Images",
       "audio": "Upload Audio Files",

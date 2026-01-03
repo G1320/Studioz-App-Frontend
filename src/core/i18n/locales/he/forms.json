@@ -221,6 +221,31 @@
         "helperText": "מחיר כולל להזמנה של 12 שעות"
       }
     },
+    "pricing": {
+      "title": "תמחור ותעריפים",
+      "description": "הגדירו את תעריפי הבסיס שלכם.",
+      "pricePerHour": "מחיר",
+      "pricePerDay": "מחיר",
+      "per": {
+        "hour": "/ שעה",
+        "session": "/ סשן",
+        "unit": "/ יחידה",
+        "song": "/ שיר",
+        "project": "/ פרויקט",
+        "day": "/ יום"
+      },
+      "blockDiscounts": {
+        "title": "הנחות חבילה (אופציונלי)",
+        "eightHour": "מחיר חבילת 8 שעות",
+        "twelveHour": "מחיר חבילת 12 שעות",
+        "placeholder": "סה״כ מוזל",
+        "total": "סה״כ"
+      },
+      "platformFee": {
+        "title": "עמלת פלטפורמה",
+        "description": "StudioZ גובה עמלה של 10% על הזמנות מאושרות. התשלום שלך יחושב אוטומטית."
+      }
+    },
     "fileUploader": {
       "image": " תמונות",
       "audio": "העלאת קבצי שמע",
