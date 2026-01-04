@@ -121,8 +121,10 @@
     "itemSections": {
       "basicInfo": "Service Details",
       "basicInfoDesc": "Give your service a compelling name and description to attract clients.",
-      "categories": "Service Category",
-      "categoriesDesc": "Choose the category that best describes your service."
+      "categories": "Categories & Genres",
+      "categoriesDesc": "Select all relevant categories for your service.",
+      "genres": "Genres",
+      "genresDesc": "Select the music styles that match your service."
     },
     "instantBook": {
       "label": "Instant Book",

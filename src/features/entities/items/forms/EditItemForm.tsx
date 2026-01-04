@@ -12,6 +12,8 @@ import {
   useMusicSubCategories,
   usePhotoCategories,
   usePhotoSubCategories,
+  useMusicGenres,
+  useGenres,
   useUpdateItemMutation,
   useAddOns,
   useDeleteAddOnMutation,
@@ -31,12 +33,14 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import BoltIcon from '@mui/icons-material/Bolt';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import CategoryIcon from '@mui/icons-material/Category';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import './_createItemForm.scss';
 
 interface ItemFormData {
   imageUrl?: string;
   categories?: string[];
   subCategories?: string[];
+  genres?: string[];
   studioId?: string;
   pricePer?: string;
   instantBook?: boolean | string;
@@ -76,7 +80,9 @@ export const EditItemForm = () => {
   const musicSubCategories = useMusicSubCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
+  const genres = useMusicGenres();
   const { getEnglishByDisplay } = useCategories();
+  const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
 
   const updateItemMutation = useUpdateItemMutation(itemId || '');
   const deleteAddOnMutation = useDeleteAddOnMutation();
@@ -86,6 +92,7 @@ export const EditItemForm = () => {
     item?.categories && item.categories.length > 0 ? [item.categories[0]] : musicCategories
   );
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(item?.subCategories || []);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>(item?.genres || []);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
   const [imageUrl] = useState<string>(item?.imageUrl || '');
   const [pricePer, setPricePer] = useState<string>(item?.pricePer || 'hour');
@@ -125,6 +132,10 @@ export const EditItemForm = () => {
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedSubCategories(values);
+  };
+
+  const handleGenreChange = (values: string[]) => {
+    setSelectedGenres(values);
   };
 
   const handleAddAddOn = useCallback((addOn: PendingAddOn) => {
@@ -555,9 +566,9 @@ export const EditItemForm = () => {
       },
       {
         id: 'categories',
-        title: t('form.steps.categories') || 'Categories',
-        description: t('form.steps.categoriesDesc') || 'Select categories and subcategories',
-        fieldNames: ['categoriesHeader', 'categories', 'subCategories'],
+        title: t('form.steps.categories') || 'Categories & Genres',
+        description: t('form.steps.categoriesDesc') || 'Select categories and genres',
+        fieldNames: ['categoriesHeader', 'categories', 'subCategories', 'genresHeader', 'genres'],
         schema: itemStepSchemasEdit.categories,
         icon: CategoryIcon
       },
@@ -686,7 +697,7 @@ export const EditItemForm = () => {
     },
     {
       name: 'subCategories',
-      label: t('form.subCategories.label') || 'Sub Categories',
+      label: '',
       type: 'multiSelect' as FieldType,
       options: subCategories,
       value: selectedSubCategories,
@@ -694,8 +705,26 @@ export const EditItemForm = () => {
       initialVisibleCount: 12,
       showAllLabel: t('form.subCategories.showAll', 'Show All'),
       showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain',
-      helperText: t('form.subCategories.helperText')
+      className: 'subcategories-plain'
+    },
+    {
+      name: 'genresHeader',
+      label: t('form.sections.genres') || 'Genres',
+      subtitle: t('form.sections.genresDesc') || 'Select the music styles you specialize in.',
+      type: 'sectionHeader' as FieldType,
+      icon: LibraryMusicIcon
+    },
+    {
+      name: 'genres',
+      label: '',
+      type: 'multiSelect' as FieldType,
+      options: genres,
+      value: selectedGenres,
+      onChange: handleGenreChange,
+      bubbleStyle: true,
+      initialVisibleCount: 14,
+      showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
+      showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
     },
     {
       name: 'price',
@@ -717,12 +746,14 @@ export const EditItemForm = () => {
   ];
 
   const handleSubmit = async (formData: ItemFormData) => {
-    // Convert subCategories to English values for consistent database storage
+    // Convert subCategories and genres to English values for consistent database storage
     const englishSubCategories = selectedSubCategories.map((subCat) => getEnglishByDisplay(subCat));
+    const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     formData.imageUrl = imageUrl;
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
+    formData.genres = englishGenres;
     formData.studioId = item?.studioId || '';
     formData.pricePer = pricePer;
     // Use the state value for price
