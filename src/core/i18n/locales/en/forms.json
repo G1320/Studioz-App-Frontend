@@ -118,6 +118,12 @@
       "genres": "Genres",
       "genresDesc": "Select the music styles you specialize in."
     },
+    "itemSections": {
+      "basicInfo": "Service Details",
+      "basicInfoDesc": "Give your service a compelling name and description to attract clients.",
+      "categories": "Service Category",
+      "categoriesDesc": "Choose the category that best describes your service."
+    },
     "instantBook": {
       "label": "Instant Book",
       "description": "Allow customers to book instantly without waiting for approval"

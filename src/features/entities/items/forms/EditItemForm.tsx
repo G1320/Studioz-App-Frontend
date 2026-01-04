@@ -30,6 +30,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import BoltIcon from '@mui/icons-material/Bolt';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import CategoryIcon from '@mui/icons-material/Category';
 import './_createItemForm.scss';
 
 interface ItemFormData {
@@ -547,16 +548,18 @@ export const EditItemForm = () => {
         id: 'basic-info',
         title: t('form.steps.basicInfo') || 'Basic Information',
         description: t('form.steps.basicInfoDesc') || 'Enter your item name and description',
-        fieldNames: ['name.en', 'name.he', 'description.en', 'description.he', 'languageToggle'],
+        fieldNames: ['basicInfoHeader', 'languageToggle', 'name.en', 'name.he', 'description.en', 'description.he'],
         schema: itemStepSchemasEdit['basic-info'],
-        languageToggle: true
+        languageToggle: true,
+        icon: InfoOutlinedIcon
       },
       {
         id: 'categories',
         title: t('form.steps.categories') || 'Categories',
         description: t('form.steps.categoriesDesc') || 'Select categories and subcategories',
-        fieldNames: ['categories', 'subCategories'],
-        schema: itemStepSchemasEdit.categories
+        fieldNames: ['categoriesHeader', 'categories', 'subCategories'],
+        schema: itemStepSchemasEdit.categories,
+        icon: CategoryIcon
       },
       {
         id: 'pricing',
@@ -615,6 +618,15 @@ export const EditItemForm = () => {
 
   const fields = [
     {
+      name: 'basicInfoHeader',
+      label: t('form.itemSections.basicInfo') || 'Service Details',
+      subtitle:
+        t('form.itemSections.basicInfoDesc') ||
+        'Give your service a compelling name and description to attract clients.',
+      type: 'sectionHeader' as FieldType,
+      icon: InfoOutlinedIcon
+    },
+    {
       name: 'name.en',
       label: `${t('form.name.en')} 🇺🇸`,
       type: 'text' as FieldType,
@@ -656,6 +668,13 @@ export const EditItemForm = () => {
       type: 'languageToggle' as FieldType,
       value: selectedLanguage,
       onChange: setSelectedLanguage
+    },
+    {
+      name: 'categoriesHeader',
+      label: t('form.itemSections.categories') || 'Service Category',
+      subtitle: t('form.itemSections.categoriesDesc') || 'Choose the category that best describes your service.',
+      type: 'sectionHeader' as FieldType,
+      icon: CategoryIcon
     },
     {
       name: 'categories',
