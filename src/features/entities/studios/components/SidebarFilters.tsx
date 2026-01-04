@@ -83,8 +83,9 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
   studioCount = 0,
   className = ''
 }) => {
-  const { t } = useTranslation('studios');
+  const { t, i18n } = useTranslation('studios');
   const { t: tCommon } = useTranslation('common');
+  const isRTL = i18n.dir() === 'rtl';
   const musicSubCategories = useMusicSubCategories();
   const { getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
@@ -172,7 +173,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
   if (!isOpen) return null;
 
   return (
-    <aside className={`sidebar-filters ${className}`}>
+    <aside className={`sidebar-filters ${className}`} dir={i18n.dir()}>
       {/* Header */}
       <div className="sidebar-filters__header">
         <h2 className="sidebar-filters__title">
@@ -254,7 +255,11 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
               <div className="sidebar-filters__price-slider">
                 <div
                   className="sidebar-filters__price-fill"
-                  style={{ width: `${(filters.priceRange[1] / MAX_PRICE) * 100}%` }}
+                  style={
+                    isRTL
+                      ? { width: `${(filters.priceRange[1] / MAX_PRICE) * 100}%`, right: 0, left: 'auto' }
+                      : { width: `${(filters.priceRange[1] / MAX_PRICE) * 100}%` }
+                  }
                 />
                 <input
                   type="range"
@@ -264,10 +269,15 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                   value={filters.priceRange[1]}
                   onChange={handlePriceChange}
                   className="sidebar-filters__price-input"
+                  style={isRTL ? { direction: 'rtl' } : undefined}
                 />
                 <div
                   className="sidebar-filters__price-thumb"
-                  style={{ left: `calc(${(filters.priceRange[1] / MAX_PRICE) * 100}% - 10px)` }}
+                  style={
+                    isRTL
+                      ? { right: `calc(${(filters.priceRange[1] / MAX_PRICE) * 100}% - 10px)`, left: 'auto' }
+                      : { left: `calc(${(filters.priceRange[1] / MAX_PRICE) * 100}% - 10px)` }
+                  }
                 />
               </div>
             </div>
