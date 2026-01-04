@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAmenities } from '@shared/hooks';
 // Icons
@@ -17,7 +17,15 @@ import TvIcon from '@mui/icons-material/Tv';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
 import AccessibleIcon from '@mui/icons-material/Accessible';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import MicIcon from '@mui/icons-material/Mic';
+import TuneIcon from '@mui/icons-material/Tune';
+import CompressIcon from '@mui/icons-material/Compress';
+import PianoIcon from '@mui/icons-material/Piano';
+import AlbumIcon from '@mui/icons-material/Album';
+import ComputerIcon from '@mui/icons-material/Computer';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './styles/_amenities-selector.scss';
 
 // Map amenity keys to icons
@@ -39,18 +47,48 @@ const amenityIcons: Record<string, React.ElementType> = {
   wheelchair_accessible: AccessibleIcon
 };
 
+// Equipment category icons
+const equipmentCategoryIcons: Record<string, React.ElementType> = {
+  microphones: MicIcon,
+  preamps: TuneIcon,
+  compressors: CompressIcon,
+  instruments: PianoIcon,
+  monitoring: SpeakerIcon,
+  recording: AlbumIcon,
+  software: ComputerIcon,
+  other: MoreHorizIcon
+};
+
+// Equipment categories list
+const EQUIPMENT_CATEGORIES = [
+  'microphones',
+  'preamps',
+  'compressors',
+  'instruments',
+  'monitoring',
+  'recording',
+  'software',
+  'other'
+] as const;
+
+type EquipmentCategoryId = (typeof EQUIPMENT_CATEGORIES)[number];
+
+export interface CategorizedEquipment {
+  [categoryId: string]: string; // Raw text input - items separated by newlines or commas
+}
+
 interface AmenitiesSelectorProps {
   selectedAmenities: string[];
   onAmenitiesChange: (amenities: string[]) => void;
-  equipment?: string;
-  onEquipmentChange?: (equipment: string) => void;
+  equipment?: CategorizedEquipment;
+  onEquipmentChange?: (equipment: CategorizedEquipment) => void;
   errors?: string[];
 }
 
 export const AmenitiesSelector = ({
   selectedAmenities,
   onAmenitiesChange,
-  equipment = '',
+  equipment = {},
   onEquipmentChange,
   errors = []
 }: AmenitiesSelectorProps) => {
@@ -58,6 +96,14 @@ export const AmenitiesSelector = ({
   const { getAmenities, getEnglishByDisplay } = useAmenities();
 
   const amenities = useMemo(() => getAmenities(), [getAmenities]);
+
+  // Track which categories are currently visible/added
+  const [visibleCategories, setVisibleCategories] = useState<EquipmentCategoryId[]>(() => {
+    const existing = Object.keys(equipment).filter(
+      (cat) => equipment[cat]?.trim().length > 0
+    ) as EquipmentCategoryId[];
+    return existing.length > 0 ? existing : [];
+  });
 
   const toggleAmenity = (amenityDisplay: string) => {
     const englishValue = getEnglishByDisplay(amenityDisplay);
@@ -75,10 +121,35 @@ export const AmenitiesSelector = ({
     return selectedAmenities.includes(englishValue);
   };
 
-  // Get the key from the amenity value for icon lookup
   const getAmenityKey = (amenity: { key: string; value: string }) => {
     return amenity.key;
   };
+
+  const handleCategoryEquipmentChange = (categoryId: EquipmentCategoryId, value: string) => {
+    const newEquipment = { ...equipment };
+    if (value.trim().length > 0) {
+      newEquipment[categoryId] = value;
+    } else {
+      delete newEquipment[categoryId];
+    }
+    onEquipmentChange?.(newEquipment);
+  };
+
+  const addCategory = (categoryId: EquipmentCategoryId) => {
+    if (!visibleCategories.includes(categoryId)) {
+      setVisibleCategories([...visibleCategories, categoryId]);
+    }
+  };
+
+  const removeCategory = (categoryId: EquipmentCategoryId) => {
+    setVisibleCategories(visibleCategories.filter((c) => c !== categoryId));
+    // Also remove the equipment from this category
+    const newEquipment = { ...equipment };
+    delete newEquipment[categoryId];
+    onEquipmentChange?.(newEquipment);
+  };
+
+  const availableCategories = EQUIPMENT_CATEGORIES.filter((cat) => !visibleCategories.includes(cat));
 
   return (
     <div className="amenities-selector">
@@ -105,25 +176,70 @@ export const AmenitiesSelector = ({
       </div>
 
       {/* Equipment & Gear Section */}
-      <div className="amenities-selector__section">
+      <div className="amenities-selector__section amenities-selector__equipment-section">
         <h2 className="amenities-selector__title">
           {t('form.equipment.title', { defaultValue: 'Equipment & Gear List' })}
         </h2>
 
-        <div className="amenities-selector__textarea-container">
-          <textarea
-            className="amenities-selector__textarea"
-            placeholder={t('form.equipment.placeholder', {
-              defaultValue:
-                'List your gear here (one item per line)...\ne.g.\nNeumann U87\nApollo Twin X\nFocal Alpha 65'
-            })}
-            value={equipment}
-            onChange={(e) => onEquipmentChange?.(e.target.value)}
-          />
-          <div className="amenities-selector__textarea-icon">
-            <InfoOutlinedIcon />
-          </div>
+        {/* Equipment Categories */}
+        <div className="equipment-categories">
+          {visibleCategories.map((categoryId) => {
+            const IconComponent = equipmentCategoryIcons[categoryId] || MoreHorizIcon;
+            const categoryValue = equipment[categoryId] || '';
+
+            return (
+              <div key={categoryId} className="equipment-category">
+                <div className="equipment-category__header">
+                  <div className="equipment-category__title-row">
+                    <IconComponent className="equipment-category__icon" />
+                    <span className="equipment-category__title">
+                      {t(`form.equipment.categories.${categoryId}`, { defaultValue: categoryId })}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="equipment-category__remove"
+                    onClick={() => removeCategory(categoryId)}
+                    aria-label={t('common:remove', { defaultValue: 'Remove' })}
+                  >
+                    <DeleteIcon />
+                  </button>
+                </div>
+                <textarea
+                  className="equipment-category__textarea"
+                  placeholder={t('form.equipment.placeholder', { defaultValue: 'One item per line...' })}
+                  value={categoryValue}
+                  onChange={(e) => handleCategoryEquipmentChange(categoryId, e.target.value)}
+                  rows={3}
+                />
+              </div>
+            );
+          })}
         </div>
+
+        {/* Add Category Button */}
+        {availableCategories.length > 0 && (
+          <div className="equipment-add-category">
+            <select
+              className="equipment-add-category__select"
+              value=""
+              onChange={(e) => {
+                if (e.target.value) {
+                  addCategory(e.target.value as EquipmentCategoryId);
+                }
+              }}
+            >
+              <option value="">{t('form.equipment.addCategory', { defaultValue: 'Add Category' })}...</option>
+              {availableCategories.map((categoryId) => (
+                <option key={categoryId} value={categoryId}>
+                  {t(`form.equipment.categories.${categoryId}`, { defaultValue: categoryId })}
+                </option>
+              ))}
+            </select>
+            <AddIcon className="equipment-add-category__icon" />
+          </div>
+        )}
+
         <p className="amenities-selector__helper">
           {t('form.equipment.helperText', {
             defaultValue: 'Being detailed about your gear helps musicians find exactly what they need.'

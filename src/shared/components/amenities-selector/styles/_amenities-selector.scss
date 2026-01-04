@@ -170,4 +170,140 @@
     color: #ef4444;
     font-size: vars.$font-size-small;
   }
+
+  &__equipment-section {
+    gap: vars.$spacing-large;
+  }
+}
+
+// Equipment Categories
+.equipment-categories {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+}
+
+.equipment-category {
+  background: ds.$zinc-900-50;
+  border: 1px solid ds.$zinc-700;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: vars.$spacing-medium;
+    background: rgba(255, 209, 102, 0.05);
+    border-bottom: 1px solid ds.$zinc-800;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+  }
+
+  &__icon {
+    color: ds.$primary-yellow;
+    font-size: 1.25rem !important;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: vars.$font-size-medium;
+    color: vars.$text-color-primary;
+  }
+
+  &__remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: vars.$spacing-xs;
+    border: none;
+    background: transparent;
+    color: ds.$zinc-500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    svg {
+      font-size: 1.25rem;
+    }
+
+    &:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: vars.$spacing-medium;
+    border: none;
+    background: transparent;
+    color: vars.$text-color-primary;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: vars.$font-size-small;
+    resize: none;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: ds.$zinc-600;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+// Add Category Dropdown
+.equipment-add-category {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  &__select {
+    appearance: none;
+    padding: vars.$spacing-medium vars.$spacing-xl vars.$spacing-medium vars.$spacing-medium;
+    padding-right: 2.5rem;
+    border: 1px dashed ds.$zinc-700;
+    border-radius: 12px;
+    background: transparent;
+    color: ds.$zinc-400;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 180px;
+
+    &:hover {
+      border-color: ds.$primary-yellow;
+      color: ds.$primary-yellow;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+    }
+
+    option {
+      background: ds.$zinc-900;
+      color: vars.$text-color-primary;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: vars.$spacing-medium;
+    color: ds.$zinc-500;
+    pointer-events: none;
+    font-size: 1.25rem !important;
+
+    .equipment-add-category:hover & {
+      color: ds.$primary-yellow;
+    }
+  }
 }

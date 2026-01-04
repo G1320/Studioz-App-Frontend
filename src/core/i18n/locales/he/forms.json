@@ -138,8 +138,19 @@
     "equipment": {
       "title": "רשימת ציוד",
       "label": "ציוד",
-      "placeholder": "רשמו את הציוד שלכם כאן (פריט בכל שורה)...\nלדוגמה:\nNeumann U87\nApollo Twin X\nFocal Alpha 65",
-      "helperText": "פירוט הציוד שלכם עוזר למוזיקאים למצוא בדיוק את מה שהם צריכים."
+      "placeholder": "פריט אחד בכל שורה...",
+      "helperText": "פירוט הציוד שלכם עוזר למוזיקאים למצוא בדיוק את מה שהם צריכים.",
+      "addCategory": "הוסף קטגוריה",
+      "categories": {
+        "microphones": "מיקרופונים",
+        "preamps": "פריאמפים ואקולייזרים",
+        "compressors": "קומפרסורים",
+        "instruments": "כלי נגינה",
+        "monitoring": "מוניטורים",
+        "recording": "הקלטה וממשקים",
+        "software": "תוכנות ו-DAW",
+        "other": "ציוד נוסף"
+      }
     },
     "bookingSettings": {
       "title": "הגדרות הזמנה",

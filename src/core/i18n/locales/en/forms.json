@@ -138,8 +138,19 @@
     "equipment": {
       "title": "Equipment & Gear List",
       "label": "Equipment",
-      "placeholder": "List your gear here (one item per line)...\ne.g.\nNeumann U87\nApollo Twin X\nFocal Alpha 65",
-      "helperText": "Being detailed about your gear helps musicians find exactly what they need."
+      "placeholder": "One item per line...",
+      "helperText": "Being detailed about your gear helps musicians find exactly what they need.",
+      "addCategory": "Add Category",
+      "categories": {
+        "microphones": "Microphones",
+        "preamps": "Preamps & EQs",
+        "compressors": "Compressors",
+        "instruments": "Instruments",
+        "monitoring": "Monitoring",
+        "recording": "Recording & Interface",
+        "software": "Software & DAW",
+        "other": "Other Equipment"
+      }
     },
     "bookingSettings": {
       "title": "Booking Settings",

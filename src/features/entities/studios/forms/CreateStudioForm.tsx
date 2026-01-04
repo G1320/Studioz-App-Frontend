@@ -36,7 +36,7 @@ import {
 import { useUserContext } from '@core/contexts';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
-import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+import { DayOfWeek, StudioAvailability, EquipmentCategory } from 'src/types/studio';
 import { loadFormState } from '@shared/utils/formAutoSaveUtils';
 
 interface StudioFormData {
@@ -48,7 +48,7 @@ interface StudioFormData {
   subCategories?: string[];
   genres?: string[];
   amenities?: string[];
-  equipment?: string[];
+  equipment?: EquipmentCategory[];
   studioAvailability?: StudioAvailability;
   website?: string;
   parking?: 'private' | 'street' | 'paid' | 'none';
@@ -105,7 +105,7 @@ export const CreateStudioForm = () => {
     openingHour?: string;
     closingHour?: string;
     selectedAmenities?: string[];
-    equipmentList?: string;
+    equipmentList?: Record<string, string>;
     selectedParking?: 'private' | 'street' | 'paid' | 'none';
   }>(FORM_ID);
 
@@ -125,7 +125,7 @@ export const CreateStudioForm = () => {
   const [openingHour, setOpeningHour] = useState<string>(savedState?.openingHour || '08:00');
   const [closingHour, setClosingHour] = useState<string>(savedState?.closingHour || '18:00');
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>(savedState?.selectedAmenities || []);
-  const [equipmentList, setEquipmentList] = useState<string>(savedState?.equipmentList || '');
+  const [equipmentList, setEquipmentList] = useState<Record<string, string>>(savedState?.equipmentList || {});
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     savedState?.selectedParking || 'street'
   );
@@ -696,11 +696,10 @@ export const CreateStudioForm = () => {
       times: selectedDisplayDays.map((day) => studioHours[day])
     };
     formData.amenities = selectedAmenities;
-    // Convert equipment string to array (split by newlines, filter empty lines)
-    formData.equipment = equipmentList
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
+    // Convert categorized equipment to EquipmentCategory[] format
+    formData.equipment = Object.entries(equipmentList)
+      .filter(([, items]) => items.trim().length > 0)
+      .map(([category, items]) => ({ category, items }));
     formData.parking = selectedParking;
 
     // Add cancellation policy (only include if type is selected)

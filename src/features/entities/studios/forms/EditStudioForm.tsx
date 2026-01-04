@@ -28,7 +28,7 @@ import {
   useControlledStateAutoSave
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
-import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+import { DayOfWeek, StudioAvailability, EquipmentCategory } from 'src/types/studio';
 
 interface StudioFormData {
   coverImage?: string;
@@ -39,7 +39,7 @@ interface StudioFormData {
   subCategories?: string[];
   genres?: string[];
   amenities?: string[];
-  equipment?: string[];
+  equipment?: EquipmentCategory[];
   studioAvailability?: StudioAvailability;
   lat?: number | string;
   lng?: number | string;
@@ -96,7 +96,19 @@ export const EditStudioForm = () => {
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');
   const [galleryAudioFiles, setGalleryAudioFiles] = useState<string[]>(studio?.galleryAudioFiles || []);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>(studio?.amenities || []);
-  const [equipmentList, setEquipmentList] = useState<string>(studio?.equipment?.join('\n') || '');
+  // Convert EquipmentCategory[] to Record for form state
+  const [equipmentList, setEquipmentList] = useState<Record<string, string>>(() => {
+    if (!studio?.equipment?.length) return {};
+    // Handle new EquipmentCategory[] format
+    if (typeof studio.equipment[0] === 'object') {
+      return (studio.equipment as EquipmentCategory[]).reduce((acc, cat) => {
+        acc[cat.category] = cat.items;
+        return acc;
+      }, {} as Record<string, string>);
+    }
+    // Backward compatibility: if it's still a flat array (old data)
+    return { other: (studio.equipment as unknown as string[]).join('\n') };
+  });
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     (studio?.parking as 'private' | 'street' | 'paid' | 'none') || 'street'
   );
@@ -588,13 +600,11 @@ export const EditStudioForm = () => {
     };
 
     formData.amenities = selectedAmenities.length > 0 ? selectedAmenities : studio?.amenities || [];
-    // Convert equipment string to array (split by newlines, filter empty lines)
-    formData.equipment = equipmentList
-      ? equipmentList
-          .split('\n')
-          .map((line) => line.trim())
-          .filter((line) => line.length > 0)
-      : studio?.equipment || [];
+    // Convert categorized equipment to EquipmentCategory[] format
+    const equipmentCategories = Object.entries(equipmentList)
+      .filter(([, items]) => items.trim().length > 0)
+      .map(([category, items]) => ({ category, items }));
+    formData.equipment = equipmentCategories.length > 0 ? equipmentCategories : studio?.equipment || [];
     formData.parking = selectedParking;
 
     // Add cancellation policy (only include if type is selected)
