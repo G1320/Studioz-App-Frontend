@@ -1,6 +1,6 @@
 import { useState, useEffect, Suspense } from 'react';
-import { CategoryCard, StudiosList, CityCard } from '@features/entities';
-import { GenericCarousel, LocationWelcomePopup, DistanceSlider } from '@shared/components';
+import { StudioCard, StudiosList, SidebarFilters, FilterState } from '@features/entities';
+import { LocationWelcomePopup, DistanceSlider } from '@shared/components';
 import { LazyStudiosMap } from '@shared/components/maps';
 import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
@@ -11,14 +11,61 @@ import { Studio } from 'src/types/index';
 import { cities } from '@core/config/cities/cities';
 import { featureFlags } from '@core/config/featureFlags';
 import { filterStudios } from '../utils/filterStudios';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// MUI Icons
+import MapIcon from '@mui/icons-material/Map';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import TuneIcon from '@mui/icons-material/Tune';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import MicIcon from '@mui/icons-material/Mic';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface StudiosPageProps {
   studios: Studio[];
 }
 
+interface FilterChipProps {
+  label: string;
+  icon: React.ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const FilterChip: React.FC<FilterChipProps> = ({ label, icon, isActive, onClick }) => (
+  <button onClick={onClick} className={`filter-chip ${isActive ? 'filter-chip--active' : ''}`}>
+    {icon}
+    <span>{label}</span>
+  </button>
+);
+
+// Map subcategory to icon
+const getCategoryIcon = (category: string) => {
+  const lower = category.toLowerCase();
+  if (lower.includes('music') || lower.includes('production') || lower.includes('recording')) {
+    return <MusicNoteIcon />;
+  }
+  if (lower.includes('podcast') || lower.includes('vocal')) {
+    return <MicIcon />;
+  }
+  if (lower.includes('photo')) {
+    return <CameraAltIcon />;
+  }
+  if (lower.includes('video')) {
+    return <VideocamIcon />;
+  }
+  if (lower.includes('mix') || lower.includes('master')) {
+    return <GraphicEqIcon />;
+  }
+  return <MusicNoteIcon />;
+};
+
 const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { category, subcategory } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const selectedCity = searchParams.get('city');
   const maxDistance = searchParams.get('maxDistance') ? Number(searchParams.get('maxDistance')) : undefined;
   const { getDisplayByEnglish, getEnglishByDisplay } = useCategories();
@@ -27,6 +74,9 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const { showPrompt, hasGranted, userLocation, setUserLocation } = useLocationPermission();
   const { position, getCurrentPosition } = useGeolocation();
   const [showPopup, setShowPopup] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(subcategory || null);
 
   const musicSubCategories = useMusicSubCategories();
 
@@ -53,76 +103,200 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   const filteredStudios: Studio[] = filterStudios(studios, {
     category,
-    subcategory,
+    subcategory: activeCategory || subcategory,
     city: selectedCity,
     userLocation: userLocation,
     maxDistance: featureFlags.distanceSlider ? maxDistance : undefined
   });
 
   const hasFilters =
-    Boolean(category || subcategory || selectedCity) ||
+    Boolean(category || subcategory || selectedCity || activeCategory) ||
     (featureFlags.distanceSlider && maxDistance !== undefined);
 
-  const categoryRenderItem = (category: string) => <CategoryCard category={category} />;
-  const cityRenderItem = (city: (typeof cities)[number]) => <CityCard city={city} />;
+  const handleCategoryClick = (cat: string) => {
+    const englishCat = getEnglishByDisplay(cat);
+    if (activeCategory === englishCat) {
+      setActiveCategory(null);
+    } else {
+      setActiveCategory(englishCat);
+    }
+  };
 
-  const subcategoryDisplay = subcategory ? getDisplayByEnglish(subcategory) : t('page.categories');
-  const translatedCityName = selectedCity ? getDisplayByCityName(selectedCity) : null;
-  const cityDisplay = translatedCityName
-    ? t('page.city_selected', { city: translatedCityName })
-    : t('page.cities_title');
+  const handleCityClick = (cityName: string) => {
+    if (selectedCity === cityName) {
+      searchParams.delete('city');
+    } else {
+      searchParams.set('city', cityName);
+    }
+    setSearchParams(searchParams);
+  };
 
-  // Find selected indices for scrolling
-  const selectedCityIndex = selectedCity ? cities.findIndex((city) => city.name === selectedCity) : undefined;
-  const selectedCategoryIndex = subcategory
-    ? musicSubCategories.findIndex((cat) => getEnglishByDisplay(cat) === subcategory)
-    : undefined;
+  const handleFiltersApply = (filters: FilterState) => {
+    // Apply category filter
+    if (filters.categories.length > 0) {
+      setActiveCategory(filters.categories[0]);
+    } else {
+      setActiveCategory(null);
+    }
+
+    // Apply location filter
+    if (filters.location) {
+      searchParams.set('city', filters.location);
+    } else {
+      searchParams.delete('city');
+    }
+    setSearchParams(searchParams);
+
+    // Close the sidebar
+    setShowFilters(false);
+  };
 
   return (
     <section className="studios-page">
       <LocationWelcomePopup open={showPopup} onClose={() => setShowPopup(false)} />
 
-      <GenericCarousel
-        data={musicSubCategories}
-        className="categories-carousel slider-gradient"
-        renderItem={categoryRenderItem}
-        title={subcategoryDisplay}
-        selectedIndex={
-          selectedCategoryIndex !== undefined && selectedCategoryIndex >= 0 ? selectedCategoryIndex : undefined
-        }
-        breakpoints={{
-          340: { slidesPerView: 3.4 },
-          520: { slidesPerView: 4.2 },
-          800: { slidesPerView: 4.4 },
-          1000: { slidesPerView: 5.2 },
-          1200: { slidesPerView: 6.2 },
-          1550: { slidesPerView: 7.2 }
-        }}
-      />
-      <GenericCarousel
-        data={cities}
-        className="cities-carousel slider-gradient"
-        renderItem={cityRenderItem}
-        title={cityDisplay}
-        selectedIndex={selectedCityIndex !== undefined && selectedCityIndex >= 0 ? selectedCityIndex : undefined}
-        breakpoints={{
-          340: { slidesPerView: 2.4 },
-          520: { slidesPerView: 3.2 },
-          800: { slidesPerView: 4.2 },
-          1200: { slidesPerView: 5.2 }
-        }}
-      />
+      {/* Header Section */}
+      <div className="studios-page__header">
+        <div className="studios-page__header-content">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="studios-page__title">
+            {t('page.discover', { defaultValue: 'Discover' })}{' '}
+            <span className="studios-page__title-accent">{t('page.amazing', { defaultValue: 'Amazing' })}</span>{' '}
+            {t('page.studios', { defaultValue: 'Studios' })}
+          </motion.h1>
+          <p className="studios-page__subtitle">
+            {t('page.subtitle', {
+              defaultValue: 'Find and book professional recording, podcast, and photography spaces across Israel.'
+            })}
+          </p>
+        </div>
+
+        <button onClick={() => setShowMap(!showMap)} className="studios-page__view-toggle">
+          {showMap ? <ViewListIcon /> : <MapIcon />}
+          <span>
+            {showMap
+              ? t('page.showList', { defaultValue: 'Show List' })
+              : t('page.showMap', { defaultValue: 'Show Map' })}
+          </span>
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="studios-page__filters">
+        <div className="studios-page__filters-scroll">
+          <button className="filter-chip filter-chip--outline" onClick={() => setShowFilters(true)}>
+            <TuneIcon />
+            <span>{t('page.filters', { defaultValue: 'Filters' })}</span>
+          </button>
+
+          <div className="studios-page__filters-divider" />
+
+          <FilterChip
+            label={t('page.allStudios', { defaultValue: 'All Studios' })}
+            icon={<TuneIcon />}
+            isActive={!activeCategory}
+            onClick={() => setActiveCategory(null)}
+          />
+
+          {musicSubCategories.slice(0, 6).map((cat) => (
+            <FilterChip
+              key={cat}
+              label={cat}
+              icon={getCategoryIcon(cat)}
+              isActive={activeCategory === getEnglishByDisplay(cat)}
+              onClick={() => handleCategoryClick(cat)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Cities Filter */}
+      <div className="studios-page__cities">
+        <div className="studios-page__cities-scroll">
+          {cities.map((city) => (
+            <button
+              key={city.name}
+              onClick={() => handleCityClick(city.name)}
+              className={`city-chip ${selectedCity === city.name ? 'city-chip--active' : ''}`}
+            >
+              <LocationOnIcon />
+              <span>{getDisplayByCityName(city.name)}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {featureFlags.distanceSlider && <DistanceSlider />}
-      <Suspense
-        fallback={
-          <div className="map-loader">
-            <div className="map-loader__spinner"></div>
-          </div>
-        }
-      >
-        <LazyStudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
-      </Suspense>
-      <StudiosList studios={filteredStudios} hasFilters={hasFilters} />
+
+      {/* Grid or Map View */}
+      <div className="studios-page__content">
+        {showMap ? (
+          <Suspense
+            fallback={
+              <div className="studios-page__map-loader">
+                <div className="studios-page__map-loader-spinner" />
+              </div>
+            }
+          >
+            <div className="studios-page__map-container">
+              <LazyStudiosMap studios={filteredStudios} selectedCity={selectedCity} userLocation={userLocation} />
+              <button onClick={() => setShowMap(false)} className="studios-page__back-to-list">
+                {t('page.backToList', { defaultValue: 'Back to List' })}
+              </button>
+            </div>
+          </Suspense>
+        ) : (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="studios-page__grid">
+            {filteredStudios.length > 0 ? (
+              filteredStudios.map((studio) => (
+                <motion.div
+                  key={studio._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -5 }}
+                  className="studios-page__grid-item"
+                >
+                  <StudioCard studio={studio} />
+                </motion.div>
+              ))
+            ) : (
+              <StudiosList studios={[]} hasFilters={hasFilters} />
+            )}
+          </motion.div>
+        )}
+      </div>
+
+      {/* Sidebar Filters Overlay */}
+      <AnimatePresence>
+        {showFilters && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="studios-page__filters-overlay"
+              onClick={() => setShowFilters(false)}
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className="studios-page__filters-sidebar"
+            >
+              <SidebarFilters
+                isOpen={showFilters}
+                onClose={() => setShowFilters(false)}
+                onApply={handleFiltersApply}
+                studioCount={filteredStudios.length}
+                initialFilters={{
+                  categories: activeCategory ? [activeCategory] : [],
+                  location: selectedCity || ''
+                }}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

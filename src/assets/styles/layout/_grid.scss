@@ -4,9 +4,12 @@ main {
   flex: 1;
   gap: 1rem;
   max-width: clamp(100%, 80vw, 2300px);
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   padding-top: 2rem;
   justify-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
 }
 
 body:has(.discover-page) main {

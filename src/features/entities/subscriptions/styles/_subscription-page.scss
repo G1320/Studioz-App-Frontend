@@ -16,7 +16,6 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 // Container
 .subscriptions-container {
   max-width: 1200px;
-  margin: 0 auto;
   padding: 0 vars.$spacing-medium;
 }
 
@@ -92,14 +91,14 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
   background: vars.$bg-color-primary;
   color: vars.$text-color-primary;
   overflow-x: hidden;
-    position: relative;
+  position: relative;
 
   &__glow {
-      position: absolute;
+    position: absolute;
     border-radius: 50%;
     filter: blur(120px);
     opacity: 0.15;
-      pointer-events: none;
+    pointer-events: none;
     z-index: 0;
 
     &--primary {
@@ -134,8 +133,8 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 // HERO SECTION
 // ==========================================
 .subscriptions-hero {
-      position: relative;
-      z-index: 1;
+  position: relative;
+  z-index: 1;
   padding: 6rem 0 3rem;
   text-align: center;
 
@@ -188,21 +187,21 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 // PRICING CARDS
 // ==========================================
 .subscriptions-card {
-    position: relative;
+  position: relative;
   background: vars.$bg-color-primary;
   border: 1px solid $subscriptions-border;
   border-radius: vars.$border-radius-3xl;
-    padding: vars.$spacing-xl;
+  padding: vars.$spacing-xl;
   display: flex;
   flex-direction: column;
-      cursor: pointer;
+  cursor: pointer;
   transition: all 0.3s ease;
 
-    &:hover {
+  &:hover {
     transform: translateY(-4px);
     border-color: rgba(255, 255, 255, 0.2);
     background: $subscriptions-surface-dark;
-    }
+  }
 
   &--popular {
     background: $subscriptions-surface;
@@ -222,7 +221,7 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
   &--selected {
     border-color: $subscriptions-primary;
     box-shadow: 0 0 30px rgba(255, 209, 102, 0.2);
-      }
+  }
 
   &__badge {
     position: absolute;
@@ -272,15 +271,15 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
   }
 
   &__name {
-      font-size: vars.$font-size-xl;
-      font-weight: 700;
-      margin-bottom: vars.$spacing-small;
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    margin-bottom: vars.$spacing-small;
     color: vars.$text-color-primary;
-    }
+  }
 
   &__highlight {
     color: $subscriptions-muted;
-      font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-sm-md;
     margin: 0;
     min-height: 2.5em;
   }
@@ -293,14 +292,14 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
   }
 
   &__amount {
-      font-size: clamp(2rem, 4vw, 2.5rem);
-      font-weight: 700;
-      color: vars.$text-color-primary;
-    }
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: vars.$text-color-primary;
+  }
 
   &__period {
     color: $subscriptions-muted;
-      font-size: vars.$font-size-medium;
+    font-size: vars.$font-size-medium;
   }
 
   &__cta {
@@ -341,7 +340,7 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
       &:hover {
         background: rgba($subscriptions-primary, 0.9);
         box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
-  }
+      }
     }
   }
 
@@ -359,10 +358,10 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
     letter-spacing: 0.05em;
     color: vars.$text-color-primary;
     margin: 0 0 vars.$spacing-small;
-    }
+  }
 
   &__feature {
-      display: flex;
+    display: flex;
     align-items: flex-start;
     gap: vars.$spacing-sm-md;
     font-size: vars.$font-size-sm-md;
@@ -402,8 +401,8 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
     max-width: 800px;
     margin: 0 auto;
     animation: slideIn 0.5s ease forwards;
-      }
-    }
+  }
+}
 
 // ==========================================
 // FAQ SECTION
@@ -466,7 +465,7 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
     padding: 0 vars.$spacing-xl vars.$spacing-xl;
     color: $subscriptions-muted;
     line-height: 1.6;
-    }
+  }
 }
 
 // ==========================================
@@ -504,8 +503,8 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
     color: $subscriptions-muted;
     margin-bottom: vars.$spacing-xl;
     line-height: 1.6;
-      }
-    }
+  }
+}
 
 // ==========================================
 // ANIMATIONS

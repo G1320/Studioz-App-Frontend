@@ -3,7 +3,31 @@
     "title": "אולפנים",
     "categories": "קטגוריות",
     "cities_title": "ערים מובילות",
-    "city_selected": "אולפנים ב{{city}}"
+    "city_selected": "אולפנים ב{{city}}",
+    "discover": "גלו",
+    "amazing": "אולפנים",
+    "studios": "מדהימים",
+    "subtitle": "מצאו והזמינו אולפני הקלטה, פודקאסט וצילום מקצועיים ברחבי ישראל.",
+    "showList": "הצג רשימה",
+    "showMap": "הצג מפה",
+    "filters": "סינון",
+    "allStudios": "כל האולפנים",
+    "backToList": "חזרה לרשימה"
+  },
+  "filters": {
+    "title": "סינון",
+    "active": "פעיל",
+    "reset": "איפוס",
+    "studioType": "סוג אולפן",
+    "priceRange": "טווח מחירים",
+    "max": "מקסימום",
+    "location": "מיקום",
+    "anyLocation": "כל מיקום",
+    "specs": "מפרט",
+    "minSize": "גודל מינימלי (מ\"ר)",
+    "minCapacity": "תכולה מינימלית",
+    "amenities": "מתקנים",
+    "showStudios": "הצג {{count}} אולפנים"
   },
   "distanceFilter": {
     "label": "מרחק מקסימלי",

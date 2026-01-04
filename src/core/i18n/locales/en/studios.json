@@ -3,7 +3,31 @@
     "title": "Studios",
     "categories": "Categories",
     "cities_title": "Explore by city",
-    "city_selected": "Studios in {{city}}"
+    "city_selected": "Studios in {{city}}",
+    "discover": "Discover",
+    "amazing": "Amazing",
+    "studios": "Studios",
+    "subtitle": "Find and book professional recording, podcast, and photography spaces across Israel.",
+    "showList": "Show List",
+    "showMap": "Show Map",
+    "filters": "Filters",
+    "allStudios": "All Studios",
+    "backToList": "Back to List"
+  },
+  "filters": {
+    "title": "Filters",
+    "active": "Active",
+    "reset": "Reset",
+    "studioType": "Studio Type",
+    "priceRange": "Price Range",
+    "max": "Max",
+    "location": "Location",
+    "anyLocation": "Any Location",
+    "specs": "Specs",
+    "minSize": "Min Size (m²)",
+    "minCapacity": "Min Capacity",
+    "amenities": "Amenities",
+    "showStudios": "Show {{count}} Studios"
   },
   "distanceFilter": {
     "label": "Max Distance",
@@ -17,4 +41,3 @@
     "browseStudios": "Browse all studios"
   }
 }
-

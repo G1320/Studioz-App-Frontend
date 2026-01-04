@@ -23,7 +23,6 @@ $owners-orange: #fb923c;
 // Container
 .owners-container {
   max-width: 1280px;
-  margin: 0 auto;
   padding: 0 vars.$spacing-medium;
 }
 
@@ -161,7 +160,6 @@ $owners-orange: #fb923c;
     position: relative;
     z-index: 10;
     max-width: 896px;
-    margin: 0 auto;
     text-align: center;
   }
 
@@ -439,7 +437,6 @@ $owners-orange: #fb923c;
   &__header {
     text-align: center;
     max-width: 768px;
-    margin: 0 auto vars.$spacing-3xl;
   }
 
   &__grid {
