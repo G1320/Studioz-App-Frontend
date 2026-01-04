@@ -185,12 +185,13 @@ export const itemStep1Schema = z.object({
 });
 
 /**
- * Step 2: Categories Schema
- * Validates: categories, subCategories
+ * Step 2: Categories & Genres Schema
+ * Validates: categories, subCategories, genres
  */
 export const itemStep2Schema = z.object({
   categories: stringArraySchema(1, 'At least one category is required'),
-  subCategories: stringArraySchema(1, 'At least one subcategory is required')
+  subCategories: stringArraySchema(1, 'At least one subcategory is required'),
+  genres: z.array(z.string()).max(12, 'Maximum 12 genres allowed').optional()
 });
 
 /**
