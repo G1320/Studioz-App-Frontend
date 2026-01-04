@@ -7,4 +7,5 @@ export * from './StudioOptions';
 export * from './StudioDetails';
 export * from './StudioDetailsHeader';
 export * from './StudioDetailsContent';
+export * from './StudioOverviewView';
 export * from './StudioInfoModal';
