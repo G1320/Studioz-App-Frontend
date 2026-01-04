@@ -15,8 +15,9 @@ export const MobileNavigation = () => {
 
   const currLang = i18n.language || 'en';
 
-  // Hide mobile navigation on create studio flow to reduce clutter on small screens
-  if (currentPath.includes('/create-studio')) {
+  // Hide mobile navigation on create/edit studio and item forms to reduce clutter on small screens
+  const hiddenPaths = ['/create-studio', '/edit-studio', '/create-item', '/edit-item'];
+  if (hiddenPaths.some((path) => currentPath.includes(path))) {
     return null;
   }
 

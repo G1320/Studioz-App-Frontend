@@ -2,9 +2,8 @@
 @use '../../../../shared/components/forms/styles' as forms;
 
 .edit-item-page {
-  padding: vars.$spacing-xl vars.$spacing-medium;
   max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
 
   > section {
     > h1 {
@@ -19,8 +18,6 @@
 
 // Scope the form wrapper and form to prevent styles from affecting nested forms
 .edit-item-form-wrapper {
-  margin-top: vars.$spacing-large;
-
   // Scope branded-form mixin to only affect elements within this form
   // This ensures styles don't leak to nested AddOn forms
   .edit-item-form {

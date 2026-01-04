@@ -334,7 +334,7 @@ export const CreateAddOnForm = ({
             >
               {editingIndex !== null
                 ? t('form.submit.editAddOn', { defaultValue: 'Update Add-On' })
-                : 'Add Item (הוסף פריט)'}
+                : t('form.addOn.addItem')}
             </button>
           </div>
         </div>
@@ -343,11 +343,11 @@ export const CreateAddOnForm = ({
           type="button"
           className="add-addon-button"
           onClick={() => setIsFormVisible(true)}
-          title={t('form.addOn.addButton')}
-          aria-label={t('form.addOn.addButton')}
+          title={t('form.addOn.createNew')}
+          aria-label={t('form.addOn.createNew')}
         >
           <AddIcon className="add-addon-icon" />
-          <span className="add-addon-text">Create New Add-on</span>
+          <span className="add-addon-text">{t('form.addOn.createNew')}</span>
         </button>
       )}
     </section>

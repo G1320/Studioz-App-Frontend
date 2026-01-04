@@ -371,9 +371,9 @@
         "flat": "מחיר קבוע",
         "hour": "מחיר לשעה",
         "day": "מחיר ליום",
-        "flatOption": "מחיר קבוע (Flat Fee)",
-        "hourOption": "לשעה (Per Hour)",
-        "dayOption": "ליום (Per Day)"
+        "flatOption": "מחיר קבוע",
+        "hourOption": "לשעה",
+        "dayOption": "ליום"
       },
       "errors": {
         "requiredFields": "אנא מלא את כל השדות הנדרשים",
