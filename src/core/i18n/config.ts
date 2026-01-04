@@ -22,6 +22,7 @@ import cookieConsent from './locales/en/cookieConsent.json';
 import location from './locales/en/location.json';
 import forOwners from './locales/en/forOwners.json';
 import landing from './locales/en/landing.json';
+import equipment from './locales/en/equipment.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -43,6 +44,7 @@ import cookieConsentHe from './locales/he/cookieConsent.json';
 import locationHe from './locales/he/location.json';
 import forOwnersHe from './locales/he/forOwners.json';
 import landingHe from './locales/he/landing.json';
+import equipmentHe from './locales/he/equipment.json';
 
 i18n
   .use(LanguageDetector)
@@ -69,7 +71,8 @@ i18n
         cookieConsent,
         location,
         forOwners,
-        landing
+        landing,
+        equipment
       },
       he: {
         discoverPage: discoverPageHe,
@@ -91,7 +94,8 @@ i18n
         cookieConsent: cookieConsentHe,
         location: locationHe,
         forOwners: forOwnersHe,
-        landing: landingHe
+        landing: landingHe,
+        equipment: equipmentHe
       }
     },
     fallbackLng: 'en',

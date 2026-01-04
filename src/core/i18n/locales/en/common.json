@@ -160,5 +160,17 @@
       "imageUploadFailed": "Failed to upload image. Please try again.",
       "verificationFailed": "Verification failed. Please check the code and try again."
     }
+  },
+  "studioDetails": {
+    "overview": "Overview",
+    "infoSpecs": "Info & Specs",
+    "amenities": "Amenities & Features",
+    "equipment": "Studio Gear",
+    "houseRules": "House Rules",
+    "openingHours": "Opening Hours",
+    "contactLocation": "Contact & Location",
+    "address": "Address",
+    "phone": "Phone",
+    "website": "Website"
   }
 }

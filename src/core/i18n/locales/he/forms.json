@@ -678,6 +678,16 @@
       },
       "success": "הרשמת הספק הושלמה בהצלחה",
       "error": "אירעה שגיאה בהרשמת הספק"
+    },
+    "studioDetails": {
+      "amenities": "מתקנים ותכונות",
+      "equipment": "ציוד סטודיו",
+      "houseRules": "כללי הבית",
+      "openingHours": "שעות פעילות",
+      "contactLocation": "יצירת קשר ומיקום",
+      "address": "כתובת",
+      "phone": "טלפון",
+      "website": "אתר"
     }
   }
 }

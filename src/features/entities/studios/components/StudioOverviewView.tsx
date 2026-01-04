@@ -12,7 +12,9 @@ export const StudioOverviewView: React.FC<StudioOverviewViewProps> = ({ studio }
 
   return (
     <div className="studio-overview-view">
-      <p className="description">{studio?.description[currentLang] || studio?.description.en}</p>
+      <p className="studio-overview-view__description">
+        {studio?.description[currentLang] || studio?.description.en}
+      </p>
     </div>
   );
 };

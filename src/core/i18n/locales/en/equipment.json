@@ -1,0 +1,12 @@
+{
+  "categories": {
+    "microphones": "Microphones",
+    "preamps": "Preamps & EQs",
+    "compressors": "Compressors",
+    "instruments": "Instruments",
+    "monitoring": "Monitoring",
+    "recording": "Recording & Interface",
+    "software": "Software & DAW",
+    "other": "Other Equipment"
+  }
+}

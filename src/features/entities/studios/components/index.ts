@@ -8,4 +8,5 @@ export * from './StudioDetails';
 export * from './StudioDetailsHeader';
 export * from './StudioDetailsContent';
 export * from './StudioOverviewView';
+export * from './StudioInfoView';
 export * from './StudioInfoModal';

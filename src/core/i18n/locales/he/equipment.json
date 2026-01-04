@@ -1,0 +1,12 @@
+{
+  "categories": {
+    "microphones": "מיקרופונים",
+    "preamps": "קדם-מגברים ואיקיו",
+    "compressors": "קומפרסורים",
+    "instruments": "כלי נגינה",
+    "monitoring": "מוניטורים",
+    "recording": "הקלטה וכרטיסי קול",
+    "software": "תוכנות ו-DAW",
+    "other": "ציוד נוסף"
+  }
+}

@@ -678,6 +678,16 @@
       },
       "success": "Vendor registration completed successfully",
       "error": "Failed to complete vendor registration"
+    },
+    "studioDetails": {
+      "amenities": "Amenities & Features",
+      "equipment": "Studio Gear",
+      "houseRules": "House Rules",
+      "openingHours": "Opening Hours",
+      "contactLocation": "Contact & Location",
+      "address": "Address",
+      "phone": "Phone",
+      "website": "Website"
     }
   }
 }
