@@ -301,18 +301,18 @@ export const CreateAddOnForm = ({
               </div>
             </div>
 
-            {/* Active Toggle */}
-            <div className="addon-form-toggle-row">
-              <span className="addon-form-toggle-label">
-                {t('form.addOn.fields.activeStatus', { defaultValue: 'Active Status' })}
-              </span>
+            {/* Active Checkbox */}
+            <div className="addon-form-checkbox-row">
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
-                className={`addon-form-toggle ${formData.isActive ? 'active' : ''}`}
-              >
-                <span className="toggle-thumb" />
-              </button>
+                className={`addon-form-checkbox ${formData.isActive ? 'checked' : ''}`}
+                aria-checked={formData.isActive}
+                role="checkbox"
+              />
+              <span className="addon-form-checkbox-label">
+                {t('form.addOn.fields.activeStatus', { defaultValue: 'Active Status' })}
+              </span>
             </div>
           </div>
 
