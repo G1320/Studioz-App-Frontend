@@ -1,7 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Studio } from 'src/types/index';
+import { DayOfWeek } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
-import { useAmenities } from '@shared/hooks';
+import { useAmenities, useDays } from '@shared/hooks';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 // MUI Icons
 import WifiIcon from '@mui/icons-material/Wifi';
@@ -70,8 +73,10 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   const { t: tAmenities } = useTranslation('amenities');
   const { t: tEquipment } = useTranslation('equipment');
   const { getAmenities } = useAmenities();
+  const { getDisplayByEnglish } = useDays();
   const amenitiesConfig = useMemo(() => getAmenities(), [getAmenities]);
 
+  const [showAllHours, setShowAllHours] = useState(false);
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
   // Map amenity values to display labels and icons
@@ -113,45 +118,39 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   }, [studio?.cancellationPolicy?.houseRules, currentLang]);
 
   // Format availability for display
-  const availabilityDisplay = useMemo(() => {
-    if (!studio?.studioAvailability) return null;
+  const formattedAvailability = useMemo(() => {
+    if (!studio?.studioAvailability?.days?.length || !studio?.studioAvailability?.times?.length) {
+      return [];
+    }
+
+    const allDays: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const { days, times } = studio.studioAvailability;
-    if (!days || days.length === 0 || !times || times.length === 0) return null;
 
-    const timeRange = times[0];
-    const formattedTime = `${timeRange.start} - ${timeRange.end}`;
-
-    // Group consecutive days
-    const dayGroups: string[][] = [];
-    let currentGroup: string[] = [];
-    const dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const sortedDays = [...days].sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
-
-    sortedDays.forEach((day, idx) => {
-      if (currentGroup.length === 0) {
-        currentGroup.push(day);
-      } else {
-        const lastDay = currentGroup[currentGroup.length - 1];
-        const lastIdx = dayOrder.indexOf(lastDay);
-        const currIdx = dayOrder.indexOf(day);
-        if (currIdx === lastIdx + 1) {
-          currentGroup.push(day);
-        } else {
-          dayGroups.push([...currentGroup]);
-          currentGroup = [day];
-        }
+    return allDays.map((day) => {
+      const index = days.indexOf(day);
+      if (index === -1) {
+        return {
+          day,
+          displayDay: getDisplayByEnglish(day),
+          hours: i18n.language === 'he' ? 'סגור' : 'Closed',
+          isClosed: true
+        };
       }
-      if (idx === sortedDays.length - 1) {
-        dayGroups.push([...currentGroup]);
-      }
+      const timeSlot = times[index];
+      const hours =
+        i18n.language === 'he' ? `${timeSlot?.end} - ${timeSlot?.start}` : `${timeSlot?.start} - ${timeSlot?.end}`;
+      return {
+        day,
+        displayDay: getDisplayByEnglish(day),
+        hours,
+        isClosed: false
+      };
     });
+  }, [studio?.studioAvailability, getDisplayByEnglish, i18n.language]);
 
-    return dayGroups.map((group) => ({
-      days: group.length > 1 ? `${group[0]} - ${group[group.length - 1]}` : group[0],
-      time: formattedTime,
-      isOpen: true
-    }));
-  }, [studio?.studioAvailability]);
+  const hasAvailability = formattedAvailability.length > 0;
+  const visibleHours = showAllHours ? formattedAvailability : formattedAvailability.slice(0, 5);
+  const hasMoreHours = formattedAvailability.length > 5;
 
   return (
     <div className="studio-info-view">
@@ -291,19 +290,37 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
           </section>
         )}
 
-        {availabilityDisplay && availabilityDisplay.length > 0 && (
+        {hasAvailability && (
           <section className="info-card">
             <h3 className="info-card__title">
               <AccessTimeIcon className="info-card__icon" />
               {t('form.studioDetails.openingHours', { defaultValue: 'Opening Hours' })}
             </h3>
             <div className="info-card__hours">
-              {availabilityDisplay.map((slot, idx) => (
-                <div key={idx} className="info-card__hours-row">
-                  <span className="info-card__hours-days">{slot.days}</span>
-                  <span className="info-card__hours-time">{slot.time}</span>
+              {visibleHours.map((slot) => (
+                <div
+                  key={slot.day}
+                  className={`info-card__hours-row ${slot.isClosed ? 'info-card__hours-row--closed' : ''}`}
+                >
+                  <span className="info-card__hours-days">{slot.displayDay}</span>
+                  <span className="info-card__hours-time">{slot.hours}</span>
                 </div>
               ))}
+              {hasMoreHours && (
+                <button className="info-card__hours-toggle" onClick={() => setShowAllHours(!showAllHours)}>
+                  {showAllHours ? (
+                    <>
+                      <ExpandLessIcon className="info-card__hours-toggle-icon" />
+                      {i18n.language === 'he' ? 'הצג פחות' : 'Show less'}
+                    </>
+                  ) : (
+                    <>
+                      <ExpandMoreIcon className="info-card__hours-toggle-icon" />
+                      {i18n.language === 'he' ? 'הצג הכל' : 'Show all'}
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </section>
         )}

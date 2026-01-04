@@ -85,7 +85,6 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
 }) => {
   const { t } = useTranslation('studios');
   const { t: tCommon } = useTranslation('common');
-  const { t: tAmenities } = useTranslation('amenities');
   const musicSubCategories = useMusicSubCategories();
   const { getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
@@ -123,18 +122,14 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
   const handleCategoryToggle = (id: string) => {
     setFilters((prev) => ({
       ...prev,
-      categories: prev.categories.includes(id)
-        ? prev.categories.filter((c) => c !== id)
-        : [...prev.categories, id]
+      categories: prev.categories.includes(id) ? prev.categories.filter((c) => c !== id) : [...prev.categories, id]
     }));
   };
 
   const handleAmenityToggle = (id: string) => {
     setFilters((prev) => ({
       ...prev,
-      amenities: prev.amenities.includes(id)
-        ? prev.amenities.filter((a) => a !== id)
-        : [...prev.amenities, id]
+      amenities: prev.amenities.includes(id) ? prev.amenities.filter((a) => a !== id) : [...prev.amenities, id]
     }));
   };
 
@@ -183,11 +178,17 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
         <h2 className="sidebar-filters__title">
           {t('filters.title', { defaultValue: 'Filters' })}
           {activeFilterCount > 0 && (
-            <span className="sidebar-filters__count">{activeFilterCount} {t('filters.active', { defaultValue: 'Active' })}</span>
+            <span className="sidebar-filters__count">
+              {activeFilterCount} {t('filters.active', { defaultValue: 'Active' })}
+            </span>
           )}
         </h2>
         <div className="sidebar-filters__actions">
-          <button onClick={resetFilters} className="sidebar-filters__reset" title={t('filters.reset', { defaultValue: 'Reset' })}>
+          <button
+            onClick={resetFilters}
+            className="sidebar-filters__reset"
+            title={t('filters.reset', { defaultValue: 'Reset' })}
+          >
             <RestartAltIcon />
           </button>
           {onClose && (
@@ -246,7 +247,9 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
               <div className="sidebar-filters__price-labels">
                 <span>₪0</span>
                 <span className="sidebar-filters__price-current">₪{filters.priceRange[1]}</span>
-                <span className="sidebar-filters__price-max">{t('filters.max', { defaultValue: 'Max' })} ₪{MAX_PRICE}</span>
+                <span className="sidebar-filters__price-max">
+                  {t('filters.max', { defaultValue: 'Max' })} ₪{MAX_PRICE}
+                </span>
               </div>
               <div className="sidebar-filters__price-slider">
                 <div
@@ -276,9 +279,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
         {/* Location Section */}
         <div className="sidebar-filters__section">
           <button onClick={() => toggleSection('location')} className="sidebar-filters__section-header">
-            <h3 className="sidebar-filters__section-title">
-              {t('filters.location', { defaultValue: 'Location' })}
-            </h3>
+            <h3 className="sidebar-filters__section-title">{t('filters.location', { defaultValue: 'Location' })}</h3>
             {expandedSections.location ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </button>
 
@@ -309,9 +310,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
         {/* Specs Section */}
         <div className="sidebar-filters__section">
           <button onClick={() => toggleSection('specs')} className="sidebar-filters__section-header">
-            <h3 className="sidebar-filters__section-title">
-              {t('filters.specs', { defaultValue: 'Specs' })}
-            </h3>
+            <h3 className="sidebar-filters__section-title">{t('filters.specs', { defaultValue: 'Specs' })}</h3>
             {expandedSections.specs ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </button>
 
@@ -356,9 +355,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
         {/* Amenities Section */}
         <div className="sidebar-filters__section">
           <button onClick={() => toggleSection('amenities')} className="sidebar-filters__section-header">
-            <h3 className="sidebar-filters__section-title">
-              {t('filters.amenities', { defaultValue: 'Amenities' })}
-            </h3>
+            <h3 className="sidebar-filters__section-title">{t('filters.amenities', { defaultValue: 'Amenities' })}</h3>
             {expandedSections.amenities ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </button>
 
@@ -374,14 +371,18 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                     className="sidebar-filters__amenity-btn"
                   >
                     <div className="sidebar-filters__amenity-info">
-                      <div className={`sidebar-filters__amenity-icon ${isSelected ? 'sidebar-filters__amenity-icon--active' : ''}`}>
+                      <div
+                        className={`sidebar-filters__amenity-icon ${isSelected ? 'sidebar-filters__amenity-icon--active' : ''}`}
+                      >
                         <IconComponent />
                       </div>
                       <span className={isSelected ? 'sidebar-filters__amenity-label--active' : ''}>
                         {amenity.value}
                       </span>
                     </div>
-                    <div className={`sidebar-filters__checkbox ${isSelected ? 'sidebar-filters__checkbox--checked' : ''}`}>
+                    <div
+                      className={`sidebar-filters__checkbox ${isSelected ? 'sidebar-filters__checkbox--checked' : ''}`}
+                    >
                       {isSelected && <CheckIcon />}
                     </div>
                   </button>

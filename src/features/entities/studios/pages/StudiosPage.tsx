@@ -68,7 +68,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCity = searchParams.get('city');
   const maxDistance = searchParams.get('maxDistance') ? Number(searchParams.get('maxDistance')) : undefined;
-  const { getDisplayByEnglish, getEnglishByDisplay } = useCategories();
+  const { getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
   const { showPrompt, hasGranted, userLocation, setUserLocation } = useLocationPermission();
