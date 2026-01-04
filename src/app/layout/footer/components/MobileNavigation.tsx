@@ -15,9 +15,10 @@ export const MobileNavigation = () => {
 
   const currLang = i18n.language || 'en';
 
-  // Hide mobile navigation on create/edit studio and item forms to reduce clutter on small screens
-  const hiddenPaths = ['/create-studio', '/edit-studio', '/create-item', '/edit-item'];
-  if (hiddenPaths.some((path) => currentPath.includes(path))) {
+  // Hide mobile navigation on create/edit forms, landing page, and for-owners page
+  const hiddenPaths = ['/create-studio', '/edit-studio', '/create-item', '/edit-item', '/for-owners'];
+  const isLandingPage = currentPath === '/' || currentPath === `/${currLang}` || currentPath === `/${currLang}/`;
+  if (isLandingPage || hiddenPaths.some((path) => currentPath.includes(path))) {
     return null;
   }
 
