@@ -305,7 +305,12 @@
     background: vars.$color-brand;
     border-color: vars.$color-brand;
     color: vars.$bg-color-primary;
-    font-weight: 600;
+    font-weight: 700;
+
+    svg,
+    span {
+      color: vars.$bg-color-primary;
+    }
   }
 }
 
