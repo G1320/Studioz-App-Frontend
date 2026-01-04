@@ -12,6 +12,7 @@ export interface FeatureFlags {
   headerSearchIcon: boolean;
   dynamicCategorySelector: boolean;
   forOwnersPage: boolean;
+  brevoChat: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -27,7 +28,8 @@ export const featureFlags: FeatureFlags = {
   reservationDetailsPage: false,
   headerSearchIcon: true,
   dynamicCategorySelector: false,
-  forOwnersPage: true
+  forOwnersPage: true,
+  brevoChat: false
 };
 
 /**

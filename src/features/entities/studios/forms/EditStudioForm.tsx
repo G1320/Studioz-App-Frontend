@@ -19,7 +19,6 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import {
   useDays,
   useMusicCategories,
-  usePhotoCategories,
   usePhotoSubCategories,
   useStudio,
   useUpdateStudioMutation,
@@ -64,7 +63,6 @@ export const EditStudioForm = () => {
   const { getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
 
   const musicCategories = useMusicCategories();
-  const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
@@ -192,7 +190,6 @@ export const EditStudioForm = () => {
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
     const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategoriesDisplay : photoSubCategories;
-    setDisplaySubCategories(newSubCategories);
     setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
   };
 
@@ -201,19 +198,25 @@ export const EditStudioForm = () => {
     {
       id: 'flexible' as const,
       label: t('form.policies.flexible.label', { defaultValue: 'Flexible' }),
-      description: t('form.policies.flexible.description', { defaultValue: 'Full refund up to 24 hours before session start time.' }),
+      description: t('form.policies.flexible.description', {
+        defaultValue: 'Full refund up to 24 hours before session start time.'
+      }),
       colorClass: 'policies-step__policy-card--flexible'
     },
     {
       id: 'moderate' as const,
       label: t('form.policies.moderate.label', { defaultValue: 'Moderate' }),
-      description: t('form.policies.moderate.description', { defaultValue: 'Full refund up to 5 days before session. 50% refund up to 24h before.' }),
+      description: t('form.policies.moderate.description', {
+        defaultValue: 'Full refund up to 5 days before session. 50% refund up to 24h before.'
+      }),
       colorClass: 'policies-step__policy-card--moderate'
     },
     {
       id: 'strict' as const,
       label: t('form.policies.strict.label', { defaultValue: 'Strict' }),
-      description: t('form.policies.strict.description', { defaultValue: '50% refund up to 7 days before session. No refund within 7 days.' }),
+      description: t('form.policies.strict.description', {
+        defaultValue: '50% refund up to 7 days before session. No refund within 7 days.'
+      }),
       colorClass: 'policies-step__policy-card--strict'
     }
   ];
@@ -240,12 +243,12 @@ export const EditStudioForm = () => {
                     {isSelected && <div className="policies-step__radio-dot" />}
                   </div>
                   <div className="policies-step__policy-content">
-                    <h3 className={`policies-step__policy-label ${isSelected ? 'policies-step__policy-label--selected' : ''}`}>
+                    <h3
+                      className={`policies-step__policy-label ${isSelected ? 'policies-step__policy-label--selected' : ''}`}
+                    >
                       {policy.label}
                     </h3>
-                    <p className="policies-step__policy-description">
-                      {policy.description}
-                    </p>
+                    <p className="policies-step__policy-description">{policy.description}</p>
                   </div>
                 </button>
               );
@@ -263,14 +266,18 @@ export const EditStudioForm = () => {
             <textarea
               value={houseRules}
               onChange={(e) => setHouseRules(e.target.value)}
-              placeholder={t('form.policies.houseRules.placeholder', { defaultValue: 'e.g. No smoking inside, No food near the console, Maximum 5 guests...' })}
+              placeholder={t('form.policies.houseRules.placeholder', {
+                defaultValue: 'e.g. No smoking inside, No food near the console, Maximum 5 guests...'
+              })}
               className="policies-step__textarea"
               rows={5}
             />
           </div>
           <div className="policies-step__info-note">
             <ErrorOutlineIcon className="policies-step__info-note-icon" />
-            <p>{t('form.policies.houseRules.note', { defaultValue: 'Guests must agree to these rules before booking.' })}</p>
+            <p>
+              {t('form.policies.houseRules.note', { defaultValue: 'Guests must agree to these rules before booking.' })}
+            </p>
           </div>
         </div>
       </div>
@@ -324,15 +331,7 @@ export const EditStudioForm = () => {
         id: 'location',
         title: t('form.steps.location') || 'Location & Contact',
         description: t('form.steps.locationDesc') || 'Add address and contact information',
-        fieldNames: [
-          'locationHeader',
-          'address',
-          'phone',
-          'specsHeader',
-          'maxOccupancy',
-          'size',
-          'parking'
-        ],
+        fieldNames: ['locationHeader', 'address', 'phone', 'specsHeader', 'maxOccupancy', 'size', 'parking'],
         schema: studioStepSchemasEdit.location
       },
       {

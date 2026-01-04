@@ -33,6 +33,7 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import CategoryIcon from '@mui/icons-material/Category';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import './_createItemForm.scss';
 
 export const CreateItemForm = () => {
@@ -165,18 +166,6 @@ export const CreateItemForm = () => {
   const pricingContent = useMemo(
     () => (
       <div className="pricing-step">
-        <div className="pricing-step__header">
-          <h2 className="pricing-step__title">
-            <LocalOfferIcon className="pricing-step__title-icon" />
-            {t('form.pricing.title', { defaultValue: 'Pricing & Rates' })}
-          </h2>
-          <p className="pricing-step__description">
-            {t('form.pricing.description', {
-              defaultValue: 'Set your base rates. You can add special discounts later.'
-            })}
-          </p>
-        </div>
-
         <div className="pricing-step__section">
           {/* Pricing Type Radio Buttons */}
           <div className="pricing-step__field pricing-step__field--full">
@@ -331,18 +320,6 @@ export const CreateItemForm = () => {
   const bookingSettingsContent = useMemo(
     () => (
       <div className="booking-settings-step">
-        <div className="booking-settings-step__header">
-          <h2 className="booking-settings-step__title">
-            <CalendarMonthIcon className="booking-settings-step__title-icon" />
-            {t('form.bookingSettings.title', { defaultValue: 'Booking Settings' })}
-          </h2>
-          <p className="booking-settings-step__description">
-            {t('form.bookingSettings.subtitle', {
-              defaultValue: 'Control how users book your space and manage your schedule.'
-            })}
-          </p>
-        </div>
-
         {/* Booking Mode Selection */}
         <div className="booking-settings-step__mode-grid">
           <button
@@ -521,7 +498,8 @@ export const CreateItemForm = () => {
         description: t('form.steps.pricingDesc') || 'Set price and booking options',
         fieldNames: ['price', 'pricePer', 'blockDiscounts', 'minimumBookingDuration'],
         schema: itemStepSchemas.pricing,
-        customContent: pricingContent
+        customContent: pricingContent,
+        icon: LocalOfferIcon
       },
       {
         id: 'booking-settings',
@@ -529,6 +507,7 @@ export const CreateItemForm = () => {
         description: t('form.steps.bookingSettingsDesc') || 'Set booking rules and preparation times',
         fieldNames: ['minimumQuantity', 'advanceBookingRequired', 'preparationTime'],
         schema: itemStepSchemas['booking-settings'],
+        icon: CalendarMonthIcon,
         customContent: bookingSettingsContent
       },
       ...(isFeatureEnabled('addOns')
@@ -539,6 +518,7 @@ export const CreateItemForm = () => {
               description: t('form.steps.addOnsDesc') || 'Add optional add-ons to your item',
               fieldNames: [],
               schema: itemStepSchemas['add-ons'],
+              icon: InventoryIcon,
               customContent: (
                 <CreateAddOnForm
                   mode="local"
