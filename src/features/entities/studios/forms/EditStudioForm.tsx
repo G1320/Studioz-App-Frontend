@@ -101,10 +101,13 @@ export const EditStudioForm = () => {
     if (!studio?.equipment?.length) return {};
     // Handle new EquipmentCategory[] format
     if (typeof studio.equipment[0] === 'object') {
-      return (studio.equipment as EquipmentCategory[]).reduce((acc, cat) => {
-        acc[cat.category] = cat.items;
-        return acc;
-      }, {} as Record<string, string>);
+      return (studio.equipment as EquipmentCategory[]).reduce(
+        (acc, cat) => {
+          acc[cat.category] = cat.items;
+          return acc;
+        },
+        {} as Record<string, string>
+      );
     }
     // Backward compatibility: if it's still a flat array (old data)
     return { other: (studio.equipment as unknown as string[]).join('\n') };
