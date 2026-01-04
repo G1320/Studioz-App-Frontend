@@ -5,6 +5,7 @@ import { useAmenities } from '@shared/hooks';
 import WifiIcon from '@mui/icons-material/Wifi';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import KitchenIcon from '@mui/icons-material/Kitchen';
+import CoffeeIcon from '@mui/icons-material/Coffee';
 import SpeakerIcon from '@mui/icons-material/Speaker';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -24,6 +25,7 @@ const amenityIcons: Record<string, React.ElementType> = {
   air_conditioning: AcUnitIcon,
   wifi: WifiIcon,
   kitchen: KitchenIcon,
+  espresso_machine: CoffeeIcon,
   live_room: SpeakerIcon,
   vocal_booth: RecordVoiceOverIcon,
   green_screen: VideocamIcon,

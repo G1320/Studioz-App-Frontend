@@ -4,6 +4,7 @@ export const amenities = [
   'Air Conditioning',
   'WiFi',
   'Kitchen',
+  'Espresso Machine',
   'Live Room',
   'Vocal Booth',
   'Green Screen',
