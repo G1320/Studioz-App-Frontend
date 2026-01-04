@@ -319,19 +319,6 @@ export const VendorOnboardingForm = () => {
 
   return (
     <div className="vendor-onboarding" dir="rtl">
-      {/* Header */}
-      <header className="vendor-onboarding__header">
-        <div className="header-content">
-          <div className="header-logo">
-            <div className="logo-icon">Z</div>
-            <div className="logo-text">
-              <span className="logo-title">הצטרפות לשירותי סליקה</span>
-              <span className="logo-subtitle">Secure Payments Onboarding</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Main */}
       <main className="vendor-onboarding__main">
         {/* Progress Bar */}
