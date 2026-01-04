@@ -27,8 +27,8 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   const cancelMutation = useCancelReservationMutation();
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
-  // Check if user is studio owner for this reservation
-  const isStudioOwnerForReservation = useMemo(() => {
+  // Check if user owns the studio for this item
+  const userOwnsStudioForItem = useMemo(() => {
     if (!user?._id || userStudios.length === 0) return false;
     return userStudios.some((studio) => {
       if (!studio.items || studio.items.length === 0) return false;
@@ -36,8 +36,17 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
     });
   }, [user?._id, userStudios, reservation.itemId]);
 
-  // Only show cancel button if user is NOT a studio owner
-  const showCancelButton = !isStudioOwnerForReservation;
+  // Determine if this is an "incoming" reservation (someone else booked user's studio item)
+  // vs "outgoing" (user made the booking themselves)
+  const isIncomingReservation = useMemo(() => {
+    if (!user?._id) return false;
+    // It's incoming if user owns the studio AND didn't make the reservation
+    const userMadeReservation = reservation.userId === user._id || reservation.customerId === user._id;
+    return userOwnsStudioForItem && !userMadeReservation;
+  }, [user?._id, userOwnsStudioForItem, reservation.userId, reservation.customerId]);
+
+  // Only show cancel button if this is NOT an incoming reservation (i.e., user made the booking)
+  const showCancelButton = !isIncomingReservation;
 
   const isCancelledStatus = reservation.status === 'cancelled' || reservation.status === 'rejected';
 
@@ -223,12 +232,12 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   const typeBadge = (
     <span
       className={`reservation-card__type-badge ${
-        isStudioOwnerForReservation
+        isIncomingReservation
           ? 'reservation-card__type-badge--incoming'
           : 'reservation-card__type-badge--outgoing'
       }`}
     >
-      {isStudioOwnerForReservation ? t('filters.type.incoming') : t('filters.type.outgoing')}
+      {isIncomingReservation ? t('filters.type.incoming') : t('filters.type.outgoing')}
     </span>
   );
 
