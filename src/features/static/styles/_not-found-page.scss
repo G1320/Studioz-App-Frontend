@@ -1,176 +1,170 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
+
+$accent-yellow: #ffd166;
+$accent-yellow-hover: #ffda85;
+$card-bg: #1e1e1e;
+$border-color: #27272a; // zinc-800
 
 .not-found-page {
-  min-height: calc(100vh - 10rem);
+  min-height: 100vh;
+  background: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: vars.$spacing-xl;
-  background: radial-gradient(
-      ellipse at 80% 20%,
-      rgba(vars.$color-brand, 0.15) 0%,
-      transparent 60%
-    ),
-    radial-gradient(ellipse at 20% 90%, rgba(vars.$color-brand, 0.1) 0%, transparent 50%),
-    linear-gradient(180deg, vars.$bg-color-primary 0%, vars.$bg-color-secondary 100%);
+  padding: vars.$spacing-medium;
+  position: relative;
 
-  &__container {
-    max-width: 600px;
-    width: 100%;
-    background: rgba(26, 26, 26, 0.7);
-    border-radius: vars.$border-radius-xl;
-    box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: vars.$spacing-3xl vars.$spacing-xl;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: vars.$spacing-large;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
+  &__ambience {
+    position: absolute;
+    inset: 0;
     overflow: hidden;
+    pointer-events: none;
 
     &::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, vars.$color-brand 0%, transparent 100%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background: rgba($accent-yellow, 0.05);
+      border-radius: 50%;
+      filter: blur(100px);
     }
   }
 
-  &__icon-wrapper {
+  &__card {
     position: relative;
+    width: 100%;
+    max-width: 28rem; // max-w-md
+    background: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 1rem; // rounded-2xl
+    padding: vars.$spacing-2xl;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); // shadow-2xl
+    animation: fadeInZoom 0.5s ease-out;
+  }
+
+  @keyframes fadeInZoom {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &__icon-container {
+    width: 6rem; // w-24
+    height: 6rem; // h-24
+    margin: 0 auto vars.$spacing-large;
+    border-radius: 50%;
+    background: rgba($accent-yellow, 0.1);
+    border: 2px solid rgba($accent-yellow, 0.2);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: vars.$spacing-small;
-    margin-bottom: vars.$spacing-small;
+    justify-content: center;
+    box-shadow: 0 0 30px -10px rgba($accent-yellow, 0.3);
   }
 
-  &__icon {
-    width: 80px;
-    height: 80px;
-    color: vars.$color-brand;
-    opacity: 0.8;
-  }
-
-  &__code {
-    font-size: clamp(4rem, 8vw, 6rem);
-    font-weight: 800;
-    background: linear-gradient(135deg, vars.$color-brand 0%, rgba(vars.$color-brand, 0.6) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1;
-    letter-spacing: -0.05em;
+  &__icon-symbol {
+    font-size: 2.25rem; // text-4xl
+    font-weight: 700;
+    color: $accent-yellow;
   }
 
   &__title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: 1.5rem; // text-2xl
     font-weight: 700;
-    margin: 0;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.2;
+    color: white;
+    margin: 0 0 vars.$spacing-small;
   }
 
-  &__message {
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0;
-    line-height: 1.6;
-    max-width: 500px;
-  }
-
-  &__actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: vars.$spacing-medium;
-    margin-top: vars.$spacing-small;
+  &__description {
+    font-size: 1rem; // text-base
+    color: #a1a1aa; // zinc-400
+    margin: 0 0 vars.$spacing-2xl;
+    line-height: 1.625; // leading-relaxed
   }
 
   &__button {
-    padding: vars.$spacing-medium vars.$spacing-xl;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: vars.$border-radius-medium;
-    background: vars.$color-brand;
-    color: vars.$text-color-dark;
-    border: none;
-    cursor: pointer;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: vars.$spacing-small;
+    background: $accent-yellow;
+    color: black;
+    font-weight: 700;
+    padding: 0.875rem vars.$spacing-large; // py-3.5 px-6
+    border-radius: 0.75rem; // rounded-xl
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 0 20px -5px rgba($accent-yellow, 0.4);
     transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease,
-      background-color 0.25s ease;
-    box-shadow:
-      0 4px 12px rgba(vars.$color-brand, 0.3),
-      0 2px 4px rgba(0, 0, 0, 0.2);
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
 
     &:hover {
-      transform: translateY(-2px);
-      background: color.adjust(vars.$color-brand, $lightness: 5%);
-      box-shadow:
-        0 6px 16px rgba(vars.$color-brand, 0.4),
-        0 4px 8px rgba(0, 0, 0, 0.3);
+      background: $accent-yellow-hover;
+      transform: scale(1.02);
+      box-shadow: 0 0 25px -5px rgba($accent-yellow, 0.6);
     }
 
     &:active {
-      transform: translateY(0);
-      box-shadow:
-        0 2px 8px rgba(vars.$color-brand, 0.3),
-        0 1px 2px rgba(0, 0, 0, 0.2);
+      transform: scale(0.98);
     }
 
     &-icon {
-      width: 20px;
-      height: 20px;
+      width: 1.25rem; // w-5
+      height: 1.25rem; // h-5
+      transition: transform 0.2s ease;
+    }
+
+    &:hover &-icon {
+      transform: scale(1.1);
     }
   }
 
   &__countdown {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
+    color: #71717a; // zinc-500
+    margin: vars.$spacing-medium 0 0;
     cursor: pointer;
     padding: vars.$spacing-small vars.$spacing-medium;
     border-radius: vars.$border-radius-small;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition:
-      color 0.25s ease,
-      background-color 0.25s ease,
-      border-color 0.25s ease;
+      color 0.2s ease,
+      background-color 0.2s ease;
 
     &:hover {
-      color: rgba(255, 255, 255, 0.9);
+      color: #a1a1aa; // zinc-400
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
     }
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-large vars.$spacing-medium;
+    padding: vars.$spacing-medium;
 
-    &__container {
+    &__card {
       padding: vars.$spacing-xl vars.$spacing-large;
     }
 
-    &__icon {
-      width: 64px;
-      height: 64px;
+    &__icon-container {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    &__icon-symbol {
+      font-size: 1.875rem;
     }
   }
 }
-
