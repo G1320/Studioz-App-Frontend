@@ -1,0 +1,516 @@
+@use 'utilities/variables' as vars;
+
+// Brand Colors
+$accent-yellow: #ffd166;
+$accent-yellow-hover: #ffda85;
+$bg-black: #000000;
+$surface-dark: #1e1e1e;
+$zinc-900: #18181b;
+$zinc-800: #27272a;
+$zinc-700: #3f3f46;
+$zinc-600: #52525b;
+$zinc-500: #71717a;
+$zinc-400: #a1a1aa;
+$zinc-300: #d4d4d8;
+
+.vendor-onboarding {
+  min-height: 100vh;
+  background: $bg-black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+
+  &--completed {
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  // Header
+  &__header {
+    border-bottom: 1px solid $zinc-800;
+    padding: 1rem;
+  }
+
+  .header-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logo-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: $accent-yellow;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: black;
+    font-size: 1.25rem;
+    box-shadow: 0 0 15px -3px rgba(255, 209, 102, 0.4);
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.2;
+  }
+
+  .logo-subtitle {
+    font-size: 0.75rem;
+    color: $zinc-500;
+  }
+
+  // Main Content
+  &__main {
+    flex: 1;
+    max-width: 42rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 2rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  // Progress Bar
+  .progress-bar {
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+
+    &__steps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    &__line {
+      position: absolute;
+      top: 1.25rem;
+      right: 2.5rem;
+      left: 2.5rem;
+      height: 2px;
+      background: $zinc-800;
+      z-index: 0;
+    }
+
+    &__line-fill {
+      height: 100%;
+      background: $accent-yellow;
+      transition: width 0.5s ease-out;
+    }
+  }
+
+  .progress-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 120px;
+
+    &:first-child {
+      align-items: flex-start;
+    }
+
+    &:last-child {
+      align-items: flex-end;
+    }
+
+    &__circle {
+      width: 2.5rem;
+      height: 2.5rem;
+      min-width: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid $zinc-700;
+      background: $zinc-900;
+      color: $zinc-500;
+      transition: all 0.3s ease;
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      &.active {
+        background: $accent-yellow;
+        border-color: $accent-yellow;
+        color: black;
+        transform: scale(1.1);
+      }
+
+      &.completed {
+        background: $accent-yellow;
+        border-color: $accent-yellow;
+        color: black;
+      }
+    }
+
+    &__label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $zinc-600;
+      margin-top: 0.5rem;
+      text-align: center;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+
+      &.active {
+        color: $accent-yellow;
+      }
+
+      &.completed {
+        color: $zinc-300;
+      }
+    }
+  }
+
+  // Form Card
+  .form-card {
+    background: $surface-dark;
+    border: 1px solid $zinc-800;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    min-height: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    @media (max-width: 480px) {
+      padding: 1.5rem;
+    }
+  }
+
+  // Step Content
+  .step-content {
+    &__header {
+      text-align: center;
+      margin-bottom: 2rem;
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 0.5rem;
+      }
+
+      p {
+        color: $zinc-400;
+        margin: 0;
+      }
+    }
+
+    &__notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba($zinc-900, 0.5);
+      border: 1px solid $zinc-800;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+
+      .notice-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: $accent-yellow;
+        flex-shrink: 0;
+        margin-top: 0.125rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+        color: $zinc-400;
+        margin: 0;
+      }
+    }
+
+    &__fields {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
+  }
+
+  // Field
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0; // Prevent flex item overflow
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: $zinc-300;
+    }
+
+    input,
+    select {
+      width: 100%;
+      background: $zinc-900;
+      border: 1px solid $zinc-800;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      min-width: 0; // Prevent input overflow
+
+      &::placeholder {
+        color: $zinc-600;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $accent-yellow;
+        box-shadow: 0 0 0 1px $accent-yellow;
+      }
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 0.75rem center;
+      background-size: 1rem;
+      padding-left: 2.5rem;
+    }
+
+    &--wide {
+      flex: 2;
+    }
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+
+    &--bank {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+
+      &--bank {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  // Entity Type Grid
+  .entity-type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: 100%;
+
+    @media (max-width: 400px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .entity-type-btn {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid $zinc-800;
+    background: $zinc-900;
+    color: $zinc-400;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: $zinc-700;
+    }
+
+    &.active {
+      background: $accent-yellow;
+      border-color: $accent-yellow;
+      color: black;
+    }
+  }
+
+  // Navigation Actions
+  .navigation-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+    width: 100%;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 400px) {
+      flex-direction: column-reverse;
+      gap: 0.75rem;
+    }
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &--back {
+      background: transparent;
+      color: white;
+
+      &:hover:not(.disabled) {
+        background: $zinc-800;
+      }
+
+      &.disabled {
+        color: $zinc-600;
+        cursor: not-allowed;
+      }
+    }
+
+    &--next {
+      background: $accent-yellow;
+      color: black;
+      font-weight: 700;
+      padding: 0.75rem 2rem;
+      box-shadow: 0 0 20px -5px rgba(255, 209, 102, 0.3);
+
+      &:hover:not(:disabled) {
+        background: $accent-yellow-hover;
+        transform: scale(1.02);
+        box-shadow: 0 0 25px -5px rgba(255, 209, 102, 0.5);
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(0.98);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      @media (max-width: 400px) {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 400px) {
+      &--back {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  // Completion Card
+  .completion-card {
+    max-width: 28rem;
+    width: 100%;
+    text-align: center;
+    animation: fadeInZoom 0.5s ease-out;
+
+    @keyframes fadeInZoom {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    &__icon {
+      width: 6rem;
+      height: 6rem;
+      background: $accent-yellow;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px -10px $accent-yellow;
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+        color: black;
+      }
+    }
+
+    h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+    }
+
+    p {
+      color: $zinc-400;
+      font-size: 1.125rem;
+      margin: 0 0 1.5rem;
+      line-height: 1.6;
+    }
+
+    &__button {
+      width: 100%;
+      background: $accent-yellow;
+      color: black;
+      font-weight: 700;
+      padding: 1rem;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px -5px rgba(255, 209, 102, 0.3);
+
+      &:hover {
+        background: $accent-yellow-hover;
+        box-shadow: 0 0 30px -5px rgba(255, 209, 102, 0.5);
+      }
+    }
+  }
+}
