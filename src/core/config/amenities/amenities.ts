@@ -11,7 +11,6 @@ export const amenities = [
   'Natural Light',
   'Acoustic Treatment',
   '24/7 Access',
-  'Private Parking',
   'TV/Monitor',
   'Smoking Allowed',
   'Wheelchair Accessible'

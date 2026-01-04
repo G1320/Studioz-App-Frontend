@@ -11,8 +11,6 @@ import WeekendIcon from '@mui/icons-material/Weekend';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
-import CategoryIcon from '@mui/icons-material/Category';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import ShieldIcon from '@mui/icons-material/Shield';
@@ -26,8 +24,6 @@ import {
   useStudio,
   useUpdateStudioMutation,
   useCategories,
-  useMusicGenres,
-  useGenres,
   useStudioFileUpload,
   useFormAutoSaveUncontrolled,
   useControlledStateAutoSave
@@ -66,12 +62,10 @@ export const EditStudioForm = () => {
   const studio = data?.currStudio;
   const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
   const { getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
-  const { getDisplayByEnglish: getGenreDisplayByEnglish, getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
 
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const genres = useMusicGenres();
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
   // Get the English values and their display translations
@@ -81,15 +75,11 @@ export const EditStudioForm = () => {
   const initialDisplaySubCategories =
     studio?.subCategories?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
   const initialDisplayDays = studio?.studioAvailability?.days.map((day) => getDisplayByEnglish(day)) || [];
-  const initialDisplayGenres = studio?.genres?.map((englishValue) => getGenreDisplayByEnglish(englishValue)) || [];
-
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
   );
-  const [displaySubCategories, setDisplaySubCategories] = useState<string[]>(musicSubCategoriesDisplay);
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] =
     useState<string[]>(initialDisplaySubCategories);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>(initialDisplayGenres);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
@@ -143,7 +133,6 @@ export const EditStudioForm = () => {
   const controlledState = {
     selectedCategories,
     selectedDisplaySubCategories,
-    selectedGenres,
     selectedDisplayDays,
     studioHours,
     galleryImages,
@@ -171,7 +160,6 @@ export const EditStudioForm = () => {
         restored.selectedCategories ||
           (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories)
       );
-      setSelectedGenres(restored.selectedGenres || initialDisplayGenres);
       setSelectedDisplayDays(restored.selectedDisplayDays || initialDisplayDays);
       setStudioHours(restored.studioHours || {});
       setGalleryImages(restored.galleryImages || studio?.galleryImages || []);
@@ -180,16 +168,13 @@ export const EditStudioForm = () => {
       setOpeningHour(restored.openingHour || studio?.studioAvailability?.times[0]?.start || '09:00');
       setClosingHour(restored.closingHour || studio?.studioAvailability?.times[0]?.end || '17:00');
 
-      // Handle displaySubCategories - it's derived from selectedCategories
+      // Restore selectedDisplaySubCategories, but validate against available options
       const restoredCategories =
         restored.selectedCategories ||
         (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories);
       const newSubCategories = restoredCategories.includes(`${musicCategories}`)
         ? musicSubCategoriesDisplay
         : photoSubCategories;
-      setDisplaySubCategories(newSubCategories);
-
-      // Restore selectedDisplaySubCategories, but validate against available options
       const restoredSubCategories = restored.selectedDisplaySubCategories || initialDisplaySubCategories;
       const validSubCategories = restoredSubCategories.filter((subCat) => newSubCategories.includes(subCat));
       setSelectedDisplaySubCategories(
@@ -209,14 +194,6 @@ export const EditStudioForm = () => {
     const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategoriesDisplay : photoSubCategories;
     setDisplaySubCategories(newSubCategories);
     setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
-  };
-
-  const handleSubCategoryChange = (values: string[]) => {
-    setSelectedDisplaySubCategories(values);
-  };
-
-  const handleGenreChange = (values: string[]) => {
-    setSelectedGenres(values);
   };
 
   // Policies step content
@@ -320,13 +297,6 @@ export const EditStudioForm = () => {
         ],
         schema: studioStepSchemasEdit['basic-info'],
         languageToggle: true
-      },
-      {
-        id: 'categories',
-        title: t('form.steps.categories') || 'Categories & Genres',
-        description: t('form.steps.categoriesDesc') || 'Select categories and genres',
-        fieldNames: ['categoriesHeader', 'categories', 'subCategories', 'genresHeader', 'genres'],
-        schema: studioStepSchemasEdit.categories
       },
       {
         id: 'amenities-gear',
@@ -480,52 +450,6 @@ export const EditStudioForm = () => {
       onChange: setSelectedLanguage
     },
     {
-      name: 'categoriesHeader',
-      label: t('form.sections.categories') || 'Categories',
-      subtitle: t('form.sections.categoriesDesc') || 'Select all relevant categories for your studio.',
-      type: 'sectionHeader' as FieldType,
-      icon: CategoryIcon
-    },
-    {
-      name: 'categories',
-      label: t('form.categories.label'),
-      type: 'select' as FieldType,
-      options: [musicCategories, photoCategories],
-      value: selectedCategories,
-      onChange: handleCategoryChange
-    },
-    {
-      name: 'subCategories',
-      label: '',
-      type: 'multiSelect' as FieldType,
-      options: displaySubCategories,
-      value: selectedDisplaySubCategories,
-      onChange: handleSubCategoryChange,
-      initialVisibleCount: 12,
-      showAllLabel: t('form.subCategories.showAll', 'Show All'),
-      showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain'
-    },
-    {
-      name: 'genresHeader',
-      label: t('form.sections.genres') || 'Genres',
-      subtitle: t('form.sections.genresDesc') || 'Select the music styles you specialize in.',
-      type: 'sectionHeader' as FieldType,
-      icon: LibraryMusicIcon
-    },
-    {
-      name: 'genres',
-      label: '',
-      type: 'multiSelect' as FieldType,
-      options: genres,
-      value: selectedGenres,
-      onChange: handleGenreChange,
-      bubbleStyle: true,
-      initialVisibleCount: 14,
-      showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
-      showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
-    },
-    {
       name: 'availabilityHeader',
       label: t('form.sections.weeklySchedule') || 'Weekly Schedule',
       subtitle: t('form.sections.weeklyScheduleDesc') || 'Set your studio availability for each day.',
@@ -644,14 +568,12 @@ export const EditStudioForm = () => {
 
   const handleSubmit = async (formData: StudioFormData) => {
     const englishSubCategories = selectedDisplaySubCategories.map((displayValue) => getEnglishByDisplay(displayValue));
-    const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     // Enrich form data with controlled state
     formData.coverImage = coverImage || studio?.coverImage || '';
     formData.galleryImages = galleryImages.length > 0 ? galleryImages : studio?.galleryImages || [];
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
-    formData.genres = englishGenres.length > 0 ? englishGenres : studio?.genres || [];
     formData.galleryAudioFiles = galleryAudioFiles;
 
     // Ensure studioAvailability has valid days and times

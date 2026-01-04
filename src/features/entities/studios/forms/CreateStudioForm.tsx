@@ -7,12 +7,9 @@ import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
-import { isFeatureEnabled } from '@core/config/featureFlags';
 // Step icons
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import CategoryIcon from '@mui/icons-material/Category';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
@@ -29,8 +26,6 @@ import {
   usePhotoSubCategories,
   useDays,
   useCategories,
-  useMusicGenres,
-  useGenres,
   useStudioFileUpload,
   useFormAutoSaveUncontrolled,
   useControlledStateAutoSave,
@@ -71,7 +66,6 @@ export const CreateStudioForm = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
-  const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
   const { isPro, isStarter } = useSubscription();
   const { data: allStudios = [] } = useStudios();
 
@@ -80,7 +74,6 @@ export const CreateStudioForm = () => {
   const musicCategories = useMusicCategories();
   const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
-  const genres = useMusicGenres();
   // const daysDisplay = getDays().map((day) => day.value);
   const firstDay = getDays()[0];
 
@@ -105,7 +98,6 @@ export const CreateStudioForm = () => {
   const savedState = loadFormState<{
     selectedCategories?: string[];
     selectedDisplaySubCategories?: string[];
-    selectedGenres?: string[];
     selectedDisplayDays?: string[];
     studioHours?: Record<string, { start: string; end: string }>;
     galleryImages?: string[];
@@ -121,11 +113,9 @@ export const CreateStudioForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     savedState?.selectedCategories || musicCategories
   );
-  const [displaySubCategories, setDisplaySubCategories] = useState<string[]>(musicSubCategoriesDisplay);
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] = useState<string[]>(
     savedState?.selectedDisplaySubCategories || (firstSubCategory ? [firstSubCategory.value] : [])
   );
-  const [selectedGenres, setSelectedGenres] = useState<string[]>(savedState?.selectedGenres || []);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(
     savedState?.selectedDisplayDays || (firstDay ? [firstDay.value] : [])
   );
@@ -222,10 +212,6 @@ export const CreateStudioForm = () => {
 
       // Update selectedCategories to current language
       setSelectedCategories(updatedCategories);
-
-      // Set subcategories based on category
-      const newSubCategories = isMusicCategory(updatedCategories[0]) ? musicSubCategoriesDisplay : photoSubCategories;
-      setDisplaySubCategories(newSubCategories);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
@@ -247,10 +233,6 @@ export const CreateStudioForm = () => {
 
       // Only update if categories actually changed
       if (JSON.stringify(updatedCategories) !== JSON.stringify(prevCategories)) {
-        // Update subcategories based on updated category
-        const newSubCategories = isMusicCategory(updatedCategories[0]) ? musicSubCategoriesDisplay : photoSubCategories;
-        setDisplaySubCategories(newSubCategories);
-
         previousLanguageRef.current = i18n.language;
         return updatedCategories;
       }
@@ -266,7 +248,6 @@ export const CreateStudioForm = () => {
     () => ({
       selectedCategories,
       selectedDisplaySubCategories,
-      selectedGenres,
       selectedDisplayDays,
       studioHours,
       galleryImages,
@@ -280,7 +261,6 @@ export const CreateStudioForm = () => {
     [
       selectedCategories,
       selectedDisplaySubCategories,
-      selectedGenres,
       selectedDisplayDays,
       studioHours,
       galleryImages,
@@ -303,16 +283,7 @@ export const CreateStudioForm = () => {
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
     const newSubCategories = isMusicCategory(values[0]) ? musicSubCategoriesDisplay : photoSubCategories;
-    setDisplaySubCategories(newSubCategories);
     setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
-  };
-
-  const handleSubCategoryChange = (values: string[]) => {
-    setSelectedDisplaySubCategories(values);
-  };
-
-  const handleGenreChange = (values: string[]) => {
-    setSelectedGenres(values);
   };
 
   // Policies step content
@@ -435,14 +406,6 @@ export const CreateStudioForm = () => {
             })}
           </ProTip>
         )
-      },
-      {
-        id: 'categories',
-        title: t('form.steps.categories') || 'Categories & Genres',
-        description: t('form.steps.categoriesDesc') || 'Select categories and genres',
-        fieldNames: ['categoriesHeader', 'categories', 'subCategories', 'genresHeader', 'genres'],
-        schema: studioStepSchemas.categories,
-        icon: CategoryIcon
       },
       {
         id: 'amenities-gear',
@@ -587,53 +550,6 @@ export const CreateStudioForm = () => {
       onChange: setSelectedLanguage
     },
     {
-      name: 'categoriesHeader',
-      label: t('form.sections.categories') || 'Categories',
-      subtitle: t('form.sections.categoriesDesc') || 'Select all relevant categories for your studio.',
-      type: 'sectionHeader' as FieldType,
-      icon: CategoryIcon
-    },
-    {
-      name: 'categories',
-      label: t('form.categories.label'),
-      type: 'select' as FieldType,
-      options: [musicCategories, photoCategories],
-      value: selectedCategories,
-      onChange: handleCategoryChange,
-      className: !isFeatureEnabled('dynamicCategorySelector') ? 'hide-category-selector' : ''
-    },
-    {
-      name: 'subCategories',
-      label: '',
-      type: 'multiSelect' as FieldType,
-      options: displaySubCategories,
-      value: selectedDisplaySubCategories,
-      onChange: handleSubCategoryChange,
-      initialVisibleCount: 12, // enable expand with fade for longer lists
-      showAllLabel: t('form.subCategories.showAll', 'Show All'),
-      showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain'
-    },
-    {
-      name: 'genresHeader',
-      label: t('form.sections.genres') || 'Genres',
-      subtitle: t('form.sections.genresDesc') || 'Select the music styles you specialize in.',
-      type: 'sectionHeader' as FieldType,
-      icon: LibraryMusicIcon
-    },
-    {
-      name: 'genres',
-      label: '',
-      type: 'multiSelect' as FieldType,
-      options: genres,
-      value: selectedGenres,
-      onChange: handleGenreChange,
-      bubbleStyle: true,
-      initialVisibleCount: 14, // Show first 14 genres initially with fade effect, rest can be expanded
-      showAllLabel: t('form.genres.showAll', { defaultValue: 'Show All' }),
-      showLessLabel: t('form.genres.showLess', { defaultValue: 'Show Less' })
-    },
-    {
       name: 'availabilityHeader',
       label: t('form.sections.weeklySchedule') || 'Weekly Schedule',
       subtitle: t('form.sections.weeklyScheduleDesc') || 'Set your studio availability for each day.',
@@ -767,7 +683,6 @@ export const CreateStudioForm = () => {
     }
 
     const englishSubCategories = selectedDisplaySubCategories.map((subCat) => getEnglishByDisplay(subCat));
-    const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     formData.coverImage = galleryImages[0];
     formData.galleryImages = galleryImages;
@@ -775,7 +690,6 @@ export const CreateStudioForm = () => {
     formData.galleryAudioFiles = galleryAudioFiles;
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
-    formData.genres = englishGenres;
 
     formData.studioAvailability = {
       days: selectedDisplayDays.map((day) => getDayEnglishByDisplay(day)) as DayOfWeek[],
