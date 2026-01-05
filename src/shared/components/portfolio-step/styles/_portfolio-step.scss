@@ -53,6 +53,7 @@
 
   &__add-btn {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
@@ -64,6 +65,10 @@
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+
+    [dir='rtl'] & {
+      flex-direction: row-reverse;
+    }
 
     svg {
       width: 1.125rem;
@@ -183,6 +188,8 @@
   }
 
   &__empty-link {
+    display: block;
+    margin: 0 auto;
     background: transparent;
     border: none;
     color: vars.$color-brand;
@@ -190,6 +197,7 @@
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 2px;
+    text-align: center;
 
     &:hover {
       text-decoration: none;

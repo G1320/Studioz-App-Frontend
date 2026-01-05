@@ -377,15 +377,6 @@ export const EditStudioForm = () => {
         )
       },
       {
-        id: 'policies',
-        title: t('form.steps.policies') || 'Policies',
-        description: t('form.steps.policiesDesc') || 'Define cancellation and booking policies',
-        fieldNames: ['cancellationPolicy', 'houseRules'],
-        schema: studioStepSchemasEdit.policies,
-        icon: ShieldIcon,
-        customContent: policiesContent
-      },
-      {
         id: 'portfolio',
         title: t('form.steps.portfolio') || 'Portfolio',
         description: t('form.steps.portfolioDesc') || 'Showcase your best work and social profiles',
@@ -399,6 +390,15 @@ export const EditStudioForm = () => {
             onSocialLinksChange={setSocialLinks}
           />
         )
+      },
+      {
+        id: 'policies',
+        title: t('form.steps.policies') || 'Policies',
+        description: t('form.steps.policiesDesc') || 'Define cancellation and booking policies',
+        fieldNames: ['cancellationPolicy', 'houseRules'],
+        schema: studioStepSchemasEdit.policies,
+        icon: ShieldIcon,
+        customContent: policiesContent
       }
     ],
     [
