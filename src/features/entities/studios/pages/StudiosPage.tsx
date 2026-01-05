@@ -6,7 +6,7 @@ import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/u
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useTranslation } from 'react-i18next';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Studio } from 'src/types/index';
 import { cities } from '@core/config/cities/cities';
 import { featureFlags } from '@core/config/featureFlags';
@@ -64,10 +64,13 @@ const getCategoryIcon = (category: string) => {
 };
 
 const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
-  const { category, subcategory } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // All filters come from URL search params
   const selectedCity = searchParams.get('city');
+  const selectedSubcategory = searchParams.get('subcategory');
   const maxDistance = searchParams.get('maxDistance') ? Number(searchParams.get('maxDistance')) : undefined;
+
   const { getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
   const { t } = useTranslation('studios');
@@ -76,7 +79,6 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string | null>(subcategory || null);
 
   const musicSubCategories = useMusicSubCategories();
 
@@ -102,26 +104,27 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   }, [position, userLocation, setUserLocation]);
 
   const filteredStudios: Studio[] = filterStudios(studios, {
-    category,
-    subcategory: activeCategory || subcategory,
-    city: selectedCity,
+    subcategory: selectedSubcategory || undefined,
+    city: selectedCity || undefined,
     userLocation: userLocation,
     maxDistance: featureFlags.distanceSlider ? maxDistance : undefined
   });
 
   const hasFilters =
-    Boolean(category || subcategory || selectedCity || activeCategory) ||
-    (featureFlags.distanceSlider && maxDistance !== undefined);
+    Boolean(selectedSubcategory || selectedCity) || (featureFlags.distanceSlider && maxDistance !== undefined);
 
-  const handleCategoryClick = (cat: string) => {
+  // Handle subcategory filter click - works exactly like city
+  const handleSubcategoryClick = (cat: string) => {
     const englishCat = getEnglishByDisplay(cat);
-    if (activeCategory === englishCat) {
-      setActiveCategory(null);
+    if (selectedSubcategory === englishCat) {
+      searchParams.delete('subcategory');
     } else {
-      setActiveCategory(englishCat);
+      searchParams.set('subcategory', englishCat);
     }
+    setSearchParams(searchParams);
   };
 
+  // Handle city filter click
   const handleCityClick = (cityName: string) => {
     if (selectedCity === cityName) {
       searchParams.delete('city');
@@ -131,23 +134,29 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     setSearchParams(searchParams);
   };
 
+  // Handle "All Studios" click - clears subcategory filter
+  const handleAllStudiosClick = () => {
+    searchParams.delete('subcategory');
+    setSearchParams(searchParams);
+  };
+
+  // Handle sidebar filters apply
   const handleFiltersApply = (filters: FilterState) => {
-    // Apply category filter
+    // Apply subcategory filter
     if (filters.categories.length > 0) {
-      setActiveCategory(filters.categories[0]);
+      searchParams.set('subcategory', filters.categories[0]);
     } else {
-      setActiveCategory(null);
+      searchParams.delete('subcategory');
     }
 
-    // Apply location filter
+    // Apply city filter
     if (filters.location) {
       searchParams.set('city', filters.location);
     } else {
       searchParams.delete('city');
     }
-    setSearchParams(searchParams);
 
-    // Close the sidebar
+    setSearchParams(searchParams);
     setShowFilters(false);
   };
 
@@ -180,7 +189,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         </button>
       </div>
 
-      {/* Filters */}
+      {/* Subcategory Filters */}
       <div className="studios-page__filters">
         <div className="studios-page__filters-scroll">
           <button className="filter-chip filter-chip--outline" onClick={() => setShowFilters(true)}>
@@ -193,8 +202,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           <FilterChip
             label={t('page.allStudios', { defaultValue: 'All Studios' })}
             icon={<TuneIcon />}
-            isActive={!activeCategory}
-            onClick={() => setActiveCategory(null)}
+            isActive={!selectedSubcategory}
+            onClick={handleAllStudiosClick}
           />
 
           {musicSubCategories.slice(0, 6).map((cat) => (
@@ -202,8 +211,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
               key={cat}
               label={cat}
               icon={getCategoryIcon(cat)}
-              isActive={activeCategory === getEnglishByDisplay(cat)}
-              onClick={() => handleCategoryClick(cat)}
+              isActive={selectedSubcategory === getEnglishByDisplay(cat)}
+              onClick={() => handleSubcategoryClick(cat)}
             />
           ))}
         </div>
@@ -289,7 +298,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
                 onApply={handleFiltersApply}
                 studioCount={filteredStudios.length}
                 initialFilters={{
-                  categories: activeCategory ? [activeCategory] : [],
+                  categories: selectedSubcategory ? [selectedSubcategory] : [],
                   location: selectedCity || ''
                 }}
               />

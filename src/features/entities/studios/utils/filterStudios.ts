@@ -14,24 +14,23 @@ export const filterStudios = (
   { category, subcategory, city, userLocation, maxDistance }: FilterStudiosOptions
 ): Studio[] => {
   let filtered = studios.filter((studio) => {
-    const matchesCategory = (() => {
-      // If no category filter, show all studios
-      if (!category || category.trim() === '') return true;
-
-      // If subcategory is specified, filter by subcategory
+    // Filter by subcategory if specified (works independently of category)
+    const matchesSubcategory = (() => {
       if (subcategory && subcategory.trim() !== '') {
         return studio?.subCategories?.includes(subcategory) ?? false;
       }
-
-      // If only category is specified (e.g., /studios/music),
-      // show all studios that have subcategories (since all subcategories are under music)
-      // This assumes all subcategories belong to the music category
-      return studio?.subCategories && studio.subCategories.length > 0;
+      // If category is specified but no subcategory, show all studios with subcategories
+      if (category && category.trim() !== '') {
+        return studio?.subCategories && studio.subCategories.length > 0;
+      }
+      // No filter, show all
+      return true;
     })();
 
+    // Filter by city if specified
     const matchesCity = city && city.trim() !== '' ? studio?.city === city : true;
 
-    return matchesCategory && matchesCity;
+    return matchesSubcategory && matchesCity;
   });
 
   // If user location is provided, sort by proximity and optionally filter by max distance
