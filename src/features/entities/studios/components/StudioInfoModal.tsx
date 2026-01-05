@@ -143,7 +143,14 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
                     <LanguageIcon className="studio-minimap-modal__contact-icon" />
                   </div>
                   <span className="studio-minimap-modal__contact-text">
-                    {studio.website.replace(/^https?:\/\//, '')}
+                    {(() => {
+                      try {
+                        const url = new URL(studio.website.startsWith('http') ? studio.website : `https://${studio.website}`);
+                        return url.hostname;
+                      } catch {
+                        return studio.website.replace(/^https?:\/\//, '');
+                      }
+                    })()}
                   </span>
                 </a>
               )}

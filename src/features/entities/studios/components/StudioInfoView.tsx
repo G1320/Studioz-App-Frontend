@@ -264,7 +264,16 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
                     rel="noopener noreferrer"
                     className="info-card__contact-value info-card__contact-value--link"
                   >
-                    {studio.website.replace(/^https?:\/\//, '')}
+                    {(() => {
+                      try {
+                        const url = new URL(
+                          studio.website.startsWith('http') ? studio.website : `https://${studio.website}`
+                        );
+                        return url.hostname;
+                      } catch {
+                        return studio.website.replace(/^https?:\/\//, '');
+                      }
+                    })()}
                   </a>
                 </div>
               </div>
