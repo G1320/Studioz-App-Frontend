@@ -96,15 +96,17 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   // Parse equipment categories
   const equipmentCategories = useMemo(() => {
     if (!studio?.equipment || studio.equipment.length === 0) return [];
-    return studio.equipment.map((cat) => ({
-      category: cat.category,
-      label: tEquipment(`categories.${cat.category}`, { defaultValue: cat.category }),
-      icon: EQUIPMENT_ICONS[cat.category] || MoreHorizIcon,
-      items: cat.items
-        .split(/[\n,]+/)
-        .map((item) => item.trim())
-        .filter((item) => item.length > 0)
-    }));
+    return studio.equipment
+      .filter((cat) => cat.items) // Filter out categories with no items
+      .map((cat) => ({
+        category: cat.category,
+        label: tEquipment(`categories.${cat.category}`, { defaultValue: cat.category }),
+        icon: EQUIPMENT_ICONS[cat.category] || MoreHorizIcon,
+        items: cat.items
+          .split(/[\n,]+/)
+          .map((item) => item.trim())
+          .filter((item) => item.length > 0)
+      }));
   }, [studio?.equipment, tEquipment]);
 
   // Parse house rules

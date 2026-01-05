@@ -38,6 +38,8 @@ html[lang='en'] {
 // Prevent scroll restoration to avoid jerky scroll on page load
 html {
   scroll-behavior: auto; // Use 'auto' instead of 'smooth' to prevent unwanted scrolling
+  // Always reserve space for scrollbar to prevent layout shift when content height changes
+  scrollbar-gutter: stable;
 }
 
 body {
