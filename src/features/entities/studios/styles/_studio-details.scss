@@ -428,7 +428,7 @@
         font-size: clamp(1rem, 3vw, 2.5rem);
         font-weight: 700;
         color: vars.$color-text-light-gray;
-        z-index: 100;
+        z-index: 1010;
         white-space: nowrap;
         max-width: calc(100% - 2rem);
         box-sizing: border-box;
