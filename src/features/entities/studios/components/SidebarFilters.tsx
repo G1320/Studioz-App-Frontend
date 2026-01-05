@@ -2,6 +2,8 @@ import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMusicSubCategories, useCategories, useCities, useAmenities } from '@shared/hooks/utils';
 import { cities } from '@core/config/cities/cities';
+import { Studio } from 'src/types/index';
+import { filterStudios } from '../utils/filterStudios';
 
 // MUI Icons
 import CloseIcon from '@mui/icons-material/Close';
@@ -41,7 +43,7 @@ export interface SidebarFiltersProps {
   onClose?: () => void;
   onApply?: (filters: FilterState) => void;
   initialFilters?: Partial<FilterState>;
-  studioCount?: number;
+  studios?: Studio[];
   className?: string;
 }
 
@@ -80,7 +82,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
   onClose,
   onApply,
   initialFilters,
-  studioCount = 0,
+  studios = [],
   className = ''
 }) => {
   const { t, i18n } = useTranslation('studios');
@@ -103,6 +105,15 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
     location: '',
     ...initialFilters
   });
+
+  // Calculate filtered count in real-time based on current filter selections
+  const filteredCount = useMemo(() => {
+    const filtered = filterStudios(studios, {
+      subcategory: filters.categories.length > 0 ? filters.categories[0] : undefined,
+      city: filters.location || undefined
+    });
+    return filtered.length;
+  }, [studios, filters.categories, filters.location]);
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     categories: true,
@@ -406,7 +417,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
       {/* Footer */}
       <div className="sidebar-filters__footer">
         <button onClick={() => onApply?.(filters)} className="sidebar-filters__apply-btn">
-          {t('filters.showStudios', { defaultValue: 'Show {{count}} Studios', count: studioCount })}
+          {t('filters.showStudios', { defaultValue: 'Show {{count}} Studios', count: filteredCount })}
         </button>
       </div>
     </aside>

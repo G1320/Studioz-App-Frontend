@@ -209,16 +209,16 @@
 
   &__filters-sidebar {
     position: fixed;
-    top: 0;
+    top: 4rem; // Below header
     left: 0;
     bottom: 0;
-    width: 100%;
-    max-width: 20rem;
+    width: fit-content;
     z-index: 101;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
 
-    @media (max-width: 480px) {
-      max-width: 100%;
+    [dir='rtl'] & {
+      left: auto;
+      right: 0;
     }
   }
 }

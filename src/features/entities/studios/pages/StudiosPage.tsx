@@ -73,7 +73,8 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
   const { getEnglishByDisplay } = useCategories();
   const { getDisplayByCityName } = useCities();
-  const { t } = useTranslation('studios');
+  const { t, i18n } = useTranslation('studios');
+  const isRTL = i18n.dir() === 'rtl';
   const { showPrompt, hasGranted, userLocation, setUserLocation } = useLocationPermission();
   const { position, getCurrentPosition } = useGeolocation();
   const [showPopup, setShowPopup] = useState(false);
@@ -286,9 +287,9 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
               onClick={() => setShowFilters(false)}
             />
             <motion.div
-              initial={{ x: '-100%' }}
+              initial={{ x: isRTL ? '100%' : '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
+              exit={{ x: isRTL ? '100%' : '-100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
               className="studios-page__filters-sidebar"
             >
@@ -296,7 +297,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
                 isOpen={showFilters}
                 onClose={() => setShowFilters(false)}
                 onApply={handleFiltersApply}
-                studioCount={filteredStudios.length}
+                studios={studios}
                 initialFilters={{
                   categories: selectedSubcategory ? [selectedSubcategory] : [],
                   location: selectedCity || ''
