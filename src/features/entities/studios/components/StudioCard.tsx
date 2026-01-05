@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -18,10 +17,8 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
   const { userLocation } = useLocationPermission();
-  const { i18n } = useTranslation();
 
   // Get the current language (default to 'en' if not 'he')
-  const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
   // Calculate distance if user location is available
   const distance = useMemo(() => {
@@ -41,7 +38,7 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
       <StudioCardHeader studio={studio} />
       <div className="studio-card-name-and-description">
         <h3 className="title">{studio?.name?.en}</h3>
-        <p className="description">{studio?.subtitle?.[currentLang] || studio?.description?.en}</p>
+        <p className="description">{studio?.address || studio?.description?.en}</p>
       </div>
       <StudioFeatures
         studio={studio}
