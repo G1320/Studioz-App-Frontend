@@ -8,12 +8,7 @@ import { filterStudios } from '../utils/filterStudios';
 // MUI Icons
 import CloseIcon from '@mui/icons-material/Close';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import CheckIcon from '@mui/icons-material/Check';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import MicIcon from '@mui/icons-material/Mic';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import RadioIcon from '@mui/icons-material/Radio';
 import WifiIcon from '@mui/icons-material/Wifi';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
@@ -47,17 +42,29 @@ export interface SidebarFiltersProps {
   className?: string;
 }
 
+import * as CategoryIcons from '@shared/components/icons/CategoryIcons';
+
+// ... imports ...
+
 // Category icons mapping
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
-  music: MusicNoteIcon,
-  podcast: MicIcon,
-  photo: CameraAltIcon,
-  video: VideocamIcon,
-  rehearsal: RadioIcon,
-  recording: MusicNoteIcon,
-  production: MusicNoteIcon,
-  mixing: MusicNoteIcon,
-  mastering: MusicNoteIcon
+  // Music Production
+  'music production': CategoryIcons.MusicProductionIcon,
+  'podcast recording': CategoryIcons.PodcastRecordingIcon,
+  'vocal & instrument recording': CategoryIcons.VocalInstrumentIcon,
+  mixing: CategoryIcons.MixingIcon,
+  mastering: CategoryIcons.MasteringIcon,
+  'band rehearsal': CategoryIcons.BandRehearsalIcon,
+  'studio rental': CategoryIcons.StudioRentalIcon,
+  'remote production services': CategoryIcons.RemoteProductionIcon,
+  'sound design': CategoryIcons.SoundDesignIcon,
+  'workshops & classes': CategoryIcons.WorkshopsIcon,
+
+  // Post Production
+  'voiceover & dubbing': CategoryIcons.VoiceoverDubbingIcon,
+  'foley & sound effects': CategoryIcons.FoleyIcon,
+  'film & post production': CategoryIcons.FilmProductionIcon,
+  'restoration & archiving': CategoryIcons.RestorationIcon
 };
 
 // Amenity icons mapping
@@ -169,6 +176,11 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
   // Get category icon
   const getCategoryIcon = (category: string): React.ElementType => {
     const lower = category.toLowerCase();
+    // Try exact match first
+    if (CATEGORY_ICONS[lower]) {
+      return CATEGORY_ICONS[lower];
+    }
+    // Fallback to partial match if needed (though exact match is preferred for these specific categories)
     for (const [key, icon] of Object.entries(CATEGORY_ICONS)) {
       if (lower.includes(key)) return icon;
     }
@@ -224,7 +236,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
 
           {expandedSections.categories && (
             <div className="sidebar-filters__categories">
-              {musicSubCategories.slice(0, 6).map((category) => {
+              {musicSubCategories.map((category) => {
                 const englishCat = getEnglishByDisplay(category);
                 const isSelected = filters.categories.includes(englishCat);
                 const IconComponent = getCategoryIcon(category);
@@ -381,7 +393,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
           </button>
 
           {expandedSections.amenities && (
-            <div className="sidebar-filters__amenities">
+            <div className="sidebar-filters__categories">
               {amenitiesList.map((amenity) => {
                 const isSelected = filters.amenities.includes(amenity.key);
                 const IconComponent = getAmenityIcon(amenity.key);
@@ -389,23 +401,10 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
                   <button
                     key={amenity.key}
                     onClick={() => handleAmenityToggle(amenity.key)}
-                    className="sidebar-filters__amenity-btn"
+                    className={`sidebar-filters__category-btn ${isSelected ? 'sidebar-filters__category-btn--active' : ''}`}
                   >
-                    <div className="sidebar-filters__amenity-info">
-                      <div
-                        className={`sidebar-filters__amenity-icon ${isSelected ? 'sidebar-filters__amenity-icon--active' : ''}`}
-                      >
-                        <IconComponent />
-                      </div>
-                      <span className={isSelected ? 'sidebar-filters__amenity-label--active' : ''}>
-                        {amenity.value}
-                      </span>
-                    </div>
-                    <div
-                      className={`sidebar-filters__checkbox ${isSelected ? 'sidebar-filters__checkbox--checked' : ''}`}
-                    >
-                      {isSelected && <CheckIcon />}
-                    </div>
+                    <IconComponent />
+                    <span>{amenity.value}</span>
                   </button>
                 );
               })}

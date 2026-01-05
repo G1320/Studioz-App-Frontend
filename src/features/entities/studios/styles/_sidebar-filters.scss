@@ -149,50 +149,70 @@
 
   // Categories Grid
   &__categories {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
+    max-height: 20rem; // Adjust as needed
+    overflow-y: auto;
+    padding-inline-end: 0.25rem; // Space for scrollbar
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: vars.$zinc-800;
+      border-radius: 2px;
+
+      &:hover {
+        background: vars.$zinc-700;
+      }
+    }
   }
 
   &__category-btn {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
-    border: 1px solid vars.$zinc-800;
-    background: rgba(vars.$zinc-900, 0.5);
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
     color: vars.$zinc-400;
     cursor: pointer;
     transition: all 0.2s ease;
+    width: 100%;
 
     svg {
       width: 1.25rem;
       height: 1.25rem;
+      min-width: 1.25rem; // Prevent shrink
     }
 
     span {
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-align: center;
+      font-size: 0.875rem;
+      font-weight: 400;
+      text-align: start;
     }
 
     &:hover {
-      border-color: vars.$zinc-600;
+      background: vars.$zinc-900;
       color: vars.$text-color-primary;
     }
 
     &--active {
-      background: vars.$color-brand;
-      border-color: vars.$color-brand;
-      color: vars.$bg-color-primary;
+      background: rgba(vars.$color-brand, 0.1);
+      color: vars.$color-brand;
 
       &:hover {
-        background: vars.$color-brand;
-        border-color: vars.$color-brand;
-        color: vars.$bg-color-primary;
+        background: rgba(vars.$color-brand, 0.2);
+        color: vars.$color-brand;
       }
     }
   }
