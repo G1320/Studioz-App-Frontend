@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Studio } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import { StudioOverviewView } from './StudioOverviewView';
 import { StudioInfoView } from './StudioInfoView';
 import { StudioPortfolioView } from './StudioPortfolioView';
@@ -9,6 +10,12 @@ import { StudioPortfolioView } from './StudioPortfolioView';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ListIcon from '@mui/icons-material/List';
 import WorkIcon from '@mui/icons-material/Work';
+
+const viewVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 }
+};
 
 type ContentView = 'overview' | 'info' | 'portfolio';
 
@@ -58,14 +65,47 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
 
       {/* Content Views */}
       <div className="view-content">
-        {activeView === 'overview' && <StudioOverviewView studio={studio} />}
-        {activeView === 'info' && <StudioInfoView studio={studio} />}
-        {activeView === 'portfolio' && (
-          <StudioPortfolioView 
-            portfolio={studio?.portfolio} 
-            socialLinks={studio?.socialLinks} 
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {activeView === 'overview' && (
+            <motion.div
+              key="overview"
+              variants={viewVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <StudioOverviewView studio={studio} />
+            </motion.div>
+          )}
+          {activeView === 'info' && (
+            <motion.div
+              key="info"
+              variants={viewVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <StudioInfoView studio={studio} />
+            </motion.div>
+          )}
+          {activeView === 'portfolio' && (
+            <motion.div
+              key="portfolio"
+              variants={viewVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <StudioPortfolioView 
+                portfolio={studio?.portfolio} 
+                socialLinks={studio?.socialLinks} 
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
