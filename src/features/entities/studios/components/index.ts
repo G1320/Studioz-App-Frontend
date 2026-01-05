@@ -10,4 +10,5 @@ export * from './StudioDetailsContent';
 export * from './StudioOverviewView';
 export * from './StudioInfoView';
 export * from './StudioInfoModal';
+export * from './StudioPortfolioView';
 export * from './SidebarFilters';

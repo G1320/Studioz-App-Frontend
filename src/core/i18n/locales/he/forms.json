@@ -532,7 +532,15 @@
       "spotify": "קישור Spotify",
       "soundcloud": "קישור SoundCloud",
       "youtube": "קישור YouTube",
-      "instagram": "קישור Instagram"
+      "instagram": "קישור Instagram",
+      "selectedWorks": "עבודות נבחרות",
+      "collectionDesc": "אוסף שירים, אלבומים ופרויקטים ויזואליים שנוצרו בסטודיו שלנו.",
+      "filterAll": "הכל",
+      "filterAudio": "אודיו",
+      "filterVideo": "וידאו",
+      "filterAlbums": "אלבומים",
+      "role": "תפקיד",
+      "connectListen": "התחברו והאזינו"
     },
     "proTip": "טיפ מקצועי",
     "editingLanguage": "שפת עריכה",

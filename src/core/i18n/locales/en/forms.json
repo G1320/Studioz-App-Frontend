@@ -532,7 +532,15 @@
       "spotify": "Spotify URL",
       "soundcloud": "SoundCloud URL",
       "youtube": "YouTube URL",
-      "instagram": "Instagram URL"
+      "instagram": "Instagram URL",
+      "selectedWorks": "Selected Works",
+      "collectionDesc": "A collection of tracks, albums, and visual projects created at our studio.",
+      "filterAll": "All",
+      "filterAudio": "Audio",
+      "filterVideo": "Video",
+      "filterAlbums": "Albums",
+      "role": "Role",
+      "connectListen": "Connect & Listen"
     },
     "proTip": "Pro Tip",
     "editingLanguage": "Editing Language",
