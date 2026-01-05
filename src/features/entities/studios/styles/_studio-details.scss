@@ -21,7 +21,6 @@
     width: 100%;
     display: grid;
     gap: 0.5rem;
-    margin-block-start: -0.5rem;
 
     &__header {
       width: 100%;
@@ -31,7 +30,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     // View Toggle
@@ -537,7 +536,7 @@
         gap: 0.5rem;
         overflow-x: auto;
         height: 2rem !important;
-        margin-top: 0.5rem;
+        margin-top: 0.75rem;
         align-items: center; // Center items vertically
 
         .render-item-container {
@@ -585,8 +584,9 @@
       align-items: center;
       width: 100%;
       color: vars.$light-gray-e2e2e2;
-      padding: 0.25rem 0;
-      border-top: 2px solid vars.$bg-color-secondary;
+      padding: 0.5rem 0;
+      margin-top: 0.25rem;
+      border-top: 1px solid rgba(vars.$zinc-700, 0.5);
 
       .studio-options-container {
         justify-self: end;
