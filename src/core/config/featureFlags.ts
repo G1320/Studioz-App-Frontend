@@ -14,6 +14,8 @@ export interface FeatureFlags {
   forOwnersPage: boolean;
   brevoChat: boolean;
   studioInfoModal: boolean;
+  discoverPage: boolean;
+  mobileFooterNavigation: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -31,7 +33,9 @@ export const featureFlags: FeatureFlags = {
   dynamicCategorySelector: false,
   forOwnersPage: true,
   brevoChat: false,
-  studioInfoModal: false
+  studioInfoModal: false,
+  discoverPage: false,
+  mobileFooterNavigation: false
 };
 
 /**

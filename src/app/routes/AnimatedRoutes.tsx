@@ -117,9 +117,13 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           <Route
             path="/:lang/discover"
             element={
-              <AnimatedRoute>
-                <DiscoverPage studios={studios} items={items} />
-              </AnimatedRoute>
+              isFeatureEnabled('discoverPage') ? (
+                <AnimatedRoute>
+                  <DiscoverPage studios={studios} items={items} />
+                </AnimatedRoute>
+              ) : (
+                <Navigate to={`/${i18n.language}/studios`} replace />
+              )
             }
           />
           <Route

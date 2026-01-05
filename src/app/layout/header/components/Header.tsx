@@ -20,12 +20,12 @@ interface HeaderProps {
 }
 
 const shouldShowBackButton = (pathname: string): boolean => {
-  // Show back button on all pages except landing page and discover page
+  // Show back button on all pages except landing page and studios page
   // Landing page patterns: /en, /he, /en/, /he/
   const landingPagePattern = /^\/[a-z]{2}\/?$/;
-  // Discover page patterns: /en/discover, /he/discover
-  const discoverPagePattern = /^\/[a-z]{2}\/discover\/?$/;
-  return !landingPagePattern.test(pathname) && !discoverPagePattern.test(pathname);
+  // Studios page patterns: /en/studios, /he/studios (with optional category/subcategory)
+  const studiosPagePattern = /^\/[a-z]{2}\/studios\/?/;
+  return !landingPagePattern.test(pathname) && !studiosPagePattern.test(pathname);
 };
 
 export const Header: React.FC<HeaderProps> = ({ user }) => {
@@ -72,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
 
         <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
-          <Link className="logo" to={`/${currLang}/discover`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
+          <Link className="logo" to={`/${currLang}/studios`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
             {featureFlags.faviconLogo ? (
               <img src="/android-chrome-512x512.png" alt="Studioz" className="logo-image" />
             ) : (
@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           <MenuDropdown user={user || null} />
         </div>
         <HeaderNavbar />
-        <Link to={`/${i18n.language}/discover`} className="header-logo-text" onClick={() => scrollToTop()}>
+        <Link to={`/${i18n.language}/studios`} className="header-logo-text" onClick={() => scrollToTop()}>
           Studioz
         </Link>
       </header>

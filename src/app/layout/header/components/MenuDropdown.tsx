@@ -11,6 +11,7 @@ import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -59,6 +60,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         )}
         {user && (
           <>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
+              <EventNoteIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.reservations', { defaultValue: 'My Reservations' })}</span>
+            </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
               <DashboardIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
