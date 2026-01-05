@@ -6,6 +6,7 @@ import { StudioOptions } from './StudioOptions';
 import { StudioInfoModal } from './StudioInfoModal';
 import { StudioFeatures } from './StudioFeatures';
 import { useTranslation } from 'react-i18next';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 
 interface StudioDetailsHeaderProps {
   studio?: Studio;
@@ -29,6 +30,7 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
 
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
   const hasLocation = studio?.lat !== undefined && studio?.lng !== undefined;
+  const showInfoModal = isFeatureEnabled('studioInfoModal');
 
   return (
     <header className="studio-details__header">
@@ -58,7 +60,7 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
             onEdit={onEdit}
             onAddNewService={onAddNewService}
           />
-          {hasLocation && (
+          {showInfoModal && hasLocation && (
             <button
               onClick={() => setIsMapModalOpen(true)}
               className="studio-info-modal-button"
@@ -70,7 +72,9 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
         </div>
       </div>
 
-      <StudioInfoModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} studio={studio} />
+      {showInfoModal && (
+        <StudioInfoModal open={isMapModalOpen} onClose={() => setIsMapModalOpen(false)} studio={studio} />
+      )}
     </header>
   );
 };
