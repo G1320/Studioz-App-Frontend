@@ -26,6 +26,7 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import BuildIcon from '@mui/icons-material/Build';
 import './styles/_amenities-selector.scss';
 
 // Map amenity keys to icons
@@ -178,6 +179,7 @@ export const AmenitiesSelector = ({
       {/* Equipment & Gear Section */}
       <div className="amenities-selector__section amenities-selector__equipment-section">
         <h2 className="amenities-selector__title">
+          <BuildIcon className="amenities-selector__title-icon" />
           {t('form.equipment.title', { defaultValue: 'Equipment & Gear List' })}
         </h2>
 
