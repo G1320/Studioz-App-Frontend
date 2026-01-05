@@ -72,6 +72,10 @@
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
   }
 
+  &__accent {
+    color: #ffd166;
+  }
+
   &__subtitle {
     font-size: clamp(1rem, 2.5vw, 1.5rem);
     font-weight: 400;

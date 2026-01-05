@@ -51,7 +51,7 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ slide }) => {
       {hasOverlay && (
         <div className="banner-slide__overlay">
           <div className="banner-slide__content">
-            {resolvedTitle && <h2 className="banner-slide__title">{resolvedTitle}</h2>}
+            {resolvedTitle && <h2 className="banner-slide__title" dangerouslySetInnerHTML={{ __html: resolvedTitle }} />}
             {resolvedSubtitle && <p className="banner-slide__subtitle">{resolvedSubtitle}</p>}
             {resolvedCtaText && ctaLink && (
               <Link to={`/${i18n.language}${ctaLink}`} className="banner-slide__cta" aria-label={resolvedCtaText}>
