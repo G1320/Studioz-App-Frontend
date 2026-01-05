@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { FileUploader, SteppedForm, FieldType, FormStep } from '@shared/components';
+import { FileUploader, SteppedForm, FieldType, FormStep, PortfolioStep } from '@shared/components';
 import type { CancellationPolicy } from '@shared/components';
 import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { getLocalUser } from '@shared/services';
@@ -18,6 +18,7 @@ import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import ShieldIcon from '@mui/icons-material/Shield';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import WorkIcon from '@mui/icons-material/Work';
 import { ProTip } from '@shared/components/pro-tip';
 import {
   useCreateStudioMutation,
@@ -36,7 +37,7 @@ import {
 import { useUserContext } from '@core/contexts';
 import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
-import { DayOfWeek, StudioAvailability, EquipmentCategory } from 'src/types/studio';
+import { DayOfWeek, StudioAvailability, EquipmentCategory, PortfolioItem, SocialLinks } from 'src/types/studio';
 import { loadFormState } from '@shared/utils/formAutoSaveUtils';
 
 interface StudioFormData {
@@ -55,6 +56,8 @@ interface StudioFormData {
   languageToggle?: string;
   cancellationPolicy?: CancellationPolicy;
   houseRules?: string;
+  portfolio?: PortfolioItem[];
+  socialLinks?: SocialLinks;
   [key: string]: any; // Allow additional properties from form
 }
 
@@ -133,6 +136,10 @@ export const CreateStudioForm = () => {
   // Policies State
   const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>({});
   const [houseRules, setHouseRules] = useState<string>('');
+
+  // Portfolio State
+  const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
+  const [socialLinks, setSocialLinks] = useState<SocialLinks>({});
 
   const { handleFileUpload } = useStudioFileUpload({
     galleryImages,
@@ -469,9 +476,34 @@ export const CreateStudioForm = () => {
         schema: studioStepSchemas.policies,
         icon: ShieldIcon,
         customContent: policiesContent
+      },
+      {
+        id: 'portfolio',
+        title: t('form.steps.portfolio') || 'Portfolio',
+        description: t('form.steps.portfolioDesc') || 'Showcase your best work and social profiles',
+        fieldNames: ['portfolio', 'socialLinks'],
+        icon: WorkIcon,
+        customContent: (
+          <PortfolioStep
+            portfolio={portfolio}
+            onPortfolioChange={setPortfolio}
+            socialLinks={socialLinks}
+            onSocialLinksChange={setSocialLinks}
+          />
+        )
       }
     ],
-    [t, galleryImages, galleryAudioFiles, handleFileUpload, selectedAmenities, equipmentList, policiesContent]
+    [
+      t,
+      galleryImages,
+      galleryAudioFiles,
+      handleFileUpload,
+      selectedAmenities,
+      equipmentList,
+      policiesContent,
+      portfolio,
+      socialLinks
+    ]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -710,6 +742,16 @@ export const CreateStudioForm = () => {
     // Add house rules if provided
     if (houseRules.trim()) {
       formData.houseRules = houseRules.trim();
+    }
+
+    // Add portfolio if not empty
+    if (portfolio.length > 0) {
+      formData.portfolio = portfolio;
+    }
+
+    // Add social links if any are provided
+    if (Object.values(socialLinks).some((link) => link?.trim())) {
+      formData.socialLinks = socialLinks;
     }
 
     // Remove UI-only fields that shouldn't be sent to the API

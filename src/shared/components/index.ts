@@ -27,3 +27,4 @@ export * from './instant-book-badge';
 export * from './fan-menu';
 export * from './pro-tip';
 export * from './amenities-selector';
+export * from './portfolio-step';

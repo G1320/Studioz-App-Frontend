@@ -20,6 +20,25 @@ export interface EquipmentCategory {
   items: string; // Raw text input - items separated by newlines or commas
 }
 
+export interface PortfolioItem {
+  id: string;
+  title: string;
+  artist: string;
+  type: 'audio' | 'video' | 'album';
+  coverUrl?: string;
+  link: string;
+  role?: string; // e.g., "Mixed", "Mastered", "Recorded"
+}
+
+export interface SocialLinks {
+  spotify?: string;
+  soundcloud?: string;
+  appleMusic?: string;
+  youtube?: string;
+  instagram?: string;
+  website?: string;
+}
+
 export default interface Studio {
   _id: string;
   name: {
@@ -69,4 +88,6 @@ export default interface Studio {
   isFeatured?: boolean;
   items: StudioItem[];
   studioAvailability?: StudioAvailability;
+  portfolio?: PortfolioItem[];
+  socialLinks?: SocialLinks;
 }

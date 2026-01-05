@@ -1,0 +1,565 @@
+@use 'utilities/variables' as vars;
+
+.portfolio-step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__section {
+    background: rgba(vars.$zinc-900, 0.5);
+    border: 1px solid vars.$zinc-800;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__section-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: vars.$color-brand;
+  }
+
+  &__count {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: vars.$zinc-500;
+    background: vars.$zinc-900;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid vars.$zinc-800;
+    margin-inline-start: 0.5rem;
+  }
+
+  &__add-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: vars.$color-brand;
+    color: vars.$bg-color-primary;
+    font-weight: 700;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 30px rgba(255, 209, 102, 0.4);
+    }
+  }
+
+  // Social Links Grid
+  &__social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__social-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: vars.$zinc-400;
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    input {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      background: vars.$zinc-900;
+      border: 1px solid vars.$zinc-800;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: vars.$text-color-primary;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+
+      &::placeholder {
+        color: vars.$zinc-600;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: vars.$color-brand;
+        box-shadow: 0 0 0 1px vars.$color-brand;
+      }
+    }
+  }
+
+  // Projects Grid
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Empty State
+  &__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    border: 2px dashed vars.$zinc-800;
+    border-radius: 1rem;
+    background: rgba(vars.$zinc-900, 0.3);
+  }
+
+  &__empty-icon {
+    width: 4rem;
+    height: 4rem;
+    background: vars.$zinc-900;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: vars.$zinc-500;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  &__empty h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0 0 0.5rem;
+  }
+
+  &__empty p {
+    font-size: 0.875rem;
+    color: vars.$zinc-400;
+    max-width: 20rem;
+    margin: 0 auto 1.5rem;
+  }
+
+  &__empty-link {
+    background: transparent;
+    border: none;
+    color: vars.$color-brand;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+// Portfolio Item Card
+.portfolio-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: vars.$zinc-900;
+  border: 1px solid vars.$zinc-800;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  min-width: 0;
+
+  &:hover {
+    border-color: vars.$zinc-700;
+
+    .portfolio-item__delete {
+      opacity: 1;
+    }
+
+    .portfolio-item__cover-overlay {
+      opacity: 1;
+    }
+
+    .portfolio-item__cover img {
+      transform: scale(1.1);
+    }
+  }
+
+  &__cover {
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: vars.$bg-color-primary;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+
+  &__cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: vars.$zinc-800;
+    color: vars.$zinc-500;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  &__cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &__play-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: vars.$color-brand;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: vars.$bg-color-primary;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  &__type {
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &--audio {
+      background: rgba(255, 209, 102, 0.1);
+      color: vars.$color-brand;
+    }
+
+    &--video {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    &--album {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+  }
+
+  &__role {
+    font-size: 0.75rem;
+    color: vars.$zinc-500;
+    border-inline-start: 1px solid vars.$zinc-700;
+    padding-inline-start: 0.5rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__artist {
+    font-size: 0.875rem;
+    color: vars.$zinc-400;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__delete {
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    color: vars.$zinc-500;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    &:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+  }
+}
+
+// Modal
+.portfolio-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.portfolio-modal {
+  background: vars.$bg-color-primary;
+  border: 1px solid vars.$zinc-800;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid vars.$zinc-800;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__close {
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    color: vars.$zinc-400;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &:hover {
+      color: vars.$text-color-primary;
+      background: vars.$zinc-800;
+    }
+  }
+
+  &__form {
+    padding: 1.5rem;
+  }
+
+  &__type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__type-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+    color: vars.$zinc-400;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    &:hover {
+      color: vars.$text-color-primary;
+      border-color: vars.$zinc-600;
+    }
+
+    &--active {
+      background: vars.$color-brand;
+      border-color: vars.$color-brand;
+      color: vars.$bg-color-primary;
+      font-weight: 700;
+    }
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: vars.$zinc-400;
+    }
+
+    input {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      background: vars.$zinc-900;
+      border: 1px solid vars.$zinc-800;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: vars.$text-color-primary;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+
+      &::placeholder {
+        color: vars.$zinc-600;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: vars.$color-brand;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  &__cancel-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid vars.$zinc-800;
+    background: transparent;
+    color: vars.$text-color-primary;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: vars.$zinc-900;
+    }
+  }
+
+  &__submit-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 9999px;
+    border: none;
+    background: vars.$color-brand;
+    color: vars.$bg-color-primary;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+
+    &:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 30px rgba(255, 209, 102, 0.4);
+    }
+  }
+}
