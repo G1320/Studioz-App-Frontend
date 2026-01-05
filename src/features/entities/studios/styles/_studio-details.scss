@@ -422,8 +422,8 @@
         gap: 1rem;
         position: absolute;
         height: min-content;
-        // Position above gallery (2rem) + margin (0.5rem) = 2.5rem from bottom
-        bottom: calc(2rem + 0.5rem);
+        // Position above gallery (3rem) + some spacing
+        bottom: calc(3rem + 0.5rem);
         padding: 0.75rem;
         font-size: clamp(1rem, 3vw, 2.5rem);
         font-weight: 700;
@@ -436,11 +436,12 @@
         text-overflow: ellipsis;
 
         @media (max-width: 768px) {
-          bottom: calc(2rem + 0.5rem);
+          bottom: calc(3rem + 0.5rem);
           max-width: calc(100% - 1.75rem);
         }
 
         @media (max-width: 480px) {
+          bottom: calc(3rem + 0.5rem);
           font-size: clamp(1.1rem, 3vw, 1.5rem);
           padding-inline: 0.75rem;
           max-width: calc(100% - 1.5rem);
@@ -535,14 +536,14 @@
         display: flex;
         gap: 0.5rem;
         overflow-x: auto;
-        height: 2rem !important;
-        margin-top: 0.75rem;
+        height: 3rem !important;
+
         align-items: center; // Center items vertically
 
         .render-item-container {
-          height: 2rem !important;
+          height: 3rem !important;
           aspect-ratio: unset !important;
-          max-height: 2rem !important;
+          // max-height: 2rem !important;
           overflow: hidden;
         }
       }
@@ -550,8 +551,8 @@
       .cover-image-overlay {
         position: absolute;
         // Position at the bottom of the cover image (above gallery images list)
-        // Gallery list is 2rem + 0.5rem margin, so overlay starts there
-        bottom: calc(2rem + 0.5rem);
+        // Gallery list is 3rem, so overlay starts there
+        bottom: calc(3rem + 0.5rem);
         // Match cover image width: calc(100% + 0.5rem) and center it
         left: 50%;
         transform: translateX(-50%);
@@ -565,12 +566,12 @@
         box-sizing: border-box;
 
         @media (max-width: 768px) {
-          bottom: calc(2rem + 0.5rem);
+          bottom: calc(3rem + 0.5rem);
           height: 4.5rem;
         }
 
         @media (max-width: 480px) {
-          bottom: calc(2rem + 0.5rem);
+          bottom: calc(3rem + 0.5rem);
           width: 100%; // Cover image is 100% width on mobile
           height: 4rem;
         }
@@ -585,7 +586,6 @@
       width: 100%;
       color: vars.$light-gray-e2e2e2;
       padding: 0.5rem 0;
-      margin-top: 0.25rem;
       border-top: 1px solid rgba(vars.$zinc-700, 0.5);
 
       .studio-options-container {
@@ -678,12 +678,10 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          height: 2rem !important; // Constrain height to match gallery list (2rem)
           width: auto;
           flex-shrink: 0; // Prevent shrinking
           aspect-ratio: unset !important; // Override aspect-ratio from fileUploader styles
           min-height: 0; // Prevent min-height from causing issues
-          max-height: 2rem !important; // Ensure it doesn't exceed gallery height
           overflow: hidden; // Prevent content overflow
 
           .skeleton-loader {
