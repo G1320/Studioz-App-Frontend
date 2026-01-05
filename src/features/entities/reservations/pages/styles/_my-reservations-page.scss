@@ -23,7 +23,7 @@ $page-label: rgba(113, 113, 122, 1); // zinc-500
 
   &__header {
     margin-bottom: vars.$spacing-xl;
-    text-align: center;
+    text-align: start;
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-small;
