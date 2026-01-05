@@ -25,10 +25,7 @@ export const DesktopFooter = () => {
             <h3>{t('footer.platform')}</h3>
             <ul>
               <li>
-                <a onClick={() => langNavigate('/')}>{t('footer.introduction')}</a>
-              </li>
-              <li>
-                <a onClick={() => langNavigate('/studios')}>{t('footer.home')}</a>
+                <a onClick={() => langNavigate('/')}>{t('footer.home')}</a>
               </li>
               <li>
                 <a onClick={() => langNavigate('/studios')}>{t('footer.browse')}</a>
