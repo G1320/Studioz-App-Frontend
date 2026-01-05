@@ -229,18 +229,6 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
     </div>
   );
 
-  const typeBadge = (
-    <span
-      className={`reservation-card__type-badge ${
-        isIncomingReservation
-          ? 'reservation-card__type-badge--incoming'
-          : 'reservation-card__type-badge--outgoing'
-      }`}
-    >
-      {isIncomingReservation ? t('filters.type.incoming') : t('filters.type.outgoing')}
-    </span>
-  );
-
   if (variant === 'list') {
     return (
       <article
@@ -251,7 +239,6 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
         tabIndex={isClickable ? 0 : undefined}
         aria-label={isClickable ? `${itemName} reservation on ${formattedDate}` : undefined}
       >
-        {typeBadge}
         {cardContent}
       </article>
     );
