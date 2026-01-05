@@ -80,14 +80,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
     const cityEnglish = selectedCity ? getCityEnglishByDisplay(selectedCity) : '';
 
     let path = `/${i18n.language}/studios`;
+
+    const params = new URLSearchParams();
     if (categoryEnglish) {
-      path += `/music/${encodeURIComponent(categoryEnglish)}`;
+      params.set('subcategory', categoryEnglish);
     }
     if (cityEnglish) {
       // Find the city name from the cities config
       const cityConfig = cities.find((c) => c.displayName === cityEnglish || c.name === cityEnglish);
       const cityName = cityConfig?.name || cityEnglish;
-      path += `?city=${encodeURIComponent(cityName)}`;
+      params.set('city', cityName);
+    }
+
+    if (params.toString()) {
+      path += `?${params.toString()}`;
     }
 
     navigate(path);
@@ -214,12 +220,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
             <CategoryCard
               icon={<MusicNoteIcon />}
               label={t('categories.music_production')}
-              onClick={() => navigate(`/${i18n.language}/studios/music/Music%20Production`)}
+              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Music%20Production`)}
             />
             <CategoryCard
               icon={<MicIcon />}
               label={t('categories.podcast')}
-              onClick={() => navigate(`/${i18n.language}/studios/music/Podcast%20Recording`)}
+              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Podcast%20Recording`)}
             />
             {/* <CategoryCard
               icon={<CameraAltIcon />}
@@ -234,22 +240,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
             <CategoryCard
               icon={<TuneIcon />}
               label={t('categories.mixing')}
-              onClick={() => navigate(`/${i18n.language}/studios/music/Mixing`)}
+              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Mixing`)}
             />
             <CategoryCard
               icon={<GraphicEqIcon />}
               label={t('categories.mastering')}
-              onClick={() => navigate(`/${i18n.language}/studios/music/Mastering`)}
+              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Mastering`)}
             />
             <CategoryCard
               icon={<RecordVoiceOverIcon />}
               label={t('categories.vocal_recording')}
-              onClick={() => navigate(`/${i18n.language}/studios/music/Vocal%20%26%20Instrument%20Recording`)}
+              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Vocal%20%26%20Instrument%20Recording`)}
             />
             <CategoryCard
               icon={<PianoIcon />}
               label={t('categories.rehearsal')}
-              onClick={() => navigate(`/${i18n.language}/studios/music/Band%20rehearsal`)}
+              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Band%20rehearsal`)}
             />
           </div>
         </div>
