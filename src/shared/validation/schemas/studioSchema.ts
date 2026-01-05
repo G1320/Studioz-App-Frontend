@@ -69,7 +69,7 @@ export const studioStep3Schema = z.object({
 });
 
 /**
- * Social media links schema
+ * Social media links schema (legacy - used in step 4 for basic socials)
  * Only validates if there is text, otherwise ignores the field completely
  */
 export const socialsSchema = z
@@ -84,6 +84,62 @@ export const socialsSchema = z
     )
   })
   .optional();
+
+/**
+ * Extended social links schema for studio profile
+ */
+export const socialLinksSchema = z
+  .object({
+    spotify: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    ),
+    soundcloud: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    ),
+    appleMusic: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    ),
+    youtube: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    ),
+    instagram: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    ),
+    website: z.preprocess(
+      (val) => (val === undefined || val === null || val === '' ? undefined : val),
+      urlSchema.optional()
+    )
+  })
+  .optional();
+
+/**
+ * Portfolio item schema
+ */
+export const portfolioItemSchema = z.object({
+  id: z.string(),
+  title: z.string().min(1, 'Title is required'),
+  artist: z.string().min(1, 'Artist is required'),
+  type: z.enum(['audio', 'video', 'album']),
+  coverUrl: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    urlSchema.optional()
+  ),
+  link: urlSchema,
+  role: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? undefined : val),
+    z.string().optional()
+  )
+});
+
+/**
+ * Portfolio array schema
+ */
+export const portfolioSchema = z.array(portfolioItemSchema).optional();
 
 /**
  * Step 4: Location & Contact Schema
@@ -282,7 +338,11 @@ export const studioFullSchema = z.object({
   // Optional fields
   isSelfService: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
-  totalBookings: z.number().int().min(0).optional()
+  totalBookings: z.number().int().min(0).optional(),
+
+  // Portfolio & Social Links
+  portfolio: portfolioSchema,
+  socialLinks: socialLinksSchema
 });
 
 /**
