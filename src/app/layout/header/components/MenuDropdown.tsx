@@ -12,6 +12,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -52,25 +53,38 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
       maxWidth="300px"
     >
       <div className="menu-dropdown__content">
+        {/* Login - only for non-logged-in users */}
         {!user && (
           <button className="menu-dropdown__item" onClick={() => loginWithPopup()}>
             <PersonOutlineIcon className="menu-dropdown__icon" />
             <span>{t('common:buttons.loginSignup')}</span>
           </button>
         )}
+
+        {/* Common items for all users - consistent order */}
+        <button className="menu-dropdown__item" onClick={() => handleNavigate('/studios')}>
+          <MusicNoteIcon className="menu-dropdown__icon" />
+          <span>{t('profile.buttons.studios', { defaultValue: 'Studios' })}</span>
+        </button>
+        <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
+          <EventNoteIcon className="menu-dropdown__icon" />
+          <span>{t('profile.buttons.reservations', { defaultValue: 'My Reservations' })}</span>
+        </button>
+        <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
+          <AddBusinessIcon className="menu-dropdown__icon" />
+          <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
+        </button>
+
+        {/* Logged-in user only items */}
         {user && (
           <>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
-              <EventNoteIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.reservations', { defaultValue: 'My Reservations' })}</span>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
+              <FavoriteIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.wishlists')}</span>
             </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
               <DashboardIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
-            </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
-              <FavoriteIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.wishlists')}</span>
             </button>
             {/* Show Google Calendar connect for all logged-in users (useful for studio owners) */}
             <GoogleCalendarConnectButton variant="menu-item" />
@@ -88,10 +102,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
             )}
           </>
         )}
-        <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
-          <AddBusinessIcon className="menu-dropdown__icon" />
-          <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
-        </button>
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/subscription')}>
           <CardMembershipIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.subscription')}</span>

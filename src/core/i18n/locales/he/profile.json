@@ -5,9 +5,10 @@
       "title": "פעולות"
     },
     "buttons": {
+      "studios": "אולפנים",
       "dashboard": "לוח בקרה",
       "reservations": "ההזמנות שלי",
-      "wishlists": "רשימות"
+      "wishlists": "הרשימות שלי"
     },
     "email": {
       "label": "אימייל",

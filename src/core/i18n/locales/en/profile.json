@@ -5,6 +5,7 @@
       "title": "Actions"
     },
     "buttons": {
+      "studios": "Studios",
       "dashboard": "Dashboard",
       "reservations": "My reservations",
       "wishlists": "Wishlists"

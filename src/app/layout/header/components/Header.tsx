@@ -72,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
 
         <h1 className={showBackButton ? 'logo--mobile-shifted' : ''}>
-          <Link className="logo" to={`/${currLang}/studios`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
+          <Link className="logo" to={`/${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
             {featureFlags.faviconLogo ? (
               <img src="/android-chrome-512x512.png" alt="Studioz" className="logo-image" />
             ) : (
@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           <MenuDropdown user={user || null} />
         </div>
         <HeaderNavbar />
-        <Link to={`/${i18n.language}/studios`} className="header-logo-text" onClick={() => scrollToTop()}>
+        <Link to={`/${i18n.language}`} className="header-logo-text" onClick={() => scrollToTop()}>
           Studioz
         </Link>
       </header>

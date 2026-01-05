@@ -23,6 +23,7 @@ $owners-orange: #fb923c;
 // Container
 .owners-container {
   max-width: 1280px;
+  margin-inline: auto;
   padding: 0 vars.$spacing-medium;
 }
 
@@ -32,12 +33,15 @@ $owners-orange: #fb923c;
   font-weight: 700;
   margin-bottom: vars.$spacing-large;
   color: vars.$text-color-primary;
+  text-align: center;
 }
 
 .owners-section-subtitle {
   font-size: vars.$font-size-large;
   color: $owners-muted;
   max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
 }
 
 // ==========================================
@@ -160,6 +164,7 @@ $owners-orange: #fb923c;
     position: relative;
     z-index: 10;
     max-width: 896px;
+    margin-inline: auto;
     text-align: center;
   }
 
@@ -437,6 +442,7 @@ $owners-orange: #fb923c;
   &__header {
     text-align: center;
     max-width: 768px;
+    margin-inline: auto;
     margin-bottom: vars.$spacing-2xl;
   }
 
