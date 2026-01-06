@@ -71,14 +71,14 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
   // Landing page (root)
   if (basePath === '/' || basePath === '') {
     return currentLang === 'he'
-      ? `השכרת אולפנים ושירותים בישראל | ${brandName}`
+      ? `השכרת אולפנים בישראל | ${brandName}`
       : `Studio Rentals & Services in Israel | ${brandName}`;
   }
 
   // Discover page
   if (basePath === '/discover' || basePath.startsWith('/discover')) {
     return currentLang === 'he'
-      ? `גלו אולפנים ושירותים מובילים | ${brandName}`
+      ? `גלו אולפנים מובילים | ${brandName}`
       : `Discover Top Studios & Services | ${brandName}`;
   }
 
@@ -133,7 +133,7 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
   }
 
   // Default fallback
-  return currentLang === 'he' ? `אולפנים ושירותים להשכרה | ${brandName}` : `Studio Rentals & Services | ${brandName}`;
+  return currentLang === 'he' ? `אולפנים להשכרה | ${brandName}` : `Studio Rentals & Services | ${brandName}`;
 };
 
 /**

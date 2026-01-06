@@ -98,7 +98,7 @@ i18n
         equipment: equipmentHe
       }
     },
-    fallbackLng: 'en',
+    fallbackLng: 'he',
     supportedLngs: ['en', 'he'],
     detection: {
       order: ['path', 'navigator'],

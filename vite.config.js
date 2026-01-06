@@ -8,41 +8,38 @@ import { cities } from './src/core/config/cities/cities';
 
 const languages = ['en', 'he'];
 
-// Get all subcategory keys from categories.json
-// Note: Currently only "music" category is used in URLs, but we include both for future-proofing
-const musicSubCategories = Object.keys(categoriesJson.subCategories.musicAndPodcast);
+// Get all subcategory display names from categories.json for URL query params
+// Using the English display names as they're used in query params (e.g., "Podcast Recording")
+const musicSubCategories = Object.values(categoriesJson.subCategories.musicAndPodcast);
 
-// Generate category/subcategory routes for studios
-// URL structure: /studios/music or /studios/music/:subcategory
-const studiosCategoryRoutes = [
-  '/studios/music', // Category only (shows all music subcategories)
-  ...musicSubCategories.map((sub) => `/studios/music/${sub}`) // Category + subcategory
-  // Note: Photo category routes not included as they're not currently used in the app
-  // Uncomment if photo category support is added:
-  // '/studios/photo',
-  // ...photoSubCategories.map((sub) => `/studios/photo/${sub}`)
-];
+// Generate subcategory routes for studios using query params
+// URL structure: /studios?subcategory=SubcategoryName
+const studiosSubcategoryRoutes = musicSubCategories.map(
+  (sub) => `/studios?subcategory=${encodeURIComponent(sub)}`
+);
 
 // Generate city-specific routes with query parameters
-// Format: /studios/music/:subcategory?city=CityName
 const cityNames = cities.map((city) => city.name);
-const studiosCategoryRoutesWithCities = [
-  // Category pages with cities
-  ...cityNames.map((city) => `/studios/music?city=${encodeURIComponent(city)}`),
-  // Subcategory pages with cities
-  ...musicSubCategories.flatMap((sub) =>
-    cityNames.map((city) => `/studios/music/${sub}?city=${encodeURIComponent(city)}`)
-  )
-];
+const studiosCityRoutes = cityNames.map((city) => `/studios?city=${encodeURIComponent(city)}`);
+
+// Generate combined subcategory + city routes
+// Format: /studios?subcategory=SubcategoryName&city=CityName
+const studiosSubcategoryWithCityRoutes = musicSubCategories.flatMap((sub) =>
+  cityNames.map((city) => `/studios?subcategory=${encodeURIComponent(sub)}&city=${encodeURIComponent(city)}`)
+);
 
 // Base static routes (only publicly accessible pages)
 // Note: /wishlists and /create-studio require authentication, so they're excluded from sitemap
 const baseRoutes = ['/discover', '/studios', '/for-owners', '/subscription', '/privacy', '/terms'];
 
-// Combine all routes (base + category/subcategory + city variations)
-const allRoutes = ['/', ...baseRoutes, ...studiosCategoryRoutes, ...studiosCategoryRoutesWithCities].flatMap((route) =>
-  languages.map((lang) => `/${lang}${route}`)
-);
+// Combine all routes (base + subcategory + city + combined variations)
+const allRoutes = [
+  '/',
+  ...baseRoutes,
+  ...studiosSubcategoryRoutes,
+  ...studiosCityRoutes,
+  ...studiosSubcategoryWithCityRoutes
+].flatMap((route) => languages.map((lang) => `/${lang}${route}`));
 
 export default defineConfig(({ _command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');

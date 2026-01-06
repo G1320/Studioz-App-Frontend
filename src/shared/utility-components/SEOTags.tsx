@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { getPageTitle, getMetaDescription } from '@shared/utils/seoUtils';
 
 export const SEOTags = ({ path, search = '' }: { path: string; search?: string }) => {
-  const lang = path.split('/')[1] || 'en';
-  const currentLang = lang === 'he' ? 'he' : 'en';
+  const lang = path.split('/')[1] || 'he';
+  const currentLang = lang === 'en' ? 'en' : 'he';
 
   // Remove language prefix to get the base path
   // Handle edge cases: '/', '/en', '/he', '/en/studios', etc.
@@ -69,6 +69,9 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
   const pageTitle = getPageTitle(seoContext);
   const metaDescription = getMetaDescription(seoContext);
 
+  // Default OG image - use logo for social sharing
+  const ogImage = 'https://studioz.co.il/logo.png';
+
   return (
     <Helmet>
       {/* Basic SEO */}
@@ -77,14 +80,24 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
       <link rel="canonical" href={`https://studioz.co.il${canonicalPath}`} />
       <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="en" />
       <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="he" />
-      <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="x-default" />
+      <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="x-default" />
 
       {/* Open Graph for richer previews (localized) */}
+      <meta property="og:type" content="website" />
       <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={metaDescription} />
       <meta property="og:url" content={`https://studioz.co.il${canonicalPath}`} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="512" />
+      <meta property="og:image:height" content="512" />
       <meta property="og:locale" content={currentLang === 'he' ? 'he_IL' : 'en_IL'} />
       <meta property="og:site_name" content="Studioz" />
+
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:image" content={ogImage} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     </Helmet>
