@@ -6,6 +6,7 @@ import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { Reservation, Studio } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
 import dayjs from 'dayjs';
+import 'dayjs/locale/he';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PersonIcon from '@mui/icons-material/Person';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -128,7 +129,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   const formattedStartTime = startDateTime.format('HH:mm');
   const formattedEndTime = endDateTime.format('HH:mm');
   const formattedTimeRange = `${formattedStartTime} - ${formattedEndTime}`;
-  const formattedDate = dayjs(reservation.bookingDate, 'DD/MM/YYYY').format('DD MMM, YYYY');
+  const formattedDate = dayjs(reservation.bookingDate, 'DD/MM/YYYY').locale(i18n.language).format('DD MMM, YYYY');
   const duration = `${reservation.timeSlots.length} ${reservation.timeSlots.length === 1 ? t('hour') : t('hours')}`;
 
   // Status helpers
