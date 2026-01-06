@@ -1,336 +1,462 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
+
+// ============================================
+// StudioZ Reservation Card - Visual Style Guide
+// ============================================
+
+// Status Colors
+$status-confirmed: #34d399; // emerald-400
+$status-confirmed-bg: rgba(52, 211, 153, 0.2);
+$status-pending: #fbbf24; // amber-400
+$status-pending-bg: rgba(251, 191, 36, 0.2);
+$status-cancelled: #f87171; // red-400
+$status-cancelled-bg: rgba(248, 113, 113, 0.2);
+$status-default: #60a5fa; // blue-400
+$status-default-bg: rgba(96, 165, 250, 0.2);
+
+// Core Colors
+$card-bg: #111111;
+$surface: vars.$zinc-900;
+$border-default: vars.$zinc-800;
+$border-hover: vars.$zinc-700;
+$text-primary: white;
+$text-secondary: vars.$zinc-300;
+$text-tertiary: vars.$zinc-500;
+$accent: #ffd166;
 
 .reservation-card {
-  background: vars.$bg-color-secondary;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: vars.$border-radius-medium;
-  padding: vars.$spacing-large;
-  cursor: default;
-  animation: fadeIn 0.3s ease-in;
+  background: $card-bg;
+  border: 1px solid $border-default;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  margin-block: 0.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  // keep inner content constrained to card
-  .reservation-card__content {
-    overflow: hidden;
-    .reservation-card__value {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+  max-width: 28rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-out;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover:not(.reservation-card--expanded) {
+    border-color: $border-hover;
+  }
+
+  &--expanded {
+    border-color: $border-hover;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.2),
+      0 0 0 1px $border-hover;
+  }
+
+  &--item-card {
+    cursor: default;
+    max-width: 100%;
+  }
+
+  // ========================================
+  // Summary View (Collapsed State)
+  // ========================================
+  &__summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  &__status-indicator {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    // Ring effect
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      opacity: 0.3;
+    }
+
+    &.status--confirmed {
+      color: $status-confirmed;
+      background: $status-confirmed-bg;
+    }
+
+    &.status--pending {
+      color: $status-pending;
+      background: $status-pending-bg;
+    }
+
+    &.status--cancelled {
+      color: $status-cancelled;
+      background: $status-cancelled-bg;
+    }
+
+    &.status--default {
+      color: $status-default;
+      background: $status-default-bg;
     }
   }
 
-  // Clickable card styles (when role="button")
-  &[role='button'] {
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-
-    &:hover {
-      border-color: vars.$color-brand;
-      transform: translateY(-2px);
-      box-shadow: vars.$box-shadow-medium;
-    }
-
-    &:focus,
-    &:focus-visible {
-      outline: none;
-    }
-
-    &:active {
-      transform: translateY(0);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
+  &__status-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
   }
 
-  // Non-clickable card styles
-  &:not([role='button']) {
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.1);
-      transform: none;
-      box-shadow: none;
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__content {
+  &__summary-content {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-medium;
+    gap: 0.25rem;
   }
 
-  &__header {
+  &__summary-header {
     display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-xs;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 
   &__item-name {
-    font-size: vars.$font-size-large;
-    font-weight: 600;
-    color: vars.$text-color-primary;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $text-primary;
     margin: 0;
+    line-height: 1.3;
   }
 
-  &__type-badge {
-    position: absolute;
-    top: vars.$spacing-small;
-    right: vars.$spacing-small;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  &__price {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $accent;
     white-space: nowrap;
-    display: inline-block;
-    z-index: 1;
-    line-height: 1.4;
-
-    &--incoming {
-      background: vars.$status-blue-bg;
-      color: vars.$status-blue-text;
-      border: 1px solid vars.$status-blue-border;
-    }
-
-    &--outgoing {
-      background: vars.$status-purple-bg;
-      color: vars.$status-purple-text;
-      border: 1px solid vars.$status-purple-border;
-    }
   }
 
-  .reservation-card__status {
-    max-width: min-content;
-  }
-
-  &__studio-name {
-    font-size: vars.$font-size-medium;
-    color: vars.$white-opacity-70;
+  &__subtitle {
+    font-size: 0.8125rem;
+    color: $text-tertiary;
     margin: 0;
-    font-weight: 400;
+    line-height: 1.3;
+    text-align: start;
+    width: 100%;
   }
 
-  &__address {
-    font-size: vars.$font-size-small;
-    color: vars.$white-opacity-50;
-    margin: 0;
-    font-weight: 400;
-  }
-
-  &__status-row {
+  &__summary-meta {
     display: flex;
-    margin: vars.$spacing-small 0;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
   }
 
-  &__status {
-    padding: vars.$spacing-xs vars.$spacing-small;
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-small;
-    font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
-    display: inline-block;
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
 
-    &.status-pending {
-      background: vars.$warning-opacity-20;
-      color: vars.$color-warning-light;
-    }
+  &__meta-icon {
+    font-size: 0.875rem !important;
+    color: $text-tertiary;
+  }
 
-    &.status-confirmed {
-      background: vars.$status-green-bg;
-      color: vars.$status-green-text;
-    }
+  // ========================================
+  // Expanded View
+  // ========================================
+  &__expanded {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
 
-    &.status-cancelled,
-    &.status-rejected {
-      background: vars.$status-red-bg;
-      color: vars.$status-red-text;
-      border: 1px solid vars.$status-red-border;
+    &--open {
+      grid-template-rows: 1fr;
     }
+  }
 
-    &.status-expired {
-      background: vars.$status-red-bg;
-      color: vars.$status-red-text;
-    }
+  &__expanded-inner {
+    overflow: hidden;
   }
 
   &__details {
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid rgba($border-default, 0.5);
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
-    // width: 100%;
-    // max-width: 100%;
+    gap: 0;
   }
 
   &__detail-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: vars.$font-size-medium;
-    gap: vars.$spacing-small;
-    min-width: 0; // allow contents to shrink within the row
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba($border-default, 0.5);
+    font-size: 0.875rem;
 
-    &--comment {
-      align-items: flex-start;
+    &--notes {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
     }
   }
 
   &__label {
-    color: vars.$white-opacity-60;
+    color: $text-tertiary;
     flex-shrink: 0;
-    white-space: nowrap;
   }
 
   &__value {
-    color: vars.$text-color-primary;
+    color: $text-secondary;
     font-weight: 500;
     text-align: right;
-    min-width: 0;
-    overflow: hidden;
 
-    &.reservation-card__price {
-      color: vars.$color-brand;
-      font-weight: 600;
-      font-size: vars.$font-size-large;
+    &--with-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    &.reservation-card__comment {
-      white-space: pre-wrap;
-      line-height: 1.4;
-      display: block;
-      width: 100%;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      word-break: break-word;
+    &--mono {
+      font-family: 'Roboto Mono', monospace;
     }
   }
 
-  // Comment line handling
-  &:not(.reservation-card--item-card) {
-    .reservation-card__comment {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-height: 1.4em; // single line
-      max-width: 100%;
-    }
+  &__detail-icon {
+    font-size: 0.875rem !important;
+    color: $text-tertiary;
   }
 
-  &.reservation-card--item-card {
-    .reservation-card__comment {
-      white-space: pre-wrap;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: calc(1.4em * 3); // reserve three lines
-      max-width: 100%;
-      word-break: break-word;
-    }
-  }
-
-  &__actions {
-    display: flex;
-    gap: vars.$spacing-small;
-    margin-top: vars.$spacing-small;
-  }
-
-  &__view-button {
-    padding: vars.$spacing-small vars.$spacing-medium;
-    background: vars.$color-brand;
-    color: vars.$text-color-primary;
-    border: none;
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-medium;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: color.adjust(vars.$color-brand, $lightness: -10%);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-
-  &__cancel-button {
-    padding: vars.$spacing-small vars.$spacing-medium;
-    background: vars.$status-red-bg;
-    color: vars.$status-red-text;
-    border: 1px solid vars.$status-red-border;
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-medium;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  &__notes {
+    background: rgba($surface, 0.5);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    color: $text-secondary;
+    line-height: 1.5;
+    margin: 0;
     width: 100%;
+  }
 
-    &:hover:not(:disabled) {
-      background: vars.$error-opacity-30;
-      border-color: vars.$status-red-text;
-      transform: translateY(-1px);
+  // Status Badge
+  &__status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+
+    &.status--confirmed {
+      background: $status-confirmed-bg;
+      color: $status-confirmed;
     }
 
-    &:active:not(:disabled) {
-      transform: translateY(0);
+    &.status--pending {
+      background: $status-pending-bg;
+      color: $status-pending;
     }
+
+    &.status--cancelled {
+      background: $status-cancelled-bg;
+      color: $status-cancelled;
+    }
+
+    &.status--default {
+      background: $status-default-bg;
+      color: $status-default;
+    }
+  }
+
+  // ========================================
+  // Add-ons Section
+  // ========================================
+  &__addons {
+    padding: 0.75rem 0;
+    margin-top: 0.5rem;
+  }
+
+  &__addons-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-tertiary;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  &__addons-icon {
+    font-size: 0.875rem !important;
+  }
+
+  &__addons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__addon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba($surface, 0.3);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba($border-default, 0.5);
+  }
+
+  &__addon-name {
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
+
+  &__addon-price {
+    font-size: 0.75rem;
+    font-family: 'Roboto Mono', monospace;
+    color: $accent;
+  }
+
+  &__addon-count {
+    font-size: 0.75rem;
+    color: $text-secondary;
+    background: rgba($surface, 0.3);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba($border-default, 0.5);
+  }
+
+  // ========================================
+  // Action Buttons
+  // ========================================
+  &__actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid $border-default;
+  }
+
+  &__action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid $border-default;
+    background: rgba($surface, 0.5);
+    color: $text-tertiary;
+    font-size: 0.625rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
     &:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    &--cancel {
+      &:hover:not(:disabled) {
+        background: rgba($status-cancelled, 0.1);
+        color: $status-cancelled;
+        border-color: rgba($status-cancelled, 0.3);
+      }
+    }
+
+    &--update {
+      &:hover:not(:disabled) {
+        background: $border-hover;
+        color: $text-primary;
+      }
+    }
+
+    &--confirm {
+      background: $accent;
+      color: #000;
+      border-color: darken($accent, 10%);
+      box-shadow: 0 0 15px rgba($accent, 0.2);
+
+      &:hover:not(:disabled) {
+        background: darken($accent, 5%);
+      }
+    }
+
+    &--secondary {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      background: rgba($surface, 0.5);
+
+      &:hover:not(:disabled) {
+        background: $border-hover;
+        color: $text-primary;
+      }
     }
   }
 
+  &__action-icon {
+    font-size: 1.125rem !important;
+  }
+
+  &__cancel-confirm-wrapper {
+    grid-column: 1 / -1;
+  }
+
+  // ========================================
+  // Cancel Confirmation (existing styles)
+  // ========================================
   &__cancel-confirm {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-medium;
-    background: vars.$black-opacity-30;
-    border-radius: vars.$border-radius-small;
-    border: 1px solid vars.$white-opacity-10;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   &__cancel-message {
     margin: 0;
-    color: vars.$text-color-primary;
-    font-size: vars.$font-size-medium;
+    color: $text-primary;
+    font-size: 0.875rem;
     text-align: center;
   }
 
   &__cancel-buttons {
     display: flex;
-    gap: vars.$spacing-small;
+    gap: 0.5rem;
     justify-content: center;
   }
 
   &__cancel-confirm-button {
-    padding: vars.$spacing-xs vars.$spacing-medium;
-    background: vars.$error-opacity-30;
-    color: vars.$status-red-text;
-    border: 1px solid vars.$error-opacity-50;
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-small;
+    padding: 0.5rem 1rem;
+    background: rgba($status-cancelled, 0.3);
+    color: $status-cancelled;
+    border: 1px solid rgba($status-cancelled, 0.5);
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: vars.$error-opacity-40;
-      border-color: vars.$status-red-text;
+      background: rgba($status-cancelled, 0.4);
+      border-color: $status-cancelled;
     }
 
     &:disabled {
@@ -340,19 +466,19 @@
   }
 
   &__cancel-cancel-button {
-    padding: vars.$spacing-xs vars.$spacing-medium;
-    background: vars.$white-opacity-10;
-    color: vars.$text-color-primary;
-    border: 1px solid vars.$white-opacity-20;
-    border-radius: vars.$border-radius-small;
-    font-size: vars.$font-size-small;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: $text-primary;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: vars.$white-opacity-15;
-      border-color: vars.$white-opacity-30;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
     &:disabled {
@@ -361,37 +487,43 @@
     }
   }
 
-  // Item card variant - not clickable
-  &--item-card {
-    cursor: default;
-
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.1);
-      transform: none;
-      box-shadow: none;
+  // ========================================
+  // Responsive
+  // ========================================
+  @media (max-width: 480px) {
+    &__summary {
+      padding: 1rem;
     }
 
-    &:focus {
-      outline: none;
+    &__status-indicator {
+      width: 2rem;
+      height: 2rem;
     }
-  }
 
-  @media (max-width: 768px) {
-    padding: vars.$spacing-medium;
+    &__status-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+    }
 
     &__item-name {
-      font-size: vars.$font-size-medium;
+      font-size: 0.9375rem;
     }
 
-    &__type-badge {
-      top: calc(vars.$spacing-small * 0.75);
-      right: calc(vars.$spacing-small * 0.75);
-      font-size: 9px;
-      padding: 2px 5px;
+    &__price {
+      font-size: 0.9375rem;
     }
 
-    &__detail-row {
-      font-size: vars.$font-size-sm-md;
+    &__details {
+      padding: 0 1rem 1rem;
+    }
+
+    &__actions {
+      padding: 0.75rem 1rem;
+      gap: 0.5rem;
+    }
+
+    &__action-btn {
+      padding: 0.625rem;
     }
   }
 }
@@ -399,7 +531,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
