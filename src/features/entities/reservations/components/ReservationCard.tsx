@@ -31,7 +31,6 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   reservation,
   variant = 'list',
   onCancel,
-  onUpdate,
   onConfirm,
   userStudios = [],
   isExpanded: isExpandedProp,
@@ -150,9 +149,9 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
   // Get studio name based on current language
   const studioName = reservation.studioName
-    ? (i18n.language === 'he' ? reservation.studioName.he : reservation.studioName.en) || 
-      reservation.studioName.en || 
-      reservation.studioName.he || 
+    ? (i18n.language === 'he' ? reservation.studioName.he : reservation.studioName.en) ||
+      reservation.studioName.en ||
+      reservation.studioName.he ||
       null
     : null;
 
@@ -180,7 +179,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             <h3 className="reservation-card__item-name">{itemName}</h3>
             <span className="reservation-card__price">₪{reservation.totalPrice || 0}</span>
           </div>
-          
+
           {(studioName || reservation.address) && (
             <p className="reservation-card__subtitle">
               {t('reservationAt', 'הזמנה ב-')}
