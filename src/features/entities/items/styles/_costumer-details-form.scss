@@ -19,11 +19,17 @@ $item-muted: rgba(113, 113, 122, 1); // zinc-500
 .customer-details {
   display: grid;
   width: 100%;
+  max-width: 100%;
   grid-template-columns: 1fr 1fr;
   gap: vars.$spacing-medium;
+  box-sizing: border-box;
+  overflow: hidden;
 
   .input-container {
     position: relative;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
 
     // Icon styling for inputs with icons
     .input-icon {
@@ -51,6 +57,7 @@ $item-muted: rgba(113, 113, 122, 1); // zinc-500
 
     .customer-input {
       width: 100%;
+      max-width: 100%;
       padding: vars.$spacing-medium;
       padding-inline-start: vars.$spacing-medium;
       border: 1px solid $item-border;
@@ -60,6 +67,7 @@ $item-muted: rgba(113, 113, 122, 1); // zinc-500
       color: vars.$text-color-primary;
       text-align: start;
       transition: all 0.2s ease;
+      box-sizing: border-box;
 
       // Inputs with icons get extra padding
       &.has-icon {
@@ -97,8 +105,10 @@ $item-muted: rgba(113, 113, 122, 1); // zinc-500
     // Textarea specific styles
     textarea.customer-input {
       min-height: 100px;
+      max-width: 100%;
       resize: none;
       padding-top: vars.$spacing-medium;
+      box-sizing: border-box;
 
       &.has-icon {
         padding-inline-start: 2.75rem;
