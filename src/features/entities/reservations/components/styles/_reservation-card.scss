@@ -210,7 +210,7 @@ $accent: #ffd166;
 
     &--notes {
       flex-direction: column;
-      align-items: stretch;
+      align-items: flex-start; // Align label to start
       gap: 0.5rem;
       overflow: hidden;
     }
