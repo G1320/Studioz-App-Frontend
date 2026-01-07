@@ -64,11 +64,11 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         {/* Common items for all users - consistent order */}
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/studios')}>
           <MusicNoteIcon className="menu-dropdown__icon" />
-          <span>{t('profile.buttons.studios', { defaultValue: 'Studios' })}</span>
+          <span>{t('profile.buttons.studios')}</span>
         </button>
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
           <EventNoteIcon className="menu-dropdown__icon" />
-          <span>{t('profile.buttons.reservations', { defaultValue: 'My Reservations' })}</span>
+          <span>{t('profile.buttons.reservations')}</span>
         </button>
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
           <AddBusinessIcon className="menu-dropdown__icon" />
@@ -78,6 +78,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         {/* Logged-in user only items */}
         {user && (
           <>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/profile')}>
+              <PersonOutlineIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.profile')}</span>
+            </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>

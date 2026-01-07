@@ -39,6 +39,7 @@ const WishlistDetailsPage = lazy(() => import('@features/entities/wishlists/page
 const MyReservationsPage = lazy(() => import('@features/entities/reservations/pages/MyReservationsPage'));
 const ReservationDetailsPage = lazy(() => import('@features/entities/reservations/pages/ReservationDetailsPage'));
 const LandingPage = lazy(() => import('@features/landing/pages/LandingPage'));
+const ProfilePage = lazy(() => import('@features/entities/profile/pages/ProfilePage'));
 
 interface AnimatedRoutesProps {
   studios: Studio[];
@@ -267,6 +268,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <DashboardPage user={user || null} studios={studios} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/profile"
+            element={
+              <AnimatedRoute>
+                <ProfilePage user={user || null} />
               </AnimatedRoute>
             }
           />

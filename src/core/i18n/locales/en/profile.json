@@ -5,10 +5,20 @@
       "title": "Actions"
     },
     "buttons": {
+      "profile": "My Profile",
       "studios": "Studios",
       "dashboard": "Dashboard",
       "reservations": "My reservations",
-      "wishlists": "Wishlists"
+      "wishlists": "Wishlists",
+      "editProfile": "Edit Profile",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "logout": "Log Out",
+      "syncSettings": "Sync Settings",
+      "connectAccount": "Connect Account",
+      "manageSubscription": "Manage Subscription",
+      "upgrade": "Upgrade"
     },
     "email": {
       "label": "Email",
@@ -36,6 +46,38 @@
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions"
     },
-    "language": "Language"
+    "language": "Language",
+    "roles": {
+      "admin": "Admin",
+      "owner": "Owner",
+      "member": "Member"
+    },
+    "sections": {
+      "personalInfo": "Personal Details",
+      "personalInfoDesc": "Manage your personal information and contact details",
+      "security": "Security & Notifications",
+      "securityDesc": "Coming soon: Manage passwords and email preferences",
+      "calendar": "Calendar",
+      "calendarDesc": "Sync your bookings with Google Calendar",
+      "subscription": "Subscription & Payments"
+    },
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "subscription": {
+      "currentPlan": "Current Plan",
+      "proPlan": "Pro Plan",
+      "freePlan": "Free Plan",
+      "month": "month",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "comingSoon": "This section will be available in the next version"
   }
 }
