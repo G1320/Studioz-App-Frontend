@@ -82,13 +82,13 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <PersonOutlineIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.profile')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
-              <FavoriteIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.wishlists')}</span>
-            </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
               <DashboardIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
+            </button>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
+              <FavoriteIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.wishlists')}</span>
             </button>
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>

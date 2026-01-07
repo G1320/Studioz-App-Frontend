@@ -7,28 +7,48 @@
   display: flex;
   align-items: center;
 
+  &__button {
+    position: relative; // Required for badge positioning
+  }
+
+  &__icon {
+    font-size: 1.25rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.375rem !important;
+      width: 1.375rem !important;
+      height: 1.375rem !important;
+    }
+  }
+
   &__badge {
+    // StudioZ style guide: Notification Badge
     position: absolute;
-    top: 0rem;
-    right: -0.125rem;
-    background: vars.$color-brand;
-    color: vars.$text-color-dark;
-    font-size: 0.625rem;
-    font-weight: 700;
-    padding: 0;
-    border-radius: 50%;
-    width: 0.8rem;
-    height: 0.8rem;
-    min-width: 0.8rem;
+    top: -0.5rem;
+    background: vars.$color-brand; // bg-primary (Brand Yellow)
+    color: black; // text-black
+    font-size: 0.6875rem; // 11px per style guide
+    font-weight: 700; // font-bold
+    padding: 0 0.25rem;
+    border-radius: 0.5rem;
+    min-width: 1.125rem;
+    height: 1.125rem;
     text-align: center;
-    line-height: 1rem;
+    line-height: 1.125rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:
-      0 1px 4px rgba(vars.$color-brand, 0.4),
-      0 0 0 1px vars.$black-opacity-30;
-    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.95); // Matches header bg
+    z-index: 1;
+    pointer-events: none;
+
+    // RTL support - badge on left side of button
+    html[dir='rtl'] & {
+      right: auto;
+      left: 0.125rem;
+    }
   }
 
   &__dropdown {
@@ -94,15 +114,5 @@
   to {
     opacity: 1;
     transform: translate(50%, 0);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
   }
 }

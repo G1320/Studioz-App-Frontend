@@ -5,7 +5,7 @@ main {
   gap: 1rem;
   max-width: clamp(100%, 80vw, 2300px);
   padding: 0.5rem 1rem;
-  padding-top: 2rem;
+  padding-top: 5.5rem; // Account for fixed header (5rem height + 0.5rem spacing)
   justify-items: center;
   box-sizing: border-box;
   width: 100%;

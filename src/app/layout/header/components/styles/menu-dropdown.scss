@@ -2,8 +2,20 @@
 @use 'utilities/mixins' as mixins;
 @use 'sass:color';
 
-// Allow dropdown to expand when submenu is open
+// StudioZ Floating Menu Overlay style guide
 .popup-dropdown.menu-dropdown {
+  // Container styling per style guide
+  width: 320px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  background: #1c1c1e !important; // Darker than zinc-900
+  border-radius: 1.5rem !important; // rounded-3xl
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05) !important; // shadow-2xl + border
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  overflow: hidden;
+
   transition:
     min-width 0.2s ease,
     max-width 0.2s ease;
@@ -16,17 +28,6 @@
 
 .menu-dropdown {
   @include mixins.menu-dropdown;
-}
-
-@keyframes submenuFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @keyframes submenuFadeIn {
