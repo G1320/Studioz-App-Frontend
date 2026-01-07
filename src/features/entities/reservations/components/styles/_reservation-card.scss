@@ -210,6 +210,33 @@ $accent: #ffd166;
       align-items: stretch;
       gap: 0.5rem;
     }
+
+    &--datetime {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+  }
+
+  &__datetime-picker {
+    width: 100%;
+
+    // Override MUI DateTimePicker styles for compact display
+    .date-picker-container {
+      width: 100%;
+    }
+  }
+
+  &__duration-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .hours-selector {
+      flex-shrink: 0;
+    }
   }
 
   &__label {

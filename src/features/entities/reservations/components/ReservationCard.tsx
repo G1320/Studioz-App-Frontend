@@ -1,9 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCancelReservationMutation, useUpdateReservationMutation } from '@shared/hooks';
+import { useCancelReservationMutation, useUpdateReservationMutation, useItem, useStudio } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
 import { Reservation, Studio } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
+import { MuiDateTimePicker } from '@shared/components';
+import { HourSelector } from '@features/entities';
+import { splitDateTime } from '@shared/utils';
 import dayjs from 'dayjs';
 import 'dayjs/locale/he';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -46,11 +49,38 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   const [internalExpanded, setInternalExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  // Fetch item and studio for availability data
+  const { data: item } = useItem(reservation.itemId);
+  const { data: studioData } = useStudio(reservation.studioId || '');
+  const studio = studioData?.currStudio;
+
   // Editable fields state
   const [editedStatus, setEditedStatus] = useState<Reservation['status']>(reservation.status);
   const [editedCustomerName, setEditedCustomerName] = useState(reservation.customerName || '');
   const [editedCustomerPhone, setEditedCustomerPhone] = useState(reservation.customerPhone || '');
   const [editedComment, setEditedComment] = useState(reservation.comment || '');
+
+  // Date/time editing state
+  const [editedDate, setEditedDate] = useState<Date | null>(() => {
+    // Parse the existing booking date and first time slot
+    const startTime = reservation.timeSlots[0];
+    return dayjs(`${reservation.bookingDate} ${startTime}`, 'DD/MM/YYYY HH:mm').toDate();
+  });
+  const [editedDuration, setEditedDuration] = useState(reservation.timeSlots.length);
+
+  // Handle date change from DateTimePicker
+  const handleDateChange = useCallback((date: Date | null) => {
+    setEditedDate(date);
+  }, []);
+
+  // Handle duration increment/decrement
+  const handleIncrementDuration = useCallback(() => {
+    setEditedDuration((prev) => Math.min(prev + 1, 12)); // Max 12 hours
+  }, []);
+
+  const handleDecrementDuration = useCallback(() => {
+    setEditedDuration((prev) => Math.max(prev - 1, 1)); // Min 1 hour
+  }, []);
 
   // Use prop if provided, otherwise use internal state
   const isExpanded = isExpandedProp !== undefined ? isExpandedProp : internalExpanded;
@@ -131,6 +161,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
     setEditedCustomerName(reservation.customerName || '');
     setEditedCustomerPhone(reservation.customerPhone || '');
     setEditedComment(reservation.comment || '');
+    // Reset date/time to current reservation values
+    const startTime = reservation.timeSlots[0];
+    setEditedDate(dayjs(`${reservation.bookingDate} ${startTime}`, 'DD/MM/YYYY HH:mm').toDate());
+    setEditedDuration(reservation.timeSlots.length);
     setIsEditing(true);
   };
 
@@ -157,6 +191,26 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
         updates.comment = editedComment;
       }
 
+      // Check if date/time changed
+      if (editedDate) {
+        const { bookingDate, startTime } = splitDateTime(editedDate.toString());
+        const originalStartTime = reservation.timeSlots[0];
+        const originalDate = reservation.bookingDate;
+
+        if (bookingDate !== originalDate || startTime !== originalStartTime || editedDuration !== reservation.timeSlots.length) {
+          // Update bookingDate
+          updates.bookingDate = bookingDate;
+
+          // Generate new time slots based on start time and duration
+          const startDateTime = dayjs(editedDate);
+          const newTimeSlots: string[] = [];
+          for (let i = 0; i < editedDuration; i++) {
+            newTimeSlots.push(startDateTime.add(i, 'hour').format('HH:mm'));
+          }
+          updates.timeSlots = newTimeSlots;
+        }
+      }
+
       if (Object.keys(updates).length > 0) {
         await updateMutation.mutateAsync({
           reservationId: reservation._id,
@@ -170,13 +224,27 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   };
 
   const hasChanges = useMemo(() => {
-    return (
+    // Check basic field changes
+    const basicChanges =
       editedStatus !== reservation.status ||
       editedCustomerName !== (reservation.customerName || '') ||
       editedCustomerPhone !== (reservation.customerPhone || '') ||
-      editedComment !== (reservation.comment || '')
-    );
-  }, [editedStatus, editedCustomerName, editedCustomerPhone, editedComment, reservation]);
+      editedComment !== (reservation.comment || '');
+
+    // Check date/time changes
+    let dateTimeChanges = false;
+    if (editedDate) {
+      const { bookingDate, startTime } = splitDateTime(editedDate.toString());
+      const originalStartTime = reservation.timeSlots[0];
+      const originalDate = reservation.bookingDate;
+      dateTimeChanges =
+        bookingDate !== originalDate ||
+        startTime !== originalStartTime ||
+        editedDuration !== reservation.timeSlots.length;
+    }
+
+    return basicChanges || dateTimeChanges;
+  }, [editedStatus, editedCustomerName, editedCustomerPhone, editedComment, editedDate, editedDuration, reservation]);
 
   // Format data
   const startTime = reservation.timeSlots[0];
@@ -283,11 +351,35 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
               )}
             </div>
 
-            {/* Duration */}
-            <div className="reservation-card__detail-row">
-              <span className="reservation-card__label">{t('duration')}:</span>
-              <span className="reservation-card__value">{duration}</span>
-            </div>
+            {/* Date & Time (editable) */}
+            {isEditing && (
+              <div className="reservation-card__detail-row reservation-card__detail-row--datetime" onClick={(e) => e.stopPropagation()}>
+                <div className="reservation-card__datetime-picker">
+                  <MuiDateTimePicker
+                    value={editedDate}
+                    onChange={handleDateChange}
+                    itemAvailability={item?.availability || []}
+                    studioAvailability={studio?.studioAvailability}
+                  />
+                </div>
+                <div className="reservation-card__duration-picker">
+                  <span className="reservation-card__label">{t('duration')}:</span>
+                  <HourSelector
+                    value={editedDuration}
+                    onIncrement={handleIncrementDuration}
+                    onDecrement={handleDecrementDuration}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Duration (display only when not editing) */}
+            {!isEditing && (
+              <div className="reservation-card__detail-row">
+                <span className="reservation-card__label">{t('duration')}:</span>
+                <span className="reservation-card__value">{duration}</span>
+              </div>
+            )}
 
             {/* Client Name */}
             <div className="reservation-card__detail-row">
