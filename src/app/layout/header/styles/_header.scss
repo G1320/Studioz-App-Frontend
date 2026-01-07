@@ -46,9 +46,9 @@ header.app-header {
   top: 0;
   left: 0;
   right: 0;
-  height: 5rem; // h-20 (80px) per style guide
-  min-height: 5rem;
-  max-height: 5rem;
+  height: 3.5rem; // Smaller on mobile
+  min-height: 3.5rem;
+  max-height: 3.5rem;
   display: grid;
   grid-template-columns: max-content repeat(5, 1fr) auto;
   grid-template-rows: 1fr;
@@ -57,7 +57,7 @@ header.app-header {
   box-sizing: border-box; // Include padding in width calculation
 
   z-index: 1400; // Above MUI Modal (1300) to keep header visible
-  padding: 0 1rem;
+  padding: 0 0.75rem;
 
   // StudioZ style guide: bg-black/95 backdrop-blur-md border-b border-zinc-800/50
   background: rgba(0, 0, 0, 0.95);
@@ -69,6 +69,14 @@ header.app-header {
   place-items: center;
   contain: layout style;
   will-change: transform;
+
+  // Larger header on desktop
+  @media screen and (min-width: 768px) {
+    height: 5rem;
+    min-height: 5rem;
+    max-height: 5rem;
+    padding: 0 1.5rem;
+  }
 
   @supports (-webkit-overflow-scrolling: touch) {
     /* iOS-specific styles */
@@ -115,6 +123,11 @@ header.app-header {
       object-fit: contain;
       display: block;
       line-height: 0;
+
+      @media screen and (max-width: 768px) {
+        height: 2.25rem;
+        width: 2.25rem;
+      }
     }
   }
 

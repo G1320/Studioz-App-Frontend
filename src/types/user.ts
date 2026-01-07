@@ -14,6 +14,16 @@ export interface PayPalAccountStatus {
   oauth_integrations?: PayPalOAuthIntegration[];
 }
 
+export interface GoogleCalendarIntegration {
+  connected: boolean;
+  accessToken?: string;
+  refreshToken?: string;
+  tokenExpiry?: Date;
+  calendarId?: string;
+  lastSyncAt?: Date;
+  syncToken?: string;
+}
+
 export default interface User {
   _id: string;
   username: string;
@@ -38,6 +48,11 @@ export default interface User {
   paypalAccountStatus?: PayPalAccountStatus;
   subscriptionStatus?: string;
   subscriptionId?: string;
+  sumitCompanyId?: number;
+  sumitApiKey?: string;
+  sumitApiPublicKey?: string;
+  role?: 'user' | 'vendor' | 'admin';
+  googleCalendar?: GoogleCalendarIntegration;
 
   __v?: number;
 }

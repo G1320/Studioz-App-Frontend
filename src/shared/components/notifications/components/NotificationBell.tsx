@@ -1,5 +1,5 @@
 import React from 'react';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { NotificationList } from './NotificationList';
 import { PopupDropdown } from '@shared/components/drop-downs';
@@ -23,7 +23,7 @@ export const NotificationBell: React.FC = () => {
             className="notification-bell__button header-icon-button"
             aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
           >
-            <NotificationsIcon className="notification-bell__icon" />
+            <NotificationsNoneIcon className="notification-bell__icon" />
             {unreadCount > 0 && (
               <span className="notification-bell__badge" aria-label={`${unreadCount} unread notifications`}>
                 {unreadCount > 99 ? '99+' : unreadCount}
@@ -31,13 +31,13 @@ export const NotificationBell: React.FC = () => {
             )}
           </button>
         }
-      className="notification-bell"
-      anchor="bottom-right"
-      minWidth="320px"
-      maxWidth="420px"
-    >
-      <NotificationList />
-    </PopupDropdown>
+        className="notification-bell"
+        anchor="bottom-right"
+        minWidth="320px"
+        maxWidth="420px"
+      >
+        <NotificationList />
+      </PopupDropdown>
     </>
   );
 };
