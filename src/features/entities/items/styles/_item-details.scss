@@ -3,7 +3,6 @@
 // Animated content wrapper for slide transitions
 .item-content-animated {
   display: flex;
-  flex-direction: column;
   gap: 0.75rem;
   width: 100%;
 }
@@ -144,9 +143,8 @@
   }
 
   .item-content-animated {
-    div {
-      display: flex;
-    }
+    // Removed overly broad 'div { display: flex }' - was breaking reservation card layout
+    flex-direction: column;
   }
 
   // Date picker row styling is now in _costumer-details-form.scss

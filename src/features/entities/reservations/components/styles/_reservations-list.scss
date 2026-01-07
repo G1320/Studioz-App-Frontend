@@ -4,9 +4,8 @@
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 0.25rem;
   box-sizing: border-box;
-  overflow-x: hidden;
 
   &--loading {
     min-height: 400px;
@@ -83,6 +82,6 @@
 
 @media (max-width: 768px) {
   .reservations-list {
-    padding: 0;
+    padding: 0 0.25rem;
   }
 }

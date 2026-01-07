@@ -83,7 +83,8 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   }, []);
 
   // Use prop if provided, otherwise use internal state
-  const isExpanded = isExpandedProp !== undefined ? isExpandedProp : internalExpanded;
+  // For itemCard variant, always expanded
+  const isExpanded = variant === 'itemCard' ? true : isExpandedProp !== undefined ? isExpandedProp : internalExpanded;
 
   const handleToggleExpand = () => {
     if (onToggleExpand) {
@@ -197,7 +198,11 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
         const originalStartTime = reservation.timeSlots[0];
         const originalDate = reservation.bookingDate;
 
-        if (bookingDate !== originalDate || startTime !== originalStartTime || editedDuration !== reservation.timeSlots.length) {
+        if (
+          bookingDate !== originalDate ||
+          startTime !== originalStartTime ||
+          editedDuration !== reservation.timeSlots.length
+        ) {
           // Update bookingDate
           updates.bookingDate = bookingDate;
 
@@ -353,7 +358,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
             {/* Date & Time (editable) */}
             {isEditing && (
-              <div className="reservation-card__detail-row reservation-card__detail-row--datetime" onClick={(e) => e.stopPropagation()}>
+              <div
+                className="reservation-card__detail-row reservation-card__detail-row--datetime"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="reservation-card__datetime-picker">
                   <MuiDateTimePicker
                     value={editedDate}
