@@ -36,10 +36,10 @@
     // View Toggle
     .view-toggle {
       display: flex;
-      background: vars.$zinc-900;
+      background: transparent;
       padding: 0.25rem;
       border-radius: 0.5rem;
-      border: 1px solid vars.$zinc-800;
+      border: none;
       width: fit-content;
 
       &__btn {

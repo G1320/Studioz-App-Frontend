@@ -19,6 +19,7 @@
   "hours": "hours",
   "total": "Total",
   "studio": "Studio",
+  "reservationAt": "Reservation at ",
   "visitDate": "Visit Date",
   "reservationDate": "Booking Date",
   "comment": "Comment",

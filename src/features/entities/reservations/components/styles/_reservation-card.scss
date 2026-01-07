@@ -131,6 +131,10 @@ $accent: #ffd166;
     color: $text-primary;
     margin: 0;
     line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   &__price {

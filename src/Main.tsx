@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -64,7 +64,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           </LocationPermissionProvider>
         </CookieConsentProvider>
       </Router>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </PersistQueryClientProvider>
   </React.StrictMode>
 );

@@ -329,7 +329,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
           {(studioName || reservation.address) && (
             <p className="reservation-card__subtitle">
-              {t('reservationAt', 'הזמנה ב-')}
+              {t('reservationAt')}
               {studioName || reservation.address}
             </p>
           )}
