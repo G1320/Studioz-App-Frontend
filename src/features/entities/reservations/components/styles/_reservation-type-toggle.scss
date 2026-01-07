@@ -23,12 +23,15 @@ $toggle-hover: rgba(161, 161, 170, 1); // zinc-400
   border-radius: vars.$border-radius-2xl;
   padding: vars.$spacing-xs;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 
   // Inner group for incoming/outgoing buttons
   &__type-group {
     display: flex;
     flex: 1;
+    min-width: 0;
     gap: vars.$spacing-xs;
     padding: vars.$spacing-xs;
     background: rgba(0, 0, 0, 0.3);
@@ -37,6 +40,7 @@ $toggle-hover: rgba(161, 161, 170, 1); // zinc-400
 
   &__button {
     flex: 1;
+    min-width: 0;
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     background: transparent;
     color: $toggle-inactive;
@@ -47,6 +51,8 @@ $toggle-hover: rgba(161, 161, 170, 1); // zinc-400
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:hover:not(.active) {
       color: $toggle-hover;
@@ -86,9 +92,11 @@ $toggle-hover: rgba(161, 161, 170, 1); // zinc-400
 
   @media (max-width: 640px) {
     flex-direction: column;
+    gap: vars.$spacing-xs;
 
     &__type-group {
       width: 100%;
+      max-width: 100%;
     }
 
     &__button {
@@ -97,6 +105,8 @@ $toggle-hover: rgba(161, 161, 170, 1); // zinc-400
 
       &--all {
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
     }
   }

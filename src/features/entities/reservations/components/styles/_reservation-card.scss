@@ -231,6 +231,62 @@ $accent: #ffd166;
     &--mono {
       font-family: 'Roboto Mono', monospace;
     }
+
+    &--empty {
+      color: $text-tertiary;
+      opacity: 0.5;
+    }
+  }
+
+  // ========================================
+  // Inline Edit Inputs
+  // ========================================
+  &__input {
+    flex: 1;
+    min-width: 0;
+    background: rgba($surface, 0.8);
+    border: 1px solid $border-default;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: $text-primary;
+    font-family: inherit;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $accent;
+      box-shadow: 0 0 0 2px rgba($accent, 0.15);
+    }
+
+    &::placeholder {
+      color: $text-tertiary;
+    }
+
+    &--select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 0.75rem center;
+      padding-left: 2rem;
+
+      option {
+        background: $card-bg;
+        color: $text-primary;
+      }
+    }
+
+    &--mono {
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    &--textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 4rem;
+      line-height: 1.5;
+    }
   }
 
   &__detail-icon {
@@ -401,6 +457,35 @@ $accent: #ffd166;
       grid-column: 1 / -1;
       flex-direction: row;
       background: rgba($surface, 0.5);
+
+      &:hover:not(:disabled) {
+        background: $border-hover;
+        color: $text-primary;
+      }
+    }
+
+    &--save {
+      background: $accent;
+      color: #000;
+      border-color: darken($accent, 10%);
+      box-shadow: 0 0 15px rgba($accent, 0.2);
+      flex-direction: row;
+      grid-column: 1 / -1;
+
+      &:hover:not(:disabled) {
+        background: darken($accent, 5%);
+      }
+
+      &:disabled {
+        background: rgba($accent, 0.3);
+        color: rgba(0, 0, 0, 0.5);
+        box-shadow: none;
+      }
+    }
+
+    &--cancel-edit {
+      flex-direction: row;
+      grid-column: 1 / -1;
 
       &:hover:not(:disabled) {
         background: $border-hover;

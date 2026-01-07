@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCancelReservationMutation } from '@shared/hooks';
+import { useCancelReservationMutation, useUpdateReservationMutation } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
-import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { Reservation, Studio } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
 import dayjs from 'dayjs';
@@ -12,6 +11,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import CloseIcon from '@mui/icons-material/Close';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -39,10 +40,17 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 }) => {
   const { t, i18n } = useTranslation('reservations');
   const { user } = useUserContext();
-  const { openReservationModal } = useReservationModal();
   const cancelMutation = useCancelReservationMutation();
+  const updateMutation = useUpdateReservationMutation();
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [internalExpanded, setInternalExpanded] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Editable fields state
+  const [editedStatus, setEditedStatus] = useState<Reservation['status']>(reservation.status);
+  const [editedCustomerName, setEditedCustomerName] = useState(reservation.customerName || '');
+  const [editedCustomerPhone, setEditedCustomerPhone] = useState(reservation.customerPhone || '');
+  const [editedComment, setEditedComment] = useState(reservation.comment || '');
 
   // Use prop if provided, otherwise use internal state
   const isExpanded = isExpandedProp !== undefined ? isExpandedProp : internalExpanded;
@@ -117,10 +125,58 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
     }
   };
 
-  const handleOpenModal = (e: React.MouseEvent) => {
+  const handleStartEditing = (e: React.MouseEvent) => {
     e.stopPropagation();
-    openReservationModal(reservation);
+    setEditedStatus(reservation.status);
+    setEditedCustomerName(reservation.customerName || '');
+    setEditedCustomerPhone(reservation.customerPhone || '');
+    setEditedComment(reservation.comment || '');
+    setIsEditing(true);
   };
+
+  const handleCancelEditing = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(false);
+  };
+
+  const handleSaveChanges = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const updates: Partial<Reservation> = {};
+
+      if (editedStatus !== reservation.status) {
+        updates.status = editedStatus;
+      }
+      if (editedCustomerName !== (reservation.customerName || '')) {
+        updates.customerName = editedCustomerName;
+      }
+      if (editedCustomerPhone !== (reservation.customerPhone || '')) {
+        updates.customerPhone = editedCustomerPhone;
+      }
+      if (editedComment !== (reservation.comment || '')) {
+        updates.comment = editedComment;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await updateMutation.mutateAsync({
+          reservationId: reservation._id,
+          updates
+        });
+      }
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating reservation:', error);
+    }
+  };
+
+  const hasChanges = useMemo(() => {
+    return (
+      editedStatus !== reservation.status ||
+      editedCustomerName !== (reservation.customerName || '') ||
+      editedCustomerPhone !== (reservation.customerPhone || '') ||
+      editedComment !== (reservation.comment || '')
+    );
+  }, [editedStatus, editedCustomerName, editedCustomerPhone, editedComment, reservation]);
 
   // Format data
   const startTime = reservation.timeSlots[0];
@@ -208,9 +264,23 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             {/* Status Row */}
             <div className="reservation-card__detail-row">
               <span className="reservation-card__label">{t('status')}:</span>
-              <span className={`reservation-card__status-badge ${getStatusClass()}`}>
-                {t(`status.${reservation.status}`)}
-              </span>
+              {isEditing ? (
+                <select
+                  className="reservation-card__input reservation-card__input--select"
+                  value={editedStatus}
+                  onChange={(e) => setEditedStatus(e.target.value as Reservation['status'])}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <option value="pending">{t('status.pending')}</option>
+                  <option value="confirmed">{t('status.confirmed')}</option>
+                  <option value="cancelled">{t('status.cancelled')}</option>
+                  <option value="rejected">{t('status.rejected')}</option>
+                </select>
+              ) : (
+                <span className={`reservation-card__status-badge ${getStatusClass()}`}>
+                  {t(`status.${reservation.status}`)}
+                </span>
+              )}
             </div>
 
             {/* Duration */}
@@ -220,34 +290,68 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             </div>
 
             {/* Client Name */}
-            {reservation.customerName && (
-              <div className="reservation-card__detail-row">
-                <span className="reservation-card__label">{t('name')}:</span>
+            <div className="reservation-card__detail-row">
+              <span className="reservation-card__label">{t('name')}:</span>
+              {isEditing ? (
+                <input
+                  type="text"
+                  className="reservation-card__input"
+                  value={editedCustomerName}
+                  onChange={(e) => setEditedCustomerName(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                  placeholder={t('enterName', 'הזן שם')}
+                />
+              ) : reservation.customerName ? (
                 <span className="reservation-card__value reservation-card__value--with-icon">
                   {reservation.customerName}
                   <PersonIcon className="reservation-card__detail-icon" />
                 </span>
-              </div>
-            )}
+              ) : (
+                <span className="reservation-card__value reservation-card__value--empty">—</span>
+              )}
+            </div>
 
             {/* Phone */}
-            {reservation.customerPhone && (
-              <div className="reservation-card__detail-row">
-                <span className="reservation-card__label">{t('phone')}:</span>
+            <div className="reservation-card__detail-row">
+              <span className="reservation-card__label">{t('phone')}:</span>
+              {isEditing ? (
+                <input
+                  type="tel"
+                  className="reservation-card__input reservation-card__input--mono"
+                  value={editedCustomerPhone}
+                  onChange={(e) => setEditedCustomerPhone(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                  placeholder={t('enterPhone', 'הזן טלפון')}
+                  dir="ltr"
+                />
+              ) : reservation.customerPhone ? (
                 <span className="reservation-card__value reservation-card__value--with-icon reservation-card__value--mono">
                   {reservation.customerPhone}
                   <PhoneIcon className="reservation-card__detail-icon" />
                 </span>
-              </div>
-            )}
+              ) : (
+                <span className="reservation-card__value reservation-card__value--empty">—</span>
+              )}
+            </div>
 
             {/* Notes */}
-            {reservation.comment && (
-              <div className="reservation-card__detail-row reservation-card__detail-row--notes">
-                <span className="reservation-card__label">{t('comment')}:</span>
+            <div className="reservation-card__detail-row reservation-card__detail-row--notes">
+              <span className="reservation-card__label">{t('comment')}:</span>
+              {isEditing ? (
+                <textarea
+                  className="reservation-card__input reservation-card__input--textarea"
+                  value={editedComment}
+                  onChange={(e) => setEditedComment(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                  placeholder={t('enterComment', 'הזן הערה')}
+                  rows={3}
+                />
+              ) : reservation.comment ? (
                 <p className="reservation-card__notes">{reservation.comment}</p>
-              </div>
-            )}
+              ) : (
+                <span className="reservation-card__value reservation-card__value--empty">—</span>
+              )}
+            </div>
 
             {/* Add-ons indicator (if add-on IDs exist) */}
             {reservation.addOnIds && reservation.addOnIds.length > 0 && (
@@ -265,65 +369,88 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
           {/* Action Buttons */}
           <div className="reservation-card__actions">
-            {showCancelButton && !showCancelConfirm && (
-              <button
-                className="reservation-card__action-btn reservation-card__action-btn--cancel"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCancel();
-                }}
-                disabled={cancelMutation.isPending || isCancelledStatus}
-              >
-                <CancelIcon className="reservation-card__action-icon" />
-                <span>{t('cancel', 'בטל')}</span>
-              </button>
-            )}
-
-            {showCancelConfirm && (
-              <div className="reservation-card__cancel-confirm-wrapper" onClick={(e) => e.stopPropagation()}>
-                <CancelReservationConfirm
-                  onConfirm={handleCancel}
-                  onCancel={() => setShowCancelConfirm(false)}
-                  isPending={cancelMutation.isPending}
-                />
-              </div>
-            )}
-
-            {!showCancelConfirm && (
+            {isEditing ? (
               <>
                 <button
-                  className="reservation-card__action-btn reservation-card__action-btn--update"
-                  onClick={handleOpenModal}
+                  className="reservation-card__action-btn reservation-card__action-btn--save"
+                  onClick={handleSaveChanges}
+                  disabled={updateMutation.isPending || !hasChanges}
                 >
-                  <EditIcon className="reservation-card__action-icon" />
-                  <span>{t('update', 'עדכן')}</span>
+                  <SaveIcon className="reservation-card__action-icon" />
+                  <span>{updateMutation.isPending ? t('saving', 'שומר...') : t('saveChanges', 'שמור שינויים')}</span>
                 </button>
-
-                {isIncomingReservation && isPending && onConfirm && (
+                <button
+                  className="reservation-card__action-btn reservation-card__action-btn--cancel-edit"
+                  onClick={handleCancelEditing}
+                  disabled={updateMutation.isPending}
+                >
+                  <CloseIcon className="reservation-card__action-icon" />
+                  <span>{t('cancelChanges', 'בטל שינויים')}</span>
+                </button>
+              </>
+            ) : (
+              <>
+                {showCancelButton && !showCancelConfirm && (
                   <button
-                    className="reservation-card__action-btn reservation-card__action-btn--confirm"
+                    className="reservation-card__action-btn reservation-card__action-btn--cancel"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onConfirm();
+                      handleCancel();
+                    }}
+                    disabled={cancelMutation.isPending || isCancelledStatus}
+                  >
+                    <CancelIcon className="reservation-card__action-icon" />
+                    <span>{t('cancel', 'בטל')}</span>
+                  </button>
+                )}
+
+                {showCancelConfirm && (
+                  <div className="reservation-card__cancel-confirm-wrapper" onClick={(e) => e.stopPropagation()}>
+                    <CancelReservationConfirm
+                      onConfirm={handleCancel}
+                      onCancel={() => setShowCancelConfirm(false)}
+                      isPending={cancelMutation.isPending}
+                    />
+                  </div>
+                )}
+
+                {!showCancelConfirm && (
+                  <>
+                    <button
+                      className="reservation-card__action-btn reservation-card__action-btn--update"
+                      onClick={handleStartEditing}
+                    >
+                      <EditIcon className="reservation-card__action-icon" />
+                      <span>{t('update', 'עדכן')}</span>
+                    </button>
+
+                    {isIncomingReservation && isPending && onConfirm && (
+                      <button
+                        className="reservation-card__action-btn reservation-card__action-btn--confirm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onConfirm();
+                        }}
+                      >
+                        <CheckCircleIcon className="reservation-card__action-icon" />
+                        <span>{t('confirm', 'אשר')}</span>
+                      </button>
+                    )}
+                  </>
+                )}
+
+                {variant === 'itemCard' && isCancelledStatus && (
+                  <button
+                    className="reservation-card__action-btn reservation-card__action-btn--secondary"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCreateNewReservation();
                     }}
                   >
-                    <CheckCircleIcon className="reservation-card__action-icon" />
-                    <span>{t('confirm', 'אשר')}</span>
+                    {t('reservations:createNewReservation', 'Create new reservation')}
                   </button>
                 )}
               </>
-            )}
-
-            {variant === 'itemCard' && isCancelledStatus && (
-              <button
-                className="reservation-card__action-btn reservation-card__action-btn--secondary"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCreateNewReservation();
-                }}
-              >
-                {t('reservations:createNewReservation', 'Create new reservation')}
-              </button>
             )}
           </div>
         </div>
