@@ -113,12 +113,13 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   const showCancelButton = !isIncomingReservation;
   const isCancelledStatus = reservation.status === 'cancelled' || reservation.status === 'rejected';
   const isConfirmedStatus = reservation.status === 'confirmed';
+  const isExpiredStatus = reservation.status === 'expired';
 
   // Permission-based editing
   // Studio owners can always edit
-  // Customers can only edit pending reservations (not confirmed/cancelled)
+  // Customers can only edit pending reservations (not confirmed/cancelled/expired)
   const isStudioOwner = isIncomingReservation || userOwnsStudioForItem;
-  const canEditReservation = isStudioOwner || (!isConfirmedStatus && !isCancelledStatus);
+  const canEditReservation = isStudioOwner || (!isConfirmedStatus && !isCancelledStatus && !isExpiredStatus);
   const canEditStatus = isStudioOwner;
   const canEditPhone = isStudioOwner;
 
