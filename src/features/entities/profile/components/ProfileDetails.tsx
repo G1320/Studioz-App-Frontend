@@ -18,10 +18,8 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from '@mui/icons-material/Close';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ShieldIcon from '@mui/icons-material/Shield';
 
 import '../styles/_profile-page.scss';
@@ -169,7 +167,12 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   };
 
   const isRTL = i18n.language === 'he';
-  const { isConnected: isGoogleCalendarConnected, isLoading: isCalendarLoading, connect: connectCalendar, disconnect: disconnectCalendar } = useGoogleCalendar();
+  const {
+    isConnected: isGoogleCalendarConnected,
+    isLoading: isCalendarLoading,
+    connect: connectCalendar,
+    disconnect: disconnectCalendar
+  } = useGoogleCalendar();
   const hasActiveSubscription = user?.subscriptionStatus === 'ACTIVE';
 
   const handleCalendarToggle = async () => {
@@ -239,11 +242,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 <button className="profile-btn profile-btn--ghost" onClick={cancelEdit}>
                   {t('buttons.cancel', 'Cancel')}
                 </button>
-                <button
-                  className="profile-btn profile-btn--primary"
-                  onClick={handleSave}
-                  disabled={loading}
-                >
+                <button className="profile-btn profile-btn--primary" onClick={handleSave} disabled={loading}>
                   {loading ? (
                     t('buttons.saving', 'Saving...')
                   ) : (
@@ -339,7 +338,9 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   <h4>Google Calendar</h4>
                   <p>{isGoogleCalendarConnected ? t('connected', 'Connected') : t('notConnected', 'Not connected')}</p>
                 </div>
-                <div className={`profile-integration-box__status ${isGoogleCalendarConnected ? 'profile-integration-box__status--active' : ''}`} />
+                <div
+                  className={`profile-integration-box__status ${isGoogleCalendarConnected ? 'profile-integration-box__status--active' : ''}`}
+                />
               </div>
 
               <button
@@ -361,7 +362,9 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           </div>
 
           {/* Subscription */}
-          <div className={`profile-card profile-card--subscription ${hasActiveSubscription ? 'profile-card--subscription-active' : ''}`}>
+          <div
+            className={`profile-card profile-card--subscription ${hasActiveSubscription ? 'profile-card--subscription-active' : ''}`}
+          >
             {hasActiveSubscription && <div className="profile-card__glow profile-card__glow--gold" />}
 
             <SectionTitle icon={CreditCardIcon} title={t('sections.subscription', 'Subscription')} />
@@ -369,9 +372,13 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             <div className="profile-subscription-info">
               <div className="profile-subscription-info__header">
                 <div>
-                  <span className="profile-subscription-info__label">{t('subscription.currentPlan', 'Current Plan')}</span>
+                  <span className="profile-subscription-info__label">
+                    {t('subscription.currentPlan', 'Current Plan')}
+                  </span>
                   <h3 className="profile-subscription-info__plan">
-                    {hasActiveSubscription ? t('subscription.proPlan', 'Pro Plan') : t('subscription.freePlan', 'Free Plan')}
+                    {hasActiveSubscription
+                      ? t('subscription.proPlan', 'Pro Plan')
+                      : t('subscription.freePlan', 'Free Plan')}
                   </h3>
                 </div>
                 {hasActiveSubscription && (
@@ -385,8 +392,12 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
               <div className="profile-subscription-info__details">
                 <div className="profile-subscription-info__row">
                   <span>{t('subscription.status', 'Status')}</span>
-                  <span className={`profile-subscription-info__status ${hasActiveSubscription ? 'profile-subscription-info__status--active' : ''}`}>
-                    {hasActiveSubscription ? t('subscription.active', 'Active') : t('subscription.inactive', 'Inactive')}
+                  <span
+                    className={`profile-subscription-info__status ${hasActiveSubscription ? 'profile-subscription-info__status--active' : ''}`}
+                  >
+                    {hasActiveSubscription
+                      ? t('subscription.active', 'Active')
+                      : t('subscription.inactive', 'Inactive')}
                   </span>
                 </div>
               </div>
@@ -395,18 +406,16 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 className="profile-btn profile-btn--primary profile-btn--full"
                 onClick={() => handleNavigate(hasActiveSubscription ? '/my-subscription' : '/subscription')}
               >
-                {hasActiveSubscription ? t('buttons.manageSubscription', 'Manage Subscription') : t('buttons.upgrade', 'Upgrade')}
+                {hasActiveSubscription
+                  ? t('buttons.manageSubscription', 'Manage Subscription')
+                  : t('buttons.upgrade', 'Upgrade')}
                 <ChevronLeftIcon className="profile-btn__chevron" />
               </button>
             </div>
           </div>
 
           {/* Logout */}
-          {user && (
-            <LogoutButton className="profile-btn profile-btn--logout profile-btn--full">
-              <LogoutIcon /> {t('buttons.logout', 'Log Out')}
-            </LogoutButton>
-          )}
+          {user && <LogoutButton className="profile-btn profile-btn--logout profile-btn--full" />}
         </div>
       </div>
     </div>

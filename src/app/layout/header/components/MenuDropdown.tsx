@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguageNavigate, useLanguageSwitcher } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
-import { LogoutButton, GoogleCalendarConnectButton } from '@features/auth';
+import { LogoutButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -90,8 +90,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <DashboardIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.dashboard')}</span>
             </button>
-            {/* Show Google Calendar connect for all logged-in users (useful for studio owners) */}
-            <GoogleCalendarConnectButton variant="menu-item" />
             {user?.subscriptionStatus === 'ACTIVE' && (
               <>
                 <button className="menu-dropdown__item" onClick={() => handleNavigate('/calendar')}>
