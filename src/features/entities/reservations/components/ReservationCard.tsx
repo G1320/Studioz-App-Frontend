@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCancelReservationMutation, useUpdateReservationMutation, useItem, useStudio } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
@@ -112,6 +112,22 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
   const showCancelButton = !isIncomingReservation;
   const isCancelledStatus = reservation.status === 'cancelled' || reservation.status === 'rejected';
+  const isConfirmedStatus = reservation.status === 'confirmed';
+
+  // Permission-based editing
+  // Studio owners can always edit
+  // Customers can only edit pending reservations (not confirmed/cancelled)
+  const isStudioOwner = isIncomingReservation || userOwnsStudioForItem;
+  const canEditReservation = isStudioOwner || (!isConfirmedStatus && !isCancelledStatus);
+  const canEditStatus = isStudioOwner;
+  const canEditPhone = isStudioOwner;
+
+  // Exit edit mode if customer can no longer edit (e.g., reservation was confirmed)
+  useEffect(() => {
+    if (isEditing && !canEditReservation) {
+      setIsEditing(false);
+    }
+  }, [isEditing, canEditReservation]);
 
   if (!reservation || !reservation.timeSlots || reservation.timeSlots.length === 0 || !reservation.bookingDate) {
     return null;
@@ -337,7 +353,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             {/* Status Row */}
             <div className="reservation-card__detail-row">
               <span className="reservation-card__label">{t('status')}:</span>
-              {isEditing ? (
+              {isEditing && canEditStatus ? (
                 <select
                   className="reservation-card__input reservation-card__input--select"
                   value={editedStatus}
@@ -414,7 +430,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
             {/* Phone */}
             <div className="reservation-card__detail-row">
               <span className="reservation-card__label">{t('phone')}:</span>
-              {isEditing ? (
+              {isEditing && canEditPhone ? (
                 <input
                   type="tel"
                   className="reservation-card__input reservation-card__input--mono"
@@ -516,13 +532,15 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
 
                 {!showCancelConfirm && (
                   <>
-                    <button
-                      className="reservation-card__action-btn reservation-card__action-btn--update"
-                      onClick={handleStartEditing}
-                    >
-                      <EditIcon className="reservation-card__action-icon" />
-                      <span>{t('update', 'עדכן')}</span>
-                    </button>
+                    {canEditReservation && (
+                      <button
+                        className="reservation-card__action-btn reservation-card__action-btn--update"
+                        onClick={handleStartEditing}
+                      >
+                        <EditIcon className="reservation-card__action-icon" />
+                        <span>{t('update', 'עדכן')}</span>
+                      </button>
+                    )}
 
                     {isIncomingReservation && isPending && onConfirm && (
                       <button
