@@ -18,18 +18,18 @@
   &:has(.menu-dropdown__submenu) {
     min-width: 280px !important;
     max-width: 320px !important;
-  }
-}
+      }
+    }
 
 .menu-dropdown {
   @include mixins.menu-dropdown;
-}
+    }
 
 @keyframes submenuFadeIn {
   from {
     opacity: 0;
     transform: translateY(-4px);
-  }
+    }
   to {
     opacity: 1;
     transform: translateY(0);
