@@ -164,3 +164,70 @@ export const RestorationIcon: React.FC<IconProps> = (props) => (
     <path d="M10 12h4" />
   </DefaultIcon>
 );
+
+// ==========================================
+// CENTRALIZED SUBCATEGORY ICON MAPPING
+// Use this mapping across the app for consistent icons
+// ==========================================
+
+export const SUBCATEGORY_ICONS: Record<string, React.FC<IconProps>> = {
+  // Music Production subcategories
+  'Music Production': MusicProductionIcon,
+  'Podcast Recording': PodcastRecordingIcon,
+  'Vocal & Instrument Recording': VocalInstrumentIcon,
+  'Mixing': MixingIcon,
+  'Mastering': MasteringIcon,
+  'Band rehearsal': BandRehearsalIcon,
+  'Studio Rental': StudioRentalIcon,
+  'Remote Production Services': RemoteProductionIcon,
+  'Sound Design': SoundDesignIcon,
+  'Workshops & Classes': WorkshopsIcon,
+  
+  // Post Production subcategories
+  'Voiceover & Dubbing': VoiceoverDubbingIcon,
+  'Foley & Sound Effects': FoleyIcon,
+  'Film & Post Production': FilmProductionIcon,
+  'Restoration & Archiving': RestorationIcon,
+};
+
+/**
+ * Get the icon component for a subcategory
+ * @param subcategory - The subcategory name (English)
+ * @param fallback - Optional fallback icon component (defaults to MusicProductionIcon)
+ * @returns The icon component for the subcategory
+ * 
+ * @example
+ * const Icon = getSubcategoryIcon('Mixing');
+ * return <Icon size={24} color="#ffd166" />;
+ * 
+ * @example
+ * // With custom fallback
+ * const Icon = getSubcategoryIcon(subcategoryName, MasteringIcon);
+ */
+export const getSubcategoryIcon = (
+  subcategory: string,
+  fallback: React.FC<IconProps> = MusicProductionIcon
+): React.FC<IconProps> => {
+  // Try exact match first
+  if (SUBCATEGORY_ICONS[subcategory]) {
+    return SUBCATEGORY_ICONS[subcategory];
+  }
+  
+  // Try case-insensitive match
+  const lowerSubcategory = subcategory.toLowerCase();
+  for (const [key, Icon] of Object.entries(SUBCATEGORY_ICONS)) {
+    if (key.toLowerCase() === lowerSubcategory) {
+      return Icon;
+    }
+  }
+  
+  // Try partial match (for encoded URLs like "Vocal%20%26%20Instrument%20Recording")
+  const decodedSubcategory = decodeURIComponent(subcategory).toLowerCase();
+  for (const [key, Icon] of Object.entries(SUBCATEGORY_ICONS)) {
+    if (key.toLowerCase() === decodedSubcategory) {
+      return Icon;
+    }
+  }
+  
+  return fallback;
+};

@@ -913,7 +913,7 @@
   @include branded-form-actions;
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-large;
+    padding: 0;
 
     .form-actions {
       .submit-button {

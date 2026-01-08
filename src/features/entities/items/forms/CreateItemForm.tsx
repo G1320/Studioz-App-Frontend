@@ -747,7 +747,6 @@ export const CreateItemForm = () => {
 
   return (
     <section>
-      <h1>{t('form.AddItemTitle')}</h1>
       {remainingItems !== null && (
         <div
           style={{

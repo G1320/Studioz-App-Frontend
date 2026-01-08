@@ -1,11 +1,13 @@
 @use 'utilities/variables' as vars;
 @use '../../../../shared/components/forms/styles' as forms;
+@use '../../../../shared/components/forms/styles/design-system' as ds;
 
 .edit-studio-page {
-  padding: vars.$spacing-xl vars.$spacing-medium;
-  max-width: 800px;
+  min-height: 100vh;
   width: 100%;
-  margin: 0 auto;
+  max-width: 1000px;
+  background: black;
+  padding: 0;
 
   > section {
     > h1 {
@@ -19,17 +21,75 @@
 }
 
 .edit-studio-form-wrapper {
-  margin-top: vars.$spacing-large;
+  position: relative;
 }
 
 .edit-studio-page {
   .edit-studio-form {
-    // Increase specificity so it overrides the generic form base styles
     @include forms.branded-form;
+
+    .form-group {
+      .form-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: ds.$zinc-500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .form-input,
+      .form-textarea {
+        background: ds.$zinc-900-50;
+        border: 1px solid ds.$zinc-700;
+        border-radius: 12px;
+        padding: vars.$spacing-medium vars.$spacing-large;
+
+        &::placeholder {
+          color: ds.$zinc-600;
+        }
+
+        &:hover {
+          background: rgba(24, 24, 27, 0.8);
+        }
+
+        &:focus {
+          border-color: ds.$primary-yellow;
+          box-shadow: 0 0 0 1px ds.$primary-yellow;
+        }
+      }
+    }
   }
 }
 
 // FileUploader in edit studio context
 .edit-studio-page {
   @include forms.branded-file-uploader;
+
+  .file-uploader {
+    background: ds.$zinc-900-50;
+    border: 2px dashed ds.$zinc-700;
+    border-radius: 16px;
+
+    &:hover {
+      border-color: ds.$primary-yellow;
+      background: rgba(ds.$primary-yellow, 0.05);
+    }
+  }
+}
+
+// Hide category selector when feature flag is disabled
+.edit-studio-form,
+.edit-studio-form-wrapper {
+  .form-group.hide-category-selector,
+  .select-container.hide-category-selector,
+  .form-group.select-container.hide-category-selector,
+  [data-field-name='categories'].hide-category-selector,
+  [data-field-name='categories'] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 }
