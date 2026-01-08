@@ -40,6 +40,10 @@ interface GenericCarouselProps<T> {
    * Custom space between slides (default: 15)
    */
   spaceBetween?: number;
+  /**
+   * Show inline navigation buttons at the end of the carousel (Giggster-style)
+   */
+  inlineNavigation?: boolean;
 }
 
 export const GenericCarousel = <T,>({
@@ -62,12 +66,15 @@ export const GenericCarousel = <T,>({
   autoWidth = false,
   prependSlides,
   hideHeader = false,
-  spaceBetween = 15
+  spaceBetween = 15,
+  inlineNavigation = false
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
   const { i18n, t } = useTranslation('common');
   const isRTL = i18n.dir() === 'rtl';
   const [shouldShowNavigation, setShouldShowNavigation] = useState(true);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
   // Check if carousel needs navigation (if all items fit on screen, hide buttons)
   const checkIfNavigationNeeded = React.useCallback(
@@ -78,6 +85,12 @@ export const GenericCarousel = <T,>({
       }
 
       if (!swiper || !swiper.wrapperEl || !swiper.slides || swiper.slides.length === 0) {
+        // For auto-width mode, assume navigation is needed if we have more than a few items
+        if (autoWidth) {
+          setShouldShowNavigation(data.length > 3);
+          return;
+        }
+
         // If swiper not ready, calculate based on breakpoints
         const currentWidth = window.innerWidth;
         let slidesPerView = 1.4; // default from breakpoints
@@ -108,7 +121,7 @@ export const GenericCarousel = <T,>({
 
       setShouldShowNavigation(canScroll);
     },
-    [data.length, breakpoints]
+    [data.length, breakpoints, autoWidth]
   );
 
   // Check navigation on mount and resize
@@ -212,9 +225,25 @@ export const GenericCarousel = <T,>({
     />
   ];
 
-  const carouselClasses = ['generic-carousel', autoWidth ? 'generic-carousel--auto-width' : '']
+  const carouselClasses = [
+    'generic-carousel',
+    autoWidth ? 'generic-carousel--auto-width' : '',
+    inlineNavigation ? 'generic-carousel--inline-nav' : '',
+    inlineNavigation && isAtEnd ? 'generic-carousel--at-end' : ''
+  ]
     .filter(Boolean)
     .join(' ');
+
+  // Inline navigation handlers
+  const handleInlinePrev = () => {
+    autoplay && swiperRef.current?.autoplay?.stop();
+    isRTL ? swiperRef.current?.slideNext() : swiperRef.current?.slidePrev();
+  };
+
+  const handleInlineNext = () => {
+    autoplay && swiperRef.current?.autoplay?.stop();
+    isRTL ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext();
+  };
 
   return (
     <section
@@ -290,6 +319,14 @@ export const GenericCarousel = <T,>({
           onProgress={(swiper) => {
             // Update navigation visibility when swiper updates
             checkIfNavigationNeeded(swiper);
+
+            // Track scroll position for inline navigation
+            if (inlineNavigation && swiper.wrapperEl) {
+              const scrollLeft = swiper.wrapperEl.scrollLeft;
+              const maxScroll = swiper.wrapperEl.scrollWidth - swiper.width;
+              setIsAtStart(scrollLeft <= 5);
+              setIsAtEnd(scrollLeft >= maxScroll - 5);
+            }
 
             swiper.slides.forEach((slide, index) => {
               // Check if any element within this slide has focus
@@ -370,6 +407,34 @@ export const GenericCarousel = <T,>({
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Inline navigation - fixed at end, outside swiper */}
+        {inlineNavigation && shouldShowNavigation && (
+          <div className="inline-nav-container">
+            <div className="inline-nav-buttons">
+              <button
+                className={`inline-nav-btn inline-nav-btn--prev ${isAtStart ? 'inline-nav-btn--disabled' : ''}`}
+                onClick={handleInlinePrev}
+                disabled={isAtStart}
+                aria-label={isRTL ? 'Go to next slide' : 'Go to previous slide'}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points={isRTL ? '9 18 15 12 9 6' : '15 18 9 12 15 6'} />
+                </svg>
+              </button>
+              <button
+                className={`inline-nav-btn inline-nav-btn--next ${isAtEnd ? 'inline-nav-btn--disabled' : ''}`}
+                onClick={handleInlineNext}
+                disabled={isAtEnd}
+                aria-label={isRTL ? 'Go to previous slide' : 'Go to next slide'}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points={isRTL ? '15 18 9 12 15 6' : '9 18 15 12 9 6'} />
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

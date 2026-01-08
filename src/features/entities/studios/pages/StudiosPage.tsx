@@ -227,6 +227,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           className="studios-page__filters-carousel"
           autoWidth
           hideHeader
+          inlineNavigation
           spaceBetween={12}
           selectedIndex={selectedCategoryIndex + 2} // +2 to account for prepended slides (filters button + separator)
           prependSlides={[
@@ -257,6 +258,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           className="studios-page__cities-carousel"
           autoWidth
           hideHeader
+          inlineNavigation
           spaceBetween={8}
           selectedIndex={selectedCityIndex >= 0 ? selectedCityIndex : undefined}
           renderItem={(city) => (
