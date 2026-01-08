@@ -32,7 +32,7 @@
   &__button {
     padding: vars.$spacing-medium vars.$spacing-xl;
     background: vars.$color-brand;
-    color: vars.$text-color-primary;
+    color: #000000; // Dark text on yellow background
     border: none;
     border-radius: vars.$border-radius-medium;
     font-size: vars.$font-size-medium;

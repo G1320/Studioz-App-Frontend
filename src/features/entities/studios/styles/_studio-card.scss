@@ -13,8 +13,13 @@
   gap: 0.5rem;
   background: vars.$card-bg-color;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 
   cursor: pointer;
+
+  &:active {
+    -webkit-tap-highlight-color: transparent;
+  }
 
   // Loading state
   &--loading {
