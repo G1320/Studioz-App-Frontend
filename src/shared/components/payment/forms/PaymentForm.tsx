@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { validateCoupon, CouponValidationResult } from '@shared/services/coupon-service';
+import LockIcon from '@mui/icons-material/Lock';
 
 interface SumitPaymentFormProps {
   onSubmit: (e: React.FormEvent) => Promise<void>;
@@ -9,6 +10,7 @@ interface SumitPaymentFormProps {
   planId?: string;
   onCouponApplied?: (coupon: CouponValidationResult['coupon'] | null) => void;
   showCouponInput?: boolean;
+  isProcessing?: boolean;
 }
 
 export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
@@ -17,7 +19,8 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
   totalAmount,
   planId,
   onCouponApplied,
-  showCouponInput = true
+  showCouponInput = true,
+  isProcessing = false
 }) => {
   const { t } = useTranslation('forms');
   const [couponCode, setCouponCode] = useState('');
@@ -68,11 +71,19 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
     ? Math.max(0, (totalAmount || 0) - appliedCoupon.discountAmount)
     : totalAmount;
 
+  const couponStatus = appliedCoupon ? 'success' : couponError ? 'error' : 'idle';
+
   return (
     <div className="sumit-payment-form">
       <div className="sumit-payment-form__header">
         <h2>{t('form.payment.header.title')}</h2>
         <p>{t('form.payment.header.subtitle')}</p>
+
+        {/* Custom Divider with Gold Accent */}
+        <div className="sumit-payment-form__header-divider" aria-hidden="true">
+          <div className="sumit-payment-form__divider-line" />
+          <div className="sumit-payment-form__divider-accent" />
+        </div>
       </div>
 
       {error && <div className="sumit-payment-form__error">{error}</div>}
@@ -95,7 +106,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
       )}
 
       <form className="sumit-payment-form__form" onSubmit={onSubmit}>
-        <div className="sumit-payment-form__field">
+        <div className="sumit-payment-form__field sumit-payment-form__field--card-number">
           <label>{t('form.payment.cardNumber.label')}</label>
           <input
             type="text"
@@ -172,6 +183,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                 placeholder={t('form.payment.coupon.placeholder', 'Enter coupon code')}
                 disabled={!!appliedCoupon || isValidatingCoupon}
+                className={couponStatus === 'error' ? 'error' : couponStatus === 'success' ? 'success' : ''}
               />
               {!appliedCoupon ? (
                 <button
@@ -188,9 +200,9 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
                 <button
                   type="button"
                   onClick={handleRemoveCoupon}
-                  className="sumit-payment-form__coupon-btn sumit-payment-form__coupon-btn--remove"
+                  className="sumit-payment-form__coupon-btn sumit-payment-form__coupon-btn--success"
                 >
-                  {t('form.payment.coupon.remove', 'Remove')}
+                  {t('form.payment.coupon.applied', 'Applied')}
                 </button>
               )}
             </div>
@@ -199,22 +211,35 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
           </div>
         )}
 
+        {/* Divider before CTA */}
+        <div className="sumit-payment-form__divider" aria-hidden="true" />
+
         <div className="sumit-payment-form__submit">
-          <button type="submit">
-            {t('form.payment.submit.text')}
-            {finalAmount !== undefined && `${finalAmount}₪`}
+          <button type="submit" disabled={isProcessing}>
+            {isProcessing ? (
+              <span className="animate-pulse">{t('form.payment.submit.processing', 'Processing payment...')}</span>
+            ) : (
+              <>
+                <span>{t('form.payment.submit.text')}</span>
+                {finalAmount !== undefined && <span>₪{finalAmount}</span>}
+              </>
+            )}
           </button>
         </div>
       </form>
 
       <div className="sumit-payment-form__footer">
-        <p>
-          {t('form.payment.footer.secured')}
+        <div className="sumit-payment-form__footer-secured">
+          <span>{t('form.payment.footer.secured')}</span>
           <a href="https://sumit.co.il" target="_blank" rel="noopener noreferrer">
             Sumit.co.il
           </a>
-          {t('form.payment.footer.solutions')}
-        </p>
+          <span>{t('form.payment.footer.solutions')}</span>
+        </div>
+        <div className="sumit-payment-form__footer-ssl">
+          <LockIcon sx={{ fontSize: 12 }} />
+          <span>SSL Secured Transaction</span>
+        </div>
       </div>
     </div>
   );

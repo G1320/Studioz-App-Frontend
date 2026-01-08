@@ -129,7 +129,7 @@ export const VendorOnboardingForm = () => {
           <div className="step-content">
             <div className="step-content__header">
               <h2>פרטי העסק</h2>
-              <p>הזן את הפרטים הרשמיים של העסק כפי שהם מופיעים ברשויות המס</p>
+              <p>הזן את פרטי העסק כפי שהם מופיעים ברשויות המס</p>
             </div>
 
             <div className="step-content__fields">
