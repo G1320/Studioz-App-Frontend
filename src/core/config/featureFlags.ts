@@ -10,6 +10,7 @@ export interface FeatureFlags {
   addOns: boolean;
   reservationDetailsPage: boolean;
   headerSearchIcon: boolean;
+  headerBackButton: boolean;
   dynamicCategorySelector: boolean;
   forOwnersPage: boolean;
   brevoChat: boolean;
@@ -30,6 +31,7 @@ export const featureFlags: FeatureFlags = {
   addOns: true,
   reservationDetailsPage: false,
   headerSearchIcon: true,
+  headerBackButton: false,
   dynamicCategorySelector: false,
   forOwnersPage: true,
   brevoChat: false,

@@ -16,7 +16,6 @@ $dash-text-secondary: rgba(161, 161, 170, 1); // zinc-400
 $dash-text-muted: rgba(113, 113, 122, 1); // zinc-500
 
 .dashboard-page {
-  max-width: 1400px;
   margin: 0 auto;
   padding: vars.$spacing-2xl vars.$spacing-medium;
   color: $dash-text-primary;

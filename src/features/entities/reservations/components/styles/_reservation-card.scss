@@ -70,41 +70,39 @@ $accent: #ffd166;
     align-items: center;
     justify-content: center;
     position: relative;
-
-    // Ring effect
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 2px solid currentColor;
-      opacity: 0.3;
-    }
+    // Match RecentActivity style - dark container with subtle border
+    background: #1e1e1e;
+    border: 1px solid rgba(63, 63, 70, 1); // zinc-700
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 
     &.status--confirmed {
       color: $status-confirmed;
-      background: $status-confirmed-bg;
     }
 
     &.status--pending {
       color: $status-pending;
-      background: $status-pending-bg;
     }
 
     &.status--cancelled {
       color: $status-cancelled;
-      background: $status-cancelled-bg;
+    }
+
+    &.status--rejected {
+      color: $status-cancelled;
+    }
+
+    &.status--expired {
+      color: $status-default;
     }
 
     &.status--default {
       color: $status-default;
-      background: $status-default-bg;
     }
   }
 
   &__status-dot {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.625rem; // 10px like RecentActivity
+    height: 0.625rem;
     border-radius: 50%;
     background: currentColor;
     box-shadow: 0 0 8px currentColor;
