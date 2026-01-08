@@ -17,12 +17,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import MapIcon from '@mui/icons-material/Map';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import TuneIcon from '@mui/icons-material/Tune';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import MicIcon from '@mui/icons-material/Mic';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { getSubcategoryIcon } from '@shared/components/icons/CategoryIcons';
 
 interface StudiosPageProps {
   studios: Studio[];
@@ -41,27 +37,6 @@ const FilterChip: React.FC<FilterChipProps> = ({ label, icon, isActive, onClick 
     <span>{label}</span>
   </button>
 );
-
-// Map subcategory to icon
-const getCategoryIcon = (category: string) => {
-  const lower = category.toLowerCase();
-  if (lower.includes('music') || lower.includes('production') || lower.includes('recording')) {
-    return <MusicNoteIcon />;
-  }
-  if (lower.includes('podcast') || lower.includes('vocal')) {
-    return <MicIcon />;
-  }
-  if (lower.includes('photo')) {
-    return <CameraAltIcon />;
-  }
-  if (lower.includes('video')) {
-    return <VideocamIcon />;
-  }
-  if (lower.includes('mix') || lower.includes('master')) {
-    return <GraphicEqIcon />;
-  }
-  return <MusicNoteIcon />;
-};
 
 const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -208,13 +183,19 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           />
 
           {musicSubCategories.slice(0, 6).map((cat) => (
-            <FilterChip
-              key={cat}
-              label={cat}
-              icon={getCategoryIcon(cat)}
-              isActive={selectedSubcategory === getEnglishByDisplay(cat)}
-              onClick={() => handleSubcategoryClick(cat)}
-            />
+            (() => {
+              const englishCat = getEnglishByDisplay(cat);
+              const Icon = getSubcategoryIcon(englishCat);
+              return (
+                <FilterChip
+                  key={cat}
+                  label={cat}
+                  icon={<Icon />}
+                  isActive={selectedSubcategory === englishCat}
+                  onClick={() => handleSubcategoryClick(cat)}
+                />
+              );
+            })()
           ))}
         </div>
       </div>

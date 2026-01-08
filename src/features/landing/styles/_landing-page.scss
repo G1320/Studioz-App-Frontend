@@ -189,11 +189,20 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: border-color 0.2s;
     text-align: start;
+    justify-content: flex-start;
 
     &:focus,
     &--open {
       border-color: rgba($landing-primary, 0.5);
       outline: none;
+    }
+
+    // RTL: icon on the right, chevron on the left, text aligned to start (right)
+    html[dir='rtl'] &,
+    html[lang='he'] & {
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+      text-align: right;
     }
   }
 
@@ -210,10 +219,16 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     text-overflow: ellipsis;
     white-space: nowrap;
     color: inherit;
+    text-align: start;
 
     &:empty::before {
       content: attr(data-placeholder);
       color: rgba(255, 255, 255, 0.4);
+    }
+
+    html[dir='rtl'] &,
+    html[lang='he'] & {
+      text-align: right;
     }
   }
 
@@ -279,6 +294,11 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: all 0.15s ease;
     margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    min-width: 0;
 
     &:last-child {
       margin-bottom: 0;
@@ -298,6 +318,29 @@ $landing-muted: rgba(255, 255, 255, 0.6);
         background: rgba($landing-primary, 0.2);
       }
     }
+
+    // RTL: keep "start" alignment (icon on right, text on right)
+    html[dir='rtl'] &,
+    html[lang='he'] & {
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+      text-align: right;
+    }
+  }
+
+  &__option-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  &__option-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

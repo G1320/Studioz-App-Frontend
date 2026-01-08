@@ -8,7 +8,6 @@ import { filterStudios } from '../utils/filterStudios';
 // MUI Icons
 import CloseIcon from '@mui/icons-material/Close';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import WifiIcon from '@mui/icons-material/Wifi';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
@@ -42,30 +41,7 @@ export interface SidebarFiltersProps {
   className?: string;
 }
 
-import * as CategoryIcons from '@shared/components/icons/CategoryIcons';
-
-// ... imports ...
-
-// Category icons mapping
-const CATEGORY_ICONS: Record<string, React.ElementType> = {
-  // Music Production
-  'music production': CategoryIcons.MusicProductionIcon,
-  'podcast recording': CategoryIcons.PodcastRecordingIcon,
-  'vocal & instrument recording': CategoryIcons.VocalInstrumentIcon,
-  mixing: CategoryIcons.MixingIcon,
-  mastering: CategoryIcons.MasteringIcon,
-  'band rehearsal': CategoryIcons.BandRehearsalIcon,
-  'studio rental': CategoryIcons.StudioRentalIcon,
-  'remote production services': CategoryIcons.RemoteProductionIcon,
-  'sound design': CategoryIcons.SoundDesignIcon,
-  'workshops & classes': CategoryIcons.WorkshopsIcon,
-
-  // Post Production
-  'voiceover & dubbing': CategoryIcons.VoiceoverDubbingIcon,
-  'foley & sound effects': CategoryIcons.FoleyIcon,
-  'film & post production': CategoryIcons.FilmProductionIcon,
-  'restoration & archiving': CategoryIcons.RestorationIcon
-};
+import { getSubcategoryIcon } from '@shared/components/icons/CategoryIcons';
 
 // Amenity icons mapping
 const AMENITY_ICONS: Record<string, React.ElementType> = {
@@ -173,20 +149,6 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
 
   const activeFilterCount = filters.categories.length + filters.amenities.length + (filters.location ? 1 : 0);
 
-  // Get category icon
-  const getCategoryIcon = (category: string): React.ElementType => {
-    const lower = category.toLowerCase();
-    // Try exact match first
-    if (CATEGORY_ICONS[lower]) {
-      return CATEGORY_ICONS[lower];
-    }
-    // Fallback to partial match if needed (though exact match is preferred for these specific categories)
-    for (const [key, icon] of Object.entries(CATEGORY_ICONS)) {
-      if (lower.includes(key)) return icon;
-    }
-    return MusicNoteIcon;
-  };
-
   // Get amenity icon
   const getAmenityIcon = (amenityKey: string): React.ElementType => {
     const key = amenityKey.toLowerCase().replace(/\s+/g, '_');
@@ -239,7 +201,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
               {musicSubCategories.map((category) => {
                 const englishCat = getEnglishByDisplay(category);
                 const isSelected = filters.categories.includes(englishCat);
-                const IconComponent = getCategoryIcon(category);
+                const IconComponent = getSubcategoryIcon(englishCat);
                 return (
                   <button
                     key={category}

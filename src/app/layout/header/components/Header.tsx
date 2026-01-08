@@ -72,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
       </div>
       <header className="app-header">
         {featureFlags.headerBackButton && (
-          <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
+        <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
         )}
 
         <h1 className={featureFlags.headerBackButton && showBackButton ? 'logo--mobile-shifted' : ''}>

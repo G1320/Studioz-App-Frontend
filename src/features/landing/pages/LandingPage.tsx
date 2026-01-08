@@ -6,12 +6,7 @@ import { useCategories, useCities } from '@shared/hooks/utils';
 import { cities } from '@core/config/cities/cities';
 import { StudioCard } from '@features/entities';
 import { Studio } from 'src/types/index';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import MicIcon from '@mui/icons-material/Mic';
-import TuneIcon from '@mui/icons-material/Tune';
-import PianoIcon from '@mui/icons-material/Piano';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import { getSubcategoryIcon, MusicProductionIcon } from '@shared/components/icons/CategoryIcons';
 import StarIcon from '@mui/icons-material/Star';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -142,7 +137,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                 }}
                 type="button"
               >
-                <MusicNoteIcon className="landing-dropdown__icon" />
+                {(() => {
+                  const Icon = selectedCategory
+                    ? getSubcategoryIcon(getEnglishByDisplay(selectedCategory))
+                    : MusicProductionIcon;
+                  return <Icon className="landing-dropdown__icon" />;
+                })()}
                 <span className="landing-dropdown__text">{selectedCategory || t('hero.category_placeholder')}</span>
                 <KeyboardArrowDownIcon
                   className={`landing-dropdown__arrow ${isCategoryOpen ? 'landing-dropdown__arrow--open' : ''}`}
@@ -157,7 +157,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                       onClick={() => handleCategorySelect(category.value)}
                       type="button"
                     >
-                      {category.value}
+                      {(() => {
+                        const Icon = getSubcategoryIcon(getEnglishByDisplay(category.value));
+                        return <Icon className="landing-dropdown__option-icon" aria-hidden="true" focusable="false" />;
+                      })()}
+                      <span className="landing-dropdown__option-label">{category.value}</span>
                     </button>
                   ))}
                 </div>
@@ -189,7 +193,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                       onClick={() => handleCitySelect(city.value)}
                       type="button"
                     >
-                      {city.value}
+                      <span className="landing-dropdown__option-label">{city.value}</span>
                     </button>
                   ))}
                 </div>
@@ -217,46 +221,60 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
           </div>
 
           <div className="landing-categories__grid">
-            <CategoryCard
-              icon={<MusicNoteIcon />}
-              label={t('categories.music_production')}
-              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Music%20Production`)}
-            />
-            <CategoryCard
-              icon={<MicIcon />}
-              label={t('categories.podcast')}
-              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Podcast%20Recording`)}
-            />
-            {/* <CategoryCard
+            {(() => {
+              const MusicIcon = getSubcategoryIcon('Music Production');
+              const PodcastIcon = getSubcategoryIcon('Podcast Recording');
+              const MixingIcon = getSubcategoryIcon('Mixing');
+              const MasteringIcon = getSubcategoryIcon('Mastering');
+              const VocalIcon = getSubcategoryIcon('Vocal & Instrument Recording');
+              const RehearsalIcon = getSubcategoryIcon('Band rehearsal');
+              return (
+                <>
+                  <CategoryCard
+                    icon={<MusicIcon />}
+                    label={t('categories.music_production')}
+                    onClick={() => navigate(`/${i18n.language}/studios?subcategory=Music%20Production`)}
+                  />
+                  <CategoryCard
+                    icon={<PodcastIcon />}
+                    label={t('categories.podcast')}
+                    onClick={() => navigate(`/${i18n.language}/studios?subcategory=Podcast%20Recording`)}
+                  />
+                  {/* <CategoryCard
               icon={<CameraAltIcon />}
               label={t('categories.photography')}
               onClick={() => navigate(`/${i18n.language}/studios/photo`)}
             /> */}
-            {/* <CategoryCard
+                  {/* <CategoryCard
               icon={<VideocamIcon />}
               label={t('categories.video')}
               onClick={() => navigate(`/${i18n.language}/studios/photo`)}
             /> */}
-            <CategoryCard
-              icon={<TuneIcon />}
-              label={t('categories.mixing')}
-              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Mixing`)}
-            />
-            <CategoryCard
-              icon={<GraphicEqIcon />}
-              label={t('categories.mastering')}
-              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Mastering`)}
-            />
-            <CategoryCard
-              icon={<RecordVoiceOverIcon />}
-              label={t('categories.vocal_recording')}
-              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Vocal%20%26%20Instrument%20Recording`)}
-            />
-            <CategoryCard
-              icon={<PianoIcon />}
-              label={t('categories.rehearsal')}
-              onClick={() => navigate(`/${i18n.language}/studios?subcategory=Band%20rehearsal`)}
-            />
+                  <CategoryCard
+                    icon={<MixingIcon />}
+                    label={t('categories.mixing')}
+                    onClick={() => navigate(`/${i18n.language}/studios?subcategory=Mixing`)}
+                  />
+                  <CategoryCard
+                    icon={<MasteringIcon />}
+                    label={t('categories.mastering')}
+                    onClick={() => navigate(`/${i18n.language}/studios?subcategory=Mastering`)}
+                  />
+                  <CategoryCard
+                    icon={<VocalIcon />}
+                    label={t('categories.vocal_recording')}
+                    onClick={() =>
+                      navigate(`/${i18n.language}/studios?subcategory=Vocal%20%26%20Instrument%20Recording`)
+                    }
+                  />
+                  <CategoryCard
+                    icon={<RehearsalIcon />}
+                    label={t('categories.rehearsal')}
+                    onClick={() => navigate(`/${i18n.language}/studios?subcategory=Band%20rehearsal`)}
+                  />
+                </>
+              );
+            })()}
           </div>
         </div>
       </section>
