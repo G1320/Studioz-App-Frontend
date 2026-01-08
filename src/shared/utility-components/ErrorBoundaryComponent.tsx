@@ -1,37 +1,86 @@
 import { Component, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import HomeIcon from '@mui/icons-material/Home';
 
 interface Props {
   children: ReactNode;
+  onGoHome?: () => void;
 }
 
-interface ErrorFallbackProps {
-  onReset: () => void;
+export interface StudioZErrorBoundaryProps {
+  /**
+   * The error object or message to display (optional for preview)
+   */
+  error?: Error | string;
+  /**
+   * Callback function to reset the error state (e.g., try again)
+   */
+  resetErrorBoundary?: () => void;
+  /**
+   * Callback function to navigate home
+   */
+  onGoHome?: () => void;
+  /**
+   * Custom title override
+   */
+  title?: string;
+  /**
+   * Custom description override
+   */
+  description?: string;
 }
 
-const ErrorFallback: React.FC<ErrorFallbackProps> = ({ onReset }) => {
+export const StudioZErrorBoundary: React.FC<StudioZErrorBoundaryProps> = ({
+  error,
+  resetErrorBoundary,
+  onGoHome,
+  title = 'Oops! Something went wrong',
+  description = "We encountered an unexpected error. Don't worry, our team has been notified."
+}) => {
   const { t, i18n } = useTranslation('common');
   const currLang = i18n.language || 'en';
 
+  const titleText = t('errors.boundary.title', { defaultValue: title });
+  const descriptionText = t('errors.boundary.message', { defaultValue: description });
+  const buttonText = t('errors.boundary.return_home', { defaultValue: 'Return Home' });
+
   const handleReturnHome = () => {
-    onReset();
-    // Use a full page navigation to fully reset the app state after a fatal error
+    resetErrorBoundary?.();
+    if (onGoHome) {
+      onGoHome();
+      return;
+    }
+    // Full page navigation to fully reset the app state after a fatal error
     window.location.assign(`/${currLang}`);
   };
 
+  const errorText = error ? (typeof error === 'string' ? error : error.message) : null;
+
   return (
     <div className="error-boundary">
-      <div className="error-boundary__container">
-        <div className="error-boundary__icon-wrapper">
-          <ErrorOutlineIcon className="error-boundary__icon" />
+      <div className="error-boundary__card" role="alert" aria-live="polite">
+        {/* Top Glow Effect */}
+        <div className="error-boundary__top-line" />
+        <div className="error-boundary__top-glow" />
+
+        {/* Icon Container */}
+        <div className="error-boundary__icon-outer" aria-hidden="true">
+          <div className="error-boundary__icon-inner">
+            <span className="error-boundary__icon-bang">!</span>
+          </div>
         </div>
-        <h1 className="error-boundary__title">{t('errors.boundary.title')}</h1>
-        <p className="error-boundary__message">{t('errors.boundary.message')}</p>
-        <button onClick={handleReturnHome} className="error-boundary__button">
+
+        {/* Content */}
+        <h1 className="error-boundary__title">{titleText}</h1>
+        <p className="error-boundary__message">
+          {descriptionText}
+          {errorText && <span className="error-boundary__details">{errorText}</span>}
+        </p>
+
+        {/* Action Button */}
+        <button onClick={handleReturnHome} className="error-boundary__button" type="button">
           <HomeIcon className="error-boundary__button-icon" />
-          <span>{t('errors.boundary.return_home')}</span>
+          <span>{buttonText}</span>
         </button>
       </div>
     </div>
@@ -61,7 +110,13 @@ export class ErrorBoundaryComponent extends Component<Props, { hasError: boolean
 
   render() {
     if (this.state.hasError) {
-      return <ErrorFallback onReset={this.handleReset} />;
+      return (
+        <StudioZErrorBoundary
+          error={this.state.error || undefined}
+          onGoHome={this.props.onGoHome}
+          resetErrorBoundary={this.handleReset}
+        />
+      );
     }
     return this.props.children;
   }

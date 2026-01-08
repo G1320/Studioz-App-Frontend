@@ -280,7 +280,7 @@
       "pricePerDay": "Price per Day",
       "priceLabel": "Price",
       "pricePerLabel": "Price per",
-      "minimumBooking": "Minimum Booking",
+      "minimumBooking": "Minimum Booking Duration",
       "hours": "hours",
       "per": {
         "hour": "/ hr",
@@ -496,7 +496,7 @@
       "policies": "Policies",
       "policiesDesc": "Define cancellation and booking policies",
       "addOns": "Add-Ons",
-      "addOnsDesc": "Add optional add-ons to your item",
+      "addOnsDesc": "Add optional add-ons to your service",
       "availability": "Availability",
       "availabilityDesc": "Set studio business hours",
       "location": "Location & Contact",
