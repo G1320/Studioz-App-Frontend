@@ -3,7 +3,8 @@
 main {
   flex: 1;
   gap: 1rem;
-  max-width: clamp(100%, 80vw, 2300px);
+  max-width: 1540px;
+  margin: 0 auto; // Center the main content
   padding: 0.5rem 1rem;
   padding-top: 4rem; // Account for fixed header on mobile (3.5rem + 0.5rem spacing)
   justify-items: center;

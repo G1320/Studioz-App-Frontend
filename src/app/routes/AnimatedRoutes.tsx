@@ -85,7 +85,8 @@ const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       }}
       style={{
         position: 'relative',
-        minHeight: '100%'
+        minHeight: '100%',
+        width: '100%'
       }}
     >
       {children}
