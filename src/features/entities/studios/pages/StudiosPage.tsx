@@ -75,7 +75,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
       isAllStudios: true
     };
 
-    const subcategoryChips: CategoryChipData[] = musicSubCategories.slice(0, 6).map((cat) => ({
+    const subcategoryChips: CategoryChipData[] = musicSubCategories.map((cat) => ({
       _id: getEnglishByDisplay(cat),
       label: cat,
       englishKey: getEnglishByDisplay(cat)
