@@ -91,6 +91,10 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
   color: vars.$text-color-primary;
   overflow-x: hidden;
   position: relative;
+  // Break out of main's max-width to be full-bleed (edge-to-edge)
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
 
   &__glow {
     position: absolute;
@@ -134,11 +138,17 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 .subscriptions-hero {
   position: relative;
   z-index: 1;
-  padding: 5rem 0 3rem;
+  padding: 5rem 1.5rem 3rem;
   text-align: center;
 
   @media (min-width: 768px) {
-    padding: 8rem 0 4rem;
+    padding: 8rem 1.5rem 4rem;
+  }
+
+  // Constrain content to 1540px on large screens (matching header)
+  @media screen and (min-width: 1540px) {
+    padding-left: calc((100vw - 1540px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1540px) / 2 + 1.5rem);
   }
 
   &__title {
@@ -168,7 +178,13 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 .subscriptions-pricing {
   position: relative;
   z-index: 1;
-  padding: vars.$spacing-2xl 0;
+  padding: vars.$spacing-2xl 1.5rem;
+
+  // Constrain content to 1540px on large screens (matching header)
+  @media screen and (min-width: 1540px) {
+    padding-left: calc((100vw - 1540px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1540px) / 2 + 1.5rem);
+  }
 
   &__grid {
     display: grid;
@@ -394,7 +410,13 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 .subscriptions-payment {
   position: relative;
   z-index: 1;
-  padding: vars.$spacing-2xl 0;
+  padding: vars.$spacing-2xl 1.5rem;
+
+  // Constrain content to 1540px on large screens (matching header)
+  @media screen and (min-width: 1540px) {
+    padding-left: calc((100vw - 1540px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1540px) / 2 + 1.5rem);
+  }
 
   &__wrapper {
     max-width: 800px;
@@ -409,7 +431,13 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 .subscriptions-faq {
   position: relative;
   z-index: 1;
-  padding: vars.$spacing-3xl 0;
+  padding: vars.$spacing-3xl 1.5rem;
+
+  // Constrain content to 1540px on large screens (matching header)
+  @media screen and (min-width: 1540px) {
+    padding-left: calc((100vw - 1540px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1540px) / 2 + 1.5rem);
+  }
 
   &__header {
     text-align: center;
@@ -473,8 +501,14 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 .subscriptions-cta {
   position: relative;
   z-index: 1;
-  padding: vars.$spacing-3xl 0;
+  padding: vars.$spacing-3xl 1.5rem;
   overflow: hidden;
+
+  // Constrain content to 1540px on large screens (matching header)
+  @media screen and (min-width: 1540px) {
+    padding-left: calc((100vw - 1540px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1540px) / 2 + 1.5rem);
+  }
 
   &__overlay {
     position: absolute;
