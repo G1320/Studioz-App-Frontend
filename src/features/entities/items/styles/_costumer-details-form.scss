@@ -236,7 +236,7 @@ $item-muted: rgba(113, 113, 122, 1); // zinc-500
 
 .date-picker-row {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: vars.$spacing-medium;
   width: 100%;
   align-items: start; // Align items to top so labels line up

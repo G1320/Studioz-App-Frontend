@@ -5,7 +5,6 @@ button.add-remove-button {
   @include mixins.branded-button;
 
   --button-hover-bg: #{vars.$brand-opacity-20};
-  --button-shadow: #{vars.$brand-opacity-30};
   --button-focus-shadow: #{vars.$blue-opacity-30-alt};
 
   align-self: center;
@@ -20,7 +19,7 @@ button.add-remove-button {
   &:hover:not(:disabled) {
     background-color: var(--button-hover-bg);
     border-color: vars.$color-brand;
-    box-shadow: 0 4px 12px var(--button-shadow);
+    box-shadow: none;
   }
 
   &:disabled {

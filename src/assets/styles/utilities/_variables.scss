@@ -128,17 +128,17 @@ $color-rating-yellow: #ffd166;
 $color-text-light-gray: #f1f1f1;
 $color-text-medium-gray: #b3b2b2;
 
-// Brand color opacity variants
-$brand-opacity-03: rgba(16, 185, 129, 0.03);
-$brand-opacity-05: rgba(16, 185, 129, 0.05);
-$brand-opacity-08: rgba(16, 185, 129, 0.08);
-$brand-opacity-10: rgba(16, 185, 129, 0.1);
-$brand-opacity-12: rgba(16, 185, 129, 0.12);
-$brand-opacity-15: rgba(16, 185, 129, 0.15);
-$brand-opacity-20: rgba(16, 185, 129, 0.2);
-$brand-opacity-30: rgba(16, 185, 129, 0.3);
-$brand-opacity-50: rgba(16, 185, 129, 0.5);
-$brand-opacity-85: rgba(16, 185, 129, 0.85);
+// Brand color opacity variants (Updated to match #ffd166 - 255, 209, 102)
+$brand-opacity-03: rgba(255, 209, 102, 0.03);
+$brand-opacity-05: rgba(255, 209, 102, 0.05);
+$brand-opacity-08: rgba(255, 209, 102, 0.08);
+$brand-opacity-10: rgba(255, 209, 102, 0.1);
+$brand-opacity-12: rgba(255, 209, 102, 0.12);
+$brand-opacity-15: rgba(255, 209, 102, 0.15);
+$brand-opacity-20: rgba(255, 209, 102, 0.2);
+$brand-opacity-30: rgba(255, 209, 102, 0.3);
+$brand-opacity-50: rgba(255, 209, 102, 0.5);
+$brand-opacity-85: rgba(255, 209, 102, 0.85);
 
 // Blue color opacity
 $blue-opacity-30-alt: rgba(14, 165, 233, 0.3);
