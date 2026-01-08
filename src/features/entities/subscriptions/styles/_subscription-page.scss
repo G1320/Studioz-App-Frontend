@@ -16,6 +16,7 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 // Container
 .subscriptions-container {
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 // Section Titles
@@ -190,6 +191,8 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
     display: grid;
     grid-template-columns: 1fr;
     gap: vars.$spacing-xl;
+    max-width: 1200px;
+    margin: 0 auto;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
