@@ -40,7 +40,6 @@
     .view-toggle {
       display: flex;
       background: transparent;
-      padding: 0.25rem;
       border-radius: 0.5rem;
       border: none;
       width: fit-content;
@@ -588,7 +587,7 @@
       align-items: center;
       width: 100%;
       color: vars.$light-gray-e2e2e2;
-      padding: 0.5rem 0;
+      padding: calc(0.25rem + 1px) 0;
       border-top: 1px solid rgba(vars.$zinc-700, 0.5);
 
       .studio-options-container {

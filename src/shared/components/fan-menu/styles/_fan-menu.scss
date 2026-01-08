@@ -56,7 +56,8 @@
     transform: scale(0);
     background-color: vars.$bg-color-tertiary !important; // Solid background
     border: 1px solid vars.$white-opacity-15 !important; // Gentle border
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transition:
+      transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
       background-color 0.2s ease,
       border-color 0.2s ease,
       box-shadow 0.2s ease;
@@ -85,7 +86,9 @@
     backdrop-filter: blur(10px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
     transform: translateY(0.5rem); // Start further down
     margin-top: 0.25rem; // Additional spacing from button
     z-index: 1003; // Highest z-index for labels
@@ -114,4 +117,3 @@
   // RTL support is handled in JavaScript by reversing the angle calculation
   // No additional CSS needed since positions are calculated dynamically
 }
-

@@ -55,10 +55,10 @@
       gap: 0.25rem;
       padding: 0.25rem 0.5rem;
       border-radius: 999px;
-      background: vars.$dark-bg-15-55;
+      background: vars.$zinc-900;
       border: none;
-      box-shadow: 0 4px 12px vars.$black-opacity-25;
-      backdrop-filter: blur(10px);
+      box-shadow: none;
+      backdrop-filter: none;
       font-size: 0.75rem;
       font-weight: 500;
       line-height: 1.2;

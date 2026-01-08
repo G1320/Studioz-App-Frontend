@@ -1,5 +1,10 @@
 @use 'utilities/variables' as vars;
 
+// Flat badge style - consistent across all badges (no borders)
+$badge-bg: vars.$zinc-900;
+$badge-text: vars.$white-opacity-90;
+$badge-icon: vars.$white-opacity-80;
+
 div.studio-features-container {
   justify-self: start;
   display: flex;
@@ -10,19 +15,31 @@ div.studio-features-container {
   flex-wrap: nowrap;
   justify-content: flex-start;
 
+  // Override all badge styles to flat grey, no borders
   .distance-badge {
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    background: vars.$bg-color-secondary;
+    background: $badge-bg;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+
+    .distance-badge__icon {
+      color: $badge-icon;
+    }
 
     .distance-badge__value {
       flex-wrap: nowrap;
       width: max-content;
+      color: $badge-text;
     }
   }
 
   .studio-rating__badge {
-    background: vars.$bg-color-secondary;
+    background: $badge-bg;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 
   .studio-city-badge {
@@ -30,10 +47,10 @@ div.studio-features-container {
     align-items: center;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    background: vars.$dark-bg-15-55;
+    background: $badge-bg;
     border: none;
-    box-shadow: 0 4px 12px vars.$black-opacity-25;
-    backdrop-filter: blur(10px);
+    box-shadow: none;
+    backdrop-filter: none;
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.2;
@@ -41,7 +58,7 @@ div.studio-features-container {
     span {
       font-size: 0.75rem;
       font-weight: 500;
-      color: vars.$white-opacity-90;
+      color: $badge-text;
       line-height: 1.2;
     }
   }
@@ -58,15 +75,14 @@ div.studio-features-container {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    background: vars.$bg-color-secondary !important;
     width: min-content;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    background: vars.$dark-bg-15-55;
+    background: $badge-bg;
     border: none;
-    box-shadow: 0 4px 12px vars.$black-opacity-25;
-    backdrop-filter: blur(10px);
+    box-shadow: none;
+    backdrop-filter: none;
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.2;
@@ -75,14 +91,14 @@ div.studio-features-container {
       width: 0.75rem;
       height: 0.75rem;
       flex-shrink: 0;
-      color: vars.$white-opacity-80;
+      color: $badge-icon;
     }
 
     span {
       font-size: 0.75rem;
       font-weight: 500;
       line-height: 1.2;
-      color: vars.$white-opacity-90;
+      color: $badge-text;
       display: flex;
       align-items: center;
       justify-content: center;
