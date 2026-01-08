@@ -59,7 +59,20 @@
       "securityDesc": "בקרוב: נהל סיסמאות והעדפות דיוור",
       "calendar": "לוח שנה",
       "calendarDesc": "סנכרן את ההזמנות שלך עם Google Calendar",
+      "sumit": "סליקת אשראי",
+      "sumitDesc": "קבל תשלומים באשראי ישירות לחשבון הבנק",
       "subscription": "מנוי ותשלומים"
+    },
+    "sumit": {
+      "provider": "Sumit.co.il",
+      "status": {
+        "pending": "סטטוס הרשמה",
+        "active": "מחובר ופעיל"
+      },
+      "buttons": {
+        "continue": "המשך בתהליך הרשמה",
+        "manage": "ניהול"
+      }
     },
     "fields": {
       "firstName": "שם פרטי",

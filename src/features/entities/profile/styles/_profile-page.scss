@@ -245,6 +245,10 @@ $profile-text-secondary: rgba(228, 228, 231, 1); // zinc-200
       background: rgba(59, 130, 246, 0.05);
     }
 
+    &--green {
+      background: rgba(52, 211, 153, 0.06);
+    }
+
     &--gold {
       background: rgba($profile-accent, 0.05);
     }
@@ -432,6 +436,18 @@ $profile-text-secondary: rgba(228, 228, 231, 1); // zinc-200
     }
   }
 
+  &__logo--sumit {
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    color: rgba(52, 211, 153, 1);
+
+    span {
+      font-size: 0.625rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+  }
+
   &__info {
     flex: 1;
 
@@ -458,6 +474,11 @@ $profile-text-secondary: rgba(228, 228, 231, 1); // zinc-200
     &--active {
       background: rgb(16, 185, 129);
       box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    }
+
+    &--green {
+      background: rgb(52, 211, 153);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.45);
     }
   }
 }
@@ -596,6 +617,16 @@ $profile-text-secondary: rgba(228, 228, 231, 1); // zinc-200
 
     &:hover {
       background: rgb(59, 130, 246);
+    }
+  }
+
+  &--sumit {
+    background: rgb(52, 211, 153);
+    color: #04130d;
+    box-shadow: 0 10px 15px -3px rgba(6, 78, 59, 0.25);
+
+    &:hover:not(:disabled) {
+      background: rgb(34, 197, 94);
     }
   }
 

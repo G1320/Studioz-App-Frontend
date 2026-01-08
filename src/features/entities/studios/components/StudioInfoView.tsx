@@ -79,6 +79,25 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   const [showAllHours, setShowAllHours] = useState(false);
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
+  const getCleanAddress = (address: string, city?: string) => {
+    const raw = [address, city].filter(Boolean).join(', ');
+    const parts = raw
+      .split(',')
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    // Deduplicate while preserving order (removes repeated city etc.)
+    const seen = new Set<string>();
+    const unique = parts.filter((p) => {
+      const key = p.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    return unique.join(', ');
+  };
+
   // Map amenity values to display labels and icons
   const amenitiesDisplay = useMemo(() => {
     if (!studio?.amenities) return [];
@@ -228,8 +247,7 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
                     {t('form.studioDetails.address', { defaultValue: 'Address' })}
                   </span>
                   <span className="info-card__contact-value">
-                    {studio.address}
-                    {studio.city && `, ${studio.city}`}
+                    {getCleanAddress(studio.address, studio.city)}
                   </span>
                 </div>
               </div>

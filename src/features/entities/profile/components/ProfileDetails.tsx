@@ -19,7 +19,7 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ShieldIcon from '@mui/icons-material/Shield';
 
 import '../styles/_profile-page.scss';
@@ -174,6 +174,10 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     disconnect: disconnectCalendar
   } = useGoogleCalendar();
   const hasActiveSubscription = user?.subscriptionStatus === 'ACTIVE';
+
+  // Sumit onboarding status
+  const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
+  const showSumitCard = Boolean(user?.studios && user.studios.length > 0);
 
   const handleCalendarToggle = async () => {
     try {
@@ -361,6 +365,52 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             </div>
           </div>
 
+          {/* Sumit Onboarding / Payments */}
+          {showSumitCard && (
+            <div className="profile-card profile-card--integration">
+              <div className="profile-card__glow profile-card__glow--green" />
+
+              <SectionTitle
+                icon={CreditCardIcon}
+                title={t('sections.sumit', 'Credit card processing')}
+                description={t('sections.sumitDesc', 'Receive payments directly to your bank account')}
+              />
+
+              <div className="profile-integration-box">
+                <div className="profile-integration-box__header">
+                  <div className="profile-integration-box__logo profile-integration-box__logo--sumit" aria-hidden="true">
+                    <span>SUMIT</span>
+                  </div>
+                  <div className="profile-integration-box__info">
+                    <h4>{t('sumit.provider', 'Sumit.co.il')}</h4>
+                    <p>
+                      {isSumitConnected
+                        ? t('sumit.status.active', 'Connected & active')
+                        : t('sumit.status.pending', 'Onboarding status')}
+                    </p>
+                  </div>
+                  <div
+                    className={`profile-integration-box__status ${isSumitConnected ? 'profile-integration-box__status--active profile-integration-box__status--green' : ''}`}
+                  />
+                </div>
+
+                <button
+                  className={`profile-btn profile-btn--full ${isSumitConnected ? 'profile-btn--secondary' : 'profile-btn--sumit'}`}
+                  onClick={() => handleNavigate('/onboarding')}
+                  type="button"
+                >
+                  {isSumitConnected ? (
+                    t('sumit.buttons.manage', 'Manage')
+                  ) : (
+                    <>
+                      {t('sumit.buttons.continue', 'Continue onboarding')} <OpenInNewIcon />
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Subscription */}
           <div
             className={`profile-card profile-card--subscription ${hasActiveSubscription ? 'profile-card--subscription-active' : ''}`}
@@ -409,7 +459,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 {hasActiveSubscription
                   ? t('buttons.manageSubscription', 'Manage Subscription')
                   : t('buttons.upgrade', 'Upgrade')}
-                <ChevronLeftIcon className="profile-btn__chevron" />
+                <ChevronRightIcon className="profile-btn__chevron" />
               </button>
             </div>
           </div>

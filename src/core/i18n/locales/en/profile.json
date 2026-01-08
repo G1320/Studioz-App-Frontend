@@ -59,7 +59,20 @@
       "securityDesc": "Coming soon: Manage passwords and email preferences",
       "calendar": "Calendar",
       "calendarDesc": "Sync your bookings with Google Calendar",
+      "sumit": "Credit card processing",
+      "sumitDesc": "Receive payments directly to your bank account",
       "subscription": "Subscription & Payments"
+    },
+    "sumit": {
+      "provider": "Sumit.co.il",
+      "status": {
+        "pending": "Onboarding status",
+        "active": "Connected & active"
+      },
+      "buttons": {
+        "continue": "Continue onboarding",
+        "manage": "Manage"
+      }
     },
     "fields": {
       "firstName": "First Name",
