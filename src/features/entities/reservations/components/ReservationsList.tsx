@@ -1,7 +1,6 @@
 import React from 'react';
 import { GenericList } from '@shared/components';
 import { ReservationCard } from './ReservationCard';
-import { ReservationCardSkeleton } from './ReservationCardSkeleton';
 import { EmptyReservationsState } from './EmptyReservationsState';
 import { Reservation, Studio } from 'src/types/index';
 import './styles/_reservations-list.scss';
@@ -26,11 +25,7 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({
   if (isLoading) {
     return (
       <section className="reservations-list reservations-list--loading">
-        <div className="reservations-list__grid">
-          {[...Array(3)].map((_, index) => (
-            <ReservationCardSkeleton key={index} />
-          ))}
-        </div>
+        <div className="reservations-list__spinner" />
       </section>
     );
   }
