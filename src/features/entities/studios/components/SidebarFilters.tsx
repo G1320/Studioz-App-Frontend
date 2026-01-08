@@ -117,7 +117,8 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
   const handleCategoryToggle = (id: string) => {
     setFilters((prev) => ({
       ...prev,
-      categories: prev.categories.includes(id) ? prev.categories.filter((c) => c !== id) : [...prev.categories, id]
+      // Radio behavior: if selected, deselect. If not, select ONLY this one.
+      categories: prev.categories.includes(id) ? [] : [id]
     }));
   };
 
