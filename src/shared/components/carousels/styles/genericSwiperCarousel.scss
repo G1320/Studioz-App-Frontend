@@ -29,6 +29,19 @@
     overflow: hidden;
   }
 
+  // Auto-width mode: each slide uses its natural content width
+  &--auto-width {
+    .swiper-slide {
+      width: auto !important;
+      flex-shrink: 0;
+    }
+
+    .swiper-slide--prepend {
+      display: flex;
+      align-items: center;
+    }
+  }
+
   .swiper-slide.dimmed {
     opacity: 0.8;
     transition: opacity 0.005s ease-in-out;

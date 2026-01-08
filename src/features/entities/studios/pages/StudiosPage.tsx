@@ -1,7 +1,8 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useMemo } from 'react';
 import { StudioCard, StudiosList, SidebarFilters, FilterState } from '@features/entities';
 import { LocationWelcomePopup, DistanceSlider } from '@shared/components';
 import { LazyStudiosMap } from '@shared/components/maps';
+import { GenericCarousel } from '@shared/components/carousels';
 import { useCategories, useMusicSubCategories, useCities } from '@shared/hooks/utils';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
@@ -18,7 +19,7 @@ import MapIcon from '@mui/icons-material/Map';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import TuneIcon from '@mui/icons-material/Tune';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { getSubcategoryIcon } from '@shared/components/icons/CategoryIcons';
+import { getSubcategoryIcon, MusicProductionIcon } from '@shared/components/icons/CategoryIcons';
 
 interface StudiosPageProps {
   studios: Studio[];
@@ -57,6 +58,60 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const musicSubCategories = useMusicSubCategories();
+
+  // Prepare category chips data for the carousel
+  interface CategoryChipData {
+    _id: string;
+    label: string;
+    englishKey: string;
+    isAllStudios?: boolean;
+  }
+
+  const categoryChipsData = useMemo<CategoryChipData[]>(() => {
+    const allStudiosChip: CategoryChipData = {
+      _id: 'all-studios',
+      label: t('page.allStudios', { defaultValue: 'All Studios' }),
+      englishKey: '',
+      isAllStudios: true
+    };
+
+    const subcategoryChips: CategoryChipData[] = musicSubCategories.slice(0, 6).map((cat) => ({
+      _id: getEnglishByDisplay(cat),
+      label: cat,
+      englishKey: getEnglishByDisplay(cat)
+    }));
+
+    return [allStudiosChip, ...subcategoryChips];
+  }, [musicSubCategories, getEnglishByDisplay, t]);
+
+  // Calculate selected index for centering in carousel
+  const selectedCategoryIndex = useMemo(() => {
+    if (!selectedSubcategory) return 0; // "All Studios" is at index 0
+    const index = categoryChipsData.findIndex((chip) => chip.englishKey === selectedSubcategory);
+    return index >= 0 ? index : 0;
+  }, [selectedSubcategory, categoryChipsData]);
+
+  // Prepare city chips data for the carousel
+  interface CityChipData {
+    _id: string;
+    name: string;
+    displayName: string;
+  }
+
+  const cityChipsData = useMemo<CityChipData[]>(() => {
+    return cities.map((city) => ({
+      _id: city.name,
+      name: city.name,
+      displayName: getDisplayByCityName(city.name)
+    }));
+  }, [getDisplayByCityName]);
+
+  // Calculate selected city index for centering in carousel
+  const selectedCityIndex = useMemo(() => {
+    if (!selectedCity) return -1; // No city selected, don't center
+    const index = cityChipsData.findIndex((chip) => chip.name === selectedCity);
+    return index >= 0 ? index : -1;
+  }, [selectedCity, cityChipsData]);
 
   // Show popup on first visit
   useEffect(() => {
@@ -167,53 +222,54 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
       {/* Subcategory Filters */}
       <div className="studios-page__filters">
-        <div className="studios-page__filters-scroll">
-          <button className="filter-chip filter-chip--outline" onClick={() => setShowFilters(true)}>
-            <TuneIcon />
-            <span>{t('page.filters', { defaultValue: 'Filters' })}</span>
-          </button>
+        <GenericCarousel
+          data={categoryChipsData}
+          className="studios-page__filters-carousel"
+          autoWidth
+          hideHeader
+          spaceBetween={12}
+          selectedIndex={selectedCategoryIndex + 2} // +2 to account for prepended slides (filters button + separator)
+          prependSlides={[
+            // Filters button
+            <button key="filters-btn" className="filter-chip filter-chip--outline" onClick={() => setShowFilters(true)}>
+              <TuneIcon />
+              <span>{t('page.filters', { defaultValue: 'Filters' })}</span>
+            </button>,
+            // Separator
+            <div key="separator" className="studios-page__filters-divider" />
+          ]}
+          renderItem={(chip) => {
+            const isActive = chip.isAllStudios ? !selectedSubcategory : selectedSubcategory === chip.englishKey;
+            const Icon = chip.isAllStudios ? MusicProductionIcon : getSubcategoryIcon(chip.englishKey);
+            const handleClick = chip.isAllStudios ? handleAllStudiosClick : () => handleSubcategoryClick(chip.label);
 
-          <div className="studios-page__filters-divider" />
-
-          <FilterChip
-            label={t('page.allStudios', { defaultValue: 'All Studios' })}
-            icon={<TuneIcon />}
-            isActive={!selectedSubcategory}
-            onClick={handleAllStudiosClick}
-          />
-
-          {musicSubCategories.slice(0, 6).map((cat) => (
-            (() => {
-              const englishCat = getEnglishByDisplay(cat);
-              const Icon = getSubcategoryIcon(englishCat);
-              return (
-                <FilterChip
-                  key={cat}
-                  label={cat}
-                  icon={<Icon />}
-                  isActive={selectedSubcategory === englishCat}
-                  onClick={() => handleSubcategoryClick(cat)}
-                />
-              );
-            })()
-          ))}
-        </div>
+            return (
+              <FilterChip key={chip._id} label={chip.label} icon={<Icon />} isActive={isActive} onClick={handleClick} />
+            );
+          }}
+        />
       </div>
 
       {/* Cities Filter */}
       <div className="studios-page__cities">
-        <div className="studios-page__cities-scroll">
-          {cities.map((city) => (
+        <GenericCarousel
+          data={cityChipsData}
+          className="studios-page__cities-carousel"
+          autoWidth
+          hideHeader
+          spaceBetween={8}
+          selectedIndex={selectedCityIndex >= 0 ? selectedCityIndex : undefined}
+          renderItem={(city) => (
             <button
-              key={city.name}
+              key={city._id}
               onClick={() => handleCityClick(city.name)}
               className={`city-chip ${selectedCity === city.name ? 'city-chip--active' : ''}`}
             >
               <LocationOnIcon />
-              <span>{getDisplayByCityName(city.name)}</span>
+              <span>{city.displayName}</span>
             </button>
-          ))}
-        </div>
+          )}
+        />
       </div>
 
       {featureFlags.distanceSlider && <DistanceSlider />}

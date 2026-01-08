@@ -79,6 +79,32 @@
   &__filters {
     width: 100%;
     overflow: hidden;
+
+    // Override carousel defaults for filter chips
+    .generic-carousel {
+      max-width: 100%;
+      min-width: 100%;
+    }
+
+    .swiper-navigation-title-container {
+      display: none;
+    }
+
+    .swiper_wrap {
+      padding-bottom: 0.5rem;
+    }
+
+    .swiper-slide {
+      height: auto;
+      overflow: visible;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__filters-carousel {
+    // Ensure carousel takes full width
+    width: 100%;
   }
 
   &__filters-scroll {
@@ -107,6 +133,31 @@
   &__cities {
     width: 100%;
     overflow: hidden;
+
+    // Override carousel defaults for city chips
+    .generic-carousel {
+      max-width: 100%;
+      min-width: 100%;
+    }
+
+    .swiper-navigation-title-container {
+      display: none;
+    }
+
+    .swiper_wrap {
+      padding-bottom: 0.5rem;
+    }
+
+    .swiper-slide {
+      height: auto;
+      overflow: visible;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__cities-carousel {
+    width: 100%;
   }
 
   &__cities-scroll {

@@ -22,6 +22,24 @@ interface GenericCarouselProps<T> {
   breakpoints?: Record<number, { slidesPerView: number }>;
   showNavigation?: boolean;
   selectedIndex?: number;
+  /**
+   * When true, each slide uses its natural content width instead of breakpoint-based widths.
+   * Useful for chips, tags, or any content with variable widths.
+   */
+  autoWidth?: boolean;
+  /**
+   * Content to prepend before the data items (e.g., a filters button + separator).
+   * Each element will be wrapped in its own SwiperSlide.
+   */
+  prependSlides?: React.ReactNode[];
+  /**
+   * Hide the header section (title, see all link, navigation).
+   */
+  hideHeader?: boolean;
+  /**
+   * Custom space between slides (default: 15)
+   */
+  spaceBetween?: number;
 }
 
 export const GenericCarousel = <T,>({
@@ -40,7 +58,11 @@ export const GenericCarousel = <T,>({
     1550: { slidesPerView: 5.2 }
   },
   showNavigation = true,
-  selectedIndex
+  selectedIndex,
+  autoWidth = false,
+  prependSlides,
+  hideHeader = false,
+  spaceBetween = 15
 }: GenericCarouselProps<T>) => {
   const swiperRef = useRef<SwiperType>();
   const { i18n, t } = useTranslation('common');
@@ -116,7 +138,7 @@ export const GenericCarousel = <T,>({
     const handleFocusIn = (e: FocusEvent) => {
       const target = e.target as HTMLElement;
       const slide = target.closest('.swiper-slide') as HTMLElement;
-      
+
       if (slide && swiperRef.current) {
         // When an element receives focus, ensure its slide is not aria-hidden
         slide.setAttribute('aria-hidden', 'false');
@@ -190,10 +212,14 @@ export const GenericCarousel = <T,>({
     />
   ];
 
+  const carouselClasses = ['generic-carousel', autoWidth ? 'generic-carousel--auto-width' : '']
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <section
       key={i18n.language}
-      className="generic-carousel"
+      className={carouselClasses}
       tabIndex={0}
       aria-live="polite"
       onKeyDown={(e) => {
@@ -206,19 +232,21 @@ export const GenericCarousel = <T,>({
         }
       }}
     >
-      <div className="swiper-navigation-title-container">
-        {title && <h2 className="generic-carousel-title">{title}</h2>}
-        {seeAllPath && (
-          <div className="see-all-container">
-            <Link to={`/${i18n.language}${seeAllPath}`} className="see-all-link">
-              {t('buttons.see_all')}
-            </Link>
-          </div>
-        )}
-        {showNavigation && shouldShowNavigation && (
-          <div className="swiper-navigation">{isRTL ? navigationButtons.reverse() : navigationButtons}</div>
-        )}
-      </div>
+      {!hideHeader && (
+        <div className="swiper-navigation-title-container">
+          {title && <h2 className="generic-carousel-title">{title}</h2>}
+          {seeAllPath && (
+            <div className="see-all-container">
+              <Link to={`/${i18n.language}${seeAllPath}`} className="see-all-link">
+                {t('buttons.see_all')}
+              </Link>
+            </div>
+          )}
+          {showNavigation && shouldShowNavigation && (
+            <div className="swiper-navigation">{isRTL ? navigationButtons.reverse() : navigationButtons}</div>
+          )}
+        </div>
+      )}
 
       <div className="swiper_wrap">
         <Swiper
@@ -226,9 +254,9 @@ export const GenericCarousel = <T,>({
             swiperRef.current = swiper;
           }}
           dir={isRTL ? 'rtl' : 'ltr'}
-          className={`swiper ${className}`}
+          className={`swiper ${className || ''}`}
           modules={[Pagination, Navigation, Autoplay]}
-          spaceBetween={15}
+          spaceBetween={spaceBetween}
           slidesPerView={'auto'}
           initialSlide={selectedIndex !== undefined && selectedIndex >= 0 ? selectedIndex : 0}
           cssMode={true}
@@ -247,7 +275,7 @@ export const GenericCarousel = <T,>({
             clickable: true
           }}
           navigation={false}
-          breakpoints={breakpoints}
+          breakpoints={autoWidth ? undefined : breakpoints}
           watchSlidesProgress={true}
           onTouchStart={() => {
             autoplay && swiperRef.current?.autoplay?.stop();
@@ -267,7 +295,7 @@ export const GenericCarousel = <T,>({
               // Check if any element within this slide has focus
               const activeElement = document.activeElement;
               const hasFocusedElement = activeElement && slide.contains(activeElement);
-              
+
               // Check if this is the last slide
               const isLastSlide = index === swiper.slides.length - 1;
 
@@ -291,7 +319,7 @@ export const GenericCarousel = <T,>({
                 // Make sure the last slide is never dimmed
                 slide.classList.remove('dimmed');
               }
-              
+
               // Ensure slides with focused elements are not aria-hidden
               if (hasFocusedElement) {
                 slide.setAttribute('aria-hidden', 'false');
@@ -307,11 +335,11 @@ export const GenericCarousel = <T,>({
 
             swiper.slides.forEach((slide, index) => {
               const isVisible = index >= currentIndex && index < currentIndex + slidesPerView;
-              
+
               // Check if any element within this slide has focus
               const activeElement = document.activeElement;
               const hasFocusedElement = activeElement && slide.contains(activeElement);
-              
+
               // Only set aria-hidden if the slide is not visible AND doesn't have focus
               // If a slide has focus, we must not hide it from assistive technology
               if (!isVisible && !hasFocusedElement) {
@@ -329,6 +357,13 @@ export const GenericCarousel = <T,>({
             });
           }}
         >
+          {/* Prepended slides (e.g., filters button, separator) */}
+          {prependSlides?.map((slide, index) => (
+            <SwiperSlide key={`prepend-${index}`} tabIndex={-1} className="swiper-slide--prepend">
+              {slide}
+            </SwiperSlide>
+          ))}
+          {/* Data slides */}
           {data?.map((item, index) => (
             <SwiperSlide key={(item as Studio | Item)._id || index} tabIndex={-1}>
               {renderItem(item)}
