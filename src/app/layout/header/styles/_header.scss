@@ -57,7 +57,7 @@ header.app-header {
   box-sizing: border-box; // Include padding in width calculation
 
   z-index: 1400; // Above MUI Modal (1300) to keep header visible
-  padding: 0 0.75rem;
+  padding: 0 1rem;
 
   // StudioZ style guide: bg-black/95 backdrop-blur-md border-b border-zinc-800/50
   background: rgba(0, 0, 0, 0.95);
@@ -75,7 +75,6 @@ header.app-header {
     height: 5rem;
     min-height: 5rem;
     max-height: 5rem;
-    padding: 0 1.5rem;
   }
 
   // Constrain header content to 1540px on large screens
