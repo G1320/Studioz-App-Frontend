@@ -1,56 +1,73 @@
 @use 'utilities/variables' as vars;
 
+// Match the ReservationCard colors
+$card-bg: #111111;
+$border-default: vars.$zinc-800;
+
 .reservation-card-skeleton {
-  background: vars.$bg-color-secondary;
-  border: 1px solid vars.$white-opacity-10;
-  border-radius: vars.$border-radius-medium;
-  padding: vars.$spacing-large;
-  margin-bottom: vars.$spacing-medium;
+  background: $card-bg;
+  border: 1px solid $border-default;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  overflow: hidden;
+
+  // Summary layout (matches collapsed ReservationCard)
+  &__summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  &__status-indicator {
+    flex-shrink: 0;
+  }
 
   &__content {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-medium;
+    gap: 0.25rem;
   }
 
   &__header {
     display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-xs;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 
   &__item-name {
-    position: relative;
-    height: 24px;
+    flex: 1;
+    min-width: 0;
   }
 
-  &__studio {
-    position: relative;
-    height: 18px;
-    margin-top: vars.$spacing-xs;
+  &__price {
+    flex-shrink: 0;
   }
 
-  &__status {
-    position: relative;
-    height: 24px;
-    margin: vars.$spacing-small 0;
+  &__subtitle {
+    margin-top: 0.125rem;
   }
 
-  &__details {
+  &__meta {
     display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-small;
-    
-    .skeleton-loader {
-      position: relative;
-      height: 16px;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  &__meta-item {
+    display: flex;
+    align-items: center;
+  }
+
+  // Responsive
+  @media (max-width: 480px) {
+    &__summary {
+      padding: 1rem;
     }
   }
-
-  &__button {
-    position: relative;
-    height: 36px;
-    margin-top: vars.$spacing-small;
-  }
 }
-
