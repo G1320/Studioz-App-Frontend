@@ -23,20 +23,17 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
 }) => {
   return (
     <div className="studio-features-container">
-      <StatusBadge
-        averageRating={averageRating}
-        reviewCount={reviewCount}
-        createdAt={studio?.createdAt}
-      />
+      <StudioBadges>
+        <StatusBadge
+          averageRating={averageRating}
+          reviewCount={reviewCount}
+          createdAt={studio?.createdAt}
+        />
+      </StudioBadges>
       {averageRating !== undefined && (
         <StudioRating averageRating={averageRating} reviewCount={reviewCount} variant="badge" showCount={false} />
       )}
       {distance !== null && distance !== undefined && <DistanceBadge distance={distance} />}
-      {studio?.city && (
-        <StudioBadges className="studio-city-badge">
-          <span>{studio.city}</span>
-        </StudioBadges>
-      )}
       <div className="studio-features">
         <div role="group" aria-labelledby="occupancy">
           <ChairIcon aria-label="Chair icon" />

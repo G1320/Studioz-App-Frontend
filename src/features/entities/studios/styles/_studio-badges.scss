@@ -1,7 +1,8 @@
 .studio-badges {
   position: absolute;
   top: 0.8rem;
-  right: 0.8rem;
+  left: 0.8rem;
+  right: auto;
   z-index: 3;
   pointer-events: none;
   display: flex;
@@ -10,8 +11,8 @@
   align-items: center;
 
   html[dir='rtl'] & {
-    right: auto;
-    left: 0.8rem;
+    left: auto;
+    right: 0.8rem;
   }
 
   .studio-rating {

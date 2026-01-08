@@ -73,7 +73,9 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
       <StudioCardHeader studio={studio} />
       <div className="studio-card-name-and-description">
         <h3 className="title">{studio?.name?.en}</h3>
-        <p className="description">{studio?.address || studio?.description?.en}</p>
+        <p className="description">
+          {(studio?.address || studio?.description?.en || '').replace(/,?\s*Israel$/i, '').trim()}
+        </p>
       </div>
       <StudioFeatures
         studio={studio}
