@@ -78,6 +78,13 @@ header.app-header {
     padding: 0 1.5rem;
   }
 
+  // Constrain header content to 1540px on large screens
+  @media screen and (min-width: 1540px) {
+    // Calculate padding to center 1540px content: (100vw - 1540px) / 2
+    padding-left: calc((100vw - 1540px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1540px) / 2 + 1.5rem);
+  }
+
   @supports (-webkit-overflow-scrolling: touch) {
     /* iOS-specific styles */
     -webkit-overflow-scrolling: touch;
