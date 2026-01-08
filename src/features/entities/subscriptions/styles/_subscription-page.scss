@@ -16,7 +16,6 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 // Container
 .subscriptions-container {
   max-width: 1200px;
-  padding: 0 vars.$spacing-medium;
 }
 
 // Section Titles
@@ -135,7 +134,7 @@ $subscriptions-muted: rgba(255, 255, 255, 0.6);
 .subscriptions-hero {
   position: relative;
   z-index: 1;
-  padding: 6rem 0 3rem;
+  padding: 5rem 0 3rem;
   text-align: center;
 
   @media (min-width: 768px) {

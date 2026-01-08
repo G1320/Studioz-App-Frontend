@@ -120,6 +120,7 @@ export const SumitSubscriptionPage = () => {
         t('plans.starter.features.booking'),
         t('plans.starter.features.calendar'),
         t('plans.starter.features.googleCalendar'),
+        t('plans.starter.features.payment'),
         t('plans.starter.features.support'),
         t('plans.starter.features.cancel')
       ],

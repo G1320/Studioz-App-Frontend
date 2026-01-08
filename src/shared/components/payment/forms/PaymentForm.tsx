@@ -77,43 +77,6 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
 
       {error && <div className="sumit-payment-form__error">{error}</div>}
 
-      {showCouponInput && (
-        <div className="sumit-payment-form__coupon">
-          <label>{t('form.payment.coupon.label', 'Coupon Code')}</label>
-          <div className="sumit-payment-form__coupon-input">
-            <input
-              type="text"
-              value={couponCode}
-              onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-              placeholder={t('form.payment.coupon.placeholder', 'Enter coupon code')}
-              disabled={!!appliedCoupon || isValidatingCoupon}
-            />
-            {!appliedCoupon ? (
-              <button
-                type="button"
-                onClick={handleApplyCoupon}
-                disabled={isValidatingCoupon}
-                className="sumit-payment-form__coupon-btn"
-              >
-                {isValidatingCoupon
-                  ? t('form.payment.coupon.validating', 'Validating...')
-                  : t('form.payment.coupon.apply', 'Apply')}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleRemoveCoupon}
-                className="sumit-payment-form__coupon-btn sumit-payment-form__coupon-btn--remove"
-              >
-                {t('form.payment.coupon.remove', 'Remove')}
-              </button>
-            )}
-          </div>
-          {couponError && <div className="sumit-payment-form__coupon-error">{couponError}</div>}
-          {couponSuccess && <div className="sumit-payment-form__coupon-success">{couponSuccess}</div>}
-        </div>
-      )}
-
       {appliedCoupon && totalAmount && (
         <div className="sumit-payment-form__discount-summary">
           <div className="sumit-payment-form__discount-row">
@@ -198,6 +161,43 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
             placeholder={t('form.payment.idNumber.placeholder')}
           />
         </div>
+
+        {showCouponInput && (
+          <div className="sumit-payment-form__coupon">
+            <label>{t('form.payment.coupon.label', 'Coupon Code')}</label>
+            <div className="sumit-payment-form__coupon-input">
+              <input
+                type="text"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                placeholder={t('form.payment.coupon.placeholder', 'Enter coupon code')}
+                disabled={!!appliedCoupon || isValidatingCoupon}
+              />
+              {!appliedCoupon ? (
+                <button
+                  type="button"
+                  onClick={handleApplyCoupon}
+                  disabled={isValidatingCoupon}
+                  className="sumit-payment-form__coupon-btn"
+                >
+                  {isValidatingCoupon
+                    ? t('form.payment.coupon.validating', 'Validating...')
+                    : t('form.payment.coupon.apply', 'Apply')}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleRemoveCoupon}
+                  className="sumit-payment-form__coupon-btn sumit-payment-form__coupon-btn--remove"
+                >
+                  {t('form.payment.coupon.remove', 'Remove')}
+                </button>
+              )}
+            </div>
+            {couponError && <div className="sumit-payment-form__coupon-error">{couponError}</div>}
+            {couponSuccess && <div className="sumit-payment-form__coupon-success">{couponSuccess}</div>}
+          </div>
+        )}
 
         <div className="sumit-payment-form__submit">
           <button type="submit">
