@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { Item } from 'src/types/index';
-import { getLocalModalOpen, setLocalModalOpen, getLocalSelectedItem, setLocalSelectedItem } from '@shared/services';
 import { GenericModal } from '@shared/components';
 import { ItemDetails } from '@features/entities';
 import { getStudioById } from '@shared/services/studio-service';
@@ -9,10 +8,10 @@ import { preloadImage } from '@shared/utils/preloadUtils';
 
 // Define types for the context
 interface ModalContextType {
-  selectedItem: Item | null;
+  selectedItemId: string | null;
   loadingItemId: string | null;
   loadingStudioId: string | null;
-  openModal: (item: Item) => void;
+  openModal: (item: Item | string) => void;
   closeModal: () => void;
   setLoadingStudioId: (studioId: string | null) => void;
 }
@@ -22,7 +21,7 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 // Default noop functions for when context is not available
 const defaultContextValue: ModalContextType = {
-  selectedItem: null,
+  selectedItemId: null,
   loadingItemId: null,
   loadingStudioId: null,
   openModal: () => {
@@ -51,69 +50,86 @@ interface ModalProviderProps {
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const location = useLocation();
-  const [selectedItem, setSelectedItem] = useState<Item | null>(() => {
-    // Initialize state from localStorage
-    const storedItem = getLocalSelectedItem();
-    return storedItem;
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
   const [loadingStudioId, setLoadingStudioId] = useState<string | null>(null);
 
-  const openModal = useCallback(async (item: Item) => {
-    // Set loading state on the clicked item
-    setLoadingItemId(item._id);
+  // Get itemId from URL query params
+  const selectedItemId = searchParams.get('item');
 
-    try {
-      // Fetch studio data to get cover image URL
-      if (item.studioId) {
-        const studioData = await getStudioById(item.studioId);
-        const coverImageUrl = studioData?.currStudio?.coverImage;
+  const openModal = useCallback(
+    async (itemOrId: Item | string) => {
+      // Support both Item object and itemId string
+      const itemId = typeof itemOrId === 'string' ? itemOrId : itemOrId._id;
+      const item = typeof itemOrId === 'string' ? null : itemOrId;
 
-        // Preload the cover image if available
-        if (coverImageUrl) {
-          await preloadImage(coverImageUrl);
+      // Set loading state on the clicked item
+      setLoadingItemId(itemId);
+
+      try {
+        // Fetch studio data to get cover image URL for preloading
+        const studioId = item?.studioId;
+        if (studioId) {
+          const studioData = await getStudioById(studioId);
+          const coverImageUrl = studioData?.currStudio?.coverImage;
+
+          // Preload the cover image if available
+          if (coverImageUrl) {
+            await preloadImage(coverImageUrl);
+          }
         }
+      } catch (error) {
+        // If fetching fails, still open the modal
+        console.error('Error preloading modal data:', error);
       }
-    } catch (error) {
-      // If fetching fails, still open the modal
-      console.error('Error preloading modal data:', error);
-    }
 
-    // Clear loading and open modal
-    setLoadingItemId(null);
-    setSelectedItem(item);
-    setLocalModalOpen(true);
-    setLocalSelectedItem(item);
-  }, []);
+      // Clear loading and update URL to open modal
+      setLoadingItemId(null);
+
+      // Update URL with item param (preserves other params)
+      setSearchParams(
+        (prev) => {
+          prev.set('item', itemId);
+          return prev;
+        },
+        { replace: true }
+      );
+    },
+    [setSearchParams]
+  );
 
   const closeModal = useCallback(() => {
-    setSelectedItem(null);
-    setLocalModalOpen(false);
-    setLocalSelectedItem(null);
-  }, []);
+    // Remove item param from URL (preserves other params)
+    setSearchParams(
+      (prev) => {
+        prev.delete('item');
+        return prev;
+      },
+      { replace: true }
+    );
+  }, [setSearchParams]);
 
-  useEffect(() => {
-    // Synchronize state on component mount (e.g., page reload)
-    const modalOpen = getLocalModalOpen();
-    const storedItem = getLocalSelectedItem();
-    if (modalOpen && storedItem) {
-      setSelectedItem(storedItem);
-    }
-  }, []);
+  // Track previous pathname to detect actual navigation (not initial mount/refresh)
+  const prevPathnameRef = useRef(location.pathname);
 
-  // Close modal when navigation occurs
+  // Close modal when pathname changes (navigation to different page)
   useEffect(() => {
-    if (selectedItem) {
+    // Only close modal if pathname actually changed (not on initial mount)
+    if (prevPathnameRef.current !== location.pathname && selectedItemId) {
       closeModal();
     }
+    // Update ref to current pathname
+    prevPathnameRef.current = location.pathname;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   return (
-    <ModalContext.Provider value={{ selectedItem, loadingItemId, loadingStudioId, openModal, closeModal, setLoadingStudioId }}>
+    <ModalContext.Provider
+      value={{ selectedItemId, loadingItemId, loadingStudioId, openModal, closeModal, setLoadingStudioId }}
+    >
       {children}
-      <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
-        {selectedItem && <ItemDetails itemId={selectedItem._id} />}
+      <GenericModal open={!!selectedItemId} onClose={closeModal} className="item-modal">
+        {selectedItemId && <ItemDetails itemId={selectedItemId} />}
       </GenericModal>
     </ModalContext.Provider>
   );

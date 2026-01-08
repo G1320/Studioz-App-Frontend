@@ -23,7 +23,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const { currStudio } = studioObj || {};
 
-  const { selectedItem, openModal } = useModal();
+  const { selectedItemId, openModal } = useModal();
 
   useEffect(() => {
     if (studioObj && currStudio && items) {
@@ -60,7 +60,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
           )}
         />
       )}
-      {!selectedItem && <ContinueToCheckoutButton cart={cart} />}
+      {!selectedItemId && <ContinueToCheckoutButton cart={cart} />}
     </section>
   );
 };
