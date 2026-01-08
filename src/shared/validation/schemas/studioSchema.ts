@@ -26,10 +26,18 @@ export const studioNameSchema = translationSchema({
 /**
  * Studio subtitle schema (optional)
  */
-export const studioSubtitleSchema = optionalTranslationSchema({
-  en: englishTextSchema('subtitle').max(100, 'Subtitle must be at most 100 characters').optional(),
-  he: hebrewTextSchema('subtitle').max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
-});
+export const studioSubtitleSchema = z
+  .object({
+    en: z.preprocess(
+      (val) => (val === '' ? undefined : val),
+      englishTextSchema('subtitle').max(100, 'Subtitle must be at most 100 characters').optional()
+    ),
+    he: z.preprocess(
+      (val) => (val === '' ? undefined : val),
+      hebrewTextSchema('subtitle').max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+    )
+  })
+  .optional();
 
 /**
  * Studio description schema (optional)
@@ -365,8 +373,14 @@ export const studioEditSchema = studioFullSchema.partial().extend({
   // Allow dual-language subtitle - remove Hebrew/English character restrictions for edit
   subtitle: z
     .object({
-      en: z.string().max(100, 'Subtitle must be at most 100 characters').optional(),
-      he: z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+      en: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().max(100, 'Subtitle must be at most 100 characters').optional()
+      ),
+      he: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+      )
     })
     .optional(),
   // Allow dual-language description - remove Hebrew/English character restrictions for edit
@@ -419,8 +433,14 @@ export const studioStep1EditSchema = z.object({
   }),
   subtitle: z
     .object({
-      en: z.string().max(100, 'Subtitle must be at most 100 characters').optional(),
-      he: z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+      en: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().max(100, 'Subtitle must be at most 100 characters').optional()
+      ),
+      he: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+      )
     })
     .optional(),
   description: z

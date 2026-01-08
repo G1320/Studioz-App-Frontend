@@ -45,7 +45,7 @@ export default interface Studio {
     en: string;
     he: string;
   };
-  subtitle: {
+  subtitle?: {
     en?: string;
     he?: string;
   };
