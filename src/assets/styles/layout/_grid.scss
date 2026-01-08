@@ -11,10 +11,6 @@ main {
   width: 100%;
   min-width: 0;
   min-height: calc(100vh - 10rem); // Ensure main content fills viewport minus header/footer
-
-  @media screen and (min-width: 768px) {
-    padding-top: 5.5rem; // Account for larger header on desktop (5rem + 0.5rem spacing)
-  }
 }
 
 body:has(.discover-page) main {

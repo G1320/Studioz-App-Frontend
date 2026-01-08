@@ -76,12 +76,13 @@ $landing-muted: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible; // Allow dropdown to extend beyond hero bounds
 
   &__background {
     position: absolute;
     inset: 0;
     z-index: 0;
+    overflow: hidden; // Contain background image
   }
 
   &__image {
@@ -238,7 +239,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: vars.$border-radius-xl;
-    max-height: 320px;
+    max-height: 380px;
     overflow-y: auto;
     z-index: 100;
     box-shadow:
