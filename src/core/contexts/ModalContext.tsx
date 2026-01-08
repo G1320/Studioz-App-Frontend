@@ -11,8 +11,10 @@ import { preloadImage } from '@shared/utils/preloadUtils';
 interface ModalContextType {
   selectedItem: Item | null;
   loadingItemId: string | null;
+  loadingStudioId: string | null;
   openModal: (item: Item) => void;
   closeModal: () => void;
+  setLoadingStudioId: (studioId: string | null) => void;
 }
 
 // Create the context
@@ -22,11 +24,15 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 const defaultContextValue: ModalContextType = {
   selectedItem: null,
   loadingItemId: null,
+  loadingStudioId: null,
   openModal: () => {
     console.warn('useModal: openModal called outside of ModalProvider');
   },
   closeModal: () => {
     console.warn('useModal: closeModal called outside of ModalProvider');
+  },
+  setLoadingStudioId: () => {
+    console.warn('useModal: setLoadingStudioId called outside of ModalProvider');
   }
 };
 
@@ -51,6 +57,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     return storedItem;
   });
   const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
+  const [loadingStudioId, setLoadingStudioId] = useState<string | null>(null);
 
   const openModal = useCallback(async (item: Item) => {
     // Set loading state on the clicked item
@@ -103,7 +110,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <ModalContext.Provider value={{ selectedItem, loadingItemId, openModal, closeModal }}>
+    <ModalContext.Provider value={{ selectedItem, loadingItemId, loadingStudioId, openModal, closeModal, setLoadingStudioId }}>
       {children}
       <GenericModal open={!!selectedItem} onClose={closeModal} className="item-modal">
         {selectedItem && <ItemDetails itemId={selectedItem._id} />}

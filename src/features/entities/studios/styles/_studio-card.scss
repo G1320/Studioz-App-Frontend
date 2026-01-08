@@ -15,6 +15,43 @@
   box-sizing: border-box;
 
   cursor: pointer;
+
+  // Loading state
+  &--loading {
+    pointer-events: none;
+  }
+
+  &__loading-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    z-index: 10;
+    gap: 0 !important; // Override .card div styles
+  }
+
+  &__spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid vars.$white-opacity-20;
+    border-top-color: vars.$color-brand;
+    border-radius: 50%;
+    animation: studio-card-spin 0.6s linear infinite;
+  }
+
+  @keyframes studio-card-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
   @container (max-width: 270px) {
     container-type: inline-size;
   }
