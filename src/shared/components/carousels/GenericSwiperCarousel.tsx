@@ -234,15 +234,45 @@ export const GenericCarousel = <T,>({
     .filter(Boolean)
     .join(' ');
 
-  // Inline navigation handlers
+  // Inline navigation handlers - scroll by container width for smoother navigation
   const handleInlinePrev = () => {
     autoplay && swiperRef.current?.autoplay?.stop();
-    isRTL ? swiperRef.current?.slideNext() : swiperRef.current?.slidePrev();
+    const swiper = swiperRef.current;
+    if (!swiper?.wrapperEl) return;
+
+    const scrollAmount = swiper.width * 0.8; // Scroll by 80% of visible width
+    const currentScroll = swiper.wrapperEl.scrollLeft;
+    const newScroll = isRTL ? currentScroll + scrollAmount : Math.max(0, currentScroll - scrollAmount);
+
+    swiper.wrapperEl.scrollTo({
+      left: newScroll,
+      behavior: 'smooth'
+    });
   };
 
   const handleInlineNext = () => {
     autoplay && swiperRef.current?.autoplay?.stop();
-    isRTL ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext();
+    const swiper = swiperRef.current;
+    if (!swiper?.wrapperEl) return;
+
+    const scrollAmount = swiper.width * 0.8; // Scroll by 80% of visible width
+    const currentScroll = swiper.wrapperEl.scrollLeft;
+    const maxScroll = swiper.wrapperEl.scrollWidth - swiper.width;
+
+    // Calculate new scroll position
+    let newScroll = isRTL ? currentScroll - scrollAmount : currentScroll + scrollAmount;
+
+    // If we're close to the end, snap to the end to show last item fully
+    if (!isRTL && newScroll > maxScroll - 50) {
+      newScroll = maxScroll;
+    } else if (isRTL && newScroll < 50) {
+      newScroll = 0;
+    }
+
+    swiper.wrapperEl.scrollTo({
+      left: newScroll,
+      behavior: 'smooth'
+    });
   };
 
   return (
