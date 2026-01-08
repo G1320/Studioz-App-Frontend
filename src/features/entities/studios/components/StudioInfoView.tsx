@@ -229,79 +229,80 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
         </section>
       )}
 
-      {/* Contact & Location */}
-      {(studio?.address || studio?.phone || studio?.website) && (
-        <section className="info-card info-card--contact">
-          <h3 className="info-card__title">
-            <LocationOnIcon className="info-card__icon" />
-            {t('form.studioDetails.contactLocation', { defaultValue: 'Contact & Location' })}
-          </h3>
-          <div className="info-card__contact-list">
-            {studio?.address && (
-              <div className="info-card__contact-item">
-                <div className="info-card__contact-icon">
-                  <LocationOnIcon />
-                </div>
-                <div className="info-card__contact-content">
-                  <span className="info-card__contact-label">
-                    {t('form.studioDetails.address', { defaultValue: 'Address' })}
-                  </span>
-                  <span className="info-card__contact-value">
-                    {getCleanAddress(studio.address, studio.city)}
-                  </span>
-                </div>
-              </div>
-            )}
-            {studio?.phone && (
-              <div className="info-card__contact-item">
-                <div className="info-card__contact-icon">
-                  <PhoneIcon />
-                </div>
-                <div className="info-card__contact-content">
-                  <span className="info-card__contact-label">
-                    {t('form.studioDetails.phone', { defaultValue: 'Phone' })}
-                  </span>
-                  <a href={`tel:${studio.phone}`} className="info-card__contact-value info-card__contact-value--link">
-                    {studio.phone}
-                  </a>
-                </div>
-              </div>
-            )}
-            {studio?.website && (
-              <div className="info-card__contact-item">
-                <div className="info-card__contact-icon">
-                  <LanguageIcon />
-                </div>
-                <div className="info-card__contact-content">
-                  <span className="info-card__contact-label">
-                    {t('form.studioDetails.website', { defaultValue: 'Website' })}
-                  </span>
-                  <a
-                    href={studio.website.startsWith('http') ? studio.website : `https://${studio.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="info-card__contact-value info-card__contact-value--link"
-                  >
-                    {(() => {
-                      try {
-                        const url = new URL(
-                          studio.website.startsWith('http') ? studio.website : `https://${studio.website}`
-                        );
-                        return url.hostname;
-                      } catch {
-                        return studio.website.replace(/^https?:\/\//, '');
-                      }
-                    })()}
-                  </a>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Rules & Policies */}
+      {/* Info Cards Row */}
       <div className="info-section__row">
+        {/* Contact & Location */}
+        {(studio?.address || studio?.phone || studio?.website) && (
+          <section className="info-card info-card--contact">
+            <h3 className="info-card__title">
+              <LocationOnIcon className="info-card__icon" />
+              {t('form.studioDetails.contactLocation', { defaultValue: 'Contact & Location' })}
+            </h3>
+            <div className="info-card__contact-list">
+              {studio?.address && (
+                <div className="info-card__contact-item">
+                  <div className="info-card__contact-icon">
+                    <LocationOnIcon />
+                  </div>
+                  <div className="info-card__contact-content">
+                    <span className="info-card__contact-label">
+                      {t('form.studioDetails.address', { defaultValue: 'Address' })}
+                    </span>
+                    <span className="info-card__contact-value">
+                      {getCleanAddress(studio.address, studio.city)}
+                    </span>
+                  </div>
+                </div>
+              )}
+              {studio?.phone && (
+                <div className="info-card__contact-item">
+                  <div className="info-card__contact-icon">
+                    <PhoneIcon />
+                  </div>
+                  <div className="info-card__contact-content">
+                    <span className="info-card__contact-label">
+                      {t('form.studioDetails.phone', { defaultValue: 'Phone' })}
+                    </span>
+                    <a href={`tel:${studio.phone}`} className="info-card__contact-value info-card__contact-value--link">
+                      {studio.phone}
+                    </a>
+                  </div>
+                </div>
+              )}
+              {studio?.website && (
+                <div className="info-card__contact-item">
+                  <div className="info-card__contact-icon">
+                    <LanguageIcon />
+                  </div>
+                  <div className="info-card__contact-content">
+                    <span className="info-card__contact-label">
+                      {t('form.studioDetails.website', { defaultValue: 'Website' })}
+                    </span>
+                    <a
+                      href={studio.website.startsWith('http') ? studio.website : `https://${studio.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="info-card__contact-value info-card__contact-value--link"
+                    >
+                      {(() => {
+                        try {
+                          const url = new URL(
+                            studio.website.startsWith('http') ? studio.website : `https://${studio.website}`
+                          );
+                          return url.hostname;
+                        } catch {
+                          return studio.website.replace(/^https?:\/\//, '');
+                        }
+                      })()}
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Rules & Policies */}
         {houseRules.length > 0 && (
           <section className="info-card">
             <h3 className="info-card__title">
