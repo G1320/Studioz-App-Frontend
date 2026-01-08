@@ -14,16 +14,15 @@ $page-label: rgba(113, 113, 122, 1); // zinc-500
 
 .my-reservations-page {
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: vars.$spacing-2xl vars.$spacing-large;
+  max-width: 1540px;
   min-height: 60vh;
+  margin-block-start: 1.5rem;
   box-sizing: border-box;
   overflow-x: hidden;
 
   &__header {
     margin-bottom: vars.$spacing-xl;
-    text-align: start;
+    text-align: center;
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-small;

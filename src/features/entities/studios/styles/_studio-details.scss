@@ -15,7 +15,10 @@
 
 .studio-details-page {
   max-width: 1540px;
-  margin: 1.5rem 0;
+
+  @media (min-width: 768px) {
+    margin: 1.5rem 0;
+  }
 
   .studio-details {
     width: 100%;
