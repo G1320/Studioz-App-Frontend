@@ -1,4 +1,3 @@
-import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -7,7 +6,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
 import '../styles/_how-it-works-page.scss';
 
 /**
@@ -55,27 +53,13 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, stepNumbe
 );
 
 /**
- * Video Player Component with Screen Studio aesthetic
+ * Video Player Component - Bunny Stream Embed
  */
 interface VideoPlayerProps {
-  src?: string;
-  poster?: string;
+  embedUrl?: string;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ embedUrl }) => {
   return (
     <div className="how-it-works__video-player">
       {/* Screen Studio Style Frame Bar */}
@@ -85,48 +69,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
         <div className="how-it-works__video-dot how-it-works__video-dot--green" />
       </div>
 
-      {src ? (
-        <video
-          ref={videoRef}
-          src={src}
-          poster={poster}
-          className="how-it-works__video"
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onEnded={() => setIsPlaying(false)}
-          playsInline
-          muted
-          loop
-          preload="metadata"
+      {embedUrl ? (
+        <iframe
+          src={`${embedUrl}?autoplay=false&loop=true&muted=true&preload=true`}
+          className="how-it-works__video-iframe"
+          loading="lazy"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
         />
       ) : (
         <div className="how-it-works__video-placeholder">
-          {poster ? (
-            <img src={poster} alt="Video poster" className="how-it-works__video-poster" />
-          ) : (
-            <>
-              <PlayArrowIcon className="how-it-works__video-placeholder-icon" />
-              <p>Video Coming Soon</p>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Play/Pause Overlay */}
-      {!isPlaying && (
-        <div className="how-it-works__video-overlay" onClick={togglePlay}>
-          <div className="how-it-works__video-play-button">
-            <PlayArrowIcon />
-          </div>
-        </div>
-      )}
-
-      {/* Pause button when playing */}
-      {isPlaying && (
-        <div className="how-it-works__video-controls" onClick={togglePlay}>
-          <div className="how-it-works__video-pause-button">
-            <PauseIcon />
-          </div>
+          <PlayArrowIcon className="how-it-works__video-placeholder-icon" />
+          <p>Video Coming Soon</p>
         </div>
       )}
     </div>
@@ -137,11 +91,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
  * How It Works Page Component
  */
 export interface HowItWorksPageProps {
-  videoUrl?: string;
-  videoPoster?: string;
+  videoEmbedUrl?: string;
 }
 
-const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoUrl, videoPoster }) => {
+const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
   const { t } = useTranslation('howItWorks');
   const navigate = useLanguageNavigate();
 
@@ -204,7 +157,7 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoUrl, videoPoster }
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <VideoPlayer src={videoUrl} poster={videoPoster} />
+          <VideoPlayer embedUrl={videoEmbedUrl} />
         </motion.div>
 
         {/* Decorative blurs */}

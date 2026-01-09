@@ -13,6 +13,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -73,6 +74,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/for-owners')}>
           <AddBusinessIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
+        </button>
+        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/how-it-works')}>
+          <PlayCircleOutlineIcon className="menu-dropdown__icon" />
+          <span>{t('profile.buttons.howItWorks')}</span>
         </button>
 
         {/* Logged-in user only items */}

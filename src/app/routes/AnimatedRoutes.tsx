@@ -330,7 +330,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang?/how-it-works"
             element={
               <AnimatedRoute>
-                <HowItWorksPage videoUrl="/videos/how-it-works-demo.mp4" />
+                <HowItWorksPage videoEmbedUrl="https://player.mediadelivery.net/embed/576930/69015e74-dfee-42fc-9122-0d757293b2af" />
               </AnimatedRoute>
             }
           />
