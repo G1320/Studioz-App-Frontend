@@ -91,7 +91,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     return index >= 0 ? index : 0;
   }, [selectedSubcategory, categoryChipsData]);
 
-  // Prepare city chips data for the carousel
+  // Prepare city chips data for the carousel - only cities with studios
   interface CityChipData {
     _id: string;
     name: string;
@@ -99,12 +99,18 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
   }
 
   const cityChipsData = useMemo<CityChipData[]>(() => {
-    return cities.map((city) => ({
-      _id: city.name,
-      name: city.name,
-      displayName: getDisplayByCityName(city.name)
-    }));
-  }, [getDisplayByCityName]);
+    // Get unique cities that have studios
+    const citiesWithStudios = new Set(studios.map((studio) => studio.city).filter(Boolean));
+
+    // Filter config cities to only those with studios, preserving config order
+    return cities
+      .filter((city) => citiesWithStudios.has(city.name))
+      .map((city) => ({
+        _id: city.name,
+        name: city.name,
+        displayName: getDisplayByCityName(city.name)
+      }));
+  }, [studios, getDisplayByCityName]);
 
   // Calculate selected city index for centering in carousel
   const selectedCityIndex = useMemo(() => {

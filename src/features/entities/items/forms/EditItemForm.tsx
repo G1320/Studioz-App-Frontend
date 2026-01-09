@@ -85,7 +85,7 @@ export const EditItemForm = () => {
   const { getEnglishByDisplay } = useCategories();
   const { getEnglishByDisplay: getGenreEnglishByDisplay } = useGenres();
 
-  const updateItemMutation = useUpdateItemMutation(itemId || '');
+  const updateItemMutation = useUpdateItemMutation(itemId || '', item?.studioId);
   const deleteAddOnMutation = useDeleteAddOnMutation();
   const queryClient = useQueryClient();
 

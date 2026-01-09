@@ -25,12 +25,19 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
   onEdit,
   onAddNewService
 }) => {
-  const { i18n } = useTranslation('forms');
+  const { i18n, t: tCities } = useTranslation('cities');
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
   const hasLocation = studio?.lat !== undefined && studio?.lng !== undefined;
   const showInfoModal = isFeatureEnabled('studioInfoModal');
+
+  // Convert city name to translation key and get translated value
+  const getCityTranslation = (city?: string) => {
+    if (!city) return '';
+    const cityKey = city.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/_+$/, '');
+    return tCities(cityKey, { defaultValue: city });
+  };
 
   return (
     <header className="studio-details__header">
@@ -38,8 +45,8 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
         entity={studio}
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={true}
-        title={studio?.name.en}
-        subTitle={studio?.city}
+        title={studio?.name?.[currentLang] || studio?.name?.en}
+        subTitle={getCityTranslation(studio?.city)}
       />
 
       <div className="info-option-container">

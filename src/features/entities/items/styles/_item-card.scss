@@ -8,6 +8,7 @@
   background: vars.$card-bg-color;
   min-height: 10rem;
   height: 10rem;
+  place-items: start; // Override .card centering
 
   gap: 0.25rem;
   cursor: pointer;
@@ -94,14 +95,7 @@
     text-overflow: ellipsis;
     min-width: 0; // Allow flex item to shrink below content size
     flex-shrink: 1; // Allow title to shrink
-    align-self: flex-start; // Always position at start
-    text-align: start; // Ensure text alignment is at start
-
-    // RTL text (Hebrew/Arabic content) - ellipsis on left side
-    &[dir='rtl'] {
-      text-align: right;
-      align-self: flex-end;
-    }
+    align-self: start;
   }
 
   small.item-price {

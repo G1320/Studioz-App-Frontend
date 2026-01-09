@@ -43,15 +43,24 @@ export const useDeleteItemMutation = () => {
   });
 };
 
-export const useUpdateItemMutation = (itemId: string) => {
+export const useUpdateItemMutation = (itemId: string, studioId?: string) => {
   const languageNavigate = useLanguageNavigate();
+
+  const invalidateQueries = useInvalidateQueries<Item>((item) => [
+    { queryKey: 'item', targetId: itemId },
+    { queryKey: 'items' },
+    { queryKey: 'studio', targetId: studioId || item?.studioId }
+  ]);
 
   return useMutationHandler<Item, Item>({
     mutationFn: (newItem) => updateItem(itemId, newItem),
     successMessage: 'Item updated',
-    invalidateQueries: [{ queryKey: 'item', targetId: itemId }, { queryKey: 'items' }],
+    invalidateQueries: [],
     undoAction: (_variables, data) => updateItem(itemId, data),
-    onSuccess: (data, _variables) => languageNavigate(`/studio/${data.studioId}`)
+    onSuccess: (data, _variables) => {
+      invalidateQueries(data);
+      languageNavigate(`/studio/${data.studioId}`);
+    }
   });
 };
 
