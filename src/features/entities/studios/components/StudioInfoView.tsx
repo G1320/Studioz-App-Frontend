@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Studio } from 'src/types/index';
 import { DayOfWeek } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
-import { useAmenities, useDays } from '@shared/hooks';
+import { useDays } from '@shared/hooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
@@ -72,9 +72,7 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   const { t, i18n } = useTranslation('forms');
   const { t: tAmenities } = useTranslation('amenities');
   const { t: tEquipment } = useTranslation('equipment');
-  const { getAmenities } = useAmenities();
   const { getDisplayByEnglish } = useDays();
-  const amenitiesConfig = useMemo(() => getAmenities(), [getAmenities]);
 
   const [showAllHours, setShowAllHours] = useState(false);
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
@@ -102,15 +100,14 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   const amenitiesDisplay = useMemo(() => {
     if (!studio?.amenities) return [];
     return studio.amenities.map((amenity) => {
-      const config = amenitiesConfig.find((a) => a.value === amenity);
-      const key = amenity.toLowerCase().replace(/\s+/g, '_');
+      const key = amenity.toLowerCase().replace(/\s+/g, '_').replace(/\//g, '_');
       return {
         key,
-        label: config?.value || tAmenities(key, { defaultValue: amenity }),
+        label: tAmenities(key, { defaultValue: amenity }),
         icon: AMENITY_ICONS[key] || AutoAwesomeIcon
       };
     });
-  }, [studio?.amenities, amenitiesConfig, tAmenities]);
+  }, [studio?.amenities, tAmenities]);
 
   // Parse equipment categories
   const equipmentCategories = useMemo(() => {
