@@ -90,6 +90,7 @@
         line-height: 1.75;
         margin: 0;
         text-align: start;
+        white-space: pre-line; // Preserve line breaks
       }
     }
 
@@ -653,6 +654,7 @@
       color: vars.$light-gray-e2e2e2;
       line-height: 1.6;
       text-align: start;
+      white-space: pre-line; // Preserve line breaks
     }
 
     .studio-genres {

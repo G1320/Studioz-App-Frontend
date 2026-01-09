@@ -162,6 +162,7 @@
     color: vars.$white-opacity-75;
     word-break: break-word;
     text-overflow: ellipsis;
+    white-space: pre-line; // Preserve line breaks
 
     // Support RTL for Hebrew text
     html[dir='rtl'] &,

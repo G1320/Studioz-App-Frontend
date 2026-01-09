@@ -118,6 +118,12 @@ export const ItemContent: React.FC<ItemContentProps> = ({
             transition={slideTransition}
             className="item-content-animated"
           >
+            {isFeatureEnabled('addOns') && addOns.length > 0 && (
+              <section className="item-addons-section">
+                <AddOnsList addOns={addOns} showAddButton onAdd={onAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
+              </section>
+            )}
+
             <div className="date-picker-row">
               <MuiDateTimePicker
                 value={selectedDate}
@@ -131,12 +137,6 @@ export const ItemContent: React.FC<ItemContentProps> = ({
                 <HourSelector value={selectedQuantity} onIncrement={onIncrement} onDecrement={onDecrement} />
               </div>
             </div>
-
-            {isFeatureEnabled('addOns') && addOns.length > 0 && (
-              <section className="item-addons-section">
-                <AddOnsList addOns={addOns} showAddButton onAdd={onAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
-              </section>
-            )}
 
             <ReservationDetailsForm
               customerName={customerName}

@@ -244,6 +244,7 @@
         color: rgba(255, 255, 255, 0.7);
         margin: 0;
         font-size: vars.$font-size-small;
+        white-space: pre-line; // Preserve line breaks
       }
 
       &-price {
