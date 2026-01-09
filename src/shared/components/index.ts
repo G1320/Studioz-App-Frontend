@@ -28,3 +28,4 @@ export * from './fan-menu';
 export * from './pro-tip';
 export * from './amenities-selector';
 export * from './portfolio-step';
+export * from './share-modal';

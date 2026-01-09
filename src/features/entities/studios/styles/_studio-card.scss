@@ -175,4 +175,51 @@
     align-self: start;
     gap: 0;
   }
+
+  // Footer with features
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  // Share button - positioned to the side in content area
+  &__share-btn {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 2.75rem; // Position above the badges row
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: vars.$white-opacity-10;
+    color: vars.$white-opacity-75;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    z-index: 2;
+
+    html[dir='rtl'] & {
+      right: auto;
+      left: 0.5rem;
+    }
+
+    &:hover {
+      background: vars.$white-opacity-20;
+      color: vars.$white-opacity-90;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    svg {
+      font-size: 1rem;
+    }
+  }
 }

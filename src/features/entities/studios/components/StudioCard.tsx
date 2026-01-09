@@ -1,4 +1,5 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Studio } from 'src/types/index';
 import { usePrefetchStudio } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -6,8 +7,10 @@ import { useLocationPermission } from '@core/contexts/LocationPermissionContext'
 import { useModal } from '@core/contexts';
 import { calculateDistance } from '@shared/utils/distanceUtils';
 import { preloadImage } from '@shared/utils/preloadUtils';
+import { ShareModal } from '@shared/components';
 import { StudioFeatures } from './StudioFeatures';
 import { StudioCardHeader } from './StudioCardHeader';
+import ShareIcon from '@mui/icons-material/Share';
 import '../styles/_studio-card.scss';
 
 interface StudioCardProps {
@@ -16,10 +19,12 @@ interface StudioCardProps {
 }
 
 export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true }) => {
+  const { i18n } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
   const prefetchStudio = usePrefetchStudio(studio?._id || '');
   const { userLocation } = useLocationPermission();
   const { loadingStudioId, setLoadingStudioId } = useModal();
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const isLoading = loadingStudioId === studio?._id;
 
@@ -58,6 +63,14 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
     langNavigate(`/studio/${studio._id}`);
   }, [navActive, studio, setLoadingStudioId, langNavigate]);
 
+  const handleShare = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    setShareModalOpen(true);
+  }, []);
+
+  const studioName = i18n.language === 'he' ? studio?.name?.he || studio?.name?.en : studio?.name?.en;
+  const shareUrl = `${window.location.origin}/${i18n.language}/studio/${studio?._id}`;
+
   return (
     <article
       onMouseEnter={prefetchStudio}
@@ -74,16 +87,37 @@ export const StudioCard: React.FC<StudioCardProps> = ({ studio, navActive = true
       <div className="studio-card-name-and-description">
         <h3 className="title">{studio?.name?.en}</h3>
         <p className="description">
-          {(studio?.address || studio?.description?.en || '').replace(/,?\s*Israel$/i, '').trim()}
+          {(studio?.address || studio?.description?.en || '')
+            .replace(/,?\s*Israel$/i, '')
+            .replace(/,?\s*\d{5,7}$/, '') // Remove zip codes (5-7 digits at end)
+            .trim()}
         </p>
       </div>
-      <StudioFeatures
-        studio={studio}
-        showSmoking={false}
-        // showAccessible={true}
-        averageRating={studio?.averageRating}
-        reviewCount={studio?.reviewCount}
-        distance={distance}
+      <div className="studio-card__footer">
+        <StudioFeatures
+          studio={studio}
+          showSmoking={false}
+          // showAccessible={true}
+          averageRating={studio?.averageRating}
+          reviewCount={studio?.reviewCount}
+          distance={distance}
+        />
+        <button
+          className="studio-card__share-btn"
+          onClick={handleShare}
+          aria-label="Share studio"
+          type="button"
+        >
+          <ShareIcon />
+        </button>
+      </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        open={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        url={shareUrl}
+        title={studioName || ''}
       />
     </article>
   );

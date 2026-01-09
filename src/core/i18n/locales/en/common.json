@@ -173,5 +173,14 @@
     "address": "Address",
     "phone": "Phone",
     "website": "Website"
+  },
+  "share": {
+    "title": "Share listing",
+    "studio": "Share studio",
+    "studioText": "Check out {{name}} on StudioZ!",
+    "copyLink": "Copy link",
+    "copied": "Copied!",
+    "post": "Post",
+    "email": "Email"
   }
 }

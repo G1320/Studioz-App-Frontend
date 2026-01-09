@@ -173,5 +173,14 @@
     "address": "כתובת",
     "phone": "טלפון",
     "website": "אתר"
+  },
+  "share": {
+    "title": "שתף",
+    "studio": "שתף אולפן",
+    "studioText": "בדקו את {{name}} ב-StudioZ!",
+    "copyLink": "העתק קישור",
+    "copied": "הועתק!",
+    "post": "פרסם",
+    "email": "אימייל"
   }
 }
