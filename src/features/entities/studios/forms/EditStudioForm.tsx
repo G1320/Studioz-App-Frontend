@@ -662,6 +662,32 @@ export const EditStudioForm = () => {
       formData.socialLinks = socialLinks;
     }
 
+    // Ensure non-controlled fields are preserved from existing studio if step wasn't visited
+    // These fields are in steps that may not have been visited during editing
+    if (formData.maxOccupancy === undefined || formData.maxOccupancy === null || formData.maxOccupancy === '') {
+      formData.maxOccupancy = studio?.maxOccupancy;
+    } else if (typeof formData.maxOccupancy === 'string') {
+      formData.maxOccupancy = parseInt(formData.maxOccupancy, 10) || studio?.maxOccupancy;
+    }
+
+    if (formData.size === undefined || formData.size === null || formData.size === '') {
+      formData.size = studio?.size;
+    } else if (typeof formData.size === 'string') {
+      formData.size = parseInt(formData.size, 10) || studio?.size;
+    }
+
+    if (!formData.address || formData.address === '') {
+      formData.address = studio?.address || '';
+    }
+
+    if (!formData.phone || formData.phone === '') {
+      formData.phone = studio?.phone || '';
+    }
+
+    if (!formData.website || formData.website === '') {
+      formData.website = studio?.website || '';
+    }
+
     // Fix type conversions
     // Convert lat/lng from strings to numbers (from GenericForm)
     if (formData.lat && typeof formData.lat === 'string') {

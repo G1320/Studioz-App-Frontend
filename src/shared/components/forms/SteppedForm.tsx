@@ -232,16 +232,19 @@ export const SteppedForm = ({
 
       currentStepFields.forEach((field) => {
         // Sync if field has a value prop
-        if (field.value !== undefined) {
+        if (field.value !== undefined && field.value !== null && field.value !== '') {
           const existingValue = getNestedValue(prev, field.name);
 
           // For steps with custom content (like file upload), always sync the value
           // This ensures galleryImages and other dynamic fields stay in sync
           const isCustomContentStep = currentStep.customContent !== undefined;
 
-          // Initialize if missing, or update if it's a custom content step (to keep dynamic values in sync)
+          // Check if existing value is empty/missing - includes undefined, null, empty string
+          const isExistingEmpty = existingValue === undefined || existingValue === null || existingValue === '';
+
+          // Initialize if missing/empty, or update if it's a custom content step (to keep dynamic values in sync)
           if (
-            existingValue === undefined ||
+            isExistingEmpty ||
             (isCustomContentStep && JSON.stringify(existingValue) !== JSON.stringify(field.value))
           ) {
             updated = setNestedValue(updated, field.name, field.value);
@@ -266,13 +269,14 @@ export const SteppedForm = ({
   const formDataForValidation = useMemo(() => {
     let merged = { ...formData };
     currentStepFields.forEach((field) => {
-      if (field.value !== undefined) {
+      if (field.value !== undefined && field.value !== null && field.value !== '') {
         // For custom content steps, always use the latest field value
-        // For regular steps, only use field value if formData doesn't have it
+        // For regular steps, use field value if formData doesn't have it or has empty value
         const isCustomContentStep = currentStep.customContent !== undefined;
         const existingValue = getNestedValue(merged, field.name);
+        const isExistingEmpty = existingValue === undefined || existingValue === null || existingValue === '';
 
-        if (isCustomContentStep || existingValue === undefined) {
+        if (isCustomContentStep || isExistingEmpty) {
           merged = setNestedValue(merged, field.name, field.value);
         }
       }
