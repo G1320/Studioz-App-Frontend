@@ -187,9 +187,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       </div>
       {fileType === 'image' ? (
         <GenericImageGallery
-          isCoverShown={isCoverShown}
+          isCoverShown={false}
           isGalleryImagesShown={true}
-          coverImage={showPreviewBeforeUpload ? preview : ''}
           galleryImages={galleryFiles}
           onSetPreviewImage={handleSetPreviewFile}
           onRemoveImage={onRemoveImage ? handleRemoveImage : undefined}

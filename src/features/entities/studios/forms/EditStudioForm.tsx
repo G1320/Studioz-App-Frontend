@@ -130,13 +130,8 @@ export const EditStudioForm = () => {
   const [socialLinks, setSocialLinks] = useState<SocialLinks>(studio?.socialLinks || {});
 
   const { handleFileUpload } = useStudioFileUpload({
-    galleryImages,
     setGalleryImages,
-    galleryAudioFiles,
-    setGalleryAudioFiles,
-    coverImage,
-    setCoverImage,
-    handleCoverImageSeparately: true
+    setGalleryAudioFiles
   });
 
   const FORM_ID = `edit-studio-${studioId}`;

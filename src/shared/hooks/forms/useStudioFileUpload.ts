@@ -5,42 +5,16 @@ import { useTranslation } from 'react-i18next';
 
 export interface UseStudioFileUploadOptions {
   /**
-   * Current gallery images array
-   */
-  galleryImages: string[];
-
-  /**
    * Setter for gallery images
    */
   setGalleryImages: React.Dispatch<React.SetStateAction<string[]>>;
 
   /**
-   * Current gallery audio files array
-   */
-  galleryAudioFiles: string[];
-
-  /**
    * Setter for gallery audio files
    */
   setGalleryAudioFiles: React.Dispatch<React.SetStateAction<string[]>>;
-
-  /**
-   * Current cover image (for edit forms)
-   */
-  coverImage?: string;
-
-  /**
-   * Setter for cover image (for edit forms)
-   */
-  setCoverImage?: React.Dispatch<React.SetStateAction<string>>;
-
-  /**
-   * Whether to handle cover image separately (for edit forms)
-   * If true and a single image is uploaded, it will be set as cover image
-   */
-  handleCoverImageSeparately?: boolean;
-
 }
+
 
 /**
  * Hook for handling studio file uploads
@@ -59,11 +33,8 @@ export interface UseStudioFileUploadOptions {
  * ```
  */
 export const useStudioFileUpload = ({
-  galleryImages,
   setGalleryImages,
-  setGalleryAudioFiles,
-  setCoverImage,
-  handleCoverImageSeparately = false
+  setGalleryAudioFiles
 }: UseStudioFileUploadOptions) => {
   const { t } = useTranslation('common');
 
@@ -73,30 +44,27 @@ export const useStudioFileUpload = ({
       const fileUrls = results.map((result) => result.secure_url);
 
       if (type === 'image') {
-        // Handle cover image separately (for edit forms)
-        if (handleCoverImageSeparately && files.length === 1 && setCoverImage) {
-          setCoverImage(fileUrls[0]);
-          toast.success(t('toasts.success.coverImageUploaded'));
-          return;
-        }
-
-        // Handle gallery images
-        const wasEmpty = galleryImages.length === 0;
-
+        // Always append images to gallery (cover is just galleryImages[0])
         setGalleryImages((prev) => Array.from(new Set([...prev, ...fileUrls])));
 
         // Success messages
-        if (fileUrls.length === 1 && wasEmpty) {
-          toast.success(t('toasts.success.coverImageUploaded'));
+        if (fileUrls.length === 1) {
+          toast.success(t('toasts.success.imageUploaded', { defaultValue: 'Image uploaded successfully' }));
         } else {
           toast.success(t('toasts.success.galleryImagesUploaded'));
         }
       } else if (type === 'audio') {
-        setGalleryAudioFiles(fileUrls);
-        toast.success(t('toasts.success.audioFilesUploaded'));
+        // Append audio files instead of replacing
+        setGalleryAudioFiles((prev) => Array.from(new Set([...prev, ...fileUrls])));
+        
+        if (fileUrls.length === 1) {
+          toast.success(t('toasts.success.audioFileUploaded', { defaultValue: 'Audio file uploaded successfully' }));
+        } else {
+          toast.success(t('toasts.success.audioFilesUploaded'));
+        }
       }
     },
-    [galleryImages.length, handleCoverImageSeparately, setCoverImage, setGalleryImages, setGalleryAudioFiles, t]
+    [setGalleryImages, setGalleryAudioFiles, t]
   );
 
   return {

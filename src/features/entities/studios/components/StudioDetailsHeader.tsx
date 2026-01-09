@@ -36,7 +36,6 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
     <header className="studio-details__header">
       <GenericImageGallery
         entity={studio}
-        coverImage={studio?.coverImage}
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={true}
         title={studio?.name.en}

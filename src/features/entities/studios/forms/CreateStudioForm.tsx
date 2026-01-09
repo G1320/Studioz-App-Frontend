@@ -142,9 +142,7 @@ export const CreateStudioForm = () => {
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({});
 
   const { handleFileUpload } = useStudioFileUpload({
-    galleryImages,
     setGalleryImages,
-    galleryAudioFiles,
     setGalleryAudioFiles
   });
 

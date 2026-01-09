@@ -30,10 +30,14 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   title,
   subTitle
 }) => {
+  // Use galleryImages[0] as cover if no separate coverImage is provided
+  const effectiveCoverImage = coverImage || galleryImages?.[0];
+  
+  // Only combine if coverImage is explicitly provided AND not already in gallery
   const combinedGalleryImages =
     coverImage && !galleryImages?.includes(coverImage) ? [coverImage, ...(galleryImages || [])] : galleryImages || [];
 
-  const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(coverImage);
+  const [currCoverImage, setCurrCoverImage] = useState<string | undefined>(effectiveCoverImage);
   const {
     draggedIndex,
     dragOverIndex,
@@ -61,7 +65,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   };
 
   useEffect(() => {
-    setCurrCoverImage(coverImage);
+    setCurrCoverImage(coverImage || galleryImages?.[0]);
   }, [coverImage, galleryImages]);
 
   const renderItem = (image: string, index: number) => {
