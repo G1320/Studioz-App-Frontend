@@ -192,9 +192,9 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   };
 
   const getUserRole = () => {
-    if (user?.isAdmin) return t('roles.admin', 'Admin');
-    if (user?.studios && user.studios.length > 0) return t('roles.owner', 'Owner');
-    return t('roles.member', 'Member');
+    if (user?.isAdmin) return t('profile.roles.admin', 'Admin');
+    if (user?.studios && user.studios.length > 0) return t('profile.roles.owner', 'Owner');
+    return t('profile.roles.member', 'Member');
   };
 
   return (
@@ -226,12 +226,12 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           {/* Info */}
           <div className="profile-header-info">
             <h1 className="profile-header-info__name">
-              {user?.name || t('guestUser', 'Guest')}
+              {user?.name || t('profile.guestUser', 'Guest')}
               <span className="profile-header-info__role">{getUserRole()}</span>
             </h1>
             <p className="profile-header-info__meta">
               <LocationOnIcon className="profile-header-info__icon" />
-              {user?.email || t('email.notAvailable', 'No email')}
+              {user?.email || t('profile.email.notAvailable', 'No email')}
             </p>
           </div>
 
@@ -239,19 +239,19 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           <div className="profile-header-actions">
             {!isEditing ? (
               <button className="profile-btn profile-btn--secondary" onClick={() => setIsEditing(true)}>
-                <EditIcon /> {t('buttons.editProfile', 'Edit Profile')}
+                <EditIcon /> {t('profile.buttons.editProfile', 'Edit Profile')}
               </button>
             ) : (
               <>
                 <button className="profile-btn profile-btn--ghost" onClick={cancelEdit}>
-                  {t('buttons.cancel', 'Cancel')}
+                  {t('profile.buttons.cancel', 'Cancel')}
                 </button>
                 <button className="profile-btn profile-btn--primary" onClick={handleSave} disabled={loading}>
                   {loading ? (
-                    t('buttons.saving', 'Saving...')
+                    t('profile.buttons.saving', 'Saving...')
                   ) : (
                     <>
-                      <SaveIcon /> {t('buttons.saveChanges', 'Save Changes')}
+                      <SaveIcon /> {t('profile.buttons.saveChanges', 'Save Changes')}
                     </>
                   )}
                 </button>
@@ -267,25 +267,25 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           <div className="profile-card">
             <SectionTitle
               icon={PersonIcon}
-              title={t('sections.personalInfo', 'Personal Details')}
-              description={t('sections.personalInfoDesc', 'Manage your personal information and contact details')}
+              title={t('profile.sections.personalInfo', 'Personal Details')}
+              description={t('profile.sections.personalInfoDesc', 'Manage your personal information and contact details')}
             />
 
             <div className="profile-form-grid">
               <InputField
-                label={t('fields.firstName', 'First Name')}
+                label={t('profile.fields.firstName', 'First Name')}
                 value={editData.firstName}
                 onChange={(v) => setEditData({ ...editData, firstName: v })}
                 disabled={!isEditing}
               />
               <InputField
-                label={t('fields.lastName', 'Last Name')}
+                label={t('profile.fields.lastName', 'Last Name')}
                 value={editData.lastName}
                 onChange={(v) => setEditData({ ...editData, lastName: v })}
                 disabled={!isEditing}
               />
               <InputField
-                label={t('fields.email', 'Email')}
+                label={t('profile.fields.email', 'Email')}
                 type="email"
                 value={editData.email}
                 onChange={(v) => setEditData({ ...editData, email: v })}
@@ -294,7 +294,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 dir="ltr"
               />
               <InputField
-                label={t('fields.phone', 'Phone')}
+                label={t('profile.fields.phone', 'Phone')}
                 type="tel"
                 value={editData.phone}
                 onChange={(v) => setEditData({ ...editData, phone: v })}
@@ -309,11 +309,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           <div className="profile-card profile-card--disabled">
             <SectionTitle
               icon={ShieldIcon}
-              title={t('sections.security', 'Security & Notifications')}
-              description={t('sections.securityDesc', 'Coming soon: Manage passwords and email preferences')}
+              title={t('profile.sections.security', 'Security & Notifications')}
+              description={t('profile.sections.securityDesc', 'Coming soon: Manage passwords and email preferences')}
             />
             <div className="profile-coming-soon">
-              {t('comingSoon', 'This section will be available in the next version')}
+              {t('profile.comingSoon', 'This section will be available in the next version')}
             </div>
           </div>
         </div>
@@ -326,8 +326,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
             <SectionTitle
               icon={CalendarMonthIcon}
-              title={t('sections.calendar', 'Calendar')}
-              description={t('sections.calendarDesc', 'Sync your bookings with Google Calendar')}
+              title={t('profile.sections.calendar', 'Calendar')}
+              description={t('profile.sections.calendarDesc', 'Sync your bookings with Google Calendar')}
             />
 
             <div className="profile-integration-box">
@@ -340,7 +340,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 </div>
                 <div className="profile-integration-box__info">
                   <h4>Google Calendar</h4>
-                  <p>{isGoogleCalendarConnected ? t('connected', 'Connected') : t('notConnected', 'Not connected')}</p>
+                  <p>{isGoogleCalendarConnected ? t('profile.connected', 'Connected') : t('profile.notConnected', 'Not connected')}</p>
                 </div>
                 <div
                   className={`profile-integration-box__status ${isGoogleCalendarConnected ? 'profile-integration-box__status--active' : ''}`}
@@ -353,12 +353,12 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 disabled={isCalendarLoading}
               >
                 {isCalendarLoading ? (
-                  t('buttons.saving', 'Loading...')
+                  t('profile.buttons.saving', 'Loading...')
                 ) : isGoogleCalendarConnected ? (
-                  t('buttons.syncSettings', 'Sync Settings')
+                  t('profile.buttons.syncSettings', 'Sync Settings')
                 ) : (
                   <>
-                    {t('buttons.connectAccount', 'Connect Account')} <OpenInNewIcon />
+                    {t('profile.buttons.connectAccount', 'Connect Account')} <OpenInNewIcon />
                   </>
                 )}
               </button>
@@ -372,8 +372,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
               <SectionTitle
                 icon={CreditCardIcon}
-                title={t('sections.sumit', 'Credit card processing')}
-                description={t('sections.sumitDesc', 'Receive payments directly to your bank account')}
+                title={t('profile.sections.sumit', 'Credit card processing')}
+                description={t('profile.sections.sumitDesc', 'Receive payments directly to your bank account')}
               />
 
               <div className="profile-integration-box">
@@ -382,11 +382,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                     <span>SUMIT</span>
                   </div>
                   <div className="profile-integration-box__info">
-                    <h4>{t('sumit.provider', 'Sumit.co.il')}</h4>
+                    <h4>{t('profile.sumit.provider', 'Sumit.co.il')}</h4>
                     <p>
                       {isSumitConnected
-                        ? t('sumit.status.active', 'Connected & active')
-                        : t('sumit.status.pending', 'Onboarding status')}
+                        ? t('profile.sumit.status.active', 'Connected & active')
+                        : t('profile.sumit.status.pending', 'Onboarding status')}
                     </p>
                   </div>
                   <div
@@ -400,10 +400,10 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   type="button"
                 >
                   {isSumitConnected ? (
-                    t('sumit.buttons.manage', 'Manage')
+                    t('profile.sumit.buttons.manage', 'Manage')
                   ) : (
                     <>
-                      {t('sumit.buttons.continue', 'Continue onboarding')} <OpenInNewIcon />
+                      {t('profile.sumit.buttons.continue', 'Continue onboarding')} <OpenInNewIcon />
                     </>
                   )}
                 </button>
@@ -417,37 +417,37 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           >
             {hasActiveSubscription && <div className="profile-card__glow profile-card__glow--gold" />}
 
-            <SectionTitle icon={CreditCardIcon} title={t('sections.subscription', 'Subscription')} />
+            <SectionTitle icon={CreditCardIcon} title={t('profile.sections.subscription', 'Subscription')} />
 
             <div className="profile-subscription-info">
               <div className="profile-subscription-info__header">
                 <div>
                   <span className="profile-subscription-info__label">
-                    {t('subscription.currentPlan', 'Current Plan')}
+                    {t('profile.subscription.currentPlan', 'Current Plan')}
                   </span>
                   <h3 className="profile-subscription-info__plan">
                     {hasActiveSubscription
-                      ? t('subscription.proPlan', 'Pro Plan')
-                      : t('subscription.freePlan', 'Free Plan')}
+                      ? t('profile.subscription.proPlan', 'Pro Plan')
+                      : t('profile.subscription.freePlan', 'Free Plan')}
                   </h3>
                 </div>
                 {hasActiveSubscription && (
                   <div className="profile-subscription-info__price">
                     <span className="profile-subscription-info__amount">₪199</span>
-                    <span className="profile-subscription-info__period">/{t('subscription.month', 'month')}</span>
+                    <span className="profile-subscription-info__period">/{t('profile.subscription.month', 'month')}</span>
                   </div>
                 )}
               </div>
 
               <div className="profile-subscription-info__details">
                 <div className="profile-subscription-info__row">
-                  <span>{t('subscription.status', 'Status')}</span>
+                  <span>{t('profile.subscription.status', 'Status')}</span>
                   <span
                     className={`profile-subscription-info__status ${hasActiveSubscription ? 'profile-subscription-info__status--active' : ''}`}
                   >
                     {hasActiveSubscription
-                      ? t('subscription.active', 'Active')
-                      : t('subscription.inactive', 'Inactive')}
+                      ? t('profile.subscription.active', 'Active')
+                      : t('profile.subscription.inactive', 'Inactive')}
                   </span>
                 </div>
               </div>
@@ -457,8 +457,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 onClick={() => handleNavigate(hasActiveSubscription ? '/my-subscription' : '/subscription')}
               >
                 {hasActiveSubscription
-                  ? t('buttons.manageSubscription', 'Manage Subscription')
-                  : t('buttons.upgrade', 'Upgrade')}
+                  ? t('profile.buttons.manageSubscription', 'Manage Subscription')
+                  : t('profile.buttons.upgrade', 'Upgrade')}
                 <ChevronRightIcon className="profile-btn__chevron" />
               </button>
             </div>

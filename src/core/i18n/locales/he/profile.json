@@ -1,94 +1,96 @@
 {
-  "guestUser": "משתמש אורח",
-  "actions": {
-    "title": "פעולות"
-  },
-  "buttons": {
-    "profile": "הפרופיל שלי",
-    "studios": "אולפנים",
-    "dashboard": "לוח בקרה",
-    "reservations": "ההזמנות שלי",
-    "wishlists": "הרשימות שלי",
-    "editProfile": "ערוך פרופיל",
-    "cancel": "ביטול",
-    "saving": "שומר...",
-    "saveChanges": "שמור שינויים",
-    "logout": "התנתק",
-    "syncSettings": "הגדרות סנכרון",
-    "connectAccount": "התחבר לחשבון",
-    "manageSubscription": "ניהול מנוי",
-    "upgrade": "שדרג"
-  },
-  "email": {
-    "label": "אימייל",
-    "notAvailable": "אימייל: לא זמין"
-  },
-  "sellerAccount": {
-    "title": "חשבון מוכר",
-    "description": "חבר את חשבון PayPal שלך כדי להתחיל למכור",
-    "status": {
-      "error": "הייתה בעיה בחיבור חשבון PayPal שלך. אנא נסה שוב או צור קשר עם התמיכה.",
-      "pending": "חיבור חשבון PayPal שלך ממתין. אנא השלם את תהליך ההרשמה.",
-      "success": "חשבון PayPal שלך חובר בהצלחה."
+  "profile": {
+    "guestUser": "משתמש אורח",
+    "actions": {
+      "title": "פעולות"
     },
     "buttons": {
-      "connect": "חבר חשבון PayPal",
-      "connected": "חשבון PayPal מחובר",
-      "createStudio": "הצטרף כעסק",
-      "calendar": "היומן שלי",
-      "subscription": "תוכניות מנוי",
-      "mySubscriptions": "פרטי המנוי שלי"
-    }
-  },
-  "legal": {
-    "title": "מידע משפטי",
-    "privacy": "מדיניות פרטיות",
-    "terms": "תנאים והגבלות"
-  },
-  "language": "שפה",
-  "roles": {
-    "admin": "מנהל",
-    "owner": "בעלים",
-    "member": "חבר"
-  },
-  "sections": {
-    "personalInfo": "פרטים אישיים",
-    "personalInfoDesc": "נהל את המידע האישי שלך ודרכי ההתקשרות",
-    "security": "אבטחה והתראות",
-    "securityDesc": "בקרוב: נהל סיסמאות והעדפות דיוור",
-    "calendar": "לוח שנה",
-    "calendarDesc": "סנכרן את ההזמנות שלך עם Google Calendar",
-    "sumit": "סליקת אשראי",
-    "sumitDesc": "קבל תשלומים באשראי ישירות לחשבון הבנק",
-    "subscription": "מנוי ותשלומים"
-  },
-  "sumit": {
-    "provider": "Sumit.co.il",
-    "status": {
-      "pending": "סטטוס הרשמה",
-      "active": "מחובר ופעיל"
+      "profile": "הפרופיל שלי",
+      "studios": "אולפנים",
+      "dashboard": "לוח בקרה",
+      "reservations": "ההזמנות שלי",
+      "wishlists": "הרשימות שלי",
+      "editProfile": "ערוך פרופיל",
+      "cancel": "ביטול",
+      "saving": "שומר...",
+      "saveChanges": "שמור שינויים",
+      "logout": "התנתק",
+      "syncSettings": "הגדרות סנכרון",
+      "connectAccount": "התחבר לחשבון",
+      "manageSubscription": "ניהול מנוי",
+      "upgrade": "שדרג"
     },
-    "buttons": {
-      "continue": "המשך בתהליך הרשמה",
-      "manage": "ניהול"
-    }
-  },
-  "fields": {
-    "firstName": "שם פרטי",
-    "lastName": "שם משפחה",
-    "email": "אימייל",
-    "phone": "טלפון"
-  },
-  "subscription": {
-    "currentPlan": "תוכנית נוכחית",
-    "proPlan": "תוכנית פרו",
-    "freePlan": "תוכנית חינמית",
-    "month": "חודש",
-    "status": "סטטוס",
-    "active": "פעיל",
-    "inactive": "לא פעיל"
-  },
-  "connected": "מחובר",
-  "notConnected": "לא מחובר",
-  "comingSoon": "אזור זה יהיה זמין בגרסה הבאה"
+    "email": {
+      "label": "אימייל",
+      "notAvailable": "אימייל: לא זמין"
+    },
+    "sellerAccount": {
+      "title": "חשבון מוכר",
+      "description": "חבר את חשבון PayPal שלך כדי להתחיל למכור",
+      "status": {
+        "error": "הייתה בעיה בחיבור חשבון PayPal שלך. אנא נסה שוב או צור קשר עם התמיכה.",
+        "pending": "חיבור חשבון PayPal שלך ממתין. אנא השלם את תהליך ההרשמה.",
+        "success": "חשבון PayPal שלך חובר בהצלחה."
+      },
+      "buttons": {
+        "connect": "חבר חשבון PayPal",
+        "connected": "חשבון PayPal מחובר",
+        "createStudio": "הצטרף כעסק",
+        "calendar": "היומן שלי",
+        "subscription": "תוכניות מנוי",
+        "mySubscriptions": "פרטי המנוי שלי"
+      }
+    },
+    "legal": {
+      "title": "מידע משפטי",
+      "privacy": "מדיניות פרטיות",
+      "terms": "תנאים והגבלות"
+    },
+    "language": "שפה",
+    "roles": {
+      "admin": "מנהל",
+      "owner": "בעלים",
+      "member": "חבר"
+    },
+    "sections": {
+      "personalInfo": "פרטים אישיים",
+      "personalInfoDesc": "נהל את המידע האישי שלך ודרכי ההתקשרות",
+      "security": "אבטחה והתראות",
+      "securityDesc": "בקרוב: נהל סיסמאות והעדפות דיוור",
+      "calendar": "לוח שנה",
+      "calendarDesc": "סנכרן את ההזמנות שלך עם Google Calendar",
+      "sumit": "סליקת אשראי",
+      "sumitDesc": "קבל תשלומים באשראי ישירות לחשבון הבנק",
+      "subscription": "מנוי ותשלומים"
+    },
+    "sumit": {
+      "provider": "Sumit.co.il",
+      "status": {
+        "pending": "סטטוס הרשמה",
+        "active": "מחובר ופעיל"
+      },
+      "buttons": {
+        "continue": "המשך בתהליך הרשמה",
+        "manage": "ניהול"
+      }
+    },
+    "fields": {
+      "firstName": "שם פרטי",
+      "lastName": "שם משפחה",
+      "email": "אימייל",
+      "phone": "טלפון"
+    },
+    "subscription": {
+      "currentPlan": "תוכנית נוכחית",
+      "proPlan": "תוכנית פרו",
+      "freePlan": "תוכנית חינמית",
+      "month": "חודש",
+      "status": "סטטוס",
+      "active": "פעיל",
+      "inactive": "לא פעיל"
+    },
+    "connected": "מחובר",
+    "notConnected": "לא מחובר",
+    "comingSoon": "אזור זה יהיה זמין בגרסה הבאה"
+  }
 }

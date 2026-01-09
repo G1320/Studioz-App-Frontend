@@ -1,94 +1,96 @@
 {
-  "guestUser": "Guest User",
-  "actions": {
-    "title": "Actions"
-  },
-  "buttons": {
-    "profile": "My Profile",
-    "studios": "Studios",
-    "dashboard": "Dashboard",
-    "reservations": "My reservations",
-    "wishlists": "Wishlists",
-    "editProfile": "Edit Profile",
-    "cancel": "Cancel",
-    "saving": "Saving...",
-    "saveChanges": "Save Changes",
-    "logout": "Log Out",
-    "syncSettings": "Sync Settings",
-    "connectAccount": "Connect Account",
-    "manageSubscription": "Manage Subscription",
-    "upgrade": "Upgrade"
-  },
-  "email": {
-    "label": "Email",
-    "notAvailable": "Email: N/A"
-  },
-  "sellerAccount": {
-    "title": "Seller Account",
-    "description": "Connect your PayPal account to start selling",
-    "status": {
-      "error": "There was an issue connecting your PayPal account. Please try again or contact support.",
-      "pending": "Your PayPal account connection is pending. Please complete the onboarding process.",
-      "success": "Your PayPal account is successfully connected."
+  "profile": {
+    "guestUser": "Guest User",
+    "actions": {
+      "title": "Actions"
     },
     "buttons": {
-      "connect": "Connect PayPal Account",
-      "connected": "PayPal Account Connected",
-      "calendar": "My Calendar",
-      "createStudio": "List your studio",
-      "subscription": "Subscription Plans",
-      "mySubscriptions": "My Subscriptions"
-    }
-  },
-  "legal": {
-    "title": "Legal Information",
-    "privacy": "Privacy Policy",
-    "terms": "Terms & Conditions"
-  },
-  "language": "Language",
-  "roles": {
-    "admin": "Admin",
-    "owner": "Owner",
-    "member": "Member"
-  },
-  "sections": {
-    "personalInfo": "Personal Details",
-    "personalInfoDesc": "Manage your personal information and contact details",
-    "security": "Security & Notifications",
-    "securityDesc": "Coming soon: Manage passwords and email preferences",
-    "calendar": "Calendar",
-    "calendarDesc": "Sync your bookings with Google Calendar",
-    "sumit": "Credit card processing",
-    "sumitDesc": "Receive payments directly to your bank account",
-    "subscription": "Subscription & Payments"
-  },
-  "sumit": {
-    "provider": "Sumit.co.il",
-    "status": {
-      "pending": "Onboarding status",
-      "active": "Connected & active"
+      "profile": "My Profile",
+      "studios": "Studios",
+      "dashboard": "Dashboard",
+      "reservations": "My reservations",
+      "wishlists": "Wishlists",
+      "editProfile": "Edit Profile",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "logout": "Log Out",
+      "syncSettings": "Sync Settings",
+      "connectAccount": "Connect Account",
+      "manageSubscription": "Manage Subscription",
+      "upgrade": "Upgrade"
     },
-    "buttons": {
-      "continue": "Continue onboarding",
-      "manage": "Manage"
-    }
-  },
-  "fields": {
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "email": "Email",
-    "phone": "Phone"
-  },
-  "subscription": {
-    "currentPlan": "Current Plan",
-    "proPlan": "Pro Plan",
-    "freePlan": "Free Plan",
-    "month": "month",
-    "status": "Status",
-    "active": "Active",
-    "inactive": "Inactive"
-  },
-  "connected": "Connected",
-  "notConnected": "Not connected",
-  "comingSoon": "This section will be available in the next version"
+    "email": {
+      "label": "Email",
+      "notAvailable": "Email: N/A"
+    },
+    "sellerAccount": {
+      "title": "Seller Account",
+      "description": "Connect your PayPal account to start selling",
+      "status": {
+        "error": "There was an issue connecting your PayPal account. Please try again or contact support.",
+        "pending": "Your PayPal account connection is pending. Please complete the onboarding process.",
+        "success": "Your PayPal account is successfully connected."
+      },
+      "buttons": {
+        "connect": "Connect PayPal Account",
+        "connected": "PayPal Account Connected",
+        "calendar": "My Calendar",
+        "createStudio": "List your studio",
+        "subscription": "Subscription Plans",
+        "mySubscriptions": "My Subscriptions"
+      }
+    },
+    "legal": {
+      "title": "Legal Information",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions"
+    },
+    "language": "Language",
+    "roles": {
+      "admin": "Admin",
+      "owner": "Owner",
+      "member": "Member"
+    },
+    "sections": {
+      "personalInfo": "Personal Details",
+      "personalInfoDesc": "Manage your personal information and contact details",
+      "security": "Security & Notifications",
+      "securityDesc": "Coming soon: Manage passwords and email preferences",
+      "calendar": "Calendar",
+      "calendarDesc": "Sync your bookings with Google Calendar",
+      "sumit": "Credit card processing",
+      "sumitDesc": "Receive payments directly to your bank account",
+      "subscription": "Subscription & Payments"
+    },
+    "sumit": {
+      "provider": "Sumit.co.il",
+      "status": {
+        "pending": "Onboarding status",
+        "active": "Connected & active"
+      },
+      "buttons": {
+        "continue": "Continue onboarding",
+        "manage": "Manage"
+      }
+    },
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "subscription": {
+      "currentPlan": "Current Plan",
+      "proPlan": "Pro Plan",
+      "freePlan": "Free Plan",
+      "month": "month",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "comingSoon": "This section will be available in the next version"
+  }
 }
