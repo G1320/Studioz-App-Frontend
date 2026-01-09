@@ -29,3 +29,5 @@ dist-ssr
 .nx/cache
 .nx/workspace-data
 vite.config.*.timestamp*
+# Large video files
+public/videos/*.mp4

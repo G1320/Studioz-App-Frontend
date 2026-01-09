@@ -23,6 +23,7 @@ import location from './locales/en/location.json';
 import forOwners from './locales/en/forOwners.json';
 import landing from './locales/en/landing.json';
 import equipment from './locales/en/equipment.json';
+import howItWorks from './locales/en/howItWorks.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -45,6 +46,7 @@ import locationHe from './locales/he/location.json';
 import forOwnersHe from './locales/he/forOwners.json';
 import landingHe from './locales/he/landing.json';
 import equipmentHe from './locales/he/equipment.json';
+import howItWorksHe from './locales/he/howItWorks.json';
 
 i18n
   .use(LanguageDetector)
@@ -72,7 +74,8 @@ i18n
         location,
         forOwners,
         landing,
-        equipment
+        equipment,
+        howItWorks
       },
       he: {
         discoverPage: discoverPageHe,
@@ -95,7 +98,8 @@ i18n
         location: locationHe,
         forOwners: forOwnersHe,
         landing: landingHe,
-        equipment: equipmentHe
+        equipment: equipmentHe,
+        howItWorks: howItWorksHe
       }
     },
     fallbackLng: 'he',

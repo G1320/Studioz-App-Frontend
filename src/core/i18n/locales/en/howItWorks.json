@@ -1,0 +1,29 @@
+{
+  "title": {
+    "prefix": "How Does It",
+    "highlight": "Work?"
+  },
+  "subtitle": "Booking a studio has never been easier. In just a few minutes, your studio is reserved and waiting for you.",
+  "steps": {
+    "search": {
+      "title": "Choose Your Studio",
+      "description": "Browse our variety of studios, filter by equipment, location and price, and find the perfect space."
+    },
+    "schedule": {
+      "title": "Reserve a Time",
+      "description": "Check real-time availability in our smart calendar and choose the hours that work for you."
+    },
+    "book": {
+      "title": "Complete Booking",
+      "description": "Pay securely and receive instant booking confirmation directly to your email and personal profile."
+    },
+    "create": {
+      "title": "Come Create",
+      "description": "That's it! The studio is waiting for you. Get all arrival details and entry code automatically."
+    }
+  },
+  "cta": {
+    "button": "Find a Studio Now",
+    "subtext": "Join hundreds of creators who have already found their home at StudioZ"
+  }
+}

@@ -28,6 +28,7 @@ const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-p
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
 const NotFoundPage = lazy(() => import('@features/static/pages/NotFoundPage'));
 const ForOwnersPage = lazy(() => import('@features/static/pages/ForOwnersPage'));
+const HowItWorksPage = lazy(() => import('@features/static/pages/HowItWorksPage'));
 const ServicesPage = lazy(() => import('@features/entities/items/pages/ServicesPage'));
 const StudiosPage = lazy(() => import('@features/entities/studios/pages/StudiosPage'));
 const CreateItemPage = lazy(() => import('@features/entities/items/pages/CreateItemPage'));
@@ -325,6 +326,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               }
             />
           )}
+          <Route
+            path="/:lang?/how-it-works"
+            element={
+              <AnimatedRoute>
+                <HowItWorksPage videoUrl="/videos/how-it-works-demo.mp4" />
+              </AnimatedRoute>
+            }
+          />
           {/* Catch-all route for 404 */}
           <Route
             path="*"
