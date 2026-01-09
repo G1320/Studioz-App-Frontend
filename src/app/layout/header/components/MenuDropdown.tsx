@@ -61,16 +61,16 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           </button>
         )}
 
-        {/* Common items for all users - consistent order */}
-        <button className="menu-dropdown__item" onClick={() => handleNavigate('/studios')}>
+        {/* Common items for all users - hidden on desktop when nav is visible */}
+        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/studios')}>
           <MusicNoteIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.studios')}</span>
         </button>
-        <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
+        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/reservations')}>
           <EventNoteIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.reservations')}</span>
         </button>
-        <button className="menu-dropdown__item" onClick={() => handleNavigate('/for-owners')}>
+        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/for-owners')}>
           <AddBusinessIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
         </button>

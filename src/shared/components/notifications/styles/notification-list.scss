@@ -17,7 +17,7 @@ $notif-text-secondary: rgba(161, 161, 170, 1); // zinc-400
 $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
 
 .notification-list {
-  max-height: 500px;
+  max-height: 380px;
   overflow: hidden;
   background-color: $notif-bg-main;
   border-radius: vars.$border-radius-xl;
@@ -30,7 +30,7 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: vars.$spacing-medium;
+    padding: 0.625rem 0.875rem;
     border-bottom: 1px solid $notif-border;
     position: sticky;
     top: 0;
@@ -39,7 +39,7 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
   }
 
   &__title {
-    font-size: vars.$font-size-xl;
+    font-size: 0.9375rem; // 15px
     font-weight: 700;
     color: $notif-text-primary;
     margin: 0;
@@ -51,9 +51,9 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
     border: none;
     color: $notif-primary;
     cursor: pointer;
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.6875rem; // 11px
     font-weight: 500;
-    padding: vars.$spacing-xs vars.$spacing-sm-md;
+    padding: 0.25rem 0.625rem;
     border-radius: 999px;
     transition: all 0.2s ease;
 
@@ -68,14 +68,14 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
   }
 
   &__items {
-    min-height: 80px;
-    max-height: 420px;
+    min-height: 60px;
+    max-height: 320px;
     overflow-y: auto;
     overflow-x: hidden;
 
     // Custom scrollbar styling
     &::-webkit-scrollbar {
-      width: 6px;
+      width: 4px;
     }
 
     &::-webkit-scrollbar-track {
@@ -95,21 +95,21 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
 
   &__loading,
   &__empty {
-    padding: vars.$spacing-2xl vars.$spacing-medium;
+    padding: 1.5rem 0.875rem;
     text-align: center;
     color: $notif-text-secondary;
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: vars.$spacing-medium;
+    gap: 0.5rem;
   }
 
   &__loading {
     &::before {
       content: '';
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-top-color: $notif-primary;
       border-radius: 50%;
@@ -120,7 +120,7 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
   &__empty {
     &::before {
       content: '🔔';
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       opacity: 0.4;
     }
   }
@@ -138,33 +138,33 @@ $notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
 
 @media (max-width: 768px) {
   .notification-list {
-    max-height: 400px;
+    max-height: 340px;
 
     &__header {
-      padding: vars.$spacing-small vars.$spacing-sm-md;
+      padding: 0.5rem 0.75rem;
     }
 
     &__title {
-      font-size: vars.$font-size-large;
+      font-size: 0.875rem;
     }
 
     &__mark-all-read {
-      font-size: vars.$font-size-small;
-      padding: vars.$spacing-xs vars.$spacing-small;
+      font-size: 0.625rem;
+      padding: 0.1875rem 0.5rem;
     }
 
     &__items {
-      max-height: 340px;
+      max-height: 280px;
 
       &::-webkit-scrollbar {
-        width: 4px;
+        width: 3px;
       }
     }
 
     &__loading,
     &__empty {
-      padding: vars.$spacing-xl vars.$spacing-small;
-      font-size: vars.$font-size-small;
+      padding: 1rem 0.75rem;
+      font-size: 0.6875rem;
     }
   }
 }

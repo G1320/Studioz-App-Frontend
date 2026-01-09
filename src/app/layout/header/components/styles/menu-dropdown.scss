@@ -2,34 +2,44 @@
 @use 'utilities/mixins' as mixins;
 @use 'sass:color';
 
-// Completely flat menu design - no gradients, no blur, no shadows
+// Menu container per StudioZ style guide
+// bg-[#1c1c1e], rounded-3xl, shadow-2xl, border border-white/5, ring-1 ring-black/5
 .popup-dropdown.menu-dropdown {
-  width: 280px !important;
-  min-width: 280px !important;
-  max-width: 280px !important;
-  background: #0d0d0d !important; // Pure flat dark background
-  border-radius: 0.75rem !important;
-  box-shadow: none !important; // No shadow
-  border: none !important; // No border
-  backdrop-filter: none !important; // No blur effect
+  width: 320px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  background: #1c1c1e !important; // Darker than zinc-900
+  border-radius: 1.5rem !important; // rounded-3xl (24px)
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(0, 0, 0, 0.05) !important; // shadow-2xl + ring-1 ring-black/5
+  border: 1px solid rgba(255, 255, 255, 0.05) !important; // border-white/5
+  backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   overflow: hidden;
 
   &:has(.menu-dropdown__submenu) {
-    min-width: 280px !important;
-    max-width: 320px !important;
-      }
-    }
+    min-width: 320px !important;
+    max-width: 340px !important;
+  }
+}
 
 .menu-dropdown {
   @include mixins.menu-dropdown;
+
+  // Hide mobile-only items on desktop (when navbar is visible)
+  &__item--mobile-only {
+    @media screen and (min-width: 601px) {
+      display: none !important;
     }
+  }
+}
 
 @keyframes submenuFadeIn {
   from {
     opacity: 0;
     transform: translateY(-4px);
-    }
+  }
   to {
     opacity: 1;
     transform: translateY(0);

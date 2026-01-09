@@ -25,7 +25,10 @@ export const NotificationBell: React.FC = () => {
           >
             <NotificationsNoneIcon className="notification-bell__icon" />
             {unreadCount > 0 && (
-              <span className="notification-bell__badge" aria-label={`${unreadCount} unread notifications`}>
+              <span
+                className={`notification-bell__badge ${unreadCount < 10 ? 'notification-bell__badge--single' : ''}`}
+                aria-label={`${unreadCount} unread notifications`}
+              >
                 {unreadCount > 99 ? '99+' : unreadCount}
               </span>
             )}

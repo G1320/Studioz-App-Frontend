@@ -24,7 +24,7 @@
   }
 
   &__badge {
-    // Notification Badge - smaller on mobile
+    // Notification Badge - pill shape for double digits
     position: absolute;
     top: -0.25rem;
     right: -0.25rem;
@@ -56,6 +56,19 @@
       line-height: 1.125rem;
       border-radius: 0.5rem;
       box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.95);
+    }
+
+    // Single digit (1-9) - perfectly circular
+    &--single {
+      width: 0.875rem;
+      min-width: 0.875rem;
+      padding: 0 !important;
+      border-radius: 50% !important;
+
+      @media screen and (min-width: 768px) {
+        width: 1.125rem;
+        min-width: 1.125rem;
+      }
     }
 
     // RTL support - badge on left side of button
