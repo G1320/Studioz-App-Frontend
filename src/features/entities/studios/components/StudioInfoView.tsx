@@ -228,6 +228,60 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
 
       {/* Info Cards Row */}
       <div className="info-section__row">
+        {/* Rules & Policies */}
+        {houseRules.length > 0 && (
+          <section className="info-card">
+            <h3 className="info-card__title">
+              <SecurityIcon className="info-card__icon" />
+              {t('form.studioDetails.houseRules', { defaultValue: 'House Rules' })}
+            </h3>
+            <ul className="info-card__list">
+              {houseRules.map((rule, idx) => (
+                <li key={idx} className="info-card__list-item">
+                  <InfoOutlinedIcon className="info-card__list-icon" />
+                  {rule}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Opening Hours */}
+        {hasAvailability && (
+          <section className="info-card">
+            <h3 className="info-card__title">
+              <AccessTimeIcon className="info-card__icon" />
+              {t('form.studioDetails.openingHours', { defaultValue: 'Opening Hours' })}
+            </h3>
+            <div className="info-card__hours">
+              {visibleHours.map((slot) => (
+                <div
+                  key={slot.day}
+                  className={`info-card__hours-row ${slot.isClosed ? 'info-card__hours-row--closed' : ''}`}
+                >
+                  <span className="info-card__hours-days">{slot.displayDay}</span>
+                  <span className="info-card__hours-time">{slot.hours}</span>
+                </div>
+              ))}
+              {hasMoreHours && (
+                <button className="info-card__hours-toggle" onClick={() => setShowAllHours(!showAllHours)}>
+                  {showAllHours ? (
+                    <>
+                      <ExpandLessIcon className="info-card__hours-toggle-icon" />
+                      {i18n.language === 'he' ? 'הצג פחות' : 'Show less'}
+                    </>
+                  ) : (
+                    <>
+                      <ExpandMoreIcon className="info-card__hours-toggle-icon" />
+                      {i18n.language === 'he' ? 'הצג הכל' : 'Show all'}
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* Contact & Location */}
         {(studio?.address || studio?.phone || studio?.website) && (
           <section className="info-card info-card--contact">
@@ -294,59 +348,6 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
                     </a>
                   </div>
                 </div>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* Rules & Policies */}
-        {houseRules.length > 0 && (
-          <section className="info-card">
-            <h3 className="info-card__title">
-              <SecurityIcon className="info-card__icon" />
-              {t('form.studioDetails.houseRules', { defaultValue: 'House Rules' })}
-            </h3>
-            <ul className="info-card__list">
-              {houseRules.map((rule, idx) => (
-                <li key={idx} className="info-card__list-item">
-                  <InfoOutlinedIcon className="info-card__list-icon" />
-                  {rule}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {hasAvailability && (
-          <section className="info-card">
-            <h3 className="info-card__title">
-              <AccessTimeIcon className="info-card__icon" />
-              {t('form.studioDetails.openingHours', { defaultValue: 'Opening Hours' })}
-            </h3>
-            <div className="info-card__hours">
-              {visibleHours.map((slot) => (
-                <div
-                  key={slot.day}
-                  className={`info-card__hours-row ${slot.isClosed ? 'info-card__hours-row--closed' : ''}`}
-                >
-                  <span className="info-card__hours-days">{slot.displayDay}</span>
-                  <span className="info-card__hours-time">{slot.hours}</span>
-                </div>
-              ))}
-              {hasMoreHours && (
-                <button className="info-card__hours-toggle" onClick={() => setShowAllHours(!showAllHours)}>
-                  {showAllHours ? (
-                    <>
-                      <ExpandLessIcon className="info-card__hours-toggle-icon" />
-                      {i18n.language === 'he' ? 'הצג פחות' : 'Show less'}
-                    </>
-                  ) : (
-                    <>
-                      <ExpandMoreIcon className="info-card__hours-toggle-icon" />
-                      {i18n.language === 'he' ? 'הצג הכל' : 'Show all'}
-                    </>
-                  )}
-                </button>
               )}
             </div>
           </section>
