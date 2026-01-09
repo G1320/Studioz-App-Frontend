@@ -182,9 +182,9 @@
     align-items: center;
     justify-content: flex-start;
     gap: 0.75rem;
-    padding: 0.5rem;
+    padding: 0.625rem 0.75rem;
     border-radius: 0.5rem;
-    border: none;
+    border: 1px solid transparent;
     background: transparent;
     color: vars.$zinc-400;
     cursor: pointer;
@@ -194,7 +194,7 @@
     svg {
       width: 1.25rem;
       height: 1.25rem;
-      min-width: 1.25rem; // Prevent shrink
+      min-width: 1.25rem;
     }
 
     span {
@@ -204,17 +204,29 @@
     }
 
     &:hover {
-      background: vars.$zinc-900;
+      background: vars.$zinc-800;
       color: vars.$text-color-primary;
+      border-color: vars.$zinc-700;
     }
 
     &--active {
-      background: rgba(vars.$color-brand, 0.1);
-      color: vars.$color-brand;
+      background: vars.$color-brand;
+      border-color: vars.$color-brand;
+      color: vars.$bg-color-primary;
+      font-weight: 500;
+
+      svg {
+        color: vars.$bg-color-primary;
+      }
+
+      span {
+        font-weight: 500;
+      }
 
       &:hover {
-        background: rgba(vars.$color-brand, 0.2);
-        color: vars.$color-brand;
+        background: vars.$color-brand;
+        border-color: vars.$color-brand;
+        color: vars.$bg-color-primary;
       }
     }
   }

@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .studios-page {
   display: flex;
@@ -273,54 +274,16 @@
   }
 }
 
-// Filter Chip - flat grey style matching nav buttons
+// Filter Chip - uses mixin for consistent styling
 .filter-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  background: vars.$zinc-800;
-  border: 1px solid vars.$zinc-700;
-  color: vars.$zinc-400;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-
-  svg {
-    width: 1.125rem;
-    height: 1.125rem;
-  }
-
-  &:hover {
-    border-color: vars.$zinc-500;
-    color: vars.$text-color-primary;
-    background: vars.$zinc-700;
-  }
+  @include mixins.filter-chip;
 
   &--active {
-    background: vars.$color-brand;
-    border-color: vars.$color-brand;
-    color: vars.$bg-color-primary;
-    font-weight: 700;
-
-    &:hover {
-      background: vars.$color-brand;
-      color: vars.$bg-color-primary;
-    }
+    @include mixins.filter-chip-active;
   }
 
   &--outline {
-    background: vars.$zinc-800;
-    border-color: vars.$zinc-800;
-    color: vars.$text-color-primary;
-
-    &:hover {
-      background: vars.$zinc-900;
-    }
+    @include mixins.filter-chip-outline;
   }
 }
 

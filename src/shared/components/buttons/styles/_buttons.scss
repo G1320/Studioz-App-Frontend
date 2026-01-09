@@ -15,7 +15,7 @@ button {
   color: vars.$color-brand;
   background-color: vars.$white-opacity-10;
   white-space: nowrap;
-  box-shadow: inset 0 0 10px 5px vars.$white-opacity-03;
+  // box-shadow: inset 0 0 10px 5px vars.$white-opacity-03;
   cursor: pointer;
   transition: border-color 0.25s;
   outline: none;

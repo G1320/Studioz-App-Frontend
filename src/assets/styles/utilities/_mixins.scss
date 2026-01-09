@@ -1,5 +1,77 @@
 @use 'variables' as vars;
 
+// Filter chip style - per StudioZ Design System
+// Base: px-4 py-3 rounded-xl
+// Inactive: bg-zinc-900 text-zinc-400 border border-zinc-800
+// Active: bg-[#ffd166] text-black font-bold shadow-glow
+@mixin filter-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem; // py-3 px-4
+  border-radius: 0.75rem; // rounded-xl
+  background: vars.$zinc-900;
+  border: 1px solid vars.$zinc-800;
+  color: vars.$zinc-400;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: vars.$zinc-400;
+  }
+
+  &:hover {
+    border-color: vars.$color-brand;
+    color: vars.$text-color-primary;
+
+    svg {
+      color: vars.$text-color-primary;
+    }
+  }
+}
+
+@mixin filter-chip-active {
+  background: vars.$color-brand;
+  border-color: vars.$color-brand;
+  color: vars.$bg-color-primary;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+
+  svg {
+    color: vars.$bg-color-primary;
+  }
+
+  &:hover {
+    background: vars.$color-brand;
+    border-color: vars.$color-brand;
+    color: vars.$bg-color-primary;
+
+    svg {
+      color: vars.$bg-color-primary;
+    }
+  }
+}
+
+@mixin filter-chip-outline {
+  background: vars.$zinc-900;
+  border-color: vars.$zinc-800;
+  color: vars.$text-color-primary;
+
+  svg {
+    color: vars.$text-color-primary;
+  }
+
+  &:hover {
+    border-color: vars.$color-brand;
+  }
+}
+
 @mixin branded-button {
   width: 30px;
   height: 30px;

@@ -336,11 +336,11 @@ $picker-hover: rgba(39, 39, 42, 1); // zinc-800
 .MuiDigitalClock-root {
   background-color: $picker-bg-deep !important;
   border-inline-start: 1px solid $picker-border;
-  overflow: hidden;
 
   .MuiDigitalClock-list {
     background-color: $picker-bg-deep !important;
     padding-top: 0;
+    overflow-y: auto !important; // Ensure scrolling works
   }
 
   .MuiDigitalClock-item {

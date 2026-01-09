@@ -37,33 +37,40 @@ export const MuiDateTimePicker = ({
   useEffect(() => {
     if (isOpen) {
       const scrollToInitialTime = () => {
-        const list = document.querySelector("[role='listbox'].MuiDigitalClock-list");
-        if (list) {
-          const items = list.querySelectorAll('.MuiDigitalClock-item');
-          const targetHour = Array.from(items).find((item) => item.textContent?.includes('12:'));
+        // Find all time items and look for 12:00
+        const items = document.querySelectorAll('.MuiDigitalClock-item');
+        
+        if (items.length === 0) return;
 
-          if (targetHour) {
-            // Only scroll within the list container, not the page
-            // Use scrollIntoView with block: 'nearest' to prevent page scroll
-            targetHour.scrollIntoView({
-              behavior: 'smooth',
-              block: 'nearest',
-              inline: 'nearest'
+        const targetHour = Array.from(items).find((item) => {
+          return item.textContent?.trim() === '12:00';
+        }) as HTMLElement;
+
+        if (targetHour) {
+          // Get the scrollable parent (the ul list)
+          const list = targetHour.closest('.MuiDigitalClock-list') as HTMLElement;
+          
+          if (list) {
+            const itemTop = targetHour.offsetTop;
+            const listHeight = list.clientHeight;
+            const itemHeight = targetHour.offsetHeight;
+            const scrollPosition = itemTop - (listHeight / 2) + (itemHeight / 2);
+            
+            // Smooth scroll to center the item
+            list.scrollTo({
+              top: Math.max(0, scrollPosition),
+              behavior: 'smooth'
             });
           }
         }
       };
 
-      // Try multiple times as the dialog might take time to render
-      const timer = setTimeout(scrollToInitialTime, 100);
-      const timer2 = setTimeout(scrollToInitialTime, 200);
-      const timer3 = setTimeout(scrollToInitialTime, 300);
+      // MUI picker needs time to fully render
+      const timers = [100, 250, 500, 750, 1000].map(delay => 
+        setTimeout(scrollToInitialTime, delay)
+      );
 
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(timer2);
-        clearTimeout(timer3);
-      };
+      return () => timers.forEach(clearTimeout);
     }
   }, [isOpen]);
 
