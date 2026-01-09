@@ -79,12 +79,27 @@
   // Filters
   &__filters {
     width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     overflow: hidden;
+
+    // Fixed filter button - align with carousel items
+    > .filter-chip {
+      flex-shrink: 0;
+      margin-bottom: 0.5rem; // Match swiper_wrap padding
+    }
+
+    // Fixed divider - align with carousel items
+    > .studios-page__filters-divider {
+      margin-bottom: 0.5rem; // Match swiper_wrap padding
+    }
 
     // Override carousel defaults for filter chips
     .generic-carousel {
+      flex: 1;
+      min-width: 0; // Allow carousel to shrink
       max-width: 100%;
-      min-width: 100%;
     }
 
     .swiper-navigation-title-container {
@@ -104,8 +119,9 @@
   }
 
   &__filters-carousel {
-    // Ensure carousel takes full width
-    width: 100%;
+    // Carousel takes remaining space
+    flex: 1;
+    min-width: 0;
   }
 
   &__filters-scroll {

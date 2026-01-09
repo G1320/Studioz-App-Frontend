@@ -228,6 +228,14 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
 
       {/* Subcategory Filters */}
       <div className="studios-page__filters">
+        {/* Fixed filter button and separator - always visible */}
+        <button className="filter-chip filter-chip--outline" onClick={() => setShowFilters(true)}>
+          <TuneIcon />
+          <span>{t('page.filters', { defaultValue: 'Filters' })}</span>
+        </button>
+        <div className="studios-page__filters-divider" />
+
+        {/* Scrollable category chips */}
         <GenericCarousel
           data={categoryChipsData}
           className="studios-page__filters-carousel"
@@ -235,16 +243,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           hideHeader
           inlineNavigation
           spaceBetween={12}
-          selectedIndex={selectedCategoryIndex + 2} // +2 to account for prepended slides (filters button + separator)
-          prependSlides={[
-            // Filters button
-            <button key="filters-btn" className="filter-chip filter-chip--outline" onClick={() => setShowFilters(true)}>
-              <TuneIcon />
-              <span>{t('page.filters', { defaultValue: 'Filters' })}</span>
-            </button>,
-            // Separator
-            <div key="separator" className="studios-page__filters-divider" />
-          ]}
+          selectedIndex={selectedCategoryIndex}
           renderItem={(chip) => {
             const isActive = chip.isAllStudios ? !selectedSubcategory : selectedSubcategory === chip.englishKey;
             const Icon = chip.isAllStudios ? MusicProductionIcon : getSubcategoryIcon(chip.englishKey);
