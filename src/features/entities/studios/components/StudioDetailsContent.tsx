@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { Studio } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { StudioOverviewView } from './StudioOverviewView';
 import { StudioInfoView } from './StudioInfoView';
@@ -19,13 +20,36 @@ const viewVariants = {
 
 type ContentView = 'overview' | 'info' | 'portfolio';
 
+const VALID_VIEWS: ContentView[] = ['overview', 'info', 'portfolio'];
+
 interface StudioDetailsContentProps {
   studio?: Studio;
 }
 
 export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ studio }) => {
   const { t } = useTranslation('common');
-  const [activeView, setActiveView] = useState<ContentView>('overview');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Get view from URL, default to 'overview'
+  const activeView = useMemo(() => {
+    const viewParam = searchParams.get('view');
+    return viewParam && VALID_VIEWS.includes(viewParam as ContentView) 
+      ? (viewParam as ContentView) 
+      : 'overview';
+  }, [searchParams]);
+
+  // Update URL when view changes
+  const setActiveView = useCallback((view: ContentView) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (view === 'overview') {
+        newParams.delete('view'); // Clean URL for default view
+      } else {
+        newParams.set('view', view);
+      }
+      return newParams;
+    }, { replace: true });
+  }, [setSearchParams]);
 
   // Check if studio has portfolio content to show the tab
   const hasPortfolio = useMemo(() => {
