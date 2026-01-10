@@ -68,6 +68,14 @@
     "rights": "כל הזכויות שמורות."
   },
   "hours": "משך (שעות)",
+  "quantity_labels": {
+    "hour": "שעות",
+    "session": "סשנים",
+    "unit": "יחידות",
+    "song": "שירים",
+    "project": "פרויקטים",
+    "day": "ימים"
+  },
   "wishlists": {
     "items": "פריטים",
     "item": "פריט",

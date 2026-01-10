@@ -68,6 +68,14 @@
     "rights": "All rights reserved."
   },
   "hours": "Duration (hours)",
+  "quantity_labels": {
+    "hour": "Hours",
+    "session": "Sessions",
+    "unit": "Units",
+    "song": "Songs",
+    "project": "Projects",
+    "day": "Days"
+  },
   "wishlists": {
     "items": "Items",
     "item": "Item",

@@ -114,6 +114,12 @@ export const ItemContent: React.FC<ItemContentProps> = ({
     return getMaximumHours(startSlot, selectedDayjs, availabilityContext);
   }, [availabilityContext, selectedDate]);
 
+  // Get dynamic quantity label based on pricePer
+  const quantityLabel = useMemo(() => {
+    const pricePer = item?.pricePer || 'hour';
+    return t(`quantity_labels.${pricePer}`, t('hours'));
+  }, [item?.pricePer, t]);
+
   return (
     <>
       <AnimatePresence mode="wait" initial={false} custom={isRTL}>
@@ -158,7 +164,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
               />
 
               <div className="hours-wrapper">
-                <label className="hours-label">{t('hours', 'Hours')}</label>
+                <label className="hours-label">{quantityLabel}</label>
                 <HourSelector
                   value={selectedQuantity}
                   onIncrement={onIncrement}
