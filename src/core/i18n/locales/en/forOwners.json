@@ -45,8 +45,7 @@
     },
     "payments": {
       "title": "Secure Payments",
-      "description": "Process payments securely. Clients pre-pay for bookings, reducing cancellations and no-shows.",
-      "badge": "Coming Soon"
+      "description": "Process payments securely. Clients pre-pay for bookings, reducing cancellations and no-shows."
     }
   },
   "studio_preview": {

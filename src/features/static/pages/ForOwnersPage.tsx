@@ -76,8 +76,7 @@ const ForOwnersPage: React.FC = () => {
       icon: <CreditCardIcon />,
       title: t('features.payments.title'),
       description: t('features.payments.description'),
-      colorClass: 'owners-feature--orange',
-      badge: t('features.payments.badge')
+      colorClass: 'owners-feature--orange'
     }
   ];
 

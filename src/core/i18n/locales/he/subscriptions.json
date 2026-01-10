@@ -33,7 +33,7 @@
         "booking": "הזמנות אונליין",
         "calendar": "יומן דיגיטלי",
         "googleCalendar": "סנכרון Google Calendar",
-        "payment": "סליקה מאובטחת (בקרוב)",
+        "payment": "סליקה מאובטחת",
         "support": "תמיכה סטנדרטית",
         "cancel": "ביטול בכל עת"
       },
@@ -51,7 +51,7 @@
         "calendar": "יומן דיגיטלי",
         "googleCalendar": "סנכרון Google Calendar",
         "support": "תמיכה בעדיפות גבוהה",
-        "payment": "סליקה מאובטחת (בקרוב)",
+        "payment": "סליקה מאובטחת",
         "cancel": "ביטול בכל עת"
       }
     }
