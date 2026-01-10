@@ -114,11 +114,15 @@ export const ItemContent: React.FC<ItemContentProps> = ({
     return getMaximumHours(startSlot, selectedDayjs, availabilityContext);
   }, [availabilityContext, selectedDate]);
 
-  // Get dynamic quantity label based on pricePer
+  // Get dynamic quantity label based on pricePer, include minimum if > 1
   const quantityLabel = useMemo(() => {
     const pricePer = item?.pricePer || 'hour';
-    return t(`quantity_labels.${pricePer}`, t('hours'));
-  }, [item?.pricePer, t]);
+    const baseLabel = t(`quantity_labels.${pricePer}`, t('hours'));
+    if (minHours > 1) {
+      return `${baseLabel} (${t('min', 'min.')} ${minHours})`;
+    }
+    return baseLabel;
+  }, [item?.pricePer, t, minHours]);
 
   return (
     <>

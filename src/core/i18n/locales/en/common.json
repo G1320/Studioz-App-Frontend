@@ -68,6 +68,7 @@
     "rights": "All rights reserved."
   },
   "hours": "Duration (hours)",
+  "min": "min.",
   "quantity_labels": {
     "hour": "Hours",
     "session": "Sessions",

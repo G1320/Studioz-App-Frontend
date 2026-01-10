@@ -101,6 +101,13 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     return getMaximumHours(startSlot, selectedDayjs, availabilityContext);
   }, [availabilityContext, selectedDate]);
 
+  // Initialize quantity to minHours when item loads
+  useEffect(() => {
+    if (minHours > 1) {
+      setSelectedQuantity(minHours);
+    }
+  }, [minHours]);
+
   // Reset quantity to minimum when date changes, and clamp to valid range
   useEffect(() => {
     if (selectedDate && minHours) {
