@@ -7,7 +7,7 @@ import { ProfileImageUploader } from '@shared/components';
 import { useUserContext } from '@core/contexts';
 import { setLocalUser } from '@shared/services';
 import { useUpdateUserMutation } from '@shared/hooks/mutations';
-import { useGoogleCalendar } from '@shared/hooks';
+import { useGoogleCalendar, useSubscription } from '@shared/hooks';
 
 // Icons
 import PersonIcon from '@mui/icons-material/Person';
@@ -173,7 +173,23 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     connect: connectCalendar,
     disconnect: disconnectCalendar
   } = useGoogleCalendar();
-  const hasActiveSubscription = user?.subscriptionStatus === 'ACTIVE';
+  const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
+  const hasActiveSubscription = hasSubscription && user?.subscriptionStatus === 'ACTIVE';
+  
+  // Get plan display info
+  const getPlanName = () => {
+    if (!hasActiveSubscription) return t('profile.subscription.freePlan', 'Free Plan');
+    if (subscription?.planName) return subscription.planName;
+    if (isPro) return t('subscriptions.plans.pro.name', 'Professional');
+    if (isStarter) return t('subscriptions.plans.starter.name', 'Starter');
+    return t('profile.subscription.proPlan', 'Pro Plan');
+  };
+  
+  const getPlanPrice = () => {
+    if (isPro) return '199';
+    if (isStarter) return '39';
+    return '0';
+  };
 
   // Sumit onboarding status
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
@@ -355,7 +371,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 {isCalendarLoading ? (
                   t('profile.buttons.saving', 'Loading...')
                 ) : isGoogleCalendarConnected ? (
-                  t('profile.buttons.syncSettings', 'Sync Settings')
+                  t('profile.buttons.disconnect', 'Disconnect')
                 ) : (
                   <>
                     {t('profile.buttons.connectAccount', 'Connect Account')} <OpenInNewIcon />
@@ -425,15 +441,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   <span className="profile-subscription-info__label">
                     {t('profile.subscription.currentPlan', 'Current Plan')}
                   </span>
-                  <h3 className="profile-subscription-info__plan">
-                    {hasActiveSubscription
-                      ? t('profile.subscription.proPlan', 'Pro Plan')
-                      : t('profile.subscription.freePlan', 'Free Plan')}
-                  </h3>
+                  <h3 className="profile-subscription-info__plan">{getPlanName()}</h3>
                 </div>
                 {hasActiveSubscription && (
                   <div className="profile-subscription-info__price">
-                    <span className="profile-subscription-info__amount">₪199</span>
+                    <span className="profile-subscription-info__amount">₪{getPlanPrice()}</span>
                     <span className="profile-subscription-info__period">/{t('profile.subscription.month', 'month')}</span>
                   </div>
                 )}

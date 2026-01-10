@@ -17,6 +17,7 @@
       "saveChanges": "Save Changes",
       "logout": "Log Out",
       "syncSettings": "Sync Settings",
+      "disconnect": "Disconnect",
       "connectAccount": "Connect Account",
       "manageSubscription": "Manage Subscription",
       "upgrade": "Upgrade"
