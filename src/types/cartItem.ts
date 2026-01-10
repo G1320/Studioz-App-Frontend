@@ -27,4 +27,5 @@ export default interface CartItem {
   // Payment fields (optional - only when vendor accepts payments)
   singleUseToken?: string;
   customerEmail?: string;
+  useSavedCard?: boolean; // Use customer's saved card instead of new token
 }

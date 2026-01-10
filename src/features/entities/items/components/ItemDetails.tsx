@@ -8,7 +8,9 @@ import {
   useLanguageNavigate,
   usePrefetchItem,
   useReserveStudioItemTimeSlotsMutation,
-  useReservation
+  useReservation,
+  useSavedCards,
+  useRemoveSavedCardMutation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
 import { User, Wishlist, AddOn, Item, CartItem } from 'src/types/index';
@@ -17,11 +19,7 @@ import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import { useAddOns } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
-import {
-  getMinimumHours,
-  getMaximumHours,
-  AvailabilityContext
-} from '@shared/utils/availabilityUtils';
+import { getMinimumHours, getMaximumHours, AvailabilityContext } from '@shared/utils/availabilityUtils';
 
 interface ItemDetailsProps {
   itemId: string;
@@ -36,6 +34,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const { data: addOns = [] } = useAddOns(itemId);
   const studio = data?.currStudio;
   const { t } = useTranslation('common');
+
+  // Saved cards for payment
+  const { data: savedCards = [] } = useSavedCards(user?._id);
+  const removeSavedCardMutation = useRemoveSavedCardMutation(user?._id);
 
   const { closeModal } = useModal();
 
@@ -52,7 +54,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   });
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
-  
+
   // Payment step state
   const [showPaymentStep, setShowPaymentStep] = useState(false);
   const [pendingBookingItem, setPendingBookingItem] = useState<CartItem | null>(null);
@@ -121,14 +123,17 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     }
   }, [selectedDate, minHours, maxHours]);
 
-  const handleDateChange = useCallback((newDate: Date | null) => {
-    setSelectedDate(newDate);
-    // Reset quantity to minimum when date changes
-    if (newDate && item) {
-      const min = getMinimumHours(item);
-      setSelectedQuantity(min);
-    }
-  }, [item]);
+  const handleDateChange = useCallback(
+    (newDate: Date | null) => {
+      setSelectedDate(newDate);
+      // Reset quantity to minimum when date changes
+      if (newDate && item) {
+        const min = getMinimumHours(item);
+        setSelectedQuantity(min);
+      }
+    },
+    [item]
+  );
 
   const handleIncrement = useCallback(() => {
     setSelectedQuantity((prev) => {
@@ -230,53 +235,39 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       hours,
       customerName,
       customerPhone,
-      comment,
+      comment
     };
-  }, [
-    selectedDate,
-    selectedQuantity,
-    studio,
-    item,
-    customerName,
-    customerPhone,
-    comment,
-    addOnsTotal,
-    t
-  ]);
+  }, [selectedDate, selectedQuantity, studio, item, customerName, customerPhone, comment, addOnsTotal, t]);
 
   // Execute the actual booking mutation
-  const executeBooking = useCallback((bookingItem: CartItem) => {
-    reserveItemTimeSlotMutation.mutate(
-      {
-        ...bookingItem,
-        customerId: user?._id,
-        addOnIds: selectedAddOnIds
-      },
-      {
-        onSuccess: (response) => {
-          localStorage.setItem(`reservation_${itemId}`, response);
-          setCurrentReservationId(response);
-          addItemToCartMutation.mutate({ ...bookingItem, reservationId: response });
-          setShowPaymentStep(false);
-          setPendingBookingItem(null);
-          setPaymentError('');
-          setTimeout(() => {
-            setSelectedDate(null);
-          }, 250);
+  const executeBooking = useCallback(
+    (bookingItem: CartItem) => {
+      reserveItemTimeSlotMutation.mutate(
+        {
+          ...bookingItem,
+          customerId: user?._id,
+          addOnIds: selectedAddOnIds
         },
-        onError: (error: any) => {
-          setPaymentError(error.message || t('toasts.error.bookingFailed', 'Booking failed'));
+        {
+          onSuccess: (response) => {
+            localStorage.setItem(`reservation_${itemId}`, response);
+            setCurrentReservationId(response);
+            addItemToCartMutation.mutate({ ...bookingItem, reservationId: response });
+            setShowPaymentStep(false);
+            setPendingBookingItem(null);
+            setPaymentError('');
+            setTimeout(() => {
+              setSelectedDate(null);
+            }, 250);
+          },
+          onError: (error: any) => {
+            setPaymentError(error.message || t('toasts.error.bookingFailed', 'Booking failed'));
+          }
         }
-      }
-    );
-  }, [
-    reserveItemTimeSlotMutation,
-    user?._id,
-    selectedAddOnIds,
-    itemId,
-    addItemToCartMutation,
-    t
-  ]);
+      );
+    },
+    [reserveItemTimeSlotMutation, user?._id, selectedAddOnIds, itemId, addItemToCartMutation, t]
+  );
 
   const handleBookNow = useCallback(() => {
     const bookingItem = prepareBookingItem();
@@ -287,7 +278,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     // 2. Studio owner has payment integration enabled
     // Otherwise, book directly without payment (old flow)
     const shouldShowPayment = bookingItem.total > 0 && studio?.paymentEnabled === true;
-    
+
     if (shouldShowPayment) {
       setPendingBookingItem(bookingItem);
       setShowPaymentStep(true);
@@ -299,22 +290,24 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   }, [prepareBookingItem, executeBooking, studio?.paymentEnabled]);
 
   // Handle payment submission from OrderSummary
-  const handlePaymentSubmit = useCallback(async (paymentData: {
-    method: 'saved' | 'new';
-    cardId?: string;
-    singleUseToken?: string;
-  }) => {
-    if (!pendingBookingItem) return;
+  const handlePaymentSubmit = useCallback(
+    async (paymentData: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
+      if (!pendingBookingItem) return;
 
-    // Add payment token to booking item
-    const bookingItemWithPayment: CartItem = {
-      ...pendingBookingItem,
-      singleUseToken: paymentData.singleUseToken,
-      customerEmail: user?.email
-    };
+      // Add payment info to booking item
+      const bookingItemWithPayment: CartItem = {
+        ...pendingBookingItem,
+        customerEmail: user?.email,
+        // New card: pass the single-use token
+        // Saved card: set flag to use customer's saved card
+        singleUseToken: paymentData.method === 'new' ? paymentData.singleUseToken : undefined,
+        useSavedCard: paymentData.method === 'saved'
+      };
 
-    executeBooking(bookingItemWithPayment);
-  }, [pendingBookingItem, user?.email, executeBooking]);
+      executeBooking(bookingItemWithPayment);
+    },
+    [pendingBookingItem, user?.email, executeBooking]
+  );
 
   // Handle going back from payment step
   const handleBackFromPayment = useCallback(() => {
@@ -348,7 +341,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   // Build order items for OrderSummary
   const orderItems = useMemo(() => {
     if (!pendingBookingItem || !item) return [];
-    
+
     const items = [
       {
         id: 'base',
@@ -362,9 +355,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     selectedAddOnIds.forEach((addOnId) => {
       const addOn = addOns.find((a) => a._id === addOnId);
       if (addOn) {
-        const addOnPrice = addOn.pricePer === 'hour' 
-          ? (addOn.price || 0) * (pendingBookingItem.hours || 1)
-          : (addOn.price || 0);
+        const addOnPrice =
+          addOn.pricePer === 'hour' ? (addOn.price || 0) * (pendingBookingItem.hours || 1) : addOn.price || 0;
         items.push({
           id: addOnId,
           label: addOn.name?.en || 'Add-on',
@@ -391,7 +383,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
           bookingTime={formattedBookingTime}
           items={orderItems}
           totalAmount={pendingBookingItem.total}
+          savedCards={savedCards}
           onPaymentSubmit={handlePaymentSubmit}
+          onRemoveCard={() => removeSavedCardMutation.mutate()}
           isProcessing={reserveItemTimeSlotMutation.isPending}
           error={paymentError}
           currency="₪"

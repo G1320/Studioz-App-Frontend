@@ -86,3 +86,29 @@ export const deleteUser = async (userId: string): Promise<null> => {
     throw error;
   }
 };
+
+// Saved Cards
+export interface SavedCardResponse {
+  id: string;
+  last4: string;
+  brand: string;
+  sumitCustomerId: string;
+}
+
+export const getSavedCards = async (userId: string): Promise<SavedCardResponse[]> => {
+  try {
+    return await httpService.get(`${userEndpoint}/${userId}/saved-cards`);
+  } catch (error) {
+    console.error('Failed to fetch saved cards', error);
+    throw error;
+  }
+};
+
+export const removeSavedCard = async (userId: string): Promise<{ success: boolean }> => {
+  try {
+    return await httpService.delete(`${userEndpoint}/${userId}/saved-cards`);
+  } catch (error) {
+    console.error('Failed to remove saved card', error);
+    throw error;
+  }
+};

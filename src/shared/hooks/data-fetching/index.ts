@@ -13,3 +13,4 @@ export * from './useReservationsList';
 export * from './useStudioReservations';
 export * from './useWishlists';
 export * from './useReviews';
+export * from './useSavedCards';

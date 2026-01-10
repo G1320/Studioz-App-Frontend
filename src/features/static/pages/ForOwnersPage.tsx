@@ -193,7 +193,6 @@ const ForOwnersPage: React.FC = () => {
                 title={feature.title}
                 description={feature.description}
                 colorClass={feature.colorClass}
-                badge={feature.badge}
               />
             ))}
           </div>
