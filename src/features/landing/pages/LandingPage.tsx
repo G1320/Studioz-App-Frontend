@@ -292,6 +292,83 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
         </div>
       </section>
 
+      {/* Booking Preview Section */}
+      <section className="landing-booking-preview" dir="rtl">
+        <div className="landing-container">
+          <div className="landing-booking-preview__grid">
+            {/* Text Content Column */}
+            <div className="landing-booking-preview__content">
+              <div className="landing-booking-preview__header">
+                <motion.h2
+                  className="landing-booking-preview__title"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {t('booking_process.title')}
+                </motion.h2>
+                <motion.p
+                  className="landing-booking-preview__subtitle"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  {t('booking_process.subtitle')}
+                </motion.p>
+              </div>
+
+              <div className="landing-booking-preview__steps">
+                {[1, 2, 3].map((step, index) => (
+                  <motion.div
+                    key={step}
+                    className="landing-booking-preview__step"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                  >
+                    <div className="landing-booking-preview__step-icon-wrapper">
+                      <div className="landing-booking-preview__step-glow" />
+                      <div className="landing-booking-preview__step-number">{step}</div>
+                    </div>
+                    <span className="landing-booking-preview__step-text">
+                      {t(`booking_process.step${step}` as any)}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Image Column */}
+            <motion.div
+              className="landing-booking-preview__image-wrapper"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <div className="landing-booking-preview__image-container">
+                <img
+                  src="/images/Landing-Booking-Visual-2.png"
+                  alt="Booking Process Preview"
+                  className="landing-booking-preview__image"
+                />
+              </div>
+
+              {/* Floating Badge */}
+              <div className="landing-booking-preview__badge">
+                <div className="landing-booking-preview__badge-dot" />
+                <span className="landing-booking-preview__badge-text">
+                  {t('booking_process.instant_badge', 'Available for instant booking')}
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Value Props Section */}
       <section className="landing-value-props">
         <div className="landing-value-props__line" />

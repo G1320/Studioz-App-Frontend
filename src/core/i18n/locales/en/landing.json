@@ -24,6 +24,14 @@
     "title": "Top Rated Studios",
     "hour": "hour"
   },
+  "booking_process": {
+    "title": "Booking Made Simple",
+    "subtitle": "From discovery to confirmation in just a few clicks.",
+    "step1": "Select your date and time",
+    "step2": "Review studio details",
+    "step3": "Secure your slot instantly",
+    "instant_badge": "Available for instant booking"
+  },
   "value_props": {
     "verified": {
       "title": "Verified Quality",

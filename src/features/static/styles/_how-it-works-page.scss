@@ -91,11 +91,7 @@
   }
 
   &--secondary {
-    background: radial-gradient(
-      circle at center,
-      rgba(vars.$color-brand, 0.15),
-      transparent 70%
-    );
+    background: radial-gradient(circle at center, rgba(vars.$color-brand, 0.15), transparent 70%);
   }
 }
 
@@ -266,7 +262,9 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 30px rgba(vars.$color-brand, 0.4);
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 
   svg {
     font-size: 2rem;
@@ -509,7 +507,8 @@
 // ============================================
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
   }
   50% {
