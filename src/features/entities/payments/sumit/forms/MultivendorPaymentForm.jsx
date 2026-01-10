@@ -15,7 +15,7 @@ export const SumitMultiVendorPaymentForm = ({ cartItems, customer, vendorId }) =
       vendorId,
       singleUseToken: token,
       items: cartItems,
-      customer: {
+      customerInfo: {
         name: customer.name || user?.name,
         email: customer.email || user?.email,
         phone: customer.phone
