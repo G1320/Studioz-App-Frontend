@@ -346,6 +346,7 @@ export const studioFullSchema = z.object({
   // Optional fields
   isSelfService: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
+  paymentEnabled: z.boolean().optional(),
   totalBookings: z.number().int().min(0).optional(),
 
   // Portfolio & Social Links

@@ -90,4 +90,6 @@ export default interface Studio {
   studioAvailability?: StudioAvailability;
   portfolio?: PortfolioItem[];
   socialLinks?: SocialLinks;
+  // Payment capability - set by backend based on owner's subscription & Sumit setup
+  paymentEnabled?: boolean;
 }

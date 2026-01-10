@@ -21,7 +21,9 @@ export default interface CartItem {
   reservationId?: string;
   customerName?: string;
   customerPhone?: string;
+  customerId?: string;
   comment?: string;
+  addOnIds?: string[];
   // Payment fields (optional - only when vendor accepts payments)
   singleUseToken?: string;
   customerEmail?: string;

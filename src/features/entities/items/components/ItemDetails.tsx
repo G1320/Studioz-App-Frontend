@@ -275,17 +275,21 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     const bookingItem = prepareBookingItem();
     if (!bookingItem) return;
 
-    // If item has a price, show payment step
-    // Otherwise, book directly without payment
-    if (bookingItem.total > 0) {
+    // Only show payment step if:
+    // 1. Item has a price (total > 0)
+    // 2. Studio owner has payment integration enabled
+    // Otherwise, book directly without payment (old flow)
+    const shouldShowPayment = bookingItem.total > 0 && studio?.paymentEnabled === true;
+    
+    if (shouldShowPayment) {
       setPendingBookingItem(bookingItem);
       setShowPaymentStep(true);
       setPaymentError('');
     } else {
-      // Free booking - no payment needed
+      // No payment needed - either free or owner hasn't set up payments
       executeBooking(bookingItem);
     }
-  }, [prepareBookingItem, executeBooking]);
+  }, [prepareBookingItem, executeBooking, studio?.paymentEnabled]);
 
   // Handle payment submission from OrderSummary
   const handlePaymentSubmit = useCallback(async (paymentData: {
