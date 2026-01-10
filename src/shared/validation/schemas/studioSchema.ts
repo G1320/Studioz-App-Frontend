@@ -19,8 +19,8 @@ import {
 export const studioNameSchema = translationSchema({
   en: englishTextSchema('name')
     .min(3, 'Name must be at least 3 characters')
-    .max(20, 'Name must be at most 20 characters'),
-  he: hebrewTextSchema('name').min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים')
+    .max(50, 'Name must be at most 50 characters'),
+  he: hebrewTextSchema('name').min(3, 'השם חייב להיות לפחות 3 תווים').max(50, 'השם חייב להיות לכל היותר 50 תווים')
 });
 
 /**
@@ -366,9 +366,9 @@ export const studioEditSchema = studioFullSchema.partial().extend({
       en: z
         .string()
         .min(3, 'Name must be at least 3 characters')
-        .max(20, 'Name must be at most 20 characters')
+        .max(50, 'Name must be at most 50 characters')
         .optional(),
-      he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים').optional()
+      he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(50, 'השם חייב להיות לכל היותר 50 תווים').optional()
     })
     .optional(),
   // Allow dual-language subtitle - remove Hebrew/English character restrictions for edit
@@ -428,9 +428,9 @@ export const studioStep1EditSchema = z.object({
     en: z
       .string()
       .min(3, 'Name must be at least 3 characters')
-      .max(20, 'Name must be at most 20 characters')
+      .max(50, 'Name must be at most 50 characters')
       .optional(),
-    he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(20, 'השם חייב להיות לכל היותר 20 תווים').optional()
+    he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(50, 'השם חייב להיות לכל היותר 50 תווים').optional()
   }),
   subtitle: z
     .object({

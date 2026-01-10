@@ -8,10 +8,14 @@ import { z } from 'zod';
  * Regex patterns for validation
  */
 export const REGEX_PATTERNS = {
-  /** Hebrew text pattern - allows Hebrew characters, spaces, and common punctuation */
-  HEBREW: /^[\u0590-\u05FF\s.,;:!?'"()-]+$/,
+  /** Hebrew text pattern - allows Hebrew characters, numbers, spaces, and common punctuation */
+  HEBREW: /^[\u0590-\u05FF0-9\s.,;:!?'"()@#$%&*_+=-]+$/,
+  /** Check if text contains at least one Hebrew character */
+  HAS_HEBREW: /[\u0590-\u05FF]/,
   /** English text pattern - allows English letters, numbers, spaces, and common punctuation */
-  ENGLISH: /^[a-zA-Z0-9\s.,;:!?'"()-]+$/,
+  ENGLISH: /^[a-zA-Z0-9\s.,;:!?'"()@#$%&*_+=-]+$/,
+  /** Check if text contains at least one English letter */
+  HAS_ENGLISH: /[a-zA-Z]/,
   /** URL pattern */
   URL: /^https?:\/\/.+/,
   /** Phone number pattern (flexible - allows various formats) */
@@ -22,7 +26,7 @@ export const REGEX_PATTERNS = {
 
 /**
  * Hebrew text schema factory with validation
- * Validates that text contains Hebrew characters
+ * Validates that text contains at least one Hebrew character (allows numbers and special chars)
  *
  * @param fieldName - Optional field name for field-specific error messages (e.g., 'name', 'title', 'description')
  * @returns Zod schema for Hebrew text
@@ -32,14 +36,14 @@ export function hebrewTextSchema(fieldName?: string): z.ZodString {
   return z
     .string()
     .min(1, `Please enter the ${fieldLabel} in Hebrew`)
-    .refine((val) => REGEX_PATTERNS.HEBREW.test(val) || val.length === 0, {
-      message: `${fieldLabel.charAt(0).toUpperCase() + fieldLabel.slice(1)} must contain Hebrew characters`
+    .refine((val) => REGEX_PATTERNS.HAS_HEBREW.test(val) || val.length === 0, {
+      message: `${fieldLabel.charAt(0).toUpperCase() + fieldLabel.slice(1)} must contain at least one Hebrew character`
     });
 }
 
 /**
  * English text schema factory with validation
- * Validates that text contains English characters
+ * Validates that text contains at least one English character (allows numbers and special chars)
  *
  * @param fieldName - Optional field name for field-specific error messages (e.g., 'name', 'title', 'description')
  * @returns Zod schema for English text
@@ -49,8 +53,8 @@ export function englishTextSchema(fieldName?: string): z.ZodString {
   return z
     .string()
     .min(1, `Please enter the ${fieldLabel} in English`)
-    .refine((val) => REGEX_PATTERNS.ENGLISH.test(val) || val.length === 0, {
-      message: `${fieldLabel.charAt(0).toUpperCase() + fieldLabel.slice(1)} must contain English characters`
+    .refine((val) => REGEX_PATTERNS.HAS_ENGLISH.test(val) || val.length === 0, {
+      message: `${fieldLabel.charAt(0).toUpperCase() + fieldLabel.slice(1)} must contain at least one English character`
     });
 }
 
