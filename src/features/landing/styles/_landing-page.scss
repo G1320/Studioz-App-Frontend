@@ -472,7 +472,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     align-items: center;
 
     @media (min-width: 1024px) {
-      grid-template-columns: 1.2fr 1fr; // Give more space to image
+      grid-template-columns: 1fr 1.2fr; // Content (1fr) | Image (1.2fr)
       gap: 6rem;
     }
   }
@@ -481,19 +481,15 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    order: 2;
+    order: 2; // Mobile: Text below image
 
     @media (min-width: 1024px) {
-      order: 2; // Default LTR: Text on Right
+      order: 1; // Desktop LTR: Text Left, Image Right
     }
 
-    // RTL Order adjustments
-    [dir='rtl'] & {
-      order: 2; // Text below image on mobile
-      @media (min-width: 1024px) {
-        order: 1; // Text on Right (which is start in RTL)
-      }
-    }
+    // RTL Order: Grid flips columns. Col 1 (Right) gets Content. Col 2 (Left) gets Image.
+    // Visual: [ Image (Left) ] [ Content (Right) ]
+    // No override needed!
   }
 
   &__header {
@@ -523,18 +519,10 @@ $landing-muted: rgba(255, 255, 255, 0.6);
 
   &__image-wrapper {
     position: relative;
-    order: 1;
-    
-    @media (min-width: 1024px) {
-      order: 1; // Default LTR: Image on Left
-    }
+    order: 1; // Mobile: Image top
 
-    // RTL Order adjustments
-    [dir='rtl'] & {
-      order: 1; // Image on top mobile
-      @media (min-width: 1024px) {
-        order: 2; // Image on Left (end in RTL)
-      }
+    @media (min-width: 1024px) {
+      order: 2; // Desktop LTR: Image Right
     }
 
     // Decorative blob

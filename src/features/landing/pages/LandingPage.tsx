@@ -293,7 +293,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
       </section>
 
       {/* Booking Preview Section */}
-      <section className="landing-booking-preview" dir="rtl">
+      <section className="landing-booking-preview">
         <div className="landing-container">
           <div className="landing-booking-preview__grid">
             {/* Text Content Column */}
