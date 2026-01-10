@@ -339,6 +339,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                   </motion.div>
                 ))}
               </div>
+
+              <motion.div
+                className="landing-booking-preview__actions"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <button
+                  className="landing-cta__btn landing-cta__btn--secondary landing-booking-preview__learn-more"
+                  onClick={() => navigate(`/${i18n.language}/how-it-works`)}
+                  type="button"
+                >
+                  {t('booking_process.learn_more')} <ArrowForwardIcon className="rtl-flip" />
+                </button>
+              </motion.div>
             </div>
 
             {/* Image Column */}
