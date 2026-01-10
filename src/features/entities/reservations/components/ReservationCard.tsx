@@ -543,16 +543,25 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                       </button>
                     )}
 
-                    {isIncomingReservation && isPending && onConfirm && (
+                    {isIncomingReservation && isPending && (
                       <button
                         className="reservation-card__action-btn reservation-card__action-btn--confirm"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.stopPropagation();
-                          onConfirm();
+                          try {
+                            await updateMutation.mutateAsync({
+                              reservationId: reservation._id,
+                              updates: { status: 'confirmed' }
+                            });
+                            if (onConfirm) onConfirm();
+                          } catch (error) {
+                            console.error('Error confirming reservation:', error);
+                          }
                         }}
+                        disabled={updateMutation.isPending}
                       >
                         <CheckCircleIcon className="reservation-card__action-icon" />
-                        <span>{t('confirm', 'אשר')}</span>
+                        <span>{updateMutation.isPending ? t('approving') : t('approve')}</span>
                       </button>
                     )}
                   </>

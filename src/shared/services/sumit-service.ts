@@ -48,6 +48,60 @@ interface MultiVendorParams {
   customerInfo: CustomerInfo;
 }
 
+// Types for reservation payment (save card for later)
+interface SaveCardParams {
+  singleUseToken: string;
+  customerInfo: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  vendorId: string;
+}
+
+interface SaveCardResponse {
+  success: boolean;
+  data?: {
+    customerId: string;
+    creditCardToken: string;
+    lastFourDigits: string;
+  };
+  error?: string;
+}
+
+interface ChargeSavedCardParams {
+  sumitCustomerId: string;
+  amount: number;
+  description: string;
+  vendorId: string;
+}
+
+interface ChargeSavedCardResponse {
+  success: boolean;
+  data?: {
+    Payment: {
+      ID: string;
+      ValidPayment: boolean;
+      StatusDescription?: string;
+    };
+  };
+  error?: string;
+}
+
+interface RefundParams {
+  sumitPaymentId: string;
+  amount: number;
+  vendorId: string;
+}
+
+interface RefundResponse {
+  success: boolean;
+  data?: {
+    refundId: string;
+  };
+  error?: string;
+}
+
 export const sumitService = {
   processCreditCardPayment: async (singleUseToken: string, amount: number, description: string, customerInfo: any) => {
     try {
@@ -155,6 +209,46 @@ export const sumitService = {
       });
     } catch (error) {
       console.error('Error validating Sumit token:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Save a customer's card for later charging (used for reservation payments)
+   * Card is saved under the vendor's Sumit account for marketplace payments
+   */
+  saveCardForLaterCharge: async (params: SaveCardParams): Promise<SaveCardResponse> => {
+    try {
+      const response = await httpService.post<SaveCardResponse>(`${SUMIT_ENDPOINT}/save-card`, params);
+      return response;
+    } catch (error) {
+      console.error('Error saving card for later charge:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Charge a previously saved card (used when reservation is approved)
+   */
+  chargeSavedCard: async (params: ChargeSavedCardParams): Promise<ChargeSavedCardResponse> => {
+    try {
+      const response = await httpService.post<ChargeSavedCardResponse>(`${SUMIT_ENDPOINT}/charge-saved-card`, params);
+      return response;
+    } catch (error) {
+      console.error('Error charging saved card:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Refund a payment (used when cancelling a charged reservation)
+   */
+  refundPayment: async (params: RefundParams): Promise<RefundResponse> => {
+    try {
+      const response = await httpService.post<RefundResponse>(`${SUMIT_ENDPOINT}/refund`, params);
+      return response;
+    } catch (error) {
+      console.error('Error refunding payment:', error);
       throw error;
     }
   }

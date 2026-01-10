@@ -76,6 +76,8 @@
   "cancelling": "Cancelling...",
   "confirmCancel": "Are you sure you want to cancel this reservation?",
   "confirm": "Confirm",
+  "approve": "Approve",
+  "approving": "Approving...",
   "cancel": "Cancel",
   "confirmReservation": "Confirm Reservation",
   "confirming": "Confirming...",

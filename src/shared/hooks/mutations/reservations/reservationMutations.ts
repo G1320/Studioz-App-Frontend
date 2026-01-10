@@ -1,5 +1,5 @@
 import { useMutationHandler } from '@shared/hooks';
-import { cancelReservationById, updateReservationById } from '@shared/services';
+import { cancelReservationById, updateReservationById, approveReservationById } from '@shared/services';
 import { Reservation } from 'src/types/index';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -27,6 +27,20 @@ export const useUpdateReservationMutation = () => {
     onSuccess: (_data, variables) => {
       // Invalidate the specific reservation query
       queryClient.invalidateQueries({ queryKey: ['reservation', variables.reservationId] });
+    }
+  });
+};
+
+export const useApproveReservationMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutationHandler<Reservation, string>({
+    mutationFn: (reservationId: string) => approveReservationById(reservationId),
+    successMessage: 'Reservation approved successfully',
+    invalidateQueries: [{ queryKey: 'reservationsList' }, { queryKey: 'reservations' }],
+    onSuccess: (_data, reservationId) => {
+      queryClient.invalidateQueries({ queryKey: ['reservation', reservationId] });
+      queryClient.invalidateQueries({ queryKey: ['reservationsList'] });
     }
   });
 };
