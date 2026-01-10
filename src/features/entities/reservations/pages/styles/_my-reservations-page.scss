@@ -16,7 +16,7 @@ $page-label: rgba(113, 113, 122, 1); // zinc-500
   width: 100%;
   max-width: 1540px;
   min-height: 60vh;
-  margin-block-start: 1.5rem;
+  margin-block-start: 0.5rem;
   box-sizing: border-box;
   overflow-x: hidden;
 
@@ -26,19 +26,23 @@ $page-label: rgba(113, 113, 122, 1); // zinc-500
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-small;
+    align-items: center;
   }
 
   &__title {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
+    letter-spacing: -0.025em;
     color: vars.$text-color-primary;
     margin: 0;
-    letter-spacing: -0.025em;
+    margin-top: 1rem;
+    text-align: center;
   }
 
   &__subtitle {
-    font-size: vars.$font-size-medium;
-    color: $page-muted;
+    font-size: 1.125rem;
+    color: vars.$zinc-400;
+    max-width: 36rem;
     margin: 0;
   }
 

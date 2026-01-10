@@ -534,7 +534,12 @@ $landing-muted: rgba(255, 255, 255, 0.6);
       transform: translate(-50%, -50%);
       width: 120%;
       height: 120%;
-      background: radial-gradient(circle at center, rgba($landing-primary, 0.08) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 70%);
+      background: radial-gradient(
+        circle at center,
+        rgba($landing-primary, 0.08) 0%,
+        rgba(168, 85, 247, 0.05) 50%,
+        transparent 70%
+      );
       z-index: 0;
       pointer-events: none;
       filter: blur(100px);
@@ -653,8 +658,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
   &__badge {
     display: none;
     position: absolute;
-    bottom: -1.5rem;
-    left: -1.5rem;
+    bottom: -5rem;
     background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -673,7 +677,6 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     // RTL positioning
     [dir='rtl'] & {
       left: auto;
-      right: -1.5rem;
     }
   }
 
@@ -694,7 +697,8 @@ $landing-muted: rgba(255, 255, 255, 0.6);
 }
 
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
