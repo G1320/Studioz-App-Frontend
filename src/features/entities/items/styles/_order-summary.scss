@@ -11,24 +11,20 @@ $accent: vars.$color-brand;
 $accent-hover: #ffc107;
 
 .order-summary {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   width: 100%;
-  max-width: 64rem;
+  max-width: 480px;
   margin: 0 auto;
 
-  @media (min-width: 1024px) {
-    grid-template-columns: 5fr 7fr;
-  }
-
   // ========================================
-  // Details Column (Left)
+  // Details Column
   // ========================================
   &__details-column {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   // ========================================
@@ -37,19 +33,18 @@ $accent-hover: #ffc107;
   &__card {
     background: $card-dark;
     border: 1px solid vars.$zinc-800;
-    border-radius: vars.$border-radius-xl;
-    padding: 1.5rem;
-    box-shadow: vars.$box-shadow-xl;
+    border-radius: vars.$border-radius-large;
+    padding: 1rem 1.25rem;
   }
 
   &__card-title {
-    font-size: vars.$font-size-large;
+    font-size: vars.$font-size-medium;
     font-weight: 700;
     color: vars.$text-color-primary;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 
     &--small {
-      font-size: 1.125rem;
+      font-size: vars.$font-size-sm-md;
     }
   }
 
@@ -59,19 +54,19 @@ $accent-hover: #ffc107;
   &__info-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   &__info-item {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   &__info-icon {
-    width: 3rem;
-    height: 3rem;
-    border-radius: vars.$border-radius-large;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: vars.$border-radius-medium;
     background: vars.$zinc-900;
     border: 1px solid vars.$zinc-800;
     display: flex;
@@ -81,8 +76,8 @@ $accent-hover: #ffc107;
     color: $accent;
 
     svg {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1rem;
+      height: 1rem;
     }
 
     &--neutral {
@@ -93,19 +88,19 @@ $accent-hover: #ffc107;
   &__info-content {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: 0;
   }
 
   &__info-primary {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: vars.$font-size-sm-md;
+    font-weight: 600;
     color: vars.$text-color-primary;
     line-height: 1.3;
     margin: 0;
   }
 
   &__info-secondary {
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
     color: vars.$zinc-500;
     margin: 0;
   }
@@ -116,15 +111,15 @@ $accent-hover: #ffc107;
   &__price-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   &__price-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
   }
 
   &__price-label {
@@ -138,27 +133,27 @@ $accent-hover: #ffc107;
 
   &__total-row {
     border-top: 1px solid vars.$zinc-800;
-    padding-top: 1rem;
+    padding-top: 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   &__total-label {
-    font-size: 1.125rem;
+    font-size: vars.$font-size-sm-md;
     font-weight: 700;
     color: vars.$text-color-primary;
   }
 
   &__total-value {
-    font-size: vars.$font-size-xl;
+    font-size: vars.$font-size-large;
     font-weight: 700;
     color: $accent;
     font-family: 'Courier New', monospace;
   }
 
   // ========================================
-  // Payment Column (Right)
+  // Payment Column
   // ========================================
   &__payment-column {
     display: flex;
@@ -168,29 +163,23 @@ $accent-hover: #ffc107;
   &__payment-card {
     background: $card-dark;
     border: 1px solid vars.$zinc-800;
-    border-radius: vars.$border-radius-3xl;
-    padding: 1.5rem;
-    box-shadow: vars.$box-shadow-2xl;
-    height: 100%;
+    border-radius: vars.$border-radius-xl;
+    padding: 1rem 1.25rem;
     position: relative;
     overflow: hidden;
-
-    @media (min-width: 768px) {
-      padding: 2rem;
-    }
   }
 
   &__payment-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   &__payment-title {
-    font-size: vars.$font-size-xl;
+    font-size: vars.$font-size-medium;
     font-weight: 700;
     color: vars.$text-color-primary;
     margin: 0;
@@ -199,17 +188,17 @@ $accent-hover: #ffc107;
   &__secure-badge {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: vars.$font-size-small;
+    gap: 0.375rem;
+    font-size: 0.625rem;
     color: vars.$color-success;
     background: rgba(vars.$color-success, 0.1);
-    padding: 0.375rem 0.75rem;
+    padding: 0.25rem 0.5rem;
     border-radius: 9999px;
     border: 1px solid rgba(vars.$color-success, 0.2);
 
     svg {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 0.75rem;
+      height: 0.75rem;
     }
   }
 
@@ -218,10 +207,10 @@ $accent-hover: #ffc107;
   // ========================================
   &__method-toggle {
     display: flex;
-    padding: 0.25rem;
+    padding: 0.125rem;
     background: rgba(vars.$zinc-900, 0.5);
-    border-radius: vars.$border-radius-large;
-    margin-bottom: 2rem;
+    border-radius: vars.$border-radius-medium;
+    margin-bottom: 1rem;
     border: 1px solid rgba(vars.$zinc-800, 0.5);
   }
 
@@ -230,20 +219,20 @@ $accent-hover: #ffc107;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.625rem;
-    font-size: vars.$font-size-sm-md;
+    gap: 0.375rem;
+    padding: 0.5rem;
+    font-size: vars.$font-size-small;
     font-weight: 500;
     color: vars.$zinc-400;
     background: transparent;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: vars.$border-radius-xs;
     cursor: pointer;
     transition: all 0.2s ease;
 
     svg {
-      width: 1rem;
-      height: 1rem;
+      width: 0.875rem;
+      height: 0.875rem;
     }
 
     &:hover:not(&--active) {
@@ -264,7 +253,7 @@ $accent-hover: #ffc107;
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   // ========================================
@@ -273,15 +262,15 @@ $accent-hover: #ffc107;
   &__saved-cards {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   &__card-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
-    border-radius: vars.$border-radius-large;
+    padding: 0.75rem;
+    border-radius: vars.$border-radius-medium;
     border: 1px solid vars.$zinc-800;
     background: $input-dark;
     cursor: pointer;
@@ -301,12 +290,12 @@ $accent-hover: #ffc107;
   &__card-option-content {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   &__card-radio {
-    width: 1rem;
-    height: 1rem;
+    width: 0.875rem;
+    height: 0.875rem;
     accent-color: $accent;
     cursor: pointer;
   }
@@ -314,23 +303,24 @@ $accent-hover: #ffc107;
   &__card-details {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: 0;
   }
 
   &__card-number {
     color: vars.$text-color-primary;
     font-family: 'Courier New', monospace;
+    font-size: vars.$font-size-small;
     letter-spacing: 0.05em;
   }
 
   &__card-expiry {
-    font-size: vars.$font-size-small;
+    font-size: 0.625rem;
     color: vars.$zinc-500;
   }
 
   &__card-brand {
-    width: 2.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 1.25rem;
     background: vars.$text-color-primary;
     border-radius: vars.$border-radius-small;
     display: flex;
@@ -338,7 +328,7 @@ $accent-hover: #ffc107;
     justify-content: center;
 
     span {
-      font-size: 0.625rem;
+      font-size: 0.5rem;
       font-weight: 700;
       color: vars.$text-color-dark;
       text-transform: uppercase;
@@ -349,9 +339,9 @@ $accent-hover: #ffc107;
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding: 0;
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
     color: vars.$color-error-delete;
     background: transparent;
     border: none;
@@ -359,8 +349,8 @@ $accent-hover: #ffc107;
     transition: color 0.2s ease;
 
     svg {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 0.75rem;
+      height: 0.75rem;
     }
 
     &:hover {
@@ -374,7 +364,7 @@ $accent-hover: #ffc107;
   &__new-card-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.75rem;
     animation: fadeInUp 0.3s ease;
   }
 
@@ -396,10 +386,10 @@ $accent-hover: #ffc107;
 
   &__input-label {
     display: block;
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
     font-weight: 500;
     color: vars.$zinc-400;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 
   &__input-wrapper {
@@ -411,9 +401,9 @@ $accent-hover: #ffc107;
     background: $input-dark;
     border: 1px solid vars.$zinc-800;
     color: vars.$text-color-primary;
-    border-radius: vars.$border-radius-large;
-    padding: 0.75rem 1rem;
-    font-size: vars.$font-size-medium;
+    border-radius: vars.$border-radius-medium;
+    padding: 0.625rem 0.75rem;
+    font-size: vars.$font-size-sm-md;
     transition: all 0.2s ease;
     box-sizing: border-box;
 
@@ -442,23 +432,23 @@ $accent-hover: #ffc107;
     top: 50%;
     transform: translateY(-50%);
     color: vars.$zinc-600;
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1rem;
+    height: 1rem;
     pointer-events: none;
 
     [dir='rtl'] & {
-      left: 1rem;
+      left: 0.75rem;
     }
 
     [dir='ltr'] & {
-      right: 1rem;
+      right: 0.75rem;
     }
   }
 
   &__input-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   // ========================================
@@ -467,8 +457,8 @@ $accent-hover: #ffc107;
   &__accepted-cards {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
   }
 
   &__accepted-cards-line {
@@ -478,14 +468,14 @@ $accent-hover: #ffc107;
   }
 
   &__accepted-cards-text {
-    font-size: vars.$font-size-small;
+    font-size: 0.625rem;
     color: vars.$zinc-600;
     white-space: nowrap;
   }
 
   &__accepted-cards-icons {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.25rem;
     opacity: 0.5;
     filter: grayscale(1);
     transition: all 0.2s ease;
@@ -496,10 +486,10 @@ $accent-hover: #ffc107;
   }
 
   &__card-icon {
-    width: 2rem;
-    height: 1.25rem;
+    width: 1.5rem;
+    height: 1rem;
     background: vars.$zinc-700;
-    border-radius: vars.$border-radius-small;
+    border-radius: 2px;
   }
 
   // ========================================
@@ -507,18 +497,18 @@ $accent-hover: #ffc107;
   // ========================================
   &__submit-btn {
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.75rem;
     background: $accent;
     color: vars.$text-color-dark;
-    font-size: 1.125rem;
+    font-size: vars.$font-size-medium;
     font-weight: 700;
     border: none;
-    border-radius: vars.$border-radius-large;
+    border-radius: vars.$border-radius-medium;
     cursor: pointer;
     box-shadow: 0 0 20px vars.$brand-opacity-20;
     transition: all 0.2s ease;
@@ -554,7 +544,7 @@ $accent-hover: #ffc107;
   }
 
   &__submit-btn-amount {
-    font-size: vars.$font-size-large;
+    font-size: vars.$font-size-medium;
     font-family: 'Courier New', monospace;
   }
 
@@ -563,9 +553,10 @@ $accent-hover: #ffc107;
   // ========================================
   &__terms {
     text-align: center;
-    font-size: vars.$font-size-small;
+    font-size: 0.625rem;
     color: vars.$zinc-500;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
+    line-height: 1.4;
 
     a {
       color: vars.$zinc-500;
@@ -575,6 +566,90 @@ $accent-hover: #ffc107;
       &:hover {
         color: vars.$zinc-300;
       }
+    }
+  }
+
+  // ========================================
+  // Error Message
+  // ========================================
+  &__error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: vars.$border-radius-medium;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+    color: #ef4444;
+    font-size: vars.$font-size-small;
+    text-align: center;
+  }
+
+  // ========================================
+  // New Card Wrapper (for SumitPaymentForm)
+  // ========================================
+  &__new-card-wrapper {
+    // Override SumitPaymentForm styles to be more compact
+    .sumit-payment-form {
+      padding: 0;
+      background: transparent;
+      border: none;
+
+      &__form {
+        gap: 0.75rem;
+      }
+
+      &__field-group {
+        margin-bottom: 0;
+      }
+
+      &__label {
+        font-size: vars.$font-size-small;
+        margin-bottom: 0.25rem;
+      }
+
+      &__input {
+        padding: 0.625rem 0.75rem;
+        font-size: vars.$font-size-sm-md;
+      }
+
+      &__submit-btn {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        font-size: vars.$font-size-medium;
+      }
+
+      &__footer {
+        margin-top: 0.75rem;
+        font-size: 0.625rem;
+      }
+    }
+  }
+
+  // ========================================
+  // Select Input
+  // ========================================
+  &__select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: left 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-left: 2rem;
+    cursor: pointer;
+
+    [dir='ltr'] & {
+      background-position: right 0.5rem center;
+      padding-left: 0.75rem;
+      padding-right: 2rem;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $accent;
+    }
+
+    option {
+      background: $input-dark;
+      color: vars.$text-color-primary;
     }
   }
 }

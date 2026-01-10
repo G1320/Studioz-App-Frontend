@@ -22,4 +22,7 @@ export default interface CartItem {
   customerName?: string;
   customerPhone?: string;
   comment?: string;
+  // Payment fields (optional - only when vendor accepts payments)
+  singleUseToken?: string;
+  customerEmail?: string;
 }

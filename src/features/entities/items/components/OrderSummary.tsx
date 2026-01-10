@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AddIcon from '@mui/icons-material/Add';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { SumitPaymentForm } from '@shared/components';
+import { sumitService } from '@shared/services';
+import { prepareFormData } from '@features/entities/payments/sumit/utils';
 import '../styles/_order-summary.scss';
 
 // --- Types ---
@@ -35,19 +37,19 @@ export interface OrderSummaryProps {
   items?: OrderItem[];
   totalAmount?: number;
   savedCards?: SavedCard[];
+  /**
+   * Called with the Sumit single-use token when payment form is submitted
+   * This token should be passed to the booking API
+   */
   onPaymentSubmit?: (paymentData: {
     method: 'saved' | 'new';
     cardId?: string;
-    newCard?: {
-      number: string;
-      expiry: string;
-      cvv: string;
-      holderId: string;
-    };
-  }) => void;
+    singleUseToken?: string;  // Sumit token for new card
+  }) => Promise<void>;
   onRemoveCard?: (cardId: string) => void;
   currency?: string;
   isProcessing?: boolean;
+  error?: string;
 }
 
 export const OrderSummary: React.FC<OrderSummaryProps> = ({
@@ -62,38 +64,60 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   onPaymentSubmit,
   onRemoveCard,
   currency = '₪',
-  isProcessing: externalProcessing = false
+  isProcessing: externalProcessing = false,
+  error: externalError
 }) => {
   const { t, i18n } = useTranslation('orders');
   const isRTL = i18n.language === 'he';
 
-  const [paymentMethod, setPaymentMethod] = useState<'saved' | 'new'>(
-    savedCards.length > 0 ? 'saved' : 'new'
-  );
+  const [paymentMethod, setPaymentMethod] = useState<'saved' | 'new'>(savedCards.length > 0 ? 'saved' : 'new');
   const [selectedCardId, setSelectedCardId] = useState<string>(savedCards[0]?.id || '');
-  const [newCardData, setNewCardData] = useState({
-    number: '',
-    expiry: '',
-    cvv: '',
-    holderId: ''
-  });
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string>('');
 
   const processing = externalProcessing || isProcessing;
+  const displayError = externalError || error;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle saved card payment
+  const handleSavedCardSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError('');
     setIsProcessing(true);
 
-    // Simulate processing delay for UX
-    setTimeout(() => {
-      setIsProcessing(false);
-      onPaymentSubmit?.({
-        method: paymentMethod,
-        cardId: paymentMethod === 'saved' ? selectedCardId : undefined,
-        newCard: paymentMethod === 'new' ? newCardData : undefined
+    try {
+      await onPaymentSubmit?.({
+        method: 'saved',
+        cardId: selectedCardId
       });
-    }, 1500);
+    } catch (err: any) {
+      console.error('Payment error:', err);
+      setError(err.message || t('paymentError', 'Payment failed. Please try again.'));
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Handle new card payment (via SumitPaymentForm)
+  const handleNewCardSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsProcessing(true);
+
+    try {
+      // Get Sumit token from the form
+      const formData = prepareFormData(e.target as HTMLFormElement);
+      const token = await sumitService.getSumitToken(formData);
+      
+      await onPaymentSubmit?.({
+        method: 'new',
+        singleUseToken: token
+      });
+    } catch (err: any) {
+      console.error('Payment error:', err);
+      setError(err.message || t('paymentError', 'Payment failed. Please try again.'));
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleRemoveCard = () => {
@@ -212,8 +236,15 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="order-summary__form">
-            {paymentMethod === 'saved' && savedCards.length > 0 ? (
+          {paymentMethod === 'saved' && savedCards.length > 0 ? (
+            /* Saved Cards Selection */
+            <form onSubmit={handleSavedCardSubmit} className="order-summary__form">
+              {displayError && (
+                <div className="order-summary__error">
+                  {displayError}
+                </div>
+              )}
+
               <div className="order-summary__saved-cards">
                 {savedCards.map((card) => (
                   <label
@@ -242,104 +273,48 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
                 ))}
 
                 {onRemoveCard && (
-                  <button
-                    type="button"
-                    className="order-summary__remove-card-btn"
-                    onClick={handleRemoveCard}
-                  >
+                  <button type="button" className="order-summary__remove-card-btn" onClick={handleRemoveCard}>
                     <DeleteIcon />
                     {t('removeSelectedCard', 'הסר כרטיס נבחר')}
                   </button>
                 )}
               </div>
-            ) : (
-              /* New Card Form */
-              <div className="order-summary__new-card-form">
-                <div className="order-summary__input-group">
-                  <label className="order-summary__input-label">{t('cardNumber', 'מספר כרטיס')}</label>
-                  <div className="order-summary__input-wrapper">
-                    <input
-                      type="text"
-                      className="order-summary__input"
-                      placeholder="0000 0000 0000 0000"
-                      maxLength={19}
-                      value={newCardData.number}
-                      onChange={(e) => setNewCardData({ ...newCardData, number: e.target.value })}
-                    />
-                    <CreditCardIcon className="order-summary__input-icon" />
-                  </div>
-                </div>
 
-                <div className="order-summary__input-row">
-                  <div className="order-summary__input-group">
-                    <label className="order-summary__input-label">{t('expiry', 'תוקף (MM/YY)')}</label>
-                    <input
-                      type="text"
-                      className="order-summary__input"
-                      placeholder="MM/YY"
-                      maxLength={5}
-                      value={newCardData.expiry}
-                      onChange={(e) => setNewCardData({ ...newCardData, expiry: e.target.value })}
-                    />
-                  </div>
-                  <div className="order-summary__input-group">
-                    <label className="order-summary__input-label">CVV</label>
-                    <input
-                      type="text"
-                      className="order-summary__input"
-                      placeholder="123"
-                      maxLength={3}
-                      value={newCardData.cvv}
-                      onChange={(e) => setNewCardData({ ...newCardData, cvv: e.target.value })}
-                    />
-                  </div>
-                </div>
+              <button type="submit" className="order-summary__submit-btn" disabled={processing}>
+                {processing ? (
+                  <span className="order-summary__submit-btn-loading">{t('processing', 'מעבד תשלום...')}</span>
+                ) : (
+                  <>
+                    <span>{t('payNow', 'שלם עכשיו')}</span>
+                    <span className="order-summary__submit-btn-amount">
+                      {currency}
+                      {totalAmount}
+                    </span>
+                  </>
+                )}
+              </button>
 
-                <div className="order-summary__input-group">
-                  <label className="order-summary__input-label">{t('holderId', 'תעודת זהות של בעל הכרטיס')}</label>
-                  <input
-                    type="text"
-                    className="order-summary__input"
-                    placeholder={t('holderIdPlaceholder', 'מספר תעודת זהות (9 ספרות)')}
-                    maxLength={9}
-                    value={newCardData.holderId}
-                    onChange={(e) => setNewCardData({ ...newCardData, holderId: e.target.value })}
-                  />
-                </div>
-
-                <div className="order-summary__accepted-cards">
-                  <div className="order-summary__accepted-cards-line" />
-                  <span className="order-summary__accepted-cards-text">{t('weAccept', 'אנו מקבלים')}</span>
-                  <div className="order-summary__accepted-cards-icons">
-                    <div className="order-summary__card-icon" />
-                    <div className="order-summary__card-icon" />
-                    <div className="order-summary__card-icon" />
-                  </div>
-                  <div className="order-summary__accepted-cards-line" />
-                </div>
-              </div>
-            )}
-
-            <button type="submit" className="order-summary__submit-btn" disabled={processing}>
-              {processing ? (
-                <span className="order-summary__submit-btn-loading">{t('processing', 'מעבד תשלום...')}</span>
-              ) : (
-                <>
-                  <span>{t('payNow', 'שלם עכשיו')}</span>
-                  <span className="order-summary__submit-btn-amount">
-                    {currency}
-                    {totalAmount}
-                  </span>
-                </>
-              )}
-            </button>
-
-            <p className="order-summary__terms">
-              {t('termsAgreement', 'בלחיצה על "שלם עכשיו" אני מסכים/ה')}{' '}
-              <a href="/terms">{t('termsOfService', 'לתנאי השימוש')}</a> {t('and', 'ו')}
-              <a href="/cancellation-policy">{t('cancellationPolicy', 'מדיניות הביטולים')}</a>
-            </p>
-          </form>
+              <p className="order-summary__terms">
+                {t('termsAgreement', 'בלחיצה על "שלם עכשיו" אני מסכים/ה')}{' '}
+                <a href="/terms">{t('termsOfService', 'לתנאי השימוש')}</a> {t('and', 'ו')}
+                <a href="/cancellation-policy">{t('cancellationPolicy', 'מדיניות הביטולים')}</a>
+              </p>
+            </form>
+          ) : (
+            /* New Card - Use SumitPaymentForm */
+            <div className="order-summary__new-card-wrapper">
+              <SumitPaymentForm
+                variant="order"
+                onSubmit={handleNewCardSubmit}
+                error={displayError}
+                totalAmount={totalAmount}
+                isProcessing={processing}
+                showHeader={false}
+                showFooter={true}
+                currency={currency}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

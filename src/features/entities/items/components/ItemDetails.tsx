@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { ItemHeader, ItemCard, ItemContent } from '@features/entities';
+import { ItemHeader, ItemCard, ItemContent, OrderSummary } from '@features/entities';
 import {
   useAddItemToCartMutation,
   useItem,
@@ -11,7 +11,7 @@ import {
   useReservation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
-import { User, Wishlist, AddOn, Item } from 'src/types/index';
+import { User, Wishlist, AddOn, Item, CartItem } from 'src/types/index';
 import { splitDateTime } from '@shared/utils';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
@@ -52,6 +52,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   });
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
+  
+  // Payment step state
+  const [showPaymentStep, setShowPaymentStep] = useState(false);
+  const [pendingBookingItem, setPendingBookingItem] = useState<CartItem | null>(null);
+  const [paymentError, setPaymentError] = useState<string>('');
 
   // Fetch reservation data when we have a reservation ID
   const { data: reservation } = useReservation(currentReservationId || '');
@@ -168,64 +173,58 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     setCurrentReservationId(null);
   }, [itemId]);
 
-  const handleBookNow = useCallback(() => {
+  // Prepare booking item data (shared between direct booking and payment flow)
+  const prepareBookingItem = useCallback((): CartItem | null => {
     const confirmedDate = selectedDate?.toString() || null;
     const hours = selectedQuantity;
 
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
-    if (!bookingDate || !startTime) return toast.error(t('toasts.error.selectDateTime'));
+    if (!bookingDate || !startTime) {
+      toast.error(t('toasts.error.selectDateTime'));
+      return null;
+    }
 
     const closingTime = studio?.studioAvailability?.times[0]?.end;
-    if (!closingTime) return toast.error(t('toasts.error.closingTimeUnavailable'));
+    if (!closingTime) {
+      toast.error(t('toasts.error.closingTimeUnavailable'));
+      return null;
+    }
 
     const startDateTime = dayjs(`${bookingDate} ${startTime}`, 'DD/MM/YYYY HH:mm');
     const endDateTime = startDateTime.add(hours, 'hour');
     const closingDateTime = dayjs(`${bookingDate} ${closingTime}`, 'DD/MM/YYYY HH:mm');
 
     if (endDateTime.isAfter(closingDateTime)) {
-      return toast.error(t('toasts.error.hoursExceedClosing'));
+      toast.error(t('toasts.error.hoursExceedClosing'));
+      return null;
     }
 
-    if (item) {
-      const itemTotal = (item?.price || 0) * hours;
-      const totalWithAddOns = itemTotal + addOnsTotal;
+    if (!item) return null;
 
-      const newItem = {
-        name: {
-          en: item?.name?.en,
-          he: item?.name?.he
-        },
-        studioName: {
-          en: item?.studioName?.en,
-          he: item?.studioName?.he
-        },
-        price: item?.price || 0,
-        total: totalWithAddOns,
-        itemId: item?._id,
-        studioId: studio._id,
-        bookingDate,
-        startTime,
-        studioImgUrl: item?.studioImgUrl,
-        address: item?.address || studio?.address,
-        hours,
-        customerName,
-        customerPhone,
-        customerId: user?._id,
-        comment,
-        addOnIds: selectedAddOnIds
-      };
+    const itemTotal = (item?.price || 0) * hours;
+    const totalWithAddOns = itemTotal + addOnsTotal;
 
-      reserveItemTimeSlotMutation.mutate(newItem, {
-        onSuccess: (response) => {
-          localStorage.setItem(`reservation_${itemId}`, response);
-          setCurrentReservationId(response);
-          addItemToCartMutation.mutate({ ...newItem, reservationId: response });
-          setTimeout(() => {
-            setSelectedDate(null);
-          }, 250);
-        }
-      });
-    }
+    return {
+      name: {
+        en: item?.name?.en || '',
+        he: item?.name?.he
+      },
+      studioName: {
+        en: item?.studioName?.en,
+        he: item?.studioName?.he
+      },
+      price: item?.price || 0,
+      total: totalWithAddOns,
+      itemId: item?._id,
+      studioId: studio?._id,
+      bookingDate,
+      startTime,
+      studioImgUrl: item?.studioImgUrl,
+      hours,
+      customerName,
+      customerPhone,
+      comment,
+    };
   }, [
     selectedDate,
     selectedQuantity,
@@ -233,14 +232,85 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     item,
     customerName,
     customerPhone,
-    user?._id,
     comment,
-    itemId,
-    reserveItemTimeSlotMutation,
-    addItemToCartMutation,
-    selectedAddOnIds,
-    addOnsTotal
+    addOnsTotal,
+    t
   ]);
+
+  // Execute the actual booking mutation
+  const executeBooking = useCallback((bookingItem: CartItem) => {
+    reserveItemTimeSlotMutation.mutate(
+      {
+        ...bookingItem,
+        customerId: user?._id,
+        addOnIds: selectedAddOnIds
+      },
+      {
+        onSuccess: (response) => {
+          localStorage.setItem(`reservation_${itemId}`, response);
+          setCurrentReservationId(response);
+          addItemToCartMutation.mutate({ ...bookingItem, reservationId: response });
+          setShowPaymentStep(false);
+          setPendingBookingItem(null);
+          setPaymentError('');
+          setTimeout(() => {
+            setSelectedDate(null);
+          }, 250);
+        },
+        onError: (error: any) => {
+          setPaymentError(error.message || t('toasts.error.bookingFailed', 'Booking failed'));
+        }
+      }
+    );
+  }, [
+    reserveItemTimeSlotMutation,
+    user?._id,
+    selectedAddOnIds,
+    itemId,
+    addItemToCartMutation,
+    t
+  ]);
+
+  const handleBookNow = useCallback(() => {
+    const bookingItem = prepareBookingItem();
+    if (!bookingItem) return;
+
+    // If item has a price, show payment step
+    // Otherwise, book directly without payment
+    if (bookingItem.total > 0) {
+      setPendingBookingItem(bookingItem);
+      setShowPaymentStep(true);
+      setPaymentError('');
+    } else {
+      // Free booking - no payment needed
+      executeBooking(bookingItem);
+    }
+  }, [prepareBookingItem, executeBooking]);
+
+  // Handle payment submission from OrderSummary
+  const handlePaymentSubmit = useCallback(async (paymentData: {
+    method: 'saved' | 'new';
+    cardId?: string;
+    singleUseToken?: string;
+  }) => {
+    if (!pendingBookingItem) return;
+
+    // Add payment token to booking item
+    const bookingItemWithPayment: CartItem = {
+      ...pendingBookingItem,
+      singleUseToken: paymentData.singleUseToken,
+      customerEmail: user?.email
+    };
+
+    executeBooking(bookingItemWithPayment);
+  }, [pendingBookingItem, user?.email, executeBooking]);
+
+  // Handle going back from payment step
+  const handleBackFromPayment = useCallback(() => {
+    setShowPaymentStep(false);
+    setPendingBookingItem(null);
+    setPaymentError('');
+  }, []);
 
   const handleGoToEdit = useCallback(
     (itemId: string) => (itemId ? langNavigate(`/edit-item/${itemId}`) : null),
@@ -250,6 +320,74 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     () => langNavigate(`/studio/${item?.studioId}`),
     [langNavigate, item?.studioId]
   );
+
+  // Format booking date and time for OrderSummary
+  const formattedBookingDate = useMemo(() => {
+    if (!pendingBookingItem?.bookingDate) return '';
+    return pendingBookingItem.bookingDate;
+  }, [pendingBookingItem?.bookingDate]);
+
+  const formattedBookingTime = useMemo(() => {
+    if (!pendingBookingItem?.startTime || !pendingBookingItem?.hours) return '';
+    const startHour = parseInt(pendingBookingItem.startTime.split(':')[0]);
+    const endHour = startHour + pendingBookingItem.hours;
+    return `${pendingBookingItem.startTime} - ${String(endHour).padStart(2, '0')}:00`;
+  }, [pendingBookingItem?.startTime, pendingBookingItem?.hours]);
+
+  // Build order items for OrderSummary
+  const orderItems = useMemo(() => {
+    if (!pendingBookingItem || !item) return [];
+    
+    const items = [
+      {
+        id: 'base',
+        label: `${item.name?.en || 'Item'} (${pendingBookingItem.hours} ${t('hours', 'hours')})`,
+        value: (item.price || 0) * (pendingBookingItem.hours || 1),
+        isPrice: true
+      }
+    ];
+
+    // Add selected add-ons
+    selectedAddOnIds.forEach((addOnId) => {
+      const addOn = addOns.find((a) => a._id === addOnId);
+      if (addOn) {
+        const addOnPrice = addOn.pricePer === 'hour' 
+          ? (addOn.price || 0) * (pendingBookingItem.hours || 1)
+          : (addOn.price || 0);
+        items.push({
+          id: addOnId,
+          label: addOn.name?.en || 'Add-on',
+          value: addOnPrice,
+          isPrice: true
+        });
+      }
+    });
+
+    return items;
+  }, [pendingBookingItem, item, selectedAddOnIds, addOns, t]);
+
+  // Show payment step
+  if (showPaymentStep && pendingBookingItem) {
+    return (
+      <article key={item?._id} className="details item-details item-details--payment">
+        <button className="close-button" onClick={handleBackFromPayment}>
+          ←
+        </button>
+        <OrderSummary
+          studioName={item?.studioName?.en || studio?.name?.en || ''}
+          studioLocation={studio?.address || ''}
+          bookingDate={formattedBookingDate}
+          bookingTime={formattedBookingTime}
+          items={orderItems}
+          totalAmount={pendingBookingItem.total}
+          onPaymentSubmit={handlePaymentSubmit}
+          isProcessing={reserveItemTimeSlotMutation.isPending}
+          error={paymentError}
+          currency="₪"
+        />
+      </article>
+    );
+  }
 
   return (
     <article onMouseEnter={prefetchItem} key={item?._id} className="details item-details">

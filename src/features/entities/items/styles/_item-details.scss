@@ -149,6 +149,24 @@
 
   // Date picker row styling is now in _costumer-details-form.scss
 
+  // Payment step view
+  &--payment {
+    max-width: 60rem; // Wider for payment form layout
+    
+    .close-button {
+      background: transparent;
+      font-size: 1.5rem;
+      
+      &:hover {
+        background: vars.$white-opacity-08;
+      }
+    }
+    
+    .order-summary {
+      width: 100%;
+    }
+  }
+
   .item-addons-section {
     width: calc(100% - 2.1rem);
     display: flex;
