@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
+// import CreditCardIcon from '@mui/icons-material/CreditCard';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import '../styles/_how-it-works-page.scss';
@@ -115,14 +115,14 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
       title: t('steps.schedule.title'),
       description: t('steps.schedule.description')
     },
+    // {
+    //   stepNumber: '03',
+    //   icon: <CreditCardIcon />,
+    //   title: t('steps.book.title'),
+    //   description: t('steps.book.description')
+    // },
     {
       stepNumber: '03',
-      icon: <CreditCardIcon />,
-      title: t('steps.book.title'),
-      description: t('steps.book.description')
-    },
-    {
-      stepNumber: '04',
       icon: <CheckCircleIcon />,
       title: t('steps.create.title'),
       description: t('steps.create.description')
