@@ -50,7 +50,8 @@
         "sunday": "Sunday"
       },
       "startTime": "Start Time",
-      "endTime": "End Time"
+      "endTime": "End Time",
+      "is24Hours": "24H"
     },
     "address": {
       "label": "Address",

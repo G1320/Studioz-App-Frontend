@@ -50,7 +50,8 @@
         "sunday": "ראשון"
       },
       "startTime": "שעת התחלה",
-      "endTime": "שעת סיום"
+      "endTime": "שעת סיום",
+      "is24Hours": "24 שעות"
     },
     "address": {
       "label": "כתובת",
