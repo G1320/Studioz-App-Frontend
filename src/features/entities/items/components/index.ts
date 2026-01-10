@@ -8,3 +8,4 @@ export * from './ItemHeader';
 export * from './ItemOptions';
 export * from './HourSelector';
 export * from './BookingActions';
+export * from './OrderSummary';

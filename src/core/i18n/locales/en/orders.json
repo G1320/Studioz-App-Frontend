@@ -1,5 +1,26 @@
 {
   "title": "Checkout",
-  "empty": "Your cart is empty"
+  "empty": "Your cart is empty",
+  "orderDetails": "Order Details",
+  "date": "Date",
+  "time": "Time",
+  "priceBreakdown": "Payment Breakdown",
+  "totalToPay": "Total to Pay",
+  "paymentMethod": "Payment Method",
+  "securePayment": "Secure Payment",
+  "savedCards": "Saved Cards",
+  "newCard": "New Card",
+  "expires": "Expires",
+  "removeSelectedCard": "Remove Selected Card",
+  "cardNumber": "Card Number",
+  "expiry": "Expiry (MM/YY)",
+  "holderId": "Cardholder ID",
+  "holderIdPlaceholder": "ID Number (9 digits)",
+  "weAccept": "We Accept",
+  "payNow": "Pay Now",
+  "processing": "Processing Payment...",
+  "termsAgreement": "By clicking \"Pay Now\" I agree to",
+  "termsOfService": "Terms of Service",
+  "and": "and",
+  "cancellationPolicy": "Cancellation Policy"
 }
-

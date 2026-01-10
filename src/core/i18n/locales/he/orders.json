@@ -1,5 +1,26 @@
 {
   "title": "תשלום",
-  "empty": "העגלה שלך ריקה"
+  "empty": "העגלה שלך ריקה",
+  "orderDetails": "פרטי ההזמנה",
+  "date": "תאריך",
+  "time": "שעה",
+  "priceBreakdown": "פירוט תשלום",
+  "totalToPay": "סה״כ לתשלום",
+  "paymentMethod": "אמצעי תשלום",
+  "securePayment": "תשלום מאובטח",
+  "savedCards": "כרטיסים שמורים",
+  "newCard": "כרטיס חדש",
+  "expires": "תוקף",
+  "removeSelectedCard": "הסר כרטיס נבחר",
+  "cardNumber": "מספר כרטיס",
+  "expiry": "תוקף (MM/YY)",
+  "holderId": "תעודת זהות של בעל הכרטיס",
+  "holderIdPlaceholder": "מספר תעודת זהות (9 ספרות)",
+  "weAccept": "אנו מקבלים",
+  "payNow": "שלם עכשיו",
+  "processing": "מעבד תשלום...",
+  "termsAgreement": "בלחיצה על \"שלם עכשיו\" אני מסכים/ה",
+  "termsOfService": "לתנאי השימוש",
+  "and": "ו",
+  "cancellationPolicy": "מדיניות הביטולים"
 }
-
