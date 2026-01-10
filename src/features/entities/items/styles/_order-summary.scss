@@ -13,7 +13,7 @@ $accent-hover: #ffc107;
 .order-summary {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
@@ -33,18 +33,19 @@ $accent-hover: #ffc107;
   &__card {
     background: $card-dark;
     border: 1px solid vars.$zinc-800;
-    border-radius: vars.$border-radius-large;
-    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
   }
 
   &__card-title {
-    font-size: vars.$font-size-medium;
+    font-size: 1.0625rem;
     font-weight: 700;
     color: vars.$text-color-primary;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
 
     &--small {
-      font-size: vars.$font-size-sm-md;
+      font-size: 1rem;
     }
   }
 
@@ -54,19 +55,19 @@ $accent-hover: #ffc107;
   &__info-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   &__info-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 14px;
   }
 
   &__info-icon {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: vars.$border-radius-medium;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     background: vars.$zinc-900;
     border: 1px solid vars.$zinc-800;
     display: flex;
@@ -76,8 +77,8 @@ $accent-hover: #ffc107;
     color: $accent;
 
     svg {
-      width: 1rem;
-      height: 1rem;
+      width: 20px;
+      height: 20px;
     }
 
     &--neutral {
@@ -88,11 +89,11 @@ $accent-hover: #ffc107;
   &__info-content {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 2px;
   }
 
   &__info-primary {
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.9375rem;
     font-weight: 600;
     color: vars.$text-color-primary;
     line-height: 1.3;
@@ -100,7 +101,7 @@ $accent-hover: #ffc107;
   }
 
   &__info-secondary {
-    font-size: vars.$font-size-small;
+    font-size: 0.8125rem;
     color: vars.$zinc-500;
     margin: 0;
   }
@@ -111,15 +112,15 @@ $accent-hover: #ffc107;
   &__price-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    gap: 10px;
+    margin-bottom: 1rem;
   }
 
   &__price-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: vars.$font-size-small;
+    font-size: 0.875rem;
   }
 
   &__price-label {
@@ -128,28 +129,29 @@ $accent-hover: #ffc107;
 
   &__price-value {
     color: vars.$text-color-primary;
-    font-family: 'Courier New', monospace;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-weight: 500;
   }
 
   &__total-row {
     border-top: 1px solid vars.$zinc-800;
-    padding-top: 0.75rem;
+    padding-top: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   &__total-label {
-    font-size: vars.$font-size-sm-md;
+    font-size: 1rem;
     font-weight: 700;
     color: vars.$text-color-primary;
   }
 
   &__total-value {
-    font-size: vars.$font-size-large;
+    font-size: 1.375rem;
     font-weight: 700;
     color: $accent;
-    font-family: 'Courier New', monospace;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
   }
 
   // ========================================
@@ -163,8 +165,8 @@ $accent-hover: #ffc107;
   &__payment-card {
     background: $card-dark;
     border: 1px solid vars.$zinc-800;
-    border-radius: vars.$border-radius-xl;
-    padding: 1rem 1.25rem;
+    border-radius: 20px;
+    padding: 1.5rem;
     position: relative;
     overflow: hidden;
   }
@@ -173,32 +175,34 @@ $accent-hover: #ffc107;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 12px;
   }
 
   &__payment-title {
-    font-size: vars.$font-size-medium;
+    font-size: 1.25rem;
     font-weight: 700;
     color: vars.$text-color-primary;
     margin: 0;
+    letter-spacing: -0.01em;
   }
 
   &__secure-badge {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    font-size: 0.625rem;
-    color: vars.$color-success;
-    background: rgba(vars.$color-success, 0.1);
-    padding: 0.25rem 0.5rem;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    padding: 6px 12px;
     border-radius: 9999px;
-    border: 1px solid rgba(vars.$color-success, 0.2);
+    border: 1px solid rgba(74, 222, 128, 0.2);
 
     svg {
-      width: 0.75rem;
-      height: 0.75rem;
+      width: 14px;
+      height: 14px;
     }
   }
 
@@ -207,11 +211,12 @@ $accent-hover: #ffc107;
   // ========================================
   &__method-toggle {
     display: flex;
-    padding: 0.125rem;
-    background: rgba(vars.$zinc-900, 0.5);
-    border-radius: vars.$border-radius-medium;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(vars.$zinc-800, 0.5);
+    padding: 4px;
+    background: rgba(24, 24, 27, 0.6);
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(39, 39, 42, 0.5);
+    gap: 4px;
   }
 
   &__method-btn {
@@ -219,31 +224,34 @@ $accent-hover: #ffc107;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.375rem;
-    padding: 0.5rem;
-    font-size: vars.$font-size-small;
+    gap: 8px;
+    padding: 10px 16px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: vars.$zinc-400;
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-xs;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     svg {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 18px;
+      height: 18px;
     }
 
     &:hover:not(&--active) {
       color: vars.$text-color-primary;
-      background: vars.$white-opacity-05;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     &--active {
       background: $accent;
-      color: vars.$text-color-dark;
-      box-shadow: 0 4px 12px vars.$brand-opacity-20;
+      color: #000;
+      font-weight: 600;
+      box-shadow: 
+        0 4px 12px rgba(255, 209, 102, 0.15),
+        0 1px 3px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -262,99 +270,165 @@ $accent-hover: #ffc107;
   &__saved-cards {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 10px;
   }
 
   &__card-option {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem;
-    border-radius: vars.$border-radius-medium;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
     border: 1px solid vars.$zinc-800;
     background: $input-dark;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover:not(&--selected) {
       border-color: vars.$zinc-700;
+      background: rgba(17, 17, 17, 0.8);
     }
 
     &--selected {
-      background: rgba(vars.$zinc-800, 0.5);
+      background: rgba(39, 39, 42, 0.5);
       border-color: $accent;
-      box-shadow: 0 0 0 1px vars.$brand-opacity-20;
+      box-shadow: 
+        0 0 0 1px rgba(255, 209, 102, 0.2),
+        inset 0 0 20px rgba(255, 209, 102, 0.03);
     }
   }
 
-  &__card-option-content {
+  &__card-brand {
+    flex-shrink: 0;
+    min-width: 56px;
+    height: 36px;
+    background: vars.$text-color-primary;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-  }
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 
-  &__card-radio {
-    width: 0.875rem;
-    height: 0.875rem;
-    accent-color: $accent;
-    cursor: pointer;
+    span {
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: vars.$text-color-dark;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
   }
 
   &__card-details {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 2px;
+    flex: 1;
   }
 
   &__card-number {
     color: vars.$text-color-primary;
-    font-family: 'Courier New', monospace;
-    font-size: vars.$font-size-small;
-    letter-spacing: 0.05em;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9375rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
   }
 
   &__card-expiry {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     color: vars.$zinc-500;
   }
 
-  &__card-brand {
-    width: 2rem;
-    height: 1.25rem;
-    background: vars.$text-color-primary;
-    border-radius: vars.$border-radius-small;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    span {
-      font-size: 0.5rem;
-      font-weight: 700;
-      color: vars.$text-color-dark;
-      text-transform: uppercase;
-    }
+  &__card-radio {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    accent-color: $accent;
+    cursor: pointer;
+    margin: 0;
   }
 
   &__remove-card-btn {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    margin-top: 0.5rem;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 8px;
     padding: 0;
-    font-size: vars.$font-size-small;
-    color: vars.$color-error-delete;
+    font-size: 0.8125rem;
+    color: #ef4444;
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
 
     svg {
-      width: 0.75rem;
-      height: 0.75rem;
+      width: 16px;
+      height: 16px;
     }
 
     &:hover {
-      color: vars.$color-error;
+      color: #f87171;
+    }
+  }
+
+  // ========================================
+  // Empty State (No Saved Cards)
+  // ========================================
+  &__empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+    gap: 8px;
+
+    svg {
+      width: 48px;
+      height: 48px;
+      color: vars.$zinc-600;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: vars.$text-color-primary;
+      margin: 0;
+    }
+
+    span {
+      font-size: 0.875rem;
+      color: vars.$zinc-500;
+    }
+  }
+
+  &__add-card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: $accent;
+    color: #000;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      color: #000;
+      margin: 0;
+    }
+
+    &:hover {
+      background: $accent-hover;
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
     }
   }
 
@@ -497,29 +571,34 @@ $accent-hover: #ffc107;
   // ========================================
   &__submit-btn {
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem;
+    gap: 10px;
+    padding: 16px 24px;
     background: $accent;
-    color: vars.$text-color-dark;
-    font-size: vars.$font-size-medium;
+    color: #000;
+    font-size: 1.0625rem;
     font-weight: 700;
     border: none;
-    border-radius: vars.$border-radius-medium;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 0 20px vars.$brand-opacity-20;
-    transition: all 0.2s ease;
+    box-shadow: 
+      0 0 20px rgba(255, 209, 102, 0.2),
+      0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover:not(:disabled) {
       background: $accent-hover;
-      box-shadow: 0 0 25px vars.$brand-opacity-30;
+      box-shadow: 
+        0 0 30px rgba(255, 209, 102, 0.35),
+        0 6px 20px rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
     }
 
     &:active:not(:disabled) {
-      transform: scale(0.99);
+      transform: scale(0.99) translateY(0);
     }
 
     &:disabled {
@@ -544,8 +623,9 @@ $accent-hover: #ffc107;
   }
 
   &__submit-btn-amount {
-    font-size: vars.$font-size-medium;
-    font-family: 'Courier New', monospace;
+    font-size: 1.125rem;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-weight: 700;
   }
 
   // ========================================
@@ -553,18 +633,19 @@ $accent-hover: #ffc107;
   // ========================================
   &__terms {
     text-align: center;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     color: vars.$zinc-500;
-    margin-top: 0.75rem;
-    line-height: 1.4;
+    margin-top: 1rem;
+    line-height: 1.5;
 
     a {
-      color: vars.$zinc-500;
+      color: vars.$zinc-400;
       text-decoration: underline;
+      text-underline-offset: 2px;
       transition: color 0.2s ease;
 
       &:hover {
-        color: vars.$zinc-300;
+        color: vars.$text-color-primary;
       }
     }
   }
@@ -574,27 +655,28 @@ $accent-hover: #ffc107;
   // ========================================
   &__error {
     background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: vars.$border-radius-medium;
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 0.75rem;
-    color: #ef4444;
-    font-size: vars.$font-size-small;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 1rem;
+    color: #f87171;
+    font-size: 0.875rem;
     text-align: center;
+    font-weight: 500;
   }
 
   // ========================================
   // New Card Wrapper (for SumitPaymentForm)
   // ========================================
   &__new-card-wrapper {
-    // Override SumitPaymentForm styles to be more compact
+    // Override SumitPaymentForm styles for consistent design
     .sumit-payment-form {
       padding: 0;
       background: transparent;
       border: none;
 
       &__form {
-        gap: 0.75rem;
+        gap: 1rem;
       }
 
       &__field-group {
@@ -602,24 +684,67 @@ $accent-hover: #ffc107;
       }
 
       &__label {
-        font-size: vars.$font-size-small;
-        margin-bottom: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: vars.$zinc-400;
+        margin-bottom: 8px;
       }
 
       &__input {
-        padding: 0.625rem 0.75rem;
-        font-size: vars.$font-size-sm-md;
+        padding: 14px 16px;
+        font-size: 0.9375rem;
+        background: $input-dark;
+        border: 1px solid vars.$zinc-800;
+        border-radius: 12px;
+        color: vars.$text-color-primary;
+        transition: all 0.2s ease;
+
+        &::placeholder {
+          color: vars.$zinc-600;
+        }
+
+        &:focus {
+          border-color: $accent;
+          box-shadow: 0 0 0 1px $accent;
+        }
+      }
+
+      &__select {
+        padding: 14px 16px;
+        font-size: 0.9375rem;
+        background: $input-dark;
+        border: 1px solid vars.$zinc-800;
+        border-radius: 12px;
+        color: vars.$text-color-primary;
+      }
+
+      &__row {
+        gap: 12px;
       }
 
       &__submit-btn {
-        margin-top: 0.75rem;
-        padding: 0.75rem;
-        font-size: vars.$font-size-medium;
+        margin-top: 1.5rem;
+        padding: 16px 24px;
+        font-size: 1.0625rem;
+        font-weight: 700;
+        border-radius: 12px;
+        background: $accent;
+        color: #000;
+        box-shadow: 
+          0 0 20px rgba(255, 209, 102, 0.2),
+          0 4px 12px rgba(0, 0, 0, 0.2);
+
+        &:hover:not(:disabled) {
+          background: $accent-hover;
+          box-shadow: 
+            0 0 30px rgba(255, 209, 102, 0.35),
+            0 6px 20px rgba(0, 0, 0, 0.25);
+        }
       }
 
       &__footer {
-        margin-top: 0.75rem;
-        font-size: 0.625rem;
+        margin-top: 1rem;
+        font-size: 0.75rem;
       }
     }
   }

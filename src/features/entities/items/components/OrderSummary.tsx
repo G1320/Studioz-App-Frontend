@@ -3,13 +3,11 @@ import { useTranslation } from 'react-i18next';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import AddIcon from '@mui/icons-material/Add';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { SumitPaymentForm } from '@shared/components';
 import { sumitService } from '@shared/services';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
+import { SavedCards, type SavedCard } from './SavedCards';
 import '../styles/_order-summary.scss';
 
 // --- Types ---
@@ -20,13 +18,7 @@ export interface OrderItem {
   isPrice?: boolean;
 }
 
-export interface SavedCard {
-  id: string;
-  last4: string;
-  brand: 'visa' | 'mastercard' | 'amex';
-  expiryMonth: string;
-  expiryYear: string;
-}
+export type { SavedCard };
 
 export interface OrderSummaryProps {
   className?: string;
@@ -44,7 +36,7 @@ export interface OrderSummaryProps {
   onPaymentSubmit?: (paymentData: {
     method: 'saved' | 'new';
     cardId?: string;
-    singleUseToken?: string;  // Sumit token for new card
+    singleUseToken?: string; // Sumit token for new card
   }) => Promise<void>;
   onRemoveCard?: (cardId: string) => void;
   currency?: string;
@@ -70,7 +62,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   const { t, i18n } = useTranslation('orders');
   const isRTL = i18n.language === 'he';
 
-  const [paymentMethod, setPaymentMethod] = useState<'saved' | 'new'>(savedCards.length > 0 ? 'saved' : 'new');
+  const [paymentMethod, setPaymentMethod] = useState<'saved' | 'new'>('saved');
   const [selectedCardId, setSelectedCardId] = useState<string>(savedCards[0]?.id || '');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
@@ -107,7 +99,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
       // Get Sumit token from the form
       const formData = prepareFormData(e.target as HTMLFormElement);
       const token = await sumitService.getSumitToken(formData);
-      
+
       await onPaymentSubmit?.({
         method: 'new',
         singleUseToken: token
@@ -214,71 +206,32 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
             </div>
           </div>
 
-          {/* Payment Method Toggle */}
-          {savedCards.length > 0 && (
-            <div className="order-summary__method-toggle">
-              <button
-                type="button"
-                className={`order-summary__method-btn ${paymentMethod === 'saved' ? 'order-summary__method-btn--active' : ''}`}
-                onClick={() => setPaymentMethod('saved')}
-              >
-                <AccountBalanceWalletIcon />
-                {t('savedCards', 'כרטיסים שמורים')}
-              </button>
-              <button
-                type="button"
-                className={`order-summary__method-btn ${paymentMethod === 'new' ? 'order-summary__method-btn--active' : ''}`}
-                onClick={() => setPaymentMethod('new')}
-              >
-                <AddIcon />
-                {t('newCard', 'כרטיס חדש')}
-              </button>
-            </div>
-          )}
+          {/* SavedCards Component with Toggle */}
+          <SavedCards
+            cards={savedCards}
+            selectedCardId={selectedCardId}
+            onSelectCard={setSelectedCardId}
+            onRemoveCard={onRemoveCard ? handleRemoveCard : undefined}
+            paymentMethod={paymentMethod}
+            onPaymentMethodChange={setPaymentMethod}
+          >
+            {/* New Card Form */}
+            <SumitPaymentForm
+              variant="order"
+              onSubmit={handleNewCardSubmit}
+              error={displayError}
+              totalAmount={totalAmount}
+              isProcessing={processing}
+              showHeader={false}
+              showFooter={true}
+              currency={currency}
+            />
+          </SavedCards>
 
-          {paymentMethod === 'saved' && savedCards.length > 0 ? (
-            /* Saved Cards Selection */
+          {/* Submit Button for Saved Cards */}
+          {paymentMethod === 'saved' && savedCards.length > 0 && (
             <form onSubmit={handleSavedCardSubmit} className="order-summary__form">
-              {displayError && (
-                <div className="order-summary__error">
-                  {displayError}
-                </div>
-              )}
-
-              <div className="order-summary__saved-cards">
-                {savedCards.map((card) => (
-                  <label
-                    key={card.id}
-                    className={`order-summary__card-option ${selectedCardId === card.id ? 'order-summary__card-option--selected' : ''}`}
-                  >
-                    <div className="order-summary__card-option-content">
-                      <input
-                        type="radio"
-                        name="saved_card"
-                        className="order-summary__card-radio"
-                        checked={selectedCardId === card.id}
-                        onChange={() => setSelectedCardId(card.id)}
-                      />
-                      <div className="order-summary__card-details">
-                        <span className="order-summary__card-number">•••• •••• •••• {card.last4}</span>
-                        <span className="order-summary__card-expiry">
-                          {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="order-summary__card-brand">
-                      <span>{card.brand.toUpperCase()}</span>
-                    </div>
-                  </label>
-                ))}
-
-                {onRemoveCard && (
-                  <button type="button" className="order-summary__remove-card-btn" onClick={handleRemoveCard}>
-                    <DeleteIcon />
-                    {t('removeSelectedCard', 'הסר כרטיס נבחר')}
-                  </button>
-                )}
-              </div>
+              {displayError && <div className="order-summary__error">{displayError}</div>}
 
               <button type="submit" className="order-summary__submit-btn" disabled={processing}>
                 {processing ? (
@@ -300,20 +253,6 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
                 <a href="/cancellation-policy">{t('cancellationPolicy', 'מדיניות הביטולים')}</a>
               </p>
             </form>
-          ) : (
-            /* New Card - Use SumitPaymentForm */
-            <div className="order-summary__new-card-wrapper">
-              <SumitPaymentForm
-                variant="order"
-                onSubmit={handleNewCardSubmit}
-                error={displayError}
-                totalAmount={totalAmount}
-                isProcessing={processing}
-                showHeader={false}
-                showFooter={true}
-                currency={currency}
-              />
-            </div>
           )}
         </div>
       </div>

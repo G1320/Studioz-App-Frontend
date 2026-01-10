@@ -1,0 +1,233 @@
+@use 'utilities/variables' as vars;
+
+// Local variables
+$card-dark: #0a0a0a;
+$input-dark: #111111;
+$accent: vars.$color-brand;
+$accent-hover: #ffc107;
+
+.saved-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  // ========================================
+  // Toggle Buttons
+  // ========================================
+  &__toggle {
+    display: flex;
+    padding: 4px;
+    background: rgba(24, 24, 27, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(39, 39, 42, 0.5);
+    gap: 4px;
+  }
+
+  &__toggle-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: vars.$zinc-400;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover:not(&--active) {
+      color: vars.$text-color-primary;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &--active {
+      background: $accent;
+      color: #000;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(255, 209, 102, 0.15), 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // ========================================
+  // Card List
+  // ========================================
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid vars.$zinc-800;
+    background: $input-dark;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover:not(&--selected) {
+      border-color: vars.$zinc-700;
+      background: rgba(17, 17, 17, 0.8);
+    }
+
+    &--selected {
+      background: rgba(39, 39, 42, 0.5);
+      border-color: $accent;
+      box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2), inset 0 0 20px rgba(255, 209, 102, 0.03);
+    }
+  }
+
+  &__brand {
+    flex-shrink: 0;
+    min-width: 56px;
+    height: 36px;
+    background: vars.$text-color-primary;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    span {
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: vars.$text-color-dark;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+  }
+
+  &__number {
+    color: vars.$text-color-primary;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9375rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  &__expiry {
+    font-size: 0.75rem;
+    color: vars.$zinc-500;
+  }
+
+  &__radio {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    accent-color: $accent;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  // ========================================
+  // Remove Card Button
+  // ========================================
+  &__remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 0;
+    font-size: 0.8125rem;
+    color: #ef4444;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      color: #f87171;
+    }
+  }
+
+  // ========================================
+  // Empty State
+  // ========================================
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+    gap: 8px;
+
+    > svg {
+      width: 48px;
+      height: 48px;
+      color: vars.$zinc-600;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: vars.$text-color-primary;
+      margin: 0;
+    }
+
+    span {
+      font-size: 0.875rem;
+      color: vars.$zinc-500;
+    }
+  }
+
+  &__add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: $accent;
+    color: #000;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      color: #000;
+    }
+
+    &:hover {
+      background: $accent-hover;
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    }
+  }
+
+  // ========================================
+  // New Card Container
+  // ========================================
+  &__new-card {
+    // Styles for the new card form wrapper
+  }
+}
