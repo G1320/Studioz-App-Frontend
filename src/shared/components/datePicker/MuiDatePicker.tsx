@@ -1,10 +1,19 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { DateTimePicker, TimeView } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import { Item, Studio } from 'src/types/index';
+import {
+  AvailabilityContext,
+  isDateBookable,
+  getAvailableSlotsForDate,
+  getMinimumHours,
+  getMaxConsecutiveHours,
+  getMinBookableDate
+} from '@shared/utils/availabilityUtils';
 import './_MuiDatePicker.scss';
 
 dayjs.extend(customParseFormat);
@@ -14,13 +23,19 @@ interface MuiDateTimePickerProps {
   onChange: (newValue: Date | null) => void;
   itemAvailability?: { date: string; times: string[] }[];
   studioAvailability?: StudioAvailability;
+  /** Full item object for advanced availability calculations */
+  item?: Item;
+  /** Full studio object for advanced availability calculations */
+  studio?: Studio;
 }
 
 export const MuiDateTimePicker = ({
   value,
   onChange,
   itemAvailability = [],
-  studioAvailability
+  studioAvailability,
+  item,
+  studio
 }: MuiDateTimePickerProps) => {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
@@ -34,12 +49,29 @@ export const MuiDateTimePicker = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
+  // Create availability context for advanced calculations
+  const availabilityContext = useMemo<AvailabilityContext | null>(() => {
+    if (!item) return null;
+    return {
+      item,
+      studio
+    };
+  }, [item, studio]);
+
+  // Calculate minimum bookable date based on advance booking requirement
+  const minDate = useMemo(() => {
+    if (item) {
+      return getMinBookableDate(item);
+    }
+    return dayjs(); // Default to today
+  }, [item]);
+
   useEffect(() => {
     if (isOpen) {
       const scrollToInitialTime = () => {
         // Find all time items and look for 12:00
         const items = document.querySelectorAll('.MuiDigitalClock-item');
-        
+
         if (items.length === 0) return;
 
         const targetHour = Array.from(items).find((item) => {
@@ -49,13 +81,13 @@ export const MuiDateTimePicker = ({
         if (targetHour) {
           // Get the scrollable parent (the ul list)
           const list = targetHour.closest('.MuiDigitalClock-list') as HTMLElement;
-          
+
           if (list) {
             const itemTop = targetHour.offsetTop;
             const listHeight = list.clientHeight;
             const itemHeight = targetHour.offsetHeight;
-            const scrollPosition = itemTop - (listHeight / 2) + (itemHeight / 2);
-            
+            const scrollPosition = itemTop - listHeight / 2 + itemHeight / 2;
+
             // Smooth scroll to center the item
             list.scrollTo({
               top: Math.max(0, scrollPosition),
@@ -66,49 +98,84 @@ export const MuiDateTimePicker = ({
       };
 
       // MUI picker needs time to fully render
-      const timers = [100, 250, 500, 750, 1000].map(delay => 
-        setTimeout(scrollToInitialTime, delay)
-      );
+      const timers = [100, 250, 500, 750, 1000].map((delay) => setTimeout(scrollToInitialTime, delay));
 
       return () => timers.forEach(clearTimeout);
     }
   }, [isOpen]);
 
-  const shouldDisableDate = (date: Dayjs) => {
-    // First check if the date is in booked availability
-    const isBooked = itemAvailability.some((slot) => dayjs(slot.date).isSame(date, 'day'));
-    if (isBooked) return true;
+  const shouldDisableDate = useCallback(
+    (date: Dayjs) => {
+      // Use advanced availability logic if item is provided
+      if (availabilityContext) {
+        const result = isDateBookable(date, availabilityContext);
+        return !result.isBookable;
+      }
 
-    // Get the day name in English for comparison
-    const dayName = date.locale('en').format('dddd') as DayOfWeek;
-    const isAllowedDay = studioAvailability?.days.includes(dayName);
-    return !isAllowedDay;
-  };
+      // Fallback to legacy logic
+      // First check if the date is in booked availability
+      const isBooked = itemAvailability.some((slot) => dayjs(slot.date).isSame(date, 'day'));
+      if (isBooked) return true;
 
-  const shouldDisableTime = (value: Dayjs, view: TimeView) => {
-    if (view === 'minutes') return false;
+      // Get the day name in English for comparison
+      const dayName = date.locale('en').format('dddd') as DayOfWeek;
+      const isAllowedDay = studioAvailability?.days.includes(dayName);
+      return !isAllowedDay;
+    },
+    [availabilityContext, itemAvailability, studioAvailability]
+  );
 
-    const dayName = value.locale('en').format('dddd') as DayOfWeek;
+  const shouldDisableTime = useCallback(
+    (timeValue: Dayjs, view: TimeView) => {
+      if (view === 'minutes') return false;
 
-    // Get the business hours for the selected day
-    const dayIndex = studioAvailability?.days.indexOf(dayName);
-    if (dayIndex === undefined || dayIndex === -1) return true;
+      // Use advanced availability logic if item is provided
+      if (availabilityContext && internalValue) {
+        const selectedDate = internalValue;
+        const availableSlots = getAvailableSlotsForDate(selectedDate, availabilityContext);
+        const slotStr = timeValue.format('HH:00');
 
-    const studioTimes = studioAvailability?.times[dayIndex]; // Get the times for the specific day
-    if (studioTimes) {
-      const startHour = dayjs(studioTimes.start, 'HH:mm').hour();
-      const endHour = dayjs(studioTimes.end, 'HH:mm').hour();
-      if (value.hour() < startHour || value.hour() >= endHour) return true;
-    }
+        // Check if slot is available
+        if (!availableSlots.includes(slotStr)) {
+          return true;
+        }
 
-    const selectedDate = value.format('DD/MM/YYYY');
-    const bookedSlot = itemAvailability.find((slot) => slot.date === selectedDate);
-    if (bookedSlot) {
-      return !bookedSlot.times.includes(value.format('HH:00'));
-    }
+        // Check if slot can accommodate minimum duration
+        const minHours = getMinimumHours(availabilityContext.item);
+        if (minHours > 1) {
+          const maxConsecutive = getMaxConsecutiveHours(slotStr, availableSlots);
+          if (maxConsecutive < minHours) {
+            return true;
+          }
+        }
 
-    return false;
-  };
+        return false;
+      }
+
+      // Fallback to legacy logic
+      const dayName = timeValue.locale('en').format('dddd') as DayOfWeek;
+
+      // Get the business hours for the selected day
+      const dayIndex = studioAvailability?.days.indexOf(dayName);
+      if (dayIndex === undefined || dayIndex === -1) return true;
+
+      const studioTimes = studioAvailability?.times[dayIndex]; // Get the times for the specific day
+      if (studioTimes) {
+        const startHour = dayjs(studioTimes.start, 'HH:mm').hour();
+        const endHour = dayjs(studioTimes.end, 'HH:mm').hour();
+        if (timeValue.hour() < startHour || timeValue.hour() >= endHour) return true;
+      }
+
+      const selectedDate = timeValue.format('DD/MM/YYYY');
+      const bookedSlot = itemAvailability.find((slot) => slot.date === selectedDate);
+      if (bookedSlot) {
+        return !bookedSlot.times.includes(timeValue.format('HH:00'));
+      }
+
+      return false;
+    },
+    [availabilityContext, internalValue, itemAvailability, studioAvailability]
+  );
 
   const handleChange = useCallback(
     (newValue: Dayjs | null) => {
@@ -126,6 +193,7 @@ export const MuiDateTimePicker = ({
         onChange={handleChange}
         format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
         views={['year', 'month', 'day', 'hours']}
+        minDate={minDate}
         disablePast
         shouldDisableDate={shouldDisableDate}
         shouldDisableTime={shouldDisableTime}

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import dayjs from 'dayjs';
 import { ReservationDetailsForm, HourSelector, BookingActions } from '@features/entities';
 import { MuiDateTimePicker } from '@shared/components';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +8,7 @@ import { AddOnsList } from '@features/entities/addOns/components';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { AddOn, Cart, Item, Reservation, Studio } from 'src/types/index';
 import { AnimatePresence, motion } from 'framer-motion';
+import { getMinimumHours, getMaximumHours, AvailabilityContext } from '@shared/utils/availabilityUtils';
 
 interface ItemContentProps {
   item: Item;
@@ -91,6 +93,27 @@ export const ItemContent: React.FC<ItemContentProps> = ({
 
   const showReservation = currentReservationId && reservation;
 
+  // Create availability context for calculations
+  const availabilityContext = useMemo<AvailabilityContext | null>(() => {
+    if (!item) return null;
+    return { item, studio };
+  }, [item, studio]);
+
+  // Calculate min/max hours based on item constraints and selected date/time
+  const minHours = useMemo(() => {
+    return item ? getMinimumHours(item) : 1;
+  }, [item]);
+
+  const maxHours = useMemo(() => {
+    if (!availabilityContext || !selectedDate) return undefined;
+
+    // Get the selected start time from the date
+    const selectedDayjs = dayjs(selectedDate);
+    const startSlot = selectedDayjs.format('HH:00');
+
+    return getMaximumHours(startSlot, selectedDayjs, availabilityContext);
+  }, [availabilityContext, selectedDate]);
+
   return (
     <>
       <AnimatePresence mode="wait" initial={false} custom={isRTL}>
@@ -130,11 +153,19 @@ export const ItemContent: React.FC<ItemContentProps> = ({
                 onChange={onDateChange}
                 itemAvailability={item?.availability || []}
                 studioAvailability={studio?.studioAvailability}
+                item={item}
+                studio={studio}
               />
 
               <div className="hours-wrapper">
                 <label className="hours-label">{t('hours', 'Hours')}</label>
-                <HourSelector value={selectedQuantity} onIncrement={onIncrement} onDecrement={onDecrement} />
+                <HourSelector
+                  value={selectedQuantity}
+                  onIncrement={onIncrement}
+                  onDecrement={onDecrement}
+                  min={minHours}
+                  max={maxHours}
+                />
               </div>
             </div>
 

@@ -6,9 +6,19 @@ interface HourSelectorProps {
   value: number;
   onIncrement: () => void;
   onDecrement: () => void;
+  /** Minimum allowed value (default: 1) */
+  min?: number;
+  /** Maximum allowed value (default: unlimited) */
+  max?: number;
 }
 
-export const HourSelector = React.memo(({ value, onIncrement, onDecrement }: HourSelectorProps) => {
+export const HourSelector = React.memo(({ 
+  value, 
+  onIncrement, 
+  onDecrement,
+  min = 1,
+  max
+}: HourSelectorProps) => {
   const prevValue = React.useRef(value);
   const direction = value > prevValue.current ? 1 : -1;
 
@@ -16,10 +26,13 @@ export const HourSelector = React.memo(({ value, onIncrement, onDecrement }: Hou
     prevValue.current = value;
   }, [value]);
 
+  const isDecrementDisabled = value <= min;
+  const isIncrementDisabled = max !== undefined && value >= max;
+
   return (
     <div className="hour-selection-container full-width">
       <div className="button-group">
-        <AddRemoveButton variant="remove" onClick={onDecrement} disabled={value <= 1} />
+        <AddRemoveButton variant="remove" onClick={onDecrement} disabled={isDecrementDisabled} />
         <div className="hour-value-container">
           <AnimatePresence mode="popLayout" initial={false} custom={direction}>
             <motion.span
@@ -56,7 +69,7 @@ export const HourSelector = React.memo(({ value, onIncrement, onDecrement }: Hou
             </motion.span>
           </AnimatePresence>
         </div>
-        <AddRemoveButton variant="add" onClick={onIncrement} />
+        <AddRemoveButton variant="add" onClick={onIncrement} disabled={isIncrementDisabled} />
       </div>
     </div>
   );

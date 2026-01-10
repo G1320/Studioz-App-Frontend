@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { ItemHeader, ItemCard, ItemContent } from '@features/entities';
 import {
   useAddItemToCartMutation,
@@ -17,6 +17,11 @@ import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import { useAddOns } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
+import {
+  getMinimumHours,
+  getMaximumHours,
+  AvailabilityContext
+} from '@shared/utils/availabilityUtils';
 
 interface ItemDetailsProps {
   itemId: string;
@@ -73,17 +78,58 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const reserveItemTimeSlotMutation = useReserveStudioItemTimeSlotsMutation(item?._id || '');
   const addItemToCartMutation = useAddItemToCartMutation();
 
+  // Create availability context for calculations
+  const availabilityContext = useMemo<AvailabilityContext | null>(() => {
+    if (!item) return null;
+    return { item, studio };
+  }, [item, studio]);
+
+  // Calculate min/max hours based on item constraints
+  const minHours = useMemo(() => {
+    return item ? getMinimumHours(item) : 1;
+  }, [item]);
+
+  const maxHours = useMemo(() => {
+    if (!availabilityContext || !selectedDate) return undefined;
+    const selectedDayjs = dayjs(selectedDate);
+    const startSlot = selectedDayjs.format('HH:00');
+    return getMaximumHours(startSlot, selectedDayjs, availabilityContext);
+  }, [availabilityContext, selectedDate]);
+
+  // Reset quantity to minimum when date changes, and clamp to valid range
+  useEffect(() => {
+    if (selectedDate && minHours) {
+      setSelectedQuantity((prev) => {
+        // Ensure quantity is at least minHours
+        if (prev < minHours) return minHours;
+        // Ensure quantity doesn't exceed maxHours
+        if (maxHours !== undefined && prev > maxHours) return maxHours;
+        return prev;
+      });
+    }
+  }, [selectedDate, minHours, maxHours]);
+
   const handleDateChange = useCallback((newDate: Date | null) => {
     setSelectedDate(newDate);
-  }, []);
+    // Reset quantity to minimum when date changes
+    if (newDate && item) {
+      const min = getMinimumHours(item);
+      setSelectedQuantity(min);
+    }
+  }, [item]);
 
   const handleIncrement = useCallback(() => {
-    setSelectedQuantity((prev) => prev + 1);
-  }, []);
+    setSelectedQuantity((prev) => {
+      const next = prev + 1;
+      // Respect max hours if set
+      if (maxHours !== undefined && next > maxHours) return prev;
+      return next;
+    });
+  }, [maxHours]);
 
   const handleDecrement = useCallback(() => {
-    setSelectedQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  }, []);
+    setSelectedQuantity((prev) => (prev > minHours ? prev - 1 : minHours));
+  }, [minHours]);
 
   const handleAddOnToggle = useCallback((addOn: AddOn) => {
     setSelectedAddOnIds((prev) => {
