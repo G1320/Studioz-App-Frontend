@@ -109,9 +109,9 @@ export const Auth0CallbackHandler = () => {
             setLocalOfflineCart({ items: [] });
           }
 
-          // If we're on the root path (likely after email verification redirect), navigate to home
+          // If we're on the root path (likely after email verification redirect), navigate to profile
           if (window.location.pathname === '/' || window.location.pathname === '') {
-            navigate(`/${i18n.language}`, { replace: true });
+            navigate(`/${i18n.language}/profile`, { replace: true });
           }
         } catch (error) {
           console.error('Error handling Auth0 callback:', error);

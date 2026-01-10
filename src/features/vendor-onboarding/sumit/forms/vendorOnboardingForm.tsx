@@ -444,8 +444,8 @@ export const VendorOnboardingForm = () => {
           </div>
           <h1>הפרטים נשלחו לבדיקה!</h1>
           <p>תהליך אישור העסק אורך בדרך כלל עד 2 ימי עסקים. נודיע לך ברגע שהחשבון יאושר ותוכל להתחיל לקבל תשלומים.</p>
-          <button type="button" onClick={() => (window.location.href = '/')} className="completion-card__button">
-            חזור לדף הבית
+          <button type="button" onClick={() => (window.location.href = '/profile')} className="completion-card__button">
+            חזור לפרופיל
           </button>
         </div>
       </div>
