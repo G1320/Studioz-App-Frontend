@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -60,6 +61,12 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ embedUrl }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleIframeLoad = () => {
+    setIsLoading(false);
+  };
+
   return (
     <div className="how-it-works__video-player">
       {/* Screen Studio Style Frame Bar */}
@@ -69,6 +76,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ embedUrl }) => {
         <div className="how-it-works__video-dot how-it-works__video-dot--green" />
       </div>
 
+      {/* Loading Overlay */}
+      {isLoading && embedUrl && (
+        <div className="how-it-works__video-loading-overlay">
+          <div className="how-it-works__video-spinner" />
+        </div>
+      )}
+
       {embedUrl ? (
         <iframe
           src={`${embedUrl}?autoplay=false&loop=true&muted=true&preload=true`}
@@ -76,6 +90,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ embedUrl }) => {
           loading="lazy"
           allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
+          onLoad={handleIframeLoad}
         />
       ) : (
         <div className="how-it-works__video-placeholder">

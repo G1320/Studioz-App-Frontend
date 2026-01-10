@@ -679,6 +679,7 @@ $landing-muted: rgba(255, 255, 255, 0.6);
       font-weight: 700;
       color: rgba(255, 255, 255, 0.9);
       transition: color 0.3s ease;
+      text-align: start;
 
       .landing-booking-preview__step:hover & {
         color: vars.$text-color-primary;
