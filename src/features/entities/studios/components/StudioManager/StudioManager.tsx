@@ -335,7 +335,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
     if (onAddStudio) {
       onAddStudio();
     } else {
-      langNavigate('/create-studio');
+      langNavigate('/studio/create');
     }
   };
 
@@ -351,7 +351,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
     if (onAddItem) {
       onAddItem(studioId);
     } else {
-      langNavigate(`/studio/${studioId}/create-item`);
+      langNavigate(`/studio/${studioId}/items/create`);
     }
   };
 

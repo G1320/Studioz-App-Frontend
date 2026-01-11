@@ -20,7 +20,7 @@ export const MobileNavigation = () => {
   const currLang = i18n.language || 'en';
 
   // Hide mobile navigation on create/edit forms, landing page, and for-owners page
-  const hiddenPaths = ['/create-studio', '/edit-studio', '/create-item', '/edit-item', '/for-owners'];
+  const hiddenPaths = ['/studio/create', '/studio/', '/items/create', '/item/', '/for-owners'];
   const isLandingPage = currentPath === '/' || currentPath === `/${currLang}` || currentPath === `/${currLang}/`;
   if (isLandingPage || hiddenPaths.some((path) => currentPath.includes(path))) {
     return null;

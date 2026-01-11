@@ -92,7 +92,7 @@ export const PayPalOnboarding: React.FC<PayPalOnboardingProps> = ({ user, onboar
             : t('profile.sellerAccount.buttons.connect')}
         </button>
         {onboardingStatus === 'COMPLETED' && (
-          <button onClick={() => langNavigate('/create-studio')}>
+          <button onClick={() => langNavigate('/studio/create')}>
             {t('profile.sellerAccount.buttons.createStudio')}
           </button>
         )}

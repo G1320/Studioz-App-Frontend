@@ -20,7 +20,7 @@ export const MyStudios: React.FC<MyStudiosProps> = ({ studios }) => {
           <p>{t('myStudios.empty')}</p>
           <button
             className="primary-button"
-            onClick={() => langNavigate('/create-studio')}
+            onClick={() => langNavigate('/studio/create')}
           >
             {t('myStudios.createStudio')}
           </button>
@@ -35,7 +35,7 @@ export const MyStudios: React.FC<MyStudiosProps> = ({ studios }) => {
         <h2 className="dashboard-section-title">{t('myStudios.title')}</h2>
         <button
           className="secondary-button"
-          onClick={() => langNavigate('/create-studio')}
+          onClick={() => langNavigate('/studio/create')}
         >
           {t('myStudios.addStudio')}
         </button>

@@ -43,7 +43,7 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
   if (!studios.length) {
     return (
       <div>
-        <Link to={'/create-studio'}>No studios yet, click here to add your first studio</Link>
+        <Link to={'/studio/create'}>No studios yet, click here to add your first studio</Link>
       </div>
     );
   }

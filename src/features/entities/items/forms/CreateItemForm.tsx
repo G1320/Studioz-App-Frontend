@@ -39,7 +39,7 @@ import './_createItemForm.scss';
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
-  const { studioName, studioId } = useParams();
+  const { studioId } = useParams();
   const queryClient = useQueryClient();
   const createItemMutation = useCreateItemMutation(studioId || '');
   const { data: studioObj } = useStudio(studioId || '');
@@ -570,9 +570,7 @@ export const CreateItemForm = () => {
     formData.categories = selectedCategories;
     formData.subCategories = englishSubCategories;
     formData.genres = englishGenres;
-    formData.studioName = {
-      en: studioName || ''
-    };
+    formData.studioName = studio?.name || { en: '', he: '' };
     formData.studioId = studioId || '';
     formData.address = studio?.address || '';
     formData.lat = studio?.lat || 0;
@@ -610,7 +608,7 @@ export const CreateItemForm = () => {
       onSuccess: async (createdItem) => {
         // Clear saved form data after successful submission
         clearFormData('create-item-form');
-        
+
         // Batch create add-ons if any are pending
         if (pendingAddOns.length > 0) {
           try {

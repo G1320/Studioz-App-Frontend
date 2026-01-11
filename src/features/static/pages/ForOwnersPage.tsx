@@ -27,7 +27,7 @@ const ForOwnersPage: React.FC = () => {
   const navigate = useLanguageNavigate();
 
   const handleListStudio = () => {
-    navigate('/create-studio');
+    navigate('/studio/create');
   };
 
   const handleViewDemo = () => {
