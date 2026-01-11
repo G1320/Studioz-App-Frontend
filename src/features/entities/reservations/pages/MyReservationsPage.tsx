@@ -13,7 +13,7 @@ const MyReservationsPage: React.FC = () => {
   const { user } = useUserContext();
   const { data: allStudios = [] } = useStudios();
 
-  const { status, setStatus, type, setType, sort, setSort, statusOptions, sortOptions } = useReservationFilters();
+  const { status, setStatus, type, setType, sort, setSort, customerPhone, setCustomerPhone, statusOptions, sortOptions } = useReservationFilters();
   const [viewType, setViewType] = useState<ReservationViewType>('all');
 
   // Check if user is logged in or has stored reservations
@@ -34,7 +34,8 @@ const MyReservationsPage: React.FC = () => {
     filters: {
       status,
       type,
-      sort
+      sort,
+      customerPhone
     }
   });
 
@@ -75,6 +76,9 @@ const MyReservationsPage: React.FC = () => {
           statusOptions={statusOptions}
           sortOptions={sortOptions}
           className="my-reservations-page__filters"
+          customerPhone={customerPhone}
+          onCustomerPhoneChange={setCustomerPhone}
+          showCustomerSearch={isStudioOwner}
         />
       )}
       </div>
@@ -84,7 +88,7 @@ const MyReservationsPage: React.FC = () => {
         isLoading={isLoading}
         isStudioOwner={isStudioOwner}
         viewType={viewType}
-        hasFilters={status !== 'all' || type !== 'all'}
+        hasFilters={status !== 'all' || type !== 'all' || !!customerPhone}
         userStudios={userStudios}
       />
     </div>

@@ -95,6 +95,85 @@ $filter-text: rgba(212, 212, 216, 1); // zinc-300
     transition: color 0.2s ease;
   }
 
+  // Search input styles
+  &__filter--search {
+    flex: 1.5 1 250px;
+  }
+
+  &__search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    &:focus-within .reservation-filters__search-icon {
+      color: $filter-primary;
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    inset-inline-start: vars.$spacing-sm-md;
+    width: 18px;
+    height: 18px;
+    color: $filter-label;
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+
+  &__search-input {
+    width: 100%;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    padding-inline-start: 2.5rem; // Space for search icon
+    padding-inline-end: 2.5rem; // Space for clear button
+    background: $filter-input-bg;
+    border: 1px solid $filter-input-border;
+    border-radius: vars.$border-radius-xl;
+    color: $filter-text;
+    font-size: vars.$font-size-medium;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: $filter-label;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $filter-primary;
+      box-shadow: 0 0 0 1px $filter-primary;
+    }
+
+    &:hover {
+      background: rgba(39, 39, 42, 1); // zinc-800
+    }
+  }
+
+  &__clear-btn {
+    position: absolute;
+    inset-inline-end: vars.$spacing-xs;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: $filter-label;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(63, 63, 70, 0.5);
+      color: $filter-text;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   @media (max-width: 640px) {
     &__filter {
       flex: 1 1 100%;

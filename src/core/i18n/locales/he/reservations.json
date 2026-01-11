@@ -66,7 +66,10 @@
       "bookingAsc": "תאריך ביקור (ישן קודם)",
       "createdDesc": "תאריך הזמנה (חדש קודם)",
       "createdAsc": "תאריך הזמנה (ישן קודם)"
-    }
+    },
+    "customerSearchLabel": "חיפוש",
+    "customerSearchPlaceholder": "שם או טלפון...",
+    "clearSearch": "נקה חיפוש"
   },
   "toggle": {
     "all": "הכל",

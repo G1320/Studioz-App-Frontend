@@ -16,10 +16,11 @@ export const useReservationFilters = () => {
   const [status, setStatus] = useState<ReservationStatusFilter>(persisted?.status ?? 'all');
   const [type, setType] = useState<ReservationTypeFilter>(persisted?.type ?? 'all');
   const [sort, setSort] = useState<ReservationSortOption>(persisted?.sort ?? 'created-desc');
+  const [customerPhone, setCustomerPhone] = useState<string>(persisted?.customerPhone?.trim() ?? '');
 
   useEffect(() => {
-    saveReservationFilters({ status, type, sort });
-  }, [status, type, sort]);
+    saveReservationFilters({ status, type, sort, customerPhone });
+  }, [status, type, sort, customerPhone]);
 
   const statusOptions: ReservationFilterOption<ReservationStatusFilter>[] = useMemo(
     () => [
@@ -49,6 +50,8 @@ export const useReservationFilters = () => {
     setType,
     sort,
     setSort,
+    customerPhone,
+    setCustomerPhone,
     statusOptions,
     sortOptions
   };

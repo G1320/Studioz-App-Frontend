@@ -2,6 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import './styles/_reservation-filters.scss';
 import {
   ReservationFilterOption,
@@ -17,6 +19,10 @@ interface ReservationFiltersProps {
   statusOptions: ReservationFilterOption<ReservationStatusFilter>[];
   sortOptions: ReservationFilterOption<ReservationSortOption>[];
   className?: string;
+  // Customer search (for incoming reservations)
+  customerPhone?: string;
+  onCustomerPhoneChange?: (phone: string) => void;
+  showCustomerSearch?: boolean;
 }
 
 export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
@@ -26,13 +32,46 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
   onSortChange,
   statusOptions,
   sortOptions,
-  className = ''
+  className = '',
+  customerPhone = '',
+  onCustomerPhoneChange,
+  showCustomerSearch = false
 }) => {
   const { t } = useTranslation('reservations');
 
   return (
     <div className={`reservation-filters ${className}`}>
       <div className="reservation-filters__container">
+        {/* Customer Search (for incoming reservations) */}
+        {showCustomerSearch && onCustomerPhoneChange && (
+          <div className="reservation-filters__filter reservation-filters__filter--search">
+            <label className="reservation-filters__label" htmlFor="customer-search">
+              {t('filters.customerSearchLabel', { defaultValue: 'Search Customer' })}
+            </label>
+            <div className="reservation-filters__search-wrapper">
+              <SearchIcon className="reservation-filters__search-icon" />
+              <input
+                id="customer-search"
+                type="text"
+                className="reservation-filters__search-input"
+                placeholder={t('filters.customerSearchPlaceholder', { defaultValue: 'Phone or name...' })}
+                value={customerPhone}
+                onChange={(e) => onCustomerPhoneChange(e.target.value)}
+              />
+              {customerPhone.trim() && (
+                <button
+                  type="button"
+                  className="reservation-filters__clear-btn"
+                  onClick={() => onCustomerPhoneChange('')}
+                  aria-label={t('filters.clearSearch', { defaultValue: 'Clear search' })}
+                >
+                  <ClearIcon />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Sort Filter */}
         <div className="reservation-filters__filter">
           <label className="reservation-filters__label" htmlFor="sort-filter">

@@ -14,6 +14,7 @@ interface UseReservationsListOptions {
     status?: 'pending' | 'confirmed' | 'expired' | 'cancelled' | 'rejected' | 'all';
     type?: 'incoming' | 'outgoing' | 'all';
     sort?: 'booking-desc' | 'booking-asc' | 'created-desc' | 'created-asc';
+    customerPhone?: string; // Filter by customer phone number (for incoming reservations)
   };
 }
 
@@ -106,6 +107,15 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
     // Filter by status
     if (filters.status && filters.status !== 'all') {
       filtered = filtered.filter((res) => res.status === filters.status);
+    }
+
+    // Filter by customer phone (for incoming reservations)
+    if (filters.customerPhone && filters.customerPhone.trim()) {
+      const phoneSearch = filters.customerPhone.trim().toLowerCase();
+      filtered = filtered.filter((res) => 
+        res.customerPhone?.toLowerCase().includes(phoneSearch) ||
+        res.customerName?.toLowerCase().includes(phoneSearch)
+      );
     }
 
     // Sorting

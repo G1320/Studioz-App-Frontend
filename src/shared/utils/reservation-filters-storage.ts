@@ -9,6 +9,7 @@ export interface ReservationFiltersState {
   status?: ReservationStatusFilter;
   sort?: ReservationSortOption;
   type?: 'all' | 'incoming' | 'outgoing';
+  customerPhone?: string;
 }
 
 export const loadReservationFilters = (): ReservationFiltersState | null => {
