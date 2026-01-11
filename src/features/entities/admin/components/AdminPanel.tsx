@@ -521,6 +521,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
 
       {/* Main Content */}
       <main className="admin-main">
+        {/* Mobile Header & Navigation */}
+        <div className="admin-mobile-header">
+          <div className="admin-mobile-header__title">
+            <Shield size={20} />
+            <h1>
+              Admin<span>Panel</span>
+            </h1>
+          </div>
+          <nav className="admin-mobile-nav">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id as Tab)}
+                className={cn('admin-mobile-nav__item', activeTab === item.id && 'admin-mobile-nav__item--active')}
+              >
+                <item.icon size={18} />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+
         {/* Search Bar - shown for tables */}
         {activeTab !== 'overview' && (
           <div className="admin-toolbar">

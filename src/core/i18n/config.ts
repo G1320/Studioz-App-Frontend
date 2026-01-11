@@ -25,6 +25,8 @@ import landing from './locales/en/landing.json';
 import equipment from './locales/en/equipment.json';
 import howItWorks from './locales/en/howItWorks.json';
 import orders from './locales/en/orders.json';
+import admin from './locales/en/admin.json';
+import studioManager from './locales/en/studioManager.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -49,6 +51,8 @@ import landingHe from './locales/he/landing.json';
 import equipmentHe from './locales/he/equipment.json';
 import howItWorksHe from './locales/he/howItWorks.json';
 import ordersHe from './locales/he/orders.json';
+import adminHe from './locales/he/admin.json';
+import studioManagerHe from './locales/he/studioManager.json';
 
 i18n
   .use(LanguageDetector)
@@ -78,7 +82,9 @@ i18n
         landing,
         equipment,
         howItWorks,
-        orders
+        orders,
+        admin,
+        studioManager
       },
       he: {
         discoverPage: discoverPageHe,
@@ -103,7 +109,9 @@ i18n
         landing: landingHe,
         equipment: equipmentHe,
         howItWorks: howItWorksHe,
-        orders: ordersHe
+        orders: ordersHe,
+        admin: adminHe,
+        studioManager: studioManagerHe
       }
     },
     fallbackLng: 'he',

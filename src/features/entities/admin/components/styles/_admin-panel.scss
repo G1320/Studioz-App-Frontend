@@ -182,11 +182,102 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   margin-left: 256px;
   padding: vars.$spacing-xl vars.$spacing-2xl;
   max-width: calc(100% - 256px);
+  overflow-x: hidden;
 
   @media (max-width: 1024px) {
     margin-left: 0;
     max-width: 100%;
-    padding: vars.$spacing-large;
+    padding: vars.$spacing-medium;
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    padding: vars.$spacing-small;
+  }
+}
+
+// ==========================================
+// Mobile Header & Navigation
+// ==========================================
+.admin-mobile-header {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+  margin-bottom: vars.$spacing-large;
+  padding-bottom: vars.$spacing-medium;
+  border-bottom: 1px solid $admin-border;
+
+  @media (min-width: 1025px) {
+    display: none;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    color: $admin-primary;
+
+    h1 {
+      font-size: vars.$font-size-large;
+      font-weight: 700;
+      color: $admin-text-primary;
+      margin: 0;
+
+      span {
+        color: $admin-primary;
+      }
+    }
+  }
+}
+
+.admin-mobile-nav {
+  display: flex;
+  gap: vars.$spacing-xs;
+  overflow-x: auto;
+  padding-bottom: vars.$spacing-xs;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    padding: vars.$spacing-small vars.$spacing-sm-md;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $admin-text-muted;
+    background: transparent;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+      color: $admin-text-primary;
+      background: $admin-bg-hover;
+    }
+
+    &--active {
+      background: $admin-primary;
+      color: #000000;
+
+      &:hover {
+        background: $admin-primary-hover;
+        color: #000000;
+      }
+    }
+
+    span {
+      @media (max-width: 400px) {
+        display: none;
+      }
+    }
   }
 }
 
@@ -280,31 +371,43 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 .admin-section-header {
   display: flex;
   flex-direction: column;
-  gap: vars.$spacing-medium;
-  margin-bottom: vars.$spacing-xl;
+  gap: vars.$spacing-small;
+  margin-bottom: vars.$spacing-large;
 
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: vars.$spacing-medium;
+    margin-bottom: vars.$spacing-xl;
   }
 
   &__text {
     flex: 1;
+    min-width: 0;
   }
 
   &__title {
-    font-size: vars.$font-size-xl;
+    font-size: vars.$font-size-large;
     font-weight: 700;
     color: $admin-text-primary;
     letter-spacing: -0.025em;
     margin: 0;
+    word-wrap: break-word;
+
+    @media (min-width: 768px) {
+      font-size: vars.$font-size-xl;
+    }
   }
 
   &__description {
     color: $admin-text-muted;
     margin-top: vars.$spacing-xs;
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
+
+    @media (min-width: 768px) {
+      font-size: vars.$font-size-sm-md;
+    }
   }
 }
 
@@ -313,16 +416,17 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // ==========================================
 .admin-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: vars.$spacing-medium;
-  margin-bottom: vars.$spacing-xl;
+  grid-template-columns: repeat(2, 1fr);
+  gap: vars.$spacing-small;
+  margin-bottom: vars.$spacing-large;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-medium;
   }
 
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
+    margin-bottom: vars.$spacing-xl;
   }
 }
 
@@ -332,12 +436,18 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 .admin-stat-card {
   background: $admin-bg-card;
   border: 1px solid $admin-border;
-  padding: vars.$spacing-large;
-  border-radius: vars.$border-radius-2xl;
+  padding: vars.$spacing-medium;
+  border-radius: vars.$border-radius-large;
   display: flex;
   flex-direction: column;
-  gap: vars.$spacing-medium;
+  gap: vars.$spacing-small;
   transition: border-color 0.2s ease;
+
+  @media (min-width: 640px) {
+    padding: vars.$spacing-large;
+    border-radius: vars.$border-radius-2xl;
+    gap: vars.$spacing-medium;
+  }
 
   &:hover {
     border-color: $admin-border-light;
@@ -355,18 +465,38 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &__icon {
-    padding: vars.$spacing-sm-md;
+    padding: vars.$spacing-small;
     background: $admin-bg-hover;
-    border-radius: vars.$border-radius-large;
+    border-radius: vars.$border-radius-medium;
     color: $admin-primary;
     transition: all 0.2s ease;
+
+    @media (min-width: 640px) {
+      padding: vars.$spacing-sm-md;
+      border-radius: vars.$border-radius-large;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+
+      @media (min-width: 640px) {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 
   &__change {
-    font-size: vars.$font-size-small;
+    font-size: 10px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    padding: vars.$spacing-xs vars.$spacing-small;
+    padding: 2px vars.$spacing-xs;
     border-radius: 9999px;
+
+    @media (min-width: 640px) {
+      font-size: vars.$font-size-small;
+      padding: vars.$spacing-xs vars.$spacing-small;
+    }
 
     &--up {
       background: $admin-status-active-bg;
@@ -385,8 +515,12 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &__value {
-    font-size: vars.$font-size-2xl;
+    font-size: vars.$font-size-xl;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
+
+    @media (min-width: 640px) {
+      font-size: vars.$font-size-2xl;
+    }
     font-weight: 700;
     color: $admin-text-primary;
     letter-spacing: -0.025em;
@@ -394,9 +528,14 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &__label {
-    font-size: vars.$font-size-sm-md;
+    font-size: vars.$font-size-small;
     color: $admin-text-muted;
-    margin-top: vars.$spacing-xs;
+    margin-top: 2px;
+
+    @media (min-width: 640px) {
+      font-size: vars.$font-size-sm-md;
+      margin-top: vars.$spacing-xs;
+    }
   }
 }
 
