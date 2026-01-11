@@ -10,6 +10,7 @@ import {
   useReserveStudioItemTimeSlotsMutation,
   useReservation,
   useSavedCards,
+  useSavedCardsByPhone,
   useRemoveSavedCardMutation
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
@@ -35,10 +36,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const studio = data?.currStudio;
   const { t } = useTranslation('common');
 
-  // Saved cards for payment
-  const { data: savedCards = [] } = useSavedCards(user?._id);
-  const removeSavedCardMutation = useRemoveSavedCardMutation(user?._id);
-
   const { closeModal } = useModal();
 
   const langNavigate = useLanguageNavigate();
@@ -54,6 +51,16 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   });
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
+
+  // Saved cards for payment (must be after state declarations)
+  // For logged-in users: fetch by userId
+  // For non-logged-in users: fetch by verified phone number
+  const { data: userSavedCards = [] } = useSavedCards(user?._id);
+  const { data: phoneSavedCards = [] } = useSavedCardsByPhone(
+    !user?._id && isPhoneVerified ? customerPhone : undefined
+  );
+  const savedCards = user?._id ? userSavedCards : phoneSavedCards;
+  const removeSavedCardMutation = useRemoveSavedCardMutation(user?._id);
 
   // Payment step state
   const [showPaymentStep, setShowPaymentStep] = useState(false);

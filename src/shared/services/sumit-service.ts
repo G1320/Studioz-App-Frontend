@@ -251,5 +251,45 @@ export const sumitService = {
       console.error('Error refunding payment:', error);
       throw error;
     }
+  },
+
+  /**
+   * Get saved card by phone number (for non-logged-in users)
+   * Returns null if no saved card found
+   */
+  getSavedCardByPhone: async (phone: string): Promise<{
+    customerId: string;
+    card: {
+      id: number;
+      last4: string;
+      expirationMonth: number;
+      expirationYear: number;
+      brand: string;
+    };
+  } | null> => {
+    try {
+      const response = await httpService.post<{
+        success: boolean;
+        data?: {
+          customerId: string;
+          card: {
+            id: number;
+            last4: string;
+            expirationMonth: number;
+            expirationYear: number;
+            brand: string;
+          };
+        };
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/payments/saved-card-by-phone`, { phone });
+      
+      if (response.success && response.data) {
+        return response.data;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error getting saved card by phone:', error);
+      return null;
+    }
   }
 };

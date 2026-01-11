@@ -1,16 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@shared/services';
 import { useUserContext, useOfflineCartContext } from '@core/contexts';
 import { useErrorHandling } from '@shared/hooks';
 import { User } from 'src/types/index';
-import i18n from '@core/i18n/config';
 
 /**
  * Hook to handle Auth0 login flow and update user context
  * Automatically processes login when user becomes authenticated
- * 
+ *
  * @returns Object containing loginWithPopup function and loading state
  */
 export const useAuth0LoginHandler = () => {
@@ -18,7 +16,6 @@ export const useAuth0LoginHandler = () => {
   const { setUser: setUserContext, user: currentUser } = useUserContext();
   const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
   const handleError = useErrorHandling();
-  const navigate = useNavigate();
   const processedSubRef = useRef<string | null>(null);
   const isProcessingRef = useRef(false);
 
@@ -34,7 +31,7 @@ export const useAuth0LoginHandler = () => {
       }
 
       const { name = '', sub, nickname: username = '', picture, email = '', email_verified = false } = auth0User;
-      
+
       if (!sub) {
         console.error('Auth0 user sub is undefined');
         return;
@@ -76,7 +73,6 @@ export const useAuth0LoginHandler = () => {
         }
 
         // Navigate to profile after successful login
-        navigate(`/${i18n.language}/profile`, { replace: true });
       } catch (error) {
         handleError(error);
         // Reset processed ref on error so we can retry
@@ -87,11 +83,18 @@ export const useAuth0LoginHandler = () => {
     };
 
     handleUserLogin();
-  }, [isAuthenticated, auth0User?.sub, currentUser?.sub, handleError, offlineCart?.items?.length, setOfflineCartContext, setUserContext, navigate]);
+  }, [
+    isAuthenticated,
+    auth0User?.sub,
+    currentUser?.sub,
+    handleError,
+    offlineCart?.items?.length,
+    setOfflineCartContext,
+    setUserContext
+  ]);
 
   return {
     loginWithPopup,
     isAuthenticated
   };
 };
-
