@@ -192,5 +192,18 @@
     "copied": "הועתק!",
     "post": "פרסם",
     "email": "אימייל"
+  },
+  "calendar": {
+    "occupancyManagement": "יומן תפוסה וניהול",
+    "today": "היום",
+    "month": "חודש",
+    "week": "שבוע",
+    "day": "יום",
+    "list": "רשימה",
+    "newEvent": "אירוע חדש",
+    "agenda": "סדר יום",
+    "noEvents": "אין אירועים ליום זה",
+    "addEvent": "הוסף אירוע חדש",
+    "minutes": "דק׳"
   }
 }

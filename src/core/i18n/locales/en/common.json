@@ -192,5 +192,18 @@
     "copied": "Copied!",
     "post": "Post",
     "email": "Email"
+  },
+  "calendar": {
+    "occupancyManagement": "Occupancy & Management",
+    "today": "Today",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "list": "List",
+    "newEvent": "New Event",
+    "agenda": "Agenda",
+    "noEvents": "No events for this day",
+    "addEvent": "Add new event",
+    "minutes": "min"
   }
 }

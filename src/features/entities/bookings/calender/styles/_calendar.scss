@@ -1,542 +1,903 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
 
-.studio-calendar {
-  // FullCalendar CSS Variables - Minimalist Design
-  --fc-border-color: vars.$white-opacity-08;
-  --fc-button-bg-color: transparent;
-  --fc-button-border-color: vars.$white-opacity-12;
-  --fc-button-hover-bg-color: vars.$white-opacity-05;
-  --fc-button-hover-border-color: vars.$white-opacity-20;
-  --fc-button-active-bg-color: vars.$color-brand;
-  --fc-button-active-border-color: vars.$color-brand;
-  --fc-button-text-color: vars.$white-opacity-85;
-  --fc-button-active-text-color: vars.$text-color-dark;
-  --fc-today-bg-color: vars.$brand-opacity-08;
-  --fc-page-bg-color: transparent;
-  --fc-list-event-hover-bg-color: vars.$white-opacity-02;
-  --fc-event-bg-color: vars.$color-brand;
-  --fc-event-border-color: vars.$color-brand;
-  --fc-highlight-color: vars.$brand-opacity-12;
-  --fc-non-business-color: vars.$black-opacity-15;
-  --fc-bg-event-color: vars.$brand-opacity-10;
-  --fc-neutral-bg-color: vars.$white-opacity-03;
-  --fc-neutral-text-color: vars.$white-opacity-50;
-  --fc-event-selected-overlay-color: vars.$black-opacity-15;
+// ==========================================
+// StudioZ Calendar - Dark Theme Style Guide
+// ==========================================
+
+.studioz-calendar {
+  width: 100%;
+  min-height: 100vh;
+  background: vars.$bg-color-primary;
+  color: vars.$text-color-primary;
+  padding: vars.$spacing-large vars.$spacing-xl;
+
+  @media (min-width: 768px) {
+    padding: vars.$spacing-3xl;
+  }
 
   // Container
-  padding: vars.$spacing-2xl vars.$spacing-xl;
-  background: vars.$bg-color-tertiary;
-  border-radius: vars.$border-radius-xl;
-  border: 1px solid vars.$white-opacity-06;
-  box-shadow:
-    0 1px 0 vars.$white-opacity-03 inset,
-    0 8px 32px vars.$black-opacity-24;
-  backdrop-filter: blur(20px);
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 100%;
-  min-height: 600px;
-  box-sizing: border-box;
-
-  // Subtle gradient overlay for depth
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, vars.$white-opacity-10, transparent);
-    pointer-events: none;
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-2xl;
   }
 
-  // Calendar Title
-  .calendar-title {
+  // ==========================================
+  // Control Bar
+  // ==========================================
+  &__control-bar {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-large;
+
+    @media (min-width: 1200px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-large;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__title-group {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__main-title {
     font-size: vars.$font-size-2xl;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    width: max-content;
-    margin: 0 auto vars.$spacing-2xl;
-    padding: 0;
+    font-weight: 900;
+    letter-spacing: -0.025em;
     color: vars.$text-color-primary;
-    opacity: 0.95;
+    margin: 0;
+    text-transform: capitalize;
+
+    @media (min-width: 768px) {
+      font-size: vars.$font-size-3xl;
+    }
   }
 
-  // Header Toolbar - Minimalist Design
-  .fc-header-toolbar {
-    margin-bottom: vars.$spacing-2xl !important;
-    padding: 0;
+  &__subtitle {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: vars.$spacing-large;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    padding-bottom: vars.$spacing-large;
+    gap: vars.$spacing-small;
+    font-size: vars.$font-size-medium;
+    font-weight: 500;
+    color: vars.$zinc-500;
+    margin: 0;
+  }
 
-    .fc-toolbar-chunk {
-      display: flex;
-      align-items: center;
-      gap: vars.$spacing-small;
-    }
+  &__nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    background: vars.$zinc-900;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-xl;
+    border: 1px solid vars.$zinc-800;
+  }
 
-    .fc-toolbar-title {
-      font-size: vars.$font-size-xl !important;
-      font-weight: 300 !important;
-      letter-spacing: -0.01em;
+  &__nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: vars.$border-radius-medium;
+    border: none;
+    background: transparent;
+    color: vars.$zinc-400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: vars.$zinc-800;
       color: vars.$text-color-primary;
-      opacity: 0.9;
-      margin: 0 !important;
-      padding: 0 vars.$spacing-medium;
     }
+  }
 
-    .fc-button-group {
-      display: flex;
-      gap: vars.$spacing-xs;
-      border: none;
-      background: transparent;
+  &__today-btn {
+    padding: vars.$spacing-xs vars.$spacing-large;
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    color: vars.$zinc-300;
+    background: transparent;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: vars.$zinc-800;
+      color: vars.$text-color-primary;
     }
+  }
 
-    .fc-button-primary {
-      text-transform: none;
-      font-weight: 400;
-      font-size: vars.$font-size-sm-md;
-      letter-spacing: 0.01em;
-      padding: vars.$spacing-sm-md vars.$spacing-large;
-      border-radius: vars.$border-radius-medium;
-      border: 1px solid vars.$white-opacity-10;
-      background: transparent;
-      color: vars.$white-opacity-60;
-      transition: all 0.2s ease;
-      height: auto;
-      min-height: 40px;
-      display: inline-flex;
+  &__actions-section {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
       align-items: center;
-      justify-content: center;
-      position: relative;
-      cursor: pointer;
+    }
+  }
 
-      // Remove hover effects
+  &__view-tabs {
+    display: flex;
+    padding: vars.$spacing-xs;
+    background: vars.$zinc-900;
+    border-radius: vars.$border-radius-2xl;
+    border: 1px solid vars.$zinc-800;
+  }
+
+  &__view-tab {
+    padding: vars.$spacing-small vars.$spacing-large;
+    font-size: vars.$font-size-medium;
+    font-weight: 500;
+    color: vars.$zinc-500;
+    background: transparent;
+    border: none;
+    border-radius: vars.$border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+
+    &:hover {
+      color: vars.$zinc-300;
+      background: rgba(vars.$zinc-800, 0.5);
+    }
+
+    &--active {
+      background: vars.$zinc-800;
+      color: vars.$text-color-primary;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &__add-event-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-sm-md vars.$spacing-large;
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    color: vars.$text-color-dark;
+    background: vars.$color-brand;
+    border: none;
+    border-radius: vars.$border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(255, 209, 102, 0.2);
+
+    &:hover {
+      background: rgba(vars.$color-brand, 0.9);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // ==========================================
+  // Main Content Area
+  // ==========================================
+  &__content {
+    background: vars.$zinc-900;
+    border-radius: vars.$border-radius-3xl;
+    padding: vars.$spacing-xs;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    min-height: 600px;
+    border: 1px solid rgba(vars.$zinc-800, 0.5);
+  }
+
+  // ==========================================
+  // Month View
+  // ==========================================
+  &__month-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: vars.$border-radius-2xl;
+    overflow: hidden;
+    border: 1px solid vars.$zinc-800;
+  }
+
+  &__weekday-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: vars.$zinc-900;
+    border-bottom: 1px solid vars.$zinc-800;
+  }
+
+  &__weekday-cell {
+    padding: vars.$spacing-medium;
+    text-align: center;
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: vars.$zinc-500;
+  }
+
+  &__month-grid {
+    flex: 1;
+    background: vars.$zinc-900;
+  }
+
+  &__week-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  &__day-cell {
+    position: relative;
+    min-height: 120px;
+    padding: vars.$spacing-small;
+    border-bottom: 1px solid vars.$zinc-800;
+    border-left: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+    transition: background 0.2s ease;
+
+    [dir='rtl'] & {
+      border-left: none;
+      border-right: 1px solid vars.$zinc-800;
+    }
+
+    &:hover {
+      background: rgba(vars.$zinc-800, 0.3);
+    }
+
+    &--other-month {
+      background: rgba(0, 0, 0, 0.4);
+
+      .studioz-calendar__day-number {
+        color: vars.$zinc-700;
+      }
+    }
+  }
+
+  &__day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: vars.$spacing-small;
+  }
+
+  &__day-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: vars.$font-size-medium;
+    font-family: 'DM Mono', monospace;
+    color: vars.$zinc-500;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+
+    &--today {
+      background: vars.$color-brand;
+      color: vars.$text-color-dark;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(255, 209, 102, 0.3);
+    }
+  }
+
+  &__day-events {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__more-events {
+    font-size: 10px;
+    font-weight: 500;
+    color: vars.$zinc-500;
+    padding-left: vars.$spacing-small;
+    cursor: pointer;
+
+    &:hover {
+      color: vars.$zinc-300;
+    }
+  }
+
+  // ==========================================
+  // Event Cards
+  // ==========================================
+  &__event-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &--month {
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-xs;
+      padding: vars.$spacing-xs vars.$spacing-small;
+      background: rgba(vars.$zinc-900, 0.5);
+      border: 1px solid vars.$zinc-800;
+      border-radius: vars.$border-radius-small;
+      overflow: hidden;
+
       &:hover {
-        background: transparent;
-        border-color: vars.$white-opacity-15;
-        color: vars.$white-opacity-80;
-        transform: none;
-      }
+        border-color: rgba(vars.$color-brand, 0.5);
 
-      &:active {
-        transform: none;
-      }
-
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px vars.$brand-opacity-15;
-      }
-
-      // Selected state - Underline indicator
-      &.fc-button-active {
-        background: transparent;
-        border-color: transparent;
-        color: vars.$text-color-primary;
-        font-weight: 500;
-        box-shadow: none;
-        position: relative;
-
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -1px;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: vars.$color-brand;
-          border-radius: 2px 2px 0 0;
+        .studioz-calendar__event-text {
+          color: vars.$color-brand;
         }
       }
     }
 
-    .fc-today-button {
-      text-transform: none;
-      font-weight: 400;
-    }
-
-    .fc-prev-button,
-    .fc-next-button {
-      padding: vars.$spacing-sm-md;
-      min-width: 40px;
-      width: 40px;
-      height: 40px;
+    &--week {
+      height: 100%;
+      width: 100%;
       border-radius: vars.$border-radius-medium;
-      border: 1px solid vars.$white-opacity-10;
-      background: transparent;
-      color: vars.$white-opacity-60;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background: transparent;
-        border-color: vars.$white-opacity-15;
-        color: vars.$white-opacity-80;
-        transform: none;
-      }
-
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px vars.$brand-opacity-15;
-      }
-    }
-  }
-
-  // Closed Days - Subtle Indication
-  .closed-day {
-    background-color: vars.$black-opacity-20 !important;
-    color: vars.$white-opacity-25 !important;
-    cursor: not-allowed !important;
-    position: relative;
-    opacity: 0.4;
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-45deg);
-      width: 60%;
-      height: 1px;
-      background: vars.$white-opacity-15;
-      pointer-events: none;
-    }
-
-    & > * {
-      pointer-events: none;
-    }
-
-    .fc-daygrid-day-number {
-      opacity: 0.3;
-    }
-  }
-
-  // FullCalendar Root - Ensure proper containment
-  .fc {
-    width: 100%;
-    max-width: 100%;
-    overflow: visible;
-
-    @media screen and (max-width: 490px) {
-      overflow-x: auto;
-      overflow-y: visible;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-
-  // Calendar Body - Refined Views
-  .fc-view-harness {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    overflow: visible;
-
-    @media screen and (max-width: 490px) {
-      overflow-x: auto;
-      overflow-y: visible;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .fc-day-today {
-      background: var(--fc-today-bg-color) !important;
+      padding: vars.$spacing-small;
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-xs;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
       position: relative;
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: vars.$color-brand;
-        opacity: 0.6;
-      }
-    }
-
-    // List View - Clean & Minimal
-    .fc-list-view {
-      border: none;
-    }
-
-    .fc-list-table {
-      border: none;
-    }
-
-    .fc-list-event {
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: vars.$border-radius-small;
-      margin: vars.$spacing-xs 0;
-      padding: vars.$spacing-medium vars.$spacing-large;
-      border: 1px solid transparent;
-      background: transparent;
-
       &:hover {
-        background-color: vars.$white-opacity-04 !important;
-        border-color: vars.$white-opacity-08;
-        transform: translateX(4px);
-        box-shadow: 0 2px 8px vars.$black-opacity-10;
+        filter: brightness(1.1);
       }
     }
 
-    .fc-list-event-title {
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      color: vars.$text-color-primary;
+    &--booking {
+      background: rgba(vars.$color-brand, 0.1);
+      border: 1px solid rgba(vars.$color-brand, 0.2);
+      color: vars.$color-brand;
     }
 
-    .fc-list-event-time {
-      font-weight: 300;
-      opacity: 0.7;
-      font-size: vars.$font-size-sm-md;
-      color: rgba(255, 255, 255, 0.7);
+    &--maintenance {
+      background: rgba(vars.$color-warning, 0.1);
+      border: 1px solid rgba(vars.$color-warning, 0.2);
+      color: vars.$color-warning;
     }
+  }
 
-    .fc-list-event-dot {
-      margin: 0 vars.$spacing-medium 0 vars.$spacing-small;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      box-shadow: 0 0 0 2px vars.$white-opacity-10;
+  &__event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &--booking {
       background: vars.$color-brand;
     }
 
-    // Month View - Elegant Grid
-    .fc-daygrid {
-      border-radius: 0;
-      overflow: visible;
+    &--maintenance {
+      background: vars.$color-warning;
+    }
+  }
 
-      .fc-col-header {
-        border: none;
-        border-bottom: 1px solid vars.$white-opacity-06;
-      }
+  &__event-text {
+    font-size: 10px;
+    font-weight: 500;
+    color: vars.$zinc-300;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+  }
 
-      .fc-col-header-cell {
-        border: none;
-        padding: vars.$spacing-large vars.$spacing-medium;
-      }
+  &__event-bar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
 
-      .fc-col-header-cell-cushion {
-        font-weight: 400;
-        font-size: vars.$font-size-sm-md;
-        text-transform: none;
-        letter-spacing: 0.02em;
-        color: vars.$white-opacity-60;
-        padding: 0;
-      }
-
-      .fc-daygrid-day {
-        border: none;
-        border-right: 1px solid vars.$white-opacity-06;
-        border-bottom: 1px solid vars.$white-opacity-06;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        min-height: 120px;
-        background: transparent;
-
-        &:hover {
-          background-color: vars.$white-opacity-02;
-        }
-
-        .fc-daygrid-day-frame {
-          padding: vars.$spacing-small;
-        }
-
-        .fc-daygrid-day-number {
-          padding: vars.$spacing-xs vars.$spacing-small;
-          font-weight: 400;
-          font-size: vars.$font-size-medium;
-          color: vars.$text-color-primary;
-          opacity: 0.8;
-          border-radius: vars.$border-radius-small;
-          width: fit-content;
-          transition: all 0.2s ease;
-
-          &:hover {
-            background: vars.$white-opacity-05;
-            opacity: 1;
-          }
-        }
-
-        .fc-daygrid-day-top {
-          flex-direction: row;
-          justify-content: flex-start;
-        }
-      }
-
-      .fc-daygrid-day-events {
-        margin-top: vars.$spacing-xs;
-      }
+    [dir='ltr'] & {
+      right: auto;
+      left: 0;
     }
 
-    // Week/Day View - Time Grid
-    .fc-timegrid {
-      width: 100%;
-      max-width: 100%;
-      overflow-x: auto;
-      overflow-y: visible;
-      -webkit-overflow-scrolling: touch;
-
-      .fc-timegrid-body {
-        min-width: fit-content;
-      }
-
-      .fc-timegrid-slot {
-        height: 3.5rem;
-        border-color: vars.$white-opacity-06;
-      }
-
-      .fc-timegrid-slot-label {
-        border-color: vars.$white-opacity-06;
-        padding: vars.$spacing-small vars.$spacing-medium;
-      }
-
-      .fc-timegrid-slot-label-cushion {
-        font-weight: 300;
-        font-size: vars.$font-size-sm-md;
-        color: vars.$white-opacity-50;
-        text-transform: none;
-      }
-
-      .fc-timegrid-axis {
-        border: none;
-        padding: vars.$spacing-small vars.$spacing-medium;
-        background: transparent;
-      }
-
-      .fc-timegrid-axis-cushion {
-        font-weight: 300;
-        font-size: vars.$font-size-sm-md;
-        color: vars.$white-opacity-50;
-      }
-
-      .fc-timegrid-col {
-        border-color: vars.$white-opacity-06;
-      }
-
-      .fc-timegrid-col-frame {
-        border-color: vars.$white-opacity-06;
-      }
+    &--booking {
+      background: vars.$color-brand;
     }
 
-    // Events - Polished & Professional
-    .booking-event {
-      margin: vars.$spacing-xs vars.$spacing-small;
-      padding: vars.$spacing-sm-md vars.$spacing-medium;
-      font-size: vars.$font-size-sm-md;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      border: none !important;
-      border-radius: vars.$border-radius-small;
-      background: linear-gradient(
-        135deg,
-        vars.$color-brand 0%,
-        color.adjust(vars.$color-brand, $lightness: -5%) 100%
-      ) !important;
-      border-left: 3px solid color.adjust(vars.$color-brand, $lightness: 10%) !important;
-      box-shadow:
-        0 2px 8px vars.$brand-opacity-20,
-        0 0 0 1px vars.$white-opacity-10 inset;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
+    &--maintenance {
+      background: vars.$color-warning;
+    }
+  }
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, vars.$white-opacity-20, transparent);
-        transition: left 0.5s ease;
-      }
+  &__event-content {
+    padding-right: vars.$spacing-small;
+
+    [dir='ltr'] & {
+      padding-right: 0;
+      padding-left: vars.$spacing-small;
+    }
+  }
+
+  &__event-title {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+  }
+
+  &__event-time,
+  &__event-location {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    font-size: 10px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+
+  // ==========================================
+  // Week View
+  // ==========================================
+  &__week-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: vars.$border-radius-2xl;
+    overflow: hidden;
+    border: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+  }
+
+  &__week-header {
+    display: flex;
+    border-bottom: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+  }
+
+  &__time-gutter-header {
+    width: 64px;
+    flex-shrink: 0;
+  }
+
+  &__week-day-header {
+    flex: 1;
+    padding: vars.$spacing-medium;
+    text-align: center;
+    border-left: 1px solid vars.$zinc-800;
+
+    [dir='rtl'] & {
+      border-left: none;
+      border-right: 1px solid vars.$zinc-800;
+    }
+
+    &:last-child {
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  &__week-day-name {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: vars.$zinc-500;
+    margin-bottom: vars.$spacing-xs;
+
+    &--today {
+      color: vars.$color-brand;
+    }
+  }
+
+  &__week-day-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: vars.$font-size-xl;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    color: vars.$zinc-300;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+
+    &--today {
+      background: vars.$color-brand;
+      color: vars.$text-color-dark;
+    }
+
+    &:hover:not(&--today) {
+      background: vars.$zinc-800;
+    }
+  }
+
+  &__week-grid-container {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: vars.$zinc-900;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: vars.$zinc-700;
+      border-radius: 4px;
 
       &:hover {
-        transform: translateY(-2px) scale(1.01);
-        box-shadow:
-          0 4px 16px vars.$brand-opacity-30,
-          0 0 0 1px vars.$white-opacity-15 inset;
-        background: linear-gradient(
-          135deg,
-          color.adjust(vars.$color-brand, $lightness: 5%) 0%,
-          vars.$color-brand 100%
-        ) !important;
-
-        &::before {
-          left: 100%;
-        }
+        background: vars.$zinc-600;
       }
-
-      &:active {
-        transform: translateY(0) scale(1);
-      }
-
-      .fc-event-title {
-        padding: 0;
-        color: #000;
-        font-weight: 500;
-        line-height: 1.4;
-        position: relative;
-        z-index: 1;
-      }
-
-      .fc-event-time {
-        font-weight: 300;
-        opacity: 0.9;
-        font-size: vars.$font-size-xs;
-        margin-bottom: 2px;
-      }
-    }
-
-    // Business Hours - Subtle Indication
-    .fc-non-business {
-      background: vars.$black-opacity-15;
-      opacity: 0.5;
-    }
-
-    .fc-bg-event {
-      background: vars.$brand-opacity-08;
-      border: none;
     }
   }
 
-  // Typography Refinements
-  .fc-toolbar-title,
-  .fc-col-header-cell-cushion,
-  .fc-daygrid-day-number {
+  &__week-grid {
+    display: flex;
+    position: relative;
+    min-height: 1440px; // 24 hours * 60px
+  }
+
+  &__time-gutter {
+    width: 64px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid vars.$zinc-800;
+    background: rgba(vars.$zinc-900, 0.5);
+    position: sticky;
+    right: 0;
+    z-index: 10;
+
+    [dir='ltr'] & {
+      right: auto;
+      left: 0;
+      border-left: none;
+      border-right: 1px solid vars.$zinc-800;
+    }
+  }
+
+  &__time-slot-label {
+    height: 60px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: vars.$zinc-500;
+    text-align: left;
+    padding-left: vars.$spacing-small;
+    margin-top: -8px;
+
+    [dir='rtl'] & {
+      text-align: right;
+      padding-left: 0;
+      padding-right: vars.$spacing-small;
+    }
+  }
+
+  &__week-columns {
+    flex: 1;
+    display: flex;
+    position: relative;
+    background: vars.$zinc-900;
+  }
+
+  &__hour-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &__hour-line {
+    height: 60px;
+    border-bottom: 1px solid rgba(vars.$zinc-800, 0.5);
+    width: 100%;
+  }
+
+  &__week-column {
+    flex: 1;
+    border-left: 1px solid rgba(vars.$zinc-800, 0.5);
+    position: relative;
+
+    [dir='rtl'] & {
+      border-left: none;
+      border-right: 1px solid rgba(vars.$zinc-800, 0.5);
+    }
+
+    &:last-child {
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  &__week-event-wrapper {
+    position: absolute;
+    left: vars.$spacing-xs;
+    right: vars.$spacing-xs;
+    z-index: 10;
+    padding: 2px;
+  }
+
+  // ==========================================
+  // Day View
+  // ==========================================
+  &__day-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: vars.$border-radius-2xl;
+    overflow: hidden;
+    border: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+  }
+
+  &__day-view-header {
+    padding: vars.$spacing-large;
+    border-bottom: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+  }
+
+  &__day-view-weekday {
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: vars.$zinc-500;
+
+    &--today {
+      color: vars.$color-brand;
+    }
+  }
+
+  &__day-view-date {
+    font-size: vars.$font-size-2xl;
+    font-weight: 900;
     color: vars.$text-color-primary;
-    font-family:
-      'DM Sans',
-      -apple-system,
-      BlinkMacSystemFont,
-      sans-serif;
+
+    &--today {
+      color: vars.$color-brand;
+    }
   }
 
-  .fc-timegrid-axis,
-  .fc-timegrid-slot-label {
-    color: rgba(255, 255, 255, 0.5);
-    font-family:
-      'DM Sans',
-      -apple-system,
-      BlinkMacSystemFont,
-      sans-serif;
+  &__day-grid-container {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: vars.$zinc-900;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: vars.$zinc-700;
+      border-radius: 4px;
+    }
   }
 
-  // Subtle hover effects
-  .fc-daygrid-day:hover {
-    background-color: rgba(255, 255, 255, 0.02);
+  &__day-grid {
+    display: flex;
+    position: relative;
+    min-height: 1440px;
   }
 
-  // Event Popup - Elegant Modal (using GenericModal)
-  .calendar-event-modal {
+  &__day-column {
+    flex: 1;
+    position: relative;
+    background: vars.$zinc-900;
+  }
+
+  &__day-event-wrapper {
+    position: absolute;
+    left: vars.$spacing-large;
+    right: vars.$spacing-large;
+    z-index: 10;
+    padding: 2px;
+  }
+
+  // ==========================================
+  // List View
+  // ==========================================
+  &__list-view {
+    height: 100%;
+    border-radius: vars.$border-radius-2xl;
+    overflow: hidden;
+    border: 1px solid vars.$zinc-800;
+    background: vars.$zinc-900;
+    padding: vars.$spacing-large;
+  }
+
+  &__list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: vars.$spacing-2xl;
+  }
+
+  &__list-title {
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0;
+  }
+
+  &__list-date {
+    font-size: vars.$font-size-medium;
+    color: vars.$zinc-500;
+  }
+
+  &__list-events {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__list-event {
+    display: flex;
+    gap: vars.$spacing-large;
+    padding: vars.$spacing-large;
+    border: 1px solid vars.$zinc-800;
+    border-radius: vars.$border-radius-xl;
+    background: rgba(vars.$zinc-900, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(vars.$zinc-900, 0.6);
+      border-color: vars.$zinc-700;
+    }
+  }
+
+  &__list-event-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    padding-left: vars.$spacing-large;
+    border-left: 1px solid vars.$zinc-800;
+    font-family: 'DM Mono', monospace;
+
+    [dir='ltr'] & {
+      padding-left: 0;
+      padding-right: vars.$spacing-large;
+      border-left: none;
+      border-right: 1px solid vars.$zinc-800;
+    }
+  }
+
+  &__list-event-start {
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    transition: color 0.2s ease;
+
+    .studioz-calendar__list-event:hover & {
+      color: vars.$color-brand;
+    }
+  }
+
+  &__list-event-end {
+    font-size: vars.$font-size-small;
+    color: vars.$zinc-500;
+  }
+
+  &__list-event-content {
+    flex: 1;
+  }
+
+  &__list-event-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &__list-event-title {
+    font-size: vars.$font-size-large;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    margin: 0 0 vars.$spacing-xs;
+  }
+
+  &__list-event-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    &--booking {
+      background: vars.$color-brand;
+    }
+
+    &--maintenance {
+      background: vars.$color-warning;
+    }
+  }
+
+  &__list-event-meta {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-medium;
+    margin-top: vars.$spacing-small;
+  }
+
+  &__list-event-tag {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    font-size: vars.$font-size-medium;
+    color: vars.$zinc-500;
+    padding: vars.$spacing-xs vars.$spacing-small;
+    background: rgba(vars.$zinc-800, 0.5);
+    border: 1px solid vars.$zinc-800;
+    border-radius: 9999px;
+  }
+
+  // ==========================================
+  // Empty State
+  // ==========================================
+  &__empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    border: 2px dashed vars.$zinc-800;
+    border-radius: vars.$border-radius-xl;
+    background: rgba(vars.$zinc-900, 0.2);
+  }
+
+  &__empty-icon {
+    color: vars.$zinc-700;
+    margin-bottom: vars.$spacing-large;
+  }
+
+  &__empty-text {
+    font-size: vars.$font-size-large;
+    font-weight: 500;
+    color: vars.$zinc-400;
+    margin: 0;
+  }
+
+  &__empty-action {
+    margin-top: vars.$spacing-large;
+    font-size: vars.$font-size-medium;
+    font-weight: 500;
+    color: vars.$color-brand;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // ==========================================
+  // Modal
+  // ==========================================
+  &.calendar-event-modal {
     .modal-wrapper {
-      top: 40% !important; // Position higher than default center (50%)
+      top: 40% !important;
       transform: translate(-50%, -50%);
       max-width: 420px;
       width: calc(95vw - vars.$spacing-2xl);
@@ -550,341 +911,117 @@
     }
   }
 
-  .event-popup {
-    position: relative;
-    max-width: 100%;
-    width: 100%;
+  // ==========================================
+  // Responsive
+  // ==========================================
+  @media (max-width: 768px) {
+    padding: vars.$spacing-medium;
 
-    .event-popup-close {
-      position: absolute;
-      top: vars.$spacing-medium;
-      right: vars.$spacing-medium;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1px solid vars.$white-opacity-15;
-      background: vars.$white-opacity-05;
-      color: vars.$white-opacity-70;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 10;
-      padding: 0;
-      backdrop-filter: blur(10px);
-
-      &:hover {
-        background: vars.$white-opacity-10;
-        border-color: vars.$white-opacity-25;
-        color: vars.$text-color-primary;
-        transform: rotate(90deg) scale(1.1);
-      }
-
-      &:active {
-        transform: rotate(90deg) scale(0.95);
-      }
-
-      svg {
-        width: 16px;
-        height: 16px;
-      }
+    &__control-bar {
+      gap: vars.$spacing-medium;
     }
 
-    @media (max-width: 768px) {
-      max-width: 90vw;
-    }
-  }
-
-  // Responsive Design
-  @media screen and (max-width: 768px) {
-    padding: vars.$spacing-large vars.$spacing-medium;
-
-    .calendar-title {
+    &__main-title {
       font-size: vars.$font-size-xl;
-      margin-bottom: vars.$spacing-large;
     }
 
-    .fc-header-toolbar {
+    &__view-tabs {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    &__view-tab {
+      padding: vars.$spacing-xs vars.$spacing-medium;
+      font-size: vars.$font-size-small;
+      white-space: nowrap;
+    }
+
+    &__add-event-btn {
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      font-size: vars.$font-size-small;
+
+      span {
+        display: none;
+      }
+    }
+
+    &__day-cell {
+      min-height: 80px;
+      padding: vars.$spacing-xs;
+    }
+
+    &__weekday-cell {
+      padding: vars.$spacing-small;
+      font-size: 10px;
+    }
+
+    &__week-header {
+      overflow-x: auto;
+    }
+
+    &__time-gutter {
+      width: 48px;
+    }
+
+    &__time-gutter-header {
+      width: 48px;
+    }
+
+    &__list-event {
       flex-direction: column;
       gap: vars.$spacing-medium;
-      padding-bottom: vars.$spacing-medium;
-
-      .fc-toolbar-title {
-        font-size: vars.$font-size-large !important;
-        text-align: center;
-        padding: 0;
-      }
-
-      .fc-toolbar-chunk {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .fc-button-group {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .fc-button-primary {
-        font-size: vars.$font-size-small;
-        padding: vars.$spacing-xs vars.$spacing-medium;
-        min-height: 36px;
-      }
     }
 
-    .fc-view-harness {
-      .fc-timegrid-axis {
-        font-size: vars.$font-size-xs;
-        padding: vars.$spacing-xs vars.$spacing-small;
-      }
-
-      .fc-timegrid-slot {
-        height: 3rem;
-      }
-
-      .fc-daygrid-day {
-        min-height: 80px;
-      }
-
-      // Week view improvements for tablet
-      .fc-timegrid {
-        .fc-timegrid-axis {
-          min-width: 50px;
-        }
-
-        .fc-timegrid-col {
-          min-width: 100px;
-        }
-      }
-    }
-
-    .booking-event {
-      font-size: vars.$font-size-xs;
-      padding: vars.$spacing-xs vars.$spacing-small;
-      margin: 2px vars.$spacing-xs;
-    }
-  }
-
-  // Small screens (under 490px) - Fix overflow and optimize
-  @media screen and (max-width: 490px) {
-    padding: vars.$spacing-medium vars.$spacing-small;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-
-    .fc {
-      min-width: 0;
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: visible;
-    }
-
-    .fc-header-toolbar {
-      .fc-button-primary {
-        font-size: vars.$font-size-xs;
-        padding: vars.$spacing-xs vars.$spacing-sm-md;
-        min-height: 32px;
-      }
-    }
-
-    .fc-view-harness {
-      overflow-x: auto;
-      overflow-y: visible;
-      -webkit-overflow-scrolling: touch;
-      width: 100%;
-
-      // Week/Day View - Optimizations
-      .fc-timegrid {
-        width: 100%;
-        overflow-x: auto !important;
-        overflow-y: visible !important;
-        -webkit-overflow-scrolling: touch;
-
-        .fc-scroller {
-          overflow-x: auto !important;
-          overflow-y: visible !important;
-        }
-
-        .fc-timegrid-body {
-          min-width: 500px; // Minimum width for horizontal scroll
-        }
-
-        .fc-timegrid-axis {
-          min-width: 40px;
-          width: 40px;
-          padding: vars.$spacing-xs;
-          font-size: 9px;
-        }
-
-        .fc-timegrid-axis-cushion {
-          font-size: 9px;
-          padding: 0;
-        }
-
-        .fc-timegrid-slot {
-          height: 2.5rem;
-          min-height: 2.5rem;
-        }
-
-        .fc-timegrid-slot-label {
-          padding: vars.$spacing-xs;
-          min-width: 40px;
-        }
-
-        .fc-timegrid-slot-label-cushion {
-          font-size: 9px;
-        }
-
-        .fc-timegrid-col {
-          min-width: 70px;
-        }
-
-        .fc-timegrid-col-header {
-          padding: vars.$spacing-xs vars.$spacing-small;
-        }
-
-        .fc-col-header-cell-cushion {
-          font-size: vars.$font-size-xs;
-          padding: vars.$spacing-xs;
-        }
-
-        // Compact event styling
-        .booking-event {
-          font-size: 8px;
-          padding: 2px vars.$spacing-xs;
-          margin: 1px;
-          line-height: 1.2;
-          min-height: 20px;
-
-          .fc-event-title {
-            font-size: 8px;
-            font-weight: 500;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 1.2;
-          }
-
-          .fc-event-time {
-            display: none; // Hide time to save space
-          }
-        }
-      }
-
-      // Month view optimizations
-      .fc-daygrid-day {
-        min-height: 60px;
-        padding: vars.$spacing-xs;
-
-        .fc-daygrid-day-number {
-          font-size: vars.$font-size-xs;
-          padding: vars.$spacing-xs;
-        }
-      }
-    }
-  }
-
-  // Extra Small Screens (320px - 360px) - Maximum Compactness
-  @media screen and (max-width: 360px) {
-    .fc-header-toolbar {
+    &__list-event-time {
+      flex-direction: row;
+      justify-content: flex-start;
       gap: vars.$spacing-small;
-      padding-bottom: vars.$spacing-small;
+      border-left: none;
+      border-bottom: 1px solid vars.$zinc-800;
+      padding: 0 0 vars.$spacing-small;
 
-      .fc-toolbar-title {
-        font-size: vars.$font-size-medium !important;
-      }
-
-      .fc-button-primary {
-        font-size: 9px;
-        padding: vars.$spacing-xs;
-        min-height: 28px;
-        min-width: auto;
+      [dir='ltr'] & {
+        border-right: none;
       }
     }
 
-    .fc-view-harness {
-      .fc-timegrid {
-        .fc-timegrid-body {
-          min-width: 450px;
-        }
+    &__list-event-meta {
+      flex-wrap: wrap;
+    }
+  }
 
-        .fc-timegrid-axis {
-          min-width: 35px;
-          width: 35px;
-          padding: 4px;
-        }
+  @media (max-width: 480px) {
+    &__nav-buttons {
+      padding: 2px;
+    }
 
-        .fc-timegrid-axis-cushion {
-          font-size: 8px;
-        }
+    &__nav-btn {
+      width: 32px;
+      height: 32px;
+    }
 
-        .fc-timegrid-slot {
-          height: 2rem;
-          min-height: 2rem;
-        }
+    &__today-btn {
+      padding: vars.$spacing-xs vars.$spacing-small;
+      font-size: vars.$font-size-small;
+    }
 
-        .fc-timegrid-slot-label {
-          min-width: 35px;
-          padding: 4px;
-        }
+    &__event-card--month {
+      padding: 2px vars.$spacing-xs;
+    }
 
-        .fc-timegrid-slot-label-cushion {
-          font-size: 8px;
-        }
+    &__event-text {
+      font-size: 8px;
+    }
 
-        .fc-timegrid-col {
-          min-width: 60px;
-        }
-
-        .fc-col-header-cell {
-          padding: vars.$spacing-xs;
-        }
-
-        .fc-col-header-cell-cushion {
-          font-size: 9px;
-          padding: vars.$spacing-xs;
-        }
-
-        .booking-event {
-          font-size: 7px;
-          padding: 1px vars.$spacing-xs;
-          min-height: 18px;
-
-          .fc-event-title {
-            font-size: 7px;
-            line-height: 1.1;
-          }
-        }
-      }
-
-      .fc-daygrid-day {
-        min-height: 50px;
-      }
+    &__day-number {
+      width: 24px;
+      height: 24px;
+      font-size: vars.$font-size-small;
     }
   }
 }
 
-// Animations - Smooth & Refined
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
+// Animations
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -893,16 +1030,5 @@
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.95);
   }
 }
