@@ -119,12 +119,14 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
     return index >= 0 ? index : -1;
   }, [selectedCity, cityChipsData]);
 
-  // Show popup on first visit
-  useEffect(() => {
-    if (showPrompt) {
+  // Handle map view toggle - show location popup on first map view if not asked yet
+  const handleMapToggle = () => {
+    if (!showMap && showPrompt) {
+      // User is entering map view for the first time and hasn't been asked for location
       setShowPopup(true);
     }
-  }, [showPrompt]);
+    setShowMap(!showMap);
+  };
 
   // Get location if permission was previously granted but location not in storage
   useEffect(() => {
@@ -216,7 +218,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           </p>
         </div>
 
-        <button onClick={() => setShowMap(!showMap)} className="studios-page__view-toggle">
+        <button onClick={handleMapToggle} className="studios-page__view-toggle">
           {showMap ? <ViewListIcon /> : <MapIcon />}
           <span>
             {showMap
