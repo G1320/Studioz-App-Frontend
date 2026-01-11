@@ -384,7 +384,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
           items={orderItems}
           totalAmount={pendingBookingItem.total}
           savedCards={savedCards}
-          vendorCredentials={data?.vendorCredentials || undefined}
           onPaymentSubmit={handlePaymentSubmit}
           onRemoveCard={() => removeSavedCardMutation.mutate()}
           isProcessing={reserveItemTimeSlotMutation.isPending}
