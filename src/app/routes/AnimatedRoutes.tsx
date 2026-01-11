@@ -23,6 +23,7 @@ import { SumitSubscriptionPage, MySubscriptionPage } from '@features/entities/su
 import { useTranslation } from 'react-i18next';
 import VendorOnboardingPage from '@features/vendor-onboarding/sumit/pages/VendorOnboardingPage';
 import { featureFlags, isFeatureEnabled } from '@core/config/featureFlags';
+import { ProtectedAdminRoute } from '@shared/components/route-guards';
 
 const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
@@ -41,6 +42,7 @@ const MyReservationsPage = lazy(() => import('@features/entities/reservations/pa
 const ReservationDetailsPage = lazy(() => import('@features/entities/reservations/pages/ReservationDetailsPage'));
 const LandingPage = lazy(() => import('@features/landing/pages/LandingPage'));
 const ProfilePage = lazy(() => import('@features/entities/profile/pages/ProfilePage'));
+const AdminPage = lazy(() => import('@features/entities/admin/pages/AdminPage'));
 
 interface AnimatedRoutesProps {
   studios: Studio[];
@@ -281,6 +283,17 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               <AnimatedRoute>
                 <ProfilePage user={user || null} />
               </AnimatedRoute>
+            }
+          />
+          {/* Admin Panel - Protected route for admins only */}
+          <Route
+            path="/:lang?/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AnimatedRoute>
+                  <AdminPage user={user || null} studios={studios} />
+                </AnimatedRoute>
+              </ProtectedAdminRoute>
             }
           />
           <Route

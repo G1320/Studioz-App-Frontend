@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "overview": "סקירה",
+    "users": "משתמשים",
+    "studios": "סטודיוס",
+    "services": "שירותים"
+  },
+  "metrics": {
+    "totalUsers": "סה״כ משתמשים",
+    "activeStudios": "סטודיוס פעילים",
+    "activeServices": "שירותים פעילים",
+    "monthlyRevenue": "הכנסות חודשיות"
+  },
+  "sections": {
+    "overview": {
+      "title": "סקירת הפלטפורמה",
+      "description": "תובנות בזמן אמת ומדדי ביצועים עבור StudioZ."
+    },
+    "users": {
+      "title": "ניהול משתמשים",
+      "description": "ניהול חשבונות משתמשים, תפקידים והרשאות."
+    },
+    "studios": {
+      "title": "ניהול סטודיוס",
+      "description": "פיקוח על רישומי סטודיו, אימותים ואיכות."
+    },
+    "services": {
+      "title": "שירותים גלובליים",
+      "description": "עיין וניהול את כל שירותי הסטודיו בפלטפורמה."
+    },
+    "recentActivity": {
+      "title": "פעילות אחרונה"
+    },
+    "pendingApprovals": {
+      "title": "ממתינים לאישור",
+      "empty": "אין אישורים ממתינים"
+    }
+  },
+  "table": {
+    "user": "משתמש",
+    "role": "תפקיד",
+    "studios": "סטודיוס",
+    "services": "שירותים",
+    "status": "סטטוס",
+    "actions": "פעולות",
+    "studio": "סטודיו",
+    "owner": "בעלים",
+    "performance": "ביצועים",
+    "bookings": "הזמנות",
+    "revenue": "הכנסות",
+    "serviceName": "שם השירות",
+    "category": "קטגוריה",
+    "price": "מחיר"
+  },
+  "status": {
+    "active": "פעיל",
+    "pending": "ממתין",
+    "suspended": "מושעה",
+    "verified": "מאומת",
+    "available": "זמין",
+    "maintenance": "בתחזוקה"
+  },
+  "actions": {
+    "viewAll": "הצג הכל",
+    "exportReport": "ייצא דוח",
+    "verifyPending": "אמת ממתינים",
+    "addUser": "הוסף משתמש",
+    "review": "בדוק"
+  },
+  "search": {
+    "placeholder": "חיפוש..."
+  },
+  "activity": {
+    "addedStudio": "הוסיף סטודיו חדש"
+  }
+}

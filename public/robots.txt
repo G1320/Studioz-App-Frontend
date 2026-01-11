@@ -7,6 +7,7 @@ Disallow: /checkout
 Disallow: /profile
 Disallow: /dashboard
 Disallow: /calendar
+Disallow: /admin
 
 # Wildcard for all language prefixes
 Disallow: /*/cart
@@ -14,5 +15,6 @@ Disallow: /*/checkout
 Disallow: /*/profile
 Disallow: /*/dashboard
 Disallow: /*/calendar
+Disallow: /*/admin
 
 Sitemap: https://studioz.co.il/sitemap.xml

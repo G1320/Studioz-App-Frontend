@@ -175,7 +175,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   } = useGoogleCalendar();
   const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
   const hasActiveSubscription = hasSubscription && user?.subscriptionStatus === 'ACTIVE';
-  
+
   // Get plan display info
   const getPlanName = () => {
     if (!hasActiveSubscription) return t('profile.subscription.freePlan', 'Free Plan');
@@ -184,7 +184,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     if (isStarter) return t('subscriptions.plans.starter.name', 'Starter');
     return t('profile.subscription.proPlan', 'Pro Plan');
   };
-  
+
   const getPlanPrice = () => {
     if (isPro) return '199';
     if (isStarter) return '39';
@@ -284,7 +284,10 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             <SectionTitle
               icon={PersonIcon}
               title={t('profile.sections.personalInfo', 'Personal Details')}
-              description={t('profile.sections.personalInfoDesc', 'Manage your personal information and contact details')}
+              description={t(
+                'profile.sections.personalInfoDesc',
+                'Manage your personal information and contact details'
+              )}
             />
 
             <div className="profile-form-grid">
@@ -356,7 +359,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 </div>
                 <div className="profile-integration-box__info">
                   <h4>Google Calendar</h4>
-                  <p>{isGoogleCalendarConnected ? t('profile.connected', 'Connected') : t('profile.notConnected', 'Not connected')}</p>
+                  <p>
+                    {isGoogleCalendarConnected
+                      ? t('profile.connected', 'Connected')
+                      : t('profile.notConnected', 'Not connected')}
+                  </p>
                 </div>
                 <div
                   className={`profile-integration-box__status ${isGoogleCalendarConnected ? 'profile-integration-box__status--active' : ''}`}
@@ -394,7 +401,10 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
               <div className="profile-integration-box">
                 <div className="profile-integration-box__header">
-                  <div className="profile-integration-box__logo profile-integration-box__logo--sumit" aria-hidden="true">
+                  <div
+                    className="profile-integration-box__logo profile-integration-box__logo--sumit"
+                    aria-hidden="true"
+                  >
                     <span>SUMIT</span>
                   </div>
                   <div className="profile-integration-box__info">
@@ -446,7 +456,9 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 {hasActiveSubscription && (
                   <div className="profile-subscription-info__price">
                     <span className="profile-subscription-info__amount">₪{getPlanPrice()}</span>
-                    <span className="profile-subscription-info__period">/{t('profile.subscription.month', 'month')}</span>
+                    <span className="profile-subscription-info__period">
+                      /{t('profile.subscription.month', 'month')}
+                    </span>
                   </div>
                 )}
               </div>

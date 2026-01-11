@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "overview": "Overview",
+    "users": "Users",
+    "studios": "Studios",
+    "services": "Services"
+  },
+  "metrics": {
+    "totalUsers": "Total Users",
+    "activeStudios": "Active Studios",
+    "activeServices": "Active Services",
+    "monthlyRevenue": "Monthly Revenue"
+  },
+  "sections": {
+    "overview": {
+      "title": "Platform Overview",
+      "description": "Real-time insights and performance metrics for StudioZ."
+    },
+    "users": {
+      "title": "User Management",
+      "description": "Manage user accounts, roles, and permissions."
+    },
+    "studios": {
+      "title": "Studio Management",
+      "description": "Oversee studio listings, verifications, and quality."
+    },
+    "services": {
+      "title": "Global Services",
+      "description": "Browse and manage all studio services across the platform."
+    },
+    "recentActivity": {
+      "title": "Recent Activity"
+    },
+    "pendingApprovals": {
+      "title": "Pending Approvals",
+      "empty": "No pending approvals"
+    }
+  },
+  "table": {
+    "user": "User",
+    "role": "Role",
+    "studios": "Studios",
+    "services": "Services",
+    "status": "Status",
+    "actions": "Actions",
+    "studio": "Studio",
+    "owner": "Owner",
+    "performance": "Performance",
+    "bookings": "bookings",
+    "revenue": "revenue",
+    "serviceName": "Service Name",
+    "category": "Category",
+    "price": "Price"
+  },
+  "status": {
+    "active": "Active",
+    "pending": "Pending",
+    "suspended": "Suspended",
+    "verified": "Verified",
+    "available": "Available",
+    "maintenance": "Maintenance"
+  },
+  "actions": {
+    "viewAll": "View All",
+    "exportReport": "Export Report",
+    "verifyPending": "Verify Pending",
+    "addUser": "Add User",
+    "review": "Review"
+  },
+  "search": {
+    "placeholder": "Search..."
+  },
+  "activity": {
+    "addedStudio": "added a new studio"
+  }
+}
