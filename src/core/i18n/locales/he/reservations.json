@@ -29,6 +29,7 @@
   "status.expired": "פג תוקף",
   "status.cancelled": "בוטל",
   "status.rejected": "נדחה",
+  "status.payment_failed": "התשלום נכשל",
   "viewDetails": "צפה בפרטים",
   "back": "חזור",
   "backToReservations": "חזור להזמנות",

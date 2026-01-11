@@ -29,6 +29,7 @@
   "status.expired": "Expired",
   "status.cancelled": "Cancelled",
   "status.rejected": "Rejected",
+  "status.payment_failed": "Payment Failed",
   "viewDetails": "View Details",
   "back": "Back",
   "backToReservations": "Back to Reservations",

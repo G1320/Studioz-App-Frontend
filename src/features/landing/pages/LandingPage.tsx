@@ -70,24 +70,31 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
     // Get unique cities from studios (normalized to lowercase for comparison)
     const studioCities = new Set(
       studios
-        .map((studio) => studio.city?.toLowerCase())
+        .map((studio) => studio.city?.toLowerCase().trim())
         .filter(Boolean)
     );
 
     // Filter city options to only include cities with studios
     return allCityOptions.filter((cityOption) => {
-      const cityName = cityOption.key.toLowerCase().replace(/_/g, ' ');
-      const cityValue = cityOption.value.toLowerCase();
-      
+      // Get all possible names for this city option
+      const cityConfig = cities.find(
+        (c) =>
+          c.name.toLowerCase() === cityOption.value.toLowerCase() ||
+          c.displayName?.toLowerCase() === cityOption.value.toLowerCase()
+      );
+
+      const possibleNames = [
+        cityOption.key.toLowerCase().replace(/_/g, ' '),
+        cityOption.value.toLowerCase(),
+        cityConfig?.name.toLowerCase(),
+        cityConfig?.displayName?.toLowerCase()
+      ].filter(Boolean) as string[];
+
       // Check if any studio city matches this option
       return Array.from(studioCities).some((studioCity) => {
         if (!studioCity) return false;
-        const normalizedStudioCity = studioCity.toLowerCase();
-        return (
-          normalizedStudioCity.includes(cityName) ||
-          cityName.includes(normalizedStudioCity) ||
-          normalizedStudioCity.includes(cityValue) ||
-          cityValue.includes(normalizedStudioCity)
+        return possibleNames.some(
+          (name) => studioCity.includes(name) || name.includes(studioCity)
         );
       });
     });
