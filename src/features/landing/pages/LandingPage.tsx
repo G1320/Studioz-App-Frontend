@@ -63,7 +63,35 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
   }, []);
 
   const musicSubCategories = useMemo(() => getMusicSubCategories(), [getMusicSubCategories]);
-  const cityOptions = useMemo(() => getCityOptions(), [getCityOptions]);
+  const allCityOptions = useMemo(() => getCityOptions(), [getCityOptions]);
+
+  // Filter cities to only show those that have studios
+  const cityOptions = useMemo(() => {
+    // Get unique cities from studios (normalized to lowercase for comparison)
+    const studioCities = new Set(
+      studios
+        .map((studio) => studio.city?.toLowerCase())
+        .filter(Boolean)
+    );
+
+    // Filter city options to only include cities with studios
+    return allCityOptions.filter((cityOption) => {
+      const cityName = cityOption.key.toLowerCase().replace(/_/g, ' ');
+      const cityValue = cityOption.value.toLowerCase();
+      
+      // Check if any studio city matches this option
+      return Array.from(studioCities).some((studioCity) => {
+        if (!studioCity) return false;
+        const normalizedStudioCity = studioCity.toLowerCase();
+        return (
+          normalizedStudioCity.includes(cityName) ||
+          cityName.includes(normalizedStudioCity) ||
+          normalizedStudioCity.includes(cityValue) ||
+          cityValue.includes(normalizedStudioCity)
+        );
+      });
+    });
+  }, [allCityOptions, studios]);
 
   // Get top 3 studios (sorted by rating or just take first 3)
   const featuredStudios = useMemo(() => {
