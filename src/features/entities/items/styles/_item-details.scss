@@ -152,10 +152,13 @@
   // Payment step view
   &--payment {
     max-width: 60rem; // Wider for payment form layout
+    background: #000000; // Black background for payment step
+    border-color: vars.$zinc-800;
     
     .close-button {
       background: transparent;
       font-size: 1.5rem;
+      color: vars.$text-color-primary;
       
       &:hover {
         background: vars.$white-opacity-08;

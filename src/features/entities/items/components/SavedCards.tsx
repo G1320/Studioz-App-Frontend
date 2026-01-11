@@ -73,7 +73,7 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
 
                   {/* Card Details */}
                   <div className="saved-cards__details">
-                    <span className="saved-cards__number">{card.last4} •••• •••• ••••</span>
+                    <span className="saved-cards__number">•••• •••• •••• {card.last4}</span>
                     <span className="saved-cards__expiry">
                       {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
                     </span>
@@ -93,11 +93,7 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
 
             {/* Remove Card Button */}
             {onRemoveCard && selectedCardId && (
-              <button
-                type="button"
-                className="saved-cards__remove-btn"
-                onClick={() => onRemoveCard(selectedCardId)}
-              >
+              <button type="button" className="saved-cards__remove-btn" onClick={() => onRemoveCard(selectedCardId)}>
                 <DeleteIcon />
                 {t('removeSelectedCard', 'הסר כרטיס נבחר')}
               </button>
@@ -109,11 +105,7 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
             <AccountBalanceWalletIcon />
             <p>{t('noSavedCards', 'אין כרטיסים שמורים')}</p>
             <span>{t('noSavedCardsHint', 'הוסף כרטיס חדש כדי לשלם')}</span>
-            <button
-              type="button"
-              className="saved-cards__add-btn"
-              onClick={() => onPaymentMethodChange('new')}
-            >
+            <button type="button" className="saved-cards__add-btn" onClick={() => onPaymentMethodChange('new')}>
               <AddIcon />
               {t('addNewCard', 'הוסף כרטיס')}
             </button>

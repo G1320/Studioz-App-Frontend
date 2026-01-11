@@ -90,6 +90,7 @@ $accent-hover: #ffc107;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    text-align: start;
   }
 
   &__info-primary {
@@ -98,12 +99,14 @@ $accent-hover: #ffc107;
     color: vars.$text-color-primary;
     line-height: 1.3;
     margin: 0;
+    text-align: start;
   }
 
   &__info-secondary {
     font-size: 0.8125rem;
     color: vars.$zinc-500;
     margin: 0;
+    text-align: start;
   }
 
   // ========================================
