@@ -3,6 +3,9 @@ import { persister } from './persister';
 /**
  * Determines which queries should be persisted to localStorage
  * Only persists critical, user-specific data with appropriate TTL
+ * 
+ * IMPORTANT: Persisted data is just for instant initial render.
+ * Fresh data is always fetched in background due to short staleTime.
  */
 const shouldDehydrateQuery = (query: any): boolean => {
   const queryKey = query.queryKey[0];
@@ -19,8 +22,8 @@ const shouldDehydrateQuery = (query: any): boolean => {
     return true; // Individual item: ['item', itemId]
   }
 
-  // ⚠️ PERSIST WITH SHORT TTL: Studios/Items arrays (for instant load on refresh)
-  // We persist these but with shorter maxAge (2 hours) to balance performance vs freshness
+  // ✅ PERSIST: Studios/Items arrays for instant load
+  // Fresh data will be fetched in background immediately due to short staleTime
   if (queryKey === 'studios' && query.queryKey.length <= 2) {
     return true; // Persist studios array: ['studios'] or ['studios', {}]
   }
@@ -53,13 +56,19 @@ const shouldDehydrateQuery = (query: any): boolean => {
 
 /**
  * React Query persistence options
- * Configures which queries to persist and for how long
+ * 
+ * maxAge: Maximum time to keep persisted data in localStorage
+ * - After maxAge, persisted data is ignored on app load
+ * - Fresh data will be fetched anyway due to short staleTime,
+ *   but maxAge prevents showing VERY old data as initial state
  */
 export const persistOptions = {
   persister,
-  maxAge: 1000 * 60 * 60 * 2, // 2 hours max age (studios/items refresh after 2h for freshness)
+  // 4 hours max - prevents showing data from yesterday
+  // Fresh data fetches in background regardless, but this ensures
+  // we don't show extremely stale data as initial render
+  maxAge: 1000 * 60 * 60 * 4, // 4 hours
   dehydrateOptions: {
     shouldDehydrateQuery
   }
 };
-
