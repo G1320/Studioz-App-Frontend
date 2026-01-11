@@ -322,7 +322,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           </div>
 
           {/* Security Section (Coming Soon) */}
-          <div className="profile-card profile-card--disabled">
+          <div className="profile-card profile-card--disabled profile-card--security">
             <SectionTitle
               icon={ShieldIcon}
               title={t('profile.sections.security', 'Security & Notifications')}

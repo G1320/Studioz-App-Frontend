@@ -3,7 +3,7 @@ import { persister } from './persister';
 /**
  * Determines which queries should be persisted to localStorage
  * Only persists critical, user-specific data with appropriate TTL
- * 
+ *
  * IMPORTANT: Persisted data is just for instant initial render.
  * Fresh data is always fetched in background due to short staleTime.
  */
@@ -32,13 +32,7 @@ const shouldDehydrateQuery = (query: any): boolean => {
   }
 
   // ❌ DON'T PERSIST: Data that changes very frequently
-  const nonPersistableKeys = [
-    'reservations',
-    'reservationsList',
-    'notifications',
-    'notificationCount',
-    'search'
-  ];
+  const nonPersistableKeys = ['reservations', 'reservationsList', 'notifications', 'notificationCount', 'search'];
 
   // Check if it's a persistable key
   if (persistableKeys.includes(queryKey as string)) {
@@ -56,7 +50,7 @@ const shouldDehydrateQuery = (query: any): boolean => {
 
 /**
  * React Query persistence options
- * 
+ *
  * maxAge: Maximum time to keep persisted data in localStorage
  * - After maxAge, persisted data is ignored on app load
  * - Fresh data will be fetched anyway due to short staleTime,

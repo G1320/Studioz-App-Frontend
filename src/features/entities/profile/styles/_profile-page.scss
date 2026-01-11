@@ -196,25 +196,65 @@ $profile-text-secondary: rgba(228, 228, 231, 1); // zinc-200
 // Grid Layout
 // ==========================================
 .profile-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 
   @media (min-width: 1024px) {
+    display: grid;
     grid-template-columns: 2fr 1fr;
+    gap: 2rem;
   }
 }
 
 .profile-main {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: contents;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }
 
 .profile-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: contents;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+// Mobile order - Security section appears before logout
+@media (max-width: 1023px) {
+  .profile-grid {
+    // Personal Details (from main)
+    .profile-card:not(.profile-card--disabled):not(.profile-card--integration):not(.profile-card--subscription) {
+      order: 1;
+    }
+    
+    // Integration cards (Calendar, Sumit)
+    .profile-card--integration {
+      order: 2;
+    }
+    
+    // Subscription card
+    .profile-card--subscription {
+      order: 3;
+    }
+    
+    // Security card (before logout)
+    .profile-card--security {
+      order: 4;
+    }
+    
+    // Logout button (last)
+    .profile-btn--logout {
+      order: 5;
+    }
+  }
 }
 
 // ==========================================
