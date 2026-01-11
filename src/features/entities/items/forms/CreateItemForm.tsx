@@ -7,6 +7,7 @@ import type { Duration } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { itemStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
+import { clearFormData } from '@shared/utils/formAutoSaveUtils';
 import {
   useCreateItemMutation,
   useMusicCategories,
@@ -607,6 +608,9 @@ export const CreateItemForm = () => {
     // Create item first, then batch create add-ons
     createItemMutation.mutate(formData as Item, {
       onSuccess: async (createdItem) => {
+        // Clear saved form data after successful submission
+        clearFormData('create-item-form');
+        
         // Batch create add-ons if any are pending
         if (pendingAddOns.length > 0) {
           try {
