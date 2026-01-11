@@ -281,7 +281,7 @@ export const sumitService = {
           };
         };
         error?: string;
-      }>(`${SUMIT_ENDPOINT}/payments/saved-card-by-phone`, { phone });
+      }>(`${SUMIT_ENDPOINT}/saved-card-by-phone`, { phone });
       
       if (response.success && response.data) {
         return response.data;
