@@ -1,1 +1,46 @@
+# 301 Redirects for old URL structure to new query param structure
+# English old URLs
+/en/studios/music/music_production        /en/studios?subcategory=Music+Production  301
+/en/studios/music/podcast_recording       /en/studios?subcategory=Podcast+Recording  301
+/en/studios/music/vocal_instrument_recording  /en/studios?subcategory=Vocal+%26+Instrument+Recording  301
+/en/studios/music/film_post_production    /en/studios?subcategory=Film+%26+Post+Production  301
+/en/studios/music/voiceover_dubbing       /en/studios?subcategory=Voiceover+%26+Dubbing  301
+/en/studios/music/mixing                  /en/studios?subcategory=Mixing  301
+/en/studios/music/mastering               /en/studios?subcategory=Mastering  301
+/en/studios/music/sound_design            /en/studios?subcategory=Sound+Design  301
+/en/studios/music/band_rehearsal          /en/studios?subcategory=Band+rehearsal  301
+/en/studios/music/studio_rental           /en/studios?subcategory=Studio+Rental  301
+/en/studios/music/foley_sound_effects     /en/studios?subcategory=Foley+%26+Sound+Effects  301
+/en/studios/music/workshops_classes       /en/studios?subcategory=Workshops+%26+Classes  301
+/en/studios/music/remote_production_services  /en/studios?subcategory=Remote+Production+Services  301
+/en/studios/music/restoration_archiving   /en/studios?subcategory=Restoration+%26+Archiving  301
+
+# Hebrew old URLs
+/he/studios/music/music_production        /he/studios?subcategory=Music+Production  301
+/he/studios/music/podcast_recording       /he/studios?subcategory=Podcast+Recording  301
+/he/studios/music/vocal_instrument_recording  /he/studios?subcategory=Vocal+%26+Instrument+Recording  301
+/he/studios/music/film_post_production    /he/studios?subcategory=Film+%26+Post+Production  301
+/he/studios/music/voiceover_dubbing       /he/studios?subcategory=Voiceover+%26+Dubbing  301
+/he/studios/music/mixing                  /he/studios?subcategory=Mixing  301
+/he/studios/music/mastering               /he/studios?subcategory=Mastering  301
+/he/studios/music/sound_design            /he/studios?subcategory=Sound+Design  301
+/he/studios/music/band_rehearsal          /he/studios?subcategory=Band+rehearsal  301
+/he/studios/music/studio_rental           /he/studios?subcategory=Studio+Rental  301
+/he/studios/music/foley_sound_effects     /he/studios?subcategory=Foley+%26+Sound+Effects  301
+/he/studios/music/workshops_classes       /he/studios?subcategory=Workshops+%26+Classes  301
+/he/studios/music/remote_production_services  /he/studios?subcategory=Remote+Production+Services  301
+/he/studios/music/restoration_archiving   /he/studios?subcategory=Restoration+%26+Archiving  301
+
+# Old /services/ URLs (no language prefix)
+/services/music/music_production          /en/studios?subcategory=Music+Production  301
+/services/music/podcast_recording         /en/studios?subcategory=Podcast+Recording  301
+/services/music/mixing                    /en/studios?subcategory=Mixing  301
+/services/music/mastering                 /en/studios?subcategory=Mastering  301
+/services/music/*                         /en/studios  301
+
+# Catch-all for any other old /studios/music/ paths
+/en/studios/music/*                       /en/studios  301
+/he/studios/music/*                       /he/studios  301
+
+# SPA fallback - must be last
 /*  /index.html 200
