@@ -96,7 +96,7 @@ export const VendorOnboardingForm = () => {
   // Validation functions
   const validateStep1 = (): boolean => {
     const errors: Partial<Record<keyof FormData, string>> = {};
-    
+
     if (!formData.businessName.trim()) {
       errors.businessName = 'שם העסק הוא שדה חובה';
     }
@@ -115,7 +115,7 @@ export const VendorOnboardingForm = () => {
 
   const validateStep2 = (): boolean => {
     const errors: Partial<Record<keyof FormData, string>> = {};
-    
+
     if (!formData.contactName.trim()) {
       errors.contactName = 'שם מלא הוא שדה חובה';
     }
@@ -136,7 +136,7 @@ export const VendorOnboardingForm = () => {
 
   const validateStep3 = (): boolean => {
     const errors: Partial<Record<keyof FormData, string>> = {};
-    
+
     if (!formData.bankCode) {
       errors.bankCode = 'יש לבחור בנק';
     }
@@ -223,7 +223,8 @@ export const VendorOnboardingForm = () => {
         setIsCompleted(true);
       },
       onError: (err: any) => {
-        const errorMessage = err?.response?.data?.message || err?.message || 'אירעה שגיאה בעת יצירת החשבון. אנא נסה שוב.';
+        const errorMessage =
+          err?.response?.data?.message || err?.message || 'אירעה שגיאה בעת יצירת החשבון. אנא נסה שוב.';
         setError(errorMessage);
         console.error('Vendor creation error:', err);
       }
@@ -265,9 +266,7 @@ export const VendorOnboardingForm = () => {
                   onChange={(e) => updateField('businessName', e.target.value)}
                   placeholder="השם המלא כפי שמופיע בתעודת העוסק"
                 />
-                {validationErrors.businessName && (
-                  <span className="field__error">{validationErrors.businessName}</span>
-                )}
+                {validationErrors.businessName && <span className="field__error">{validationErrors.businessName}</span>}
               </div>
 
               <div className={`field ${validationErrors.businessId ? 'field--error' : ''}`}>
@@ -279,9 +278,7 @@ export const VendorOnboardingForm = () => {
                   placeholder="9 ספרות"
                   maxLength={9}
                 />
-                {validationErrors.businessId && (
-                  <span className="field__error">{validationErrors.businessId}</span>
-                )}
+                {validationErrors.businessId && <span className="field__error">{validationErrors.businessId}</span>}
               </div>
 
               <div className="field-row">
@@ -337,9 +334,7 @@ export const VendorOnboardingForm = () => {
                   value={formData.contactName}
                   onChange={(e) => updateField('contactName', e.target.value)}
                 />
-                {validationErrors.contactName && (
-                  <span className="field__error">{validationErrors.contactName}</span>
-                )}
+                {validationErrors.contactName && <span className="field__error">{validationErrors.contactName}</span>}
               </div>
 
               <div className={`field ${validationErrors.contactPhone ? 'field--error' : ''}`}>
@@ -351,9 +346,7 @@ export const VendorOnboardingForm = () => {
                   dir="ltr"
                   placeholder="050-0000000"
                 />
-                {validationErrors.contactPhone && (
-                  <span className="field__error">{validationErrors.contactPhone}</span>
-                )}
+                {validationErrors.contactPhone && <span className="field__error">{validationErrors.contactPhone}</span>}
               </div>
 
               <div className={`field ${validationErrors.contactEmail ? 'field--error' : ''}`}>
@@ -364,9 +357,7 @@ export const VendorOnboardingForm = () => {
                   onChange={(e) => updateField('contactEmail', e.target.value)}
                   dir="ltr"
                 />
-                {validationErrors.contactEmail && (
-                  <span className="field__error">{validationErrors.contactEmail}</span>
-                )}
+                {validationErrors.contactEmail && <span className="field__error">{validationErrors.contactEmail}</span>}
               </div>
             </div>
           </div>
@@ -396,9 +387,7 @@ export const VendorOnboardingForm = () => {
                     </option>
                   ))}
                 </select>
-                {validationErrors.bankCode && (
-                  <span className="field__error">{validationErrors.bankCode}</span>
-                )}
+                {validationErrors.bankCode && <span className="field__error">{validationErrors.bankCode}</span>}
               </div>
 
               <div className="field-row field-row--bank">
@@ -443,7 +432,10 @@ export const VendorOnboardingForm = () => {
             <AutoAwesomeIcon />
           </div>
           <h1>הפרטים נשלחו לבדיקה!</h1>
-          <p>תהליך אישור העסק אורך בדרך כלל עד 2 ימי עסקים. נודיע לך ברגע שהחשבון יאושר ותוכל להתחיל לקבל תשלומים.</p>
+          <p>
+            במהלך הימים הקרובים תתבקש לוודא את פרטי העסק מול ספק הסליקה שלנו, Upay פיננסים לאחר אישור הפרטים ואישור
+            החשבון תוכל לקבל תשלומים בפלטפורמה, התהליך לרוב לוקח כ 2 ימים עסקים
+          </p>
           <button type="button" onClick={() => (window.location.href = '/profile')} className="completion-card__button">
             חזור לפרופיל
           </button>
