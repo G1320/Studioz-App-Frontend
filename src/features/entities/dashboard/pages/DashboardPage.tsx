@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
-import { DashboardStats, MyStudios, DashboardCalendar, RecentActivity } from '../components';
+import { DashboardStats, DashboardCalendar, RecentActivity } from '../components';
+import { StudioManager } from '@features/entities/studios';
 
 interface DashboardPageProps {
   user: User | null;
@@ -15,6 +16,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 }) => {
   const { t } = useTranslation('dashboard');
   const { data: reservations = [] } = useReservations();
+  const [activeTab, setActiveTab] = useState<'overview' | 'studios'>('studios');
 
   // Determine if user is a studio owner
   const isStudioOwner = useMemo(() => {
@@ -82,37 +84,58 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         )}
       </div>
 
-      <div className="dashboard-content">
-        {/* Stats Section */}
-        <DashboardStats
-          totalBookings={stats.totalBookings}
-          totalRevenue={stats.totalRevenue}
-          activeStudios={stats.activeStudios}
-          upcomingBookings={stats.upcomingBookings}
-          isStudioOwner={isStudioOwner}
-        />
+      {/* Tab Navigation for Studio Owners */}
+      {isStudioOwner && (
+        <div className="dashboard-tabs">
+          <button 
+            className={`dashboard-tab ${activeTab === 'studios' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('studios')}
+          >
+            {t('tabs.manageStudios', 'ניהול נכסים')}
+          </button>
+          <button 
+            className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            {t('tabs.overview', 'סקירה כללית')}
+          </button>
+        </div>
+      )}
 
-        {/* Recent Activity Section - Only for studio owners */}
-        {isStudioOwner && (
-          <RecentActivity
-            studioIds={userStudios.map((s) => s._id)}
+      {/* Overview Tab Content */}
+      {activeTab === 'overview' && (
+        <div className="dashboard-content">
+          {/* Stats Section */}
+          <DashboardStats
+            totalBookings={stats.totalBookings}
+            totalRevenue={stats.totalRevenue}
+            activeStudios={stats.activeStudios}
+            upcomingBookings={stats.upcomingBookings}
             isStudioOwner={isStudioOwner}
-            limit={5}
           />
-        )}
 
-        {/* My Studios Section - Only show if user has studios */}
-        {isStudioOwner && userStudios.length > 0 && (
-          <MyStudios studios={userStudios} />
-        )}
+          {/* Recent Activity Section - Only for studio owners */}
+          {isStudioOwner && (
+            <RecentActivity
+              studioIds={userStudios.map((s) => s._id)}
+              isStudioOwner={isStudioOwner}
+              limit={5}
+            />
+          )}
 
-        {/* Calendar Section */}
-        <DashboardCalendar
-          studios={userStudios}
-          reservations={reservations}
-          isStudioOwner={isStudioOwner}
-        />
-      </div>
+          {/* Calendar Section */}
+          <DashboardCalendar
+            studios={userStudios}
+            reservations={reservations}
+            isStudioOwner={isStudioOwner}
+          />
+        </div>
+      )}
+
+      {/* Studios Management Tab Content */}
+      {activeTab === 'studios' && isStudioOwner && (
+        <StudioManager studios={userStudios} />
+      )}
     </div>
   );
 };

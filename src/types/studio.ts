@@ -92,4 +92,7 @@ export default interface Studio {
   socialLinks?: SocialLinks;
   // Payment capability - set by backend based on owner's subscription & Sumit setup
   paymentEnabled?: boolean;
+  
+  // Status
+  active?: boolean;
 }

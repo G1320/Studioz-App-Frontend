@@ -60,3 +60,21 @@ export const updateStudioItem = async (studioId: string, item: Item): Promise<It
     throw error;
   }
 };
+
+export const toggleStudioActive = async (studioId: string, active: boolean): Promise<Studio> => {
+  try {
+    return await httpService.patch<Studio>(`${studioEndpoint}/${studioId}`, { active });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const toggleItemActive = async (studioId: string, itemId: string, active: boolean): Promise<Item> => {
+  try {
+    return await httpService.patch<Item>(`${studioEndpoint}/${studioId}/items/${itemId}`, { active });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

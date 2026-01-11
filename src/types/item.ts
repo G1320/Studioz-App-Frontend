@@ -69,4 +69,7 @@ export default interface Item {
   
   // Quantity Management
   maxQuantityPerBooking?: number;
+  
+  // Status
+  active?: boolean;
 }

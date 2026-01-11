@@ -2,6 +2,10 @@
   "welcome": "Welcome, {{name}}!",
   "guest": "Guest",
   "studioOwnerSubtitle": "Manage your studios and bookings",
+  "tabs": {
+    "overview": "Overview",
+    "manageStudios": "Manage Assets"
+  },
   "stats": {
     "title": "Statistics",
     "totalBookings": "Total Bookings",

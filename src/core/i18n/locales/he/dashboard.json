@@ -2,6 +2,10 @@
   "welcome": "ברוכים הבאים, {{name}}!",
   "guest": "אורח",
   "studioOwnerSubtitle": "נהל את הסטודיו וההזמנות שלך",
+  "tabs": {
+    "overview": "סקירה כללית",
+    "manageStudios": "ניהול נכסים"
+  },
   "stats": {
     "title": "סטטיסטיקות",
     "totalBookings": "סה\"כ הזמנות",

@@ -1,6 +1,6 @@
 import { useLanguageNavigate, useMutationHandler } from '@shared/hooks';
-import { createStudio, updateStudio } from '@shared/services';
-import { Studio } from 'src/types/index';
+import { createStudio, updateStudio, toggleStudioActive, toggleItemActive } from '@shared/services';
+import { Studio, Item } from 'src/types/index';
 
 type CreateStudioVariables = {
   userId: string;
@@ -26,5 +26,32 @@ export const useUpdateStudioMutation = (studioId: string) => {
     successMessage: 'Studio updated',
     invalidateQueries: [{ queryKey: 'studio', targetId: studioId }, { queryKey: 'studios' }],
     onSuccess: () => langNavigate(`/Studio/${studioId}`)
+  });
+};
+
+type ToggleStudioActiveVariables = {
+  studioId: string;
+  active: boolean;
+};
+
+export const useToggleStudioActiveMutation = () => {
+  return useMutationHandler<Studio, ToggleStudioActiveVariables>({
+    mutationFn: ({ studioId, active }) => toggleStudioActive(studioId, active),
+    successMessage: 'Studio status updated',
+    invalidateQueries: [{ queryKey: 'studios' }]
+  });
+};
+
+type ToggleItemActiveVariables = {
+  studioId: string;
+  itemId: string;
+  active: boolean;
+};
+
+export const useToggleItemActiveMutation = () => {
+  return useMutationHandler<Item, ToggleItemActiveVariables>({
+    mutationFn: ({ studioId, itemId, active }) => toggleItemActive(studioId, itemId, active),
+    successMessage: 'Item status updated',
+    invalidateQueries: [{ queryKey: 'studios' }, { queryKey: 'items' }]
   });
 };

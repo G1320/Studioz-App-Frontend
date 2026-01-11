@@ -17,13 +17,9 @@ $dash-text-muted: rgba(113, 113, 122, 1); // zinc-500
 
 .dashboard-page {
   margin: 0 auto;
-  padding: vars.$spacing-2xl vars.$spacing-medium;
+  padding: vars.$spacing-large 0;
   color: $dash-text-primary;
   text-align: start;
-
-  @media (min-width: 768px) {
-    padding: vars.$spacing-2xl vars.$spacing-xl;
-  }
 
   .dashboard-header {
     margin-bottom: vars.$spacing-2xl;
@@ -60,6 +56,47 @@ $dash-text-muted: rgba(113, 113, 122, 1); // zinc-500
   .dashboard-subscription-section {
     .subscription-details {
       max-width: 100%;
+    }
+  }
+
+  // Dashboard Tabs
+  .dashboard-tabs {
+    display: flex;
+    gap: vars.$spacing-xs;
+    margin-bottom: vars.$spacing-xl;
+    padding: vars.$spacing-xs;
+    background: rgba(17, 17, 17, 1);
+    border-radius: vars.$border-radius-2xl;
+    border: 1px solid $dash-border;
+    width: fit-content;
+  }
+
+  .dashboard-tab {
+    padding: vars.$spacing-sm-md vars.$spacing-xl;
+    font-size: vars.$font-size-medium;
+    font-weight: 500;
+    color: $dash-text-muted;
+    background: transparent;
+    border: none;
+    border-radius: vars.$border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $dash-text-secondary;
+      background: rgba(39, 39, 42, 0.5);
+    }
+
+    &--active {
+      color: $dash-text-primary;
+      background: $dash-primary;
+      color: #000;
+      font-weight: 600;
+
+      &:hover {
+        background: darken($dash-primary, 5%);
+        color: #000;
+      }
     }
   }
 }
