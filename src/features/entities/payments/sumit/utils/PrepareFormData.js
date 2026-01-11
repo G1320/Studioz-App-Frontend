@@ -1,4 +1,11 @@
-export const prepareFormData = (form) => {
+/**
+ * Prepare form data for Sumit token request
+ * @param {HTMLFormElement} form - The form element
+ * @param {Object} vendorCredentials - Optional vendor credentials for marketplace payments
+ * @param {string} vendorCredentials.companyId - Vendor's Sumit Company ID
+ * @param {string} vendorCredentials.publicKey - Vendor's Sumit Public API Key
+ */
+export const prepareFormData = (form, vendorCredentials = null) => {
   // Validate that all required fields exist
   const fields = {
     cardNumber: form.CreditCardNumber,
@@ -26,8 +33,16 @@ export const prepareFormData = (form) => {
   formData.append('ExpirationYear', fields.expYear.value);
   formData.append('CVV', fields.cvv.value.trim());
   formData.append('CitizenID', fields.citizenId.value.trim());
-  formData.append('Credentials.CompanyID', import.meta.env.VITE_SUMIT_COMPANY_ID);
-  formData.append('Credentials.APIPublicKey', import.meta.env.VITE_SUMIT_PUBLIC_API_KEY);
+  
+  // Use vendor credentials for marketplace payments, otherwise use platform credentials
+  if (vendorCredentials?.companyId && vendorCredentials?.publicKey) {
+    formData.append('Credentials.CompanyID', vendorCredentials.companyId);
+    formData.append('Credentials.APIPublicKey', vendorCredentials.publicKey);
+  } else {
+    formData.append('Credentials.CompanyID', import.meta.env.VITE_SUMIT_COMPANY_ID);
+    formData.append('Credentials.APIPublicKey', import.meta.env.VITE_SUMIT_PUBLIC_API_KEY);
+  }
+  
   formData.append('ResponseLanguage', 'he');
   return formData;
 };

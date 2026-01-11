@@ -4,7 +4,7 @@ export type { default as Item } from './item';
 export type { default as AddOn } from './addOn';
 export type { default as Studio } from './studio';
 export type { default as StudioItem } from './studioItem';
-export type { default as StudioResponse } from './StudioResponse';
+export type { default as StudioResponse, VendorCredentials } from './StudioResponse';
 export type { default as User } from './user';
 export type { default as Wishlist } from './wishlist';
 export type { default as WishlistItem } from './wishlistItem';

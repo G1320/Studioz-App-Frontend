@@ -20,6 +20,11 @@ export interface OrderItem {
 
 export type { SavedCard };
 
+export interface VendorCredentials {
+  companyId: string;
+  publicKey: string;
+}
+
 export interface OrderSummaryProps {
   className?: string;
   studioName?: string;
@@ -29,6 +34,11 @@ export interface OrderSummaryProps {
   items?: OrderItem[];
   totalAmount?: number;
   savedCards?: SavedCard[];
+  /**
+   * Vendor's Sumit credentials for marketplace payments
+   * Required for creating tokens that can be used by the vendor
+   */
+  vendorCredentials?: VendorCredentials;
   /**
    * Called with the Sumit single-use token when payment form is submitted
    * This token should be passed to the booking API
@@ -48,6 +58,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   className = '',
   studioName = '',
   studioLocation = '',
+  vendorCredentials,
   bookingDate = '',
   bookingTime = '',
   items = [],
@@ -96,8 +107,8 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
     setIsProcessing(true);
 
     try {
-      // Get Sumit token from the form
-      const formData = prepareFormData(e.target as HTMLFormElement);
+      // Get Sumit token from the form using vendor's credentials for marketplace payments
+      const formData = prepareFormData(e.target as HTMLFormElement, vendorCredentials);
       const token = await sumitService.getSumitToken(formData);
 
       await onPaymentSubmit?.({
