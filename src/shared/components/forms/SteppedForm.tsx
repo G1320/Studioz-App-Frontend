@@ -454,7 +454,15 @@ export const SteppedForm = ({
     });
 
     return withStepCounter;
-  }, [currentStepFields, formData, handleFieldChange, currentStep.languageToggle, hasOtherLanguageErrors, currentStepIndex, steps.length]);
+  }, [
+    currentStepFields,
+    formData,
+    handleFieldChange,
+    currentStep.languageToggle,
+    hasOtherLanguageErrors,
+    currentStepIndex,
+    steps.length
+  ]);
 
   // Check if current language is RTL (Hebrew)
   const isRTL = i18n.language === 'he';
@@ -483,7 +491,7 @@ export const SteppedForm = ({
   };
 
   const slideTransition = {
-    x: { type: 'tween', duration: 0.3, ease: 'easeInOut' },
+    x: { type: 'spring', stiffness: 450, damping: 60 },
     opacity: { duration: 0.2 }
   };
 
@@ -496,10 +504,7 @@ export const SteppedForm = ({
       <div className="stepped-form__indicators">
         {/* Mobile progress bar */}
         <div className="stepped-form__progress-bar">
-          <div 
-            className="stepped-form__progress-fill" 
-            style={{ width: `${progress}%` }}
-          />
+          <div className="stepped-form__progress-fill" style={{ width: `${progress}%` }} />
         </div>
         <div className="stepped-form__progress-text">
           {t('form.stepCounter', {
@@ -508,7 +513,7 @@ export const SteppedForm = ({
             defaultValue: `Step ${currentStepIndex + 1} of ${steps.length}`
           })}
         </div>
-        
+
         {/* Desktop step indicators */}
         <div className="stepped-form__steps">
           {steps.map((step, index) => {
@@ -570,7 +575,9 @@ export const SteppedForm = ({
               onSubmit={handleSubmit}
               onCategoryChange={onCategoryChange}
               proTip={currentStep.proTip}
-              stepCounter={currentStep.customContent ? { current: currentStepIndex + 1, total: steps.length } : undefined}
+              stepCounter={
+                currentStep.customContent ? { current: currentStepIndex + 1, total: steps.length } : undefined
+              }
               stepIcon={currentStep.icon}
               stepTitle={currentStep.customContent ? currentStep.title : undefined}
               stepSubtitle={currentStep.customContent ? currentStep.description : undefined}

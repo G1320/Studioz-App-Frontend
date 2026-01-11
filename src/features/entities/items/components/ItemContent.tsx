@@ -56,7 +56,7 @@ const slideVariants = {
 };
 
 const slideTransition = {
-  x: { type: 'tween', duration: 0.3, ease: 'easeInOut' },
+  x: { type: 'spring', stiffness: 450, damping: 60 },
   opacity: { duration: 0.2 }
 };
 
