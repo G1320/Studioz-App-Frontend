@@ -131,8 +131,9 @@
         content: '';
         position: absolute;
         left: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
+        // Position from bottom to align with input (not label)
+        bottom: 0.75rem; // Same as input padding-y to center vertically
+        transform: translateY(-25%);
         width: 18px;
         height: 18px;
         background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjAgNEg0QzIuODkgNCAyLjAxIDQuODkgMi4wMSA2TDIgMThDMiAxOS4xMSAyLjg5IDIwIDQgMjBIMjBDMjEuMTEgMjAgMjIgMTkuMTEgMjIgMThWNkMyMiA0Ljg5IDIxLjExIDQgMjAgNFpNMjAgMThINFY2SDIwVjE4Wk01IDEzSDdWMTVINVYxM1pNOCAxM0gxMFYxNUg4VjEzWk0xMSAxM0gxM1YxNUgxMVYxM1oiIGZpbGw9IiM1MjUyNTIiLz48L3N2Zz4=');
