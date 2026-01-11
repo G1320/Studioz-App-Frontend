@@ -2,6 +2,7 @@ import { GenericCarousel } from '@shared/components';
 import { StudioDetails, ContinueToCheckoutButton, ItemCard } from '@features/entities';
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
+import { StudioSchema } from '@shared/components/seo';
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -46,12 +47,20 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
         : 'Studio Services';
   };
 
+  const currentLang = (i18n.language === 'he' ? 'he' : 'en') as 'en' | 'he';
+
   return (
     <section className="details studio-details-page">
+      {/* Rich Schema Markup for SEO */}
+      {currStudio && <StudioSchema studio={currStudio} items={filteredItems} lang={currentLang} />}
+
       <StudioDetails user={user as User} studio={currStudio} />
       {currStudio?.items && currStudio.items.length > 0 && (
         <GenericCarousel
-          title={(() => getStudioServicesDisplayName(currStudio?.name?.[i18n.language === 'he' ? 'he' : 'en'] || currStudio?.name?.en))()}
+          title={(() =>
+            getStudioServicesDisplayName(
+              currStudio?.name?.[i18n.language === 'he' ? 'he' : 'en'] || currStudio?.name?.en
+            ))()}
           data={filteredItems}
           renderItem={(item) => (
             <div onClick={() => handleItemClick(item)} key={item._id}>

@@ -1,7 +1,18 @@
 User-agent: *
 Allow: /
+
+# Private/authenticated pages
 Disallow: /cart
 Disallow: /checkout
+Disallow: /profile
+Disallow: /dashboard
+Disallow: /calendar
 
+# Wildcard for all language prefixes
+Disallow: /*/cart
+Disallow: /*/checkout
+Disallow: /*/profile
+Disallow: /*/dashboard
+Disallow: /*/calendar
 
 Sitemap: https://studioz.co.il/sitemap.xml

@@ -1,0 +1,1 @@
+export { StudioSchema } from './StudioSchema';
