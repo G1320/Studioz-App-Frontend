@@ -1,0 +1,125 @@
+services:
+  - type: web
+    name: studioz-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      # 301 Redirects for old URL structure
+      # English old URLs
+      - type: redirect
+        source: /en/studios/music/music_production
+        destination: /en/studios?subcategory=Music+Production
+      - type: redirect
+        source: /en/studios/music/podcast_recording
+        destination: /en/studios?subcategory=Podcast+Recording
+      - type: redirect
+        source: /en/studios/music/vocal_instrument_recording
+        destination: /en/studios?subcategory=Vocal+%26+Instrument+Recording
+      - type: redirect
+        source: /en/studios/music/film_post_production
+        destination: /en/studios?subcategory=Film+%26+Post+Production
+      - type: redirect
+        source: /en/studios/music/voiceover_dubbing
+        destination: /en/studios?subcategory=Voiceover+%26+Dubbing
+      - type: redirect
+        source: /en/studios/music/mixing
+        destination: /en/studios?subcategory=Mixing
+      - type: redirect
+        source: /en/studios/music/mastering
+        destination: /en/studios?subcategory=Mastering
+      - type: redirect
+        source: /en/studios/music/sound_design
+        destination: /en/studios?subcategory=Sound+Design
+      - type: redirect
+        source: /en/studios/music/band_rehearsal
+        destination: /en/studios?subcategory=Band+rehearsal
+      - type: redirect
+        source: /en/studios/music/studio_rental
+        destination: /en/studios?subcategory=Studio+Rental
+      - type: redirect
+        source: /en/studios/music/foley_sound_effects
+        destination: /en/studios?subcategory=Foley+%26+Sound+Effects
+      - type: redirect
+        source: /en/studios/music/workshops_classes
+        destination: /en/studios?subcategory=Workshops+%26+Classes
+      - type: redirect
+        source: /en/studios/music/remote_production_services
+        destination: /en/studios?subcategory=Remote+Production+Services
+      - type: redirect
+        source: /en/studios/music/restoration_archiving
+        destination: /en/studios?subcategory=Restoration+%26+Archiving
+
+      # Hebrew old URLs
+      - type: redirect
+        source: /he/studios/music/music_production
+        destination: /he/studios?subcategory=Music+Production
+      - type: redirect
+        source: /he/studios/music/podcast_recording
+        destination: /he/studios?subcategory=Podcast+Recording
+      - type: redirect
+        source: /he/studios/music/vocal_instrument_recording
+        destination: /he/studios?subcategory=Vocal+%26+Instrument+Recording
+      - type: redirect
+        source: /he/studios/music/film_post_production
+        destination: /he/studios?subcategory=Film+%26+Post+Production
+      - type: redirect
+        source: /he/studios/music/voiceover_dubbing
+        destination: /he/studios?subcategory=Voiceover+%26+Dubbing
+      - type: redirect
+        source: /he/studios/music/mixing
+        destination: /he/studios?subcategory=Mixing
+      - type: redirect
+        source: /he/studios/music/mastering
+        destination: /he/studios?subcategory=Mastering
+      - type: redirect
+        source: /he/studios/music/sound_design
+        destination: /he/studios?subcategory=Sound+Design
+      - type: redirect
+        source: /he/studios/music/band_rehearsal
+        destination: /he/studios?subcategory=Band+rehearsal
+      - type: redirect
+        source: /he/studios/music/studio_rental
+        destination: /he/studios?subcategory=Studio+Rental
+      - type: redirect
+        source: /he/studios/music/foley_sound_effects
+        destination: /he/studios?subcategory=Foley+%26+Sound+Effects
+      - type: redirect
+        source: /he/studios/music/workshops_classes
+        destination: /he/studios?subcategory=Workshops+%26+Classes
+      - type: redirect
+        source: /he/studios/music/remote_production_services
+        destination: /he/studios?subcategory=Remote+Production+Services
+      - type: redirect
+        source: /he/studios/music/restoration_archiving
+        destination: /he/studios?subcategory=Restoration+%26+Archiving
+
+      # Old /services/ URLs
+      - type: redirect
+        source: /services/music/music_production
+        destination: /en/studios?subcategory=Music+Production
+      - type: redirect
+        source: /services/music/podcast_recording
+        destination: /en/studios?subcategory=Podcast+Recording
+      - type: redirect
+        source: /services/music/mixing
+        destination: /en/studios?subcategory=Mixing
+      - type: redirect
+        source: /services/music/mastering
+        destination: /en/studios?subcategory=Mastering
+      - type: redirect
+        source: /services/music/*
+        destination: /en/studios
+
+      # Catch-all for other old /studios/music/ paths
+      - type: redirect
+        source: /en/studios/music/*
+        destination: /en/studios
+      - type: redirect
+        source: /he/studios/music/*
+        destination: /he/studios
+
+      # SPA rewrite - all other routes serve index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
