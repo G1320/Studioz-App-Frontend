@@ -140,6 +140,8 @@
     "popular": "Popular",
     "new": "New"
   },
+  "unavailable": "Unavailable",
+  "currentlyUnavailable": "Currently unavailable",
   "toasts": {
     "success": {
       "itemUpdated": "Item updated successfully",

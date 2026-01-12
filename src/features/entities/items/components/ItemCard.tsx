@@ -67,18 +67,29 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   };
 
   const titleText = item?.name?.[currentLang] || item?.name?.en || '';
+  const isUnavailable = item?.active === false;
 
   return (
     <article
       onMouseEnter={prefetchItem}
       key={item?._id}
-      className={`card item-card ${isLoading ? 'item-card--loading' : ''}`}
+      className={`card item-card ${isLoading ? 'item-card--loading' : ''} ${isUnavailable ? 'item-card--unavailable' : ''}`}
     >
       {isLoading && (
         <div className="item-card__loading-overlay">
           <div className="item-card__spinner" />
         </div>
       )}
+      
+      {/* Unavailable overlay - Wolt style */}
+      {isUnavailable && (
+        <div className="item-card__unavailable-overlay">
+          <span className="item-card__unavailable-badge">
+            {t('common:unavailable', 'Unavailable')}
+          </span>
+        </div>
+      )}
+      
       <div className="item-card-name-and-description">
         <h3 className="title">{titleText}</h3>
         <p className="description">{item?.description[currentLang] || item?.description.en}</p>

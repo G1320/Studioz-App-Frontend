@@ -140,6 +140,8 @@
     "popular": "פופולרי",
     "new": "חדש"
   },
+  "unavailable": "לא זמין",
+  "currentlyUnavailable": "לא זמין כרגע",
   "toasts": {
     "success": {
       "itemUpdated": "הפריט עודכן בהצלחה",

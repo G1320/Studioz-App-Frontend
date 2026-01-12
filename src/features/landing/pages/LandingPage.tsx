@@ -13,6 +13,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import FlashOnIcon from '@mui/icons-material/FlashOn';
 
 /**
  * Animation variants for Framer Motion
@@ -410,7 +411,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
 
               {/* Floating Badge */}
               <div className="landing-booking-preview__badge">
-                <div className="landing-booking-preview__badge-dot" />
+                <FlashOnIcon className="landing-booking-preview__badge-icon" />
                 <span className="landing-booking-preview__badge-text">
                   {t('booking_process.instant_badge', 'Available for instant booking')}
                 </span>

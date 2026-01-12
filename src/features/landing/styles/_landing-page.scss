@@ -717,19 +717,27 @@ $landing-muted: rgba(255, 255, 255, 0.6);
     }
   }
 
-  &__badge-dot {
-    width: 0.75rem;
-    height: 0.75rem;
-    background: #22c55e;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  &__badge-icon {
+    width: 1.125rem !important;
+    height: 1.125rem !important;
+    color: vars.$color-brand;
+    filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.6));
+    animation: instant-book-glow 2s ease-in-out infinite;
   }
 
   &__badge-text {
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.9375rem;
     font-weight: 600;
+  }
+}
+
+@keyframes instant-book-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(255, 209, 102, 0.8));
   }
 }
 

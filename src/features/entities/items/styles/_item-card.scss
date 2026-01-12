@@ -48,6 +48,65 @@
     animation: item-card-spin 0.6s linear infinite;
   }
 
+  // Unavailable/Disabled state - Wolt style
+  &--unavailable {
+    cursor: not-allowed;
+    
+    // Dim all content
+    .item-card-name-and-description,
+    .item-features {
+      opacity: 0.45;
+      filter: grayscale(0.6);
+    }
+
+    h3.title {
+      color: vars.$zinc-500;
+    }
+
+    p.description {
+      color: vars.$zinc-600;
+    }
+
+    small.item-price {
+      color: vars.$zinc-500;
+    }
+
+    // Disable interactions
+    &:hover {
+      transform: none;
+      border-color: vars.$white-opacity-05;
+    }
+  }
+
+  &__unavailable-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+    border-radius: 8px;
+    z-index: 5;
+    backdrop-filter: blur(1px);
+  }
+
+  &__unavailable-badge {
+    background: rgba(0, 0, 0, 0.85);
+    color: vars.$zinc-300;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid vars.$zinc-700;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
   .item-card-name-and-description {
     text-align: start;
     justify-self: start;
