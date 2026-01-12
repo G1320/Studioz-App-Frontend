@@ -72,16 +72,12 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
               <div className={`saved-cards__checkbox ${selectedCardId === card.id ? 'selected' : ''}`}>
                 {selectedCardId === card.id && <CheckIcon />}
               </div>
-              
+
               {/* Optional: Remove button functionality if needed in the list item */}
             </button>
           ))}
 
-          <button
-            type="button"
-            className="saved-cards__add-btn-outline"
-            onClick={() => onPaymentMethodChange('new')}
-          >
+          <button type="button" className="saved-cards__add-btn-outline" onClick={() => onPaymentMethodChange('new')}>
             <AddIcon />
             {t('addNewCard', 'הוסף כרטיס חדש')}
           </button>
@@ -94,11 +90,7 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
           <span className="saved-cards__empty-subtitle">
             {t('noSavedCardsHint', 'הוסף את אמצעי התשלום הראשון שלך כדי להתחיל')}
           </span>
-          <button
-            type="button"
-            className="saved-cards__add-btn-primary"
-            onClick={() => onPaymentMethodChange('new')}
-          >
+          <button type="button" className="saved-cards__add-btn-primary" onClick={() => onPaymentMethodChange('new')}>
             {t('addCard', 'הוסף כרטיס')} <AddIcon />
           </button>
         </div>
