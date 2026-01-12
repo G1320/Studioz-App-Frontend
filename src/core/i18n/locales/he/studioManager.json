@@ -21,6 +21,8 @@
   },
   "studioActive": "סטודיו פעיל",
   "studioOff": "סטודיו כבוי",
+  "available": "זמין",
+  "notAvailable": "לא זמין",
   "editStudio": "ערוך פרטי סטודיו",
   "calendar": "יומן",
   "settings": "הגדרות",

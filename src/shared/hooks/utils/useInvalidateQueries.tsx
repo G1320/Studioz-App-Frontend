@@ -14,7 +14,8 @@ export const useInvalidateQueries = <T,>(getQueries: (params?: T) => QueryConfig
       if (targetId) {
         queryClient.invalidateQueries({ queryKey: [queryKey, targetId] });
       } else {
-        queryClient.invalidateQueries({ queryKey: [queryKey, {}] });
+        // Use just the queryKey without empty object to match queries like ['studios']
+        queryClient.invalidateQueries({ queryKey: [queryKey] });
       }
     });
   };

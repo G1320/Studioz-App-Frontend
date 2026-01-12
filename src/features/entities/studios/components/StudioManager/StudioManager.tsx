@@ -171,7 +171,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
         <div className="studio-card__controls">
           <div className="studio-card__toggle-section">
             <span className={`studio-card__toggle-label ${isActive ? 'studio-card__toggle-label--active' : ''}`}>
-              {isActive ? t('studioActive', 'סטודיו פעיל') : t('studioOff', 'סטודיו כבוי')}
+              {isActive ? t('available', 'זמין') : t('notAvailable', 'לא זמין')}
             </span>
             <Toggle 
               checked={isActive} 
@@ -260,7 +260,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
 
                     <div className="studio-card__item-toggle-group">
                       <span className="studio-card__item-toggle-label">
-                        {itemActive ? 'ON' : 'OFF'}
+                        {itemActive ? t('available', 'זמין') : t('notAvailable', 'לא זמין')}
                       </span>
                       <Toggle 
                         checked={itemActive} 

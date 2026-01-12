@@ -21,6 +21,8 @@
   },
   "studioActive": "Studio Active",
   "studioOff": "Studio Off",
+  "available": "Available",
+  "notAvailable": "Not Available",
   "editStudio": "Edit Studio Details",
   "calendar": "Calendar",
   "settings": "Settings",
