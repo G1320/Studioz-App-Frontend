@@ -145,8 +145,21 @@ export const MuiDateTimePicker = ({
       const studioTimes = studioAvailability?.times[dayIndex]; // Get the times for the specific day
       if (studioTimes) {
         const startHour = dayjs(studioTimes.start, 'HH:mm').hour();
-        const endHour = dayjs(studioTimes.end, 'HH:mm').hour();
-        if (timeValue.hour() < startHour || timeValue.hour() >= endHour) return true;
+        const endTime = studioTimes.end;
+
+        // For 23:59, treat as 24:00 (allow 23:00 slot)
+        const endHour = endTime === '23:59' ? 24 : dayjs(endTime, 'HH:mm').hour();
+
+        const currentHour = timeValue.hour();
+
+        // Handle wraparound hours (e.g., 17:00 - 06:00)
+        if (startHour > endHour) {
+          // For overnight ranges, time is valid if it's >= startHour OR < endHour
+          if (currentHour < startHour && currentHour >= endHour) return true;
+        } else {
+          // Normal range: time must be >= startHour AND < endHour
+          if (currentHour < startHour || currentHour >= endHour) return true;
+        }
       }
 
       const selectedDate = timeValue.format('DD/MM/YYYY');

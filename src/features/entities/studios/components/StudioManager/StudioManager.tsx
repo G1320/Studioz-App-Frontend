@@ -197,8 +197,12 @@ const StudioCard: React.FC<StudioCardProps> = ({
             >
               <CalendarMonthIcon />
             </button>
-            <button className="studio-card__action-btn" title={t('settings', 'הגדרות')}>
-              <SettingsIcon />
+            <button 
+              className="studio-card__action-btn" 
+              title={t('addNewService', 'הוסף שירות חדש')}
+              onClick={() => onAddItem?.(studio._id)}
+            >
+              <AddIcon />
             </button>
           </div>
         </div>

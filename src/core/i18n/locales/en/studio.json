@@ -1,6 +1,10 @@
 {
   "block_time": "Block Studio Time",
   "block_time_slot": "Block Time Slot",
+  "block_day": "Block Day",
+  "block_entire_day": "Block Entire Day",
+  "select_date": "Select date",
+  "will_block_hours": "Will block {{hours}} hours ({{start}} - {{end}})",
   "add_service": "Add Service",
   "edit_studio": "Edit Studio",
   "block_reason": "Reason for blocking (optional)",
@@ -13,7 +17,8 @@
     "block_failed": "Failed to block studio time slots"
   },
   "success": {
-    "blocked_successfully": "Studio time slots blocked successfully"
+    "blocked_successfully": "Studio time slots blocked successfully",
+    "day_blocked_successfully": "Entire day blocked successfully"
   }
 }
 

@@ -495,9 +495,8 @@ $sm-text-placeholder: #52525b; // zinc-600
 
 .studio-card__toggle-section {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: vars.$spacing-xs;
+  align-items: center;
+  gap: vars.$spacing-medium;
 }
 
 .studio-card__toggle-label {
@@ -579,7 +578,7 @@ $sm-text-placeholder: #52525b; // zinc-600
   justify-content: space-between;
   border-bottom: 1px solid $sm-border-subtle;
   transition: background 0.2s ease;
-
+  gap: vars.$spacing-medium;
   &:last-child {
     border-bottom: none;
   }

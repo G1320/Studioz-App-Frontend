@@ -1,6 +1,10 @@
 {
   "block_time": "חסום זמן באולפן",
   "block_time_slot": "חסום זמן אולפן ",
+  "block_day": "חסום יום",
+  "block_entire_day": "חסום יום שלם",
+  "select_date": "בחר תאריך",
+  "will_block_hours": "יחסום {{hours}} שעות ({{start}} - {{end}})",
   "add_service": "הוסף שירות",
   "edit_studio": "ערוך אולפן",
   "block_reason": "סיבה לחסימה (אופציונלי)",
@@ -13,6 +17,7 @@
     "block_failed": "נכשל בחסימת משכי הזמן באולפן"
   },
   "success": {
-    "blocked_successfully": "משכי הזמן באולפן נחסמו בהצלחה"
+    "blocked_successfully": "משכי הזמן באולפן נחסמו בהצלחה",
+    "day_blocked_successfully": "היום נחסם בהצלחה"
   }
 }
