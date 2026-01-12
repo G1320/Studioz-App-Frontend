@@ -5,7 +5,6 @@ import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -95,18 +94,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
-            {user?.subscriptionStatus === 'ACTIVE' && (
-              <>
-                <button className="menu-dropdown__item" onClick={() => handleNavigate('/calendar')}>
-                  <CalendarTodayIcon className="menu-dropdown__icon" />
-                  <span>{t('profile.sellerAccount.buttons.calendar')}</span>
-                </button>
-                <button className="menu-dropdown__item" onClick={() => handleNavigate('/my-subscription')}>
-                  <CardMembershipIcon className="menu-dropdown__icon" />
-                  <span>{t('profile.sellerAccount.buttons.mySubscriptions')}</span>
-                </button>
-              </>
-            )}
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/how-it-works')}>
+              <PlayCircleOutlineIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.howItWorks')}</span>
+            </button>
           </>
         )}
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/subscription')}>
