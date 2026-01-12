@@ -16,10 +16,11 @@
   min-height: 35rem; // Ensure modal always reserves space for image (19rem at max width) + content
   max-width: 35rem;
   width: 100%;
-  background: vars.$card-bg-color;
+  background: #111111; // Match StudioManager surface color
   place-self: center;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px vars.$black-opacity-10;
+  border-radius: vars.$border-radius-2xl;
+  border: 1px solid rgba(39, 39, 42, 0.5); // Match StudioManager border
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 0.5rem;
   overflow: auto;
   position: relative;
@@ -31,6 +32,7 @@
   // Prevent layout shifts during animation
   contain: layout style;
   will-change: transform, opacity;
+  transition: border-color 0.3s ease;
 
   .close-button {
     position: absolute;

@@ -51,7 +51,7 @@
   // Unavailable/Disabled state - Wolt style
   &--unavailable {
     cursor: not-allowed;
-    
+
     // Dim all content
     .item-card-name-and-description,
     .item-features {
@@ -84,11 +84,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.35) 100%
-    );
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.35) 100%);
     border-radius: 8px;
     z-index: 5;
     backdrop-filter: blur(1px);

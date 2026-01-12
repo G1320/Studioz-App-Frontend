@@ -48,6 +48,45 @@
       }
     }
 
+    // Block entire day checkbox
+    .block-entire-day-checkbox {
+      margin: 0;
+      align-self: flex-start;
+
+      .MuiFormControlLabel-label {
+        font-size: 1rem;
+        color: vars.$color-text-light-gray;
+      }
+    }
+
+    // Info text for entire day blocking
+    .entire-day-info {
+      font-size: 0.875rem;
+      color: vars.$white-opacity-70;
+      padding: 0.75rem 1rem;
+      background-color: vars.$white-opacity-05;
+      border-radius: vars.$border-radius-medium;
+      border: 1px solid vars.$white-opacity-10;
+      text-align: start;
+    }
+
+    // Date picker container alignment
+    .date-picker-container {
+      width: 100%;
+      
+      .MuiFormControl-root {
+        text-align: start;
+      }
+
+      .MuiInputBase-root {
+        text-align: start;
+      }
+
+      input {
+        text-align: start !important;
+      }
+    }
+
     .hour-selection-container {
       display: flex;
       align-items: center;
@@ -141,9 +180,11 @@
       font-size: 1rem;
       font-family: inherit;
       transition: all 0.2s ease;
+      text-align: start;
 
       &::placeholder {
         color: vars.$white-opacity-50;
+        text-align: start;
       }
 
       &:focus {
