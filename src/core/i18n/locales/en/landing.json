@@ -1,10 +1,10 @@
 {
   "hero": {
-    "title_part1": "Create Your",
-    "title_accent": "Masterpiece",
-    "description": "Discover and book the perfect recording and podcast studios across Israel. Professional spaces for professional creators.",
+    "title_part1": "Book your next",
+    "title_accent": "session",
+    "description": "Pick from vetted studios, compare gear, and lock in the time you need.",
     "category_placeholder": "What are you looking for?",
-    "city_placeholder": "Select a city",
+    "city_placeholder": "Choose a city",
     "search_btn": "Search"
   },
   "categories": {
@@ -26,21 +26,21 @@
   },
   "booking_process": {
     "title": "Booking Made Simple",
-    "subtitle": "From discovery to confirmation in just a few clicks.",
-    "step1": "Select your date and time",
-    "step2": "Review studio details",
-    "step3": "Secure your slot instantly",
+    "subtitle": "Plan, book, and show up with ease.",
+    "step1": "Pick studio",
+    "step2": "Check out gear, extras, and rules",
+    "step3": "Reserve your session in your requested time",
     "instant_badge": "Available for instant booking",
     "learn_more": "Learn How It Works"
   },
   "value_props": {
     "verified": {
-      "title": "Verified Quality",
-      "description": "Every studio is vetted to ensure professional standards and high-quality equipment."
+      "title": "Verified setups",
+      "description": "Each studio passes a strict verification process that lists gear, rooms, and team."
     },
     "instant": {
-      "title": "Instant Booking",
-      "description": "See real-time availability and book your session instantly without the back-and-forth."
+      "title": "Live availability",
+      "description": "See real-time availability and book your session instantly. Tap a slot, pay, and confirm in seconds."
     },
     "community": {
       "title": "Community First",
@@ -48,8 +48,8 @@
     }
   },
   "cta": {
-    "title": "Ready to create?",
-    "description": "Join the best network of studios in Israel. Whether you're recording a hit song or your next podcast episode.",
+    "title": "Ready to get started?",
+    "description": "Plug into Israel's best studio network and get your ideas into motion.",
     "find_studio": "Find a Studio",
     "list_space": "List Your Space"
   },

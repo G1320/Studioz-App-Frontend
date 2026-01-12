@@ -1,10 +1,10 @@
 {
   "hero": {
-    "title_part1": "Turn your studio into a",
-    "title_accent": "thriving business",
-    "description": "Manage bookings, sync calendars, and accept payments—all in one place. The professional platform for Israel's creative spaces.",
-    "cta_primary": "Start for Free",
-    "cta_secondary": "View Demo"
+    "title_part1": "Turn your studio into",
+    "title_accent": "a packed calendar",
+    "description": "Own the schedule, accept payments, and stay busy without chasing clients.",
+    "cta_primary": "Start free today",
+    "cta_secondary": "Watch a quick demo"
   },
   "stats": {
     "active_studios": "Active Studios",
@@ -13,8 +13,8 @@
     "cities": "Cities"
   },
   "dashboard": {
-    "title": "Centralized Management",
-    "description": "Everything you need to run your studio in one dashboard. From bookings to payments, we've got you covered.",
+    "title": "Centralized control",
+    "description": "One dashboard for bookings, billing, and studio notes. Every item stays visible.",
     "event1_title": "Podcast Booking",
     "event1_time": "14:00 - 16:00",
     "event2_title": "Photo Shoot",
@@ -24,34 +24,34 @@
     "title": "Built for Studio Owners",
     "subtitle": "Professional tools designed to help you save time and increase bookings.",
     "booking": {
-      "title": "Advanced Booking System",
-      "description": "Real-time availability management prevents double bookings. Set business hours, custom rules, buffer times, and minimum or maximum booking durations."
+      "title": "Advanced booking engine",
+      "description": "Live availability blocks double bookings. Define hours, rules, buffers, and booking lengths."
     },
     "calendar": {
-      "title": "Google Calendar Sync",
-      "description": "Automatically sync your Studioz bookings with your personal Google Calendar. Never miss a session or get double-booked."
+      "title": "Google Calendar sync",
+      "description": "Mirror every Studioz booking inside your Google calendar to avoid overlaps."
     },
     "page": {
-      "title": "Beautiful Studio Page",
-      "description": "Get a stunning, SEO-optimized profile page to showcase your gear, portfolio, photos, and amenities. Share it directly with clients."
+      "title": "Studio page that converts",
+      "description": "Publish a sharp, SEO-ready profile that highlights gear, looks, and perks. Share a direct booking link."
     },
     "exposure": {
-      "title": "Maximum Exposure",
-      "description": "Get discovered by musicians, podcasters, and photographers looking for spaces in your area."
+      "title": "Maximum exposure",
+      "description": "Show up when musicians, podcasters, and creators search for spaces nearby."
     },
     "crm": {
-      "title": "Reservation Management",
-      "description": "Keep track of all client details, special requests, and booking history in one secure, organized system."
+      "title": "Reservation management",
+      "description": "Log client details, requests, and booking history inside a secure workspace."
     },
     "payments": {
-      "title": "Secure Payments",
-      "description": "Process payments securely. Clients pre-pay for bookings, reducing cancellations and no-shows."
+      "title": "Secure payments",
+      "description": "Capture payments before the session so cancellations stay low."
     }
   },
   "studio_preview": {
     "title_part1": "Your studio,",
     "title_accent": "beautifully presented",
-    "description": "Stand out from the competition with a professional listing that highlights your equipment, amenities, and unique vibe.",
+    "description": "Stand out with a professional listing that highlights gear, amenities, and your vibe.",
     "feature1": "High-resolution image gallery",
     "feature2": "Detailed gear & equipment list",
     "feature3": "Interactive location map",
@@ -60,10 +60,10 @@
     "cta": "See example page"
   },
   "cta": {
-    "title": "Ready to get started?",
-    "description": "Join our growing community of studio owners who trust Studioz to manage and grow their business.",
+    "title": "Ready to grow?",
+    "description": "Join a growing list of studio owners who trust Studioz to keep their spaces full and organized.",
     "button": "List Your Studio Now",
-    "note": "No credit card required for signup • Cancel anytime"
+    "note": "No credit card required • Cancel anytime"
   },
   "footer": {
     "terms": "Terms",
