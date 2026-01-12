@@ -88,6 +88,10 @@
     "isWheelchairAccessible": {
       "label": "Wheelchair Accessible"
     },
+    "is24Hours": {
+      "label": "24 Hours",
+      "helperText": "Studio is available 24 hours a day"
+    },
     "parking": {
       "label": "Parking & Access",
       "question": "What's the parking situation like?",

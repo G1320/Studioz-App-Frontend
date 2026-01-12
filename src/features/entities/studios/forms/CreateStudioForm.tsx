@@ -51,6 +51,7 @@ interface StudioFormData {
   amenities?: string[];
   equipment?: EquipmentCategory[];
   studioAvailability?: StudioAvailability;
+  is24Hours?: boolean;
   website?: string;
   parking?: 'private' | 'street' | 'paid' | 'none';
   languageToggle?: string;
@@ -110,6 +111,7 @@ export const CreateStudioForm = () => {
     selectedAmenities?: string[];
     equipmentList?: Record<string, string>;
     selectedParking?: 'private' | 'street' | 'paid' | 'none';
+    is24Hours?: boolean;
   }>(FORM_ID);
 
   // States for form fields - initialize from saved state if available
@@ -132,6 +134,7 @@ export const CreateStudioForm = () => {
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     savedState?.selectedParking || 'street'
   );
+  const [is24Hours, setIs24Hours] = useState<boolean>(savedState?.is24Hours || false);
 
   // Policies State
   const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>({});
@@ -261,7 +264,8 @@ export const CreateStudioForm = () => {
       closingHour,
       selectedAmenities,
       equipmentList,
-      selectedParking
+      selectedParking,
+      is24Hours
     }),
     [
       selectedCategories,
@@ -274,7 +278,8 @@ export const CreateStudioForm = () => {
       closingHour,
       selectedAmenities,
       equipmentList,
-      selectedParking
+      selectedParking,
+      is24Hours
     ]
   );
 
@@ -431,7 +436,7 @@ export const CreateStudioForm = () => {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
-        fieldNames: ['availabilityHeader', 'studioAvailability'],
+        fieldNames: ['availabilityHeader', 'is24Hours', 'studioAvailability'],
         schema: studioStepSchemas.availability,
         icon: ScheduleIcon
       },
@@ -587,6 +592,14 @@ export const CreateStudioForm = () => {
       icon: ScheduleIcon
     },
     {
+      name: 'is24Hours',
+      label: t('form.is24Hours.label', { defaultValue: '24 Hours' }),
+      type: 'checkbox' as FieldType,
+      value: is24Hours,
+      onChange: setIs24Hours,
+      helperText: t('form.is24Hours.helperText', { defaultValue: 'Studio is available 24 hours a day' })
+    },
+    {
       name: 'studioAvailability',
       type: 'businessHours' as const,
       label: t('form.studioAvailability.label'),
@@ -731,6 +744,7 @@ export const CreateStudioForm = () => {
       .filter(([, items]) => items.trim().length > 0)
       .map(([category, items]) => ({ category, items }));
     formData.parking = selectedParking;
+    formData.is24Hours = is24Hours;
 
     // Add cancellation policy (only include if type is selected)
     if (cancellationPolicy.type) {

@@ -88,6 +88,10 @@
     "isWheelchairAccessible": {
       "label": "נגישות לכיסא גלגלים"
     },
+    "is24Hours": {
+      "label": "24 שעות",
+      "helperText": "הסטודיו זמין 24 שעות ביממה"
+    },
     "parking": {
       "label": "חניה וגישה",
       "question": "מה מצב החנייה אצלכם?",

@@ -88,6 +88,7 @@ export default interface Studio {
   isFeatured?: boolean;
   items: StudioItem[];
   studioAvailability?: StudioAvailability;
+  is24Hours?: boolean;
   portfolio?: PortfolioItem[];
   socialLinks?: SocialLinks;
   // Payment capability - set by backend based on owner's subscription & Sumit setup

@@ -42,6 +42,7 @@ interface StudioFormData {
   amenities?: string[];
   equipment?: EquipmentCategory[];
   studioAvailability?: StudioAvailability;
+  is24Hours?: boolean;
   lat?: number | string;
   lng?: number | string;
   city?: string;
@@ -118,6 +119,7 @@ export const EditStudioForm = () => {
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     (studio?.parking as 'private' | 'street' | 'paid' | 'none') || 'street'
   );
+  const [is24Hours, setIs24Hours] = useState<boolean>(studio?.is24Hours || false);
 
   // Policies State
   const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>(
@@ -341,7 +343,7 @@ export const EditStudioForm = () => {
         id: 'availability',
         title: t('form.steps.availability') || 'Availability',
         description: t('form.steps.availabilityDesc') || 'Set your studio hours',
-        fieldNames: ['availabilityHeader', 'studioAvailability'],
+        fieldNames: ['availabilityHeader', 'is24Hours', 'studioAvailability'],
         schema: studioStepSchemasEdit.availability
       },
       {
@@ -498,6 +500,14 @@ export const EditStudioForm = () => {
       icon: ScheduleIcon
     },
     {
+      name: 'is24Hours',
+      label: t('form.is24Hours.label', { defaultValue: '24 Hours' }),
+      type: 'checkbox' as FieldType,
+      value: is24Hours,
+      onChange: setIs24Hours,
+      helperText: t('form.is24Hours.helperText', { defaultValue: 'Studio is available 24 hours a day' })
+    },
+    {
       name: 'studioAvailability',
       type: 'businessHours' as const,
       label: t('form.studioAvailability.label'),
@@ -637,6 +647,7 @@ export const EditStudioForm = () => {
     };
 
     formData.amenities = selectedAmenities.length > 0 ? selectedAmenities : studio?.amenities || [];
+    formData.is24Hours = is24Hours;
     // Convert categorized equipment to EquipmentCategory[] format
     const equipmentCategories = Object.entries(equipmentList)
       .filter(([, items]) => items.trim().length > 0)
