@@ -69,36 +69,19 @@ export const MuiDateTimePicker = ({
   useEffect(() => {
     if (isOpen) {
       const scrollToInitialTime = () => {
-        // Find all time items and look for 12:00
-        const items = document.querySelectorAll('.MuiDigitalClock-item');
-
-        if (items.length === 0) return;
-
-        const targetHour = Array.from(items).find((item) => {
-          return item.textContent?.trim() === '12:00';
-        }) as HTMLElement;
-
-        if (targetHour) {
-          // Get the scrollable parent (the ul list)
-          const list = targetHour.closest('.MuiDigitalClock-list') as HTMLElement;
-
-          if (list) {
-            const itemTop = targetHour.offsetTop;
-            const listHeight = list.clientHeight;
-            const itemHeight = targetHour.offsetHeight;
-            const scrollPosition = itemTop - listHeight / 2 + itemHeight / 2;
-
-            // Smooth scroll to center the item
-            list.scrollTo({
-              top: Math.max(0, scrollPosition),
-              behavior: 'smooth'
-            });
-          }
+        // With CSS reordering, 06:00 is now at the top of the list
+        // Just scroll to top to show 06:00 first
+        const list = document.querySelector('.MuiDigitalClock-list') as HTMLElement;
+        if (list) {
+          list.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
         }
       };
 
       // MUI picker needs time to fully render
-      const timers = [100, 250, 500, 750, 1000].map((delay) => setTimeout(scrollToInitialTime, delay));
+      const timers = [100, 250].map((delay) => setTimeout(scrollToInitialTime, delay));
 
       return () => timers.forEach(clearTimeout);
     }

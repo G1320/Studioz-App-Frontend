@@ -341,6 +341,40 @@ $picker-hover: rgba(39, 39, 42, 1); // zinc-800
     background-color: $picker-bg-deep !important;
     padding-top: 0;
     overflow-y: auto !important; // Ensure scrolling works
+    
+    // Enable flexbox for reordering hours to start from 06:00
+    display: flex !important;
+    flex-direction: column;
+    
+    // Reorder hours: 06:00 first, wrapping around to 05:00 last
+    // Formula: order = (hour - 6 + 24) % 24
+    // nth-child is 1-indexed, so nth-child(1) = 00:00, nth-child(7) = 06:00, etc.
+    .MuiDigitalClock-item {
+      &:nth-child(1) { order: 18; }  // 00:00
+      &:nth-child(2) { order: 19; }  // 01:00
+      &:nth-child(3) { order: 20; }  // 02:00
+      &:nth-child(4) { order: 21; }  // 03:00
+      &:nth-child(5) { order: 22; }  // 04:00
+      &:nth-child(6) { order: 23; }  // 05:00
+      &:nth-child(7) { order: 0; }   // 06:00 (first)
+      &:nth-child(8) { order: 1; }   // 07:00
+      &:nth-child(9) { order: 2; }   // 08:00
+      &:nth-child(10) { order: 3; }  // 09:00
+      &:nth-child(11) { order: 4; }  // 10:00
+      &:nth-child(12) { order: 5; }  // 11:00
+      &:nth-child(13) { order: 6; }  // 12:00
+      &:nth-child(14) { order: 7; }  // 13:00
+      &:nth-child(15) { order: 8; }  // 14:00
+      &:nth-child(16) { order: 9; }  // 15:00
+      &:nth-child(17) { order: 10; } // 16:00
+      &:nth-child(18) { order: 11; } // 17:00
+      &:nth-child(19) { order: 12; } // 18:00
+      &:nth-child(20) { order: 13; } // 19:00
+      &:nth-child(21) { order: 14; } // 20:00
+      &:nth-child(22) { order: 15; } // 21:00
+      &:nth-child(23) { order: 16; } // 22:00
+      &:nth-child(24) { order: 17; } // 23:00
+    }
   }
 
   .MuiDigitalClock-item {
