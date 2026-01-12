@@ -119,6 +119,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     }
   }, [minHours]);
 
+  // Clear selections when modal closes or item changes
+  useEffect(() => {
+    return () => {
+      // Cleanup function runs when component unmounts (modal closes)
+      setSelectedDate(null);
+      setSelectedQuantity(1);
+      setComment('');
+      setSelectedAddOnIds([]);
+      setShowPaymentStep(false);
+      setPendingBookingItem(null);
+      setPaymentError('');
+    };
+  }, [itemId]); // Re-run cleanup when itemId changes
+
   // Reset quantity to minimum when date changes, and clamp to valid range
   useEffect(() => {
     if (selectedDate && minHours) {
@@ -265,9 +279,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             setShowPaymentStep(false);
             setPendingBookingItem(null);
             setPaymentError('');
-            setTimeout(() => {
-              setSelectedDate(null);
-            }, 250);
+            // Don't clear selections here - preserve them for user convenience
           },
           onError: (error: any) => {
             setPaymentError(error.message || t('toasts.error.bookingFailed', 'Booking failed'));
