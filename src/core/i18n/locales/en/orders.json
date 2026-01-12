@@ -12,6 +12,7 @@
   "newCard": "New Card",
   "expires": "Expires",
   "removeSelectedCard": "Remove Selected Card",
+  "removeCard": "Remove Card",
   "noSavedCards": "No Saved Cards",
   "noSavedCardsHint": "Add a new card to pay",
   "addNewCard": "Add Card",

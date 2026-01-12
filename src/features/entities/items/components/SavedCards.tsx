@@ -21,6 +21,8 @@ export interface SavedCardsProps {
   paymentMethod: 'saved' | 'new';
   onPaymentMethodChange: (method: 'saved' | 'new') => void;
   children?: React.ReactNode; // For the new card form
+  /** Whether to show the remove card button (default: false) */
+  showRemoveButton?: boolean;
 }
 
 export const SavedCards: React.FC<SavedCardsProps> = ({
@@ -30,7 +32,8 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
   onRemoveCard,
   paymentMethod,
   onPaymentMethodChange,
-  children
+  children,
+  showRemoveButton = false
 }) => {
   const { t } = useTranslation('orders');
 
@@ -73,7 +76,19 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
                 {selectedCardId === card.id && <CheckIcon />}
               </div>
 
-              {/* Optional: Remove button functionality if needed in the list item */}
+              {showRemoveButton && onRemoveCard && (
+                <button
+                  type="button"
+                  className="saved-cards__remove-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveCard(card.id);
+                  }}
+                  aria-label={t('removeCard', 'הסר כרטיס')}
+                >
+                  <DeleteIcon />
+                </button>
+              )}
             </button>
           ))}
 
