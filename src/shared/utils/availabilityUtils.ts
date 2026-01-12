@@ -3,6 +3,48 @@ import { Item, Studio } from 'src/types/index';
 import { Duration, AdvanceBookingRequired } from 'src/types/item';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
+// Day name mappings (English ↔ Hebrew)
+const DAY_NAME_MAP: Record<string, DayOfWeek> = {
+  // English
+  Sunday: 'Sunday',
+  Monday: 'Monday',
+  Tuesday: 'Tuesday',
+  Wednesday: 'Wednesday',
+  Thursday: 'Thursday',
+  Friday: 'Friday',
+  Saturday: 'Saturday',
+  // Hebrew
+  'יום ראשון': 'Sunday',
+  'יום שני': 'Monday',
+  'יום שלישי': 'Tuesday',
+  'יום רביעי': 'Wednesday',
+  'יום חמישי': 'Thursday',
+  'יום שישי': 'Friday',
+  שבת: 'Saturday'
+};
+
+/**
+ * Normalize a day name to English DayOfWeek
+ */
+/**
+ * Find day index in studioAvailability.days, handling both English and Hebrew names
+ */
+function findDayIndex(dayName: DayOfWeek, days: DayOfWeek[]): number {
+  // Direct match
+  let idx = days.indexOf(dayName);
+  if (idx !== -1) return idx;
+
+  // Check if days array has Hebrew names - find corresponding Hebrew name
+  const hebrewNames = Object.entries(DAY_NAME_MAP).filter(([key, val]) => val === dayName && key !== dayName);
+
+  for (const [hebrewName] of hebrewNames) {
+    idx = days.indexOf(hebrewName as DayOfWeek);
+    if (idx !== -1) return idx;
+  }
+
+  return -1;
+}
+
 /**
  * Context object containing all data needed for availability calculations
  */
@@ -118,6 +160,7 @@ export function getBookableDateRange(item: Item): { minDate: Date; maxDate: Date
 
 /**
  * Check if a specific day of week is within studio operating days
+ * Handles both English and Hebrew day names in the database
  */
 export function isStudioOpenOnDay(date: Dayjs, studioAvailability?: StudioAvailability): boolean {
   if (!studioAvailability?.days?.length) {
@@ -125,20 +168,24 @@ export function isStudioOpenOnDay(date: Dayjs, studioAvailability?: StudioAvaila
   }
 
   const dayName = date.locale('en').format('dddd') as DayOfWeek;
-  return studioAvailability.days.includes(dayName);
+  return findDayIndex(dayName, studioAvailability.days) !== -1;
 }
 
 /**
  * Get the opening and closing times for a specific day
+ * Handles both English and Hebrew day names in the database
  */
-export function getStudioTimesForDay(date: Dayjs, studioAvailability?: StudioAvailability): { start: string; end: string } | null {
+export function getStudioTimesForDay(
+  date: Dayjs,
+  studioAvailability?: StudioAvailability
+): { start: string; end: string } | null {
   if (!studioAvailability?.days?.length || !studioAvailability?.times?.length) {
     return null; // No schedule configured
   }
 
   const dayName = date.locale('en').format('dddd') as DayOfWeek;
-  const dayIndex = studioAvailability.days.indexOf(dayName);
-  
+  const dayIndex = findDayIndex(dayName, studioAvailability.days);
+
   if (dayIndex === -1) {
     return null; // Studio closed on this day
   }
@@ -148,18 +195,33 @@ export function getStudioTimesForDay(date: Dayjs, studioAvailability?: StudioAva
 
 /**
  * Get the closing hour for a specific day (as number)
+ * For 24-hour operations (06:00-05:59), returns 30 (6am + 24 hours)
  */
 export function getClosingHourForDay(date: Dayjs, studioAvailability?: StudioAvailability): number {
   const times = getStudioTimesForDay(date, studioAvailability);
   if (!times?.end) {
-    return 24; // Default to midnight if no closing time
+    return 30; // Default to 24-hour operation (6am to 6am)
   }
-  
+
+  const startHour = parseInt(times.start?.split(':')[0] || '0');
   const endHour = parseInt(times.end.split(':')[0]);
-  // Handle 23:59 as effectively 24:00 (midnight)
+
+  // Handle legacy 24-hour format (00:00-23:59)
   if (times.end === '23:59') {
     return 24;
   }
+
+  // Handle new 24-hour format (06:00-05:59)
+  // When start is 06:00 and end is 05:59, it's a 24-hour operation
+  if (times.start === '06:00' && times.end === '05:59') {
+    return 30; // 6am + 24 hours (wraps to next day 6am)
+  }
+
+  // Handle wraparound cases (end < start means next day)
+  if (endHour < startHour) {
+    return endHour + 24; // e.g., 18:00-02:00 → closing at 26 (2am next day)
+  }
+
   return endHour;
 }
 
@@ -218,30 +280,62 @@ export function isDateBookable(date: Dayjs, context: AvailabilityContext): DateA
 
 /**
  * Generate hour slots from studio time ranges
+ * Handles wraparound for 24-hour operations (e.g., 06:00-05:59)
  */
 export function generateHoursFromTimeRanges(times?: { start: string; end: string }[]): string[] {
   if (!times || times.length === 0) {
-    // Default 24-hour availability
-    return Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+    // Default 24-hour availability starting from 06:00
+    return Array.from({ length: 24 }, (_, i) => `${String((i + 6) % 24).padStart(2, '0')}:00`);
   }
 
   const hours: string[] = [];
 
   for (const range of times) {
     const startHour = parseInt(range.start?.split(':')[0] || '0');
-    // Handle 23:59 as effectively 24:00 (allow booking at 23:00)
-    const endHour = range.end === '23:59' ? 24 : parseInt(range.end?.split(':')[0] || '24');
+    // Handle special end times
+    let endHour: number;
+    if (range.end === '23:59') {
+      endHour = 24; // Allow booking at 23:00
+    } else if (range.end === '05:59' && startHour === 6) {
+      // 24-hour operation starting at 6am - generate all 24 hours
+      endHour = 30; // 6am + 24 hours (wraps around)
+    } else {
+      endHour = parseInt(range.end?.split(':')[0] || '24');
+    }
 
-    for (let hour = startHour; hour < endHour; hour++) {
-      const slot = `${String(hour).padStart(2, '0')}:00`;
-      if (!hours.includes(slot)) {
-        hours.push(slot);
+    // Check if this is a wraparound range (start > end in normal terms)
+    if (startHour > endHour && endHour < 24) {
+      // Wraparound: generate from start to midnight, then midnight to end
+      // e.g., 18:00 to 06:00 → 18,19,20,21,22,23,00,01,02,03,04,05
+      for (let hour = startHour; hour < 24; hour++) {
+        const slot = `${String(hour).padStart(2, '0')}:00`;
+        if (!hours.includes(slot)) hours.push(slot);
+      }
+      for (let hour = 0; hour < endHour; hour++) {
+        const slot = `${String(hour).padStart(2, '0')}:00`;
+        if (!hours.includes(slot)) hours.push(slot);
+      }
+    } else {
+      // Normal range or extended range (endHour >= 24 for 24-hour ops)
+      for (let hour = startHour; hour < endHour; hour++) {
+        const normalizedHour = hour % 24;
+        const slot = `${String(normalizedHour).padStart(2, '0')}:00`;
+        if (!hours.includes(slot)) hours.push(slot);
       }
     }
   }
 
-  hours.sort();
-  return hours.length > 0 ? hours : Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+  // Sort in display order (06:00 first, then 07:00, ..., 23:00, 00:00, ..., 05:00)
+  hours.sort((a, b) => {
+    const hourA = parseInt(a.split(':')[0]);
+    const hourB = parseInt(b.split(':')[0]);
+    // Shift hours so 06 becomes 0, 07 becomes 1, etc.
+    const shiftedA = (hourA - 6 + 24) % 24;
+    const shiftedB = (hourB - 6 + 24) % 24;
+    return shiftedA - shiftedB;
+  });
+
+  return hours.length > 0 ? hours : Array.from({ length: 24 }, (_, i) => `${String((i + 6) % 24).padStart(2, '0')}:00`);
 }
 
 /**
@@ -296,7 +390,7 @@ export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityConte
 
   // 1. Start with studio operating hours for this specific day
   const dayTimes = getStudioTimesForDay(date, studio?.studioAvailability);
-  let availableSlots = dayTimes 
+  let availableSlots = dayTimes
     ? generateHoursFromTimeRanges([dayTimes])
     : generateHoursFromTimeRanges(studio?.studioAvailability?.times);
 
@@ -312,7 +406,7 @@ export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityConte
   // 3. Apply preparation time buffer if there are booked slots
   // (Booked slots are times NOT in the itemDateAvail.times array)
   if (item.preparationTime?.value && itemDateAvail) {
-    const allStudioSlots = dayTimes 
+    const allStudioSlots = dayTimes
       ? generateHoursFromTimeRanges([dayTimes])
       : generateHoursFromTimeRanges(studio?.studioAvailability?.times);
     const bookedSlots = allStudioSlots.filter((slot) => !itemDateAvail.times.includes(slot));
@@ -345,16 +439,47 @@ export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityConte
 export function areConsecutiveSlots(slot1: string, slot2: string): boolean {
   const hour1 = parseInt(slot1.split(':')[0]);
   const hour2 = parseInt(slot2.split(':')[0]);
-  return hour2 - hour1 === 1;
+  // Normal consecutive: 08:00 → 09:00
+  if (hour2 - hour1 === 1) return true;
+  // Midnight wraparound: 23:00 → 00:00
+  if (hour1 === 23 && hour2 === 0) return true;
+  return false;
 }
 
 /**
  * Get maximum consecutive hours available from a start time
+ * Handles overnight ranges (e.g., 17:00-06:00) correctly
  */
 export function getMaxConsecutiveHours(startSlot: string, availableSlots: string[]): number {
-  const sortedSlots = [...availableSlots].sort();
-  const startIndex = sortedSlots.indexOf(startSlot);
+  if (!availableSlots.includes(startSlot)) return 0;
 
+  // Sort slots in chronological order, handling midnight wraparound
+  // Detect if this is an overnight range by checking if we have both late and early hours
+  const hours = availableSlots.map((s) => parseInt(s.split(':')[0]));
+  const hasLateHours = hours.some((h) => h >= 17);
+  const hasEarlyHours = hours.some((h) => h < 6);
+  const isOvernightRange = hasLateHours && hasEarlyHours;
+
+  let sortedSlots: string[];
+  if (isOvernightRange) {
+    // For overnight ranges, sort so late hours come before early hours
+    // e.g., 17, 18, 19, 20, 21, 22, 23, 00, 01, 02, 03, 04, 05
+    sortedSlots = [...availableSlots].sort((a, b) => {
+      const hourA = parseInt(a.split(':')[0]);
+      const hourB = parseInt(b.split(':')[0]);
+      // Shift hours: treat 00-05 as 24-29 for sorting
+      const adjustedA = hourA < 6 ? hourA + 24 : hourA;
+      const adjustedB = hourB < 6 ? hourB + 24 : hourB;
+      return adjustedA - adjustedB;
+    });
+  } else {
+    // For normal ranges, simple numeric sort
+    sortedSlots = [...availableSlots].sort((a, b) => {
+      return parseInt(a.split(':')[0]) - parseInt(b.split(':')[0]);
+    });
+  }
+
+  const startIndex = sortedSlots.indexOf(startSlot);
   if (startIndex === -1) return 0;
 
   let consecutive = 1;

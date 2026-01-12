@@ -185,12 +185,48 @@ export const dayOfWeekSchema = z.enum(['Sunday', 'Monday', 'Tuesday', 'Wednesday
 export const timeSchema = z.string().regex(/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/, 'Time must be in HH:MM format');
 
 /**
- * Studio availability time slot schema
+ * Check if a time range represents 24-hour operation
  */
-export const timeSlotSchema = z.object({
-  start: timeSchema,
-  end: timeSchema
-});
+const is24HourRange = (start: string, end: string): boolean => {
+  // Legacy format: 00:00-23:59
+  if (start === '00:00' && (end === '23:59' || end === '00:00')) return true;
+  // New format: 06:00-05:59 (wraps around midnight)
+  if (start === '06:00' && (end === '05:59' || end === '06:00')) return true;
+  return false;
+};
+
+/**
+ * Studio availability time slot schema
+ * Accepts:
+ * - Normal ranges where end > start (e.g., 09:00-17:00)
+ * - 24-hour formats: 00:00-23:59 (legacy) or 06:00-05:59 (new)
+ * - Overnight ranges where end < start (e.g., 18:00-02:00)
+ */
+export const timeSlotSchema = z
+  .object({
+    start: timeSchema,
+    end: timeSchema
+  })
+  .refine(
+    (data) => {
+      const startHour = parseInt(data.start.split(':')[0]);
+      const endHour = parseInt(data.end.split(':')[0]);
+      
+      // Allow 24-hour formats
+      if (is24HourRange(data.start, data.end)) return true;
+      
+      // Allow normal ranges (end > start)
+      if (endHour > startHour) return true;
+      
+      // Allow overnight ranges (end < start, wraps around midnight)
+      // e.g., 18:00-02:00 is valid for late-night venues
+      if (endHour < startHour) return true;
+      
+      // Only reject if start === end (except for 24-hour formats handled above)
+      return false;
+    },
+    { message: 'Invalid time range' }
+  );
 
 /**
  * Studio availability schema

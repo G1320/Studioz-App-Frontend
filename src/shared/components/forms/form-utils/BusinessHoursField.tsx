@@ -36,8 +36,13 @@ const defaultSchedule: Schedule = {
 };
 
 // Helper to check if times represent 24 hours
+// Supports both legacy (00:00-23:59) and new (06:00-05:59) formats
 const is24HoursTime = (start: string, end: string) => {
-  return start === '00:00' && (end === '23:59' || end === '00:00');
+  // Legacy format: midnight to midnight
+  if (start === '00:00' && (end === '23:59' || end === '00:00')) return true;
+  // New format: 6am to 6am (wraps around midnight)
+  if (start === '06:00' && (end === '05:59' || end === '06:00')) return true;
+  return false;
 };
 
 export const BusinessHours = ({ value, onChange, error, fieldName = 'studioAvailability' }: BusinessHoursProps) => {
@@ -85,8 +90,8 @@ export const BusinessHours = ({ value, onChange, error, fieldName = 'studioAvail
       [day]: {
         ...schedule[day],
         is24Hours: newIs24Hours,
-        // When toggling to 24 hours, set times to full day
-        hours: newIs24Hours ? { start: '00:00', end: '23:59' } : defaultHours
+        // When toggling to 24 hours, set times from 6am to 6am (wraps around midnight)
+        hours: newIs24Hours ? { start: '06:00', end: '05:59' } : defaultHours
       }
     };
     setSchedule(updatedSchedule);
@@ -176,7 +181,7 @@ export const BusinessHours = ({ value, onChange, error, fieldName = 'studioAvail
               {/* Show 24 hours indicator when checked */}
               {schedule[day].is24Hours && (
                 <div className="hours-24-indicator">
-                  <span>00:00 - 23:59</span>
+                  <span>06:00 - 05:59</span>
                 </div>
               )}
             </div>
