@@ -54,8 +54,8 @@ const StatusBadge: React.FC<{ status: Status }> = ({ status }) => {
   };
 
   return (
-    <span className={`status-badge status-badge--${status}`}>
-      <span className="status-badge__dot" />
+    <span className={`sm-status-badge sm-status-badge--${status}`}>
+      <span className="sm-status-badge__dot" />
       {labels[status]}
     </span>
   );
