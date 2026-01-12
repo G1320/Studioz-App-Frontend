@@ -62,10 +62,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         )}
 
         {/* Common items for all users - hidden on desktop when nav is visible */}
-        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/studios')}>
-          <MusicNoteIcon className="menu-dropdown__icon" />
-          <span>{t('profile.buttons.studios')}</span>
-        </button>
         <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/reservations')}>
           <EventNoteIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.reservations')}</span>

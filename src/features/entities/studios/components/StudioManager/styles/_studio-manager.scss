@@ -781,8 +781,8 @@ $sm-text-placeholder: #52525b; // zinc-600
   }
 }
 
-// --- Status Badge (scoped to StudioManager) ---
-.studio-manager .sm-status-badge {
+// --- Status Badge ---
+.status-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -803,7 +803,7 @@ $sm-text-placeholder: #52525b; // zinc-600
     color: $sm-success;
     border-color: $sm-success-border;
 
-    .sm-status-badge__dot {
+    .status-badge__dot {
       background: $sm-success;
     }
   }
@@ -813,7 +813,7 @@ $sm-text-placeholder: #52525b; // zinc-600
     color: $sm-neutral;
     border-color: $sm-neutral-border;
 
-    .sm-status-badge__dot {
+    .status-badge__dot {
       background: $sm-neutral;
     }
   }
@@ -823,7 +823,7 @@ $sm-text-placeholder: #52525b; // zinc-600
     color: $sm-warning;
     border-color: $sm-warning-border;
 
-    .sm-status-badge__dot {
+    .status-badge__dot {
       background: $sm-warning;
     }
   }

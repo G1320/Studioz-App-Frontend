@@ -27,7 +27,8 @@
     "list_studio": "List your Studio",
     "list_studio_short": "List Studio",
     "create_studio": "List Your Studio",
-    "reservations": "My Reservations"
+    "reservations": "My Reservations",
+    "howItWorks": "How It Works"
   },
   "days": {
     "sunday": "Sunday",

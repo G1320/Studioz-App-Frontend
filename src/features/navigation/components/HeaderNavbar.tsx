@@ -18,16 +18,6 @@ export function HeaderNavbar() {
 
   return (
     <nav id="main-navigation" className="navbar" aria-label={t('navigation.mainNavigation', 'Main Navigation')}>
-      <Link
-        to={`/${currLang}/studios`}
-        className="navbar-link"
-        aria-label={t('navigation.studios')}
-        aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
-        onClick={() => scrollToTop()}
-      >
-        {t('navigation.studios')}
-      </Link>
-
       {featureFlags.servicesPage && (
         <Link
           to={`/${currLang}/services/music`}
@@ -47,6 +37,15 @@ export function HeaderNavbar() {
         onClick={() => scrollToTop()}
       >
         {t('navigation.reservations')}
+      </Link>
+      <Link
+        to={`/${currLang}/how-it-works`}
+        className="navbar-link"
+        aria-label={t('navigation.howItWorks')}
+        aria-current={isCurrentPage(`/${currLang}/how-it-works`) ? 'page' : undefined}
+        onClick={() => scrollToTop()}
+      >
+        {t('navigation.howItWorks')}
       </Link>
       <Link
         to={`/${currLang}/for-owners`}
