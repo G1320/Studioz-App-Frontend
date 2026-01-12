@@ -1069,3 +1069,304 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   text-align: center;
   padding: vars.$spacing-large;
 }
+
+// ==========================================
+// Modal Overlay
+// ==========================================
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: vars.$spacing-medium;
+  backdrop-filter: blur(4px);
+}
+
+// ==========================================
+// Coupon Creator
+// ==========================================
+.admin-coupon-creator {
+  background: $admin-bg-card;
+  border: 1px solid $admin-border;
+  border-radius: vars.$border-radius-2xl;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: vars.$spacing-large;
+    border-bottom: 1px solid $admin-border;
+
+    h3 {
+      font-size: vars.$font-size-large;
+      font-weight: 700;
+      color: $admin-text-primary;
+      margin: 0;
+    }
+  }
+
+  &__close {
+    background: transparent;
+    border: none;
+    color: $admin-text-muted;
+    cursor: pointer;
+    padding: vars.$spacing-small;
+    border-radius: vars.$border-radius-medium;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $admin-bg-hover;
+      color: $admin-text-primary;
+    }
+  }
+
+  &__form {
+    padding: vars.$spacing-large;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__error {
+    background: $admin-status-suspended-bg;
+    color: $admin-status-suspended-text;
+    border: 1px solid $admin-status-suspended-border;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-sm-md;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+
+    label {
+      font-size: vars.$font-size-sm-md;
+      font-weight: 500;
+      color: $admin-text-secondary;
+    }
+
+    input, select {
+      background: $admin-bg-main;
+      border: 1px solid $admin-border;
+      border-radius: vars.$border-radius-medium;
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      font-size: vars.$font-size-sm-md;
+      color: $admin-text-primary;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: rgba($admin-primary, 0.5);
+      }
+
+      &::placeholder {
+        color: vars.$zinc-600;
+      }
+    }
+
+    select {
+      cursor: pointer;
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: vars.$spacing-medium;
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__code-input {
+    display: flex;
+    gap: vars.$spacing-small;
+
+    input {
+      flex: 1;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  &__value-input {
+    display: flex;
+    align-items: center;
+    background: $admin-bg-main;
+    border: 1px solid $admin-border;
+    border-radius: vars.$border-radius-medium;
+    overflow: hidden;
+
+    &:focus-within {
+      border-color: rgba($admin-primary, 0.5);
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+
+    span {
+      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      background: rgba($admin-bg-hover, 0.5);
+      color: $admin-text-muted;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-weight: 700;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: vars.$spacing-medium;
+    justify-content: flex-end;
+    padding-top: vars.$spacing-medium;
+    border-top: 1px solid rgba($admin-border, 0.3);
+    margin-top: vars.$spacing-small;
+  }
+}
+
+// ==========================================
+// Coupon Table Cells
+// ==========================================
+.admin-coupon-cell {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-sm-md;
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: vars.$border-radius-medium;
+    background: rgba($admin-primary, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $admin-primary;
+  }
+
+  &__code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-weight: 700;
+    color: $admin-text-primary;
+    letter-spacing: 0.05em;
+  }
+}
+
+.admin-discount-cell {
+  display: flex;
+  align-items: baseline;
+  gap: vars.$spacing-xs;
+
+  &__value {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-weight: 700;
+    font-size: vars.$font-size-medium;
+    color: $admin-primary;
+  }
+
+  &__type {
+    font-size: vars.$font-size-small;
+    color: $admin-text-muted;
+  }
+}
+
+.admin-usage-cell {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-xs;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+
+  &__count {
+    font-weight: 700;
+    color: $admin-text-primary;
+  }
+
+  &__separator {
+    color: $admin-text-muted;
+  }
+
+  &__max {
+    color: $admin-text-muted;
+  }
+}
+
+.admin-validity-cell {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-small;
+  font-size: vars.$font-size-small;
+  color: $admin-text-secondary;
+
+  svg {
+    color: $admin-text-muted;
+  }
+}
+
+.admin-table__actions-group {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-xs;
+  justify-content: flex-end;
+}
+
+.admin-table__action-btn--danger {
+  &:hover {
+    color: $admin-status-suspended-text !important;
+  }
+}
+
+.admin-table__empty {
+  text-align: center;
+  color: $admin-text-muted;
+  padding: vars.$spacing-2xl !important;
+}
+
+// ==========================================
+// Loading State
+// ==========================================
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$spacing-3xl;
+  gap: vars.$spacing-medium;
+
+  &__spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid $admin-border;
+    border-top-color: $admin-primary;
+    border-radius: 50%;
+    animation: adminSpin 0.8s linear infinite;
+  }
+
+  p {
+    color: $admin-text-muted;
+    font-size: vars.$font-size-sm-md;
+  }
+}
+
+@keyframes adminSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

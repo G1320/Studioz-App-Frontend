@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Users,
@@ -15,14 +15,22 @@ import {
   User,
   MapPin,
   DollarSign,
-  CheckCircle2
+  CheckCircle2,
+  Ticket,
+  Plus,
+  X,
+  Calendar,
+  Trash2,
+  ToggleLeft,
+  ToggleRight
 } from 'lucide-react';
 import { useReservations } from '@shared/hooks';
 import { Studio, User as UserType } from 'src/types/index';
+import { Coupon, createCoupon, getAllCoupons, deleteCoupon, toggleCouponStatus } from '@shared/services/coupon-service';
 import './styles/_admin-panel.scss';
 
 // --- Types ---
-type Tab = 'overview' | 'users' | 'studios' | 'services';
+type Tab = 'overview' | 'users' | 'studios' | 'services' | 'coupons';
 
 interface Metric {
   label: string;
@@ -345,6 +353,354 @@ const ServicesTable = ({ services, searchTerm }: { services: ServiceData[]; sear
   );
 };
 
+// --- Coupon Components ---
+
+interface CouponFormData {
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  discountValue: number;
+  maxUses: number;
+  validFrom: string;
+  validUntil: string;
+  applicablePlans: string[];
+  minPurchaseAmount: number;
+}
+
+const CouponCreator = ({
+  onCouponCreated,
+  onClose
+}: {
+  onCouponCreated: (coupon: Coupon) => void;
+  onClose: () => void;
+}) => {
+  const { t } = useTranslation('admin');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const today = new Date().toISOString().split('T')[0];
+  const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+  const [formData, setFormData] = useState<CouponFormData>({
+    code: '',
+    discountType: 'percentage',
+    discountValue: 10,
+    maxUses: 0,
+    validFrom: today,
+    validUntil: nextMonth,
+    applicablePlans: ['all'],
+    minPurchaseAmount: 0
+  });
+
+  const generateRandomCode = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 8; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setFormData((prev) => ({ ...prev, code }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!formData.code.trim()) {
+      setError(t('coupons.errors.codeRequired', 'Coupon code is required'));
+      return;
+    }
+
+    if (formData.discountValue <= 0) {
+      setError(t('coupons.errors.valueRequired', 'Discount value must be greater than 0'));
+      return;
+    }
+
+    if (formData.discountType === 'percentage' && formData.discountValue > 100) {
+      setError(t('coupons.errors.percentageMax', 'Percentage cannot exceed 100%'));
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const coupon = await createCoupon({
+        code: formData.code.toUpperCase().trim(),
+        discountType: formData.discountType,
+        discountValue: formData.discountValue,
+        maxUses: formData.maxUses,
+        validFrom: new Date(formData.validFrom).toISOString(),
+        validUntil: new Date(formData.validUntil).toISOString(),
+        applicablePlans: formData.applicablePlans,
+        minPurchaseAmount: formData.minPurchaseAmount
+      });
+      onCouponCreated(coupon);
+      onClose();
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create coupon';
+      setError(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="admin-coupon-creator">
+      <div className="admin-coupon-creator__header">
+        <h3>{t('coupons.createNew', 'Create New Coupon')}</h3>
+        <button className="admin-coupon-creator__close" onClick={onClose}>
+          <X size={20} />
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="admin-coupon-creator__form">
+        {error && <div className="admin-coupon-creator__error">{error}</div>}
+
+        <div className="admin-coupon-creator__field">
+          <label>{t('coupons.fields.code', 'Coupon Code')}</label>
+          <div className="admin-coupon-creator__code-input">
+            <input
+              type="text"
+              value={formData.code}
+              onChange={(e) => setFormData((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
+              placeholder="e.g., SUMMER2024"
+              maxLength={20}
+            />
+            <button
+              type="button"
+              onClick={generateRandomCode}
+              className="admin-btn admin-btn--secondary admin-btn--small"
+            >
+              {t('coupons.generate', 'Generate')}
+            </button>
+          </div>
+        </div>
+
+        <div className="admin-coupon-creator__row">
+          <div className="admin-coupon-creator__field">
+            <label>{t('coupons.fields.discountType', 'Discount Type')}</label>
+            <select
+              value={formData.discountType}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  discountType: e.target.value as 'percentage' | 'fixed'
+                }))
+              }
+            >
+              <option value="percentage">{t('coupons.types.percentage', 'Percentage (%)')}</option>
+              <option value="fixed">{t('coupons.types.fixed', 'Fixed Amount (₪)')}</option>
+            </select>
+          </div>
+
+          <div className="admin-coupon-creator__field">
+            <label>{t('coupons.fields.discountValue', 'Discount Value')}</label>
+            <div className="admin-coupon-creator__value-input">
+              <input
+                type="number"
+                value={formData.discountValue}
+                onChange={(e) => setFormData((prev) => ({ ...prev, discountValue: Number(e.target.value) }))}
+                min={1}
+                max={formData.discountType === 'percentage' ? 100 : undefined}
+              />
+              <span>{formData.discountType === 'percentage' ? '%' : '₪'}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="admin-coupon-creator__row">
+          <div className="admin-coupon-creator__field">
+            <label>{t('coupons.fields.validFrom', 'Valid From')}</label>
+            <input
+              type="date"
+              value={formData.validFrom}
+              onChange={(e) => setFormData((prev) => ({ ...prev, validFrom: e.target.value }))}
+            />
+          </div>
+
+          <div className="admin-coupon-creator__field">
+            <label>{t('coupons.fields.validUntil', 'Valid Until')}</label>
+            <input
+              type="date"
+              value={formData.validUntil}
+              onChange={(e) => setFormData((prev) => ({ ...prev, validUntil: e.target.value }))}
+              min={formData.validFrom}
+            />
+          </div>
+        </div>
+
+        <div className="admin-coupon-creator__row">
+          <div className="admin-coupon-creator__field">
+            <label>{t('coupons.fields.maxUses', 'Max Uses (0 = unlimited)')}</label>
+            <input
+              type="number"
+              value={formData.maxUses}
+              onChange={(e) => setFormData((prev) => ({ ...prev, maxUses: Number(e.target.value) }))}
+              min={0}
+            />
+          </div>
+
+          <div className="admin-coupon-creator__field">
+            <label>{t('coupons.fields.minPurchase', 'Min Purchase Amount (₪)')}</label>
+            <input
+              type="number"
+              value={formData.minPurchaseAmount}
+              onChange={(e) => setFormData((prev) => ({ ...prev, minPurchaseAmount: Number(e.target.value) }))}
+              min={0}
+            />
+          </div>
+        </div>
+
+        <div className="admin-coupon-creator__field">
+          <label>{t('coupons.fields.applicablePlans', 'Applicable Plans')}</label>
+          <select
+            value={formData.applicablePlans[0]}
+            onChange={(e) => setFormData((prev) => ({ ...prev, applicablePlans: [e.target.value] }))}
+          >
+            <option value="all">{t('coupons.plans.all', 'All Plans')}</option>
+            <option value="starter">{t('coupons.plans.starter', 'Starter')}</option>
+            <option value="pro">{t('coupons.plans.pro', 'Pro')}</option>
+            <option value="enterprise">{t('coupons.plans.enterprise', 'Enterprise')}</option>
+          </select>
+        </div>
+
+        <div className="admin-coupon-creator__actions">
+          <button type="button" onClick={onClose} className="admin-btn admin-btn--secondary">
+            {t('actions.cancel', 'Cancel')}
+          </button>
+          <button type="submit" disabled={isSubmitting} className="admin-btn admin-btn--primary">
+            {isSubmitting ? t('actions.creating', 'Creating...') : t('coupons.create', 'Create Coupon')}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const CouponsTable = ({
+  coupons,
+  searchTerm,
+  onToggleStatus,
+  onDelete
+}: {
+  coupons: Coupon[];
+  searchTerm: string;
+  onToggleStatus: (id: string) => void;
+  onDelete: (id: string) => void;
+}) => {
+  const { t } = useTranslation('admin');
+
+  const filteredCoupons = useMemo(() => {
+    if (!searchTerm.trim()) return coupons;
+    const search = searchTerm.toLowerCase();
+    return coupons.filter((coupon) => coupon.code.toLowerCase().includes(search));
+  }, [coupons, searchTerm]);
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+
+  const isExpired = (validUntil: string) => new Date(validUntil) < new Date();
+
+  return (
+    <div className="admin-table-container">
+      <div className="admin-table-wrapper">
+        <table className="admin-table">
+          <thead className="admin-table__head">
+            <tr>
+              <th className="admin-table__th">{t('coupons.table.code', 'Code')}</th>
+              <th className="admin-table__th">{t('coupons.table.discount', 'Discount')}</th>
+              <th className="admin-table__th">{t('coupons.table.usage', 'Usage')}</th>
+              <th className="admin-table__th">{t('coupons.table.validity', 'Validity')}</th>
+              <th className="admin-table__th">{t('coupons.table.status', 'Status')}</th>
+              <th className="admin-table__th admin-table__th--right">{t('table.actions', 'Actions')}</th>
+            </tr>
+          </thead>
+          <tbody className="admin-table__body">
+            {filteredCoupons.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="admin-table__td admin-table__empty">
+                  {t('coupons.noCoupons', 'No coupons found')}
+                </td>
+              </tr>
+            ) : (
+              filteredCoupons.map((coupon) => (
+                <tr key={coupon._id} className="admin-table__row">
+                  <td className="admin-table__td">
+                    <div className="admin-coupon-cell">
+                      <div className="admin-coupon-cell__icon">
+                        <Ticket size={16} />
+                      </div>
+                      <span className="admin-coupon-cell__code">{coupon.code}</span>
+                    </div>
+                  </td>
+                  <td className="admin-table__td">
+                    <div className="admin-discount-cell">
+                      {coupon.discountType === 'percentage' ? (
+                        <span className="admin-discount-cell__value">{coupon.discountValue}%</span>
+                      ) : (
+                        <span className="admin-discount-cell__value">₪{coupon.discountValue}</span>
+                      )}
+                      <span className="admin-discount-cell__type">
+                        {coupon.discountType === 'percentage' ? 'off' : 'fixed'}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="admin-table__td">
+                    <div className="admin-usage-cell">
+                      <span className="admin-usage-cell__count">{coupon.usedCount}</span>
+                      <span className="admin-usage-cell__separator">/</span>
+                      <span className="admin-usage-cell__max">{coupon.maxUses === 0 ? '∞' : coupon.maxUses}</span>
+                    </div>
+                  </td>
+                  <td className="admin-table__td">
+                    <div className="admin-validity-cell">
+                      <Calendar size={12} />
+                      <span>
+                        {formatDate(coupon.validFrom)} - {formatDate(coupon.validUntil)}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="admin-table__td">
+                    {isExpired(coupon.validUntil) ? (
+                      <StatusBadge status="Suspended" />
+                    ) : coupon.isActive ? (
+                      <StatusBadge status="Active" />
+                    ) : (
+                      <StatusBadge status="Pending" />
+                    )}
+                  </td>
+                  <td className="admin-table__td admin-table__td--right">
+                    <div className="admin-table__actions-group">
+                      <button
+                        className="admin-table__action-btn"
+                        onClick={() => onToggleStatus(coupon._id)}
+                        title={
+                          coupon.isActive ? t('coupons.deactivate', 'Deactivate') : t('coupons.activate', 'Activate')
+                        }
+                      >
+                        {coupon.isActive ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
+                      </button>
+                      <button
+                        className="admin-table__action-btn admin-table__action-btn--danger"
+                        onClick={() => onDelete(coupon._id)}
+                        title={t('coupons.delete', 'Delete')}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 // --- Main Component ---
 
 interface AdminPanelProps {
@@ -357,6 +713,55 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const { data: reservations = [] } = useReservations();
+
+  // Coupon state
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [showCouponCreator, setShowCouponCreator] = useState(false);
+  const [isLoadingCoupons, setIsLoadingCoupons] = useState(false);
+
+  // Fetch coupons when tab is active
+  useEffect(() => {
+    if (activeTab === 'coupons') {
+      loadCoupons();
+    }
+  }, [activeTab]);
+
+  const loadCoupons = async () => {
+    setIsLoadingCoupons(true);
+    try {
+      const data = await getAllCoupons();
+      setCoupons(data);
+    } catch (error) {
+      console.error('Failed to load coupons:', error);
+    } finally {
+      setIsLoadingCoupons(false);
+    }
+  };
+
+  const handleCouponCreated = (coupon: Coupon) => {
+    setCoupons((prev) => [coupon, ...prev]);
+  };
+
+  const handleToggleCouponStatus = async (id: string) => {
+    try {
+      const updated = await toggleCouponStatus(id);
+      setCoupons((prev) => prev.map((c) => (c._id === id ? updated : c)));
+    } catch (error) {
+      console.error('Failed to toggle coupon status:', error);
+    }
+  };
+
+  const handleDeleteCoupon = async (id: string) => {
+    if (!window.confirm(t('coupons.confirmDelete', 'Are you sure you want to delete this coupon?'))) {
+      return;
+    }
+    try {
+      await deleteCoupon(id);
+      setCoupons((prev) => prev.filter((c) => c._id !== id));
+    } catch (error) {
+      console.error('Failed to delete coupon:', error);
+    }
+  };
 
   // Calculate real metrics from data
   const metrics: Metric[] = useMemo(() => {
@@ -478,7 +883,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
     { id: 'overview', label: t('nav.overview'), icon: BarChart3 },
     { id: 'users', label: t('nav.users'), icon: Users },
     { id: 'studios', label: t('nav.studios'), icon: Building2 },
-    { id: 'services', label: t('nav.services'), icon: Package }
+    { id: 'services', label: t('nav.services'), icon: Package },
+    { id: 'coupons', label: t('nav.coupons', 'Coupons'), icon: Ticket }
   ];
 
   return (
@@ -573,6 +979,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
                 <button className="admin-btn admin-btn--secondary">
                   <User size={16} />
                   {t('actions.addUser')}
+                </button>
+              )}
+              {activeTab === 'coupons' && (
+                <button className="admin-btn admin-btn--primary" onClick={() => setShowCouponCreator(true)}>
+                  <Plus size={16} />
+                  {t('coupons.createNew', 'Create Coupon')}
                 </button>
               )}
             </div>
@@ -672,6 +1084,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
           <div className="admin-content admin-content--animate">
             <SectionHeader title={t('sections.services.title')} description={t('sections.services.description')} />
             <ServicesTable services={servicesTableData} searchTerm={searchTerm} />
+          </div>
+        )}
+
+        {activeTab === 'coupons' && (
+          <div className="admin-content admin-content--animate">
+            <SectionHeader
+              title={t('sections.coupons.title', 'Coupons')}
+              description={t('sections.coupons.description', 'Create and manage discount coupons for your platform')}
+            />
+
+            {showCouponCreator && (
+              <div className="admin-modal-overlay" onClick={() => setShowCouponCreator(false)}>
+                <div onClick={(e) => e.stopPropagation()}>
+                  <CouponCreator onCouponCreated={handleCouponCreated} onClose={() => setShowCouponCreator(false)} />
+                </div>
+              </div>
+            )}
+
+            {isLoadingCoupons ? (
+              <div className="admin-loading">
+                <div className="admin-loading__spinner" />
+                <p>{t('loading', 'Loading...')}</p>
+              </div>
+            ) : (
+              <CouponsTable
+                coupons={coupons}
+                searchTerm={searchTerm}
+                onToggleStatus={handleToggleCouponStatus}
+                onDelete={handleDeleteCoupon}
+              />
+            )}
           </div>
         )}
       </main>
