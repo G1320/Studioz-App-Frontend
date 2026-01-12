@@ -4,6 +4,7 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useToggleStudioActiveMutation, useToggleItemActiveMutation } from '@shared/hooks/mutations/studios/studioMutations';
 import { useItems } from '@shared/hooks';
 import Item from 'src/types/item';
+import { StudioBlockModal } from '../StudioBlockTimeSlotModal';
 
 // MUI Icons
 import BusinessIcon from '@mui/icons-material/Business';
@@ -122,6 +123,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
 }) => {
   const { t, i18n } = useTranslation('studioManager');
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const currentLang = i18n.language as 'en' | 'he';
 
   const studioName = studio.name?.[currentLang] || studio.name?.en || studio.name?.he || 'Studio';
@@ -188,7 +190,11 @@ const StudioCard: React.FC<StudioCardProps> = ({
             >
               <EditIcon />
             </button>
-            <button className="studio-card__action-btn" title={t('calendar', 'יומן')}>
+            <button 
+              className="studio-card__action-btn" 
+              title={t('calendar', 'יומן')}
+              onClick={() => setIsBlockModalOpen(true)}
+            >
               <CalendarMonthIcon />
             </button>
             <button className="studio-card__action-btn" title={t('settings', 'הגדרות')}>
@@ -197,6 +203,14 @@ const StudioCard: React.FC<StudioCardProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Block Time Modal */}
+      <StudioBlockModal
+        studioId={studio._id}
+        studioAvailability={studio.studioAvailability}
+        open={isBlockModalOpen}
+        onClose={() => setIsBlockModalOpen(false)}
+      />
 
       {/* Items Section */}
       <div className="studio-card__items-section">

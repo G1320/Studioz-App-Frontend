@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import LockClockIcon from '@mui/icons-material/LockClock';
 import { MuiDateTimePicker, Button } from '@shared/components';
+import { HourSelector } from '@features/entities/items/components/HourSelector';
 import { Dialog } from '@mui/material';
 import { splitDateTime } from '@shared/utils/index';
 import { toast } from 'sonner';
@@ -104,20 +105,12 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
         <div className="modal-content">
           <h2>{t('studio:block_time')}</h2>
 
-          <div className="hour-selection-container">
-            <div>
-              <span className="hour-label">{t('common:hours')}:</span>
-              <span className="hour-value">{selectedHours}</span>
-            </div>
-            <div className="button-group">
-              <button className="control-button minus" onClick={handleDecrement} disabled={isLoading}>
-                −
-              </button>
-              <button className="control-button plus" onClick={handleIncrement} disabled={isLoading}>
-                +
-              </button>
-            </div>
-          </div>
+          <HourSelector
+            value={selectedHours}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            min={1}
+          />
 
           <MuiDateTimePicker value={selectedDate} onChange={handleDateChange} studioAvailability={studioAvailability} />
 
@@ -154,20 +147,12 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
         <div className="modal-content">
           <h2>{t('studio:block_time')}</h2>
 
-          <div className="hour-selection-container">
-            <div>
-              <span className="hour-label">{t('common:hours')}:</span>
-              <span className="hour-value">{selectedHours}</span>
-            </div>
-            <div className="button-group">
-              <button className="control-button minus" onClick={handleDecrement} disabled={isLoading}>
-                −
-              </button>
-              <button className="control-button plus" onClick={handleIncrement} disabled={isLoading}>
-                +
-              </button>
-            </div>
-          </div>
+          <HourSelector
+            value={selectedHours}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            min={1}
+          />
 
           <MuiDateTimePicker value={selectedDate} onChange={handleDateChange} studioAvailability={studioAvailability} />
 
