@@ -790,7 +790,7 @@ $sm-text-placeholder: #52525b; // zinc-600
   border-radius: 9999px;
   font-size: vars.$font-size-xs;
   font-weight: 500;
-  border: 1px solid;
+  border: none;
 
   &__dot {
     width: 6px;
