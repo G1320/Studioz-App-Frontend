@@ -11,7 +11,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { WavyMenuIcon } from '@shared/components/icons';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -62,15 +61,24 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         )}
 
         {/* Common items for all users - hidden on desktop when nav is visible */}
-        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/reservations')}>
+        <button
+          className="menu-dropdown__item menu-dropdown__item--mobile-only"
+          onClick={() => handleNavigate('/reservations')}
+        >
           <EventNoteIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.reservations')}</span>
         </button>
-        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/for-owners')}>
+        <button
+          className="menu-dropdown__item menu-dropdown__item--mobile-only"
+          onClick={() => handleNavigate('/for-owners')}
+        >
           <AddBusinessIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
         </button>
-        <button className="menu-dropdown__item menu-dropdown__item--mobile-only" onClick={() => handleNavigate('/how-it-works')}>
+        <button
+          className="menu-dropdown__item menu-dropdown__item--mobile-only"
+          onClick={() => handleNavigate('/how-it-works')}
+        >
           <PlayCircleOutlineIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.howItWorks')}</span>
         </button>
