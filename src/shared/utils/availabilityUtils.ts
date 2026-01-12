@@ -129,6 +129,41 @@ export function isStudioOpenOnDay(date: Dayjs, studioAvailability?: StudioAvaila
 }
 
 /**
+ * Get the opening and closing times for a specific day
+ */
+export function getStudioTimesForDay(date: Dayjs, studioAvailability?: StudioAvailability): { start: string; end: string } | null {
+  if (!studioAvailability?.days?.length || !studioAvailability?.times?.length) {
+    return null; // No schedule configured
+  }
+
+  const dayName = date.locale('en').format('dddd') as DayOfWeek;
+  const dayIndex = studioAvailability.days.indexOf(dayName);
+  
+  if (dayIndex === -1) {
+    return null; // Studio closed on this day
+  }
+
+  return studioAvailability.times[dayIndex] || null;
+}
+
+/**
+ * Get the closing hour for a specific day (as number)
+ */
+export function getClosingHourForDay(date: Dayjs, studioAvailability?: StudioAvailability): number {
+  const times = getStudioTimesForDay(date, studioAvailability);
+  if (!times?.end) {
+    return 24; // Default to midnight if no closing time
+  }
+  
+  const endHour = parseInt(times.end.split(':')[0]);
+  // Handle 23:59 as effectively 24:00 (midnight)
+  if (times.end === '23:59') {
+    return 24;
+  }
+  return endHour;
+}
+
+/**
  * Check if a date meets the advance booking requirement
  */
 export function meetsAdvanceBookingRequirement(date: Dayjs, item: Item): boolean {
@@ -194,7 +229,8 @@ export function generateHoursFromTimeRanges(times?: { start: string; end: string
 
   for (const range of times) {
     const startHour = parseInt(range.start?.split(':')[0] || '0');
-    const endHour = parseInt(range.end?.split(':')[0] || '24');
+    // Handle 23:59 as effectively 24:00 (allow booking at 23:00)
+    const endHour = range.end === '23:59' ? 24 : parseInt(range.end?.split(':')[0] || '24');
 
     for (let hour = startHour; hour < endHour; hour++) {
       const slot = `${String(hour).padStart(2, '0')}:00`;
@@ -258,8 +294,11 @@ export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityConte
   const { item, studio } = context;
   const dateStr = date.format('DD/MM/YYYY');
 
-  // 1. Start with studio operating hours
-  let availableSlots = generateHoursFromTimeRanges(studio?.studioAvailability?.times);
+  // 1. Start with studio operating hours for this specific day
+  const dayTimes = getStudioTimesForDay(date, studio?.studioAvailability);
+  let availableSlots = dayTimes 
+    ? generateHoursFromTimeRanges([dayTimes])
+    : generateHoursFromTimeRanges(studio?.studioAvailability?.times);
 
   // 2. Get item's availability for this date
   const itemDateAvail = item.availability?.find((a) => a.date === dateStr);
@@ -273,7 +312,9 @@ export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityConte
   // 3. Apply preparation time buffer if there are booked slots
   // (Booked slots are times NOT in the itemDateAvail.times array)
   if (item.preparationTime?.value && itemDateAvail) {
-    const allStudioSlots = generateHoursFromTimeRanges(studio?.studioAvailability?.times);
+    const allStudioSlots = dayTimes 
+      ? generateHoursFromTimeRanges([dayTimes])
+      : generateHoursFromTimeRanges(studio?.studioAvailability?.times);
     const bookedSlots = allStudioSlots.filter((slot) => !itemDateAvail.times.includes(slot));
     const bufferSlots = getPreparationTimeBuffer(bookedSlots, item.preparationTime);
     availableSlots = availableSlots.filter((slot) => !bufferSlots.includes(slot));
@@ -289,6 +330,11 @@ export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityConte
       return slotHour >= minHour;
     });
   }
+
+  // Note: Minimum booking duration filtering is NOT done here.
+  // It's handled by shouldDisableTime which uses getMaxConsecutiveHours
+  // to check if enough consecutive slots are available from each start time.
+  // This allows the consecutive check to see ALL available slots up to closing.
 
   return availableSlots;
 }
