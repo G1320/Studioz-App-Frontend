@@ -132,12 +132,12 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
             pattern="[0-9]*"
           />
           <div className="verification-buttons">
-          <button
-            type="button"
-            className="verification-button"
-            onClick={handleVerifyCode}
-            disabled={isVerifying || !verificationCode}
-          >
+            <button
+              type="button"
+              className="verification-button"
+              onClick={handleVerifyCode}
+              disabled={isVerifying || !verificationCode}
+            >
               {isVerifying ? t('form.verification.buttons.verifying') : t('form.verification.buttons.submit')}
             </button>
             <button
@@ -147,7 +147,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
               disabled={isVerifying}
             >
               {t('form.verification.buttons.tryAgain')}
-          </button>
+            </button>
           </div>
         </div>
       )}
