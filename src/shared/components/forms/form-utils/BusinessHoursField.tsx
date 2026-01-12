@@ -41,15 +41,24 @@ const is24HoursTime = (start: string, end: string) => {
 };
 
 export const BusinessHours = ({ value, onChange, error, fieldName = 'studioAvailability' }: BusinessHoursProps) => {
-  const { getDisplayByEnglish } = useDays();
+  const { getDisplayByEnglish, getEnglishByDisplay } = useDays();
   const { t } = useTranslation('forms');
 
   // Convert studioAvailability to schedule format
   // Derive is24Hours from the actual times (00:00-23:59 = 24 hours)
+  // Note: value.days might contain display names (Hebrew) or English names
   const initialSchedule = Object.fromEntries(
     Object.keys(defaultSchedule).map((day) => {
-      const isOpen = value.days.includes(day as DayOfWeek);
-      const dayIndex = value.days.indexOf(day as DayOfWeek);
+      // Check if day exists in value.days (handle both English and display name formats)
+      const dayDisplay = getDisplayByEnglish(day);
+      const isOpen = value.days.includes(day as DayOfWeek) || value.days.includes(dayDisplay);
+      
+      // Find the day index - check both English and display name
+      let dayIndex = value.days.indexOf(day as DayOfWeek);
+      if (dayIndex === -1) {
+        dayIndex = value.days.indexOf(dayDisplay);
+      }
+      
       const timeData = dayIndex >= 0 ? value.times[dayIndex] : null;
       const hours = timeData ? { start: timeData.start, end: timeData.end } : defaultHours;
       // Derive is24Hours from the times
