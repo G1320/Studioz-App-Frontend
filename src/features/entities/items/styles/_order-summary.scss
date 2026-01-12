@@ -1,207 +1,503 @@
 @use 'utilities/variables' as vars;
 
 // ============================================
-// Order Summary Component
+// Order Summary & Payment Form Styles
+// Design System: StudioZ Dark Mode
 // ============================================
 
-// Local variables
-$card-dark: #0a0a0a;
-$input-dark: #111111;
-$accent: vars.$color-brand;
-$accent-hover: #ffc107;
+// Local Theme Variables
+$bg-card: #0a0a0a;
+$bg-input: #1a1a1a;
+$border-color: #27272a; // zinc-800
+$border-hover: #3f3f46; // zinc-700
+$primary: #ffd166;
+$primary-hover: #ffc107;
+$text-primary: #ffffff;
+$text-secondary: #e4e4e7; // zinc-200
+$text-muted: #a1a1aa; // zinc-400
+$text-subtle: #71717a; // zinc-500
+$success: #34d399;
+$error: #ef4444;
 
 .order-summary {
+  width: 100%;
+  max-width: 520px; // Match style guide
+  margin: 0 auto;
+  font-family: 'DM Sans', sans-serif; // Assuming font family
+  color: $text-primary;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  height: 100%;
 
-  // ========================================
-  // Details Column
-  // ========================================
-  &__details-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  // ========================================
-  // Card Container
-  // ========================================
-  &__card {
-    background: $card-dark;
-    border: 1px solid vars.$zinc-800;
-    border-radius: 16px;
-    padding: 1.25rem 1.5rem;
-  }
-
-  &__card-title {
-    font-size: 1.0625rem;
-    font-weight: 700;
-    color: vars.$text-color-primary;
-    margin-bottom: 1rem;
-    letter-spacing: -0.01em;
-
-    &--small {
-      font-size: 1rem;
-    }
-  }
-
-  // ========================================
-  // Info List (Studio, Date, Time)
-  // ========================================
-  &__info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  &__info-item {
+  // Header
+  &__header {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid $border-color;
   }
 
-  &__info-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: vars.$zinc-900;
-    border: 1px solid vars.$zinc-800;
+  &__back-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    color: $accent;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    color: $text-muted;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $border-color;
+      color: $text-primary;
+    }
 
     svg {
       width: 20px;
       height: 20px;
     }
+  }
 
-    &--neutral {
-      color: vars.$zinc-400;
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  // Content Area
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    // Hide scrollbar but keep functionality
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 
-  &__info-content {
+  // Animation classes
+  .animate-in {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-in-from-start {
+    animation-name: slideInStart;
+  }
+
+  .slide-in-from-end {
+    animation-name: slideInEnd;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInStart {
+    from {
+      transform: translateX(20px);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInEnd {
+    from {
+      transform: translateX(-20px);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  // RTL Animations
+  [dir='rtl'] & {
+    @keyframes slideInStart {
+      from {
+        transform: translateX(-20px);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInEnd {
+      from {
+        transform: translateX(20px);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  // Sections
+  &__section {
+    margin-bottom: 2rem;
+  }
+
+  &__section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $text-muted;
+    margin: 0 0 1rem 0;
+  }
+
+  // Details Card
+  &__details-card {
+    background: rgba(24, 24, 27, 0.5); // zinc-900/50
+    border: 1px solid $border-color;
+    border-radius: 12px; // rounded-lg
+    padding: 1.25rem;
+  }
+
+  &__info-row {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    text-align: start;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__info-divider {
+    width: 1px;
+    height: 32px;
+    background: $border-color;
+  }
+
+  &__info-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__info-icon {
+    color: $text-muted;
+    width: 20px;
+    height: 20px;
   }
 
   &__info-primary {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: vars.$text-color-primary;
-    line-height: 1.3;
+    color: $text-primary;
     margin: 0;
+    line-height: 1.2;
     text-align: start;
   }
 
   &__info-secondary {
-    font-size: 0.8125rem;
-    color: vars.$zinc-500;
+    font-size: 0.75rem;
+    color: $text-muted;
     margin: 0;
     text-align: start;
   }
 
-  // ========================================
-  // Price Breakdown
-  // ========================================
+  // Price List
   &__price-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.75rem;
     margin-bottom: 1rem;
   }
 
   &__price-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
   }
 
   &__price-label {
-    color: vars.$zinc-400;
+    color: $text-muted;
   }
 
   &__price-value {
-    color: vars.$text-color-primary;
-    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    color: $text-primary;
     font-weight: 500;
   }
 
+  // Total Row
   &__total-row {
-    border-top: 1px solid vars.$zinc-800;
+    border-top: 1px solid $border-color;
     padding-top: 1rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
   }
 
   &__total-label {
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: $text-primary;
   }
 
   &__total-value {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: $accent;
-    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    color: $primary;
+    font-family: 'DM Mono', monospace;
   }
 
-  // ========================================
-  // Payment Column
-  // ========================================
-  &__payment-column {
+  // Footer
+  &__footer {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  &__footer-sumit {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
-  }
-
-  &__payment-card {
-    background: $card-dark;
-    border: 1px solid vars.$zinc-800;
-    border-radius: 20px;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  &__payment-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  &__payment-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: vars.$text-color-primary;
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-
-  &__secure-badge {
-    display: flex;
     align-items: center;
     gap: 6px;
     font-size: 0.75rem;
+    color: $text-subtle;
+    text-align: center;
+
+    .sumit-secured {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-wrap: wrap;
+
+      .sumit-link {
+        color: #4ade80; // Sumit Green
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .sumit-ssl {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      opacity: 0.7;
+
+      .ssl-text {
+        letter-spacing: 0.02em;
+      }
+    }
+  }
+
+  &__submit-btn {
+    width: 100%;
+    background: $primary;
+    color: #000;
+    font-size: 1.125rem;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 12px; // rounded-xl
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: $primary-hover;
+      box-shadow: 0 0 25px rgba(255, 209, 102, 0.4);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  &__submit-btn-loading {
+    opacity: 0.8;
+  }
+
+  &__error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: $error;
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  &__terms {
+    text-align: center;
+    font-size: 0.75rem;
+    color: $text-subtle;
+    margin-top: 1rem;
+
+    a {
+      color: $text-muted;
+      text-decoration: underline;
+      &:hover {
+        color: $text-primary;
+      }
+    }
+  }
+}
+
+// ============================================
+// Saved Cards Component Styles
+// ============================================
+.saved-cards {
+  width: 100%;
+
+  // List
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  // Card Item
+  &__card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 12px; // rounded-lg
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: inherit; // Reset button text align
+
+    &:hover {
+      border-color: $border-hover;
+      background: rgba(24, 24, 27, 0.3);
+    }
+
+    &--selected {
+      background: rgba(24, 24, 27, 1); // zinc-900
+      border-color: $primary;
+      box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2);
+    }
+  }
+
+  &__card-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  // Brand Icon
+  &__brand {
+    width: 48px;
+    height: 32px;
+    background: #27272a; // zinc-800
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3f3f46; // zinc-700
+    overflow: hidden;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $text-muted;
+    }
+
+    .visa-text {
+      font-size: 10px;
+      font-weight: 900;
+      font-style: italic;
+      color: white;
+    }
+
+    .mastercard-circles {
+      display: flex;
+      position: relative;
+      width: 24px;
+      justify-content: center;
+
+      .circle {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+      .red {
+        background: rgba(239, 68, 68, 0.8);
+        margin-right: -6px;
+      }
+      .yellow {
+        background: rgba(234, 179, 8, 0.8);
+      }
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__number {
+    font-size: 0.9375rem;
     font-weight: 500;
-    color: #4ade80;
-    background: rgba(74, 222, 128, 0.1);
-    padding: 6px 12px;
-    border-radius: 9999px;
-    border: 1px solid rgba(74, 222, 128, 0.2);
+    color: $text-primary;
+    font-family: 'DM Mono', monospace;
+  }
+
+  &__expiry {
+    font-size: 0.75rem;
+    color: $text-subtle;
+  }
+
+  // Checkbox/Radio Indicator
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid $text-subtle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    &.selected {
+      background: $primary;
+      border-color: $primary;
+      color: #000;
+    }
 
     svg {
       width: 14px;
@@ -209,575 +505,107 @@ $accent-hover: #ffc107;
     }
   }
 
-  // ========================================
-  // Payment Method Toggle
-  // ========================================
-  &__method-toggle {
-    display: flex;
-    padding: 4px;
-    background: rgba(24, 24, 27, 0.6);
+  // Add Card Button (Outline)
+  &__add-btn-outline {
+    width: 100%;
+    padding: 1rem;
     border-radius: 12px;
-    margin-bottom: 1.25rem;
-    border: 1px solid rgba(39, 39, 42, 0.5);
-    gap: 4px;
-  }
-
-  &__method-btn {
-    flex: 1;
+    border: 1px dashed $border-hover;
+    background: transparent;
+    color: $text-muted;
+    font-size: 0.9375rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 16px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: vars.$zinc-400;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
+    gap: 0.5rem;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $text-muted;
+      background: rgba(24, 24, 27, 0.5);
+      color: $text-primary;
+    }
 
     svg {
       width: 18px;
       height: 18px;
     }
-
-    &:hover:not(&--active) {
-      color: vars.$text-color-primary;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    &--active {
-      background: $accent;
-      color: #000;
-      font-weight: 600;
-      box-shadow: 
-        0 4px 12px rgba(255, 209, 102, 0.15),
-        0 1px 3px rgba(0, 0, 0, 0.2);
-    }
   }
 
-  // ========================================
-  // Form
-  // ========================================
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  // ========================================
-  // Saved Cards
-  // ========================================
-  &__saved-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  &__card-option {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    border-radius: 12px;
-    border: 1px solid vars.$zinc-800;
-    background: $input-dark;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:hover:not(&--selected) {
-      border-color: vars.$zinc-700;
-      background: rgba(17, 17, 17, 0.8);
-    }
-
-    &--selected {
-      background: rgba(39, 39, 42, 0.5);
-      border-color: $accent;
-      box-shadow: 
-        0 0 0 1px rgba(255, 209, 102, 0.2),
-        inset 0 0 20px rgba(255, 209, 102, 0.03);
-    }
-  }
-
-  &__card-brand {
-    flex-shrink: 0;
-    min-width: 56px;
-    height: 36px;
-    background: vars.$text-color-primary;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-
-    span {
-      font-size: 0.625rem;
-      font-weight: 700;
-      color: vars.$text-color-dark;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-  }
-
-  &__card-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex: 1;
-  }
-
-  &__card-number {
-    color: vars.$text-color-primary;
-    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
-    font-size: 0.9375rem;
-    letter-spacing: 0.06em;
-    font-weight: 500;
-  }
-
-  &__card-expiry {
-    font-size: 0.75rem;
-    color: vars.$zinc-500;
-  }
-
-  &__card-radio {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    accent-color: $accent;
-    cursor: pointer;
-    margin: 0;
-  }
-
-  &__remove-card-btn {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-top: 8px;
-    padding: 0;
-    font-size: 0.8125rem;
-    color: #ef4444;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    &:hover {
-      color: #f87171;
-    }
-  }
-
-  // ========================================
-  // Empty State (No Saved Cards)
-  // ========================================
-  &__empty-state {
+  // Empty State
+  &__empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem 1rem;
     text-align: center;
-    gap: 8px;
-
-    svg {
-      width: 48px;
-      height: 48px;
-      color: vars.$zinc-600;
-      margin-bottom: 8px;
-    }
-
-    p {
-      font-size: 1rem;
-      font-weight: 600;
-      color: vars.$text-color-primary;
-      margin: 0;
-    }
-
-    span {
-      font-size: 0.875rem;
-      color: vars.$zinc-500;
-    }
   }
 
-  &__add-card-btn {
+  &__empty-icon {
+    width: 64px !important;
+    height: 64px !important;
+    color: #3f3f46; // zinc-700 (darker placeholder)
+    margin-bottom: 1rem;
+  }
+
+  &__empty-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 0.5rem 0;
+  }
+
+  &__empty-subtitle {
+    font-size: 0.875rem;
+    color: $text-muted;
+    margin-bottom: 1.5rem;
+  }
+
+  &__add-btn-primary {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 16px;
-    padding: 12px 24px;
-    background: $accent;
+    gap: 0.5rem;
+    background: $primary;
     color: #000;
-    font-size: 0.9375rem;
-    font-weight: 600;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
     border: none;
-    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
+
+    &:hover {
+      background: $primary-hover;
+      transform: translateY(-1px);
+    }
 
     svg {
       width: 18px;
       height: 18px;
-      color: #000;
-      margin: 0;
-    }
-
-    &:hover {
-      background: $accent-hover;
-      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
     }
   }
 
-  // ========================================
-  // New Card Form
-  // ========================================
-  &__new-card-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    animation: fadeInUp 0.3s ease;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(0.5rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  &__input-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__input-label {
-    display: block;
-    font-size: vars.$font-size-small;
-    font-weight: 500;
-    color: vars.$zinc-400;
-    margin-bottom: 0.25rem;
-  }
-
-  &__input-wrapper {
-    position: relative;
-  }
-
-  &__input {
-    width: 100%;
-    background: $input-dark;
-    border: 1px solid vars.$zinc-800;
-    color: vars.$text-color-primary;
-    border-radius: vars.$border-radius-medium;
-    padding: 0.625rem 0.75rem;
-    font-size: vars.$font-size-sm-md;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-
-    &::placeholder {
-      color: vars.$zinc-600;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: $accent;
-      box-shadow: 0 0 0 1px $accent;
-    }
-
-    // RTL support
-    [dir='rtl'] & {
-      text-align: right;
-    }
-
-    [dir='ltr'] & {
-      text-align: left;
-    }
-  }
-
-  &__input-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: vars.$zinc-600;
-    width: 1rem;
-    height: 1rem;
-    pointer-events: none;
-
-    [dir='rtl'] & {
-      left: 0.75rem;
-    }
-
-    [dir='ltr'] & {
-      right: 0.75rem;
-    }
-  }
-
-  &__input-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-
-  // ========================================
-  // Accepted Cards
-  // ========================================
-  &__accepted-cards {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0;
-  }
-
-  &__accepted-cards-line {
-    flex: 1;
-    height: 1px;
-    background: vars.$zinc-800;
-  }
-
-  &__accepted-cards-text {
-    font-size: 0.625rem;
-    color: vars.$zinc-600;
-    white-space: nowrap;
-  }
-
-  &__accepted-cards-icons {
-    display: flex;
-    gap: 0.25rem;
-    opacity: 0.5;
-    filter: grayscale(1);
-    transition: all 0.2s ease;
-
-    &:hover {
-      filter: grayscale(0);
-    }
-  }
-
-  &__card-icon {
-    width: 1.5rem;
-    height: 1rem;
-    background: vars.$zinc-700;
-    border-radius: 2px;
-  }
-
-  // ========================================
-  // Submit Button
-  // ========================================
-  &__submit-btn {
-    width: 100%;
-    margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 16px 24px;
-    background: $accent;
-    color: #000;
-    font-size: 1.0625rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 
-      0 0 20px rgba(255, 209, 102, 0.2),
-      0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:hover:not(:disabled) {
-      background: $accent-hover;
-      box-shadow: 
-        0 0 30px rgba(255, 209, 102, 0.35),
-        0 6px 20px rgba(0, 0, 0, 0.25);
-      transform: translateY(-1px);
-    }
-
-    &:active:not(:disabled) {
-      transform: scale(0.99) translateY(0);
-    }
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-  }
-
-  &__submit-btn-loading {
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  &__submit-btn-amount {
-    font-size: 1.125rem;
-    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
-    font-weight: 700;
-  }
-
-  // ========================================
-  // Terms
-  // ========================================
-  &__terms {
-    text-align: center;
-    font-size: 0.75rem;
-    color: vars.$zinc-500;
-    margin-top: 1rem;
-    line-height: 1.5;
-
-    a {
-      color: vars.$zinc-400;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: vars.$text-color-primary;
-      }
-    }
-  }
-
-  // ========================================
-  // Error Message
-  // ========================================
-  &__error {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    border-radius: 10px;
-    padding: 12px 16px;
-    margin-bottom: 1rem;
-    color: #f87171;
-    font-size: 0.875rem;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  // ========================================
-  // New Card Wrapper (for SumitPaymentForm)
-  // ========================================
-  &__new-card-wrapper {
-    // Override SumitPaymentForm styles for consistent design
+  // New Card Form Wrapper
+  &__new-card {
+    // Styling overrides for Sumit Form if necessary
     .sumit-payment-form {
-      padding: 0;
-      background: transparent;
-      border: none;
+      &__input {
+        background: $bg-input;
+        border-color: $border-color;
+        color: $text-primary;
 
-      &__form {
-        gap: 1rem;
-      }
-
-      &__field-group {
-        margin-bottom: 0;
+        &:focus {
+          border-color: $primary;
+          box-shadow: 0 0 0 1px $primary;
+        }
       }
 
       &__label {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: vars.$zinc-400;
-        margin-bottom: 8px;
+        color: $text-secondary;
       }
-
-      &__input {
-        padding: 14px 16px;
-        font-size: 0.9375rem;
-        background: $input-dark;
-        border: 1px solid vars.$zinc-800;
-        border-radius: 12px;
-        color: vars.$text-color-primary;
-        transition: all 0.2s ease;
-
-        &::placeholder {
-          color: vars.$zinc-600;
-        }
-
-        &:focus {
-          border-color: $accent;
-          box-shadow: 0 0 0 1px $accent;
-        }
-      }
-
-      &__select {
-        padding: 14px 16px;
-        font-size: 0.9375rem;
-        background: $input-dark;
-        border: 1px solid vars.$zinc-800;
-        border-radius: 12px;
-        color: vars.$text-color-primary;
-      }
-
-      &__row {
-        gap: 12px;
-      }
-
-      &__submit-btn {
-        margin-top: 1.5rem;
-        padding: 16px 24px;
-        font-size: 1.0625rem;
-        font-weight: 700;
-        border-radius: 12px;
-        background: $accent;
-        color: #000;
-        box-shadow: 
-          0 0 20px rgba(255, 209, 102, 0.2),
-          0 4px 12px rgba(0, 0, 0, 0.2);
-
-        &:hover:not(:disabled) {
-          background: $accent-hover;
-          box-shadow: 
-            0 0 30px rgba(255, 209, 102, 0.35),
-            0 6px 20px rgba(0, 0, 0, 0.25);
-        }
-      }
-
-      &__footer {
-        margin-top: 1rem;
-        font-size: 0.75rem;
-      }
-    }
-  }
-
-  // ========================================
-  // Select Input
-  // ========================================
-  &__select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: left 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-left: 2rem;
-    cursor: pointer;
-
-    [dir='ltr'] & {
-      background-position: right 0.5rem center;
-      padding-left: 0.75rem;
-      padding-right: 2rem;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: $accent;
-    }
-
-    option {
-      background: $input-dark;
-      color: vars.$text-color-primary;
     }
   }
 }

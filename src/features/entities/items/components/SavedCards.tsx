@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
 
 export interface SavedCard {
   id: string;
@@ -33,87 +34,74 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
 }) => {
   const { t } = useTranslation('orders');
 
+  // If adding new card, show the form (children)
+  if (paymentMethod === 'new') {
+    return <div className="saved-cards__new-card">{children}</div>;
+  }
+
   return (
     <div className="saved-cards">
-      {/* Payment Method Toggle - Always show */}
-      <div className="saved-cards__toggle">
-        <button
-          type="button"
-          className={`saved-cards__toggle-btn ${paymentMethod === 'saved' ? 'saved-cards__toggle-btn--active' : ''}`}
-          onClick={() => onPaymentMethodChange('saved')}
-        >
-          <AccountBalanceWalletIcon />
-          {t('savedCards', 'כרטיסים שמורים')}
-        </button>
-        <button
-          type="button"
-          className={`saved-cards__toggle-btn ${paymentMethod === 'new' ? 'saved-cards__toggle-btn--active' : ''}`}
-          onClick={() => onPaymentMethodChange('new')}
-        >
-          <AddIcon />
-          {t('newCard', 'כרטיס חדש')}
-        </button>
-      </div>
+      {cards.length > 0 ? (
+        <div className="saved-cards__list">
+          {cards.map((card) => (
+            <button
+              key={card.id}
+              type="button"
+              className={`saved-cards__card ${selectedCardId === card.id ? 'saved-cards__card--selected' : ''}`}
+              onClick={() => onSelectCard(card.id)}
+            >
+              <div className="saved-cards__card-content">
+                <div className="saved-cards__brand">
+                  {card.brand === 'mastercard' && (
+                    <div className="mastercard-circles">
+                      <div className="circle red" />
+                      <div className="circle yellow" />
+                    </div>
+                  )}
+                  {card.brand === 'visa' && <span className="visa-text">VISA</span>}
+                  {!['visa', 'mastercard'].includes(card.brand) && <CreditCardIcon />}
+                </div>
+                <div className="saved-cards__details">
+                  <span className="saved-cards__number">•••• {card.last4}</span>
+                  <span className="saved-cards__expiry">
+                    {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
+                  </span>
+                </div>
+              </div>
 
-      {/* Content based on selected method */}
-      {paymentMethod === 'saved' ? (
-        cards.length > 0 ? (
-          <>
-            {/* Card List */}
-            <div className="saved-cards__list">
-              {cards.map((card) => (
-                <label
-                  key={card.id}
-                  className={`saved-cards__card ${selectedCardId === card.id ? 'saved-cards__card--selected' : ''}`}
-                >
-                  {/* Brand Badge */}
-                  <div className="saved-cards__brand">
-                    <span>{card.brand.toUpperCase()}</span>
-                  </div>
-
-                  {/* Card Details */}
-                  <div className="saved-cards__details">
-                    <span className="saved-cards__number">•••• •••• •••• {card.last4}</span>
-                    <span className="saved-cards__expiry">
-                      {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
-                    </span>
-                  </div>
-
-                  {/* Radio Button */}
-                  <input
-                    type="radio"
-                    name="saved_card"
-                    className="saved-cards__radio"
-                    checked={selectedCardId === card.id}
-                    onChange={() => onSelectCard(card.id)}
-                  />
-                </label>
-              ))}
-            </div>
-
-            {/* Remove Card Button */}
-            {onRemoveCard && selectedCardId && (
-              <button type="button" className="saved-cards__remove-btn" onClick={() => onRemoveCard(selectedCardId)}>
-                <DeleteIcon />
-                {t('removeSelectedCard', 'הסר כרטיס נבחר')}
-              </button>
-            )}
-          </>
-        ) : (
-          /* Empty State */
-          <div className="saved-cards__empty">
-            <AccountBalanceWalletIcon />
-            <p>{t('noSavedCards', 'אין כרטיסים שמורים')}</p>
-            <span>{t('noSavedCardsHint', 'הוסף כרטיס חדש כדי לשלם')}</span>
-            <button type="button" className="saved-cards__add-btn" onClick={() => onPaymentMethodChange('new')}>
-              <AddIcon />
-              {t('addNewCard', 'הוסף כרטיס')}
+              <div className={`saved-cards__checkbox ${selectedCardId === card.id ? 'selected' : ''}`}>
+                {selectedCardId === card.id && <CheckIcon />}
+              </div>
+              
+              {/* Optional: Remove button functionality if needed in the list item */}
             </button>
-          </div>
-        )
+          ))}
+
+          <button
+            type="button"
+            className="saved-cards__add-btn-outline"
+            onClick={() => onPaymentMethodChange('new')}
+          >
+            <AddIcon />
+            {t('addNewCard', 'הוסף כרטיס חדש')}
+          </button>
+        </div>
       ) : (
-        /* New Card Form (passed as children) */
-        <div className="saved-cards__new-card">{children}</div>
+        /* Empty State */
+        <div className="saved-cards__empty">
+          <CreditCardIcon className="saved-cards__empty-icon" />
+          <p className="saved-cards__empty-title">{t('noSavedCards', 'אין כרטיסים שמורים')}</p>
+          <span className="saved-cards__empty-subtitle">
+            {t('noSavedCardsHint', 'הוסף את אמצעי התשלום הראשון שלך כדי להתחיל')}
+          </span>
+          <button
+            type="button"
+            className="saved-cards__add-btn-primary"
+            onClick={() => onPaymentMethodChange('new')}
+          >
+            {t('addCard', 'הוסף כרטיס')} <AddIcon />
+          </button>
+        </div>
       )}
     </div>
   );

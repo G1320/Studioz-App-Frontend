@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LockIcon from '@mui/icons-material/Lock';
 import { SumitPaymentForm } from '@shared/components';
 import { sumitService } from '@shared/services';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
@@ -128,134 +128,147 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 
   return (
     <div className={`order-summary ${className}`} dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Order Details Column */}
-      <div className="order-summary__details-column">
-        {/* Studio Info Card */}
-        <div className="order-summary__card">
-          <h3 className="order-summary__card-title">{t('orderDetails', 'פרטי ההזמנה')}</h3>
-
-          <div className="order-summary__info-list">
-            {/* Studio */}
-            <div className="order-summary__info-item">
-              <div className="order-summary__info-icon">
-                <LocationOnIcon />
-              </div>
-              <div className="order-summary__info-content">
-                <p className="order-summary__info-primary">{studioName}</p>
-                <p className="order-summary__info-secondary">{studioLocation}</p>
-              </div>
-            </div>
-
-            {/* Date */}
-            <div className="order-summary__info-item">
-              <div className="order-summary__info-icon order-summary__info-icon--neutral">
-                <CalendarTodayIcon />
-              </div>
-              <div className="order-summary__info-content">
-                <p className="order-summary__info-primary">{bookingDate}</p>
-                <p className="order-summary__info-secondary">{t('date', 'תאריך')}</p>
-              </div>
-            </div>
-
-            {/* Time */}
-            <div className="order-summary__info-item">
-              <div className="order-summary__info-icon order-summary__info-icon--neutral">
-                <AccessTimeIcon />
-              </div>
-              <div className="order-summary__info-content">
-                <p className="order-summary__info-primary">{bookingTime}</p>
-                <p className="order-summary__info-secondary">{t('time', 'שעה')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Price Breakdown Card */}
-        <div className="order-summary__card">
-          <h3 className="order-summary__card-title order-summary__card-title--small">
-            {t('priceBreakdown', 'פירוט תשלום')}
-          </h3>
-
-          <div className="order-summary__price-list">
-            {formattedItems.map((item) => (
-              <div key={item.id} className="order-summary__price-item">
-                <span className="order-summary__price-label">{item.label}</span>
-                <span className="order-summary__price-value">{item.displayValue}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="order-summary__total-row">
-            <span className="order-summary__total-label">{t('totalToPay', 'סה״כ לתשלום')}</span>
-            <span className="order-summary__total-value">
-              {currency}
-              {totalAmount}
-            </span>
-          </div>
-        </div>
+      {/* Header */}
+      <div className="order-summary__header">
+        {paymentMethod === 'new' && (
+          <button type="button" className="order-summary__back-btn" onClick={() => setPaymentMethod('saved')}>
+            <ArrowBackIcon />
+          </button>
+        )}
+        <h3 className="order-summary__title">
+          {paymentMethod === 'new' ? t('addPaymentMethod', 'הוסף אמצעי תשלום') : t('checkout', 'תשלום')}
+        </h3>
       </div>
 
-      {/* Payment Form Column */}
-      <div className="order-summary__payment-column">
-        <div className="order-summary__payment-card">
-          {/* Header */}
-          <div className="order-summary__payment-header">
-            <h2 className="order-summary__payment-title">{t('paymentMethod', 'אמצעי תשלום')}</h2>
-            <div className="order-summary__secure-badge">
-              <VerifiedUserIcon />
-              <span>{t('securePayment', 'תשלום מאובטח')}</span>
+      <div className="order-summary__content">
+        {/* VIEW: Saved Cards List */}
+        {paymentMethod === 'saved' && (
+          <div className="order-summary__view-list animate-in fade-in slide-in-from-start duration-300">
+            {/* Order Summary Section */}
+            <div className="order-summary__section">
+              <h4 className="order-summary__section-title">{t('orderSummary', 'סיכום הזמנה')}</h4>
+
+              <div className="order-summary__details-card">
+                {/* Info Items */}
+                <div className="order-summary__info-row">
+                  <div className="order-summary__info-item">
+                    <LocationOnIcon className="order-summary__info-icon" />
+                    <div>
+                      <p className="order-summary__info-primary">{studioName}</p>
+                      <p className="order-summary__info-secondary">{studioLocation}</p>
+                    </div>
+                  </div>
+
+                  <div className="order-summary__info-divider" />
+
+                  <div className="order-summary__info-item">
+                    <CalendarTodayIcon className="order-summary__info-icon" />
+                    <div>
+                      <p className="order-summary__info-primary">{bookingDate}</p>
+                      <p className="order-summary__info-secondary">{bookingTime}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Price Breakdown */}
+                <div className="order-summary__price-list">
+                  {formattedItems.map((item) => (
+                    <div key={item.id} className="order-summary__price-item">
+                      <span className="order-summary__price-label">{item.label}</span>
+                      <span className="order-summary__price-value">{item.displayValue}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Total */}
+                <div className="order-summary__total-row">
+                  <span className="order-summary__total-label">{t('totalToPay', 'סה״כ לתשלום')}</span>
+                  <span className="order-summary__total-value">
+                    {currency}
+                    {totalAmount}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Payment Method Section */}
+            <div className="order-summary__section">
+              <h4 className="order-summary__section-title">{t('paymentMethod', 'אמצעי תשלום')}</h4>
+
+              <SavedCards
+                cards={savedCards}
+                selectedCardId={selectedCardId}
+                onSelectCard={setSelectedCardId}
+                onRemoveCard={onRemoveCard ? handleRemoveCard : undefined}
+                paymentMethod={paymentMethod}
+                onPaymentMethodChange={setPaymentMethod}
+              />
+            </div>
+
+            {/* Footer / Submit */}
+            <div className="order-summary__footer">
+              {savedCards.length > 0 && (
+                <form onSubmit={handleSavedCardSubmit} className="order-summary__form">
+                  {displayError && <div className="order-summary__error">{displayError}</div>}
+
+                  <button type="submit" className="order-summary__submit-btn" disabled={processing}>
+                    {processing ? (
+                      <span className="order-summary__submit-btn-loading">{t('processing', 'מעבד תשלום...')}</span>
+                    ) : (
+                      <>
+                        <span>{t('pay', 'לתשלום')}</span>
+                        <span className="order-summary__submit-btn-amount">
+                          {currency}
+                          {totalAmount}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+
+              <div className="order-summary__footer-sumit">
+                <div className="sumit-secured">
+                  <span>מאובטח על ידי </span>
+                  <a href="https://sumit.co.il" target="_blank" rel="noopener noreferrer" className="sumit-link">
+                    Sumit.co.il
+                  </a>
+                  <span> פתרונות תשלום</span>
+                </div>
+                <div className="sumit-ssl">
+                  <span className="ssl-text">SSL Secured Transaction</span>
+                  <LockIcon style={{ fontSize: 12 }} />
+                </div>
+              </div>
             </div>
           </div>
+        )}
 
-          {/* SavedCards Component with Toggle */}
-          <SavedCards
-            cards={savedCards}
-            selectedCardId={selectedCardId}
-            onSelectCard={setSelectedCardId}
-            onRemoveCard={onRemoveCard ? handleRemoveCard : undefined}
-            paymentMethod={paymentMethod}
-            onPaymentMethodChange={setPaymentMethod}
-          >
-            {/* New Card Form */}
-            <SumitPaymentForm
-              variant="order"
-              onSubmit={handleNewCardSubmit}
-              error={displayError}
-              totalAmount={totalAmount}
-              isProcessing={processing}
-              showHeader={false}
-              showFooter={true}
-              currency={currency}
-            />
-          </SavedCards>
-
-          {/* Submit Button for Saved Cards */}
-          {paymentMethod === 'saved' && savedCards.length > 0 && (
-            <form onSubmit={handleSavedCardSubmit} className="order-summary__form">
-              {displayError && <div className="order-summary__error">{displayError}</div>}
-
-              <button type="submit" className="order-summary__submit-btn" disabled={processing}>
-                {processing ? (
-                  <span className="order-summary__submit-btn-loading">{t('processing', 'מעבד תשלום...')}</span>
-                ) : (
-                  <>
-                    <span>{t('payNow', 'שלם עכשיו')}</span>
-                    <span className="order-summary__submit-btn-amount">
-                      {currency}
-                      {totalAmount}
-                    </span>
-                  </>
-                )}
-              </button>
-
-              <p className="order-summary__terms">
-                {t('termsAgreement', 'בלחיצה על "שלם עכשיו" אני מסכים/ה')}{' '}
-                <a href="/terms">{t('termsOfService', 'לתנאי השימוש')}</a> {t('and', 'ו')}
-                <a href="/cancellation-policy">{t('cancellationPolicy', 'מדיניות הביטולים')}</a>
-              </p>
-            </form>
-          )}
-        </div>
+        {/* VIEW: Add New Card */}
+        {paymentMethod === 'new' && (
+          <div className="order-summary__view-add animate-in fade-in slide-in-from-end duration-300">
+            <SavedCards
+              cards={savedCards}
+              selectedCardId={selectedCardId}
+              onSelectCard={setSelectedCardId}
+              onRemoveCard={onRemoveCard ? handleRemoveCard : undefined}
+              paymentMethod={paymentMethod}
+              onPaymentMethodChange={setPaymentMethod}
+            >
+              <SumitPaymentForm
+                variant="order"
+                onSubmit={handleNewCardSubmit}
+                error={displayError}
+                totalAmount={totalAmount}
+                isProcessing={processing}
+                showHeader={false}
+                showFooter={true}
+                currency={currency}
+                submitButtonText={t('pay', 'לתשלום')}
+              />
+            </SavedCards>
+          </div>
+        )}
       </div>
     </div>
   );
