@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useToggleStudioActiveMutation, useToggleItemActiveMutation } from '@shared/hooks/mutations/studios/studioMutations';
+import { useItems } from '@shared/hooks';
+import Item from 'src/types/item';
 
 // MUI Icons
 import BusinessIcon from '@mui/icons-material/Business';
@@ -99,6 +101,7 @@ const ItemTypeIcon: React.FC<{ type: string }> = ({ type }) => {
 // --- Studio Card Component ---
 interface StudioCardProps {
   studio: Studio;
+  itemsMap: Map<string, Item>;
   onToggleStudio: (id: string, newActive: boolean) => void;
   onToggleItem: (studioId: string, itemId: string, newActive: boolean) => void;
   isTogglingStudio: boolean;
@@ -109,6 +112,7 @@ interface StudioCardProps {
 
 const StudioCard: React.FC<StudioCardProps> = ({ 
   studio, 
+  itemsMap,
   onToggleStudio, 
   onToggleItem,
   isTogglingStudio,
@@ -209,8 +213,15 @@ const StudioCard: React.FC<StudioCardProps> = ({
             {items.map((item) => {
               const itemActive = item.active !== false;
               const itemStatus = getStatusFromActive(item.active);
-              const itemName = item.name?.[currentLang] || item.name?.en || item.name?.he || 'Item';
               const itemId = item.itemId || item._id || '';
+              // Get full item data from map for the actual name
+              const fullItem = itemsMap.get(itemId);
+              const itemName = fullItem?.name?.[currentLang] || fullItem?.name?.en || fullItem?.name?.he || 
+                               item.name?.[currentLang] || item.name?.en || item.name?.he || 
+                               item.subCategories?.[0] || item.categories?.[0] || 'Service';
+              const itemPrice = fullItem?.price ?? item.price ?? 0;
+              const itemPricePer = fullItem?.pricePer || 'hour';
+              const itemDuration = fullItem?.minimumBookingDuration?.value || item.minimumBookingDuration?.value || 60;
               
               return (
                 <div 
@@ -233,9 +244,9 @@ const StudioCard: React.FC<StudioCardProps> = ({
                         )}
                       </div>
                       <p className="studio-card__item-meta">
-                        <span>₪{item.price || 0} {t('perHour', 'לשעה')}</span>
+                        <span>₪{itemPrice} {itemPricePer === 'hour' ? t('perHour', 'לשעה') : `/${itemPricePer}`}</span>
                         <span className="studio-card__item-meta-divider" />
-                        <span>{t('upTo', 'עד')} {item.minimumBookingDuration?.value || 60} {t('minutes', 'דק׳')}</span>
+                        <span>{t('upTo', 'עד')} {itemDuration} {t('minutes', 'דק׳')}</span>
                       </p>
                     </div>
                   </div>
@@ -293,6 +304,18 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
   
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<'all' | 'active' | 'offline'>('all');
+
+  // Fetch all items to get full item data including names
+  const { data: items = [] } = useItems();
+  
+  // Create a map of itemId -> full Item for quick lookup
+  const itemsMap = useMemo(() => {
+    const map = new Map<string, Item>();
+    items.forEach((item) => {
+      if (item._id) map.set(item._id, item);
+    });
+    return map;
+  }, [items]);
 
   // Mutations
   const toggleStudioMutation = useToggleStudioActiveMutation();
@@ -450,6 +473,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
             <StudioCard 
               key={studio._id} 
               studio={studio}
+              itemsMap={itemsMap}
               onToggleStudio={handleToggleStudio}
               onToggleItem={handleToggleItem}
               isTogglingStudio={toggleStudioMutation.isPending}
