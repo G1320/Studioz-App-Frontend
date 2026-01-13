@@ -1,0 +1,63 @@
+{
+  "header": {
+    "greeting": "Hello,",
+    "defaultStudio": "Your Studio",
+    "subtitle": "Here's an overview of your performance for this period",
+    "month": "January 2024",
+    "export": "Export"
+  },
+  "metrics": {
+    "totalRevenue": "Total Revenue",
+    "totalBookings": "Total Bookings",
+    "avgPerBooking": "Avg per Booking",
+    "newClients": "New Clients"
+  },
+  "revenueChart": {
+    "title": "Revenue Trend",
+    "subtitle": "Gross revenue before fees"
+  },
+  "period": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
+  "months": {
+    "jan": "Jan",
+    "feb": "Feb",
+    "mar": "Mar",
+    "apr": "Apr",
+    "may": "May",
+    "jun": "Jun",
+    "jul": "Jul",
+    "aug": "Aug",
+    "sep": "Sep",
+    "oct": "Oct",
+    "nov": "Nov",
+    "dec": "Dec"
+  },
+  "days": {
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat"
+  },
+  "quickStats": {
+    "occupancy": "Studio Occupancy",
+    "aboveAverage": "Above Average",
+    "roomA": "Room A",
+    "roomB": "Room B",
+    "avgSession": "Avg Session Time",
+    "hours": "hours",
+    "recording": "Recording",
+    "mixing": "Mixing"
+  },
+  "clients": {
+    "title": "Top Clients",
+    "viewAll": "View All",
+    "lastVisit": "Last Visit",
+    "filterByCategory": "Filter by Category"
+  }
+}

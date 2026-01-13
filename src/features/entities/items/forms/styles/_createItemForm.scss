@@ -1,0 +1,543 @@
+@use 'utilities/variables' as vars;
+@use '../../../../shared/components/forms/styles/design-system' as ds;
+
+// Pricing Step Styles
+.pricing-step {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-2xl;
+  animation: fadeInSlide 0.5s ease-out;
+  max-width: 100%;
+
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+  }
+
+  &__title-icon {
+    color: ds.$primary-yellow;
+    font-size: 1.5rem !important;
+  }
+
+  &__description {
+    font-size: vars.$font-size-small;
+    color: ds.$zinc-500;
+    margin: 0;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-large;
+    background: rgba(ds.$zinc-900, 0.3);
+    padding: vars.$spacing-large;
+    border-radius: 16px;
+    border: 1px solid rgba(ds.$zinc-800, 0.5);
+  }
+
+  &__radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-small;
+    padding: 4px;
+    background: rgba(ds.$zinc-900, 0.5);
+    border-radius: 12px;
+    border: 1px solid ds.$zinc-700;
+  }
+
+  &__radio-btn {
+    flex: 1;
+    min-width: fit-content;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: ds.$zinc-400;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover:not(&--active) {
+      color: ds.$zinc-300;
+      background: rgba(ds.$zinc-800, 0.5);
+    }
+
+    &--active {
+      background: ds.$primary-yellow;
+      color: black;
+      box-shadow: 0 2px 8px rgba(ds.$primary-yellow, 0.3);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-large;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+
+    &--full {
+      width: 100%;
+    }
+  }
+
+  &__label {
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+    color: ds.$zinc-500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: start;
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    direction: ltr; // Keep input content LTR (₪ > value > suffix)
+  }
+
+  &__input-prefix {
+    position: absolute;
+    left: 16px;
+    color: ds.$zinc-400;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__input-suffix {
+    position: absolute;
+    right: 16px;
+    color: ds.$zinc-500;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  &__input {
+    width: 100%;
+    background: rgba(ds.$zinc-900, 0.5);
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: white;
+    font-size: vars.$font-size-medium;
+    transition: all 0.2s ease;
+    direction: ltr; // Keep number input LTR for proper digit display
+    text-align: left; // Default for LTR
+
+    // In RTL context, align text to the right (start in RTL)
+    [dir='rtl'] & {
+      text-align: right;
+    }
+
+    &::placeholder {
+      color: ds.$zinc-600;
+    }
+
+    &:hover {
+      background: rgba(ds.$zinc-900, 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
+    }
+
+    &--with-prefix {
+      padding-left: 40px;
+    }
+
+    &--with-suffix {
+      padding-right: 60px;
+    }
+
+    // Remove number input spinners
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+
+  &__select {
+    width: 100%;
+    background: rgba(ds.$zinc-900, 0.5);
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: white;
+    font-size: vars.$font-size-medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+
+    &:hover {
+      background-color: rgba(ds.$zinc-900, 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
+    }
+
+    option {
+      background: ds.$zinc-900;
+      color: white;
+    }
+  }
+
+  &__block-discounts {
+    padding-top: vars.$spacing-large;
+    border-top: 1px solid rgba(ds.$zinc-800, 0.5);
+  }
+
+  &__block-discounts-header {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    margin-bottom: vars.$spacing-medium;
+  }
+
+  &__block-discounts-icon {
+    color: ds.$primary-yellow;
+    font-size: 1rem !important;
+  }
+
+  &__block-discounts-title {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    color: white;
+  }
+
+  &__info-box {
+    display: flex;
+    gap: vars.$spacing-medium;
+    background: rgba(96, 165, 250, 0.1); // blue-500/10
+    border: 1px solid rgba(96, 165, 250, 0.2); // blue-500/20
+    border-radius: 12px;
+    padding: vars.$spacing-medium;
+  }
+
+  &__info-icon {
+    color: #60a5fa; // blue-400
+    font-size: 1rem !important;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &__info-content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__info-title {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    color: #60a5fa; // blue-400
+    margin: 0;
+  }
+
+  &__info-text {
+    font-size: vars.$font-size-xs;
+    color: rgba(147, 197, 253, 0.7); // blue-300/70
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.booking-settings-step {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-2xl;
+  text-align: start;
+  animation: fadeInSlide 0.5s ease-out;
+  max-width: 100%;
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+  }
+
+  &__title-icon {
+    color: ds.$primary-yellow;
+    font-size: 1.5rem !important;
+  }
+
+  &__description {
+    font-size: vars.$font-size-small;
+    color: ds.$zinc-500;
+    margin: 0;
+  }
+
+  // Booking Mode Cards
+  &__mode-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-medium;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__mode-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: vars.$spacing-large;
+    border-radius: 16px;
+    border: 1px solid ds.$zinc-700;
+    background: rgba(ds.$zinc-900, 0.5);
+    text-align: start;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    &:hover:not(&--active) {
+      border-color: ds.$zinc-500;
+      background: rgba(ds.$zinc-800, 0.5);
+    }
+
+    &--active {
+      background: rgba(ds.$primary-yellow, 0.1);
+      border-color: ds.$primary-yellow;
+    }
+  }
+
+  &__mode-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-bottom: vars.$spacing-medium;
+    transition: all 0.2s ease;
+
+    &--default {
+      background: ds.$zinc-800;
+      color: ds.$zinc-400;
+
+      .booking-settings-step__mode-card:hover & {
+        color: white;
+      }
+    }
+
+    &--active {
+      background: ds.$primary-yellow;
+      color: black;
+    }
+
+    svg {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  &__mode-title {
+    font-weight: 700;
+    margin-bottom: vars.$spacing-xs;
+    transition: color 0.2s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+
+    &--default {
+      color: white;
+    }
+
+    &--active {
+      color: ds.$primary-yellow;
+    }
+  }
+
+  &__mode-description {
+    font-size: vars.$font-size-xs;
+    color: ds.$zinc-500;
+    line-height: 1.5;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  // Settings Grid (dropdowns)
+  &__settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-large;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+    color: ds.$zinc-500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    svg {
+      font-size: 0.875rem !important;
+      color: ds.$zinc-500;
+    }
+  }
+
+  &__select-wrapper {
+    position: relative;
+  }
+
+  &__select {
+    width: 100%;
+    background: rgba(ds.$zinc-900, 0.5);
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    padding: 14px 40px 14px 16px;
+    color: white;
+    font-size: vars.$font-size-medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+
+    &:hover {
+      background: rgba(ds.$zinc-900, 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
+    }
+
+    option {
+      background: ds.$zinc-900;
+      color: white;
+    }
+  }
+
+  &__select-arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: ds.$zinc-500;
+    font-size: 0.75rem;
+  }
+
+  // Minimum Quantity Field (for non-hourly)
+  &__input {
+    width: 100%;
+    max-width: 120px;
+    background: rgba(ds.$zinc-900, 0.5);
+    border: 1px solid ds.$zinc-700;
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: white;
+    font-size: vars.$font-size-medium;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: ds.$zinc-600;
+    }
+
+    &:hover {
+      background: rgba(ds.$zinc-900, 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+      box-shadow: 0 0 0 1px ds.$primary-yellow;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .booking-settings-step {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

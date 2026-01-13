@@ -1,11 +1,11 @@
 /**
  * Sitemap Generator Script
- * 
+ *
  * This script generates a sitemap.xml that includes:
  * - Static pages (landing, studios list, privacy, terms, etc.)
  * - Category and city filter pages
  * - Individual studio detail pages (fetched from API)
- * 
+ *
  * Run this script after building: node scripts/generate-sitemap.js
  */
 
@@ -72,11 +72,11 @@ async function fetchStudios() {
   try {
     console.log('📡 Fetching studios from API...');
     const response = await fetch(`${API_URL}/studios`);
-    
+
     if (!response.ok) {
       throw new Error(`API responded with status ${response.status}`);
     }
-    
+
     const studios = await response.json();
     console.log(`✅ Fetched ${studios.length} studios`);
     return studios;
@@ -110,10 +110,8 @@ async function generateSitemap() {
   console.log('📝 Adding static routes...');
   for (const route of BASE_ROUTES) {
     for (const lang of LANGUAGES) {
-      const url = route === '/' 
-        ? `${HOSTNAME}/${lang}`
-        : `${HOSTNAME}/${lang}${route}`;
-      
+      const url = route === '/' ? `${HOSTNAME}/${lang}` : `${HOSTNAME}/${lang}${route}`;
+
       const priority = route === '/' ? '1.0' : '0.8';
       const changefreq = route === '/' ? 'daily' : 'weekly';
       urls.push(createUrlEntry(url, now, changefreq, priority));
@@ -145,18 +143,18 @@ async function generateSitemap() {
 
   // 4. Fetch and add individual studio pages
   const studios = await fetchStudios();
-  
+
   if (studios.length > 0) {
     console.log('📝 Adding individual studio pages...');
     for (const studio of studios) {
       // Skip studios without an ID
       if (!studio._id) continue;
-      
+
       for (const lang of LANGUAGES) {
         // Studio detail page: /{lang}/studio/{studioId}
         const studioUrl = `${HOSTNAME}/${lang}/studio/${studio._id}`;
         urls.push(createUrlEntry(studioUrl, now, 'weekly', '0.9'));
-        
+
         // Studio reviews page: /{lang}/studio/{studioId}/reviews
         const reviewsUrl = `${HOSTNAME}/${lang}/studio/${studio._id}/reviews`;
         urls.push(createUrlEntry(reviewsUrl, now, 'monthly', '0.6'));
@@ -174,16 +172,16 @@ ${urls.join('\n')}
 
   // 6. Write to dist folder
   const distPath = path.resolve(__dirname, '../dist/sitemap.xml');
-  
+
   // Ensure dist folder exists
   const distDir = path.dirname(distPath);
   if (!fs.existsSync(distDir)) {
     console.log('⚠️  dist folder not found. Run `npm run build` first.');
     return;
   }
-  
+
   fs.writeFileSync(distPath, sitemap, 'utf8');
-  
+
   console.log(`\n✅ Sitemap generated successfully!`);
   console.log(`📄 Location: ${distPath}`);
   console.log(`📊 Total URLs: ${urls.length}`);

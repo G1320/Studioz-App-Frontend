@@ -1,0 +1,63 @@
+{
+  "header": {
+    "greeting": "שלום,",
+    "defaultStudio": "האולפן שלך",
+    "subtitle": "הנה סקירה של הביצועים שלך לתקופה זו",
+    "month": "ינואר 2024",
+    "export": "ייצוא"
+  },
+  "metrics": {
+    "totalRevenue": "סה״כ הכנסות",
+    "totalBookings": "סה״כ הזמנות",
+    "avgPerBooking": "ממוצע להזמנה",
+    "newClients": "לקוחות חדשים"
+  },
+  "revenueChart": {
+    "title": "מגמת הכנסות",
+    "subtitle": "הכנסות ברוטו לפני עמלות"
+  },
+  "period": {
+    "daily": "יומי",
+    "weekly": "שבועי",
+    "monthly": "חודשי"
+  },
+  "months": {
+    "jan": "ינו׳",
+    "feb": "פבר׳",
+    "mar": "מרץ",
+    "apr": "אפר׳",
+    "may": "מאי",
+    "jun": "יונ׳",
+    "jul": "יול׳",
+    "aug": "אוג׳",
+    "sep": "ספט׳",
+    "oct": "אוק׳",
+    "nov": "נוב׳",
+    "dec": "דצמ׳"
+  },
+  "days": {
+    "sun": "א׳",
+    "mon": "ב׳",
+    "tue": "ג׳",
+    "wed": "ד׳",
+    "thu": "ה׳",
+    "fri": "ו׳",
+    "sat": "ש׳"
+  },
+  "quickStats": {
+    "occupancy": "תפוסת אולפן",
+    "aboveAverage": "גבוה מהרגיל",
+    "roomA": "חדר א׳",
+    "roomB": "חדר ב׳",
+    "avgSession": "זמן ממוצע לסשן",
+    "hours": "שעות",
+    "recording": "הקלטה",
+    "mixing": "מיקס"
+  },
+  "clients": {
+    "title": "לקוחות מובילים",
+    "viewAll": "הצג הכל",
+    "lastVisit": "ביקור אחרון",
+    "filterByCategory": "סנן לפי קטגוריה"
+  }
+}
