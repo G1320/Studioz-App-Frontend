@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .addon-card {
   border: 1px solid vars.$light-gray-e0e0e0;
@@ -18,7 +19,7 @@
 
   &-content {
     display: flex;
-    gap: 1rem;
+    gap: ds.$space-4;
     align-items: flex-start;
   }
 

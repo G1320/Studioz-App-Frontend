@@ -177,7 +177,7 @@ $error: ds.$color-error;
   &__info-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: ds.$space-4;
     margin-bottom: 1.25rem;
   }
 
@@ -416,7 +416,7 @@ $error: ds.$color-error;
   &__card-content {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   // Brand Icon

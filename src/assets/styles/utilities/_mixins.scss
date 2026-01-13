@@ -10,7 +10,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem; // py-3 px-4
-  border-radius: 0.75rem; // rounded-xl
+  border-radius: ds.$radius-lg; // rounded-xl
   background: vars.$zinc-900;
   border: 1px solid vars.$zinc-800;
   color: vars.$zinc-400;

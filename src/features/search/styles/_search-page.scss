@@ -1,7 +1,9 @@
+@use 'design-system' as ds;
+
 .search-page {
   max-width: 100%;
   margin-inline: auto;
-  padding-inline: 1rem;
+  padding-inline: ds.$space-4;
 
   @media screen and (min-width: 768px) {
     padding-inline: 2rem;

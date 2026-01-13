@@ -1,7 +1,9 @@
+@use 'design-system' as ds;
+
 .services-page {
   display: grid;
 
-  gap: 1rem;
+  gap: ds.$space-4;
   margin-block-end: 2.5rem;
 
   .items-map {
@@ -12,7 +14,7 @@
       display: grid;
       place-self: center;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
+      gap: ds.$space-4;
     }
   }
 }

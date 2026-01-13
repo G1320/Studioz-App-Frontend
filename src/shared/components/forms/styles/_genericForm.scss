@@ -244,7 +244,7 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 0.5rem;
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     label {
       cursor: pointer;
     }

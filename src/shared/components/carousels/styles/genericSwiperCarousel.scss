@@ -1,5 +1,6 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
 
 .generic-carousel {
   color: #fff;
@@ -190,7 +191,7 @@
     justify-content: center;
     background: vars.$zinc-800;
     border: 1px solid vars.$zinc-700;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     color: vars.$zinc-400;
     cursor: pointer;
     transition: all 0.2s ease;

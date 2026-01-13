@@ -10,7 +10,7 @@
   &__section {
     background: rgba(vars.$zinc-900, 0.5);
     border: 1px solid vars.$zinc-800;
-    border-radius: 1rem;
+    border-radius: ds.$radius-xl;
     padding: 1.5rem;
     min-width: 0;
     overflow: visible;
@@ -153,7 +153,7 @@
     text-align: center;
     padding: 3rem 1rem;
     border: 2px dashed vars.$zinc-800;
-    border-radius: 1rem;
+    border-radius: ds.$radius-xl;
     background: rgba(vars.$zinc-900, 0.3);
   }
 
@@ -398,7 +398,7 @@
 .portfolio-modal {
   background: vars.$bg-color-primary;
   border: 1px solid vars.$zinc-800;
-  border-radius: 1rem;
+  border-radius: ds.$radius-xl;
   width: 100%;
   max-width: 32rem;
   max-height: 90vh;

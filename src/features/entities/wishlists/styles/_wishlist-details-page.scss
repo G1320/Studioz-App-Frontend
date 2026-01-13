@@ -1,5 +1,7 @@
+@use 'design-system' as ds;
+
 .wishlist-details-page {
-  gap: 1rem;
+  gap: ds.$space-4;
   .details-buttons {
     display: flex;
   }

@@ -1,6 +1,7 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
 @use 'sass:color';
+@use 'design-system' as ds;
 
 .notification-bell {
   position: relative;
@@ -54,7 +55,7 @@
       min-width: 1.125rem;
       height: 1.125rem;
       line-height: 1.125rem;
-      border-radius: 0.5rem;
+      border-radius: ds.$radius-md;
       box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.95);
     }
 

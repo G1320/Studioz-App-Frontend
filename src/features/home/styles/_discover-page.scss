@@ -1,7 +1,9 @@
+@use 'design-system' as ds;
+
 .discover-page {
   display: grid;
   justify-items: center;
-  // gap: 1rem;
+  // gap: ds.$space-4;
   margin-block-end: 2.5rem;
   .card {
     cursor: pointer;

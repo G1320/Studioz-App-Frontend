@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // Match the ReservationCard colors
 $card-bg: #111111;
@@ -16,7 +17,7 @@ $border-default: vars.$zinc-800;
   &__summary {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
+    gap: ds.$space-4;
     padding: 1.25rem;
   }
 

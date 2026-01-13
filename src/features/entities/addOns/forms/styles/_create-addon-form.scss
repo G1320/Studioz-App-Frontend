@@ -86,7 +86,7 @@
     padding: ds.$space-4;
     background: rgba(24, 24, 27, 0.5); // zinc-900/50
     border: 1px solid #27272a; // zinc-800
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     transition: all 0.2s ease;
 
     &:hover {
@@ -192,7 +192,7 @@
     padding: 1.25rem;
     background: transparent;
     border: 1px dashed #3f3f46; // zinc-700
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     color: #a1a1aa; // zinc-400
     cursor: pointer;
     transition: all 0.2s ease;
@@ -222,7 +222,7 @@
   .addon-form-content {
     background: #18181b; // zinc-900
     border: 1px solid #3f3f46; // zinc-700
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -305,7 +305,7 @@
     box-sizing: border-box;
     background: rgba(9, 9, 11, 0.5); // zinc-950/50
     border: 1px solid #3f3f46; // zinc-700
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     padding: 0.75rem 1rem;
     color: white;
     font-size: ds.$font-md;
@@ -342,7 +342,7 @@
     box-sizing: border-box;
     background: rgba(9, 9, 11, 0.5); // zinc-950/50
     border: 1px solid #3f3f46; // zinc-700
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     padding: 0.75rem 1rem;
     padding-right: 2.5rem;
     color: white;
@@ -449,7 +449,7 @@
     width: 100%;
     background: ds.$primary-yellow;
     border: none;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     padding: 0.875rem;
     color: black;
     font-size: ds.$font-md;

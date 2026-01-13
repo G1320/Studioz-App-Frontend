@@ -280,7 +280,7 @@ $accent: ds.$primary-yellow;
     min-width: 0;
     background: rgba($surface, 0.8);
     border: 1px solid $border-default;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     padding: 0.5rem 0.75rem;
     font-size: ds.$font-md;
     color: $text-primary;
@@ -333,7 +333,7 @@ $accent: ds.$primary-yellow;
   &__notes {
     background: rgba($surface, 0.5);
     padding: 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     font-size: ds.$font-sm;
     color: $text-secondary;
     line-height: 1.5;
@@ -407,7 +407,7 @@ $accent: ds.$primary-yellow;
     align-items: center;
     background: rgba($surface, 0.3);
     padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     border: 1px solid rgba($border-default, 0.5);
   }
 
@@ -427,7 +427,7 @@ $accent: ds.$primary-yellow;
     color: $text-secondary;
     background: rgba($surface, 0.3);
     padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     border: 1px solid rgba($border-default, 0.5);
   }
 
@@ -453,7 +453,7 @@ $accent: ds.$primary-yellow;
     flex: 1;
     min-width: 5rem;
     padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     border: 1px solid $border-default;
     background: rgba($surface, 0.5);
     color: $text-tertiary;
@@ -552,7 +552,7 @@ $accent: ds.$primary-yellow;
     gap: 0.75rem;
     padding: ds.$space-4;
     background: rgba(0, 0, 0, 0.3);
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
