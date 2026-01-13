@@ -26,14 +26,14 @@
     display: flex;
     flex-direction: column;
     gap: ds.$space-6;
-    padding: 2rem;
+    padding: ds.$space-8;
     color: vars.$color-text-light-gray;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
 
     @media (max-width: 768px) {
-      padding: 1.5rem;
+      padding: ds.$space-6;
       gap: 1.25rem;
     }
 

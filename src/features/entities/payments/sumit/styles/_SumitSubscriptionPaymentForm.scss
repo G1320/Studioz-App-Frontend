@@ -5,7 +5,7 @@
 .sumit-payment-form {
   max-width: 520px;
   margin: vars.$spacing-2xl auto;
-  padding: 2rem; // 32px
+  padding: ds.$space-8; // 32px
   background: #0a0a0a; // Deepest black
   border-radius: 1.5rem; // 24px - rounded-3xl
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2);

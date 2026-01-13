@@ -68,7 +68,7 @@ $border-default: vars.$zinc-800;
   // Responsive
   @media (max-width: 480px) {
     &__summary {
-      padding: 1rem;
+      padding: ds.$space-4;
     }
   }
 }

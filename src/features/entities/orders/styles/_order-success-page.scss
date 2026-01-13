@@ -27,7 +27,7 @@
 // Main container styles
 .order-success-container {
   min-height: 100vh;
-  padding: 2rem;
+  padding: ds.$space-8;
   background-color: #f8f9fa;
 
   .container {
@@ -59,7 +59,7 @@
 
 // Content area styles
 .content {
-  padding: 2rem;
+  padding: ds.$space-8;
 }
 
 // Order details section

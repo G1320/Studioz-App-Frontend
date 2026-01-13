@@ -238,7 +238,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   padding: ds.$space-6;
 
   @media (min-width: 768px) {
-    padding: 2rem;
+    padding: ds.$space-8;
   }
 }
 

@@ -253,7 +253,7 @@
       background: rgba(vars.$zinc-900, 0.3);
       border-radius: ds.$radius-xl;
       border: 1px solid vars.$zinc-800;
-      padding: 1.5rem;
+      padding: ds.$space-6;
 
       &__title {
         display: flex;

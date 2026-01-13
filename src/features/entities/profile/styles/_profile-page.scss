@@ -19,7 +19,7 @@ $profile-text-secondary: ds.$zinc-200;
 
 .profile-page {
   min-height: calc(100vh - 120px);
-  padding: 1.5rem;
+  padding: ds.$space-6;
   background: $profile-bg;
 
   @media (min-width: 768px) {
@@ -43,7 +43,7 @@ $profile-text-secondary: ds.$zinc-200;
   background: $profile-surface;
   border: 1px solid $profile-border;
   border-radius: 1.5rem;
-  padding: 2rem;
+  padding: ds.$space-8;
   overflow: hidden;
 
   &__bg {
@@ -266,11 +266,11 @@ $profile-text-secondary: ds.$zinc-200;
   background: $profile-surface;
   border: 1px solid $profile-border;
   border-radius: 1.5rem;
-  padding: 1.5rem;
+  padding: ds.$space-6;
   overflow: hidden;
 
   @media (min-width: 768px) {
-    padding: 2rem;
+    padding: ds.$space-8;
   }
 
   &__glow {

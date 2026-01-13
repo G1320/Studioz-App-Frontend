@@ -1,21 +1,22 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .studio-reviews-page {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ds.$space-6;
   padding: vars.$spacing-xl vars.$spacing-medium;
 
   @media (max-width: 768px) {
     padding: 1.5rem 0.75rem;
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 1rem;
+    gap: ds.$space-4;
     flex-wrap: wrap;
 
     h1 {

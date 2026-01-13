@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .dashboard-calendar {
   .dashboard-section-title {
@@ -9,11 +10,11 @@
   .studio-calendar {
     background: vars.$card-bg-color;
     border-radius: vars.$border-radius-large;
-    padding: 1.5rem;
+    padding: ds.$space-6;
     border: 1px solid vars.$white-opacity-10;
 
     @media (max-width: 768px) {
-      padding: 1rem;
+      padding: ds.$space-4;
     }
   }
 }
