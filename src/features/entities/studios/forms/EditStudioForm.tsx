@@ -500,14 +500,6 @@ export const EditStudioForm = () => {
       icon: ScheduleIcon
     },
     {
-      name: 'is24Hours',
-      label: t('form.is24Hours.label', { defaultValue: '24 Hours' }),
-      type: 'checkbox' as FieldType,
-      value: is24Hours,
-      onChange: setIs24Hours,
-      helperText: t('form.is24Hours.helperText', { defaultValue: 'Studio is available 24 hours a day' })
-    },
-    {
       name: 'studioAvailability',
       type: 'businessHours' as const,
       label: t('form.studioAvailability.label'),
