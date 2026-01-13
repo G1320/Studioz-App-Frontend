@@ -30,3 +30,5 @@ export * from './amenities-selector';
 export * from './portfolio-step';
 export * from './share-modal';
 export * from './route-guards';
+export * from './icons';
+export * from './ui/ThemeToggle';
