@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // Block time modal styling - uses popup-base class
 .block-time-modal {
@@ -38,13 +39,13 @@
 
     h2 {
       margin: 0;
-      font-size: 1.5rem;
+      font-size: ds.$font-2xl;
       font-weight: 700;
       color: vars.$color-text-light-gray;
       text-align: center;
 
       @media (max-width: 768px) {
-        font-size: 1.25rem;
+        font-size: ds.$font-xl;
       }
     }
 
@@ -54,14 +55,14 @@
       align-self: flex-start;
 
       .MuiFormControlLabel-label {
-        font-size: 1rem;
+        font-size: ds.$font-base;
         color: vars.$color-text-light-gray;
       }
     }
 
     // Info text for entire day blocking
     .entire-day-info {
-      font-size: 0.875rem;
+      font-size: ds.$font-md;
       color: vars.$white-opacity-70;
       padding: 0.75rem 1rem;
       background-color: vars.$white-opacity-05;
@@ -91,7 +92,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem;
+      padding: ds.$space-4;
       background-color: vars.$white-opacity-05;
       border-radius: vars.$border-radius-medium;
       border: 1px solid vars.$white-opacity-10;
@@ -106,13 +107,13 @@
         gap: 0.75rem;
 
         .hour-label {
-          font-size: 1rem;
+          font-size: ds.$font-base;
           font-weight: 600;
           color: vars.$light-gray-d1d5db;
         }
 
         .hour-value {
-          font-size: 1.5rem;
+          font-size: ds.$font-2xl;
           font-weight: 700;
           color: vars.$color-text-light-gray;
           min-width: 32px;
@@ -132,7 +133,7 @@
           border: 1px solid vars.$white-opacity-20;
           background-color: vars.$white-opacity-10;
           color: vars.$color-text-light-gray;
-          font-size: 1.25rem;
+          font-size: ds.$font-xl;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.25s ease;
@@ -177,7 +178,7 @@
       border: 1px solid vars.$white-opacity-10;
       border-radius: vars.$border-radius-medium;
       color: vars.$color-text-light-gray;
-      font-size: 1rem;
+      font-size: ds.$font-base;
       font-family: inherit;
       transition: all 0.2s ease;
       text-align: start;
@@ -221,7 +222,7 @@
         flex: 1;
         padding: 0.875rem 1.5rem;
         border-radius: 8px;
-        font-size: 1rem;
+        font-size: ds.$font-base;
         font-weight: 600;
         transition: all 0.2s ease;
         border: none;
@@ -293,7 +294,7 @@
   }
 
   .clock-icon {
-    font-size: 1.5rem;
+    font-size: ds.$font-2xl;
     color: vars.$color-brand;
   }
 }

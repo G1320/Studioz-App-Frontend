@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ============================================
 // How It Works Page Styles
@@ -53,7 +54,7 @@
 }
 
 .how-it-works__subtitle {
-  font-size: 1.25rem;
+  font-size: ds.$font-xl;
   color: vars.$zinc-400;
   max-width: 42rem;
   margin: 0 auto;
@@ -104,7 +105,7 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 
   @media (min-width: 768px) {
-    padding: 1.5rem;
+    padding: ds.$space-6;
   }
 }
 
@@ -367,7 +368,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1.5rem;
+  padding: ds.$space-6;
   border-radius: 1rem;
   background: #1a1a1a;
   border: 1px solid vars.$zinc-800;
@@ -401,7 +402,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 0.75rem;
+  font-size: ds.$font-sm;
   font-weight: 700;
   color: vars.$zinc-600;
   font-family: monospace;
@@ -434,7 +435,7 @@
 }
 
 .how-it-works__step-title {
-  font-size: 1.25rem;
+  font-size: ds.$font-xl;
   font-weight: 700;
   color: vars.$text-color-primary;
   margin-bottom: 0.75rem;
@@ -443,7 +444,7 @@
 }
 
 .how-it-works__step-description {
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   color: vars.$zinc-400;
   line-height: 1.6;
   position: relative;
@@ -489,7 +490,7 @@
   background: vars.$color-brand;
   color: vars.$bg-color-primary;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: ds.$font-xl;
   border-radius: 9999px;
   border: none;
   cursor: pointer;
@@ -522,12 +523,12 @@
   }
 
   svg {
-    font-size: 1rem;
+    font-size: ds.$font-base;
   }
 }
 
 .how-it-works__cta-subtext {
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   color: vars.$zinc-500;
   font-weight: 500;
 }

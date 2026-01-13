@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .search-input-wrapper {
   display: flex;
@@ -27,7 +28,7 @@
     padding: 0.8rem 1rem;
     border: none;
     border-radius: vars.$border-radius-large;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     background-color: rgb(255, 255, 255);
     outline: none;
     transition: all 0.2s ease-in-out;
@@ -47,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: ds.$space-2;
     background-color: vars.$color-brand;
     border: none;
     border-radius: vars.$border-radius-large;
@@ -57,7 +58,7 @@
 
     svg {
       color: #000000; // Dark icon on yellow background
-      font-size: 1.5rem;
+      font-size: ds.$font-2xl;
     }
   }
 }

@@ -116,7 +116,7 @@ $notif-warning: #fb7185; // rose-400
   }
 
   &__message {
-    font-size: 0.75rem; // 12px
+    font-size: ds.$font-sm; // 12px
     font-weight: 300;
     color: $notif-text-secondary;
     margin: 0;
@@ -222,7 +222,7 @@ $notif-warning: #fb7185; // rose-400
     }
 
     &__title {
-      font-size: 0.75rem;
+      font-size: ds.$font-sm;
     }
 
     &__message {

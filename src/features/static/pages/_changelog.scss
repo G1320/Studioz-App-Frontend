@@ -29,19 +29,19 @@
   }
 
   &__title {
-    font-size: 1.875rem;
+    font-size: ds.$font-3xl;
     font-weight: 700;
     margin-bottom: 0.5rem;
     color: white;
     text-align: start;
 
     @media (min-width: 768px) {
-      font-size: 2.25rem;
+      font-size: ds.$font-4xl;
     }
   }
 
   &__subtitle {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: ds.$zinc-500;
     margin: 0;
     text-align: start;
@@ -61,7 +61,7 @@
   }
 
   &__month-title {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     font-weight: 600;
     color: ds.$zinc-500;
     text-transform: uppercase;
@@ -110,7 +110,7 @@
   }
 
   &__release-date {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: ds.$zinc-600;
     display: block;
     margin-bottom: 0.5rem;
@@ -118,7 +118,7 @@
   }
 
   &__release-title {
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 500;
     color: white;
     margin: 0 0 0.25rem;
@@ -126,7 +126,7 @@
   }
 
   &__release-description {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: ds.$zinc-400;
     line-height: 1.6;
     margin: 0;
@@ -177,7 +177,7 @@
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
   }
 
   &__change-text {
@@ -192,7 +192,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     font-weight: 500;
     margin-top: 0.375rem;
     flex-shrink: 0;
@@ -228,7 +228,7 @@
   }
 
   &__suggestion-title {
-    font-size: 1.125rem;
+    font-size: ds.$font-lg;
     font-weight: 500;
     color: white;
     margin: 0 0 0.25rem;
@@ -245,7 +245,7 @@
   }
 
   &__suggestion-text {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: ds.$zinc-500;
     margin: 0;
     text-align: start;
@@ -261,7 +261,7 @@
     border: 1px solid ds.$zinc-700;
     border-radius: 0.5rem;
     color: ds.$zinc-300;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -285,7 +285,7 @@
     background: rgba(ds.$zinc-900, 0.3);
     border: 1px solid ds.$zinc-800;
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: ds.$space-4;
   }
 
   &__suggestion-textarea {
@@ -295,7 +295,7 @@
     border-radius: 0.25rem;
     padding: 0.5rem 0.75rem;
     color: white;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-family: inherit;
     resize: none;
 
@@ -321,7 +321,7 @@
     background: transparent;
     border: none;
     color: ds.$zinc-400;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.2s ease;
@@ -340,7 +340,7 @@
     border: none;
     border-radius: 0.25rem;
     color: black;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;

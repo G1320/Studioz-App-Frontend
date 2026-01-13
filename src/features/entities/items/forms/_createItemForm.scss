@@ -492,7 +492,7 @@
     transform: translateY(-50%);
     pointer-events: none;
     color: ds.$zinc-500;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
   }
 
   // Minimum Quantity Field (for non-hourly)

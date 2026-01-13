@@ -1,4 +1,5 @@
 @use 'variables' as vars;
+@use '../../../shared/components/forms/styles/design-system' as ds;
 
 // Filter chip style - per StudioZ Design System
 // Base: px-4 py-3 rounded-xl
@@ -13,7 +14,7 @@
   background: vars.$zinc-900;
   border: 1px solid vars.$zinc-800;
   color: vars.$zinc-400;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -163,7 +164,7 @@
     color: rgba(255, 255, 255, 0.9); // text-white/90
     cursor: pointer;
     text-align: right;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 500; // font-medium
     width: 100%;
     transition: background-color 0.2s ease;
@@ -225,7 +226,7 @@
     }
 
     &--link {
-      font-size: 0.875rem;
+      font-size: ds.$font-md;
       color: vars.$zinc-500;
       padding: 0.625rem 1.25rem;
     }
@@ -262,7 +263,7 @@
     border-radius: 0; // Override default button border-radius
     color: rgba(255, 255, 255, 0.9); // text-white/90
     cursor: pointer;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 500; // font-medium
     text-align: right;
     transition:
@@ -317,7 +318,7 @@
     border-radius: 0; // Override default button border-radius
     color: rgba(255, 255, 255, 0.9); // text-white/90
     cursor: pointer;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 500; // font-medium
     padding: 0.75rem 1.5rem;
     text-align: right;

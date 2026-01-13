@@ -20,7 +20,7 @@
     z-index: 10;
 
     h2 {
-      font-size: 1.875rem; // 3xl - 30px
+      font-size: ds.$font-3xl; // 3xl - 30px
       color: white;
       margin-bottom: 0.5rem; // 8px
       font-weight: 700;
@@ -98,7 +98,7 @@
       padding: 0.75rem 1rem; // py-3 px-4
       border: 1px solid vars.$zinc-800;
       border-radius: 0.5rem; // rounded-lg
-      font-size: 1rem; // text-base
+      font-size: ds.$font-base; // text-base
       transition: all 0.2s ease;
       background: #1a1a1a; // Slightly lighter black
       color: white;
@@ -198,7 +198,7 @@
         padding: 0.75rem 1rem;
         border: 1px solid vars.$zinc-800;
         border-radius: 0.5rem; // rounded-lg
-        font-size: 1rem;
+        font-size: ds.$font-base;
         background: #1a1a1a;
         color: white;
         text-transform: uppercase;
@@ -274,14 +274,14 @@
 
     &-error {
       color: #ef4444; // red-500
-      font-size: 0.75rem; // text-xs
+      font-size: ds.$font-sm; // text-xs
       margin-top: 0.25rem; // 4px
       margin-inline-end: 0.25rem; // mr-1
     }
 
     &-success {
       color: #10b981; // green-500
-      font-size: 0.75rem; // text-xs
+      font-size: ds.$font-sm; // text-xs
       margin-top: 0.25rem; // 4px
       margin-inline-end: 0.25rem; // mr-1
     }
@@ -325,7 +325,7 @@
       color: black;
       border: none;
       border-radius: 0.75rem; // rounded-xl
-      font-size: 1.125rem; // text-lg
+      font-size: ds.$font-lg; // text-lg
       font-weight: 700; // font-bold
       cursor: pointer;
       transition: all 0.2s ease;
@@ -389,7 +389,7 @@
       align-items: center;
       gap: 0.5rem; // 8px
       color: vars.$zinc-400;
-      font-size: 0.75rem; // text-xs
+      font-size: ds.$font-sm; // text-xs
       font-weight: 500; // font-medium
 
       span {
@@ -425,7 +425,7 @@
   }
 
   @media (max-width: 768px) {
-    padding: 1.5rem; // 24px
+    padding: ds.$space-6; // 24px
     margin: vars.$spacing-large auto;
   }
 }

@@ -1,9 +1,10 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // Local variables
-$card-dark: #0a0a0a;
+$card-dark: ds.$zinc-950;
 $input-dark: #111111;
-$accent: vars.$color-brand;
+$accent: ds.$primary-yellow;
 $accent-hover: #ffc107;
 
 .saved-cards {
@@ -125,7 +126,7 @@ $accent-hover: #ffc107;
   }
 
   &__expiry {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: vars.$zinc-500;
   }
 
@@ -184,14 +185,14 @@ $accent-hover: #ffc107;
     }
 
     p {
-      font-size: 1rem;
+      font-size: ds.$font-base;
       font-weight: 600;
       color: vars.$text-color-primary;
       margin: 0;
     }
 
     span {
-      font-size: 0.875rem;
+      font-size: ds.$font-md;
       color: vars.$zinc-500;
     }
   }

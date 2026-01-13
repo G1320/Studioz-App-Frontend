@@ -1,5 +1,6 @@
 @use 'utilities/variables' as vars;
 @use 'studio-features';
+@use 'design-system' as ds;
 
 .studio-card {
   position: relative;
@@ -227,7 +228,7 @@
     }
 
     svg {
-      font-size: 1rem;
+      font-size: ds.$font-base;
     }
   }
 }

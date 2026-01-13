@@ -1,9 +1,10 @@
 @use 'utilities/variables' as vars;
 @use 'sass:color';
+@use 'design-system' as ds;
 
 .reservation-details {
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: ds.$space-4;
   background: color.adjust(vars.$card-bg-color, $lightness: -3%);
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -67,7 +68,7 @@
     padding: 0.75rem;
 
     h4 {
-      font-size: 1rem;
+      font-size: ds.$font-base;
     }
 
     .reservation-info {

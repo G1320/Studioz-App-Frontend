@@ -56,7 +56,7 @@
   }
 
   .addon-step-description {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: #71717a; // zinc-500
     margin: 0;
   }
@@ -83,7 +83,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: ds.$space-4;
     background: rgba(24, 24, 27, 0.5); // zinc-900/50
     border: 1px solid #27272a; // zinc-800
     border-radius: 0.75rem;
@@ -117,7 +117,7 @@
   }
 
   .pending-addon-title-he {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: #71717a; // zinc-500
   }
 
@@ -132,7 +132,7 @@
   }
 
   .pending-addon-description {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: #a1a1aa; // zinc-400
     max-width: 28rem;
     white-space: nowrap;
@@ -141,7 +141,7 @@
   }
 
   .pending-addon-type {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: #71717a; // zinc-500
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -203,7 +203,7 @@
     }
 
     .add-addon-text {
-      font-size: 0.875rem;
+      font-size: ds.$font-md;
       font-weight: 700;
     }
 
@@ -244,7 +244,7 @@
   }
 
   .addon-form-title {
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -290,7 +290,7 @@
 
   // Label
   .addon-form-label {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     font-weight: 700;
     color: #71717a; // zinc-500
     text-transform: uppercase;
@@ -308,7 +308,7 @@
     border-radius: 0.75rem;
     padding: 0.75rem 1rem;
     color: white;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     transition: all 0.2s ease;
 
     &::placeholder {
@@ -346,7 +346,7 @@
     padding: 0.75rem 1rem;
     padding-right: 2.5rem;
     color: white;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     cursor: pointer;
     appearance: none;
     transition: all 0.2s ease;
@@ -393,7 +393,7 @@
   }
 
   .addon-form-checkbox-label {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 500;
     color: white;
   }
@@ -452,7 +452,7 @@
     border-radius: 0.75rem;
     padding: 0.875rem;
     color: black;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;

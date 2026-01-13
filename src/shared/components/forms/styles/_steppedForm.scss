@@ -280,7 +280,7 @@
   }
 
   &__language-label {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     font-weight: 700;
     color: ds.$zinc-500;
     text-transform: uppercase;
@@ -357,7 +357,7 @@
 
       .form-label {
         display: block;
-        font-size: 0.75rem;
+        font-size: ds.$font-sm;
         font-weight: 700;
         color: ds.$zinc-500;
         text-transform: uppercase;
@@ -751,7 +751,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1.25rem;
+    font-size: ds.$font-xl;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -763,7 +763,7 @@
   }
 
   &__description {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: ds.$zinc-500;
     margin: 0;
   }
@@ -777,7 +777,7 @@
   }
 
   &__section-label {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     font-weight: 700;
     color: ds.$zinc-500;
     text-transform: uppercase;
@@ -879,7 +879,7 @@
   }
 
   &__policy-label {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -893,7 +893,7 @@
   }
 
   &__policy-description {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: ds.$zinc-400;
     line-height: 1.5;
     margin: 0;
@@ -914,7 +914,7 @@
     border-radius: 0.75rem;
     padding: 0.75rem 1rem;
     color: white;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-family: inherit;
     resize: none;
     min-height: 140px;
@@ -941,7 +941,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     gap: 0.5rem;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: ds.$zinc-500;
     padding: 0 0.5rem;
     margin-top: 0.5rem;

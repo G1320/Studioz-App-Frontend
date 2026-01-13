@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .review-item {
   padding: 1.25rem;
@@ -13,7 +14,7 @@
   }
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: ds.$space-4;
     border-radius: 8px;
   }
 
@@ -59,7 +60,7 @@
 
   &__user-name {
     margin: 0;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 600;
     color: vars.$color-text-light-gray;
   }

@@ -1,5 +1,7 @@
+@use 'design-system' as ds;
+
 .terms-container {
-  padding: 2rem;
+  padding: ds.$space-8;
   max-width: 1200px;
   margin: 0 auto;
   font-family:
@@ -112,11 +114,11 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .terms-container {
-    padding: 1rem;
+    padding: ds.$space-4;
   }
 
   .terms-content {
-    padding: 1.5rem;
+    padding: ds.$space-6;
   }
 
   .terms-header h1 {
@@ -124,11 +126,11 @@
   }
 
   .terms-content h2 {
-    font-size: 1.5rem;
+    font-size: ds.$font-2xl;
   }
 
   .terms-content h3 {
-    font-size: 1.25rem;
+    font-size: ds.$font-xl;
   }
 }
 

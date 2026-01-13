@@ -1,10 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .create-review-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1.5rem;
+  padding: ds.$space-6;
   background-color: vars.$bg-color-tertiary;
   border: 1px solid vars.$white-opacity-10;
   border-radius: vars.$border-radius-xl;
@@ -25,7 +26,7 @@
   }
 
   &__label {
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 600;
     color: #f1f1f1;
   }
@@ -70,7 +71,7 @@
   }
 
   &__rating-value {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: vars.$light-gray-d1d5db;
     margin-top: 0.25rem;
   }
@@ -88,7 +89,7 @@
     border: 1px solid vars.$white-opacity-10;
     border-radius: vars.$border-radius-medium;
     color: vars.$color-text-light-gray;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-family: inherit;
     resize: vertical;
     transition: all 0.2s ease;
@@ -124,7 +125,7 @@
     color: vars.$text-color-primary;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;

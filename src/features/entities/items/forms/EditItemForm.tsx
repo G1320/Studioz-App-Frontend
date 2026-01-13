@@ -364,7 +364,7 @@ export const EditItemForm = () => {
             <p className="pricing-step__info-text">
               {t('form.pricing.platformFee.description', {
                 defaultValue:
-                  'StudioZ takes a 10% commission on confirmed bookings. Your payout will be calculated automatically.'
+                  'StudioZ takes a 9% commission on confirmed bookings. Your payout will be calculated automatically.'
               })}
             </p>
           </div>

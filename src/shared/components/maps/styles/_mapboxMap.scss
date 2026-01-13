@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 div.studios-map,
 div.items-map {
@@ -82,7 +83,7 @@ div.items-map {
 
 .popup-title {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   font-weight: 700;
   color: #f1f1f1;
   line-height: 1.2;

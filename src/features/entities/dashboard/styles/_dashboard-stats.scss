@@ -82,7 +82,7 @@ $stat-text-secondary: ds.$zinc-400;
     }
 
     .stat-icon {
-      font-size: 1.25rem;
+      font-size: ds.$font-xl;
       line-height: 1;
       display: flex;
       align-items: center;
@@ -92,7 +92,7 @@ $stat-text-secondary: ds.$zinc-400;
       border-radius: vars.$border-radius-small;
 
       @media (min-width: 768px) {
-        font-size: 1.5rem;
+        font-size: ds.$font-2xl;
         padding: vars.$spacing-sm-md;
         border-radius: vars.$border-radius-medium;
       }

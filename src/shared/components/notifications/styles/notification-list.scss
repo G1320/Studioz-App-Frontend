@@ -99,7 +99,7 @@ $notif-text-muted: ds.$zinc-600;
     padding: 1.5rem 0.875rem;
     text-align: center;
     color: $notif-text-secondary;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -146,7 +146,7 @@ $notif-text-muted: ds.$zinc-600;
     }
 
     &__title {
-      font-size: 0.875rem;
+      font-size: ds.$font-md;
     }
 
     &__mark-all-read {

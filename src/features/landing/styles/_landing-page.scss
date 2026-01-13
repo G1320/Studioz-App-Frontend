@@ -508,7 +508,7 @@ $landing-muted: ds.$white-60;
   }
 
   &__subtitle {
-    font-size: 1.25rem;
+    font-size: ds.$font-xl;
     color: vars.$zinc-400;
     font-weight: 300;
     line-height: 1.6;
@@ -527,7 +527,7 @@ $landing-muted: ds.$white-60;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     font-weight: 600;
     border-radius: 9999px;
     text-transform: none;
@@ -665,7 +665,7 @@ $landing-muted: ds.$white-60;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 1.5rem;
+      font-size: ds.$font-2xl;
       box-shadow: 0 0 30px rgba($landing-primary, 0.3);
 
       @media (min-width: 768px) {
@@ -676,7 +676,7 @@ $landing-muted: ds.$white-60;
     }
 
     &-text {
-      font-size: 1.25rem;
+      font-size: ds.$font-xl;
       font-weight: 700;
       color: rgba(255, 255, 255, 0.9);
       transition: color 0.3s ease;

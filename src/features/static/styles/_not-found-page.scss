@@ -74,20 +74,20 @@ $border-color: ds.$zinc-800;
   }
 
   &__icon-symbol {
-    font-size: 2.25rem; // text-4xl
+    font-size: ds.$font-4xl; // text-4xl
     font-weight: 700;
     color: $accent-yellow;
   }
 
   &__title {
-    font-size: 1.5rem; // text-2xl
+    font-size: ds.$font-2xl; // text-2xl
     font-weight: 700;
     color: white;
     margin: 0 0 vars.$spacing-small;
   }
 
   &__description {
-    font-size: 1rem; // text-base
+    font-size: ds.$font-base; // text-base
     color: #a1a1aa; // zinc-400
     margin: 0 0 vars.$spacing-2xl;
     line-height: 1.625; // leading-relaxed
@@ -106,7 +106,7 @@ $border-color: ds.$zinc-800;
     border-radius: 0.75rem; // rounded-xl
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: ds.$font-base;
     box-shadow: 0 0 20px -5px rgba($accent-yellow, 0.4);
     transition:
       background-color 0.2s ease,
@@ -135,7 +135,7 @@ $border-color: ds.$zinc-800;
   }
 
   &__countdown {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: #71717a; // zinc-500
     margin: vars.$spacing-medium 0 0;
     cursor: pointer;
@@ -166,7 +166,7 @@ $border-color: ds.$zinc-800;
     }
 
     &__icon-symbol {
-      font-size: 1.875rem;
+      font-size: ds.$font-3xl;
     }
   }
 }

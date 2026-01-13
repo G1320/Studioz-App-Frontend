@@ -1,5 +1,6 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
 
 .studios-page {
   display: flex;
@@ -45,7 +46,7 @@
   }
 
   &__subtitle {
-    font-size: 1.125rem;
+    font-size: ds.$font-lg;
     color: vars.$zinc-400;
     max-width: 36rem;
     margin: 0;
@@ -60,7 +61,7 @@
     color: vars.$text-color-primary;
     padding: 0.75rem 1.25rem;
     border-radius: 9999px;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -313,7 +314,7 @@
   background: transparent;
   border: 1px solid vars.$zinc-800;
   color: vars.$zinc-400;
-  font-size: 0.75rem;
+  font-size: ds.$font-sm;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;

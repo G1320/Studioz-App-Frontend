@@ -61,7 +61,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
   p {
     color: $ms-text-secondary;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
   }
 }
 
@@ -79,7 +79,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   background: rgba(24, 24, 27, 0.8);
   border: 1px solid $ms-border;
   border-radius: 0.5rem;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   font-weight: 500;
   color: $ms-text-primary;
   cursor: pointer;
@@ -171,7 +171,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   display: flex;
   align-items: center;
   gap: 0.125rem;
-  font-size: 0.75rem;
+  font-size: ds.$font-sm;
   font-weight: 500;
 
   &--positive {
@@ -235,7 +235,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   background: $ms-surface-alt;
   border: 1px solid $ms-border;
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: ds.$space-6;
 
   @media (min-width: 768px) {
     padding: 2rem;
@@ -264,7 +264,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   }
 
   p {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: $ms-text-muted;
   }
 }
@@ -280,7 +280,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
 .revenue-chart__toggle-btn {
   padding: 0.375rem 1rem;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   font-weight: 500;
   color: $ms-text-secondary;
   background: transparent;
@@ -362,7 +362,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   transition: opacity 0.2s ease;
   background: rgb(39, 39, 42);
   color: $ms-text-primary;
-  font-size: 0.75rem;
+  font-size: ds.$font-sm;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   border: 1px solid $ms-border-hover;
@@ -392,7 +392,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   width: 100%;
 
   @media (min-width: 640px) {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
   }
 }
 
@@ -411,7 +411,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   background: $ms-surface-alt;
   border: 1px solid $ms-border;
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: ds.$space-6;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -478,7 +478,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
     }
 
     .badge {
-      font-size: 0.75rem;
+      font-size: ds.$font-sm;
       font-weight: 500;
       color: $ms-positive;
     }
@@ -497,7 +497,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   .progress-header {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: $ms-text-muted;
     margin-bottom: 0.5rem;
   }
@@ -535,7 +535,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.75rem;
+  font-size: ds.$font-sm;
   color: $ms-text-secondary;
 
   .legend-dot {
@@ -558,7 +558,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   background: $ms-surface-alt;
   border: 1px solid $ms-border;
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: ds.$space-6;
   height: 100%;
 }
 
@@ -575,7 +575,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   }
 
   .view-all {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: $ms-primary;
     background: none;
     border: none;
@@ -598,7 +598,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: ds.$space-4;
   border-radius: 0.75rem;
   border: 1px solid transparent;
   cursor: pointer;
@@ -655,7 +655,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
 .client-row__name {
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   color: $ms-text-primary;
   transition: color 0.2s ease;
   margin: 0;
@@ -663,13 +663,13 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
 .client-row__spent {
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   color: $ms-text-primary;
   margin: 0;
 }
 
 .client-row__visit {
-  font-size: 0.75rem;
+  font-size: ds.$font-sm;
   color: $ms-text-muted;
   margin: 0;
   // text-align: start; // Default
@@ -683,7 +683,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   border-radius: 0.75rem;
   background: transparent;
   color: $ms-text-muted;
-  font-size: 0.875rem;
+  font-size: ds.$font-md;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -736,7 +736,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   }
 
   p {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: $ms-text-muted;
   }
 }

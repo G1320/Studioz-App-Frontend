@@ -1,5 +1,6 @@
 @use 'utilities/variables' as vars;
 @use 'sass:color';
+@use 'design-system' as ds;
 
 .error-boundary {
   min-height: 400px;
@@ -93,7 +94,7 @@
   }
 
   &__message {
-    font-size: 1rem;
+    font-size: ds.$font-base;
     color: rgba(161, 161, 170, 1); // zinc-400
     margin: 0 0 2rem;
     line-height: 1.6;

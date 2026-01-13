@@ -304,7 +304,7 @@
       },
       "platformFee": {
         "title": "Platform Fee",
-        "description": "StudioZ takes a 10% commission on confirmed bookings. Your payout will be calculated automatically."
+        "description": "StudioZ takes a 9% commission on confirmed bookings. Your payout will be calculated automatically."
       }
     },
     "fileUploader": {

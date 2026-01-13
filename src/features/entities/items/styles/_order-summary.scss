@@ -158,7 +158,7 @@ $error: ds.$color-error;
   }
 
   &__section-title {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -210,7 +210,7 @@ $error: ds.$color-error;
   }
 
   &__info-secondary {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: $text-muted;
     margin: 0;
     text-align: start;
@@ -274,7 +274,7 @@ $error: ds.$color-error;
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: $text-subtle;
     text-align: center;
 
@@ -351,7 +351,7 @@ $error: ds.$color-error;
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.3);
     color: $error;
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     padding: 0.75rem;
     border-radius: 8px;
     text-align: center;
@@ -360,7 +360,7 @@ $error: ds.$color-error;
 
   &__terms {
     text-align: center;
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: $text-subtle;
     margin-top: 1rem;
 
@@ -479,7 +479,7 @@ $error: ds.$color-error;
   }
 
   &__expiry {
-    font-size: 0.75rem;
+    font-size: ds.$font-sm;
     color: $text-subtle;
   }
 
@@ -560,7 +560,7 @@ $error: ds.$color-error;
   }
 
   &__empty-subtitle {
-    font-size: 0.875rem;
+    font-size: ds.$font-md;
     color: $text-muted;
     margin-bottom: 1.5rem;
   }

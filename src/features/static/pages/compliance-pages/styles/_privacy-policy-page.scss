@@ -1,5 +1,7 @@
+@use 'design-system' as ds;
+
 .privacy-policy-container {
-  padding: 2rem;
+  padding: ds.$space-8;
   max-width: 1200px;
   border-radius: 8px;
   margin: 0 auto;
@@ -115,11 +117,11 @@
   }
 
   .privacy-policy-content h2 {
-    font-size: 1.5rem;
+    font-size: ds.$font-2xl;
   }
 
   .privacy-policy-content h3 {
-    font-size: 1.25rem;
+    font-size: ds.$font-xl;
   }
 }
 
