@@ -5,6 +5,8 @@ import { useReservations } from '@shared/hooks';
 import { DashboardCalendar, RecentActivity } from '../components';
 import { StudioManager } from '@features/entities/studios';
 
+import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
+
 interface DashboardPageProps {
   user: User | null;
   studios: Studio[];
@@ -16,7 +18,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 }) => {
   const { t } = useTranslation('dashboard');
   const { data: reservations = [] } = useReservations();
-  const [activeTab, setActiveTab] = useState<'overview' | 'studios'>('studios');
+  const [activeTab, setActiveTab] = useState<'overview' | 'studios' | 'stats'>('studios');
 
   // Determine if user is a studio owner
   const isStudioOwner = useMemo(() => {
@@ -56,6 +58,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           >
             {t('tabs.overview', 'יומן פעילות')}
           </button>
+          <button 
+            className={`dashboard-tab ${activeTab === 'stats' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('stats')}
+          >
+            {t('tabs.stats', 'סטטיסטיקות')}
+          </button>
         </div>
       )}
 
@@ -83,6 +91,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Studios Management Tab Content */}
       {activeTab === 'studios' && isStudioOwner && (
         <StudioManager studios={userStudios} />
+      )}
+
+      {/* Stats Tab Content */}
+      {activeTab === 'stats' && isStudioOwner && (
+        <MerchantStatsPage />
       )}
     </div>
   );

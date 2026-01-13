@@ -48,9 +48,14 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 5, studi
 
     // Sort by creation date (most recent first)
     filtered.sort((a, b) => {
-      const dateA = dayjs(a.createdAt || a.bookingDate, 'DD/MM/YYYY');
-      const dateB = dayjs(b.createdAt || b.bookingDate, 'DD/MM/YYYY');
-      return dateB.valueOf() - dateA.valueOf();
+      const getTimestamp = (r: Reservation) => {
+        if (r.createdAt) {
+          return dayjs(r.createdAt).valueOf();
+        }
+        return dayjs(r.bookingDate, 'DD/MM/YYYY').valueOf();
+      };
+      
+      return getTimestamp(b) - getTimestamp(a);
     });
 
     // Limit results
@@ -58,14 +63,19 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 5, studi
   }, [reservations, studioIds, isStudioOwner, limit]);
 
   const getStatusClass = (status: string) => {
-    switch (status) {
+    const normalizedStatus = status?.toLowerCase();
+    switch (normalizedStatus) {
       case 'confirmed':
+      case 'approved':
         return 'status--confirmed';
       case 'pending':
+      case 'waiting':
         return 'status--pending';
       case 'completed':
         return 'status--completed';
       case 'cancelled':
+      case 'rejected':
+      case 'expired':
         return 'status--cancelled';
       default:
         return 'status--pending';
