@@ -1,0 +1,117 @@
+@use 'design-system' as ds;
+
+.theme-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-primary);
+  border-radius: ds.$radius-md;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 200ms ease, border-color 200ms ease;
+
+  &:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  // Size variants
+  &--sm {
+    width: 32px;
+    height: 32px;
+  }
+
+  &--md {
+    width: 40px;
+    height: 40px;
+  }
+
+  &--lg {
+    width: 48px;
+    height: 48px;
+  }
+
+  // Icons container
+  &__icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 300ms ease, opacity 300ms ease;
+
+    svg {
+      color: var(--text-primary);
+    }
+
+    &--sun {
+      // Hidden in dark mode (default)
+      transform: scale(0) rotate(-90deg);
+      opacity: 0;
+
+      [data-theme='light'] & {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    &--moon {
+      // Visible in dark mode (default)
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+
+      [data-theme='light'] & {
+        transform: scale(0) rotate(90deg);
+        opacity: 0;
+      }
+    }
+  }
+}
+
+// Dropdown variant for settings
+.theme-toggle-dropdown {
+  display: flex;
+  gap: ds.$space-2;
+  padding: ds.$space-1;
+  background: var(--bg-surface);
+  border-radius: ds.$radius-lg;
+  border: 1px solid var(--border-primary);
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: ds.$space-2;
+    padding: ds.$space-2 ds.$space-3;
+    background: transparent;
+    border: none;
+    border-radius: ds.$radius-md;
+    color: var(--text-secondary);
+    font-size: ds.$font-sm;
+    cursor: pointer;
+    transition: all 200ms ease;
+
+    &:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    &.is-active {
+      background: var(--color-brand-muted);
+      color: var(--color-brand);
+
+      svg {
+        color: var(--color-brand);
+      }
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}

@@ -1,0 +1,181 @@
+// ============================================
+// StudioZ Theme System
+// ============================================
+// CSS Custom Properties for theming
+// Themes: dark (default), light
+// ============================================
+
+// ===================
+// ROOT (Dark Theme - Default)
+// ===================
+:root,
+[data-theme='dark'] {
+  // Brand Colors
+  --color-brand: #ffd166;
+  --color-brand-hover: #ffe199;
+  --color-brand-muted: rgba(255, 209, 102, 0.15);
+
+  // Background Colors
+  --bg-primary: #000000;
+  --bg-secondary: #242728;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #242728;
+  --bg-surface: #18181b;
+  --bg-elevated: #27272a;
+  --bg-input: #18181b;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+
+  // Text Colors
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --text-inverse: #000000;
+
+  // Border Colors
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: #27272a;
+  --border-focus: #ffd166;
+  --border-hover: rgba(255, 255, 255, 0.2);
+
+  // Status Colors
+  --color-success: #10b981;
+  --color-success-text: #34d399;
+  --color-success-bg: rgba(52, 211, 153, 0.15);
+  --color-success-border: rgba(52, 211, 153, 0.3);
+
+  --color-warning: #f59e0b;
+  --color-warning-text: #fbbf24;
+  --color-warning-bg: rgba(251, 191, 36, 0.15);
+  --color-warning-border: rgba(251, 191, 36, 0.2);
+
+  --color-error: #ef4444;
+  --color-error-text: #f87171;
+  --color-error-bg: rgba(248, 113, 113, 0.15);
+  --color-error-border: rgba(248, 113, 113, 0.3);
+
+  --color-info: #3b82f6;
+  --color-info-text: #7dd3fc;
+  --color-info-bg: rgba(59, 130, 246, 0.15);
+  --color-info-border: rgba(59, 130, 246, 0.25);
+
+  // Shadows (darker for dark theme)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(255, 209, 102, 0.3);
+
+  // Overlay
+  --overlay-bg: rgba(0, 0, 0, 0.8);
+  --backdrop-blur: blur(8px);
+
+  // Scrollbar
+  --scrollbar-track: #18181b;
+  --scrollbar-thumb: #3f3f46;
+  --scrollbar-thumb-hover: #52525b;
+
+  // Component-specific
+  --header-bg: rgba(0, 0, 0, 0.95);
+  --footer-bg: #000000;
+  --card-bg: #242728;
+  --modal-bg: #1a1a1a;
+  --tooltip-bg: #27272a;
+  --dropdown-bg: #18181b;
+}
+
+// ===================
+// LIGHT THEME
+// ===================
+[data-theme='light'] {
+  // Brand Colors (slightly darker for light bg)
+  --color-brand: #e5b84d;
+  --color-brand-hover: #d4a63d;
+  --color-brand-muted: rgba(229, 184, 77, 0.15);
+
+  // Background Colors
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f4f5;
+  --bg-tertiary: #fafafa;
+  --bg-card: #ffffff;
+  --bg-surface: #f4f4f5;
+  --bg-elevated: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.05);
+
+  // Text Colors
+  --text-primary: #18181b;
+  --text-secondary: rgba(24, 24, 27, 0.7);
+  --text-tertiary: rgba(24, 24, 27, 0.5);
+  --text-muted: rgba(24, 24, 27, 0.4);
+  --text-inverse: #ffffff;
+
+  // Border Colors
+  --border-primary: rgba(0, 0, 0, 0.1);
+  --border-secondary: #e4e4e7;
+  --border-focus: #e5b84d;
+  --border-hover: rgba(0, 0, 0, 0.2);
+
+  // Status Colors (darker for light bg)
+  --color-success: #059669;
+  --color-success-text: #047857;
+  --color-success-bg: rgba(5, 150, 105, 0.1);
+  --color-success-border: rgba(5, 150, 105, 0.2);
+
+  --color-warning: #d97706;
+  --color-warning-text: #b45309;
+  --color-warning-bg: rgba(217, 119, 6, 0.1);
+  --color-warning-border: rgba(217, 119, 6, 0.2);
+
+  --color-error: #dc2626;
+  --color-error-text: #b91c1c;
+  --color-error-bg: rgba(220, 38, 38, 0.1);
+  --color-error-border: rgba(220, 38, 38, 0.2);
+
+  --color-info: #2563eb;
+  --color-info-text: #1d4ed8;
+  --color-info-bg: rgba(37, 99, 235, 0.1);
+  --color-info-border: rgba(37, 99, 235, 0.2);
+
+  // Shadows (lighter for light theme)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(229, 184, 77, 0.4);
+
+  // Overlay
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --backdrop-blur: blur(8px);
+
+  // Scrollbar
+  --scrollbar-track: #f4f4f5;
+  --scrollbar-thumb: #d4d4d8;
+  --scrollbar-thumb-hover: #a1a1aa;
+
+  // Component-specific
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --footer-bg: #f4f4f5;
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+  --tooltip-bg: #27272a;
+  --dropdown-bg: #ffffff;
+}
+
+// ===================
+// THEME TRANSITIONS
+// ===================
+// Smooth transitions when theme changes
+html {
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+// Apply to key elements for smooth theme switching
+body,
+.header,
+.footer,
+.card,
+.modal,
+.button {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}

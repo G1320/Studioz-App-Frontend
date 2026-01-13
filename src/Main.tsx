@@ -21,6 +21,7 @@ import {
   LocationPermissionProvider,
   NotificationProvider
 } from '@core/contexts';
+import { ThemeProvider } from '@shared/contexts/ThemeContext';
 import './core/i18n/config';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -30,10 +31,11 @@ import App from './app/App.js';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
-      <Router>
-        <CookieConsentProvider>
-          <LocationPermissionProvider>
+    <ThemeProvider defaultTheme="dark">
+      <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+        <Router>
+          <CookieConsentProvider>
+            <LocationPermissionProvider>
             <UserProvider>
               <OfflineCartProvider>
                 <SocketProvider>
@@ -63,8 +65,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             </UserProvider>
           </LocationPermissionProvider>
         </CookieConsentProvider>
-      </Router>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-    </PersistQueryClientProvider>
+        </Router>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      </PersistQueryClientProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
