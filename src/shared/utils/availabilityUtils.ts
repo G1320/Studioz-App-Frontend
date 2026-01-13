@@ -60,7 +60,7 @@ export interface AvailabilityContext {
 export interface DateAvailabilityResult {
   isBookable: boolean;
   availableSlots: string[];
-  reason?: 'closed' | 'advance_booking' | 'no_slots' | 'min_duration';
+  reason?: 'closed' | 'advance_booking' | 'no_slots' | 'min_duration' | 'disabled';
 }
 
 /**
@@ -243,6 +243,14 @@ export function meetsAdvanceBookingRequirement(date: Dayjs, item: Item): boolean
 export function isDateBookable(date: Dayjs, context: AvailabilityContext): DateAvailabilityResult {
   const { item, studio } = context;
 
+  // 0. Check if item or studio is disabled
+  if (item.active === false) {
+    return { isBookable: false, availableSlots: [], reason: 'disabled' };
+  }
+  if (studio && studio.active === false) {
+    return { isBookable: false, availableSlots: [], reason: 'disabled' };
+  }
+
   // 1. Check studio operating days
   if (!isStudioOpenOnDay(date, studio?.studioAvailability)) {
     return { isBookable: false, availableSlots: [], reason: 'closed' };
@@ -387,6 +395,14 @@ export function getPreparationTimeBuffer(bookedSlots: string[], prepTime?: Durat
 export function getAvailableSlotsForDate(date: Dayjs, context: AvailabilityContext): string[] {
   const { item, studio } = context;
   const dateStr = date.format('DD/MM/YYYY');
+
+  // 0. Check if item or studio is disabled - return no available slots
+  if (item.active === false) {
+    return [];
+  }
+  if (studio && studio.active === false) {
+    return [];
+  }
 
   // 1. Start with studio operating hours for this specific day
   const dayTimes = getStudioTimesForDay(date, studio?.studioAvailability);
