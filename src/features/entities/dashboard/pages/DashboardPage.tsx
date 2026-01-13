@@ -75,7 +75,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             <RecentActivity
               studioIds={userStudios.map((s) => s._id)}
               isStudioOwner={isStudioOwner}
-              limit={5}
+              limit={4}
             />
           )}
 

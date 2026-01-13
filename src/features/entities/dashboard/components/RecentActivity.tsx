@@ -27,7 +27,7 @@ interface RecentActivityProps {
   isStudioOwner?: boolean;
 }
 
-export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 5, studioIds = [], isStudioOwner = false }) => {
+export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studioIds = [], isStudioOwner = false }) => {
   const { t, i18n } = useTranslation('dashboard');
   const navigate = useNavigate();
   const { data: reservations = [], isLoading } = useReservations();
