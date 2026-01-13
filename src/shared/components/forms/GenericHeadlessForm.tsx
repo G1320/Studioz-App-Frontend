@@ -263,16 +263,27 @@ export const GenericForm = ({
             const isControlled = !!field.onChange;
             const inputValue = field.value !== undefined && field.value !== null ? String(field.value) : '';
 
+            const currentLength = inputValue.length;
+            const showCounter = field.maxLength && field.showCharCounter;
+
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
-                <label htmlFor={field.name} className="form-label">
-                  {field.label}
-                </label>
+                <div className="form-label-row">
+                  <label htmlFor={field.name} className="form-label">
+                    {field.label}
+                  </label>
+                  {showCounter && (
+                    <span className={`form-char-counter ${currentLength > field.maxLength ? 'form-char-counter--exceeded' : ''}`}>
+                      {currentLength}/{field.maxLength}
+                    </span>
+                  )}
+                </div>
                 <input
                   type={field.type}
                   id={field.name}
                   name={field.name}
                   placeholder={field.placeholder}
+                  maxLength={field.maxLength}
                   {...(isControlled ? { value: inputValue } : { defaultValue: inputValue })}
                   className={`form-input ${inputErrorClassName}`}
                   required={!schema}
@@ -303,16 +314,26 @@ export const GenericForm = ({
             // Use controlled textarea if onChange is provided (for stepped forms), otherwise use uncontrolled (for regular forms)
             const isTextareaControlled = !!field.onChange;
             const textareaValue = field.value !== undefined && field.value !== null ? String(field.value) : '';
+            const textareaLength = textareaValue.length;
+            const showTextareaCounter = field.maxLength && field.showCharCounter;
 
             return (
               <div key={field.name} className={`form-group ${field.className || ''} ${errorClassName}`}>
-                <label htmlFor={field.name} className="form-label">
-                  {field.label}
-                </label>
+                <div className="form-label-row">
+                  <label htmlFor={field.name} className="form-label">
+                    {field.label}
+                  </label>
+                  {showTextareaCounter && (
+                    <span className={`form-char-counter ${textareaLength > field.maxLength ? 'form-char-counter--exceeded' : ''}`}>
+                      {textareaLength}/{field.maxLength}
+                    </span>
+                  )}
+                </div>
                 <textarea
                   id={field.name}
                   name={field.name}
                   placeholder={field.placeholder}
+                  maxLength={field.maxLength}
                   {...(isTextareaControlled ? { value: textareaValue } : { defaultValue: textareaValue })}
                   className={`form-textarea ${inputErrorClassName}`}
                   rows={field.rows || 4}

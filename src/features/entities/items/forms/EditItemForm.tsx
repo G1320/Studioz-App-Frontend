@@ -623,7 +623,9 @@ export const EditItemForm = () => {
       type: 'text' as FieldType,
       value: item?.name.en,
       placeholder: t('form.name.placeholder', { defaultValue: 'e.g. The Sound Garden' }),
-      helperText: t('form.name.helperText')
+      helperText: t('form.name.helperText'),
+      maxLength: 50,
+      showCharCounter: true
     },
     {
       name: 'name.he',
@@ -631,7 +633,9 @@ export const EditItemForm = () => {
       type: 'text' as FieldType,
       value: item?.name.he,
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
-      helperText: t('form.name.helperText')
+      helperText: t('form.name.helperText'),
+      maxLength: 50,
+      showCharCounter: true
     },
     {
       name: 'description.en',
@@ -641,7 +645,9 @@ export const EditItemForm = () => {
       placeholder: t('form.description.placeholder', {
         defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..."
       }),
-      helperText: t('form.description.helperText')
+      helperText: t('form.description.helperText'),
+      maxLength: 1000,
+      showCharCounter: true
     },
     {
       name: 'description.he',
@@ -651,7 +657,9 @@ export const EditItemForm = () => {
       placeholder: t('form.description.placeholderHe', {
         defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
       }),
-      helperText: t('form.description.helperText')
+      helperText: t('form.description.helperText'),
+      maxLength: 1000,
+      showCharCounter: true
     },
     {
       name: 'languageToggle',

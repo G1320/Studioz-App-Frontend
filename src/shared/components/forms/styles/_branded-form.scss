@@ -25,6 +25,25 @@
   width: 100%;
   gap: vars.$spacing-small;
 
+  .form-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: vars.$spacing-small;
+  }
+
+  .form-char-counter {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: ds.$zinc-500;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+
+    &--exceeded {
+      color: vars.$color-error;
+    }
+  }
+
   .form-label {
     display: block;
     font-size: 0.75rem;
