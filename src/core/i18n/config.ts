@@ -27,6 +27,7 @@ import howItWorks from './locales/en/howItWorks.json';
 import orders from './locales/en/orders.json';
 import admin from './locales/en/admin.json';
 import studioManager from './locales/en/studioManager.json';
+import changelog from './locales/en/changelog.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -53,6 +54,7 @@ import howItWorksHe from './locales/he/howItWorks.json';
 import ordersHe from './locales/he/orders.json';
 import adminHe from './locales/he/admin.json';
 import studioManagerHe from './locales/he/studioManager.json';
+import changelogHe from './locales/he/changelog.json';
 
 i18n
   .use(LanguageDetector)
@@ -84,7 +86,8 @@ i18n
         howItWorks,
         orders,
         admin,
-        studioManager
+        studioManager,
+        changelog
       },
       he: {
         discoverPage: discoverPageHe,
@@ -111,7 +114,8 @@ i18n
         howItWorks: howItWorksHe,
         orders: ordersHe,
         admin: adminHe,
-        studioManager: studioManagerHe
+        studioManager: studioManagerHe,
+        changelog: changelogHe
       }
     },
     fallbackLng: 'he',

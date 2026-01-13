@@ -1,0 +1,342 @@
+@use 'utilities/variables' as vars;
+@use '../../../shared/components/forms/styles/design-system' as ds;
+
+.changelog {
+  min-height: 100vh;
+  background: black;
+  color: white;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  text-align: start;
+
+  &__container {
+    max-width: 56rem; // ~896px / 4xl
+    margin: 0 auto;
+    padding: 3rem 1rem;
+
+    @media (min-width: 640px) {
+      padding: 3rem 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 3rem 2rem;
+    }
+  }
+
+  // Header
+  &__header {
+    margin-bottom: 3rem;
+    text-align: start;
+  }
+
+  &__title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+    text-align: start;
+
+    @media (min-width: 768px) {
+      font-size: 2.25rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: ds.$zinc-500;
+    margin: 0;
+    text-align: start;
+  }
+
+  // Releases
+  &__releases {
+    margin-bottom: 3rem;
+  }
+
+  &__release {
+    border-bottom: 1px solid ds.$zinc-800;
+    padding: 1.5rem 0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__release-header {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid ds.$primary-yellow;
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+  }
+
+  &__release-content {
+    flex-grow: 1;
+    text-align: start;
+  }
+
+  &__release-date {
+    font-size: 0.75rem;
+    color: ds.$zinc-600;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-align: start;
+  }
+
+  &__release-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    margin: 0 0 0.25rem;
+    text-align: start;
+  }
+
+  &__release-description {
+    font-size: 0.75rem;
+    color: ds.$zinc-400;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 48rem;
+    text-align: start;
+  }
+
+  &__expand-btn {
+    flex-shrink: 0;
+    padding: 0.25rem;
+    background: none;
+    border: none;
+    color: ds.$zinc-600;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      color: ds.$zinc-400;
+    }
+
+    &--expanded {
+      transform: rotate(180deg);
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  // Changes list
+  &__changes {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(ds.$zinc-800, 0.5);
+  }
+
+  &__changes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__change-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  &__change-text {
+    color: ds.$zinc-300;
+    line-height: 1.6;
+    padding-top: 0.125rem;
+    text-align: start;
+  }
+
+  // Badge
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 0.375rem;
+    flex-shrink: 0;
+
+    &--feature {
+      color: ds.$primary-yellow;
+    }
+
+    &--improvement {
+      color: #4ade80; // emerald-400
+    }
+
+    &--fix {
+      color: ds.$zinc-500;
+    }
+  }
+
+  &__badge-icon {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  // Suggestion section
+  &__suggestion {
+    border-top: 1px solid ds.$zinc-800;
+    padding-top: 2rem;
+  }
+
+  &__suggestion-header {
+    margin-bottom: 1rem;
+    text-align: start;
+  }
+
+  &__suggestion-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: white;
+    margin: 0 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+
+  &__suggestion-icon {
+    color: ds.$primary-yellow;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+
+  &__suggestion-text {
+    font-size: 0.75rem;
+    color: ds.$zinc-500;
+    margin: 0;
+    text-align: start;
+  }
+
+  &__suggestion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: 1px solid ds.$zinc-700;
+    border-radius: 0.5rem;
+    color: ds.$zinc-300;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-align: start;
+
+    &:hover {
+      background: rgba(ds.$zinc-900, 0.5);
+    }
+  }
+
+  &__suggestion-trigger-icon {
+    color: ds.$zinc-600;
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+
+  &__suggestion-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: rgba(ds.$zinc-900, 0.3);
+    border: 1px solid ds.$zinc-800;
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+  &__suggestion-textarea {
+    width: 100%;
+    background: ds.$zinc-800;
+    border: 1px solid ds.$zinc-700;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    color: white;
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: none;
+
+    &::placeholder {
+      color: ds.$zinc-500;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: ds.$primary-yellow;
+    }
+  }
+
+  &__suggestion-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+
+  &__suggestion-cancel {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    color: ds.$zinc-400;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &__suggestion-submit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: ds.$primary-yellow;
+    border: none;
+    border-radius: 0.25rem;
+    color: black;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(ds.$primary-yellow, 0.9);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__suggestion-submit-icon {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+}

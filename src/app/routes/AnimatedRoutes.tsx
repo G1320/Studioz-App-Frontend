@@ -30,6 +30,7 @@ const TermsAndConditionsPage = lazy(() => import('@features/static/pages/complia
 const NotFoundPage = lazy(() => import('@features/static/pages/NotFoundPage'));
 const ForOwnersPage = lazy(() => import('@features/static/pages/ForOwnersPage'));
 const HowItWorksPage = lazy(() => import('@features/static/pages/HowItWorksPage'));
+const ChangelogPage = lazy(() => import('@features/static/pages/ChangelogPage'));
 const ServicesPage = lazy(() => import('@features/entities/items/pages/ServicesPage'));
 const StudiosPage = lazy(() => import('@features/entities/studios/pages/StudiosPage'));
 const CreateItemPage = lazy(() => import('@features/entities/items/pages/CreateItemPage'));
@@ -346,6 +347,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <HowItWorksPage videoEmbedUrl="https://player.mediadelivery.net/embed/576930/69015e74-dfee-42fc-9122-0d757293b2af" />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/changelog"
+            element={
+              <AnimatedRoute>
+                <ChangelogPage />
               </AnimatedRoute>
             }
           />

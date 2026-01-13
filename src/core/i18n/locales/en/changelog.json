@@ -1,0 +1,12 @@
+{
+  "title": "System Updates",
+  "subtitle": "All new features, improvements, and bug fixes",
+  "suggestion": {
+    "title": "Feature Suggestions",
+    "description": "Have an idea? We're always listening to your feedback",
+    "placeholder": "Share a new idea...",
+    "textareaPlaceholder": "Describe your idea...",
+    "cancel": "Cancel",
+    "submit": "Submit"
+  }
+}
