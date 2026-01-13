@@ -1,5 +1,7 @@
+import React, { useEffect } from 'react';
 import { useUserContext } from '@core/contexts';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { trackEvent } from '@shared/utils/analytics';
 
 const OrderSuccessPage: React.FC = () => {
   const { state } = useLocation();
@@ -12,6 +14,20 @@ const OrderSuccessPage: React.FC = () => {
   };
 
   const orderData = state?.orderData;
+
+  useEffect(() => {
+    if (orderData) {
+      // Track Purchase event
+      trackEvent('Purchase', {
+        currency: orderData.purchase_units[0].amount.currency_code || 'ILS',
+        value: parseFloat(orderData.purchase_units[0].amount.value),
+        content_name: 'Studio Booking',
+        content_ids: orderData.purchase_units[0].items.map((item: any) => item.sku || item.name),
+        content_type: 'product',
+        num_items: orderData.purchase_units[0].items.length
+      });
+    }
+  }, [orderData]);
 
   if (!orderData) {
     return (

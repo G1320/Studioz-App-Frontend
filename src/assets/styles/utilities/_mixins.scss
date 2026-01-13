@@ -168,6 +168,31 @@
     width: 100%;
     transition: background-color 0.2s ease;
 
+    &[aria-current='page'] {
+      position: relative;
+      background-color: rgba(vars.$color-brand, 0.1); // subtle highlight
+      color: vars.$color-brand;
+
+      .menu-dropdown__icon {
+        color: vars.$color-brand;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 60%;
+        background: vars.$color-brand;
+        border-radius: 3px 0 0 3px;
+        box-shadow: 0 0 10px rgba(vars.$color-brand, 0.5);
+        opacity: 1;
+        animation: menu-indicator-glow 2s ease-in-out infinite;
+      }
+    }
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.05); // hover:bg-white/5
 
@@ -327,6 +352,12 @@
       text-align: left;
       justify-content: flex-start;
       flex-direction: row-reverse;
+
+      &[aria-current='page']::before {
+        right: auto;
+        left: 0;
+        border-radius: 0 3px 3px 0;
+      }
     }
 
     &__icon {

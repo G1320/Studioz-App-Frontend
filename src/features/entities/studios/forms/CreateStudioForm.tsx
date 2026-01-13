@@ -134,7 +134,7 @@ export const CreateStudioForm = () => {
   const [selectedParking, setSelectedParking] = useState<'private' | 'street' | 'paid' | 'none'>(
     savedState?.selectedParking || 'street'
   );
-  const [is24Hours, setIs24Hours] = useState<boolean>(savedState?.is24Hours || false);
+  const [is24Hours] = useState<boolean>(savedState?.is24Hours || false);
 
   // Policies State
   const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>({});
