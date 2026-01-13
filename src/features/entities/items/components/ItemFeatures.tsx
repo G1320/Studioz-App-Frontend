@@ -1,9 +1,5 @@
 import { PopupDropdown, DistanceBadge } from '@shared/components';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AddIcon from '@mui/icons-material/Add';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ListIcon from '@mui/icons-material/List';
-import EditNoteIcon from '@mui/icons-material/EditNote';
+import { FavoriteBorderIcon, AddIcon, LocationIcon, ListIcon, EditNoteIcon } from '@shared/components/icons';
 import { Item, Wishlist, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -56,7 +52,7 @@ export const ItemFeatures: React.FC<ItemFeaturesProps> = ({
     <div className="item-features-container">
       {item?.studioName?.en && (
         <div className="item-studio-badge">
-          <LocationOnIcon className="item-studio-badge__icon" />
+          <LocationIcon className="item-studio-badge__icon" />
           <span>{item.studioName.en}</span>
         </div>
       )}

@@ -9,18 +9,19 @@ import { setLocalUser } from '@shared/services';
 import { useUpdateUserMutation } from '@shared/hooks/mutations';
 import { useGoogleCalendar, useSubscription } from '@shared/hooks';
 
-// Icons
-import PersonIcon from '@mui/icons-material/Person';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ShieldIcon from '@mui/icons-material/Shield';
+import {
+  PersonIcon,
+  EmailIcon,
+  PhoneIcon,
+  LocationIcon,
+  CalendarIcon,
+  CreditCardIcon,
+  EditIcon,
+  SaveIcon,
+  OpenNewIcon,
+  ChevronRightIcon,
+  ShieldIcon
+} from '@shared/components/icons';
 
 import '../styles/_profile-page.scss';
 
@@ -246,7 +247,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
               <span className="profile-header-info__role">{getUserRole()}</span>
             </h1>
             <p className="profile-header-info__meta">
-              <LocationOnIcon className="profile-header-info__icon" />
+              <LocationIcon className="profile-header-info__icon" />
               {user?.email || t('profile.email.notAvailable', 'No email')}
             </p>
           </div>
@@ -344,7 +345,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             <div className="profile-card__glow profile-card__glow--blue" />
 
             <SectionTitle
-              icon={CalendarMonthIcon}
+              icon={CalendarIcon}
               title={t('profile.sections.calendar', 'Calendar')}
               description={t('profile.sections.calendarDesc', 'Sync your bookings with Google Calendar')}
             />
@@ -381,7 +382,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   t('profile.buttons.disconnect', 'Disconnect')
                 ) : (
                   <>
-                    {t('profile.buttons.connectAccount', 'Connect Account')} <OpenInNewIcon />
+                    {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
                   </>
                 )}
               </button>
@@ -429,7 +430,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                     t('profile.sumit.buttons.manage', 'Manage')
                   ) : (
                     <>
-                      {t('profile.sumit.buttons.continue', 'Continue onboarding')} <OpenInNewIcon />
+                      {t('profile.sumit.buttons.continue', 'Continue onboarding')} <OpenNewIcon />
                     </>
                   )}
                 </button>

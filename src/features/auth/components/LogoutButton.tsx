@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useTranslation } from 'react-i18next';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { LogoutIcon } from '@shared/components/icons';
 
 interface LogoutButtonProps {
   className?: string;

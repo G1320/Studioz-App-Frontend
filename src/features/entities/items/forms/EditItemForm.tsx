@@ -26,15 +26,17 @@ import { toast } from 'sonner';
 import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { clearAllFormData } from '@shared/utils/formAutoSaveUtils';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import BoltIcon from '@mui/icons-material/Bolt';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import CategoryIcon from '@mui/icons-material/Category';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import {
+  OfferIcon,
+  InfoOutlinedIcon,
+  CalendarIcon,
+  EventAvailableIcon,
+  BoltIcon,
+  HourglassIcon,
+  CategoryIcon,
+  LibraryMusicIcon,
+  InventoryIcon
+} from '@shared/components/icons';
 import './_createItemForm.scss';
 import { ITEM_NAME_MAX, ITEM_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 
@@ -297,7 +299,7 @@ export const EditItemForm = () => {
           {pricePer === 'hour' && (
             <div className="pricing-step__block-discounts">
               <div className="pricing-step__block-discounts-header">
-                <LocalOfferIcon className="pricing-step__block-discounts-icon" />
+                <OfferIcon className="pricing-step__block-discounts-icon" />
                 <span className="pricing-step__block-discounts-title">
                   {t('form.pricing.blockDiscounts.title', { defaultValue: 'Block Discounts (Optional)' })}
                 </span>
@@ -431,7 +433,7 @@ export const EditItemForm = () => {
           <div className="booking-settings-step__field">
             <label className="booking-settings-step__label">
               {t('form.bookingSettings.advanceNotice.label', { defaultValue: 'Advance Notice' })}
-              <HourglassEmptyIcon />
+              <HourglassIcon />
             </label>
             <div className="booking-settings-step__select-wrapper">
               <select
@@ -557,7 +559,7 @@ export const EditItemForm = () => {
         fieldNames: ['price', 'pricePer', 'blockDiscounts', 'minimumBookingDuration'],
         schema: itemStepSchemasEdit.pricing,
         customContent: pricingContent,
-        icon: LocalOfferIcon
+        icon: OfferIcon
       },
       {
         id: 'booking-settings',
@@ -566,7 +568,7 @@ export const EditItemForm = () => {
         fieldNames: ['minimumQuantity', 'advanceBookingRequired', 'preparationTime'],
         schema: itemStepSchemasEdit['booking-settings'],
         customContent: bookingSettingsContent,
-        icon: CalendarMonthIcon
+        icon: CalendarIcon
       },
       ...(isFeatureEnabled('addOns')
         ? [

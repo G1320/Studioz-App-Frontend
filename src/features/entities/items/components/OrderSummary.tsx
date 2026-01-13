@@ -1,9 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import LockIcon from '@mui/icons-material/Lock';
+import { LocationIcon, CalendarTodayIcon, ArrowBackIcon, LockIcon } from '@shared/components/icons';
 import { SumitPaymentForm } from '@shared/components';
 import { sumitService } from '@shared/services';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
@@ -152,7 +149,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
                 {/* Info Items */}
                 <div className="order-summary__info-row">
                   <div className="order-summary__info-item">
-                    <LocationOnIcon className="order-summary__info-icon" />
+                    <LocationIcon className="order-summary__info-icon" />
                     <div>
                       <p className="order-summary__info-primary">{studioName}</p>
                       <p className="order-summary__info-secondary">{studioLocation}</p>

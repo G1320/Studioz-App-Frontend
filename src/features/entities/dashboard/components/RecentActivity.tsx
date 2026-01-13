@@ -9,9 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import 'dayjs/locale/he';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import ScheduleIcon from '@mui/icons-material/Schedule';
+import { ClockIcon, CalendarTodayIcon, ScheduleIcon } from '@shared/components/icons';
 import '../styles/_recent-activity.scss';
 
 dayjs.extend(relativeTime);
@@ -121,7 +119,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
       <div className="recent-activity">
         <div className="recent-activity__header">
           <h2 className="recent-activity__title">
-            <AccessTimeIcon className="recent-activity__title-icon" />
+            <ClockIcon className="recent-activity__title-icon" />
             {t('recentActivity.title')}
           </h2>
         </div>
@@ -137,7 +135,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
       <div className="recent-activity">
         <div className="recent-activity__header">
           <h2 className="recent-activity__title">
-            <AccessTimeIcon className="recent-activity__title-icon" />
+            <ClockIcon className="recent-activity__title-icon" />
             {t('recentActivity.title')}
           </h2>
         </div>
@@ -152,7 +150,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
     <div className="recent-activity">
       <div className="recent-activity__header">
         <h2 className="recent-activity__title">
-          <AccessTimeIcon className="recent-activity__title-icon" />
+          <ClockIcon className="recent-activity__title-icon" />
           {t('recentActivity.title')}
         </h2>
       </div>

@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import SearchIcon from '@mui/icons-material/Search';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-// import CreditCardIcon from '@mui/icons-material/CreditCard';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import {
+  SearchIcon,
+  CalendarIcon,
+  CheckCircleIcon,
+  PlayIcon
+} from '@shared/components/icons';
 import '../styles/_how-it-works-page.scss';
 
 /**
@@ -94,7 +95,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ embedUrl }) => {
         />
       ) : (
         <div className="how-it-works__video-placeholder">
-          <PlayArrowIcon className="how-it-works__video-placeholder-icon" />
+          <PlayIcon className="how-it-works__video-placeholder-icon" />
           <p>Video Coming Soon</p>
         </div>
       )}
@@ -126,7 +127,7 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
     },
     {
       stepNumber: '02',
-      icon: <CalendarMonthIcon />,
+      icon: <CalendarIcon />,
       title: t('steps.schedule.title'),
       description: t('steps.schedule.description')
     },
@@ -216,7 +217,7 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
           <button className="how-it-works__cta-button" onClick={handleFindStudio}>
             <span>{t('cta.button')}</span>
             <div className="how-it-works__cta-icon">
-              <PlayArrowIcon />
+              <PlayIcon />
             </div>
           </button>
           <p className="how-it-works__cta-subtext">{t('cta.subtext')}</p>

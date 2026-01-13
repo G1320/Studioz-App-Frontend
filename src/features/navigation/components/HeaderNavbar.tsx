@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { featureFlags } from '@core/config/featureFlags';
-import AddIcon from '@mui/icons-material/Add';
+import { AddIcon } from '@shared/components/icons';
 
 export function HeaderNavbar() {
   const { t, i18n } = useTranslation('common');

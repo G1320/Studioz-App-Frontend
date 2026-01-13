@@ -1,10 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import BusinessIcon from '@mui/icons-material/Business';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { CalendarIcon, MoneyIcon, BusinessIcon, ScheduleIcon, FavoriteIcon } from '@shared/components/icons';
 
 interface DashboardStatsProps {
   totalBookings?: number;
@@ -28,12 +24,12 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
         {
           label: t('stats.totalBookings'),
           value: totalBookings ?? 0,
-          icon: <CalendarMonthIcon />
+          icon: <CalendarIcon />
         },
         {
           label: t('stats.totalRevenue'),
           value: totalRevenue ? `₪${totalRevenue.toLocaleString()}` : '₪0',
-          icon: <AttachMoneyIcon />
+          icon: <MoneyIcon />
         },
         {
           label: t('stats.activeStudios'),
@@ -50,12 +46,12 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
         {
           label: t('stats.myBookings'),
           value: totalBookings ?? 0,
-          icon: <CalendarMonthIcon />
+          icon: <CalendarIcon />
         },
         {
           label: t('stats.totalSpent'),
           value: totalRevenue ? `₪${totalRevenue.toLocaleString()}` : '₪0',
-          icon: <AttachMoneyIcon />
+          icon: <MoneyIcon />
         },
         {
           label: t('stats.wishlists'),

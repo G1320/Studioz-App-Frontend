@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import BoltIcon from '@mui/icons-material/Bolt';
-import BugReportIcon from '@mui/icons-material/BugReport';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import SendIcon from '@mui/icons-material/Send';
+import {
+  ChevronDownIcon,
+  AutoAwesomeIcon,
+  BoltIcon,
+  BugIcon,
+  LightbulbIcon,
+  SendIcon
+} from '@shared/components/icons';
 import './_changelog.scss';
 
 // --- Types ---
@@ -178,7 +180,7 @@ function TypeBadge({ type }: { type: ChangeType }) {
   const icons = {
     feature: <AutoAwesomeIcon className="changelog__badge-icon" />,
     improvement: <BoltIcon className="changelog__badge-icon" />,
-    fix: <BugReportIcon className="changelog__badge-icon" />,
+    fix: <BugIcon className="changelog__badge-icon" />,
   };
 
   return (
@@ -268,7 +270,7 @@ export const ChangelogPage: React.FC = () => {
                       }`}
                       aria-label={expandedReleases.includes(release.version) ? 'Collapse' : 'Expand'}
                     >
-                      <KeyboardArrowDownIcon />
+                      <ChevronDownIcon />
                     </button>
                   </div>
 

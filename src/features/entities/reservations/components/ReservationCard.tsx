@@ -9,16 +9,18 @@ import { HourSelector } from '@features/entities';
 import { splitDateTime } from '@shared/utils';
 import dayjs from 'dayjs';
 import 'dayjs/locale/he';
-import PhoneIcon from '@mui/icons-material/Phone';
-import PersonIcon from '@mui/icons-material/Person';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from '@mui/icons-material/Close';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import {
+  PhoneIcon,
+  PersonIcon,
+  CancelIcon,
+  CheckCircleIcon,
+  EditIcon,
+  SaveIcon,
+  CloseIcon,
+  InventoryIcon,
+  CalendarTodayIcon,
+  ClockIcon
+} from '@shared/components/icons';
 import './styles/_reservation-card.scss';
 
 interface ReservationCardProps {
@@ -340,7 +342,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
               {formattedDate}
             </span>
             <span className="reservation-card__meta-item">
-              <AccessTimeIcon className="reservation-card__meta-icon" />
+              <ClockIcon className="reservation-card__meta-icon" />
               {formattedTimeRange}
             </span>
           </div>

@@ -26,15 +26,17 @@ import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { toast } from 'sonner';
 import { createAddOnsBatch } from '@shared/services';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import BoltIcon from '@mui/icons-material/Bolt';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import CategoryIcon from '@mui/icons-material/Category';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import {
+  OfferIcon,
+  InfoOutlinedIcon,
+  CalendarIcon,
+  EventAvailableIcon,
+  BoltIcon,
+  HourglassIcon,
+  CategoryIcon,
+  LibraryMusicIcon,
+  InventoryIcon
+} from '@shared/components/icons';
 import './_createItemForm.scss';
 import { ITEM_NAME_MAX, ITEM_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 
@@ -241,7 +243,7 @@ export const CreateItemForm = () => {
           {pricePer === 'hour' && (
             <div className="pricing-step__block-discounts">
               <div className="pricing-step__block-discounts-header">
-                <LocalOfferIcon className="pricing-step__block-discounts-icon" />
+                <OfferIcon className="pricing-step__block-discounts-icon" />
                 <span className="pricing-step__block-discounts-title">
                   {t('form.pricing.blockDiscounts.title', { defaultValue: 'Block Discounts (Optional)' })}
                 </span>
@@ -375,7 +377,7 @@ export const CreateItemForm = () => {
           <div className="booking-settings-step__field">
             <label className="booking-settings-step__label">
               {t('form.bookingSettings.advanceNotice.label', { defaultValue: 'Advance Notice' })}
-              <HourglassEmptyIcon />
+              <HourglassIcon />
             </label>
             <div className="booking-settings-step__select-wrapper">
               <select
@@ -501,7 +503,7 @@ export const CreateItemForm = () => {
         fieldNames: ['price', 'pricePer', 'blockDiscounts', 'minimumBookingDuration'],
         schema: itemStepSchemas.pricing,
         customContent: pricingContent,
-        icon: LocalOfferIcon
+        icon: OfferIcon
       },
       {
         id: 'booking-settings',
@@ -509,7 +511,7 @@ export const CreateItemForm = () => {
         description: t('form.steps.bookingSettingsDesc') || 'Set booking rules and preparation times',
         fieldNames: ['minimumQuantity', 'advanceBookingRequired', 'preparationTime'],
         schema: itemStepSchemas['booking-settings'],
-        icon: CalendarMonthIcon,
+        icon: CalendarIcon,
         customContent: bookingSettingsContent
       },
       ...(isFeatureEnabled('addOns')

@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import PublicIcon from '@mui/icons-material/Public';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
+import {
+  CalendarIcon,
+  CreditCardIcon,
+  PublicIcon,
+  CheckCircleIcon,
+  ArrowForwardIcon,
+  ClockIcon,
+  DashboardIcon,
+  PeopleIcon
+} from '@shared/components/icons';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -43,13 +45,13 @@ const ForOwnersPage: React.FC = () => {
 
   const features = [
     {
-      icon: <CalendarMonthIcon />,
+      icon: <CalendarIcon />,
       title: t('features.booking.title'),
       description: t('features.booking.description'),
       colorClass: 'owners-feature--primary'
     },
     {
-      icon: <AccessTimeIcon />,
+      icon: <ClockIcon />,
       title: t('features.calendar.title'),
       description: t('features.calendar.description'),
       colorClass: 'owners-feature--blue'

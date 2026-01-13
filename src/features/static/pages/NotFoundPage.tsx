@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import HomeIcon from '@mui/icons-material/Home';
+import { HomeIcon } from '@shared/components/icons';
 
 const AUTO_REDIRECT_DELAY = 10; // seconds
 

@@ -6,7 +6,7 @@ import { useWishlists } from '@shared/hooks';
 import { Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import AddIcon from '@mui/icons-material/Add';
+import { AddIcon } from '@shared/components/icons';
 
 interface WishlistListProps {
   isDropdown?: boolean;

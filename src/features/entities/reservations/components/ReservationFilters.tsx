@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import SearchIcon from '@mui/icons-material/Search';
-import ClearIcon from '@mui/icons-material/Clear';
+import {
+  CalendarTodayIcon,
+  FilterIcon,
+  SearchIcon,
+  ClearIcon
+} from '@shared/components/icons';
 import './styles/_reservation-filters.scss';
 import {
   ReservationFilterOption,
@@ -112,7 +114,7 @@ export const ReservationFilters: React.FC<ReservationFiltersProps> = ({
               </option>
             ))}
           </select>
-            <FilterListIcon className="reservation-filters__icon" />
+            <FilterIcon className="reservation-filters__icon" />
         </div>
         </div>
       </div>
