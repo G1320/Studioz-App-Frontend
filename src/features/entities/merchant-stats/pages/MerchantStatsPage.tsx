@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
 // MUI Icons
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -82,35 +83,132 @@ const MerchantStatsPage: React.FC = () => {
 
   // Calculate stats from reservations
   const stats = useMemo(() => {
-    const studioReservations = reservations.filter((res) =>
+    const currentMonthStart = dayjs().startOf('month');
+    const prevMonthStart = dayjs().subtract(1, 'month').startOf('month');
+    const prevMonthEnd = dayjs().subtract(1, 'month').endOf('month');
+
+    const getTimestamp = (res: any) => {
+      if (res.createdAt) return dayjs(res.createdAt).valueOf();
+      return dayjs(res.bookingDate, 'DD/MM/YYYY').valueOf();
+    };
+
+    // Filter all studio reservations
+    const allStudioReservations = reservations.filter((res) =>
       userStudios.some((studio) =>
         studio.items.some((item) => item.itemId === res.itemId)
       )
     );
 
-    const totalRevenue = studioReservations.reduce(
-      (sum, res) => sum + (res.totalPrice || 0),
-      0
-    );
+    // Filter by month
+    const thisMonthReservations = allStudioReservations.filter((res) => {
+      const ts = getTimestamp(res);
+      return ts >= currentMonthStart.valueOf();
+    });
 
-    const confirmedBookings = studioReservations.filter(
-      (res) => res.status === 'confirmed'
-    ).length;
+    const lastMonthReservations = allStudioReservations.filter((res) => {
+      const ts = getTimestamp(res);
+      return ts >= prevMonthStart.valueOf() && ts <= prevMonthEnd.valueOf();
+    });
 
-    const avgPerBooking = confirmedBookings > 0 
-      ? Math.round(totalRevenue / confirmedBookings) 
+    // Helper to calculate metrics for a set of reservations
+    const calculateMetrics = (resList: typeof reservations) => {
+      const totalRevenue = resList.reduce(
+        (sum, res) => sum + (res.totalPrice || 0),
+        0
+      );
+
+      // Filter for confirmed bookings only for average calculation to be accurate
+      const confirmedReservations = resList.filter(res => res.status === 'confirmed');
+      const confirmedRevenue = confirmedReservations.reduce(
+        (sum, res) => sum + (res.totalPrice || 0),
+        0
+      );
+
+      const confirmedBookingsCount = confirmedReservations.length;
+
+      const avgPerBooking = confirmedBookingsCount > 0
+        ? Math.round(confirmedRevenue / confirmedBookingsCount)
+        : 0;
+
+      const uniqueCustomers = new Set(
+        resList.map((res) => res.customerId || res.userId)
+      ).size;
+
+      return { totalRevenue, totalBookings: resList.length, avgPerBooking, newClients: uniqueCustomers };
+    };
+
+    const currentMetrics = calculateMetrics(thisMonthReservations);
+    const prevMetrics = calculateMetrics(lastMonthReservations);
+
+    // Calculate trends
+    const calculateTrend = (current: number, previous: number) => {
+      if (previous === 0) return current > 0 ? '+100%' : '0%';
+      const diff = ((current - previous) / previous) * 100;
+      return `${diff > 0 ? '+' : ''}${Math.round(diff)}%`;
+    };
+
+    const trends = {
+      totalRevenue: calculateTrend(currentMetrics.totalRevenue, prevMetrics.totalRevenue),
+      totalBookings: calculateTrend(currentMetrics.totalBookings, prevMetrics.totalBookings),
+      avgPerBooking: calculateTrend(currentMetrics.avgPerBooking, prevMetrics.avgPerBooking),
+      newClients: calculateTrend(currentMetrics.newClients, prevMetrics.newClients)
+    };
+
+    // Determine if trends are positive (for coloring)
+    const isPositive = {
+      totalRevenue: currentMetrics.totalRevenue >= prevMetrics.totalRevenue,
+      totalBookings: currentMetrics.totalBookings >= prevMetrics.totalBookings,
+      avgPerBooking: currentMetrics.avgPerBooking >= prevMetrics.avgPerBooking,
+      newClients: currentMetrics.newClients >= prevMetrics.newClients
+    };
+
+    // Calculate quick stats (Average Session Time & Occupancy)
+    // Note: useMemo inside useMemo is not allowed, so logic is flattened here
+    
+    // Average session duration
+    const totalDuration = thisMonthReservations.reduce((acc, res) => {
+      return acc + (res.timeSlots?.length || 0);
+    }, 0);
+    
+    const avgSessionTime = thisMonthReservations.length > 0 
+      ? Math.round((totalDuration / thisMonthReservations.length) * 10) / 10 
       : 0;
 
-    // Calculate new clients (mock - in production would track unique customers)
-    const uniqueCustomers = new Set(
-      studioReservations.map((res) => res.customerId || res.userId)
-    ).size;
+    // Studio Occupancy (Simplified calculation)
+    // Assuming 12 hours operational day * 30 days * number of studios
+    const operationalHoursPerMonth = 12 * 30;
+    const totalCapacity = userStudios.length * operationalHoursPerMonth;
+    
+    const occupancy = totalCapacity > 0 
+      ? Math.round((totalDuration / totalCapacity) * 100) 
+      : 0;
+    
+    // Calculate per-studio occupancy (Room A / Room B etc)
+    // We take top 2 studios if available
+    const studioOccupancy = userStudios.slice(0, 2).map(studio => {
+      const studioRes = thisMonthReservations.filter(r => 
+        studio.items.some(item => item.itemId === r.itemId)
+      );
+      const studioDuration = studioRes.reduce((acc, r) => acc + (r.timeSlots?.length || 0), 0);
+      const studioCapacity = operationalHoursPerMonth; // Per studio capacity
+      
+      return {
+        name: getLocalizedName(studio.name),
+        occupancy: studioCapacity > 0 ? Math.round((studioDuration / studioCapacity) * 100) : 0
+      };
+    });
+
+    const quickStats = {
+      avgSessionTime,
+      occupancy,
+      studios: studioOccupancy
+    };
 
     return {
-      totalRevenue,
-      totalBookings: studioReservations.length,
-      avgPerBooking,
-      newClients: uniqueCustomers
+      ...currentMetrics,
+      trends,
+      isPositive,
+      quickStats
     };
   }, [reservations, userStudios]);
 
@@ -139,7 +237,7 @@ const MerchantStatsPage: React.FC = () => {
         <div className="merchant-stats__controls">
           <button className="merchant-stats__date-picker">
             <CalendarTodayIcon className="icon-calendar" />
-            <span>{t('header.month', 'ינואר 2024')}</span>
+            <span>{dayjs().format('MMMM YYYY')}</span>
             <KeyboardArrowDownIcon className="icon-chevron" />
           </button>
 
@@ -153,30 +251,30 @@ const MerchantStatsPage: React.FC = () => {
       <div className="merchant-stats__metrics">
         <StatCard
           title={t('metrics.totalRevenue', 'סה״כ הכנסות')}
-          value={formatCurrency(stats.totalRevenue || 42593)}
-          trend="+12%"
-          isPositive={true}
+          value={formatCurrency(stats.totalRevenue)}
+          trend={stats.trends.totalRevenue}
+          isPositive={stats.isPositive.totalRevenue}
           icon={<AttachMoneyIcon />}
         />
         <StatCard
           title={t('metrics.totalBookings', 'סה״כ הזמנות')}
-          value={String(stats.totalBookings || 148)}
-          trend="+5%"
-          isPositive={true}
+          value={String(stats.totalBookings)}
+          trend={stats.trends.totalBookings}
+          isPositive={stats.isPositive.totalBookings}
           icon={<BarChartIcon />}
         />
         <StatCard
           title={t('metrics.avgPerBooking', 'ממוצע להזמנה')}
-          value={`₪${stats.avgPerBooking || 287}`}
-          trend="-2%"
-          isPositive={false}
+          value={`₪${stats.avgPerBooking}`}
+          trend={stats.trends.avgPerBooking}
+          isPositive={stats.isPositive.avgPerBooking}
           icon={<TrendingUpIcon />}
         />
         <StatCard
           title={t('metrics.newClients', 'לקוחות חדשים')}
-          value={String(stats.newClients || 24)}
-          trend="+18%"
-          isPositive={true}
+          value={String(stats.newClients)}
+          trend={stats.trends.newClients}
+          isPositive={stats.isPositive.newClients}
           icon={<PeopleOutlineIcon />}
         />
       </div>
@@ -189,7 +287,11 @@ const MerchantStatsPage: React.FC = () => {
           <RevenueChart period={period} onPeriodChange={setPeriod} />
 
           {/* Quick Stats Row */}
-          <QuickStats />
+          <QuickStats 
+            avgSessionTime={stats.quickStats.avgSessionTime}
+            occupancy={stats.quickStats.occupancy}
+            studios={stats.quickStats.studios}
+          />
         </div>
 
         {/* Right Column - Clients */}
@@ -215,7 +317,7 @@ const MerchantStatsPage: React.FC = () => {
               ))}
             </div>
 
-            <button className="clients-card__filter-btn">
+            <button className="clients-card__filter-btn" style={{ display: 'none' }}>
               <FilterListIcon />
               {t('clients.filterByCategory', 'סנן לפי קטגוריה')}
             </button>

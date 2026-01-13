@@ -28,12 +28,7 @@ $ms-negative-bg: rgba(248, 113, 113, 0.1);
   background: $ms-bg;
   color: $ms-text-primary;
   font-family: 'DM Sans', sans-serif;
-  padding: 1rem 0;
   direction: rtl;
-
-  @media (min-width: 640px) {
-    padding: 2rem 0;
-  }
 }
 
 // ===== HEADER =====

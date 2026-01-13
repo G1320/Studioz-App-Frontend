@@ -3,18 +3,19 @@ import { useTranslation } from 'react-i18next';
 
 interface QuickStatsProps {
   occupancy?: number;
-  roomAOccupancy?: number;
-  roomBOccupancy?: number;
+  studios?: { name: string; occupancy: number }[];
   avgSessionTime?: number;
 }
 
 export const QuickStats: React.FC<QuickStatsProps> = ({
-  occupancy = 78,
-  roomAOccupancy = 82,
-  roomBOccupancy = 65,
-  avgSessionTime = 3.5
+  occupancy = 0,
+  studios = [],
+  avgSessionTime = 0
 }) => {
   const { t } = useTranslation('merchantStats');
+
+  // If no studios, show default "No studios" state or fallback
+  const displayStudios = studios.length > 0 ? studios : [];
 
   return (
     <div className="quick-stats">
@@ -25,36 +26,39 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
           <h3>{t('quickStats.occupancy', 'תפוסת אולפן')}</h3>
           <div className="value-row">
             <span className="value">{occupancy}%</span>
-            <span className="badge">{t('quickStats.aboveAverage', 'גבוה מהרגיל')}</span>
+            {occupancy > 50 && (
+              <span className="badge">{t('quickStats.aboveAverage', 'גבוה מהרגיל')}</span>
+            )}
           </div>
         </div>
 
         <div className="quick-stat-card__progress">
-          <div className="progress-row">
-            <div className="progress-header">
-              <span>{t('quickStats.roomA', 'חדר א׳')}</span>
-              <span>{roomAOccupancy}%</span>
+          {displayStudios.length > 0 ? (
+            displayStudios.slice(0, 3).map((studio, index) => (
+              <div key={index} className="progress-row">
+                <div className="progress-header">
+                  <span>{studio.name}</span>
+                  <span>{studio.occupancy}%</span>
+                </div>
+                <div className="progress-bar">
+                  <div
+                    className={`progress-fill ${index === 0 ? 'progress-fill--primary' : 'progress-fill--secondary'}`}
+                    style={{ width: `${studio.occupancy}%` }}
+                  />
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="progress-row">
+              <div className="progress-header">
+                <span>{t('quickStats.noStudios', 'אין נכסים פעילים')}</span>
+                <span>0%</span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{ width: '0%' }} />
+              </div>
             </div>
-            <div className="progress-bar">
-              <div
-                className="progress-fill progress-fill--primary"
-                style={{ width: `${roomAOccupancy}%` }}
-              />
-            </div>
-          </div>
-
-          <div className="progress-row">
-            <div className="progress-header">
-              <span>{t('quickStats.roomB', 'חדר ב׳')}</span>
-              <span>{roomBOccupancy}%</span>
-            </div>
-            <div className="progress-bar">
-              <div
-                className="progress-fill progress-fill--secondary"
-                style={{ width: `${roomBOccupancy}%` }}
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
