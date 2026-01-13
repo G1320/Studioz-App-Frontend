@@ -1,31 +1,31 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // STUDIO MANAGER - StudioZ Design System
 // Theme: Dark Mode Management Dashboard
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-// Color Palette
-$sm-bg: #000000;
+// Color Palette (referencing design system)
+$sm-bg: ds.$primary-black;
 $sm-surface: #111111;
-$sm-border: rgba(39, 39, 42, 1); // zinc-800
+$sm-border: ds.$zinc-800;
 $sm-border-subtle: rgba(39, 39, 42, 0.5);
-$sm-accent: #ffd166;
+$sm-accent: ds.$primary-yellow;
 $sm-accent-hover: #ffc107;
-$sm-success: #34d399; // emerald-400
+$sm-success: ds.$color-success-text;
 $sm-success-bg: rgba(52, 211, 153, 0.1);
 $sm-success-border: rgba(52, 211, 153, 0.2);
-$sm-warning: #fbbf24; // amber-400
-$sm-warning-bg: rgba(251, 191, 36, 0.1);
-$sm-warning-border: rgba(251, 191, 36, 0.2);
-$sm-neutral: #a1a1aa; // zinc-400
+$sm-warning: ds.$color-warning-light;
+$sm-warning-bg: ds.$status-warning-bg;
+$sm-warning-border: ds.$status-warning-border;
+$sm-neutral: ds.$zinc-400;
 $sm-neutral-bg: rgba(161, 161, 170, 0.1);
 $sm-neutral-border: rgba(161, 161, 170, 0.2);
-$sm-text: #ffffff;
-$sm-text-secondary: #a1a1aa; // zinc-400
-$sm-text-muted: #71717a; // zinc-500
-$sm-text-placeholder: #52525b; // zinc-600
+$sm-text: ds.$primary-white;
+$sm-text-secondary: ds.$zinc-400;
+$sm-text-muted: ds.$zinc-500;
+$sm-text-placeholder: ds.$zinc-600;
 
 // --- Main Container ---
 .studio-manager {

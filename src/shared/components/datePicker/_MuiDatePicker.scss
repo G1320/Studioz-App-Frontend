@@ -1,21 +1,21 @@
 @use '../../../assets/styles/utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // MUI DATE PICKER - StudioZ Design System
 // Theme: Dark Mode
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-// Color variables
-$picker-primary: #ffd166;
+// Color variables (referencing design system)
+$picker-primary: ds.$primary-yellow;
 $picker-bg-deep: #0a0a0a;
 $picker-bg-surface: #121212;
-$picker-border: rgba(39, 39, 42, 1); // zinc-800
-$picker-text-primary: #ffffff;
-$picker-text-secondary: rgba(161, 161, 170, 1); // zinc-400
-$picker-text-muted: rgba(113, 113, 122, 1); // zinc-500
-$picker-text-disabled: rgba(39, 39, 42, 1); // zinc-800
-$picker-hover: rgba(39, 39, 42, 1); // zinc-800
+$picker-border: ds.$zinc-800;
+$picker-text-primary: ds.$primary-white;
+$picker-text-secondary: ds.$zinc-400;
+$picker-text-muted: ds.$zinc-500;
+$picker-text-disabled: ds.$zinc-800;
+$picker-hover: ds.$zinc-800;
 
 .date-picker-container {
   width: 100%;

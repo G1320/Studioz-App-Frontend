@@ -1,20 +1,21 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // NOTIFICATION LIST - StudioZ Design System
 // Theme: Dark Mode
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$notif-primary: #ffd166;
+// Local aliases (referencing design system)
+$notif-primary: ds.$primary-yellow;
 $notif-primary-hover: #ffca4d;
-$notif-bg-main: #1a1a1a;
+$notif-bg-main: ds.$bg-tertiary;
 $notif-bg-header: #1f1f1f;
 $notif-bg-deep: #111;
-$notif-border: rgba(39, 39, 42, 1); // zinc-800
-$notif-text-primary: #ffffff;
-$notif-text-secondary: rgba(161, 161, 170, 1); // zinc-400
-$notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
+$notif-border: ds.$zinc-800;
+$notif-text-primary: ds.$primary-white;
+$notif-text-secondary: ds.$zinc-400;
+$notif-text-muted: ds.$zinc-600;
 
 .notification-list {
   max-height: 380px;

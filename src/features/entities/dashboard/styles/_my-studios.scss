@@ -1,17 +1,18 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // MY STUDIOS SECTION - StudioZ Design System
 // Theme: Dark Mode (Midnight)
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$studios-primary: #ffd166;
+// Local aliases (referencing design system)
+$studios-primary: ds.$primary-yellow;
 $studios-primary-hover: #ffda85;
 $studios-bg-card: #1e1e1e;
-$studios-border: rgba(39, 39, 42, 1); // zinc-800
-$studios-text-primary: #ffffff;
-$studios-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+$studios-border: ds.$zinc-800;
+$studios-text-primary: ds.$primary-white;
+$studios-text-secondary: ds.$zinc-400;
 
 .dashboard-my-studios {
   .section-header {

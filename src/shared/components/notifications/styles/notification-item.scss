@@ -1,20 +1,21 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // NOTIFICATION ITEM - StudioZ Design System
 // Theme: Dark Mode
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$notif-primary: #ffd166;
+// Local aliases (referencing design system)
+$notif-primary: ds.$primary-yellow;
 $notif-bg-hover: rgba(39, 39, 42, 0.5); // zinc-800/50
 $notif-border: rgba(39, 39, 42, 0.5); // zinc-800/50
 $notif-icon-bg: rgba(24, 24, 27, 0.8); // zinc-900/80
 $notif-icon-border: rgba(63, 63, 70, 0.5); // zinc-700/50
-$notif-text-primary: #ffffff;
-$notif-text-secondary: rgba(161, 161, 170, 1); // zinc-400
-$notif-text-muted: rgba(82, 82, 91, 1); // zinc-600
-$notif-error: #ef4444; // red-500
+$notif-text-primary: ds.$primary-white;
+$notif-text-secondary: ds.$zinc-400;
+$notif-text-muted: ds.$zinc-600;
+$notif-error: ds.$color-error;
 $notif-warning: #fb7185; // rose-400
 
 .notification-item {

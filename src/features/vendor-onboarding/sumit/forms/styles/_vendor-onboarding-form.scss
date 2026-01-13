@@ -1,17 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
-// Brand Colors
-$accent-yellow: #ffd166;
+// Local aliases (referencing design system)
+$accent-yellow: ds.$primary-yellow;
 $accent-yellow-hover: #ffda85;
-$bg-black: #000000;
+$bg-black: ds.$primary-black;
 $surface-dark: #1e1e1e;
-$zinc-900: #18181b;
-$zinc-800: #27272a;
-$zinc-700: #3f3f46;
-$zinc-600: #52525b;
-$zinc-500: #71717a;
-$zinc-400: #a1a1aa;
-$zinc-300: #d4d4d8;
 
 .vendor-onboarding {
   min-height: 100vh;
@@ -59,7 +53,7 @@ $zinc-300: #d4d4d8;
       right: 2.5rem;
       left: 2.5rem;
       height: 2px;
-      background: $zinc-800;
+      background: ds.$zinc-800;
       z-index: 0;
     }
 
@@ -95,9 +89,9 @@ $zinc-300: #d4d4d8;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid $zinc-700;
-      background: $zinc-900;
-      color: $zinc-500;
+      border: 2px solid ds.$zinc-700;
+      background: ds.$zinc-900;
+      color: ds.$zinc-500;
       transition: all 0.3s ease;
 
       svg {
@@ -122,7 +116,7 @@ $zinc-300: #d4d4d8;
     &__label {
       font-size: 0.75rem;
       font-weight: 500;
-      color: $zinc-600;
+      color: ds.$zinc-600;
       margin-top: 0.5rem;
       text-align: center;
       white-space: nowrap;
@@ -133,7 +127,7 @@ $zinc-300: #d4d4d8;
       }
 
       &.completed {
-        color: $zinc-300;
+        color: ds.$zinc-300;
       }
     }
   }
@@ -141,7 +135,7 @@ $zinc-300: #d4d4d8;
   // Form Card
   .form-card {
     background: $surface-dark;
-    border: 1px solid $zinc-800;
+    border: 1px solid ds.$zinc-800;
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -169,7 +163,7 @@ $zinc-300: #d4d4d8;
       }
 
       p {
-        color: $zinc-400;
+        color: ds.$zinc-400;
         margin: 0;
       }
     }
@@ -179,8 +173,8 @@ $zinc-300: #d4d4d8;
       align-items: flex-start;
       gap: 0.75rem;
       padding: 1rem;
-      background: rgba($zinc-900, 0.5);
-      border: 1px solid $zinc-800;
+      background: rgba(ds.$zinc-900, 0.5);
+      border: 1px solid ds.$zinc-800;
       border-radius: 0.75rem;
       margin-bottom: 1.5rem;
 
@@ -194,7 +188,7 @@ $zinc-300: #d4d4d8;
 
       p {
         font-size: 0.875rem;
-        color: $zinc-400;
+        color: ds.$zinc-400;
         margin: 0;
       }
     }
@@ -217,14 +211,14 @@ $zinc-300: #d4d4d8;
     label {
       font-size: 0.875rem;
       font-weight: 500;
-      color: $zinc-300;
+      color: ds.$zinc-300;
     }
 
     input,
     select {
       width: 100%;
-      background: $zinc-900;
-      border: 1px solid $zinc-800;
+      background: ds.$zinc-900;
+      border: 1px solid ds.$zinc-800;
       border-radius: 0.75rem;
       padding: 0.75rem 1rem;
       color: white;
@@ -234,7 +228,7 @@ $zinc-300: #d4d4d8;
       min-width: 0; // Prevent input overflow
 
       &::placeholder {
-        color: $zinc-600;
+        color: ds.$zinc-600;
       }
 
       &:focus {
@@ -293,9 +287,9 @@ $zinc-300: #d4d4d8;
   .entity-type-btn {
     padding: 0.75rem;
     border-radius: 0.75rem;
-    border: 1px solid $zinc-800;
-    background: $zinc-900;
-    color: $zinc-400;
+    border: 1px solid ds.$zinc-800;
+    background: ds.$zinc-900;
+    color: ds.$zinc-400;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -303,7 +297,7 @@ $zinc-300: #d4d4d8;
     white-space: nowrap;
 
     &:hover {
-      border-color: $zinc-700;
+      border-color: ds.$zinc-700;
     }
 
     &.active {
@@ -351,11 +345,11 @@ $zinc-300: #d4d4d8;
       color: white;
 
       &:hover:not(.disabled) {
-        background: $zinc-800;
+        background: ds.$zinc-800;
       }
 
       &.disabled {
-        color: $zinc-600;
+        color: ds.$zinc-600;
         cursor: not-allowed;
       }
     }
@@ -439,7 +433,7 @@ $zinc-300: #d4d4d8;
     }
 
     p {
-      color: $zinc-400;
+      color: ds.$zinc-400;
       font-size: 1.125rem;
       margin: 0 0 1.5rem;
       line-height: 1.6;

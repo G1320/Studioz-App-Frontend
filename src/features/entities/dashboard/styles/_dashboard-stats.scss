@@ -1,19 +1,20 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // DASHBOARD STATS - StudioZ Design System
 // Theme: Dark Mode (Midnight)
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$stat-primary: #ffd166;
+// Local aliases (referencing design system)
+$stat-primary: ds.$primary-yellow;
 $stat-bg-card: #1e1e1e;
 $stat-bg-hover: #252525;
 $stat-bg-icon: rgba(39, 39, 42, 0.5); // zinc-800/50
-$stat-border: rgba(39, 39, 42, 1); // zinc-800
-$stat-border-hover: rgba(63, 63, 70, 1); // zinc-700
-$stat-text-primary: #ffffff;
-$stat-text-secondary: rgba(161, 161, 170, 1); // zinc-400
+$stat-border: ds.$zinc-800;
+$stat-border-hover: ds.$zinc-700;
+$stat-text-primary: ds.$primary-white;
+$stat-text-secondary: ds.$zinc-400;
 
 .dashboard-stats {
   .stats-title {

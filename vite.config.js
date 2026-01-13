@@ -14,9 +14,7 @@ const musicSubCategories = Object.values(categoriesJson.subCategories.musicAndPo
 
 // Generate subcategory routes for studios using query params
 // URL structure: /studios?subcategory=SubcategoryName
-const studiosSubcategoryRoutes = musicSubCategories.map(
-  (sub) => `/studios?subcategory=${encodeURIComponent(sub)}`
-);
+const studiosSubcategoryRoutes = musicSubCategories.map((sub) => `/studios?subcategory=${encodeURIComponent(sub)}`);
 
 // Generate city-specific routes with query parameters
 const cityNames = cities.map((city) => city.name);
@@ -30,7 +28,7 @@ const studiosSubcategoryWithCityRoutes = musicSubCategories.flatMap((sub) =>
 
 // Base static routes (only publicly accessible pages)
 // Note: /wishlists and /create-studio require authentication, so they're excluded from sitemap
-const baseRoutes = ['/discover', '/studios', '/for-owners', '/subscription', '/privacy', '/terms'];
+const baseRoutes = ['/discover', '/studios', '/for-owners', '/how-it-works', '/subscription', '/privacy', '/terms'];
 
 // Combine all routes (base + subcategory + city + combined variations)
 const allRoutes = [
@@ -128,7 +126,10 @@ export default defineConfig(({ _command, mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          includePaths: [path.resolve(__dirname, './src/assets/styles')]
+          includePaths: [
+            path.resolve(__dirname, './src/assets/styles'),
+            path.resolve(__dirname, './src/shared/components/forms/styles')
+          ]
         }
       }
     }

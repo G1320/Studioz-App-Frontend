@@ -1,26 +1,27 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // RECENT ACTIVITY - StudioZ Design System
 // Theme: Dark Mode (Midnight Pro)
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$activity-primary: #ffd166;
+// Local aliases (referencing design system)
+$activity-primary: ds.$primary-yellow;
 $activity-bg-deep: #111111;
 $activity-bg-surface: #1e1e1e;
-$activity-bg-button: rgba(24, 24, 27, 1); // zinc-900
-$activity-border: rgba(39, 39, 42, 1); // zinc-800
-$activity-border-light: rgba(63, 63, 70, 1); // zinc-700
-$activity-text-primary: #ffffff;
-$activity-text-secondary: rgba(161, 161, 170, 1); // zinc-400
-$activity-text-muted: rgba(113, 113, 122, 1); // zinc-500
+$activity-bg-button: ds.$zinc-900;
+$activity-border: ds.$zinc-800;
+$activity-border-light: ds.$zinc-700;
+$activity-text-primary: ds.$primary-white;
+$activity-text-secondary: ds.$zinc-400;
+$activity-text-muted: ds.$zinc-500;
 
-// Status colors
-$status-confirmed: #10b981; // emerald-500
-$status-pending: #f59e0b; // amber-500
-$status-completed: #3b82f6; // blue-500
-$status-cancelled: #ef4444; // red-500
+// Status colors (referencing design system)
+$status-confirmed: ds.$color-success;
+$status-pending: ds.$color-warning;
+$status-completed: ds.$color-info;
+$status-cancelled: ds.$color-error;
 
 .recent-activity {
   display: flex;

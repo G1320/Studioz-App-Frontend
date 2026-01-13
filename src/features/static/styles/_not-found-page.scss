@@ -1,9 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
-$accent-yellow: #ffd166;
+// Local aliases (referencing design system)
+$accent-yellow: ds.$primary-yellow;
 $accent-yellow-hover: #ffda85;
 $card-bg: #1e1e1e;
-$border-color: #27272a; // zinc-800
+$border-color: ds.$zinc-800;
 
 .not-found-page {
   min-height: 100vh;

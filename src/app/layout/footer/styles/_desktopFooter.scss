@@ -1,8 +1,10 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
-$footer-primary: #ffd166;
-$footer-surface-dark: #09090b; // zinc-950
-$footer-muted: rgba(255, 255, 255, 0.4);
+// Local aliases (referencing design system)
+$footer-primary: ds.$primary-yellow;
+$footer-surface-dark: ds.$zinc-950;
+$footer-muted: ds.$white-40;
 
 footer.desktop-footer {
   background: $footer-surface-dark;

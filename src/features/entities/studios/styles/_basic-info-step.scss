@@ -1,17 +1,15 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // StudioZ Design System - Basic Info Step
-// Primary Yellow: #ffd166
-// Secondary Background: rgba(24, 24, 27, 0.5) (zinc-900/50)
-// Border: zinc-700 (#3f3f46)
-
-$basic-info-primary: #ffd166;
-$basic-info-bg: rgba(24, 24, 27, 0.5);
-$basic-info-border: #3f3f46;
-$basic-info-border-focus: #ffd166;
-$basic-info-text-muted: #a1a1aa; // zinc-400
-$basic-info-text-label: #71717a; // zinc-500
-$basic-info-info-bg: rgba(59, 130, 246, 0.1); // blue-500/10
+// Local aliases (referencing design system)
+$basic-info-primary: ds.$primary-yellow;
+$basic-info-bg: ds.$zinc-900-50;
+$basic-info-border: ds.$zinc-700;
+$basic-info-border-focus: ds.$primary-yellow;
+$basic-info-text-muted: ds.$zinc-400;
+$basic-info-text-label: ds.$zinc-500;
+$basic-info-info-bg: ds.$status-blue-bg;
 $basic-info-info-text: #93c5fd; // blue-300
 
 .basic-info-step {
@@ -134,7 +132,7 @@ $basic-info-info-text: #93c5fd; // blue-300
 
   &__lang-badge {
     font-size: 0.625rem;
-    background: #27272a;
+    background: ds.$zinc-800;
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
     color: $basic-info-text-muted;

@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // LANDING PAGE STYLES - StudioZ Design System
 // Theme: Dark Mode Dominant, Professional, High-Contrast
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$landing-primary: #ffd166;
-$landing-primary-foreground: #000000;
-$landing-surface: #18181b; // zinc-900
-$landing-border: rgba(255, 255, 255, 0.1);
-$landing-muted: rgba(255, 255, 255, 0.6);
+// Local aliases (referencing design system)
+$landing-primary: ds.$primary-yellow;
+$landing-primary-foreground: ds.$primary-black;
+$landing-surface: ds.$zinc-900;
+$landing-border: ds.$border-primary;
+$landing-muted: ds.$white-60;
 
 // Container
 .landing-container {

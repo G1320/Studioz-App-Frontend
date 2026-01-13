@@ -1,13 +1,14 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
-// Design system colors
-$primary-yellow: #ffd166;
-$zinc-500: #71717a;
-$zinc-700: #3f3f46;
-$zinc-800: #27272a;
-$zinc-900: #18181b;
+// Design system colors (referencing design system)
+$primary-yellow: ds.$primary-yellow;
+$zinc-500: ds.$zinc-500;
+$zinc-700: ds.$zinc-700;
+$zinc-800: ds.$zinc-800;
+$zinc-900: ds.$zinc-900;
 $zinc-900-20: rgba(24, 24, 27, 0.2);
-$zinc-900-30: rgba(24, 24, 27, 0.3);
+$zinc-900-30: ds.$zinc-900-30;
 $zinc-900-40: rgba(24, 24, 27, 0.4);
 $zinc-900-80: rgba(24, 24, 27, 0.8);
 

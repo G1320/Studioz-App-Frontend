@@ -1,22 +1,23 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // STUDIO INFO MODAL - StudioZ Design System
 // Theme: Dark Mode
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$modal-primary: #ffd166;
+// Local aliases (referencing design system)
+$modal-primary: ds.$primary-yellow;
 $modal-primary-hover: #ffc133;
 $modal-bg: #0f0f0f;
-$modal-surface: rgba(24, 24, 27, 1); // zinc-900
-$modal-border: rgba(39, 39, 42, 1); // zinc-800
-$modal-border-light: rgba(63, 63, 70, 1); // zinc-700
-$modal-text: #ffffff;
-$modal-text-secondary: rgba(212, 212, 216, 1); // zinc-300
-$modal-text-tertiary: rgba(161, 161, 170, 1); // zinc-400
-$modal-text-muted: rgba(113, 113, 122, 1); // zinc-500
-$modal-map-bg: rgba(39, 39, 42, 1); // zinc-800
+$modal-surface: ds.$zinc-900;
+$modal-border: ds.$zinc-800;
+$modal-border-light: ds.$zinc-700;
+$modal-text: ds.$primary-white;
+$modal-text-secondary: ds.$zinc-300;
+$modal-text-tertiary: ds.$zinc-400;
+$modal-text-muted: ds.$zinc-500;
+$modal-map-bg: ds.$zinc-800;
 
 .studio-minimap-modal {
   .modal-wrapper {

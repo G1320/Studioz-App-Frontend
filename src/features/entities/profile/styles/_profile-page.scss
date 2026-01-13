@@ -1,20 +1,21 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // STUDIOZ USER PROFILE - Design System
 // Theme: Dark Mode
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$profile-accent: #ffd166;
+// Local aliases (referencing design system)
+$profile-accent: ds.$primary-yellow;
 $profile-accent-hover: #ffc107;
 $profile-surface: #111111;
-$profile-bg: #000000;
-$profile-border: rgba(39, 39, 42, 1); // zinc-800
-$profile-border-light: rgba(63, 63, 70, 1); // zinc-700
-$profile-muted: rgba(113, 113, 122, 1); // zinc-500
-$profile-text: #ffffff;
-$profile-text-secondary: rgba(228, 228, 231, 1); // zinc-200
+$profile-bg: ds.$primary-black;
+$profile-border: ds.$zinc-800;
+$profile-border-light: ds.$zinc-700;
+$profile-muted: ds.$zinc-500;
+$profile-text: ds.$primary-white;
+$profile-text-secondary: ds.$zinc-200;
 
 .profile-page {
   min-height: calc(100vh - 120px);

@@ -1,17 +1,18 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // FOR OWNERS PAGE STYLES - StudioZ Design System
 // Theme: Dark Mode Dominant, Professional, High-Contrast
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$owners-primary: #ffd166;
-$owners-primary-foreground: #000000;
-$owners-surface: #18181b; // zinc-900
-$owners-surface-dark: #09090b; // zinc-950
-$owners-border: rgba(255, 255, 255, 0.1);
-$owners-muted: rgba(255, 255, 255, 0.6);
+// Local aliases (referencing design system)
+$owners-primary: ds.$primary-yellow;
+$owners-primary-foreground: ds.$primary-black;
+$owners-surface: ds.$zinc-900;
+$owners-surface-dark: ds.$zinc-950;
+$owners-border: ds.$border-primary;
+$owners-muted: ds.$white-60;
 
 // Accent colors for features
 $owners-blue: #60a5fa;

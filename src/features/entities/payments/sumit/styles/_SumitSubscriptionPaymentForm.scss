@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .sumit-payment-form {
   max-width: 520px;
@@ -51,7 +52,7 @@
 
   &__divider-accent {
     height: 2px;
-    background: #ffd166;
+    background: ds.$primary-yellow;
     width: 4rem; // 64px
     position: relative;
     z-index: 10;
@@ -109,8 +110,8 @@
 
       &:focus {
         outline: none;
-        border-color: #ffd166;
-        box-shadow: 0 0 0 1px #ffd166; // ring-1
+        border-color: ds.$primary-yellow;
+        box-shadow: 0 0 0 1px ds.$primary-yellow; // ring-1
       }
 
       &:disabled {
@@ -209,8 +210,8 @@
 
         &:focus {
           outline: none;
-          border-color: #ffd166;
-          box-shadow: 0 0 0 1px #ffd166;
+          border-color: ds.$primary-yellow;
+          box-shadow: 0 0 0 1px ds.$primary-yellow;
         }
 
         &:disabled {
@@ -320,7 +321,7 @@
     button {
       width: 100%;
       padding: 1rem 2rem; // py-4 px-8
-      background: #ffd166;
+      background: ds.$primary-yellow;
       color: black;
       border: none;
       border-radius: 0.75rem; // rounded-xl

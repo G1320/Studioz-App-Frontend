@@ -1,23 +1,24 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ============================================
 // Order Summary & Payment Form Styles
 // Design System: StudioZ Dark Mode
 // ============================================
 
-// Local Theme Variables
+// Local Theme Variables (referencing design system)
 $bg-card: #0a0a0a;
-$bg-input: #1a1a1a;
-$border-color: #27272a; // zinc-800
-$border-hover: #3f3f46; // zinc-700
-$primary: #ffd166;
+$bg-input: ds.$bg-tertiary;
+$border-color: ds.$zinc-800;
+$border-hover: ds.$zinc-700;
+$primary: ds.$primary-yellow;
 $primary-hover: #ffc107;
-$text-primary: #ffffff;
-$text-secondary: #e4e4e7; // zinc-200
-$text-muted: #a1a1aa; // zinc-400
-$text-subtle: #71717a; // zinc-500
-$success: #34d399;
-$error: #ef4444;
+$text-primary: ds.$primary-white;
+$text-secondary: ds.$zinc-200;
+$text-muted: ds.$zinc-400;
+$text-subtle: ds.$zinc-500;
+$success: ds.$color-success-text;
+$error: ds.$color-error;
 
 .order-summary {
   width: 100%;

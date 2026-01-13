@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // CUSTOMER DETAILS FORM - StudioZ Design System
 // Theme: Dark Mode, Glassmorphic Inputs
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$item-primary: #ffd166;
-$item-surface: rgba(24, 24, 27, 0.5); // zinc-900/50
-$item-border: rgba(63, 63, 70, 1); // zinc-700
+// Local aliases (referencing design system)
+$item-primary: ds.$primary-yellow;
+$item-surface: ds.$zinc-900-50;
+$item-border: ds.$zinc-700;
 $item-border-focus: $item-primary;
-$item-muted: rgba(113, 113, 122, 1); // zinc-500
+$item-muted: ds.$zinc-500;
 
 .item-modal {
   overflow-y: auto;

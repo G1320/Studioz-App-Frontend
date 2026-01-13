@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // MY RESERVATIONS PAGE - StudioZ Design System
 // Theme: Dark Mode
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$page-primary: #ffd166;
-$page-surface: #18181b; // zinc-900
-$page-border: rgba(39, 39, 42, 1); // zinc-800
-$page-muted: rgba(161, 161, 170, 1); // zinc-400
-$page-label: rgba(113, 113, 122, 1); // zinc-500
+// Local aliases (referencing design system)
+$page-primary: ds.$primary-yellow;
+$page-surface: ds.$zinc-900;
+$page-border: ds.$zinc-800;
+$page-muted: ds.$zinc-400;
+$page-label: ds.$zinc-500;
 
 .my-reservations-page {
   width: 100%;

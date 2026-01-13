@@ -1,10 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 .pro-tip {
   padding: vars.$spacing-large;
   border-radius: 12px;
-  background: rgba(24, 24, 27, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: ds.$zinc-900-50;
+  border: 1px solid ds.$white-05;
   display: flex;
   gap: vars.$spacing-medium;
   margin-top: vars.$spacing-2xl;
@@ -13,7 +14,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(59, 130, 246, 0.1);
+    background: ds.$status-blue-bg;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,12 +40,12 @@
 
   &__text {
     font-size: vars.$font-size-small;
-    color: #a1a1aa; // Zinc-400
+    color: ds.$zinc-400;
     line-height: 1.6;
     margin: 0;
 
     strong {
-      color: white;
+      color: ds.$primary-white;
     }
   }
 }

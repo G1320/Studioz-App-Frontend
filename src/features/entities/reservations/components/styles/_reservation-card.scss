@@ -1,28 +1,29 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ============================================
 // StudioZ Reservation Card - Visual Style Guide
 // ============================================
 
-// Status Colors
-$status-confirmed: #34d399; // emerald-400
-$status-confirmed-bg: rgba(52, 211, 153, 0.2);
-$status-pending: #fbbf24; // amber-400
+// Status Colors (referencing design system)
+$status-confirmed: ds.$color-success-text;
+$status-confirmed-bg: ds.$status-green-bg;
+$status-pending: ds.$color-warning-light;
 $status-pending-bg: rgba(251, 191, 36, 0.2);
-$status-cancelled: #f87171; // red-400
-$status-cancelled-bg: rgba(248, 113, 113, 0.2);
+$status-cancelled: ds.$color-error-text;
+$status-cancelled-bg: ds.$status-red-bg;
 $status-default: #60a5fa; // blue-400
 $status-default-bg: rgba(96, 165, 250, 0.2);
 
-// Core Colors
+// Core Colors (referencing design system)
 $card-bg: #111111;
-$surface: vars.$zinc-900;
-$border-default: vars.$zinc-800;
-$border-hover: vars.$zinc-700;
-$text-primary: white;
-$text-secondary: vars.$zinc-300;
-$text-tertiary: vars.$zinc-500;
-$accent: #ffd166;
+$surface: ds.$zinc-900;
+$border-default: ds.$zinc-800;
+$border-hover: ds.$zinc-700;
+$text-primary: ds.$primary-white;
+$text-secondary: ds.$zinc-300;
+$text-tertiary: ds.$zinc-500;
+$accent: ds.$primary-yellow;
 
 .reservation-card {
   background: $card-bg;

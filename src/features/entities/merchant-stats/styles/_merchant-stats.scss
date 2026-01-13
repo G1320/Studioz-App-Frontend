@@ -1,26 +1,27 @@
 @use 'src/assets/styles/utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ===========================================
 // MERCHANT STATS - STYLE GUIDE IMPLEMENTATION
 // ===========================================
 
-// Color Palette
-$ms-primary: #ffd166;
+// Color Palette (referencing design system)
+$ms-primary: ds.$primary-yellow;
 $ms-primary-hover: #ffda85;
-$ms-primary-glow: rgba(255, 209, 102, 0.1);
-$ms-bg: #000000;
-$ms-surface: rgba(24, 24, 27, 0.5);
-$ms-surface-alt: rgba(24, 24, 27, 0.3);
+$ms-primary-glow: ds.$brand-10;
+$ms-bg: ds.$primary-black;
+$ms-surface: ds.$zinc-900-50;
+$ms-surface-alt: ds.$zinc-900-30;
 $ms-surface-hover: rgba(24, 24, 27, 0.8);
-$ms-border: rgb(39, 39, 42);
-$ms-border-hover: rgb(63, 63, 70);
-$ms-text-primary: #ffffff;
-$ms-text-secondary: #a1a1aa;
-$ms-text-muted: #71717a;
-$ms-positive: #34d399;
+$ms-border: ds.$zinc-800;
+$ms-border-hover: ds.$zinc-700;
+$ms-text-primary: ds.$primary-white;
+$ms-text-secondary: ds.$zinc-400;
+$ms-text-muted: ds.$zinc-500;
+$ms-positive: ds.$color-success-text;
 $ms-positive-bg: rgba(52, 211, 153, 0.1);
-$ms-negative: #f87171;
-$ms-negative-bg: rgba(248, 113, 113, 0.1);
+$ms-negative: ds.$color-error-text;
+$ms-negative-bg: ds.$status-red-bg-15;
 
 // ===== MAIN CONTAINER =====
 .merchant-stats {

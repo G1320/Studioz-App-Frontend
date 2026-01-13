@@ -1,19 +1,20 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // DASHBOARD PAGE - StudioZ Design System
 // Theme: Dark Mode (Midnight)
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$dash-primary: #ffd166;
-$dash-bg-page: #000000;
+// Local aliases (referencing design system)
+$dash-primary: ds.$primary-yellow;
+$dash-bg-page: ds.$primary-black;
 $dash-bg-card: #1e1e1e;
 $dash-bg-hover: #252525;
-$dash-border: rgba(39, 39, 42, 1); // zinc-800
-$dash-text-primary: #ffffff;
-$dash-text-secondary: rgba(161, 161, 170, 1); // zinc-400
-$dash-text-muted: rgba(113, 113, 122, 1); // zinc-500
+$dash-border: ds.$zinc-800;
+$dash-text-primary: ds.$primary-white;
+$dash-text-secondary: ds.$zinc-400;
+$dash-text-muted: ds.$zinc-500;
 
 .dashboard-page {
   margin: 0 auto;

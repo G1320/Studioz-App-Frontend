@@ -1,14 +1,24 @@
 // ============================================
 // StudioZ Design System - Shared Variables
 // ============================================
-// Primary Yellow: #ffd166
-// Primary Background: #000000
-// Secondary Background: rgba(24, 24, 27, 0.5) (zinc-900/50)
+// This is the centralized color system for the app.
+// Import with: @use 'design-system' as ds;
+// Then use: ds.$primary-yellow, ds.$zinc-800, etc.
+// ============================================
 
-// Primary accent
+// ===================
+// PRIMARY COLORS
+// ===================
 $primary-yellow: #ffd166;
+$primary-black: #000000;
+$primary-white: #ffffff;
 
-// Zinc scale (dark to light)
+// ===================
+// ZINC SCALE (dark to light)
+// ===================
+$zinc-50: #fafafa;
+$zinc-100: #f4f4f5;
+$zinc-200: #e4e4e7;
 $zinc-300: #d4d4d8;
 $zinc-400: #a1a1aa;
 $zinc-500: #71717a;
@@ -16,4 +26,90 @@ $zinc-600: #52525b;
 $zinc-700: #3f3f46;
 $zinc-800: #27272a;
 $zinc-900: #18181b;
+$zinc-950: #09090b;
+
+// Zinc with opacity
 $zinc-900-50: rgba(24, 24, 27, 0.5);
+$zinc-900-30: rgba(24, 24, 27, 0.3);
+
+// ===================
+// STATUS COLORS
+// ===================
+// Success (green)
+$color-success: #10b981;
+$color-success-text: #34d399;
+$status-green-bg: rgba(52, 211, 153, 0.2);
+$status-green-bg-15: rgba(52, 211, 153, 0.15);
+$status-green-border: rgba(52, 211, 153, 0.3);
+
+// Warning (amber/yellow)
+$color-warning: #f59e0b;
+$color-warning-light: #fbbf24;
+$status-warning-bg: rgba(251, 191, 36, 0.15);
+$status-warning-border: rgba(251, 191, 36, 0.2);
+
+// Error (red)
+$color-error: #ef4444;
+$color-error-text: #f87171;
+$status-red-bg: rgba(248, 113, 113, 0.2);
+$status-red-bg-15: rgba(248, 113, 113, 0.15);
+$status-red-border: rgba(248, 113, 113, 0.3);
+
+// Info (blue)
+$color-info: #3b82f6;
+$color-info-text: #7dd3fc;
+$status-blue-bg: rgba(59, 130, 246, 0.15);
+$status-blue-border: rgba(59, 130, 246, 0.25);
+
+// ===================
+// BACKGROUND COLORS
+// ===================
+$bg-primary: #000000;
+$bg-secondary: #242728;
+$bg-tertiary: #1a1a1a;
+$bg-card: $bg-secondary;
+$bg-surface: $zinc-900; // Common surface background
+
+// ===================
+// BORDER COLORS
+// ===================
+$border-primary: rgba(255, 255, 255, 0.1);
+$border-secondary: $zinc-800;
+$border-focus: $primary-yellow;
+
+// ===================
+// WHITE OPACITY SCALE
+// ===================
+$white-05: rgba(255, 255, 255, 0.05);
+$white-10: rgba(255, 255, 255, 0.1);
+$white-15: rgba(255, 255, 255, 0.15);
+$white-20: rgba(255, 255, 255, 0.2);
+$white-30: rgba(255, 255, 255, 0.3);
+$white-40: rgba(255, 255, 255, 0.4);
+$white-50: rgba(255, 255, 255, 0.5);
+$white-60: rgba(255, 255, 255, 0.6);
+$white-70: rgba(255, 255, 255, 0.7);
+$white-80: rgba(255, 255, 255, 0.8);
+$white-90: rgba(255, 255, 255, 0.9);
+
+// ===================
+// BLACK OPACITY SCALE
+// ===================
+$black-05: rgba(0, 0, 0, 0.05);
+$black-10: rgba(0, 0, 0, 0.1);
+$black-20: rgba(0, 0, 0, 0.2);
+$black-30: rgba(0, 0, 0, 0.3);
+$black-40: rgba(0, 0, 0, 0.4);
+$black-50: rgba(0, 0, 0, 0.5);
+$black-60: rgba(0, 0, 0, 0.6);
+$black-80: rgba(0, 0, 0, 0.8);
+
+// ===================
+// BRAND OPACITY SCALE
+// ===================
+$brand-05: rgba(255, 209, 102, 0.05);
+$brand-10: rgba(255, 209, 102, 0.1);
+$brand-15: rgba(255, 209, 102, 0.15);
+$brand-20: rgba(255, 209, 102, 0.2);
+$brand-30: rgba(255, 209, 102, 0.3);
+$brand-50: rgba(255, 209, 102, 0.5);

@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // RESERVATION TYPE TOGGLE - StudioZ Design System
 // Theme: Dark Mode Tab Switcher
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$toggle-primary: #ffd166;
-$toggle-surface: #18181b; // zinc-900
-$toggle-border: rgba(39, 39, 42, 1); // zinc-800
-$toggle-inactive: rgba(113, 113, 122, 1); // zinc-500
-$toggle-hover: rgba(161, 161, 170, 1); // zinc-400
+// Local aliases (referencing design system)
+$toggle-primary: ds.$primary-yellow;
+$toggle-surface: ds.$zinc-900;
+$toggle-border: ds.$zinc-800;
+$toggle-inactive: ds.$zinc-500;
+$toggle-hover: ds.$zinc-400;
 
 .reservation-type-toggle {
   display: flex;

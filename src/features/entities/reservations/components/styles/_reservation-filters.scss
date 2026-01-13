@@ -1,18 +1,19 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // RESERVATION FILTERS - StudioZ Design System
 // Theme: Dark Mode Filter Controls
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$filter-primary: #ffd166;
-$filter-surface: #18181b; // zinc-900
-$filter-input-bg: rgba(24, 24, 27, 1); // zinc-900
-$filter-border: rgba(39, 39, 42, 1); // zinc-800
-$filter-input-border: rgba(63, 63, 70, 1); // zinc-700
-$filter-label: rgba(113, 113, 122, 1); // zinc-500
-$filter-text: rgba(212, 212, 216, 1); // zinc-300
+// Local aliases (referencing design system)
+$filter-primary: ds.$primary-yellow;
+$filter-surface: ds.$zinc-900;
+$filter-input-bg: ds.$zinc-900;
+$filter-border: ds.$zinc-800;
+$filter-input-border: ds.$zinc-700;
+$filter-label: ds.$zinc-500;
+$filter-text: ds.$zinc-300;
 
 .reservation-filters {
   width: 100%;

@@ -1,17 +1,18 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
 // SUBSCRIPTIONS PAGE - StudioZ Design System
 // Theme: Dark Mode Dominant, Professional, High-Contrast
-// Primary Accent: #ffd166 (Gold/Yellow)
 // ==========================================
 
-$subscriptions-primary: #ffd166;
-$subscriptions-primary-foreground: #000000;
-$subscriptions-surface: #18181b; // zinc-900
-$subscriptions-surface-dark: #09090b; // zinc-950
-$subscriptions-border: rgba(255, 255, 255, 0.1);
-$subscriptions-muted: rgba(255, 255, 255, 0.6);
+// Local aliases (referencing design system)
+$subscriptions-primary: ds.$primary-yellow;
+$subscriptions-primary-foreground: ds.$primary-black;
+$subscriptions-surface: ds.$zinc-900;
+$subscriptions-surface-dark: ds.$zinc-950;
+$subscriptions-border: ds.$border-primary;
+$subscriptions-muted: ds.$white-60;
 
 // Container
 .subscriptions-container {
