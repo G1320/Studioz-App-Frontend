@@ -11,7 +11,7 @@ interface ClientRowProps {
   onClick?: () => void;
 }
 
-export const ClientRow: React.FC<ClientRowProps> = ({ name, role, totalSpent, lastVisit, avatarUrl, onClick }) => {
+export const ClientRow: React.FC<ClientRowProps> = ({ name, totalSpent, lastVisit, avatarUrl, onClick }) => {
   const { t } = useTranslation('merchantStats');
 
   return (

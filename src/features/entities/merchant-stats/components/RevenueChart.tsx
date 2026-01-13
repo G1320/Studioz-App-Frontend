@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type ChartPeriod = 'daily' | 'weekly' | 'monthly';
@@ -9,11 +9,7 @@ interface RevenueChartProps {
   data?: number[];
 }
 
-export const RevenueChart: React.FC<RevenueChartProps> = ({
-  period,
-  onPeriodChange,
-  data: externalData
-}) => {
+export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChange, data: externalData }) => {
   const { t } = useTranslation('merchantStats');
 
   // Mock data generation based on period (use external data if provided)
@@ -27,10 +23,7 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
         return [40, 65, 50, 85, 60, 90, 75]; // 7 days
       case 'daily':
       default:
-        return [
-          30, 45, 35, 60, 40, 75, 50, 65, 55, 80, 70, 95, 60, 85, 75, 90, 65,
-          80, 70, 85, 60, 75, 55, 70
-        ]; // 24 hours
+        return [30, 45, 35, 60, 40, 75, 50, 65, 55, 80, 70, 95, 60, 85, 75, 90, 65, 80, 70, 85, 60, 75, 55, 70]; // 24 hours
     }
   }, [period, externalData]);
 
@@ -84,9 +77,7 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
             <button
               key={p}
               onClick={() => onPeriodChange(p)}
-              className={`revenue-chart__toggle-btn ${
-                period === p ? 'revenue-chart__toggle-btn--active' : ''
-              }`}
+              className={`revenue-chart__toggle-btn ${period === p ? 'revenue-chart__toggle-btn--active' : ''}`}
             >
               {p === 'daily'
                 ? t('period.daily', 'יומי')
@@ -113,10 +104,7 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
               {/* Tooltip */}
               <div className="chart-tooltip">₪{(val * 150).toLocaleString()}</div>
               {/* Bar */}
-              <div
-                className="chart-bar"
-                style={{ height: `${(val / maxVal) * 100}%` }}
-              />
+              <div className="chart-bar" style={{ height: `${(val / maxVal) * 100}%` }} />
             </div>
             {/* Label */}
             <div className="chart-label">{labels[i]}</div>

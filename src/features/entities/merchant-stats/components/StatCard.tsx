@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
@@ -12,8 +11,6 @@ interface StatCardProps {
 }
 
 export const StatCard: React.FC<StatCardProps> = ({ title, value, trend, isPositive, icon }) => {
-  const { t } = useTranslation('merchantStats');
-
   return (
     <div className="stat-card">
       <div className="stat-card__icon">{icon}</div>

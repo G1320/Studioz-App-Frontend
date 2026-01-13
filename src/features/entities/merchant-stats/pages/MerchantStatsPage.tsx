@@ -94,7 +94,7 @@ const MerchantStatsPage: React.FC = () => {
     );
 
     const confirmedBookings = studioReservations.filter(
-      (res) => res.status === 'confirmed' || res.status === 'completed'
+      (res) => res.status === 'confirmed'
     ).length;
 
     const avgPerBooking = confirmedBookings > 0 
