@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
-import { DashboardStats, DashboardCalendar, RecentActivity } from '../components';
+import { DashboardCalendar, RecentActivity } from '../components';
 import { StudioManager } from '@features/entities/studios';
 
 interface DashboardPageProps {
@@ -30,49 +30,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     return studios.filter((studio) => studio.createdBy === user._id);
   }, [studios, user?._id]);
 
-  // Calculate stats for studio owners
-  const stats = useMemo(() => {
-    if (!isStudioOwner) {
-      // Regular user stats
-      const userReservations = reservations.filter(
-        (res) => res.userId === user?._id || res.customerId === user?._id
-      );
-      const totalSpent = userReservations.reduce(
-        (sum, res) => sum + (res.totalPrice || 0),
-        0
-      );
-      return {
-        totalBookings: userReservations.length,
-        totalRevenue: totalSpent,
-        upcomingBookings: userReservations.filter(
-          (res) => res.status === 'confirmed'
-        ).length
-      };
-    }
-
-    // Studio owner stats - filter by studios owned by user
-    // Filter by itemId matching studio items
-    const studioReservations = reservations.filter((res) => {
-      return userStudios.some((studio) => 
-        studio.items.some((item) => item.itemId === res.itemId)
-      );
-    });
-    const totalRevenue = studioReservations.reduce(
-      (sum, res) => sum + (res.totalPrice || 0),
-      0
-    );
-    const upcomingBookings = studioReservations.filter(
-      (res) => res.status === 'confirmed'
-    ).length;
-
-    return {
-      totalBookings: studioReservations.length,
-      totalRevenue,
-      activeStudios: userStudios.length,
-      upcomingBookings
-    };
-  }, [isStudioOwner, reservations, user?._id, userStudios]);
-
   return (
     <div className="dashboard-page">
       <div className="dashboard-header">
@@ -97,7 +54,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
             onClick={() => setActiveTab('overview')}
           >
-            {t('tabs.overview', 'סקירה כללית')}
+            {t('tabs.overview', 'יומן פעילות')}
           </button>
         </div>
       )}
@@ -105,15 +62,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Overview Tab Content */}
       {activeTab === 'overview' && (
         <div className="dashboard-content">
-          {/* Stats Section */}
-          <DashboardStats
-            totalBookings={stats.totalBookings}
-            totalRevenue={stats.totalRevenue}
-            activeStudios={stats.activeStudios}
-            upcomingBookings={stats.upcomingBookings}
-            isStudioOwner={isStudioOwner}
-          />
-
           {/* Recent Activity Section - Only for studio owners */}
           {isStudioOwner && (
             <RecentActivity
