@@ -1,5 +1,4 @@
-import { SmokingRooms, Check, Close, Accessible } from '@mui/icons-material';
-import ChairIcon from '@mui/icons-material/Chair';
+import { SmokingIcon, CheckIcon, CloseIcon, AccessibleIcon, ChairIcon } from '@shared/components/icons';
 import { Studio } from 'src/types/index';
 import { StudioRating, DistanceBadge, StatusBadge } from '@shared/components';
 import { StudioBadges } from './StudioBadges';
@@ -46,23 +45,23 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
         </div>
         {showSmoking && (
           <div role="group" aria-labelledby="smoking">
-            <SmokingRooms aria-label="Smoking icon" />
+            <SmokingIcon aria-label="Smoking icon" />
             <span
               id="smoking"
               aria-label={`Smoking allowed at ${studio?.name?.en}: ${studio?.isSmokingAllowed ? 'Yes' : 'No'}`}
             >
-              {studio?.isSmokingAllowed ? <Check /> : <Close />}
+              {studio?.isSmokingAllowed ? <CheckIcon /> : <CloseIcon />}
             </span>
           </div>
         )}
         {showAccessible && (
           <div role="group" aria-labelledby="accessible">
-            <Accessible aria-label="Wheelchair accessible icon" />
+            <AccessibleIcon aria-label="Wheelchair accessible icon" />
             <span
               id="accessible"
               aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
             >
-              {studio?.isWheelchairAccessible ? <Check /> : <Close />}
+              {studio?.isWheelchairAccessible ? <CheckIcon /> : <CloseIcon />}
             </span>
           </div>
         )}

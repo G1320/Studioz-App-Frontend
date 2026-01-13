@@ -5,16 +5,18 @@ import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import CardMembershipIcon from '@mui/icons-material/CardMembership';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { WavyMenuIcon } from '@shared/components/icons';
-import LanguageIcon from '@mui/icons-material/Language';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import {
+  WavyMenuIcon,
+  AddBusinessIcon,
+  MembershipIcon,
+  DashboardIcon,
+  FavoriteIcon,
+  PersonOutlineIcon,
+  EventIcon,
+  PlayCircleIcon,
+  LanguageIcon,
+  ChevronRightIcon,
+} from '@shared/components/icons';
 import { useAuth0LoginHandler } from '@shared/hooks';
 import './styles/menu-dropdown.scss';
 
@@ -65,7 +67,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           className="menu-dropdown__item menu-dropdown__item--mobile-only"
           onClick={() => handleNavigate('/reservations')}
         >
-          <EventNoteIcon className="menu-dropdown__icon" />
+          <EventIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.reservations')}</span>
         </button>
         <button
@@ -79,7 +81,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           className="menu-dropdown__item menu-dropdown__item--mobile-only"
           onClick={() => handleNavigate('/how-it-works')}
         >
-          <PlayCircleOutlineIcon className="menu-dropdown__icon" />
+          <PlayCircleIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.howItWorks')}</span>
         </button>
 
@@ -99,13 +101,13 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/how-it-works')}>
-              <PlayCircleOutlineIcon className="menu-dropdown__icon" />
+              <PlayCircleIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.howItWorks')}</span>
             </button>
           </>
         )}
         <button className="menu-dropdown__item" onClick={() => handleNavigate('/subscription')}>
-          <CardMembershipIcon className="menu-dropdown__icon" />
+          <MembershipIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.subscription')}</span>
         </button>
         {user && (

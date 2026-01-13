@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { InfoOutlined } from '@mui/icons-material';
+import { InfoOutlinedIcon } from '@shared/components/icons';
 import { GenericImageGallery } from '@shared/components';
 import { Studio, User, Wishlist } from 'src/types/index';
 import { StudioOptions } from './StudioOptions';
@@ -72,7 +72,7 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
               className="studio-info-modal-button"
               aria-label={`View ${studio?.name[currentLang] || studio?.name.en} information and map`}
             >
-              <InfoOutlined aria-hidden="true" />
+              <InfoOutlinedIcon aria-hidden="true" />
             </button>
           )}
         </div>

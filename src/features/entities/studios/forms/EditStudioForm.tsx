@@ -7,16 +7,18 @@ import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { studioEditSchema, studioStepSchemasEdit } from '@shared/validation/schemas';
 import { ZodError } from 'zod';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
-import WeekendIcon from '@mui/icons-material/Weekend';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import ShieldIcon from '@mui/icons-material/Shield';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import WorkIcon from '@mui/icons-material/Work';
+import {
+  WeekendIcon,
+  LocationIcon,
+  AreaIcon,
+  PhotoLibraryIcon,
+  InfoOutlinedIcon,
+  ScheduleIcon,
+  ShieldIcon,
+  DescriptionIcon,
+  ErrorIcon,
+  WorkIcon
+} from '@shared/components/icons';
 import {
   useDays,
   useMusicCategories,
@@ -294,7 +296,7 @@ export const EditStudioForm = () => {
             />
           </div>
           <div className="policies-step__info-note">
-            <ErrorOutlineIcon className="policies-step__info-note-icon" />
+            <ErrorIcon className="policies-step__info-note-icon" />
             <p>
               {t('form.policies.houseRules.note', { defaultValue: 'Guests must agree to these rules before booking.' })}
             </p>
@@ -539,7 +541,7 @@ export const EditStudioForm = () => {
       label: t('form.sections.locationContact') || 'Location & Contact',
       subtitle: t('form.sections.locationContactDesc') || 'Where can clients find and reach you?',
       type: 'sectionHeader' as FieldType,
-      icon: LocationOnIcon
+      icon: LocationIcon
     },
     {
       name: 'address',
@@ -591,7 +593,7 @@ export const EditStudioForm = () => {
       label: t('form.sections.specs') || 'Specs',
       subtitle: t('form.sections.specsDesc') || 'Size and capacity details',
       type: 'sectionHeader' as FieldType,
-      icon: SquareFootIcon
+      icon: AreaIcon
     },
     {
       name: 'maxOccupancy',

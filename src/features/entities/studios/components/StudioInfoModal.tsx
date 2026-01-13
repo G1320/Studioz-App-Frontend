@@ -6,10 +6,7 @@ import { Studio } from 'src/types/index';
 import { StudioAvailabilityList } from '@shared/utility-components';
 import { useDays } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
-import CloseIcon from '@mui/icons-material/Close';
-import NearMeIcon from '@mui/icons-material/NearMe';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LanguageIcon from '@mui/icons-material/Language';
+import { CloseIcon, NearMeIcon, PhoneIcon, LanguageIcon } from '@shared/components/icons';
 import '../styles/_studio-minimap-modal.scss';
 
 interface StudioInfoModalProps {

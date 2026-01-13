@@ -1,7 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import EventNoteIcon from '@mui/icons-material/EventNote';
+import { HomeIcon, GraphicEqIcon, EventIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { featureFlags } from '@core/config/featureFlags';
@@ -68,7 +66,7 @@ export const MobileNavigation = () => {
           onClick={() => scrollToTop()}
         >
           <div className="mobile-navigation__link-content">
-            <EventNoteIcon aria-hidden="true" />
+            <EventIcon aria-hidden="true" />
             <span>{t('navigation.reservations')}</span>
           </div>
         </Link>

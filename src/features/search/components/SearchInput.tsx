@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchStudiosAndItemsMutation, useDebounce, useLanguageNavigate } from '@shared/hooks';
-import SearchIcon from '@mui/icons-material/Search';
+import { SearchIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 
 export const SearchInput = () => {

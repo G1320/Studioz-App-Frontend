@@ -14,12 +14,14 @@ import { featureFlags } from '@core/config/featureFlags';
 import { filterStudios } from '../utils/filterStudios';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// MUI Icons
-import MapIcon from '@mui/icons-material/Map';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import TuneIcon from '@mui/icons-material/Tune';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { getSubcategoryIcon, MusicProductionIcon } from '@shared/components/icons/CategoryIcons';
+import {
+  MapIcon,
+  ListViewIcon,
+  TuneIcon,
+  LocationIcon,
+  getSubcategoryIcon,
+  MusicProductionIcon,
+} from '@shared/components/icons';
 
 interface StudiosPageProps {
   studios: Studio[];
@@ -219,7 +221,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
         </div>
 
         <button onClick={handleMapToggle} className="studios-page__view-toggle">
-          {showMap ? <ViewListIcon /> : <MapIcon />}
+          {showMap ? <ListViewIcon /> : <MapIcon />}
           <span>
             {showMap
               ? t('page.showList', { defaultValue: 'Show List' })
@@ -274,7 +276,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
               onClick={() => handleCityClick(city.name)}
               className={`city-chip ${selectedCity === city.name ? 'city-chip--active' : ''}`}
             >
-              <LocationOnIcon />
+              <LocationIcon />
               <span>{city.displayName}</span>
             </button>
           )}

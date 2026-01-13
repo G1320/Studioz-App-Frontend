@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import EmailIcon from '@mui/icons-material/Email';
+import { EmailIcon } from '@shared/components/icons';
 
 export const DesktopFooter = () => {
   const { t, i18n } = useTranslation('common');

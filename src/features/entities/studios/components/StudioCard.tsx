@@ -10,7 +10,7 @@ import { preloadImage } from '@shared/utils/preloadUtils';
 import { ShareModal } from '@shared/components';
 import { StudioFeatures } from './StudioFeatures';
 import { StudioCardHeader } from './StudioCardHeader';
-import ShareIcon from '@mui/icons-material/Share';
+import { ShareIcon } from '@shared/components/icons';
 import '../styles/_studio-card.scss';
 
 interface StudioCardProps {

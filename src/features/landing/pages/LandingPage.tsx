@@ -6,14 +6,17 @@ import { useCategories, useCities } from '@shared/hooks/utils';
 import { cities } from '@core/config/cities/cities';
 import { StudioCard } from '@features/entities';
 import { Studio } from 'src/types/index';
-import { getSubcategoryIcon, MusicProductionIcon } from '@shared/components/icons/CategoryIcons';
-import StarIcon from '@mui/icons-material/Star';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import GroupsIcon from '@mui/icons-material/Groups';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import FlashOnIcon from '@mui/icons-material/FlashOn';
+import {
+  getSubcategoryIcon,
+  MusicProductionIcon,
+  StarIcon,
+  CalendarIcon,
+  GroupsIcon,
+  LocationIcon,
+  ChevronDownIcon,
+  ArrowForwardIcon,
+  FlashIcon,
+} from '@shared/components/icons';
 
 /**
  * Animation variants for Framer Motion
@@ -180,7 +183,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                   return <Icon className="landing-dropdown__icon" />;
                 })()}
                 <span className="landing-dropdown__text">{selectedCategory || t('hero.category_placeholder')}</span>
-                <KeyboardArrowDownIcon
+                <ChevronDownIcon
                   className={`landing-dropdown__arrow ${isCategoryOpen ? 'landing-dropdown__arrow--open' : ''}`}
                 />
               </button>
@@ -214,9 +217,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
                 }}
                 type="button"
               >
-                <LocationOnIcon className="landing-dropdown__icon" />
+                <LocationIcon className="landing-dropdown__icon" />
                 <span className="landing-dropdown__text">{selectedCity || t('hero.city_placeholder')}</span>
-                <KeyboardArrowDownIcon
+                <ChevronDownIcon
                   className={`landing-dropdown__arrow ${isCityOpen ? 'landing-dropdown__arrow--open' : ''}`}
                 />
               </button>
@@ -411,7 +414,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
 
               {/* Floating Badge */}
               <div className="landing-booking-preview__badge">
-                <FlashOnIcon className="landing-booking-preview__badge-icon" />
+                <FlashIcon className="landing-booking-preview__badge-icon" />
                 <span className="landing-booking-preview__badge-text">
                   {t('booking_process.instant_badge', 'Available for instant booking')}
                 </span>
@@ -432,7 +435,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
               description={t('value_props.verified.description')}
             />
             <ValueProp
-              icon={<CalendarMonthIcon />}
+              icon={<CalendarIcon />}
               title={t('value_props.instant.title')}
               description={t('value_props.instant.description')}
             />

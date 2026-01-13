@@ -5,20 +5,21 @@ import { cities } from '@core/config/cities/cities';
 import { Studio } from 'src/types/index';
 import { filterStudios } from '../utils/filterStudios';
 
-// MUI Icons
-import CloseIcon from '@mui/icons-material/Close';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import WifiIcon from '@mui/icons-material/Wifi';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import CoffeeIcon from '@mui/icons-material/Coffee';
-import AccessibleIcon from '@mui/icons-material/Accessible';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import PeopleIcon from '@mui/icons-material/People';
+import {
+  CloseIcon,
+  RefreshIcon,
+  WifiIcon,
+  ParkingIcon,
+  AcIcon,
+  CoffeeIcon,
+  AccessibleIcon,
+  ClockIcon,
+  ExpandMoreIcon,
+  ExpandLessIcon,
+  LocationIcon,
+  AreaIcon,
+  PeopleIcon,
+} from '@shared/components/icons';
 
 import '../styles/_sidebar-filters.scss';
 
@@ -46,16 +47,16 @@ import { getSubcategoryIcon } from '@shared/components/icons/CategoryIcons';
 // Amenity icons mapping
 const AMENITY_ICONS: Record<string, React.ElementType> = {
   wifi: WifiIcon,
-  parking: LocalParkingIcon,
-  private_parking: LocalParkingIcon,
-  air_conditioning: AcUnitIcon,
-  ac: AcUnitIcon,
+  parking: ParkingIcon,
+  private_parking: ParkingIcon,
+  air_conditioning: AcIcon,
+  ac: AcIcon,
   lounge: CoffeeIcon,
   waiting_area: CoffeeIcon,
   espresso_machine: CoffeeIcon,
   accessible: AccessibleIcon,
   wheelchair_accessible: AccessibleIcon,
-  '247': AccessTimeIcon
+  '247': ClockIcon
 };
 
 const MAX_PRICE = 1000;
@@ -176,7 +177,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
             className="sidebar-filters__reset"
             title={t('filters.reset', { defaultValue: 'Reset' })}
           >
-            <RestartAltIcon />
+            <RefreshIcon />
           </button>
           {onClose && (
             <button onClick={onClose} className="sidebar-filters__close">
@@ -282,7 +283,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
           {expandedSections.location && (
             <div className="sidebar-filters__location">
               <div className="sidebar-filters__select-wrapper">
-                <LocationOnIcon className="sidebar-filters__select-icon" />
+                <LocationIcon className="sidebar-filters__select-icon" />
                 <select
                   value={filters.location}
                   onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
@@ -315,7 +316,7 @@ export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
               <div className="sidebar-filters__spec-field">
                 <label>{t('filters.minSize', { defaultValue: 'Min Size (m²)' })}</label>
                 <div className="sidebar-filters__input-wrapper">
-                  <SquareFootIcon className="sidebar-filters__input-icon" />
+                  <AreaIcon className="sidebar-filters__input-icon" />
                   <input
                     type="number"
                     placeholder={tCommon('any', { defaultValue: 'Any' })}

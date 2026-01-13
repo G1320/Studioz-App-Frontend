@@ -522,7 +522,7 @@ export const Icons = {
   Build,
   Bug: BugReport,
   LibraryAdd,
-  Dropdown: ArrowDropDownCircle,
+  Dropdown: ArrowDropDownCircle
 } as const;
 
 // Type for icon names (for string-based lookups)

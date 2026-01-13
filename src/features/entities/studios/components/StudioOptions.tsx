@@ -1,8 +1,6 @@
 import { FanMenu, FanMenuButton } from '@shared/components';
 import { Studio, User, Wishlist } from 'src/types/index';
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import LockClockIcon from '@mui/icons-material/LockClock';
+import { EditNoteIcon, LibraryAddIcon, LockClockIcon } from '@shared/components/icons';
 import { StudioBlockModal } from './StudioBlockTimeSlotModal';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

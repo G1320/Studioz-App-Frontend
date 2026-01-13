@@ -1,10 +1,9 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import LockClockIcon from '@mui/icons-material/LockClock';
+import { LockClockIcon, ChevronLeftIcon, ChevronRightIcon } from '@shared/components/icons';
 import { MuiDateTimePicker, Button } from '@shared/components';
 import { HourSelector } from '@features/entities/items/components/HourSelector';
 import { Dialog, FormControlLabel, Checkbox } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { splitDateTime } from '@shared/utils/index';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -253,8 +252,8 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
                   }
                 }}
                 slots={{
-                  leftArrowIcon: isRTL ? ArrowForwardIos : ArrowBackIosNew,
-                  rightArrowIcon: isRTL ? ArrowBackIosNew : ArrowForwardIos
+                  leftArrowIcon: isRTL ? ChevronRightIcon : ChevronLeftIcon,
+                  rightArrowIcon: isRTL ? ChevronLeftIcon : ChevronRightIcon
                 }}
               />
             </div>
@@ -382,8 +381,8 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
                   }
                 }}
                 slots={{
-                  leftArrowIcon: isRTL ? ArrowForwardIos : ArrowBackIosNew,
-                  rightArrowIcon: isRTL ? ArrowBackIosNew : ArrowForwardIos
+                  leftArrowIcon: isRTL ? ChevronRightIcon : ChevronLeftIcon,
+                  rightArrowIcon: isRTL ? ChevronLeftIcon : ChevronRightIcon
                 }}
               />
             </div>

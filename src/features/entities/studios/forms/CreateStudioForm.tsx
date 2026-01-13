@@ -8,17 +8,19 @@ import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 // Step icons
-import TextFieldsIcon from '@mui/icons-material/TextFields';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
-import WeekendIcon from '@mui/icons-material/Weekend';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import ShieldIcon from '@mui/icons-material/Shield';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import WorkIcon from '@mui/icons-material/Work';
+import {
+  TextFieldsIcon,
+  InfoOutlinedIcon,
+  ScheduleIcon,
+  LocationIcon,
+  PhotoLibraryIcon,
+  WeekendIcon,
+  AreaIcon,
+  ShieldIcon,
+  DescriptionIcon,
+  ErrorIcon,
+  WorkIcon
+} from '@shared/components/icons';
 import { ProTip } from '@shared/components/pro-tip';
 import {
   useCreateStudioMutation,
@@ -378,7 +380,7 @@ export const CreateStudioForm = () => {
             />
           </div>
           <div className="policies-step__info-note">
-            <ErrorOutlineIcon className="policies-step__info-note-icon" />
+            <ErrorIcon className="policies-step__info-note-icon" />
             <p>
               {t('form.policies.houseRules.note', { defaultValue: 'Guests must agree to these rules before booking.' })}
             </p>
@@ -447,7 +449,7 @@ export const CreateStudioForm = () => {
         description: t('form.steps.locationDesc') || 'Add address and contact information',
         fieldNames: ['locationHeader', 'address', 'phone', 'website', 'specsHeader', 'maxOccupancy', 'size', 'parking'],
         schema: studioStepSchemas.location,
-        icon: LocationOnIcon
+        icon: LocationIcon
       },
       {
         id: 'files',
@@ -631,7 +633,7 @@ export const CreateStudioForm = () => {
       label: t('form.sections.locationContact') || 'Location & Contact',
       subtitle: t('form.sections.locationContactDesc') || 'Where can clients find and reach you?',
       type: 'sectionHeader' as FieldType,
-      icon: LocationOnIcon
+      icon: LocationIcon
     },
     {
       name: 'address',
@@ -656,7 +658,7 @@ export const CreateStudioForm = () => {
       label: t('form.sections.specs') || 'Specs',
       subtitle: t('form.sections.specsDesc') || 'Size and capacity details',
       type: 'sectionHeader' as FieldType,
-      icon: SquareFootIcon
+      icon: AreaIcon
     },
     {
       name: 'maxOccupancy',
