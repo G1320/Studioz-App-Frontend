@@ -8,6 +8,13 @@ import {
   pricePerSchema,
   optionalTranslationSchema
 } from './base';
+import {
+  ITEM_NAME_MIN,
+  ITEM_NAME_MAX,
+  ITEM_DESCRIPTION_MAX,
+  ADDRESS_MAX,
+  CITY_MAX
+} from '@shared/constants/fieldLimits';
 
 /**
  * Item name schema
@@ -15,11 +22,11 @@ import {
  */
 export const itemNameSchema = z.object({
   en: englishTextSchema('name')
-    .min(3, 'Name must be at least 3 characters')
-    .max(50, 'Name must be at most 50 characters'),
+    .min(ITEM_NAME_MIN, `Name must be at least ${ITEM_NAME_MIN} characters`)
+    .max(ITEM_NAME_MAX, `Name must be at most ${ITEM_NAME_MAX} characters`),
   he: hebrewTextSchema('name')
-    .min(3, 'השם חייב להיות לפחות 3 תווים')
-    .max(50, 'השם חייב להיות לכל היותר 50 תווים')
+    .min(ITEM_NAME_MIN, `השם חייב להיות לפחות ${ITEM_NAME_MIN} תווים`)
+    .max(ITEM_NAME_MAX, `השם חייב להיות לכל היותר ${ITEM_NAME_MAX} תווים`)
     .optional()
 });
 
@@ -30,8 +37,8 @@ export const itemNameSchema = z.object({
 export const itemDescriptionSchema = z.object({
   en: englishTextSchema('description')
     .min(1, 'Please enter a description in English')
-    .max(2000, 'Description must be at most 2000 characters'),
-  he: hebrewTextSchema('description').max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+    .max(ITEM_DESCRIPTION_MAX, `Description must be at most ${ITEM_DESCRIPTION_MAX} characters`),
+  he: hebrewTextSchema('description').max(ITEM_DESCRIPTION_MAX, `תיאור חייב להיות לכל היותר ${ITEM_DESCRIPTION_MAX} תווים`).optional()
 });
 
 /**
@@ -94,8 +101,8 @@ export const itemFullSchema = z.object({
   imageUrl: urlSchema.optional(),
 
   // Location (optional - may inherit from studio)
-  address: z.string().max(200, 'Address must be at most 200 characters').optional(),
-  city: z.string().max(100, 'City must be at most 100 characters').optional(),
+  address: z.string().max(ADDRESS_MAX, `Address must be at most ${ADDRESS_MAX} characters`).optional(),
+  city: z.string().max(CITY_MAX, `City must be at most ${CITY_MAX} characters`).optional(),
   lat: z.number().min(-90).max(90).optional(),
   lng: z.number().min(-180).max(180).optional(),
 
@@ -260,19 +267,19 @@ export const itemStep1EditSchema = z.object({
   name: z.object({
     en: z
       .string()
-      .min(3, 'Name must be at least 3 characters')
-      .max(50, 'Name must be at most 50 characters')
+      .min(ITEM_NAME_MIN, `Name must be at least ${ITEM_NAME_MIN} characters`)
+      .max(ITEM_NAME_MAX, `Name must be at most ${ITEM_NAME_MAX} characters`)
       .optional(),
     he: z
       .string()
-      .min(3, 'השם חייב להיות לפחות 3 תווים')
-      .max(50, 'השם חייב להיות לכל היותר 50 תווים')
+      .min(ITEM_NAME_MIN, `השם חייב להיות לפחות ${ITEM_NAME_MIN} תווים`)
+      .max(ITEM_NAME_MAX, `השם חייב להיות לכל היותר ${ITEM_NAME_MAX} תווים`)
       .optional()
   }),
   description: z
     .object({
-      en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
-      he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+      en: z.string().max(ITEM_DESCRIPTION_MAX, `Description must be at most ${ITEM_DESCRIPTION_MAX} characters`).optional(),
+      he: z.string().max(ITEM_DESCRIPTION_MAX, `תיאור חייב להיות לכל היותר ${ITEM_DESCRIPTION_MAX} תווים`).optional()
     })
     .optional()
 });

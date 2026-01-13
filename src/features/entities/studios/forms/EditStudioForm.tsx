@@ -30,6 +30,7 @@ import {
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { DayOfWeek, StudioAvailability, EquipmentCategory, PortfolioItem, SocialLinks } from 'src/types/studio';
+import { STUDIO_NAME_MAX, STUDIO_SUBTITLE_MAX, STUDIO_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 
 interface StudioFormData {
   coverImage?: string;
@@ -440,7 +441,7 @@ export const EditStudioForm = () => {
       value: studio?.name.en,
       placeholder: t('form.name.placeholder', { defaultValue: 'e.g. The Sound Garden' }),
       helperText: t('form.name.helperText'),
-      maxLength: 50,
+      maxLength: STUDIO_NAME_MAX,
       showCharCounter: true
     },
     {
@@ -450,7 +451,7 @@ export const EditStudioForm = () => {
       value: studio?.name.he,
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
       helperText: t('form.name.helperText'),
-      maxLength: 50,
+      maxLength: STUDIO_NAME_MAX,
       showCharCounter: true
     },
     {
@@ -460,7 +461,7 @@ export const EditStudioForm = () => {
       value: studio?.subtitle?.en,
       placeholder: t('form.subtitle.placeholder', { defaultValue: 'e.g. Professional Recording & Mixing' }),
       helperText: t('form.subtitle.helperText'),
-      maxLength: 100,
+      maxLength: STUDIO_SUBTITLE_MAX,
       showCharCounter: true
     },
     {
@@ -470,7 +471,7 @@ export const EditStudioForm = () => {
       value: studio?.subtitle?.he,
       placeholder: t('form.subtitle.placeholderHe', { defaultValue: 'לדוגמה: הקלטות ומיקס מקצועי' }),
       helperText: t('form.subtitle.helperText'),
-      maxLength: 100,
+      maxLength: STUDIO_SUBTITLE_MAX,
       showCharCounter: true
     },
     {
@@ -482,7 +483,7 @@ export const EditStudioForm = () => {
         defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..."
       }),
       helperText: t('form.description.helperText'),
-      maxLength: 1000,
+      maxLength: STUDIO_DESCRIPTION_MAX,
       showCharCounter: true
     },
     {
@@ -494,7 +495,7 @@ export const EditStudioForm = () => {
         defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
       }),
       helperText: t('form.description.helperText'),
-      maxLength: 1000,
+      maxLength: STUDIO_DESCRIPTION_MAX,
       showCharCounter: true
     },
     {

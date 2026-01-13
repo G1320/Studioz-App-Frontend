@@ -36,6 +36,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import './_createItemForm.scss';
+import { ITEM_NAME_MAX, ITEM_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 
 interface ItemFormData {
   imageUrl?: string;
@@ -624,7 +625,7 @@ export const EditItemForm = () => {
       value: item?.name.en,
       placeholder: t('form.name.placeholder', { defaultValue: 'e.g. The Sound Garden' }),
       helperText: t('form.name.helperText'),
-      maxLength: 50,
+      maxLength: ITEM_NAME_MAX,
       showCharCounter: true
     },
     {
@@ -634,7 +635,7 @@ export const EditItemForm = () => {
       value: item?.name.he,
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
       helperText: t('form.name.helperText'),
-      maxLength: 50,
+      maxLength: ITEM_NAME_MAX,
       showCharCounter: true
     },
     {
@@ -646,7 +647,7 @@ export const EditItemForm = () => {
         defaultValue: "Describe your studio's vibe, equipment, and what makes it unique..."
       }),
       helperText: t('form.description.helperText'),
-      maxLength: 1000,
+      maxLength: ITEM_DESCRIPTION_MAX,
       showCharCounter: true
     },
     {
@@ -658,7 +659,7 @@ export const EditItemForm = () => {
         defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
       }),
       helperText: t('form.description.helperText'),
-      maxLength: 1000,
+      maxLength: ITEM_DESCRIPTION_MAX,
       showCharCounter: true
     },
     {

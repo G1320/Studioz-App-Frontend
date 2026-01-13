@@ -11,6 +11,17 @@ import {
   parkingSchema,
   optionalTranslationSchema
 } from './base';
+import {
+  STUDIO_NAME_MIN,
+  STUDIO_NAME_MAX,
+  STUDIO_SUBTITLE_MAX,
+  STUDIO_DESCRIPTION_MAX,
+  ADDRESS_MAX,
+  CITY_MAX,
+  MAX_OCCUPANCY_MIN,
+  MAX_OCCUPANCY_MAX,
+  MAX_GENRES
+} from '@shared/constants/fieldLimits';
 
 /**
  * Studio name schema
@@ -18,9 +29,11 @@ import {
  */
 export const studioNameSchema = translationSchema({
   en: englishTextSchema('name')
-    .min(3, 'Name must be at least 3 characters')
-    .max(50, 'Name must be at most 50 characters'),
-  he: hebrewTextSchema('name').min(3, 'השם חייב להיות לפחות 3 תווים').max(50, 'השם חייב להיות לכל היותר 50 תווים')
+    .min(STUDIO_NAME_MIN, `Name must be at least ${STUDIO_NAME_MIN} characters`)
+    .max(STUDIO_NAME_MAX, `Name must be at most ${STUDIO_NAME_MAX} characters`),
+  he: hebrewTextSchema('name')
+    .min(STUDIO_NAME_MIN, `השם חייב להיות לפחות ${STUDIO_NAME_MIN} תווים`)
+    .max(STUDIO_NAME_MAX, `השם חייב להיות לכל היותר ${STUDIO_NAME_MAX} תווים`)
 });
 
 /**
@@ -30,11 +43,11 @@ export const studioSubtitleSchema = z
   .object({
     en: z.preprocess(
       (val) => (val === '' ? undefined : val),
-      englishTextSchema('subtitle').max(100, 'Subtitle must be at most 100 characters').optional()
+      englishTextSchema('subtitle').max(STUDIO_SUBTITLE_MAX, `Subtitle must be at most ${STUDIO_SUBTITLE_MAX} characters`).optional()
     ),
     he: z.preprocess(
       (val) => (val === '' ? undefined : val),
-      hebrewTextSchema('subtitle').max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+      hebrewTextSchema('subtitle').max(STUDIO_SUBTITLE_MAX, `כותרת משנה חייבת להיות לכל היותר ${STUDIO_SUBTITLE_MAX} תווים`).optional()
     )
   })
   .optional();
@@ -43,8 +56,8 @@ export const studioSubtitleSchema = z
  * Studio description schema (optional)
  */
 export const studioDescriptionSchema = optionalTranslationSchema({
-  en: englishTextSchema('description').max(2000, 'Description must be at most 2000 characters').optional(),
-  he: hebrewTextSchema('description').max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+  en: englishTextSchema('description').max(STUDIO_DESCRIPTION_MAX, `Description must be at most ${STUDIO_DESCRIPTION_MAX} characters`).optional(),
+  he: hebrewTextSchema('description').max(STUDIO_DESCRIPTION_MAX, `תיאור חייב להיות לכל היותר ${STUDIO_DESCRIPTION_MAX} תווים`).optional()
 });
 
 /**
@@ -156,7 +169,7 @@ export const portfolioSchema = z.array(portfolioItemSchema).optional();
 export const studioStep4Schema = z.object({
   address: z.preprocess(
     (val) => (val === undefined || val === null ? '' : val),
-    z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters')
+    z.string().min(1, 'Address is required').max(ADDRESS_MAX, `Address must be at most ${ADDRESS_MAX} characters`)
   ),
   phone: phoneSchema,
   website: z.preprocess(
@@ -205,8 +218,8 @@ export const studioStep6Schema = z.object({
       return val;
     },
     positiveNumberSchema
-      .min(1, 'Max occupancy is required and must be at least 1')
-      .max(1000, 'Max occupancy must be at most 1000')
+      .min(MAX_OCCUPANCY_MIN, `Max occupancy is required and must be at least ${MAX_OCCUPANCY_MIN}`)
+      .max(MAX_OCCUPANCY_MAX, `Max occupancy must be at most ${MAX_OCCUPANCY_MAX}`)
   ),
   isSmokingAllowed: z.preprocess((val) => {
     // Convert string to boolean, handle various formats
@@ -277,10 +290,10 @@ export const studioFullSchema = z.object({
   subtitle: studioSubtitleSchema.optional(),
   description: studioDescriptionSchema.optional(),
 
-  // Categories & Genres (max 12 genres)
+  // Categories & Genres
   categories: stringArraySchema(1, 'At least one category is required'),
   subCategories: z.array(z.string()).optional(),
-  genres: z.array(z.string()).max(12, 'Maximum 12 genres allowed').optional(),
+  genres: z.array(z.string()).max(MAX_GENRES, `Maximum ${MAX_GENRES} genres allowed`).optional(),
 
   // Availability
   studioAvailability: studioAvailabilitySchema.optional(),
@@ -288,7 +301,7 @@ export const studioFullSchema = z.object({
   // Location & Contact
   address: z.preprocess(
     (val) => (val === undefined || val === null ? '' : val),
-    z.string().min(1, 'Address is required').max(200, 'Address must be at most 200 characters')
+    z.string().min(1, 'Address is required').max(ADDRESS_MAX, `Address must be at most ${ADDRESS_MAX} characters`)
   ),
   phone: phoneSchema,
   website: z.preprocess(
@@ -298,7 +311,7 @@ export const studioFullSchema = z.object({
   socials: socialsSchema,
   city: z.preprocess(
     (val) => (val === undefined || val === null ? '' : val),
-    z.string().max(100, 'City must be at most 100 characters').optional()
+    z.string().max(CITY_MAX, `City must be at most ${CITY_MAX} characters`).optional()
   ),
   lat: z.number().optional(),
   lng: z.number().optional(),
@@ -322,7 +335,7 @@ export const studioFullSchema = z.object({
       }
       return val;
     },
-    positiveNumberSchema.min(1, 'Max occupancy must be at least 1').max(1000, 'Max occupancy must be at most 1000')
+    positiveNumberSchema.min(MAX_OCCUPANCY_MIN, `Max occupancy must be at least ${MAX_OCCUPANCY_MIN}`).max(MAX_OCCUPANCY_MAX, `Max occupancy must be at most ${MAX_OCCUPANCY_MAX}`)
   ),
   isSmokingAllowed: z.boolean().default(false),
   isWheelchairAccessible: z.boolean().optional(),
@@ -365,10 +378,13 @@ export const studioEditSchema = studioFullSchema.partial().extend({
     .object({
       en: z
         .string()
-        .min(3, 'Name must be at least 3 characters')
-        .max(50, 'Name must be at most 50 characters')
+        .min(STUDIO_NAME_MIN, `Name must be at least ${STUDIO_NAME_MIN} characters`)
+        .max(STUDIO_NAME_MAX, `Name must be at most ${STUDIO_NAME_MAX} characters`)
         .optional(),
-      he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(50, 'השם חייב להיות לכל היותר 50 תווים').optional()
+      he: z.string()
+        .min(STUDIO_NAME_MIN, `השם חייב להיות לפחות ${STUDIO_NAME_MIN} תווים`)
+        .max(STUDIO_NAME_MAX, `השם חייב להיות לכל היותר ${STUDIO_NAME_MAX} תווים`)
+        .optional()
     })
     .optional(),
   // Allow dual-language subtitle - remove Hebrew/English character restrictions for edit
@@ -376,19 +392,19 @@ export const studioEditSchema = studioFullSchema.partial().extend({
     .object({
       en: z.preprocess(
         (val) => (val === '' ? undefined : val),
-        z.string().max(100, 'Subtitle must be at most 100 characters').optional()
+        z.string().max(STUDIO_SUBTITLE_MAX, `Subtitle must be at most ${STUDIO_SUBTITLE_MAX} characters`).optional()
       ),
       he: z.preprocess(
         (val) => (val === '' ? undefined : val),
-        z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+        z.string().max(STUDIO_SUBTITLE_MAX, `כותרת משנה חייבת להיות לכל היותר ${STUDIO_SUBTITLE_MAX} תווים`).optional()
       )
     })
     .optional(),
   // Allow dual-language description - remove Hebrew/English character restrictions for edit
   description: z
     .object({
-      en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
-      he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+      en: z.string().max(STUDIO_DESCRIPTION_MAX, `Description must be at most ${STUDIO_DESCRIPTION_MAX} characters`).optional(),
+      he: z.string().max(STUDIO_DESCRIPTION_MAX, `תיאור חייב להיות לכל היותר ${STUDIO_DESCRIPTION_MAX} תווים`).optional()
     })
     .optional(),
   categories: stringArraySchema(1).optional(),
@@ -403,7 +419,7 @@ export const studioEditSchema = studioFullSchema.partial().extend({
       return isNaN(num) ? undefined : num;
     }
     return val;
-  }, positiveNumberSchema.min(1, 'Max occupancy must be at least 1').max(1000, 'Max occupancy must be at most 1000').optional())
+  }, positiveNumberSchema.min(MAX_OCCUPANCY_MIN, `Max occupancy must be at least ${MAX_OCCUPANCY_MIN}`).max(MAX_OCCUPANCY_MAX, `Max occupancy must be at most ${MAX_OCCUPANCY_MAX}`).optional())
 });
 
 /**
@@ -427,27 +443,30 @@ export const studioStep1EditSchema = z.object({
   name: z.object({
     en: z
       .string()
-      .min(3, 'Name must be at least 3 characters')
-      .max(50, 'Name must be at most 50 characters')
+      .min(STUDIO_NAME_MIN, `Name must be at least ${STUDIO_NAME_MIN} characters`)
+      .max(STUDIO_NAME_MAX, `Name must be at most ${STUDIO_NAME_MAX} characters`)
       .optional(),
-    he: z.string().min(3, 'השם חייב להיות לפחות 3 תווים').max(50, 'השם חייב להיות לכל היותר 50 תווים').optional()
+    he: z.string()
+      .min(STUDIO_NAME_MIN, `השם חייב להיות לפחות ${STUDIO_NAME_MIN} תווים`)
+      .max(STUDIO_NAME_MAX, `השם חייב להיות לכל היותר ${STUDIO_NAME_MAX} תווים`)
+      .optional()
   }),
   subtitle: z
     .object({
       en: z.preprocess(
         (val) => (val === '' ? undefined : val),
-        z.string().max(100, 'Subtitle must be at most 100 characters').optional()
+        z.string().max(STUDIO_SUBTITLE_MAX, `Subtitle must be at most ${STUDIO_SUBTITLE_MAX} characters`).optional()
       ),
       he: z.preprocess(
         (val) => (val === '' ? undefined : val),
-        z.string().max(100, 'כותרת משנה חייבת להיות לכל היותר 100 תווים').optional()
+        z.string().max(STUDIO_SUBTITLE_MAX, `כותרת משנה חייבת להיות לכל היותר ${STUDIO_SUBTITLE_MAX} תווים`).optional()
       )
     })
     .optional(),
   description: z
     .object({
-      en: z.string().max(2000, 'Description must be at most 2000 characters').optional(),
-      he: z.string().max(2000, 'תיאור חייב להיות לכל היותר 2000 תווים').optional()
+      en: z.string().max(STUDIO_DESCRIPTION_MAX, `Description must be at most ${STUDIO_DESCRIPTION_MAX} characters`).optional(),
+      he: z.string().max(STUDIO_DESCRIPTION_MAX, `תיאור חייב להיות לכל היותר ${STUDIO_DESCRIPTION_MAX} תווים`).optional()
     })
     .optional()
 });
