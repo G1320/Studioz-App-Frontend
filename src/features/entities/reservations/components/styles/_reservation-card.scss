@@ -58,7 +58,7 @@ $accent: ds.$primary-yellow;
   &__summary {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
+    gap: ds.$space-4;
     padding: 1.25rem;
   }
 
@@ -221,7 +221,7 @@ $accent: ds.$primary-yellow;
     &--datetime {
       flex-direction: column;
       align-items: stretch;
-      gap: 1rem;
+      gap: ds.$space-4;
       padding: 1rem 0;
     }
   }
@@ -239,7 +239,7 @@ $accent: ds.$primary-yellow;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: ds.$space-4;
 
     .hours-selector {
       flex-shrink: 0;

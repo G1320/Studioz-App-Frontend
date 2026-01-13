@@ -496,7 +496,7 @@ $landing-muted: ds.$white-60;
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   &__title {
@@ -630,7 +630,7 @@ $landing-muted: ds.$white-60;
   &__step {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: ds.$space-8;
     position: relative;
 
     // Glow effect container
@@ -701,7 +701,7 @@ $landing-muted: ds.$white-60;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem 1.25rem;
-    border-radius: 1rem;
+    border-radius: ds.$radius-xl;
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
     z-index: 10;
     animation: bounce-slow 4s infinite ease-in-out;

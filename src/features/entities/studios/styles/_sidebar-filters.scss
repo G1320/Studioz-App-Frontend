@@ -57,7 +57,7 @@
     border: none;
     background: transparent;
     color: vars.$zinc-400;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     cursor: pointer;
     transition: all 0.2s ease;
 
@@ -115,7 +115,7 @@
   &__section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   &__section-header {
@@ -184,7 +184,7 @@
     justify-content: flex-start;
     gap: 0.75rem;
     padding: 0.625rem 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     border: 1px solid transparent;
     background: transparent;
     color: vars.$zinc-400;
@@ -236,7 +236,7 @@
   &__price {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: ds.$space-6;
   }
 
   &__price-labels {
@@ -320,7 +320,7 @@
     background: vars.$zinc-900;
     border: 1px solid vars.$zinc-800;
     color: vars.$text-color-primary;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     padding: 0.75rem 2.5rem;
     padding-inline-start: 2.5rem;
     padding-inline-end: 2.5rem;
@@ -354,7 +354,7 @@
   &__specs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   &__spec-field {
@@ -389,7 +389,7 @@
     background: vars.$zinc-900;
     border: 1px solid vars.$zinc-800;
     color: vars.$text-color-primary;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     padding: 0.5rem 0.75rem;
     padding-inline-start: 2.25rem;
     font-size: ds.$font-md;
@@ -449,7 +449,7 @@
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     background: vars.$zinc-900;
     color: vars.$zinc-500;
     transition: all 0.2s ease;
@@ -515,7 +515,7 @@
     font-weight: 700;
     padding: 0.875rem;
     border: none;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);

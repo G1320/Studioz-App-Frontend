@@ -32,7 +32,7 @@ $profile-text-secondary: ds.$zinc-200;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: ds.$space-8;
 }
 
 // ==========================================
@@ -72,7 +72,7 @@ $profile-text-secondary: ds.$zinc-200;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: ds.$space-6;
     padding-top: 1rem;
 
     @media (min-width: 768px) {
@@ -199,12 +199,12 @@ $profile-text-secondary: ds.$zinc-200;
 .profile-grid {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ds.$space-6;
 
   @media (min-width: 1024px) {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 2rem;
+    gap: ds.$space-8;
   }
 }
 
@@ -214,7 +214,7 @@ $profile-text-secondary: ds.$zinc-200;
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: ds.$space-6;
   }
 }
 
@@ -224,7 +224,7 @@ $profile-text-secondary: ds.$zinc-200;
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: ds.$space-6;
   }
 }
 
@@ -351,7 +351,7 @@ $profile-text-secondary: ds.$zinc-200;
 .profile-form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: ds.$space-6;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -377,7 +377,7 @@ $profile-text-secondary: ds.$zinc-200;
     width: 100%;
     background: rgba(24, 24, 27, 0.5);
     border: 1px solid $profile-border;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     padding: 0.625rem 1rem;
     color: $profile-text-secondary;
     font-size: ds.$font-md;
@@ -437,7 +437,7 @@ $profile-text-secondary: ds.$zinc-200;
 .profile-coming-soon {
   padding: ds.$space-4;
   background: rgba(24, 24, 27, 0.5);
-  border-radius: 0.75rem;
+  border-radius: ds.$radius-lg;
   border: 1px dashed $profile-border;
   text-align: center;
   color: $profile-muted;
@@ -449,7 +449,7 @@ $profile-text-secondary: ds.$zinc-200;
 // ==========================================
 .profile-integration-box {
   background: rgba(24, 24, 27, 0.5);
-  border-radius: 1rem;
+  border-radius: ds.$radius-xl;
   padding: 1.25rem;
   border: 1px solid rgba($profile-border, 0.5);
   margin-bottom: 1.5rem;
@@ -676,7 +676,7 @@ $profile-text-secondary: ds.$zinc-200;
     background: transparent;
     border: 1px solid $profile-border;
     color: $profile-muted;
-    border-radius: 1rem;
+    border-radius: ds.$radius-xl;
     padding: 0.75rem;
 
     &:hover {

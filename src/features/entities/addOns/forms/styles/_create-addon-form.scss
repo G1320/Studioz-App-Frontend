@@ -4,7 +4,7 @@
 .create-addon-form-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: ds.$space-8;
   animation: fadeInSlide 0.5s ease-out;
   width: 100%;
   max-width: 100%;
@@ -151,7 +151,7 @@
   .pending-addon-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   .pending-addon-price {
@@ -226,7 +226,7 @@
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: ds.$space-6;
     animation: zoomIn 0.2s ease-out;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     width: 100%;
@@ -274,7 +274,7 @@
   .addon-form-fields {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: ds.$space-4;
     width: 100%;
     min-width: 0;
   }
@@ -376,7 +376,7 @@
   .addon-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: ds.$space-4;
     width: 100%;
 
     @media (max-width: 480px) {

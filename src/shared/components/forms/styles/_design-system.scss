@@ -152,3 +152,38 @@ $radius-xl: 1rem;      // 16px
 $radius-2xl: 1.25rem;  // 20px
 $radius-3xl: 1.5rem;   // 24px
 $radius-full: 9999px;
+
+// ===================
+// TRANSITIONS
+// ===================
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-medium: 300ms ease;
+$transition-slow: 500ms ease;
+
+// Specific transition properties
+$transition-colors: color 200ms ease, background-color 200ms ease, border-color 200ms ease;
+$transition-transform: transform 200ms ease;
+$transition-opacity: opacity 200ms ease;
+$transition-all: all 200ms ease;
+
+// ===================
+// SHADOWS
+// ===================
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+$shadow-glow: 0 0 20px rgba(255, 209, 102, 0.3);
+$shadow-glow-strong: 0 0 30px rgba(255, 209, 102, 0.5);
+
+// ===================
+// Z-INDEX SCALE
+// ===================
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-fixed: 300;
+$z-modal-backdrop: 400;
+$z-modal: 500;
+$z-popover: 600;
+$z-tooltip: 700;

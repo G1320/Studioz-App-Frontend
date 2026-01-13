@@ -5,7 +5,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: ds.$space-8;
 
   &__section {
     background: rgba(vars.$zinc-900, 0.5);
@@ -21,7 +21,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: ds.$space-4;
     margin-bottom: 1.5rem;
   }
 
@@ -86,7 +86,7 @@
   &__social-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: ds.$space-6;
 
     @media (max-width: 640px) {
       grid-template-columns: 1fr;
@@ -119,7 +119,7 @@
       box-sizing: border-box;
       background: vars.$zinc-900;
       border: 1px solid vars.$zinc-800;
-      border-radius: 0.75rem;
+      border-radius: ds.$radius-lg;
       padding: 0.75rem 1rem;
       color: vars.$text-color-primary;
       font-size: ds.$font-md;
@@ -141,7 +141,7 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: ds.$space-4;
 
     @media (max-width: 640px) {
       grid-template-columns: 1fr;
@@ -214,11 +214,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: ds.$space-4;
   padding: 1rem;
   background: vars.$zinc-900;
   border: 1px solid vars.$zinc-800;
-  border-radius: 0.75rem;
+  border-radius: ds.$radius-lg;
   transition: all 0.2s ease;
   min-width: 0;
 
@@ -242,7 +242,7 @@
     position: relative;
     width: 5rem;
     height: 5rem;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     overflow: hidden;
     flex-shrink: 0;
     background: vars.$bg-color-primary;
@@ -364,7 +364,7 @@
     background: transparent;
     border: none;
     color: vars.$zinc-500;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     cursor: pointer;
     opacity: 0;
     transition: all 0.2s ease;
@@ -426,7 +426,7 @@
     border: none;
     color: vars.$zinc-400;
     cursor: pointer;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     transition: all 0.2s ease;
 
     svg {
@@ -457,7 +457,7 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     border: 1px solid vars.$zinc-800;
     background: vars.$zinc-900;
     color: vars.$zinc-400;
@@ -487,13 +487,13 @@
   &__fields {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: ds.$space-4;
   }
 
   &__row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: ds.$space-4;
 
     @media (max-width: 480px) {
       grid-template-columns: 1fr;
@@ -518,7 +518,7 @@
       box-sizing: border-box;
       background: vars.$zinc-900;
       border: 1px solid vars.$zinc-800;
-      border-radius: 0.75rem;
+      border-radius: ds.$radius-lg;
       padding: 0.75rem 1rem;
       color: vars.$text-color-primary;
       font-size: ds.$font-md;

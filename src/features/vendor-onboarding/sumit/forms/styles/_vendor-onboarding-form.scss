@@ -136,7 +136,7 @@ $surface-dark: #1e1e1e;
   .form-card {
     background: $surface-dark;
     border: 1px solid ds.$zinc-800;
-    border-radius: 1rem;
+    border-radius: ds.$radius-xl;
     padding: ds.$space-8;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     min-height: 400px;
@@ -175,7 +175,7 @@ $surface-dark: #1e1e1e;
       padding: ds.$space-4;
       background: rgba(ds.$zinc-900, 0.5);
       border: 1px solid ds.$zinc-800;
-      border-radius: 0.75rem;
+      border-radius: ds.$radius-lg;
       margin-bottom: 1.5rem;
 
       .notice-icon {
@@ -196,7 +196,7 @@ $surface-dark: #1e1e1e;
     &__fields {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: ds.$space-4;
       width: 100%;
     }
   }
@@ -219,7 +219,7 @@ $surface-dark: #1e1e1e;
       width: 100%;
       background: ds.$zinc-900;
       border: 1px solid ds.$zinc-800;
-      border-radius: 0.75rem;
+      border-radius: ds.$radius-lg;
       padding: 0.75rem 1rem;
       color: white;
       font-size: ds.$font-base;
@@ -256,7 +256,7 @@ $surface-dark: #1e1e1e;
   .field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: ds.$space-4;
     width: 100%;
 
     &--bank {
@@ -286,7 +286,7 @@ $surface-dark: #1e1e1e;
 
   .entity-type-btn {
     padding: 0.75rem;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     border: 1px solid ds.$zinc-800;
     background: ds.$zinc-900;
     color: ds.$zinc-400;
@@ -314,7 +314,7 @@ $surface-dark: #1e1e1e;
     justify-content: space-between;
     margin-top: 2rem;
     width: 100%;
-    gap: 1rem;
+    gap: ds.$space-4;
     flex-wrap: wrap;
 
     @media (max-width: 400px) {
@@ -328,7 +328,7 @@ $surface-dark: #1e1e1e;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -446,7 +446,7 @@ $surface-dark: #1e1e1e;
       font-weight: 700;
       padding: ds.$space-4;
       border: none;
-      border-radius: 0.75rem;
+      border-radius: ds.$radius-lg;
       font-size: ds.$font-base;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -488,7 +488,7 @@ $surface-dark: #1e1e1e;
     padding: ds.$space-4;
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: 0.75rem;
+    border-radius: ds.$radius-lg;
     margin-bottom: 1rem;
     color: #fca5a5;
 

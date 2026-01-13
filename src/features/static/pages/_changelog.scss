@@ -86,7 +86,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 1rem;
+    gap: ds.$space-4;
     transition: opacity 0.2s ease;
 
     &:hover {
@@ -259,7 +259,7 @@
     padding: 0.75rem 1rem;
     background: transparent;
     border: 1px solid ds.$zinc-700;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     color: ds.$zinc-300;
     font-size: ds.$font-md;
     font-weight: 500;
@@ -284,7 +284,7 @@
     gap: 0.75rem;
     background: rgba(ds.$zinc-900, 0.3);
     border: 1px solid ds.$zinc-800;
-    border-radius: 0.5rem;
+    border-radius: ds.$radius-md;
     padding: ds.$space-4;
   }
 

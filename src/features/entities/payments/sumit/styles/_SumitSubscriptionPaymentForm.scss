@@ -74,7 +74,7 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; // 24px - space-y-6
+    gap: ds.$space-6; // 24px - space-y-6
     position: relative;
     z-index: 10;
   }
@@ -97,7 +97,7 @@
       width: 100%;
       padding: 0.75rem 1rem; // py-3 px-4
       border: 1px solid vars.$zinc-800;
-      border-radius: 0.5rem; // rounded-lg
+      border-radius: ds.$radius-md; // rounded-lg
       font-size: ds.$font-base; // text-base
       transition: all 0.2s ease;
       background: #1a1a1a; // Slightly lighter black
@@ -148,7 +148,7 @@
   &__date-cvv {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    gap: 1rem; // 16px
+    gap: ds.$space-4; // 16px
 
     > div:nth-child(1),
     > div:nth-child(2) {
@@ -197,7 +197,7 @@
         flex: 1;
         padding: 0.75rem 1rem;
         border: 1px solid vars.$zinc-800;
-        border-radius: 0.5rem; // rounded-lg
+        border-radius: ds.$radius-md; // rounded-lg
         font-size: ds.$font-base;
         background: #1a1a1a;
         color: white;
@@ -245,7 +245,7 @@
 
     &-btn {
       padding: 0.75rem 1.5rem; // px-6
-      border-radius: 0.5rem; // rounded-lg
+      border-radius: ds.$radius-md; // rounded-lg
       font-weight: 700; // font-bold
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -324,7 +324,7 @@
       background: ds.$primary-yellow;
       color: black;
       border: none;
-      border-radius: 0.75rem; // rounded-xl
+      border-radius: ds.$radius-lg; // rounded-xl
       font-size: ds.$font-lg; // text-lg
       font-weight: 700; // font-bold
       cursor: pointer;

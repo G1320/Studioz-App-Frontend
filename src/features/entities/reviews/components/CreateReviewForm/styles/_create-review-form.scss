@@ -4,7 +4,7 @@
 .create-review-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ds.$space-6;
   padding: ds.$space-6;
   background-color: vars.$bg-color-tertiary;
   border: 1px solid vars.$white-opacity-10;

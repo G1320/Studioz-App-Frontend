@@ -539,7 +539,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                         onClick={handleStartEditing}
                       >
                         <EditIcon className="reservation-card__action-icon" />
-                        <span>{t('update', 'עדכן')}</span>
+                        <span>{t('update', 'עדכון')}</span>
                       </button>
                     )}
 
