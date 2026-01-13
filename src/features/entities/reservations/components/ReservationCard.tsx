@@ -567,7 +567,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                   </>
                 )}
 
-                {variant === 'itemCard' && isCancelledStatus && (
+                {variant === 'itemCard' && (
                   <button
                     className="reservation-card__action-btn reservation-card__action-btn--secondary"
                     onClick={(e) => {
@@ -575,7 +575,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                       handleCreateNewReservation();
                     }}
                   >
-                    {t('reservations:createNewReservation', 'Create new reservation')}
+                    {t('createNewReservation', 'צור הזמנה נוספת')}
                   </button>
                 )}
               </>
