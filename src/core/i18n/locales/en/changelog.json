@@ -1,9 +1,132 @@
 {
   "title": "System Updates",
-  "subtitle": "All new features, improvements, and bug fixes",
+  "subtitle": "All new features, improvements, and fixes",
+  "months": {
+    "jan2026": "January 2026",
+    "dec2025": "December 2025",
+    "nov2025": "November 2025"
+  },
+  "releases": {
+    "jan2026": {
+      "dashboard": {
+        "date": "January 13",
+        "title": "New Dashboard & Analytics",
+        "description": "Advanced analytics tools for your business",
+        "changes": {
+          "stats": "Real-time revenue and booking statistics",
+          "activity": "Activity log with new booking alerts",
+          "realtime": "Automatic data refresh every 30 seconds"
+        }
+      },
+      "payments": {
+        "date": "January 10-12",
+        "title": "Enhanced Payment Experience",
+        "description": "Faster and smoother payment process",
+        "changes": {
+          "savedCards": "Save credit cards for future payments",
+          "coupons": "Support for coupon codes and discounts",
+          "flow": "Simpler and faster checkout process"
+        }
+      },
+      "booking": {
+        "date": "January 9-11",
+        "title": "Booking Flow Improvements",
+        "description": "Booking a studio is now easier",
+        "changes": {
+          "howItWorks": "\"How It Works\" video guide for newcomers",
+          "calendar": "New calendar view for studio management",
+          "availability": "Improved real-time availability checks",
+          "timeFix": "Fixed timezone-related scheduling issues"
+        }
+      },
+      "studioMgmt": {
+        "date": "January 4-9",
+        "title": "Enhanced Studio Management",
+        "description": "New tools to showcase your studio",
+        "changes": {
+          "portfolio": "Portfolio with social media links",
+          "equipment": "Equipment categorization by type",
+          "forms": "Smart forms with character counter and validation"
+        }
+      },
+      "reservations": {
+        "date": "January 5-7",
+        "title": "Advanced Reservation Management",
+        "description": "Full control over your bookings",
+        "changes": {
+          "edit": "Edit reservation details after creation",
+          "search": "Customer search in reservations",
+          "status": "Clearer status indicators with colors"
+        }
+      }
+    },
+    "dec2025": {
+      "onboarding": {
+        "date": "December 27-31",
+        "title": "New Onboarding Flow",
+        "description": "Joining the platform is now simpler",
+        "changes": {
+          "steps": "Multi-step form with visual progress",
+          "validation": "Instant validation on every field",
+          "guidance": "Clear instructions at each step"
+        }
+      },
+      "landing": {
+        "date": "December 29-30",
+        "title": "New Landing Page",
+        "description": "Improved first impression",
+        "changes": {
+          "citySelect": "Quick city selection from homepage",
+          "categories": "Music categories with icons",
+          "forOwners": "Dedicated page for studio owners"
+        }
+      },
+      "forms": {
+        "date": "December 26-29",
+        "title": "Improved Forms",
+        "description": "Create services and studios with ease",
+        "changes": {
+          "stepped": "Forms divided into clear steps",
+          "policies": "Cancellation policy and house rules",
+          "dualLang": "Full Hebrew and English support"
+        }
+      },
+      "discovery": {
+        "date": "December 26-28",
+        "title": "Enhanced Studio Discovery",
+        "description": "Find the perfect studio easily",
+        "changes": {
+          "filters": "Filter by category, city, and price range",
+          "cards": "Studio cards with more detailed info",
+          "sharing": "Share studios on social media"
+        }
+      }
+    },
+    "nov2025": {
+      "support": {
+        "date": "November",
+        "title": "Support & Communication",
+        "description": "New ways to get in touch",
+        "changes": {
+          "chat": "Live support chat available on site",
+          "notifications": "Improved notification system"
+        }
+      },
+      "bookingSettings": {
+        "date": "November",
+        "title": "Advanced Booking Settings",
+        "description": "Full control over how bookings work",
+        "changes": {
+          "instantBook": "Instant booking or manual approval",
+          "addons": "Add-ons and additional services",
+          "pricing": "Flexible pricing models"
+        }
+      }
+    }
+  },
   "suggestion": {
-    "title": "Feature Suggestions",
-    "description": "Have an idea? We're always listening to your feedback",
+    "title": "Have an idea?",
+    "description": "We're always happy to hear suggestions for improvements and new features",
     "placeholder": "Share a new idea...",
     "textareaPlaceholder": "Describe your idea...",
     "cancel": "Cancel",

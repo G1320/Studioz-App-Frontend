@@ -15,19 +15,18 @@ type ChangeType = 'feature' | 'improvement' | 'fix';
 interface ChangeItem {
   id: string;
   type: ChangeType;
-  description: string;
+  descriptionKey: string;
 }
 
 interface Release {
   version: string;
-  date: string;
-  title: string;
-  description: string;
+  dateKey: string;
+  titleKey: string;
+  descriptionKey: string;
   changes: ChangeItem[];
 }
 
 interface MonthGroup {
-  month: string;
   monthKey: string;
   releases: Release[];
 }
@@ -36,65 +35,137 @@ interface MonthGroup {
 
 const CHANGELOG_DATA: MonthGroup[] = [
   {
-    month: 'ינואר 2026',
-    monthKey: '2026-01',
+    monthKey: 'months.jan2026',
     releases: [
       {
-        version: 'jan-char-counter',
-        date: '13 בינואר, 2026',
-        title: 'מונה תווים בטפסים',
-        description: 'הוספנו מונה תווים לשדות שם, כותרת משנה ותיאור בטפסי יצירת ועריכת סטודיו ושירות.',
+        version: 'jan-dashboard-analytics',
+        dateKey: 'releases.jan2026.dashboard.date',
+        titleKey: 'releases.jan2026.dashboard.title',
+        descriptionKey: 'releases.jan2026.dashboard.description',
         changes: [
-          { id: '1', type: 'feature', description: 'מונה תווים בזמן אמת בשדות טקסט' },
-          { id: '2', type: 'improvement', description: 'קובץ קבועים מרכזי לניהול מגבלות תווים' },
+          { id: '1', type: 'feature', descriptionKey: 'releases.jan2026.dashboard.changes.stats' },
+          { id: '2', type: 'feature', descriptionKey: 'releases.jan2026.dashboard.changes.activity' },
+          { id: '3', type: 'improvement', descriptionKey: 'releases.jan2026.dashboard.changes.realtime' },
         ],
       },
       {
-        version: 'jan-pixel',
-        date: '13 בינואר, 2026',
-        title: 'Meta Pixel ומעקב המרות',
-        description: 'הטמענו את Meta Pixel למעקב המרות ואנליטיקס מתקדם.',
+        version: 'jan-payments',
+        dateKey: 'releases.jan2026.payments.date',
+        titleKey: 'releases.jan2026.payments.title',
+        descriptionKey: 'releases.jan2026.payments.description',
         changes: [
-          { id: '3', type: 'feature', description: 'מעקב אירועי רכישה והרשמה' },
-          { id: '4', type: 'feature', description: 'יוטיליטי אנליטיקס מרכזי לאירועים' },
+          { id: '4', type: 'feature', descriptionKey: 'releases.jan2026.payments.changes.savedCards' },
+          { id: '5', type: 'feature', descriptionKey: 'releases.jan2026.payments.changes.coupons' },
+          { id: '6', type: 'improvement', descriptionKey: 'releases.jan2026.payments.changes.flow' },
         ],
       },
       {
-        version: 'jan-dashboard',
-        date: '12 בינואר, 2026',
-        title: 'לוח בקרה משופר למנהלים',
-        description: 'שיפורים משמעותיים בלוח הבקרה למנהלי סטודיו כולל סטטיסטיקות בזמן אמת.',
+        version: 'jan-booking',
+        dateKey: 'releases.jan2026.booking.date',
+        titleKey: 'releases.jan2026.booking.title',
+        descriptionKey: 'releases.jan2026.booking.description',
         changes: [
-          { id: '5', type: 'feature', description: 'טאב סטטיסטיקות חדש בלוח הבקרה' },
-          { id: '6', type: 'feature', description: 'חישוב הכנסות ומגמות אוטומטי' },
-          { id: '7', type: 'improvement', description: 'רענון נתוני הזמנות כל 30 שניות' },
-          { id: '8', type: 'fix', description: 'תיקון תצוגת סטטוס הזמנות בפעילות אחרונה' },
+          { id: '7', type: 'feature', descriptionKey: 'releases.jan2026.booking.changes.howItWorks' },
+          { id: '8', type: 'feature', descriptionKey: 'releases.jan2026.booking.changes.calendar' },
+          { id: '9', type: 'improvement', descriptionKey: 'releases.jan2026.booking.changes.availability' },
+          { id: '10', type: 'fix', descriptionKey: 'releases.jan2026.booking.changes.timeFix' },
+        ],
+      },
+      {
+        version: 'jan-studio-management',
+        dateKey: 'releases.jan2026.studioMgmt.date',
+        titleKey: 'releases.jan2026.studioMgmt.title',
+        descriptionKey: 'releases.jan2026.studioMgmt.description',
+        changes: [
+          { id: '11', type: 'feature', descriptionKey: 'releases.jan2026.studioMgmt.changes.portfolio' },
+          { id: '12', type: 'feature', descriptionKey: 'releases.jan2026.studioMgmt.changes.equipment' },
+          { id: '13', type: 'improvement', descriptionKey: 'releases.jan2026.studioMgmt.changes.forms' },
+        ],
+      },
+      {
+        version: 'jan-reservations',
+        dateKey: 'releases.jan2026.reservations.date',
+        titleKey: 'releases.jan2026.reservations.title',
+        descriptionKey: 'releases.jan2026.reservations.description',
+        changes: [
+          { id: '14', type: 'feature', descriptionKey: 'releases.jan2026.reservations.changes.edit' },
+          { id: '15', type: 'feature', descriptionKey: 'releases.jan2026.reservations.changes.search' },
+          { id: '16', type: 'improvement', descriptionKey: 'releases.jan2026.reservations.changes.status' },
         ],
       },
     ],
   },
   {
-    month: 'דצמבר 2025',
-    monthKey: '2025-12',
+    monthKey: 'months.dec2025',
     releases: [
       {
-        version: 'dec-booking-flow',
-        date: '28 בדצמבר, 2025',
-        title: 'שיפורי תהליך הזמנה',
-        description: 'שיפורים בחוויית ההזמנה כולל כפתור ליצירת הזמנה נוספת.',
+        version: 'dec-onboarding',
+        dateKey: 'releases.dec2025.onboarding.date',
+        titleKey: 'releases.dec2025.onboarding.title',
+        descriptionKey: 'releases.dec2025.onboarding.description',
         changes: [
-          { id: '9', type: 'feature', description: 'כפתור "צור הזמנה נוספת" בכרטיס הזמנה' },
-          { id: '10', type: 'improvement', description: 'עיצוב מחודש לכרטיס הזמנה במובייל' },
+          { id: '17', type: 'feature', descriptionKey: 'releases.dec2025.onboarding.changes.steps' },
+          { id: '18', type: 'feature', descriptionKey: 'releases.dec2025.onboarding.changes.validation' },
+          { id: '19', type: 'improvement', descriptionKey: 'releases.dec2025.onboarding.changes.guidance' },
+        ],
+      },
+      {
+        version: 'dec-landing',
+        dateKey: 'releases.dec2025.landing.date',
+        titleKey: 'releases.dec2025.landing.title',
+        descriptionKey: 'releases.dec2025.landing.description',
+        changes: [
+          { id: '20', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.citySelect' },
+          { id: '21', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.categories' },
+          { id: '22', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.forOwners' },
         ],
       },
       {
         version: 'dec-forms',
-        date: '15 בדצמבר, 2025',
-        title: 'עדכוני טפסי סטודיו',
-        description: 'הסרנו שדות שאינם בשימוש והוספנו אינדיקטור פעיל בתפריט.',
+        dateKey: 'releases.dec2025.forms.date',
+        titleKey: 'releases.dec2025.forms.title',
+        descriptionKey: 'releases.dec2025.forms.description',
         changes: [
-          { id: '11', type: 'improvement', description: 'הסרת מתג 24 שעות מטפסי סטודיו' },
-          { id: '12', type: 'feature', description: 'אינדיקטור עמוד פעיל בתפריט הניווט' },
+          { id: '23', type: 'feature', descriptionKey: 'releases.dec2025.forms.changes.stepped' },
+          { id: '24', type: 'feature', descriptionKey: 'releases.dec2025.forms.changes.policies' },
+          { id: '25', type: 'improvement', descriptionKey: 'releases.dec2025.forms.changes.dualLang' },
+        ],
+      },
+      {
+        version: 'dec-discovery',
+        dateKey: 'releases.dec2025.discovery.date',
+        titleKey: 'releases.dec2025.discovery.title',
+        descriptionKey: 'releases.dec2025.discovery.description',
+        changes: [
+          { id: '26', type: 'feature', descriptionKey: 'releases.dec2025.discovery.changes.filters' },
+          { id: '27', type: 'improvement', descriptionKey: 'releases.dec2025.discovery.changes.cards' },
+          { id: '28', type: 'improvement', descriptionKey: 'releases.dec2025.discovery.changes.sharing' },
+        ],
+      },
+    ],
+  },
+  {
+    monthKey: 'months.nov2025',
+    releases: [
+      {
+        version: 'nov-support',
+        dateKey: 'releases.nov2025.support.date',
+        titleKey: 'releases.nov2025.support.title',
+        descriptionKey: 'releases.nov2025.support.description',
+        changes: [
+          { id: '29', type: 'feature', descriptionKey: 'releases.nov2025.support.changes.chat' },
+          { id: '30', type: 'feature', descriptionKey: 'releases.nov2025.support.changes.notifications' },
+        ],
+      },
+      {
+        version: 'nov-booking-settings',
+        dateKey: 'releases.nov2025.bookingSettings.date',
+        titleKey: 'releases.nov2025.bookingSettings.title',
+        descriptionKey: 'releases.nov2025.bookingSettings.description',
+        changes: [
+          { id: '31', type: 'feature', descriptionKey: 'releases.nov2025.bookingSettings.changes.instantBook' },
+          { id: '32', type: 'feature', descriptionKey: 'releases.nov2025.bookingSettings.changes.addons' },
+          { id: '33', type: 'improvement', descriptionKey: 'releases.nov2025.bookingSettings.changes.pricing' },
         ],
       },
     ],
@@ -157,66 +228,69 @@ export const ChangelogPage: React.FC = () => {
 
         {/* Releases List */}
         <div className="changelog__releases">
-          {CHANGELOG_DATA.map((group) =>
-            group.releases.map((release) => (
-              <article
-                key={release.version}
-                className="changelog__release"
-              >
-                {/* Release Header */}
-                <div
-                  className="changelog__release-header"
-                  onClick={() => toggleRelease(release.version)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleRelease(release.version);
-                    }
-                  }}
-                  aria-expanded={expandedReleases.includes(release.version)}
+          {CHANGELOG_DATA.map((group) => (
+            <div key={group.monthKey} className="changelog__month-group">
+              <h2 className="changelog__month-title">{t(group.monthKey)}</h2>
+              {group.releases.map((release) => (
+                <article
+                  key={release.version}
+                  className="changelog__release"
                 >
-                  <div className="changelog__release-content">
-                    <span className="changelog__release-date">
-                      {release.date}
-                    </span>
-                    <h3 className="changelog__release-title">
-                      {release.title}
-                    </h3>
-                    <p className="changelog__release-description">
-                      {release.description}
-                    </p>
-                  </div>
-
-                  <button
-                    className={`changelog__expand-btn ${
-                      expandedReleases.includes(release.version) ? 'changelog__expand-btn--expanded' : ''
-                    }`}
-                    aria-label={expandedReleases.includes(release.version) ? 'Collapse' : 'Expand'}
+                  {/* Release Header */}
+                  <div
+                    className="changelog__release-header"
+                    onClick={() => toggleRelease(release.version)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleRelease(release.version);
+                      }
+                    }}
+                    aria-expanded={expandedReleases.includes(release.version)}
                   >
-                    <KeyboardArrowDownIcon />
-                  </button>
-                </div>
+                    <div className="changelog__release-content">
+                      <span className="changelog__release-date">
+                        {t(release.dateKey)}
+                      </span>
+                      <h3 className="changelog__release-title">
+                        {t(release.titleKey)}
+                      </h3>
+                      <p className="changelog__release-description">
+                        {t(release.descriptionKey)}
+                      </p>
+                    </div>
 
-                {/* Expanded Details */}
-                {expandedReleases.includes(release.version) && (
-                  <div className="changelog__changes">
-                    <ul className="changelog__changes-list">
-                      {release.changes.map((change) => (
-                        <li key={change.id} className="changelog__change-item">
-                          <TypeBadge type={change.type} />
-                          <span className="changelog__change-text">
-                            {change.description}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                    <button
+                      className={`changelog__expand-btn ${
+                        expandedReleases.includes(release.version) ? 'changelog__expand-btn--expanded' : ''
+                      }`}
+                      aria-label={expandedReleases.includes(release.version) ? 'Collapse' : 'Expand'}
+                    >
+                      <KeyboardArrowDownIcon />
+                    </button>
                   </div>
-                )}
-              </article>
-            ))
-          )}
+
+                  {/* Expanded Details */}
+                  {expandedReleases.includes(release.version) && (
+                    <div className="changelog__changes">
+                      <ul className="changelog__changes-list">
+                        {release.changes.map((change) => (
+                          <li key={change.id} className="changelog__change-item">
+                            <TypeBadge type={change.type} />
+                            <span className="changelog__change-text">
+                              {t(change.descriptionKey)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          ))}
         </div>
 
         {/* Feature Suggestion Section */}

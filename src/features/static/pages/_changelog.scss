@@ -52,6 +52,26 @@
     margin-bottom: 3rem;
   }
 
+  &__month-group {
+    margin-bottom: 2rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__month-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: ds.$zinc-500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid ds.$zinc-800;
+    text-align: start;
+  }
+
   &__release {
     border-bottom: 1px solid ds.$zinc-800;
     padding: 1.5rem 0;
