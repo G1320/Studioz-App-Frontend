@@ -86,8 +86,9 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 5, studi
   };
 
   const formatDuration = (reservation: Reservation) => {
-    const quantity = reservation.quantity || 1;
-    return `${quantity}${t('recentActivity.hours')}`;
+    // Use timeSlots length for accurate hours (each slot = 1 hour)
+    const hours = reservation.timeSlots?.length || reservation.quantity || 1;
+    return `${hours}${t('recentActivity.hours')}`;
   };
 
   const getActivityMessage = (reservation: Reservation) => {

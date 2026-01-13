@@ -19,6 +19,31 @@ export const invalidateItemQueries = (queryClient: QueryClient, itemId?: string 
   queryClient.invalidateQueries({
     queryKey: ['items']
   });
+
+  // Also invalidate studio queries since item availability depends on studio active status
+  queryClient.invalidateQueries({
+    queryKey: ['studios']
+  });
+  queryClient.invalidateQueries({
+    queryKey: ['studio']
+  });
+};
+
+/**
+ * Invalidate studio queries
+ */
+export const invalidateStudioQueries = (queryClient: QueryClient, studioId?: string | string[]) => {
+  const ids = Array.isArray(studioId) ? studioId : studioId ? [studioId] : [];
+  
+  ids.forEach(id => {
+    queryClient.invalidateQueries({
+      queryKey: ['studio', id]
+    });
+  });
+  
+  queryClient.invalidateQueries({
+    queryKey: ['studios']
+  });
 };
 export const invalidateCartQueries = (queryClient: QueryClient, userId: string) => {
   queryClient.invalidateQueries({

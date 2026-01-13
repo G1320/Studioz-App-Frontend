@@ -368,7 +368,11 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
   const stats = useMemo(() => ({
     totalStudios: studios.length,
     activeStudios: studios.filter(s => s.active !== false).length,
-    activeItems: studios.reduce((acc, s) => acc + (s.items?.filter(i => i.active !== false).length || 0), 0),
+    // Items are only considered active if both the item AND its parent studio are active
+    activeItems: studios.reduce((acc, s) => {
+      if (s.active === false) return acc; // Studio disabled = 0 active items from this studio
+      return acc + (s.items?.filter(i => i.active !== false).length || 0);
+    }, 0),
     totalItems: studios.reduce((acc, s) => acc + (s.items?.length || 0), 0)
   }), [studios]);
 

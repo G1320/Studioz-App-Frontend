@@ -17,6 +17,8 @@ interface ItemCardProps {
   showDistanceBadge?: boolean;
   user?: User;
   onEdit?: (itemId: string) => void;
+  /** Whether the parent studio is active (if false, item is unavailable) */
+  studioActive?: boolean;
 }
 
 export const ItemCard: React.FC<ItemCardProps> = ({
@@ -24,7 +26,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   wishlists = [],
   showDistanceBadge = true,
   user: propUser,
-  onEdit
+  onEdit,
+  studioActive
 }) => {
   const { wishlistId } = useParams();
   const { user: contextUser } = useUserContext();
@@ -67,7 +70,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   };
 
   const titleText = item?.name?.[currentLang] || item?.name?.en || '';
-  const isUnavailable = item?.active === false;
+  // Item is unavailable if either the item itself or its parent studio is disabled
+  const isUnavailable = item?.active === false || studioActive === false;
 
   return (
     <article

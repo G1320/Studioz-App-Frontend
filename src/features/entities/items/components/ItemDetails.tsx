@@ -469,7 +469,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             onEdit={handleGoToEdit}
             onImageClick={handleImageClicked}
           />
-          <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} />
+          <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} studioActive={studio?.active} />
           <ItemContent
             item={item as Item}
             studio={studio}

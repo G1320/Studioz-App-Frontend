@@ -64,7 +64,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
           data={filteredItems}
           renderItem={(item) => (
             <div onClick={() => handleItemClick(item)} key={item._id}>
-              <ItemCard item={item} wishlists={wishlists} showDistanceBadge={false} />
+              <ItemCard item={item} wishlists={wishlists} showDistanceBadge={false} studioActive={currStudio?.active} />
             </div>
           )}
         />

@@ -52,13 +52,6 @@
     }
   }
 
-  // For RTL support
-  [dir='rtl'] & {
-    .close-button {
-      right: auto;
-      left: 10px;
-    }
-  }
 
   &.exiting {
     opacity: 0;

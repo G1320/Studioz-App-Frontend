@@ -2,9 +2,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useReservation, useStudios } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
-import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { ReservationCard } from './ReservationCard';
-import { ReservationActions } from './ReservationActions';
 import './styles/_reservation-details.scss';
 
 interface ReservationDetailsProps {
@@ -23,30 +21,11 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
     return allStudios?.filter((studio) => studio.createdBy === user._id);
   }, [allStudios, user?._id]);
 
-  const { closeReservationModal } = useReservationModal();
-
-  const handleClose = () => {
-    closeReservationModal();
-  };
-
-  // Check if user is studio owner for this reservation
-  // Only check after both reservation and studios are loaded
-  const isStudioOwnerForReservation = useMemo(() => {
-    if (!user?._id || !reservation || userStudios.length === 0) return false;
-    return userStudios.some((studio) => {
-      if (!studio.items || studio.items.length === 0) return false;
-      return studio.items.some((item) => item.itemId === reservation.itemId);
-    });
-  }, [user?._id, userStudios, reservation?.itemId]);
-
   const isLoading = isLoadingReservation || isLoadingStudios;
 
   if (isLoading) {
     return (
       <article className="reservation-details">
-        <button className="close-button" onClick={handleClose}>
-          ×
-        </button>
         <div className="reservation-details__loading">
           <p>{t('loading')}</p>
         </div>
@@ -57,9 +36,6 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
   if (error || !reservation) {
     return (
       <article className="reservation-details">
-        <button className="close-button" onClick={handleClose}>
-          ×
-        </button>
         <div className="reservation-details__error">
           <p>{t('reservationNotFound')}</p>
         </div>
@@ -69,15 +45,7 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
 
   return (
     <article className="reservation-details">
-      <button className="close-button" onClick={handleClose}>
-        ×
-      </button>
       <ReservationCard reservation={reservation} variant="itemCard" userStudios={userStudios} />
-      {isStudioOwnerForReservation && (
-        <div className="reservation-details__actions">
-          <ReservationActions reservation={reservation} userStudios={userStudios} onCancel={handleClose} />
-        </div>
-      )}
     </article>
   );
 };
