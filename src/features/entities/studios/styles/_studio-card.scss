@@ -1,8 +1,10 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'studio-features';
 @use 'design-system' as ds;
 
 .studio-card {
+  @include mixins.card-interactive;
   position: relative;
   height: clamp(190px, 234px, fit-content);
   min-height: 190px;
@@ -12,18 +14,9 @@
   overflow: hidden;
   padding: 0 0.5rem 0.5rem 0.5rem;
   gap: 0.5rem;
-  background: #111111; // Match StudioManager surface color
-  border: 1px solid rgba(39, 39, 42, 0.5); // Match StudioManager border
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
   border-radius: vars.$border-radius-xl;
-  transition: border-color 0.3s ease;
-
-  cursor: pointer;
-
-  &:hover {
-    border-color: rgba(63, 63, 70, 1); // Lighter border on hover
-  }
 
   &:active {
     -webkit-tap-highlight-color: transparent;
@@ -35,27 +28,21 @@
   }
 
   &__loading-overlay {
+    @include mixins.overlay-loading;
     position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
+    inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     z-index: 10;
-    gap: 0 !important; // Override .card div styles
+    gap: 0 !important;
   }
 
   &__spinner {
     width: 24px;
     height: 24px;
-    border: 3px solid vars.$white-opacity-20;
-    border-top-color: vars.$color-brand;
+    border: 3px solid var(--border-primary);
+    border-top-color: var(--color-brand);
     border-radius: 50%;
     animation: studio-card-spin 0.6s linear infinite;
   }
@@ -73,14 +60,12 @@
     position: relative;
     // Extend to cover left (0.5rem) + right (0.5rem) padding = 1rem total
     width: calc(100% + 2rem);
-    // Offset to cover left padding and reach the left edge
-    // margin-left: -0.5rem;
     // Offset to reach the top edge (card has no top padding, but ensure it's flush)
     margin-top: -0.5rem;
     aspect-ratio: 2/1;
 
     overflow: hidden;
-    background-color: vars.$light-gray-f0f0f0-5b;
+    background-color: var(--bg-surface);
     flex-shrink: 0;
     // Ensure consistent sizing - prevent any content from affecting dimensions
     min-height: 0;
@@ -126,7 +111,7 @@
     .distance-badge,
     .studio-rating__badge,
     .studio-features.div[role='group'] {
-      background: vars.$dark-bg-15-55;
+      background: var(--bg-hover);
     }
   }
 
@@ -150,13 +135,14 @@
   }
 
   small {
-    color: vars.$color-text-medium-gray;
+    @include mixins.card-meta;
     font-size: 0.8rem;
     padding: 0.2rem 0.5rem;
     border-radius: vars.$border-radius-small;
-    background: vars.$white-opacity-05;
+    background: var(--bg-hover);
   }
   p.description {
+    @include mixins.card-description;
     width: 100%;
     overflow: hidden;
     text-align: start;
@@ -166,11 +152,9 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     font-size: 0.8125rem;
-    line-height: 1.4;
-    color: vars.$white-opacity-75;
     word-break: break-word;
     text-overflow: ellipsis;
-    white-space: pre-line; // Preserve line breaks
+    white-space: pre-line;
 
     // Support RTL for Hebrew text
     html[dir='rtl'] &,
@@ -196,35 +180,18 @@
 
   // Share button - positioned to the side in content area
   &__share-btn {
+    @include mixins.button-icon;
     position: absolute;
     right: 0.5rem;
-    bottom: 2.75rem; // Position above the badges row
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    bottom: 2.75rem;
     width: 32px;
     height: 32px;
-    border: none;
     border-radius: 50%;
-    background: vars.$white-opacity-10;
-    color: vars.$white-opacity-75;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
     z-index: 2;
 
     html[dir='rtl'] & {
       right: auto;
       left: 0.5rem;
-    }
-
-    &:hover {
-      background: vars.$white-opacity-20;
-      color: vars.$white-opacity-90;
-    }
-
-    &:active {
-      transform: scale(0.95);
     }
 
     svg {

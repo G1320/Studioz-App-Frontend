@@ -1,22 +1,17 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
 
 .item-card {
+  @include mixins.card-interactive;
   position: relative;
   padding: 0.75rem;
   width: clamp(180px, calc(100% - 1.75rem), calc(100% - 1rem));
-  background: vars.$card-bg-color;
   min-height: 10rem;
   height: 10rem;
-  place-items: start; // Override .card centering
-
+  place-items: start;
   gap: 0.25rem;
-  cursor: pointer;
   border-radius: 8px;
-  border: 1px solid vars.$white-opacity-05;
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
 
   &:active {
@@ -29,12 +24,9 @@
   }
 
   &__loading-overlay {
+    @include mixins.overlay-loading;
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
     border-radius: 8px;
     z-index: 10;
   }
@@ -42,13 +34,13 @@
   &__spinner {
     width: 24px;
     height: 24px;
-    border: 3px solid vars.$white-opacity-20;
-    border-top-color: vars.$color-brand;
+    border: 3px solid var(--border-primary);
+    border-top-color: var(--color-brand);
     border-radius: 50%;
     animation: item-card-spin 0.6s linear infinite;
   }
 
-  // Unavailable/Disabled state - Wolt style
+  // Unavailable/Disabled state
   &--unavailable {
     cursor: not-allowed;
 
@@ -60,47 +52,43 @@
     }
 
     h3.title {
-      color: vars.$zinc-500;
+      color: var(--text-muted);
     }
 
     p.description {
-      color: vars.$zinc-600;
+      color: var(--text-muted);
     }
 
     small.item-price {
-      color: vars.$zinc-500;
+      color: var(--text-muted);
     }
 
     // Disable interactions
     &:hover {
       transform: none;
-      border-color: vars.$white-opacity-05;
+      border-color: var(--card-border);
     }
   }
 
   &__unavailable-overlay {
+    @include mixins.overlay-backdrop;
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.35) 100%);
     border-radius: 8px;
     z-index: 5;
-    backdrop-filter: blur(1px);
   }
 
   &__unavailable-badge {
-    background: rgba(0, 0, 0, 0.85);
-    color: vars.$zinc-300;
+    @include mixins.badge-neutral;
     padding: 0.5rem 1rem;
-    border-radius: 2rem;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border: 1px solid vars.$zinc-700;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-lg);
   }
 
   .item-card-name-and-description {
@@ -139,27 +127,28 @@
   }
 
   h3.title {
+    @include mixins.card-title;
     display: block;
     white-space: nowrap !important;
     line-height: 1;
     margin: 0;
     font-size: 1.1rem;
-    color: vars.$text-color-primary;
     max-width: 89%;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-width: 0; // Allow flex item to shrink below content size
-    flex-shrink: 1; // Allow title to shrink
+    min-width: 0;
+    flex-shrink: 1;
     align-self: start;
   }
 
   small.item-price {
     font-weight: 600;
-    color: vars.$color-brand;
+    color: var(--color-brand);
     white-space: nowrap;
   }
 
   p.description {
+    @include mixins.card-description;
     width: 100%;
     overflow: hidden;
     text-align: start;
@@ -168,12 +157,10 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     font-size: 0.8125rem;
-    line-height: 1.4;
-    color: vars.$white-opacity-75;
     margin: 0;
     word-break: break-word;
     text-overflow: ellipsis;
-    white-space: pre-line; // Preserve line breaks
+    white-space: pre-line;
 
     // Support RTL for Hebrew text
     html[dir='rtl'] &,
@@ -186,20 +173,18 @@
 
 // Style the wishlists dropdown trigger - simple icon without background
 .item-card-wishlists-dropdown-trigger {
+  @include mixins.button-icon;
   width: 24px;
   height: 24px;
-  padding: 0.5rem;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
   min-width: 24px;
   min-height: 24px;
-  transition: all 0.25s ease;
-  color: vars.$text-color-primary; // Override brand color
+  padding: 0.5rem;
+  border-radius: 0;
+  box-shadow: none;
 
   &:hover:not(:disabled) {
     transform: scale(1.05);
+    background: transparent;
   }
 
   &:active:not(:disabled) {
@@ -214,24 +199,18 @@
 
 // Style the edit button - same as wishlist button
 .item-card-edit-button {
+  @include mixins.button-icon;
   width: 24px;
   height: 24px;
-  padding: 0.5rem;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
   min-width: 24px;
   min-height: 24px;
-  transition: all 0.25s ease;
-  color: vars.$text-color-primary;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0;
+  box-shadow: none;
 
   &:hover:not(:disabled) {
     transform: scale(1.05);
+    background: transparent;
   }
 
   &:active:not(:disabled) {
@@ -241,7 +220,7 @@
   svg {
     width: 24px;
     height: 24px;
-    color: inherit; // Inherit the text color
+    color: inherit;
   }
 }
 

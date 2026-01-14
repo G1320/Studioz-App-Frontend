@@ -1,6 +1,484 @@
 @use 'variables' as vars;
 @use '../../../shared/components/forms/styles/design-system' as ds;
 
+// ============================================
+// THEMED MIXINS - Central "Choke Point" for Colors
+// ============================================
+// All component colors should flow through these mixins
+// to ensure consistent theming across light/dark modes.
+// ============================================
+
+// ===================
+// TEXT MIXINS
+// ===================
+// Use these instead of hardcoded text colors
+
+@mixin text-primary {
+  color: var(--text-primary);
+}
+
+@mixin text-secondary {
+  color: var(--text-secondary);
+}
+
+@mixin text-tertiary {
+  color: var(--text-tertiary);
+}
+
+@mixin text-muted {
+  color: var(--text-muted);
+}
+
+@mixin text-brand {
+  color: var(--color-brand);
+}
+
+@mixin text-link {
+  color: var(--text-link);
+  
+  &:hover {
+    color: var(--text-link-hover);
+  }
+}
+
+// ===================
+// SURFACE MIXINS
+// ===================
+// Base surfaces for cards, containers, etc.
+
+@mixin surface-primary {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+@mixin surface-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+@mixin surface-elevated {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+@mixin surface-card {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+// ===================
+// CARD MIXINS
+// ===================
+// Complete card styling with borders and shadows
+
+@mixin card-base {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: ds.$radius-lg;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+@mixin card-interactive {
+  @include card-base;
+  cursor: pointer;
+  
+  &:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-card);
+  }
+  
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+@mixin card-elevated {
+  @include card-base;
+  box-shadow: var(--shadow-card);
+}
+
+// Card content text helpers
+@mixin card-title {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+@mixin card-description {
+  color: var(--text-secondary);
+  font-size: ds.$font-md;
+  line-height: 1.5;
+}
+
+@mixin card-meta {
+  color: var(--text-muted);
+  font-size: ds.$font-sm;
+}
+
+// ===================
+// SECTION MIXINS
+// ===================
+// Page sections and containers
+
+@mixin section-base {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+@mixin section-alternate {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+@mixin section-surface {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+// ===================
+// OVERLAY MIXINS
+// ===================
+// Modals, loading states, backdrops
+
+@mixin overlay-backdrop {
+  background: var(--overlay-bg);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+@mixin overlay-loading {
+  background: var(--overlay-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin overlay-surface {
+  // For modal content, tooltips, popovers
+  background: var(--modal-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: ds.$radius-xl;
+  box-shadow: var(--shadow-xl);
+  color: var(--text-primary);
+}
+
+// ===================
+// BADGE & CHIP MIXINS
+// ===================
+// Status indicators, tags, labels
+
+@mixin badge-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: ds.$radius-full;
+  font-size: ds.$font-sm;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@mixin badge-neutral {
+  @include badge-base;
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+}
+
+@mixin badge-brand {
+  @include badge-base;
+  background: var(--color-brand-muted);
+  color: var(--color-brand);
+}
+
+@mixin badge-success {
+  @include badge-base;
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+  border: 1px solid var(--color-success-border);
+}
+
+@mixin badge-warning {
+  @include badge-base;
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border: 1px solid var(--color-warning-border);
+}
+
+@mixin badge-error {
+  @include badge-base;
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+  border: 1px solid var(--color-error-border);
+}
+
+@mixin badge-info {
+  @include badge-base;
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+  border: 1px solid var(--color-info-border);
+}
+
+// ===================
+// BUTTON MIXINS
+// ===================
+// Consistent button styling
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: ds.$radius-lg;
+  font-size: ds.$font-base;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  
+  &:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+  }
+  
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 1px solid var(--border-primary);
+  
+  &:hover:not(:disabled) {
+    background: var(--btn-secondary-hover);
+    border-color: var(--border-hover);
+  }
+}
+
+@mixin button-ghost {
+  @include button-base;
+  background: transparent;
+  color: var(--text-primary);
+  
+  &:hover:not(:disabled) {
+    background: var(--btn-ghost-hover);
+  }
+}
+
+@mixin button-icon {
+  @include button-base;
+  padding: 0.5rem;
+  border-radius: ds.$radius-md;
+  background: transparent;
+  color: var(--text-secondary);
+  
+  &:hover:not(:disabled) {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+}
+
+// ===================
+// INPUT MIXINS
+// ===================
+// Form inputs, textareas, selects
+
+@mixin input-base {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: ds.$radius-md;
+  color: var(--text-primary);
+  font-size: ds.$font-base;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+  &::placeholder {
+    color: var(--input-placeholder);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--input-border-focus);
+    box-shadow: var(--focus-ring);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin input-error {
+  border-color: var(--color-error);
+  
+  &:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 2px var(--color-error-bg);
+  }
+}
+
+// ===================
+// DIVIDER MIXINS
+// ===================
+
+@mixin divider-horizontal {
+  width: 100%;
+  height: 1px;
+  background: var(--divider-color);
+  border: none;
+}
+
+@mixin divider-vertical {
+  width: 1px;
+  height: 100%;
+  background: var(--divider-color);
+  border: none;
+}
+
+// ===================
+// SCROLLBAR MIXINS
+// ===================
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+    
+    &:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+  }
+}
+
+// ===================
+// SKELETON LOADER
+// ===================
+
+@mixin skeleton-loader {
+  background: var(--bg-skeleton);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite linear;
+  border-radius: ds.$radius-md;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// ===================
+// FOCUS STATES
+// ===================
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+@mixin focus-ring-inset {
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset var(--focus-ring);
+  }
+}
+
+// ===================
+// DROPDOWN MIXINS
+// ===================
+
+@mixin dropdown-container {
+  background: var(--dropdown-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: ds.$radius-xl;
+  box-shadow: var(--shadow-dropdown);
+  overflow: hidden;
+}
+
+@mixin dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: ds.$font-base;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: start;
+  
+  &:hover {
+    background: var(--bg-hover);
+  }
+  
+  &[aria-selected="true"],
+  &.is-selected {
+    background: var(--color-brand-muted);
+    color: var(--color-brand);
+  }
+}
+
+// ===================
+// TOOLTIP MIXIN
+// ===================
+
+@mixin tooltip {
+  background: var(--tooltip-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 0.75rem;
+  border-radius: ds.$radius-md;
+  font-size: ds.$font-sm;
+  box-shadow: var(--shadow-lg);
+  max-width: 250px;
+}
+
+// ===================
+// GLASS EFFECT
+// ===================
+
+@mixin glass-effect {
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-primary);
+}
+
+// ============================================
+// LEGACY MIXINS (keeping for compatibility)
+// ============================================
+
 // Filter chip style - themed
 @mixin filter-chip {
   display: flex;

@@ -1,9 +1,27 @@
 // ============================================
 // StudioZ Design System - Shared Variables
 // ============================================
-// This is the centralized color system for the app.
+// This is the centralized STATIC color system for the app.
 // Import with: @use 'design-system' as ds;
 // Then use: ds.$primary-yellow, ds.$zinc-800, etc.
+//
+// ⚠️  IMPORTANT: For THEMED colors (light/dark mode support)
+// --------------------------------------------
+// Use CSS variables from _themes.scss instead:
+//   - var(--bg-primary)      instead of ds.$bg-primary
+//   - var(--text-primary)    instead of ds.$primary-white
+//   - var(--color-brand)     instead of ds.$primary-yellow
+//   - var(--card-bg)         instead of ds.$bg-card
+//
+// Or better yet, use mixins from _mixins.scss:
+//   - @include mixins.card-base;
+//   - @include mixins.text-primary;
+//   - @include mixins.surface-card;
+//
+// The SCSS variables below are still useful for:
+//   - Non-color values (spacing, fonts, radius, transitions)
+//   - Static/non-themed elements (rare cases)
+//   - Building the CSS variables in _themes.scss
 // ============================================
 
 // ===================
