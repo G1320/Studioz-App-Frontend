@@ -233,7 +233,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     font-weight: 700;
     padding: 0.75rem 1.5rem;
     border-radius: 9999px;
@@ -334,12 +334,12 @@
   &--active {
     background: var(--color-brand);
     border-color: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     font-weight: 700;
 
     svg,
     span {
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
     }
   }
 }

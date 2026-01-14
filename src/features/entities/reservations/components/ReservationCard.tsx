@@ -365,8 +365,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                 >
                   <option value="pending">{t('status.pending')}</option>
                   <option value="confirmed">{t('status.confirmed')}</option>
+                  <option value="expired">{t('status.expired')}</option>
                   <option value="cancelled">{t('status.cancelled')}</option>
                   <option value="rejected">{t('status.rejected')}</option>
+                  <option value="payment_failed">{t('status.payment_failed')}</option>
                 </select>
               ) : (
                 <span className={`reservation-card__status-badge ${getStatusClass()}`}>

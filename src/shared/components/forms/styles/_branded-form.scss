@@ -476,7 +476,7 @@
 
       &.selected {
         background: var(--color-brand) !important;
-        color: var(--text-inverse) !important;
+        color: var(--btn-primary-text) !important;
         border-color: var(--color-brand) !important;
         box-shadow: 0 0 20px var(--color-brand-glow);
       }
@@ -509,7 +509,7 @@
 
         &.selected {
           background: var(--color-brand) !important;
-          color: var(--text-inverse) !important;
+          color: var(--btn-primary-text) !important;
           border-color: var(--color-brand) !important;
           box-shadow: 0 0 20px var(--color-brand-glow);
         }
@@ -596,7 +596,7 @@
 
         &.on::after {
           transform: translateX(24px);
-          background: var(--text-inverse);
+          background: var(--bg-primary);
         }
       }
 
@@ -785,7 +785,7 @@
       padding: vars.$spacing-medium vars.$spacing-xl;
       font-size: vars.$font-size-medium;
       font-weight: 700;
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       background: var(--color-brand);
       border: none;
       border-radius: 999px;
@@ -841,7 +841,7 @@
       background: var(--color-brand);
 
       .icon {
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
       }
     }
 

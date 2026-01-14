@@ -133,7 +133,7 @@
     }
 
     .stepped-form__step.completed & {
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
     }
   }
 
@@ -148,14 +148,14 @@
     }
 
     .stepped-form__step.completed & {
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
     }
   }
 
   &__check-icon {
     width: 20px;
     height: 20px;
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     stroke-width: 3;
   }
 
@@ -598,7 +598,7 @@
     &--next,
     &--submit {
       background: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       border: none;
       padding: vars.$spacing-medium vars.$spacing-2xl;
       box-shadow: 0 0 20px var(--color-brand-glow);

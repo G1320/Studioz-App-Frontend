@@ -17,8 +17,8 @@ export const EditWishlistForm = () => {
   const updateWishlistMutation = useUpdateWishlistMutation(wishlistId || '');
 
   const fields = [
-    { name: 'name', label: 'Name', type: 'text' as FieldType, value: wishlist?.name || '' },
-    { name: 'description', label: 'Description', type: 'text' as FieldType, value: wishlist?.description || '' }
+    { name: 'name', label: t('field.name.label'), type: 'text' as FieldType, value: wishlist?.name || '' },
+    { name: 'description', label: t('field.description.label'), type: 'text' as FieldType, value: wishlist?.description || '' }
   ];
 
   const handleSubmit = async (formData: Record<string, any>) => {
@@ -35,7 +35,7 @@ export const EditWishlistForm = () => {
     <section className="form-wrapper edit-wishlist-form-wrapper">
       <GenericForm
         className="edit-wishlist-form"
-        title="Edit Wishlist"
+        title={t('wishlist.editTitle')}
         fields={fields}
         onSubmit={handleSubmit}
         btnTxt={t('form.submit.editWishlist')}

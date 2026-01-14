@@ -51,7 +51,7 @@
 
   &--primary {
     background: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     box-shadow: 0 0 20px var(--color-brand-glow);
 
     &:hover {
@@ -236,7 +236,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     font-size: vars.$font-size-small;
     font-weight: 700;
     padding: vars.$spacing-xs vars.$spacing-medium;
@@ -341,7 +341,7 @@
 
     &--primary {
       background: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       box-shadow: 0 0 20px var(--color-brand-glow);
 
       &:hover {

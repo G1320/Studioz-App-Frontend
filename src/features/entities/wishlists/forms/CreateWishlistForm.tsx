@@ -18,15 +18,15 @@ export const CreateWishlistForm = () => {
   };
 
   const fields = [
-    { name: 'name', label: 'Name', type: 'text' as FieldType },
-    { name: 'description', label: 'Description', type: 'text' as FieldType }
+    { name: 'name', label: t('field.name.label'), type: 'text' as FieldType },
+    { name: 'description', label: t('field.description.label'), type: 'text' as FieldType }
   ];
 
   return (
     <section className="form-wrapper create-wishlist-form-wrapper">
       <GenericForm
         className="create-wishlist-form"
-        title="Create Wishlist"
+        title={t('wishlist.createTitle')}
         fields={fields}
         onSubmit={handleSubmit}
         btnTxt={t('form.submit.createWishlist')}

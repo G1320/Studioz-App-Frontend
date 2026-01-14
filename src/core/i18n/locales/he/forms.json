@@ -1,4 +1,16 @@
 {
+  "field": {
+    "name": {
+      "label": "שם"
+    },
+    "description": {
+      "label": "תיאור"
+    }
+  },
+  "wishlist": {
+    "createTitle": "צור רשימה חדשה",
+    "editTitle": "ערוך רשימה"
+  },
   "form": {
     "AddItemTitle": "הוסף שירות חדש",
     "AddStudioTitle": "הוסף סטודיו חדש",

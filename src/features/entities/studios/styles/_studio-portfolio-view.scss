@@ -110,7 +110,7 @@
   &--active {
     background: var(--color-brand);
     border-color: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     box-shadow: 0 0 15px var(--color-brand-glow);
 
     .portfolio-filter-chip__count {

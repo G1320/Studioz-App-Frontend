@@ -1,4 +1,16 @@
 {
+  "field": {
+    "name": {
+      "label": "Name"
+    },
+    "description": {
+      "label": "Description"
+    }
+  },
+  "wishlist": {
+    "createTitle": "Create Wishlist",
+    "editTitle": "Edit Wishlist"
+  },
   "form": {
     "AddItemTitle": "Add new Item",
     "AddStudioTitle": "Add new Studio",

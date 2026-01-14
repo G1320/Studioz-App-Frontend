@@ -2,7 +2,8 @@
   "hero": {
     "title_part1": "Book your next",
     "title_accent": "session",
-    "description": "Pick from vetted studios, compare gear, and lock in the time you need.",
+    "description_line1": "Pick from vetted studios, compare gear, and lock in the time you need.",
+    "description_line2": "",
     "category_placeholder": "What are you looking for?",
     "city_placeholder": "Choose a city",
     "search_btn": "Search"

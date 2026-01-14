@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -8,6 +7,7 @@ import {
   CheckCircleIcon,
   PlayIcon
 } from '@shared/components/icons';
+import { VideoPlayer } from '@shared/components';
 import '../styles/_how-it-works-page.scss';
 
 /**
@@ -53,55 +53,6 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, stepNumbe
     <p className="how-it-works__step-description">{description}</p>
   </motion.div>
 );
-
-/**
- * Video Player Component - Bunny Stream Embed
- */
-interface VideoPlayerProps {
-  embedUrl?: string;
-}
-
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ embedUrl }) => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleIframeLoad = () => {
-    setIsLoading(false);
-  };
-
-  return (
-    <div className="how-it-works__video-player">
-      {/* Screen Studio Style Frame Bar */}
-      <div className="how-it-works__video-frame">
-        <div className="how-it-works__video-dot how-it-works__video-dot--red" />
-        <div className="how-it-works__video-dot how-it-works__video-dot--yellow" />
-        <div className="how-it-works__video-dot how-it-works__video-dot--green" />
-      </div>
-
-      {/* Loading Overlay */}
-      {isLoading && embedUrl && (
-        <div className="how-it-works__video-loading-overlay">
-          <div className="how-it-works__video-spinner" />
-        </div>
-      )}
-
-      {embedUrl ? (
-        <iframe
-          src={`${embedUrl}?autoplay=false&loop=true&muted=true&preload=true`}
-          className="how-it-works__video-iframe"
-          loading="lazy"
-          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
-          onLoad={handleIframeLoad}
-        />
-      ) : (
-        <div className="how-it-works__video-placeholder">
-          <PlayIcon className="how-it-works__video-placeholder-icon" />
-          <p>Video Coming Soon</p>
-        </div>
-      )}
-    </div>
-  );
-};
 
 /**
  * How It Works Page Component
@@ -173,7 +124,11 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <VideoPlayer embedUrl={videoEmbedUrl} />
+          <VideoPlayer 
+            embedUrl={videoEmbedUrl}
+            showFrameBar={true}
+            placeholderText="Video Coming Soon"
+          />
         </motion.div>
 
         {/* Decorative blurs */}

@@ -805,13 +805,13 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: var(--text-inverse);
+    background: var(--text-primary);
     box-shadow: var(--shadow-sm);
     transition: transform 0.2s ease;
 
     .toggle--active & {
       transform: translateX(20px);
-      background: var(--btn-primary-text);
+      background: var(--bg-primary);
 
       [dir='rtl'] & {
         transform: translateX(-20px);

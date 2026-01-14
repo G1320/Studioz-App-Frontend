@@ -32,3 +32,4 @@ export * from './share-modal';
 export * from './route-guards';
 export * from './icons';
 export * from './ui/ThemeToggle';
+export * from './video-player';

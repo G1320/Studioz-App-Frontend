@@ -33,7 +33,7 @@
         "booking": "Online booking",
         "calendar": "Digital calendar",
         "googleCalendar": "Google Calendar sync",
-        "payment": "Secure payments",
+        "payment": "Up to 25 payments/month",
         "support": "Standard support",
         "cancel": "Cancel anytime"
       },
@@ -51,7 +51,7 @@
         "calendar": "Digital calendar",
         "googleCalendar": "Google Calendar sync",
         "support": "Priority support",
-        "payment": "Secure payments",
+        "payment": "Up to 200 payments/month",
         "cancel": "Cancel anytime"
       }
     }

@@ -100,14 +100,14 @@
       &.active {
         background: var(--color-brand);
         border-color: var(--color-brand);
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
         transform: scale(1.1);
       }
 
       &.completed {
         background: var(--color-brand);
         border-color: var(--color-brand);
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
       }
     }
 
@@ -301,7 +301,7 @@
     &.active {
       background: var(--color-brand);
       border-color: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
     }
   }
 
@@ -354,7 +354,7 @@
 
     &--next {
       background: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       font-weight: 700;
       padding: 0.75rem 2rem;
       box-shadow: 0 0 20px -5px var(--color-brand-glow);
@@ -420,7 +420,7 @@
       svg {
         width: 3rem;
         height: 3rem;
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
       }
     }
 
@@ -440,7 +440,7 @@
     &__button {
       width: 100%;
       background: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       font-weight: 700;
       padding: ds.$space-4;
       border: none;

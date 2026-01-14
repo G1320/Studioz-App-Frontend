@@ -105,7 +105,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: var(--text-inverse);
+            background: var(--text-primary);
             transition: transform 0.2s ease;
           }
 
@@ -114,6 +114,7 @@
 
             &::after {
               transform: translateX(24px);
+              background: var(--bg-primary);
             }
           }
 

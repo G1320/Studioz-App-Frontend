@@ -69,7 +69,7 @@ article.file-uploader-container {
       border-color: var(--color-brand);
 
       .icon {
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
       }
     }
   }
@@ -334,7 +334,7 @@ article.file-uploader-container {
             top: 8px;
             left: 8px;
             background: var(--color-brand);
-            color: var(--text-inverse);
+            color: var(--btn-primary-text);
             font-size: 0.75rem;
             font-weight: 700;
             padding: 4px 8px;

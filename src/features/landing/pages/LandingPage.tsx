@@ -162,7 +162,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
           </motion.h1>
 
           <motion.p className="landing-hero__description" {...fadeInUp} transition={{ duration: 0.8, delay: 0.2 }}>
-            {t('hero.description')}
+            {t('hero.description_line1')}
+            {t('hero.description_line2') && (
+              <>
+                <br />
+                {t('hero.description_line2')}
+              </>
+            )}
           </motion.p>
 
           <motion.div className="landing-hero__search" {...fadeInUp} transition={{ duration: 0.8, delay: 0.4 }}>

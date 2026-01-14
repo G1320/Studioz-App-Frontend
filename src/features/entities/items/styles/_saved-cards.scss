@@ -46,7 +46,7 @@
 
     &--active {
       background: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       font-weight: 600;
       box-shadow: 0 4px 12px var(--color-brand-glow), 0 1px 3px var(--shadow-sm);
     }
@@ -199,7 +199,7 @@
     margin-top: 16px;
     padding: 12px 24px;
     background: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     font-size: 0.9375rem;
     font-weight: 600;
     border: none;
@@ -210,7 +210,7 @@
     svg {
       width: 18px;
       height: 18px;
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
     }
 
     &:hover {

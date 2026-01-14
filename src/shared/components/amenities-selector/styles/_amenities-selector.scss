@@ -70,18 +70,18 @@
 
     &--selected {
       background: var(--color-brand);
-      color: var(--text-inverse);
+      color: var(--btn-primary-text);
       border-color: var(--color-brand);
       box-shadow: 0 0 20px var(--color-brand-glow);
 
       .amenities-selector__item-icon {
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
       }
 
       &:hover {
         background: var(--color-brand);
         border-color: var(--color-brand);
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
       }
     }
   }
