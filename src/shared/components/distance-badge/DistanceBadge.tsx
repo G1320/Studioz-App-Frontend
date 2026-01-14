@@ -1,5 +1,5 @@
 import React from 'react';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { LocationIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 import { formatDistance } from '@shared/utils/distanceUtils';
 
@@ -14,7 +14,7 @@ export const DistanceBadge: React.FC<DistanceBadgeProps> = ({ distance, classNam
 
   return (
     <div className={`distance-badge ${className}`}>
-      {showIcon && <LocationOnIcon className="distance-badge__icon" aria-hidden="true" />}
+      {showIcon && <LocationIcon className="distance-badge__icon" aria-hidden="true" />}
       <span className="distance-badge__value">{formatDistance(distance, t)}</span>
     </div>
   );

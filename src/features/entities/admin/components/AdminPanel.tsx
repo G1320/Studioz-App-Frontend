@@ -1,29 +1,29 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Users,
-  Building2,
-  Package,
-  Search,
-  MoreVertical,
-  BarChart3,
-  Settings,
-  Shield,
-  Filter,
-  Download,
-  ChevronRight,
-  User,
-  MapPin,
-  DollarSign,
-  CheckCircle2,
-  Ticket,
-  Plus,
-  X,
-  Calendar,
-  Trash2,
-  ToggleLeft,
-  ToggleRight
-} from 'lucide-react';
+  UsersIcon,
+  BuildingIcon,
+  PackageIcon,
+  SearchIcon,
+  MoreVertIcon,
+  BarChart3Icon,
+  SettingsIcon,
+  ShieldLucideIcon,
+  FilterIcon,
+  DownloadIcon,
+  ChevronRightIcon,
+  UserLucideIcon,
+  LocationIcon,
+  DollarIcon,
+  CheckCircle2Icon,
+  TicketIcon,
+  AddIcon,
+  XIcon,
+  CalendarIcon,
+  TrashIcon,
+  ToggleLeftIcon,
+  ToggleRightIcon
+} from '@shared/components/icons';
 import { useReservations } from '@shared/hooks';
 import { Studio, User as UserType } from 'src/types/index';
 import { Coupon, createCoupon, getAllCoupons, deleteCoupon, toggleCouponStatus } from '@shared/services/coupon-service';
@@ -199,7 +199,7 @@ const UsersTable = ({ users, searchTerm }: { users: UserData[]; searchTerm: stri
                 </td>
                 <td className="admin-table__td admin-table__td--right">
                   <button className="admin-table__action-btn">
-                    <MoreVertical size={16} />
+                    <MoreVertIcon sx={{ fontSize: 16 }} />
                   </button>
                 </td>
               </tr>
@@ -244,19 +244,19 @@ const StudiosTable = ({ studios, searchTerm }: { studios: StudioData[]; searchTe
                 <td className="admin-table__td">
                   <div className="admin-studio-cell">
                     <div className="admin-studio-cell__icon">
-                      <Building2 size={18} />
+                      <BuildingIcon sx={{ fontSize: 18 }} />
                     </div>
                     <div className="admin-studio-cell__info">
                       <div className="admin-studio-cell__name">{studio.name}</div>
                       <div className="admin-studio-cell__location">
-                        <MapPin size={10} /> {studio.location}
+                        <LocationIcon sx={{ fontSize: 10 }} /> {studio.location}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td className="admin-table__td">
                   <div className="admin-owner-cell">
-                    <User size={14} />
+                    <UserLucideIcon sx={{ fontSize: 14 }} />
                     <span>{studio.owner}</span>
                   </div>
                 </td>
@@ -278,7 +278,7 @@ const StudiosTable = ({ studios, searchTerm }: { studios: StudioData[]; searchTe
                 </td>
                 <td className="admin-table__td admin-table__td--right">
                   <button className="admin-table__action-btn">
-                    <Settings size={16} />
+                    <SettingsIcon sx={{ fontSize: 16 }} />
                   </button>
                 </td>
               </tr>
@@ -329,7 +329,7 @@ const ServicesTable = ({ services, searchTerm }: { services: ServiceData[]; sear
                 </td>
                 <td className="admin-table__td">
                   <div className="admin-studio-link">
-                    <Building2 size={12} />
+                    <BuildingIcon sx={{ fontSize: 12 }} />
                     {service.studio}
                   </div>
                 </td>
@@ -341,7 +341,7 @@ const ServicesTable = ({ services, searchTerm }: { services: ServiceData[]; sear
                 </td>
                 <td className="admin-table__td admin-table__td--right">
                   <button className="admin-table__action-btn">
-                    <MoreVertical size={16} />
+                    <MoreVertIcon sx={{ fontSize: 16 }} />
                   </button>
                 </td>
               </tr>
@@ -446,7 +446,7 @@ const CouponCreator = ({
       <div className="admin-coupon-creator__header">
         <h3>{t('coupons.createNew', 'Create New Coupon')}</h3>
         <button className="admin-coupon-creator__close" onClick={onClose}>
-          <X size={20} />
+          <XIcon sx={{ fontSize: 20 }} />
         </button>
       </div>
 
@@ -630,7 +630,7 @@ const CouponsTable = ({
                   <td className="admin-table__td">
                     <div className="admin-coupon-cell">
                       <div className="admin-coupon-cell__icon">
-                        <Ticket size={16} />
+                        <TicketIcon sx={{ fontSize: 16 }} />
                       </div>
                       <span className="admin-coupon-cell__code">{coupon.code}</span>
                     </div>
@@ -656,7 +656,7 @@ const CouponsTable = ({
                   </td>
                   <td className="admin-table__td">
                     <div className="admin-validity-cell">
-                      <Calendar size={12} />
+                      <CalendarIcon sx={{ fontSize: 12 }} />
                       <span>
                         {formatDate(coupon.validFrom)} - {formatDate(coupon.validUntil)}
                       </span>
@@ -680,14 +680,18 @@ const CouponsTable = ({
                           coupon.isActive ? t('coupons.deactivate', 'Deactivate') : t('coupons.activate', 'Activate')
                         }
                       >
-                        {coupon.isActive ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
+                        {coupon.isActive ? (
+                          <ToggleRightIcon sx={{ fontSize: 18 }} />
+                        ) : (
+                          <ToggleLeftIcon sx={{ fontSize: 18 }} />
+                        )}
                       </button>
                       <button
                         className="admin-table__action-btn admin-table__action-btn--danger"
                         onClick={() => onDelete(coupon._id)}
                         title={t('coupons.delete', 'Delete')}
                       >
-                        <Trash2 size={16} />
+                        <TrashIcon sx={{ fontSize: 16 }} />
                       </button>
                     </div>
                   </td>
@@ -770,27 +774,27 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
     const totalRevenue = reservations.reduce((acc, r) => acc + (r.totalPrice || 0), 0);
 
     return [
-      { label: t('metrics.totalUsers'), value: '2,543', change: '+12.5%', trend: 'up', icon: Users },
+      { label: t('metrics.totalUsers'), value: '2,543', change: '+12.5%', trend: 'up', icon: UsersIcon },
       {
         label: t('metrics.activeStudios'),
         value: activeStudios.toString(),
         change: '+4.2%',
         trend: 'up',
-        icon: Building2
+        icon: BuildingIcon
       },
       {
         label: t('metrics.activeServices'),
         value: totalServices.toString(),
         change: '+8.3%',
         trend: 'up',
-        icon: Package
+        icon: PackageIcon
       },
       {
         label: t('metrics.monthlyRevenue'),
         value: `₪${Math.round(totalRevenue / 1000)}k`,
         change: '+8.1%',
         trend: 'up',
-        icon: DollarSign
+        icon: DollarIcon
       }
     ];
   }, [studios, reservations, t]);
@@ -880,11 +884,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
   const pendingStudios = studioTableData.filter((s) => s.status.includes('Pending'));
 
   const navItems = [
-    { id: 'overview', label: t('nav.overview'), icon: BarChart3 },
-    { id: 'users', label: t('nav.users'), icon: Users },
-    { id: 'studios', label: t('nav.studios'), icon: Building2 },
-    { id: 'services', label: t('nav.services'), icon: Package },
-    { id: 'coupons', label: t('nav.coupons', 'Coupons'), icon: Ticket }
+    { id: 'overview', label: t('nav.overview'), icon: BarChart3Icon },
+    { id: 'users', label: t('nav.users'), icon: UsersIcon },
+    { id: 'studios', label: t('nav.studios'), icon: BuildingIcon },
+    { id: 'services', label: t('nav.services'), icon: PackageIcon },
+    { id: 'coupons', label: t('nav.coupons', 'Coupons'), icon: TicketIcon }
   ];
 
   return (
@@ -893,7 +897,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
       <aside className="admin-sidebar">
         <div className="admin-sidebar__header">
           <div className="admin-sidebar__logo">
-            <Shield size={28} />
+            <ShieldLucideIcon sx={{ fontSize: 28 }} />
             <h1 className="admin-sidebar__title">
               Admin<span className="admin-sidebar__title-accent">Panel</span>
             </h1>
@@ -906,9 +910,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
                 onClick={() => setActiveTab(item.id as Tab)}
                 className={cn('admin-sidebar__nav-item', activeTab === item.id && 'admin-sidebar__nav-item--active')}
               >
-                <item.icon size={18} />
+                <item.icon sx={{ fontSize: 18 }} />
                 {item.label}
-                {activeTab === item.id && <ChevronRight size={14} className="admin-sidebar__nav-chevron" />}
+                {activeTab === item.id && (
+                  <ChevronRightIcon sx={{ fontSize: 14 }} className="admin-sidebar__nav-chevron" />
+                )}
               </button>
             ))}
           </nav>
@@ -930,7 +936,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
         {/* Mobile Header & Navigation */}
         <div className="admin-mobile-header">
           <div className="admin-mobile-header__title">
-            <Shield size={20} />
+            <ShieldLucideIcon sx={{ fontSize: 20 }} />
             <h1>
               Admin<span>Panel</span>
             </h1>
@@ -942,7 +948,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
                 onClick={() => setActiveTab(item.id as Tab)}
                 className={cn('admin-mobile-nav__item', activeTab === item.id && 'admin-mobile-nav__item--active')}
               >
-                <item.icon size={18} />
+                <item.icon sx={{ fontSize: 18 }} />
                 <span>{item.label}</span>
               </button>
             ))}
@@ -953,7 +959,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
         {activeTab !== 'overview' && (
           <div className="admin-toolbar">
             <div className="admin-search">
-              <Search className="admin-search__icon" size={16} />
+              <SearchIcon className="admin-search__icon" sx={{ fontSize: 16 }} />
               <input
                 type="text"
                 placeholder={t('search.placeholder')}
@@ -964,26 +970,26 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
             </div>
             <div className="admin-toolbar__actions">
               <button className="admin-btn admin-btn--icon">
-                <Filter size={18} />
+                <FilterIcon sx={{ fontSize: 18 }} />
               </button>
               <button className="admin-btn admin-btn--icon">
-                <Download size={18} />
+                <DownloadIcon sx={{ fontSize: 18 }} />
               </button>
               {activeTab === 'studios' && (
                 <button className="admin-btn admin-btn--primary">
-                  <CheckCircle2 size={16} />
+                  <CheckCircle2Icon sx={{ fontSize: 16 }} />
                   {t('actions.verifyPending')}
                 </button>
               )}
               {activeTab === 'users' && (
                 <button className="admin-btn admin-btn--secondary">
-                  <User size={16} />
+                  <UserLucideIcon sx={{ fontSize: 16 }} />
                   {t('actions.addUser')}
                 </button>
               )}
               {activeTab === 'coupons' && (
                 <button className="admin-btn admin-btn--primary" onClick={() => setShowCouponCreator(true)}>
-                  <Plus size={16} />
+                  <AddIcon sx={{ fontSize: 16 }} />
                   {t('coupons.createNew', 'Create Coupon')}
                 </button>
               )}
@@ -999,7 +1005,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
               description={t('sections.overview.description')}
               action={
                 <button className="admin-link">
-                  <Download size={16} /> {t('actions.exportReport')}
+                  <DownloadIcon sx={{ fontSize: 16 }} /> {t('actions.exportReport')}
                 </button>
               }
             />
@@ -1047,7 +1053,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
                       <div key={studio.id} className="admin-pending-item">
                         <div className="admin-pending-item__info">
                           <div className="admin-pending-item__icon">
-                            <Building2 size={14} />
+                            <BuildingIcon sx={{ fontSize: 14 }} />
                           </div>
                           <div>
                             <div className="admin-pending-item__name">{studio.name}</div>

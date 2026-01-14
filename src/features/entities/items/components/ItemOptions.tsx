@@ -1,6 +1,6 @@
 import { Button } from '@shared/components';
 import { Item, User } from 'src/types/index';
-import EditNoteIcon from '@mui/icons-material/EditNote';
+import { EditNoteIcon } from '@shared/components/icons';
 
 interface ItemOptionsProps {
   item?: Item;

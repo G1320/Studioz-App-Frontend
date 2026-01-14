@@ -1,6 +1,6 @@
 import { Component, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import HomeIcon from '@mui/icons-material/Home';
+import { HomeIcon } from '@shared/components/icons';
 
 interface Props {
   children: ReactNode;

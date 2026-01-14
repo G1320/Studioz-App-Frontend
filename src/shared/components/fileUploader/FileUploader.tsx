@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { UploadIcon, ArrowDropDownIcon } from '@shared/components/icons';
 import { GenericImageGallery, GenericAudioGallery } from '@shared/components';
 import { toast } from 'sonner';
 
@@ -156,9 +155,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
             <>
               <div className="upload-icon-container">
                 {isDragActive ? (
-                  <ArrowDropDownCircleIcon className="icon" />
+                  <ArrowDropDownIcon className="icon" />
                 ) : (
-              <UploadFileIcon className="icon" />
+              <UploadIcon className="icon" />
                 )}
             </div>
               <h3 className="upload-heading">

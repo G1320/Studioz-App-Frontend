@@ -3,54 +3,54 @@ import { Studio } from 'src/types/index';
 import { DayOfWeek } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import { useDays } from '@shared/hooks';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-
-// MUI Icons
-import WifiIcon from '@mui/icons-material/Wifi';
-import CoffeeIcon from '@mui/icons-material/Coffee';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import WeekendIcon from '@mui/icons-material/Weekend';
-import AccessibleIcon from '@mui/icons-material/Accessible';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
-import KitchenIcon from '@mui/icons-material/Kitchen';
-import TvIcon from '@mui/icons-material/Tv';
-import CheckroomIcon from '@mui/icons-material/Checkroom';
-import SpeakerIcon from '@mui/icons-material/Speaker';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import MicIcon from '@mui/icons-material/Mic';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import SecurityIcon from '@mui/icons-material/Security';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import TuneIcon from '@mui/icons-material/Tune';
-import PianoIcon from '@mui/icons-material/Piano';
-import HeadphonesIcon from '@mui/icons-material/Headphones';
-import ComputerIcon from '@mui/icons-material/Computer';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LanguageIcon from '@mui/icons-material/Language';
+import {
+  ExpandMoreIcon,
+  ExpandLessIcon,
+  WifiIcon,
+  CoffeeIcon,
+  AcIcon,
+  WeekendIcon,
+  AccessibleIcon,
+  ParkingIcon,
+  SmokingRoomsIcon,
+  KitchenIcon,
+  TvIcon,
+  CheckroomIcon,
+  SpeakerIcon,
+  RecordIcon,
+  VideocamIcon,
+  SunnyIcon,
+  AutoAwesomeIcon,
+  MicIcon,
+  GraphicEqIcon,
+  SecurityIcon,
+  InfoOutlinedIcon,
+  ClockIcon,
+  TuneIcon,
+  PianoIcon,
+  HeadphonesIcon,
+  ComputerIcon,
+  MoreHorizIcon,
+  LocationIcon,
+  PhoneIcon,
+  LanguageIcon
+} from '@shared/components/icons';
 
 const AMENITY_ICONS: Record<string, React.ElementType> = {
   wifi: WifiIcon,
-  air_conditioning: AcUnitIcon,
+  air_conditioning: AcIcon,
   waiting_area: WeekendIcon,
   kitchenette: KitchenIcon,
   tv_monitor: TvIcon,
   changing_room: CheckroomIcon,
   live_room: SpeakerIcon,
-  vocal_booth: RecordVoiceOverIcon,
+  vocal_booth: RecordIcon,
   video_production: VideocamIcon,
-  natural_light: WbSunnyIcon,
+  natural_light: SunnyIcon,
   espresso_machine: CoffeeIcon,
   smoking_allowed: SmokingRoomsIcon,
   wheelchair_accessible: AccessibleIcon,
-  private_parking: LocalParkingIcon
+  private_parking: ParkingIcon
 };
 
 const EQUIPMENT_ICONS: Record<string, React.ElementType> = {
@@ -250,7 +250,7 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
         {hasAvailability && (
           <section className="info-card">
             <h3 className="info-card__title">
-              <AccessTimeIcon className="info-card__icon" />
+              <ClockIcon className="info-card__icon" />
               {t('form.studioDetails.openingHours', { defaultValue: 'Opening Hours' })}
             </h3>
             <div className="info-card__hours">
@@ -286,14 +286,14 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
         {(studio?.address || studio?.phone || studio?.website) && (
           <section className="info-card info-card--contact">
             <h3 className="info-card__title">
-              <LocationOnIcon className="info-card__icon" />
+              <LocationIcon className="info-card__icon" />
               {t('form.studioDetails.contactLocation', { defaultValue: 'Contact & Location' })}
             </h3>
             <div className="info-card__contact-list">
               {studio?.address && (
                 <div className="info-card__contact-item">
                   <div className="info-card__contact-icon">
-                    <LocationOnIcon />
+                    <LocationIcon />
                   </div>
                   <div className="info-card__contact-content">
                     <span className="info-card__contact-label">

@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GenericModal } from '@shared/components';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckIcon from '@mui/icons-material/Check';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import { CopyIcon, CheckIcon, EmailOutlinedIcon, SmsIcon } from '@shared/components/icons';
 import './styles/_share-modal.scss';
 
 // Custom X (Twitter) icon
@@ -57,7 +54,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ open, onClose, url, titl
     {
       id: 'copy',
       label: copied ? t('share.copied', 'Copied!') : t('share.copyLink', 'Copy link'),
-      icon: copied ? <CheckIcon /> : <ContentCopyIcon />,
+      icon: copied ? <CheckIcon /> : <CopyIcon />,
       onClick: handleCopyLink,
       highlighted: true
     },
@@ -76,7 +73,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ open, onClose, url, titl
     {
       id: 'sms',
       label: 'SMS',
-      icon: <SmsOutlinedIcon />,
+      icon: <SmsIcon />,
       href: `sms:?body=${encodedText}`
     },
     {

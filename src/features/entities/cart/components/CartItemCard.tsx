@@ -1,8 +1,6 @@
 import React from 'react';
 import { CartItem } from 'src/types/index';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { CloseOutlined } from '@mui/icons-material';
+import { AddCircleIcon, RemoveCircleIcon, CloseOutlinedIcon } from '@shared/components/icons';
 import { useCartItemQuantityHandler, useLanguageNavigate } from '@shared/hooks';
 import '../styles/_cart-item-card.scss';
 
@@ -81,9 +79,9 @@ export const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
           }
         >
           {item.quantity && item.quantity <= 1 ? (
-            <CloseOutlined className="icon remove-item-button" />
+            <CloseOutlinedIcon className="icon remove-item-button" />
           ) : (
-            <RemoveCircleOutlineIcon className="icon decrement-quantity-button" />
+            <RemoveCircleIcon className="icon decrement-quantity-button" />
           )}
         </button>
         <small
@@ -100,7 +98,7 @@ export const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
           className="increment-quantity"
           aria-label={`Increase quantity of ${item?.name.en}`}
         >
-          <AddCircleOutlineIcon className="icon increment-quantity-button" />
+          <AddCircleIcon className="icon increment-quantity-button" />
         </button>
       </section>
     </article>

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@shared/components';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { StarIcon, StarBorderIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 import { Translation } from 'src/types/review';
 import './CreateReviewForm/styles/_create-review-form.scss';

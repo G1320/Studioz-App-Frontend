@@ -7,7 +7,7 @@ import { useDays } from '@shared/hooks';
 import { defaultHours } from './constants';
 import { FieldError } from '@shared/validation/components';
 import { useTranslation } from 'react-i18next';
-import CheckIcon from '@mui/icons-material/Check';
+import { CheckIcon } from '@shared/components/icons';
 
 type Schedule = Record<
   DayOfWeek,

@@ -1,6 +1,4 @@
-import StarIcon from '@mui/icons-material/Star';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { StarIcon, StarHalfIcon, StarBorderIcon } from '@shared/components/icons';
 import './styles/_studio-rating.scss';
 
 interface StudioRatingProps {

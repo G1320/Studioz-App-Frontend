@@ -6,7 +6,7 @@ import { StudioAvailability } from 'src/types/studio';
 import Reservation from 'src/types/reservation';
 import { ReservationCard } from '@features/entities/reservations';
 import { GenericModal } from '@shared/components';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, MapPin, Plus } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon, ClockIcon, LocationIcon, AddIcon } from '@shared/components/icons';
 
 import '../styles/_calendar.scss';
 
@@ -103,12 +103,12 @@ function EventCard({
       <div className="studioz-calendar__event-content">
         <div className="studioz-calendar__event-title">{event.title}</div>
         <div className="studioz-calendar__event-time">
-          <Clock size={10} />
+          <ClockIcon sx={{ fontSize: 10 }} />
           {event.start.format('HH:mm')} - {event.end.format('HH:mm')}
         </div>
         {event.studioName && (
           <div className="studioz-calendar__event-location">
-            <MapPin size={10} />
+            <LocationIcon sx={{ fontSize: 10 }} />
             {event.studioName}
           </div>
         )}
@@ -399,11 +399,11 @@ function ListView({
                 <div className="studioz-calendar__list-event-meta">
                   {e.studioName && (
                     <span className="studioz-calendar__list-event-tag">
-                      <MapPin size={12} /> {e.studioName}
+                      <LocationIcon sx={{ fontSize: 12 }} /> {e.studioName}
                     </span>
                   )}
                   <span className="studioz-calendar__list-event-tag">
-                    <Clock size={12} /> {e.end.diff(e.start, 'minute')} {t('calendar.minutes')}
+                    <ClockIcon sx={{ fontSize: 12 }} /> {e.end.diff(e.start, 'minute')} {t('calendar.minutes')}
                   </span>
                 </div>
               </div>
@@ -412,7 +412,7 @@ function ListView({
         </div>
       ) : (
         <div className="studioz-calendar__empty-state">
-          <CalendarIcon size={48} className="studioz-calendar__empty-icon" />
+          <CalendarIcon sx={{ fontSize: 48 }} className="studioz-calendar__empty-icon" />
           <p className="studioz-calendar__empty-text">{t('calendar.noEvents')}</p>
           <button className="studioz-calendar__empty-action">{t('calendar.addEvent')} +</button>
         </div>
@@ -505,20 +505,20 @@ export const Calendar: React.FC<CalendarProps> = ({
             <div className="studioz-calendar__title-group">
               <h1 className="studioz-calendar__main-title">{formatHeaderDate()}</h1>
               <p className="studioz-calendar__subtitle">
-                <CalendarIcon size={16} />
+                <CalendarIcon sx={{ fontSize: 16 }} />
                 {title || t('calendar.occupancyManagement')}
               </p>
             </div>
 
             <div className="studioz-calendar__nav-buttons">
               <button onClick={handlePrev} className="studioz-calendar__nav-btn">
-                {lang === 'he' ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+                {lang === 'he' ? <ChevronRightIcon sx={{ fontSize: 20 }} /> : <ChevronLeftIcon sx={{ fontSize: 20 }} />}
               </button>
               <button onClick={handleToday} className="studioz-calendar__today-btn">
                 {t('calendar.today')}
               </button>
               <button onClick={handleNext} className="studioz-calendar__nav-btn">
-                {lang === 'he' ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+                {lang === 'he' ? <ChevronLeftIcon sx={{ fontSize: 20 }} /> : <ChevronRightIcon sx={{ fontSize: 20 }} />}
               </button>
             </div>
           </div>
@@ -533,7 +533,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             </div>
 
             <button className="studioz-calendar__add-event-btn">
-              <Plus size={20} />
+              <AddIcon sx={{ fontSize: 20 }} />
               <span>{t('calendar.newEvent')}</span>
             </button>
           </div>

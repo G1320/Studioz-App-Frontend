@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { CameraIcon } from '@shared/components/icons';
 import { uploadFile } from '@shared/services/file-upload-service';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -98,14 +98,14 @@ export const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({
           />
         ) : (
           <div className="profile-image-uploader__placeholder">
-            <CameraAltIcon className="profile-image-uploader__icon" />
+            <CameraIcon className="profile-image-uploader__icon" />
           </div>
         )}
         <div className="profile-image-uploader__overlay">
           {isUploading ? (
             <div className="profile-image-uploader__spinner"></div>
           ) : (
-            <CameraAltIcon className="profile-image-uploader__camera-icon" />
+            <CameraIcon className="profile-image-uploader__camera-icon" />
           )}
         </div>
       </div>

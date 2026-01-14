@@ -1,4 +1,4 @@
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { LocationIcon } from '@shared/components/icons';
 import { PopupDropdown } from '@shared/components/drop-downs';
 
 interface AddressDropdownProps {
@@ -10,7 +10,7 @@ const AddressDropdown: React.FC<AddressDropdownProps> = ({ address }) => {
     <PopupDropdown
       trigger={
         <button className="address-dropdown-toggle">
-          <LocationOnIcon />
+          <LocationIcon />
         </button>
       }
       className="address-container"

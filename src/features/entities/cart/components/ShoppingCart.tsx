@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { ShoppingCartIcon } from '@shared/components/icons';
 import { CartAside } from './CartAside';
 import { Cart } from 'src/types/index';
 

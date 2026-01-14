@@ -1,47 +1,48 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAmenities } from '@shared/hooks';
-// Icons
-import WifiIcon from '@mui/icons-material/Wifi';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import KitchenIcon from '@mui/icons-material/Kitchen';
-import CoffeeIcon from '@mui/icons-material/Coffee';
-import SpeakerIcon from '@mui/icons-material/Speaker';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import WeekendIcon from '@mui/icons-material/Weekend';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import TvIcon from '@mui/icons-material/Tv';
-import CheckroomIcon from '@mui/icons-material/Checkroom';
-import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
-import AccessibleIcon from '@mui/icons-material/Accessible';
-import MicIcon from '@mui/icons-material/Mic';
-import TuneIcon from '@mui/icons-material/Tune';
-import CompressIcon from '@mui/icons-material/Compress';
-import PianoIcon from '@mui/icons-material/Piano';
-import AlbumIcon from '@mui/icons-material/Album';
-import ComputerIcon from '@mui/icons-material/Computer';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import BuildIcon from '@mui/icons-material/Build';
+import {
+  WifiIcon,
+  AcIcon,
+  KitchenIcon,
+  CoffeeIcon,
+  SpeakerIcon,
+  RecordIcon,
+  VideocamIcon,
+  WeekendIcon,
+  SunnyIcon,
+  GraphicEqIcon,
+  ClockIcon,
+  TvIcon,
+  CheckroomIcon,
+  SmokingRoomsIcon,
+  AccessibleIcon,
+  MicIcon,
+  TuneIcon,
+  CompressIcon,
+  PianoIcon,
+  AlbumIcon,
+  ComputerIcon,
+  MoreHorizIcon,
+  AddIcon,
+  DeleteIcon,
+  BuildIcon
+} from '@shared/components/icons';
 import './styles/_amenities-selector.scss';
 
 // Map amenity keys to icons
 const amenityIcons: Record<string, React.ElementType> = {
-  air_conditioning: AcUnitIcon,
+  air_conditioning: AcIcon,
   wifi: WifiIcon,
   kitchen: KitchenIcon,
   espresso_machine: CoffeeIcon,
   live_room: SpeakerIcon,
-  vocal_booth: RecordVoiceOverIcon,
+  vocal_booth: RecordIcon,
   green_screen: VideocamIcon,
   lounge_area: WeekendIcon,
-  natural_light: WbSunnyIcon,
+  natural_light: SunnyIcon,
   acoustic_treatment: GraphicEqIcon,
-  '24_7_access': AccessTimeIcon,
+  '24_7_access': ClockIcon,
   tv_monitor: TvIcon,
   changing_room: CheckroomIcon,
   smoking_allowed: SmokingRoomsIcon,

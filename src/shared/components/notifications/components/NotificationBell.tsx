@@ -1,5 +1,5 @@
 import React from 'react';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { NotificationsNoneIcon } from '@shared/components/icons';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { NotificationList } from './NotificationList';
 import { PopupDropdown } from '@shared/components/drop-downs';

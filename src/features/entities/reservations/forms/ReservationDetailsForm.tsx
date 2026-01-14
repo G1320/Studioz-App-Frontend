@@ -2,9 +2,7 @@ import { usePhoneVerification } from '@shared/hooks/phone-verification';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import PersonIcon from '@mui/icons-material/Person';
-import PhoneIcon from '@mui/icons-material/Phone';
-import NotesIcon from '@mui/icons-material/Notes';
+import { PersonIcon, PhoneIcon, NotesIcon } from '@shared/components/icons';
 
 interface ReservationDetailsFormProps {
   customerName: string;

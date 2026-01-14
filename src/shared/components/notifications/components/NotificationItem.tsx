@@ -7,13 +7,15 @@ import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { useReservation } from '@shared/hooks';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import DeleteIcon from '@mui/icons-material/Delete';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import EditIcon from '@mui/icons-material/Edit';
-import CampaignIcon from '@mui/icons-material/Campaign';
+import {
+  DeleteIcon,
+  NotificationIcon,
+  CheckCircleIcon,
+  CancelIcon,
+  ClockIcon,
+  EditIcon,
+  CampaignIcon
+} from '@shared/components/icons';
 import '../styles/notification-item.scss';
 
 dayjs.extend(relativeTime);
@@ -71,7 +73,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     switch (notification.type) {
       case 'new_reservation':
         return (
-          <NotificationsIcon 
+          <NotificationIcon 
             style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
           />
         );
@@ -89,7 +91,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
         );
       case 'reservation_expired':
         return (
-          <AccessTimeIcon 
+          <ClockIcon 
             style={{ ...iconStyle, color: '#fb7185', filter: 'drop-shadow(0 0 8px rgba(251,113,133,0.5))' }} 
           />
         );

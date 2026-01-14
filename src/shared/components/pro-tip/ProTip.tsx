@@ -1,4 +1,4 @@
-import InfoIcon from '@mui/icons-material/Info';
+import { InfoIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 import './ProTip.scss';
 

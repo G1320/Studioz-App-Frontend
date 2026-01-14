@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
-import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import { ArrowBackIosNewIcon, ArrowForwardIosIcon } from '@shared/components/icons';
 import { Item, Studio } from 'src/types/index';
 import {
   AvailabilityContext,
@@ -235,8 +235,8 @@ export const MuiDateTimePicker = ({
           }
         }}
         slots={{
-          leftArrowIcon: isRTL ? ArrowForwardIos : ArrowBackIosNew,
-          rightArrowIcon: isRTL ? ArrowBackIosNew : ArrowForwardIos
+          leftArrowIcon: isRTL ? ArrowForwardIosIcon : ArrowBackIosNewIcon,
+          rightArrowIcon: isRTL ? ArrowBackIosNewIcon : ArrowForwardIosIcon
         }}
       />
     </div>

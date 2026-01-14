@@ -2,15 +2,16 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 
-// MUI Icons
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import {
+  MoneyIcon,
+  BarChartIcon,
+  TrendingUpIcon,
+  PeopleOutlineIcon,
+  CalendarTodayIcon,
+  ChevronDownIcon,
+  DownloadIcon,
+  FilterIcon
+} from '@shared/components/icons';
 
 import { useUserContext } from '@core/contexts';
 import { useStudios, useReservations } from '@shared/hooks';
@@ -238,11 +239,11 @@ const MerchantStatsPage: React.FC = () => {
           <button className="merchant-stats__date-picker">
             <CalendarTodayIcon className="icon-calendar" />
             <span>{dayjs().format('MMMM YYYY')}</span>
-            <KeyboardArrowDownIcon className="icon-chevron" />
+            <ChevronDownIcon className="icon-chevron" />
           </button>
 
           <button className="merchant-stats__export-btn" title={t('header.export', 'ייצוא')}>
-            <FileDownloadIcon />
+            <DownloadIcon />
           </button>
         </div>
       </header>
@@ -254,7 +255,7 @@ const MerchantStatsPage: React.FC = () => {
           value={formatCurrency(stats.totalRevenue)}
           trend={stats.trends.totalRevenue}
           isPositive={stats.isPositive.totalRevenue}
-          icon={<AttachMoneyIcon />}
+          icon={<MoneyIcon />}
         />
         <StatCard
           title={t('metrics.totalBookings', 'סה״כ הזמנות')}
@@ -318,7 +319,7 @@ const MerchantStatsPage: React.FC = () => {
             </div>
 
             <button className="clients-card__filter-btn" style={{ display: 'none' }}>
-              <FilterListIcon />
+              <FilterIcon />
               {t('clients.filterByCategory', 'סנן לפי קטגוריה')}
             </button>
           </div>

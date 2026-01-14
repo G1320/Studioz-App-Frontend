@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { PersonOutlineIcon } from '@shared/components/icons';
 
 interface ClientRowProps {
   name: string;

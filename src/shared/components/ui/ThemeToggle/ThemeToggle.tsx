@@ -1,4 +1,4 @@
-import { Moon, Sun, Monitor } from 'lucide-react';
+import { MoonIcon, SunIcon, MonitorIcon } from '@shared/components/icons';
 import { useTheme, type Theme } from '@shared/contexts/ThemeContext';
 import './styles/_theme-toggle.scss';
 
@@ -30,10 +30,10 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
         title={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
       >
         <span className="theme-toggle__icon theme-toggle__icon--sun">
-          <Sun size={iconSize} />
+          <SunIcon size={iconSize} />
         </span>
         <span className="theme-toggle__icon theme-toggle__icon--moon">
-          <Moon size={iconSize} />
+          <MoonIcon size={iconSize} />
         </span>
       </button>
     );
@@ -41,9 +41,9 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
 
   // Dropdown variant for settings pages
   const themes: { value: Theme; label: string; icon: JSX.Element }[] = [
-    { value: 'light', label: 'Light', icon: <Sun size={iconSize} /> },
-    { value: 'dark', label: 'Dark', icon: <Moon size={iconSize} /> },
-    { value: 'system', label: 'System', icon: <Monitor size={iconSize} /> },
+    { value: 'light', label: 'Light', icon: <SunIcon size={iconSize} /> },
+    { value: 'dark', label: 'Dark', icon: <MoonIcon size={iconSize} /> },
+    { value: 'system', label: 'System', icon: <MonitorIcon size={iconSize} /> },
   ];
 
   return (

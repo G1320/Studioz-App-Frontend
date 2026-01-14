@@ -10,11 +10,7 @@ import { FieldError } from '@shared/validation/components';
 import { GoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
 
-// Icons for parking and sections
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import LocalParkingOutlinedIcon from '@mui/icons-material/LocalParkingOutlined';
-import BlockIcon from '@mui/icons-material/Block';
+import { ParkingIcon, CarIcon, ParkingOutlinedIcon, BlockIcon } from '@shared/components/icons';
 
 export type FieldType =
   | 'text'
@@ -406,16 +402,16 @@ export const GenericForm = ({
             );
           case 'parkingSelect':
             const parkingOptionsConfig = [
-              { id: 'private', labelKey: 'private', Icon: LocalParkingIcon },
-              { id: 'street', labelKey: 'street', Icon: DirectionsCarIcon },
-              { id: 'paid', labelKey: 'paid', Icon: LocalParkingOutlinedIcon },
+              { id: 'private', labelKey: 'private', Icon: ParkingIcon },
+              { id: 'street', labelKey: 'street', Icon: CarIcon },
+              { id: 'paid', labelKey: 'paid', Icon: ParkingOutlinedIcon },
               { id: 'none', labelKey: 'none', Icon: BlockIcon }
             ];
             return (
               <div key={field.name} className={`form-group parking-select ${field.className || ''}`}>
                 <div className="section-header">
                   <div className="section-header__title-row">
-                    <DirectionsCarIcon className="section-header__icon" />
+                    <CarIcon className="section-header__icon" />
                     <h3 className="section-header__title">{field.label || t('form.parking.label')}</h3>
                   </div>
                   <p className="section-header__subtitle">{t('form.parking.question')}</p>

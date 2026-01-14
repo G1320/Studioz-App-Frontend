@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { SettingsIcon } from '@shared/components/icons';
 import { Button } from '@shared/components';
 import './styles/_fan-menu.scss';
 

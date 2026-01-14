@@ -1,6 +1,5 @@
 import React from 'react';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { ArrowUpIcon, ArrowDownIcon } from '@shared/components/icons';
 
 interface StatCardProps {
   title: string;
@@ -20,7 +19,7 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, trend, isPosit
       </div>
       <div className={`stat-card__trend ${isPositive ? 'stat-card__trend--positive' : 'stat-card__trend--negative'}`}>
         <span dir="ltr">{trend}</span>
-        {isPositive ? <ArrowUpwardIcon fontSize="small" /> : <ArrowDownwardIcon fontSize="small" />}
+        {isPositive ? <ArrowUpIcon fontSize="small" /> : <ArrowDownIcon fontSize="small" />}
       </div>
     </div>
   );

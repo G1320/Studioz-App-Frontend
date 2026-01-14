@@ -3,19 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PortfolioItem, SocialLinks } from 'src/types/studio';
 
-// MUI Icons
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import MicIcon from '@mui/icons-material/Mic';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import LinkIcon from '@mui/icons-material/Link';
-import CloseIcon from '@mui/icons-material/Close';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import AlbumIcon from '@mui/icons-material/Album';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LanguageIcon from '@mui/icons-material/Language';
+import {
+  AddIcon,
+  DeleteIcon,
+  MusicNoteIcon,
+  MicIcon,
+  VideocamIcon,
+  LinkIcon,
+  CloseIcon,
+  PlayIcon,
+  AlbumIcon,
+  YouTubeIcon,
+  InstagramIcon,
+  LanguageIcon
+} from '@shared/components/icons';
 
 import './styles/_portfolio-step.scss';
 
@@ -325,7 +326,7 @@ export const PortfolioStep: React.FC<PortfolioStepProps> = ({
                     )}
                     <div className="portfolio-item__cover-overlay">
                       <div className="portfolio-item__play-btn">
-                        {item.type === 'video' ? <PlayArrowIcon /> : <MusicNoteIcon />}
+                        {item.type === 'video' ? <PlayIcon /> : <MusicNoteIcon />}
                       </div>
                     </div>
                   </div>

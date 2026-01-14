@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import StarIcon from '@mui/icons-material/Star';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import { StarIcon, TrendingUpIcon, NewReleasesIcon } from '@shared/components/icons';
 import './styles/_status-badge.scss';
 
 interface StatusBadgeProps {

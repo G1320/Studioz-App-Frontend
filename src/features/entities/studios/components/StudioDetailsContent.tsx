@@ -7,10 +7,7 @@ import { StudioOverviewView } from './StudioOverviewView';
 import { StudioInfoView } from './StudioInfoView';
 import { StudioPortfolioView } from './StudioPortfolioView';
 
-// MUI Icons
-import GridViewIcon from '@mui/icons-material/GridView';
-import ListIcon from '@mui/icons-material/List';
-import WorkIcon from '@mui/icons-material/Work';
+import { GridViewIcon, ListIcon, WorkIcon } from '@shared/components/icons';
 
 const viewVariants = {
   initial: { opacity: 0, y: 20 },

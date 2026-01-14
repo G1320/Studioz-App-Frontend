@@ -3,7 +3,7 @@ import { GenericModal, Button } from '@shared/components';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useGeolocation } from '@shared/hooks/utils/geolocation';
 import { useTranslation } from 'react-i18next';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { LocationIcon } from '@shared/components/icons';
 import './styles/_location-welcome-popup.scss';
 
 interface LocationWelcomePopupProps {
@@ -72,7 +72,7 @@ export const LocationWelcomePopup: React.FC<LocationWelcomePopupProps> = ({ open
     <GenericModal open={open} onClose={handleClose} className="location-welcome-popup-modal">
       <div className={`location-welcome-popup ${isExiting ? 'exiting' : ''}`}>
         <div className="location-welcome-popup__icon">
-          <LocationOnIcon />
+          <LocationIcon />
         </div>
 
         <h2 className="location-welcome-popup__title">{t('popup.title')}</h2>

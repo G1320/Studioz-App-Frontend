@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import { useDays } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { ClockIcon } from '@shared/components/icons';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { GenericList } from '@shared/components';
 
@@ -59,7 +59,7 @@ export const StudioAvailabilityList: React.FC<StudioAvailabilityListProps> = ({ 
     <PopupDropdown
       trigger={
         <button className="availability-dropdown-toggle">
-          <AccessTimeIcon className="availability-time-icon" />
+          <ClockIcon className="availability-time-icon" />
         </button>
       }
       className="availability-container"

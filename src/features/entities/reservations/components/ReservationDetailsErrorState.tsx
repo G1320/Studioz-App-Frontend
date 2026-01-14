@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ArrowBackIcon } from '@shared/components/icons';
 import './styles/_reservation-details-error-state.scss';
 
 export const ReservationDetailsErrorState: React.FC = () => {

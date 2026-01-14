@@ -27,7 +27,11 @@ export { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore';
 export { default as ExpandLessIcon } from '@mui/icons-material/ExpandLess';
 export { default as HomeIcon } from '@mui/icons-material/Home';
 export { default as MenuIcon } from '@mui/icons-material/MoreHoriz';
+export { default as MoreHorizIcon } from '@mui/icons-material/MoreHoriz';
 export { default as MenuVertIcon } from '@mui/icons-material/MoreVert';
+export { default as MoreVertIcon } from '@mui/icons-material/MoreVert';
+export { default as ArrowBackIosNewIcon } from '@mui/icons-material/ArrowBackIosNew';
+export { default as ArrowForwardIosIcon } from '@mui/icons-material/ArrowForwardIos';
 
 // ===================
 // ACTION ICONS
@@ -41,12 +45,14 @@ export { default as EditIcon } from '@mui/icons-material/Edit';
 export { default as EditNoteIcon } from '@mui/icons-material/EditNote';
 export { default as SaveIcon } from '@mui/icons-material/Save';
 export { default as CloseIcon } from '@mui/icons-material/Close';
+export { default as CloseOutlinedIcon } from '@mui/icons-material/CloseOutlined';
 export { default as ClearIcon } from '@mui/icons-material/Clear';
 export { default as CancelIcon } from '@mui/icons-material/Cancel';
 export { default as CheckIcon } from '@mui/icons-material/Check';
 export { default as CheckCircleIcon } from '@mui/icons-material/CheckCircle';
 export { default as CopyIcon } from '@mui/icons-material/ContentCopy';
 export { default as ShareIcon } from '@mui/icons-material/Share';
+export { default as ShoppingCartIcon } from '@mui/icons-material/ShoppingCart';
 export { default as DownloadIcon } from '@mui/icons-material/FileDownload';
 export { default as UploadIcon } from '@mui/icons-material/UploadFile';
 export { default as SearchIcon } from '@mui/icons-material/Search';
@@ -163,6 +169,10 @@ export { default as WeekendIcon } from '@mui/icons-material/Weekend';
 export { default as KitchenIcon } from '@mui/icons-material/Kitchen';
 export { default as CoffeeIcon } from '@mui/icons-material/Coffee';
 export { default as SmokingIcon } from '@mui/icons-material/SmokingRooms';
+export { default as SmokingRoomsIcon } from '@mui/icons-material/SmokingRooms';
+export { default as RecordIcon } from '@mui/icons-material/RecordVoiceOver';
+export { default as NotificationIcon } from '@mui/icons-material/Notifications';
+export { default as BarChartIcon } from '@mui/icons-material/BarChart';
 export { default as CheckroomIcon } from '@mui/icons-material/Checkroom';
 export { default as AccessibleIcon } from '@mui/icons-material/Accessible';
 export { default as CarIcon } from '@mui/icons-material/DirectionsCar';
@@ -204,6 +214,30 @@ export { default as BuildIcon } from '@mui/icons-material/Build';
 export { default as BugIcon } from '@mui/icons-material/BugReport';
 export { default as LibraryAddIcon } from '@mui/icons-material/LibraryAdd';
 export { default as DropdownIcon } from '@mui/icons-material/ArrowDropDownCircle';
+export { default as ArrowDropDownIcon } from '@mui/icons-material/ArrowDropDownCircle';
+
+// ===================
+// LUCIDE ICONS (Theme only)
+// ===================
+// Lucide icons for Theme toggle - use `size` prop, not `sx`
+export { Moon as MoonIcon, Sun as SunIcon, Monitor as MonitorIcon } from 'lucide-react';
+
+// ===================
+// MUI EQUIVALENTS FOR ADMIN PANEL
+// ===================
+export { default as UsersIcon } from '@mui/icons-material/People';
+export { default as BuildingIcon } from '@mui/icons-material/Business';
+export { default as PackageIcon } from '@mui/icons-material/Inventory';
+export { default as BarChart3Icon } from '@mui/icons-material/BarChart';
+export { default as ShieldLucideIcon } from '@mui/icons-material/Shield';
+export { default as UserLucideIcon } from '@mui/icons-material/Person';
+export { default as DollarIcon } from '@mui/icons-material/AttachMoney';
+export { default as CheckCircle2Icon } from '@mui/icons-material/CheckCircle';
+export { default as TicketIcon } from '@mui/icons-material/ConfirmationNumber';
+export { default as XIcon } from '@mui/icons-material/Close';
+export { default as TrashIcon } from '@mui/icons-material/Delete';
+export { default as ToggleLeftIcon } from '@mui/icons-material/ToggleOff';
+export { default as ToggleRightIcon } from '@mui/icons-material/ToggleOn';
 
 // ===================
 // ICON TYPE

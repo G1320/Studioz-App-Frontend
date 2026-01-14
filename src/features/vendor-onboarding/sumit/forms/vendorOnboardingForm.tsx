@@ -3,22 +3,24 @@ import { CompanyDetails } from '@shared/services';
 import { useUserContext } from '@core/contexts';
 import { useCreateVendorMutation } from '@shared/hooks/mutations';
 import { motion, AnimatePresence } from 'framer-motion';
-import CheckIcon from '@mui/icons-material/Check';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import BusinessIcon from '@mui/icons-material/Business';
-import PersonIcon from '@mui/icons-material/Person';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  BusinessIcon,
+  PersonIcon,
+  BankIcon,
+  ArrowBackIcon,
+  AutoAwesomeIcon,
+  InfoOutlinedIcon,
+  ErrorIcon
+} from '@shared/components/icons';
 import CircularProgress from '@mui/material/CircularProgress';
 import './styles/_vendor-onboarding-form.scss';
 
 const STEPS = [
   { id: 1, title: 'פרטי עסק', icon: BusinessIcon },
   { id: 2, title: 'איש קשר', icon: PersonIcon },
-  { id: 3, title: 'חשבון בנק', icon: AccountBalanceIcon }
+  { id: 3, title: 'חשבון בנק', icon: BankIcon }
 ];
 
 const ENTITY_TYPES = [
@@ -495,7 +497,7 @@ export const VendorOnboardingForm = () => {
         {/* Error Display */}
         {error && (
           <div className="error-banner">
-            <ErrorOutlineIcon />
+            <ErrorIcon />
             <span>{error}</span>
           </div>
         )}

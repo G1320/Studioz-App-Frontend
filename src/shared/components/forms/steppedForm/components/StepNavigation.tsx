@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { ChevronLeftIcon, ChevronRightIcon } from '@shared/components/icons';
 
 interface StepNavigationProps {
   isFirstStep: boolean;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ArrowBackIcon } from '@shared/components/icons';
 import './styles/_reservation-details-header.scss';
 
 interface ReservationDetailsHeaderProps {

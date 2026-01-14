@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import EventNoteIcon from '@mui/icons-material/EventNote';
+import { EventIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 import { useReservationsList, useStudios } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
@@ -51,7 +51,7 @@ export const ReservationBell: React.FC = () => {
         className="header-icon-button reservation-bell__button"
         aria-label={`${t('navigation.reservations', 'My Reservations')}${reservationCount > 0 ? ` (${reservationCount})` : ''}`}
       >
-        <EventNoteIcon className="reservation-bell__icon" />
+        <EventIcon className="reservation-bell__icon" />
         {reservationCount > 0 && (
           <span className="reservation-bell__badge" aria-label={`${reservationCount} reservations`}>
             {reservationCount > 99 ? '99+' : reservationCount}

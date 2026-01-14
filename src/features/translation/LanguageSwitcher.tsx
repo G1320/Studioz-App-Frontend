@@ -1,4 +1,4 @@
-import LanguageIcon from '@mui/icons-material/Language';
+import { LanguageIcon } from '@shared/components/icons';
 import { IconButton } from '@mui/material';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { useLanguageSwitcher } from '@shared/hooks/utils';

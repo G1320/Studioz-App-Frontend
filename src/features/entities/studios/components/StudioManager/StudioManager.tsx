@@ -6,23 +6,24 @@ import { useItems } from '@shared/hooks';
 import Item from 'src/types/item';
 import { StudioBlockModal } from '../StudioBlockTimeSlotModal';
 
-// MUI Icons
-import BusinessIcon from '@mui/icons-material/Business';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MicIcon from '@mui/icons-material/Mic';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import AddIcon from '@mui/icons-material/Add';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import SearchIcon from '@mui/icons-material/Search';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import {
+  BusinessIcon,
+  LocationIcon,
+  MoreVertIcon,
+  EditIcon,
+  CalendarIcon,
+  SettingsIcon,
+  MicIcon,
+  CameraIcon,
+  MusicNoteIcon,
+  VideocamIcon,
+  AddIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  SearchIcon,
+  FilterIcon,
+  WalletIcon
+} from '@shared/components/icons';
 
 import { Studio } from 'src/types/index';
 import './styles/_studio-manager.scss';
@@ -87,7 +88,7 @@ const ItemTypeIcon: React.FC<{ type: string }> = ({ type }) => {
       return <MicIcon />;
     case 'photo':
     case 'photography':
-      return <CameraAltIcon />;
+      return <CameraIcon />;
     case 'video':
     case 'Film & Post Production':
       return <VideocamIcon />;
@@ -151,7 +152,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                 <StatusBadge status={status} />
               </h3>
               <div className="studio-card__address">
-                <LocationOnIcon />
+                <LocationIcon />
                 {studio.address || studio.city || t('noAddress', 'No address')}
               </div>
             </div>
@@ -195,7 +196,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
               title={t('calendar', 'יומן')}
               onClick={() => setIsBlockModalOpen(true)}
             >
-              <CalendarMonthIcon />
+              <CalendarIcon />
             </button>
             <button 
               className="studio-card__action-btn" 
@@ -223,7 +224,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
           className="studio-card__items-toggle"
         >
           <span>{t('itemsAndServices', 'פריטים ושירותים')} ({items.length})</span>
-          {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
         </button>
         
         {isExpanded && (
@@ -484,7 +485,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
               <p className="studio-manager__stat-value">—</p>
             </div>
             <div className="studio-manager__stat-icon">
-              <AccountBalanceWalletIcon />
+              <WalletIcon />
             </div>
           </div>
         </div>
@@ -508,7 +509,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
           {filteredStudios.length === 0 && (
             <div className="studio-manager__empty">
               <div className="studio-manager__empty-icon">
-                <FilterListIcon />
+                <FilterIcon />
               </div>
               <h3 className="studio-manager__empty-title">{t('noResults', 'לא נמצאו תוצאות')}</h3>
               <p className="studio-manager__empty-text">

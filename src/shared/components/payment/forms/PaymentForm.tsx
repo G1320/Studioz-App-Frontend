@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { validateCoupon, CouponValidationResult } from '@shared/services/coupon-service';
-import LockIcon from '@mui/icons-material/Lock';
+import { LockIcon } from '@shared/components/icons';
 
 export type PaymentFormVariant = 'subscription' | 'order' | 'default';
 

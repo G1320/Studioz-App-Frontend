@@ -1,4 +1,4 @@
-import PhoneIcon from '@mui/icons-material/Phone';
+import { PhoneIcon } from '@shared/components/icons';
 import { PopupDropdown } from '@shared/components/drop-downs';
 
 interface PhoneDropdownProps {

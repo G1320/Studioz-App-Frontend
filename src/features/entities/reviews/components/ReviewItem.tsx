@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Review from 'src/types/review';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { StarIcon, StarBorderIcon } from '@shared/components/icons';
 import './ReviewItem/styles/_review-item.scss';
 
 interface ReviewItemProps {

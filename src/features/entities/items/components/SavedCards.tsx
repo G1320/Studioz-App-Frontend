@@ -1,9 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import AddIcon from '@mui/icons-material/Add';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
+import { AddIcon, CreditCardIcon, DeleteIcon, CheckIcon } from '@shared/components/icons';
 
 export interface SavedCard {
   id: string;

@@ -1,12 +1,14 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import StarIcon from '@mui/icons-material/Star';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {
+  CheckIcon,
+  CloseIcon,
+  StarIcon,
+  ExpandMoreIcon,
+  ExpandLessIcon,
+  ArrowForwardIcon
+} from '@shared/components/icons';
 import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/forms';
 import { useSubscription } from '@shared/hooks';
 import '../styles/_subscription-page.scss';

@@ -2,9 +2,7 @@ import { useGoogleCalendar } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SyncIcon from '@mui/icons-material/Sync';
-import SyncDisabledIcon from '@mui/icons-material/SyncDisabled';
+import { CheckCircleIcon, SyncIcon, SyncDisabledIcon } from '@shared/components/icons';
 
 interface GoogleCalendarConnectButtonProps {
   className?: string;

@@ -3,15 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PortfolioItem, SocialLinks } from 'src/types/studio';
 
-// MUI Icons
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import AlbumIcon from '@mui/icons-material/Album';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LanguageIcon from '@mui/icons-material/Language';
-import HeadphonesIcon from '@mui/icons-material/Headphones';
+import {
+  PlayIcon,
+  MusicNoteIcon,
+  VideocamIcon,
+  AlbumIcon,
+  YouTubeIcon,
+  InstagramIcon,
+  LanguageIcon,
+  HeadphonesIcon
+} from '@shared/components/icons';
 
 import '../styles/_studio-portfolio-view.scss';
 
@@ -191,7 +192,7 @@ export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
 
                     {/* Play Button */}
                     <div className="portfolio-card__play-btn">
-                      <PlayArrowIcon />
+                      <PlayIcon />
                     </div>
 
                     {/* Role Badge */}

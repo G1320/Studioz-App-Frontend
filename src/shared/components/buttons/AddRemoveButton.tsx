@@ -1,7 +1,5 @@
 import React from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import CheckIcon from '@mui/icons-material/Check';
+import { AddIcon, RemoveIcon, CheckIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';
 import './styles/_add-remove-button.scss';
 
