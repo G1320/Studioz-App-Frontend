@@ -25,20 +25,22 @@ import {
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
 import './core/i18n/config';
 
-// Initialize Sentry for error tracking
-Sentry.init({
-  dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
-  integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
-  // Performance Monitoring
-  tracesSampleRate: 1.0, // Capture 100% of transactions (adjust in production)
-  // Session Replay
-  replaysSessionSampleRate: 0.1, // Sample 10% of sessions
-  replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors
-  // Send default PII data
-  sendDefaultPii: true,
-  // Environment
-  environment: import.meta.env.VITE_NODE_ENV
-});
+// Initialize Sentry for error tracking (production only)
+if (import.meta.env.VITE_NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
+    integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+    // Performance Monitoring
+    tracesSampleRate: 1.0,
+    // Session Replay
+    replaysSessionSampleRate: 0.1, // Sample 10% of sessions
+    replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors
+    // Send default PII data
+    sendDefaultPii: true,
+    // Environment
+    environment: 'production'
+  });
+}
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
