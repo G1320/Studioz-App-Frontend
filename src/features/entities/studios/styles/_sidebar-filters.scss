@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .sidebar-filters {
@@ -6,8 +7,8 @@
   flex-direction: column;
   height: 100%;
   max-height: calc(100vh - 4rem); // Account for header
-  background: vars.$bg-color-primary;
-  border-inline-end: 1px solid vars.$zinc-800;
+  background: var(--bg-primary);
+  border-inline-end: 1px solid var(--border-secondary);
   width: 20rem;
   min-width: 20rem;
   max-width: 20rem;
@@ -19,7 +20,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem;
-    border-bottom: 1px solid vars.$zinc-800;
+    border-bottom: 1px solid var(--border-secondary);
   }
 
   &__title {
@@ -28,18 +29,18 @@
     gap: 0.5rem;
     font-size: ds.$font-xl;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__count {
     font-size: ds.$font-sm;
     font-weight: 400;
-    color: vars.$zinc-500;
-    background: vars.$zinc-900;
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
     padding: 0.25rem 0.5rem;
     border-radius: 9999px;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-secondary);
   }
 
   &__actions {
@@ -56,14 +57,14 @@
     padding: 0.5rem;
     border: none;
     background: transparent;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
     border-radius: ds.$radius-md;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      color: vars.$text-color-primary;
-      background: vars.$zinc-800;
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
 
     svg {
@@ -91,24 +92,7 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-
-    // Custom scrollbar
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: vars.$zinc-700;
-      border-radius: 3px;
-
-      &:hover {
-        background: vars.$zinc-600;
-      }
-    }
+    @include mixins.custom-scrollbar;
   }
 
   // Section
@@ -132,22 +116,21 @@
     svg {
       width: 1rem;
       height: 1rem;
-      color: vars.$zinc-600;
+      color: var(--text-muted);
     }
   }
 
   &__section-title {
     font-size: ds.$font-sm;
     font-weight: 700;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0;
   }
 
   &__divider {
-    height: 1px;
-    background: rgba(vars.$zinc-800, 0.5);
+    @include mixins.divider-horizontal;
   }
 
   // Categories Grid
@@ -158,24 +141,7 @@
     max-height: 20rem; // Adjust as needed
     overflow-y: auto;
     padding-inline-end: 0.25rem; // Space for scrollbar
-
-    // Custom scrollbar
-    &::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: vars.$zinc-800;
-      border-radius: 2px;
-
-      &:hover {
-        background: vars.$zinc-700;
-      }
-    }
+    @include mixins.custom-scrollbar;
   }
 
   &__category-btn {
@@ -187,7 +153,7 @@
     border-radius: ds.$radius-md;
     border: 1px solid transparent;
     background: transparent;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
     cursor: pointer;
     transition: all 0.2s ease;
     width: 100%;
@@ -205,19 +171,19 @@
     }
 
     &:hover {
-      background: vars.$zinc-800;
-      color: vars.$text-color-primary;
-      border-color: vars.$zinc-700;
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-secondary);
     }
 
     &--active {
-      background: vars.$color-brand;
-      border-color: vars.$color-brand;
-      color: vars.$bg-color-primary;
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      color: var(--btn-primary-text);
       font-weight: 500;
 
       svg {
-        color: vars.$bg-color-primary;
+        color: var(--btn-primary-text);
       }
 
       span {
@@ -225,9 +191,9 @@
       }
 
       &:hover {
-        background: vars.$color-brand;
-        border-color: vars.$color-brand;
-        color: vars.$bg-color-primary;
+        background: var(--color-brand);
+        border-color: var(--color-brand);
+        color: var(--btn-primary-text);
       }
     }
   }
@@ -245,29 +211,29 @@
     justify-content: space-between;
     font-size: ds.$font-md;
     font-weight: 500;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__price-current {
-    color: vars.$color-brand;
+    color: var(--color-brand);
   }
 
   &__price-max {
     font-size: ds.$font-sm;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
   }
 
   &__price-slider {
     position: relative;
     height: 0.5rem;
-    background: vars.$zinc-800;
+    background: var(--bg-hover);
     border-radius: 9999px;
   }
 
   &__price-fill {
     position: absolute;
     height: 100%;
-    background: vars.$color-brand;
+    background: var(--color-brand);
     border-radius: 9999px;
   }
 
@@ -284,13 +250,13 @@
     position: absolute;
     width: 1.25rem;
     height: 1.25rem;
-    background: vars.$text-color-primary;
-    border: 2px solid vars.$color-brand;
+    background: var(--text-primary);
+    border: 2px solid var(--color-brand);
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-md);
   }
 
   // Location Select
@@ -311,15 +277,15 @@
     inset-inline-start: 0.75rem;
     width: 1rem;
     height: 1rem;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     pointer-events: none;
   }
 
   &__select {
     width: 100%;
-    background: vars.$zinc-900;
-    border: 1px solid vars.$zinc-800;
-    color: vars.$text-color-primary;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
     border-radius: ds.$radius-lg;
     padding: 0.75rem 2.5rem;
     padding-inline-start: 2.5rem;
@@ -332,12 +298,12 @@
 
     &:focus {
       outline: none;
-      border-color: vars.$color-brand;
+      border-color: var(--input-focus-border);
     }
 
     option {
-      background: vars.$zinc-900;
-      color: vars.$text-color-primary;
+      background: var(--input-bg);
+      color: var(--text-primary);
     }
   }
 
@@ -346,7 +312,7 @@
     inset-inline-end: 0.75rem;
     width: 1rem;
     height: 1rem;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     pointer-events: none;
   }
 
@@ -364,7 +330,7 @@
 
     label {
       font-size: ds.$font-sm;
-      color: vars.$zinc-500;
+      color: var(--text-muted);
       text-align: start;
     }
   }
@@ -380,15 +346,15 @@
     inset-inline-start: 0.75rem;
     width: 0.875rem;
     height: 0.875rem;
-    color: vars.$zinc-600;
+    color: var(--text-muted);
     pointer-events: none;
   }
 
   &__input {
     width: 100%;
-    background: vars.$zinc-900;
-    border: 1px solid vars.$zinc-800;
-    color: vars.$text-color-primary;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
     border-radius: ds.$radius-md;
     padding: 0.5rem 0.75rem;
     padding-inline-start: 2.25rem;
@@ -398,11 +364,11 @@
 
     &:focus {
       outline: none;
-      border-color: vars.$color-brand;
+      border-color: var(--input-focus-border);
     }
 
     &::placeholder {
-      color: vars.$zinc-600;
+      color: var(--input-placeholder);
     }
 
     // Hide number input spinners
@@ -433,7 +399,7 @@
 
     &:hover {
       .sidebar-filters__amenity-label {
-        color: vars.$zinc-300;
+        color: var(--text-secondary);
       }
     }
   }
@@ -450,8 +416,8 @@
     justify-content: center;
     padding: 0.5rem;
     border-radius: ds.$radius-md;
-    background: vars.$zinc-900;
-    color: vars.$zinc-500;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
     transition: all 0.2s ease;
 
     svg {
@@ -460,19 +426,19 @@
     }
 
     &--active {
-      background: rgba(vars.$color-brand, 0.2);
-      color: vars.$color-brand;
+      background: var(--color-brand-bg);
+      color: var(--color-brand);
     }
   }
 
   &__amenity-label {
     font-size: ds.$font-md;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
     transition: color 0.2s ease;
     text-align: start;
 
     &--active {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       font-weight: 500;
     }
   }
@@ -483,7 +449,7 @@
     justify-content: center;
     width: 1.25rem;
     height: 1.25rem;
-    border: 1px solid vars.$zinc-700;
+    border: 1px solid var(--border-secondary);
     border-radius: 0.25rem;
     background: transparent;
     transition: all 0.2s ease;
@@ -494,35 +460,24 @@
     }
 
     &--checked {
-      background: vars.$color-brand;
-      border-color: vars.$color-brand;
-      color: vars.$bg-color-primary;
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      color: var(--btn-primary-text);
     }
   }
 
   // Footer
   &__footer {
     padding: 1.25rem;
-    border-top: 1px solid vars.$zinc-800;
-    background: vars.$bg-color-primary;
+    border-top: 1px solid var(--border-secondary);
+    background: var(--bg-primary);
   }
 
   &__apply-btn {
+    @include mixins.button-primary;
     width: 100%;
-    background: vars.$color-brand;
-    color: vars.$bg-color-primary;
     font-size: ds.$font-base;
-    font-weight: 700;
     padding: 0.875rem;
-    border: none;
     border-radius: ds.$radius-lg;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
-
-    &:hover {
-      filter: brightness(1.1);
-      box-shadow: 0 0 30px rgba(255, 209, 102, 0.4);
-    }
   }
 }

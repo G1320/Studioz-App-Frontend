@@ -1,17 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
 // LANDING PAGE STYLES - StudioZ Design System
-// Theme: Dark Mode Dominant, Professional, High-Contrast
+// Theme: Supports Light/Dark Mode
 // ==========================================
-
-// Local aliases (referencing design system)
-$landing-primary: ds.$primary-yellow;
-$landing-primary-foreground: ds.$primary-black;
-$landing-surface: ds.$zinc-900;
-$landing-border: ds.$border-primary;
-$landing-muted: ds.$white-60;
 
 // Container
 .landing-container {
@@ -25,11 +19,11 @@ $landing-muted: ds.$white-60;
   font-size: vars.$font-size-2xl;
   font-weight: 700;
   margin-bottom: vars.$spacing-small;
-  color: vars.$text-color-primary;
+  color: var(--text-primary);
 }
 
 .landing-section-subtitle {
-  color: $landing-muted;
+  color: var(--text-secondary);
   font-size: vars.$font-size-medium;
   margin: 0;
 }
@@ -41,7 +35,7 @@ $landing-muted: ds.$white-60;
   gap: vars.$spacing-small;
   background: transparent;
   border: none;
-  color: $landing-primary;
+  color: var(--color-brand);
   font-weight: 700;
   font-size: vars.$font-size-sm-md;
   cursor: pointer;
@@ -56,7 +50,6 @@ $landing-muted: ds.$white-60;
     width: 18px;
     height: 18px;
 
-    // Flip arrow for RTL languages
     [dir='rtl'] & {
       transform: scaleX(-1);
     }
@@ -77,13 +70,13 @@ $landing-muted: ds.$white-60;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible; // Allow dropdown to extend beyond hero bounds
+  overflow: visible;
 
   &__background {
     position: absolute;
     inset: 0;
     z-index: 0;
-    overflow: hidden; // Contain background image
+    overflow: hidden;
   }
 
   &__image {
@@ -97,7 +90,7 @@ $landing-muted: ds.$white-60;
   &__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, vars.$bg-color-primary 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, var(--bg-primary) 100%);
   }
 
   &__content {
@@ -117,7 +110,7 @@ $landing-muted: ds.$white-60;
   }
 
   &__accent {
-    color: $landing-primary;
+    color: var(--color-brand);
   }
 
   &__description {
@@ -130,18 +123,18 @@ $landing-muted: ds.$white-60;
   }
 
   &__search {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--bg-hover);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
     padding: vars.$spacing-small;
     border-radius: vars.$border-radius-2xl;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--border-primary);
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-small;
     max-width: 640px;
     margin: 0 auto;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-xl);
 
     @media (min-width: 768px) {
       flex-direction: row;
@@ -149,20 +142,14 @@ $landing-muted: ds.$white-60;
   }
 
   &__search-btn {
-    background: $landing-primary;
-    color: $landing-primary-foreground;
-    font-weight: 700;
+    @include mixins.button-primary;
     font-size: vars.$font-size-medium;
     padding: vars.$spacing-sm-md vars.$spacing-xl;
-    border: none;
     border-radius: vars.$border-radius-large;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    box-shadow: var(--shadow-glow);
     white-space: nowrap;
 
     &:hover {
-      background: rgba($landing-primary, 0.9);
       box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
       transform: scale(1.02);
     }
@@ -182,10 +169,10 @@ $landing-muted: ds.$white-60;
     align-items: center;
     gap: vars.$spacing-sm-md;
     padding: vars.$spacing-sm-md vars.$spacing-medium;
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--bg-hover);
     border: 1px solid transparent;
     border-radius: vars.$border-radius-large;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     cursor: pointer;
     transition: border-color 0.2s;
@@ -194,11 +181,10 @@ $landing-muted: ds.$white-60;
 
     &:focus,
     &--open {
-      border-color: rgba($landing-primary, 0.5);
+      border-color: var(--border-focus);
       outline: none;
     }
 
-    // RTL: icon on the right, chevron on the left, text aligned to start (right)
     html[dir='rtl'] &,
     html[lang='he'] & {
       flex-direction: row-reverse;
@@ -208,7 +194,7 @@ $landing-muted: ds.$white-60;
   }
 
   &__icon {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     width: 20px;
     height: 20px;
     flex-shrink: 0;
@@ -224,7 +210,7 @@ $landing-muted: ds.$white-60;
 
     &:empty::before {
       content: attr(data-placeholder);
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-muted);
     }
 
     html[dir='rtl'] &,
@@ -234,7 +220,7 @@ $landing-muted: ds.$white-60;
   }
 
   &__arrow {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     width: 20px;
     height: 20px;
     flex-shrink: 0;
@@ -250,35 +236,32 @@ $landing-muted: ds.$white-60;
     top: calc(100% + vars.$spacing-small);
     left: 0;
     right: 0;
-    background: rgba(20, 20, 20, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--dropdown-bg);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-xl;
     max-height: 380px;
     overflow-y: auto;
     z-index: 100;
-    box-shadow:
-      0 4px 6px rgba(0, 0, 0, 0.1),
-      0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-dropdown);
     padding: vars.$spacing-small;
 
-    // Custom scrollbar
     &::-webkit-scrollbar {
       width: 8px;
     }
 
     &::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.02);
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.25);
+        background: var(--scrollbar-thumb-hover);
       }
     }
   }
@@ -289,7 +272,7 @@ $landing-muted: ds.$white-60;
     background: transparent;
     border: none;
     border-radius: vars.$border-radius-medium;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
     text-align: start;
     cursor: pointer;
@@ -306,21 +289,21 @@ $landing-muted: ds.$white-60;
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: vars.$text-color-primary;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
 
     &--selected {
-      background: rgba($landing-primary, 0.15);
-      color: $landing-primary;
+      background: var(--color-brand-muted);
+      color: var(--color-brand);
       font-weight: 500;
 
       &:hover {
-        background: rgba($landing-primary, 0.2);
+        background: var(--color-brand-muted);
+        filter: brightness(1.1);
       }
     }
 
-    // RTL: keep "start" alignment (icon on right, text on right)
     html[dir='rtl'] &,
     html[lang='he'] & {
       flex-direction: row-reverse;
@@ -350,7 +333,7 @@ $landing-muted: ds.$white-60;
 // ==========================================
 .landing-categories {
   padding: vars.$spacing-3xl 0;
-  background: vars.$bg-color-primary;
+  background: var(--bg-primary);
 
   &__header {
     display: flex;
@@ -377,8 +360,7 @@ $landing-muted: ds.$white-60;
 
 // Category Card
 .landing-category-card {
-  background: rgba($landing-surface, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  @include mixins.card-interactive;
   padding: vars.$spacing-large;
   border-radius: vars.$border-radius-2xl;
   display: flex;
@@ -388,20 +370,18 @@ $landing-muted: ds.$white-60;
   gap: vars.$spacing-medium;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s;
   min-height: 140px;
 
   &:hover {
-    background: rgba($landing-surface, 0.8);
-    border-color: rgba($landing-primary, 0.5);
+    border-color: var(--border-active);
 
     .landing-category-card__icon {
-      color: $landing-primary;
+      color: var(--color-brand);
     }
   }
 
   &__icon {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     transition: color 0.3s;
 
     svg {
@@ -413,7 +393,7 @@ $landing-muted: ds.$white-60;
   &__label {
     font-weight: 500;
     font-size: vars.$font-size-sm-md;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 }
 
@@ -422,9 +402,9 @@ $landing-muted: ds.$white-60;
 // ==========================================
 .landing-featured {
   padding: vars.$spacing-3xl 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 0%, vars.$bg-color-primary 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(to bottom, var(--bg-hover) 0%, var(--bg-primary) 100%);
+  border-top: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
 
   .landing-section-title {
     margin-bottom: vars.$spacing-xl;
@@ -443,7 +423,6 @@ $landing-muted: ds.$white-60;
       grid-template-columns: repeat(2, 1fr);
     }
 
-    // Style the actual StudioCard component within the grid
     .studio-card {
       transition:
         transform 0.3s,
@@ -451,7 +430,7 @@ $landing-muted: ds.$white-60;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        box-shadow: var(--shadow-xl);
       }
     }
   }
@@ -462,7 +441,7 @@ $landing-muted: ds.$white-60;
 // ==========================================
 .landing-booking-preview {
   padding: 6rem 0;
-  background: #000000; // Exact black as per mockup
+  background: var(--bg-primary);
   position: relative;
   overflow: hidden;
 
@@ -473,7 +452,7 @@ $landing-muted: ds.$white-60;
     align-items: center;
 
     @media (min-width: 1024px) {
-      grid-template-columns: 1fr 1.2fr; // Content (1fr) | Image (1.2fr)
+      grid-template-columns: 1fr 1.2fr;
       gap: 6rem;
     }
   }
@@ -482,15 +461,11 @@ $landing-muted: ds.$white-60;
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    order: 2; // Mobile: Text below image
+    order: 2;
 
     @media (min-width: 1024px) {
-      order: 1; // Desktop LTR: Text Left, Image Right
+      order: 1;
     }
-
-    // RTL Order: Grid flips columns. Col 1 (Right) gets Content. Col 2 (Left) gets Image.
-    // Visual: [ Image (Left) ] [ Content (Right) ]
-    // No override needed!
   }
 
   &__header {
@@ -502,14 +477,14 @@ $landing-muted: ds.$white-60;
   &__title {
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 900;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     letter-spacing: -0.025em;
     line-height: 1.1;
   }
 
   &__subtitle {
     font-size: ds.$font-xl;
-    color: vars.$zinc-400;
+    color: var(--text-secondary);
     font-weight: 300;
     line-height: 1.6;
 
@@ -538,7 +513,6 @@ $landing-muted: ds.$white-60;
       transition: transform 0.2s ease;
     }
 
-    // Flip arrow in RTL
     .rtl-flip {
       [dir='rtl'] & {
         transform: rotate(180deg);
@@ -556,13 +530,12 @@ $landing-muted: ds.$white-60;
 
   &__image-wrapper {
     position: relative;
-    order: 1; // Mobile: Image top
+    order: 1;
 
     @media (min-width: 1024px) {
-      order: 2; // Desktop LTR: Image Right
+      order: 2;
     }
 
-    // Decorative blob
     &::before {
       content: '';
       position: absolute;
@@ -573,7 +546,7 @@ $landing-muted: ds.$white-60;
       height: 120%;
       background: radial-gradient(
         circle at center,
-        rgba($landing-primary, 0.08) 0%,
+        var(--color-brand-muted) 0%,
         rgba(168, 85, 247, 0.05) 50%,
         transparent 70%
       );
@@ -589,16 +562,15 @@ $landing-muted: ds.$white-60;
     z-index: 1;
     border-radius: 1.5rem;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
-    background: #0a0a0a;
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-xl);
+    background: var(--bg-surface);
 
-    // Overlay shine effect
     &::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top right, rgba(255, 255, 255, 0.05), transparent);
+      background: linear-gradient(to top right, var(--bg-hover), transparent);
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -633,17 +605,15 @@ $landing-muted: ds.$white-60;
     gap: ds.$space-8;
     position: relative;
 
-    // Glow effect container
     &-icon-wrapper {
       position: relative;
       flex-shrink: 0;
     }
 
-    // Glow behind number
     &-glow {
       position: absolute;
       inset: -0.5rem;
-      background: $landing-primary;
+      background: var(--color-brand);
       filter: blur(20px);
       opacity: 0;
       border-radius: 50%;
@@ -659,14 +629,14 @@ $landing-muted: ds.$white-60;
       width: 3.5rem;
       height: 3.5rem;
       border-radius: 50%;
-      background: $landing-primary;
-      color: $landing-primary-foreground;
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: ds.$font-2xl;
-      box-shadow: 0 0 30px rgba($landing-primary, 0.3);
+      box-shadow: var(--shadow-glow);
 
       @media (min-width: 768px) {
         width: 4.5rem;
@@ -678,12 +648,12 @@ $landing-muted: ds.$white-60;
     &-text {
       font-size: ds.$font-xl;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--text-secondary);
       transition: color 0.3s ease;
       text-align: start;
 
       .landing-booking-preview__step:hover & {
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
       }
 
       @media (min-width: 768px) {
@@ -692,17 +662,16 @@ $landing-muted: ds.$white-60;
     }
   }
 
-  // Floating Badge (hidden on mobile)
   &__badge {
     display: none;
     position: absolute;
     bottom: -5rem;
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--dropdown-bg);
+    backdrop-filter: var(--backdrop-blur);
+    border: 1px solid var(--border-primary);
     padding: 1rem 1.25rem;
     border-radius: ds.$radius-xl;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lg);
     z-index: 10;
     animation: bounce-slow 4s infinite ease-in-out;
 
@@ -712,7 +681,6 @@ $landing-muted: ds.$white-60;
       gap: 0.75rem;
     }
 
-    // RTL positioning
     [dir='rtl'] & {
       left: auto;
     }
@@ -721,13 +689,13 @@ $landing-muted: ds.$white-60;
   &__badge-icon {
     width: 1.125rem !important;
     height: 1.125rem !important;
-    color: vars.$color-brand;
+    color: var(--color-brand);
     filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.6));
     animation: instant-book-glow 2s ease-in-out infinite;
   }
 
   &__badge-text {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-secondary);
     font-size: 0.9375rem;
     font-weight: 600;
   }
@@ -767,7 +735,8 @@ $landing-muted: ds.$white-60;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(to right, transparent 0%, rgba($landing-primary, 0.5) 50%, transparent 100%);
+    background: linear-gradient(to right, transparent 0%, var(--color-brand) 50%, transparent 100%);
+    opacity: 0.5;
   }
 
   &__grid {
@@ -791,8 +760,8 @@ $landing-muted: ds.$white-60;
   &__icon {
     width: 80px;
     height: 80px;
-    background: rgba($landing-primary, 0.1);
-    border: 1px solid rgba($landing-primary, 0.2);
+    background: var(--color-brand-muted);
+    border: 1px solid var(--border-active);
     border-radius: vars.$border-radius-2xl;
     display: flex;
     align-items: center;
@@ -802,7 +771,7 @@ $landing-muted: ds.$white-60;
     svg {
       width: 40px;
       height: 40px;
-      color: $landing-primary;
+      color: var(--color-brand);
     }
   }
 
@@ -810,11 +779,11 @@ $landing-muted: ds.$white-60;
     font-size: vars.$font-size-large;
     font-weight: 700;
     margin-bottom: vars.$spacing-sm-md;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
-    color: $landing-muted;
+    color: var(--text-secondary);
     line-height: 1.6;
     max-width: 280px;
     margin: 0;
@@ -828,8 +797,8 @@ $landing-muted: ds.$white-60;
   padding: vars.$spacing-3xl 0;
 
   &__card {
-    background: linear-gradient(135deg, $landing-surface 0%, vars.$bg-color-primary 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-3xl;
     padding: vars.$spacing-3xl vars.$spacing-xl;
     text-align: center;
@@ -852,7 +821,7 @@ $landing-muted: ds.$white-60;
     &--primary {
       top: -64px;
       right: -64px;
-      background: rgba($landing-primary, 0.2);
+      background: var(--color-brand-muted);
 
       [dir='rtl'] & {
         right: auto;
@@ -863,7 +832,7 @@ $landing-muted: ds.$white-60;
     &--blue {
       bottom: -64px;
       left: -64px;
-      background: rgba(59, 130, 246, 0.2);
+      background: var(--color-info-bg);
 
       [dir='rtl'] & {
         left: auto;
@@ -878,12 +847,12 @@ $landing-muted: ds.$white-60;
     margin-bottom: vars.$spacing-large;
     position: relative;
     z-index: 10;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
     font-size: vars.$font-size-large;
-    color: $landing-muted;
+    color: var(--text-secondary);
     max-width: 640px;
     margin: 0 auto vars.$spacing-xl;
     position: relative;
@@ -913,24 +882,11 @@ $landing-muted: ds.$white-60;
     transition: all 0.2s;
 
     &--primary {
-      background: $landing-primary;
-      color: $landing-primary-foreground;
-      border: none;
-
-      &:hover {
-        background: rgba($landing-primary, 0.9);
-        transform: scale(1.05);
-      }
+      @include mixins.button-primary;
     }
 
     &--secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: vars.$text-color-primary;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.2);
-      }
+      @include mixins.button-secondary;
     }
   }
 }
@@ -939,8 +895,8 @@ $landing-muted: ds.$white-60;
 // FOOTER
 // ==========================================
 .landing-footer {
-  background: #09090b; // zinc-950
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border-primary);
   padding: vars.$spacing-3xl 0;
 
   &__grid {
@@ -961,7 +917,7 @@ $landing-muted: ds.$white-60;
 
   &__brand {
     p {
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-muted);
       margin: 0;
       line-height: 1.6;
     }
@@ -985,7 +941,7 @@ $landing-muted: ds.$white-60;
     span {
       font-size: vars.$font-size-large;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--text-secondary);
     }
   }
 
@@ -994,7 +950,7 @@ $landing-muted: ds.$white-60;
       font-weight: 700;
       font-size: vars.$font-size-medium;
       margin-bottom: vars.$spacing-medium;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
 
     ul {
@@ -1007,13 +963,13 @@ $landing-muted: ds.$white-60;
     }
 
     a {
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-muted);
       font-size: vars.$font-size-sm-md;
       text-decoration: none;
       transition: color 0.2s;
 
       &:hover {
-        color: $landing-primary;
+        color: var(--color-brand);
         text-shadow: none;
       }
     }
@@ -1024,7 +980,7 @@ $landing-muted: ds.$white-60;
       font-weight: 700;
       font-size: vars.$font-size-medium;
       margin-bottom: vars.$spacing-medium;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 
@@ -1032,7 +988,7 @@ $landing-muted: ds.$white-60;
     display: flex;
     align-items: center;
     gap: vars.$spacing-small;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
     text-decoration: none;
     transition: color 0.2s;
@@ -1043,7 +999,7 @@ $landing-muted: ds.$white-60;
     }
 
     &:hover {
-      color: $landing-primary;
+      color: var(--color-brand);
       text-shadow: none;
     }
   }
@@ -1053,7 +1009,7 @@ $landing-muted: ds.$white-60;
       font-weight: 700;
       font-size: vars.$font-size-medium;
       margin-bottom: vars.$spacing-medium;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 
@@ -1064,17 +1020,17 @@ $landing-muted: ds.$white-60;
     a {
       width: 40px;
       height: 40px;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--bg-hover);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--text-secondary);
 
       &:hover {
-        background: $landing-primary;
-        color: $landing-primary-foreground;
+        background: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
         text-shadow: none;
       }
 
@@ -1086,10 +1042,10 @@ $landing-muted: ds.$white-60;
   }
 
   &__bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--divider-color);
     padding-top: vars.$spacing-xl;
     text-align: center;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted);
     font-size: vars.$font-size-sm-md;
   }
 }
@@ -1099,15 +1055,13 @@ $landing-muted: ds.$white-60;
 // ==========================================
 .landing-page {
   min-height: 100vh;
-  background: vars.$bg-color-primary;
-  color: vars.$text-color-primary;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
-  // Break out of main's max-width to be full-bleed
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
 
-  // Override global img styles for landing page
   img {
     border-radius: 0;
     aspect-ratio: unset;

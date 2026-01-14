@@ -17,6 +17,9 @@
   --color-brand-hover: #ffe199;
   --color-brand-muted: rgba(255, 209, 102, 0.15);
   --color-brand-text: #ffd166;
+  --color-brand-bg: rgba(255, 209, 102, 0.1);
+  --color-brand-border: rgba(255, 209, 102, 0.2);
+  --color-brand-glow: rgba(255, 209, 102, 0.3);
 
   // Background Colors
   --bg-primary: #000000;
@@ -107,6 +110,7 @@
   --input-bg: #18181b;
   --input-border: rgba(255, 255, 255, 0.1);
   --input-border-focus: #ffd166;
+  --input-focus-border: #ffd166;
   --input-placeholder: rgba(255, 255, 255, 0.4);
 
   // Dividers
@@ -127,6 +131,9 @@
   --color-brand-hover: #a87c0d;
   --color-brand-muted: rgba(201, 147, 15, 0.12);
   --color-brand-text: #996f00;
+  --color-brand-bg: rgba(201, 147, 15, 0.1);
+  --color-brand-border: rgba(201, 147, 15, 0.25);
+  --color-brand-glow: rgba(201, 147, 15, 0.25);
 
   // Background Colors - warm, sophisticated neutrals
   --bg-primary: #fafaf9;
@@ -217,6 +224,7 @@
   --input-bg: #ffffff;
   --input-border: #e7e5e4;
   --input-border-focus: #c9930f;
+  --input-focus-border: #c9930f;
   --input-placeholder: #a8a29e;
 
   // Dividers

@@ -1,14 +1,15 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 // ==========================================
-// StudioZ Calendar - Dark Theme Style Guide
+// StudioZ Calendar - Theme-Aware Styles
 // ==========================================
 
 .studioz-calendar {
   width: 100%;
   min-height: 100vh;
-  background: vars.$bg-color-primary;
-  color: vars.$text-color-primary;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 
   // Container
   &__container {
@@ -57,7 +58,7 @@
     font-size: vars.$font-size-2xl;
     font-weight: 900;
     letter-spacing: -0.025em;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
     text-transform: capitalize;
 
@@ -72,7 +73,7 @@
     gap: vars.$spacing-small;
     font-size: vars.$font-size-medium;
     font-weight: 500;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -80,10 +81,10 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-small;
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
     padding: vars.$spacing-xs;
     border-radius: vars.$border-radius-xl;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-secondary);
   }
 
   &__nav-btn {
@@ -95,13 +96,13 @@
     border-radius: vars.$border-radius-medium;
     border: none;
     background: transparent;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: vars.$zinc-800;
-      color: vars.$text-color-primary;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
   }
 
@@ -109,7 +110,7 @@
     padding: vars.$spacing-xs vars.$spacing-large;
     font-size: vars.$font-size-medium;
     font-weight: 700;
-    color: vars.$zinc-300;
+    color: var(--text-secondary);
     background: transparent;
     border: none;
     border-radius: vars.$border-radius-medium;
@@ -117,8 +118,8 @@
     transition: all 0.2s ease;
 
     &:hover {
-      background: vars.$zinc-800;
-      color: vars.$text-color-primary;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
   }
 
@@ -136,16 +137,16 @@
   &__view-tabs {
     display: flex;
     padding: vars.$spacing-xs;
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
     border-radius: vars.$border-radius-2xl;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-secondary);
   }
 
   &__view-tab {
     padding: vars.$spacing-small vars.$spacing-large;
     font-size: vars.$font-size-medium;
     font-weight: 500;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     background: transparent;
     border: none;
     border-radius: vars.$border-radius-xl;
@@ -156,54 +157,39 @@
     gap: vars.$spacing-small;
 
     &:hover {
-      color: vars.$zinc-300;
-      background: rgba(vars.$zinc-800, 0.5);
+      color: var(--text-secondary);
+      background: var(--bg-hover);
     }
 
     &--active {
-      background: vars.$zinc-800;
-      color: vars.$text-color-primary;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
     }
   }
 
   &__add-event-btn {
+    @include mixins.button-primary;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-small;
     padding: vars.$spacing-sm-md vars.$spacing-large;
     font-size: vars.$font-size-medium;
-    font-weight: 700;
-    color: vars.$text-color-dark;
-    background: vars.$color-brand;
-    border: none;
     border-radius: vars.$border-radius-xl;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 16px rgba(255, 209, 102, 0.2);
-
-    &:hover {
-      background: rgba(vars.$color-brand, 0.9);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
   }
 
   // ==========================================
   // Main Content Area
   // ==========================================
   &__content {
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
     border-radius: vars.$border-radius-3xl;
     padding: vars.$spacing-xs;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
     min-height: 600px;
-    border: 1px solid rgba(vars.$zinc-800, 0.5);
+    border: 1px solid var(--border-primary);
   }
 
   // ==========================================
@@ -215,14 +201,14 @@
     height: 100%;
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-secondary);
   }
 
   &__weekday-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    background: vars.$zinc-900;
-    border-bottom: 1px solid vars.$zinc-800;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-secondary);
   }
 
   &__weekday-cell {
@@ -232,12 +218,12 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
   }
 
   &__month-grid {
     flex: 1;
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
   }
 
   &__week-row {
@@ -249,25 +235,26 @@
     position: relative;
     min-height: 120px;
     padding: vars.$spacing-small;
-    border-bottom: 1px solid vars.$zinc-800;
-    border-left: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
+    border-bottom: 1px solid var(--border-secondary);
+    border-left: 1px solid var(--border-secondary);
+    background: var(--bg-tertiary);
     transition: background 0.2s ease;
 
     [dir='rtl'] & {
       border-left: none;
-      border-right: 1px solid vars.$zinc-800;
+      border-right: 1px solid var(--border-secondary);
     }
 
     &:hover {
-      background: rgba(vars.$zinc-800, 0.3);
+      background: var(--bg-hover);
     }
 
     &--other-month {
-      background: rgba(0, 0, 0, 0.4);
+      background: var(--bg-primary);
+      opacity: 0.6;
 
       .studioz-calendar__day-number {
-        color: vars.$zinc-700;
+        color: var(--text-muted);
       }
     }
   }
@@ -287,15 +274,15 @@
     height: 28px;
     font-size: vars.$font-size-medium;
     font-family: 'DM Mono', monospace;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     border-radius: 50%;
     transition: all 0.2s ease;
 
     &--today {
-      background: vars.$color-brand;
-      color: vars.$text-color-dark;
+      background: var(--color-brand);
+      color: var(--btn-primary-text);
       font-weight: 700;
-      box-shadow: 0 0 10px rgba(255, 209, 102, 0.3);
+      box-shadow: 0 0 10px var(--color-brand-glow);
     }
   }
 
@@ -308,12 +295,12 @@
   &__more-events {
     font-size: 10px;
     font-weight: 500;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     padding-left: vars.$spacing-small;
     cursor: pointer;
 
     &:hover {
-      color: vars.$zinc-300;
+      color: var(--text-secondary);
     }
   }
 
@@ -329,16 +316,16 @@
       align-items: center;
       gap: vars.$spacing-xs;
       padding: vars.$spacing-xs vars.$spacing-small;
-      background: rgba(vars.$zinc-900, 0.5);
-      border: 1px solid vars.$zinc-800;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-secondary);
       border-radius: vars.$border-radius-small;
       overflow: hidden;
 
       &:hover {
-        border-color: rgba(vars.$color-brand, 0.5);
+        border-color: var(--color-brand);
 
         .studioz-calendar__event-text {
-          color: vars.$color-brand;
+          color: var(--color-brand);
         }
       }
     }
@@ -351,7 +338,7 @@
       display: flex;
       flex-direction: column;
       gap: vars.$spacing-xs;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-sm);
       overflow: hidden;
       position: relative;
 
@@ -361,15 +348,15 @@
     }
 
     &--booking {
-      background: rgba(vars.$color-brand, 0.1);
-      border: 1px solid rgba(vars.$color-brand, 0.2);
-      color: vars.$color-brand;
+      background: var(--color-brand-bg);
+      border: 1px solid var(--color-brand-border);
+      color: var(--color-brand);
     }
 
     &--maintenance {
-      background: rgba(vars.$color-warning, 0.1);
-      border: 1px solid rgba(vars.$color-warning, 0.2);
-      color: vars.$color-warning;
+      background: var(--color-warning-bg);
+      border: 1px solid var(--color-warning-border);
+      color: var(--color-warning-text);
     }
   }
 
@@ -380,18 +367,18 @@
     flex-shrink: 0;
 
     &--booking {
-      background: vars.$color-brand;
+      background: var(--color-brand);
     }
 
     &--maintenance {
-      background: vars.$color-warning;
+      background: var(--color-warning-text);
     }
   }
 
   &__event-text {
     font-size: 10px;
     font-weight: 500;
-    color: vars.$zinc-300;
+    color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -411,11 +398,11 @@
     }
 
     &--booking {
-      background: vars.$color-brand;
+      background: var(--color-brand);
     }
 
     &--maintenance {
-      background: vars.$color-warning;
+      background: var(--color-warning-text);
     }
   }
 
@@ -456,14 +443,14 @@
     height: 100%;
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
-    border: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
+    border: 1px solid var(--border-secondary);
+    background: var(--bg-tertiary);
   }
 
   &__week-header {
     display: flex;
-    border-bottom: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
+    border-bottom: 1px solid var(--border-secondary);
+    background: var(--bg-tertiary);
   }
 
   &__time-gutter-header {
@@ -475,11 +462,11 @@
     flex: 1;
     padding: vars.$spacing-medium;
     text-align: center;
-    border-left: 1px solid vars.$zinc-800;
+    border-left: 1px solid var(--border-secondary);
 
     [dir='rtl'] & {
       border-left: none;
-      border-right: 1px solid vars.$zinc-800;
+      border-right: 1px solid var(--border-secondary);
     }
 
     &:last-child {
@@ -493,11 +480,11 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     margin-bottom: vars.$spacing-xs;
 
     &--today {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
@@ -510,17 +497,17 @@
     font-size: vars.$font-size-xl;
     font-family: 'DM Mono', monospace;
     font-weight: 500;
-    color: vars.$zinc-300;
+    color: var(--text-secondary);
     border-radius: 50%;
     transition: background 0.2s ease;
 
     &--today {
-      background: vars.$color-brand;
-      color: vars.$text-color-dark;
+      background: var(--color-brand);
+      color: var(--btn-primary-text);
     }
 
     &:hover:not(&--today) {
-      background: vars.$zinc-800;
+      background: var(--bg-hover);
     }
   }
 
@@ -528,24 +515,7 @@
     flex: 1;
     overflow-y: auto;
     position: relative;
-
-    // Custom scrollbar
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: vars.$zinc-900;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: vars.$zinc-700;
-      border-radius: 4px;
-
-      &:hover {
-        background: vars.$zinc-600;
-      }
-    }
+    @include mixins.custom-scrollbar;
   }
 
   &__week-grid {
@@ -559,8 +529,8 @@
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid vars.$zinc-800;
-    background: rgba(vars.$zinc-900, 0.5);
+    border-left: 1px solid var(--border-secondary);
+    background: var(--bg-surface);
     position: sticky;
     right: 0;
     z-index: 10;
@@ -569,7 +539,7 @@
       right: auto;
       left: 0;
       border-left: none;
-      border-right: 1px solid vars.$zinc-800;
+      border-right: 1px solid var(--border-secondary);
     }
   }
 
@@ -577,7 +547,7 @@
     height: 60px;
     font-size: 10px;
     font-family: 'DM Mono', monospace;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     text-align: left;
     padding-left: vars.$spacing-small;
     margin-top: -8px;
@@ -593,7 +563,7 @@
     flex: 1;
     display: flex;
     position: relative;
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
   }
 
   &__hour-lines {
@@ -604,18 +574,18 @@
 
   &__hour-line {
     height: 60px;
-    border-bottom: 1px solid rgba(vars.$zinc-800, 0.5);
+    border-bottom: 1px solid var(--border-primary);
     width: 100%;
   }
 
   &__week-column {
     flex: 1;
-    border-left: 1px solid rgba(vars.$zinc-800, 0.5);
+    border-left: 1px solid var(--border-primary);
     position: relative;
 
     [dir='rtl'] & {
       border-left: none;
-      border-right: 1px solid rgba(vars.$zinc-800, 0.5);
+      border-right: 1px solid var(--border-primary);
     }
 
     &:last-child {
@@ -641,14 +611,14 @@
     height: 100%;
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
-    border: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
+    border: 1px solid var(--border-secondary);
+    background: var(--bg-tertiary);
   }
 
   &__day-view-header {
     padding: vars.$spacing-large;
-    border-bottom: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
+    border-bottom: 1px solid var(--border-secondary);
+    background: var(--bg-tertiary);
   }
 
   &__day-view-weekday {
@@ -656,20 +626,20 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
 
     &--today {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
   &__day-view-date {
     font-size: vars.$font-size-2xl;
     font-weight: 900;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
 
     &--today {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
@@ -677,19 +647,7 @@
     flex: 1;
     overflow-y: auto;
     position: relative;
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: vars.$zinc-900;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: vars.$zinc-700;
-      border-radius: 4px;
-    }
+    @include mixins.custom-scrollbar;
   }
 
   &__day-grid {
@@ -701,7 +659,7 @@
   &__day-column {
     flex: 1;
     position: relative;
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
   }
 
   &__day-event-wrapper {
@@ -719,8 +677,8 @@
     height: 100%;
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
-    border: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
+    border: 1px solid var(--border-secondary);
+    background: var(--bg-tertiary);
     padding: vars.$spacing-large;
   }
 
@@ -734,13 +692,13 @@
   &__list-title {
     font-size: vars.$font-size-xl;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__list-date {
     font-size: vars.$font-size-medium;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
   }
 
   &__list-events {
@@ -753,15 +711,15 @@
     display: flex;
     gap: vars.$spacing-large;
     padding: vars.$spacing-large;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-secondary);
     border-radius: vars.$border-radius-xl;
-    background: rgba(vars.$zinc-900, 0.3);
+    background: var(--bg-surface);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(vars.$zinc-900, 0.6);
-      border-color: vars.$zinc-700;
+      background: var(--bg-hover);
+      border-color: var(--border-primary);
     }
   }
 
@@ -772,31 +730,31 @@
     justify-content: center;
     min-width: 80px;
     padding-left: vars.$spacing-large;
-    border-left: 1px solid vars.$zinc-800;
+    border-left: 1px solid var(--border-secondary);
     font-family: 'DM Mono', monospace;
 
     [dir='ltr'] & {
       padding-left: 0;
       padding-right: vars.$spacing-large;
       border-left: none;
-      border-right: 1px solid vars.$zinc-800;
+      border-right: 1px solid var(--border-secondary);
     }
   }
 
   &__list-event-start {
     font-size: vars.$font-size-xl;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     transition: color 0.2s ease;
 
     .studioz-calendar__list-event:hover & {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
   &__list-event-end {
     font-size: vars.$font-size-small;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
   }
 
   &__list-event-content {
@@ -812,7 +770,7 @@
   &__list-event-title {
     font-size: vars.$font-size-large;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0 0 vars.$spacing-xs;
   }
 
@@ -822,11 +780,11 @@
     border-radius: 50%;
 
     &--booking {
-      background: vars.$color-brand;
+      background: var(--color-brand);
     }
 
     &--maintenance {
-      background: vars.$color-warning;
+      background: var(--color-warning-text);
     }
   }
 
@@ -842,10 +800,10 @@
     align-items: center;
     gap: vars.$spacing-xs;
     font-size: vars.$font-size-medium;
-    color: vars.$zinc-500;
+    color: var(--text-muted);
     padding: vars.$spacing-xs vars.$spacing-small;
-    background: rgba(vars.$zinc-800, 0.5);
-    border: 1px solid vars.$zinc-800;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-secondary);
     border-radius: 9999px;
   }
 
@@ -858,20 +816,20 @@
     align-items: center;
     justify-content: center;
     height: 300px;
-    border: 2px dashed vars.$zinc-800;
+    border: 2px dashed var(--border-secondary);
     border-radius: vars.$border-radius-xl;
-    background: rgba(vars.$zinc-900, 0.2);
+    background: var(--bg-surface);
   }
 
   &__empty-icon {
-    color: vars.$zinc-700;
+    color: var(--text-muted);
     margin-bottom: vars.$spacing-large;
   }
 
   &__empty-text {
     font-size: vars.$font-size-large;
     font-weight: 500;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
     margin: 0;
   }
 
@@ -879,7 +837,7 @@
     margin-top: vars.$spacing-large;
     font-size: vars.$font-size-medium;
     font-weight: 500;
-    color: vars.$color-brand;
+    color: var(--color-brand);
     background: transparent;
     border: none;
     cursor: pointer;
@@ -996,7 +954,7 @@
       justify-content: flex-start;
       gap: vars.$spacing-small;
       border-left: none;
-      border-bottom: 1px solid vars.$zinc-800;
+      border-bottom: 1px solid var(--border-secondary);
       padding: 0 0 vars.$spacing-small;
 
       [dir='ltr'] & {
