@@ -149,7 +149,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
       <section className="landing-hero">
         <div className="landing-hero__background">
           <img
-            src="https://pquxfbbxflqvtidtlrhl.supabase.co/storage/v1/object/public/hmac-uploads/brand/91893494-7bbb-41d7-99cc-7cc9c8d44ebc/assets/17f74143-c16b-4ec8-9977-28fe1929edaf.jpg"
+            src="/images/Landing-Studio1320-1.jpg"
             alt="Studio Background"
             className="landing-hero__image"
           />
