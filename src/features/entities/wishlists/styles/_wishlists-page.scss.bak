@@ -1,0 +1,84 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+.wishlists {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+  margin-block-end: 2.5rem;
+  padding: 2rem 1.5rem;
+
+  .wishlists-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .wishlists-title-section {
+    display: flex;
+    align-items: center;
+    gap: ds.$space-4;
+  }
+
+  .wishlists-icon {
+    font-size: 2.5rem;
+    color: vars.$color-brand;
+    filter: drop-shadow(0 2px 4px vars.$blue-opacity-74-144-226-20);
+  }
+
+  .wishlists-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: vars.$bg-color-tertiary;
+    letter-spacing: -0.02em;
+  }
+
+  .wishlists-subtitle {
+    margin: 0;
+    font-size: ds.$font-base;
+    color: vars.$text-color-secondary;
+    font-weight: 400;
+    padding-left: 3.5rem;
+  }
+
+  .create-wishlist-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background-color: vars.$color-brand;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: ds.$font-base;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px vars.$blue-opacity-74-144-226-20;
+
+    svg {
+      font-size: 1.25rem;
+    }
+
+    &:hover {
+      background-color: vars.$color-blue-3a7bc8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px vars.$blue-opacity-74-144-226-30;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .wishlist-list {
+    width: 100%;
+  }
+}

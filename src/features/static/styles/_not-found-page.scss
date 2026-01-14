@@ -1,15 +1,12 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
-// Local aliases (referencing design system)
-$accent-yellow: ds.$primary-yellow;
-$accent-yellow-hover: #ffda85;
-$card-bg: #1e1e1e;
-$border-color: ds.$zinc-800;
+// Using CSS variables for theme support
 
 .not-found-page {
   min-height: 100vh;
-  background: black;
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,7 +27,7 @@ $border-color: ds.$zinc-800;
       transform: translate(-50%, -50%);
       width: 500px;
       height: 500px;
-      background: rgba($accent-yellow, 0.05);
+      background: var(--color-brand-bg);
       border-radius: 50%;
       filter: blur(100px);
     }
@@ -39,13 +36,13 @@ $border-color: ds.$zinc-800;
   &__card {
     position: relative;
     width: 100%;
-    max-width: 28rem; // max-w-md
-    background: $card-bg;
-    border: 1px solid $border-color;
-    border-radius: 1rem; // rounded-2xl
+    max-width: 28rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    border-radius: 1rem;
     padding: vars.$spacing-2xl;
     text-align: center;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); // shadow-2xl
+    box-shadow: 0 25px 50px -12px var(--shadow-xl);
     animation: fadeInZoom 0.5s ease-out;
   }
 
@@ -61,36 +58,36 @@ $border-color: ds.$zinc-800;
   }
 
   &__icon-container {
-    width: 6rem; // w-24
-    height: 6rem; // h-24
+    width: 6rem;
+    height: 6rem;
     margin: 0 auto vars.$spacing-large;
     border-radius: 50%;
-    background: rgba($accent-yellow, 0.1);
-    border: 2px solid rgba($accent-yellow, 0.2);
+    background: var(--color-brand-bg);
+    border: 2px solid var(--color-brand-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 30px -10px rgba($accent-yellow, 0.3);
+    box-shadow: 0 0 30px -10px var(--color-brand-glow);
   }
 
   &__icon-symbol {
-    font-size: ds.$font-4xl; // text-4xl
+    font-size: ds.$font-4xl;
     font-weight: 700;
-    color: $accent-yellow;
+    color: var(--color-brand);
   }
 
   &__title {
-    font-size: ds.$font-2xl; // text-2xl
+    font-size: ds.$font-2xl;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin: 0 0 vars.$spacing-small;
   }
 
   &__description {
-    font-size: ds.$font-base; // text-base
-    color: #a1a1aa; // zinc-400
+    font-size: ds.$font-base;
+    color: var(--text-muted);
     margin: 0 0 vars.$spacing-2xl;
-    line-height: 1.625; // leading-relaxed
+    line-height: 1.625;
   }
 
   &__button {
@@ -99,24 +96,24 @@ $border-color: ds.$zinc-800;
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-small;
-    background: $accent-yellow;
-    color: black;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 700;
-    padding: 0.875rem vars.$spacing-large; // py-3.5 px-6
-    border-radius: ds.$radius-lg; // rounded-xl
+    padding: 0.875rem vars.$spacing-large;
+    border-radius: ds.$radius-lg;
     border: none;
     cursor: pointer;
     font-size: ds.$font-base;
-    box-shadow: 0 0 20px -5px rgba($accent-yellow, 0.4);
+    box-shadow: 0 0 20px -5px var(--color-brand-glow);
     transition:
       background-color 0.2s ease,
       transform 0.2s ease,
       box-shadow 0.2s ease;
 
     &:hover {
-      background: $accent-yellow-hover;
+      background: var(--color-brand-hover);
       transform: scale(1.02);
-      box-shadow: 0 0 25px -5px rgba($accent-yellow, 0.6);
+      box-shadow: 0 0 25px -5px var(--color-brand-glow);
     }
 
     &:active {
@@ -124,8 +121,8 @@ $border-color: ds.$zinc-800;
     }
 
     &-icon {
-      width: 1.25rem; // w-5
-      height: 1.25rem; // h-5
+      width: 1.25rem;
+      height: 1.25rem;
       transition: transform 0.2s ease;
     }
 
@@ -136,20 +133,20 @@ $border-color: ds.$zinc-800;
 
   &__countdown {
     font-size: ds.$font-md;
-    color: #71717a; // zinc-500
+    color: var(--text-muted);
     margin: vars.$spacing-medium 0 0;
     cursor: pointer;
     padding: vars.$spacing-small vars.$spacing-medium;
     border-radius: vars.$border-radius-small;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
     transition:
       color 0.2s ease,
       background-color 0.2s ease;
 
     &:hover {
-      color: #a1a1aa; // zinc-400
-      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      background: var(--bg-surface);
     }
   }
 

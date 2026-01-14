@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ============================================
@@ -6,26 +7,14 @@
 // Design System: StudioZ Dark Mode
 // ============================================
 
-// Local Theme Variables (referencing design system)
-$bg-card: #0a0a0a;
-$bg-input: ds.$bg-tertiary;
-$border-color: ds.$zinc-800;
-$border-hover: ds.$zinc-700;
-$primary: ds.$primary-yellow;
-$primary-hover: #ffc107;
-$text-primary: ds.$primary-white;
-$text-secondary: ds.$zinc-200;
-$text-muted: ds.$zinc-400;
-$text-subtle: ds.$zinc-500;
-$success: ds.$color-success-text;
-$error: ds.$color-error;
+// Using CSS custom properties from theme system
 
 .order-summary {
   width: 100%;
   max-width: 520px; // Match style guide
   margin: 0 auto;
   font-family: 'DM Sans', sans-serif; // Assuming font family
-  color: $text-primary;
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -37,7 +26,7 @@ $error: ds.$color-error;
     gap: 12px;
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid var(--border-primary);
   }
 
   &__back-btn {
@@ -48,14 +37,14 @@ $error: ds.$color-error;
     height: 32px;
     border-radius: 50%;
     background: transparent;
-    color: $text-muted;
+    color: var(--text-muted);
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: $border-color;
-      color: $text-primary;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
     }
 
     svg {
@@ -67,7 +56,7 @@ $error: ds.$color-error;
   &__title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: $text-primary;
+    color: var(--text-primary);
     margin: 0;
     letter-spacing: -0.01em;
   }
@@ -162,14 +151,14 @@ $error: ds.$color-error;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: $text-muted;
+    color: var(--text-muted);
     margin: 0 0 1rem 0;
   }
 
   // Details Card
   &__details-card {
-    background: rgba(24, 24, 27, 0.5); // zinc-900/50
-    border: 1px solid $border-color;
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
     border-radius: 12px; // rounded-lg
     padding: 1.25rem;
   }
@@ -184,7 +173,7 @@ $error: ds.$color-error;
   &__info-divider {
     width: 1px;
     height: 32px;
-    background: $border-color;
+    background: var(--border-primary);
   }
 
   &__info-item {
@@ -195,7 +184,7 @@ $error: ds.$color-error;
   }
 
   &__info-icon {
-    color: $text-muted;
+    color: var(--text-muted);
     width: 20px;
     height: 20px;
   }
@@ -203,7 +192,7 @@ $error: ds.$color-error;
   &__info-primary {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: $text-primary;
+    color: var(--text-primary);
     margin: 0;
     line-height: 1.2;
     text-align: start;
@@ -211,7 +200,7 @@ $error: ds.$color-error;
 
   &__info-secondary {
     font-size: ds.$font-sm;
-    color: $text-muted;
+    color: var(--text-muted);
     margin: 0;
     text-align: start;
   }
@@ -231,17 +220,17 @@ $error: ds.$color-error;
   }
 
   &__price-label {
-    color: $text-muted;
+    color: var(--text-muted);
   }
 
   &__price-value {
-    color: $text-primary;
+    color: var(--text-primary);
     font-weight: 500;
   }
 
   // Total Row
   &__total-row {
-    border-top: 1px solid $border-color;
+    border-top: 1px solid var(--border-primary);
     padding-top: 1rem;
     display: flex;
     justify-content: space-between;
@@ -251,13 +240,13 @@ $error: ds.$color-error;
   &__total-label {
     font-size: 1.125rem;
     font-weight: 700;
-    color: $text-primary;
+    color: var(--text-primary);
   }
 
   &__total-value {
     font-size: 1.5rem;
     font-weight: 700;
-    color: $primary;
+    color: var(--color-brand);
     font-family: 'DM Mono', monospace;
   }
 
@@ -275,7 +264,7 @@ $error: ds.$color-error;
     align-items: center;
     gap: 6px;
     font-size: ds.$font-sm;
-    color: $text-subtle;
+    color: var(--text-tertiary);
     text-align: center;
 
     .sumit-secured {
@@ -286,7 +275,7 @@ $error: ds.$color-error;
       flex-wrap: wrap;
 
       .sumit-link {
-        color: #e4e4e7; // Subtle light gray
+        color: var(--text-primary);
         font-weight: 600;
         text-decoration: none;
 
@@ -312,8 +301,8 @@ $error: ds.$color-error;
 
   &__submit-btn {
     width: 100%;
-    background: $primary;
-    color: #000;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-size: 1.125rem;
     font-weight: 700;
     padding: 1rem;
@@ -328,8 +317,8 @@ $error: ds.$color-error;
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: $primary-hover;
-      box-shadow: 0 0 25px rgba(255, 209, 102, 0.4);
+      background: var(--color-brand-hover);
+      box-shadow: 0 0 25px var(--color-brand-glow);
       transform: translateY(-1px);
     }
 
@@ -348,9 +337,9 @@ $error: ds.$color-error;
   }
 
   &__error {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: $error;
+    background: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    color: var(--color-error);
     font-size: ds.$font-md;
     padding: 0.75rem;
     border-radius: 8px;
@@ -361,14 +350,14 @@ $error: ds.$color-error;
   &__terms {
     text-align: center;
     font-size: ds.$font-sm;
-    color: $text-subtle;
+    color: var(--text-tertiary);
     margin-top: 1rem;
 
     a {
-      color: $text-muted;
+      color: var(--text-muted);
       text-decoration: underline;
       &:hover {
-        color: $text-primary;
+        color: var(--text-primary);
       }
     }
   }
@@ -394,21 +383,21 @@ $error: ds.$color-error;
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: $bg-card;
-    border: 1px solid $border-color;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
     border-radius: 12px; // rounded-lg
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: inherit; // Reset button text align
 
     &:hover {
-      border-color: $border-hover;
+      border-color: var(--border-hover);
       background: rgba(24, 24, 27, 0.3);
     }
 
     &--selected {
       background: rgba(24, 24, 27, 1); // zinc-900
-      border-color: $primary;
+      border-color: var(--color-brand);
       box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2);
     }
   }
@@ -423,25 +412,25 @@ $error: ds.$color-error;
   &__brand {
     width: 48px;
     height: 32px;
-    background: #27272a; // zinc-800
+    background: var(--bg-elevated);
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #3f3f46; // zinc-700
+    border: 1px solid var(--border-secondary);
     overflow: hidden;
 
     svg {
       width: 20px;
       height: 20px;
-      color: $text-muted;
+      color: var(--text-muted);
     }
 
     .visa-text {
       font-size: 10px;
       font-weight: 900;
       font-style: italic;
-      color: white;
+      color: var(--text-inverse);
     }
 
     .mastercard-circles {
@@ -474,13 +463,13 @@ $error: ds.$color-error;
   &__number {
     font-size: 0.9375rem;
     font-weight: 500;
-    color: $text-primary;
+    color: var(--text-primary);
     font-family: 'DM Mono', monospace;
   }
 
   &__expiry {
     font-size: ds.$font-sm;
-    color: $text-subtle;
+    color: var(--text-tertiary);
   }
 
   // Checkbox/Radio Indicator
@@ -488,16 +477,16 @@ $error: ds.$color-error;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 1px solid $text-subtle;
+    border: 1px solid var(--border-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
 
     &.selected {
-      background: $primary;
-      border-color: $primary;
-      color: #000;
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      color: var(--text-inverse);
     }
 
     svg {
@@ -511,9 +500,9 @@ $error: ds.$color-error;
     width: 100%;
     padding: 1rem;
     border-radius: 12px;
-    border: 1px dashed $border-hover;
+    border: 1px dashed var(--border-hover);
     background: transparent;
-    color: $text-muted;
+    color: var(--text-muted);
     font-size: 0.9375rem;
     font-weight: 500;
     display: flex;
@@ -524,9 +513,9 @@ $error: ds.$color-error;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: $text-muted;
+      border-color: var(--border-hover);
       background: rgba(24, 24, 27, 0.5);
-      color: $text-primary;
+      color: var(--text-primary);
     }
 
     svg {
@@ -548,20 +537,20 @@ $error: ds.$color-error;
   &__empty-icon {
     width: 64px !important;
     height: 64px !important;
-    color: #3f3f46; // zinc-700 (darker placeholder)
+    color: var(--text-tertiary);
     margin-bottom: 1rem;
   }
 
   &__empty-title {
     font-size: 1.125rem;
     font-weight: 700;
-    color: $text-primary;
+    color: var(--text-primary);
     margin: 0 0 0.5rem 0;
   }
 
   &__empty-subtitle {
     font-size: ds.$font-md;
-    color: $text-muted;
+    color: var(--text-muted);
     margin-bottom: 1.5rem;
   }
 
@@ -569,8 +558,8 @@ $error: ds.$color-error;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: $primary;
-    color: #000;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 700;
     padding: 0.75rem 1.5rem;
     border-radius: 12px;
@@ -579,7 +568,7 @@ $error: ds.$color-error;
     transition: all 0.2s ease;
 
     &:hover {
-      background: $primary-hover;
+      background: var(--color-brand-hover);
       transform: translateY(-1px);
     }
 
@@ -594,18 +583,18 @@ $error: ds.$color-error;
     // Styling overrides for Sumit Form if necessary
     .sumit-payment-form {
       &__input {
-        background: $bg-input;
-        border-color: $border-color;
-        color: $text-primary;
+        background: var(--bg-input);
+        border-color: var(--border-primary);
+        color: var(--text-primary);
 
         &:focus {
-          border-color: $primary;
-          box-shadow: 0 0 0 1px $primary;
+          border-color: var(--color-brand);
+          box-shadow: 0 0 0 1px var(--color-brand);
         }
       }
 
       &__label {
-        color: $text-secondary;
+        color: var(--text-secondary);
       }
     }
   }

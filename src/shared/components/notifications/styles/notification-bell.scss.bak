@@ -1,0 +1,150 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'sass:color';
+@use 'design-system' as ds;
+
+.notification-bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__button {
+    position: relative; // Required for badge positioning
+  }
+
+  &__icon {
+    font-size: 1.25rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.375rem !important;
+      width: 1.375rem !important;
+      height: 1.375rem !important;
+    }
+  }
+
+  &__badge {
+    // Notification Badge - pill shape for double digits
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    background: vars.$color-brand;
+    color: black;
+    font-size: 0.5625rem; // 9px on mobile
+    font-weight: 700;
+    padding: 0 0.1875rem;
+    border-radius: 0.375rem;
+    min-width: 0.875rem;
+    height: 0.875rem;
+    text-align: center;
+    line-height: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.95);
+    z-index: 1;
+    pointer-events: none;
+
+    // Larger on desktop
+    @media screen and (min-width: 768px) {
+      top: -0.375rem;
+      right: -0.375rem;
+      font-size: 0.6875rem; // 11px
+      padding: 0 0.25rem;
+      min-width: 1.125rem;
+      height: 1.125rem;
+      line-height: 1.125rem;
+      border-radius: ds.$radius-md;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.95);
+    }
+
+    // Single digit (1-9) - perfectly circular
+    &--single {
+      width: 0.875rem;
+      min-width: 0.875rem;
+      padding: 0 !important;
+      border-radius: 50% !important;
+
+      @media screen and (min-width: 768px) {
+        width: 1.125rem;
+        min-width: 1.125rem;
+      }
+    }
+
+    // RTL support - badge on left side of button
+    html[dir='rtl'] & {
+      right: auto;
+      left: -0.25rem;
+
+      @media screen and (min-width: 768px) {
+        left: -0.375rem;
+      }
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: 360px;
+    max-width: calc(100vw - vars.$spacing-large);
+    z-index: 1000;
+    animation: dropdownFadeIn 0.2s ease-out;
+    transform: translateX(0);
+
+    html[dir='rtl'] & {
+      left: 0;
+      right: auto;
+      transform: translateX(0);
+    }
+
+    @media (max-width: 768px) {
+      width: calc(100vw - 3rem);
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      animation: dropdownFadeInMobile 0.2s ease-out;
+
+      html[dir='rtl'] & {
+        left: auto;
+        right: 50%;
+        transform: translateX(50%);
+        animation: dropdownFadeInMobileRtl 0.2s ease-out;
+      }
+    }
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownFadeInMobile {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes dropdownFadeInMobileRtl {
+  from {
+    opacity: 0;
+    transform: translate(50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(50%, 0);
+  }
+}

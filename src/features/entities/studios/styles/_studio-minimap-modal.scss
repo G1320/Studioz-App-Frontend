@@ -1,23 +1,14 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
 // STUDIO INFO MODAL - StudioZ Design System
-// Theme: Dark Mode
+// Theme: Uses CSS variables for light/dark mode
 // ==========================================
 
-// Local aliases (referencing design system)
-$modal-primary: ds.$primary-yellow;
-$modal-primary-hover: #ffc133;
-$modal-bg: #0f0f0f;
-$modal-surface: ds.$zinc-900;
-$modal-border: ds.$zinc-800;
-$modal-border-light: ds.$zinc-700;
-$modal-text: ds.$primary-white;
-$modal-text-secondary: ds.$zinc-300;
-$modal-text-tertiary: ds.$zinc-400;
-$modal-text-muted: ds.$zinc-500;
-$modal-map-bg: ds.$zinc-800;
+// Note: All colors now use CSS variables for theme support
+// Local SCSS aliases removed - use var(--*) directly
 
 .studio-minimap-modal {
   .modal-wrapper {
@@ -41,11 +32,11 @@ $modal-map-bg: ds.$zinc-800;
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: $modal-bg;
-    border: 1px solid $modal-border;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-secondary);
     border-radius: vars.$border-radius-3xl;
     overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-xl);
   }
 
   // ==========================================
@@ -57,7 +48,7 @@ $modal-map-bg: ds.$zinc-800;
     width: 100%;
     height: 200px;
     overflow: hidden;
-    background: $modal-map-bg;
+    background: var(--bg-hover);
 
     @media (min-width: 768px) {
       height: 240px;
@@ -97,7 +88,7 @@ $modal-map-bg: ds.$zinc-800;
   &__map-marker-pulse {
     width: 48px;
     height: 48px;
-    background: rgba($modal-primary, 0.2);
+    background: var(--color-brand-bg);
     border-radius: 50%;
     animation: pulse 2s ease-in-out infinite;
   }
@@ -106,9 +97,9 @@ $modal-map-bg: ds.$zinc-800;
     position: absolute;
     width: 16px;
     height: 16px;
-    background: $modal-primary;
+    background: var(--color-brand);
     border-radius: 50%;
-    box-shadow: 0 0 20px $modal-primary;
+    box-shadow: 0 0 20px var(--color-brand);
   }
 
   @keyframes pulse {
@@ -129,14 +120,14 @@ $modal-map-bg: ds.$zinc-800;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $modal-map-bg;
+    background: var(--bg-hover);
   }
 
   &__map-loader-spinner {
     width: 32px;
     height: 32px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: $modal-primary;
+    border: 3px solid var(--border-primary);
+    border-top-color: var(--color-brand);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -156,16 +147,16 @@ $modal-map-bg: ds.$zinc-800;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--overlay-bg);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-primary);
     border-radius: 50%;
-    color: $modal-text;
+    color: var(--text-primary);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.8);
+      background: var(--overlay-bg-hover);
       transform: scale(1.05);
     }
   }
@@ -195,7 +186,7 @@ $modal-map-bg: ds.$zinc-800;
     margin: 0 0 vars.$spacing-xs 0;
     font-size: vars.$font-size-2xl;
     font-weight: 700;
-    color: $modal-text;
+    color: var(--text-primary);
     line-height: 1.2;
     text-align: start;
   }
@@ -216,7 +207,7 @@ $modal-map-bg: ds.$zinc-800;
   &__address {
     margin: 0;
     font-size: vars.$font-size-sm-md;
-    color: $modal-text-tertiary;
+    color: var(--text-tertiary);
     line-height: 1.5;
     max-width: 250px;
   }
@@ -227,13 +218,13 @@ $modal-map-bg: ds.$zinc-800;
     gap: vars.$spacing-xs;
     font-size: vars.$font-size-sm-md;
     font-weight: 700;
-    color: $modal-primary;
+    color: var(--color-brand);
     text-decoration: none;
     white-space: nowrap;
     transition: color 0.2s ease;
 
     &:hover {
-      color: $modal-primary-hover;
+      color: var(--color-brand-hover);
     }
   }
 
@@ -268,15 +259,15 @@ $modal-map-bg: ds.$zinc-800;
 
     &:hover {
       .studio-minimap-modal__contact-icon-wrapper {
-        border-color: rgba($modal-primary, 0.5);
+        border-color: var(--color-brand-glow);
       }
 
       .studio-minimap-modal__contact-icon {
-        color: $modal-primary;
+        color: var(--color-brand);
       }
 
       .studio-minimap-modal__contact-text {
-        color: $modal-text;
+        color: var(--text-primary);
       }
     }
   }
@@ -287,8 +278,8 @@ $modal-map-bg: ds.$zinc-800;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $modal-surface;
-    border: 1px solid $modal-border;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-secondary);
     border-radius: 50%;
     flex-shrink: 0;
     transition: border-color 0.2s ease;
@@ -297,13 +288,13 @@ $modal-map-bg: ds.$zinc-800;
   &__contact-icon {
     width: 14px;
     height: 14px;
-    color: $modal-text-tertiary;
+    color: var(--text-tertiary);
     transition: color 0.2s ease;
   }
 
   &__contact-text {
     font-size: vars.$font-size-sm-md;
-    color: $modal-text-secondary;
+    color: var(--text-secondary);
     transition: color 0.2s ease;
   }
 
@@ -314,7 +305,7 @@ $modal-map-bg: ds.$zinc-800;
   &__divider {
     height: 1px;
     width: 100%;
-    background: $modal-border;
+    background: var(--border-secondary);
   }
 
   // ==========================================
@@ -342,24 +333,24 @@ $modal-map-bg: ds.$zinc-800;
   &__hours-label {
     font-size: vars.$font-size-sm-md;
     font-weight: 700;
-    color: $modal-text-secondary;
+    color: var(--text-secondary);
   }
 
   &__hours-today {
     margin: 0;
     font-size: vars.$font-size-small;
-    color: $modal-text-muted;
+    color: var(--text-muted);
 
     span {
-      color: $modal-text-secondary;
+      color: var(--text-secondary);
     }
   }
 
   &__hours-toggle {
-    border: 1px solid $modal-border-light;
+    border: 1px solid var(--border-hover);
     outline: none;
-    background: $modal-surface;
-    color: $modal-text-tertiary;
+    background: var(--bg-surface);
+    color: var(--text-tertiary);
     font-size: vars.$font-size-small;
     font-weight: 600;
     padding: vars.$spacing-xs vars.$spacing-sm-md;
@@ -369,8 +360,8 @@ $modal-map-bg: ds.$zinc-800;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: $modal-text-muted;
-      color: $modal-text;
+      border-color: var(--text-muted);
+      color: var(--text-primary);
     }
   }
 
@@ -401,7 +392,7 @@ $modal-map-bg: ds.$zinc-800;
       gap: vars.$spacing-medium;
       font-size: vars.$font-size-sm-md;
       padding: vars.$spacing-xs 0;
-      border-bottom: 1px solid rgba($modal-border, 0.5);
+      border-bottom: 1px solid var(--border-primary);
 
       &:last-child {
         border-bottom: none;
@@ -409,14 +400,14 @@ $modal-map-bg: ds.$zinc-800;
 
       strong {
         font-weight: 500;
-        color: $modal-text-muted;
+        color: var(--text-muted);
       }
 
       p {
         margin: 0;
         text-align: end;
         white-space: nowrap;
-        color: $modal-text-secondary;
+        color: var(--text-secondary);
         font-family: monospace;
       }
     }

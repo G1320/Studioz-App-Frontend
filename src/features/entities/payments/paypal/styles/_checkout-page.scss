@@ -21,9 +21,9 @@
     display: grid;
     justify-content: center;
     padding: ds.$space-4;
-    border: 1px solid #eaeaea;
-    background-color: #f9f9f9;
+    border: 1px solid var(--border-primary);
+    background-color: var(--bg-elevated);
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
   }
 }

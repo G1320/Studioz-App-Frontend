@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'sass:color';
 
 .phone-access-form {
@@ -9,8 +10,8 @@
   padding: vars.$spacing-xl;
 
   &__container {
-    background: vars.$bg-color-secondary;
-    border: 1px solid vars.$white-opacity-10;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-large;
     padding: vars.$spacing-2xl;
     max-width: 500px;
@@ -21,14 +22,14 @@
   &__title {
     font-size: vars.$font-size-2xl;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0 0 vars.$spacing-small 0;
     text-align: center;
   }
 
   &__subtitle {
     font-size: vars.$font-size-medium;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
     margin: 0 0 vars.$spacing-xl 0;
     text-align: center;
   }
@@ -46,25 +47,25 @@
   &__input {
     width: 100%;
     padding: vars.$spacing-medium;
-    background: vars.$dark-bg-60;
-    border: 1px solid vars.$white-opacity-10;
+    background: var(--bg-input);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     transition: border-color 0.2s ease;
     box-sizing: border-box;
 
     &::placeholder {
-      color: vars.$white-opacity-40;
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: vars.$color-brand;
+      border-color: var(--color-brand);
     }
 
     &:hover:not(:focus) {
-      border-color: vars.$white-opacity-20;
+      border-color: var(--border-hover);
     }
 
     &:disabled {
@@ -76,8 +77,8 @@
   &__submit-button {
     width: 100%;
     padding: vars.$spacing-medium;
-    background: vars.$color-brand;
-    color: vars.$text-color-primary;
+    background: var(--color-brand);
+    color: var(--btn-primary-text);
     border: none;
     border-radius: vars.$border-radius-medium;
     font-size: vars.$font-size-medium;
@@ -86,9 +87,9 @@
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: color.adjust(vars.$color-brand, $lightness: -10%);
+      background: var(--color-brand-hover);
       transform: translateY(-2px);
-      box-shadow: vars.$box-shadow-medium;
+      box-shadow: var(--shadow-glow);
     }
 
     &:active:not(:disabled) {

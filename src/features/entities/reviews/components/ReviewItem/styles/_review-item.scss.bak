@@ -1,0 +1,98 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+.review-item {
+  padding: 1.25rem;
+  background-color: vars.$white-opacity-03;
+  border: 1px solid vars.$white-opacity-10;
+  border-radius: vars.$border-radius-xl;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: vars.$white-opacity-05;
+    border-color: vars.$white-opacity-15;
+  }
+
+  @media (max-width: 768px) {
+    padding: ds.$space-4;
+    border-radius: 8px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: ds.$space-4;
+    margin-bottom: 0.75rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+
+  &__user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, vars.$color-brand, rgba(vars.$color-brand, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
+
+  &__user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__user-name {
+    margin: 0;
+    font-size: ds.$font-base;
+    font-weight: 600;
+    color: vars.$color-text-light-gray;
+  }
+
+  &__date {
+    font-size: 0.8125rem;
+    color: vars.$light-gray-9ca3af;
+  }
+
+  &__rating {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  &__star {
+    font-size: 1.125rem;
+    color: vars.$text-color-secondary;
+    transition: color 0.2s ease;
+
+    &--filled {
+      color: vars.$color-brand;
+    }
+  }
+
+  &__comment {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: vars.$light-gray-d1d5db;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}

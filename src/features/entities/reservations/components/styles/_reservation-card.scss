@@ -49,7 +49,7 @@
     position: relative;
     background: var(--bg-elevated);
     border: 1px solid var(--border-secondary);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 2px 4px var(--shadow-sm);
 
     &.status--confirmed {
       color: var(--color-success-text);

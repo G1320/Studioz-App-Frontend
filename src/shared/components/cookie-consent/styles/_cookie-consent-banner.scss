@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .cookie-consent-banner {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: vars.$bg-color-secondary;
-  color: vars.$text-color-primary;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   padding: vars.$spacing-medium;
   z-index: 9999;
   box-shadow: vars.$box-shadow-xl;
-  border-top: 1px solid rgba(vars.$border-color-primary, 0.1);
+  border-top: 1px solid var(--border-primary);
   
   // Initial state - hidden below viewport
   transform: translateY(100%);
@@ -62,14 +63,14 @@
     margin: 0;
     font-size: vars.$font-size-medium;
     line-height: 1.5;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__note {
     margin: 0;
     font-size: vars.$font-size-small;
     line-height: 1.4;
-    color: rgba(vars.$text-color-primary, 0.8);
+    color: rgba(var(--text-primary), 0.8);
     font-style: italic;
   }
 
@@ -90,34 +91,34 @@
     white-space: nowrap;
 
     &--accept {
-      background-color: vars.$color-brand;
-      color: vars.$text-color-dark;
-      box-shadow: vars.$box-shadow-medium;
+      background-color: var(--color-brand);
+      color: var(--btn-primary-text);
+      box-shadow: var(--shadow-md);
 
       &:hover {
-        box-shadow: vars.$box-shadow-large;
+        box-shadow: var(--shadow-glow);
         transform: translateY(-1px);
       }
 
       &:focus,
       &:focus-visible {
-        outline: 4px auto vars.$color-brand;
+        outline: 4px auto var(--color-brand);
       }
     }
 
     &--reject {
       background-color: transparent;
-      color: vars.$text-color-primary;
-      border: 1px solid vars.$border-color-primary;
+      color: var(--text-primary);
+      border: 1px solid var(--border-primary);
 
       &:hover {
-        background-color: rgba(vars.$text-color-primary, 0.1);
-        border-color: vars.$color-brand;
+        background-color: var(--bg-hover);
+        border-color: var(--color-brand);
       }
 
       &:focus,
       &:focus-visible {
-        outline: 4px auto vars.$color-brand;
+        outline: 4px auto var(--color-brand);
       }
     }
   }

@@ -35,19 +35,19 @@
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
     margin-top: 1rem;
     text-align: start;
   }
 
   &__title-accent {
-    color: vars.$color-brand;
+    color: var(--color-brand);
   }
 
   &__subtitle {
     font-size: ds.$font-lg;
-    color: vars.$zinc-400;
+    color: var(--text-muted);
     max-width: 36rem;
     margin: 0;
   }
@@ -56,9 +56,9 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: vars.$zinc-900;
-    border: 1px solid vars.$zinc-800;
-    color: vars.$text-color-primary;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
     padding: 0.75rem 1.25rem;
     border-radius: 9999px;
     font-size: ds.$font-md;
@@ -68,7 +68,7 @@
     white-space: nowrap;
 
     &:hover {
-      border-color: vars.$color-brand;
+      border-color: var(--color-brand);
     }
 
     svg {
@@ -142,7 +142,7 @@
   &__filters-divider {
     width: 1px;
     height: 2rem;
-    background: vars.$zinc-800;
+    background: var(--border-primary);
     flex-shrink: 0;
     margin: 0 0.25rem;
   }
@@ -223,8 +223,8 @@
     height: 600px;
     border-radius: 1.5rem;
     overflow: hidden;
-    background: vars.$zinc-900;
-    border: 1px solid vars.$zinc-800;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
   }
 
   &__back-to-list {
@@ -232,8 +232,8 @@
     bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
-    background: vars.$color-brand;
-    color: vars.$bg-color-primary;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 700;
     padding: 0.75rem 1.5rem;
     border-radius: 9999px;
@@ -253,15 +253,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: vars.$zinc-900;
+    background: var(--bg-elevated);
     border-radius: 1.5rem;
   }
 
   &__map-loader-spinner {
     width: 3rem;
     height: 3rem;
-    border: 3px solid vars.$zinc-800;
-    border-top-color: vars.$color-brand;
+    border: 3px solid var(--border-primary);
+    border-top-color: var(--color-brand);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -270,7 +270,7 @@
   &__filters-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--overlay-bg);
     backdrop-filter: blur(4px);
     z-index: 100;
   }
@@ -282,7 +282,7 @@
     bottom: 0;
     width: fit-content;
     z-index: 101;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 0 20px var(--shadow-md);
 
     [dir='rtl'] & {
       left: auto;
@@ -312,8 +312,8 @@
   padding: 0.5rem 0.875rem;
   border-radius: 9999px;
   background: transparent;
-  border: 1px solid vars.$zinc-800;
-  color: vars.$zinc-400;
+  border: 1px solid var(--border-primary);
+  color: var(--text-muted);
   font-size: ds.$font-sm;
   font-weight: 500;
   cursor: pointer;
@@ -327,19 +327,19 @@
   }
 
   &:hover {
-    border-color: vars.$zinc-600;
-    color: vars.$text-color-primary;
+    border-color: var(--border-hover);
+    color: var(--text-primary);
   }
 
   &--active {
-    background: vars.$color-brand;
-    border-color: vars.$color-brand;
-    color: vars.$bg-color-primary;
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 700;
 
     svg,
     span {
-      color: vars.$bg-color-primary;
+      color: var(--text-inverse);
     }
   }
 }

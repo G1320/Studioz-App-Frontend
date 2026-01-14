@@ -1,34 +1,9 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 // ==========================================
-// STUDIOZ ADMIN PANEL - Dark Mode Professional
+// STUDIOZ ADMIN PANEL - Theme-Aware
 // ==========================================
-
-// Admin-specific variables
-$admin-bg-main: #000000;
-$admin-bg-sidebar: #0a0a0a;
-$admin-bg-card: #111111;
-$admin-bg-hover: vars.$zinc-900;
-$admin-border: rgba(vars.$zinc-800, 0.5);
-$admin-border-light: rgba(vars.$zinc-700, 0.5);
-$admin-text-primary: #ffffff;
-$admin-text-secondary: vars.$zinc-400;
-$admin-text-muted: vars.$zinc-500;
-$admin-primary: vars.$color-brand;
-$admin-primary-hover: darken(vars.$color-brand, 5%);
-
-// Status colors
-$admin-status-active-bg: rgba(22, 163, 74, 0.2);
-$admin-status-active-text: #4ade80;
-$admin-status-active-border: rgba(22, 163, 74, 0.5);
-
-$admin-status-pending-bg: rgba(217, 119, 6, 0.2);
-$admin-status-pending-text: #fbbf24;
-$admin-status-pending-border: rgba(217, 119, 6, 0.5);
-
-$admin-status-suspended-bg: rgba(220, 38, 38, 0.2);
-$admin-status-suspended-text: #f87171;
-$admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
 // ==========================================
 // Main Layout
@@ -36,8 +11,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 .admin-panel {
   display: flex;
   min-height: 100vh;
-  background: $admin-bg-main;
-  color: vars.$zinc-300;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
   font-family: inherit;
 }
 
@@ -46,13 +21,13 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // ==========================================
 .admin-sidebar {
   width: 256px;
-  border-right: 1px solid $admin-border;
+  border-right: 1px solid var(--border-primary);
   display: flex;
   flex-direction: column;
   position: fixed;
   inset: 0;
   right: auto;
-  background: $admin-bg-sidebar;
+  background: var(--bg-primary);
   z-index: 50;
 
   @media (max-width: 1024px) {
@@ -67,7 +42,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     display: flex;
     align-items: center;
     gap: vars.$spacing-sm-md;
-    color: $admin-primary;
+    color: var(--color-brand);
     margin-bottom: vars.$spacing-xl;
   }
 
@@ -75,11 +50,11 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     font-size: vars.$font-size-xl;
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: $admin-text-primary;
+    color: var(--text-primary);
     margin: 0;
 
     &-accent {
-      color: $admin-primary;
+      color: var(--color-brand);
     }
   }
 
@@ -101,21 +76,21 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     background: transparent;
 
     &:hover {
-      color: $admin-text-primary;
-      background: $admin-bg-hover;
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
 
     &--active {
-      background: $admin-primary;
-      color: #000000;
+      background: var(--color-brand);
+      color: var(--text-inverse);
 
       &:hover {
-        background: $admin-primary-hover;
-        color: #000000;
+        background: var(--color-brand-hover);
+        color: var(--text-inverse);
       }
     }
   }
@@ -128,7 +103,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   &__footer {
     margin-top: auto;
     padding: vars.$spacing-xl;
-    border-top: 1px solid rgba($admin-border, 0.3);
+    border-top: 1px solid var(--border-primary);
   }
 
   &__user {
@@ -137,19 +112,19 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     gap: vars.$spacing-sm-md;
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     border-radius: vars.$border-radius-large;
-    background: rgba(vars.$zinc-900, 0.5);
-    border: 1px solid rgba($admin-border, 0.3);
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
   }
 
   &__user-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: $admin-primary;
+    background: var(--color-brand);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000000;
+    color: var(--text-inverse);
     font-weight: 700;
     font-size: vars.$font-size-small;
   }
@@ -162,12 +137,12 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   &__user-name {
     font-size: vars.$font-size-sm-md;
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
   }
 
   &__user-email {
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -205,7 +180,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   gap: vars.$spacing-medium;
   margin-bottom: vars.$spacing-large;
   padding-bottom: vars.$spacing-medium;
-  border-bottom: 1px solid $admin-border;
+  border-bottom: 1px solid var(--border-primary);
 
   @media (min-width: 1025px) {
     display: none;
@@ -215,16 +190,16 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     display: flex;
     align-items: center;
     gap: vars.$spacing-small;
-    color: $admin-primary;
+    color: var(--color-brand);
 
     h1 {
       font-size: vars.$font-size-large;
       font-weight: 700;
-      color: $admin-text-primary;
+      color: var(--text-primary);
       margin: 0;
 
       span {
-        color: $admin-primary;
+        color: var(--color-brand);
       }
     }
   }
@@ -253,23 +228,23 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     background: transparent;
     white-space: nowrap;
     flex-shrink: 0;
 
     &:hover {
-      color: $admin-text-primary;
-      background: $admin-bg-hover;
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
 
     &--active {
-      background: $admin-primary;
-      color: #000000;
+      background: var(--color-brand);
+      color: var(--text-inverse);
 
       &:hover {
-        background: $admin-primary-hover;
-        color: #000000;
+        background: var(--color-brand-hover);
+        color: var(--text-inverse);
       }
     }
 
@@ -311,8 +286,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   gap: vars.$spacing-medium;
   margin-bottom: vars.$spacing-xl;
   padding: vars.$spacing-medium;
-  background: $admin-bg-card;
-  border: 1px solid $admin-border;
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-2xl;
 
   @media (max-width: 640px) {
@@ -340,27 +315,27 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     left: vars.$spacing-sm-md;
     top: 50%;
     transform: translateY(-50%);
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 
   &__input {
     width: 100%;
-    background: $admin-bg-main;
-    border: 1px solid $admin-border;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-large;
     padding: vars.$spacing-small vars.$spacing-medium;
     padding-left: 40px;
     font-size: vars.$font-size-sm-md;
-    color: $admin-text-primary;
+    color: var(--text-primary);
     transition: border-color 0.2s ease;
 
     &::placeholder {
-      color: vars.$zinc-600;
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: rgba($admin-primary, 0.5);
+      border-color: rgba(var(--color-brand), 0.5);
     }
   }
 }
@@ -390,7 +365,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   &__title {
     font-size: vars.$font-size-large;
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
     letter-spacing: -0.025em;
     margin: 0;
     word-wrap: break-word;
@@ -401,7 +376,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &__description {
-    color: $admin-text-muted;
+    color: var(--text-muted);
     margin-top: vars.$spacing-xs;
     font-size: vars.$font-size-small;
 
@@ -434,8 +409,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // Stat Card
 // ==========================================
 .admin-stat-card {
-  background: $admin-bg-card;
-  border: 1px solid $admin-border;
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
   padding: vars.$spacing-medium;
   border-radius: vars.$border-radius-large;
   display: flex;
@@ -450,11 +425,11 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &:hover {
-    border-color: $admin-border-light;
+    border-color: var(--border-subtle);
 
     .admin-stat-card__icon {
-      background: $admin-primary;
-      color: #000000;
+      background: var(--color-brand);
+      color: var(--text-inverse);
     }
   }
 
@@ -466,9 +441,9 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__icon {
     padding: vars.$spacing-small;
-    background: $admin-bg-hover;
+    background: var(--bg-hover);
     border-radius: vars.$border-radius-medium;
-    color: $admin-primary;
+    color: var(--color-brand);
     transition: all 0.2s ease;
 
     @media (min-width: 640px) {
@@ -499,13 +474,13 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     }
 
     &--up {
-      background: $admin-status-active-bg;
-      color: $admin-status-active-text;
+      background: var(--color-success-bg);
+      color: var(--color-success-text);
     }
 
     &--down {
-      background: $admin-status-suspended-bg;
-      color: $admin-status-suspended-text;
+      background: var(--color-error-bg);
+      color: var(--color-error-text);
     }
   }
 
@@ -522,14 +497,14 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
       font-size: vars.$font-size-2xl;
     }
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
     letter-spacing: -0.025em;
     margin: 0;
   }
 
   &__label {
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     margin-top: 2px;
 
     @media (min-width: 640px) {
@@ -556,8 +531,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // Card
 // ==========================================
 .admin-card {
-  background: $admin-bg-card;
-  border: 1px solid $admin-border;
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
   padding: vars.$spacing-large;
   border-radius: vars.$border-radius-2xl;
 
@@ -570,7 +545,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__title {
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 }
@@ -592,7 +567,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   transition: background 0.2s ease;
 
   &:hover {
-    background: rgba($admin-bg-hover, 0.3);
+    background: rgba(var(--bg-hover), 0.3);
   }
 
   &__dot {
@@ -600,7 +575,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     height: 8px;
     margin-top: 8px;
     border-radius: 50%;
-    background: $admin-primary;
+    background: var(--color-brand);
     flex-shrink: 0;
   }
 
@@ -610,20 +585,20 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__text {
     font-size: vars.$font-size-sm-md;
-    color: vars.$zinc-300;
+    color: var(--text-secondary);
     margin: 0;
   }
 
   &__user,
   &__studio {
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
   }
 
   &__time {
     font-size: vars.$font-size-small;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     margin-top: vars.$spacing-xs;
   }
 }
@@ -642,9 +617,9 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   align-items: center;
   justify-content: space-between;
   padding: vars.$spacing-sm-md;
-  border: 1px solid rgba($admin-border, 0.3);
+  border: 1px solid rgba(var(--border-primary), 0.3);
   border-radius: vars.$border-radius-large;
-  background: rgba($admin-bg-main, 0.4);
+  background: rgba(var(--bg-primary), 0.4);
 
   &__info {
     display: flex;
@@ -656,22 +631,22 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     width: 32px;
     height: 32px;
     border-radius: vars.$border-radius-medium;
-    background: vars.$zinc-800;
+    background: var(--bg-elevated);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: vars.$zinc-500;
+    color: var(--text-tertiary);
   }
 
   &__name {
     font-size: vars.$font-size-sm-md;
     font-weight: 500;
-    color: $admin-text-primary;
+    color: var(--text-primary);
   }
 
   &__location {
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -679,8 +654,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // Tables
 // ==========================================
 .admin-table-container {
-  background: $admin-bg-card;
-  border: 1px solid $admin-border;
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-2xl;
   overflow: hidden;
 }
@@ -696,7 +671,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   border-collapse: collapse;
 
   &__head {
-    background: rgba($admin-bg-hover, 0.3);
+    background: rgba(var(--bg-hover), 0.3);
   }
 
   &__th {
@@ -704,7 +679,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     font-size: vars.$font-size-small;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-weight: 500;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
@@ -719,7 +694,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__body {
     .admin-table__row {
-      border-top: 1px solid rgba($admin-border, 0.3);
+      border-top: 1px solid rgba(var(--border-primary), 0.3);
     }
   }
 
@@ -727,15 +702,15 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     transition: background 0.2s ease;
 
     &:hover {
-      background: rgba($admin-bg-hover, 0.2);
+      background: rgba(var(--bg-hover), 0.2);
 
       .admin-user-cell__avatar {
-        color: $admin-text-primary;
-        background: vars.$zinc-700;
+        color: var(--text-primary);
+        background: var(--bg-elevated);
       }
 
       .admin-studio-cell__icon {
-        color: $admin-text-primary;
+        color: var(--text-primary);
       }
     }
   }
@@ -754,11 +729,11 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &__text {
-    color: vars.$zinc-300;
+    color: var(--text-secondary);
 
     &--bold {
       font-weight: 500;
-      color: $admin-text-primary;
+      color: var(--text-primary);
     }
   }
 
@@ -769,17 +744,17 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     border-radius: vars.$border-radius-small;
     font-size: vars.$font-size-small;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    color: vars.$zinc-600;
+    color: var(--text-muted);
 
     &--active {
-      background: vars.$zinc-800;
-      color: $admin-text-primary;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
     }
   }
 
   &__price {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    color: vars.$zinc-300;
+    color: var(--text-secondary);
   }
 
   &__action-btn {
@@ -787,12 +762,12 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     background: transparent;
     border: none;
     border-radius: vars.$border-radius-medium;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      color: $admin-primary;
+      color: var(--color-brand);
     }
   }
 }
@@ -809,13 +784,13 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: vars.$zinc-800;
+    background: var(--bg-elevated);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: vars.$font-size-small;
     font-weight: 700;
-    color: vars.$zinc-400;
+    color: var(--text-secondary);
     transition: all 0.2s ease;
   }
 
@@ -825,12 +800,12 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__name {
     font-weight: 500;
-    color: $admin-text-primary;
+    color: var(--text-primary);
   }
 
   &__email {
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -843,11 +818,11 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     width: 40px;
     height: 40px;
     border-radius: vars.$border-radius-medium;
-    background: vars.$zinc-800;
+    background: var(--bg-elevated);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: vars.$zinc-500;
+    color: var(--text-tertiary);
     transition: color 0.2s ease;
   }
 
@@ -857,7 +832,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__name {
     font-weight: 500;
-    color: $admin-text-primary;
+    color: var(--text-primary);
   }
 
   &__location {
@@ -865,7 +840,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     align-items: center;
     gap: vars.$spacing-xs;
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -873,10 +848,10 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   display: flex;
   align-items: center;
   gap: vars.$spacing-small;
-  color: vars.$zinc-300;
+  color: var(--text-secondary);
 
   svg {
-    color: vars.$zinc-500;
+    color: var(--text-tertiary);
   }
 }
 
@@ -887,15 +862,15 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__row {
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 
   &__value {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    color: $admin-text-primary;
+    color: var(--text-primary);
 
     &--primary {
-      color: $admin-primary;
+      color: var(--color-brand);
     }
   }
 }
@@ -905,22 +880,22 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   align-items: center;
   gap: vars.$spacing-xs;
   font-size: vars.$font-size-small;
-  color: $admin-text-muted;
+  color: var(--text-muted);
   cursor: pointer;
   transition: color 0.2s ease;
 
   &:hover {
-    color: $admin-primary;
+    color: var(--color-brand);
   }
 }
 
 .admin-category-badge {
   display: inline-block;
   padding: vars.$spacing-xs vars.$spacing-small;
-  background: rgba(vars.$zinc-800, 0.5);
+  background: rgba(var(--bg-elevated), 0.5);
   border-radius: vars.$border-radius-small;
   font-size: vars.$font-size-small;
-  color: vars.$zinc-300;
+  color: var(--text-secondary);
 }
 
 // ==========================================
@@ -938,33 +913,33 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   border: 1px solid;
 
   &--active {
-    background: $admin-status-active-bg;
-    color: $admin-status-active-text;
-    border-color: $admin-status-active-border;
+    background: var(--color-success-bg);
+    color: var(--color-success-text);
+    border-color: var(--color-success-border);
   }
 
   &--verified {
-    background: rgba($admin-primary, 0.2);
-    color: $admin-primary;
-    border-color: rgba($admin-primary, 0.5);
+    background: rgba(var(--color-brand), 0.2);
+    color: var(--color-brand);
+    border-color: rgba(var(--color-brand), 0.5);
   }
 
   &--pending {
-    background: $admin-status-pending-bg;
-    color: $admin-status-pending-text;
-    border-color: $admin-status-pending-border;
+    background: var(--color-warning-bg);
+    color: var(--color-warning-text);
+    border-color: var(--color-warning-border);
   }
 
   &--suspended {
-    background: $admin-status-suspended-bg;
-    color: $admin-status-suspended-text;
-    border-color: $admin-status-suspended-border;
+    background: var(--color-error-bg);
+    color: var(--color-error-text);
+    border-color: var(--color-error-border);
   }
 
   &--default {
-    background: vars.$zinc-800;
-    color: vars.$zinc-400;
-    border-color: vars.$zinc-700;
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    border-color: var(--bg-elevated);
   }
 }
 
@@ -979,8 +954,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
 
   &--pending {
-    background: $admin-status-pending-bg;
-    color: $admin-status-pending-text;
+    background: var(--color-warning-bg);
+    color: var(--color-warning-text);
   }
 }
 
@@ -1002,31 +977,31 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   white-space: nowrap;
 
   &--primary {
-    background: $admin-primary;
-    color: #000000;
+    background: var(--color-brand);
+    color: var(--text-inverse);
 
     &:hover {
-      background: $admin-primary-hover;
+      background: var(--color-brand-hover);
     }
   }
 
   &--secondary {
-    background: vars.$zinc-800;
-    color: $admin-text-primary;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 
     &:hover {
-      background: vars.$zinc-700;
+      background: var(--bg-elevated);
     }
   }
 
   &--icon {
     padding: vars.$spacing-small;
     background: transparent;
-    color: $admin-text-muted;
+    color: var(--text-muted);
 
     &:hover {
-      background: $admin-bg-hover;
-      color: $admin-text-primary;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
   }
 
@@ -1041,14 +1016,14 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   align-items: center;
   gap: vars.$spacing-small;
   font-size: vars.$font-size-sm-md;
-  color: $admin-primary;
+  color: var(--color-brand);
   background: transparent;
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
 
   &:hover {
-    color: rgba($admin-primary, 0.8);
+    color: rgba(var(--color-brand), 0.8);
   }
 
   &--small {
@@ -1064,7 +1039,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // Empty State
 // ==========================================
 .admin-empty-text {
-  color: $admin-text-muted;
+  color: var(--text-muted);
   font-size: vars.$font-size-sm-md;
   text-align: center;
   padding: vars.$spacing-large;
@@ -1076,7 +1051,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 .admin-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1089,8 +1064,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 // Coupon Creator
 // ==========================================
 .admin-coupon-creator {
-  background: $admin-bg-card;
-  border: 1px solid $admin-border;
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-2xl;
   width: 100%;
   max-width: 560px;
@@ -1102,12 +1077,12 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     align-items: center;
     justify-content: space-between;
     padding: vars.$spacing-large;
-    border-bottom: 1px solid $admin-border;
+    border-bottom: 1px solid var(--border-primary);
 
     h3 {
       font-size: vars.$font-size-large;
       font-weight: 700;
-      color: $admin-text-primary;
+      color: var(--text-primary);
       margin: 0;
     }
   }
@@ -1115,15 +1090,15 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   &__close {
     background: transparent;
     border: none;
-    color: $admin-text-muted;
+    color: var(--text-muted);
     cursor: pointer;
     padding: vars.$spacing-small;
     border-radius: vars.$border-radius-medium;
     transition: all 0.2s ease;
 
     &:hover {
-      background: $admin-bg-hover;
-      color: $admin-text-primary;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
   }
 
@@ -1135,9 +1110,9 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   }
 
   &__error {
-    background: $admin-status-suspended-bg;
-    color: $admin-status-suspended-text;
-    border: 1px solid $admin-status-suspended-border;
+    background: var(--color-error-bg);
+    color: var(--color-error-text);
+    border: 1px solid var(--color-error-border);
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     border-radius: vars.$border-radius-medium;
     font-size: vars.$font-size-sm-md;
@@ -1151,25 +1126,25 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     label {
       font-size: vars.$font-size-sm-md;
       font-weight: 500;
-      color: $admin-text-secondary;
+      color: var(--text-secondary);
     }
 
     input, select {
-      background: $admin-bg-main;
-      border: 1px solid $admin-border;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
       border-radius: vars.$border-radius-medium;
       padding: vars.$spacing-sm-md vars.$spacing-medium;
       font-size: vars.$font-size-sm-md;
-      color: $admin-text-primary;
+      color: var(--text-primary);
       transition: border-color 0.2s ease;
 
       &:focus {
         outline: none;
-        border-color: rgba($admin-primary, 0.5);
+        border-color: rgba(var(--color-brand), 0.5);
       }
 
       &::placeholder {
-        color: vars.$zinc-600;
+        color: var(--text-muted);
       }
     }
 
@@ -1203,13 +1178,13 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   &__value-input {
     display: flex;
     align-items: center;
-    background: $admin-bg-main;
-    border: 1px solid $admin-border;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
     overflow: hidden;
 
     &:focus-within {
-      border-color: rgba($admin-primary, 0.5);
+      border-color: rgba(var(--color-brand), 0.5);
     }
 
     input {
@@ -1226,8 +1201,8 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
     span {
       padding: vars.$spacing-sm-md vars.$spacing-medium;
-      background: rgba($admin-bg-hover, 0.5);
-      color: $admin-text-muted;
+      background: rgba(var(--bg-hover), 0.5);
+      color: var(--text-muted);
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
       font-weight: 700;
     }
@@ -1238,7 +1213,7 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     gap: vars.$spacing-medium;
     justify-content: flex-end;
     padding-top: vars.$spacing-medium;
-    border-top: 1px solid rgba($admin-border, 0.3);
+    border-top: 1px solid rgba(var(--border-primary), 0.3);
     margin-top: vars.$spacing-small;
   }
 }
@@ -1255,17 +1230,17 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     width: 32px;
     height: 32px;
     border-radius: vars.$border-radius-medium;
-    background: rgba($admin-primary, 0.15);
+    background: rgba(var(--color-brand), 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $admin-primary;
+    color: var(--color-brand);
   }
 
   &__code {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
     letter-spacing: 0.05em;
   }
 }
@@ -1279,12 +1254,12 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-weight: 700;
     font-size: vars.$font-size-medium;
-    color: $admin-primary;
+    color: var(--color-brand);
   }
 
   &__type {
     font-size: vars.$font-size-small;
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -1296,15 +1271,15 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
   &__count {
     font-weight: 700;
-    color: $admin-text-primary;
+    color: var(--text-primary);
   }
 
   &__separator {
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 
   &__max {
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -1313,10 +1288,10 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   align-items: center;
   gap: vars.$spacing-small;
   font-size: vars.$font-size-small;
-  color: $admin-text-secondary;
+  color: var(--text-secondary);
 
   svg {
-    color: $admin-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -1329,13 +1304,13 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
 
 .admin-table__action-btn--danger {
   &:hover {
-    color: $admin-status-suspended-text !important;
+    color: var(--color-error-text) !important;
   }
 }
 
 .admin-table__empty {
   text-align: center;
-  color: $admin-text-muted;
+  color: var(--text-muted);
   padding: vars.$spacing-2xl !important;
 }
 
@@ -1353,14 +1328,14 @@ $admin-status-suspended-border: rgba(220, 38, 38, 0.5);
   &__spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid $admin-border;
-    border-top-color: $admin-primary;
+    border: 3px solid var(--border-primary);
+    border-top-color: var(--color-brand);
     border-radius: 50%;
     animation: adminSpin 0.8s linear infinite;
   }
 
   p {
-    color: $admin-text-muted;
+    color: var(--text-muted);
     font-size: vars.$font-size-sm-md;
   }
 }

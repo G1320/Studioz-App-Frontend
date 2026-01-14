@@ -1,0 +1,495 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+.generic-form {
+  display: grid;
+  max-width: 800px;
+  min-width: min-content;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border: 1px solid vars.$light-gray-ddd;
+  border-radius: vars.$border-radius-medium;
+  // background-color: var(--text-primary);
+  box-shadow: 0 4px 6px vars.$black-opacity-10;
+
+  .business-hours {
+    &.has-error {
+      border-color: vars.$color-warning;
+
+      .day-row {
+        .hours {
+          .MuiTextField-root {
+            .MuiOutlinedInput-root {
+              &.Mui-focused {
+                fieldset {
+                  border-color: vars.$color-warning;
+                }
+              }
+              fieldset {
+                border-color: vars.$color-warning;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .day-row {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid vars.$light-gray-e5e7eb;
+      transition: background-color 0.2s;
+
+      .day-switch-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 0 0 25%;
+        justify-content: flex-end;
+      }
+
+      .switch {
+        min-width: 48px;
+        // width: 48px;
+        height: 24px;
+        // overflow: hidden;
+        border-radius: 12px;
+        background: vars.$light-gray-e5e7eb;
+        transition: background-color 0.2s;
+
+        &.on {
+          background: vars.$color-blue-light;
+        }
+      }
+
+      span {
+        min-width: 100px;
+        text-align: start;
+        font-weight: 500;
+        color: vars.$dark-gray-1f2937;
+      }
+
+      .hours-container {
+        display: flex;
+        flex: 0 0 75%;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .is-24-hours-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        margin-inline-end: 1rem;
+
+        .is-24-hours-checkbox {
+          min-width: 48px;
+          height: 24px;
+          border-radius: 12px;
+          background: vars.$light-gray-e5e7eb;
+          position: relative;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          // Toggle thumb
+          &::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: black;
+            transition: transform 0.2s ease;
+          }
+
+          &.checked {
+            background: vars.$color-brand;
+
+            &::after {
+              transform: translateX(24px);
+            }
+          }
+
+          // Hide the default check icon
+          .check-icon {
+            display: none;
+          }
+        }
+
+        .is-24-hours-text {
+          font-size: vars.$font-size-small;
+          font-weight: 500;
+          color: vars.$text-color-secondary;
+          min-width: auto;
+        }
+      }
+
+      .hours-24-indicator {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background: var(--border-primary);
+        border-radius: vars.$border-radius-medium;
+        border: 1px solid var(--border-secondary);
+
+        span {
+          font-size: vars.$font-size-sm-md;
+          color: vars.$text-color-secondary;
+          font-weight: 500;
+          min-width: auto;
+        }
+      }
+
+      .hours {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+
+        .MuiTextField-root {
+          min-width: 80px;
+
+          .MuiInputBase-root {
+            // Make clock icon white
+            .MuiInputAdornment-root {
+              .MuiIconButton-root {
+                .MuiSvgIcon-root {
+                  color: var(--text-primary) !important;
+                }
+              }
+            }
+          }
+        }
+
+        span {
+          min-width: 20px;
+        }
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+      }
+    }
+
+    @media (max-width: 640px) {
+      .day-row {
+        .day-switch-container {
+          align-items: flex-start;
+        }
+
+        .hours-container {
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+    grid-column: span 2;
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: vars.$dark-gray-333;
+      text-align: start;
+    }
+
+    .form-input,
+    .form-textarea {
+      padding: 0.75rem;
+      border: 1px solid vars.$light-gray-ccc;
+      border-radius: vars.$border-radius-small;
+      font-size: vars.$font-size-medium;
+      color: vars.$dark-gray-333;
+      // background-color: var(--text-primary);
+      width: 95%;
+      text-align: start;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &::placeholder {
+        text-align: start;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: vars.$color-blue-primary;
+        box-shadow: 0 0 0 3px vars.$blue-opacity-30;
+      }
+    }
+
+    .form-textarea {
+      resize: vertical;
+    }
+  }
+
+  .form-actions {
+    justify-self: end;
+    margin-inline-end: 2.5rem;
+    margin-block-start: 2.5rem;
+  }
+
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: ds.$radius-md;
+    label {
+      cursor: pointer;
+    }
+
+    // Bubble style (for genres, etc.)
+    &.bubble-style {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0;
+      border: none;
+    }
+  }
+
+  .multiselect-option {
+    .multiselect-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      &:focus-visible,
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px vars.$blue-opacity-30;
+      }
+
+      &:hover {
+        background-color: vars.$light-gray-f5f5f5;
+      }
+      &.selected {
+        background-color: vars.$dark-gray-333;
+        color: var(--text-primary);
+      }
+    }
+
+    .multiselect-label {
+      flex: 1;
+    }
+  }
+
+  // Bubble style overrides
+  .checkbox-group.bubble-style {
+    .multiselect-option {
+      display: inline-flex;
+      width: auto;
+      min-width: auto;
+
+      .multiselect-checkbox {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        border: none;
+        padding: 0.4rem 0.75rem;
+        border-radius: 20px;
+        cursor: pointer;
+        color: vars.$dark-gray-333;
+        font-size: ds.$font-md;
+        font-weight: 500;
+        white-space: nowrap;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.1s ease;
+        margin: 0;
+
+        &:focus-visible,
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px vars.$blue-opacity-30;
+        }
+
+        &:hover {
+          background-color: vars.$light-gray-e8e8e8;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        &.selected {
+          background-color: vars.$dark-gray-333;
+          color: var(--text-primary);
+
+          &:hover {
+            background-color: vars.$dark-gray-444;
+          }
+        }
+      }
+
+      .multiselect-label {
+        flex: none;
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .form-group-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: max-content;
+
+    .switch-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      button.switch {
+        background-color: vars.$light-gray-ddd;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        width: 44px;
+        height: 20px;
+        border-radius: 10px;
+        border: none;
+        padding: 0;
+        overflow: hidden;
+
+        &.on {
+          background-color: vars.$color-blue-dark;
+        }
+
+        &:after {
+          content: '';
+          position: absolute;
+          left: 2px;
+          top: 2px;
+          width: 16px;
+          height: 16px;
+          background-color: var(--text-primary);
+          border-radius: 50%;
+          transition: transform 0.2s;
+        }
+
+        &.on:after {
+          transform: translateX(24px);
+        }
+      }
+
+      .switch-label {
+        font-weight: 500;
+        color: vars.$dark-gray-333;
+      }
+    }
+  }
+
+  .listbox-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-radius: vars.$border-radius-small;
+    font-size: vars.$font-size-medium;
+    color: vars.$dark-gray-333;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$color-blue-primary;
+      box-shadow: 0 0 0 3px vars.$blue-opacity-30;
+    }
+
+    .listbox-icon {
+      width: 20px;
+      height: 20px;
+      color: vars.$gray-text-6b7280;
+    }
+  }
+
+  .listbox-options {
+    margin-top: 0.25rem;
+    padding: 0;
+    list-style: none;
+    border-radius: vars.$border-radius-small;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px vars.$black-opacity-10;
+
+    .listbox-option {
+      padding: 0.75rem;
+      font-size: vars.$font-size-medium;
+      color: vars.$dark-gray-333;
+      cursor: pointer;
+
+      &.active {
+        background-color: vars.$color-blue-primary;
+        color: var(--text-primary);
+      }
+
+      &.selected {
+        font-weight: 600;
+      }
+
+      .listbox-check {
+        width: 16px;
+        height: 16px;
+        margin-right: 0.5rem;
+        color: vars.$color-success;
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-self: end;
+    grid-column: span 2;
+
+    .submit-button {
+      padding: 0.75rem 1.5rem;
+      font-size: vars.$font-size-medium;
+      font-weight: 600;
+      color: var(--text-primary);
+      background-color: vars.$color-blue-primary;
+      border: none;
+      border-radius: vars.$border-radius-small;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: vars.$color-blue-dark;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px vars.$blue-opacity-30;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .generic-form {
+    .form-actions {
+      margin-inline-end: 1rem;
+    }
+  }
+}

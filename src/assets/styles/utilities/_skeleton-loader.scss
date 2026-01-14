@@ -15,8 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // Black background panel
-  background: rgba(0, 0, 0, 0.734);
+  // Background panel
+  background: var(--overlay-bg);
   // Instant appearance, smooth fade-out on image load
   opacity: 1;
   transition: opacity 100ms ease-out;
@@ -30,8 +30,8 @@
     // Thin stroke (1.5-2px) - using 1.5px for ultra-minimal feel
     border: 1.5px solid transparent;
     // Neutral gray base with subtle brand accent
-    border-top-color: vars.$white-opacity-20;
-    border-right-color: vars.$white-opacity-20;
+    border-top-color: var(--border-hover);
+    border-right-color: var(--border-hover);
     // Subtle brand accent on one segment (optional - can be removed for pure neutral)
     border-bottom-color: rgba(16, 185, 129, 0.3); // vars.$color-brand with low opacity
     border-radius: 50%;
@@ -61,10 +61,10 @@
     &::before {
       animation: none;
       // Show static indicator instead of animation
-      border-top-color: vars.$white-opacity-15;
-      border-right-color: vars.$white-opacity-15;
-      border-bottom-color: vars.$white-opacity-15;
-      border-left-color: vars.$white-opacity-15;
+      border-top-color: var(--border-primary);
+      border-right-color: var(--border-primary);
+      border-bottom-color: var(--border-primary);
+      border-left-color: var(--border-primary);
     }
   }
 }

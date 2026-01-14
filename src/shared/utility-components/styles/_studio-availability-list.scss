@@ -1,12 +1,13 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .availability-list-container {
   width: 100%;
-  background: vars.$white-opacity-02;
-  border: 1px solid vars.$white-opacity-06;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-large;
   padding: 0.5rem 0.75rem;
-  box-shadow: 0 8px 20px vars.$black-opacity-35;
+  box-shadow: var(--shadow-lg);
   box-sizing: border-box;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -23,7 +24,7 @@
   max-height: 220px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: vars.$white-opacity-20 transparent;
+  scrollbar-color: var(--border-hover) transparent;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -34,11 +35,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: vars.$white-opacity-18;
+    background-color: var(--border-hover);
     border-radius: 3px;
 
     &:hover {
-      background-color: vars.$white-opacity-30;
+      background-color: var(--border-hover);
     }
   }
 
@@ -48,20 +49,20 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
-    background: vars.$white-opacity-03;
-    border: 1px solid vars.$white-opacity-05;
+    background: var(--bg-hover);
+    border: 1px solid var(--bg-hover);
     border-radius: vars.$border-radius-medium;
     transition:
       border-color 0.15s ease,
       background-color 0.15s ease;
 
     &:hover {
-      background: vars.$white-opacity-05;
-      border-color: vars.$white-opacity-12;
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
     }
 
     strong {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       font-size: vars.$font-size-sm-md;
       font-weight: 600;
       white-space: nowrap;
@@ -69,7 +70,7 @@
 
     p {
       margin: 0;
-      color: vars.$light-gray-slate-241-245-249-80;
+      color: var(--text-secondary);
       font-size: vars.$font-size-small;
       line-height: 1.45;
       text-align: right;
@@ -86,17 +87,17 @@
   height: 38px;
   padding: 0.35rem;
   border-radius: 50%;
-  border: 1px solid vars.$white-opacity-10;
-  background: vars.$white-opacity-04;
-  color: vars.$text-color-primary;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-hover);
+  color: var(--text-primary);
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease,
     transform 0.12s ease;
 
   &:hover {
-    background: vars.$white-opacity-08;
-    border-color: vars.$white-opacity-20;
+    background: var(--border-primary);
+    border-color: var(--border-hover);
     transform: translateY(-1px);
   }
 

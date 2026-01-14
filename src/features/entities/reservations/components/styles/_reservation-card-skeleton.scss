@@ -1,15 +1,12 @@
 @use 'utilities/variables' as vars;
-@use 'design-system' as ds;
+@use 'utilities/mixins' as mixins;
 
 // Match the ReservationCard colors
-$card-bg: #111111;
-$border-default: vars.$zinc-800;
-
 .reservation-card-skeleton {
-  background: $card-bg;
-  border: 1px solid $border-default;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 15px -3px var(--shadow-lg);
   width: 100%;
   overflow: hidden;
 
@@ -17,7 +14,7 @@ $border-default: vars.$zinc-800;
   &__summary {
     display: flex;
     align-items: flex-start;
-    gap: ds.$space-4;
+    gap: vars.$spacing-medium;
     padding: 1.25rem;
   }
 
@@ -68,7 +65,7 @@ $border-default: vars.$zinc-800;
   // Responsive
   @media (max-width: 480px) {
     &__summary {
-      padding: ds.$space-4;
+      padding: vars.$spacing-medium;
     }
   }
 }

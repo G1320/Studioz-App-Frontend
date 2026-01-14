@@ -1,16 +1,6 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
-
-// Design system colors (referencing design system)
-$primary-yellow: ds.$primary-yellow;
-$zinc-500: ds.$zinc-500;
-$zinc-700: ds.$zinc-700;
-$zinc-800: ds.$zinc-800;
-$zinc-900: ds.$zinc-900;
-$zinc-900-20: rgba(24, 24, 27, 0.2);
-$zinc-900-30: ds.$zinc-900-30;
-$zinc-900-40: rgba(24, 24, 27, 0.4);
-$zinc-900-80: rgba(24, 24, 27, 0.8);
 
 article.file-uploader-container {
   display: flex;
@@ -19,12 +9,12 @@ article.file-uploader-container {
 
   &.has-error {
     .file-uploader {
-      border-color: vars.$color-error-alt;
-      background-color: vars.$error-opacity-05;
+      border-color: var(--color-error);
+      background-color: var(--color-error-bg);
 
       &:hover {
-        border-color: vars.$color-error-alt;
-        background-color: vars.$error-opacity-10-alt;
+        border-color: var(--color-error);
+        background-color: var(--color-error-bg);
       }
     }
   }
@@ -34,8 +24,8 @@ article.file-uploader-container {
 .file-uploader {
   display: flex;
   flex-direction: column;
-  background-color: $zinc-900-20;
-  border: 1px dashed $zinc-700;
+  background-color: var(--bg-input);
+  border: 1px dashed var(--border-primary);
   border-radius: 24px; // rounded-3xl
   min-height: 180px;
   cursor: pointer;
@@ -45,41 +35,41 @@ article.file-uploader-container {
   overflow: hidden;
 
   &.error {
-    border-color: vars.$color-error-alt;
-    background-color: vars.$error-opacity-05;
+    border-color: var(--color-error);
+    background-color: var(--color-error-bg);
 
     &:hover {
-      border-color: vars.$color-error-alt;
-      background-color: vars.$error-opacity-10-alt;
+      border-color: var(--color-error);
+      background-color: var(--color-error-bg);
     }
   }
 
   &:hover {
-    border-color: rgba($primary-yellow, 0.5);
-    background-color: $zinc-900-40;
+    border-color: var(--color-brand-subtle);
+    background-color: var(--bg-hover);
 
     .upload-icon-container {
       transform: scale(1.1);
 
       .icon {
-        color: $primary-yellow;
+        color: var(--color-brand);
       }
     }
   }
 
   // Drag active state
   &.drag-active {
-    border-color: $primary-yellow;
-    background-color: $zinc-900-40;
-    box-shadow: 0 0 0 4px rgba($primary-yellow, 0.2);
+    border-color: var(--color-brand);
+    background-color: var(--bg-hover);
+    box-shadow: 0 0 0 4px var(--color-brand-subtle);
 
     .upload-icon-container {
       transform: scale(1.1);
-      background-color: $primary-yellow;
-      border-color: $primary-yellow;
+      background-color: var(--color-brand);
+      border-color: var(--color-brand);
 
       .icon {
-        color: black;
+        color: var(--text-inverse);
       }
     }
   }
@@ -100,8 +90,8 @@ article.file-uploader-container {
       aspect-ratio: 16 / 9;
       border-radius: 16px;
       object-fit: contain;
-      box-shadow: 0 4px 16px vars.$black-opacity-20;
-      background-color: vars.$white-opacity-05;
+      box-shadow: var(--shadow-lg);
+      background-color: var(--bg-hover);
     }
 
     audio {
@@ -118,17 +108,17 @@ article.file-uploader-container {
     justify-content: center;
     width: 64px;
     height: 64px;
-    background-color: $zinc-900-80;
+    background-color: var(--overlay-bg);
     border-radius: 50%;
     margin-bottom: vars.$spacing-medium;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 1px solid $zinc-800;
+    box-shadow: 0 4px 12px var(--shadow-md);
+    border: 1px solid var(--border-primary);
 
     .icon {
       width: 28px;
       height: 28px;
-      color: vars.$white-opacity-60;
+      color: var(--text-tertiary);
       transition: all 0.3s ease;
     }
   }
@@ -138,14 +128,14 @@ article.file-uploader-container {
   .upload-heading {
     font-size: vars.$font-size-large;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin-bottom: vars.$spacing-xs;
   }
 
   // Helper text
   small {
     height: max-content;
-    color: $zinc-500;
+    color: var(--text-tertiary);
     font-size: vars.$font-size-small;
     font-weight: 400;
     text-align: center;
@@ -161,21 +151,21 @@ article.file-uploader-container {
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-small;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--overlay-bg);
     backdrop-filter: blur(2px);
     z-index: 3;
 
     &__spinner {
       width: 44px;
       height: 44px;
-      border: 3px solid vars.$white-opacity-25;
-      border-top-color: $primary-yellow;
+      border: 3px solid var(--border-hover);
+      border-top-color: var(--color-brand);
       border-radius: 50%;
       animation: file-uploader-spin 0.9s linear infinite;
     }
 
     &__label {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       font-weight: 600;
       letter-spacing: 0.25px;
     }
@@ -209,12 +199,10 @@ article.file-uploader-container {
         aspect-ratio: 1 / 1; // aspect-square
         border-radius: 16px; // rounded-2xl
         overflow: hidden;
-        border: 1px solid $zinc-800;
-        box-shadow:
-          0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-primary);
+        box-shadow: var(--shadow-md);
         cursor: pointer;
-        background-color: $zinc-900-30;
+        background-color: var(--bg-secondary);
 
         .gallery-image-wrapper {
           width: 100%;
@@ -228,8 +216,8 @@ article.file-uploader-container {
           }
 
           &.drag-over {
-            border-color: $primary-yellow;
-            box-shadow: 0 0 0 2px rgba($primary-yellow, 0.3);
+            border-color: var(--color-brand);
+            box-shadow: 0 0 0 2px var(--color-brand-subtle);
             transform: scale(1.02);
           }
 
@@ -257,7 +245,7 @@ article.file-uploader-container {
           content: '';
           position: absolute;
           inset: 0;
-          background: rgba(0, 0, 0, 0.5);
+          background: var(--overlay-bg);
           backdrop-filter: blur(2px);
           opacity: 0;
           transition: opacity 0.3s ease;
@@ -292,8 +280,8 @@ article.file-uploader-container {
           height: 36px;
           border-radius: 50%;
           border: none;
-          background: rgba(239, 68, 68, 0.8); // red-500/80
-          color: white;
+          background: var(--color-error);
+          color: var(--text-primary);
           font-size: vars.$font-size-medium;
           display: flex;
           align-items: center;
@@ -304,7 +292,7 @@ article.file-uploader-container {
           opacity: 0;
 
           &:hover {
-            background: rgb(239, 68, 68); // red-500
+            background: var(--color-error-text);
             transform: translate(-50%, -50%) scale(1.1);
           }
         }
@@ -318,8 +306,8 @@ article.file-uploader-container {
           width: 28px;
           height: 20px;
           border-radius: 4px;
-          background: rgba(0, 0, 0, 0.6);
-          color: rgba(255, 255, 255, 0.8);
+          background: var(--overlay-bg);
+          color: var(--text-secondary);
           font-size: 0.75rem;
           display: flex;
           align-items: center;
@@ -333,8 +321,8 @@ article.file-uploader-container {
           letter-spacing: -2px;
 
           &:hover {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
           }
         }
 
@@ -345,13 +333,13 @@ article.file-uploader-container {
             position: absolute;
             top: 8px;
             left: 8px;
-            background: $primary-yellow;
-            color: black;
+            background: var(--color-brand);
+            color: var(--text-inverse);
             font-size: 0.75rem;
             font-weight: 700;
             padding: 4px 8px;
             border-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-sm);
             z-index: 2;
           }
         }
@@ -361,14 +349,14 @@ article.file-uploader-container {
       .gallery-placeholder {
         aspect-ratio: 1 / 1;
         border-radius: 16px;
-        background-color: $zinc-900-30;
-        border: 1px dashed rgba($zinc-800, 0.5);
+        background-color: var(--bg-secondary);
+        border: 1px dashed rgba(var(--border-primary), 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
 
         .placeholder-icon {
-          color: $zinc-700;
+          color: var(--text-tertiary);
           width: 24px;
           height: 24px;
         }

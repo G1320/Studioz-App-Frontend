@@ -1,10 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .studio-rating {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: vars.$color-text-light-gray;
+  color: var(--text-muted);
 
   &__stars {
     display: inline-flex;
@@ -14,10 +15,10 @@
 
   &__star {
     font-size: 1.1rem;
-    color: vars.$white-opacity-40;
+    color: var(--text-muted);
 
     &--filled {
-      color: vars.$color-rating-yellow;
+      color: var(--color-warning);
     }
   }
 
@@ -25,7 +26,7 @@
     margin: 0;
     font-size: 0.9rem;
     font-weight: 500;
-    color: vars.$white-opacity-85;
+    color: var(--text-primary);
   }
 
   &--sm {
@@ -55,7 +56,7 @@
       gap: 0.25rem;
       padding: 0.25rem 0.5rem;
       border-radius: 999px;
-      background: vars.$zinc-900;
+      background: var(--bg-elevated);
       border: none;
       box-shadow: none;
       backdrop-filter: none;
@@ -67,20 +68,20 @@
     .studio-rating__badge-icon {
       width: 0.75rem;
       height: 0.75rem;
-      color: vars.$color-rating-yellow;
+      color: var(--color-warning);
       flex-shrink: 0;
     }
 
     .studio-rating__badge-value {
       font-size: 0.75rem;
       font-weight: 500;
-      color: vars.$white-opacity-90;
+      color: var(--text-primary);
       line-height: 1.2;
     }
 
     .studio-rating__badge-count {
       font-size: 0.75rem;
-      color: vars.$white-opacity-70;
+      color: var(--text-muted);
       font-weight: 500;
       line-height: 1.2;
     }

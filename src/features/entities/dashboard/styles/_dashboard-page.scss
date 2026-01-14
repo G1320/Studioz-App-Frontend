@@ -1,25 +1,14 @@
 @use 'utilities/variables' as vars;
-@use 'design-system' as ds;
+@use 'utilities/mixins' as mixins;
 
 // ==========================================
-// DASHBOARD PAGE - StudioZ Design System
-// Theme: Dark Mode (Midnight)
+// DASHBOARD PAGE - Theme-Aware
 // ==========================================
-
-// Local aliases (referencing design system)
-$dash-primary: ds.$primary-yellow;
-$dash-bg-page: ds.$primary-black;
-$dash-bg-card: #1e1e1e;
-$dash-bg-hover: #252525;
-$dash-border: ds.$zinc-800;
-$dash-text-primary: ds.$primary-white;
-$dash-text-secondary: ds.$zinc-400;
-$dash-text-muted: ds.$zinc-500;
 
 .dashboard-page {
   margin: 0 auto;
   padding: vars.$spacing-large 0;
-  color: $dash-text-primary;
+  color: var(--text-primary);
   text-align: start;
 
   .dashboard-header {
@@ -30,13 +19,13 @@ $dash-text-muted: ds.$zinc-500;
       font-size: clamp(1.75rem, 4vw, 2.5rem);
       font-weight: 700;
       margin: 0 0 vars.$spacing-small 0;
-      color: $dash-text-primary;
+      color: var(--text-primary);
       letter-spacing: -0.025em;
     }
 
     .dashboard-subtitle {
       font-size: vars.$font-size-medium;
-      color: $dash-text-secondary;
+      color: var(--text-secondary);
       margin: 0;
     }
   }
@@ -50,7 +39,7 @@ $dash-text-muted: ds.$zinc-500;
     font-size: vars.$font-size-xl;
     font-weight: 700;
     margin: 0 0 vars.$spacing-large 0;
-    color: $dash-text-primary;
+    color: var(--text-primary);
     text-align: start;
   }
 
@@ -66,9 +55,9 @@ $dash-text-muted: ds.$zinc-500;
     gap: vars.$spacing-xs;
     margin-bottom: vars.$spacing-xl;
     padding: vars.$spacing-xs;
-    background: rgba(17, 17, 17, 1);
+    background: var(--bg-primary);
     border-radius: vars.$border-radius-2xl;
-    border: 1px solid $dash-border;
+    border: 1px solid var(--border-secondary);
     width: fit-content;
   }
 
@@ -76,7 +65,7 @@ $dash-text-muted: ds.$zinc-500;
     padding: vars.$spacing-sm-md vars.$spacing-xl;
     font-size: vars.$font-size-medium;
     font-weight: 500;
-    color: $dash-text-muted;
+    color: var(--text-muted);
     background: transparent;
     border: none;
     border-radius: vars.$border-radius-xl;
@@ -84,19 +73,17 @@ $dash-text-muted: ds.$zinc-500;
     transition: all 0.2s ease;
 
     &:hover {
-      color: $dash-text-secondary;
-      background: rgba(39, 39, 42, 0.5);
+      color: var(--text-secondary);
+      background: var(--bg-hover);
     }
 
     &--active {
-      color: $dash-text-primary;
-      background: $dash-primary;
-      color: #000;
+      background: var(--color-brand);
+      color: var(--text-inverse);
       font-weight: 600;
 
       &:hover {
-        background: darken($dash-primary, 5%);
-        color: #000;
+        background: var(--color-brand-hover);
       }
     }
   }

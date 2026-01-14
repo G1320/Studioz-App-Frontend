@@ -1,0 +1,159 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.cookie-consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: vars.$bg-color-secondary;
+  color: var(--text-primary);
+  padding: vars.$spacing-medium;
+  z-index: 9999;
+  box-shadow: vars.$box-shadow-xl;
+  border-top: 1px solid rgba(vars.$border-color-primary, 0.1);
+  
+  // Initial state - hidden below viewport
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  // Visible state - slide up and fade in
+  &--visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  // Exiting state - slide down and fade out
+  &--exiting {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 1, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 1, 1);
+  }
+
+  &__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: vars.$spacing-medium;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+  }
+  
+  &--visible &__content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &__text-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: vars.$font-size-medium;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  &__note {
+    margin: 0;
+    font-size: vars.$font-size-small;
+    line-height: 1.4;
+    color: rgba(var(--text-primary), 0.8);
+    font-style: italic;
+  }
+
+  &__actions {
+    display: flex;
+    gap: vars.$spacing-small;
+    flex-shrink: 0;
+  }
+
+  &__button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-medium;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+
+    &--accept {
+      background-color: vars.$color-brand;
+      color: vars.$text-color-dark;
+      box-shadow: vars.$box-shadow-medium;
+
+      &:hover {
+        box-shadow: vars.$box-shadow-large;
+        transform: translateY(-1px);
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: 4px auto vars.$color-brand;
+      }
+    }
+
+    &--reject {
+      background-color: transparent;
+      color: var(--text-primary);
+      border: 1px solid vars.$border-color-primary;
+
+      &:hover {
+        background-color: rgba(var(--text-primary), 0.1);
+        border-color: vars.$color-brand;
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: 4px auto vars.$color-brand;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-medium vars.$spacing-small;
+
+    &__content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: vars.$spacing-small;
+    }
+
+    &__text-wrapper {
+      text-align: center;
+    }
+
+    &__text {
+      font-size: vars.$font-size-small;
+    }
+
+    &__note {
+      font-size: 0.75rem;
+    }
+
+    &__actions {
+      width: 100%;
+      flex-direction: column;
+      gap: vars.$spacing-small;
+    }
+
+    &__button {
+      width: 100%;
+      padding: 0.875rem 1.25rem;
+    }
+  }
+}
+

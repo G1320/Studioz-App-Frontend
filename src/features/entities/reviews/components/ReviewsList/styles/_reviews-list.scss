@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .reviews-list {
@@ -14,14 +15,14 @@
   &__empty-message {
     margin: 0;
     font-size: vars.$font-size-medium;
-    color: vars.$light-gray-9ca3af;
+    color: var(--text-muted);
   }
 
   &__title {
     margin: 0;
     font-size: vars.$font-size-2xl;
     font-weight: 700;
-    color: vars.$color-text-light-gray;
+    color: var(--text-primary);
 
     @media (max-width: 768px) {
       font-size: 1.25rem;

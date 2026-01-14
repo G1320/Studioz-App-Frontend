@@ -11,8 +11,8 @@
     position: absolute;
     top: 0rem;
     right: -0.125rem;
-    background: vars.$color-brand;
-    color: vars.$text-color-dark;
+    background: var(--color-brand);
+    color: var(--btn-primary-text);
     font-size: 0.625rem;
     font-weight: 700;
     padding: 0;
@@ -25,9 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:
-      0 1px 4px rgba(vars.$color-brand, 0.4),
-      0 0 0 1px vars.$black-opacity-30;
+    box-shadow: var(--shadow-glow), 0 0 0 1px var(--bg-primary);
     animation: pulse 2s ease-in-out infinite;
   }
 }

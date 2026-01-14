@@ -54,8 +54,8 @@
     z-index: 1001;
     pointer-events: auto;
     transform: scale(0);
-    background-color: vars.$bg-color-tertiary !important; // Solid background
-    border: 1px solid vars.$white-opacity-15 !important; // Gentle border
+    background-color: var(--bg-tertiary) !important; // Solid background
+    border: 1px solid var(--border-primary) !important; // Gentle border
     transition:
       transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
       background-color 0.2s ease,
@@ -65,8 +65,8 @@
     &:hover {
       transform: scale(1.1);
       z-index: 1002;
-      background-color: vars.$bg-color-secondary !important;
-      border-color: vars.$white-opacity-25 !important; // Slightly more visible on hover
+      background-color: var(--bg-secondary) !important;
+      border-color: var(--border-hover) !important; // Slightly more visible on hover
     }
 
     &:active {
@@ -79,7 +79,7 @@
     top: 100%; // Position below the button
     white-space: nowrap;
     font-size: 0.75rem;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     background: vars.$dark-bg-15-55;
     padding: 0.375rem 0.625rem; // Increased padding for better spacing
     border-radius: 6px;

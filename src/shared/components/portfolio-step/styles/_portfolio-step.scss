@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .portfolio-step {
@@ -8,8 +9,8 @@
   gap: ds.$space-8;
 
   &__section {
-    background: rgba(vars.$zinc-900, 0.5);
-    border: 1px solid vars.$zinc-800;
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
     border-radius: ds.$radius-xl;
     padding: 1.5rem;
     min-width: 0;
@@ -31,24 +32,24 @@
     gap: 0.5rem;
     font-size: 1.25rem;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__section-icon {
     width: 1.5rem;
     height: 1.5rem;
-    color: vars.$color-brand;
+    color: var(--color-brand);
   }
 
   &__count {
     font-size: ds.$font-sm;
     font-weight: 400;
-    color: vars.$zinc-500;
-    background: vars.$zinc-900;
+    color: var(--text-tertiary);
+    background: var(--bg-tertiary);
     padding: 0.25rem 0.5rem;
     border-radius: 9999px;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-secondary);
     margin-inline-start: 0.5rem;
   }
 
@@ -58,14 +59,14 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: vars.$color-brand;
-    color: vars.$bg-color-primary;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 700;
     border: none;
     border-radius: 9999px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+    box-shadow: var(--shadow-glow);
 
     [dir='rtl'] & {
       flex-direction: row-reverse;
@@ -78,7 +79,7 @@
 
     &:hover {
       filter: brightness(1.1);
-      box-shadow: 0 0 30px rgba(255, 209, 102, 0.4);
+      box-shadow: 0 0 30px var(--color-brand-glow);
     }
   }
 
@@ -105,7 +106,7 @@
       gap: 0.5rem;
       font-size: ds.$font-md;
       font-weight: 500;
-      color: vars.$zinc-400;
+      color: var(--text-secondary);
 
       svg {
         width: 1rem;
@@ -117,22 +118,22 @@
       width: 100%;
       min-width: 0;
       box-sizing: border-box;
-      background: vars.$zinc-900;
-      border: 1px solid vars.$zinc-800;
+      background: var(--bg-input);
+      border: 1px solid var(--border-primary);
       border-radius: ds.$radius-lg;
       padding: 0.75rem 1rem;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       font-size: ds.$font-md;
       transition: all 0.2s ease;
 
       &::placeholder {
-        color: vars.$zinc-600;
+        color: var(--text-muted);
       }
 
       &:focus {
         outline: none;
-        border-color: vars.$color-brand;
-        box-shadow: 0 0 0 1px vars.$color-brand;
+        border-color: var(--border-focus);
+        box-shadow: 0 0 0 1px var(--border-focus);
       }
     }
   }
@@ -152,21 +153,21 @@
   &__empty {
     text-align: center;
     padding: 3rem 1rem;
-    border: 2px dashed vars.$zinc-800;
+    border: 2px dashed var(--border-primary);
     border-radius: ds.$radius-xl;
-    background: rgba(vars.$zinc-900, 0.3);
+    background: var(--bg-surface);
   }
 
   &__empty-icon {
     width: 4rem;
     height: 4rem;
-    background: vars.$zinc-900;
+    background: var(--bg-tertiary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1rem;
-    color: vars.$zinc-500;
+    color: var(--text-tertiary);
 
     svg {
       width: 2rem;
@@ -177,13 +178,13 @@
   &__empty h4 {
     font-size: 1.125rem;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0 0 0.5rem;
   }
 
   &__empty p {
     font-size: ds.$font-md;
-    color: vars.$zinc-400;
+    color: var(--text-secondary);
     max-width: 20rem;
     margin: 0 auto 1.5rem;
   }
@@ -193,7 +194,7 @@
     margin: 0 auto;
     background: transparent;
     border: none;
-    color: vars.$color-brand;
+    color: var(--color-brand);
     font-weight: 500;
     cursor: pointer;
     text-decoration: underline;
@@ -216,14 +217,14 @@
   align-items: center;
   gap: ds.$space-4;
   padding: 1rem;
-  background: vars.$zinc-900;
-  border: 1px solid vars.$zinc-800;
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
   border-radius: ds.$radius-lg;
   transition: all 0.2s ease;
   min-width: 0;
 
   &:hover {
-    border-color: vars.$zinc-700;
+    border-color: var(--border-hover);
 
     .portfolio-item__delete {
       opacity: 1;
@@ -245,7 +246,7 @@
     border-radius: ds.$radius-md;
     overflow: hidden;
     flex-shrink: 0;
-    background: vars.$bg-color-primary;
+    background: var(--bg-primary);
 
     img {
       width: 100%;
@@ -261,8 +262,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: vars.$zinc-800;
-    color: vars.$zinc-500;
+    background: var(--bg-elevated);
+    color: var(--text-tertiary);
 
     svg {
       width: 2rem;
@@ -273,7 +274,7 @@
   &__cover-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--overlay-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -285,11 +286,11 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: vars.$color-brand;
+    background: var(--color-brand);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: vars.$bg-color-primary;
+    color: var(--text-inverse);
 
     svg {
       width: 0.875rem;
@@ -318,32 +319,32 @@
     letter-spacing: 0.05em;
 
     &--audio {
-      background: rgba(255, 209, 102, 0.1);
-      color: vars.$color-brand;
+      background: var(--color-brand-bg);
+      color: var(--color-brand);
     }
 
     &--video {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
+      background: var(--color-error-bg);
+      color: var(--color-error);
     }
 
     &--album {
-      background: rgba(59, 130, 246, 0.1);
-      color: #3b82f6;
+      background: var(--color-info-bg);
+      color: var(--color-info);
     }
   }
 
   &__role {
     font-size: ds.$font-sm;
-    color: vars.$zinc-500;
-    border-inline-start: 1px solid vars.$zinc-700;
+    color: var(--text-tertiary);
+    border-inline-start: 1px solid var(--border-primary);
     padding-inline-start: 0.5rem;
   }
 
   &__title {
     font-size: ds.$font-base;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -352,7 +353,7 @@
 
   &__artist {
     font-size: ds.$font-md;
-    color: vars.$zinc-400;
+    color: var(--text-secondary);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -363,7 +364,7 @@
     padding: 0.5rem;
     background: transparent;
     border: none;
-    color: vars.$zinc-500;
+    color: var(--text-tertiary);
     border-radius: ds.$radius-md;
     cursor: pointer;
     opacity: 0;
@@ -376,8 +377,8 @@
     }
 
     &:hover {
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
+      color: var(--color-error);
+      background: var(--color-error-bg);
     }
   }
 }
@@ -391,32 +392,32 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--overlay-bg);
   backdrop-filter: blur(4px);
 }
 
 .portfolio-modal {
-  background: vars.$bg-color-primary;
-  border: 1px solid vars.$zinc-800;
+  background: var(--modal-bg);
+  border: 1px solid var(--border-primary);
   border-radius: ds.$radius-xl;
   width: 100%;
   max-width: 32rem;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-xl);
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem;
-    border-bottom: 1px solid vars.$zinc-800;
+    border-bottom: 1px solid var(--border-primary);
   }
 
   &__title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 
@@ -424,7 +425,7 @@
     padding: 0.5rem;
     background: transparent;
     border: none;
-    color: vars.$zinc-400;
+    color: var(--text-secondary);
     cursor: pointer;
     border-radius: ds.$radius-md;
     transition: all 0.2s ease;
@@ -435,8 +436,8 @@
     }
 
     &:hover {
-      color: vars.$text-color-primary;
-      background: vars.$zinc-800;
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
   }
 
@@ -458,9 +459,9 @@
     gap: 0.5rem;
     padding: 0.75rem;
     border-radius: ds.$radius-lg;
-    border: 1px solid vars.$zinc-800;
-    background: vars.$zinc-900;
-    color: vars.$zinc-400;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-card);
+    color: var(--text-secondary);
     font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
@@ -472,14 +473,14 @@
     }
 
     &:hover {
-      color: vars.$text-color-primary;
-      border-color: vars.$zinc-600;
+      color: var(--text-primary);
+      border-color: var(--border-hover);
     }
 
     &--active {
-      background: vars.$color-brand;
-      border-color: vars.$color-brand;
-      color: vars.$bg-color-primary;
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      color: var(--text-inverse);
       font-weight: 700;
     }
   }
@@ -509,28 +510,28 @@
     label {
       font-size: ds.$font-md;
       font-weight: 500;
-      color: vars.$zinc-400;
+      color: var(--text-secondary);
     }
 
     input {
       width: 100%;
       min-width: 0;
       box-sizing: border-box;
-      background: vars.$zinc-900;
-      border: 1px solid vars.$zinc-800;
+      background: var(--bg-input);
+      border: 1px solid var(--border-primary);
       border-radius: ds.$radius-lg;
       padding: 0.75rem 1rem;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       font-size: ds.$font-md;
       transition: all 0.2s ease;
 
       &::placeholder {
-        color: vars.$zinc-600;
+        color: var(--text-muted);
       }
 
       &:focus {
         outline: none;
-        border-color: vars.$color-brand;
+        border-color: var(--border-focus);
       }
     }
   }
@@ -545,15 +546,15 @@
     flex: 1;
     padding: 0.75rem;
     border-radius: 9999px;
-    border: 1px solid vars.$zinc-800;
+    border: 1px solid var(--border-primary);
     background: transparent;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: vars.$zinc-900;
+      background: var(--bg-hover);
     }
   }
 
@@ -562,16 +563,16 @@
     padding: 0.75rem;
     border-radius: 9999px;
     border: none;
-    background: vars.$color-brand;
-    color: vars.$bg-color-primary;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+    box-shadow: var(--shadow-glow);
 
     &:hover {
       filter: brightness(1.1);
-      box-shadow: 0 0 30px rgba(255, 209, 102, 0.4);
+      box-shadow: 0 0 30px var(--color-brand-glow);
     }
   }
 }

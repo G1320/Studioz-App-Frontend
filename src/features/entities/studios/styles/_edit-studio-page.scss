@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use '../../../../shared/components/forms/styles' as forms;
 @use '../../../../shared/components/forms/styles/design-system' as ds;
 
@@ -6,14 +7,14 @@
   min-height: 100vh;
   width: 100%;
   max-width: 1000px;
-  background: black;
+  background: var(--bg-primary);
   padding: 0;
 
   > section {
     > h1 {
       font-size: vars.$font-size-2xl;
       font-weight: 700;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       margin: 0 0 vars.$spacing-xl;
       text-align: center;
     }
@@ -32,29 +33,29 @@
       .form-label {
         font-size: 0.75rem;
         font-weight: 700;
-        color: ds.$zinc-500;
+        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
 
       .form-input,
       .form-textarea {
-        background: ds.$zinc-900-50;
-        border: 1px solid ds.$zinc-700;
+        background: var(--bg-input);
+        border: 1px solid var(--border-primary);
         border-radius: 12px;
         padding: vars.$spacing-medium vars.$spacing-large;
 
         &::placeholder {
-          color: ds.$zinc-600;
+          color: var(--text-tertiary);
         }
 
         &:hover {
-          background: rgba(24, 24, 27, 0.8);
+          background: var(--bg-hover);
         }
 
         &:focus {
-          border-color: ds.$primary-yellow;
-          box-shadow: 0 0 0 1px ds.$primary-yellow;
+          border-color: var(--color-brand);
+          box-shadow: 0 0 0 1px var(--color-brand);
         }
       }
     }
@@ -66,13 +67,13 @@
   @include forms.branded-file-uploader;
 
   .file-uploader {
-    background: ds.$zinc-900-50;
-    border: 2px dashed ds.$zinc-700;
+    background: var(--bg-input);
+    border: 2px dashed var(--border-primary);
     border-radius: 16px;
 
     &:hover {
-      border-color: ds.$primary-yellow;
-      background: rgba(ds.$primary-yellow, 0.05);
+      border-color: var(--color-brand);
+      background: var(--color-brand-subtle);
     }
   }
 }

@@ -1,0 +1,944 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'sass:color';
+@use 'design-system' as ds;
+
+// Shared branded form styles
+// Use this mixin for all branded forms (create/edit studio/item forms)
+
+@mixin branded-form-base {
+  background: transparent;
+  border-radius: vars.$border-radius-large;
+  border: none;
+  padding: vars.$spacing-xl;
+  color: var(--text-primary);
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+@mixin branded-form-group {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 !important;
+  width: 100%;
+  gap: vars.$spacing-small;
+
+  .form-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: vars.$spacing-small;
+  }
+
+  .form-char-counter {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+
+    &--exceeded {
+      color: var(--color-error);
+    }
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: vars.$spacing-xs;
+    text-align: start;
+
+    // Section title style (for multiselect groups)
+    &--title {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: none;
+      letter-spacing: normal;
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-xs;
+    }
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100% !important;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: vars.$font-size-medium;
+    transition: all 0.3s ease;
+    text-align: start;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: var(--text-muted);
+      text-align: start;
+    }
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
+    }
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+    line-height: 1.6;
+  }
+
+  .form-helper-text {
+    font-size: vars.$font-size-xs;
+    color: var(--text-secondary);
+    margin-top: vars.$spacing-xs;
+    text-align: start;
+  }
+
+  .form-language-toggle {
+    display: flex;
+    background: var(--bg-secondary);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    width: fit-content;
+
+    &__btn {
+      padding: vars.$spacing-small vars.$spacing-medium;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-xs;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+
+      &.active {
+        background: var(--bg-elevated);
+        color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      &.has-errors {
+        border: 1px solid var(--color-warning);
+        animation: borderGlow 2s ease-in-out infinite;
+        box-shadow: 0 0 8px var(--color-warning-glow);
+      }
+
+      &.has-errors:hover {
+        border-color: var(--color-warning-light);
+        box-shadow: 0 0 12px var(--color-warning-glow);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(ds.$primary-yellow, 0.5);
+      }
+
+      &.has-errors:focus {
+        box-shadow:
+          0 0 0 2px var(--color-warning-glow),
+          0 0 12px vars.$warning-opacity-60;
+      }
+    }
+
+    &__hint {
+      margin-top: vars.$spacing-small;
+      padding: vars.$spacing-small;
+      background: var(--color-warning-bg);
+      border: 1px solid var(--color-warning-border);
+      border-radius: vars.$border-radius-small;
+      color: var(--color-warning-text);
+      font-size: vars.$font-size-small;
+      text-align: start;
+    }
+  }
+
+  @keyframes borderGlow {
+    0%,
+    100% {
+      border-color: var(--color-warning);
+      box-shadow: 0 0 8px vars.$warning-opacity-40;
+    }
+    50% {
+      border-color: vars.$color-warning-light;
+      box-shadow: 0 0 16px var(--color-warning-glow);
+    }
+  }
+}
+
+@mixin branded-business-hours {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-sm-md;
+
+  .day-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: vars.$spacing-large;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border-radius: 12px;
+    border: 1px solid var(--border-secondary);
+    background: var(--bg-input);
+    transition: all 0.2s ease;
+    min-height: 56px;
+
+    &:hover {
+      border-color: var(--border-primary);
+    }
+
+    // Disabled/closed state
+    &:has(.switch:not(.on)) {
+      background: var(--bg-tertiary);
+      border-color: var(--border-subtle);
+
+      .day-switch-container span {
+        color: var(--text-secondary);
+      }
+    }
+
+    .day-switch-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: vars.$spacing-sm-md;
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+
+    .switch {
+      min-width: 22px;
+      width: 22px;
+      height: 22px;
+      overflow: hidden;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      transition: all 0.2s ease;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid var(--border-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      &.on {
+        background: var(--color-brand);
+        border-color: var(--color-brand);
+
+        // Checkmark icon via pseudo-element
+        &::before {
+          content: '✓';
+          font-size: 13px;
+          color: black;
+          font-weight: bold;
+          line-height: 1;
+        }
+      }
+
+      // Remove the toggle knob for checkbox style
+      &::after {
+        display: none;
+      }
+    }
+
+    .day-switch-container span {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: vars.$font-size-medium;
+      white-space: nowrap;
+    }
+
+    .hours {
+      display: flex;
+      flex: 1;
+      gap: vars.$spacing-medium;
+      align-items: center;
+      justify-content: flex-start;
+
+      .MuiTextField-root {
+        width: 140px;
+        flex-shrink: 0;
+
+        .MuiInputBase-root {
+          background: var(--bg-primary);
+          border: 1px solid var(--border-secondary);
+          border-radius: 8px;
+          color: var(--text-primary);
+          transition: all 0.2s ease;
+          height: 40px;
+
+          &:hover {
+            border-color: var(--border-primary);
+          }
+
+          &.Mui-focused {
+            border-color: var(--color-brand);
+            box-shadow: 0 0 0 1px var(--color-brand);
+          }
+
+          .MuiInputBase-input {
+            color: var(--text-primary);
+            text-align: center;
+            font-size: vars.$font-size-small;
+            font-weight: 500;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            padding: vars.$spacing-small vars.$spacing-medium;
+          }
+
+          // Style the clock icon
+          .MuiInputAdornment-root {
+            .MuiIconButton-root {
+              padding: vars.$spacing-xs;
+
+              .MuiSvgIcon-root {
+                color: ds.$zinc-500 !important;
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
+
+      > span {
+        color: var(--text-muted);
+        font-weight: 400;
+        flex-shrink: 0;
+      }
+    }
+
+    // Responsive: stack on mobile
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: vars.$spacing-small;
+      padding: vars.$spacing-medium vars.$spacing-sm-md;
+
+      .day-switch-container {
+        min-width: 0;
+        justify-content: flex-start;
+      }
+
+      .hours {
+        width: 100%;
+        gap: 0;
+        flex-direction: column;
+        align-items: stretch;
+
+        .MuiTextField-root {
+          width: 100%;
+          min-width: 0;
+
+          .MuiInputBase-root {
+            width: 100%;
+          }
+        }
+
+        > span {
+          text-align: center;
+          padding: vars.$spacing-xs 0;
+        }
+      }
+    }
+  }
+}
+
+@mixin branded-checkbox-group {
+  padding: vars.$spacing-medium;
+  border-radius: vars.$border-radius-medium;
+
+  label {
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  & button {
+    background: var(--bg-hover) !important;
+    border-radius: vars.$border-radius-medium;
+  }
+
+  // Plain subcategories grid layout
+  &.subcategories-plain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-sm-md;
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  // Allow expandable lists (with fade) for both bubble and standard layouts
+  &.collapsed-with-fade {
+    position: relative;
+    overflow: hidden; // Keep the fade inside the container
+    margin-bottom: vars.$spacing-small;
+    max-height: 120px;
+    border: none;
+    background: transparent;
+
+    @media screen and (max-width: 768px) {
+      max-height: 140px;
+    }
+
+    @media screen and (max-width: 480px) {
+      max-height: 150px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 140px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 50%,
+        var(--bg-fade-25) 70%,
+        var(--bg-fade-55) 85%,
+        var(--bg-primary) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      animation: fadeHint 4s ease-in-out infinite;
+
+      @media screen and (max-width: 768px) {
+        height: 180px;
+      }
+
+      @media screen and (max-width: 480px) {
+        height: 200px;
+      }
+    }
+  }
+
+  &.bubble-style {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-medium;
+    border: none;
+    background: transparent;
+  }
+}
+
+@mixin branded-multiselect {
+  .multiselect-option {
+    .multiselect-checkbox {
+      padding: vars.$spacing-medium;
+      width: 100%;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-secondary) !important;
+      background: ds.$zinc-900-50 !important;
+      border: 1px solid ds.$zinc-700 !important;
+      font-size: vars.$font-size-small;
+      font-weight: 700;
+
+      &:hover {
+        background: rgba(24, 24, 27, 0.8) !important;
+        border-color: var(--border-hover) !important;
+        color: vars.$text-color-primary !important;
+      }
+
+      &.selected {
+        background: ds.$primary-yellow !important;
+        color: black !important;
+        border-color: ds.$primary-yellow !important;
+        box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+      }
+
+      .multiselect-label {
+        color: inherit;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .checkbox-group.bubble-style {
+    position: relative;
+
+    .multiselect-option {
+      .multiselect-checkbox {
+        padding: vars.$spacing-sm-md vars.$spacing-medium;
+        border-radius: 999px;
+        color: var(--text-secondary) !important;
+        background: ds.$zinc-900-50 !important;
+        border: 1px solid ds.$zinc-700 !important;
+        font-weight: 700;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: rgba(24, 24, 27, 0.8) !important;
+          border-color: var(--border-hover) !important;
+          color: vars.$text-color-primary !important;
+        }
+
+        &.selected {
+          background: ds.$primary-yellow !important;
+          color: black !important;
+          border-color: ds.$primary-yellow !important;
+          box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+        }
+
+        .multiselect-label {
+          color: inherit;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  // Subtle pulsing animation for fade hint
+  // Gently draws attention to indicate more content is available
+
+  // Show All / Show Less button for expandable multiSelect fields
+  // Positioned right after the fade effect for clear visual connection
+  .show-all-button {
+    margin-top: vars.$spacing-small;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: vars.$border-radius-medium;
+    color: var(--text-primary);
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2; // Ensure button appears above fade effect
+
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-primary);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(vars.$color-brand, 0.3);
+    }
+  }
+}
+
+@mixin branded-switches {
+  .form-group-checkbox {
+    .switch-group {
+      button.switch {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-primary);
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 48px;
+        height: 24px;
+        border-radius: 12px;
+        padding: 0;
+        overflow: hidden;
+
+        &.on {
+          background: var(--color-brand);
+          border-color: var(--color-brand);
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 2px;
+          top: 2px;
+          width: 20px;
+          height: 20px;
+          background: white;
+          border-radius: 50%;
+          transition: transform 0.2s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        &.on::after {
+          transform: translateX(24px);
+          background: black;
+        }
+      }
+
+      .switch-label {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@mixin branded-dropdowns {
+  .listbox-button {
+    width: 100%;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
+    }
+  }
+
+  .listbox-options {
+    margin-top: vars.$spacing-xs;
+    padding: vars.$spacing-small;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    .listbox-option {
+      padding: vars.$spacing-medium;
+      color: var(--text-primary);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+
+      &.active,
+      &.selected {
+        background: rgba(ds.$primary-yellow, 0.1);
+        color: ds.$primary-yellow;
+      }
+
+      &:hover {
+        background: var(--bg-elevated);
+      }
+    }
+  }
+}
+
+@mixin branded-section-header {
+  .section-header-wrapper {
+    margin-bottom: 0;
+    grid-column: span 2;
+
+    @media screen and (max-width: 768px) {
+      grid-column: span 1;
+    }
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: vars.$spacing-xs;
+    margin-bottom: vars.$spacing-medium;
+    text-align: start;
+
+    &__title-row {
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-small;
+    }
+
+    &__icon {
+      color: ds.$primary-yellow;
+      font-size: 1.5rem !important;
+      flex-shrink: 0;
+    }
+
+    &__title {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    &__step-counter {
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      padding: vars.$spacing-xs vars.$spacing-medium;
+      border-radius: 999px;
+      white-space: nowrap;
+      margin-inline-start: vars.$spacing-small;
+    }
+
+    &__subtitle {
+      font-size: vars.$font-size-small;
+      color: ds.$zinc-400;
+      margin: 0;
+    }
+  }
+}
+
+@mixin branded-parking-select {
+  .parking-select {
+    .section-header {
+      margin-bottom: vars.$spacing-medium;
+    }
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: vars.$spacing-sm-md;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: vars.$spacing-xs;
+      padding: vars.$spacing-sm-md;
+      border-radius: 12px;
+      border: 1px solid var(--border-primary);
+      background: var(--bg-input);
+      color: ds.$zinc-400;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      text-align: start;
+
+      &:hover {
+        border-color: ds.$zinc-500;
+        color: var(--text-primary);
+      }
+
+      &--selected {
+        background: rgba(ds.$primary-yellow, 0.1);
+        border-color: var(--color-brand);
+        color: ds.$primary-yellow;
+
+        &:hover {
+          background: rgba(ds.$primary-yellow, 0.15);
+          border-color: var(--color-brand);
+          color: ds.$primary-yellow;
+        }
+      }
+    }
+
+    &__icon {
+      font-size: 1.25rem;
+    }
+
+    &__label {
+      font-weight: 500;
+      font-size: vars.$font-size-small;
+    }
+  }
+}
+
+@mixin branded-form-actions {
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: vars.$spacing-xl;
+    padding-top: vars.$spacing-large;
+    border-top: 1px solid var(--border-subtle);
+    grid-column: 1 !important;
+    width: 100%;
+
+    .submit-button {
+      padding: vars.$spacing-medium vars.$spacing-xl;
+      font-size: vars.$font-size-medium;
+      font-weight: 700;
+      color: black;
+      background: var(--color-brand);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(ds.$primary-yellow, 0.3);
+
+      &:hover {
+        background: color.adjust(ds.$primary-yellow, $lightness: 5%);
+        transform: translateY(-1px);
+        box-shadow: 0 0 30px rgba(ds.$primary-yellow, 0.5);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(ds.$primary-yellow, 0.3);
+      }
+    }
+  }
+}
+
+@mixin branded-file-uploader {
+  .file-uploader {
+    background: var(--bg-input);
+    border: 2px dashed ds.$zinc-700;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: var(--color-brand);
+      background: rgba(ds.$primary-yellow, 0.05);
+    }
+
+    small {
+      color: ds.$zinc-400;
+    }
+
+    .upload-icon-container {
+      background: var(--bg-elevated);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+
+      .icon {
+        color: ds.$zinc-400;
+      }
+    }
+
+    &:hover .upload-icon-container {
+      background: var(--color-brand);
+
+      .icon {
+        color: black;
+      }
+    }
+
+    &.drag-active {
+      border-color: var(--color-brand);
+      background: rgba(ds.$primary-yellow, 0.1);
+    }
+  }
+
+  .file-uploader-gallery {
+    .gallery-images-list {
+      background: var(--bg-input);
+      border: 1px solid var(--border-primary);
+      border-radius: 12px;
+
+      .render-item-container {
+        background: var(--bg-elevated);
+        border: 2px solid ds.$zinc-700;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: var(--color-brand);
+        }
+      }
+    }
+  }
+}
+
+// Complete branded form mixin - includes all components
+@mixin branded-form {
+  @include branded-form-base;
+
+  .form-group {
+    @include branded-form-group;
+  }
+
+  // Language toggle styles (also available at form level)
+  .form-language-toggle {
+    display: flex;
+    background: var(--bg-secondary);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    width: fit-content;
+
+    &__btn {
+      padding: vars.$spacing-small vars.$spacing-medium;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+
+      &.active {
+        background: var(--bg-elevated);
+        color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(ds.$primary-yellow, 0.5);
+      }
+    }
+  }
+
+  .business-hours {
+    @include branded-business-hours;
+  }
+
+  .checkbox-group {
+    @include branded-checkbox-group;
+  }
+
+  @include branded-multiselect;
+  @include branded-switches;
+  @include branded-dropdowns;
+  @include branded-section-header;
+  @include branded-parking-select;
+  @include branded-form-actions;
+
+  @media (max-width: 768px) {
+    padding: 0;
+
+    .form-actions {
+      .submit-button {
+        width: 100%;
+      }
+    }
+  }
+}

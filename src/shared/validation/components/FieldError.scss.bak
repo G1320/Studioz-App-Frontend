@@ -1,0 +1,65 @@
+@use '../../../assets/styles/utilities/variables' as vars;
+
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: vars.$color-warning-light;
+  font-size: vars.$font-size-sm-md;
+  line-height: 1.4;
+
+  &__icon {
+    flex-shrink: 0;
+    font-size: vars.$font-size-medium;
+    margin-top: 0.125rem;
+  }
+
+  &__message {
+    flex: 1;
+  }
+
+  // RTL support
+  [dir='rtl'] & {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+// Integration with form fields
+input:invalid + .field-error,
+textarea:invalid + .field-error,
+select:invalid + .field-error {
+  display: flex;
+}
+
+// When field has error, add visual indicator
+.has-error {
+  input,
+  textarea,
+  select {
+    border-color: vars.$color-warning;
+
+    &:focus {
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
+    }
+  }
+
+  .listbox-button {
+    border-color: vars.$color-warning;
+
+    &:focus {
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
+    }
+  }
+
+  .listbox-button.error {
+    border-color: vars.$color-warning;
+
+    &:focus {
+      border-color: vars.$color-warning;
+      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
+    }
+  }
+}

@@ -2,32 +2,14 @@
 @use 'design-system' as ds;
 
 // ===========================================
-// MERCHANT STATS - STYLE GUIDE IMPLEMENTATION
+// MERCHANT STATS - Theme-Aware
 // ===========================================
-
-// Color Palette (referencing design system)
-$ms-primary: ds.$primary-yellow;
-$ms-primary-hover: #ffda85;
-$ms-primary-glow: ds.$brand-10;
-$ms-bg: ds.$primary-black;
-$ms-surface: ds.$zinc-900-50;
-$ms-surface-alt: ds.$zinc-900-30;
-$ms-surface-hover: rgba(24, 24, 27, 0.8);
-$ms-border: ds.$zinc-800;
-$ms-border-hover: ds.$zinc-700;
-$ms-text-primary: ds.$primary-white;
-$ms-text-secondary: ds.$zinc-400;
-$ms-text-muted: ds.$zinc-500;
-$ms-positive: ds.$color-success-text;
-$ms-positive-bg: rgba(52, 211, 153, 0.1);
-$ms-negative: ds.$color-error-text;
-$ms-negative-bg: ds.$status-red-bg-15;
 
 // ===== MAIN CONTAINER =====
 .merchant-stats {
   min-height: 100vh;
-  background: $ms-bg;
-  color: $ms-text-primary;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
   direction: rtl;
 }
@@ -52,15 +34,15 @@ $ms-negative-bg: ds.$status-red-bg-15;
     font-weight: 700;
     letter-spacing: -0.025em;
     margin-bottom: 0.5rem;
-    color: $ms-text-primary;
+    color: var(--text-primary);
 
     .highlight {
-      color: $ms-primary;
+      color: var(--color-brand);
     }
   }
 
   p {
-    color: $ms-text-secondary;
+    color: var(--text-secondary);
     font-size: ds.$font-md;
   }
 }
@@ -76,44 +58,44 @@ $ms-negative-bg: ds.$status-red-bg-15;
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1rem;
-  background: rgba(24, 24, 27, 0.8);
-  border: 1px solid $ms-border;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-md;
   font-size: ds.$font-md;
   font-weight: 500;
-  color: $ms-text-primary;
+  color: var(--text-primary);
   cursor: pointer;
   transition: border-color 0.2s ease;
 
   &:hover {
-    border-color: $ms-primary;
+    border-color: var(--color-brand);
   }
 
   .icon-calendar {
     width: 1rem;
     height: 1rem;
-    color: $ms-primary;
+    color: var(--color-brand);
   }
 
   .icon-chevron {
     width: 1rem;
     height: 1rem;
-    color: $ms-text-muted;
+    color: var(--text-muted);
   }
 }
 
 .merchant-stats__export-btn {
   padding: 0.625rem;
-  background: $ms-primary;
-  color: #000;
+  background: var(--color-brand);
+  color: var(--text-inverse);
   border: none;
   border-radius: ds.$radius-md;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px $ms-primary-glow;
+  box-shadow: 0 0 15px var(--color-brand-glow);
 
   &:hover {
-    background: $ms-primary-hover;
+    background: var(--color-brand-hover);
   }
 
   svg {
@@ -140,8 +122,8 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
 // ===== STAT CARD =====
 .stat-card {
-  background: $ms-surface;
-  border: 1px solid $ms-border;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-lg;
   padding: 0.875rem 1rem;
   display: flex;
@@ -151,12 +133,12 @@ $ms-negative-bg: ds.$status-red-bg-15;
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: $ms-border-hover;
+    border-color: var(--border-hover);
   }
 }
 
 .stat-card__icon {
-  color: $ms-primary;
+  color: var(--color-brand);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -175,11 +157,11 @@ $ms-negative-bg: ds.$status-red-bg-15;
   font-weight: 500;
 
   &--positive {
-    color: $ms-positive;
+    color: var(--color-success-text);
   }
 
   &--negative {
-    color: $ms-negative;
+    color: var(--color-error-text);
   }
 
   svg {
@@ -193,7 +175,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   text-align: center;
 
   h3 {
-    color: $ms-text-secondary;
+    color: var(--text-secondary);
     font-size: 0.7rem;
     font-weight: 500;
     margin-bottom: 0;
@@ -202,7 +184,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   .value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: $ms-text-primary;
+    color: var(--text-primary);
     letter-spacing: -0.025em;
   }
 }
@@ -232,8 +214,8 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
 // ===== REVENUE CHART CARD =====
 .revenue-chart {
-  background: $ms-surface-alt;
-  border: 1px solid $ms-border;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-xl;
   padding: ds.$space-6;
 
@@ -259,21 +241,21 @@ $ms-negative-bg: ds.$status-red-bg-15;
   h2 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: $ms-text-primary;
+    color: var(--text-primary);
     margin-bottom: 0.25rem;
   }
 
   p {
     font-size: ds.$font-md;
-    color: $ms-text-muted;
+    color: var(--text-muted);
   }
 }
 
 .revenue-chart__toggle {
   display: flex;
   padding: 0.25rem;
-  background: rgba(24, 24, 27, 0.8);
-  border: 1px solid $ms-border;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-md;
   align-self: flex-start;
 }
@@ -282,7 +264,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   padding: 0.375rem 1rem;
   font-size: ds.$font-md;
   font-weight: 500;
-  color: $ms-text-secondary;
+  color: var(--text-secondary);
   background: transparent;
   border: none;
   border-radius: 0.375rem;
@@ -290,13 +272,13 @@ $ms-negative-bg: ds.$status-red-bg-15;
   transition: all 0.2s ease;
 
   &:hover {
-    color: $ms-text-primary;
+    color: var(--text-primary);
   }
 
   &--active {
-    background: $ms-primary;
-    color: #000;
-    box-shadow: 0 4px 12px rgba($ms-primary, 0.3);
+    background: var(--color-brand);
+    color: var(--text-inverse);
+    box-shadow: 0 4px 12px var(--color-brand-glow);
   }
 }
 
@@ -324,7 +306,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   .grid-line {
     width: 100%;
     height: 1px;
-    border-top: 1px dashed $ms-border-hover;
+    border-top: 1px dashed var(--border-hover);
   }
 }
 
@@ -342,7 +324,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 
   &:hover .chart-bar {
     opacity: 1;
-    box-shadow: 0 0 15px rgba($ms-primary, 0.3);
+    box-shadow: 0 0 15px var(--color-brand-glow);
   }
 }
 
@@ -360,12 +342,12 @@ $ms-negative-bg: ds.$status-red-bg-15;
   top: -2.5rem;
   opacity: 0;
   transition: opacity 0.2s ease;
-  background: rgb(39, 39, 42);
-  color: $ms-text-primary;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   font-size: ds.$font-sm;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  border: 1px solid $ms-border-hover;
+  border: 1px solid var(--border-hover);
   pointer-events: none;
   z-index: 10;
   white-space: nowrap;
@@ -374,7 +356,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 .chart-bar {
   width: 100%;
   max-width: 40px;
-  background: $ms-primary;
+  background: var(--color-brand);
   border-radius: 2px 2px 0 0;
   opacity: 0.8;
   transition: all 0.3s ease;
@@ -383,7 +365,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 .chart-label {
   margin-top: 0.5rem;
   font-size: 0.625rem;
-  color: $ms-text-muted;
+  color: var(--text-muted);
   text-align: center;
   font-weight: 500;
   height: 1rem;
@@ -408,8 +390,8 @@ $ms-negative-bg: ds.$status-red-bg-15;
 }
 
 .quick-stat-card {
-  background: $ms-surface-alt;
-  border: 1px solid $ms-border;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-xl;
   padding: ds.$space-6;
   display: flex;
@@ -439,7 +421,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
     top: 0;
     margin-right: -2.5rem;
     margin-top: -2.5rem;
-    background: $ms-primary;
+    background: var(--color-brand);
   }
 
   &--blue {
@@ -447,7 +429,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
     bottom: 0;
     margin-left: -2.5rem;
     margin-bottom: -2.5rem;
-    background: #3b82f6;
+    background: var(--color-info);
   }
 }
 
@@ -456,7 +438,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   z-index: 1;
 
   h3 {
-    color: $ms-text-secondary;
+    color: var(--text-secondary);
     font-weight: 500;
     margin-bottom: 0.25rem;
   }
@@ -469,18 +451,18 @@ $ms-negative-bg: ds.$status-red-bg-15;
     .value {
       font-size: 1.875rem;
       font-weight: 700;
-      color: $ms-text-primary;
+      color: var(--text-primary);
     }
 
     .unit {
       font-size: 1.125rem;
-      color: $ms-text-muted;
+      color: var(--text-muted);
     }
 
     .badge {
       font-size: ds.$font-sm;
       font-weight: 500;
-      color: $ms-positive;
+      color: var(--color-success-text);
     }
   }
 }
@@ -498,14 +480,14 @@ $ms-negative-bg: ds.$status-red-bg-15;
     display: flex;
     justify-content: space-between;
     font-size: ds.$font-sm;
-    color: $ms-text-muted;
+    color: var(--text-muted);
     margin-bottom: 0.5rem;
   }
 
   .progress-bar {
     width: 100%;
     height: 0.375rem;
-    background: rgb(39, 39, 42);
+    background: var(--bg-secondary);
     border-radius: 9999px;
     overflow: hidden;
 
@@ -514,11 +496,11 @@ $ms-negative-bg: ds.$status-red-bg-15;
       transition: width 0.3s ease;
 
       &--primary {
-        background: $ms-primary;
+        background: var(--color-brand);
       }
 
       &--secondary {
-        background: rgb(82, 82, 91);
+        background: var(--text-muted);
       }
     }
   }
@@ -536,7 +518,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   align-items: center;
   gap: 0.5rem;
   font-size: ds.$font-sm;
-  color: $ms-text-secondary;
+  color: var(--text-secondary);
 
   .legend-dot {
     width: 0.5rem;
@@ -544,19 +526,19 @@ $ms-negative-bg: ds.$status-red-bg-15;
     border-radius: 50%;
 
     &--blue {
-      background: #3b82f6;
+      background: var(--color-info);
     }
 
     &--purple {
-      background: #a855f7;
+      background: var(--color-purple, #a855f7);
     }
   }
 }
 
 // ===== CLIENTS LIST =====
 .clients-card {
-  background: $ms-surface-alt;
-  border: 1px solid $ms-border;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-xl;
   padding: ds.$space-6;
   height: 100%;
@@ -571,12 +553,12 @@ $ms-negative-bg: ds.$status-red-bg-15;
   h2 {
     font-size: 1.125rem;
     font-weight: 700;
-    color: $ms-text-primary;
+    color: var(--text-primary);
   }
 
   .view-all {
     font-size: ds.$font-sm;
-    color: $ms-primary;
+    color: var(--color-brand);
     background: none;
     border: none;
     cursor: pointer;
@@ -605,11 +587,11 @@ $ms-negative-bg: ds.$status-red-bg-15;
   transition: all 0.2s ease;
 
   &:hover {
-    background: $ms-surface;
-    border-color: $ms-border;
+    background: var(--bg-surface);
+    border-color: var(--border-secondary);
 
     .client-row__name {
-      color: $ms-primary;
+      color: var(--color-brand);
     }
   }
 }
@@ -618,9 +600,9 @@ $ms-negative-bg: ds.$status-red-bg-15;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: rgb(39, 39, 42);
+  background: var(--bg-secondary);
   overflow: hidden;
-  border: 1px solid $ms-border-hover;
+  border: 1px solid var(--border-hover);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -635,7 +617,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   svg {
     width: 1rem;
     height: 1rem;
-    color: $ms-text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -656,7 +638,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
 .client-row__name {
   font-weight: 500;
   font-size: ds.$font-md;
-  color: $ms-text-primary;
+  color: var(--text-primary);
   transition: color 0.2s ease;
   margin: 0;
 }
@@ -664,25 +646,24 @@ $ms-negative-bg: ds.$status-red-bg-15;
 .client-row__spent {
   font-weight: 700;
   font-size: ds.$font-md;
-  color: $ms-text-primary;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .client-row__visit {
   font-size: ds.$font-sm;
-  color: $ms-text-muted;
+  color: var(--text-muted);
   margin: 0;
-  // text-align: start; // Default
 }
 
 .clients-card__filter-btn {
   width: 100%;
   margin-top: 1.5rem;
   padding: 0.75rem;
-  border: 1px dashed $ms-border-hover;
+  border: 1px dashed var(--border-hover);
   border-radius: ds.$radius-lg;
   background: transparent;
-  color: $ms-text-muted;
+  color: var(--text-muted);
   font-size: ds.$font-md;
   cursor: pointer;
   display: flex;
@@ -692,8 +673,8 @@ $ms-negative-bg: ds.$status-red-bg-15;
   transition: all 0.2s ease;
 
   &:hover {
-    color: $ms-text-primary;
-    border-color: $ms-text-muted;
+    color: var(--text-primary);
+    border-color: var(--text-muted);
   }
 
   svg {
@@ -708,7 +689,7 @@ $ms-negative-bg: ds.$status-red-bg-15;
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  color: $ms-text-secondary;
+  color: var(--text-secondary);
 }
 
 // ===== EMPTY STATE =====
@@ -719,24 +700,24 @@ $ms-negative-bg: ds.$status-red-bg-15;
   justify-content: center;
   min-height: 40vh;
   text-align: center;
-  color: $ms-text-secondary;
+  color: var(--text-secondary);
 
   svg {
     width: 3rem;
     height: 3rem;
-    color: $ms-text-muted;
+    color: var(--text-muted);
     margin-bottom: 1rem;
   }
 
   h3 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: $ms-text-primary;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
   }
 
   p {
     font-size: ds.$font-md;
-    color: $ms-text-muted;
+    color: var(--text-muted);
   }
 }

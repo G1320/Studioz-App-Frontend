@@ -1,15 +1,16 @@
 @use 'sass:color';
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .sumit-payment-form {
   max-width: 520px;
   margin: vars.$spacing-2xl auto;
   padding: ds.$space-8; // 32px
-  background: #0a0a0a; // Deepest black
+  background: var(--bg-primary);
   border-radius: 1.5rem; // 24px - rounded-3xl
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-  border: 1px solid vars.$zinc-800;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-primary);
   position: relative;
   overflow: hidden;
 
@@ -21,14 +22,14 @@
 
     h2 {
       font-size: ds.$font-3xl; // 3xl - 30px
-      color: white;
+      color: var(--text-primary);
       margin-bottom: 0.5rem; // 8px
       font-weight: 700;
       letter-spacing: -0.025em; // tracking-tight
     }
 
     p {
-      color: vars.$zinc-500;
+      color: var(--text-secondary);
       font-size: vars.$font-size-sm-md;
       margin-bottom: 1.5rem; // 24px
     }
@@ -45,25 +46,25 @@
 
   &__divider-line {
     height: 1px;
-    background: vars.$zinc-800;
+    background: var(--border-primary);
     width: 100%;
     position: absolute;
   }
 
   &__divider-accent {
     height: 2px;
-    background: ds.$primary-yellow;
+    background: var(--color-brand);
     width: 4rem; // 64px
     position: relative;
     z-index: 10;
     border-radius: 9999px;
-    box-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+    box-shadow: 0 0 10px var(--color-brand-glow);
   }
 
   &__error {
-    background-color: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #fca5a5;
+    background-color: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    color: var(--color-error-light);
     padding: vars.$spacing-medium;
     border-radius: vars.$border-radius-medium;
     margin-bottom: vars.$spacing-large;
@@ -87,7 +88,7 @@
       display: block;
       text-align: start;
       font-size: vars.$font-size-sm-md;
-      color: vars.$zinc-200; // text-zinc-200
+      color: var(--text-primary);
       font-weight: 700; // font-bold
       margin-bottom: 0.5rem; // 8px
     }
@@ -96,22 +97,22 @@
     select {
       width: 100%;
       padding: 0.75rem 1rem; // py-3 px-4
-      border: 1px solid vars.$zinc-800;
+      border: 1px solid var(--border-primary);
       border-radius: ds.$radius-md; // rounded-lg
       font-size: ds.$font-base; // text-base
       transition: all 0.2s ease;
-      background: #1a1a1a; // Slightly lighter black
-      color: white;
+      background: var(--bg-input);
+      color: var(--text-primary);
       box-sizing: border-box;
 
       &::placeholder {
-        color: vars.$zinc-600;
+        color: var(--text-muted);
       }
 
       &:focus {
         outline: none;
-        border-color: ds.$primary-yellow;
-        box-shadow: 0 0 0 1px ds.$primary-yellow; // ring-1
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 1px var(--color-brand);
       }
 
       &:disabled {
@@ -171,7 +172,7 @@
   // Divider (simple line)
   &__divider {
     height: 1px;
-    background: vars.$zinc-800;
+    background: var(--border-primary);
     width: 100%;
     margin: 1.5rem 0; // 24px
   }
@@ -184,7 +185,7 @@
       display: block;
       text-align: start;
       font-size: vars.$font-size-sm-md;
-      color: vars.$zinc-200;
+      color: var(--text-primary);
       font-weight: 700;
       margin-bottom: 0.5rem; // 8px
     }
@@ -196,22 +197,22 @@
       input {
         flex: 1;
         padding: 0.75rem 1rem;
-        border: 1px solid vars.$zinc-800;
+        border: 1px solid var(--border-primary);
         border-radius: ds.$radius-md; // rounded-lg
         font-size: ds.$font-base;
-        background: #1a1a1a;
-        color: white;
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
         text-transform: uppercase;
 
         &::placeholder {
-          color: vars.$zinc-600;
+          color: var(--text-muted);
           text-transform: none;
         }
 
         &:focus {
           outline: none;
-          border-color: ds.$primary-yellow;
-          box-shadow: 0 0 0 1px ds.$primary-yellow;
+          border-color: var(--color-brand);
+          box-shadow: 0 0 0 1px var(--color-brand);
         }
 
         &:disabled {
@@ -221,23 +222,23 @@
 
         // Error state
         &.error {
-          border-color: #ef4444; // red-500
-          color: #ef4444;
+          border-color: var(--color-error);
+          color: var(--color-error);
 
           &:focus {
-            border-color: #ef4444;
-            box-shadow: 0 0 0 1px #ef4444;
+            border-color: var(--color-error);
+            box-shadow: 0 0 0 1px var(--color-error);
           }
         }
 
         // Success state
         &.success {
-          border-color: #10b981; // green-500
-          color: #10b981;
+          border-color: var(--color-success-light);
+          color: var(--color-success);
 
           &:focus {
-            border-color: #10b981;
-            box-shadow: 0 0 0 1px #10b981;
+            border-color: var(--color-success);
+            box-shadow: 0 0 0 1px var(--color-success-light);
           }
         }
       }
@@ -250,13 +251,13 @@
       transition: all 0.2s ease;
       white-space: nowrap;
       cursor: pointer;
-      border: 1px solid vars.$zinc-700;
-      background: #222;
-      color: white;
+      border: 1px solid var(--border-secondary);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
 
       &:hover:not(:disabled) {
-        background: #333;
-        border-color: vars.$zinc-500;
+        background: var(--bg-hover);
+        border-color: var(--border-hover);
       }
 
       &:disabled {
@@ -266,21 +267,21 @@
 
       // Success state button
       &--success {
-        background: rgba(16, 185, 129, 0.1); // green-500/10
-        border-color: #10b981; // green-500
-        color: #10b981;
+        background: var(--color-success-bg);
+        border-color: var(--color-success-border);
+        color: var(--color-success-light);
       }
     }
 
     &-error {
-      color: #ef4444; // red-500
+      color: var(--color-error);
       font-size: ds.$font-sm; // text-xs
       margin-top: 0.25rem; // 4px
       margin-inline-end: 0.25rem; // mr-1
     }
 
     &-success {
-      color: #10b981; // green-500
+      color: var(--color-success-light);
       font-size: ds.$font-sm; // text-xs
       margin-top: 0.25rem; // 4px
       margin-inline-end: 0.25rem; // mr-1
@@ -289,9 +290,9 @@
 
   &__discount-summary {
     padding: vars.$spacing-medium;
-    background: rgba(34, 34, 34, 0.4);
+    background: var(--bg-secondary);
     border-radius: vars.$border-radius-medium;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-primary);
   }
 
   &__discount-row {
@@ -299,19 +300,19 @@
     justify-content: space-between;
     padding: vars.$spacing-small 0;
     font-size: vars.$font-size-sm-md;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary);
 
     &--discount {
-      color: #86efac;
+      color: var(--color-success-light);
     }
 
     &--total {
       padding-top: vars.$spacing-medium;
       margin-top: vars.$spacing-small;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid var(--border-primary);
       font-weight: 700;
       font-size: vars.$font-size-medium;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 
@@ -321,23 +322,23 @@
     button {
       width: 100%;
       padding: 1rem 2rem; // py-4 px-8
-      background: ds.$primary-yellow;
-      color: black;
+      background: var(--color-brand);
+      color: var(--text-inverse);
       border: none;
       border-radius: ds.$radius-lg; // rounded-xl
       font-size: ds.$font-lg; // text-lg
       font-weight: 700; // font-bold
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+      box-shadow: 0 0 20px var(--color-brand-glow);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem; // 8px
 
       &:hover:not(:disabled) {
-        background: #ffc107;
-        box-shadow: 0 0 25px rgba(255, 209, 102, 0.4);
+        background: var(--color-brand-hover);
+        box-shadow: 0 0 25px var(--color-brand-glow);
         transform: translateY(-1px);
       }
 
@@ -370,7 +371,7 @@
   &__footer {
     margin-top: 1.5rem; // 24px
     padding-top: 0.5rem; // 8px
-    border-top: 1px solid vars.$zinc-900;
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -388,16 +389,16 @@
       display: flex;
       align-items: center;
       gap: 0.5rem; // 8px
-      color: vars.$zinc-400;
+      color: var(--text-muted);
       font-size: ds.$font-sm; // text-xs
       font-weight: 500; // font-medium
 
       span {
-        color: vars.$zinc-400;
+        color: var(--text-muted);
       }
 
       a {
-        color: #e4e4e7; // Subtle light gray
+        color: var(--text-primary);
         font-weight: 700; // font-bold
         text-decoration: none;
         letter-spacing: -0.025em; // tracking-tight
@@ -414,12 +415,12 @@
       gap: 0.25rem; // 4px
 
       svg {
-        color: vars.$zinc-500;
+        color: var(--text-secondary);
       }
 
       span {
         font-size: 0.625rem; // text-[10px]
-        color: vars.$zinc-600;
+        color: var(--text-muted);
       }
     }
   }

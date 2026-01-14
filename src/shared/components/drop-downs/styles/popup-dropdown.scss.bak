@@ -1,0 +1,308 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'sass:color';
+
+.popup-dropdown-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.popup-dropdown {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  background-color: vars.$bg-color-tertiary;
+  border: 1px solid vars.$white-opacity-10;
+  box-shadow:
+    0 8px 24px vars.$black-opacity-40,
+    0 4px 8px vars.$black-opacity-20;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  animation: dropdownFadeIn 0.2s ease-out;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  // Alignment (legacy - for backward compatibility)
+  &--left {
+    left: 0;
+    transform: translateX(0);
+  }
+
+  &--right {
+    right: 0;
+    transform: translateX(0);
+  }
+
+  &--center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  // Anchor positioning - controls where dropdown attaches to button
+  &--anchor-bottom-left {
+    left: 0;
+    right: auto;
+    transform: translateX(0);
+  }
+
+  &--anchor-bottom-right {
+    right: 0;
+    left: auto;
+    transform: translateX(0);
+  }
+
+  &--anchor-bottom-center {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  // RTL support for alignment
+  html[dir='rtl'] & {
+    &--left {
+      left: auto;
+      right: 0;
+    }
+
+    &--right {
+      right: auto;
+      left: 0;
+    }
+
+    &--center {
+      right: 50%;
+      left: auto;
+      transform: translateX(50%);
+    }
+
+    // RTL support for anchor positioning
+    &--anchor-bottom-left {
+      right: 0;
+      left: auto;
+      transform: translateX(0);
+    }
+
+    &--anchor-bottom-right {
+      left: 0;
+      right: auto;
+      transform: translateX(0);
+    }
+
+    &--anchor-bottom-center {
+      right: 50%;
+      left: auto;
+      transform: translateX(50%);
+    }
+  }
+
+  // Responsive
+  @media (max-width: 768px) {
+    min-width: auto !important;
+    max-width: calc(100vw - 3.5rem) !important;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+    // Default: center on mobile for legacy align prop
+    &--left,
+    &--right,
+    &--center {
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+    }
+
+    // Anchor positioning on mobile - anchor to corners
+    &--anchor-bottom-left {
+      left: 0 !important;
+      right: auto !important;
+      transform: none !important;
+    }
+
+    &--anchor-bottom-right {
+      right: 0 !important;
+      left: auto !important;
+      transform: none !important;
+    }
+
+    &--anchor-bottom-center {
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+    }
+
+    html[dir='rtl'] & {
+      &--left,
+      &--right,
+      &--center {
+        left: auto !important;
+        right: 50% !important;
+        transform: translateX(50%) !important;
+      }
+
+      &--anchor-bottom-left {
+        right: 0 !important;
+        left: auto !important;
+        transform: none !important;
+      }
+
+      &--anchor-bottom-right {
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
+      }
+
+      &--anchor-bottom-center {
+        right: 50% !important;
+        left: auto !important;
+        transform: translateX(50%) !important;
+      }
+    }
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Center positioning animation
+.popup-dropdown--center {
+  animation-name: dropdownFadeInCenter;
+}
+
+@keyframes dropdownFadeInCenter {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+html[dir='rtl'] .popup-dropdown--center {
+  animation-name: dropdownFadeInCenterRTL;
+}
+
+@keyframes dropdownFadeInCenterRTL {
+  from {
+    opacity: 0;
+    transform: translateX(50%) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(50%) translateY(0);
+  }
+}
+
+// Content styling for dropdowns
+.popup-dropdown {
+  // Lists (for availability dropdown)
+  ul.availability-dropdown-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: vars.$white-opacity-20 transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: vars.$white-opacity-20;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: vars.$white-opacity-30;
+      }
+    }
+
+    @media (max-width: 768px) {
+      max-height: 60vh;
+    }
+
+    li {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid vars.$white-opacity-05;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      transition: background-color 0.15s ease;
+      min-height: 44px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: vars.$white-opacity-05;
+      }
+
+      @media (max-width: 768px) {
+        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+        min-height: 40px;
+      }
+
+      strong {
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: vars.$font-size-sm-md;
+      }
+
+      p {
+        margin: 0;
+        color: vars.$white-opacity-75;
+        font-size: vars.$font-size-small;
+        line-height: 1.5;
+      }
+    }
+  }
+
+  // Address and phone details
+  .address-details,
+  .phone-details {
+    padding: 0.75rem 1rem;
+
+    p {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: vars.$font-size-sm-md;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    a {
+      color: vars.$color-brand;
+      text-decoration: none;
+      font-size: vars.$font-size-sm-md;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: color.adjust(vars.$color-brand, $lightness: 10%);
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,14 +1,14 @@
 @use 'utilities/variables' as vars;
-@use 'sass:color';
+@use 'utilities/mixins' as mixins;
 
 article.category-card {
-  min-height: 80px; // Increased height to accommodate icon
-  background-color: vars.$light-gray-f5f5f5;
+  min-height: 80px;
+  background-color: var(--bg-elevated);
   border-radius: vars.$border-radius-large;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; // Space between icon and text
-  align-items: flex-start; // Align content to start
+  justify-content: space-between;
+  align-items: flex-start;
   padding: vars.$spacing-medium;
   margin-block: 0.5rem;
   transition:
@@ -24,7 +24,7 @@ article.category-card {
     align-items: center;
     justify-content: center;
     margin-bottom: vars.$spacing-small;
-    color: vars.$text-color-tertiary;
+    color: var(--text-tertiary);
     transition: color 0.25s ease;
 
     svg {
@@ -38,25 +38,24 @@ article.category-card {
     font-size: clamp(0.7rem, 0.9rem, 1.2rem);
     font-weight: 600;
     line-height: normal;
-    color: vars.$text-color-tertiary;
+    color: var(--text-tertiary);
     text-align: start;
     transition: color 0.25s ease;
   }
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 24px vars.$black-opacity-35;
+    box-shadow: var(--shadow-lg);
     
     .category-card__icon {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
     
     span {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 
-  // Smaller padding on very small screens
   @media (max-width: 420px) {
     padding: vars.$spacing-small;
     min-height: 70px;
@@ -68,19 +67,16 @@ article.category-card {
   }
 
   &--selected {
-    background-color: vars.$light-gray-f0f0f021;
-    box-shadow:
-      0 2px 8px vars.$black-opacity-10,
-      0 0 0 1px vars.$black-opacity-05;
+    background-color: var(--color-brand-bg);
+    box-shadow: var(--shadow-sm);
       
     .category-card__icon {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
 
     span {
       font-weight: 600;
-      color: color.adjust(vars.$color-brand, $lightness: -10%, $saturation: 10%);
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 }

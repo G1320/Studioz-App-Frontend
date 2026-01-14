@@ -1,25 +1,26 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .duration-field {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background: vars.$bg-color-secondary;
+  background: var(--bg-secondary);
   border-radius: vars.$border-radius-large;
-  border: 1px solid vars.$white-opacity-15;
+  border: 1px solid var(--border-primary);
   transition: border-color 0.2s ease;
   text-align: start;
 
   &:focus-within {
-    border-color: vars.$white-opacity-30;
+    border-color: var(--border-hover);
   }
 
   &.has-error {
-    border-color: vars.$color-warning;
+    border-color: var(--color-warning);
 
     &:focus-within {
-      border-color: vars.$color-warning;
+      border-color: var(--color-warning);
     }
   }
 
@@ -31,7 +32,7 @@
     .duration-field__value,
     .duration-field__unit {
       cursor: not-allowed;
-      background: vars.$white-opacity-05;
+      background: var(--bg-hover);
     }
   }
 
@@ -44,12 +45,12 @@
   &__label {
     font-weight: 600;
     font-size: vars.$font-size-sm-md;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
     font-size: vars.$font-size-small;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
     margin: 0;
     line-height: 1.4;
   }
@@ -65,19 +66,19 @@
     max-width: 120px;
     padding: 0.625rem 0.875rem;
     font-size: vars.$font-size-medium;
-    border: 1px solid vars.$white-opacity-15;
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
-    background: vars.$bg-color-tertiary;
-    color: vars.$text-color-primary;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
     transition: border-color 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: vars.$white-opacity-30;
+      border-color: var(--border-hover);
     }
 
     &::placeholder {
-      color: vars.$white-opacity-40;
+      color: var(--text-muted);
     }
 
     /* Remove spinner for number inputs */
@@ -97,28 +98,28 @@
     max-width: 140px;
     padding: 0.625rem 0.875rem;
     font-size: vars.$font-size-medium;
-    border: 1px solid vars.$white-opacity-15;
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
-    background: vars.$bg-color-tertiary;
-    color: vars.$text-color-primary;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
     cursor: pointer;
     transition: border-color 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: vars.$white-opacity-30;
+      border-color: var(--border-hover);
     }
 
     option {
       padding: 0.5rem;
-      background: vars.$bg-color-secondary;
-      color: vars.$text-color-primary;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
     }
   }
 
   &__error {
     font-size: vars.$font-size-small;
-    color: vars.$color-warning-light;
+    color: var(--color-warning-text);
     margin-top: 0.25rem;
   }
 }

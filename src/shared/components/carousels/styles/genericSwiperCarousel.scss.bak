@@ -1,0 +1,243 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+.generic-carousel {
+  color: #fff;
+  max-width: calc(100vw - 2rem);
+  min-width: 100%;
+  min-height: max-content;
+  border-radius: 8px;
+  position: relative;
+  .studios-carousel,
+  .items-carousel {
+    min-height: clamp(190px, 234px, 100%);
+  }
+  .swiper_wrap {
+    position: relative;
+  }
+
+  .swiper {
+    height: 100%;
+  }
+
+  .swiper-wrapper {
+    height: 100%;
+  }
+
+  .swiper-slide {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  // Auto-width mode: each slide uses its natural content width
+  &--auto-width {
+    .swiper-slide {
+      width: auto !important;
+      flex-shrink: 0;
+    }
+
+    .swiper-slide--prepend {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .swiper-slide.dimmed {
+    opacity: 0.8;
+    transition: opacity 0.005s ease-in-out;
+  }
+
+  .swiper-navigation-wrapper {
+    position: relative;
+    height: 100%;
+  }
+
+  .swiper-navigation {
+    grid-column: 3;
+  }
+
+  .see-all-container {
+    white-space: nowrap;
+    height: 2rem;
+    width: 84px;
+    align-content: center;
+    align-self: center;
+    background-color: vars.$white-opacity-10;
+    border: 1px solid vars.$white-opacity-20;
+
+    border-radius: 6px;
+  }
+
+  .swiper-navigation-title-container {
+    display: grid;
+    grid-template-columns: max-content 1fr 1fr;
+    gap: 1.5rem;
+    height: 74px;
+    place-content: center;
+    h2 {
+      max-width: max-content;
+      height: max-content;
+      text-wrap: nowrap;
+      place-self: center;
+      justify-self: start;
+    }
+  }
+
+  .swiper-navigation {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 0.8rem;
+    z-index: 10;
+  }
+
+  .custom-nav-btn {
+    @include mixins.branded-button;
+
+    width: 44px;
+    height: 44px;
+
+    position: static;
+    margin: 1rem 0;
+    border: 1px solid vars.$white-opacity-20;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+
+    &:hover {
+      background-color: vars.$brand-opacity-20;
+      border-color: vars.$color-brand;
+      box-shadow: 0 4px 12px vars.$brand-opacity-30;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 18px;
+    font-weight: 700;
+    color: vars.$text-color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .swiper-pagination {
+    display: none;
+  }
+
+  // ========================================
+  // Inline Navigation Mode (Giggster-style)
+  // ========================================
+  &--inline-nav {
+    .swiper_wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .swiper {
+      flex: 1;
+      min-width: 0;
+      // Mask/fade the edge where content gets cut off
+      mask-image: linear-gradient(to var(--fade-dir, right), black calc(100% - 2rem), transparent 100%);
+      -webkit-mask-image: linear-gradient(to var(--fade-dir, right), black calc(100% - 2rem), transparent 100%);
+
+      [dir='rtl'] & {
+        --fade-dir: left;
+      }
+    }
+  }
+
+  // Remove fade when at the end - show last item fully
+  &--at-end {
+    .swiper {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+  }
+
+  .inline-nav-container {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .inline-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .inline-nav-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: vars.$zinc-800;
+    border: 1px solid vars.$zinc-700;
+    border-radius: ds.$radius-md;
+    color: vars.$zinc-400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover:not(:disabled) {
+      border-color: vars.$zinc-500;
+      color: vars.$text-color-primary;
+      background: vars.$zinc-700;
+    }
+
+    &--disabled,
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .generic-carousel {
+    .swiper-navigation {
+      display: none;
+    }
+    .swiper-slide.dimmed {
+      opacity: 0.9;
+    }
+    .swiper-navigation-title-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .see-all-container {
+      justify-self: end;
+    }
+    // Hide inline navigation on mobile (touch/swipe is available)
+    .inline-nav-container {
+      display: none;
+    }
+    // Remove mask on mobile since nav is hidden
+    &--inline-nav .swiper {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+  }
+}

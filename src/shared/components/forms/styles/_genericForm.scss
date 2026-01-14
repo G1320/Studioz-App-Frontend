@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .generic-form {
@@ -7,14 +8,14 @@
   min-width: min-content;
   margin: 0 auto;
   padding: 1.5rem;
-  border: 1px solid vars.$light-gray-ddd;
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-medium;
-  // background-color: vars.$text-color-primary;
-  box-shadow: 0 4px 6px vars.$black-opacity-10;
+  // background-color: var(--text-primary);
+  box-shadow: 0 4px 6px var(--shadow-md);
 
   .business-hours {
     &.has-error {
-      border-color: vars.$color-warning;
+      border-color: var(--color-warning);
 
       .day-row {
         .hours {
@@ -22,11 +23,11 @@
             .MuiOutlinedInput-root {
               &.Mui-focused {
                 fieldset {
-                  border-color: vars.$color-warning;
+                  border-color: var(--color-warning);
                 }
               }
               fieldset {
-                border-color: vars.$color-warning;
+                border-color: var(--color-warning);
               }
             }
           }
@@ -38,7 +39,7 @@
       display: flex;
       align-items: center;
       padding: 1rem 0;
-      border-bottom: 1px solid vars.$light-gray-e5e7eb;
+      border-bottom: 1px solid var(--border-primary);
       transition: background-color 0.2s;
 
       .day-switch-container {
@@ -55,11 +56,11 @@
         height: 24px;
         // overflow: hidden;
         border-radius: 12px;
-        background: vars.$light-gray-e5e7eb;
+        background: var(--border-primary);
         transition: background-color 0.2s;
 
         &.on {
-          background: vars.$color-blue-light;
+          background: var(--color-info);
         }
       }
 
@@ -67,7 +68,7 @@
         min-width: 100px;
         text-align: start;
         font-weight: 500;
-        color: vars.$dark-gray-1f2937;
+        color: var(--text-primary);
       }
 
       .hours-container {
@@ -90,7 +91,7 @@
           min-width: 48px;
           height: 24px;
           border-radius: 12px;
-          background: vars.$light-gray-e5e7eb;
+          background: var(--border-primary);
           position: relative;
           cursor: pointer;
           transition: background-color 0.2s;
@@ -104,12 +105,12 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: black;
+            background: var(--text-inverse);
             transition: transform 0.2s ease;
           }
 
           &.checked {
-            background: vars.$color-brand;
+            background: var(--color-brand);
 
             &::after {
               transform: translateX(24px);
@@ -125,7 +126,7 @@
         .is-24-hours-text {
           font-size: vars.$font-size-small;
           font-weight: 500;
-          color: vars.$text-color-secondary;
+          color: var(--text-secondary);
           min-width: auto;
         }
       }
@@ -134,13 +135,13 @@
         display: flex;
         align-items: center;
         padding: 0.5rem 1rem;
-        background: vars.$zinc-800;
+        background: var(--border-primary);
         border-radius: vars.$border-radius-medium;
-        border: 1px solid vars.$zinc-700;
+        border: 1px solid var(--border-secondary);
 
         span {
           font-size: vars.$font-size-sm-md;
-          color: vars.$text-color-secondary;
+          color: var(--text-secondary);
           font-weight: 500;
           min-width: auto;
         }
@@ -160,7 +161,7 @@
             .MuiInputAdornment-root {
               .MuiIconButton-root {
                 .MuiSvgIcon-root {
-                  color: vars.$text-color-primary !important;
+                  color: var(--text-primary) !important;
                 }
               }
             }
@@ -199,18 +200,18 @@
       display: block;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: vars.$dark-gray-333;
+      color: var(--text-primary);
       text-align: start;
     }
 
     .form-input,
     .form-textarea {
       padding: 0.75rem;
-      border: 1px solid vars.$light-gray-ccc;
+      border: 1px solid var(--border-primary);
       border-radius: vars.$border-radius-small;
       font-size: vars.$font-size-medium;
-      color: vars.$dark-gray-333;
-      // background-color: vars.$text-color-primary;
+      color: var(--text-primary);
+      // background-color: var(--text-primary);
       width: 95%;
       text-align: start;
       transition:
@@ -223,8 +224,8 @@
 
       &:focus {
         outline: none;
-        border-color: vars.$color-blue-primary;
-        box-shadow: 0 0 0 3px vars.$blue-opacity-30;
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 3px var(--color-brand-subtle);
       }
     }
 
@@ -272,15 +273,15 @@
       &:focus-visible,
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px vars.$blue-opacity-30;
+        box-shadow: 0 0 0 2px var(--color-brand-subtle);
       }
 
       &:hover {
-        background-color: vars.$light-gray-f5f5f5;
+        background-color: var(--bg-hover);
       }
       &.selected {
-        background-color: vars.$dark-gray-333;
-        color: vars.$text-color-primary;
+        background-color: var(--text-primary);
+        color: var(--text-primary);
       }
     }
 
@@ -305,7 +306,7 @@
         padding: 0.4rem 0.75rem;
         border-radius: 20px;
         cursor: pointer;
-        color: vars.$dark-gray-333;
+        color: var(--text-primary);
         font-size: ds.$font-md;
         font-weight: 500;
         white-space: nowrap;
@@ -318,11 +319,11 @@
         &:focus-visible,
         &:focus {
           outline: none;
-          box-shadow: 0 0 0 2px vars.$blue-opacity-30;
+          box-shadow: 0 0 0 2px var(--color-brand-subtle);
         }
 
         &:hover {
-          background-color: vars.$light-gray-e8e8e8;
+          background-color: var(--bg-hover);
         }
 
         &:active {
@@ -330,11 +331,11 @@
         }
 
         &.selected {
-          background-color: vars.$dark-gray-333;
-          color: vars.$text-color-primary;
+          background-color: var(--text-primary);
+          color: var(--text-primary);
 
           &:hover {
-            background-color: vars.$dark-gray-444;
+            background-color: var(--text-secondary);
           }
         }
       }
@@ -360,7 +361,7 @@
       gap: 1rem;
 
       button.switch {
-        background-color: vars.$light-gray-ddd;
+        background-color: var(--border-primary);
         position: relative;
         cursor: pointer;
         transition: background-color 0.2s;
@@ -372,7 +373,7 @@
         overflow: hidden;
 
         &.on {
-          background-color: vars.$color-blue-dark;
+          background-color: var(--color-brand-hover);
         }
 
         &:after {
@@ -382,7 +383,7 @@
           top: 2px;
           width: 16px;
           height: 16px;
-          background-color: vars.$text-color-primary;
+          background-color: var(--text-primary);
           border-radius: 50%;
           transition: transform 0.2s;
         }
@@ -394,7 +395,7 @@
 
       .switch-label {
         font-weight: 500;
-        color: vars.$dark-gray-333;
+        color: var(--text-primary);
       }
     }
   }
@@ -407,20 +408,20 @@
     padding: 0.75rem;
     border-radius: vars.$border-radius-small;
     font-size: vars.$font-size-medium;
-    color: vars.$dark-gray-333;
+    color: var(--text-primary);
     cursor: pointer;
     transition: border-color 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: vars.$color-blue-primary;
-      box-shadow: 0 0 0 3px vars.$blue-opacity-30;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px var(--color-brand-subtle);
     }
 
     .listbox-icon {
       width: 20px;
       height: 20px;
-      color: vars.$gray-text-6b7280;
+      color: var(--text-muted);
     }
   }
 
@@ -431,17 +432,17 @@
     border-radius: vars.$border-radius-small;
     max-height: 200px;
     overflow-y: auto;
-    box-shadow: 0 4px 6px vars.$black-opacity-10;
+    box-shadow: 0 4px 6px var(--shadow-md);
 
     .listbox-option {
       padding: 0.75rem;
       font-size: vars.$font-size-medium;
-      color: vars.$dark-gray-333;
+      color: var(--text-primary);
       cursor: pointer;
 
       &.active {
-        background-color: vars.$color-blue-primary;
-        color: vars.$text-color-primary;
+        background-color: var(--color-brand);
+        color: var(--text-primary);
       }
 
       &.selected {
@@ -452,7 +453,7 @@
         width: 16px;
         height: 16px;
         margin-right: 0.5rem;
-        color: vars.$color-success;
+        color: var(--color-success);
       }
     }
   }
@@ -466,20 +467,20 @@
       padding: 0.75rem 1.5rem;
       font-size: vars.$font-size-medium;
       font-weight: 600;
-      color: vars.$text-color-primary;
-      background-color: vars.$color-blue-primary;
+      color: var(--text-primary);
+      background-color: var(--color-brand);
       border: none;
       border-radius: vars.$border-radius-small;
       cursor: pointer;
       transition: background-color 0.2s ease;
 
       &:hover {
-        background-color: vars.$color-blue-dark;
+        background-color: var(--color-brand-hover);
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px vars.$blue-opacity-30;
+        box-shadow: 0 0 0 3px var(--color-brand-subtle);
       }
     }
   }

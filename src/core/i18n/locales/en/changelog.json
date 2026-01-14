@@ -8,6 +8,18 @@
   },
   "releases": {
     "jan2026": {
+      "theme": {
+        "date": "January 14",
+        "title": "Light & Dark Theme Support",
+        "description": "Choose your preferred viewing experience",
+        "changes": {
+          "toggle": "Theme toggle in menu (Light, Dark, System)",
+          "lightMode": "Full light mode support across all pages",
+          "notifications": "Themed notification dropdown",
+          "search": "Themed search input and landing page",
+          "smooth": "Smooth theme transitions throughout the app"
+        }
+      },
       "dashboard": {
         "date": "January 13",
         "title": "New Dashboard & Analytics",

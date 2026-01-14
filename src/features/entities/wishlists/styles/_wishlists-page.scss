@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .wishlists {
@@ -26,22 +27,22 @@
 
   .wishlists-icon {
     font-size: 2.5rem;
-    color: vars.$color-brand;
-    filter: drop-shadow(0 2px 4px vars.$blue-opacity-74-144-226-20);
+    color: var(--color-brand);
+    filter: drop-shadow(0 2px 4px var(--shadow-sm));
   }
 
   .wishlists-title {
     margin: 0;
     font-size: 2rem;
     font-weight: 700;
-    color: vars.$bg-color-tertiary;
+    color: var(--text-primary);
     letter-spacing: -0.02em;
   }
 
   .wishlists-subtitle {
     margin: 0;
     font-size: ds.$font-base;
-    color: vars.$text-color-secondary;
+    color: var(--text-secondary);
     font-weight: 400;
     padding-left: 3.5rem;
   }
@@ -51,8 +52,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.875rem 1.75rem;
-    background-color: vars.$color-brand;
-    color: vars.$text-color-primary;
+    background-color: var(--color-brand);
+    color: var(--btn-primary-text);
     text-decoration: none;
     border-radius: 10px;
     font-size: ds.$font-base;
@@ -60,16 +61,16 @@
     transition: all 0.2s ease;
     width: fit-content;
     margin: 0 auto;
-    box-shadow: 0 2px 8px vars.$blue-opacity-74-144-226-20;
+    box-shadow: var(--shadow-md);
 
     svg {
       font-size: 1.25rem;
     }
 
     &:hover {
-      background-color: vars.$color-blue-3a7bc8;
+      background-color: var(--color-brand-hover);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px vars.$blue-opacity-74-144-226-30;
+      box-shadow: var(--shadow-glow);
     }
 
     &:active {

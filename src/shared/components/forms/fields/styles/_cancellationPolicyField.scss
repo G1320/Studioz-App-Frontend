@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .cancellation-policy-field {
@@ -6,13 +7,13 @@
   flex-direction: column;
   gap: ds.$space-4;
   padding: 1.25rem;
-  background: vars.$bg-color-secondary;
+  background: var(--bg-secondary);
   border-radius: vars.$border-radius-large;
-  border: 1px solid vars.$white-opacity-15;
+  border: 1px solid var(--border-primary);
   text-align: start;
 
   &.has-error {
-    border-color: vars.$color-warning;
+    border-color: var(--color-warning);
   }
 
   &__header {
@@ -24,12 +25,12 @@
   &__label {
     font-weight: 600;
     font-size: vars.$font-size-medium;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
     font-size: vars.$font-size-sm-md;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
     margin: 0;
   }
 
@@ -45,37 +46,37 @@
     align-items: flex-start;
     gap: 0.25rem;
     padding: 1rem;
-    background: vars.$bg-color-tertiary;
-    border: 2px solid vars.$white-opacity-15;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
 
     &:hover {
-      border-color: vars.$white-opacity-30;
-      background: vars.$bg-color-secondary;
+      border-color: var(--border-hover);
+      background: var(--bg-secondary);
     }
 
     &.selected {
-      border-color: vars.$color-brand;
-      background: vars.$brand-opacity-05;
+      border-color: var(--color-brand);
+      background: var(--color-brand-subtle);
 
       .cancellation-policy-field__type-name {
-        color: vars.$color-brand;
+        color: var(--color-brand);
       }
     }
 
     &-name {
       font-weight: 600;
       font-size: vars.$font-size-sm-md;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       transition: color 0.2s ease;
     }
 
     &-desc {
       font-size: vars.$font-size-small;
-      color: vars.$white-opacity-60;
+      color: var(--text-tertiary);
     }
   }
 
@@ -96,14 +97,14 @@
     &-label {
       font-weight: 500;
       font-size: vars.$font-size-sm-md;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 
   &__language-toggle {
     display: flex;
     gap: 0.25rem;
-    background: vars.$white-opacity-10;
+    background: var(--border-primary);
     border-radius: vars.$border-radius-xs;
     padding: 2px;
   }
@@ -116,26 +117,26 @@
     border: none;
     border-radius: vars.$border-radius-small;
     cursor: pointer;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
     transition: all 0.2s ease;
 
     &:hover {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
 
     &.active {
-      background: vars.$bg-color-tertiary;
-      color: vars.$text-color-primary;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
     }
   }
 
   &__textarea {
     padding: 0.75rem;
     font-size: vars.$font-size-sm-md;
-    border: 1px solid vars.$white-opacity-15;
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
-    background: vars.$bg-color-tertiary;
-    color: vars.$text-color-primary;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
     resize: vertical;
     min-height: 80px;
     font-family: inherit;
@@ -143,17 +144,17 @@
 
     &:focus {
       outline: none;
-      border-color: vars.$white-opacity-30;
+      border-color: var(--border-hover);
     }
 
     &::placeholder {
-      color: vars.$white-opacity-40;
+      color: var(--text-muted);
     }
   }
 
   &__error {
     font-size: vars.$font-size-small;
-    color: vars.$color-warning-light;
+    color: var(--color-error-text-light);
   }
 }
 

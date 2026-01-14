@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .addon-card {
-  border: 1px solid vars.$light-gray-e0e0e0;
+  border: 1px solid var(--border-secondary);
   border-radius: vars.$border-radius-medium;
   padding: vars.$spacing-medium;
   margin-bottom: vars.$spacing-medium;
-  background: vars.$text-color-primary;
+  background: var(--card-bg);
   transition: box-shadow 0.2s;
 
   &:hover {
-    box-shadow: 0 2px 8px vars.$black-opacity-10;
+    box-shadow: var(--shadow-sm);
   }
 
   &.inactive {
@@ -49,7 +50,7 @@
 
   &-description {
     margin: 0 0 0.5rem 0;
-    color: vars.$text-color-secondary;
+    color: var(--text-secondary);
     font-size: 0.9rem;
   }
 
@@ -62,12 +63,12 @@
     .price-amount {
       font-size: 1.2rem;
       font-weight: 700;
-      color: vars.$dark-gray-333;
+      color: var(--text-primary);
     }
 
     .price-per {
       font-size: 0.9rem;
-      color: vars.$text-color-secondary;
+      color: var(--text-secondary);
     }
   }
 
@@ -99,7 +100,7 @@
 
       &.btn-edit {
         background: vars.$action-blue-primary;
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
 
         &:hover {
           background: vars.$action-blue-dark;
@@ -108,7 +109,7 @@
 
       &.btn-delete {
         background: vars.$action-red-primary;
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
 
         &:hover {
           background: vars.$action-red-dark;

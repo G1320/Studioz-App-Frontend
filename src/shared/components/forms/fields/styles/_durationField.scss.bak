@@ -1,0 +1,125 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.duration-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: vars.$bg-color-secondary;
+  border-radius: vars.$border-radius-large;
+  border: 1px solid vars.$white-opacity-15;
+  transition: border-color 0.2s ease;
+  text-align: start;
+
+  &:focus-within {
+    border-color: vars.$white-opacity-30;
+  }
+
+  &.has-error {
+    border-color: vars.$color-warning;
+
+    &:focus-within {
+      border-color: vars.$color-warning;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+
+    .duration-field__value,
+    .duration-field__unit {
+      cursor: not-allowed;
+      background: vars.$white-opacity-05;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__label {
+    font-weight: 600;
+    font-size: vars.$font-size-sm-md;
+    color: var(--text-primary);
+  }
+
+  &__description {
+    font-size: vars.$font-size-small;
+    color: var(--text-tertiary);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  &__inputs {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  &__value {
+    flex: 1;
+    max-width: 120px;
+    padding: 0.625rem 0.875rem;
+    font-size: vars.$font-size-medium;
+    border: 1px solid vars.$white-opacity-15;
+    border-radius: vars.$border-radius-medium;
+    background: vars.$bg-color-tertiary;
+    color: var(--text-primary);
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$white-opacity-30;
+    }
+
+    &::placeholder {
+      color: vars.$white-opacity-40;
+    }
+
+    /* Remove spinner for number inputs */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+
+  &__unit {
+    flex: 1;
+    max-width: 140px;
+    padding: 0.625rem 0.875rem;
+    font-size: vars.$font-size-medium;
+    border: 1px solid vars.$white-opacity-15;
+    border-radius: vars.$border-radius-medium;
+    background: vars.$bg-color-tertiary;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$white-opacity-30;
+    }
+
+    option {
+      padding: 0.5rem;
+      background: vars.$bg-color-secondary;
+      color: var(--text-primary);
+    }
+  }
+
+  &__error {
+    font-size: vars.$font-size-small;
+    color: vars.$color-warning-light;
+    margin-top: 0.25rem;
+  }
+}

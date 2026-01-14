@@ -1,17 +1,9 @@
 @use 'utilities/variables' as vars;
-@use 'design-system' as ds;
+@use 'utilities/mixins' as mixins;
 
 // ==========================================
-// CUSTOMER DETAILS FORM - StudioZ Design System
-// Theme: Dark Mode, Glassmorphic Inputs
+// CUSTOMER DETAILS FORM - Theme-Aware
 // ==========================================
-
-// Local aliases (referencing design system)
-$item-primary: ds.$primary-yellow;
-$item-surface: ds.$zinc-900-50;
-$item-border: ds.$zinc-700;
-$item-border-focus: $item-primary;
-$item-muted: ds.$zinc-500;
 
 .item-modal {
   overflow-y: auto;
@@ -40,7 +32,7 @@ $item-muted: ds.$zinc-500;
       transform: translateY(-50%);
       width: 16px;
       height: 16px;
-      color: $item-muted;
+      color: var(--text-muted);
       transition: color 0.2s ease;
       pointer-events: none;
       z-index: 1;
@@ -53,7 +45,7 @@ $item-muted: ds.$zinc-500;
 
     // When input is focused, highlight the icon
     &:focus-within .input-icon {
-      color: $item-primary;
+      color: var(--color-brand);
     }
 
     .customer-input {
@@ -61,11 +53,11 @@ $item-muted: ds.$zinc-500;
       max-width: 100%;
       padding: vars.$spacing-medium;
       padding-inline-start: vars.$spacing-medium;
-      border: 1px solid $item-border;
+      border: 1px solid var(--border-primary);
       border-radius: vars.$border-radius-xl;
       font-size: vars.$font-size-medium;
-      background: $item-surface;
-      color: vars.$text-color-primary;
+      background: var(--bg-surface);
+      color: var(--text-primary);
       text-align: start;
       transition: all 0.2s ease;
       box-sizing: border-box;
@@ -83,18 +75,18 @@ $item-muted: ds.$zinc-500;
       }
 
       &::placeholder {
-        color: $item-muted;
+        color: var(--text-muted);
       }
 
       &:focus {
         outline: none;
-        border-color: $item-primary;
-        box-shadow: 0 0 0 1px $item-primary;
-        background: $item-surface;
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 1px var(--color-brand);
+        background: var(--bg-surface);
       }
 
       &:hover:not(:focus):not(:disabled) {
-        border-color: rgba(82, 82, 91, 1); // zinc-600
+        border-color: var(--border-hover);
       }
 
       &:disabled {
@@ -174,8 +166,8 @@ $item-muted: ds.$zinc-500;
   .verification-button {
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     border-radius: vars.$border-radius-xl;
-    background-color: $item-primary;
-    color: vars.$bg-color-primary;
+    background-color: var(--color-brand);
+    color: var(--text-inverse);
     border: none;
     font-size: vars.$font-size-sm-md;
     font-weight: 700;
@@ -187,8 +179,8 @@ $item-muted: ds.$zinc-500;
     height: 44px;
 
     &:hover:not(:disabled) {
-      background-color: rgba($item-primary, 0.9);
-      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+      background-color: var(--color-brand-hover);
+      box-shadow: 0 0 20px var(--color-brand-glow);
     }
 
     &:active:not(:disabled) {
@@ -202,12 +194,12 @@ $item-muted: ds.$zinc-500;
 
     &--secondary {
       background-color: transparent;
-      border: 1px solid $item-border;
-      color: vars.$text-color-primary;
+      border: 1px solid var(--border-primary);
+      color: var(--text-primary);
 
       &:hover:not(:disabled) {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
+        background-color: var(--bg-hover);
+        border-color: var(--border-hover);
       }
     }
   }
@@ -222,17 +214,17 @@ $item-muted: ds.$zinc-500;
     font-size: vars.$font-size-sm-md;
 
     &.verified {
-      color: vars.$color-success;
+      color: var(--color-success);
     }
 
     &.pending {
-      color: vars.$color-warning;
+      color: var(--color-warning);
     }
   }
 }
 
 // ==========================================
-// DATE PICKER ROW - StudioZ Design System
+// DATE PICKER ROW - Theme-Aware
 // ==========================================
 
 .date-picker-row {
@@ -253,36 +245,36 @@ $item-muted: ds.$zinc-500;
     margin: 0 !important; // Remove MUI default margins
 
     .MuiInputBase-root {
-      background: $item-surface;
-      border: 1px solid $item-border;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-primary);
       border-radius: vars.$border-radius-xl;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       transition: all 0.2s ease;
       height: 50px;
       box-sizing: border-box;
 
       &:hover {
-        border-color: rgba(82, 82, 91, 1);
+        border-color: var(--border-hover);
       }
 
       &.Mui-focused {
-        border-color: $item-primary;
-        box-shadow: 0 0 0 1px $item-primary;
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 1px var(--color-brand);
       }
 
       .MuiInputBase-input {
         padding: vars.$spacing-medium;
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
         font-size: vars.$font-size-medium;
       }
 
       .MuiInputAdornment-root {
         .MuiIconButton-root {
-          color: $item-muted;
+          color: var(--text-muted);
 
           &:hover {
-            color: vars.$text-color-primary;
-            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            background: var(--bg-hover);
           }
         }
       }
@@ -299,7 +291,7 @@ $item-muted: ds.$zinc-500;
       transform: none;
       font-size: vars.$font-size-small;
       font-weight: 700;
-      color: $item-muted;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: vars.$spacing-small;
@@ -308,7 +300,7 @@ $item-muted: ds.$zinc-500;
 
       &.Mui-focused,
       &.MuiFormLabel-filled {
-        color: $item-muted;
+        color: var(--text-muted);
         transform: none;
       }
     }
@@ -321,7 +313,7 @@ $item-muted: ds.$zinc-500;
 }
 
 // ==========================================
-// HOURS WRAPPER - StudioZ Design System
+// HOURS WRAPPER - Theme-Aware
 // ==========================================
 
 .hours-wrapper {
@@ -332,7 +324,7 @@ $item-muted: ds.$zinc-500;
   .hours-label {
     font-size: vars.$font-size-small;
     font-weight: 700;
-    color: $item-muted;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: vars.$spacing-small;
@@ -343,8 +335,8 @@ $item-muted: ds.$zinc-500;
 .hour-selection-container {
   display: flex;
   align-items: center;
-  background: $item-surface;
-  border: 1px solid $item-border;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-xl;
   padding: vars.$spacing-xs vars.$spacing-small;
   height: 50px;
@@ -352,12 +344,12 @@ $item-muted: ds.$zinc-500;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: rgba(82, 82, 91, 1);
+    border-color: var(--border-hover);
   }
 
   &:focus-within {
-    border-color: $item-primary;
-    box-shadow: 0 0 0 1px $item-primary;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 1px var(--color-brand);
   }
 
   .button-group {
@@ -380,7 +372,7 @@ $item-muted: ds.$zinc-500;
   .hour-value {
     font-size: vars.$font-size-large;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     min-width: 32px;
     text-align: center;
     transition: opacity 0.3s ease;
@@ -402,7 +394,7 @@ $item-muted: ds.$zinc-500;
   .counter-rolling-number {
     font-size: vars.$font-size-large;
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     line-height: 2rem;
     height: 2rem;
     display: flex;
@@ -420,14 +412,14 @@ $item-muted: ds.$zinc-500;
     justify-content: center;
     background: transparent;
     border: none;
-    color: $item-muted;
+    color: var(--text-muted);
     cursor: pointer;
     border-radius: vars.$border-radius-medium;
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      color: vars.$text-color-primary;
-      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
 
     &:disabled {

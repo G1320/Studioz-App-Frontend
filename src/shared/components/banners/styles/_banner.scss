@@ -55,19 +55,19 @@
     .swiper-pagination-bullet {
       width: 10px;
       height: 10px;
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: var(--bg-glass);
       border-radius: 50%;
       cursor: pointer;
       transition: all 0.3s ease;
       opacity: 1;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: var(--text-secondary);
         transform: scale(1.2);
       }
 
       &.swiper-pagination-bullet-active {
-        background-color: #fff;
+        background-color: var(--text-primary);
         width: 24px;
         border-radius: 5px;
       }

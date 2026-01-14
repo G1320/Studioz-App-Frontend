@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .city-card {
   display: flex;
@@ -19,12 +20,12 @@
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 24px vars.$black-opacity-35;
+    box-shadow: var(--shadow-lg);
   }
 
   &--selected {
     .city-card__name {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 }

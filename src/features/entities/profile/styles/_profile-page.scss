@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
@@ -6,21 +7,10 @@
 // Theme: Dark Mode
 // ==========================================
 
-// Local aliases (referencing design system)
-$profile-accent: ds.$primary-yellow;
-$profile-accent-hover: #ffc107;
-$profile-surface: #111111;
-$profile-bg: ds.$primary-black;
-$profile-border: ds.$zinc-800;
-$profile-border-light: ds.$zinc-700;
-$profile-muted: ds.$zinc-500;
-$profile-text: ds.$primary-white;
-$profile-text-secondary: ds.$zinc-200;
-
 .profile-page {
   min-height: calc(100vh - 120px);
   padding: ds.$space-6;
-  background: $profile-bg;
+  background: var(--bg-primary);
 
   @media (min-width: 768px) {
     padding: 3rem;
@@ -40,8 +30,8 @@ $profile-text-secondary: ds.$zinc-200;
 // ==========================================
 .profile-header-card {
   position: relative;
-  background: $profile-surface;
-  border: 1px solid $profile-border;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
   border-radius: 1.5rem;
   padding: ds.$space-8;
   overflow: hidden;
@@ -52,7 +42,7 @@ $profile-text-secondary: ds.$zinc-200;
     left: 0;
     right: 0;
     height: 8rem;
-    background: linear-gradient(to right, rgba(39, 39, 42, 0.5), $profile-bg);
+    background: linear-gradient(to right, var(--bg-elevated), var(--bg-primary));
     opacity: 0.5;
   }
 
@@ -62,7 +52,7 @@ $profile-text-secondary: ds.$zinc-200;
     right: -6rem;
     width: 16rem;
     height: 16rem;
-    background: rgba($profile-accent, 0.05);
+    background: rgba(var(--color-brand), 0.05);
     border-radius: 50%;
     filter: blur(3rem);
   }
@@ -91,9 +81,9 @@ $profile-text-secondary: ds.$zinc-200;
   width: 8rem;
   height: 8rem;
     border-radius: 50%;
-  border: 4px solid $profile-bg;
-  background: rgba(39, 39, 42, 1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 4px solid var(--bg-primary);
+  background: var(--bg-elevated);
+  box-shadow: 0 25px 50px -12px var(--shadow-xl);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -111,12 +101,12 @@ $profile-text-secondary: ds.$zinc-200;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(39, 39, 42, 1);
+  background: var(--bg-elevated);
 
   &__icon {
     width: 4rem !important;
     height: 4rem !important;
-    color: $profile-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -126,8 +116,8 @@ $profile-text-secondary: ds.$zinc-200;
   right: 0.5rem;
   width: 1.25rem;
   height: 1.25rem;
-  background: $profile-accent;
-  border: 2px solid $profile-bg;
+  background: var(--color-brand);
+  border: 2px solid var(--bg-primary);
   border-radius: 50%;
 }
 
@@ -144,7 +134,7 @@ $profile-text-secondary: ds.$zinc-200;
   &__name {
     font-size: 1.875rem;
     font-weight: 700;
-    color: $profile-text;
+    color: var(--text-primary);
     margin: 0;
     display: flex;
     align-items: center;
@@ -160,11 +150,11 @@ $profile-text-secondary: ds.$zinc-200;
   &__role {
     padding: 0.25rem 0.5rem;
     border-radius: 9999px;
-    background: rgba(39, 39, 42, 1);
-    border: 1px solid $profile-border-light;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
     font-size: ds.$font-sm;
     font-weight: 500;
-    color: $profile-muted;
+    color: var(--text-muted);
   }
 
   &__meta {
@@ -172,7 +162,7 @@ $profile-text-secondary: ds.$zinc-200;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    color: $profile-muted;
+    color: var(--text-muted);
     font-size: ds.$font-md;
     margin-top: 0.5rem;
 
@@ -263,8 +253,8 @@ $profile-text-secondary: ds.$zinc-200;
 // ==========================================
 .profile-card {
   position: relative;
-  background: $profile-surface;
-  border: 1px solid $profile-border;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
   border-radius: 1.5rem;
   padding: ds.$space-6;
   overflow: hidden;
@@ -283,15 +273,15 @@ $profile-text-secondary: ds.$zinc-200;
     filter: blur(3rem);
 
     &--blue {
-      background: rgba(59, 130, 246, 0.05);
+      background: var(--color-info-subtle);
     }
 
     &--green {
-      background: rgba(52, 211, 153, 0.06);
+      background: var(--color-success-subtle);
     }
 
     &--gold {
-      background: rgba($profile-accent, 0.05);
+      background: rgba(var(--color-brand), 0.05);
     }
   }
 
@@ -302,7 +292,7 @@ $profile-text-secondary: ds.$zinc-200;
   }
 
   &--subscription-active {
-    background: linear-gradient(to bottom, rgba($profile-accent, 0.05), transparent);
+    background: linear-gradient(to bottom, rgba(var(--color-brand), 0.05), transparent);
   }
 }
 
@@ -322,8 +312,8 @@ $profile-text-secondary: ds.$zinc-200;
   &__icon {
     padding: 0.375rem;
     border-radius: 0.375rem;
-    background: rgba($profile-accent, 0.1);
-    color: $profile-accent;
+    background: rgba(var(--color-brand), 0.1);
+    color: var(--color-brand);
 
     svg {
       font-size: 1.125rem !important;
@@ -333,12 +323,12 @@ $profile-text-secondary: ds.$zinc-200;
   &__text {
     font-size: 1.125rem;
     font-weight: 700;
-    color: $profile-text;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__description {
-    color: $profile-muted;
+    color: var(--text-muted);
     font-size: ds.$font-md;
     margin: 0;
     text-align: start;
@@ -366,7 +356,7 @@ $profile-text-secondary: ds.$zinc-200;
   &__label {
     font-size: ds.$font-sm;
     font-weight: 500;
-    color: $profile-muted;
+    color: var(--text-muted);
   }
 
   &__wrapper {
@@ -375,27 +365,27 @@ $profile-text-secondary: ds.$zinc-200;
 
   &__input {
     width: 100%;
-    background: rgba(24, 24, 27, 0.5);
-    border: 1px solid $profile-border;
+    background: var(--bg-input);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-lg;
     padding: 0.625rem 1rem;
-    color: $profile-text-secondary;
+    color: var(--text-secondary);
     font-size: ds.$font-md;
     transition: all 0.2s ease;
     outline: none;
     box-sizing: border-box;
 
     &::placeholder {
-      color: $profile-muted;
+      color: var(--text-muted);
     }
 
     &:focus:not(&--disabled) {
-      border-color: $profile-accent;
-      box-shadow: 0 0 0 1px $profile-accent;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     &:hover:not(:focus):not(&--disabled) {
-      border-color: $profile-border-light;
+      border-color: var(--border-subtle);
     }
 
     &--disabled {
@@ -413,7 +403,7 @@ $profile-text-secondary: ds.$zinc-200;
     left: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-    color: $profile-muted;
+    color: var(--text-muted);
     transition: color 0.2s ease;
 
     [dir='rtl'] & {
@@ -427,7 +417,7 @@ $profile-text-secondary: ds.$zinc-200;
   }
 
   &__wrapper:focus-within &__icon {
-    color: $profile-accent;
+    color: var(--color-brand);
   }
 }
 
@@ -436,11 +426,11 @@ $profile-text-secondary: ds.$zinc-200;
 // ==========================================
 .profile-coming-soon {
   padding: ds.$space-4;
-  background: rgba(24, 24, 27, 0.5);
+  background: var(--bg-secondary);
   border-radius: ds.$radius-lg;
-  border: 1px dashed $profile-border;
+  border: 1px dashed var(--border-primary);
   text-align: center;
-  color: $profile-muted;
+  color: var(--text-muted);
   font-size: ds.$font-md;
 }
 
@@ -448,10 +438,10 @@ $profile-text-secondary: ds.$zinc-200;
 // Integration Box
 // ==========================================
 .profile-integration-box {
-  background: rgba(24, 24, 27, 0.5);
+  background: var(--bg-secondary);
   border-radius: ds.$radius-xl;
   padding: 1.25rem;
-  border: 1px solid rgba($profile-border, 0.5);
+  border: 1px solid var(--border-primary);
   margin-bottom: 1.5rem;
 
   &__header {
@@ -465,11 +455,11 @@ $profile-text-secondary: ds.$zinc-200;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    background: white;
+    background: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px var(--shadow-sm);
     margin-inline-end: 0.75rem;
 
     img {
@@ -479,9 +469,9 @@ $profile-text-secondary: ds.$zinc-200;
   }
 
   &__logo--sumit {
-    background: rgba(161, 161, 170, 0.15); // Zinc-500 with opacity
-    border: 1px solid rgba(161, 161, 170, 0.25);
-    color: rgba(228, 228, 231, 1); // Zinc-200
+    background: var(--bg-input);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
 
     span {
       font-size: 0.625rem;
@@ -495,14 +485,14 @@ $profile-text-secondary: ds.$zinc-200;
 
     h4 {
       font-weight: 700;
-      color: $profile-text;
+      color: var(--text-primary);
       font-size: ds.$font-md;
       margin: 0;
     }
 
     p {
       font-size: ds.$font-sm;
-      color: $profile-muted;
+      color: var(--text-muted);
       margin: 0;
     }
   }
@@ -511,16 +501,16 @@ $profile-text-secondary: ds.$zinc-200;
     width: 0.625rem;
     height: 0.625rem;
     border-radius: 50%;
-    background: $profile-muted;
+    background: var(--text-muted);
 
     &--active {
-      background: rgb(16, 185, 129);
-      box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+      background: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success-glow);
     }
 
     &--green {
-      background: rgb(52, 211, 153);
-      box-shadow: 0 0 8px rgba(52, 211, 153, 0.45);
+      background: var(--color-success-light);
+      box-shadow: 0 0 8px var(--color-success-glow);
     }
   }
 }
@@ -541,7 +531,7 @@ $profile-text-secondary: ds.$zinc-200;
 
   &__label {
     font-size: ds.$font-sm;
-    color: $profile-muted;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 700;
@@ -550,7 +540,7 @@ $profile-text-secondary: ds.$zinc-200;
   &__plan {
     font-size: 1.5rem;
     font-weight: 700;
-    color: $profile-text;
+    color: var(--text-primary);
     margin: 0.25rem 0 0;
   }
 
@@ -561,19 +551,19 @@ $profile-text-secondary: ds.$zinc-200;
   &__amount {
     font-size: 1.25rem;
     font-weight: 700;
-    color: $profile-accent;
+    color: var(--color-brand);
   }
 
   &__period {
     font-size: ds.$font-sm;
-    color: $profile-muted;
+    color: var(--text-muted);
     display: block;
   }
 
   &__details {
     margin: 1rem 0;
     padding-top: 1rem;
-    border-top: 1px solid rgba($profile-border, 0.5);
+    border-top: 1px solid rgba(var(--border-primary), 0.5);
   }
 
   &__row {
@@ -582,16 +572,16 @@ $profile-text-secondary: ds.$zinc-200;
     font-size: ds.$font-sm;
 
     span:first-child {
-      color: $profile-muted;
+      color: var(--text-muted);
     }
   }
 
   &__status {
     font-weight: 700;
-    color: rgb(248, 113, 113);
+    color: var(--color-error-light);
 
     &--active {
-      color: rgb(52, 211, 153);
+      color: var(--color-success-light);
   }
 }
 }
@@ -618,12 +608,12 @@ $profile-text-secondary: ds.$zinc-200;
   }
 
   &--primary {
-    background: $profile-accent;
-    color: #000;
-    box-shadow: 0 0 15px rgba($profile-accent, 0.3);
+    background: var(--color-brand);
+    color: var(--text-inverse);
+    box-shadow: 0 0 15px var(--color-brand-glow);
 
     &:hover:not(:disabled) {
-      background: $profile-accent-hover;
+      background: var(--color-brand-hover);
     }
 
     &:disabled {
@@ -633,56 +623,56 @@ $profile-text-secondary: ds.$zinc-200;
   }
 
   &--secondary {
-    background: rgba(24, 24, 27, 1);
-    color: $profile-text;
-    border: 1px solid $profile-border-light;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
 
   &:hover {
-      background: rgba(39, 39, 42, 1);
+      background: var(--bg-elevated);
     }
   }
 
   &--ghost {
     background: transparent;
-    color: $profile-muted;
+    color: var(--text-muted);
     padding: 0.625rem 1rem;
 
     &:hover {
-      color: $profile-text;
+      color: var(--text-primary);
     }
   }
 
   &--google {
-    background: rgb(37, 99, 235);
-    color: white;
-    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
+    background: var(--color-info);
+    color: var(--text-inverse);
+    box-shadow: 0 10px 15px -3px var(--color-info-shadow);
 
     &:hover {
-      background: rgb(59, 130, 246);
+      background: var(--color-info-hover);
     }
   }
 
   &--sumit {
-    background: rgb(52, 211, 153);
-    color: #04130d;
-    box-shadow: 0 10px 15px -3px rgba(6, 78, 59, 0.25);
+    background: var(--color-sumit);
+    color: #ffffff;
+    box-shadow: 0 10px 15px -3px var(--color-sumit-glow);
 
     &:hover:not(:disabled) {
-      background: rgb(34, 197, 94);
+      background: var(--color-sumit-hover);
     }
   }
 
   &--logout {
     background: transparent;
-    border: 1px solid $profile-border;
-    color: $profile-muted;
+    border: 1px solid var(--border-primary);
+    color: var(--text-muted);
     border-radius: ds.$radius-xl;
     padding: 0.75rem;
 
     &:hover {
-      color: rgb(248, 113, 113);
-      border-color: rgba(127, 29, 29, 0.3);
-      background: rgba(127, 29, 29, 0.05);
+      color: var(--color-error-light);
+      border-color: var(--color-error-border);
+      background: var(--color-error-bg);
     }
   }
 

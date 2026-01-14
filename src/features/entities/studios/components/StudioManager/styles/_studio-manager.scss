@@ -187,6 +187,8 @@
 
 .studio-manager__stat-card {
   @include mixins.card-base;
+  // Use darker surface color for consistency with studio cards
+  background: var(--bg-surface);
   padding: vars.$spacing-medium;
   border-radius: vars.$border-radius-2xl;
   display: flex;
@@ -295,8 +297,12 @@
 // not the discover page studio cards which use _studio-card.scss
 .studio-manager .studio-card,
 .studio-manager__list .studio-card {
-  @include mixins.card-base;
+  // Use darker surface color for studio cards (--bg-surface: #18181b is darker than --card-bg: #242728)
+  background: var(--bg-surface);
+  border: 1px solid var(--card-border);
   border-radius: vars.$border-radius-2xl;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
 
   &:hover {

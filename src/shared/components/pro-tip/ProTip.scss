@@ -1,11 +1,12 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .pro-tip {
   padding: vars.$spacing-large;
   border-radius: 12px;
-  background: ds.$zinc-900-50;
-  border: 1px solid ds.$white-05;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   display: flex;
   gap: vars.$spacing-medium;
   margin-top: vars.$spacing-2xl;
@@ -14,7 +15,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: ds.$status-blue-bg;
+    background: var(--color-info-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +24,7 @@
     svg {
       width: 20px;
       height: 20px;
-      color: #60a5fa; // Blue-400
+      color: var(--color-info-light);
     }
   }
 
@@ -34,18 +35,18 @@
   &__title {
     font-weight: 700;
     font-size: vars.$font-size-small;
-    color: #bfdbfe; // Blue-100
+    color: var(--color-info-text);
     margin: 0 0 vars.$spacing-xs;
   }
 
   &__text {
     font-size: vars.$font-size-small;
-    color: ds.$zinc-400;
+    color: var(--text-muted);
     line-height: 1.6;
     margin: 0;
 
     strong {
-      color: ds.$primary-white;
+      color: var(--text-primary);
     }
   }
 }

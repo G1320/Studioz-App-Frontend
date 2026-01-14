@@ -9,66 +9,66 @@
     -apple-system,
     sans-serif;
   line-height: 1.6;
-  color: #1a1a1a;
-  background: #ffffff;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
 }
 
 .terms-content {
-  background: #ffffff;
+  background: var(--bg-elevated);
   padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .terms-header {
   margin-bottom: 3rem;
   padding-bottom: 1.5rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--border-primary);
 }
 
 .terms-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2d2d2d;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .terms-header .last-updated {
-  color: #666;
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
 
 .terms-header .intro {
-  color: #4a4a4a;
+  color: var(--text-secondary);
   font-size: 1.1rem;
 }
 
 /* Section styling */
 .terms-content h2 {
   font-size: 1.75rem;
-  color: #2d2d2d;
+  color: var(--text-primary);
   margin: 2.5rem 0 1.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .terms-content h3 {
   font-size: 1.4rem;
-  color: #2d2d2d;
+  color: var(--text-primary);
   margin: 2rem 0 1rem;
 }
 
 .terms-content h4 {
   font-size: 1.2rem;
-  color: #2d2d2d;
+  color: var(--text-primary);
   margin: 1.5rem 0 1rem;
 }
 
 /* Content styling */
 .terms-content p {
   margin-bottom: 1.2rem;
-  color: #4a4a4a;
+  color: var(--text-secondary);
 }
 
 .terms-content ul {
@@ -86,7 +86,7 @@
   content: '•';
   position: absolute;
   left: 0;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .terms-content ul li p {
@@ -95,19 +95,19 @@
 
 /* Links */
 .terms-content a {
-  color: #0066cc;
+  color: var(--color-brand);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .terms-content a:hover {
-  color: #004499;
+  color: var(--color-brand-hover);
   text-decoration: underline;
 }
 
 /* Strong text */
 .terms-content strong {
-  color: #2d2d2d;
+  color: var(--text-primary);
   font-weight: 600;
 }
 

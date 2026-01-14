@@ -5,6 +5,8 @@
 
 .studio-card {
   @include mixins.card-interactive;
+  // Use darker surface color for studio cards (--bg-surface is darker than --card-bg)
+  background: var(--bg-surface);
   position: relative;
   height: clamp(190px, 234px, fit-content);
   min-height: 190px;

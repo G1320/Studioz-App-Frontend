@@ -1,16 +1,17 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // Common mixins
 @mixin card-shadow {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-sm);
 }
 
 @mixin primary-button {
-  background-color: vars.$color-brand;
-  color: white;
+  background-color: var(--color-brand);
+  color: var(--text-inverse);
   border: none;
   padding: 1rem 2rem;
   border-radius: 25px;
@@ -28,7 +29,7 @@
 .order-success-container {
   min-height: 100vh;
   padding: ds.$space-8;
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
 
   .container {
     @include card-shadow;
@@ -40,8 +41,8 @@
 
 // Header styles
 .header {
-  background-color: vars.$color-brand;
-  color: white;
+  background-color: var(--color-brand);
+  color: var(--text-inverse);
   padding: 2.5rem 1.25rem;
   text-align: center;
 
@@ -64,13 +65,13 @@
 
 // Order details section
 .order-details {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   border-radius: 8px;
   padding: ds.$space-6;
   margin: 1.5rem 0;
 
   h2 {
-    color: vars.$color-brand;
+    color: var(--color-brand);
     margin: 0 0 1.5rem;
     font-size: 1.5rem;
   }
@@ -82,7 +83,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-primary);
 
   &:last-child {
     border-bottom: none;
@@ -90,11 +91,11 @@
 
   .label {
     font-weight: 600;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   .value {
-    color: #333;
+    color: var(--text-primary);
   }
 }
 
@@ -102,10 +103,10 @@
 .items-section {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-primary);
 
   h3 {
-    color: vars.$color-brand;
+    color: var(--color-brand);
     margin-bottom: 1rem;
     font-size: 1.2rem;
   }
@@ -127,25 +128,25 @@
   }
 
   .table-header {
-    background-color: #f8f9fa;
+    background-color: var(--bg-secondary);
     font-weight: 600;
-    color: #666;
-    border-bottom: 2px solid #eee;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border-primary);
   }
 
   .table-row {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-primary);
 
     &:last-child {
       border-bottom: none;
     }
 
     &:hover {
-      background-color: #f8f9fa;
+      background-color: var(--bg-hover);
     }
 
     .col {
-      color: #666;
+      color: var(--text-secondary);
 
       &:not(:first-child) {
         text-align: center;
@@ -153,7 +154,7 @@
 
       &:last-child {
         font-weight: 500;
-        color: vars.$color-brand;
+        color: var(--color-brand);
       }
     }
   }
@@ -162,11 +163,11 @@
 .total-amount {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #eee;
+  border-top: 2px solid var(--border-primary);
   text-align: right;
   font-size: 1.25rem;
   font-weight: bold;
-  color: vars.$color-brand;
+  color: var(--color-brand);
 }
 
 // Button styles
@@ -186,12 +187,12 @@
   padding: 4rem 2rem;
 
   h1 {
-    color: #dc3545;
+    color: var(--color-error);
     margin-bottom: 1rem;
   }
 
   p {
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 2rem;
   }
 
@@ -230,7 +231,7 @@
         &::before {
           content: attr(data-label);
           font-weight: 600;
-          color: #666;
+          color: var(--text-secondary);
         }
       }
     }

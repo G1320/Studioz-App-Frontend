@@ -1,0 +1,14 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.addons-list {
+  display: grid;
+  gap: vars.$spacing-medium;
+
+  &-loading,
+  &-empty {
+    text-align: center;
+    padding: vars.$spacing-xl;
+    color: vars.$text-color-secondary;
+  }
+}

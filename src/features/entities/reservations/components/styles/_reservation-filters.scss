@@ -1,19 +1,14 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
 // RESERVATION FILTERS - StudioZ Design System
-// Theme: Dark Mode Filter Controls
+// Theme: Uses CSS variables for light/dark mode
 // ==========================================
 
-// Local aliases (referencing design system)
-$filter-primary: ds.$primary-yellow;
-$filter-surface: ds.$zinc-900;
-$filter-input-bg: ds.$zinc-900;
-$filter-border: ds.$zinc-800;
-$filter-input-border: ds.$zinc-700;
-$filter-label: ds.$zinc-500;
-$filter-text: ds.$zinc-300;
+// Note: All colors now use CSS variables for theme support
+// Local SCSS aliases removed - use var(--*) directly
 
 .reservation-filters {
   width: 100%;
@@ -23,8 +18,8 @@ $filter-text: ds.$zinc-300;
     flex-wrap: wrap;
     gap: vars.$spacing-medium;
     padding: vars.$spacing-medium;
-    background: $filter-surface;
-    border: 1px solid $filter-border;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-secondary);
     border-radius: vars.$border-radius-2xl;
   }
 
@@ -39,7 +34,7 @@ $filter-text: ds.$zinc-300;
   &__label {
     font-size: 10px;
     font-weight: 700;
-    color: $filter-label;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding-inline-start: vars.$spacing-xs;
@@ -49,7 +44,7 @@ $filter-text: ds.$zinc-300;
     position: relative;
 
     &:hover .reservation-filters__icon {
-      color: $filter-primary;
+      color: var(--color-brand);
     }
   }
 
@@ -58,28 +53,28 @@ $filter-text: ds.$zinc-300;
     appearance: none;
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     padding-inline-end: 2.5rem; // Space for icon
-    background: $filter-input-bg;
-    border: 1px solid $filter-input-border;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-hover);
     border-radius: vars.$border-radius-xl;
-    color: $filter-text;
+    color: var(--text-secondary);
     font-size: vars.$font-size-medium;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: $filter-primary;
-      box-shadow: 0 0 0 1px $filter-primary;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     &:hover {
-      background: rgba(39, 39, 42, 1); // zinc-800
+      background: var(--bg-hover);
     }
 
     // Style the dropdown options
     option {
-      background: $filter-input-bg;
-      color: vars.$text-color-primary;
+      background: var(--bg-surface);
+      color: var(--text-primary);
       padding: vars.$spacing-small;
     }
   }
@@ -91,7 +86,7 @@ $filter-text: ds.$zinc-300;
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    color: $filter-label;
+    color: var(--text-muted);
     pointer-events: none;
     transition: color 0.2s ease;
   }
@@ -107,7 +102,7 @@ $filter-text: ds.$zinc-300;
     align-items: center;
 
     &:focus-within .reservation-filters__search-icon {
-      color: $filter-primary;
+      color: var(--color-brand);
     }
   }
 
@@ -116,7 +111,7 @@ $filter-text: ds.$zinc-300;
     inset-inline-start: vars.$spacing-sm-md;
     width: 18px;
     height: 18px;
-    color: $filter-label;
+    color: var(--text-muted);
     pointer-events: none;
     transition: color 0.2s ease;
   }
@@ -126,25 +121,25 @@ $filter-text: ds.$zinc-300;
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     padding-inline-start: 2.5rem; // Space for search icon
     padding-inline-end: 2.5rem; // Space for clear button
-    background: $filter-input-bg;
-    border: 1px solid $filter-input-border;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-hover);
     border-radius: vars.$border-radius-xl;
-    color: $filter-text;
+    color: var(--text-secondary);
     font-size: vars.$font-size-medium;
     transition: all 0.2s ease;
 
     &::placeholder {
-      color: $filter-label;
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: $filter-primary;
-      box-shadow: 0 0 0 1px $filter-primary;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     &:hover {
-      background: rgba(39, 39, 42, 1); // zinc-800
+      background: var(--bg-hover);
     }
   }
 
@@ -160,13 +155,13 @@ $filter-text: ds.$zinc-300;
     background: transparent;
     border: none;
     border-radius: 50%;
-    color: $filter-label;
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(63, 63, 70, 0.5);
-      color: $filter-text;
+      background: var(--bg-hover);
+      color: var(--text-secondary);
     }
 
     svg {

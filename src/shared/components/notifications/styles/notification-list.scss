@@ -1,29 +1,19 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
 // NOTIFICATION LIST - StudioZ Design System
-// Theme: Dark Mode
+// Theme: Light/Dark Mode Compatible
 // ==========================================
-
-// Local aliases (referencing design system)
-$notif-primary: ds.$primary-yellow;
-$notif-primary-hover: #ffca4d;
-$notif-bg-main: ds.$bg-tertiary;
-$notif-bg-header: #1f1f1f;
-$notif-bg-deep: #111;
-$notif-border: ds.$zinc-800;
-$notif-text-primary: ds.$primary-white;
-$notif-text-secondary: ds.$zinc-400;
-$notif-text-muted: ds.$zinc-600;
 
 .notification-list {
   max-height: 380px;
   overflow: hidden;
-  background-color: $notif-bg-main;
+  background-color: var(--dropdown-bg);
   border-radius: vars.$border-radius-xl;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  border: 1px solid $notif-border;
+  box-shadow: var(--shadow-dropdown);
+  border: 1px solid var(--border-secondary);
   display: flex;
   flex-direction: column;
 
@@ -32,25 +22,25 @@ $notif-text-muted: ds.$zinc-600;
     justify-content: space-between;
     align-items: center;
     padding: 0.625rem 0.875rem;
-    border-bottom: 1px solid $notif-border;
+    border-bottom: 1px solid var(--border-primary);
     position: sticky;
     top: 0;
-    background: $notif-bg-header;
+    background: var(--bg-surface);
     z-index: 1;
   }
 
   &__title {
     font-size: 0.9375rem; // 15px
     font-weight: 700;
-    color: $notif-text-primary;
+    color: var(--text-primary);
     margin: 0;
     letter-spacing: -0.01em;
   }
 
   &__mark-all-read {
-    background: rgba($notif-primary, 0.1);
+    background: var(--color-brand-bg);
     border: none;
-    color: $notif-primary;
+    color: var(--color-brand);
     cursor: pointer;
     font-size: 0.6875rem; // 11px
     font-weight: 500;
@@ -59,8 +49,8 @@ $notif-text-muted: ds.$zinc-600;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba($notif-primary, 0.2);
-      color: $notif-primary-hover;
+      background: var(--color-brand-glow);
+      color: var(--color-brand-hover);
     }
 
     &:active {
@@ -80,16 +70,16 @@ $notif-text-muted: ds.$zinc-600;
     }
 
     &::-webkit-scrollbar-track {
-      background: $notif-bg-deep;
+      background: var(--scrollbar-track);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $notif-primary;
+      background: var(--color-brand);
       border-radius: 4px;
       transition: background 0.2s ease;
 
       &:hover {
-        background: #eebb44;
+        background: var(--color-brand-hover);
       }
     }
   }
@@ -98,7 +88,7 @@ $notif-text-muted: ds.$zinc-600;
   &__empty {
     padding: 1.5rem 0.875rem;
     text-align: center;
-    color: $notif-text-secondary;
+    color: var(--text-secondary);
     font-size: ds.$font-sm;
     display: flex;
     flex-direction: column;
@@ -111,8 +101,8 @@ $notif-text-muted: ds.$zinc-600;
       content: '';
       width: 20px;
       height: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-top-color: $notif-primary;
+      border: 2px solid var(--border-primary);
+      border-top-color: var(--color-brand);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }

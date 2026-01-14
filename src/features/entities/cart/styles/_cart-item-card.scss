@@ -1,20 +1,21 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .cart-item-card {
   display: flex;
   flex-direction: row;
   gap: vars.$spacing-medium;
   padding: vars.$spacing-medium;
-  background-color: vars.$card-bg-color;
+  background-color: var(--card-bg);
   border-radius: vars.$border-radius-medium;
-  border: 1px solid vars.$white-opacity-10;
+  border: 1px solid var(--border-primary);
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: vars.$color-brand;
+    border-color: var(--color-brand);
     transform: translateY(-2px);
-    box-shadow: vars.$box-shadow-medium;
+    box-shadow: var(--shadow-md);
   }
 
   section {
@@ -41,14 +42,14 @@
         h3 {
           margin: 0;
           font-size: vars.$font-size-medium;
-          color: vars.$text-color-primary;
+          color: var(--text-primary);
           font-weight: 600;
         }
 
         p {
           margin: vars.$spacing-xs 0 0 0;
           font-size: vars.$font-size-sm-md;
-          color: vars.$white-opacity-60;
+          color: var(--text-tertiary);
         }
       }
     }
@@ -62,7 +63,7 @@
         flex-direction: column;
         gap: vars.$spacing-xs;
         font-size: vars.$font-size-sm-md;
-        color: vars.$white-opacity-70;
+        color: var(--text-muted);
       }
     }
 
@@ -80,9 +81,9 @@
 
     button {
       background: transparent;
-      border: 1px solid vars.$white-opacity-20;
+      border: 1px solid var(--border-hover);
       border-radius: vars.$border-radius-small;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       cursor: pointer;
       padding: vars.$spacing-xs;
       display: flex;
@@ -91,8 +92,8 @@
       transition: all 0.2s ease;
 
       &:hover {
-        border-color: vars.$color-brand;
-        background: vars.$brand-opacity-20;
+        border-color: var(--color-brand);
+        background: var(--color-brand-bg);
       }
 
       .icon {
@@ -103,7 +104,7 @@
 
     small {
       font-size: vars.$font-size-sm-md;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       min-width: 60px;
       text-align: center;
     }
@@ -112,7 +113,7 @@
   .cart-item-card-price {
     font-size: vars.$font-size-medium;
     font-weight: 600;
-    color: vars.$color-brand;
+    color: var(--color-brand);
   }
 
   @media (max-width: 768px) {

@@ -1,18 +1,9 @@
 @use 'utilities/variables' as vars;
-@use 'design-system' as ds;
+@use 'utilities/mixins' as mixins;
 
 // ==========================================
-// MY STUDIOS SECTION - StudioZ Design System
-// Theme: Dark Mode (Midnight)
+// MY STUDIOS SECTION - Theme-Aware
 // ==========================================
-
-// Local aliases (referencing design system)
-$studios-primary: ds.$primary-yellow;
-$studios-primary-hover: #ffda85;
-$studios-bg-card: #1e1e1e;
-$studios-border: ds.$zinc-800;
-$studios-text-primary: ds.$primary-white;
-$studios-text-secondary: ds.$zinc-400;
 
 .dashboard-my-studios {
   .section-header {
@@ -45,32 +36,32 @@ $studios-text-secondary: ds.$zinc-400;
     align-items: center;
     justify-content: center;
     padding: vars.$spacing-2xl;
-    background: $studios-bg-card;
+    background: var(--bg-card);
     border-radius: vars.$border-radius-xl;
-    border: 1px solid $studios-border;
+    border: 1px solid var(--border-secondary);
     text-align: center;
     gap: vars.$spacing-large;
 
     p {
       font-size: vars.$font-size-medium;
-      color: $studios-text-secondary;
+      color: var(--text-secondary);
       margin: 0;
     }
 
     .primary-button {
       padding: vars.$spacing-sm-md vars.$spacing-xl;
-      background: $studios-primary;
-      color: #000000;
+      background: var(--color-brand);
+      color: var(--text-inverse);
       border: none;
       border-radius: 999px;
       font-size: vars.$font-size-sm-md;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 0 20px -5px rgba(255, 209, 102, 0.4);
+      box-shadow: 0 0 20px var(--color-brand-glow);
 
       &:hover {
-        background: $studios-primary-hover;
+        background: var(--color-brand-hover);
         transform: scale(1.05);
       }
 
@@ -83,8 +74,8 @@ $studios-text-secondary: ds.$zinc-400;
   .secondary-button {
     padding: vars.$spacing-small vars.$spacing-large;
     background: transparent;
-    color: $studios-primary;
-    border: 1px solid rgba($studios-primary, 0.2);
+    color: var(--color-brand);
+    border: 1px solid var(--color-brand-border);
     border-radius: 999px;
     font-size: vars.$font-size-sm-md;
     font-weight: 500;
@@ -92,8 +83,8 @@ $studios-text-secondary: ds.$zinc-400;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(39, 39, 42, 0.5); // zinc-800/50
-      border-color: $studios-primary;
+      background: var(--bg-hover);
+      border-color: var(--color-brand);
     }
   }
 }

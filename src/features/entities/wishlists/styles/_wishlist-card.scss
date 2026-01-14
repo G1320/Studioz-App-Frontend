@@ -1,21 +1,22 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .wishlist-card {
   padding: vars.$spacing-medium;
-  background: vars.$card-bg-color;
+  background: var(--card-bg);
   border-radius: vars.$border-radius-medium;
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
 
   &:hover {
-    border-color: vars.$color-brand;
+    border-color: var(--color-brand);
     transform: translateY(-2px);
-    box-shadow: vars.$box-shadow-medium;
+    box-shadow: var(--shadow-md);
   }
 
   &--interactive {
-    border-color: vars.$color-brand;
+    border-color: var(--color-brand);
   }
 
   &__content {
@@ -32,13 +33,13 @@
 
   &__count {
     font-size: vars.$font-size-small;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
   }
 
   &__name {
     font-size: vars.$font-size-medium;
     font-weight: 600;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 

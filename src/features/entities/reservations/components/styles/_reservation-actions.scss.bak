@@ -1,0 +1,146 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'sass:color';
+
+.reservation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+
+  border-top: 1px solid vars.$white-opacity-10;
+
+  &__button {
+    padding: vars.$spacing-medium vars.$spacing-large;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &--cancel {
+      background: vars.$status-red-bg;
+      color: vars.$status-red-text;
+      border: 1px solid vars.$status-red-border-30;
+
+      &:hover:not(:disabled) {
+        background: vars.$status-red-bg-30;
+        transform: translateY(-1px);
+      }
+    }
+
+    &--modify {
+      background: vars.$color-brand;
+      color: var(--text-primary);
+
+      &:hover:not(:disabled) {
+        background: color.adjust(vars.$color-brand, $lightness: -10%);
+        transform: translateY(-1px);
+      }
+    }
+
+    &--confirm-reservation {
+      background: vars.$status-green-bg;
+      color: vars.$status-green-text;
+      border: 1px solid vars.$status-green-border;
+
+      &:hover:not(:disabled) {
+        background: vars.$status-green-bg-30;
+        border-color: vars.$status-green-border-50;
+        transform: translateY(-1px);
+      }
+    }
+
+    &--contact {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid vars.$white-opacity-20;
+
+      &:hover:not(:disabled) {
+        background: vars.$white-opacity-05;
+        border-color: vars.$color-brand;
+      }
+    }
+
+    &--confirm {
+      background: vars.$status-red-bg-30;
+      color: vars.$status-red-text;
+      border: 1px solid vars.$status-red-border-50;
+    }
+
+    &--secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid vars.$white-opacity-20;
+    }
+  }
+
+  &__confirm {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+    padding: vars.$spacing-large;
+    background: vars.$error-opacity-10-delete;
+    border: 1px solid vars.$status-red-border-20;
+    border-radius: vars.$border-radius-medium;
+  }
+
+  &__confirm-message {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: vars.$font-size-medium;
+  }
+
+  &__confirm-buttons {
+    display: flex;
+    gap: vars.$spacing-medium;
+  }
+
+  &__no-access {
+    margin: 0;
+    padding: vars.$spacing-medium;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: vars.$font-size-medium;
+  }
+
+  @media (max-width: 768px) {
+    gap: vars.$spacing-small;
+
+    &__button {
+      padding: vars.$spacing-small vars.$spacing-medium;
+      font-size: vars.$font-size-small;
+    }
+
+    &__confirm {
+      padding: vars.$spacing-medium;
+    }
+
+    &__confirm-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__confirm-message {
+      font-size: vars.$font-size-small;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__button {
+      padding: vars.$spacing-xs vars.$spacing-small;
+      font-size: vars.$font-size-small;
+    }
+  }
+}

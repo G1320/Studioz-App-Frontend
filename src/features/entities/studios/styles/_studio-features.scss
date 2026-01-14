@@ -1,9 +1,7 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
-// Flat badge style - consistent across all badges (no borders)
-$badge-bg: vars.$zinc-900;
-$badge-text: vars.$white-opacity-90;
-$badge-icon: vars.$white-opacity-80;
+// Using CSS custom properties from theme system
 
 div.studio-features-container {
   justify-self: start;
@@ -19,24 +17,24 @@ div.studio-features-container {
   .distance-badge {
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    background: $badge-bg;
+    background: var(--bg-elevated);
     border: none;
     box-shadow: none;
     backdrop-filter: none;
 
     .distance-badge__icon {
-      color: $badge-icon;
+      color: var(--text-secondary);
     }
 
     .distance-badge__value {
       flex-wrap: nowrap;
       width: max-content;
-      color: $badge-text;
+      color: var(--text-primary);
     }
   }
 
   .studio-rating__badge {
-    background: $badge-bg;
+    background: var(--bg-elevated);
     border: none;
     box-shadow: none;
     backdrop-filter: none;
@@ -47,7 +45,7 @@ div.studio-features-container {
     align-items: center;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    background: $badge-bg;
+    background: var(--bg-elevated);
     border: none;
     box-shadow: none;
     backdrop-filter: none;
@@ -58,7 +56,7 @@ div.studio-features-container {
     span {
       font-size: 0.75rem;
       font-weight: 500;
-      color: $badge-text;
+      color: var(--text-primary);
       line-height: 1.2;
     }
   }
@@ -79,7 +77,7 @@ div.studio-features-container {
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    background: $badge-bg;
+    background: var(--bg-elevated);
     border: none;
     box-shadow: none;
     backdrop-filter: none;
@@ -91,14 +89,14 @@ div.studio-features-container {
       width: 0.75rem;
       height: 0.75rem;
       flex-shrink: 0;
-      color: $badge-icon;
+      color: var(--text-secondary);
     }
 
     span {
       font-size: 0.75rem;
       font-weight: 500;
       line-height: 1.2;
-      color: $badge-text;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       justify-content: center;

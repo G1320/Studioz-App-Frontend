@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .reservation-details-error-state {
   width: 100%;
@@ -22,7 +23,7 @@
 
   &__message {
     font-size: vars.$font-size-2xl;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
     margin: 0;
     font-weight: 400;
     letter-spacing: -0.3px;
@@ -34,8 +35,8 @@
     gap: vars.$spacing-small;
     padding: vars.$spacing-medium vars.$spacing-2xl;
     background: transparent;
-    color: vars.$color-brand;
-    border: 1px solid vars.$brand-opacity-30;
+    color: var(--color-brand);
+    border: 1px solid var(--color-brand-border);
     border-radius: 12px;
     font-size: vars.$font-size-medium;
     font-weight: 500;
@@ -44,11 +45,11 @@
     letter-spacing: 0.2px;
 
     &:hover {
-      background: vars.$color-brand;
-      color: vars.$text-color-primary;
-      border-color: vars.$color-brand;
+      background: var(--color-brand);
+      color: var(--btn-primary-text);
+      border-color: var(--color-brand);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px vars.$brand-opacity-20;
+      box-shadow: var(--shadow-glow);
     }
 
     &:active {
@@ -56,7 +57,7 @@
     }
 
     &:focus {
-      outline: 2px solid vars.$color-brand;
+      outline: 2px solid var(--color-brand);
       outline-offset: 4px;
     }
   }

@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
@@ -6,12 +7,7 @@
 // Theme: Dark Mode Tab Switcher
 // ==========================================
 
-// Local aliases (referencing design system)
-$toggle-primary: ds.$primary-yellow;
-$toggle-surface: ds.$zinc-900;
-$toggle-border: ds.$zinc-800;
-$toggle-inactive: ds.$zinc-500;
-$toggle-hover: ds.$zinc-400;
+// Using CSS variables for theme support
 
 .reservation-type-toggle {
   display: flex;
@@ -19,8 +15,8 @@ $toggle-hover: ds.$zinc-400;
   justify-content: center;
   flex-wrap: wrap;
   gap: vars.$spacing-small;
-  background: $toggle-surface;
-  border: 1px solid $toggle-border;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-2xl;
   padding: vars.$spacing-xs;
   width: 100%;
@@ -35,7 +31,7 @@ $toggle-hover: ds.$zinc-400;
     min-width: 0;
     gap: vars.$spacing-xs;
     padding: vars.$spacing-xs;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--bg-surface);
     border-radius: vars.$border-radius-xl;
   }
 
@@ -44,7 +40,7 @@ $toggle-hover: ds.$zinc-400;
     min-width: 0;
     padding: vars.$spacing-sm-md vars.$spacing-medium;
     background: transparent;
-    color: $toggle-inactive;
+    color: var(--text-muted);
     border: none;
     border-radius: vars.$border-radius-medium;
     font-size: vars.$font-size-sm-md;
@@ -56,15 +52,15 @@ $toggle-hover: ds.$zinc-400;
     text-overflow: ellipsis;
 
     &:hover:not(.active) {
-      color: $toggle-hover;
-      background: rgba(39, 39, 42, 0.5); // zinc-800/50
+      color: var(--text-secondary);
+      background: var(--bg-hover);
     }
 
     // Active state for type buttons (incoming/outgoing)
     &.active {
-      background: rgba(39, 39, 42, 1); // zinc-800
-      color: vars.$text-color-primary;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      box-shadow: 0 2px 4px var(--shadow-sm);
     }
 
     // Special "All" button styling
@@ -75,17 +71,17 @@ $toggle-hover: ds.$zinc-400;
       font-weight: 700;
 
       &.active {
-        background: $toggle-primary;
-        color: vars.$bg-color-primary;
-        box-shadow: 0 0 15px rgba(255, 209, 102, 0.3);
+        background: var(--color-brand);
+        color: var(--text-inverse);
+        box-shadow: 0 0 15px var(--color-brand-glow);
       }
 
       &:not(.active) {
-        background: rgba(39, 39, 42, 1);
-        color: $toggle-inactive;
+        background: var(--bg-elevated);
+        color: var(--text-muted);
 
         &:hover {
-          background: rgba(63, 63, 70, 1); // zinc-700
+          background: var(--bg-hover);
         }
       }
     }

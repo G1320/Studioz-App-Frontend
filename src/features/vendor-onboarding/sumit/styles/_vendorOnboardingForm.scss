@@ -1,23 +1,15 @@
 @use 'sass:color';
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
-
-$primary-color: vars.$color-brand;
-$error-color: #cc0000;
-$text-color: #333333;
-$secondary-text: #666666;
-$border-color: #dddddd;
-$hover-border: #bbbbbb;
-$disabled-bg: #cccccc;
-$white: #ffffff;
 
 .vendor-onboarding-form {
   max-width: 500px;
   margin: 0 auto;
   padding: 2rem;
-  background: $white;
+  background: var(--bg-elevated);
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px var(--shadow-sm);
 
   &.rtl {
     direction: rtl;
@@ -51,12 +43,12 @@ $white: #ffffff;
 
     h2 {
       font-size: ds.$font-2xl;
-      color: $text-color;
+      color: var(--text-primary);
       margin-bottom: 0.5rem;
     }
 
     p {
-      color: $secondary-text;
+      color: var(--text-secondary);
       font-size: 0.9rem;
     }
   }
@@ -75,31 +67,31 @@ $white: #ffffff;
     label {
       text-align: start;
       font-size: 0.9rem;
-      color: $text-color;
+      color: var(--text-primary);
       font-weight: 500;
     }
 
     input {
       padding: 0.75rem;
-      border: 1px solid $border-color;
+      border: 1px solid var(--border-primary);
       border-radius: 4px;
       font-size: ds.$font-base;
       transition: all 0.2s ease;
-      background-color: $white;
-      color: $text-color;
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
 
       &:focus {
         outline: none;
-        border-color: $primary-color;
-        box-shadow: 0 0 0 2px color.adjust($primary-color, $alpha: -0.9);
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 2px var(--color-brand-bg);
       }
 
       &:hover:not(:disabled) {
-        border-color: $hover-border;
+        border-color: var(--border-hover);
       }
 
       &:disabled {
-        background-color: color.adjust($border-color, $lightness: 5%);
+        background-color: var(--bg-disabled);
         cursor: not-allowed;
       }
     }
@@ -121,8 +113,8 @@ $white: #ffffff;
     button {
       width: 100%;
       padding: 1rem;
-      background: $primary-color;
-      color: $white;
+      background: var(--color-brand);
+      color: var(--text-inverse);
       border: none;
       border-radius: 4px;
       font-size: ds.$font-base;
@@ -131,16 +123,16 @@ $white: #ffffff;
       transition: all 0.2s ease;
 
       &:hover:not(:disabled) {
-        background: color.adjust($primary-color, $lightness: -5%);
+        background: var(--color-brand-hover);
       }
 
       &:active:not(:disabled) {
         transform: translateY(1px);
-        background: color.adjust($primary-color, $lightness: -10%);
+        background: var(--color-brand-hover);
       }
 
       &:disabled {
-        background: $disabled-bg;
+        background: var(--bg-disabled);
         cursor: not-allowed;
       }
     }
@@ -150,6 +142,6 @@ $white: #ffffff;
     margin-top: 2rem;
     text-align: center;
     font-size: 0.8rem;
-    color: $secondary-text;
+    color: var(--text-secondary);
   }
 }

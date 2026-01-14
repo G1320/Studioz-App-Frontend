@@ -1,0 +1,37 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+.addons-list-page {
+  padding: vars.$spacing-xl;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      margin: 0;
+    }
+
+    .btn-create {
+      padding: 0.75rem 1.5rem;
+      background: vars.$color-success-4caf50;
+      color: var(--text-primary);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: ds.$font-base;
+      font-weight: 500;
+      transition: background 0.2s;
+
+      &:hover {
+        background: vars.$color-success-45a049;
+      }
+    }
+  }
+}
+
+
+

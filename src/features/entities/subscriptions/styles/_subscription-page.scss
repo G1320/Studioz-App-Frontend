@@ -1,18 +1,6 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
-
-// ==========================================
-// SUBSCRIPTIONS PAGE - StudioZ Design System
-// Theme: Dark Mode Dominant, Professional, High-Contrast
-// ==========================================
-
-// Local aliases (referencing design system)
-$subscriptions-primary: ds.$primary-yellow;
-$subscriptions-primary-foreground: ds.$primary-black;
-$subscriptions-surface: ds.$zinc-900;
-$subscriptions-surface-dark: ds.$zinc-950;
-$subscriptions-border: ds.$border-primary;
-$subscriptions-muted: ds.$white-60;
 
 // Container
 .subscriptions-container {
@@ -25,12 +13,12 @@ $subscriptions-muted: ds.$white-60;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 700;
   margin-bottom: vars.$spacing-medium;
-  color: vars.$text-color-primary;
+  color: var(--text-primary);
 }
 
 .subscriptions-section-subtitle {
   font-size: vars.$font-size-medium;
-  color: $subscriptions-muted;
+  color: var(--text-secondary);
   max-width: 640px;
 }
 
@@ -62,24 +50,24 @@ $subscriptions-muted: ds.$white-60;
   }
 
   &--primary {
-    background: $subscriptions-primary;
-    color: $subscriptions-primary-foreground;
-    box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    background: var(--color-brand);
+    color: var(--text-inverse);
+    box-shadow: 0 0 20px var(--color-brand-glow);
 
     &:hover {
-      background: rgba($subscriptions-primary, 0.9);
-      box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
+      background: var(--color-brand-hover);
+      box-shadow: 0 0 30px var(--color-brand-glow);
       transform: scale(1.02);
     }
   }
 
   &--secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: vars.$text-color-primary;
-    border: 1px solid $subscriptions-border;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--border-hover);
     }
   }
 }
@@ -89,8 +77,8 @@ $subscriptions-muted: ds.$white-60;
 // ==========================================
 .subscriptions-page {
   min-height: 100vh;
-  background: vars.$bg-color-primary;
-  color: vars.$text-color-primary;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
   position: relative;
   // Break out of main's max-width to be full-bleed (edge-to-edge)
@@ -111,7 +99,7 @@ $subscriptions-muted: ds.$white-60;
       left: 20%;
       width: 500px;
       height: 500px;
-      background: $subscriptions-primary;
+      background: var(--color-brand);
 
       [dir='rtl'] & {
         left: auto;
@@ -124,7 +112,7 @@ $subscriptions-muted: ds.$white-60;
       right: 20%;
       width: 400px;
       height: 400px;
-      background: #3b82f6;
+      background: var(--color-info);
 
       [dir='rtl'] & {
         right: auto;
@@ -162,12 +150,12 @@ $subscriptions-muted: ds.$white-60;
   }
 
   &__accent {
-    color: $subscriptions-primary;
+    color: var(--color-brand);
   }
 
   &__description {
     font-size: clamp(1rem, 2vw, 1.25rem);
-    color: $subscriptions-muted;
+    color: var(--text-secondary);
     max-width: 640px;
     margin: 0 auto;
     line-height: 1.6;
@@ -207,8 +195,8 @@ $subscriptions-muted: ds.$white-60;
 // ==========================================
 .subscriptions-card {
   position: relative;
-  background: vars.$bg-color-primary;
-  border: 1px solid $subscriptions-border;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-3xl;
   padding: vars.$spacing-xl;
   display: flex;
@@ -218,14 +206,14 @@ $subscriptions-muted: ds.$white-60;
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: $subscriptions-surface-dark;
+    border-color: var(--border-hover);
+    background: var(--bg-tertiary);
   }
 
   &--popular {
-    background: $subscriptions-surface;
-    border-color: rgba($subscriptions-primary, 0.5);
-    box-shadow: 0 0 40px rgba(255, 209, 102, 0.1);
+    background: var(--bg-card);
+    border-color: var(--color-brand-border);
+    box-shadow: 0 0 40px var(--color-brand-bg);
 
     @media (min-width: 768px) {
       transform: scale(1.05);
@@ -238,8 +226,8 @@ $subscriptions-muted: ds.$white-60;
   }
 
   &--selected {
-    border-color: $subscriptions-primary;
-    box-shadow: 0 0 30px rgba(255, 209, 102, 0.2);
+    border-color: var(--color-brand);
+    box-shadow: 0 0 30px var(--color-brand-bg);
   }
 
   &__badge {
@@ -247,8 +235,8 @@ $subscriptions-muted: ds.$white-60;
     top: -14px;
     left: 50%;
     transform: translateX(-50%);
-    background: $subscriptions-primary;
-    color: $subscriptions-primary-foreground;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-size: vars.$font-size-small;
     font-weight: 700;
     padding: vars.$spacing-xs vars.$spacing-medium;
@@ -256,7 +244,7 @@ $subscriptions-muted: ds.$white-60;
     display: flex;
     align-items: center;
     gap: vars.$spacing-xs;
-    box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
+    box-shadow: 0 4px 12px var(--color-brand-glow);
     white-space: nowrap;
 
     svg {
@@ -269,13 +257,13 @@ $subscriptions-muted: ds.$white-60;
     position: absolute;
     top: -14px;
     left: vars.$spacing-xl;
-    background: rgba(255, 255, 255, 0.15);
-    color: vars.$text-color-primary;
+    background: var(--bg-glass);
+    color: var(--text-primary);
     font-size: vars.$font-size-small;
     font-weight: 600;
     padding: vars.$spacing-xs vars.$spacing-medium;
     border-radius: vars.$border-radius-3xl;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--border-hover);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
@@ -293,11 +281,11 @@ $subscriptions-muted: ds.$white-60;
     font-size: vars.$font-size-xl;
     font-weight: 700;
     margin-bottom: vars.$spacing-small;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__highlight {
-    color: $subscriptions-muted;
+    color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
     margin: 0;
     min-height: 2.5em;
@@ -313,11 +301,11 @@ $subscriptions-muted: ds.$white-60;
   &__amount {
     font-size: clamp(2rem, 4vw, 2.5rem);
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__period {
-    color: $subscriptions-muted;
+    color: var(--text-secondary);
     font-size: vars.$font-size-medium;
   }
 
@@ -335,8 +323,8 @@ $subscriptions-muted: ds.$white-60;
     justify-content: center;
     gap: vars.$spacing-small;
     margin-bottom: vars.$spacing-xl;
-    background: rgba(255, 255, 255, 0.1);
-    color: vars.$text-color-primary;
+    background: var(--bg-hover);
+    color: var(--text-primary);
 
     svg {
       width: 18px;
@@ -348,17 +336,17 @@ $subscriptions-muted: ds.$white-60;
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--border-hover);
     }
 
     &--primary {
-      background: $subscriptions-primary;
-      color: $subscriptions-primary-foreground;
-      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+      background: var(--color-brand);
+      color: var(--text-inverse);
+      box-shadow: 0 0 20px var(--color-brand-glow);
 
       &:hover {
-        background: rgba($subscriptions-primary, 0.9);
-        box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
+        background: var(--color-brand-hover);
+        box-shadow: 0 0 30px var(--color-brand-glow);
       }
     }
   }
@@ -375,7 +363,7 @@ $subscriptions-muted: ds.$white-60;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0 0 vars.$spacing-small;
   }
 
@@ -384,25 +372,25 @@ $subscriptions-muted: ds.$white-60;
     align-items: flex-start;
     gap: vars.$spacing-sm-md;
     font-size: vars.$font-size-sm-md;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary);
 
     svg {
       width: 20px;
       height: 20px;
-      color: $subscriptions-primary;
+      color: var(--color-brand);
       flex-shrink: 0;
       margin-top: 2px;
     }
 
     &--disabled {
-      color: rgba(255, 255, 255, 0.35);
+      color: var(--text-muted);
 
       span {
         text-decoration: line-through;
       }
 
       svg {
-        color: rgba(255, 255, 255, 0.25);
+        color: var(--text-muted);
       }
     }
   }
@@ -457,8 +445,8 @@ $subscriptions-muted: ds.$white-60;
   }
 
   &__item {
-    background: rgba($subscriptions-surface, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(var(--bg-card), 0.5);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
   }
@@ -472,18 +460,18 @@ $subscriptions-muted: ds.$white-60;
     text-align: start;
     background: transparent;
     border: none;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-size: vars.$font-size-large;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--border-primary);
     }
 
     svg {
-      color: $subscriptions-muted;
+      color: var(--text-secondary);
       flex-shrink: 0;
     }
   }
@@ -494,7 +482,7 @@ $subscriptions-muted: ds.$white-60;
 
   &__answer {
     padding: 0 vars.$spacing-xl vars.$spacing-xl;
-    color: $subscriptions-muted;
+    color: var(--text-secondary);
     line-height: 1.6;
   }
 }
@@ -517,7 +505,7 @@ $subscriptions-muted: ds.$white-60;
   &__overlay {
     position: absolute;
     inset: 0;
-    background: rgba($subscriptions-primary, 0.08);
+    background: rgba(var(--color-brand), 0.08);
   }
 
   &__content {
@@ -532,12 +520,12 @@ $subscriptions-muted: ds.$white-60;
     font-size: clamp(1.5rem, 4vw, 2.25rem);
     font-weight: 700;
     margin-bottom: vars.$spacing-medium;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
     font-size: vars.$font-size-medium;
-    color: $subscriptions-muted;
+    color: var(--text-secondary);
     margin-bottom: vars.$spacing-xl;
     line-height: 1.6;
   }

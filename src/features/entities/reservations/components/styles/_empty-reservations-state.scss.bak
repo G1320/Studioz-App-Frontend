@@ -1,0 +1,70 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.empty-reservations-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$spacing-3xl vars.$spacing-xl;
+  text-align: center;
+  min-height: 400px;
+
+  &__icon {
+    font-size: 4rem;
+    margin-bottom: vars.$spacing-large;
+    opacity: 0.6;
+  }
+
+  &__title {
+    font-size: vars.$font-size-2xl;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 vars.$spacing-medium 0;
+  }
+
+  &__subtitle {
+    font-size: vars.$font-size-large;
+    color: var(--text-tertiary);
+    margin: 0 0 vars.$spacing-xl 0;
+    max-width: 500px;
+  }
+
+  &__button {
+    padding: vars.$spacing-medium vars.$spacing-xl;
+    background: vars.$color-brand;
+    color: var(--text-primary);
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: vars.$box-shadow-medium;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: vars.$spacing-2xl vars.$spacing-large;
+
+    &__icon {
+      font-size: 3rem;
+    }
+
+    &__title {
+      font-size: vars.$font-size-xl;
+    }
+
+    &__subtitle {
+      font-size: vars.$font-size-medium;
+    }
+  }
+}
+

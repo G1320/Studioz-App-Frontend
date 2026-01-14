@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // ==========================================
@@ -6,20 +7,8 @@
 // Theme: Dark Mode Dominant, Professional, High-Contrast
 // ==========================================
 
-// Local aliases (referencing design system)
-$owners-primary: ds.$primary-yellow;
-$owners-primary-foreground: ds.$primary-black;
-$owners-surface: ds.$zinc-900;
-$owners-surface-dark: ds.$zinc-950;
-$owners-border: ds.$border-primary;
-$owners-muted: ds.$white-60;
-
-// Accent colors for features
-$owners-blue: #60a5fa;
-$owners-purple: #c084fc;
-$owners-emerald: #34d399;
-$owners-pink: #f472b6;
-$owners-orange: #fb923c;
+// Accent colors for features (using CSS custom properties)
+// These map to theme-aware variables
 
 // Container
 .owners-container {
@@ -33,13 +22,13 @@ $owners-orange: #fb923c;
   font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 700;
   margin-bottom: vars.$spacing-large;
-  color: vars.$text-color-primary;
+  color: var(--text-primary);
   text-align: center;
 }
 
 .owners-section-subtitle {
   font-size: vars.$font-size-large;
-  color: $owners-muted;
+  color: var(--text-secondary);
   max-width: 640px;
   margin-inline: auto;
   text-align: center;
@@ -72,24 +61,24 @@ $owners-orange: #fb923c;
   }
 
   &--primary {
-    background: $owners-primary;
-    color: $owners-primary-foreground;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
 
     &:hover {
-      background: rgba($owners-primary, 0.9);
+      background: var(--color-brand-hover);
       box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
       transform: scale(1.05);
     }
   }
 
   &--secondary {
-    background: $owners-surface;
-    color: vars.$text-color-primary;
-    border: 1px solid $owners-border;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
 
     &:hover {
-      background: rgba($owners-surface, 0.8);
+      background: var(--bg-hover);
     }
   }
 
@@ -105,8 +94,8 @@ $owners-orange: #fb923c;
 // ==========================================
 .owners-page {
   min-height: 100vh;
-  background: vars.$bg-color-primary;
-  color: vars.$text-color-primary;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
   // Break out of main's max-width to be full-bleed
   width: 100vw;
@@ -143,7 +132,7 @@ $owners-orange: #fb923c;
       left: 10%;
       width: 288px;
       height: 288px;
-      background: $owners-primary;
+      background: var(--color-brand);
 
       [dir='rtl'] & {
         left: auto;
@@ -156,7 +145,7 @@ $owners-orange: #fb923c;
       right: 10%;
       width: 384px;
       height: 384px;
-      background: #2563eb;
+      background: var(--color-info);
 
       [dir='rtl'] & {
         right: auto;
@@ -182,12 +171,12 @@ $owners-orange: #fb923c;
   }
 
   &__accent {
-    color: $owners-primary;
+    color: var(--color-brand);
   }
 
   &__description {
     font-size: clamp(1.125rem, 2vw, 1.5rem);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     margin-bottom: vars.$spacing-xl;
     max-width: 640px;
     margin-inline: auto;
@@ -220,9 +209,9 @@ $owners-orange: #fb923c;
 // ==========================================
 .owners-stats {
   padding: vars.$spacing-xl 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba($owners-surface, 0.3);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
 
   &__grid {
     display: grid;
@@ -241,13 +230,13 @@ $owners-orange: #fb923c;
   &__value {
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin-bottom: vars.$spacing-small;
   }
 
   &__label {
     font-size: vars.$font-size-sm-md;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 500;
@@ -264,8 +253,8 @@ $owners-orange: #fb923c;
     position: relative;
     border-radius: vars.$border-radius-3xl;
     overflow: hidden;
-    border: 1px solid $owners-border;
-    background: $owners-surface;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-secondary);
     aspect-ratio: 16 / 9;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 
@@ -277,7 +266,7 @@ $owners-orange: #fb923c;
   &__inner {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(39, 39, 42, 1) 0%, vars.$bg-color-primary 100%);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
     padding: vars.$spacing-xl;
 
     @media (min-width: 768px) {
@@ -288,11 +277,11 @@ $owners-orange: #fb923c;
   &__content {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--bg-modal-overlay);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-radius: vars.$border-radius-large;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
     padding: vars.$spacing-large;
     overflow: hidden;
     display: flex;
@@ -314,11 +303,11 @@ $owners-orange: #fb923c;
   &__tab {
     height: 32px;
     border-radius: vars.$border-radius-medium;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
 
     &--active {
       width: 128px;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--bg-hover);
       animation: pulse 2s infinite;
     }
 
@@ -336,10 +325,10 @@ $owners-orange: #fb923c;
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover);
 
     &--primary {
-      background: rgba($owners-primary, 0.2);
+      background: var(--color-brand-bg);
     }
   }
 
@@ -347,22 +336,22 @@ $owners-orange: #fb923c;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 1px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
     border-radius: vars.$border-radius-medium;
     overflow: hidden;
     flex: 1;
   }
 
   &__cell {
-    background: rgba($owners-surface, 0.8);
+    background: var(--bg-elevated);
     padding: vars.$spacing-small;
     position: relative;
     min-height: 40px;
     transition: background 0.2s;
 
     &:hover {
-      background: rgba($owners-surface, 0.5);
+      background: var(--bg-hover);
     }
   }
 
@@ -388,15 +377,15 @@ $owners-orange: #fb923c;
     }
 
     &--primary {
-      background: rgba($owners-primary, 0.2);
-      border: 1px solid rgba($owners-primary, 0.3);
-      color: $owners-primary;
+      background: var(--color-brand-bg);
+      border: 1px solid var(--color-brand-border);
+      color: var(--color-brand);
     }
 
     &--blue {
-      background: rgba($owners-blue, 0.2);
-      border: 1px solid rgba($owners-blue, 0.3);
-      color: $owners-blue;
+      background: var(--color-info-bg);
+      border: 1px solid var(--color-info-border);
+      color: var(--color-info);
       top: vars.$spacing-xl;
     }
   }
@@ -406,7 +395,7 @@ $owners-orange: #fb923c;
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, vars.$bg-color-primary 0%, rgba(0, 0, 0, 0.8) 60%, transparent 100%);
+    background: linear-gradient(to top, var(--bg-primary) 0%, var(--bg-fade-80) 60%, transparent 100%);
     padding: vars.$spacing-xl;
     text-align: start;
 
@@ -421,7 +410,7 @@ $owners-orange: #fb923c;
     }
 
     p {
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--text-secondary);
       max-width: 560px;
     }
   }
@@ -442,7 +431,7 @@ $owners-orange: #fb923c;
 // ==========================================
 .owners-features {
   padding: vars.$spacing-3xl 0;
-  background: rgba($owners-surface, 0.3);
+  background: var(--bg-primary);
 
   &__header {
     text-align: center;
@@ -467,8 +456,8 @@ $owners-orange: #fb923c;
 }
 
 .owners-feature {
-  background: $owners-surface;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   padding: vars.$spacing-xl;
   border-radius: vars.$border-radius-3xl;
   position: relative;
@@ -476,7 +465,7 @@ $owners-orange: #fb923c;
   transition: background 0.3s;
 
   &:hover {
-    background: rgba($owners-surface, 0.5);
+    background: var(--bg-hover);
 
     .owners-feature__icon {
       transform: scale(1.1);
@@ -493,20 +482,20 @@ $owners-orange: #fb923c;
       left: vars.$spacing-medium;
     }
 
-    background: rgba($owners-primary, 0.2);
-    color: $owners-primary;
+    background: var(--color-brand-bg);
+    color: var(--color-brand);
     font-size: vars.$font-size-small;
     font-weight: 700;
     padding: vars.$spacing-xs vars.$spacing-sm-md;
     border-radius: vars.$border-radius-3xl;
-    border: 1px solid rgba($owners-primary, 0.2);
+    border: 1px solid var(--color-brand-border);
   }
 
   &__icon {
     width: 56px;
     height: 56px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-modal-overlay);
+    border: 1px solid var(--border-subtle);
     border-radius: vars.$border-radius-2xl;
     display: flex;
     align-items: center;
@@ -524,38 +513,38 @@ $owners-orange: #fb923c;
     font-size: vars.$font-size-large;
     font-weight: 700;
     margin-bottom: vars.$spacing-sm-md;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     line-height: 1.6;
     margin: 0;
   }
 
   // Color variants
   &--primary .owners-feature__icon svg {
-    color: $owners-primary;
+    color: var(--color-brand);
   }
 
   &--blue .owners-feature__icon svg {
-    color: $owners-blue;
+    color: var(--color-info);
   }
 
   &--purple .owners-feature__icon svg {
-    color: $owners-purple;
+    color: var(--color-purple);
   }
 
   &--emerald .owners-feature__icon svg {
-    color: $owners-emerald;
+    color: var(--color-success);
   }
 
   &--pink .owners-feature__icon svg {
-    color: $owners-pink;
+    color: var(--color-pink);
   }
 
   &--orange .owners-feature__icon svg {
-    color: $owners-orange;
+    color: var(--color-warning);
   }
 }
 
@@ -588,7 +577,7 @@ $owners-orange: #fb923c;
 
   &__description {
     font-size: vars.$font-size-large;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     margin-bottom: vars.$spacing-xl;
     line-height: 1.6;
   }
@@ -606,12 +595,12 @@ $owners-orange: #fb923c;
       align-items: center;
       gap: vars.$spacing-sm-md;
       font-size: vars.$font-size-medium;
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--text-primary);
 
       svg {
         width: 24px;
         height: 24px;
-        color: $owners-primary;
+        color: var(--color-brand);
         flex-shrink: 0;
       }
     }
@@ -623,16 +612,16 @@ $owners-orange: #fb923c;
     gap: vars.$spacing-small;
     background: transparent;
     border: none;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     font-weight: 500;
     cursor: pointer;
     padding-bottom: vars.$spacing-xs;
-    border-bottom: 1px solid $owners-primary;
+    border-bottom: 1px solid var(--color-brand);
     transition: color 0.2s;
 
     &:hover {
-      color: $owners-primary;
+      color: var(--color-brand);
     }
 
     svg {
@@ -657,7 +646,7 @@ $owners-orange: #fb923c;
   &__glow {
     position: absolute;
     inset: 0;
-    background: rgba($owners-primary, 0.2);
+    background: var(--color-brand-bg);
     filter: blur(100px);
     border-radius: 50%;
     opacity: 0.3;
@@ -667,7 +656,7 @@ $owners-orange: #fb923c;
     position: relative;
     z-index: 10;
     border-radius: vars.$border-radius-2xl;
-    border: 1px solid $owners-border;
+    border: 1px solid var(--border-primary);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     transform: rotate(3deg);
     transition: transform 0.5s;
@@ -693,7 +682,7 @@ $owners-orange: #fb923c;
   &__overlay {
     position: absolute;
     inset: 0;
-    background: rgba($owners-primary, 0.1);
+    background: var(--color-brand-bg);
   }
 
   &__content {
@@ -706,12 +695,12 @@ $owners-orange: #fb923c;
     font-size: clamp(2rem, 5vw, 3.75rem);
     font-weight: 700;
     margin-bottom: vars.$spacing-large;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__description {
     font-size: vars.$font-size-large;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     margin-bottom: vars.$spacing-xl;
     max-width: 640px;
     margin-inline: auto;
@@ -720,7 +709,7 @@ $owners-orange: #fb923c;
   &__note {
     margin-top: vars.$spacing-large;
     font-size: vars.$font-size-sm-md;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
   }
 }
 
@@ -728,8 +717,8 @@ $owners-orange: #fb923c;
 // FOOTER
 // ==========================================
 .owners-footer {
-  background: $owners-surface-dark;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-subtle);
   padding: vars.$spacing-3xl 0;
 
   &__content {
@@ -763,7 +752,7 @@ $owners-orange: #fb923c;
     span {
       font-size: vars.$font-size-large;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-muted);
     }
   }
 
@@ -772,19 +761,19 @@ $owners-orange: #fb923c;
     gap: vars.$spacing-xl;
 
     a {
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-muted);
       text-decoration: none;
       transition: color 0.2s;
 
       &:hover {
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
         text-shadow: none;
       }
     }
   }
 
   &__copyright {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted);
     font-size: vars.$font-size-sm-md;
   }
 }

@@ -40,6 +40,19 @@ const CHANGELOG_DATA: MonthGroup[] = [
     monthKey: 'months.jan2026',
     releases: [
       {
+        version: 'jan-theme-support',
+        dateKey: 'releases.jan2026.theme.date',
+        titleKey: 'releases.jan2026.theme.title',
+        descriptionKey: 'releases.jan2026.theme.description',
+        changes: [
+          { id: '0a', type: 'feature', descriptionKey: 'releases.jan2026.theme.changes.toggle' },
+          { id: '0b', type: 'feature', descriptionKey: 'releases.jan2026.theme.changes.lightMode' },
+          { id: '0c', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.notifications' },
+          { id: '0d', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.search' },
+          { id: '0e', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.smooth' },
+        ],
+      },
+      {
         version: 'jan-dashboard-analytics',
         dateKey: 'releases.jan2026.dashboard.date',
         titleKey: 'releases.jan2026.dashboard.title',

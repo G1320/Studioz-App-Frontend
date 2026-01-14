@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'sass:color';
 @use 'design-system' as ds;
 
@@ -13,18 +14,18 @@
 
   // Subtle luxury dark background (lets underlying page show through a bit)
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(vars.$color-brand, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 100%, rgba(vars.$color-brand, 0.08) 0%, transparent 60%),
-    rgba(0, 0, 0, 0.4);
+    radial-gradient(ellipse at 50% 0%, var(--color-brand-glow) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, var(--color-brand-subtle) 0%, transparent 60%),
+    var(--overlay-bg);
 
   &__card {
     position: relative;
     width: 100%;
     max-width: 28rem; // matches tailwind max-w-md
-    background: #18181b; // zinc-900
-    border: 1px solid rgba(39, 39, 42, 1); // zinc-800
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
     border-radius: 1rem; // rounded-2xl
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--shadow-xl);
     overflow: hidden;
     padding: 2rem;
     text-align: center;
@@ -36,9 +37,9 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(to right, transparent 0%, vars.$color-brand 50%, transparent 100%);
+    background: linear-gradient(to right, transparent 0%, var(--color-brand) 50%, transparent 100%);
     opacity: 0.5;
-    box-shadow: 0 0 20px rgba(vars.$color-brand, 0.5);
+    box-shadow: 0 0 20px var(--color-brand-glow);
   }
 
   &__top-glow {
@@ -48,7 +49,7 @@
     transform: translateX(-50%);
     width: 50%;
     height: 5rem; // h-20
-    background: vars.$color-brand;
+    background: var(--color-brand);
     filter: blur(60px);
     opacity: 0.1;
     pointer-events: none;
@@ -58,21 +59,21 @@
     width: 6rem; // 24
     height: 6rem;
     border-radius: 9999px;
-    background: rgba(vars.$color-brand, 0.1);
-    border: 1px solid rgba(vars.$color-brand, 0.2);
+    background: var(--color-brand-bg);
+    border: 1px solid var(--color-brand-border);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    box-shadow: inset 0 0 20px rgba(vars.$color-brand, 0.1);
+    box-shadow: inset 0 0 20px var(--color-brand-glow);
   }
 
   &__icon-inner {
     width: 3rem; // 12
     height: 3rem;
     border-radius: 9999px;
-    border: 1px solid vars.$color-brand;
-    color: vars.$color-brand;
+    border: 1px solid var(--color-brand);
+    color: var(--color-brand);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,14 +89,14 @@
     font-size: 2rem; // ~text-3xl
     font-weight: 800;
     margin: 0 0 1rem;
-    color: #ffffff;
+    color: var(--text-primary);
     letter-spacing: -0.02em;
     line-height: 1.15;
   }
 
   &__message {
     font-size: ds.$font-base;
-    color: rgba(161, 161, 170, 1); // zinc-400
+    color: var(--text-muted);
     margin: 0 0 2rem;
     line-height: 1.6;
   }
@@ -113,9 +114,9 @@
       'Liberation Mono',
       'Courier New',
       monospace;
-    color: rgba(113, 113, 122, 1); // zinc-500/600-ish
-    background: rgba(24, 24, 27, 0.5);
-    border: 1px solid rgba(39, 39, 42, 1); // zinc-800
+    color: var(--text-tertiary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-md;
     padding: 0.5rem 0.75rem;
     white-space: nowrap;
@@ -130,8 +131,8 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 2rem;
-    background: vars.$color-brand;
-    color: #000000;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-weight: 800;
     border: none;
     border-radius: 0.75rem;
@@ -140,11 +141,11 @@
       transform 0.15s ease,
       box-shadow 0.2s ease,
       background-color 0.2s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-lg);
 
     &:hover {
-      background: #ffc107;
-      box-shadow: 0 0 20px rgba(vars.$color-brand, 0.4);
+      background: var(--color-brand-hover);
+      box-shadow: 0 0 20px var(--color-brand-glow);
     }
 
     &:active {
@@ -154,7 +155,7 @@
     &-icon {
       width: 20px;
       height: 20px;
-      color: #000000;
+      color: var(--text-inverse);
     }
   }
 
@@ -168,4 +169,3 @@
     }
   }
 }
-

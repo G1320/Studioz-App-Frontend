@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .status-badge-container {
   display: flex;
@@ -12,7 +13,7 @@
   gap: 0.25rem !important;
   padding: 0.25rem 0.5rem;
   border-radius: 999px;
-  background: vars.$zinc-900;
+  background: var(--bg-elevated);
   border: none;
   box-shadow: none;
   backdrop-filter: none;
@@ -25,14 +26,14 @@
     min-height: 0.75rem !important;
     max-width: 0.75rem !important;
     max-height: 0.75rem !important;
-    color: vars.$white-opacity-80;
+    color: var(--text-secondary);
     flex-shrink: 0;
   }
 
   &__label {
     font-size: 0.75rem;
     font-weight: 500;
-    color: vars.$white-opacity-90;
+    color: var(--text-primary);
     line-height: 1.2;
     white-space: nowrap;
   }
@@ -40,19 +41,19 @@
   // Variant styles - keep branded icon colors
   &--highly-rated {
     .status-badge__icon {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
   &--popular {
     .status-badge__icon {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
   &--new {
     .status-badge__icon {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 }

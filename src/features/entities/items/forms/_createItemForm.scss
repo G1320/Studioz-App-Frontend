@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use '../../../../shared/components/forms/styles/design-system' as ds;
 
 // Pricing Step Styles
@@ -32,18 +33,18 @@
     gap: vars.$spacing-small;
     font-size: vars.$font-size-xl;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__title-icon {
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
     font-size: 1.5rem !important;
   }
 
   &__description {
     font-size: vars.$font-size-small;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -51,10 +52,10 @@
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-large;
-    background: rgba(ds.$zinc-900, 0.3);
+    background: var(--bg-secondary);
     padding: vars.$spacing-large;
     border-radius: 16px;
-    border: 1px solid rgba(ds.$zinc-800, 0.5);
+    border: 1px solid var(--border-secondary);
   }
 
   &__radio-group {
@@ -62,9 +63,9 @@
     flex-wrap: wrap;
     gap: vars.$spacing-small;
     padding: 4px;
-    background: rgba(ds.$zinc-900, 0.5);
+    background: var(--bg-surface);
     border-radius: 12px;
-    border: 1px solid ds.$zinc-700;
+    border: 1px solid var(--border-primary);
   }
 
   &__radio-btn {
@@ -74,7 +75,7 @@
     background: transparent;
     border: none;
     border-radius: 8px;
-    color: ds.$zinc-400;
+    color: var(--text-tertiary);
     font-size: vars.$font-size-small;
     font-weight: 600;
     cursor: pointer;
@@ -82,14 +83,14 @@
     white-space: nowrap;
 
     &:hover:not(&--active) {
-      color: ds.$zinc-300;
-      background: rgba(ds.$zinc-800, 0.5);
+      color: var(--text-secondary);
+      background: var(--bg-hover);
     }
 
     &--active {
-      background: ds.$primary-yellow;
-      color: black;
-      box-shadow: 0 2px 8px rgba(ds.$primary-yellow, 0.3);
+      background: var(--color-brand);
+      color: var(--text-inverse);
+      box-shadow: 0 2px 8px var(--color-brand-glow);
     }
   }
 
@@ -116,7 +117,7 @@
   &__label {
     font-size: vars.$font-size-xs;
     font-weight: 700;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     text-align: start;
@@ -132,7 +133,7 @@
   &__input-prefix {
     position: absolute;
     left: 16px;
-    color: ds.$zinc-400;
+    color: var(--text-tertiary);
     font-weight: 500;
     pointer-events: none;
     z-index: 1;
@@ -141,7 +142,7 @@
   &__input-suffix {
     position: absolute;
     right: 16px;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     font-size: vars.$font-size-small;
     font-weight: 500;
     pointer-events: none;
@@ -149,11 +150,11 @@
 
   &__input {
     width: 100%;
-    background: rgba(ds.$zinc-900, 0.5);
-    border: 1px solid ds.$zinc-700;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     border-radius: 12px;
     padding: 14px 16px;
-    color: white;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     transition: all 0.2s ease;
     direction: ltr; // Keep number input LTR for proper digit display
@@ -165,17 +166,17 @@
     }
 
     &::placeholder {
-      color: ds.$zinc-600;
+      color: var(--text-muted);
     }
 
     &:hover {
-      background: rgba(ds.$zinc-900, 0.8);
+      background: var(--bg-hover);
     }
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
-      box-shadow: 0 0 0 1px ds.$primary-yellow;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     &--with-prefix {
@@ -200,11 +201,11 @@
 
   &__select {
     width: 100%;
-    background: rgba(ds.$zinc-900, 0.5);
-    border: 1px solid ds.$zinc-700;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     border-radius: 12px;
     padding: 14px 16px;
-    color: white;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -215,24 +216,24 @@
     background-size: 20px;
 
     &:hover {
-      background-color: rgba(ds.$zinc-900, 0.8);
+      background-color: var(--bg-hover);
     }
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
-      box-shadow: 0 0 0 1px ds.$primary-yellow;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     option {
-      background: ds.$zinc-900;
-      color: white;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
     }
   }
 
   &__block-discounts {
     padding-top: vars.$spacing-large;
-    border-top: 1px solid rgba(ds.$zinc-800, 0.5);
+    border-top: 1px solid var(--border-secondary);
   }
 
   &__block-discounts-header {
@@ -243,27 +244,27 @@
   }
 
   &__block-discounts-icon {
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
     font-size: 1rem !important;
   }
 
   &__block-discounts-title {
     font-size: vars.$font-size-small;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
   }
 
   &__info-box {
     display: flex;
     gap: vars.$spacing-medium;
-    background: rgba(96, 165, 250, 0.1); // blue-500/10
-    border: 1px solid rgba(96, 165, 250, 0.2); // blue-500/20
+    background: var(--color-info-bg);
+    border: 1px solid var(--color-info-border);
     border-radius: 12px;
     padding: vars.$spacing-medium;
   }
 
   &__info-icon {
-    color: #60a5fa; // blue-400
+    color: var(--color-info);
     font-size: 1rem !important;
     flex-shrink: 0;
     margin-top: 2px;
@@ -278,13 +279,13 @@
   &__info-title {
     font-size: vars.$font-size-small;
     font-weight: 700;
-    color: #60a5fa; // blue-400
+    color: var(--color-info);
     margin: 0;
   }
 
   &__info-text {
     font-size: vars.$font-size-xs;
-    color: rgba(147, 197, 253, 0.7); // blue-300/70
+    color: var(--color-info-text);
     margin: 0;
     line-height: 1.5;
   }
@@ -311,18 +312,18 @@
     gap: vars.$spacing-small;
     font-size: vars.$font-size-xl;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__title-icon {
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
     font-size: 1.5rem !important;
   }
 
   &__description {
     font-size: vars.$font-size-small;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -344,8 +345,8 @@
     align-items: flex-start;
     padding: vars.$spacing-large;
     border-radius: 16px;
-    border: 1px solid ds.$zinc-700;
-    background: rgba(ds.$zinc-900, 0.5);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-surface);
     text-align: start;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -354,13 +355,13 @@
     overflow-wrap: break-word;
 
     &:hover:not(&--active) {
-      border-color: ds.$zinc-500;
-      background: rgba(ds.$zinc-800, 0.5);
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
     }
 
     &--active {
-      background: rgba(ds.$primary-yellow, 0.1);
-      border-color: ds.$primary-yellow;
+      background: var(--color-brand-bg);
+      border-color: var(--color-brand);
     }
   }
 
@@ -375,17 +376,17 @@
     transition: all 0.2s ease;
 
     &--default {
-      background: ds.$zinc-800;
-      color: ds.$zinc-400;
+      background: var(--bg-elevated);
+      color: var(--text-tertiary);
 
       .booking-settings-step__mode-card:hover & {
-        color: white;
+        color: var(--text-primary);
       }
     }
 
     &--active {
-      background: ds.$primary-yellow;
-      color: black;
+      background: var(--color-brand);
+      color: var(--text-inverse);
     }
 
     svg {
@@ -402,17 +403,17 @@
     white-space: normal;
 
     &--default {
-      color: white;
+      color: var(--text-primary);
     }
 
     &--active {
-      color: ds.$primary-yellow;
+      color: var(--color-brand);
     }
   }
 
   &__mode-description {
     font-size: vars.$font-size-xs;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     line-height: 1.5;
     margin: 0;
     word-wrap: break-word;
@@ -443,13 +444,13 @@
     gap: vars.$spacing-small;
     font-size: vars.$font-size-xs;
     font-weight: 700;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
     svg {
       font-size: 0.875rem !important;
-      color: ds.$zinc-500;
+      color: var(--text-muted);
     }
   }
 
@@ -459,29 +460,29 @@
 
   &__select {
     width: 100%;
-    background: rgba(ds.$zinc-900, 0.5);
-    border: 1px solid ds.$zinc-700;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     border-radius: 12px;
     padding: 14px 40px 14px 16px;
-    color: white;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     cursor: pointer;
     transition: all 0.2s ease;
     appearance: none;
 
     &:hover {
-      background: rgba(ds.$zinc-900, 0.8);
+      background: var(--bg-hover);
     }
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
-      box-shadow: 0 0 0 1px ds.$primary-yellow;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     option {
-      background: ds.$zinc-900;
-      color: white;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
     }
   }
 
@@ -491,7 +492,7 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     font-size: ds.$font-sm;
   }
 
@@ -499,26 +500,26 @@
   &__input {
     width: 100%;
     max-width: 120px;
-    background: rgba(ds.$zinc-900, 0.5);
-    border: 1px solid ds.$zinc-700;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     border-radius: 12px;
     padding: 14px 16px;
-    color: white;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
     transition: all 0.2s ease;
 
     &::placeholder {
-      color: ds.$zinc-600;
+      color: var(--text-muted);
     }
 
     &:hover {
-      background: rgba(ds.$zinc-900, 0.8);
+      background: var(--bg-hover);
     }
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
-      box-shadow: 0 0 0 1px ds.$primary-yellow;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     &::-webkit-outer-spin-button,

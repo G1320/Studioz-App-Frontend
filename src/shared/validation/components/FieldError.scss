@@ -4,7 +4,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  color: vars.$color-warning-light;
+  color: var(--color-warning-text);
   font-size: vars.$font-size-sm-md;
   line-height: 1.4;
 
@@ -37,29 +37,29 @@ select:invalid + .field-error {
   input,
   textarea,
   select {
-    border-color: vars.$color-warning;
+    border-color: var(--color-warning);
 
     &:focus {
-      border-color: vars.$color-warning;
-      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
+      border-color: var(--color-warning);
+      box-shadow: 0 0 0 0.2rem var(--color-warning-glow);
     }
   }
 
   .listbox-button {
-    border-color: vars.$color-warning;
+    border-color: var(--color-warning);
 
     &:focus {
-      border-color: vars.$color-warning;
-      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
+      border-color: var(--color-warning);
+      box-shadow: 0 0 0 0.2rem var(--color-warning-glow);
     }
   }
 
   .listbox-button.error {
-    border-color: vars.$color-warning;
+    border-color: var(--color-warning);
 
     &:focus {
-      border-color: vars.$color-warning;
-      box-shadow: 0 0 0 0.2rem vars.$warning-opacity-25;
+      border-color: var(--color-warning);
+      box-shadow: 0 0 0 0.2rem var(--color-warning-glow);
     }
   }
 }

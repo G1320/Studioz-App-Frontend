@@ -1,11 +1,12 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .distance-slider {
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-small;
   padding: vars.$spacing-medium;
-  background-color: vars.$card-bg-color;
+  background-color: var(--card-bg);
   border-radius: vars.$border-radius-medium;
   margin: vars.$spacing-medium auto;
   max-width: 500px;
@@ -20,20 +21,20 @@
   &__label {
     font-size: vars.$font-size-sm-md;
     font-weight: 600;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__value {
     font-size: vars.$font-size-medium;
     font-weight: 700;
-    color: vars.$color-brand;
+    color: var(--color-brand);
   }
 
   &__input {
     width: 100%;
     height: 8px;
     border-radius: vars.$border-radius-small;
-    background: rgba(vars.$text-color-primary, 0.1);
+    background: var(--bg-hover);
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -41,7 +42,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-      background: rgba(vars.$text-color-primary, 0.15);
+      background: var(--bg-active);
     }
 
     // Webkit (Chrome, Safari, Edge)
@@ -51,15 +52,15 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: vars.$color-brand;
+      background: var(--color-brand);
       cursor: pointer;
-      border: 2px solid vars.$preview-bg-color;
-      box-shadow: 0 2px 4px vars.$black-opacity-20;
+      border: 2px solid var(--bg-primary);
+      box-shadow: var(--shadow-sm);
       transition: all 0.2s ease;
 
       &:hover {
         transform: scale(1.1);
-        box-shadow: 0 2px 8px vars.$black-opacity-30;
+        box-shadow: var(--shadow-md);
       }
 
       &:active {
@@ -72,15 +73,15 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: vars.$color-brand;
+      background: var(--color-brand);
       cursor: pointer;
-      border: 2px solid vars.$preview-bg-color;
-      box-shadow: 0 2px 4px vars.$black-opacity-20;
+      border: 2px solid var(--bg-primary);
+      box-shadow: var(--shadow-sm);
       transition: all 0.2s ease;
 
       &:hover {
         transform: scale(1.1);
-        box-shadow: 0 2px 8px vars.$black-opacity-30;
+        box-shadow: var(--shadow-md);
       }
 
       &:active {
@@ -92,14 +93,14 @@
     &::-moz-range-track {
       height: 8px;
       border-radius: vars.$border-radius-small;
-      background: rgba(vars.$text-color-primary, 0.1);
+      background: rgba(var(--text-primary), 0.1);
     }
 
     // Progress fill (the part before the thumb)
     &::-webkit-slider-runnable-track {
       height: 8px;
       border-radius: vars.$border-radius-small;
-      background: rgba(vars.$text-color-primary, 0.1);
+      background: rgba(var(--text-primary), 0.1);
     }
   }
 
@@ -107,12 +108,12 @@
     display: flex;
     justify-content: space-between;
     font-size: vars.$font-size-small;
-    color: rgba(vars.$text-color-primary, 0.6);
+    color: rgba(var(--text-primary), 0.6);
   }
 
   &__range-label {
     font-size: vars.$font-size-small;
-    color: rgba(vars.$text-color-primary, 0.6);
+    color: rgba(var(--text-primary), 0.6);
   }
 
   @media screen and (max-width: 768px) {

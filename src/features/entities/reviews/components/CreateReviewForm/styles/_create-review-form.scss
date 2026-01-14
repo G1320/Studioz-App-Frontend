@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 .create-review-form {
@@ -6,12 +7,10 @@
   flex-direction: column;
   gap: ds.$space-6;
   padding: ds.$space-6;
-  background-color: vars.$bg-color-tertiary;
-  border: 1px solid vars.$white-opacity-10;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-xl;
-  box-shadow:
-    0 8px 24px vars.$black-opacity-40,
-    0 4px 8px vars.$black-opacity-20;
+  box-shadow: var(--shadow-lg);
 
   @media (max-width: 768px) {
     padding: 1.25rem;
@@ -28,7 +27,7 @@
   &__label {
     font-size: ds.$font-base;
     font-weight: 600;
-    color: #f1f1f1;
+    color: var(--text-primary);
   }
 
   &__stars {
@@ -58,7 +57,7 @@
 
   &__star {
     font-size: 2rem;
-    color: vars.$text-color-secondary;
+    color: var(--text-secondary);
     transition: color 0.2s ease;
 
     @media (max-width: 768px) {
@@ -66,13 +65,13 @@
     }
 
     &--filled {
-      color: vars.$color-brand;
+      color: var(--color-brand);
     }
   }
 
   &__rating-value {
     font-size: ds.$font-md;
-    color: vars.$light-gray-d1d5db;
+    color: var(--text-secondary);
     margin-top: 0.25rem;
   }
 
@@ -85,24 +84,24 @@
   &__textarea {
     width: 100%;
     padding: 0.875rem 1rem;
-    background-color: vars.$white-opacity-05;
-    border: 1px solid vars.$white-opacity-10;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-medium;
-    color: vars.$color-text-light-gray;
+    color: var(--text-primary);
     font-size: ds.$font-base;
     font-family: inherit;
     resize: vertical;
     transition: all 0.2s ease;
 
     &::placeholder {
-      color: vars.$white-opacity-50;
+      color: var(--text-tertiary);
     }
 
     &:focus {
       outline: none;
-      border-color: vars.$color-brand;
-      background-color: vars.$white-opacity-08;
-      box-shadow: 0 0 0 3px vars.$brand-opacity-10;
+      border-color: var(--color-brand);
+      background-color: var(--bg-hover);
+      box-shadow: var(--focus-ring);
     }
 
     @media (max-width: 768px) {
@@ -113,7 +112,7 @@
 
   &__char-count {
     font-size: 0.75rem;
-    color: vars.$light-gray-9ca3af;
+    color: var(--text-muted);
     text-align: right;
     margin-top: -0.25rem;
   }
@@ -121,8 +120,8 @@
   &__submit {
     align-self: flex-start;
     padding: 0.875rem 1.5rem;
-    background-color: vars.$color-brand;
-    color: vars.$text-color-primary;
+    background-color: var(--color-brand);
+    color: var(--btn-primary-text);
     border: none;
     border-radius: 8px;
     font-size: ds.$font-base;
@@ -131,9 +130,9 @@
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background-color: vars.$brand-opacity-85;
+      background-color: var(--color-brand-hover);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px vars.$brand-opacity-30;
+      box-shadow: var(--shadow-glow);
     }
 
     &:active:not(:disabled) {

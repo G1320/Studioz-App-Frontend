@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .reservation-details {
   display: flex;
@@ -6,10 +7,10 @@
   max-height: calc(100vh - 2rem);
   width: 100%;
   max-width: 100%;
-  background: vars.$card-bg-color;
+  background: var(--card-bg);
   place-self: center;
   border-radius: 8px;
-  box-shadow: 0 4px 10px vars.$black-opacity-10;
+  box-shadow: var(--shadow-md);
   padding: 0.5rem;
   overflow-y: auto;
   overflow-x: hidden;
@@ -28,9 +29,9 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: black;
+    background: var(--bg-secondary);
     border: none;
-    color: vars.$text-color-secondary;
+    color: var(--text-secondary);
     font-size: 24px;
     line-height: 1;
     cursor: pointer;
@@ -43,8 +44,8 @@
     z-index: 10;
 
     &:hover {
-      background: vars.$black-opacity-20;
-      color: vars.$dark-gray-333;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
 
     &:active {
@@ -62,13 +63,13 @@
   &__error {
     padding: vars.$spacing-2xl;
     text-align: center;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &__actions {
     margin-top: vars.$spacing-medium;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid vars.$white-opacity-10;
+    border-top: 1px solid var(--border-primary);
   }
 
   @keyframes reservationDetailsEnter {

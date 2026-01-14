@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use '../../../../shared/components/forms/styles' as forms;
 
 .edit-item-page {
@@ -9,7 +10,7 @@
     > h1 {
       font-size: vars.$font-size-2xl;
       font-weight: 700;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       margin: 0 0 vars.$spacing-xl;
       text-align: center;
     }

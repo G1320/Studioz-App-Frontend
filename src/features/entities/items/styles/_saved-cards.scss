@@ -1,11 +1,5 @@
 @use 'utilities/variables' as vars;
-@use 'design-system' as ds;
-
-// Local variables
-$card-dark: ds.$zinc-950;
-$input-dark: #111111;
-$accent: ds.$primary-yellow;
-$accent-hover: #ffc107;
+@use 'utilities/mixins' as mixins;
 
 .saved-cards {
   display: flex;
@@ -18,9 +12,9 @@ $accent-hover: #ffc107;
   &__toggle {
     display: flex;
     padding: 4px;
-    background: rgba(24, 24, 27, 0.6);
+    background: var(--bg-secondary);
     border-radius: 12px;
-    border: 1px solid rgba(39, 39, 42, 0.5);
+    border: 1px solid var(--border-secondary);
     gap: 4px;
   }
 
@@ -33,7 +27,7 @@ $accent-hover: #ffc107;
     padding: 12px 16px;
     font-size: 0.9375rem;
     font-weight: 500;
-    color: vars.$zinc-400;
+    color: var(--text-muted);
     background: transparent;
     border: none;
     border-radius: 8px;
@@ -46,15 +40,15 @@ $accent-hover: #ffc107;
     }
 
     &:hover:not(&--active) {
-      color: vars.$text-color-primary;
-      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
 
     &--active {
-      background: $accent;
-      color: #000;
+      background: var(--color-brand);
+      color: var(--text-inverse);
       font-weight: 600;
-      box-shadow: 0 4px 12px rgba(255, 209, 102, 0.15), 0 1px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px var(--color-brand-glow), 0 1px 3px var(--shadow-sm);
     }
   }
 
@@ -73,20 +67,20 @@ $accent-hover: #ffc107;
     gap: 14px;
     padding: 14px 16px;
     border-radius: 12px;
-    border: 1px solid vars.$zinc-800;
-    background: $input-dark;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-primary);
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover:not(&--selected) {
-      border-color: vars.$zinc-700;
-      background: rgba(17, 17, 17, 0.8);
+      border-color: var(--border-secondary);
+      background: var(--bg-hover);
     }
 
     &--selected {
-      background: rgba(39, 39, 42, 0.5);
-      border-color: $accent;
-      box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2), inset 0 0 20px rgba(255, 209, 102, 0.03);
+      background: var(--bg-surface);
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand-bg), inset 0 0 20px var(--color-brand-bg);
     }
   }
 
@@ -94,17 +88,17 @@ $accent-hover: #ffc107;
     flex-shrink: 0;
     min-width: 56px;
     height: 36px;
-    background: vars.$text-color-primary;
+    background: var(--text-primary);
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-subtle);
 
     span {
       font-size: 0.625rem;
       font-weight: 700;
-      color: vars.$text-color-dark;
+      color: var(--text-inverse);
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
@@ -118,7 +112,7 @@ $accent-hover: #ffc107;
   }
 
   &__number {
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
     font-size: 0.9375rem;
     letter-spacing: 0.06em;
@@ -126,15 +120,15 @@ $accent-hover: #ffc107;
   }
 
   &__expiry {
-    font-size: ds.$font-sm;
-    color: vars.$zinc-500;
+    font-size: vars.$font-size-small;
+    color: var(--text-tertiary);
   }
 
   &__radio {
     flex-shrink: 0;
     width: 20px;
     height: 20px;
-    accent-color: $accent;
+    accent-color: var(--color-brand);
     cursor: pointer;
     margin: 0;
   }
@@ -149,7 +143,7 @@ $accent-hover: #ffc107;
     gap: 6px;
     padding: 0;
     font-size: 0.8125rem;
-    color: #ef4444;
+    color: var(--color-error);
     background: transparent;
     border: none;
     cursor: pointer;
@@ -161,7 +155,7 @@ $accent-hover: #ffc107;
     }
 
     &:hover {
-      color: #f87171;
+      color: var(--color-error-text-light);
     }
   }
 
@@ -180,20 +174,20 @@ $accent-hover: #ffc107;
     > svg {
       width: 48px;
       height: 48px;
-      color: vars.$zinc-600;
+      color: var(--text-tertiary);
       margin-bottom: 8px;
     }
 
     p {
-      font-size: ds.$font-base;
+      font-size: vars.$font-size-medium;
       font-weight: 600;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       margin: 0;
     }
 
     span {
-      font-size: ds.$font-md;
-      color: vars.$zinc-500;
+      font-size: vars.$font-size-sm-md;
+      color: var(--text-tertiary);
     }
   }
 
@@ -204,8 +198,8 @@ $accent-hover: #ffc107;
     gap: 8px;
     margin-top: 16px;
     padding: 12px 24px;
-    background: $accent;
-    color: #000;
+    background: var(--color-brand);
+    color: var(--text-inverse);
     font-size: 0.9375rem;
     font-weight: 600;
     border: none;
@@ -216,12 +210,12 @@ $accent-hover: #ffc107;
     svg {
       width: 18px;
       height: 18px;
-      color: #000;
+      color: var(--text-inverse);
     }
 
     &:hover {
-      background: $accent-hover;
-      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+      background: var(--color-brand-hover);
+      box-shadow: 0 0 20px var(--color-brand-glow);
     }
   }
 

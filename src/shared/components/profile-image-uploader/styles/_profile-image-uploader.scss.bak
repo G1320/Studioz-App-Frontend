@@ -1,0 +1,111 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.profile-image-uploader {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  // Ensure the input is accessible but hidden
+  input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    pointer-events: auto;
+  }
+
+  &__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  &__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, vars.$brand-opacity-20 0%, vars.$brand-opacity-05 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid vars.$white-opacity-10;
+  }
+
+  &__icon {
+    width: 60%;
+    height: 60%;
+    color: vars.$color-brand;
+    opacity: 0.6;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: vars.$black-opacity-50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+    backdrop-filter: blur(2px);
+    pointer-events: none; // Allow clicks to pass through when not visible
+  }
+
+  &__camera-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--text-primary);
+  }
+
+  &__spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid vars.$white-opacity-30;
+    border-top-color: var(--text-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  &:hover {
+    .profile-image-uploader__overlay {
+      opacity: 1;
+      pointer-events: auto; // Enable pointer events on hover
+    }
+
+    .profile-image-uploader__image {
+      transform: scale(1.05);
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

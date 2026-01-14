@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(to bottom, var(--overlay-bg) 0%, transparent 50%, var(--overlay-bg) 100%);
   }
 
   &__content {
@@ -71,11 +71,11 @@
     font-weight: 700;
     line-height: 1.2;
     margin: 0;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 8px var(--shadow-md);
   }
 
   &__accent {
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
   }
 
   &__subtitle {
@@ -83,38 +83,38 @@
     font-weight: 400;
     line-height: 1.4;
     margin: 0;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 4px var(--shadow-sm);
   }
 
   &--light &__title,
   &--light &__subtitle {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   &--dark &__title,
   &--dark &__subtitle {
-    color: #1a1a1a;
-    text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.5);
+    color: var(--bg-tertiary);
+    text-shadow: 2px 2px 8px var(--shadow-glow);
   }
 
   &__cta {
     display: inline-block;
     padding: 0.875rem 2rem;
     margin-top: 0.5rem;
-    background-color: #fff;
-    color: #1a1a1a;
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
     text-decoration: none;
     border-radius: 8px;
     font-weight: 600;
     font-size: clamp(0.875rem, 1.5vw, 1.125rem);
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px var(--shadow-md);
     cursor: pointer;
 
     &:hover {
-      background-color: #f0f0f0;
+      background-color: var(--bg-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 16px var(--shadow-lg);
     }
 
     &:active {
@@ -123,11 +123,11 @@
   }
 
   &--dark &__cta {
-    background-color: #1a1a1a;
-    color: #fff;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
 
     &:hover {
-      background-color: #333;
+      background-color: var(--bg-secondary);
     }
   }
 }

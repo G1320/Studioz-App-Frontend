@@ -1,0 +1,239 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+// Common mixins
+@mixin card-shadow {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@mixin primary-button {
+  background-color: vars.$color-brand;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-size: ds.$font-base;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// Main container styles
+.order-success-container {
+  min-height: 100vh;
+  padding: ds.$space-8;
+  background-color: #f8f9fa;
+
+  .container {
+    @include card-shadow;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+}
+
+// Header styles
+.header {
+  background-color: vars.$color-brand;
+  color: white;
+  padding: 2.5rem 1.25rem;
+  text-align: center;
+
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 1rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.9;
+  }
+}
+
+// Content area styles
+.content {
+  padding: ds.$space-8;
+}
+
+// Order details section
+.order-details {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: ds.$space-6;
+  margin: 1.5rem 0;
+
+  h2 {
+    color: vars.$color-brand;
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+// Detail rows
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .label {
+    font-weight: 600;
+    color: #666;
+  }
+
+  .value {
+    color: #333;
+  }
+}
+
+// Items section
+.items-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+
+  h3 {
+    color: vars.$color-brand;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+}
+
+// Items table
+.items-table {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .table-header,
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: ds.$space-4;
+    padding: 0.75rem;
+    align-items: center;
+  }
+
+  .table-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 2px solid #eee;
+  }
+
+  .table-row {
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    .col {
+      color: #666;
+
+      &:not(:first-child) {
+        text-align: center;
+      }
+
+      &:last-child {
+        font-weight: 500;
+        color: vars.$color-brand;
+      }
+    }
+  }
+}
+
+.total-amount {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #eee;
+  text-align: right;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: vars.$color-brand;
+}
+
+// Button styles
+.button-group {
+  display: flex;
+  justify-content: center;
+
+  button {
+    @include primary-button;
+  }
+}
+
+// Error container
+.error-container {
+  @include card-shadow;
+  text-align: center;
+  padding: 4rem 2rem;
+
+  h1 {
+    color: #dc3545;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #666;
+    margin-bottom: 2rem;
+  }
+
+  button {
+    @include primary-button;
+  }
+}
+
+// Media queries
+@media (max-width: 768px) {
+  .items-table {
+    .table-header,
+    .table-row {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .items-table {
+    .table-header {
+      display: none;
+    }
+
+    .table-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: ds.$space-4;
+
+      .col {
+        text-align: left !important;
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        align-items: center;
+
+        &::before {
+          content: attr(data-label);
+          font-weight: 600;
+          color: #666;
+        }
+      }
+    }
+  }
+}

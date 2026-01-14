@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'sass:color';
 
 .reservation-actions {
@@ -6,7 +7,7 @@
   flex-direction: column;
   gap: vars.$spacing-medium;
 
-  border-top: 1px solid vars.$white-opacity-10;
+  border-top: 1px solid var(--border-primary);
 
   &__button {
     padding: vars.$spacing-medium vars.$spacing-large;
@@ -29,59 +30,59 @@
     }
 
     &--cancel {
-      background: vars.$status-red-bg;
-      color: vars.$status-red-text;
-      border: 1px solid vars.$status-red-border-30;
+      background: var(--color-error-bg);
+      color: var(--color-error-text);
+      border: 1px solid var(--color-error-border);
 
       &:hover:not(:disabled) {
-        background: vars.$status-red-bg-30;
+        background: var(--color-error-bg);
+        filter: brightness(0.95);
         transform: translateY(-1px);
       }
     }
 
     &--modify {
-      background: vars.$color-brand;
-      color: vars.$text-color-primary;
+      background: var(--color-brand);
+      color: var(--btn-primary-text);
 
       &:hover:not(:disabled) {
-        background: color.adjust(vars.$color-brand, $lightness: -10%);
+        background: var(--color-brand-hover);
         transform: translateY(-1px);
       }
     }
 
     &--confirm-reservation {
-      background: vars.$status-green-bg;
-      color: vars.$status-green-text;
-      border: 1px solid vars.$status-green-border;
+      background: var(--color-success-bg);
+      color: var(--color-success-text);
+      border: 1px solid var(--color-success-border);
 
       &:hover:not(:disabled) {
-        background: vars.$status-green-bg-30;
-        border-color: vars.$status-green-border-50;
+        filter: brightness(0.95);
         transform: translateY(-1px);
       }
     }
 
     &--contact {
       background: transparent;
-      color: vars.$text-color-primary;
-      border: 1px solid vars.$white-opacity-20;
+      color: var(--text-primary);
+      border: 1px solid var(--border-hover);
 
       &:hover:not(:disabled) {
-        background: vars.$white-opacity-05;
-        border-color: vars.$color-brand;
+        background: var(--bg-hover);
+        border-color: var(--color-brand);
       }
     }
 
     &--confirm {
-      background: vars.$status-red-bg-30;
-      color: vars.$status-red-text;
-      border: 1px solid vars.$status-red-border-50;
+      background: var(--color-error-bg);
+      color: var(--color-error-text);
+      border: 1px solid var(--color-error-border);
     }
 
     &--secondary {
       background: transparent;
-      color: vars.$text-color-primary;
-      border: 1px solid vars.$white-opacity-20;
+      color: var(--text-primary);
+      border: 1px solid var(--border-hover);
     }
   }
 
@@ -90,14 +91,14 @@
     flex-direction: column;
     gap: vars.$spacing-medium;
     padding: vars.$spacing-large;
-    background: vars.$error-opacity-10-delete;
-    border: 1px solid vars.$status-red-border-20;
+    background: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
     border-radius: vars.$border-radius-medium;
   }
 
   &__confirm-message {
     margin: 0;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     font-size: vars.$font-size-medium;
   }
 
@@ -110,7 +111,7 @@
     margin: 0;
     padding: vars.$spacing-medium;
     text-align: center;
-    color: vars.$white-opacity-60;
+    color: var(--text-tertiary);
     font-size: vars.$font-size-medium;
   }
 

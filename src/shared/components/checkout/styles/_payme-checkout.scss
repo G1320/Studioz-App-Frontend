@@ -1,11 +1,12 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
 .payme-checkout {
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-medium;
   padding: vars.$spacing-large;
-  background-color: vars.$card-bg-color;
+  background-color: var(--card-bg);
   border-radius: vars.$border-radius-medium;
   max-width: 500px;
   width: 100%;
@@ -18,13 +19,13 @@
     flex-direction: column;
     gap: vars.$spacing-small;
     padding-bottom: vars.$spacing-medium;
-    border-bottom: 1px solid vars.$border-color-primary;
+    border-bottom: 1px solid var(--border-primary);
   }
 
   &__title {
     font-size: vars.$font-size-large;
     font-weight: 600;
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
     margin: 0;
   }
 
@@ -37,35 +38,35 @@
   }
 
   &__total-label {
-    color: rgba(vars.$text-color-primary, 0.75);
+    color: rgba(var(--text-primary), 0.75);
   }
 
   &__total-amount {
-    color: vars.$color-brand;
+    color: var(--color-brand);
     font-size: vars.$font-size-xl;
   }
 
   &__error {
     padding: vars.$spacing-medium;
-    background-color: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    background-color: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
     border-radius: vars.$border-radius-small;
-    color: #ff6b6b;
+    color: var(--color-error-text);
     font-size: vars.$font-size-small;
   }
 
   &__button {
     width: 100%;
     padding: vars.$spacing-medium;
-    background-color: vars.$color-brand;
-    color: vars.$text-color-dark;
+    background-color: var(--color-brand);
+    color: var(--btn-primary-text);
     border: none;
     border-radius: vars.$border-radius-medium;
     font-size: vars.$font-size-medium;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.25s ease;
-    box-shadow: vars.$box-shadow-medium;
+    box-shadow: var(--shadow-md);
 
     &:hover:not(:disabled) {
       box-shadow: vars.$box-shadow-large;
@@ -90,7 +91,7 @@
 
   &__security-text {
     font-size: vars.$font-size-small;
-    color: rgba(vars.$text-color-primary, 0.7);
+    color: rgba(var(--text-primary), 0.7);
     margin: 0;
   }
 

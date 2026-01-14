@@ -1,10 +1,11 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use '../../../shared/components/forms/styles/design-system' as ds;
 
 .changelog {
   min-height: 100vh;
-  background: black;
-  color: white;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   text-align: start;
 
@@ -32,7 +33,7 @@
     font-size: ds.$font-3xl;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: white;
+    color: var(--text-primary);
     text-align: start;
 
     @media (min-width: 768px) {
@@ -42,7 +43,7 @@
 
   &__subtitle {
     font-size: ds.$font-md;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     margin: 0;
     text-align: start;
   }
@@ -63,17 +64,17 @@
   &__month-title {
     font-size: ds.$font-sm;
     font-weight: 600;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0 0 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid ds.$zinc-800;
+    border-bottom: 1px solid var(--border-primary);
     text-align: start;
   }
 
   &__release {
-    border-bottom: 1px solid ds.$zinc-800;
+    border-bottom: 1px solid var(--border-primary);
     padding: 1.5rem 0;
 
     &:last-child {
@@ -98,7 +99,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid ds.$primary-yellow;
+      outline: 2px solid var(--color-brand);
       outline-offset: 4px;
       border-radius: 4px;
     }
@@ -111,7 +112,7 @@
 
   &__release-date {
     font-size: ds.$font-sm;
-    color: ds.$zinc-600;
+    color: var(--text-muted);
     display: block;
     margin-bottom: 0.5rem;
     text-align: start;
@@ -120,14 +121,14 @@
   &__release-title {
     font-size: ds.$font-base;
     font-weight: 500;
-    color: white;
+    color: var(--text-primary);
     margin: 0 0 0.25rem;
     text-align: start;
   }
 
   &__release-description {
     font-size: ds.$font-sm;
-    color: ds.$zinc-400;
+    color: var(--text-secondary);
     line-height: 1.6;
     margin: 0;
     max-width: 48rem;
@@ -139,12 +140,12 @@
     padding: 0.25rem;
     background: none;
     border: none;
-    color: ds.$zinc-600;
+    color: var(--text-muted);
     cursor: pointer;
     transition: transform 0.2s ease, color 0.2s ease;
 
     &:hover {
-      color: ds.$zinc-400;
+      color: var(--text-secondary);
     }
 
     &--expanded {
@@ -161,7 +162,7 @@
   &__changes {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(ds.$zinc-800, 0.5);
+    border-top: 1px solid var(--border-secondary);
   }
 
   &__changes-list {
@@ -181,7 +182,7 @@
   }
 
   &__change-text {
-    color: ds.$zinc-300;
+    color: var(--text-secondary);
     line-height: 1.6;
     padding-top: 0.125rem;
     text-align: start;
@@ -198,15 +199,15 @@
     flex-shrink: 0;
 
     &--feature {
-      color: ds.$primary-yellow;
+      color: var(--color-brand);
     }
 
     &--improvement {
-      color: #4ade80; // emerald-400
+      color: var(--color-success);
     }
 
     &--fix {
-      color: ds.$zinc-500;
+      color: var(--text-muted);
     }
   }
 
@@ -218,7 +219,7 @@
 
   // Suggestion section
   &__suggestion {
-    border-top: 1px solid ds.$zinc-800;
+    border-top: 1px solid var(--border-primary);
     padding-top: 2rem;
   }
 
@@ -230,7 +231,7 @@
   &__suggestion-title {
     font-size: ds.$font-lg;
     font-weight: 500;
-    color: white;
+    color: var(--text-primary);
     margin: 0 0 0.25rem;
     display: flex;
     align-items: center;
@@ -239,14 +240,14 @@
   }
 
   &__suggestion-icon {
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
     width: 1.25rem !important;
     height: 1.25rem !important;
   }
 
   &__suggestion-text {
     font-size: ds.$font-sm;
-    color: ds.$zinc-500;
+    color: var(--text-muted);
     margin: 0;
     text-align: start;
   }
@@ -258,9 +259,9 @@
     justify-content: space-between;
     padding: 0.75rem 1rem;
     background: transparent;
-    border: 1px solid ds.$zinc-700;
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-md;
-    color: ds.$zinc-300;
+    color: var(--text-secondary);
     font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
@@ -268,12 +269,12 @@
     text-align: start;
 
     &:hover {
-      background: rgba(ds.$zinc-900, 0.5);
+      background: var(--bg-hover);
     }
   }
 
   &__suggestion-trigger-icon {
-    color: ds.$zinc-600;
+    color: var(--text-muted);
     width: 1rem !important;
     height: 1rem !important;
   }
@@ -282,30 +283,30 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    background: rgba(ds.$zinc-900, 0.3);
-    border: 1px solid ds.$zinc-800;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-md;
     padding: ds.$space-4;
   }
 
   &__suggestion-textarea {
     width: 100%;
-    background: ds.$zinc-800;
-    border: 1px solid ds.$zinc-700;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
     border-radius: 0.25rem;
     padding: 0.5rem 0.75rem;
-    color: white;
+    color: var(--text-primary);
     font-size: ds.$font-md;
     font-family: inherit;
     resize: none;
 
     &::placeholder {
-      color: ds.$zinc-500;
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
+      border-color: var(--color-brand);
     }
   }
 
@@ -320,14 +321,14 @@
     padding: 0.5rem 1rem;
     background: transparent;
     border: none;
-    color: ds.$zinc-400;
+    color: var(--text-secondary);
     font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.2s ease;
 
     &:hover {
-      color: white;
+      color: var(--text-primary);
     }
   }
 
@@ -336,17 +337,17 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: ds.$primary-yellow;
+    background: var(--color-brand);
     border: none;
     border-radius: 0.25rem;
-    color: black;
+    color: var(--text-inverse);
     font-size: ds.$font-md;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: rgba(ds.$primary-yellow, 0.9);
+      background: var(--color-brand-hover);
     }
 
     &:disabled {

@@ -1,0 +1,128 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.reservation-details {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2rem);
+  width: 100%;
+  max-width: 100%;
+  background: vars.$card-bg-color;
+  place-self: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px vars.$black-opacity-10;
+  padding: 0.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  opacity: 1;
+  transform-origin: top center;
+  animation: reservationDetailsEnter 0.45s cubic-bezier(0.21, 0.95, 0.38, 0.99);
+  margin-block: 0;
+  gap: 0.75rem;
+  box-sizing: border-box;
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: black;
+    border: none;
+    color: vars.$text-color-secondary;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    transition: all 0.2s ease;
+    z-index: 10;
+
+    &:hover {
+      background: vars.$black-opacity-20;
+      color: vars.$dark-gray-333;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+
+  &.exiting {
+    opacity: 0;
+    animation: reservationDetailsExit 0.35s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  }
+
+  &__loading,
+  &__error {
+    padding: vars.$spacing-2xl;
+    text-align: center;
+    color: var(--text-primary);
+  }
+
+  &__actions {
+    margin-top: vars.$spacing-medium;
+    padding-top: vars.$spacing-large;
+    border-top: 1px solid vars.$white-opacity-10;
+  }
+
+  @keyframes reservationDetailsEnter {
+    0% {
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+      filter: blur(4px);
+    }
+
+    60% {
+      opacity: 1;
+      transform: translateY(-4px) scale(1.01);
+      filter: blur(0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes reservationDetailsExit {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    40% {
+      opacity: 1;
+      transform: translateY(6px) scale(0.99);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      filter: blur(2px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    place-self: center;
+    justify-items: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+
+    &.exiting {
+      animation: none;
+    }
+  }
+}

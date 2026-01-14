@@ -29,8 +29,8 @@
     position: absolute;
     top: -0.25rem;
     right: -0.25rem;
-    background: vars.$color-brand;
-    color: black;
+    background: var(--color-brand);
+    color: var(--btn-primary-text);
     font-size: 0.5625rem; // 9px on mobile
     font-weight: 700;
     padding: 0 0.1875rem;
@@ -42,7 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.95);
+    box-shadow: 0 0 0 1.5px var(--bg-primary);
     z-index: 1;
     pointer-events: none;
 
@@ -56,7 +56,7 @@
       height: 1.125rem;
       line-height: 1.125rem;
       border-radius: ds.$radius-md;
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.95);
+      box-shadow: 0 0 0 2px var(--bg-primary);
     }
 
     // Single digit (1-9) - perfectly circular

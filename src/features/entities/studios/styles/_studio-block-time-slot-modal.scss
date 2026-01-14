@@ -1,14 +1,15 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'design-system' as ds;
 
 // Block time modal styling - uses popup-base class
 .block-time-modal {
   .MuiDialog-paper {
-    background-color: vars.$bg-color-tertiary !important;
-    border: 1px solid vars.$white-opacity-10 !important;
+    background-color: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-primary) !important;
     box-shadow:
-      0 8px 24px vars.$black-opacity-40,
-      0 4px 8px vars.$black-opacity-20 !important;
+      0 8px 24px var(--shadow-xl),
+      0 4px 8px var(--shadow-md) !important;
     border-radius: 12px !important;
     backdrop-filter: blur(10px);
     z-index: 1000;
@@ -27,7 +28,7 @@
     flex-direction: column;
     gap: ds.$space-6;
     padding: ds.$space-8;
-    color: vars.$color-text-light-gray;
+    color: var(--text-primary);
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -41,7 +42,7 @@
       margin: 0;
       font-size: ds.$font-2xl;
       font-weight: 700;
-      color: vars.$color-text-light-gray;
+      color: var(--text-primary);
       text-align: center;
 
       @media (max-width: 768px) {
@@ -56,18 +57,18 @@
 
       .MuiFormControlLabel-label {
         font-size: ds.$font-base;
-        color: vars.$color-text-light-gray;
+        color: var(--text-primary);
       }
     }
 
     // Info text for entire day blocking
     .entire-day-info {
       font-size: ds.$font-md;
-      color: vars.$white-opacity-70;
+      color: var(--text-muted);
       padding: 0.75rem 1rem;
-      background-color: vars.$white-opacity-05;
+      background-color: var(--bg-hover);
       border-radius: vars.$border-radius-medium;
-      border: 1px solid vars.$white-opacity-10;
+      border: 1px solid var(--border-primary);
       text-align: start;
     }
 
@@ -93,9 +94,9 @@
       align-items: center;
       justify-content: space-between;
       padding: ds.$space-4;
-      background-color: vars.$white-opacity-05;
+      background-color: var(--bg-hover);
       border-radius: vars.$border-radius-medium;
-      border: 1px solid vars.$white-opacity-10;
+      border: 1px solid var(--border-primary);
 
       @media (max-width: 768px) {
         padding: 0.75rem;
@@ -109,13 +110,13 @@
         .hour-label {
           font-size: ds.$font-base;
           font-weight: 600;
-          color: vars.$light-gray-d1d5db;
+          color: var(--text-secondary);
         }
 
         .hour-value {
           font-size: ds.$font-2xl;
           font-weight: 700;
-          color: vars.$color-text-light-gray;
+          color: var(--text-primary);
           min-width: 32px;
           text-align: center;
         }
@@ -130,9 +131,9 @@
           width: 36px;
           height: 36px;
           border-radius: 8px;
-          border: 1px solid vars.$white-opacity-20;
-          background-color: vars.$white-opacity-10;
-          color: vars.$color-text-light-gray;
+          border: 1px solid var(--border-hover);
+          background-color: var(--border-primary);
+          color: var(--text-primary);
           font-size: ds.$font-xl;
           font-weight: 600;
           cursor: pointer;
@@ -144,10 +145,10 @@
           padding: 0;
 
           &:hover:not(:disabled) {
-            background-color: vars.$brand-opacity-20;
-            border-color: vars.$color-brand;
+            background-color: var(--color-brand-bg);
+            border-color: var(--color-brand);
             transform: scale(1.05);
-            box-shadow: 0 4px 12px vars.$brand-opacity-30;
+            box-shadow: 0 4px 12px var(--color-brand-glow);
           }
 
           &:active:not(:disabled) {
@@ -174,25 +175,25 @@
       max-width: 100%;
       box-sizing: border-box;
       padding: 0.875rem 1rem;
-      background-color: vars.$white-opacity-05;
-      border: 1px solid vars.$white-opacity-10;
+      background-color: var(--bg-hover);
+      border: 1px solid var(--border-primary);
       border-radius: vars.$border-radius-medium;
-      color: vars.$color-text-light-gray;
+      color: var(--text-primary);
       font-size: ds.$font-base;
       font-family: inherit;
       transition: all 0.2s ease;
       text-align: start;
 
       &::placeholder {
-        color: vars.$white-opacity-50;
+        color: var(--text-tertiary);
         text-align: start;
       }
 
       &:focus {
         outline: none;
-        border-color: vars.$color-brand;
-        background-color: vars.$white-opacity-08;
-        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        border-color: var(--color-brand);
+        background-color: var(--border-primary);
+        box-shadow: 0 0 0 3px var(--color-brand-bg);
       }
 
       &:disabled {
@@ -235,11 +236,11 @@
       }
 
       .cancel-button {
-        background-color: vars.$white-opacity-10;
-        color: vars.$color-text-light-gray;
+        background-color: var(--border-primary);
+        color: var(--text-primary);
 
         &:hover:not(:disabled) {
-          background-color: vars.$white-opacity-15;
+          background-color: var(--border-primary);
         }
 
         &:disabled {
@@ -249,13 +250,13 @@
       }
 
       .block-button {
-        background-color: vars.$color-brand;
-        color: vars.$text-color-primary;
+        background-color: var(--color-brand);
+        color: var(--text-inverse);
 
         &:hover:not(:disabled) {
-          background-color: vars.$color-blue-3a7bc8;
+          background-color: var(--color-brand-hover);
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px vars.$blue-opacity-74-144-226-30;
+          box-shadow: 0 4px 12px var(--color-brand-glow);
         }
 
         &:active:not(:disabled) {
@@ -275,7 +276,7 @@
 .block-time-button {
   background: transparent;
   border: none;
-  color: vars.$color-brand;
+  color: var(--color-brand);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 6px;
@@ -285,7 +286,7 @@
   justify-content: center;
 
   &:hover {
-    background-color: vars.$blue-opacity-74-144-226-20;
+    background-color: var(--color-brand-bg);
     transform: scale(1.05);
   }
 
@@ -295,7 +296,7 @@
 
   .clock-icon {
     font-size: ds.$font-2xl;
-    color: vars.$color-brand;
+    color: var(--color-brand);
   }
 }
 

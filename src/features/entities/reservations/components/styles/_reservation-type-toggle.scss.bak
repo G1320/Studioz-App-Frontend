@@ -1,0 +1,115 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+// ==========================================
+// RESERVATION TYPE TOGGLE - StudioZ Design System
+// Theme: Dark Mode Tab Switcher
+// ==========================================
+
+// Local aliases (referencing design system)
+$toggle-primary: ds.$primary-yellow;
+$toggle-surface: ds.$zinc-900;
+$toggle-border: ds.$zinc-800;
+$toggle-inactive: ds.$zinc-500;
+$toggle-hover: ds.$zinc-400;
+
+.reservation-type-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: vars.$spacing-small;
+  background: $toggle-surface;
+  border: 1px solid $toggle-border;
+  border-radius: vars.$border-radius-2xl;
+  padding: vars.$spacing-xs;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  // Inner group for incoming/outgoing buttons
+  &__type-group {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: vars.$spacing-xs;
+    padding: vars.$spacing-xs;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: vars.$border-radius-xl;
+  }
+
+  &__button {
+    flex: 1;
+    min-width: 0;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    background: transparent;
+    color: $toggle-inactive;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-size: vars.$font-size-sm-md;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover:not(.active) {
+      color: $toggle-hover;
+      background: rgba(39, 39, 42, 0.5); // zinc-800/50
+    }
+
+    // Active state for type buttons (incoming/outgoing)
+    &.active {
+      background: rgba(39, 39, 42, 1); // zinc-800
+      color: var(--text-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    // Special "All" button styling
+    &--all {
+      flex: 0 0 auto;
+      padding: vars.$spacing-sm-md vars.$spacing-xl;
+      border-radius: vars.$border-radius-xl;
+      font-weight: 700;
+
+      &.active {
+        background: $toggle-primary;
+        color: vars.$bg-color-primary;
+        box-shadow: 0 0 15px rgba(255, 209, 102, 0.3);
+      }
+
+      &:not(.active) {
+        background: rgba(39, 39, 42, 1);
+        color: $toggle-inactive;
+
+        &:hover {
+          background: rgba(63, 63, 70, 1); // zinc-700
+        }
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+
+    &__type-group {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &__button {
+      padding: vars.$spacing-small vars.$spacing-sm-md;
+      font-size: vars.$font-size-small;
+
+      &--all {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  }
+}

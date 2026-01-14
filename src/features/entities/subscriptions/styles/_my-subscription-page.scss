@@ -1,15 +1,16 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use 'sass:color';
 
 .my-subscription-page {
   min-height: calc(100vh - 10rem);
   background: radial-gradient(
       ellipse at 80% 20%,
-      rgba(vars.$color-brand, 0.08) 0%,
+      var(--color-brand-glow) 0%,
       transparent 60%
     ),
-    radial-gradient(ellipse at 20% 90%, rgba(vars.$color-brand, 0.05) 0%, transparent 50%),
-    linear-gradient(180deg, vars.$bg-color-primary 0%, vars.$bg-color-secondary 100%);
+    radial-gradient(ellipse at 20% 90%, var(--color-brand-subtle) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   padding: vars.$spacing-3xl vars.$spacing-medium;
   display: flex;
   align-items: flex-start;
@@ -26,8 +27,8 @@
     content: '';
     width: 32px;
     height: 32px;
-    border: 3px solid vars.$white-opacity-10;
-    border-top: 3px solid vars.$color-brand;
+    border: 3px solid var(--border-primary);
+    border-top: 3px solid var(--color-brand);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -45,29 +46,29 @@
 .subscription-details {
   max-width: 800px;
   margin: 0 auto;
-  background: vars.$dark-bg-26-70;
+  background: var(--bg-card);
   border-radius: vars.$border-radius-xl;
   padding: vars.$spacing-xl;
   box-shadow:
-    0 10px 30px vars.$black-opacity-50,
-    0 0 0 1px vars.$white-opacity-05;
+    0 10px 30px var(--shadow-xl),
+    0 0 0 1px var(--border-primary);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid vars.$white-opacity-10;
+  border: 1px solid var(--border-primary);
 
   &.no-subscription {
     text-align: center;
     padding: vars.$spacing-3xl vars.$spacing-xl;
 
     h3 {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       margin-bottom: vars.$spacing-medium;
       font-size: vars.$font-size-xl;
       font-weight: 600;
     }
 
     p {
-      color: vars.$white-opacity-70;
+      color: var(--text-secondary);
       margin-bottom: vars.$spacing-large;
       font-size: vars.$font-size-medium;
     }
@@ -75,22 +76,22 @@
     .primary-button {
       display: inline-block;
       padding: vars.$spacing-medium vars.$spacing-xl;
-      background: vars.$color-brand;
-      color: vars.$text-color-dark;
+      background: var(--color-brand);
+      color: var(--text-inverse);
       border-radius: vars.$border-radius-medium;
       text-decoration: none;
       font-weight: 600;
       transition: all 0.25s ease;
       box-shadow:
-        0 4px 12px rgba(vars.$color-brand, 0.3),
-          0 2px 4px vars.$black-opacity-20;
+        0 4px 12px var(--color-brand-glow),
+        0 2px 4px var(--shadow-sm);
 
       &:hover {
-        background: color.adjust(vars.$color-brand, $lightness: 5%);
+        background: var(--color-brand-hover);
         transform: translateY(-2px);
         box-shadow:
-          0 6px 16px rgba(vars.$color-brand, 0.4),
-          0 4px 8px vars.$black-opacity-30;
+          0 6px 16px var(--color-brand-glow),
+          0 4px 8px var(--shadow-md);
       }
 
       &:active {
@@ -105,7 +106,7 @@
     align-items: flex-start;
     margin-bottom: vars.$spacing-large;
     padding-bottom: vars.$spacing-large;
-    border-bottom: 1px solid vars.$white-opacity-10;
+    border-bottom: 1px solid var(--border-primary);
     position: relative;
 
     &::after {
@@ -115,20 +116,20 @@
       left: 0;
       width: 100px;
       height: 2px;
-      background: linear-gradient(90deg, vars.$color-brand 0%, transparent 100%);
+      background: linear-gradient(90deg, var(--color-brand) 0%, transparent 100%);
       border-radius: 2px;
     }
 
     .title-status {
       h3 {
         font-size: vars.$font-size-xl;
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
         margin-bottom: vars.$spacing-small;
         font-weight: 700;
       }
 
       .status {
-        color: vars.$color-brand;
+        color: var(--color-brand);
         font-size: vars.$font-size-sm-md;
         text-transform: capitalize;
         font-weight: 500;
@@ -142,15 +143,15 @@
       font-weight: 600;
 
       &.pro {
-        background: rgba(vars.$color-brand, 0.2);
-        color: vars.$color-brand;
-        border: 1px solid rgba(vars.$color-brand, 0.3);
+        background: var(--color-brand-bg);
+        color: var(--color-brand);
+        border: 1px solid var(--color-brand-border);
       }
 
       &.starter {
-        background: vars.$white-opacity-10;
-        color: vars.$white-opacity-80;
-        border: 1px solid vars.$white-opacity-20;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-hover);
       }
     }
   }
@@ -163,19 +164,19 @@
       justify-content: space-between;
       align-items: center;
       padding: vars.$spacing-medium 0;
-      border-bottom: 1px solid vars.$white-opacity-05;
+      border-bottom: 1px solid var(--border-primary);
 
       &:last-child {
         border-bottom: none;
       }
 
       .label {
-        color: vars.$white-opacity-70;
+        color: var(--text-secondary);
         font-size: vars.$font-size-sm-md;
       }
 
       .value {
-        color: vars.$text-color-primary;
+        color: var(--text-primary);
         font-weight: 600;
         font-size: vars.$font-size-medium;
       }
@@ -186,14 +187,14 @@
     display: flex;
     gap: vars.$spacing-medium;
     padding-top: vars.$spacing-large;
-    border-top: 1px solid vars.$white-opacity-10;
+    border-top: 1px solid var(--border-primary);
     flex-wrap: wrap;
 
     .manage-link {
       padding: vars.$spacing-medium vars.$spacing-xl;
-      background: vars.$dark-bg-45-45-45-70;
-      color: vars.$text-color-primary;
-      border: 1px solid vars.$white-opacity-10;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-primary);
       border-radius: vars.$border-radius-medium;
       text-decoration: none;
       font-weight: 600;
@@ -205,8 +206,8 @@
       font-family: inherit;
 
       &:hover {
-        background: vars.$dark-bg-55-55-55-80;
-        border-color: vars.$white-opacity-20;
+        background: var(--bg-elevated);
+        border-color: var(--border-hover);
         transform: translateY(-1px);
       }
 
@@ -218,17 +219,17 @@
     .cancel-button {
       padding: vars.$spacing-medium vars.$spacing-xl;
       background: transparent;
-      color: vars.$color-error-delete;
-      border: 1px solid vars.$error-opacity-30;
+      color: var(--color-error-text);
+      border: 1px solid var(--color-error-border);
       border-radius: vars.$border-radius-medium;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.25s ease;
 
       &:hover {
-      background: vars.$error-opacity-10-delete;
-      border-color: vars.$error-opacity-50;
-      color: vars.$color-error-light;
+        background: var(--color-error-bg);
+        border-color: var(--color-error);
+        color: var(--color-error-light);
         transform: translateY(-1px);
       }
 
@@ -241,10 +242,10 @@
   .cancelled-notice {
     margin-top: vars.$spacing-large;
     padding: vars.$spacing-large;
-    background: vars.$warning-opacity-10;
-    border: 1px solid vars.$warning-opacity-30;
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
     border-radius: vars.$border-radius-medium;
-    color: vars.$color-warning-light;
+    color: var(--color-warning-text);
 
     p {
       margin-bottom: vars.$spacing-small;
@@ -258,7 +259,7 @@
     .access-until {
       font-size: vars.$font-size-sm-md;
       opacity: 0.9;
-      color: vars.$color-warning-light;
+      color: var(--color-warning-text);
     }
   }
 

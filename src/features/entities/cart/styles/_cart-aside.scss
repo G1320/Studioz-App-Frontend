@@ -7,9 +7,9 @@
 
   height: 100dvh;
   width: 400px;
-  background-color: #fff;
-  color: black;
-  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: -4px 0 8px var(--shadow-sm);
   border-radius: 8px;
   transform: translateX(101%);
   transition: transform 0.3s ease-in-out;
@@ -24,7 +24,7 @@
   &[data-direction='rtl'] {
     right: auto;
     left: 0;
-    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 0 8px var(--shadow-sm);
     transform: translateX(-100%);
 
     &.open {
@@ -36,7 +36,7 @@
     justify-content: space-between;
     align-items: center;
     padding: ds.$space-4;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-primary);
 
     h2 {
       font-size: 1.5rem;
@@ -59,7 +59,7 @@
 
   .cart-aside-footer {
     padding: ds.$space-4;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-primary);
 
     .total {
       display: flex;

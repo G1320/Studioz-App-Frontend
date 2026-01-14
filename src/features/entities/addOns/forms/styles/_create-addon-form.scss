@@ -1,4 +1,5 @@
 @use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 @use '../../../../../shared/components/forms/styles/design-system' as ds;
 
 .create-addon-form-container {
@@ -46,18 +47,18 @@
     gap: 0.5rem;
     font-size: 1.25rem;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin: 0;
   }
 
   .addon-step-title-icon {
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
     font-size: 1.5rem !important;
   }
 
   .addon-step-description {
     font-size: ds.$font-md;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
     margin: 0;
   }
 
@@ -84,13 +85,13 @@
     align-items: center;
     justify-content: space-between;
     padding: ds.$space-4;
-    background: rgba(24, 24, 27, 0.5); // zinc-900/50
-    border: 1px solid #27272a; // zinc-800
+    background: var(--bg-input);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-lg;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: #52525b; // zinc-600
+      border-color: var(--border-hover);
     }
 
     &.inactive {
@@ -113,18 +114,18 @@
 
   .pending-addon-title {
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
   }
 
   .pending-addon-title-he {
     font-size: ds.$font-sm;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
   }
 
   .pending-addon-badge {
     font-size: 10px;
-    background: #27272a; // zinc-800
-    color: #a1a1aa; // zinc-400
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
     padding: 2px 6px;
     border-radius: 4px;
     text-transform: uppercase;
@@ -133,7 +134,7 @@
 
   .pending-addon-description {
     font-size: ds.$font-md;
-    color: #a1a1aa; // zinc-400
+    color: var(--text-secondary);
     max-width: 28rem;
     white-space: nowrap;
     overflow: hidden;
@@ -142,7 +143,7 @@
 
   .pending-addon-type {
     font-size: ds.$font-sm;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-top: 0.25rem;
@@ -156,7 +157,7 @@
 
   .pending-addon-price {
     font-weight: 700;
-    color: ds.$primary-yellow;
+    color: var(--color-brand);
   }
 
   .pending-addon-delete {
@@ -165,10 +166,10 @@
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    background: #27272a; // zinc-800
+    background: var(--bg-elevated);
     border: none;
     border-radius: 50%;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
 
@@ -177,8 +178,8 @@
     }
 
     &:hover {
-      color: #f87171; // red-400
-      background: rgba(248, 113, 113, 0.1); // red-400/10
+      color: var(--color-error-light);
+      background: var(--color-error-bg);
     }
   }
 
@@ -191,9 +192,9 @@
     width: 100%;
     padding: 1.25rem;
     background: transparent;
-    border: 1px dashed #3f3f46; // zinc-700
+    border: 1px dashed var(--border-primary);
     border-radius: ds.$radius-lg;
-    color: #a1a1aa; // zinc-400
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
 
@@ -208,9 +209,9 @@
     }
 
     &:hover {
-      color: ds.$primary-yellow;
-      border-color: ds.$primary-yellow;
-      background: rgba(ds.$primary-yellow, 0.05);
+      color: var(--color-brand);
+      border-color: var(--color-brand);
+      background: var(--color-brand-subtle);
 
       .add-addon-icon {
         transform: scale(1.1);
@@ -220,15 +221,15 @@
 
   // Form Modal
   .addon-form-content {
-    background: #18181b; // zinc-900
-    border: 1px solid #3f3f46; // zinc-700
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-lg;
     padding: ds.$space-6;
     display: flex;
     flex-direction: column;
     gap: ds.$space-6;
     animation: zoomIn 0.2s ease-out;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px var(--shadow-xl);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -240,20 +241,20 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(39, 39, 42, 0.5); // zinc-800/50
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .addon-form-title {
     font-size: ds.$font-base;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin: 0;
   }
 
   .addon-form-close {
     background: transparent;
     border: none;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
     cursor: pointer;
     padding: 0;
     display: flex;
@@ -266,7 +267,7 @@
     }
 
     &:hover {
-      color: white;
+      color: var(--text-primary);
     }
   }
 
@@ -292,7 +293,7 @@
   .addon-form-label {
     font-size: ds.$font-sm;
     font-weight: 700;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     text-align: start;
@@ -303,22 +304,22 @@
   .addon-form-textarea {
     width: 100%;
     box-sizing: border-box;
-    background: rgba(9, 9, 11, 0.5); // zinc-950/50
-    border: 1px solid #3f3f46; // zinc-700
+    background: var(--bg-input);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-lg;
     padding: 0.75rem 1rem;
-    color: white;
+    color: var(--text-primary);
     font-size: ds.$font-md;
     transition: all 0.2s ease;
 
     &::placeholder {
-      color: #52525b; // zinc-600
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
-      box-shadow: 0 0 0 1px ds.$primary-yellow;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     &[dir='rtl'] {
@@ -340,12 +341,12 @@
   .addon-form-select {
     width: 100%;
     box-sizing: border-box;
-    background: rgba(9, 9, 11, 0.5); // zinc-950/50
-    border: 1px solid #3f3f46; // zinc-700
+    background: var(--bg-input);
+    border: 1px solid var(--border-primary);
     border-radius: ds.$radius-lg;
     padding: 0.75rem 1rem;
     padding-right: 2.5rem;
-    color: white;
+    color: var(--text-primary);
     font-size: ds.$font-md;
     cursor: pointer;
     appearance: none;
@@ -353,13 +354,13 @@
 
     &:focus {
       outline: none;
-      border-color: ds.$primary-yellow;
-      box-shadow: 0 0 0 1px ds.$primary-yellow;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     option {
-      background: #18181b; // zinc-900
-      color: white;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
     }
   }
 
@@ -369,7 +370,7 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: #71717a; // zinc-500
+    color: var(--text-secondary);
   }
 
   // Grid for Price/Unit
@@ -395,7 +396,7 @@
   .addon-form-checkbox-label {
     font-size: ds.$font-md;
     font-weight: 500;
-    color: white;
+    color: var(--text-primary);
   }
 
   // Checkbox Button (styled like BusinessHours)
@@ -404,8 +405,8 @@
     width: 22px;
     height: 22px;
     border-radius: 6px;
-    background: ds.$zinc-800;
-    border: 1px solid ds.$zinc-700;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -415,14 +416,14 @@
     flex-shrink: 0;
 
     &.checked {
-      background: ds.$primary-yellow;
-      border-color: ds.$primary-yellow;
+      background: var(--color-brand);
+      border-color: var(--color-brand);
 
       // Checkmark icon
       &::before {
         content: '✓';
         font-size: 13px;
-        color: black;
+        color: var(--text-inverse);
         font-weight: bold;
         line-height: 1;
       }
@@ -430,37 +431,37 @@
 
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 2px ds.$primary-yellow, 0 0 0 4px rgba(9, 9, 11, 1);
+      box-shadow: 0 0 0 2px var(--color-brand), 0 0 0 4px var(--bg-primary);
     }
 
     &:hover:not(.checked) {
-      border-color: ds.$zinc-600;
+      border-color: var(--border-secondary);
     }
   }
 
   // Form Footer
   .addon-form-footer {
     padding-top: 1rem;
-    border-top: 1px solid rgba(39, 39, 42, 0.5); // zinc-800/50
+    border-top: 1px solid var(--border-subtle);
   }
 
   // Submit Button
   .addon-form-submit {
     width: 100%;
-    background: ds.$primary-yellow;
+    background: var(--color-brand);
     border: none;
     border-radius: ds.$radius-lg;
     padding: 0.875rem;
-    color: black;
+    color: var(--text-inverse);
     font-size: ds.$font-md;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 0 20px -5px rgba(255, 209, 102, 0.3);
+    box-shadow: 0 0 20px -5px var(--color-brand-glow);
 
     &:hover:not(:disabled) {
-      background: #ffc133;
-      box-shadow: 0 0 25px -5px rgba(255, 209, 102, 0.5);
+      background: var(--color-brand-hover);
+      box-shadow: 0 0 25px -5px var(--color-brand-glow);
     }
 
     &:disabled {
