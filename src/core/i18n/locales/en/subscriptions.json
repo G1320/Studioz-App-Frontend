@@ -4,6 +4,21 @@
     "title_accent": "pricing",
     "subtitle": "Choose the plan that fits your studio's needs. No hidden fees. Upgrade or cancel anytime."
   },
+  "trial": {
+    "daysFree": "Days Free",
+    "startYourTrial": "Start Your Free Trial",
+    "description": "Try {{planName}} free for {{days}} days. Your card will be charged ₪{{price}} on {{date}} unless you cancel.",
+    "terms": "By starting your trial, you agree to be charged ₪{{price}} monthly after the trial ends. Cancel anytime before {{date}} to avoid charges."
+  },
+  "upgrade": {
+    "title": "Upgrade to {{planName}}",
+    "description": "You will be charged ₪{{price}} now and monthly thereafter."
+  },
+  "form": {
+    "processing": "Processing...",
+    "upgradeNow": "Upgrade Now",
+    "startTrial": "Start Free Trial (Free)"
+  },
   "plans": {
     "period": "month",
     "priceLabel": "per {{period}}",

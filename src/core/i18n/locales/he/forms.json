@@ -466,13 +466,16 @@
         "placeholder": "הכנס מספר תעודת זהות"
       },
       "submit": {
-        "text": "לתשלום ",
-        "processing": "מעבד..."
+        "text": "לתשלום",
+        "processing": "מעבד...",
+        "subscribe": "הרשמה למנוי",
+        "payNow": "שלם עכשיו"
       },
       "coupon": {
         "label": "קוד קופון",
         "placeholder": "הכנס קוד קופון",
         "apply": "החל",
+        "applied": "הוחל",
         "remove": "הסר",
         "validating": "מאמת...",
         "errorEmpty": "אנא הכנס קוד קופון",
@@ -485,7 +488,8 @@
       "total": "סה\"כ",
       "footer": {
         "secured": "מאובטח על ידי",
-        "solutions": "פתרונות תשלום"
+        "solutions": "פתרונות תשלום",
+        "ssl": "חיבור מאובטח SSL"
       },
       "errors": {
         "invalidCard": "מספר כרטיס לא תקין",

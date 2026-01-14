@@ -261,7 +261,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
             ) : (
               <>
                 <span>{getSubmitText()}</span>
-                {finalAmount !== undefined && <span>{currency}{finalAmount}</span>}
+                {finalAmount !== undefined && finalAmount > 0 && <span>{currency}{finalAmount}</span>}
               </>
             )}
           </button>
@@ -279,7 +279,7 @@ export const SumitPaymentForm: React.FC<SumitPaymentFormProps> = ({
           </div>
           <div className="sumit-payment-form__footer-ssl">
             <LockIcon sx={{ fontSize: 12 }} />
-            <span>SSL Secured Transaction</span>
+            <span>{t('form.payment.footer.ssl', 'SSL Secured Transaction')}</span>
           </div>
         </div>
       )}
