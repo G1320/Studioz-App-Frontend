@@ -165,7 +165,7 @@
   // Border Colors
   --border-primary: rgba(0, 0, 0, 0.08);
   --border-secondary: #e7e5e4;
-  --border-focus: #eab63d;
+  --border-focus: #f7c041;
   --border-hover: rgba(0, 0, 0, 0.15);
   --border-active: rgba(0, 0, 0, 0.2);
 
@@ -224,9 +224,9 @@
   --dropdown-bg: #ffffff;
 
   // Button variants
-  --btn-primary-bg: #eab63d;
+  --btn-primary-bg: #f7c041;
   --btn-primary-text: #000000;
-  --btn-primary-hover: #d4a235;
+  --btn-primary-hover: #e1ac2f;
   --btn-secondary-bg: rgba(0, 0, 0, 0.06);
   --btn-secondary-text: #1c1917;
   --btn-secondary-hover: rgba(0, 0, 0, 0.1);
@@ -235,15 +235,15 @@
   // Input fields
   --input-bg: #ffffff;
   --input-border: #e7e5e4;
-  --input-border-focus: #eab63d;
-  --input-focus-border: #eab63d;
+  --input-border-focus: #f7c041;
+  --input-focus-border: #f7c041;
   --input-placeholder: #a8a29e;
 
   // Dividers
   --divider-color: rgba(0, 0, 0, 0.06);
 
   // Focus ring
-  --focus-ring: 0 0 0 2px rgba(234, 182, 61, 0.4);
+  --focus-ring: 0 0 0 2px rgba(247, 192, 65, 0.4);
 }
 
 // ===================
