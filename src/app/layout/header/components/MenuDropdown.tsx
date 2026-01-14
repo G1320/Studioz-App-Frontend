@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
 import { PopupDropdown } from '@shared/components/drop-downs';
+import { ThemeToggle } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import {
   WavyMenuIcon,
@@ -116,6 +117,9 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           </div>
         )}
         <div className="menu-dropdown__divider" />
+        <div className="menu-dropdown__theme-item">
+          <ThemeToggle variant="dropdown" size="sm" />
+        </div>
         <div className="menu-dropdown__lang-item-wrapper">
           <button
             className="menu-dropdown__item menu-dropdown__item--lang"
