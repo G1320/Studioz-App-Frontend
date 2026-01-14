@@ -41,7 +41,8 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       token,
       {
         customerName: user?.name,
-        customerEmail: user?.email
+        customerEmail: user?.email,
+        userId: user?._id // Pass userId to save card for future use
       },
       {
         name: `Monthly ${plan.name} Subscription`,

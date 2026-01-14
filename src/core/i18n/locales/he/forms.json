@@ -441,7 +441,7 @@
     "payment": {
       "header": {
         "title": "תשלום מאובטח",
-        "subtitle": "הזן את פרטי התשלום שלך"
+        "subtitle": "אנא הזן פרטי תשלום"
       },
       "cardNumber": {
         "label": "מספר כרטיס",

@@ -5,6 +5,7 @@ const SUMIT_ENDPOINT = '/sumit';
 interface CustomerInfo {
   customerName: string;
   customerEmail: string;
+  userId?: string; // For saving card on user
 }
 
 interface PlanDetails {
@@ -163,11 +164,11 @@ export const sumitService = {
       });
 
       const tokenData = await tokenResponse.json();
-      
+
       if (!tokenResponse.ok || tokenData.Status !== 0) {
         // Provide user-friendly error messages
         let errorMessage = tokenData.UserErrorMessage || tokenData.TechnicalErrorDetails;
-        
+
         // Map common Sumit error codes to user-friendly messages
         if (tokenData.Status) {
           const errorMessages: Record<number, string> = {
@@ -178,13 +179,18 @@ export const sumitService = {
             5: 'Card expired. Please use a different payment method.',
             6: 'Insufficient funds. Please check your account balance or use a different card.',
             7: 'Card declined. Please contact your bank or use a different payment method.',
-            8: 'Payment processing error. Please try again or contact support.',
+            8: 'Payment processing error. Please try again or contact support.'
           };
-          
-          errorMessage = errorMessages[tokenData.Status] || errorMessage || 'Payment validation failed. Please check your payment details and try again.';
+
+          errorMessage =
+            errorMessages[tokenData.Status] ||
+            errorMessage ||
+            'Payment validation failed. Please check your payment details and try again.';
         }
-        
-        throw new Error(errorMessage || 'Failed to validate payment information. Please check your details and try again.');
+
+        throw new Error(
+          errorMessage || 'Failed to validate payment information. Please check your details and try again.'
+        );
       }
 
       if (!tokenData.Data?.SingleUseToken) {
@@ -257,7 +263,9 @@ export const sumitService = {
    * Get saved card by phone number (for non-logged-in users)
    * Returns null if no saved card found
    */
-  getSavedCardByPhone: async (phone: string): Promise<{
+  getSavedCardByPhone: async (
+    phone: string
+  ): Promise<{
     customerId: string;
     card: {
       id: number;
@@ -282,7 +290,7 @@ export const sumitService = {
         };
         error?: string;
       }>(`${SUMIT_ENDPOINT}/saved-card-by-phone`, { phone });
-      
+
       if (response.success && response.data) {
         return response.data;
       }
@@ -290,6 +298,114 @@ export const sumitService = {
     } catch (error) {
       console.error('Error getting saved card by phone:', error);
       return null;
+    }
+  },
+
+  // ============================================
+  // Trial Subscription Methods
+  // ============================================
+
+  /**
+   * Create a subscription with a free trial period
+   * Saves the card but doesn't charge until trial ends
+   */
+  createTrialSubscription: async (params: {
+    singleUseToken: string;
+    customerInfo: {
+      userId: string;
+      customerName: string;
+      customerEmail: string;
+      customerPhone?: string;
+    };
+    planDetails: {
+      planId: string;
+    };
+    trialDays?: number;
+  }): Promise<{
+    success: boolean;
+    data?: {
+      subscription: any;
+      trialEndDate: string;
+      trialDays: number;
+      savedCard: {
+        lastFour: string;
+      };
+    };
+    error?: string;
+  }> => {
+    try {
+      const response = await httpService.post<{
+        success: boolean;
+        data?: {
+          subscription: any;
+          trialEndDate: string;
+          trialDays: number;
+          savedCard: {
+            lastFour: string;
+          };
+        };
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/create-subscription-trial`, params);
+      return response;
+    } catch (error) {
+      console.error('Error creating trial subscription:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Manually charge a trial subscription (admin/test use)
+   */
+  chargeTrialSubscription: async (
+    subscriptionId: string
+  ): Promise<{
+    success: boolean;
+    data?: {
+      subscription: any;
+      payment: any;
+    };
+    error?: string;
+  }> => {
+    try {
+      const response = await httpService.post<{
+        success: boolean;
+        data?: {
+          subscription: any;
+          payment: any;
+        };
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/charge-trial-subscription`, {
+        subscriptionId
+      });
+      return response;
+    } catch (error) {
+      console.error('Error charging trial subscription:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get trial subscriptions that are ending soon (admin use)
+   */
+  getTrialSubscriptionsEnding: async (
+    days: number = 3
+  ): Promise<{
+    success: boolean;
+    data?: any[];
+    count?: number;
+    error?: string;
+  }> => {
+    try {
+      const response = await httpService.get<{
+        success: boolean;
+        data?: any[];
+        count?: number;
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/trial-subscriptions-ending?days=${days}`);
+      return response;
+    } catch (error) {
+      console.error('Error getting trial subscriptions ending:', error);
+      throw error;
     }
   }
 };
