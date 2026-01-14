@@ -15,16 +15,12 @@
   width: 100%;
   min-height: 100vh;
   color-scheme: light dark;
-  color: vars.$text-color-primary;
-
-  background: vars.$bg-color-primary;
+  color: var(--text-primary);
+  background: var(--bg-primary);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  // CSS Custom Properties for use in JavaScript/TypeScript
-  --color-brand: #{vars.$color-brand};
 }
 
 html[lang='he'] {
@@ -57,11 +53,11 @@ p {
 
 a {
   font-weight: 500;
-  color: vars.$text-color-primary;
+  color: var(--text-primary);
   text-decoration: inherit;
 }
 a:hover {
-  text-shadow: vars.$text-shadow-glow;
+  color: var(--color-brand);
 }
 
 img {
@@ -104,17 +100,17 @@ body,
   }
   border-radius: vars.$border-radius-large;
   &:not(button) {
-    border: 2px solid vars.$border-color-primary;
+    border: 2px solid var(--border-primary);
   }
 }
 // Targets all Paper elements except those that are part of the DatePicker component
 .MuiPaper-root:not(.MuiPickersPopper-paper, .MuiDialog-paperScrollPaper) {
-  background: vars.$bg-color-primary !important;
+  background: var(--bg-primary) !important;
   border-radius: vars.$border-radius-xl;
-  box-shadow: vars.$box-shadow-2xl;
+  box-shadow: var(--shadow-lg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid vars.$border-color-primary;
+  border: 1px solid var(--border-primary);
 }
 
 .MuiIconButton-root:focus,
@@ -228,9 +224,9 @@ body,
 
 // Base popup styling for consistency
 .popup-base {
-  background-color: vars.$bg-color-tertiary;
-  border: 1px solid rgba(vars.$border-color-primary, 0.1);
-  box-shadow: vars.$box-shadow-popup;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xl);
   border-radius: vars.$border-radius-large;
   backdrop-filter: blur(10px);
   z-index: 1000;

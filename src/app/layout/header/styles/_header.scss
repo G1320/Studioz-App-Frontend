@@ -18,12 +18,12 @@
   // Position off-screen by default
   left: -9999px;
   top: -9999px;
-  background: vars.$bg-color-primary;
-  color: vars.$text-color-primary;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   padding: 8px 16px;
   z-index: 10001;
   text-decoration: none;
-  border: 2px solid vars.$color-brand;
+  border: 2px solid var(--color-brand);
   border-radius: vars.$border-radius-small;
   font-weight: 600;
   opacity: 0;
@@ -36,7 +36,7 @@
     top: 0;
     opacity: 1;
     pointer-events: auto;
-    outline: 2px solid vars.$color-brand;
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
   }
 }
@@ -60,11 +60,11 @@ header.app-header {
   z-index: 1400; // Above MUI Modal (1300) to keep header visible
   padding: 0 1rem;
 
-  // StudioZ style guide: bg-black/95 backdrop-blur-md border-b border-zinc-800/50
-  background: rgba(0, 0, 0, 0.95);
+  // StudioZ style guide: themed header with blur
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(vars.$zinc-800, 0.5);
+  border-bottom: 1px solid var(--border-primary);
 
   text-align: center;
   place-items: center;
@@ -228,8 +228,8 @@ header.app-header {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: vars.$color-red-badge;
-        color: vars.$text-color-primary;
+        background-color: var(--color-error);
+        color: var(--text-inverse);
         border-radius: 50%;
         padding: 0.25rem;
         font-size: ds.$font-sm;
@@ -344,12 +344,12 @@ header.app-header {
       font-size: ds.$font-2xl;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
       text-decoration: none;
       transition: color 0.2s ease;
 
       &:hover {
-        color: vars.$color-brand;
+        color: var(--color-brand);
       }
     }
   }

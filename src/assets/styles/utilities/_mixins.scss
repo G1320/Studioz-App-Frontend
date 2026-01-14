@@ -1,19 +1,16 @@
 @use 'variables' as vars;
 @use '../../../shared/components/forms/styles/design-system' as ds;
 
-// Filter chip style - per StudioZ Design System
-// Base: px-4 py-3 rounded-xl
-// Inactive: bg-zinc-900 text-zinc-400 border border-zinc-800
-// Active: bg-[#ffd166] text-black font-bold shadow-glow
+// Filter chip style - themed
 @mixin filter-chip {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem; // py-3 px-4
-  border-radius: ds.$radius-lg; // rounded-xl
-  background: vars.$zinc-900;
-  border: 1px solid vars.$zinc-800;
-  color: vars.$zinc-400;
+  padding: 0.75rem 1rem;
+  border-radius: ds.$radius-lg;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-tertiary);
   font-size: ds.$font-md;
   font-weight: 500;
   cursor: pointer;
@@ -24,52 +21,52 @@
   svg {
     width: 1.125rem;
     height: 1.125rem;
-    color: vars.$zinc-400;
+    color: var(--text-tertiary);
   }
 
   &:hover {
-    border-color: vars.$color-brand;
-    color: vars.$text-color-primary;
+    border-color: var(--color-brand);
+    color: var(--text-primary);
 
     svg {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 }
 
 @mixin filter-chip-active {
-  background: vars.$color-brand;
-  border-color: vars.$color-brand;
-  color: vars.$bg-color-primary;
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: var(--btn-primary-text);
   font-weight: 700;
-  box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+  box-shadow: var(--shadow-glow);
 
   svg {
-    color: vars.$bg-color-primary;
+    color: var(--btn-primary-text);
   }
 
   &:hover {
-    background: vars.$color-brand;
-    border-color: vars.$color-brand;
-    color: vars.$bg-color-primary;
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: var(--btn-primary-text);
 
     svg {
-      color: vars.$bg-color-primary;
+      color: var(--btn-primary-text);
     }
   }
 }
 
 @mixin filter-chip-outline {
-  background: vars.$zinc-900;
-  border-color: vars.$zinc-800;
-  color: vars.$text-color-primary;
+  background: var(--bg-surface);
+  border-color: var(--border-secondary);
+  color: var(--text-primary);
 
   svg {
-    color: vars.$text-color-primary;
+    color: var(--text-primary);
   }
 
   &:hover {
-    border-color: vars.$color-brand;
+    border-color: var(--color-brand);
   }
 }
 
@@ -77,7 +74,7 @@
   width: 30px;
   height: 30px;
   padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--btn-secondary-bg);
 
   transition: all 0.25s ease;
 
@@ -108,17 +105,17 @@
   line-height: 0;
   position: relative;
 
-  // Background and border
-  background-color: rgba(vars.$zinc-900, 0.8);
-  border: 1px solid vars.$zinc-800;
-  color: vars.$zinc-400;
+  // Background and border - themed
+  background-color: var(--btn-secondary-bg);
+  border: 1px solid var(--border-primary);
+  color: var(--text-tertiary);
 
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    color: white;
-    background-color: vars.$zinc-800;
-    border-color: vars.$zinc-700;
+    color: var(--text-primary);
+    background-color: var(--btn-secondary-hover);
+    border-color: var(--border-hover);
   }
 
   &:active:not(:disabled) {
@@ -145,7 +142,7 @@
 }
 
 @mixin menu-dropdown {
-  // Flat menu design with hover states per StudioZ style guide
+  // Flat menu design with hover states - themed
   &__content {
     display: flex;
     flex-direction: column;
@@ -157,25 +154,25 @@
     align-items: center;
     justify-content: flex-end; // RTL-oriented by default
     gap: 0.75rem;
-    padding: 1rem 1.5rem; // py-4 px-6 per style guide
+    padding: 1rem 1.5rem;
     background: transparent;
     border: none;
-    border-radius: 0; // Override default button border-radius
-    color: rgba(255, 255, 255, 0.9); // text-white/90
+    border-radius: 0;
+    color: var(--text-primary);
     cursor: pointer;
     text-align: right;
     font-size: ds.$font-base;
-    font-weight: 500; // font-medium
+    font-weight: 500;
     width: 100%;
     transition: background-color 0.2s ease;
 
     &[aria-current='page'] {
       position: relative;
-      background-color: rgba(vars.$color-brand, 0.1); // subtle highlight
-      color: vars.$color-brand;
+      background-color: var(--color-brand-muted);
+      color: var(--color-brand);
 
       .menu-dropdown__icon {
-        color: vars.$color-brand;
+        color: var(--color-brand);
       }
 
       &::before {
@@ -186,19 +183,19 @@
         transform: translateY(-50%);
         width: 3px;
         height: 60%;
-        background: vars.$color-brand;
+        background: var(--color-brand);
         border-radius: 3px 0 0 3px;
-        box-shadow: 0 0 10px rgba(vars.$color-brand, 0.5);
+        box-shadow: var(--shadow-glow);
         opacity: 1;
         animation: menu-indicator-glow 2s ease-in-out infinite;
       }
     }
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.05); // hover:bg-white/5
+      background-color: var(--bg-hover);
 
       .menu-dropdown__icon {
-        color: vars.$color-brand; // group-hover:text-primary
+        color: var(--color-brand);
       }
     }
 
@@ -217,17 +214,17 @@
     }
 
     &--logout {
-      padding: 0; // Remove padding from wrapper, let button handle it
+      padding: 0;
       justify-content: flex-end;
 
       &:hover {
-        background-color: transparent; // Hover handled by inner button
+        background-color: transparent;
       }
     }
 
     &--link {
       font-size: ds.$font-md;
-      color: vars.$zinc-500;
+      color: var(--text-tertiary);
       padding: 0.625rem 1.25rem;
     }
 
@@ -246,8 +243,8 @@
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
-    color: vars.$zinc-500; // Base: text-zinc-500
-    order: 1; // Icon after text for RTL (appears on right)
+    color: var(--text-tertiary);
+    order: 1;
     transition: color 0.2s ease;
   }
 
@@ -257,31 +254,31 @@
     align-items: center;
     justify-content: flex-end;
     gap: 0.75rem;
-    padding: 1rem 1.5rem; // Match other menu items
+    padding: 1rem 1.5rem;
     background: transparent;
     border: none;
-    border-radius: 0; // Override default button border-radius
-    color: rgba(255, 255, 255, 0.9); // text-white/90
+    border-radius: 0;
+    color: var(--text-primary);
     cursor: pointer;
     font-size: ds.$font-base;
-    font-weight: 500; // font-medium
+    font-weight: 500;
     text-align: right;
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.05); // hover:bg-white/5
+      background-color: var(--bg-hover);
 
       .profile-action-icon {
-        color: vars.$color-brand; // group-hover:text-primary
+        color: var(--color-brand);
       }
     }
 
     .profile-action-icon {
       width: 1.25rem;
       height: 1.25rem;
-      color: vars.$zinc-500;
+      color: var(--text-tertiary);
       order: 1;
       transition: color 0.2s ease;
     }
@@ -289,7 +286,7 @@
 
   &__divider {
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--divider-color);
     margin: 0.5rem 0;
   }
 
@@ -297,9 +294,9 @@
     width: 1rem;
     height: 1rem;
     flex-shrink: 0;
-    color: vars.$zinc-500;
+    color: var(--text-tertiary);
     transition: transform 0.2s ease;
-    order: -1; // Chevron before text for RTL (appears on left)
+    order: -1;
   }
 
   &__submenu {
@@ -315,11 +312,11 @@
     justify-content: flex-end;
     background: transparent;
     border: none;
-    border-radius: 0; // Override default button border-radius
-    color: rgba(255, 255, 255, 0.9); // text-white/90
+    border-radius: 0;
+    color: var(--text-primary);
     cursor: pointer;
     font-size: ds.$font-base;
-    font-weight: 500; // font-medium
+    font-weight: 500;
     padding: 0.75rem 1.5rem;
     text-align: right;
     width: 100%;
@@ -327,11 +324,11 @@
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.05); // hover:bg-white/5
+      background-color: var(--bg-hover);
     }
 
     &--active {
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
 
       &::before {
         content: '';
@@ -341,7 +338,7 @@
         transform: translateY(-50%);
         width: 2px;
         height: 1rem;
-        background: vars.$color-brand;
+        background: var(--color-brand);
         border-radius: 1px 0 0 1px;
       }
     }

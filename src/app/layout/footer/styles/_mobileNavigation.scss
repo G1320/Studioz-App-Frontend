@@ -10,7 +10,7 @@
   background: transparent;
   z-index: 1000;
   padding: 0.75rem 0.5rem;
-  pointer-events: none; // Allow clicks to pass through to buttons
+  pointer-events: none;
 }
 
 .mobile-navigation__grid {
@@ -21,24 +21,22 @@
   max-width: 500px;
   margin: 0 auto;
   gap: 0.75rem;
-  pointer-events: auto; // Re-enable pointer events for buttons
+  pointer-events: auto;
 }
 
 .mobile-navigation__link {
-  color: vars.$text-color-primary;
+  color: var(--text-primary);
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem 0.65rem;
   border-radius: vars.$border-radius-large;
-  background: rgba(26, 26, 26, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
@@ -49,32 +47,27 @@
 
   &:hover {
     transform: translateY(-2px);
-    background: rgba(26, 26, 26, 0.85);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.4),
-      0 4px 8px rgba(0, 0, 0, 0.3);
+    background: var(--bg-elevated);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-xl);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.3),
-      0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
   }
 
-  // Remove outline and border on focus - only color change for selected state
   &:focus,
   &:focus-visible {
     outline: none;
-    border: 1px solid rgba(255, 255, 255, 0.1); // Keep default border, no change
+    border: 1px solid var(--border-primary);
   }
 
   &[aria-current='page'] {
-    color: vars.$color-brand;
+    color: var(--color-brand);
 
     .mobile-navigation__link-content {
-      color: vars.$color-brand;
+      color: var(--color-brand);
 
       span {
         font-weight: 600;
@@ -82,14 +75,13 @@
     }
 
     &:hover {
-      border-color: rgba(vars.$color-brand, 0.5);
+      border-color: var(--color-brand-muted);
     }
 
-    // Ensure no outline or border change on focus for selected links
     &:focus,
     &:focus-visible {
       outline: none;
-      border: 1px solid rgba(255, 255, 255, 0.1); // Keep default border
+      border: 1px solid var(--border-primary);
     }
   }
 }

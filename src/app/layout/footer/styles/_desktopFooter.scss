@@ -1,14 +1,9 @@
 @use 'utilities/variables' as vars;
 @use 'design-system' as ds;
 
-// Local aliases (referencing design system)
-$footer-primary: ds.$primary-yellow;
-$footer-surface-dark: ds.$zinc-950;
-$footer-muted: ds.$white-40;
-
 footer.desktop-footer {
-  background: $footer-surface-dark;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border-primary);
   padding: vars.$spacing-3xl 0;
 
   .desktop-footer__container {
@@ -35,7 +30,7 @@ footer.desktop-footer {
 
   .desktop-footer__brand {
     p {
-      color: $footer-muted;
+      color: var(--text-muted);
       margin: 0;
       line-height: 1.6;
     }
@@ -59,7 +54,7 @@ footer.desktop-footer {
     span {
       font-size: vars.$font-size-large;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--text-secondary);
     }
   }
 
@@ -68,7 +63,7 @@ footer.desktop-footer {
       font-weight: 700;
       font-size: vars.$font-size-medium;
       margin-bottom: vars.$spacing-medium;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
 
     ul {
@@ -81,14 +76,14 @@ footer.desktop-footer {
     }
 
     a {
-      color: $footer-muted;
+      color: var(--text-muted);
       font-size: vars.$font-size-sm-md;
       text-decoration: none;
       transition: color 0.2s;
       cursor: pointer;
 
       &:hover {
-        color: $footer-primary;
+        color: var(--color-brand);
         text-shadow: none;
       }
     }
@@ -99,7 +94,7 @@ footer.desktop-footer {
       font-weight: 700;
       font-size: vars.$font-size-medium;
       margin-bottom: vars.$spacing-medium;
-      color: vars.$text-color-primary;
+      color: var(--text-primary);
     }
   }
 
@@ -107,7 +102,7 @@ footer.desktop-footer {
     display: flex;
     align-items: center;
     gap: vars.$spacing-small;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
     text-decoration: none;
     transition: color 0.2s;
@@ -118,16 +113,16 @@ footer.desktop-footer {
     }
 
     &:hover {
-      color: $footer-primary;
+      color: var(--color-brand);
       text-shadow: none;
     }
   }
 
   .desktop-footer__bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--divider-color);
     padding-top: vars.$spacing-xl;
     text-align: center;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted);
     font-size: vars.$font-size-sm-md;
   }
 
