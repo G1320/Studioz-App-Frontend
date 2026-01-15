@@ -271,7 +271,9 @@ export const GenericForm = ({
                     {field.label}
                   </label>
                   {showCounter && (
-                    <span className={`form-char-counter ${currentLength > field.maxLength ? 'form-char-counter--exceeded' : ''}`}>
+                    <span
+                      className={`form-char-counter ${currentLength > field.maxLength ? 'form-char-counter--exceeded' : ''}`}
+                    >
                       {currentLength}/{field.maxLength}
                     </span>
                   )}
@@ -322,7 +324,9 @@ export const GenericForm = ({
                     {field.label}
                   </label>
                   {showTextareaCounter && (
-                    <span className={`form-char-counter ${textareaLength > field.maxLength ? 'form-char-counter--exceeded' : ''}`}>
+                    <span
+                      className={`form-char-counter ${textareaLength > field.maxLength ? 'form-char-counter--exceeded' : ''}`}
+                    >
                       {textareaLength}/{field.maxLength}
                     </span>
                   )}
