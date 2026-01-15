@@ -15,7 +15,7 @@ export * from './email-service';
 export * from './file-upload-service';
 export * from './http-service';
 export * from './search-service';
-export * from './map-service';
+// map-service excluded from barrel - import directly to enable lazy loading
 export * from './otp-service';
 export * from './reservation-service';
 export * from './subscription-service';

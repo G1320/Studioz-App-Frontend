@@ -5,16 +5,11 @@ footer.desktop-footer {
   background: var(--footer-bg);
   border-top: 1px solid var(--border-primary);
   padding: vars.$spacing-3xl 0;
-  // Prevent CLS from font loading
-  min-height: 320px;
+  // Prevent CLS - isolate layout and use system font stack for footer
+  contain: layout style;
   
-  @media (min-width: 768px) {
-    min-height: 280px;
-  }
-  
-  @media (min-width: 1024px) {
-    min-height: 240px;
-  }
+  // Use system fonts in footer to prevent CLS from web font loading
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
 
   .desktop-footer__container {
     max-width: 1280px;

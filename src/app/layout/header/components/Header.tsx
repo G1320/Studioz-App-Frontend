@@ -8,7 +8,6 @@ import { NotificationBell } from '@shared/components/notifications';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
-import { getCityFromCoordinates } from '@shared/services/map-service';
 import { useCities } from '@shared/hooks/utils/cities';
 import { featureFlags } from '@core/config/featureFlags';
 import { MenuDropdown } from './MenuDropdown';
@@ -42,6 +41,8 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
     const fetchCity = async () => {
       if (userLocation) {
         try {
+          // Lazy load map-service to keep Mapbox SDK out of main bundle
+          const { getCityFromCoordinates } = await import('@shared/services/map-service');
           const city = await getCityFromCoordinates(userLocation.latitude, userLocation.longitude);
           setCurrentCity(city);
         } catch (error) {
