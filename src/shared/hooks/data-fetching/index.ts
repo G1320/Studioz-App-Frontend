@@ -14,3 +14,5 @@ export * from './useStudioReservations';
 export * from './useWishlists';
 export * from './useReviews';
 export * from './useSavedCards';
+export * from './useMerchantStats';
+export * from './useMerchantDocuments';

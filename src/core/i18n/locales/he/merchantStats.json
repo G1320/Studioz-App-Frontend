@@ -6,6 +6,9 @@
     "month": "ינואר 2024",
     "export": "ייצוא"
   },
+  "demo": {
+    "notice": "מציג נתוני הדגמה - הנתונים האמיתיים יופיעו כאשר יהיו הזמנות"
+  },
   "metrics": {
     "totalRevenue": "סה״כ הכנסות",
     "totalBookings": "סה״כ הזמנות",
@@ -44,9 +47,19 @@
     "fri": "ו׳",
     "sat": "ש׳"
   },
+  "daysShort": {
+    "sun": "א",
+    "mon": "ב",
+    "tue": "ג",
+    "wed": "ד",
+    "thu": "ה",
+    "fri": "ו",
+    "sat": "ש"
+  },
   "quickStats": {
     "occupancy": "תפוסת אולפן",
     "aboveAverage": "גבוה מהרגיל",
+    "noStudios": "אין נכסים פעילים",
     "roomA": "חדר א׳",
     "roomB": "חדר ב׳",
     "avgSession": "זמן ממוצע לסשן",
@@ -58,6 +71,38 @@
     "title": "לקוחות מובילים",
     "viewAll": "הצג הכל",
     "lastVisit": "ביקור אחרון",
-    "filterByCategory": "סנן לפי קטגוריה"
+    "filterByCategory": "סנן לפי קטגוריה",
+    "bookings": "הזמנות",
+    "noClients": "אין לקוחות עדיין",
+    "name": "שם",
+    "totalSpent": "סה\"כ הוצאות",
+    "bookingsCount": "מספר הזמנות"
+  },
+  "dateRange": {
+    "today": "היום",
+    "yesterday": "אתמול",
+    "last7days": "7 ימים אחרונים",
+    "last30days": "30 ימים אחרונים",
+    "thisMonth": "החודש הנוכחי",
+    "lastMonth": "החודש הקודם",
+    "last3months": "3 חודשים אחרונים",
+    "thisYear": "השנה הנוכחית",
+    "customRange": "טווח מותאם אישית...",
+    "selectStart": "בחר תאריך התחלה",
+    "selectEnd": "בחר תאריך סיום"
+  },
+  "export": {
+    "title": "ייצוא",
+    "csv": "ייצוא ל-CSV",
+    "pdf": "ייצוא ל-PDF",
+    "reportTitle": "דוח סטטיסטיקות",
+    "period": "תקופה",
+    "generatedAt": "תאריך הפקה",
+    "mainMetrics": "מדדים עיקריים",
+    "topClients": "לקוחות מובילים",
+    "monthlyRevenue": "הכנסות חודשיות (12 חודשים אחרונים)",
+    "month": "חודש",
+    "revenue": "הכנסות",
+    "generatedBy": "הופק על ידי Studioz"
   }
 }

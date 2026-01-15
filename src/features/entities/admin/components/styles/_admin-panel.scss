@@ -657,7 +657,7 @@
   background: var(--card-bg);
   border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-2xl;
-  overflow: hidden;
+  overflow: visible; // Allow dropdown menus to overflow
 }
 
 .admin-table-wrapper {

@@ -1,0 +1,115 @@
+{
+  "title": "Document Management",
+  "subtitle": "Manage your studio invoices, receipts, and contracts in one place.",
+  "stats": {
+    "totalRevenue": "Total Revenue (Month)",
+    "pendingAmount": "Pending Payment",
+    "overdueAmount": "Overdue",
+    "totalDocs": "Documents Issued"
+  },
+  "status": {
+    "all": "All Statuses",
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "draft": "Draft"
+  },
+  "filters": {
+    "search": "Search by number or customer...",
+    "allStudios": "All Studios",
+    "customRange": "Custom Range",
+    "last30Days": "Last 30 Days"
+  },
+  "table": {
+    "document": "Document",
+    "customer": "Customer",
+    "studio": "Studio",
+    "date": "Date",
+    "dueDate": "Due by:",
+    "amount": "Amount",
+    "status": "Status",
+    "actions": "Actions",
+    "noResults": "No documents match your search"
+  },
+  "actions": {
+    "download": "Download",
+    "view": "View",
+    "moreActions": "More Actions",
+    "sendEmail": "Send via Email",
+    "cancel": "Cancel Document",
+    "exportReport": "Export Monthly Report",
+    "newInvoice": "New Invoice"
+  },
+  "dropdown": {
+    "viewDocument": "View Document",
+    "print": "Print",
+    "sendEmail": "Send via Email",
+    "duplicate": "Duplicate Document",
+    "void": "Void Document"
+  },
+  "loading": "Loading documents...",
+  "empty": "No documents found",
+  "loadMore": "Load More Documents",
+  "remaining": "remaining",
+  "alerts": {
+    "noEmail": "No email found for customer",
+    "emailSent": "Document sent successfully!",
+    "emailError": "Error sending email",
+    "cancelConfirm": "Are you sure you want to cancel this document?",
+    "cancelSuccess": "Document cancelled successfully",
+    "cancelError": "Error cancelling document"
+  },
+  "report": {
+    "title": "Monthly Documents Report",
+    "period": "Period",
+    "generatedAt": "Generated At",
+    "summary": "Summary",
+    "totalRevenue": "Total Revenue",
+    "pendingAmount": "Pending Payment",
+    "overdueAmount": "Overdue",
+    "totalDocs": "Documents Issued",
+    "documents": "Documents",
+    "columns": {
+      "number": "Number",
+      "customer": "Customer",
+      "studio": "Studio",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status"
+    }
+  },
+  "invoice": {
+    "title": "New Invoice",
+    "close": "Close",
+    "issuedFor": "Issued for",
+    "customerDetails": "Customer Details",
+    "customerName": "Customer Name",
+    "customerNamePlaceholder": "Full Name",
+    "customerEmail": "Email",
+    "customerPhone": "Phone",
+    "items": "Items",
+    "itemDescription": "Description",
+    "itemDescriptionPlaceholder": "Service/Product Description",
+    "itemPrice": "Price",
+    "quantity": "Quantity",
+    "itemTotal": "Total",
+    "removeItem": "Remove Item",
+    "addItem": "Add Item",
+    "vatType": "VAT",
+    "vatIncluded": "Including VAT",
+    "vatExcluded": "Excluding VAT",
+    "vatExempt": "VAT Exempt",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes...",
+    "totalToPay": "Total to Pay:",
+    "submit": "Create Invoice",
+    "submitting": "Creating Invoice...",
+    "cancel": "Cancel",
+    "errors": {
+      "nameRequired": "Please enter customer name",
+      "emailRequired": "Please enter customer email",
+      "itemsRequired": "Please enter at least one item with description and price",
+      "createFailed": "Error creating invoice. Please try again."
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { LockClockIcon, ChevronLeftIcon, ChevronRightIcon } from '@shared/components/icons';
 import { MuiDateTimePicker, Button } from '@shared/components';
 import { HourSelector } from '@features/entities/items/components/HourSelector';
-import { Dialog, FormControlLabel, Checkbox } from '@mui/material';
+import { Dialog, FormControlLabel, RadioGroup, Radio } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { splitDateTime } from '@shared/utils/index';
 import { toast } from 'sonner';
@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from 'dayjs';
 import { reserveStudioTimeSlots } from '@shared/services/booking-service';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
+
+type BlockMode = 'timeSlot' | 'singleDay' | 'dateRange';
 
 interface StudioBlockModalProps {
   studioId: string;
@@ -28,19 +30,29 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
   const [selectedHours, setSelectedHours] = useState<number>(1);
   const [reason, setReason] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [blockEntireDay, setBlockEntireDay] = useState(false);
+  const [blockMode, setBlockMode] = useState<BlockMode>('timeSlot');
+  
+  // Date range state
+  const [rangeStart, setRangeStart] = useState<Dayjs | null>(null);
+  const [rangeEnd, setRangeEnd] = useState<Dayjs | null>(null);
+  const [selectingRangeStart, setSelectingRangeStart] = useState(true);
+  const [calendarMonth, setCalendarMonth] = useState<Dayjs>(dayjs());
+  
   const { t, i18n } = useTranslation(['common', 'studio']);
   const isRTL = i18n.language === 'he';
 
+  // Legacy support: map old blockEntireDay to new mode system
+  const blockEntireDay = blockMode === 'singleDay';
+
   // Sync date-only value when switching modes
   useEffect(() => {
-    if (blockEntireDay && selectedDate) {
+    if (blockMode === 'singleDay' && selectedDate) {
       setSelectedDateOnly(dayjs(selectedDate));
-    } else if (!blockEntireDay && selectedDateOnly) {
+    } else if (blockMode === 'timeSlot' && selectedDateOnly) {
       // When switching back to datetime, preserve the date but let user pick time
       setSelectedDate(selectedDateOnly.hour(11).minute(0).toDate());
     }
-  }, [blockEntireDay]);
+  }, [blockMode]);
 
   // For date-only picker: disable dates based on studio availability
   const shouldDisableDateOnly = useCallback(
@@ -87,7 +99,109 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
     setSelectedHours((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
+  // Date range handlers
+  const handleRangeDayClick = useCallback((date: Dayjs) => {
+    if (selectingRangeStart) {
+      setRangeStart(date);
+      setRangeEnd(null);
+      setSelectingRangeStart(false);
+    } else {
+      // Ensure start is before end
+      if (date.isBefore(rangeStart)) {
+        setRangeEnd(rangeStart);
+        setRangeStart(date);
+      } else {
+        setRangeEnd(date);
+      }
+      setSelectingRangeStart(true);
+    }
+  }, [selectingRangeStart, rangeStart]);
+
+  // Get dates in range that are allowed by studio availability
+  const getDatesInRange = useCallback((start: Dayjs, end: Dayjs): Dayjs[] => {
+    const dates: Dayjs[] = [];
+    let current = start;
+    while (current.isBefore(end) || current.isSame(end, 'day')) {
+      const dayName = current.locale('en').format('dddd') as DayOfWeek;
+      if (studioAvailability?.days.includes(dayName)) {
+        dates.push(current);
+      }
+      current = current.add(1, 'day');
+    }
+    return dates;
+  }, [studioAvailability]);
+
+  // Count of days to block in range
+  const daysToBlock = useMemo(() => {
+    if (!rangeStart || !rangeEnd) return 0;
+    return getDatesInRange(rangeStart, rangeEnd).length;
+  }, [rangeStart, rangeEnd, getDatesInRange]);
+
   const handleBlockTime = async () => {
+    // Handle date range blocking
+    if (blockMode === 'dateRange') {
+      if (!rangeStart || !rangeEnd) {
+        return toast.error(t('studio:errors.select_date_range', 'Please select a date range'));
+      }
+
+      const openingTime = studioAvailability?.times[0]?.start;
+      const closingTime = studioAvailability?.times[0]?.end;
+      if (!closingTime || !openingTime) {
+        return toast.error(t('studio:errors.closing_time_unavailable'));
+      }
+
+      const datesToBlock = getDatesInRange(rangeStart, rangeEnd);
+      if (datesToBlock.length === 0) {
+        return toast.error(t('studio:errors.no_available_days', 'No available days in selected range'));
+      }
+
+      try {
+        setIsLoading(true);
+        let successCount = 0;
+        let failCount = 0;
+
+        for (const date of datesToBlock) {
+          try {
+            const bookingDate = date.format('DD/MM/YYYY');
+            await reserveStudioTimeSlots({
+              studioId,
+              bookingDate,
+              startTime: openingTime,
+              hours: entireDayHours
+            });
+            successCount++;
+          } catch {
+            failCount++;
+          }
+        }
+
+        if (successCount > 0) {
+          toast.success(t('studio:success.range_blocked_successfully', { 
+            count: successCount,
+            defaultValue: '{{count}} days blocked successfully' 
+          }));
+        }
+        if (failCount > 0) {
+          toast.warning(t('studio:errors.some_days_failed', { 
+            count: failCount,
+            defaultValue: '{{count}} days failed to block' 
+          }));
+        }
+
+        if (open === undefined) {
+          setIsOpen(false);
+        }
+        onClose?.();
+        resetForm();
+      } catch (error) {
+        toast.error(t('studio:errors.block_failed'));
+        console.error('Error blocking time slots:', error);
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
     // Use the appropriate date based on mode
     const dateToUse = blockEntireDay ? selectedDateOnly?.toDate() : selectedDate;
     
@@ -142,11 +256,7 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
         setIsOpen(false);
       }
       onClose?.();
-      setSelectedDate(null);
-      setSelectedDateOnly(null);
-      setSelectedHours(1);
-      setReason('');
-      setBlockEntireDay(false);
+      resetForm();
     } catch (error) {
       toast.error(t('studio:errors.block_failed'));
       console.error('Error blocking time slots:', error);
@@ -155,138 +265,307 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
     }
   };
 
+  const resetForm = () => {
+    setSelectedDate(null);
+    setSelectedDateOnly(null);
+    setSelectedHours(1);
+    setReason('');
+    setBlockMode('timeSlot');
+    setRangeStart(null);
+    setRangeEnd(null);
+    setSelectingRangeStart(true);
+  };
+
   const handleClose = () => {
     if (!isLoading) {
       if (open === undefined) {
         setIsOpen(false);
       }
       onClose?.();
-      setBlockEntireDay(false);
-      setSelectedDateOnly(null);
+      resetForm();
     }
   };
+
+  // Render the date range calendar
+  const renderDateRangeCalendar = () => {
+    const startOfMonth = calendarMonth.startOf('month');
+    const endOfMonth = calendarMonth.endOf('month');
+    const startDay = startOfMonth.day();
+    const daysInMonth = endOfMonth.date();
+    const today = dayjs().startOf('day');
+
+    const days: (Dayjs | null)[] = [];
+
+    // Empty cells for days before the first of the month
+    for (let i = 0; i < startDay; i++) {
+      days.push(null);
+    }
+
+    // Days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(calendarMonth.date(i));
+    }
+
+    const isInRange = (date: Dayjs) => {
+      if (!rangeStart || !rangeEnd) return false;
+      return date.isAfter(rangeStart.subtract(1, 'day')) && date.isBefore(rangeEnd.add(1, 'day'));
+    };
+
+    const isSelected = (date: Dayjs) => {
+      if (rangeStart && date.isSame(rangeStart, 'day')) return true;
+      if (rangeEnd && date.isSame(rangeEnd, 'day')) return true;
+      return false;
+    };
+
+    const isDisabled = (date: Dayjs) => {
+      // Disable past dates
+      if (date.isBefore(today)) return true;
+      // Disable days not in studio availability
+      const dayName = date.locale('en').format('dddd') as DayOfWeek;
+      return !studioAvailability?.days.includes(dayName);
+    };
+
+    const weekdays = isRTL 
+      ? ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש']
+      : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+    return (
+      <div className="block-range-calendar">
+        <div className="block-range-calendar__header">
+          <button
+            type="button"
+            className="block-range-calendar__nav-btn"
+            onClick={() => setCalendarMonth(calendarMonth.subtract(1, 'month'))}
+          >
+            {isRTL ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </button>
+          <span className="block-range-calendar__month-label">
+            {calendarMonth.format('MMMM YYYY')}
+          </span>
+          <button
+            type="button"
+            className="block-range-calendar__nav-btn"
+            onClick={() => setCalendarMonth(calendarMonth.add(1, 'month'))}
+          >
+            {isRTL ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </button>
+        </div>
+
+        <div className="block-range-calendar__weekdays">
+          {weekdays.map((day, idx) => (
+            <div key={idx} className="block-range-calendar__weekday">{day}</div>
+          ))}
+        </div>
+
+        <div className="block-range-calendar__days">
+          {days.map((date, index) => (
+            <div key={index} className="block-range-calendar__day-cell">
+              {date && (
+                <button
+                  type="button"
+                  disabled={isDisabled(date)}
+                  className={`block-range-calendar__day 
+                    ${isSelected(date) ? 'block-range-calendar__day--selected' : ''} 
+                    ${isInRange(date) ? 'block-range-calendar__day--in-range' : ''}
+                    ${isDisabled(date) ? 'block-range-calendar__day--disabled' : ''}`}
+                  onClick={() => handleRangeDayClick(date)}
+                >
+                  {date.date()}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="block-range-calendar__hint">
+          {selectingRangeStart 
+            ? t('studio:select_start_date', 'Select start date')
+            : t('studio:select_end_date', 'Select end date')}
+        </div>
+
+        {rangeStart && rangeEnd && (
+          <div className="block-range-calendar__summary">
+            {t('studio:will_block_days', { 
+              count: daysToBlock,
+              start: rangeStart.format('DD/MM'),
+              end: rangeEnd.format('DD/MM'),
+              defaultValue: 'Will block {{count}} days ({{start}} - {{end}})'
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Compute if the block button should be disabled
+  const isBlockDisabled = useMemo(() => {
+    if (isLoading) return true;
+    if (blockMode === 'timeSlot') return !selectedDate;
+    if (blockMode === 'singleDay') return !selectedDateOnly;
+    if (blockMode === 'dateRange') return !rangeStart || !rangeEnd || daysToBlock === 0;
+    return true;
+  }, [isLoading, blockMode, selectedDate, selectedDateOnly, rangeStart, rangeEnd, daysToBlock]);
+
+  // Get button label
+  const getBlockButtonLabel = () => {
+    if (isLoading) {
+      if (blockMode === 'dateRange') {
+        return t('studio:blocking_days', 'Blocking days...');
+      }
+      return t('studio:blocking');
+    }
+    if (blockMode === 'dateRange') {
+      return daysToBlock > 0 
+        ? t('studio:block_days_count', { count: daysToBlock, defaultValue: 'Block {{count}} Days' })
+        : t('studio:block_range', 'Block Range');
+    }
+    if (blockMode === 'singleDay') return t('studio:block_day', 'Block Day');
+    return t('studio:block_time');
+  };
+
+  // Shared modal content
+  const renderModalContent = () => (
+    <div className="modal-content">
+      <h2>{t('studio:block_time')}</h2>
+
+      {/* Mode selector */}
+      <RadioGroup
+        value={blockMode}
+        onChange={(e) => setBlockMode(e.target.value as BlockMode)}
+        className="block-mode-selector"
+      >
+        <FormControlLabel
+          value="timeSlot"
+          control={<Radio disabled={isLoading} />}
+          label={t('studio:block_time_slot', 'Block Time Slot')}
+        />
+        <FormControlLabel
+          value="singleDay"
+          control={<Radio disabled={isLoading} />}
+          label={t('studio:block_entire_day', 'Block Entire Day')}
+        />
+        <FormControlLabel
+          value="dateRange"
+          control={<Radio disabled={isLoading} />}
+          label={t('studio:block_date_range', 'Block Date Range')}
+        />
+      </RadioGroup>
+
+      {/* Hour selector for time slot mode */}
+      {blockMode === 'timeSlot' && (
+        <HourSelector
+          value={selectedHours}
+          onIncrement={handleIncrement}
+          onDecrement={handleDecrement}
+          min={1}
+        />
+      )}
+
+      {/* Info text for entire day blocking */}
+      {blockMode === 'singleDay' && entireDayHours > 0 && (
+        <div className="entire-day-info">
+          {t('studio:will_block_hours', { 
+            hours: entireDayHours, 
+            start: studioAvailability?.times[0]?.start,
+            end: studioAvailability?.times[0]?.end
+          })}
+        </div>
+      )}
+
+      {/* Date pickers based on mode */}
+      {blockMode === 'timeSlot' && (
+        <MuiDateTimePicker 
+          value={selectedDate} 
+          onChange={handleDateChange} 
+          studioAvailability={studioAvailability}
+        />
+      )}
+
+      {blockMode === 'singleDay' && (
+        <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
+          <DatePicker
+            label={t('studio:select_date', 'Select date')}
+            value={selectedDateOnly}
+            onChange={handleDateOnlyChange}
+            format={isRTL ? 'DD/MM/YYYY' : 'MM/DD/YYYY'}
+            minDate={dayjs()}
+            disablePast
+            shouldDisableDate={shouldDisableDateOnly}
+            desktopModeMediaQuery="@media (min-width: 0px)"
+            sx={{
+              width: '100%',
+              '& .MuiInputBase-root': {
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center'
+              },
+              '& .MuiInputLabel-root': {
+                color: 'var(--text-secondary) !important'
+              },
+              '& .MuiInputLabel-root.Mui-error': {
+                color: 'var(--text-secondary) !important'
+              },
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'var(--border-primary)'
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'var(--border-hover)'
+              },
+              '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
+                backgroundColor: 'var(--color-brand)',
+                color: 'var(--btn-primary-text)'
+              },
+              '& .Mui-disabled': {
+                color: 'var(--text-disabled)'
+              }
+            }}
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                margin: 'none',
+                dir: isRTL ? 'rtl' : 'ltr',
+                error: false
+              }
+            }}
+            slots={{
+              leftArrowIcon: isRTL ? ChevronRightIcon : ChevronLeftIcon,
+              rightArrowIcon: isRTL ? ChevronLeftIcon : ChevronRightIcon
+            }}
+          />
+        </div>
+      )}
+
+      {blockMode === 'dateRange' && renderDateRangeCalendar()}
+
+      <input
+        type="text"
+        placeholder={t('studio:block_reason')}
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+        className="reason-input"
+        disabled={isLoading}
+      />
+
+      <div className="modal-actions">
+        <Button onClick={handleClose} className="cancel-button" disabled={isLoading}>
+          {t('common:cancel')}
+        </Button>
+        <Button 
+          onClick={handleBlockTime} 
+          className="block-button" 
+          disabled={isBlockDisabled}
+        >
+          {getBlockButtonLabel()}
+        </Button>
+      </div>
+    </div>
+  );
 
   // If onClose is provided, this is a controlled component - don't render the trigger button
   if (onClose !== undefined) {
     return (
       <Dialog open={isModalOpen} onClose={handleClose} className="block-time-modal">
-        <div className="modal-content">
-          <h2>{t('studio:block_time')}</h2>
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={blockEntireDay}
-                onChange={(e) => setBlockEntireDay(e.target.checked)}
-                disabled={isLoading}
-              />
-            }
-            label={t('studio:block_entire_day', 'Block Entire Day')}
-            className="block-entire-day-checkbox"
-          />
-
-          {!blockEntireDay && (
-            <HourSelector
-              value={selectedHours}
-              onIncrement={handleIncrement}
-              onDecrement={handleDecrement}
-              min={1}
-            />
-          )}
-
-          {blockEntireDay && entireDayHours > 0 && (
-            <div className="entire-day-info">
-              {t('studio:will_block_hours', { 
-                hours: entireDayHours, 
-                start: studioAvailability?.times[0]?.start,
-                end: studioAvailability?.times[0]?.end
-              })}
-            </div>
-          )}
-
-          {/* Date-only picker for blocking entire day */}
-          {blockEntireDay ? (
-            <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
-              <DatePicker
-                label={t('studio:select_date', 'Select date')}
-                value={selectedDateOnly}
-                onChange={handleDateOnlyChange}
-                format={isRTL ? 'DD/MM/YYYY' : 'MM/DD/YYYY'}
-                minDate={dayjs()}
-                disablePast
-                shouldDisableDate={shouldDisableDateOnly}
-                desktopModeMediaQuery="@media (min-width: 0px)"
-                sx={{
-                  width: '100%',
-                  '& .MuiInputBase-root': {
-                    color: '#fff',
-                    display: 'flex',
-                    alignItems: 'center'
-                  },
-                  '& .MuiInputLabel-root': {
-                    color: '#fff !important'
-                  },
-                  '& .MuiInputLabel-root.Mui-error': {
-                    color: '#fff !important'
-                  },
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#fff'
-                  },
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#fff'
-                  },
-                  '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
-                    backgroundColor: '#fff',
-                    color: '#000'
-                  },
-                  '& .Mui-disabled': {
-                    color: '#bbb'
-                  }
-                }}
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    margin: 'none',
-                    dir: isRTL ? 'rtl' : 'ltr',
-                    error: false
-                  }
-                }}
-                slots={{
-                  leftArrowIcon: isRTL ? ChevronRightIcon : ChevronLeftIcon,
-                  rightArrowIcon: isRTL ? ChevronLeftIcon : ChevronRightIcon
-                }}
-              />
-            </div>
-          ) : (
-            <MuiDateTimePicker 
-              value={selectedDate} 
-              onChange={handleDateChange} 
-              studioAvailability={studioAvailability}
-            />
-          )}
-
-          <input
-            type="text"
-            placeholder={t('studio:block_reason')}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            className="reason-input"
-            disabled={isLoading}
-          />
-
-          <div className="modal-actions">
-            <Button onClick={handleClose} className="cancel-button" disabled={isLoading}>
-              {t('common:cancel')}
-            </Button>
-            <Button 
-              onClick={handleBlockTime} 
-              className="block-button" 
-              disabled={(blockEntireDay ? !selectedDateOnly : !selectedDate) || isLoading}
-            >
-              {isLoading ? t('studio:blocking') : blockEntireDay ? t('studio:block_day', 'Block Day') : t('studio:block_time')}
-            </Button>
-          </div>
-        </div>
+        {renderModalContent()}
       </Dialog>
     );
   }
@@ -299,123 +578,7 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
       </button>
 
       <Dialog open={isModalOpen} onClose={handleClose} className="block-time-modal">
-        <div className="modal-content">
-          <h2>{t('studio:block_time')}</h2>
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={blockEntireDay}
-                onChange={(e) => setBlockEntireDay(e.target.checked)}
-                disabled={isLoading}
-              />
-            }
-            label={t('studio:block_entire_day', 'Block Entire Day')}
-            className="block-entire-day-checkbox"
-          />
-
-          {!blockEntireDay && (
-            <HourSelector
-              value={selectedHours}
-              onIncrement={handleIncrement}
-              onDecrement={handleDecrement}
-              min={1}
-            />
-          )}
-
-          {blockEntireDay && entireDayHours > 0 && (
-            <div className="entire-day-info">
-              {t('studio:will_block_hours', { 
-                hours: entireDayHours, 
-                start: studioAvailability?.times[0]?.start,
-                end: studioAvailability?.times[0]?.end
-              })}
-            </div>
-          )}
-
-          {/* Date-only picker for blocking entire day */}
-          {blockEntireDay ? (
-            <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
-              <DatePicker
-                label={t('studio:select_date', 'Select date')}
-                value={selectedDateOnly}
-                onChange={handleDateOnlyChange}
-                format={isRTL ? 'DD/MM/YYYY' : 'MM/DD/YYYY'}
-                minDate={dayjs()}
-                disablePast
-                shouldDisableDate={shouldDisableDateOnly}
-                desktopModeMediaQuery="@media (min-width: 0px)"
-                sx={{
-                  width: '100%',
-                  '& .MuiInputBase-root': {
-                    color: '#fff',
-                    display: 'flex',
-                    alignItems: 'center'
-                  },
-                  '& .MuiInputLabel-root': {
-                    color: '#fff !important'
-                  },
-                  '& .MuiInputLabel-root.Mui-error': {
-                    color: '#fff !important'
-                  },
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#fff'
-                  },
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#fff'
-                  },
-                  '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
-                    backgroundColor: '#fff',
-                    color: '#000'
-                  },
-                  '& .Mui-disabled': {
-                    color: '#bbb'
-                  }
-                }}
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    margin: 'none',
-                    dir: isRTL ? 'rtl' : 'ltr',
-                    error: false
-                  }
-                }}
-                slots={{
-                  leftArrowIcon: isRTL ? ChevronRightIcon : ChevronLeftIcon,
-                  rightArrowIcon: isRTL ? ChevronLeftIcon : ChevronRightIcon
-                }}
-              />
-            </div>
-          ) : (
-            <MuiDateTimePicker 
-              value={selectedDate} 
-              onChange={handleDateChange} 
-              studioAvailability={studioAvailability}
-            />
-          )}
-
-          <input
-            type="text"
-            placeholder={t('studio:block_reason')}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            className="reason-input"
-            disabled={isLoading}
-          />
-
-          <div className="modal-actions">
-            <Button onClick={handleClose} className="cancel-button" disabled={isLoading}>
-              {t('common:cancel')}
-            </Button>
-            <Button 
-              onClick={handleBlockTime} 
-              className="block-button" 
-              disabled={(blockEntireDay ? !selectedDateOnly : !selectedDate) || isLoading}
-            >
-              {isLoading ? t('studio:blocking') : blockEntireDay ? t('studio:block_day', 'Block Day') : t('studio:block_time')}
-            </Button>
-          </div>
-        </div>
+        {renderModalContent()}
       </Dialog>
     </>
   );

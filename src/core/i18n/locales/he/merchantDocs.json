@@ -1,0 +1,115 @@
+{
+  "title": "ניהול מסמכים",
+  "subtitle": "נהל את החשבוניות, הקבלות והחוזים של האולפנים שלך במקום אחד.",
+  "stats": {
+    "totalRevenue": "סה\"כ הכנסות (חודש)",
+    "pendingAmount": "ממתין לתשלום",
+    "overdueAmount": "באיחור",
+    "totalDocs": "מסמכים שהופקו"
+  },
+  "status": {
+    "all": "כל הסטטוסים",
+    "paid": "שולם",
+    "pending": "ממתין",
+    "overdue": "באיחור",
+    "draft": "טיוטה"
+  },
+  "filters": {
+    "search": "חפש לפי מספר או לקוח...",
+    "allStudios": "כל האולפנים",
+    "customRange": "טווח מותאם אישית",
+    "last30Days": "30 הימים האחרונים"
+  },
+  "table": {
+    "document": "מסמך",
+    "customer": "לקוח",
+    "studio": "אולפן",
+    "date": "תאריך",
+    "dueDate": "לתשלום עד:",
+    "amount": "סכום",
+    "status": "סטטוס",
+    "actions": "פעולות",
+    "noResults": "לא נמצאו מסמכים התואמים את החיפוש"
+  },
+  "actions": {
+    "download": "הורדה",
+    "view": "צפייה",
+    "moreActions": "עוד פעולות",
+    "sendEmail": "שליחה במייל",
+    "cancel": "ביטול מסמך",
+    "exportReport": "ייצוא דוח חודשי",
+    "newInvoice": "חשבונית חדשה"
+  },
+  "dropdown": {
+    "viewDocument": "צפייה במסמך",
+    "print": "הדפסה",
+    "sendEmail": "שלח באימייל",
+    "duplicate": "שכפל מסמך",
+    "void": "בטל מסמך"
+  },
+  "loading": "טוען מסמכים...",
+  "empty": "לא נמצאו מסמכים",
+  "loadMore": "טען מסמכים נוספים",
+  "remaining": "נותרו",
+  "alerts": {
+    "noEmail": "לא נמצא אימייל ללקוח",
+    "emailSent": "המסמך נשלח בהצלחה!",
+    "emailError": "שגיאה בשליחת האימייל",
+    "cancelConfirm": "האם אתה בטוח שברצונך לבטל מסמך זה?",
+    "cancelSuccess": "המסמך בוטל בהצלחה",
+    "cancelError": "שגיאה בביטול המסמך"
+  },
+  "report": {
+    "title": "דוח מסמכים חודשי",
+    "period": "תקופה",
+    "generatedAt": "תאריך הפקה",
+    "summary": "סיכום",
+    "totalRevenue": "סה\"כ הכנסות",
+    "pendingAmount": "ממתין לתשלום",
+    "overdueAmount": "באיחור",
+    "totalDocs": "מסמכים שהופקו",
+    "documents": "מסמכים",
+    "columns": {
+      "number": "מספר",
+      "customer": "לקוח",
+      "studio": "אולפן",
+      "date": "תאריך",
+      "amount": "סכום",
+      "status": "סטטוס"
+    }
+  },
+  "invoice": {
+    "title": "חשבונית חדשה",
+    "close": "סגור",
+    "issuedFor": "מופק עבור",
+    "customerDetails": "פרטי לקוח",
+    "customerName": "שם לקוח",
+    "customerNamePlaceholder": "שם מלא",
+    "customerEmail": "אימייל",
+    "customerPhone": "טלפון",
+    "items": "פריטים",
+    "itemDescription": "תיאור",
+    "itemDescriptionPlaceholder": "תיאור השירות/מוצר",
+    "itemPrice": "מחיר",
+    "quantity": "כמות",
+    "itemTotal": "סה\"כ",
+    "removeItem": "הסר פריט",
+    "addItem": "הוסף פריט",
+    "vatType": "מע\"מ",
+    "vatIncluded": "כולל מע\"מ",
+    "vatExcluded": "לא כולל מע\"מ",
+    "vatExempt": "פטור ממע\"מ",
+    "notes": "הערות",
+    "notesPlaceholder": "הערות נוספות...",
+    "totalToPay": "סה\"כ לתשלום:",
+    "submit": "צור חשבונית",
+    "submitting": "יוצר חשבונית...",
+    "cancel": "ביטול",
+    "errors": {
+      "nameRequired": "נא להזין שם לקוח",
+      "emailRequired": "נא להזין אימייל לקוח",
+      "itemsRequired": "נא להזין לפחות פריט אחד עם תיאור ומחיר",
+      "createFailed": "שגיאה ביצירת החשבונית. נסה שוב."
+    }
+  }
+}

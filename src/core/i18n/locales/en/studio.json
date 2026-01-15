@@ -3,22 +3,33 @@
   "block_time_slot": "Block Time Slot",
   "block_day": "Block Day",
   "block_entire_day": "Block Entire Day",
+  "block_date_range": "Block Date Range",
+  "block_range": "Block Range",
+  "block_days_count": "Block {{count}} Days",
+  "blocking_days": "Blocking days...",
   "select_date": "Select date",
+  "select_start_date": "Select start date",
+  "select_end_date": "Select end date",
   "will_block_hours": "Will block {{hours}} hours ({{start}} - {{end}})",
+  "will_block_days": "Will block {{count}} days ({{start}} - {{end}})",
   "add_service": "Add Service",
   "edit_studio": "Edit Studio",
   "block_reason": "Reason for blocking (optional)",
   "blocking": "Blocking...",
   "errors": {
     "select_date_time": "Please select a date and time",
+    "select_date_range": "Please select a date range",
+    "no_available_days": "No available days in selected range",
     "invalid_date_time": "Please select a valid date and time",
     "closing_time_unavailable": "Studio closing time is unavailable",
     "hours_exceed_closing": "Selected hours exceed the studio closing time. Please adjust your booking.",
-    "block_failed": "Failed to block studio time slots"
+    "block_failed": "Failed to block studio time slots",
+    "some_days_failed": "{{count}} days failed to block"
   },
   "success": {
     "blocked_successfully": "Studio time slots blocked successfully",
-    "day_blocked_successfully": "Entire day blocked successfully"
+    "day_blocked_successfully": "Entire day blocked successfully",
+    "range_blocked_successfully": "{{count}} days blocked successfully"
   }
 }
 

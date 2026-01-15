@@ -4,7 +4,9 @@
   "studioOwnerSubtitle": "נהל את הסטודיו וההזמנות שלך",
   "tabs": {
     "overview": "יומן פעילות",
-    "manageStudios": "ניהול נכסים"
+    "manageStudios": "ניהול נכסים",
+    "stats": "סטטיסטיקות",
+    "documents": "מסמכים"
   },
   "stats": {
     "title": "סטטיסטיקות",

@@ -4,7 +4,9 @@
   "studioOwnerSubtitle": "Manage your studios and bookings",
   "tabs": {
     "overview": "Overview",
-    "manageStudios": "Manage Assets"
+    "manageStudios": "Manage Assets",
+    "stats": "Statistics",
+    "documents": "Documents"
   },
   "stats": {
     "title": "Statistics",

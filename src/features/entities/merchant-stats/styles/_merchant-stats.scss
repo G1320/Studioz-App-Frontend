@@ -11,7 +11,8 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
-  direction: rtl;
+  
+  // Direction is inherited from html[lang] in base styles
 }
 
 // ===== HEADER =====
@@ -684,12 +685,42 @@
 }
 
 // ===== LOADING STATE =====
-.merchant-stats__loading {
+.merchant-stats--loading {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 60vh;
+}
+
+.merchant-stats__loader {
   color: var(--text-secondary);
+  font-size: ds.$font-lg;
+}
+
+// ===== DEMO BANNER =====
+.merchant-stats__demo-banner {
+  background: linear-gradient(90deg, var(--color-brand-glow), transparent);
+  border: 1px solid var(--color-brand);
+  border-radius: ds.$radius-md;
+  padding: ds.$space-3 ds.$space-4;
+  margin-bottom: ds.$space-6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    color: var(--color-brand);
+    font-size: ds.$font-sm;
+    font-weight: 500;
+  }
+}
+
+// ===== CLIENTS LIST EMPTY =====
+.clients-list__empty {
+  text-align: center;
+  padding: ds.$space-8 ds.$space-4;
+  color: var(--text-muted);
+  font-size: ds.$font-md;
 }
 
 // ===== EMPTY STATE =====
@@ -719,5 +750,289 @@
   p {
     font-size: ds.$font-md;
     color: var(--text-muted);
+  }
+}
+
+// ===== DATE RANGE PICKER =====
+.date-range-picker {
+  position: relative;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
+    color: var(--text-primary);
+    font-size: ds.$font-md;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--border-hover);
+    }
+  }
+
+  &__icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--text-muted);
+  }
+
+  &__label {
+    white-space: nowrap;
+  }
+
+  &__chevron {
+    width: 1rem;
+    height: 1rem;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: auto;
+    margin-top: 0.5rem;
+    min-width: 200px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+
+    [dir="rtl"] & {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  &__presets {
+    padding: 0.5rem;
+  }
+
+  &__preset {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: ds.$radius-sm;
+    color: var(--text-primary);
+    font-size: ds.$font-sm;
+    text-align: start;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    &--active {
+      background: var(--color-brand-glow);
+      color: var(--color-brand);
+    }
+
+    &--custom {
+      color: var(--color-brand);
+      font-weight: 500;
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: var(--border-primary);
+    margin: 0.5rem 0;
+  }
+
+  &__calendar {
+    padding: 1rem;
+  }
+
+  &__calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &__nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    border-radius: ds.$radius-sm;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &__month-label {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  &__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__weekday {
+    text-align: center;
+    font-size: ds.$font-xs;
+    color: var(--text-muted);
+    padding: 0.25rem;
+  }
+
+  &__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+  }
+
+  &__day-cell {
+    aspect-ratio: 1;
+  }
+
+  &__day {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: ds.$radius-sm;
+    color: var(--text-primary);
+    font-size: ds.$font-sm;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    &--selected {
+      background: var(--color-brand);
+      color: white;
+    }
+
+    &--in-range {
+      background: var(--color-brand-glow);
+    }
+  }
+
+  &__calendar-hint {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-primary);
+    text-align: center;
+    font-size: ds.$font-xs;
+    color: var(--text-muted);
+  }
+}
+
+// ===== EXPORT DROPDOWN =====
+.export-dropdown {
+  position: relative;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--border-hover);
+      color: var(--color-brand);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: auto;
+    margin-top: 0.5rem;
+    min-width: 160px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+    padding: 0.5rem;
+
+    [dir="rtl"] & {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: ds.$radius-sm;
+    color: var(--text-primary);
+    font-size: ds.$font-sm;
+    text-align: start;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      color: var(--text-muted);
+    }
   }
 }

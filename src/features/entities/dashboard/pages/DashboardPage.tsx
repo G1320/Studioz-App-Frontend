@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
 import { DashboardCalendar, RecentActivity } from '../components';
@@ -7,6 +8,10 @@ import { StudioManager } from '@features/entities/studios';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
+
+type DashboardTab = 'overview' | 'studios' | 'stats' | 'documents';
+
+const VALID_TABS: DashboardTab[] = ['overview', 'studios', 'stats', 'documents'];
 
 interface DashboardPageProps {
   user: User | null;
@@ -19,7 +24,27 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 }) => {
   const { t } = useTranslation('dashboard');
   const { data: reservations = [] } = useReservations();
-  const [activeTab, setActiveTab] = useState<'overview' | 'studios' | 'stats' | 'documents'>('studios');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Get active tab from URL, default to 'studios'
+  const activeTab = useMemo((): DashboardTab => {
+    const tabParam = searchParams.get('tab') as DashboardTab | null;
+    return tabParam && VALID_TABS.includes(tabParam) ? tabParam : 'studios';
+  }, [searchParams]);
+
+  // Update tab in URL
+  const setActiveTab = useCallback((tab: DashboardTab) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (tab === 'studios') {
+        // Remove tab param for default value to keep URL clean
+        newParams.delete('tab');
+      } else {
+        newParams.set('tab', tab);
+      }
+      return newParams;
+    }, { replace: true });
+  }, [setSearchParams]);
 
   // Determine if user is a studio owner
   const isStudioOwner = useMemo(() => {

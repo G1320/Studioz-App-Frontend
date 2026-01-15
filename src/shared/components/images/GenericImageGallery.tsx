@@ -135,7 +135,7 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
       <div className="cover-image-overlay"></div>
       <span className="title-container">
         {title && <h1 className="gallery-title">{title}</h1>}
-        {subTitle && <h3 className="gallery-title">{subTitle}</h3>}
+        {subTitle && <h2 className="gallery-subtitle">{subTitle}</h2>}
       </span>
       {isGalleryImagesShown && galleryImages && (
         <GenericList data={combinedGalleryImages} renderItem={renderItem} className="files-list gallery-images-list" />

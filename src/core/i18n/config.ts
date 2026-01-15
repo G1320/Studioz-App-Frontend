@@ -28,6 +28,8 @@ import orders from './locales/en/orders.json';
 import admin from './locales/en/admin.json';
 import studioManager from './locales/en/studioManager.json';
 import changelog from './locales/en/changelog.json';
+import merchantStats from './locales/en/merchantStats.json';
+import merchantDocs from './locales/en/merchantDocs.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -55,6 +57,8 @@ import ordersHe from './locales/he/orders.json';
 import adminHe from './locales/he/admin.json';
 import studioManagerHe from './locales/he/studioManager.json';
 import changelogHe from './locales/he/changelog.json';
+import merchantStatsHe from './locales/he/merchantStats.json';
+import merchantDocsHe from './locales/he/merchantDocs.json';
 
 i18n
   .use(LanguageDetector)
@@ -87,7 +91,9 @@ i18n
         orders,
         admin,
         studioManager,
-        changelog
+        changelog,
+        merchantStats,
+        merchantDocs
       },
       he: {
         discoverPage: discoverPageHe,
@@ -115,7 +121,9 @@ i18n
         orders: ordersHe,
         admin: adminHe,
         studioManager: studioManagerHe,
-        changelog: changelogHe
+        changelog: changelogHe,
+        merchantStats: merchantStatsHe,
+        merchantDocs: merchantDocsHe
       }
     },
     fallbackLng: 'he',

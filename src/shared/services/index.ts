@@ -21,3 +21,4 @@ export * from './reservation-service';
 export * from './subscription-service';
 export * from './vendor-service';
 export * from './cookie-consent-service';
+export * from './merchant-service';
