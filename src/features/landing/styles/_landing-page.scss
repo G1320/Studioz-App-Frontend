@@ -699,7 +699,9 @@
     height: 1.125rem !important;
     color: var(--color-brand);
     filter: drop-shadow(0 0 8px var(--color-brand-glow));
-    animation: instant-book-glow 2s ease-in-out infinite;
+    // Use opacity animation instead of filter for GPU acceleration
+    animation: instant-book-pulse 2s ease-in-out infinite;
+    will-change: opacity;
   }
 
   &__badge-text {
@@ -709,13 +711,14 @@
   }
 }
 
-@keyframes instant-book-glow {
+// GPU-accelerated animation using opacity instead of filter
+@keyframes instant-book-pulse {
   0%,
   100% {
-    filter: drop-shadow(0 0 6px var(--color-brand-glow));
+    opacity: 0.85;
   }
   50% {
-    filter: drop-shadow(0 0 12px var(--color-brand));
+    opacity: 1;
   }
 }
 

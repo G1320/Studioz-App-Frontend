@@ -97,7 +97,7 @@ export default defineConfig(({ _command, mode }) => {
             // Vendor chunks
             'react-vendor': ['react', 'react-dom', 'react-router-dom'],
             'ui-vendor': ['@mui/material', '@mui/icons-material', '@mui/x-date-pickers'],
-            'mapbox-vendor': ['react-map-gl', 'mapbox-gl'],
+            // Note: mapbox removed from manual chunks - let Vite naturally code-split with lazy components
             'query-vendor': ['@tanstack/react-query', '@tanstack/react-query-persist-client'],
             'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
             'animation-vendor': ['react-spring', '@use-gesture/react'],
