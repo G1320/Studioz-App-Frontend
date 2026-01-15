@@ -15,6 +15,8 @@ interface GenericImageGalleryProps {
   onSetPreviewImage?: (image: string) => void;
   onRemoveImage?: (image: string) => void;
   onReorderImages?: (reorderedImages: string[]) => void;
+  /** Set to true when cover image is the LCP element (e.g., details page headers) */
+  coverPriority?: boolean;
 }
 
 export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
@@ -28,7 +30,8 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
   onRemoveImage,
   onReorderImages,
   title,
-  subTitle
+  subTitle,
+  coverPriority = false
 }) => {
   // Use galleryImages[0] as cover if no separate coverImage is provided
   const effectiveCoverImage = coverImage || galleryImages?.[0];
@@ -123,8 +126,9 @@ export const GenericImageGallery: React.FC<GenericImageGalleryProps> = ({
           blurHash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
           alt={`${entity?.name?.en} cover image` || `Cover Image `}
           className="cover-image"
-          width={800}
-          loading="lazy"
+          width={1200}
+          loading={coverPriority ? 'eager' : 'lazy'}
+          priority={coverPriority}
           onClick={() => onSetPreviewImage?.(currCoverImage)}
         />
       )}

@@ -11,6 +11,8 @@ interface GenericImageProps {
   blurHash?: string;
   /** Set to true if image is decorative (will use empty alt) */
   decorative?: boolean;
+  /** Set to true for LCP images - enables eager loading and high fetch priority */
+  priority?: boolean;
 }
 
 export const GenericImage: React.FC<GenericImageProps> = ({
@@ -20,8 +22,11 @@ export const GenericImage: React.FC<GenericImageProps> = ({
   onClick,
   width = 800,
   loading = 'lazy',
-  decorative = false
+  decorative = false,
+  priority = false
 }) => {
+  // Priority images should load eagerly with high fetch priority
+  const effectiveLoading = priority ? 'eager' : loading;
   const [isLoading, setIsLoading] = useState(true);
 
   const optimizedSrc = (width: number) => src.replace('/upload/', `/upload/w_${width},f_auto,q_auto:best/`);
@@ -43,10 +48,11 @@ export const GenericImage: React.FC<GenericImageProps> = ({
                (max-width: 1199px) 1200px,
                1200px"
         alt={decorative ? '' : alt}
-        loading={loading}
+        loading={effectiveLoading}
         className={`generic-image ${className} ${isLoading ? 'loading' : 'loaded'}`}
         onClick={onClick}
         onLoad={() => setIsLoading(false)}
+        {...(priority && { fetchpriority: 'high' })}
       />
     </div>
   );

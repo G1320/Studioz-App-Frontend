@@ -238,6 +238,12 @@ export { default as XIcon } from '@mui/icons-material/Close';
 export { default as TrashIcon } from '@mui/icons-material/Delete';
 export { default as ToggleLeftIcon } from '@mui/icons-material/ToggleOff';
 export { default as ToggleRightIcon } from '@mui/icons-material/ToggleOn';
+export { default as MailIcon } from '@mui/icons-material/Mail';
+export { default as HashIcon } from '@mui/icons-material/Tag';
+export { default as FileTextIcon } from '@mui/icons-material/Description';
+export { default as SparklesIcon } from '@mui/icons-material/AutoAwesome';
+export { default as AlertTriangleIcon } from '@mui/icons-material/Warning';
+export { default as ExternalLinkIcon } from '@mui/icons-material/OpenInNew';
 
 // ===================
 // ICON TYPE

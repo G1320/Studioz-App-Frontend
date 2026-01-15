@@ -15,7 +15,7 @@ import {
   LocationIcon,
   ChevronDownIcon,
   ArrowForwardIcon,
-  FlashIcon,
+  FlashIcon
 } from '@shared/components/icons';
 
 /**
@@ -72,11 +72,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
   // Filter cities to only show those that have studios
   const cityOptions = useMemo(() => {
     // Get unique cities from studios (normalized to lowercase for comparison)
-    const studioCities = new Set(
-      studios
-        .map((studio) => studio.city?.toLowerCase().trim())
-        .filter(Boolean)
-    );
+    const studioCities = new Set(studios.map((studio) => studio.city?.toLowerCase().trim()).filter(Boolean));
 
     // Filter city options to only include cities with studios
     return allCityOptions.filter((cityOption) => {
@@ -97,9 +93,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
       // Check if any studio city matches this option
       return Array.from(studioCities).some((studioCity) => {
         if (!studioCity) return false;
-        return possibleNames.some(
-          (name) => studioCity.includes(name) || name.includes(studioCity)
-        );
+        return possibleNames.some((name) => studioCity.includes(name) || name.includes(studioCity));
       });
     });
   }, [allCityOptions, studios]);
@@ -151,7 +145,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
           <picture>
             <source srcSet="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" />
             <img
-              src="/images/Landing-Studio1320-1.jpg"
+              src="/images/optimized/Landing-Studio1320-1.jpg"
               alt="Studio Background"
               className="landing-hero__image"
               decoding="async"

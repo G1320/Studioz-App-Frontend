@@ -47,6 +47,7 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
         isGalleryImagesShown={true}
         title={studio?.name?.[currentLang] || studio?.name?.en}
         subTitle={getCityTranslation(studio?.city)}
+        coverPriority={true}
       />
 
       <div className="info-option-container">
