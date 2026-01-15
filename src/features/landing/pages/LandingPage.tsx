@@ -148,11 +148,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
       {/* Hero Section */}
       <section className="landing-hero">
         <div className="landing-hero__background">
-          <img
-            src="/images/Landing-Studio1320-1.jpg"
-            alt="Studio Background"
-            className="landing-hero__image"
-          />
+          <picture>
+            <source srcSet="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" />
+            {/* @ts-expect-error - fetchpriority is a valid HTML attribute */}
+            <img
+              src="/images/Landing-Studio1320-1.jpg"
+              alt="Studio Background"
+              className="landing-hero__image"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
           <div className="landing-hero__overlay" />
         </div>
 
@@ -411,11 +417,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
               transition={{ duration: 0.7 }}
             >
               <div className="landing-booking-preview__image-container">
-                <img
-                  src="/images/Landing-Booking-Visual-2.png"
-                  alt="Booking Process Preview"
-                  className="landing-booking-preview__image"
-                />
+                <picture>
+                  <source srcSet="/images/optimized/Landing-Booking-Visual-2.webp" type="image/webp" />
+                  <img
+                    src="/images/Landing-Booking-Visual-2.png"
+                    alt="Booking Process Preview"
+                    className="landing-booking-preview__image"
+                    loading="lazy"
+                  />
+                </picture>
               </div>
 
               {/* Floating Badge */}
