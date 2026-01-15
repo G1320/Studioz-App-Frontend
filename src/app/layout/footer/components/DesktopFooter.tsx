@@ -6,6 +6,12 @@ export const DesktopFooter = () => {
   const { t, i18n } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
   const currentLang = i18n.language || 'en';
+  const langPrefix = currentLang === 'he' ? '/he' : '/en';
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    langNavigate(path);
+  };
 
   return (
     <footer id="main-footer" className="desktop-footer" aria-label={t('navigation.footer', 'Footer')}>
@@ -25,19 +31,19 @@ export const DesktopFooter = () => {
             <h3>{t('footer.platform')}</h3>
             <ul>
               <li>
-                <a onClick={() => langNavigate('/')}>{t('footer.home')}</a>
+                <a href={`${langPrefix}/`} onClick={(e) => handleClick(e, '/')}>{t('footer.home')}</a>
               </li>
               <li>
-                <a onClick={() => langNavigate('/studios')}>{t('footer.browse')}</a>
+                <a href={`${langPrefix}/studios`} onClick={(e) => handleClick(e, '/studios')}>{t('footer.browse')}</a>
               </li>
               <li>
-                <a onClick={() => langNavigate('/how-it-works')}>{t('footer.how_it_works')}</a>
+                <a href={`${langPrefix}/how-it-works`} onClick={(e) => handleClick(e, '/how-it-works')}>{t('footer.how_it_works')}</a>
               </li>
               <li>
-                <a onClick={() => langNavigate('/for-owners')}>{t('footer.for_owners')}</a>
+                <a href={`${langPrefix}/for-owners`} onClick={(e) => handleClick(e, '/for-owners')}>{t('footer.for_owners')}</a>
               </li>
               <li>
-                <a onClick={() => langNavigate('/subscription')}>{t('footer.pricing')}</a>
+                <a href={`${langPrefix}/subscription`} onClick={(e) => handleClick(e, '/subscription')}>{t('footer.pricing')}</a>
               </li>
             </ul>
           </div>
@@ -47,13 +53,13 @@ export const DesktopFooter = () => {
             <h3>{t('footer.company')}</h3>
             <ul>
               <li>
-                <a onClick={() => langNavigate('/changelog')}>{t('footer.changelog')}</a>
+                <a href={`${langPrefix}/changelog`} onClick={(e) => handleClick(e, '/changelog')}>{t('footer.changelog')}</a>
               </li>
               <li>
-                <a onClick={() => langNavigate('/terms')}>{t('footer.terms')}</a>
+                <a href={`${langPrefix}/terms`} onClick={(e) => handleClick(e, '/terms')}>{t('footer.terms')}</a>
               </li>
               <li>
-                <a onClick={() => langNavigate('/privacy')}>{t('footer.privacy')}</a>
+                <a href={`${langPrefix}/privacy`} onClick={(e) => handleClick(e, '/privacy')}>{t('footer.privacy')}</a>
               </li>
             </ul>
           </div>
