@@ -1,22 +1,22 @@
 /**
  * MerchantDocumentsPage Component
- * 
+ *
  * A specialized view for studio owners to manage documents, primarily invoices.
  * Includes advanced filtering, status tracking, and easy download actions.
  */
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FileText, 
-  Download, 
-  Search, 
-  Calendar as CalendarIcon, 
-  ChevronDown, 
-  MoreVertical, 
-  CheckCircle2, 
-  Clock, 
-  AlertCircle, 
+import {
+  FileText,
+  Download,
+  Search,
+  Calendar as CalendarIcon,
+  ChevronDown,
+  MoreVertical,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
   ArrowUpDown,
   FileCheck,
   FileClock,
@@ -46,14 +46,94 @@ interface Document {
 // --- Mock Data ---
 
 const MOCK_DOCUMENTS: Document[] = [
-  { id: '1', number: 'INV-2024-001', type: 'invoice', studioName: 'אולפני רזוננס', amount: 1250, date: '2024-03-15', dueDate: '2024-03-30', status: 'paid', customerName: 'עידו לוי' },
-  { id: '2', number: 'INV-2024-002', type: 'invoice', studioName: 'פולס סטודיו', amount: 840, date: '2024-03-10', dueDate: '2024-03-25', status: 'paid', customerName: 'שרה כהן' },
-  { id: '3', number: 'INV-2024-003', type: 'invoice', studioName: 'אולפני רזוננס', amount: 2100, date: '2024-03-20', dueDate: '2024-04-05', status: 'pending', customerName: 'להקת "העננים"' },
-  { id: '4', number: 'INV-2024-004', type: 'invoice', studioName: 'קרימזון ביט', amount: 450, date: '2024-03-18', dueDate: '2024-04-02', status: 'pending', customerName: 'יוסי מזרחי' },
-  { id: '5', number: 'INV-2024-005', type: 'invoice', studioName: 'אולפני רזוננס', amount: 1800, date: '2024-02-28', dueDate: '2024-03-14', status: 'overdue', customerName: 'פרויקט גמר - דנה' },
-  { id: '6', number: 'REC-2024-012', type: 'receipt', studioName: 'פולס סטודיו', amount: 1200, date: '2024-03-12', dueDate: '2024-03-12', status: 'paid', customerName: 'אביב גפן' },
-  { id: '7', number: 'CTR-2024-001', type: 'contract', studioName: 'אולפני רזוננס', amount: 0, date: '2024-01-15', dueDate: '2024-01-15', status: 'paid', customerName: 'הפקות בע"מ' },
-  { id: '8', number: 'INV-2024-006', type: 'invoice', studioName: 'קרימזון ביט', amount: 950, date: '2024-03-22', dueDate: '2024-04-06', status: 'draft', customerName: 'מיכל אברהם' },
+  {
+    id: '1',
+    number: 'INV-2024-001',
+    type: 'invoice',
+    studioName: 'אולפני רזוננס',
+    amount: 1250,
+    date: '2024-03-15',
+    dueDate: '2024-03-30',
+    status: 'paid',
+    customerName: 'עידו לוי'
+  },
+  {
+    id: '2',
+    number: 'INV-2024-002',
+    type: 'invoice',
+    studioName: 'פולס סטודיו',
+    amount: 840,
+    date: '2024-03-10',
+    dueDate: '2024-03-25',
+    status: 'paid',
+    customerName: 'שרה כהן'
+  },
+  {
+    id: '3',
+    number: 'INV-2024-003',
+    type: 'invoice',
+    studioName: 'אולפני רזוננס',
+    amount: 2100,
+    date: '2024-03-20',
+    dueDate: '2024-04-05',
+    status: 'pending',
+    customerName: 'להקת "העננים"'
+  },
+  {
+    id: '4',
+    number: 'INV-2024-004',
+    type: 'invoice',
+    studioName: 'קרימזון ביט',
+    amount: 450,
+    date: '2024-03-18',
+    dueDate: '2024-04-02',
+    status: 'pending',
+    customerName: 'יוסי מזרחי'
+  },
+  {
+    id: '5',
+    number: 'INV-2024-005',
+    type: 'invoice',
+    studioName: 'אולפני רזוננס',
+    amount: 1800,
+    date: '2024-02-28',
+    dueDate: '2024-03-14',
+    status: 'overdue',
+    customerName: 'פרויקט גמר - דנה'
+  },
+  {
+    id: '6',
+    number: 'REC-2024-012',
+    type: 'receipt',
+    studioName: 'פולס סטודיו',
+    amount: 1200,
+    date: '2024-03-12',
+    dueDate: '2024-03-12',
+    status: 'paid',
+    customerName: 'אביב גפן'
+  },
+  {
+    id: '7',
+    number: 'CTR-2024-001',
+    type: 'contract',
+    studioName: 'אולפני רזוננס',
+    amount: 0,
+    date: '2024-01-15',
+    dueDate: '2024-01-15',
+    status: 'paid',
+    customerName: 'הפקות בע"מ'
+  },
+  {
+    id: '8',
+    number: 'INV-2024-006',
+    type: 'invoice',
+    studioName: 'קרימזון ביט',
+    amount: 950,
+    date: '2024-03-22',
+    dueDate: '2024-04-06',
+    status: 'draft',
+    customerName: 'מיכל אברהם'
+  }
 ];
 
 const STATUSES: { value: DocStatus | 'all'; label: string }[] = [
@@ -61,7 +141,7 @@ const STATUSES: { value: DocStatus | 'all'; label: string }[] = [
   { value: 'paid', label: 'שולם' },
   { value: 'pending', label: 'ממתין' },
   { value: 'overdue', label: 'באיחור' },
-  { value: 'draft', label: 'טיוטה' },
+  { value: 'draft', label: 'טיוטה' }
 ];
 
 // --- Sub-components ---
@@ -71,7 +151,7 @@ const StatusBadge = ({ status }: { status: DocStatus }) => {
     paid: { color: 'status-badge--paid', icon: CheckCircle2, label: 'שולם' },
     pending: { color: 'status-badge--pending', icon: Clock, label: 'ממתין' },
     overdue: { color: 'status-badge--overdue', icon: AlertCircle, label: 'באיחור' },
-    draft: { color: 'status-badge--draft', icon: FileText, label: 'טיוטה' },
+    draft: { color: 'status-badge--draft', icon: FileText, label: 'טיוטה' }
   };
 
   const config = configs[status];
@@ -86,10 +166,10 @@ const StatusBadge = ({ status }: { status: DocStatus }) => {
 };
 
 const MerchantDocumentsPage: React.FC = () => {
-  const { t, i18n } = useTranslation('merchantDocs');
+  const { i18n } = useTranslation('merchantDocs');
   const { user } = useUserContext();
   const { data: studios = [] } = useStudios();
-  
+
   const [search, setSearch] = useState('');
   const [selectedStudio, setSelectedStudio] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState<DocStatus | 'all'>('all');
@@ -113,15 +193,16 @@ const MerchantDocumentsPage: React.FC = () => {
   const studioOptions = useMemo(() => {
     return [
       { value: 'all', label: 'כל האולפנים' },
-      ...userStudios.map(s => ({ value: s._id, label: getLocalizedName(s.name) }))
+      ...userStudios.map((s) => ({ value: s._id, label: getLocalizedName(s.name) }))
     ];
   }, [userStudios, i18n.language]);
 
   // Filter and sort documents
   const filteredDocs = useMemo(() => {
-    return MOCK_DOCUMENTS.filter(doc => {
-      const matchesSearch = doc.number.toLowerCase().includes(search.toLowerCase()) || 
-                           doc.customerName.toLowerCase().includes(search.toLowerCase());
+    return MOCK_DOCUMENTS.filter((doc) => {
+      const matchesSearch =
+        doc.number.toLowerCase().includes(search.toLowerCase()) ||
+        doc.customerName.toLowerCase().includes(search.toLowerCase());
       const matchesStudio = selectedStudio === 'all' || doc.studioName === selectedStudio;
       const matchesStatus = selectedStatus === 'all' || doc.status === selectedStatus;
       return matchesSearch && matchesStudio && matchesStatus;
@@ -140,15 +221,15 @@ const MerchantDocumentsPage: React.FC = () => {
 
   // Calculate stats
   const stats = useMemo(() => {
-    const paidDocs = MOCK_DOCUMENTS.filter(d => d.status === 'paid');
-    const pendingDocs = MOCK_DOCUMENTS.filter(d => d.status === 'pending');
-    const overdueDocs = MOCK_DOCUMENTS.filter(d => d.status === 'overdue');
-    
+    const paidDocs = MOCK_DOCUMENTS.filter((d) => d.status === 'paid');
+    const pendingDocs = MOCK_DOCUMENTS.filter((d) => d.status === 'pending');
+    const overdueDocs = MOCK_DOCUMENTS.filter((d) => d.status === 'overdue');
+
     return {
       totalRevenue: paidDocs.reduce((sum, d) => sum + d.amount, 0),
       pendingAmount: pendingDocs.reduce((sum, d) => sum + d.amount, 0),
       overdueAmount: overdueDocs.reduce((sum, d) => sum + d.amount, 0),
-      totalDocs: MOCK_DOCUMENTS.length,
+      totalDocs: MOCK_DOCUMENTS.length
     };
   }, []);
 
@@ -170,19 +251,15 @@ const MerchantDocumentsPage: React.FC = () => {
             <FileText size={28} className="merchant-documents__icon" />
             <h1 className="merchant-documents__title">ניהול מסמכים</h1>
           </div>
-          <p className="merchant-documents__subtitle">
-            נהל את החשבוניות, הקבלות והחוזים של האולפנים שלך במקום אחד.
-          </p>
+          <p className="merchant-documents__subtitle">נהל את החשבוניות, הקבלות והחוזים של האולפנים שלך במקום אחד.</p>
         </div>
-        
+
         <div className="merchant-documents__actions">
           <button className="merchant-documents__btn merchant-documents__btn--secondary">
             <Download size={18} />
             ייצוא דוח חודשי
           </button>
-          <button className="merchant-documents__btn merchant-documents__btn--primary">
-            חשבונית חדשה
-          </button>
+          <button className="merchant-documents__btn merchant-documents__btn--primary">חשבונית חדשה</button>
         </div>
       </div>
 
@@ -195,7 +272,7 @@ const MerchantDocumentsPage: React.FC = () => {
           <div className="stat-card__value">₪{stats.totalRevenue.toLocaleString()}</div>
           <div className="stat-card__label">סה"כ הכנסות (חודש)</div>
         </div>
-        
+
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--warning">
             <FileClock size={20} />
@@ -203,7 +280,7 @@ const MerchantDocumentsPage: React.FC = () => {
           <div className="stat-card__value">₪{stats.pendingAmount.toLocaleString()}</div>
           <div className="stat-card__label">ממתין לתשלום</div>
         </div>
-        
+
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--danger">
             <AlertCircle size={20} />
@@ -211,7 +288,7 @@ const MerchantDocumentsPage: React.FC = () => {
           <div className="stat-card__value">₪{stats.overdueAmount.toLocaleString()}</div>
           <div className="stat-card__label">באיחור</div>
         </div>
-        
+
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--neutral">
             <FileText size={20} />
@@ -227,8 +304,8 @@ const MerchantDocumentsPage: React.FC = () => {
           {/* Search */}
           <div className="filter-input">
             <Search className="filter-input__icon" size={18} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="חפש לפי מספר או לקוח..."
               className="filter-input__field"
               value={search}
@@ -238,24 +315,32 @@ const MerchantDocumentsPage: React.FC = () => {
 
           {/* Studio Filter */}
           <div className="filter-select">
-            <select 
+            <select
               className="filter-select__field"
               value={selectedStudio}
               onChange={(e) => setSelectedStudio(e.target.value)}
             >
-              {studioOptions.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+              {studioOptions.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
             </select>
             <ChevronDown className="filter-select__icon" size={16} />
           </div>
 
           {/* Status Filter */}
           <div className="filter-select">
-            <select 
+            <select
               className="filter-select__field"
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value as DocStatus | 'all')}
             >
-              {STATUSES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+              {STATUSES.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
             </select>
             <ChevronDown className="filter-select__icon" size={16} />
           </div>
@@ -306,10 +391,10 @@ const MerchantDocumentsPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              <AnimatePresence mode='popLayout'>
+              <AnimatePresence mode="popLayout">
                 {filteredDocs.length > 0 ? (
                   filteredDocs.map((doc) => (
-                    <motion.tr 
+                    <motion.tr
                       key={doc.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -368,9 +453,7 @@ const MerchantDocumentsPage: React.FC = () => {
 
       {/* Load More */}
       <div className="merchant-documents__load-more">
-        <button className="merchant-documents__load-more-btn">
-          טען מסמכים נוספים
-        </button>
+        <button className="merchant-documents__load-more-btn">טען מסמכים נוספים</button>
       </div>
     </div>
   );
