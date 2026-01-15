@@ -272,6 +272,16 @@
   &.Mui-disabled {
     color: var(--text-disabled) !important;
     background-color: transparent !important;
+    opacity: 0.4;
+    cursor: not-allowed;
+    
+    // Better distinction in light mode
+    [data-theme='light'] & {
+      color: #a8a8a8 !important;
+      opacity: 0.5;
+      text-decoration: line-through;
+      text-decoration-color: rgba(0, 0, 0, 0.2);
+    }
   }
 }
 
