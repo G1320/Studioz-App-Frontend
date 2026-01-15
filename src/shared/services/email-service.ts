@@ -96,4 +96,54 @@ export const sendPasswordReset = async (email: string, resetToken: string): Prom
   }
 };
 
+// Brevo Email Templates API
+
+export interface BrevoTemplate {
+  id: number;
+  name: string;
+  subject: string;
+  isActive: boolean;
+  createdAt: string;
+  modifiedAt: string;
+  htmlContent?: string;
+  sender?: {
+    name?: string;
+    email?: string;
+  };
+  replyTo?: string;
+  toField?: string;
+  tag?: string;
+}
+
+export interface BrevoTemplatesResponse {
+  templates: BrevoTemplate[];
+  count: number;
+}
+
+/**
+ * Fetch all email templates from Brevo
+ */
+export const getEmailTemplates = async (): Promise<BrevoTemplatesResponse> => {
+  try {
+    const response = await httpService.get<BrevoTemplatesResponse>(`${emailEndpoint}/templates`);
+    return response;
+  } catch (error) {
+    console.error('Failed to fetch email templates:', error);
+    throw error;
+  }
+};
+
+/**
+ * Fetch a single email template by ID from Brevo
+ */
+export const getEmailTemplate = async (id: number): Promise<BrevoTemplate> => {
+  try {
+    const response = await httpService.get<BrevoTemplate>(`${emailEndpoint}/templates/${id}`);
+    return response;
+  } catch (error) {
+    console.error('Failed to fetch email template:', error);
+    throw error;
+  }
+};
+
 export type { EmailResponse };

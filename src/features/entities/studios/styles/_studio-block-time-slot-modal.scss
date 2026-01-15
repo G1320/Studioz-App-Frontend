@@ -272,6 +272,71 @@
   }
 }
 
+// Confirmation dialog for blocking range
+.block-confirmation {
+  text-align: center;
+
+  &__icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    color: var(--color-warning, #f59e0b) !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  &__details {
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-primary);
+    border-radius: vars.$border-radius-medium;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__message {
+    color: var(--text-secondary);
+    font-size: ds.$font-base;
+    margin: 0 0 1rem 0;
+  }
+
+  &__range {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__date {
+    font-size: ds.$font-lg;
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: vars.$border-radius-small;
+  }
+
+  &__separator {
+    color: var(--text-muted);
+    font-size: ds.$font-xl;
+  }
+
+  &__count {
+    font-size: ds.$font-lg;
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 1rem;
+  }
+
+  &__warning {
+    color: var(--text-muted);
+    font-size: ds.$font-sm;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
 // Block mode selector (radio group)
 .block-mode-selector {
   display: flex;

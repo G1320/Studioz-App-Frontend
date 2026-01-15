@@ -37,6 +37,7 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
   const [rangeEnd, setRangeEnd] = useState<Dayjs | null>(null);
   const [selectingRangeStart, setSelectingRangeStart] = useState(true);
   const [calendarMonth, setCalendarMonth] = useState<Dayjs>(dayjs());
+  const [showConfirmation, setShowConfirmation] = useState(false);
   
   const { t, i18n } = useTranslation(['common', 'studio']);
   const isRTL = i18n.language === 'he';
@@ -137,68 +138,83 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
     return getDatesInRange(rangeStart, rangeEnd).length;
   }, [rangeStart, rangeEnd, getDatesInRange]);
 
+  // Validate and show confirmation for date range
+  const handleBlockRangeClick = () => {
+    if (!rangeStart || !rangeEnd) {
+      return toast.error(t('studio:errors.select_date_range', 'Please select a date range'));
+    }
+
+    const datesToBlock = getDatesInRange(rangeStart, rangeEnd);
+    if (datesToBlock.length === 0) {
+      return toast.error(t('studio:errors.no_available_days', 'No available days in selected range'));
+    }
+
+    setShowConfirmation(true);
+  };
+
+  // Execute the actual date range blocking
+  const executeBlockRange = async () => {
+    if (!rangeStart || !rangeEnd) return;
+
+    const openingTime = studioAvailability?.times[0]?.start;
+    const closingTime = studioAvailability?.times[0]?.end;
+    if (!closingTime || !openingTime) {
+      return toast.error(t('studio:errors.closing_time_unavailable'));
+    }
+
+    const datesToBlock = getDatesInRange(rangeStart, rangeEnd);
+
+    try {
+      setIsLoading(true);
+      setShowConfirmation(false);
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const date of datesToBlock) {
+        try {
+          const bookingDate = date.format('DD/MM/YYYY');
+          await reserveStudioTimeSlots({
+            studioId,
+            bookingDate,
+            startTime: openingTime,
+            hours: entireDayHours
+          });
+          successCount++;
+        } catch {
+          failCount++;
+        }
+      }
+
+      if (successCount > 0) {
+        toast.success(t('studio:success.range_blocked_successfully', { 
+          count: successCount,
+          defaultValue: '{{count}} days blocked successfully' 
+        }));
+      }
+      if (failCount > 0) {
+        toast.warning(t('studio:errors.some_days_failed', { 
+          count: failCount,
+          defaultValue: '{{count}} days failed to block' 
+        }));
+      }
+
+      if (open === undefined) {
+        setIsOpen(false);
+      }
+      onClose?.();
+      resetForm();
+    } catch (error) {
+      toast.error(t('studio:errors.block_failed'));
+      console.error('Error blocking time slots:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleBlockTime = async () => {
-    // Handle date range blocking
+    // Handle date range blocking - show confirmation first
     if (blockMode === 'dateRange') {
-      if (!rangeStart || !rangeEnd) {
-        return toast.error(t('studio:errors.select_date_range', 'Please select a date range'));
-      }
-
-      const openingTime = studioAvailability?.times[0]?.start;
-      const closingTime = studioAvailability?.times[0]?.end;
-      if (!closingTime || !openingTime) {
-        return toast.error(t('studio:errors.closing_time_unavailable'));
-      }
-
-      const datesToBlock = getDatesInRange(rangeStart, rangeEnd);
-      if (datesToBlock.length === 0) {
-        return toast.error(t('studio:errors.no_available_days', 'No available days in selected range'));
-      }
-
-      try {
-        setIsLoading(true);
-        let successCount = 0;
-        let failCount = 0;
-
-        for (const date of datesToBlock) {
-          try {
-            const bookingDate = date.format('DD/MM/YYYY');
-            await reserveStudioTimeSlots({
-              studioId,
-              bookingDate,
-              startTime: openingTime,
-              hours: entireDayHours
-            });
-            successCount++;
-          } catch {
-            failCount++;
-          }
-        }
-
-        if (successCount > 0) {
-          toast.success(t('studio:success.range_blocked_successfully', { 
-            count: successCount,
-            defaultValue: '{{count}} days blocked successfully' 
-          }));
-        }
-        if (failCount > 0) {
-          toast.warning(t('studio:errors.some_days_failed', { 
-            count: failCount,
-            defaultValue: '{{count}} days failed to block' 
-          }));
-        }
-
-        if (open === undefined) {
-          setIsOpen(false);
-        }
-        onClose?.();
-        resetForm();
-      } catch (error) {
-        toast.error(t('studio:errors.block_failed'));
-        console.error('Error blocking time slots:', error);
-      } finally {
-        setIsLoading(false);
-      }
+      handleBlockRangeClick();
       return;
     }
 
@@ -274,6 +290,7 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
     setRangeStart(null);
     setRangeEnd(null);
     setSelectingRangeStart(true);
+    setShowConfirmation(false);
   };
 
   const handleClose = () => {
@@ -423,8 +440,61 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
     return t('studio:block_time');
   };
 
+  // Confirmation screen for date range blocking
+  const renderConfirmation = () => (
+    <div className="modal-content block-confirmation">
+      <div className="block-confirmation__icon">⚠️</div>
+      <h2>{t('studio:confirm_block_range', 'Confirm Block Range')}</h2>
+      
+      <div className="block-confirmation__details">
+        <p className="block-confirmation__message">
+          {t('studio:confirm_block_message', 'You are about to block the following dates:')}
+        </p>
+        
+        <div className="block-confirmation__range">
+          <span className="block-confirmation__date">{rangeStart?.format('DD/MM/YYYY')}</span>
+          <span className="block-confirmation__separator">→</span>
+          <span className="block-confirmation__date">{rangeEnd?.format('DD/MM/YYYY')}</span>
+        </div>
+        
+        <div className="block-confirmation__count">
+          {t('studio:total_days_to_block', { 
+            count: daysToBlock,
+            defaultValue: '{{count}} days will be blocked' 
+          })}
+        </div>
+
+        <p className="block-confirmation__warning">
+          {t('studio:block_warning', 'Blocked days cannot be booked by customers. You can unblock them later from the calendar view.')}
+        </p>
+      </div>
+      
+      <div className="modal-actions">
+        <Button 
+          onClick={() => setShowConfirmation(false)} 
+          className="cancel-button" 
+          disabled={isLoading}
+        >
+          {t('common:cancel')}
+        </Button>
+        <Button 
+          onClick={executeBlockRange} 
+          className="block-button block-button--confirm" 
+          disabled={isLoading}
+        >
+          {isLoading ? t('studio:blocking_days', 'Blocking days...') : t('studio:confirm_block', 'Yes, Block These Days')}
+        </Button>
+      </div>
+    </div>
+  );
+
   // Shared modal content
-  const renderModalContent = () => (
+  const renderModalContent = () => {
+    if (showConfirmation) {
+      return renderConfirmation();
+    }
+
+    return (
     <div className="modal-content">
       <h2>{t('studio:block_time')}</h2>
 
@@ -560,6 +630,7 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
       </div>
     </div>
   );
+  };
 
   // If onClose is provided, this is a controlled component - don't render the trigger button
   if (onClose !== undefined) {

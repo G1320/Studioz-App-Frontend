@@ -322,8 +322,8 @@
 
   &__th {
     padding: vars.$spacing-medium vars.$spacing-large;
-    background: rgba(0, 0, 0, 0.3);
-    color: var(--text-muted);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -331,6 +331,7 @@
     cursor: pointer;
     transition: color 0.2s ease;
     white-space: nowrap;
+    border-bottom: 1px solid var(--border-primary);
 
     &:hover {
       color: var(--text-primary);

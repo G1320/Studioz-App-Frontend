@@ -753,6 +753,7 @@ const CouponsTable = ({
 
 // --- Email Template Components ---
 
+// Sample data for preview mode
 const SAMPLE_EMAIL_DATA: Record<EmailType, EmailData> = {
   RESERVATION_CONFIRMED: {
     customerName: 'יוסי כהן',
@@ -812,6 +813,158 @@ const SAMPLE_EMAIL_DATA: Record<EmailType, EmailData> = {
     price: '79',
     trialEndDate: '1 פברואר 2026',
     actionUrl: 'https://studioz.co.il/dashboard'
+  }
+};
+
+// Brevo variable placeholders for export mode
+const BREVO_VARIABLES: Record<EmailType, EmailData> = {
+  RESERVATION_CONFIRMED: {
+    customerName: '{{ params.customerName }}',
+    studioName: '{{ params.studioName }}',
+    experienceName: '{{ params.experienceName }}',
+    dateTime: '{{ params.dateTime }}',
+    duration: '{{ params.duration }}',
+    location: '{{ params.location }}',
+    totalPaid: '{{ params.totalPaid }}',
+    reservationId: '{{ params.reservationId }}',
+    notes: '{{ params.notes }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  NEW_RESERVATION_OWNER: {
+    ownerName: '{{ params.ownerName }}',
+    studioName: '{{ params.studioName }}',
+    experienceName: '{{ params.experienceName }}',
+    customerName: '{{ params.customerName }}',
+    dateTime: '{{ params.dateTime }}',
+    duration: '{{ params.duration }}',
+    location: '{{ params.location }}',
+    totalPaid: '{{ params.totalPaid }}',
+    reservationId: '{{ params.reservationId }}',
+    guestEmail: '{{ params.guestEmail }}',
+    guestPhone: '{{ params.guestPhone }}',
+    notes: '{{ params.notes }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  SUBSCRIPTION_CONFIRMED: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    price: '{{ params.price }}',
+    startDate: '{{ params.startDate }}',
+    nextBillingDate: '{{ params.nextBillingDate }}',
+    subscriptionId: '{{ params.subscriptionId }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  TRIAL_ENDING_REMINDER: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    price: '{{ params.price }}',
+    daysRemaining: '{{ params.daysRemaining }}' as unknown as number,
+    trialEndDate: '{{ params.trialEndDate }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  TRIAL_CHARGE_FAILED: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    price: '{{ params.price }}',
+    subscriptionId: '{{ params.subscriptionId }}',
+    failureReason: '{{ params.failureReason }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  TRIAL_STARTED_CONFIRMATION: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    price: '{{ params.price }}',
+    trialEndDate: '{{ params.trialEndDate }}',
+    actionUrl: '{{ params.actionUrl }}'
+  }
+};
+
+// Template metadata with Brevo template IDs
+const TEMPLATE_BREVO_IDS: Record<EmailType, number> = {
+  RESERVATION_CONFIRMED: 5, // Order confirmation
+  NEW_RESERVATION_OWNER: 7, // Payout notification
+  SUBSCRIPTION_CONFIRMED: 8, // Subscription payment
+  TRIAL_ENDING_REMINDER: 11,
+  TRIAL_CHARGE_FAILED: 12,
+  TRIAL_STARTED_CONFIRMATION: 13
+};
+
+// Editable template text content
+interface TemplateTextContent {
+  title: string;
+  greeting: string;
+  body: string;
+  ctaText: string;
+  footerText: string;
+}
+
+const DEFAULT_TEMPLATE_TEXT: Record<EmailType, TemplateTextContent> = {
+  RESERVATION_CONFIRMED: {
+    title: 'ההזמנה שלך אושרה',
+    greeting: 'היי',
+    body: 'תודה שהזמנת את {experienceName} בסטודיו {studioName}. הסשן היצירתי שלך משוריין!',
+    ctaText: 'צפייה / ניהול הזמנה →',
+    footerText: 'צריכים עזרה? שלחו מייל או התקשרו אלינו בכל זמן.'
+  },
+  NEW_RESERVATION_OWNER: {
+    title: 'הזמנה חדשה התקבלה',
+    greeting: 'היי',
+    body: 'יש לך הזמנה חדשה בסטודיו {studioName}. הגיע הזמן להכין את הסטודיו!',
+    ctaText: 'צפייה בהזמנה →',
+    footerText: 'אתה מקבל הודעה זו כי הסטודיו בבעלותך.'
+  },
+  SUBSCRIPTION_CONFIRMED: {
+    title: 'המינוי שלך אושר',
+    greeting: 'היי',
+    body: 'תודה שהצטרפת לקהילת StudioZ! המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.',
+    ctaText: 'מעבר לפרופיל →',
+    footerText: ''
+  },
+  TRIAL_ENDING_REMINDER: {
+    title: 'תקופת הניסיון שלך עומדת להסתיים',
+    greeting: 'היי',
+    body: 'רצינו להזכיר שתקופת הניסיון שלך לתוכנית {planName} מסתיימת בעוד {daysRemaining} ימים.',
+    ctaText: 'ניהול מינוי →',
+    footerText: 'אם אתה נהנה מהשירות, אין צורך לבצע אף פעולה.'
+  },
+  TRIAL_CHARGE_FAILED: {
+    title: 'פעולה נדרשת: התשלום נכשל',
+    greeting: 'היי',
+    body: 'לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית {planName} לאחר סיום תקופת הניסיון.',
+    ctaText: 'עדכון פרטי תשלום →',
+    footerText: 'אנא עדכן את פרטי התשלום שלך בהקדם כדי למנוע השהיה של השירות.'
+  },
+  TRIAL_STARTED_CONFIRMATION: {
+    title: 'תקופת הניסיון שלך התחילה!',
+    greeting: 'היי',
+    body: 'ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית {planName} הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.',
+    ctaText: 'התחלת עבודה →',
+    footerText: ''
+  }
+};
+
+// LocalStorage key for template text
+const TEMPLATE_TEXT_STORAGE_KEY = 'studioz_email_template_text';
+
+// Load template text from localStorage
+const loadTemplateText = (): Record<EmailType, TemplateTextContent> => {
+  try {
+    const stored = localStorage.getItem(TEMPLATE_TEXT_STORAGE_KEY);
+    if (stored) {
+      return { ...DEFAULT_TEMPLATE_TEXT, ...JSON.parse(stored) };
+    }
+  } catch (e) {
+    console.error('Failed to load template text:', e);
+  }
+  return DEFAULT_TEMPLATE_TEXT;
+};
+
+// Save template text to localStorage
+const saveTemplateText = (text: Record<EmailType, TemplateTextContent>) => {
+  try {
+    localStorage.setItem(TEMPLATE_TEXT_STORAGE_KEY, JSON.stringify(text));
+  } catch (e) {
+    console.error('Failed to save template text:', e);
   }
 };
 
@@ -1171,13 +1324,308 @@ const EmailTemplatePreview = ({ type, mode }: { type: EmailType; mode: ThemeMode
   }
 };
 
+// Generate Brevo-compatible HTML from the template
+const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: TemplateTextContent): string => {
+  const data = BREVO_VARIABLES[type];
+  const isLight = mode === 'light';
+
+  // Helper to replace {variable} placeholders with Brevo syntax
+  const processText = (text: string): string => {
+    return text
+      .replace(/\{customerName\}/g, `{{ params.customerName }}`)
+      .replace(/\{ownerName\}/g, `{{ params.ownerName }}`)
+      .replace(/\{studioName\}/g, `</span><span style="font-weight: 700; color: #f7c041;">{{ params.studioName }}</span><span>`)
+      .replace(/\{experienceName\}/g, `</span><span style="font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">{{ params.experienceName }}</span><span>`)
+      .replace(/\{planName\}/g, `</span><span style="font-weight: 700; color: #f7c041;">{{ params.planName }}</span><span>`)
+      .replace(/\{daysRemaining\}/g, `</span><span style="font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">{{ params.daysRemaining }}</span><span>`)
+      .replace(/\{price\}/g, `{{ params.price }}`)
+      .replace(/\{trialEndDate\}/g, `{{ params.trialEndDate }}`)
+      .replace(/\{failureReason\}/g, `{{ params.failureReason }}`);
+  };
+
+  // Common styles
+  const styles = {
+    container: `font-family: 'DM Sans', Arial, sans-serif; direction: rtl; max-width: 600px; margin: 0 auto; ${isLight ? 'background: #fafaf9;' : 'background: #18181b;'}`,
+    card: `border-radius: 16px; overflow: hidden; ${isLight ? 'background: #ffffff; border: 1px solid #e7e5e4; box-shadow: 0 10px 40px rgba(0,0,0,0.08);' : 'background: #000000; border: 1px solid #27272a; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);'}`,
+    header: `padding: 24px; display: flex; align-items: center; justify-content: space-between; ${isLight ? 'background: rgba(245,245,244,0.5); border-bottom: 1px solid #e7e5e4;' : 'background: rgba(39,39,42,0.5); border-bottom: 1px solid #27272a;'}`,
+    headerTitle: `font-size: 24px; font-weight: 700; margin: 0; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}`,
+    headerIcon: `width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #f7c041; box-shadow: 0 10px 25px -5px rgba(247,192,65,0.3); color: #000000;`,
+    body: 'padding: 24px;',
+    greeting: 'margin-bottom: 24px;',
+    greetingName: `font-size: 20px; margin: 0 0 8px 0; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}`,
+    greetingText: `line-height: 1.7; margin: 0; ${isLight ? 'color: #57534e;' : 'color: #a1a1aa;'}`,
+    detailsCard: `border-radius: 12px; padding: 20px; ${isLight ? 'background: #fafaf9; border: 1px solid #e7e5e4;' : 'background: rgba(39,39,42,0.2); border: 1px solid rgba(39,39,42,0.5);'}`,
+    detailRow: `display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 0; ${isLight ? 'border-bottom: 1px solid #e7e5e4;' : 'border-bottom: 1px solid #18181b;'}`,
+    detailLabel: `font-size: 14px; font-weight: 500; ${isLight ? 'color: #57534e;' : 'color: #a1a1aa;'}`,
+    detailValue: `font-size: 14px; font-weight: 600; text-align: left; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}`,
+    actionBtn: `display: inline-block; padding: 14px 32px; background: #f7c041; color: #000000; font-weight: 700; font-size: 14px; border-radius: 12px; text-decoration: none; box-shadow: 0 10px 25px -5px rgba(247,192,65,0.3);`,
+    footer: `padding: 24px; text-align: center; ${isLight ? 'background: #f5f5f4; border-top: 1px solid #e7e5e4;' : 'background: rgba(39,39,42,0.3); border-top: 1px solid #18181b;'}`,
+    footerBrand: `font-size: 14px; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 8px; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}`,
+    footerCopyright: 'font-size: 12px; color: #71717a; margin: 0;',
+    brandHighlight: 'font-weight: 700; color: #f7c041;',
+    textBold: `font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}`
+  };
+
+  // Generate template-specific content using editable templateText
+  const { title, greeting, body, ctaText, footerText } = templateText;
+  const processedBody = processText(body);
+
+  // Common greeting section
+  const greetingSection = type === 'NEW_RESERVATION_OWNER'
+    ? `<p style="${styles.greetingName}">${greeting} ${data.ownerName},</p>`
+    : `<p style="${styles.greetingName}">${greeting} ${data.customerName},</p>`;
+
+  let content = '';
+
+  switch (type) {
+    case 'RESERVATION_CONFIRMED':
+      content = `
+        <div style="${styles.header}">
+          <h1 style="${styles.headerTitle}">${title}</h1>
+          <div style="${styles.headerIcon}">✓</div>
+        </div>
+        <div style="${styles.body}">
+          <div style="${styles.greeting}">
+            ${greetingSection}
+            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
+          </div>
+          <div style="${styles.detailsCard}">
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך ושעה</span><span style="${styles.detailValue}">${data.dateTime} (${data.duration})</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 מיקום</span><span style="${styles.detailValue}">${data.location}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סך הכל שולם</span><span style="${styles.detailValue}">${data.totalPaid}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>
+            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">📝 הערות</span><span style="${styles.detailValue}">${data.notes}</span></div>
+          </div>
+          <div style="margin-top: 32px; text-align: center;">
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
+            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
+          </div>
+        </div>`;
+      break;
+
+    case 'NEW_RESERVATION_OWNER':
+      content = `
+        <div style="${styles.header}">
+          <h1 style="${styles.headerTitle}">${title}</h1>
+          <div style="${styles.headerIcon}">✨</div>
+        </div>
+        <div style="${styles.body}">
+          <div style="${styles.greeting}">
+            ${greetingSection}
+            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
+          </div>
+          <div style="${styles.detailsCard}">
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">✨ חוויה</span><span style="${styles.detailValue}">${data.experienceName}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך ושעה</span><span style="${styles.detailValue}">${data.dateTime} (${data.duration})</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">👤 אורח</span><span style="${styles.detailValue}">${data.customerName}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📧 פרטי קשר</span><span style="${styles.detailValue}">${data.guestEmail} • ${data.guestPhone}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סך הכל</span><span style="${styles.detailValue}">${data.totalPaid}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 מיקום</span><span style="${styles.detailValue}">${data.location}</span></div>
+            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">📝 הערות</span><span style="${styles.detailValue}">${data.notes}</span></div>
+          </div>
+          <div style="margin-top: 32px; text-align: center;">
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">צפייה בהזמנה →</a>
+            <p style="font-size: 12px; color: #71717a; margin-top: 16px;">אתה מקבל הודעה זו כי הסטודיו בבעלותך.</p>
+          </div>
+        </div>`;
+      break;
+
+    case 'SUBSCRIPTION_CONFIRMED':
+      content = `
+        <div style="${styles.header}">
+          <h1 style="${styles.headerTitle}">המינוי שלך אושר</h1>
+          <div style="${styles.headerIcon}">💳</div>
+        </div>
+        <div style="${styles.body}">
+          <div style="${styles.greeting}">
+            <p style="${styles.greetingName}">היי ${data.customerName},</p>
+            <p style="${styles.greetingText}">תודה שהצטרפת לקהילת <span style="${styles.brandHighlight}">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.</p>
+          </div>
+          <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
+            <h2 style="font-size: 24px; font-weight: 800; color: #f7c041; margin: 0 0 16px 0;">${data.planName}</h2>
+            <div style="display: flex; align-items: baseline; justify-content: center; gap: 4px; direction: ltr;">
+              <span style="font-size: 3rem; font-weight: 900; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">₪${data.price}</span>
+              <span style="font-size: 16px; color: #71717a;">/month</span>
+            </div>
+          </div>
+          <div style="${styles.detailsCard}">
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מזהה מינוי</span><span style="${styles.detailValue}">${data.subscriptionId}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך התחלה</span><span style="${styles.detailValue}">${data.startDate}</span></div>
+            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">⏰ תאריך חיוב הבא</span><span style="${styles.detailValue}">${data.nextBillingDate}</span></div>
+          </div>
+          <div style="margin-top: 32px; text-align: center;">
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">מעבר לפרופיל →</a>
+          </div>
+        </div>`;
+      break;
+
+    case 'TRIAL_ENDING_REMINDER':
+      content = `
+        <div style="${styles.header}">
+          <h1 style="${styles.headerTitle}">תקופת הניסיון שלך עומדת להסתיים</h1>
+          <div style="${styles.headerIcon}; background: #f59e0b;">⚠️</div>
+        </div>
+        <div style="${styles.body}">
+          <div style="${styles.greeting}">
+            <p style="${styles.greetingName}">היי ${data.customerName},</p>
+            <p style="${styles.greetingText}">רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span style="${styles.brandHighlight}">${data.planName}</span> מסתיימת בעוד <span style="${styles.textBold}">${data.daysRemaining} ימים</span>.</p>
+          </div>
+          <div style="background: rgba(245,158,11,0.05); border: 1px dashed rgba(245,158,11,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#92400e' : 'rgba(253,230,138,0.7)'};">
+            <p style="margin: 0;">לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span style="${styles.textBold}">₪${data.price}</span> לחודש, אלא אם תבטל לפני ה-${data.trialEndDate}.</p>
+          </div>
+          <div style="${styles.detailsCard}">
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך סיום ניסיון</span><span style="${styles.detailValue}">${data.trialEndDate}</span></div>
+            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">💰 מחיר חודשי</span><span style="${styles.detailValue}">₪${data.price}</span></div>
+          </div>
+          <div style="margin-top: 32px; text-align: center;">
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">ניהול מינוי →</a>
+            <p style="font-size: 12px; color: #71717a; margin-top: 16px;">אם אתה נהנה מהשירות, אין צורך לבצע אף פעולה.</p>
+          </div>
+        </div>`;
+      break;
+
+    case 'TRIAL_CHARGE_FAILED':
+      content = `
+        <div style="${styles.header}">
+          <h1 style="${styles.headerTitle}">פעולה נדרשת: התשלום נכשל</h1>
+          <div style="${styles.headerIcon}; background: #ef4444;">⚠️</div>
+        </div>
+        <div style="${styles.body}">
+          <div style="${styles.greeting}">
+            <p style="${styles.greetingName}">היי ${data.customerName},</p>
+            <p style="${styles.greetingText}">לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span style="${styles.textBold}">${data.planName}</span> לאחר סיום תקופת הניסיון.</p>
+          </div>
+          <div style="background: rgba(239,68,68,0.05); border: 1px dashed rgba(239,68,68,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#991b1b' : 'rgba(252,165,165,0.7)'};">
+            <p style="font-weight: 700; margin: 0 0 8px 0;">⚠️ סיבת הכישלון:</p>
+            <p style="margin: 0;">${data.failureReason}</p>
+          </div>
+          <div style="${styles.detailsCard}">
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💰 סכום לתשלום</span><span style="${styles.detailValue}">₪${data.price}</span></div>
+            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}"># מזהה מינוי</span><span style="${styles.detailValue}">${data.subscriptionId}</span></div>
+          </div>
+          <div style="margin-top: 32px; text-align: center;">
+            <a href="${data.actionUrl}" style="${styles.actionBtn}; background: #ef4444; box-shadow: 0 10px 25px -5px rgba(239,68,68,0.3);">עדכון פרטי תשלום →</a>
+            <p style="font-size: 12px; color: #71717a; margin-top: 16px;">אנא עדכן את פרטי התשלום שלך בהקדם כדי למנוע השהיה של השירות.</p>
+          </div>
+        </div>`;
+      break;
+
+    case 'TRIAL_STARTED_CONFIRMATION':
+      content = `
+        <div style="${styles.header}">
+          <h1 style="${styles.headerTitle}">תקופת הניסיון שלך התחילה!</h1>
+          <div style="${styles.headerIcon}">▶️</div>
+        </div>
+        <div style="${styles.body}">
+          <div style="${styles.greeting}">
+            <p style="${styles.greetingName}">היי ${data.customerName},</p>
+            <p style="${styles.greetingText}">ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span style="${styles.brandHighlight}">${data.planName}</span> הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.</p>
+          </div>
+          <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #f7c041; display: inline-flex; align-items: center; justify-content: center; color: #000000; margin-bottom: 16px; box-shadow: 0 20px 40px -10px rgba(247,192,65,0.4);">✨</div>
+            <h2 style="font-size: 24px; font-weight: 800; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'} margin: 0 0 8px 0;">ניסיון ללא עלות</h2>
+            <p style="font-size: 14px; color: #a1a1aa; margin: 0;">מסתיים ב-${data.trialEndDate}</p>
+          </div>
+          <div style="${styles.detailsCard}">
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>
+            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך סיום ניסיון</span><span style="${styles.detailValue}">${data.trialEndDate}</span></div>
+            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">💰 מחיר לאחר הניסיון</span><span style="${styles.detailValue}">₪${data.price} לחודש</span></div>
+          </div>
+          <div style="margin-top: 32px; text-align: center;">
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">התחלת עבודה →</a>
+          </div>
+        </div>`;
+      break;
+  }
+
+  // Wrap in full HTML document
+  return `<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${info.label}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
+  </style>
+</head>
+<body style="margin: 0; padding: 20px; ${isLight ? 'background: #fafaf9;' : 'background: #18181b;'}">
+  <div style="${styles.container}">
+    <div style="${styles.card}">
+      ${content}
+      <div style="${styles.footer}">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+          <img src="https://www.studioz.co.il/android-chrome-512x512.png" alt="StudioZ" style="width: 24px; height: 24px;">
+          <span style="${styles.footerBrand}">STUDIOZ</span>
+        </div>
+        <p style="${styles.footerCopyright}">© ${new Date().getFullYear()} StudioZ — תודה שאתם חלק מהקהילה היצירתית שלנו.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+};
+
 // Email Templates Tab Content
 const EmailTemplatesView = () => {
   const { t } = useTranslation('admin');
   const [selectedType, setSelectedType] = useState<EmailType>('RESERVATION_CONFIRMED');
   const [previewMode, setPreviewMode] = useState<ThemeMode>('dark');
+  const [viewMode, setViewMode] = useState<'preview' | 'variables'>('preview');
+  const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const emailTypes = Object.keys(EMAIL_TYPE_INFO) as EmailType[];
+
+  // Export template as HTML file
+  const handleExportHTML = () => {
+    try {
+      const html = generateBrevoHTML(selectedType, previewMode);
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `${selectedType.toLowerCase()}_${previewMode}_template.html`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      setExportStatus('הקובץ הורד בהצלחה!');
+      setTimeout(() => setExportStatus(null), 3000);
+    } catch (err) {
+      console.error('Export failed:', err);
+      setExportStatus('שגיאה בהורדה');
+      setTimeout(() => setExportStatus(null), 3000);
+    }
+  };
+
+  // Copy HTML to clipboard
+  const handleCopyHTML = async () => {
+    try {
+      const html = generateBrevoHTML(selectedType, previewMode);
+      await navigator.clipboard.writeText(html);
+      setExportStatus('HTML הועתק ללוח!');
+      setTimeout(() => setExportStatus(null), 3000);
+    } catch (err) {
+      console.error('Copy failed:', err);
+      setExportStatus('שגיאה בהעתקה');
+      setTimeout(() => setExportStatus(null), 3000);
+    }
+  };
+
+  // Get variables for current template
+  const getVariablesList = (type: EmailType): string[] => {
+    const vars = BREVO_VARIABLES[type];
+    return Object.entries(vars)
+      .filter(([_, value]) => typeof value === 'string' && value.includes('params.'))
+      .map(([key, value]) => {
+        const paramName = (value as string).replace('{{ params.', '').replace(' }}', '');
+        return `${key}: {{ params.${paramName} }}`;
+      });
+  };
 
   return (
     <div className="admin-email-templates">
@@ -1199,6 +1647,50 @@ const EmailTemplatesView = () => {
               <SunIcon size={16} />
               <span>{t('emailTemplates.light', 'בהיר')}</span>
             </button>
+          </div>
+        </div>
+
+        {/* Export Controls */}
+        <div className="admin-email-templates__controls">
+          <h3 className="admin-email-templates__controls-title">ייצוא ל-Brevo</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <button
+              type="button"
+              className="admin-btn admin-btn--primary"
+              onClick={handleExportHTML}
+              style={{ width: '100%' }}
+            >
+              <DownloadIcon sx={{ fontSize: 16 }} />
+              הורד HTML
+            </button>
+            <button
+              type="button"
+              className="admin-btn admin-btn--secondary"
+              onClick={handleCopyHTML}
+              style={{ width: '100%' }}
+            >
+              העתק HTML
+            </button>
+          </div>
+          {exportStatus && (
+            <div style={{ marginTop: '8px', padding: '8px', background: 'var(--color-success-bg)', color: 'var(--color-success-text)', borderRadius: '8px', fontSize: '12px', textAlign: 'center' }}>
+              {exportStatus}
+            </div>
+          )}
+        </div>
+
+        {/* Template Info */}
+        <div className="admin-email-templates__controls">
+          <h3 className="admin-email-templates__controls-title">מידע על התבנית</h3>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <span>Brevo Template ID:</span>
+              <span style={{ fontFamily: 'monospace', color: 'var(--color-brand)' }}>{TEMPLATE_BREVO_IDS[selectedType]}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>סוג:</span>
+              <span>{EMAIL_TYPE_INFO[selectedType].label}</span>
+            </div>
           </div>
         </div>
 
@@ -1236,12 +1728,58 @@ const EmailTemplatesView = () => {
       <div className="admin-email-templates__preview">
         <div className="admin-email-templates__preview-header">
           <h3>{EMAIL_TYPE_INFO[selectedType].label}</h3>
-          <span className="admin-email-templates__preview-badge">
-            {previewMode === 'dark' ? 'Dark Mode' : 'Light Mode'}
-          </span>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div className="admin-email-templates__mode-toggle" style={{ background: 'var(--bg-elevated)' }}>
+              <button
+                className={cn('admin-email-templates__mode-btn', viewMode === 'preview' && 'admin-email-templates__mode-btn--active')}
+                onClick={() => setViewMode('preview')}
+                style={{ padding: '6px 12px', fontSize: '12px' }}
+              >
+                תצוגה מקדימה
+              </button>
+              <button
+                className={cn('admin-email-templates__mode-btn', viewMode === 'variables' && 'admin-email-templates__mode-btn--active')}
+                onClick={() => setViewMode('variables')}
+                style={{ padding: '6px 12px', fontSize: '12px' }}
+              >
+                משתנים
+              </button>
+            </div>
+            <span className="admin-email-templates__preview-badge">
+              {previewMode === 'dark' ? 'Dark Mode' : 'Light Mode'}
+            </span>
+          </div>
         </div>
         <div className="admin-email-templates__preview-content">
-          <EmailTemplatePreview type={selectedType} mode={previewMode} />
+          {viewMode === 'preview' ? (
+            <EmailTemplatePreview type={selectedType} mode={previewMode} />
+          ) : (
+            <div style={{ padding: '24px', color: 'var(--text-primary)' }}>
+              <h4 style={{ margin: '0 0 16px 0', color: 'var(--text-primary)' }}>משתני Brevo לתבנית זו:</h4>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>
+                העתק את המשתנים הבאים והשתמש בהם בעת שליחת המייל דרך ה-API:
+              </p>
+              <div style={{ background: 'var(--bg-primary)', borderRadius: '12px', padding: '16px', fontFamily: 'monospace', fontSize: '13px', direction: 'ltr', textAlign: 'left' }}>
+                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
+{`{
+  "params": {
+${getVariablesList(selectedType).map(v => `    "${v.split(':')[0].trim()}": "value"`).join(',\n')}
+  }
+}`}
+                </pre>
+              </div>
+              <h4 style={{ margin: '24px 0 12px 0', color: 'var(--text-primary)' }}>רשימת משתנים:</h4>
+              <ul style={{ margin: 0, padding: '0 0 0 20px', color: 'var(--text-secondary)', fontSize: '13px' }}>
+                {getVariablesList(selectedType).map((v, i) => (
+                  <li key={i} style={{ marginBottom: '4px' }}>
+                    <code style={{ background: 'var(--bg-elevated)', padding: '2px 6px', borderRadius: '4px', fontSize: '12px' }}>
+                      {v.split(':')[0].trim()}
+                    </code>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
