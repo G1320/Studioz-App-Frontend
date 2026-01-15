@@ -1,11 +1,20 @@
 import { useLocation } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, ReactNode } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { useItems, useStudios, useCart, useBrevoChat } from '@shared/hooks';
 import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@core/config';
 import { HelmetProvider } from 'react-helmet-async';
+
+// Feature flag to disable PayPal SDK loading (saves ~93 KiB)
+const ENABLE_PAYPAL = import.meta.env.VITE_ENABLE_PAYPAL === 'true';
+
+// Conditional wrapper - only loads PayPal SDK when enabled
+const PayPalWrapper = ({ children }: { children: ReactNode }) => {
+  if (!ENABLE_PAYPAL) return <>{children}</>;
+  return <PayPalScriptProvider options={initialOptions}>{children}</PayPalScriptProvider>;
+};
 
 import { Header, ResponsiveFooter } from '@app/layout';
 import { ScrollToTop } from '@shared/utility-components';
@@ -37,7 +46,7 @@ function App() {
 
   return (
     <HelmetProvider>
-      <PayPalScriptProvider options={initialOptions}>
+      <PayPalWrapper>
         <Header cart={onlineCart || offlineCart} user={user} />
         <SEOTags path={location.pathname} search={location.search} />
 
@@ -71,7 +80,7 @@ function App() {
             className: 'toast'
           }}
         />
-      </PayPalScriptProvider>
+      </PayPalWrapper>
     </HelmetProvider>
   );
 }
