@@ -150,12 +150,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
         <div className="landing-hero__background">
           <picture>
             <source srcSet="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" />
-            {/* @ts-expect-error - fetchpriority is a valid HTML attribute */}
             <img
               src="/images/Landing-Studio1320-1.jpg"
               alt="Studio Background"
               className="landing-hero__image"
-              fetchpriority="high"
               decoding="async"
             />
           </picture>
