@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { Fragment, useState, useEffect, useCallback, Suspense, type ReactNode } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { ValidationMode } from '@shared/validation/types';
 import { useZodForm } from '@shared/validation/hooks/useZodForm';
 import { FieldError } from '@shared/validation/components';
 
-import { GoogleAddressAutocomplete } from '@shared/components';
+import { LazyGoogleAddressAutocomplete } from '@shared/components';
 import { BusinessHours, defaultHours } from './form-utils';
 
 import { ParkingIcon, CarIcon, ParkingOutlinedIcon, BlockIcon } from '@shared/components/icons';
@@ -233,19 +233,21 @@ export const GenericForm = ({
                   <label htmlFor={field.name} className="form-label">
                     {field.label}
                   </label>
-                  <GoogleAddressAutocomplete
-                    defaultValue={field.value || ''}
-                    placeholder={field.placeholder}
-                    onPlaceSelected={handlePlaceSelected}
-                    fieldName={field.name}
-                    onInputChange={(value: string) => {
-                      handleFieldChange('address', value, field.onChange);
-                    }}
-                    aria-describedby={
-                      hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined
-                    }
-                    aria-invalid={hasError}
-                  />
+                  <Suspense fallback={<input className="form-input" placeholder={field.placeholder} disabled />}>
+                    <LazyGoogleAddressAutocomplete
+                      defaultValue={field.value || ''}
+                      placeholder={field.placeholder}
+                      onPlaceSelected={handlePlaceSelected}
+                      fieldName={field.name}
+                      onInputChange={(value: string) => {
+                        handleFieldChange('address', value, field.onChange);
+                      }}
+                      aria-describedby={
+                        hasError ? `error-${field.name}` : field.helperText ? `helper-${field.name}` : undefined
+                      }
+                      aria-invalid={hasError}
+                    />
+                  </Suspense>
                   {field.helperText && (
                     <p id={`helper-${field.name}`} className="form-helper-text">
                       {field.helperText}
