@@ -30,6 +30,7 @@ import studioManager from './locales/en/studioManager.json';
 import changelog from './locales/en/changelog.json';
 import merchantStats from './locales/en/merchantStats.json';
 import merchantDocs from './locales/en/merchantDocs.json';
+import security from './locales/en/security.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -59,6 +60,7 @@ import studioManagerHe from './locales/he/studioManager.json';
 import changelogHe from './locales/he/changelog.json';
 import merchantStatsHe from './locales/he/merchantStats.json';
 import merchantDocsHe from './locales/he/merchantDocs.json';
+import securityHe from './locales/he/security.json';
 
 i18n
   .use(LanguageDetector)
@@ -93,7 +95,8 @@ i18n
         studioManager,
         changelog,
         merchantStats,
-        merchantDocs
+        merchantDocs,
+        security
       },
       he: {
         discoverPage: discoverPageHe,
@@ -123,7 +126,8 @@ i18n
         studioManager: studioManagerHe,
         changelog: changelogHe,
         merchantStats: merchantStatsHe,
-        merchantDocs: merchantDocsHe
+        merchantDocs: merchantDocsHe,
+        security: securityHe
       }
     },
     fallbackLng: 'he',

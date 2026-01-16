@@ -245,6 +245,8 @@ export { default as TableIcon } from '@mui/icons-material/TableChart';
 export { default as SparklesIcon } from '@mui/icons-material/AutoAwesome';
 export { default as AlertTriangleIcon } from '@mui/icons-material/Warning';
 export { default as ExternalLinkIcon } from '@mui/icons-material/OpenInNew';
+export { default as FingerprintIcon } from '@mui/icons-material/Fingerprint';
+export { default as StorageIcon } from '@mui/icons-material/Storage';
 
 // ===================
 // ICON TYPE

@@ -29,7 +29,8 @@ const BASE_ROUTES = [
   '/subscription',
   '/how-it-works',
   '/privacy',
-  '/terms'
+  '/terms',
+  '/security'
 ];
 
 // Subcategories for filter pages
