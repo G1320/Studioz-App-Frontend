@@ -66,7 +66,7 @@ const CITIES = [
 ];
 
 /**
- * Fetch all studios from the API
+ * Fetch all active/published studios from the API
  */
 async function fetchStudios() {
   try {
@@ -78,8 +78,14 @@ async function fetchStudios() {
     }
 
     const studios = await response.json();
-    console.log(`✅ Fetched ${studios.length} studios`);
-    return studios;
+    
+    // Filter to only include active/published studios
+    const activeStudios = studios.filter(studio => 
+      studio.isActive !== false && studio.isPublished !== false
+    );
+    
+    console.log(`✅ Fetched ${studios.length} studios (${activeStudios.length} active)`);
+    return activeStudios;
   } catch (error) {
     console.error('❌ Error fetching studios:', error.message);
     console.log('⚠️  Continuing with static routes only...');

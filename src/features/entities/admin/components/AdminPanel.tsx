@@ -946,25 +946,33 @@ const DEFAULT_TEMPLATE_TEXT: Record<EmailType, TemplateTextContent> = {
 // LocalStorage key for template text
 const TEMPLATE_TEXT_STORAGE_KEY = 'studioz_email_template_text';
 
-// Load template text from localStorage
+// Load template text from localStorage (with defaults)
 const loadTemplateText = (): Record<EmailType, TemplateTextContent> => {
   try {
     const stored = localStorage.getItem(TEMPLATE_TEXT_STORAGE_KEY);
     if (stored) {
-      return { ...DEFAULT_TEMPLATE_TEXT, ...JSON.parse(stored) };
+      const parsed = JSON.parse(stored);
+      // Merge with defaults to ensure all fields exist
+      return Object.keys(DEFAULT_TEMPLATE_TEXT).reduce((acc, key) => {
+        acc[key as EmailType] = {
+          ...DEFAULT_TEMPLATE_TEXT[key as EmailType],
+          ...(parsed[key] || {})
+        };
+        return acc;
+      }, {} as Record<EmailType, TemplateTextContent>);
     }
   } catch (e) {
-    console.error('Failed to load template text:', e);
+    console.error('Error loading template text:', e);
   }
-  return DEFAULT_TEMPLATE_TEXT;
+  return { ...DEFAULT_TEMPLATE_TEXT };
 };
 
 // Save template text to localStorage
-const saveTemplateText = (text: Record<EmailType, TemplateTextContent>) => {
+const saveTemplateText = (text: Record<EmailType, TemplateTextContent>): void => {
   try {
     localStorage.setItem(TEMPLATE_TEXT_STORAGE_KEY, JSON.stringify(text));
   } catch (e) {
-    console.error('Failed to save template text:', e);
+    console.error('Error saving template text:', e);
   }
 };
 
@@ -1425,8 +1433,8 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
             <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">📝 הערות</span><span style="${styles.detailValue}">${data.notes}</span></div>
           </div>
           <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">צפייה בהזמנה →</a>
-            <p style="font-size: 12px; color: #71717a; margin-top: 16px;">אתה מקבל הודעה זו כי הסטודיו בבעלותך.</p>
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
+            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
           </div>
         </div>`;
       break;
@@ -1434,13 +1442,13 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
     case 'SUBSCRIPTION_CONFIRMED':
       content = `
         <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">המינוי שלך אושר</h1>
+          <h1 style="${styles.headerTitle}">${title}</h1>
           <div style="${styles.headerIcon}">💳</div>
         </div>
         <div style="${styles.body}">
           <div style="${styles.greeting}">
-            <p style="${styles.greetingName}">היי ${data.customerName},</p>
-            <p style="${styles.greetingText}">תודה שהצטרפת לקהילת <span style="${styles.brandHighlight}">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.</p>
+            ${greetingSection}
+            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
           </div>
           <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
             <h2 style="font-size: 24px; font-weight: 800; color: #f7c041; margin: 0 0 16px 0;">${data.planName}</h2>
@@ -1455,7 +1463,8 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
             <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">⏰ תאריך חיוב הבא</span><span style="${styles.detailValue}">${data.nextBillingDate}</span></div>
           </div>
           <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">מעבר לפרופיל →</a>
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
+            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
           </div>
         </div>`;
       break;
@@ -1463,13 +1472,13 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
     case 'TRIAL_ENDING_REMINDER':
       content = `
         <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">תקופת הניסיון שלך עומדת להסתיים</h1>
+          <h1 style="${styles.headerTitle}">${title}</h1>
           <div style="${styles.headerIcon}; background: #f59e0b;">⚠️</div>
         </div>
         <div style="${styles.body}">
           <div style="${styles.greeting}">
-            <p style="${styles.greetingName}">היי ${data.customerName},</p>
-            <p style="${styles.greetingText}">רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span style="${styles.brandHighlight}">${data.planName}</span> מסתיימת בעוד <span style="${styles.textBold}">${data.daysRemaining} ימים</span>.</p>
+            ${greetingSection}
+            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
           </div>
           <div style="background: rgba(245,158,11,0.05); border: 1px dashed rgba(245,158,11,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#92400e' : 'rgba(253,230,138,0.7)'};">
             <p style="margin: 0;">לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span style="${styles.textBold}">₪${data.price}</span> לחודש, אלא אם תבטל לפני ה-${data.trialEndDate}.</p>
@@ -1480,8 +1489,8 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
             <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">💰 מחיר חודשי</span><span style="${styles.detailValue}">₪${data.price}</span></div>
           </div>
           <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">ניהול מינוי →</a>
-            <p style="font-size: 12px; color: #71717a; margin-top: 16px;">אם אתה נהנה מהשירות, אין צורך לבצע אף פעולה.</p>
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
+            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
           </div>
         </div>`;
       break;
@@ -1489,13 +1498,13 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
     case 'TRIAL_CHARGE_FAILED':
       content = `
         <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">פעולה נדרשת: התשלום נכשל</h1>
+          <h1 style="${styles.headerTitle}">${title}</h1>
           <div style="${styles.headerIcon}; background: #ef4444;">⚠️</div>
         </div>
         <div style="${styles.body}">
           <div style="${styles.greeting}">
-            <p style="${styles.greetingName}">היי ${data.customerName},</p>
-            <p style="${styles.greetingText}">לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span style="${styles.textBold}">${data.planName}</span> לאחר סיום תקופת הניסיון.</p>
+            ${greetingSection}
+            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
           </div>
           <div style="background: rgba(239,68,68,0.05); border: 1px dashed rgba(239,68,68,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#991b1b' : 'rgba(252,165,165,0.7)'};">
             <p style="font-weight: 700; margin: 0 0 8px 0;">⚠️ סיבת הכישלון:</p>
@@ -1507,8 +1516,8 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
             <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}"># מזהה מינוי</span><span style="${styles.detailValue}">${data.subscriptionId}</span></div>
           </div>
           <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}; background: #ef4444; box-shadow: 0 10px 25px -5px rgba(239,68,68,0.3);">עדכון פרטי תשלום →</a>
-            <p style="font-size: 12px; color: #71717a; margin-top: 16px;">אנא עדכן את פרטי התשלום שלך בהקדם כדי למנוע השהיה של השירות.</p>
+            <a href="${data.actionUrl}" style="${styles.actionBtn}; background: #ef4444; box-shadow: 0 10px 25px -5px rgba(239,68,68,0.3);">${ctaText}</a>
+            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
           </div>
         </div>`;
       break;
@@ -1516,13 +1525,13 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
     case 'TRIAL_STARTED_CONFIRMATION':
       content = `
         <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">תקופת הניסיון שלך התחילה!</h1>
+          <h1 style="${styles.headerTitle}">${title}</h1>
           <div style="${styles.headerIcon}">▶️</div>
         </div>
         <div style="${styles.body}">
           <div style="${styles.greeting}">
-            <p style="${styles.greetingName}">היי ${data.customerName},</p>
-            <p style="${styles.greetingText}">ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span style="${styles.brandHighlight}">${data.planName}</span> הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.</p>
+            ${greetingSection}
+            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
           </div>
           <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
             <div style="width: 64px; height: 64px; border-radius: 50%; background: #f7c041; display: inline-flex; align-items: center; justify-content: center; color: #000000; margin-bottom: 16px; box-shadow: 0 20px 40px -10px rgba(247,192,65,0.4);">✨</div>
@@ -1535,7 +1544,8 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
             <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">💰 מחיר לאחר הניסיון</span><span style="${styles.detailValue}">₪${data.price} לחודש</span></div>
           </div>
           <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">התחלת עבודה →</a>
+            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
+            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
           </div>
         </div>`;
       break;
@@ -1547,7 +1557,7 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${info.label}</title>
+  <title>${EMAIL_TYPE_INFO[type].label}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
   </style>
@@ -1574,15 +1584,53 @@ const EmailTemplatesView = () => {
   const { t } = useTranslation('admin');
   const [selectedType, setSelectedType] = useState<EmailType>('RESERVATION_CONFIRMED');
   const [previewMode, setPreviewMode] = useState<ThemeMode>('dark');
-  const [viewMode, setViewMode] = useState<'preview' | 'variables'>('preview');
+  const [viewMode, setViewMode] = useState<'preview' | 'variables' | 'edit'>('preview');
   const [exportStatus, setExportStatus] = useState<string | null>(null);
 
+  // Editable template text state
+  const [templateText, setTemplateText] = useState<Record<EmailType, TemplateTextContent>>(() => loadTemplateText());
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
   const emailTypes = Object.keys(EMAIL_TYPE_INFO) as EmailType[];
+
+  // Get current template's text content
+  const currentText = templateText[selectedType];
+
+  // Update a single field for the current template
+  const handleTextChange = (field: keyof TemplateTextContent, value: string) => {
+    setTemplateText(prev => ({
+      ...prev,
+      [selectedType]: {
+        ...prev[selectedType],
+        [field]: value
+      }
+    }));
+    setHasUnsavedChanges(true);
+  };
+
+  // Save all changes to localStorage
+  const handleSave = () => {
+    saveTemplateText(templateText);
+    setHasUnsavedChanges(false);
+    setExportStatus('השינויים נשמרו בהצלחה!');
+    setTimeout(() => setExportStatus(null), 3000);
+  };
+
+  // Reset current template to default
+  const handleResetCurrent = () => {
+    setTemplateText(prev => ({
+      ...prev,
+      [selectedType]: { ...DEFAULT_TEMPLATE_TEXT[selectedType] }
+    }));
+    setHasUnsavedChanges(true);
+    setExportStatus('התבנית אופסה לברירת מחדל (שמור כדי להחיל)');
+    setTimeout(() => setExportStatus(null), 3000);
+  };
 
   // Export template as HTML file
   const handleExportHTML = () => {
     try {
-      const html = generateBrevoHTML(selectedType, previewMode);
+      const html = generateBrevoHTML(selectedType, previewMode, currentText);
       const blob = new Blob([html], { type: 'text/html' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -1605,7 +1653,7 @@ const EmailTemplatesView = () => {
   // Copy HTML to clipboard
   const handleCopyHTML = async () => {
     try {
-      const html = generateBrevoHTML(selectedType, previewMode);
+      const html = generateBrevoHTML(selectedType, previewMode, currentText);
       await navigator.clipboard.writeText(html);
       setExportStatus('HTML הועתק ללוח!');
       setTimeout(() => setExportStatus(null), 3000);
@@ -1679,6 +1727,44 @@ const EmailTemplatesView = () => {
           )}
         </div>
 
+        {/* Edit Controls */}
+        <div className="admin-email-templates__controls">
+          <h3 className="admin-email-templates__controls-title">עריכת טקסט</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <button
+              type="button"
+              className={cn('admin-btn', viewMode === 'edit' ? 'admin-btn--primary' : 'admin-btn--secondary')}
+              onClick={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
+              style={{ width: '100%' }}
+            >
+              {viewMode === 'edit' ? 'סגור עריכה' : 'ערוך טקסט'}
+            </button>
+            {hasUnsavedChanges && (
+              <button
+                type="button"
+                className="admin-btn admin-btn--primary"
+                onClick={handleSave}
+                style={{ width: '100%' }}
+              >
+                שמור שינויים
+              </button>
+            )}
+            <button
+              type="button"
+              className="admin-btn admin-btn--secondary"
+              onClick={handleResetCurrent}
+              style={{ width: '100%', fontSize: '12px' }}
+            >
+              אפס תבנית נוכחית
+            </button>
+          </div>
+          {hasUnsavedChanges && (
+            <div style={{ marginTop: '8px', padding: '8px', background: 'rgba(245,158,11,0.1)', color: '#f59e0b', borderRadius: '8px', fontSize: '11px', textAlign: 'center' }}>
+              יש שינויים שלא נשמרו
+            </div>
+          )}
+        </div>
+
         {/* Template Info */}
         <div className="admin-email-templates__controls">
           <h3 className="admin-email-templates__controls-title">מידע על התבנית</h3>
@@ -1738,6 +1824,13 @@ const EmailTemplatesView = () => {
                 תצוגה מקדימה
               </button>
               <button
+                className={cn('admin-email-templates__mode-btn', viewMode === 'edit' && 'admin-email-templates__mode-btn--active')}
+                onClick={() => setViewMode('edit')}
+                style={{ padding: '6px 12px', fontSize: '12px' }}
+              >
+                עריכה
+              </button>
+              <button
                 className={cn('admin-email-templates__mode-btn', viewMode === 'variables' && 'admin-email-templates__mode-btn--active')}
                 onClick={() => setViewMode('variables')}
                 style={{ padding: '6px 12px', fontSize: '12px' }}
@@ -1751,9 +1844,143 @@ const EmailTemplatesView = () => {
           </div>
         </div>
         <div className="admin-email-templates__preview-content">
-          {viewMode === 'preview' ? (
+          {viewMode === 'preview' && (
             <EmailTemplatePreview type={selectedType} mode={previewMode} />
-          ) : (
+          )}
+          {viewMode === 'edit' && (
+            <div style={{ padding: '24px', color: 'var(--text-primary)' }}>
+              <h4 style={{ margin: '0 0 8px 0', color: 'var(--text-primary)' }}>עריכת טקסט התבנית</h4>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '24px' }}>
+                ערוך את טקסט המייל. השתמש ב-{'{'}משתנה{'}'} כדי להוסיף ערכים דינמיים (לדוגמה: {'{'}customerName{'}'}, {'{'}studioName{'}'}, {'{'}planName{'}'})
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {/* Title */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>כותרת</label>
+                  <input
+                    type="text"
+                    value={currentText.title}
+                    onChange={(e) => handleTextChange('title', e.target.value)}
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-primary)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      fontSize: '14px',
+                      direction: 'rtl'
+                    }}
+                  />
+                </div>
+
+                {/* Greeting */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>ברכה</label>
+                  <input
+                    type="text"
+                    value={currentText.greeting}
+                    onChange={(e) => handleTextChange('greeting', e.target.value)}
+                    placeholder="לדוגמה: היי, שלום"
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-primary)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      fontSize: '14px',
+                      direction: 'rtl'
+                    }}
+                  />
+                </div>
+
+                {/* Body */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>גוף ההודעה</label>
+                  <textarea
+                    value={currentText.body}
+                    onChange={(e) => handleTextChange('body', e.target.value)}
+                    rows={4}
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-primary)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      fontSize: '14px',
+                      resize: 'vertical',
+                      direction: 'rtl',
+                      lineHeight: 1.6
+                    }}
+                  />
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    משתנים זמינים: {'{'}customerName{'}'}, {'{'}studioName{'}'}, {'{'}experienceName{'}'}, {'{'}planName{'}'}, {'{'}daysRemaining{'}'}, {'{'}price{'}'}, {'{'}trialEndDate{'}'}
+                  </span>
+                </div>
+
+                {/* CTA Text */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>טקסט כפתור</label>
+                  <input
+                    type="text"
+                    value={currentText.ctaText}
+                    onChange={(e) => handleTextChange('ctaText', e.target.value)}
+                    placeholder="לדוגמה: צפייה בהזמנה →"
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-primary)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      fontSize: '14px',
+                      direction: 'rtl'
+                    }}
+                  />
+                </div>
+
+                {/* Footer Text */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>טקסט תחתון (אופציונלי)</label>
+                  <input
+                    type="text"
+                    value={currentText.footerText}
+                    onChange={(e) => handleTextChange('footerText', e.target.value)}
+                    placeholder="לדוגמה: צריכים עזרה? צרו קשר בכל זמן"
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-primary)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      fontSize: '14px',
+                      direction: 'rtl'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Save/Reset buttons */}
+              <div style={{ display: 'flex', gap: '12px', marginTop: '32px', justifyContent: 'flex-start' }}>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--primary"
+                  onClick={handleSave}
+                  disabled={!hasUnsavedChanges}
+                  style={{ opacity: hasUnsavedChanges ? 1 : 0.5 }}
+                >
+                  שמור שינויים
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--secondary"
+                  onClick={handleResetCurrent}
+                >
+                  אפס לברירת מחדל
+                </button>
+              </div>
+            </div>
+          )}
+          {viewMode === 'variables' && (
             <div style={{ padding: '24px', color: 'var(--text-primary)' }}>
               <h4 style={{ margin: '0 0 16px 0', color: 'var(--text-primary)' }}>משתני Brevo לתבנית זו:</h4>
               <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>
