@@ -44,9 +44,9 @@ import './styles/_admin-panel.scss';
 type Tab = 'overview' | 'users' | 'studios' | 'services' | 'coupons' | 'emailTemplates';
 
 // Email Template Types
-type EmailType = 
-  | 'RESERVATION_CONFIRMED' 
-  | 'NEW_RESERVATION_OWNER' 
+type EmailType =
+  | 'RESERVATION_CONFIRMED'
+  | 'NEW_RESERVATION_OWNER'
   | 'SUBSCRIPTION_CONFIRMED'
   | 'TRIAL_ENDING_REMINDER'
   | 'TRIAL_CHARGE_FAILED'
@@ -953,13 +953,16 @@ const loadTemplateText = (): Record<EmailType, TemplateTextContent> => {
     if (stored) {
       const parsed = JSON.parse(stored);
       // Merge with defaults to ensure all fields exist
-      return Object.keys(DEFAULT_TEMPLATE_TEXT).reduce((acc, key) => {
-        acc[key as EmailType] = {
-          ...DEFAULT_TEMPLATE_TEXT[key as EmailType],
-          ...(parsed[key] || {})
-        };
-        return acc;
-      }, {} as Record<EmailType, TemplateTextContent>);
+      return Object.keys(DEFAULT_TEMPLATE_TEXT).reduce(
+        (acc, key) => {
+          acc[key as EmailType] = {
+            ...DEFAULT_TEMPLATE_TEXT[key as EmailType],
+            ...(parsed[key] || {})
+          };
+          return acc;
+        },
+        {} as Record<EmailType, TemplateTextContent>
+      );
     }
   } catch (e) {
     console.error('Error loading template text:', e);
@@ -976,7 +979,10 @@ const saveTemplateText = (text: Record<EmailType, TemplateTextContent>): void =>
   }
 };
 
-const EMAIL_TYPE_INFO: Record<EmailType, { label: string; description: string; icon: React.ElementType; variant?: 'default' | 'danger' | 'warning' }> = {
+const EMAIL_TYPE_INFO: Record<
+  EmailType,
+  { label: string; description: string; icon: React.ElementType; variant?: 'default' | 'danger' | 'warning' }
+> = {
   RESERVATION_CONFIRMED: {
     label: 'אישור הזמנה',
     description: 'נשלח ללקוח לאחר אישור ההזמנה',
@@ -1015,18 +1021,23 @@ const EMAIL_TYPE_INFO: Record<EmailType, { label: string; description: string; i
 const EmailWrapper = ({ children, mode = 'dark' }: { children: React.ReactNode; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
-    <div 
-      className={`email-preview-container ${isLight ? 'email-preview-container--light' : ''}`}
-      dir="rtl"
-    >
-      <div className={`email-preview-card ${isLight ? 'email-preview-card--light' : ''}`}>
-        {children}
-      </div>
+    <div className={`email-preview-container ${isLight ? 'email-preview-container--light' : ''}`} dir="rtl">
+      <div className={`email-preview-card ${isLight ? 'email-preview-card--light' : ''}`}>{children}</div>
     </div>
   );
 };
 
-const EmailHeader = ({ title, icon: Icon, mode = 'dark', variant = 'default' }: { title: string; icon: React.ElementType; mode?: ThemeMode; variant?: 'default' | 'danger' | 'warning' }) => {
+const EmailHeader = ({
+  title,
+  icon: Icon,
+  mode = 'dark',
+  variant = 'default'
+}: {
+  title: string;
+  icon: React.ElementType;
+  mode?: ThemeMode;
+  variant?: 'default' | 'danger' | 'warning';
+}) => {
   const isLight = mode === 'light';
   let iconClass = 'email-header__icon';
   if (variant === 'danger') iconClass += ' email-header__icon--danger';
@@ -1042,7 +1053,17 @@ const EmailHeader = ({ title, icon: Icon, mode = 'dark', variant = 'default' }: 
   );
 };
 
-const EmailDetailRow = ({ label, value, icon: Icon, mode = 'dark' }: { label: string; value: string; icon: React.ElementType; mode?: ThemeMode }) => {
+const EmailDetailRow = ({
+  label,
+  value,
+  icon: Icon,
+  mode = 'dark'
+}: {
+  label: string;
+  value: string;
+  icon: React.ElementType;
+  mode?: ThemeMode;
+}) => {
   const isLight = mode === 'light';
   return (
     <div className={`email-detail-row ${isLight ? 'email-detail-row--light' : ''}`}>
@@ -1055,12 +1076,16 @@ const EmailDetailRow = ({ label, value, icon: Icon, mode = 'dark' }: { label: st
   );
 };
 
-const EmailFooter = ({ studioName = "StudioZ", mode = 'dark' }: { studioName?: string; mode?: ThemeMode }) => {
+const EmailFooter = ({ studioName = 'StudioZ', mode = 'dark' }: { studioName?: string; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <div className={`email-footer ${isLight ? 'email-footer--light' : ''}`}>
       <div className="email-footer__logo">
-        <img src="https://www.studioz.co.il/android-chrome-512x512.png" alt="StudioZ" className="email-footer__logo-img" />
+        <img
+          src="https://www.studioz.co.il/android-chrome-512x512.png"
+          alt="StudioZ"
+          className="email-footer__logo-img"
+        />
         <span className={`email-footer__brand ${isLight ? 'email-footer__brand--light' : ''}`}>STUDIOZ</span>
       </div>
       <p className="email-footer__copyright">
@@ -1070,7 +1095,15 @@ const EmailFooter = ({ studioName = "StudioZ", mode = 'dark' }: { studioName?: s
   );
 };
 
-const EmailActionButton = ({ href, label, variant = 'primary' }: { href?: string; label: string; variant?: 'primary' | 'danger' }) => {
+const EmailActionButton = ({
+  href,
+  label,
+  variant = 'primary'
+}: {
+  href?: string;
+  label: string;
+  variant?: 'primary' | 'danger';
+}) => {
   return (
     <a href={href} className={`email-action-btn ${variant === 'danger' ? 'email-action-btn--danger' : ''}`}>
       <span>{label}</span>
@@ -1087,19 +1120,26 @@ const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; m
       <EmailHeader title="ההזמנה שלך אושרה" icon={CheckCircle2Icon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            תודה שהזמנת את <span className="email-text--bold">{data.experienceName}</span> בסטודיו <span className="email-text--brand">{data.studioName}</span>. 
-            הסשן היצירתי שלך משוריין!
+            תודה שהזמנת את <span className="email-text--bold">{data.experienceName}</span> בסטודיו{' '}
+            <span className="email-text--brand">{data.studioName}</span>. הסשן היצירתי שלך משוריין!
           </p>
         </div>
 
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-          <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
-          <EmailDetailRow label="מיקום" value={data.location || ""} icon={LocationIcon} mode={mode} />
-          <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ""} icon={CreditCardIcon} mode={mode} />
-          <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ""} icon={HashIcon} mode={mode} />
-          <EmailDetailRow label="הערות" value={data.notes || "אין"} icon={FileTextIcon} mode={mode} />
+          <EmailDetailRow
+            label="תאריך ושעה"
+            value={`${data.dateTime} (${data.duration})`}
+            icon={CalendarIcon}
+            mode={mode}
+          />
+          <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
+          <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
+          <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
+          <EmailDetailRow label="הערות" value={data.notes || 'אין'} icon={FileTextIcon} mode={mode} />
         </div>
 
         <div className="email-actions">
@@ -1119,22 +1159,34 @@ const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
       <EmailHeader title="הזמנה חדשה התקבלה" icon={SparklesIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.ownerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.ownerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            יש לך הזמנה חדשה בסטודיו <span className="email-text--brand">{data.studioName}</span>. 
-            הגיע הזמן להכין את הסטודיו!
+            יש לך הזמנה חדשה בסטודיו <span className="email-text--brand">{data.studioName}</span>. הגיע הזמן להכין את
+            הסטודיו!
           </p>
         </div>
 
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-          <EmailDetailRow label="חוויה" value={data.experienceName || ""} icon={SparklesIcon} mode={mode} />
-          <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
-          <EmailDetailRow label="אורח" value={data.customerName || ""} icon={UserLucideIcon} mode={mode} />
-          <EmailDetailRow label="פרטי קשר" value={`${data.guestEmail} • ${data.guestPhone}`} icon={MailIcon} mode={mode} />
-          <EmailDetailRow label="סך הכל" value={data.totalPaid || ""} icon={CreditCardIcon} mode={mode} />
-          <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ""} icon={HashIcon} mode={mode} />
-          <EmailDetailRow label="מיקום" value={data.location || ""} icon={LocationIcon} mode={mode} />
-          <EmailDetailRow label="הערות" value={data.notes || "אין"} icon={FileTextIcon} mode={mode} />
+          <EmailDetailRow label="חוויה" value={data.experienceName || ''} icon={SparklesIcon} mode={mode} />
+          <EmailDetailRow
+            label="תאריך ושעה"
+            value={`${data.dateTime} (${data.duration})`}
+            icon={CalendarIcon}
+            mode={mode}
+          />
+          <EmailDetailRow label="אורח" value={data.customerName || ''} icon={UserLucideIcon} mode={mode} />
+          <EmailDetailRow
+            label="פרטי קשר"
+            value={`${data.guestEmail} • ${data.guestPhone}`}
+            icon={MailIcon}
+            mode={mode}
+          />
+          <EmailDetailRow label="סך הכל" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
+          <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
+          <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
+          <EmailDetailRow label="הערות" value={data.notes || 'אין'} icon={FileTextIcon} mode={mode} />
         </div>
 
         <div className="email-actions">
@@ -1154,17 +1206,21 @@ const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; 
       <EmailHeader title="המינוי שלך אושר" icon={CreditCardIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            תודה שהצטרפת לקהילת <span className="email-text--brand">StudioZ</span>! 
-            המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.
+            תודה שהצטרפת לקהילת <span className="email-text--brand">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי
+            שלך מתחיל כאן.
           </p>
         </div>
 
         <div className={`email-plan-highlight ${isLight ? 'email-plan-highlight--light' : ''}`}>
           <h2 className="email-plan-highlight__name">{data.planName}</h2>
           <div className="email-plan-highlight__price">
-            <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>₪{data.price}</span>
+            <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>
+              ₪{data.price}
+            </span>
             <span className="email-plan-highlight__period">/month</span>
           </div>
         </div>
@@ -1172,9 +1228,9 @@ const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; 
         <div className="email-section">
           <h3 className={`email-section__title ${isLight ? 'email-section__title--light' : ''}`}>פרטי המינוי</h3>
           <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-            <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ""} icon={HashIcon} mode={mode} />
-            <EmailDetailRow label="תאריך התחלה" value={data.startDate || ""} icon={CalendarIcon} mode={mode} />
-            <EmailDetailRow label="תאריך חיוב הבא" value={data.nextBillingDate || ""} icon={ClockIcon} mode={mode} />
+            <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
+            <EmailDetailRow label="תאריך התחלה" value={data.startDate || ''} icon={CalendarIcon} mode={mode} />
+            <EmailDetailRow label="תאריך חיוב הבא" value={data.nextBillingDate || ''} icon={ClockIcon} mode={mode} />
           </div>
         </div>
 
@@ -1205,21 +1261,25 @@ const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
       <EmailHeader title="תקופת הניסיון שלך עומדת להסתיים" icon={AlertTriangleIcon} mode={mode} variant="warning" />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> מסתיימת בעוד <span className="email-text--bold">{data.daysRemaining} ימים</span>.
+            רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> מסתיימת
+            בעוד <span className="email-text--bold">{data.daysRemaining} ימים</span>.
           </p>
         </div>
 
         <div className={`email-alert-box email-alert-box--warning ${isLight ? 'email-alert-box--light' : ''}`}>
           <p>
-            לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span> לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.
+            לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span>{' '}
+            לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.
           </p>
         </div>
 
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-          <EmailDetailRow label="תוכנית" value={data.planName || ""} icon={CreditCardIcon} mode={mode} />
-          <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ""} icon={CalendarIcon} mode={mode} />
+          <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
+          <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
           <EmailDetailRow label="מחיר חודשי" value={`₪${data.price}`} icon={CreditCardIcon} mode={mode} />
         </div>
 
@@ -1240,9 +1300,12 @@ const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode
       <EmailHeader title="פעולה נדרשת: התשלום נכשל" icon={AlertTriangleIcon} mode={mode} variant="danger" />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span className="email-text--bold">{data.planName}</span> לאחר סיום תקופת הניסיון.
+            לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span className="email-text--bold">{data.planName}</span>{' '}
+            לאחר סיום תקופת הניסיון.
           </p>
         </div>
 
@@ -1251,13 +1314,13 @@ const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode
             <AlertTriangleIcon sx={{ fontSize: 16 }} />
             <span>סיבת הכישלון:</span>
           </div>
-          <p>{data.failureReason || "פרטי כרטיס לא מעודכנים או חוסר במסגרת אשראי"}</p>
+          <p>{data.failureReason || 'פרטי כרטיס לא מעודכנים או חוסר במסגרת אשראי'}</p>
         </div>
 
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-          <EmailDetailRow label="תוכנית" value={data.planName || ""} icon={CreditCardIcon} mode={mode} />
+          <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="סכום לתשלום" value={`₪${data.price}`} icon={CreditCardIcon} mode={mode} />
-          <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ""} icon={HashIcon} mode={mode} />
+          <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
         </div>
 
         <div className="email-actions">
@@ -1277,10 +1340,12 @@ const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailDat
       <EmailHeader title="תקופת הניסיון שלך התחילה!" icon={PlayCircleIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> הופעלה בהצלחה. 
-            עכשיו זה הזמן להפיח חיים ביצירה שלך.
+            ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span>{' '}
+            הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.
           </p>
         </div>
 
@@ -1288,16 +1353,23 @@ const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailDat
           <div className="email-trial-highlight__icon">
             <SparklesIcon sx={{ fontSize: 32 }} />
           </div>
-          <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>ניסיון ללא עלות</h2>
+          <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>
+            ניסיון ללא עלות
+          </h2>
           <p className="email-trial-highlight__date">מסתיים ב-{data.trialEndDate}</p>
         </div>
 
         <div className="email-section">
           <h3 className={`email-section__title ${isLight ? 'email-section__title--light' : ''}`}>פרטי הניסיון</h3>
           <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-            <EmailDetailRow label="תוכנית" value={data.planName || ""} icon={CreditCardIcon} mode={mode} />
-            <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ""} icon={CalendarIcon} mode={mode} />
-            <EmailDetailRow label="מחיר לאחר הניסיון" value={`₪${data.price} לחודש`} icon={CreditCardIcon} mode={mode} />
+            <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
+            <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
+            <EmailDetailRow
+              label="מחיר לאחר הניסיון"
+              value={`₪${data.price} לחודש`}
+              icon={CreditCardIcon}
+              mode={mode}
+            />
           </div>
         </div>
 
@@ -1313,7 +1385,7 @@ const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailDat
 // Email Template Renderer
 const EmailTemplatePreview = ({ type, mode }: { type: EmailType; mode: ThemeMode }) => {
   const data = SAMPLE_EMAIL_DATA[type];
-  
+
   switch (type) {
     case 'RESERVATION_CONFIRMED':
       return <ReservationConfirmedEmail data={data} mode={mode} />;
@@ -1342,10 +1414,22 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
     return text
       .replace(/\{customerName\}/g, `{{ params.customerName }}`)
       .replace(/\{ownerName\}/g, `{{ params.ownerName }}`)
-      .replace(/\{studioName\}/g, `</span><span style="font-weight: 700; color: #f7c041;">{{ params.studioName }}</span><span>`)
-      .replace(/\{experienceName\}/g, `</span><span style="font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">{{ params.experienceName }}</span><span>`)
-      .replace(/\{planName\}/g, `</span><span style="font-weight: 700; color: #f7c041;">{{ params.planName }}</span><span>`)
-      .replace(/\{daysRemaining\}/g, `</span><span style="font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">{{ params.daysRemaining }}</span><span>`)
+      .replace(
+        /\{studioName\}/g,
+        `</span><span style="font-weight: 700; color: #f7c041;">{{ params.studioName }}</span><span>`
+      )
+      .replace(
+        /\{experienceName\}/g,
+        `</span><span style="font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">{{ params.experienceName }}</span><span>`
+      )
+      .replace(
+        /\{planName\}/g,
+        `</span><span style="font-weight: 700; color: #f7c041;">{{ params.planName }}</span><span>`
+      )
+      .replace(
+        /\{daysRemaining\}/g,
+        `</span><span style="font-weight: 600; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">{{ params.daysRemaining }}</span><span>`
+      )
       .replace(/\{price\}/g, `{{ params.price }}`)
       .replace(/\{trialEndDate\}/g, `{{ params.trialEndDate }}`)
       .replace(/\{failureReason\}/g, `{{ params.failureReason }}`);
@@ -1379,9 +1463,10 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
   const processedBody = processText(body);
 
   // Common greeting section
-  const greetingSection = type === 'NEW_RESERVATION_OWNER'
-    ? `<p style="${styles.greetingName}">${greeting} ${data.ownerName},</p>`
-    : `<p style="${styles.greetingName}">${greeting} ${data.customerName},</p>`;
+  const greetingSection =
+    type === 'NEW_RESERVATION_OWNER'
+      ? `<p style="${styles.greetingName}">${greeting} ${data.ownerName},</p>`
+      : `<p style="${styles.greetingName}">${greeting} ${data.customerName},</p>`;
 
   let content = '';
 
@@ -1598,7 +1683,7 @@ const EmailTemplatesView = () => {
 
   // Update a single field for the current template
   const handleTextChange = (field: keyof TemplateTextContent, value: string) => {
-    setTemplateText(prev => ({
+    setTemplateText((prev) => ({
       ...prev,
       [selectedType]: {
         ...prev[selectedType],
@@ -1618,7 +1703,7 @@ const EmailTemplatesView = () => {
 
   // Reset current template to default
   const handleResetCurrent = () => {
-    setTemplateText(prev => ({
+    setTemplateText((prev) => ({
       ...prev,
       [selectedType]: { ...DEFAULT_TEMPLATE_TEXT[selectedType] }
     }));
@@ -1682,14 +1767,20 @@ const EmailTemplatesView = () => {
           <h3 className="admin-email-templates__controls-title">{t('emailTemplates.mode', 'מצב תצוגה')}</h3>
           <div className="admin-email-templates__mode-toggle">
             <button
-              className={cn('admin-email-templates__mode-btn', previewMode === 'dark' && 'admin-email-templates__mode-btn--active')}
+              className={cn(
+                'admin-email-templates__mode-btn',
+                previewMode === 'dark' && 'admin-email-templates__mode-btn--active'
+              )}
               onClick={() => setPreviewMode('dark')}
             >
               <MoonIcon size={16} />
               <span>{t('emailTemplates.dark', 'כהה')}</span>
             </button>
             <button
-              className={cn('admin-email-templates__mode-btn', previewMode === 'light' && 'admin-email-templates__mode-btn--active')}
+              className={cn(
+                'admin-email-templates__mode-btn',
+                previewMode === 'light' && 'admin-email-templates__mode-btn--active'
+              )}
               onClick={() => setPreviewMode('light')}
             >
               <SunIcon size={16} />
@@ -1721,7 +1812,17 @@ const EmailTemplatesView = () => {
             </button>
           </div>
           {exportStatus && (
-            <div style={{ marginTop: '8px', padding: '8px', background: 'var(--color-success-bg)', color: 'var(--color-success-text)', borderRadius: '8px', fontSize: '12px', textAlign: 'center' }}>
+            <div
+              style={{
+                marginTop: '8px',
+                padding: '8px',
+                background: 'var(--color-success-bg)',
+                color: 'var(--color-success-text)',
+                borderRadius: '8px',
+                fontSize: '12px',
+                textAlign: 'center'
+              }}
+            >
               {exportStatus}
             </div>
           )}
@@ -1759,7 +1860,17 @@ const EmailTemplatesView = () => {
             </button>
           </div>
           {hasUnsavedChanges && (
-            <div style={{ marginTop: '8px', padding: '8px', background: 'rgba(245,158,11,0.1)', color: '#f59e0b', borderRadius: '8px', fontSize: '11px', textAlign: 'center' }}>
+            <div
+              style={{
+                marginTop: '8px',
+                padding: '8px',
+                background: 'rgba(245,158,11,0.1)',
+                color: '#f59e0b',
+                borderRadius: '8px',
+                fontSize: '11px',
+                textAlign: 'center'
+              }}
+            >
               יש שינויים שלא נשמרו
             </div>
           )}
@@ -1771,7 +1882,9 @@ const EmailTemplatesView = () => {
           <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
               <span>Brevo Template ID:</span>
-              <span style={{ fontFamily: 'monospace', color: 'var(--color-brand)' }}>{TEMPLATE_BREVO_IDS[selectedType]}</span>
+              <span style={{ fontFamily: 'monospace', color: 'var(--color-brand)' }}>
+                {TEMPLATE_BREVO_IDS[selectedType]}
+              </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>סוג:</span>
@@ -1794,11 +1907,13 @@ const EmailTemplatesView = () => {
                 )}
                 onClick={() => setSelectedType(type)}
               >
-                <div className={cn(
-                  'admin-email-templates__item-icon',
-                  info.variant === 'danger' && 'admin-email-templates__item-icon--danger',
-                  info.variant === 'warning' && 'admin-email-templates__item-icon--warning'
-                )}>
+                <div
+                  className={cn(
+                    'admin-email-templates__item-icon',
+                    info.variant === 'danger' && 'admin-email-templates__item-icon--danger',
+                    info.variant === 'warning' && 'admin-email-templates__item-icon--warning'
+                  )}
+                >
                   <Icon sx={{ fontSize: 18 }} />
                 </div>
                 <div className="admin-email-templates__item-text">
@@ -1817,21 +1932,30 @@ const EmailTemplatesView = () => {
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <div className="admin-email-templates__mode-toggle" style={{ background: 'var(--bg-elevated)' }}>
               <button
-                className={cn('admin-email-templates__mode-btn', viewMode === 'preview' && 'admin-email-templates__mode-btn--active')}
+                className={cn(
+                  'admin-email-templates__mode-btn',
+                  viewMode === 'preview' && 'admin-email-templates__mode-btn--active'
+                )}
                 onClick={() => setViewMode('preview')}
                 style={{ padding: '6px 12px', fontSize: '12px' }}
               >
                 תצוגה מקדימה
               </button>
               <button
-                className={cn('admin-email-templates__mode-btn', viewMode === 'edit' && 'admin-email-templates__mode-btn--active')}
+                className={cn(
+                  'admin-email-templates__mode-btn',
+                  viewMode === 'edit' && 'admin-email-templates__mode-btn--active'
+                )}
                 onClick={() => setViewMode('edit')}
                 style={{ padding: '6px 12px', fontSize: '12px' }}
               >
                 עריכה
               </button>
               <button
-                className={cn('admin-email-templates__mode-btn', viewMode === 'variables' && 'admin-email-templates__mode-btn--active')}
+                className={cn(
+                  'admin-email-templates__mode-btn',
+                  viewMode === 'variables' && 'admin-email-templates__mode-btn--active'
+                )}
                 onClick={() => setViewMode('variables')}
                 style={{ padding: '6px 12px', fontSize: '12px' }}
               >
@@ -1844,14 +1968,13 @@ const EmailTemplatesView = () => {
           </div>
         </div>
         <div className="admin-email-templates__preview-content">
-          {viewMode === 'preview' && (
-            <EmailTemplatePreview type={selectedType} mode={previewMode} />
-          )}
+          {viewMode === 'preview' && <EmailTemplatePreview type={selectedType} mode={previewMode} />}
           {viewMode === 'edit' && (
             <div style={{ padding: '24px', color: 'var(--text-primary)' }}>
               <h4 style={{ margin: '0 0 8px 0', color: 'var(--text-primary)' }}>עריכת טקסט התבנית</h4>
               <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-                ערוך את טקסט המייל. השתמש ב-{'{'}משתנה{'}'} כדי להוסיף ערכים דינמיים (לדוגמה: {'{'}customerName{'}'}, {'{'}studioName{'}'}, {'{'}planName{'}'})
+                ערוך את טקסט המייל. השתמש ב-{'{'}משתנה{'}'} כדי להוסיף ערכים דינמיים (לדוגמה: {'{'}customerName{'}'},{' '}
+                {'{'}studioName{'}'}, {'{'}planName{'}'})
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -1914,7 +2037,8 @@ const EmailTemplatesView = () => {
                     }}
                   />
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                    משתנים זמינים: {'{'}customerName{'}'}, {'{'}studioName{'}'}, {'{'}experienceName{'}'}, {'{'}planName{'}'}, {'{'}daysRemaining{'}'}, {'{'}price{'}'}, {'{'}trialEndDate{'}'}
+                    משתנים זמינים: {'{'}customerName{'}'}, {'{'}studioName{'}'}, {'{'}experienceName{'}'}, {'{'}planName
+                    {'}'}, {'{'}daysRemaining{'}'}, {'{'}price{'}'}, {'{'}trialEndDate{'}'}
                   </span>
                 </div>
 
@@ -1940,7 +2064,9 @@ const EmailTemplatesView = () => {
 
                 {/* Footer Text */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>טקסט תחתון (אופציונלי)</label>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    טקסט תחתון (אופציונלי)
+                  </label>
                   <input
                     type="text"
                     value={currentText.footerText}
@@ -1970,11 +2096,7 @@ const EmailTemplatesView = () => {
                 >
                   שמור שינויים
                 </button>
-                <button
-                  type="button"
-                  className="admin-btn admin-btn--secondary"
-                  onClick={handleResetCurrent}
-                >
+                <button type="button" className="admin-btn admin-btn--secondary" onClick={handleResetCurrent}>
                   אפס לברירת מחדל
                 </button>
               </div>
@@ -1986,11 +2108,23 @@ const EmailTemplatesView = () => {
               <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>
                 העתק את המשתנים הבאים והשתמש בהם בעת שליחת המייל דרך ה-API:
               </p>
-              <div style={{ background: 'var(--bg-primary)', borderRadius: '12px', padding: '16px', fontFamily: 'monospace', fontSize: '13px', direction: 'ltr', textAlign: 'left' }}>
+              <div
+                style={{
+                  background: 'var(--bg-primary)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  fontFamily: 'monospace',
+                  fontSize: '13px',
+                  direction: 'ltr',
+                  textAlign: 'left'
+                }}
+              >
                 <pre style={{ margin: 0, whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
-{`{
+                  {`{
   "params": {
-${getVariablesList(selectedType).map(v => `    "${v.split(':')[0].trim()}": "value"`).join(',\n')}
+${getVariablesList(selectedType)
+  .map((v) => `    "${v.split(':')[0].trim()}": "value"`)
+  .join(',\n')}
   }
 }`}
                 </pre>
@@ -1999,7 +2133,14 @@ ${getVariablesList(selectedType).map(v => `    "${v.split(':')[0].trim()}": "val
               <ul style={{ margin: 0, padding: '0 0 0 20px', color: 'var(--text-secondary)', fontSize: '13px' }}>
                 {getVariablesList(selectedType).map((v, i) => (
                   <li key={i} style={{ marginBottom: '4px' }}>
-                    <code style={{ background: 'var(--bg-elevated)', padding: '2px 6px', borderRadius: '4px', fontSize: '12px' }}>
+                    <code
+                      style={{
+                        background: 'var(--bg-elevated)',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        fontSize: '12px'
+                      }}
+                    >
                       {v.split(':')[0].trim()}
                     </code>
                   </li>
