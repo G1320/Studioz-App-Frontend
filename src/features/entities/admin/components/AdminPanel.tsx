@@ -1112,7 +1112,8 @@ const EmailActionButton = ({
   );
 };
 
-// Individual Email Templates
+// Individual Email Templates (kept for reference)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
@@ -1128,20 +1129,13 @@ const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; m
             <span className="email-text--brand">{data.studioName}</span>. הסשן היצירתי שלך משוריין!
           </p>
         </div>
-
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-          <EmailDetailRow
-            label="תאריך ושעה"
-            value={`${data.dateTime} (${data.duration})`}
-            icon={CalendarIcon}
-            mode={mode}
-          />
+          <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
           <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
           <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
           <EmailDetailRow label="הערות" value={data.notes || 'אין'} icon={FileTextIcon} mode={mode} />
         </div>
-
         <div className="email-actions">
           <EmailActionButton href={data.actionUrl} label="צפייה / ניהול הזמנה" />
           <p className="email-actions__helper">צריכים עזרה? שלחו מייל או התקשרו אלינו בכל זמן.</p>
@@ -1152,6 +1146,7 @@ const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; m
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
@@ -1159,36 +1154,21 @@ const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
       <EmailHeader title="הזמנה חדשה התקבלה" icon={SparklesIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
-            היי {data.ownerName},
-          </p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.ownerName},</p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            יש לך הזמנה חדשה בסטודיו <span className="email-text--brand">{data.studioName}</span>. הגיע הזמן להכין את
-            הסטודיו!
+            יש לך הזמנה חדשה בסטודיו <span className="email-text--brand">{data.studioName}</span>. הגיע הזמן להכין את הסטודיו!
           </p>
         </div>
-
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
           <EmailDetailRow label="חוויה" value={data.experienceName || ''} icon={SparklesIcon} mode={mode} />
-          <EmailDetailRow
-            label="תאריך ושעה"
-            value={`${data.dateTime} (${data.duration})`}
-            icon={CalendarIcon}
-            mode={mode}
-          />
+          <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
           <EmailDetailRow label="אורח" value={data.customerName || ''} icon={UserLucideIcon} mode={mode} />
-          <EmailDetailRow
-            label="פרטי קשר"
-            value={`${data.guestEmail} • ${data.guestPhone}`}
-            icon={MailIcon}
-            mode={mode}
-          />
+          <EmailDetailRow label="פרטי קשר" value={`${data.guestEmail} • ${data.guestPhone}`} icon={MailIcon} mode={mode} />
           <EmailDetailRow label="סך הכל" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
           <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
           <EmailDetailRow label="הערות" value={data.notes || 'אין'} icon={FileTextIcon} mode={mode} />
         </div>
-
         <div className="email-actions">
           <EmailActionButton href={data.actionUrl} label="צפייה בהזמנה" />
           <p className="email-actions__helper">אתה מקבל הודעה זו כי הסטודיו בבעלותך.</p>
@@ -1199,6 +1179,7 @@ const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
@@ -1206,47 +1187,25 @@ const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; 
       <EmailHeader title="המינוי שלך אושר" icon={CreditCardIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
-            היי {data.customerName},
-          </p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            תודה שהצטרפת לקהילת <span className="email-text--brand">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי
-            שלך מתחיל כאן.
+            תודה שהצטרפת לקהילת <span className="email-text--brand">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.
           </p>
         </div>
-
         <div className={`email-plan-highlight ${isLight ? 'email-plan-highlight--light' : ''}`}>
           <h2 className="email-plan-highlight__name">{data.planName}</h2>
           <div className="email-plan-highlight__price">
-            <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>
-              ₪{data.price}
-            </span>
+            <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>₪{data.price}</span>
             <span className="email-plan-highlight__period">/month</span>
           </div>
         </div>
-
-        <div className="email-section">
-          <h3 className={`email-section__title ${isLight ? 'email-section__title--light' : ''}`}>פרטי המינוי</h3>
-          <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-            <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
-            <EmailDetailRow label="תאריך התחלה" value={data.startDate || ''} icon={CalendarIcon} mode={mode} />
-            <EmailDetailRow label="תאריך חיוב הבא" value={data.nextBillingDate || ''} icon={ClockIcon} mode={mode} />
-          </div>
+        <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+          <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
+          <EmailDetailRow label="תאריך התחלה" value={data.startDate || ''} icon={CalendarIcon} mode={mode} />
+          <EmailDetailRow label="תאריך חיוב הבא" value={data.nextBillingDate || ''} icon={ClockIcon} mode={mode} />
         </div>
-
         <div className="email-actions">
           <EmailActionButton href={data.actionUrl} label="מעבר לפרופיל" />
-        </div>
-
-        <div className={`email-perks ${isLight ? 'email-perks--light' : ''}`}>
-          <p className={`email-perks__title ${isLight ? 'email-perks__title--light' : ''}`}>החברות שלך כוללת:</p>
-          <div className="email-perks__list">
-            {['ללא דמי הזמנה', 'תמיכה בעדיפות', 'הנחות בלעדיות'].map((perk) => (
-              <span key={perk} className={`email-perks__item ${isLight ? 'email-perks__item--light' : ''}`}>
-                {perk}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
       <EmailFooter mode={mode} />
@@ -1254,6 +1213,7 @@ const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; 
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
@@ -1261,28 +1221,20 @@ const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
       <EmailHeader title="תקופת הניסיון שלך עומדת להסתיים" icon={AlertTriangleIcon} mode={mode} variant="warning" />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
-            היי {data.customerName},
-          </p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> מסתיימת
-            בעוד <span className="email-text--bold">{data.daysRemaining} ימים</span>.
+            רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> מסתיימת בעוד{' '}
+            <span className="email-text--bold">{data.daysRemaining} ימים</span>.
           </p>
         </div>
-
         <div className={`email-alert-box email-alert-box--warning ${isLight ? 'email-alert-box--light' : ''}`}>
-          <p>
-            לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span>{' '}
-            לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.
-          </p>
+          <p>לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span> לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.</p>
         </div>
-
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
           <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
           <EmailDetailRow label="מחיר חודשי" value={`₪${data.price}`} icon={CreditCardIcon} mode={mode} />
         </div>
-
         <div className="email-actions">
           <EmailActionButton href={data.actionUrl} label="ניהול מינוי" />
           <p className="email-actions__helper">אם אתה נהנה מהשירות, אין צורך לבצע אף פעולה.</p>
@@ -1293,6 +1245,7 @@ const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
@@ -1300,15 +1253,11 @@ const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode
       <EmailHeader title="פעולה נדרשת: התשלום נכשל" icon={AlertTriangleIcon} mode={mode} variant="danger" />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
-            היי {data.customerName},
-          </p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span className="email-text--bold">{data.planName}</span>{' '}
-            לאחר סיום תקופת הניסיון.
+            לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span className="email-text--bold">{data.planName}</span> לאחר סיום תקופת הניסיון.
           </p>
         </div>
-
         <div className={`email-alert-box email-alert-box--danger ${isLight ? 'email-alert-box--light' : ''}`}>
           <div className="email-alert-box__header">
             <AlertTriangleIcon sx={{ fontSize: 16 }} />
@@ -1316,13 +1265,11 @@ const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode
           </div>
           <p>{data.failureReason || 'פרטי כרטיס לא מעודכנים או חוסר במסגרת אשראי'}</p>
         </div>
-
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
           <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="סכום לתשלום" value={`₪${data.price}`} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
         </div>
-
         <div className="email-actions">
           <EmailActionButton href={data.actionUrl} label="עדכון פרטי תשלום" variant="danger" />
           <p className="email-actions__helper">אנא עדכן את פרטי התשלום שלך בהקדם כדי למנוע השהיה של השירות.</p>
@@ -1333,6 +1280,7 @@ const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
@@ -1340,39 +1288,23 @@ const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailDat
       <EmailHeader title="תקופת הניסיון שלך התחילה!" icon={PlayCircleIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
-            היי {data.customerName},
-          </p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span>{' '}
-            הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.
+            ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.
           </p>
         </div>
-
         <div className={`email-trial-highlight ${isLight ? 'email-trial-highlight--light' : ''}`}>
           <div className="email-trial-highlight__icon">
             <SparklesIcon sx={{ fontSize: 32 }} />
           </div>
-          <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>
-            ניסיון ללא עלות
-          </h2>
+          <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>ניסיון ללא עלות</h2>
           <p className="email-trial-highlight__date">מסתיים ב-{data.trialEndDate}</p>
         </div>
-
-        <div className="email-section">
-          <h3 className={`email-section__title ${isLight ? 'email-section__title--light' : ''}`}>פרטי הניסיון</h3>
-          <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-            <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
-            <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
-            <EmailDetailRow
-              label="מחיר לאחר הניסיון"
-              value={`₪${data.price} לחודש`}
-              icon={CreditCardIcon}
-              mode={mode}
-            />
-          </div>
+        <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+          <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
+          <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
+          <EmailDetailRow label="מחיר לאחר הניסיון" value={`₪${data.price} לחודש`} icon={CreditCardIcon} mode={mode} />
         </div>
-
         <div className="email-actions">
           <EmailActionButton href={data.actionUrl} label="התחלת עבודה" />
         </div>
@@ -1383,25 +1315,147 @@ const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailDat
 };
 
 // Email Template Renderer
-const EmailTemplatePreview = ({ type, mode }: { type: EmailType; mode: ThemeMode }) => {
+const EmailTemplatePreview = ({
+  type,
+  mode,
+  templateText
+}: {
+  type: EmailType;
+  mode: ThemeMode;
+  templateText?: TemplateTextContent;
+}) => {
   const data = SAMPLE_EMAIL_DATA[type];
+  const text = templateText || DEFAULT_TEMPLATE_TEXT[type];
 
-  switch (type) {
-    case 'RESERVATION_CONFIRMED':
-      return <ReservationConfirmedEmail data={data} mode={mode} />;
-    case 'NEW_RESERVATION_OWNER':
-      return <NewReservationOwnerEmail data={data} mode={mode} />;
-    case 'SUBSCRIPTION_CONFIRMED':
-      return <SubscriptionConfirmedEmail data={data} mode={mode} />;
-    case 'TRIAL_ENDING_REMINDER':
-      return <TrialEndingReminderEmail data={data} mode={mode} />;
-    case 'TRIAL_CHARGE_FAILED':
-      return <TrialChargeFailedEmail data={data} mode={mode} />;
-    case 'TRIAL_STARTED_CONFIRMATION':
-      return <TrialStartedConfirmationEmail data={data} mode={mode} />;
-    default:
-      return null;
-  }
+  // Helper to process text and replace {variable} placeholders with actual sample values
+  const processPreviewText = (inputText: string): React.ReactNode => {
+    const parts = inputText.split(/(\{[^}]+\})/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('{') && part.endsWith('}')) {
+        const varName = part.slice(1, -1);
+        const value = (data as Record<string, unknown>)[varName];
+        if (varName === 'studioName' || varName === 'planName') {
+          return <span key={i} className="email-text--brand">{String(value || varName)}</span>;
+        }
+        if (varName === 'experienceName' || varName === 'daysRemaining') {
+          return <span key={i} className="email-text--bold">{String(value || varName)}</span>;
+        }
+        return <span key={i}>{String(value || varName)}</span>;
+      }
+      return part;
+    });
+  };
+
+  // Render preview with editable text
+  const renderPreviewContent = () => {
+    const isLight = mode === 'light';
+    const info = EMAIL_TYPE_INFO[type];
+    const Icon = info.icon;
+    const customerName = type === 'NEW_RESERVATION_OWNER' ? data.ownerName : data.customerName;
+
+    return (
+      <EmailWrapper mode={mode}>
+        <EmailHeader title={text.title} icon={Icon} mode={mode} variant={info.variant} />
+        <div className="email-body">
+          <div className="email-greeting">
+            <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+              {text.greeting} {customerName},
+            </p>
+            <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
+              {processPreviewText(text.body)}
+            </p>
+          </div>
+
+          {/* Type-specific content */}
+          {(type === 'RESERVATION_CONFIRMED' || type === 'NEW_RESERVATION_OWNER') && (
+            <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+              {type === 'NEW_RESERVATION_OWNER' && (
+                <EmailDetailRow label="חוויה" value={data.experienceName || ''} icon={SparklesIcon} mode={mode} />
+              )}
+              <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
+              {type === 'NEW_RESERVATION_OWNER' && (
+                <>
+                  <EmailDetailRow label="אורח" value={data.customerName || ''} icon={UserLucideIcon} mode={mode} />
+                  <EmailDetailRow label="פרטי קשר" value={`${data.guestEmail} • ${data.guestPhone}`} icon={MailIcon} mode={mode} />
+                </>
+              )}
+              <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
+              <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
+              <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
+              <EmailDetailRow label="הערות" value={data.notes || 'אין'} icon={FileTextIcon} mode={mode} />
+            </div>
+          )}
+
+          {type === 'SUBSCRIPTION_CONFIRMED' && (
+            <>
+              <div className={`email-plan-highlight ${isLight ? 'email-plan-highlight--light' : ''}`}>
+                <h2 className="email-plan-highlight__name">{data.planName}</h2>
+                <div className="email-plan-highlight__price">
+                  <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>₪{data.price}</span>
+                  <span className="email-plan-highlight__period">/month</span>
+                </div>
+              </div>
+              <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+                <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
+                <EmailDetailRow label="תאריך התחלה" value={data.startDate || ''} icon={CalendarIcon} mode={mode} />
+                <EmailDetailRow label="תאריך חיוב הבא" value={data.nextBillingDate || ''} icon={ClockIcon} mode={mode} />
+              </div>
+            </>
+          )}
+
+          {(type === 'TRIAL_ENDING_REMINDER' || type === 'TRIAL_CHARGE_FAILED' || type === 'TRIAL_STARTED_CONFIRMATION') && (
+            <>
+              {type === 'TRIAL_ENDING_REMINDER' && (
+                <div className={`email-alert-box email-alert-box--warning ${isLight ? 'email-alert-box--light' : ''}`}>
+                  <p>לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span> לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.</p>
+                </div>
+              )}
+              {type === 'TRIAL_CHARGE_FAILED' && (
+                <div className={`email-alert-box email-alert-box--danger ${isLight ? 'email-alert-box--light' : ''}`}>
+                  <div className="email-alert-box__header">
+                    <AlertTriangleIcon sx={{ fontSize: 16 }} />
+                    <span>סיבת הכישלון:</span>
+                  </div>
+                  <p>{data.failureReason || 'פרטי כרטיס לא מעודכנים או חוסר במסגרת אשראי'}</p>
+                </div>
+              )}
+              {type === 'TRIAL_STARTED_CONFIRMATION' && (
+                <div className={`email-trial-highlight ${isLight ? 'email-trial-highlight--light' : ''}`}>
+                  <div className="email-trial-highlight__icon">
+                    <SparklesIcon sx={{ fontSize: 32 }} />
+                  </div>
+                  <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>ניסיון ללא עלות</h2>
+                  <p className="email-trial-highlight__date">מסתיים ב-{data.trialEndDate}</p>
+                </div>
+              )}
+              <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+                <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
+                <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
+                <EmailDetailRow label={type === 'TRIAL_CHARGE_FAILED' ? 'סכום לתשלום' : 'מחיר חודשי'} value={`₪${data.price}`} icon={CreditCardIcon} mode={mode} />
+                {type === 'TRIAL_CHARGE_FAILED' && (
+                  <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
+                )}
+              </div>
+            </>
+          )}
+
+          <div className="email-actions">
+            <EmailActionButton
+              href={data.actionUrl}
+              label={text.ctaText}
+              variant={type === 'TRIAL_CHARGE_FAILED' ? 'danger' : 'primary'}
+            />
+            {text.footerText && (
+              <p className="email-actions__helper">{text.footerText}</p>
+            )}
+          </div>
+        </div>
+        <EmailFooter studioName={data.studioName} mode={mode} />
+      </EmailWrapper>
+    );
+  };
+
+  return renderPreviewContent();
 };
 
 // Generate Brevo-compatible HTML from the template
@@ -1968,7 +2022,7 @@ const EmailTemplatesView = () => {
           </div>
         </div>
         <div className="admin-email-templates__preview-content">
-          {viewMode === 'preview' && <EmailTemplatePreview type={selectedType} mode={previewMode} />}
+          {viewMode === 'preview' && <EmailTemplatePreview type={selectedType} mode={previewMode} templateText={currentText} />}
           {viewMode === 'edit' && (
             <div style={{ padding: '24px', color: 'var(--text-primary)' }}>
               <h4 style={{ margin: '0 0 8px 0', color: 'var(--text-primary)' }}>עריכת טקסט התבנית</h4>
