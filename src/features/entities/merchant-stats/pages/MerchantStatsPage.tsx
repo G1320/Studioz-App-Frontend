@@ -125,11 +125,9 @@ const MerchantStatsPage: React.FC = () => {
 
       {/* Header */}
       <header className="merchant-stats__header">
-        <div className="merchant-stats__greeting">
-          <h1>
-            {t('header.greeting', 'שלום,')} <span className="highlight">{studioName}</span>
-          </h1>
-          <p>{t('header.subtitle', 'הנה סקירה של הביצועים שלך לתקופה זו')}</p>
+        <div className="merchant-stats__title-row">
+          <BarChartIcon className="merchant-stats__title-icon" />
+          <h1 className="merchant-stats__title">{t('header.title', 'סטטיסטיקות')}</h1>
         </div>
 
         <div className="merchant-stats__controls">

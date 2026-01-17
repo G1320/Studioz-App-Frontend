@@ -407,11 +407,9 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
         
         {/* Header */}
         <div className="studio-manager__header">
-          <div className="studio-manager__header-text">
+          <div className="studio-manager__title-row">
+            <BusinessIcon className="studio-manager__title-icon" />
             <h1 className="studio-manager__title">{t('assetManagement', 'ניהול נכסים')}</h1>
-            <p className="studio-manager__subtitle">
-              {t('manageAllStudios', 'שלוט בכל הסטודיוס והשירותים שלך במקום אחד')}
-            </p>
           </div>
           
           <div className="studio-manager__header-actions">

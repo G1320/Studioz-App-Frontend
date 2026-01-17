@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   gap: ds.$space-6;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -33,23 +33,23 @@
   }
 }
 
-.merchant-stats__greeting {
-  h1 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
+.merchant-stats__title-row {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-small;
+}
 
-    .highlight {
-      color: var(--color-brand);
-    }
-  }
+.merchant-stats__title {
+  font-size: vars.$font-size-xl;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
 
-  p {
-    color: var(--text-secondary);
-    font-size: ds.$font-md;
-  }
+.merchant-stats__title-icon {
+  color: var(--color-brand);
+  width: 24px;
+  height: 24px;
 }
 
 .merchant-stats__controls {

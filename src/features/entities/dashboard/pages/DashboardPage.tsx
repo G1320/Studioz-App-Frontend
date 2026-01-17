@@ -60,15 +60,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 
   return (
     <div className="dashboard-page">
-      <div className="dashboard-header">
-        <h1 className="dashboard-title">
-          {t('welcome', { name: user?.name || t('guest') })}
-        </h1>
-        {isStudioOwner && (
-          <p className="dashboard-subtitle">{t('studioOwnerSubtitle')}</p>
-        )}
-      </div>
-
       {/* Tab Navigation for Studio Owners */}
       {isStudioOwner && (
         <div className="dashboard-tabs">

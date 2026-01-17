@@ -452,12 +452,9 @@ const MerchantDocumentsPage: React.FC = () => {
     <div className="merchant-documents">
       {/* Header */}
       <div className="merchant-documents__header">
-        <div className="merchant-documents__title-section">
-          <div className="merchant-documents__title-row">
-            <FileText size={28} className="merchant-documents__icon" />
-            <h1 className="merchant-documents__title">{t('title')}</h1>
-          </div>
-          <p className="merchant-documents__subtitle">{t('subtitle')}</p>
+        <div className="merchant-documents__title-row">
+          <FileText size={28} className="merchant-documents__icon" />
+          <h1 className="merchant-documents__title">{t('title')}</h1>
         </div>
 
         <div className="merchant-documents__actions">
