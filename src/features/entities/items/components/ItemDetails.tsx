@@ -456,7 +456,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             transition={slideTransition}
           >
             <OrderSummary
-              studioName={item?.studioName?.en || studio?.name?.en || ''}
+              studioName={item?.studioName?.[i18n.language as 'en' | 'he'] || studio?.name?.[i18n.language as 'en' | 'he'] || item?.studioName?.en || studio?.name?.en || ''}
               studioLocation={studio?.address || ''}
               bookingDate={formattedBookingDate}
               bookingTime={formattedBookingTime}

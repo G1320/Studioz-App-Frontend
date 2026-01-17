@@ -208,28 +208,15 @@ export const MuiDateTimePicker = ({
         sx={{
           width: '100%',
           '& .MuiInputBase-root': {
-            color: '#fff',
+            color: 'var(--text-primary)',
             display: 'flex',
             alignItems: 'center'
           },
           '& .MuiInputLabel-root': {
-            color: '#fff !important'
+            color: 'var(--text-muted) !important'
           },
           '& .MuiInputLabel-root.Mui-error': {
-            color: '#fff !important'
-          },
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#fff'
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#fff'
-          },
-          '& .MuiPickersDay-daySelected, & .MuiPickersDay-today': {
-            backgroundColor: '#fff',
-            color: '#000'
-          },
-          '& .Mui-disabled': {
-            color: '#bbb'
+            color: 'var(--text-muted) !important'
           }
         }}
         slotProps={{

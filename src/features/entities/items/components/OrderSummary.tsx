@@ -132,9 +132,9 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
             <ArrowBackIcon />
           </button>
         )}
-        <h3 className="order-summary__title">
-          {paymentMethod === 'new' ? t('addPaymentMethod', 'הוסף אמצעי תשלום') : t('checkout', 'תשלום')}
-        </h3>
+        {paymentMethod === 'new' && (
+          <h3 className="order-summary__title">{t('addPaymentMethod', 'Add Payment Method')}</h3>
+        )}
       </div>
 
       <div className="order-summary__content">
@@ -226,14 +226,14 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 
               <div className="order-summary__footer-sumit">
                 <div className="sumit-secured">
-                  <span>מאובטח על ידי </span>
+                  <span>{t('securedBy', 'מאובטח על ידי')} </span>
                   <a href="https://sumit.co.il" target="_blank" rel="noopener noreferrer" className="sumit-link">
                     Sumit.co.il
                   </a>
-                  <span> פתרונות תשלום</span>
+                  <span> {t('paymentSolutions', 'פתרונות תשלום')}</span>
                 </div>
                 <div className="sumit-ssl">
-                  <span className="ssl-text">SSL Secured Transaction</span>
+                  <span className="ssl-text">{t('sslSecured', 'עסקה מאובטחת SSL')}</span>
                   <LockIcon style={{ fontSize: 12 }} />
                 </div>
               </div>
