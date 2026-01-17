@@ -426,21 +426,15 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       onMouseEnter={prefetchItem}
       className={`details item-details ${showPaymentStep ? 'item-details--payment-active' : ''}`}
     >
-      {/* Close button - changes behavior based on step */}
-      <button 
-        className="close-button" 
-        onClick={showPaymentStep ? handleBackFromPayment : closeModal}
-      >
-        {showPaymentStep ? '←' : '×'}
-      </button>
-
-      {/* Header stays visible during payment transition */}
+      {/* Header with close button inside image */}
       <ItemHeader
         studio={studio}
         item={item}
         user={user as User}
         onEdit={handleGoToEdit}
         onImageClick={handleImageClicked}
+        onClose={showPaymentStep ? handleBackFromPayment : closeModal}
+        showBackButton={showPaymentStep}
       />
       
       {/* Item card hidden during payment step */}

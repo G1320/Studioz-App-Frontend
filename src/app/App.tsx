@@ -66,18 +66,13 @@ function App() {
         <ResponsiveFooter />
         <CookieConsentBanner />
         <Toaster
+          position="bottom-center"
+          expand={false}
           richColors
+          closeButton
+          duration={5000}
           toastOptions={{
-            style: {
-              padding: '0.75rem 1rem',
-              borderRadius: '8px',
-              backgroundColor: '#333',
-              border: 'none',
-              color: '#fff',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              fontSize: '0.875rem'
-            },
-            className: 'toast'
+            className: 'studioz-toast'
           }}
         />
       </PayPalWrapper>

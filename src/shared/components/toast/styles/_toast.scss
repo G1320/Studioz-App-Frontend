@@ -1,0 +1,365 @@
+/**
+ * StudioZ Toast Notification Styles
+ * Modern, high-contrast notification system
+ * Features:
+ * - Dark mode aesthetics with glassmorphism
+ * - RTL Support (Hebrew first)
+ * - Dynamic status colors: Success, Error, Warning, Info
+ * - Progress bar animation
+ */
+
+// ============================================
+// Sonner Toast Customization
+// ============================================
+
+// Toast Container
+[data-sonner-toaster] {
+  font-family: 'DM Sans', system-ui, sans-serif !important;
+  z-index: 9999 !important;
+
+  // RTL support - toasts should respect document direction
+  [dir='rtl'] & {
+    direction: rtl;
+  }
+}
+
+// Individual Toast
+[data-sonner-toast] {
+  // Base styling - dark glassmorphism
+  --toast-bg: rgba(9, 9, 11, 0.95); // zinc-950 with slight transparency
+  --toast-border: rgba(39, 39, 42, 0.8); // zinc-800
+  --toast-text: #ffffff;
+  --toast-text-muted: #a1a1aa; // zinc-400
+  --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  background: var(--toast-bg) !important;
+  border: 1px solid var(--toast-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--toast-shadow) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  min-width: 320px !important;
+  max-width: 420px !important;
+
+  // Hover effect
+  &:hover {
+    border-color: rgba(63, 63, 70, 0.9) !important; // zinc-700
+  }
+
+  // Inner content wrapper
+  [data-content] {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 16px !important;
+  }
+
+  // Toast icon
+  [data-icon] {
+    flex-shrink: 0 !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+
+    svg {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+
+  // Title
+  [data-title] {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: var(--toast-text) !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.4 !important;
+  }
+
+  // Description
+  [data-description] {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: var(--toast-text-muted) !important;
+    line-height: 1.5 !important;
+    margin-top: 4px !important;
+  }
+
+  // Close button
+  [data-close-button] {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: none !important;
+    color: #71717a !important; // zinc-500
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+    }
+
+    svg {
+      width: 16px !important;
+      height: 16px !important;
+    }
+
+    // RTL positioning
+    [dir='rtl'] & {
+      right: auto !important;
+      left: 12px !important;
+    }
+  }
+
+  // Action button
+  [data-button] {
+    margin-top: 12px !important;
+    padding: 8px 14px !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    background: #ffd166 !important;
+    color: #000000 !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 12px rgba(255, 209, 102, 0.15) !important;
+
+    &:hover {
+      background: #ffdb85 !important;
+    }
+
+    &:active {
+      transform: scale(0.95) !important;
+    }
+  }
+
+  // Cancel button (secondary)
+  [data-cancel] {
+    background: transparent !important;
+    color: var(--toast-text-muted) !important;
+    border: 1px solid var(--toast-border) !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+      color: var(--toast-text) !important;
+    }
+  }
+}
+
+// ============================================
+// Toast Type Variants
+// ============================================
+
+// Success Toast
+[data-sonner-toast][data-type='success'] {
+  --status-color: #10b981; // emerald-500
+  --status-bg: rgba(16, 185, 129, 0.1);
+  --status-border: rgba(16, 185, 129, 0.2);
+
+  // Progress bar
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--status-color);
+    animation: toast-progress 5s linear forwards;
+  }
+
+  [data-icon] {
+    background: var(--status-bg) !important;
+    border: 1px solid var(--status-border) !important;
+
+    svg {
+      color: var(--status-color) !important;
+    }
+  }
+}
+
+// Error Toast
+[data-sonner-toast][data-type='error'] {
+  --status-color: #ef4444; // red-500
+  --status-bg: rgba(239, 68, 68, 0.1);
+  --status-border: rgba(239, 68, 68, 0.2);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--status-color);
+    animation: toast-progress 5s linear forwards;
+  }
+
+  [data-icon] {
+    background: var(--status-bg) !important;
+    border: 1px solid var(--status-border) !important;
+
+    svg {
+      color: var(--status-color) !important;
+    }
+  }
+}
+
+// Warning Toast
+[data-sonner-toast][data-type='warning'] {
+  --status-color: #ffd166; // Brand yellow
+  --status-bg: rgba(255, 209, 102, 0.1);
+  --status-border: rgba(255, 209, 102, 0.2);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--status-color);
+    animation: toast-progress 5s linear forwards;
+  }
+
+  [data-icon] {
+    background: var(--status-bg) !important;
+    border: 1px solid var(--status-border) !important;
+
+    svg {
+      color: var(--status-color) !important;
+    }
+  }
+}
+
+// Info Toast
+[data-sonner-toast][data-type='info'] {
+  --status-color: #3b82f6; // blue-500
+  --status-bg: rgba(59, 130, 246, 0.1);
+  --status-border: rgba(59, 130, 246, 0.2);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--status-color);
+    animation: toast-progress 5s linear forwards;
+  }
+
+  [data-icon] {
+    background: var(--status-bg) !important;
+    border: 1px solid var(--status-border) !important;
+
+    svg {
+      color: var(--status-color) !important;
+    }
+  }
+}
+
+// Default/Loading Toast (uses brand color)
+[data-sonner-toast]:not([data-type]) {
+  --status-color: #ffd166;
+  --status-bg: rgba(255, 209, 102, 0.1);
+  --status-border: rgba(255, 209, 102, 0.2);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--status-color);
+    animation: toast-progress 5s linear forwards;
+  }
+
+  [data-icon] {
+    background: var(--status-bg) !important;
+    border: 1px solid var(--status-border) !important;
+
+    svg {
+      color: var(--status-color) !important;
+    }
+  }
+}
+
+// ============================================
+// Progress Bar Animation
+// ============================================
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+}
+
+// RTL progress bar direction
+[dir='rtl'] [data-sonner-toast]::after {
+  transform-origin: right !important;
+}
+
+// ============================================
+// Light Mode Overrides
+// ============================================
+
+[data-theme='light'] {
+  [data-sonner-toast] {
+    --toast-bg: rgba(255, 255, 255, 0.95);
+    --toast-border: rgba(228, 228, 231, 0.8); // zinc-200
+    --toast-text: #18181b; // zinc-900
+    --toast-text-muted: #71717a; // zinc-500
+    --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    [data-close-button] {
+      color: #a1a1aa !important;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+        color: #18181b !important;
+      }
+    }
+
+    [data-cancel] {
+      &:hover {
+        background: rgba(0, 0, 0, 0.03) !important;
+      }
+    }
+  }
+}
+
+// ============================================
+// Mobile Responsive
+// ============================================
+
+@media (max-width: 480px) {
+  [data-sonner-toast] {
+    min-width: unset !important;
+    max-width: calc(100vw - 32px) !important;
+    margin: 0 16px !important;
+  }
+}
