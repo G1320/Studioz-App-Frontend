@@ -152,10 +152,12 @@
 // ==========================================
 .security-section-header {
   margin-bottom: vars.$spacing-2xl;
+  text-align: center;
 
   &__title-row {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: vars.$spacing-medium;
     margin-bottom: vars.$spacing-medium;
   }
@@ -189,6 +191,7 @@
     font-size: vars.$font-size-large;
     color: var(--text-muted);
     max-width: 640px;
+    margin-inline: auto;
     line-height: 1.6;
   }
 }

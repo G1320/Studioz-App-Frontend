@@ -79,3 +79,72 @@ export const getReservationsByPhone = async (phone: string): Promise<Reservation
     throw error;
   }
 };
+
+// ============================================================
+// RESCHEDULE FUNCTIONS
+// ============================================================
+
+export interface AvailableSlot {
+  date: string;
+  timeSlots: string[];
+  isFullyAvailable: boolean;
+}
+
+export interface AvailableSlotsResponse {
+  slots: AvailableSlot[];
+  originalSlotCount: number;
+}
+
+export interface CheckAvailabilityResponse {
+  available: boolean;
+  conflictingSlots?: string[];
+}
+
+/**
+ * Get available time slots for rescheduling a reservation
+ * @param reservationId - The reservation ID to reschedule
+ * @param daysAhead - Number of days to look ahead (default: 14, max: 60)
+ */
+export const getAvailableSlotsForReschedule = async (
+  reservationId: string,
+  daysAhead: number = 14
+): Promise<AvailableSlotsResponse> => {
+  try {
+    return await httpService.get(`${reservationEndpoint}/${reservationId}/reschedule/available`, { days: daysAhead });
+  } catch (error) {
+    console.error(`Error fetching available slots for reservation ${reservationId}:`, error);
+    throw error;
+  }
+};
+
+/**
+ * Check if a specific date/time combination is available for rescheduling
+ */
+export const checkRescheduleAvailability = async (
+  reservationId: string,
+  date: string,
+  timeSlots: string[]
+): Promise<CheckAvailabilityResponse> => {
+  try {
+    return await httpService.post(`${reservationEndpoint}/${reservationId}/reschedule/check`, { date, timeSlots });
+  } catch (error) {
+    console.error(`Error checking reschedule availability for reservation ${reservationId}:`, error);
+    throw error;
+  }
+};
+
+/**
+ * Reschedule a reservation to a new date/time
+ */
+export const rescheduleReservation = async (
+  reservationId: string,
+  date: string,
+  timeSlots: string[]
+): Promise<Reservation> => {
+  try {
+    return await httpService.post(`${reservationEndpoint}/${reservationId}/reschedule`, { date, timeSlots });
+  } catch (error) {
+    console.error(`Error rescheduling reservation ${reservationId}:`, error);
+    throw error;
+  }
+};

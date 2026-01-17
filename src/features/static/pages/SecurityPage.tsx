@@ -8,7 +8,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
-  ShieldIcon,
   LockIcon,
   FileTextIcon,
   CheckCircleIcon,
@@ -117,7 +116,7 @@ const SecurityPage: React.FC = () => {
 
   const handleContactSecurity = () => {
     // Navigate to contact or open email
-    window.location.href = 'mailto:security@studioz.co.il';
+    window.location.href = 'mailto:admin@studioz.co.il';
   };
 
   // Data we store
@@ -161,25 +160,12 @@ const SecurityPage: React.FC = () => {
         </div>
 
         <div className="security-hero__content">
-          <motion.div {...fadeInUp} className="security-hero__badge">
-            <ShieldIcon />
-            <span>{t('hero.badge')}</span>
-          </motion.div>
-
-          <motion.h1
-            {...fadeInUp}
-            transition={{ delay: 0.1 }}
-            className="security-hero__title"
-          >
+          <motion.h1 {...fadeInUp} transition={{ delay: 0.1 }} className="security-hero__title">
             {t('hero.title.line1')} <br />
             <span className="security-hero__title--highlight">{t('hero.title.line2')}</span>
           </motion.h1>
 
-          <motion.p
-            {...fadeInUp}
-            transition={{ delay: 0.2 }}
-            className="security-hero__subtitle"
-          >
+          <motion.p {...fadeInUp} transition={{ delay: 0.2 }} className="security-hero__subtitle">
             {t('hero.subtitle')}
           </motion.p>
         </div>
@@ -189,11 +175,7 @@ const SecurityPage: React.FC = () => {
       <main className="security-main">
         {/* Payment Security Section */}
         <section className="security-section">
-          <SectionHeader
-            icon={<LockIcon />}
-            title={t('payment.title')}
-            subtitle={t('payment.subtitle')}
-          />
+          <SectionHeader icon={<LockIcon />} title={t('payment.title')} subtitle={t('payment.subtitle')} />
 
           <div className="security-cards-grid">
             <SecurityCard
@@ -247,11 +229,7 @@ const SecurityPage: React.FC = () => {
 
         {/* Invoicing Section */}
         <section className="security-section security-section--narrow">
-          <SectionHeader
-            icon={<FileTextIcon />}
-            title={t('invoicing.title')}
-            subtitle={t('invoicing.subtitle')}
-          />
+          <SectionHeader icon={<FileTextIcon />} title={t('invoicing.title')} subtitle={t('invoicing.subtitle')} />
 
           <div className="security-features">
             <FeatureHighlight
