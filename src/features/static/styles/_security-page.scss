@@ -15,7 +15,11 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'DM Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 
   // Full-bleed layout
   margin-inline: calc(-1 * vars.$spacing-medium);
