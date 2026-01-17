@@ -396,110 +396,128 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     return items;
   }, [pendingBookingItem, item, selectedAddOnIds, addOns, t, i18n.language]);
 
-  // Slide animation variants (shared across all step transitions)
+  // Slide animation variants (same as ItemContent's customer info ↔ reservation transition)
   const isRTL = i18n.language === 'he';
   const slideVariants = {
-    enter: {
-      x: isRTL ? '-100%' : '100%',
+    enter: (direction: number) => ({
+      x: direction > 0 ? (isRTL ? '-30%' : '30%') : isRTL ? '30%' : '-30%',
       opacity: 0
-    },
+    }),
     center: {
       x: 0,
       opacity: 1
     },
-    exit: {
-      x: isRTL ? '100%' : '-100%',
+    exit: (direction: number) => ({
+      x: direction > 0 ? (isRTL ? '30%' : '-30%') : isRTL ? '-30%' : '30%',
       opacity: 0
-    }
+    })
   };
 
   const slideTransition = {
-    x: { type: 'spring', stiffness: 450, damping: 60 },
+    x: { type: 'spring', stiffness: 300, damping: 30 },
     opacity: { duration: 0.2 }
   };
 
+  // Direction: 1 = forward (to payment), -1 = backward (from payment)
+  const direction = showPaymentStep ? 1 : -1;
+
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      {showPaymentStep && pendingBookingItem ? (
-        <motion.article
-          key="payment-step"
-          className="details item-details item-details--payment"
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={slideTransition}
-        >
-          <button className="close-button" onClick={handleBackFromPayment}>
-            ←
-          </button>
-          <OrderSummary
-            studioName={item?.studioName?.en || studio?.name?.en || ''}
-            studioLocation={studio?.address || ''}
-            bookingDate={formattedBookingDate}
-            bookingTime={formattedBookingTime}
-            items={orderItems}
-            totalAmount={pendingBookingItem.total}
-            savedCards={savedCards}
-            onPaymentSubmit={handlePaymentSubmit}
-            onRemoveCard={() => removeSavedCardMutation.mutate()}
-            isProcessing={reserveItemTimeSlotMutation.isPending}
-            error={paymentError}
-            currency="₪"
-          />
-        </motion.article>
-      ) : (
-        <motion.article
-          key="item-details"
-          onMouseEnter={prefetchItem}
-          className="details item-details"
-          variants={slideVariants}
-          initial="center"
-          animate="center"
-          exit="exit"
-          transition={slideTransition}
-        >
-          <button className="close-button" onClick={closeModal}>
-            ×
-          </button>
-          <ItemHeader
-            studio={studio}
-            item={item}
-            user={user as User}
-            onEdit={handleGoToEdit}
-            onImageClick={handleImageClicked}
-          />
-          <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} studioActive={studio?.active} />
-          <ItemContent
-            item={item as Item}
-            studio={studio}
-            cart={cart}
-            addOns={addOns}
-            reservation={reservation}
-            currentReservationId={currentReservationId}
-            selectedDate={selectedDate}
-            selectedQuantity={selectedQuantity}
-            customerName={customerName}
-            customerPhone={customerPhone}
-            comment={comment}
-            isPhoneVerified={isPhoneVerified}
-            isBooked={isBooked as boolean}
-            isLoading={reserveItemTimeSlotMutation.isPending}
-            selectedAddOnIds={selectedAddOnIds}
-            addOnsTotal={addOnsTotal}
-            onDateChange={handleDateChange}
-            onIncrement={handleIncrement}
-            onDecrement={handleDecrement}
-            onAddOnToggle={handleAddOnToggle}
-            onNameChange={handleNameChange}
-            onPhoneChange={handlePhoneChange}
-            onCommentChange={setComment}
-            onPhoneVerified={handlePhoneVerified}
-            onBookNow={handleBookNow}
-            onCancelReservation={handleCancelReservation}
-          />
-        </motion.article>
+    <article
+      onMouseEnter={prefetchItem}
+      className={`details item-details ${showPaymentStep ? 'item-details--payment-active' : ''}`}
+    >
+      {/* Close button - changes behavior based on step */}
+      <button 
+        className="close-button" 
+        onClick={showPaymentStep ? handleBackFromPayment : closeModal}
+      >
+        {showPaymentStep ? '←' : '×'}
+      </button>
+
+      {/* Header stays visible during payment transition */}
+      <ItemHeader
+        studio={studio}
+        item={item}
+        user={user as User}
+        onEdit={handleGoToEdit}
+        onImageClick={handleImageClicked}
+      />
+      
+      {/* Item card hidden during payment step */}
+      {!showPaymentStep && (
+        <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} studioActive={studio?.active} />
       )}
-    </AnimatePresence>
+
+      {/* Animated content area - swaps between ItemContent and OrderSummary */}
+      <AnimatePresence mode="wait" initial={false} custom={direction}>
+        {showPaymentStep && pendingBookingItem ? (
+          <motion.div
+            key="payment-content"
+            className="item-content-animated"
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+          >
+            <OrderSummary
+              studioName={item?.studioName?.en || studio?.name?.en || ''}
+              studioLocation={studio?.address || ''}
+              bookingDate={formattedBookingDate}
+              bookingTime={formattedBookingTime}
+              items={orderItems}
+              totalAmount={pendingBookingItem.total}
+              savedCards={savedCards}
+              onPaymentSubmit={handlePaymentSubmit}
+              onRemoveCard={() => removeSavedCardMutation.mutate()}
+              isProcessing={reserveItemTimeSlotMutation.isPending}
+              error={paymentError}
+              currency="₪"
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="booking-content"
+            className="item-content-animated"
+            custom={direction}
+            variants={slideVariants}
+            initial="center"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+          >
+            <ItemContent
+              item={item as Item}
+              studio={studio}
+              cart={cart}
+              addOns={addOns}
+              reservation={reservation}
+              currentReservationId={currentReservationId}
+              selectedDate={selectedDate}
+              selectedQuantity={selectedQuantity}
+              customerName={customerName}
+              customerPhone={customerPhone}
+              comment={comment}
+              isPhoneVerified={isPhoneVerified}
+              isBooked={isBooked as boolean}
+              isLoading={reserveItemTimeSlotMutation.isPending}
+              selectedAddOnIds={selectedAddOnIds}
+              addOnsTotal={addOnsTotal}
+              onDateChange={handleDateChange}
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              onAddOnToggle={handleAddOnToggle}
+              onNameChange={handleNameChange}
+              onPhoneChange={handlePhoneChange}
+              onCommentChange={setComment}
+              onPhoneVerified={handlePhoneVerified}
+              onBookNow={handleBookNow}
+              onCancelReservation={handleCancelReservation}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </article>
   );
 };

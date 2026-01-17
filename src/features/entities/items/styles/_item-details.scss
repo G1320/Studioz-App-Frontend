@@ -154,23 +154,9 @@
 
   // Date picker row styling is now in _costumer-details-form.scss
 
-  // Payment step view
-  &--payment {
-    max-width: 60rem; // Wider for payment form layout
-    background: var(--bg-primary);
-    border-color: var(--border-primary);
-    
-    .close-button {
-      background: var(--bg-input);
-      border: 1px solid var(--border-primary);
-      font-size: 1.25rem;
-      color: var(--text-secondary);
-      
-      &:hover {
-        background: var(--bg-hover);
-        color: var(--text-primary);
-      }
-    }
+  // Payment step active - same modal, just showing payment content
+  &--payment-active {
+    // Keep the same styling, content animates within
     
     .order-summary {
       width: 100%;
