@@ -85,19 +85,28 @@
     cursor: pointer;
   }
 
-  // Ensure image container and skeleton loader work properly
-  // Match StudioCard pattern: reserve space using height: 0 + padding-bottom
+  // Thumbnail-style header image - provides context without being intrusive
   .image-container {
     position: relative;
     width: 100%;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
 
     &.cover-image {
       height: 0;
-      aspect-ratio: 16 / 9;
-      padding-bottom: 56.25%; // 9/16 * 100% to reserve space (same pattern as StudioCard)
+      aspect-ratio: 21 / 9; // Wider, shorter aspect ratio for thumbnail feel
+      padding-bottom: 42.85%; // 9/21 * 100%
       background-color: var(--bg-input);
+
+      // Subtle darkening overlay for muted effect
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        pointer-events: none;
+        z-index: 1;
+      }
     }
 
     .generic-image.cover-image {
@@ -108,6 +117,7 @@
       height: 100%;
       object-fit: cover;
       transition: opacity 0.3s ease;
+      filter: brightness(0.92); // Slightly muted
 
       &.loading {
         opacity: 0;
@@ -157,7 +167,7 @@
   // Payment step active - same modal, just showing payment content
   &--payment-active {
     // Keep the same styling, content animates within
-    
+
     .order-summary {
       width: 100%;
     }
@@ -197,7 +207,7 @@
       box-shadow: none;
       border-radius: 12px;
       transition: all 0.2s ease;
-      
+
       &:hover {
         border-color: var(--border-hover);
         background: var(--bg-hover);
