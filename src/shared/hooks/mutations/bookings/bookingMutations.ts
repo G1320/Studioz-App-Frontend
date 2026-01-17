@@ -31,6 +31,10 @@ export const useReserveStudioItemTimeSlotsMutation = (itemId: string) => {
       if (reservationId) {
         queryClient.invalidateQueries({ queryKey: ['reservation', reservationId] });
       }
+
+      // Invalidate saved cards cache - a new card may have been saved during booking
+      queryClient.invalidateQueries({ queryKey: ['savedCards'] });
+      queryClient.invalidateQueries({ queryKey: ['savedCardsByPhone'] });
     }
   });
 };

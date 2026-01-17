@@ -13,10 +13,11 @@
   gap: 0.25rem !important;
   padding: 0.25rem 0.5rem;
   border-radius: 999px;
-  background: var(--bg-elevated);
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
+  background: var(--bg-elevated) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: var(--shadow-md) !important; // Match city/studio badges
+  backdrop-filter: blur(10px);
 
   &__icon {
     width: 0.75rem !important;
