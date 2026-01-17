@@ -206,11 +206,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const handleCancelReservation = useCallback(() => {
     localStorage.removeItem(`reservation_${itemId}`);
     setCurrentReservationId(null);
-    // Reset form state for new reservation
+    // Reset form state for new booking
     setSelectedDate(null);
     setSelectedQuantity(minHours);
-    setSelectedAddOnIds([]);
     setComment('');
+    setSelectedAddOnIds([]);
   }, [itemId, minHours]);
 
   // Prepare booking item data (shared between direct booking and payment flow)
@@ -220,7 +220,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
     // Validate minimum hours
     if (hours < minHours) {
-      toast.error(t('toasts.error.minimumHours', { min: minHours }));
+      toast.error(t('toasts.error.minimumHoursRequired', { min: minHours }));
       return null;
     }
 

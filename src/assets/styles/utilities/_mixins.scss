@@ -87,10 +87,6 @@
     border-color: var(--border-hover);
     box-shadow: var(--shadow-card);
   }
-  
-  &:active {
-    transform: scale(0.99);
-  }
 }
 
 @mixin card-elevated {

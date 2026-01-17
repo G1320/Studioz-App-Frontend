@@ -193,7 +193,6 @@
     "error": {
       "selectDateTime": "אנא בחר תאריך ושעה תקינים",
       "closingTimeUnavailable": "שעת הסגירה של האולפן אינה זמינה",
-      "minimumHours": "מינימום הזמנה הוא {{min}} שעות",
       "hoursExceedClosing": "השעות שנבחרו חורגות משעת הסגירה של האולפן. אנא התאם את ההזמנה.",
       "addOnDeleteFailed": "מחיקת התוספת נכשלה",
       "addOnUpdateFailed": "עדכון התוספת נכשל",
@@ -205,7 +204,8 @@
       "invalidImageType": "אנא העלה קובץ תמונה תקין (PNG, JPEG או WebP)",
       "imageSizeTooLarge": "גודל התמונה חייב להיות קטן מ-5MB",
       "imageUploadFailed": "העלאת התמונה נכשלה. אנא נסה שוב.",
-      "verificationFailed": "האימות נכשל. אנא בדוק את הקוד ונסה שוב."
+      "verificationFailed": "האימות נכשל. אנא בדוק את הקוד ונסה שוב.",
+      "minimumHoursRequired": "נדרשות לפחות {{min}} שעות להזמנה זו"
     }
   },
   "studioDetails": {

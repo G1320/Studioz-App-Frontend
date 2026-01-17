@@ -436,7 +436,12 @@
       font-size: 10px;
       font-weight: 900;
       font-style: italic;
-      color: #1a1f71; // Visa brand blue
+      color: #1a1f71; // Visa brand blue (light mode)
+
+      // In dark mode, use white text for visibility
+      [data-theme='dark'] & {
+        color: #ffffff;
+      }
     }
 
     .mastercard-circles {

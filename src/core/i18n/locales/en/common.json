@@ -194,7 +194,6 @@
       "selectDateTime": "Please select a valid date and time",
       "closingTimeUnavailable": "Studio closing time is unavailable",
       "hoursExceedClosing": "Selected hours exceed the studio closing time. Please adjust your booking.",
-      "minimumHours": "Minimum booking is {{min}} hours",
       "addOnDeleteFailed": "Failed to delete add-on",
       "addOnUpdateFailed": "Failed to update add-on",
       "itemCreatedAddOnsFailed": "Item created but failed to create some add-ons. Please add them manually.",
@@ -205,7 +204,8 @@
       "invalidImageType": "Please upload a valid image file (PNG, JPEG, or WebP)",
       "imageSizeTooLarge": "Image size must be less than 5MB",
       "imageUploadFailed": "Failed to upload image. Please try again.",
-      "verificationFailed": "Verification failed. Please check the code and try again."
+      "verificationFailed": "Verification failed. Please check the code and try again.",
+      "minimumHoursRequired": "Minimum {{min}} hours required for this booking"
     }
   },
   "studioDetails": {

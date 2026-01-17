@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCancelReservationMutation, useUpdateReservationMutation, useItem, useStudio } from '@shared/hooks';
+import { useCancelReservationMutation, useUpdateReservationMutation, useItem, useStudio, useAddOns } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
 import { Reservation, Studio } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
@@ -55,6 +55,13 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
   const { data: item } = useItem(reservation.itemId);
   const { data: studioData } = useStudio(reservation.studioId || '');
   const studio = studioData?.currStudio;
+
+  // Fetch add-ons for this item to display selected ones
+  const { data: itemAddOns = [] } = useAddOns(reservation.itemId);
+  const selectedAddOns = useMemo(() => {
+    if (!reservation.addOnIds?.length || !itemAddOns.length) return [];
+    return itemAddOns.filter((addOn) => reservation.addOnIds?.includes(addOn._id));
+  }, [reservation.addOnIds, itemAddOns]);
 
   // Editable fields state
   const [editedStatus, setEditedStatus] = useState<Reservation['status']>(reservation.status);
@@ -474,15 +481,26 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
               )}
             </div>
 
-            {/* Add-ons indicator (if add-on IDs exist) */}
-            {reservation.addOnIds && reservation.addOnIds.length > 0 && (
+            {/* Add-ons list (if add-on IDs exist) */}
+            {selectedAddOns.length > 0 && (
               <div className="reservation-card__addons">
                 <div className="reservation-card__addons-header">
                   <InventoryIcon className="reservation-card__addons-icon" />
                   <span>{t('selectedAddOns', 'תוספות שנבחרו')}</span>
                 </div>
-                <div className="reservation-card__addon-count">
-                  {reservation.addOnIds.length} {t('addOnsSelected', 'תוספות נבחרו')}
+                <div className="reservation-card__addons-list">
+                  {selectedAddOns.map((addOn) => {
+                    const addOnName = addOn.name?.[i18n.language as 'en' | 'he'] || addOn.name?.en || '';
+                    const priceLabel = addOn.pricePer === 'hour' 
+                      ? `₪${addOn.price}/${t('perHour', 'לשעה')}`
+                      : `₪${addOn.price}`;
+                    return (
+                      <div key={addOn._id} className="reservation-card__addon-item">
+                        <span className="reservation-card__addon-name">{addOnName}</span>
+                        <span className="reservation-card__addon-price">{priceLabel}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

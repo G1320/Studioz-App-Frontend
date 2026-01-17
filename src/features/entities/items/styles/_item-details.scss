@@ -155,6 +155,12 @@
     height: auto;
     min-height: 8rem;
 
+    // Disable hover effect - card is not clickable in modal view
+    &:hover {
+      border-color: var(--border-primary);
+      box-shadow: none;
+    }
+
     p.description {
       -webkit-line-clamp: 4;
     }
