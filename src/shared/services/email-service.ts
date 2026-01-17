@@ -146,4 +146,29 @@ export const getEmailTemplate = async (id: number): Promise<BrevoTemplate> => {
   }
 };
 
+/**
+ * Send a test email using a specific template type
+ */
+export interface SendTestEmailResponse {
+  message: string;
+  templateType: string;
+  templateId: number;
+}
+
+export const sendTestEmail = async (
+  email: string,
+  templateType: string
+): Promise<SendTestEmailResponse> => {
+  try {
+    const response = await httpService.post<SendTestEmailResponse>(`${emailEndpoint}/send-test`, {
+      email,
+      templateType
+    });
+    return response;
+  } catch (error) {
+    console.error('Failed to send test email:', error);
+    throw error;
+  }
+};
+
 export type { EmailResponse };

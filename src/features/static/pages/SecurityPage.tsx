@@ -7,11 +7,9 @@
 
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate } from '@shared/hooks/utils';
 import {
   ShieldIcon,
   LockIcon,
-  CreditCardIcon,
   FileTextIcon,
   CheckCircleIcon,
   CancelIcon,
@@ -116,7 +114,6 @@ const DataItem: React.FC<DataItemProps> = ({ text, stored }) => (
  */
 const SecurityPage: React.FC = () => {
   const { t } = useTranslation('security');
-  const navigate = useLanguageNavigate();
 
   const handleContactSecurity = () => {
     // Navigate to contact or open email

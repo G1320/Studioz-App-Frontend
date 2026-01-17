@@ -1645,6 +1645,16 @@
       background: #f59e0b;
       box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.3);
     }
+
+    &--success {
+      background: #f7c041;
+      box-shadow: 0 10px 25px -5px rgba(247, 192, 65, 0.3);
+    }
+
+    &--info {
+      background: #3b82f6;
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+    }
   }
 }
 
@@ -1681,7 +1691,10 @@
     font-weight: 600;
     color: #ffffff;
 
-    [data-theme='light'] & {
+    // Support both data-theme attribute and class-based light mode
+    [data-theme='light'] &,
+    .email-preview-container--light &,
+    .email-preview-card--light & {
       color: #1c1917;
     }
   }

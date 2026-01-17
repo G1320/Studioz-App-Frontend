@@ -33,24 +33,59 @@ import {
   ExternalLinkIcon,
   CreditCardIcon,
   SunIcon,
-  MoonIcon
+  MoonIcon,
+  ShieldIcon,
+  LockIcon,
+  StarIcon,
+  RefreshIcon,
+  InfoIcon,
+  NotificationsIcon,
+  CancelIcon
 } from '@shared/components/icons';
 import { useReservations } from '@shared/hooks';
 import { Studio, User as UserType } from 'src/types/index';
 import { Coupon, createCoupon, getAllCoupons, deleteCoupon, toggleCouponStatus } from '@shared/services/coupon-service';
+import { sendTestEmail } from '@shared/services/email-service';
 import './styles/_admin-panel.scss';
 
 // --- Types ---
 type Tab = 'overview' | 'users' | 'studios' | 'services' | 'coupons' | 'emailTemplates';
 
-// Email Template Types
+// Email Template Types - Ordered by category
 type EmailType =
-  | 'RESERVATION_CONFIRMED'
-  | 'NEW_RESERVATION_OWNER'
-  | 'SUBSCRIPTION_CONFIRMED'
+  // Authentication & Account (1-5)
+  | 'SIGNUP_CONFIRMATION_LEGACY'
+  | 'PASSWORD_RESET'
+  | 'WELCOME_SIGNUP'
+  | 'EMAIL_VERIFICATION'
+  | 'ACCOUNT_DEACTIVATION'
+  // Transactions (6-9)
+  | 'PURCHASE_CONFIRMATION'
+  | 'PAYOUT_CONFIRMATION'
+  | 'REFUND_CONFIRMATION'
+  | 'ORDER_CANCELLED'
+  // Bookings (10-15)
+  | 'NEW_BOOKING_VENDOR'
+  | 'BOOKING_CONFIRMED_CUSTOMER'
+  | 'BOOKING_REMINDER'
+  | 'BOOKING_CANCELLED_CUSTOMER'
+  | 'BOOKING_CANCELLED_VENDOR'
+  | 'BOOKING_MODIFIED'
+  // Reviews (16)
+  | 'REQUEST_REVIEW'
+  // Subscriptions (17-26)
+  | 'SUBSCRIPTION_ACTIVATED'
+  | 'SUBSCRIPTION_PAYMENT_CONFIRMATION'
+  | 'SUBSCRIPTION_CANCELLATION'
+  | 'TRIAL_STARTED'
   | 'TRIAL_ENDING_REMINDER'
   | 'TRIAL_CHARGE_FAILED'
-  | 'TRIAL_STARTED_CONFIRMATION';
+  | 'SUBSCRIPTION_PAYMENT_FAILED'
+  | 'SUBSCRIPTION_EXPIRING'
+  | 'SUBSCRIPTION_UPGRADED'
+  | 'SUBSCRIPTION_DOWNGRADED'
+  // Documents (27)
+  | 'INVOICE_DOCUMENT_SENT';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -76,6 +111,14 @@ interface EmailData {
   daysRemaining?: number;
   trialEndDate?: string;
   failureReason?: string;
+  // New fields for expanded templates
+  orderNumber?: string;
+  payoutAmount?: string;
+  refundAmount?: string;
+  documentName?: string;
+  verificationCode?: string;
+  serviceName?: string;
+  invoiceUrl?: string;
 }
 
 interface Metric {
@@ -755,41 +798,129 @@ const CouponsTable = ({
 
 // Sample data for preview mode
 const SAMPLE_EMAIL_DATA: Record<EmailType, EmailData> = {
-  RESERVATION_CONFIRMED: {
+  // Authentication & Account
+  SIGNUP_CONFIRMATION_LEGACY: {
     customerName: 'יוסי כהן',
-    studioName: 'Sonic Haven TLV',
-    experienceName: 'אולפן הקלטה מקצועי',
-    dateTime: '15 ינואר 2026, 14:00',
-    duration: '3 שעות',
-    location: 'דיזנגוף 50, תל אביב',
+    actionUrl: 'https://studioz.co.il/login'
+  },
+  PASSWORD_RESET: {
+    customerName: 'יוסי כהן',
+    reservationId: 'PR-2026-0115',
+    actionUrl: 'https://studioz.co.il/reset-password?token=xxx'
+  },
+  WELCOME_SIGNUP: {
+    customerName: 'יוסי כהן',
+    actionUrl: 'https://studioz.co.il/studios'
+  },
+  EMAIL_VERIFICATION: {
+    customerName: 'יוסי כהן',
+    verificationCode: '123456',
+    actionUrl: 'https://studioz.co.il/verify?code=123456'
+  },
+  ACCOUNT_DEACTIVATION: {
+    customerName: 'יוסי כהן',
+    actionUrl: 'https://studioz.co.il'
+  },
+  // Transactions
+  PURCHASE_CONFIRMATION: {
+    customerName: 'יוסי כהן',
+    orderNumber: 'ORD-2026-0115',
     totalPaid: '₪450',
+    actionUrl: 'https://studioz.co.il/orders/ORD-2026-0115'
+  },
+  PAYOUT_CONFIRMATION: {
+    ownerName: 'אלון מזרחי',
+    payoutAmount: '₪1,250',
+    actionUrl: 'https://studioz.co.il/dashboard/payouts'
+  },
+  REFUND_CONFIRMATION: {
+    customerName: 'יוסי כהן',
+    refundAmount: '₪450',
     reservationId: 'RES-2026-0115',
-    notes: 'אנא הביאו את הציוד האישי שלכם',
     actionUrl: 'https://studioz.co.il/reservations/RES-2026-0115'
   },
-  NEW_RESERVATION_OWNER: {
+  ORDER_CANCELLED: {
+    customerName: 'יוסי כהן',
+    reservationId: 'RES-2026-0115',
+    studioName: 'Sonic Haven TLV',
+    serviceName: 'אולפן הקלטה מקצועי',
+    actionUrl: 'https://studioz.co.il/studios'
+  },
+  // Bookings
+  NEW_BOOKING_VENDOR: {
     ownerName: 'אלון מזרחי',
     studioName: 'Sonic Haven TLV',
-    experienceName: 'אולפן הקלטה מקצועי',
     customerName: 'יוסי כהן',
+    guestPhone: '052-1234567',
+    guestEmail: 'yossi@example.com',
+    serviceName: 'אולפן הקלטה מקצועי',
+    dateTime: '15 ינואר 2026, 14:00',
+    duration: '3 שעות',
+    actionUrl: 'https://studioz.co.il/dashboard/reservations/RES-2026-0115'
+  },
+  BOOKING_CONFIRMED_CUSTOMER: {
+    customerName: 'יוסי כהן',
+    studioName: 'Sonic Haven TLV',
+    serviceName: 'אולפן הקלטה מקצועי',
     dateTime: '15 ינואר 2026, 14:00',
     duration: '3 שעות',
     location: 'דיזנגוף 50, תל אביב',
     totalPaid: '₪450',
-    reservationId: 'RES-2026-0115',
-    guestEmail: 'yossi@example.com',
-    guestPhone: '052-1234567',
-    notes: 'אנא הביאו את הציוד האישי שלכם',
-    actionUrl: 'https://studioz.co.il/dashboard/reservations/RES-2026-0115'
+    invoiceUrl: 'https://app.greeninvoice.co.il/view/xxx',
+    actionUrl: 'https://studioz.co.il/reservations/RES-2026-0115'
   },
-  SUBSCRIPTION_CONFIRMED: {
+  BOOKING_REMINDER: {
+    customerName: 'יוסי כהן',
+    studioName: 'Sonic Haven TLV',
+    dateTime: '15 ינואר 2026, 14:00',
+    actionUrl: 'https://studioz.co.il/reservations/RES-2026-0115'
+  },
+  BOOKING_CANCELLED_CUSTOMER: {
+    customerName: 'יוסי כהן',
+    studioName: 'Sonic Haven TLV',
+    actionUrl: 'https://studioz.co.il/studios'
+  },
+  BOOKING_CANCELLED_VENDOR: {
+    ownerName: 'אלון מזרחי',
+    studioName: 'Sonic Haven TLV',
+    customerName: 'יוסי כהן',
+    actionUrl: 'https://studioz.co.il/dashboard'
+  },
+  BOOKING_MODIFIED: {
+    customerName: 'יוסי כהן',
+    reservationId: 'RES-2026-0115',
+    actionUrl: 'https://studioz.co.il/reservations/RES-2026-0115'
+  },
+  // Reviews
+  REQUEST_REVIEW: {
+    customerName: 'יוסי כהן',
+    studioName: 'Sonic Haven TLV',
+    actionUrl: 'https://studioz.co.il/studio/xxx/reviews'
+  },
+  // Subscriptions
+  SUBSCRIPTION_ACTIVATED: {
     customerName: 'שרה לוי',
     planName: 'Pro',
-    price: '149',
     startDate: '1 ינואר 2026',
-    nextBillingDate: '1 פברואר 2026',
-    subscriptionId: 'SUB-PRO-2026',
     actionUrl: 'https://studioz.co.il/profile'
+  },
+  SUBSCRIPTION_PAYMENT_CONFIRMATION: {
+    customerName: 'שרה לוי',
+    price: '₪149',
+    nextBillingDate: '1 פברואר 2026',
+    actionUrl: 'https://studioz.co.il/profile/subscription'
+  },
+  SUBSCRIPTION_CANCELLATION: {
+    customerName: 'שרה לוי',
+    planName: 'Pro',
+    actionUrl: 'https://studioz.co.il/subscription'
+  },
+  TRIAL_STARTED: {
+    customerName: 'מיכל רוזנברג',
+    planName: 'Starter',
+    price: '79',
+    trialEndDate: '1 פברואר 2026',
+    actionUrl: 'https://studioz.co.il/dashboard'
   },
   TRIAL_ENDING_REMINDER: {
     customerName: 'דוד בן ארי',
@@ -802,56 +933,162 @@ const SAMPLE_EMAIL_DATA: Record<EmailType, EmailData> = {
   TRIAL_CHARGE_FAILED: {
     customerName: 'נועה גולן',
     planName: 'Pro',
-    price: '149',
-    subscriptionId: 'SUB-PRO-2026-NGA',
     failureReason: 'כרטיס האשראי נדחה - נא לבדוק את פרטי הכרטיס',
     actionUrl: 'https://studioz.co.il/profile/billing'
   },
-  TRIAL_STARTED_CONFIRMATION: {
-    customerName: 'מיכל רוזנברג',
+  SUBSCRIPTION_PAYMENT_FAILED: {
+    customerName: 'שרה לוי',
+    price: '₪149',
+    actionUrl: 'https://studioz.co.il/profile/billing'
+  },
+  SUBSCRIPTION_EXPIRING: {
+    customerName: 'שרה לוי',
+    nextBillingDate: '1 פברואר 2026',
+    actionUrl: 'https://studioz.co.il/profile/subscription'
+  },
+  SUBSCRIPTION_UPGRADED: {
+    customerName: 'שרה לוי',
+    planName: 'Pro',
+    actionUrl: 'https://studioz.co.il/profile'
+  },
+  SUBSCRIPTION_DOWNGRADED: {
+    customerName: 'שרה לוי',
     planName: 'Starter',
-    price: '79',
-    trialEndDate: '1 פברואר 2026',
-    actionUrl: 'https://studioz.co.il/dashboard'
+    actionUrl: 'https://studioz.co.il/profile'
+  },
+  // Documents
+  INVOICE_DOCUMENT_SENT: {
+    customerName: 'יוסי כהן',
+    documentName: 'חשבונית מס / קבלה #1234',
+    invoiceUrl: 'https://app.greeninvoice.co.il/view/xxx',
+    actionUrl: 'https://app.greeninvoice.co.il/view/xxx'
   }
 };
 
 // Brevo variable placeholders for export mode
 const BREVO_VARIABLES: Record<EmailType, EmailData> = {
-  RESERVATION_CONFIRMED: {
+  // Authentication & Account
+  SIGNUP_CONFIRMATION_LEGACY: {
     customerName: '{{ params.customerName }}',
-    studioName: '{{ params.studioName }}',
-    experienceName: '{{ params.experienceName }}',
-    dateTime: '{{ params.dateTime }}',
-    duration: '{{ params.duration }}',
-    location: '{{ params.location }}',
-    totalPaid: '{{ params.totalPaid }}',
-    reservationId: '{{ params.reservationId }}',
-    notes: '{{ params.notes }}',
     actionUrl: '{{ params.actionUrl }}'
   },
-  NEW_RESERVATION_OWNER: {
+  PASSWORD_RESET: {
+    customerName: '{{ params.customerName }}',
+    reservationId: '{{ params.reservationId }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  WELCOME_SIGNUP: {
+    customerName: '{{ params.customerName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  EMAIL_VERIFICATION: {
+    customerName: '{{ params.customerName }}',
+    verificationCode: '{{ params.verificationCode }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  ACCOUNT_DEACTIVATION: {
+    customerName: '{{ params.customerName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  // Transactions
+  PURCHASE_CONFIRMATION: {
+    customerName: '{{ params.customerName }}',
+    orderNumber: '{{ params.orderNumber }}',
+    totalPaid: '{{ params.totalPaid }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  PAYOUT_CONFIRMATION: {
+    ownerName: '{{ params.ownerName }}',
+    payoutAmount: '{{ params.payoutAmount }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  REFUND_CONFIRMATION: {
+    customerName: '{{ params.customerName }}',
+    refundAmount: '{{ params.refundAmount }}',
+    reservationId: '{{ params.reservationId }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  ORDER_CANCELLED: {
+    customerName: '{{ params.customerName }}',
+    reservationId: '{{ params.reservationId }}',
+    studioName: '{{ params.studioName }}',
+    serviceName: '{{ params.serviceName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  // Bookings
+  NEW_BOOKING_VENDOR: {
     ownerName: '{{ params.ownerName }}',
     studioName: '{{ params.studioName }}',
-    experienceName: '{{ params.experienceName }}',
     customerName: '{{ params.customerName }}',
+    guestPhone: '{{ params.guestPhone }}',
+    guestEmail: '{{ params.guestEmail }}',
+    serviceName: '{{ params.serviceName }}',
+    dateTime: '{{ params.dateTime }}',
+    duration: '{{ params.duration }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  BOOKING_CONFIRMED_CUSTOMER: {
+    customerName: '{{ params.customerName }}',
+    studioName: '{{ params.studioName }}',
+    serviceName: '{{ params.serviceName }}',
     dateTime: '{{ params.dateTime }}',
     duration: '{{ params.duration }}',
     location: '{{ params.location }}',
     totalPaid: '{{ params.totalPaid }}',
-    reservationId: '{{ params.reservationId }}',
-    guestEmail: '{{ params.guestEmail }}',
-    guestPhone: '{{ params.guestPhone }}',
-    notes: '{{ params.notes }}',
+    invoiceUrl: '{{ params.invoiceUrl }}',
     actionUrl: '{{ params.actionUrl }}'
   },
-  SUBSCRIPTION_CONFIRMED: {
+  BOOKING_REMINDER: {
+    customerName: '{{ params.customerName }}',
+    studioName: '{{ params.studioName }}',
+    dateTime: '{{ params.dateTime }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  BOOKING_CANCELLED_CUSTOMER: {
+    customerName: '{{ params.customerName }}',
+    studioName: '{{ params.studioName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  BOOKING_CANCELLED_VENDOR: {
+    ownerName: '{{ params.ownerName }}',
+    studioName: '{{ params.studioName }}',
+    customerName: '{{ params.customerName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  BOOKING_MODIFIED: {
+    customerName: '{{ params.customerName }}',
+    reservationId: '{{ params.reservationId }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  // Reviews
+  REQUEST_REVIEW: {
+    customerName: '{{ params.customerName }}',
+    studioName: '{{ params.studioName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  // Subscriptions
+  SUBSCRIPTION_ACTIVATED: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    startDate: '{{ params.startDate }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  SUBSCRIPTION_PAYMENT_CONFIRMATION: {
+    customerName: '{{ params.customerName }}',
+    price: '{{ params.price }}',
+    nextBillingDate: '{{ params.nextBillingDate }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  SUBSCRIPTION_CANCELLATION: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  TRIAL_STARTED: {
     customerName: '{{ params.customerName }}',
     planName: '{{ params.planName }}',
     price: '{{ params.price }}',
-    startDate: '{{ params.startDate }}',
-    nextBillingDate: '{{ params.nextBillingDate }}',
-    subscriptionId: '{{ params.subscriptionId }}',
+    trialEndDate: '{{ params.trialEndDate }}',
     actionUrl: '{{ params.actionUrl }}'
   },
   TRIAL_ENDING_REMINDER: {
@@ -865,28 +1102,73 @@ const BREVO_VARIABLES: Record<EmailType, EmailData> = {
   TRIAL_CHARGE_FAILED: {
     customerName: '{{ params.customerName }}',
     planName: '{{ params.planName }}',
-    price: '{{ params.price }}',
-    subscriptionId: '{{ params.subscriptionId }}',
     failureReason: '{{ params.failureReason }}',
     actionUrl: '{{ params.actionUrl }}'
   },
-  TRIAL_STARTED_CONFIRMATION: {
+  SUBSCRIPTION_PAYMENT_FAILED: {
+    customerName: '{{ params.customerName }}',
+    price: '{{ params.price }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  SUBSCRIPTION_EXPIRING: {
+    customerName: '{{ params.customerName }}',
+    nextBillingDate: '{{ params.nextBillingDate }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  SUBSCRIPTION_UPGRADED: {
     customerName: '{{ params.customerName }}',
     planName: '{{ params.planName }}',
-    price: '{{ params.price }}',
-    trialEndDate: '{{ params.trialEndDate }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  SUBSCRIPTION_DOWNGRADED: {
+    customerName: '{{ params.customerName }}',
+    planName: '{{ params.planName }}',
+    actionUrl: '{{ params.actionUrl }}'
+  },
+  // Documents
+  INVOICE_DOCUMENT_SENT: {
+    customerName: '{{ params.customerName }}',
+    documentName: '{{ params.documentName }}',
+    invoiceUrl: '{{ params.invoiceUrl }}',
     actionUrl: '{{ params.actionUrl }}'
   }
 };
 
-// Template metadata with Brevo template IDs
+// Template metadata with Brevo template IDs - synced with backend emailHandler.ts
 const TEMPLATE_BREVO_IDS: Record<EmailType, number> = {
-  RESERVATION_CONFIRMED: 5, // Order confirmation
-  NEW_RESERVATION_OWNER: 7, // Payout notification
-  SUBSCRIPTION_CONFIRMED: 8, // Subscription payment
-  TRIAL_ENDING_REMINDER: 11,
-  TRIAL_CHARGE_FAILED: 12,
-  TRIAL_STARTED_CONFIRMATION: 13
+  // Authentication & Account
+  SIGNUP_CONFIRMATION_LEGACY: 1,
+  PASSWORD_RESET: 14,
+  WELCOME_SIGNUP: 13,
+  EMAIL_VERIFICATION: 15,
+  ACCOUNT_DEACTIVATION: 16,
+  // Transactions
+  PURCHASE_CONFIRMATION: 17,
+  PAYOUT_CONFIRMATION: 18,
+  REFUND_CONFIRMATION: 19,
+  ORDER_CANCELLED: 20,
+  // Bookings
+  NEW_BOOKING_VENDOR: 21,
+  BOOKING_CONFIRMED_CUSTOMER: 22,
+  BOOKING_REMINDER: 23,
+  BOOKING_CANCELLED_CUSTOMER: 24,
+  BOOKING_CANCELLED_VENDOR: 25,
+  BOOKING_MODIFIED: 26,
+  // Reviews
+  REQUEST_REVIEW: 27,
+  // Subscriptions
+  SUBSCRIPTION_ACTIVATED: 28,
+  SUBSCRIPTION_PAYMENT_CONFIRMATION: 29,
+  SUBSCRIPTION_CANCELLATION: 30,
+  TRIAL_STARTED: 31,
+  TRIAL_ENDING_REMINDER: 32,
+  TRIAL_CHARGE_FAILED: 33,
+  SUBSCRIPTION_PAYMENT_FAILED: 34,
+  SUBSCRIPTION_EXPIRING: 35,
+  SUBSCRIPTION_UPGRADED: 36,
+  SUBSCRIPTION_DOWNGRADED: 38,
+  // Documents
+  INVOICE_DOCUMENT_SENT: 37
 };
 
 // Editable template text content
@@ -895,29 +1177,174 @@ interface TemplateTextContent {
   greeting: string;
   body: string;
   ctaText: string;
+  ctaUrl: string;
   footerText: string;
 }
 
 const DEFAULT_TEMPLATE_TEXT: Record<EmailType, TemplateTextContent> = {
-  RESERVATION_CONFIRMED: {
-    title: 'ההזמנה שלך אושרה',
+  // Authentication & Account
+  SIGNUP_CONFIRMATION_LEGACY: {
+    title: 'אישור הרשמה',
     greeting: 'היי',
-    body: 'תודה שהזמנת את {experienceName} בסטודיו {studioName}. הסשן היצירתי שלך משוריין!',
-    ctaText: 'צפייה / ניהול הזמנה →',
-    footerText: 'צריכים עזרה? שלחו מייל או התקשרו אלינו בכל זמן.'
+    body: 'נרשמת בהצלחה ל-StudioZ. זהו אימייל אישור מהמערכת הקודמת שלנו.',
+    ctaText: 'מעבר לאתר →',
+    ctaUrl: 'https://studioz.co.il',
+    footerText: ''
   },
-  NEW_RESERVATION_OWNER: {
+  PASSWORD_RESET: {
+    title: 'איפוס סיסמה',
+    greeting: 'היי',
+    body: 'ביקשת לאפס את הסיסמה שלך. השתמש בקישור למטה כדי להמשיך.',
+    ctaText: 'איפוס סיסמה →',
+    ctaUrl: '{{ params.resetLink }}',
+    footerText: 'אם לא ביקשת איפוס סיסמה, התעלם מהודעה זו.'
+  },
+  WELCOME_SIGNUP: {
+    title: 'ברוכים הבאים ל-StudioZ!',
+    greeting: 'היי',
+    body: 'אנחנו שמחים שהצטרפת אלינו! גלה את הסטודיו המושלם ליצירה הבאה שלך.',
+    ctaText: 'גלה סטודיואים →',
+    ctaUrl: 'https://studioz.co.il/studios',
+    footerText: ''
+  },
+  EMAIL_VERIFICATION: {
+    title: 'אימות כתובת אימייל',
+    greeting: 'היי',
+    body: 'אנא אמת את כתובת האימייל שלך כדי להשלים את תהליך ההרשמה.',
+    ctaText: 'אימות אימייל →',
+    ctaUrl: '{{ params.verificationLink }}',
+    footerText: ''
+  },
+  ACCOUNT_DEACTIVATION: {
+    title: 'חשבונך בוטל',
+    greeting: 'היי',
+    body: 'חשבונך ב-StudioZ בוטל בהצלחה. אנחנו מצטערים לראות אותך עוזב.',
+    ctaText: 'מעבר לאתר →',
+    ctaUrl: 'https://studioz.co.il',
+    footerText: 'אם זו טעות, צור איתנו קשר.'
+  },
+  // Transactions
+  PURCHASE_CONFIRMATION: {
+    title: 'אישור רכישה',
+    greeting: 'היי',
+    body: 'תודה על הרכישה! ההזמנה שלך התקבלה ומעובדת.',
+    ctaText: 'צפייה בהזמנה →',
+    ctaUrl: '{{ params.orderUrl }}',
+    footerText: ''
+  },
+  PAYOUT_CONFIRMATION: {
+    title: 'אישור תשלום (Payout)',
+    greeting: 'היי',
+    body: 'התשלום עבור ההזמנות שלך הועבר לחשבונך.',
+    ctaText: 'צפייה בפרטים →',
+    ctaUrl: '{{ params.payoutUrl }}',
+    footerText: ''
+  },
+  REFUND_CONFIRMATION: {
+    title: 'אישור החזר כספי',
+    greeting: 'היי',
+    body: 'בוצע החזר כספי עבור הזמנתך.',
+    ctaText: 'צפייה בפרטים →',
+    ctaUrl: '{{ params.refundUrl }}',
+    footerText: ''
+  },
+  ORDER_CANCELLED: {
+    title: 'ההזמנה בוטלה',
+    greeting: 'היי',
+    body: 'הזמנתך בוטלה בהצלחה. אם בוצע תשלום, הזיכוי יבוצע בהתאם למדיניות הביטולים.',
+    ctaText: 'מעבר לסטודיואים →',
+    ctaUrl: 'https://studioz.co.il/studios',
+    footerText: ''
+  },
+  // Bookings
+  NEW_BOOKING_VENDOR: {
     title: 'הזמנה חדשה התקבלה',
     greeting: 'היי',
-    body: 'יש לך הזמנה חדשה בסטודיו {studioName}. הגיע הזמן להכין את הסטודיו!',
+    body: 'יש לך הזמנה חדשה בסטודיו {studioName}.',
     ctaText: 'צפייה בהזמנה →',
+    ctaUrl: '{{ params.bookingUrl }}',
     footerText: 'אתה מקבל הודעה זו כי הסטודיו בבעלותך.'
   },
-  SUBSCRIPTION_CONFIRMED: {
-    title: 'המינוי שלך אושר',
+  BOOKING_CONFIRMED_CUSTOMER: {
+    title: 'הזמנתך אושרה',
     greeting: 'היי',
-    body: 'תודה שהצטרפת לקהילת StudioZ! המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.',
+    body: 'הזמנתך לסטודיו {studioName} אושרה.',
+    ctaText: 'צפייה / ניהול הזמנה →',
+    ctaUrl: '{{ params.bookingUrl }}',
+    footerText: 'צריכים עזרה? שלחו מייל או התקשרו אלינו בכל זמן.'
+  },
+  BOOKING_REMINDER: {
+    title: 'תזכורת להזמנה',
+    greeting: 'היי',
+    body: 'הסשן שלך מתחיל בקרוב! אל תשכח להגיע בזמן.',
+    ctaText: 'צפייה בפרטים →',
+    ctaUrl: '{{ params.bookingUrl }}',
+    footerText: ''
+  },
+  BOOKING_CANCELLED_CUSTOMER: {
+    title: 'ההזמנה בוטלה',
+    greeting: 'היי',
+    body: 'לצערנו, ההזמנה שלך בוטלה. אם שילמת, ההחזר יבוצע בהתאם למדיניות הביטולים.',
+    ctaText: 'מעבר לסטודיואים →',
+    ctaUrl: 'https://studioz.co.il/studios',
+    footerText: ''
+  },
+  BOOKING_CANCELLED_VENDOR: {
+    title: 'הזמנה בוטלה',
+    greeting: 'היי',
+    body: 'אחת ההזמנות לסטודיו שלך בוטלה על ידי הלקוח.',
+    ctaText: 'מעבר לדאשבורד →',
+    ctaUrl: 'https://studioz.co.il/dashboard',
+    footerText: ''
+  },
+  BOOKING_MODIFIED: {
+    title: 'פרטי ההזמנה עודכנו',
+    greeting: 'היי',
+    body: 'חל שינוי בפרטי ההזמנה שלך.',
+    ctaText: 'צפייה בפרטים →',
+    ctaUrl: '{{ params.bookingUrl }}',
+    footerText: ''
+  },
+  // Reviews
+  REQUEST_REVIEW: {
+    title: 'איך היה בסטודיו?',
+    greeting: 'היי',
+    body: 'נשמח לשמוע על החוויה שלך! הדירוג שלך עוזר ליוצרים אחרים.',
+    ctaText: 'השאר ביקורת →',
+    ctaUrl: '{{ params.reviewUrl }}',
+    footerText: ''
+  },
+  // Subscriptions
+  SUBSCRIPTION_ACTIVATED: {
+    title: 'המינוי שלך הופעל',
+    greeting: 'היי',
+    body: 'ברוכים הבאים לתוכנית {planName}!',
     ctaText: 'מעבר לפרופיל →',
+    ctaUrl: 'https://studioz.co.il/profile',
+    footerText: ''
+  },
+  SUBSCRIPTION_PAYMENT_CONFIRMATION: {
+    title: 'אישור תשלום מינוי',
+    greeting: 'היי',
+    body: 'התשלום התקופתי עבור המינוי שלך עובד בהצלחה.',
+    ctaText: 'צפייה בפרטים →',
+    ctaUrl: 'https://studioz.co.il/profile/subscription',
+    footerText: ''
+  },
+  SUBSCRIPTION_CANCELLATION: {
+    title: 'המינוי בוטל',
+    greeting: 'היי',
+    body: 'המינוי שלך בוטל לבקשתך. תוכל להמשיך להשתמש בשירות עד סוף תקופת החיוב הנוכחית.',
+    ctaText: 'מעבר לאתר →',
+    ctaUrl: 'https://studioz.co.il',
+    footerText: ''
+  },
+  TRIAL_STARTED: {
+    title: 'תקופת הניסיון שלך התחילה!',
+    greeting: 'היי',
+    body: 'ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית {planName} הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.',
+    ctaText: 'התחלת עבודה →',
+    ctaUrl: 'https://studioz.co.il/dashboard',
     footerText: ''
   },
   TRIAL_ENDING_REMINDER: {
@@ -925,6 +1352,7 @@ const DEFAULT_TEMPLATE_TEXT: Record<EmailType, TemplateTextContent> = {
     greeting: 'היי',
     body: 'רצינו להזכיר שתקופת הניסיון שלך לתוכנית {planName} מסתיימת בעוד {daysRemaining} ימים.',
     ctaText: 'ניהול מינוי →',
+    ctaUrl: 'https://studioz.co.il/profile/subscription',
     footerText: 'אם אתה נהנה מהשירות, אין צורך לבצע אף פעולה.'
   },
   TRIAL_CHARGE_FAILED: {
@@ -932,13 +1360,48 @@ const DEFAULT_TEMPLATE_TEXT: Record<EmailType, TemplateTextContent> = {
     greeting: 'היי',
     body: 'לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית {planName} לאחר סיום תקופת הניסיון.',
     ctaText: 'עדכון פרטי תשלום →',
+    ctaUrl: 'https://studioz.co.il/profile/billing',
     footerText: 'אנא עדכן את פרטי התשלום שלך בהקדם כדי למנוע השהיה של השירות.'
   },
-  TRIAL_STARTED_CONFIRMATION: {
-    title: 'תקופת הניסיון שלך התחילה!',
+  SUBSCRIPTION_PAYMENT_FAILED: {
+    title: 'חיוב מינוי נכשל',
     greeting: 'היי',
-    body: 'ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית {planName} הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.',
-    ctaText: 'התחלת עבודה →',
+    body: 'ניסיון החיוב עבור המינוי שלך נכשל.',
+    ctaText: 'עדכון פרטי תשלום →',
+    ctaUrl: 'https://studioz.co.il/profile/billing',
+    footerText: ''
+  },
+  SUBSCRIPTION_EXPIRING: {
+    title: 'המינוי עומד להסתיים',
+    greeting: 'היי',
+    body: 'המינוי שלך עומד לפוג בקרוב. הקפד לחדש אותו.',
+    ctaText: 'חידוש מינוי →',
+    ctaUrl: 'https://studioz.co.il/profile/subscription',
+    footerText: ''
+  },
+  SUBSCRIPTION_UPGRADED: {
+    title: 'המינוי שודרג!',
+    greeting: 'היי',
+    body: 'שדרגת בהצלחה לתוכנית {planName}.',
+    ctaText: 'מעבר לפרופיל →',
+    ctaUrl: 'https://studioz.co.il/profile',
+    footerText: ''
+  },
+  SUBSCRIPTION_DOWNGRADED: {
+    title: 'המינוי שונה',
+    greeting: 'היי',
+    body: 'המינוי שלך שונה לתוכנית {planName}.',
+    ctaText: 'מעבר לפרופיל →',
+    ctaUrl: 'https://studioz.co.il/profile',
+    footerText: ''
+  },
+  // Documents
+  INVOICE_DOCUMENT_SENT: {
+    title: 'מסמך חדש נשלח אליך',
+    greeting: 'היי',
+    body: 'נשלח אליך מסמך חדש: {documentName}. תוכל לצפות בו ולהורידו בקישור המצורף.',
+    ctaText: 'צפייה במסמך →',
+    ctaUrl: '{{ params.documentUrl }}',
     footerText: ''
   }
 };
@@ -981,39 +1444,207 @@ const saveTemplateText = (text: Record<EmailType, TemplateTextContent>): void =>
 
 const EMAIL_TYPE_INFO: Record<
   EmailType,
-  { label: string; description: string; icon: React.ElementType; variant?: 'default' | 'danger' | 'warning' }
+  {
+    label: string;
+    description: string;
+    icon: React.ElementType;
+    variant?: 'default' | 'danger' | 'warning' | 'success' | 'info';
+    category: string;
+  }
 > = {
-  RESERVATION_CONFIRMED: {
-    label: 'אישור הזמנה',
-    description: 'נשלח ללקוח לאחר אישור ההזמנה',
-    icon: CheckCircle2Icon
+  // Authentication & Account
+  SIGNUP_CONFIRMATION_LEGACY: {
+    label: 'אישור הרשמה (Legacy)',
+    description: 'אימייל אישור מהמערכת הקודמת',
+    icon: MailIcon,
+    category: 'חשבון'
   },
-  NEW_RESERVATION_OWNER: {
+  PASSWORD_RESET: {
+    label: 'איפוס סיסמה',
+    description: 'נשלח כשמבקשים איפוס סיסמה',
+    icon: LockIcon,
+    variant: 'warning',
+    category: 'חשבון'
+  },
+  WELCOME_SIGNUP: {
+    label: 'ברוכים הבאים',
+    description: 'נשלח ללקוחות חדשים',
+    icon: SparklesIcon,
+    variant: 'success',
+    category: 'חשבון'
+  },
+  EMAIL_VERIFICATION: {
+    label: 'אימות אימייל',
+    description: 'נשלח לאימות כתובת אימייל',
+    icon: ShieldIcon,
+    variant: 'info',
+    category: 'חשבון'
+  },
+  ACCOUNT_DEACTIVATION: {
+    label: 'ביטול חשבון',
+    description: 'נשלח כשמבטלים חשבון',
+    icon: CancelIcon,
+    variant: 'danger',
+    category: 'חשבון'
+  },
+  // Transactions
+  PURCHASE_CONFIRMATION: {
+    label: 'אישור רכישה',
+    description: 'נשלח לאחר רכישה מוצלחת',
+    icon: CheckCircle2Icon,
+    variant: 'success',
+    category: 'עסקאות'
+  },
+  PAYOUT_CONFIRMATION: {
+    label: 'אישור תשלום לספק',
+    description: 'נשלח לבעל סטודיו לאחר העברת תשלום',
+    icon: DollarIcon,
+    variant: 'success',
+    category: 'עסקאות'
+  },
+  REFUND_CONFIRMATION: {
+    label: 'אישור החזר כספי',
+    description: 'נשלח לאחר ביצוע החזר',
+    icon: RefreshIcon,
+    variant: 'info',
+    category: 'עסקאות'
+  },
+  ORDER_CANCELLED: {
+    label: 'ביטול הזמנה',
+    description: 'נשלח כשמבטלים הזמנה',
+    icon: CancelIcon,
+    variant: 'danger',
+    category: 'עסקאות'
+  },
+  // Bookings
+  NEW_BOOKING_VENDOR: {
     label: 'הזמנה חדשה לבעלים',
     description: 'נשלח לבעל הסטודיו כשמתקבלת הזמנה',
-    icon: SparklesIcon
+    icon: NotificationsIcon,
+    variant: 'warning',
+    category: 'הזמנות'
   },
-  SUBSCRIPTION_CONFIRMED: {
-    label: 'אישור מינוי',
+  BOOKING_CONFIRMED_CUSTOMER: {
+    label: 'אישור הזמנה ללקוח',
+    description: 'נשלח ללקוח לאחר אישור ההזמנה',
+    icon: CheckCircle2Icon,
+    variant: 'success',
+    category: 'הזמנות'
+  },
+  BOOKING_REMINDER: {
+    label: 'תזכורת להזמנה',
+    description: 'נשלח לפני מועד ההזמנה',
+    icon: ClockIcon,
+    variant: 'info',
+    category: 'הזמנות'
+  },
+  BOOKING_CANCELLED_CUSTOMER: {
+    label: 'ביטול הזמנה (ללקוח)',
+    description: 'נשלח ללקוח כשהזמנה מבוטלת',
+    icon: CancelIcon,
+    variant: 'danger',
+    category: 'הזמנות'
+  },
+  BOOKING_CANCELLED_VENDOR: {
+    label: 'ביטול הזמנה (לספק)',
+    description: 'נשלח לספק כשהזמנה מבוטלת',
+    icon: CancelIcon,
+    variant: 'danger',
+    category: 'הזמנות'
+  },
+  BOOKING_MODIFIED: {
+    label: 'עדכון הזמנה',
+    description: 'נשלח כשמעדכנים פרטי הזמנה',
+    icon: SettingsIcon,
+    variant: 'info',
+    category: 'הזמנות'
+  },
+  // Reviews
+  REQUEST_REVIEW: {
+    label: 'בקשה לביקורת',
+    description: 'נשלח לאחר ביקור בסטודיו',
+    icon: StarIcon,
+    variant: 'success',
+    category: 'ביקורות'
+  },
+  // Subscriptions
+  SUBSCRIPTION_ACTIVATED: {
+    label: 'הפעלת מינוי',
     description: 'נשלח לאחר הפעלת מינוי חדש',
-    icon: CreditCardIcon
+    icon: CreditCardIcon,
+    variant: 'success',
+    category: 'מינויים'
+  },
+  SUBSCRIPTION_PAYMENT_CONFIRMATION: {
+    label: 'אישור תשלום מינוי',
+    description: 'נשלח לאחר חיוב תקופתי',
+    icon: CheckCircle2Icon,
+    variant: 'success',
+    category: 'מינויים'
+  },
+  SUBSCRIPTION_CANCELLATION: {
+    label: 'ביטול מינוי',
+    description: 'נשלח כשמבטלים מינוי',
+    icon: CancelIcon,
+    variant: 'danger',
+    category: 'מינויים'
+  },
+  TRIAL_STARTED: {
+    label: 'תחילת ניסיון',
+    description: 'נשלח בתחילת תקופת הניסיון',
+    icon: PlayCircleIcon,
+    variant: 'success',
+    category: 'מינויים'
   },
   TRIAL_ENDING_REMINDER: {
     label: 'תזכורת סיום ניסיון',
     description: 'נשלח לפני סיום תקופת הניסיון',
     icon: AlertTriangleIcon,
-    variant: 'warning'
+    variant: 'warning',
+    category: 'מינויים'
   },
   TRIAL_CHARGE_FAILED: {
-    label: 'כשל בחיוב',
-    description: 'נשלח כשהתשלום נכשל',
+    label: 'כשל בחיוב ניסיון',
+    description: 'נשלח כשהתשלום אחרי ניסיון נכשל',
     icon: AlertTriangleIcon,
-    variant: 'danger'
+    variant: 'danger',
+    category: 'מינויים'
   },
-  TRIAL_STARTED_CONFIRMATION: {
-    label: 'תחילת ניסיון',
-    description: 'נשלח בתחילת תקופת הניסיון',
-    icon: PlayCircleIcon
+  SUBSCRIPTION_PAYMENT_FAILED: {
+    label: 'כשל בחיוב מינוי',
+    description: 'נשלח כשחיוב תקופתי נכשל',
+    icon: AlertTriangleIcon,
+    variant: 'danger',
+    category: 'מינויים'
+  },
+  SUBSCRIPTION_EXPIRING: {
+    label: 'מינוי עומד לפוג',
+    description: 'נשלח לפני תפוגת מינוי',
+    icon: ClockIcon,
+    variant: 'warning',
+    category: 'מינויים'
+  },
+  SUBSCRIPTION_UPGRADED: {
+    label: 'שדרוג מינוי',
+    description: 'נשלח לאחר שדרוג תוכנית',
+    icon: SparklesIcon,
+    variant: 'success',
+    category: 'מינויים'
+  },
+  SUBSCRIPTION_DOWNGRADED: {
+    label: 'שינוי מינוי',
+    description: 'נשלח לאחר שנמוך תוכנית',
+    icon: InfoIcon,
+    variant: 'info',
+    category: 'מינויים'
+  },
+  // Documents
+  INVOICE_DOCUMENT_SENT: {
+    label: 'שליחת מסמך',
+    description: 'נשלח עם חשבונית או קבלה',
+    icon: FileTextIcon,
+    variant: 'info',
+    category: 'מסמכים'
   }
 };
 
@@ -1036,12 +1667,14 @@ const EmailHeader = ({
   title: string;
   icon: React.ElementType;
   mode?: ThemeMode;
-  variant?: 'default' | 'danger' | 'warning';
+  variant?: 'default' | 'danger' | 'warning' | 'success' | 'info';
 }) => {
   const isLight = mode === 'light';
   let iconClass = 'email-header__icon';
   if (variant === 'danger') iconClass += ' email-header__icon--danger';
   if (variant === 'warning') iconClass += ' email-header__icon--warning';
+  if (variant === 'success') iconClass += ' email-header__icon--success';
+  if (variant === 'info') iconClass += ' email-header__icon--info';
 
   return (
     <div className={`email-header ${isLight ? 'email-header--light' : ''}`}>
@@ -1081,11 +1714,7 @@ const EmailFooter = ({ studioName = 'StudioZ', mode = 'dark' }: { studioName?: s
   return (
     <div className={`email-footer ${isLight ? 'email-footer--light' : ''}`}>
       <div className="email-footer__logo">
-        <img
-          src="https://www.studioz.co.il/android-chrome-512x512.png"
-          alt="StudioZ"
-          className="email-footer__logo-img"
-        />
+        <img src="https://www.studioz.co.il/logo.png" alt="StudioZ" className="email-footer__logo-img" />
         <span className={`email-footer__brand ${isLight ? 'email-footer__brand--light' : ''}`}>STUDIOZ</span>
       </div>
       <p className="email-footer__copyright">
@@ -1112,9 +1741,8 @@ const EmailActionButton = ({
   );
 };
 
-// Individual Email Templates (kept for reference)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
+// Individual Email Templates (exported for potential reuse)
+export const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <EmailWrapper mode={mode}>
@@ -1130,7 +1758,12 @@ const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; m
           </p>
         </div>
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-          <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
+          <EmailDetailRow
+            label="תאריך ושעה"
+            value={`${data.dateTime} (${data.duration})`}
+            icon={CalendarIcon}
+            mode={mode}
+          />
           <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
           <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
@@ -1146,24 +1779,36 @@ const ReservationConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; m
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
+export const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <EmailWrapper mode={mode}>
       <EmailHeader title="הזמנה חדשה התקבלה" icon={SparklesIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.ownerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.ownerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            יש לך הזמנה חדשה בסטודיו <span className="email-text--brand">{data.studioName}</span>. הגיע הזמן להכין את הסטודיו!
+            יש לך הזמנה חדשה בסטודיו <span className="email-text--brand">{data.studioName}</span>. הגיע הזמן להכין את
+            הסטודיו!
           </p>
         </div>
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
           <EmailDetailRow label="חוויה" value={data.experienceName || ''} icon={SparklesIcon} mode={mode} />
-          <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
+          <EmailDetailRow
+            label="תאריך ושעה"
+            value={`${data.dateTime} (${data.duration})`}
+            icon={CalendarIcon}
+            mode={mode}
+          />
           <EmailDetailRow label="אורח" value={data.customerName || ''} icon={UserLucideIcon} mode={mode} />
-          <EmailDetailRow label="פרטי קשר" value={`${data.guestEmail} • ${data.guestPhone}`} icon={MailIcon} mode={mode} />
+          <EmailDetailRow
+            label="פרטי קשר"
+            value={`${data.guestEmail} • ${data.guestPhone}`}
+            icon={MailIcon}
+            mode={mode}
+          />
           <EmailDetailRow label="סך הכל" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
           <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
           <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
@@ -1179,23 +1824,27 @@ const NewReservationOwnerEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
+export const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <EmailWrapper mode={mode}>
       <EmailHeader title="המינוי שלך אושר" icon={CreditCardIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            תודה שהצטרפת לקהילת <span className="email-text--brand">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי שלך מתחיל כאן.
+            תודה שהצטרפת לקהילת <span className="email-text--brand">StudioZ</span>! המינוי שלך פעיל כעת והמסע היצירתי
+            שלך מתחיל כאן.
           </p>
         </div>
         <div className={`email-plan-highlight ${isLight ? 'email-plan-highlight--light' : ''}`}>
           <h2 className="email-plan-highlight__name">{data.planName}</h2>
           <div className="email-plan-highlight__price">
-            <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>₪{data.price}</span>
+            <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>
+              ₪{data.price}
+            </span>
             <span className="email-plan-highlight__period">/month</span>
           </div>
         </div>
@@ -1213,22 +1862,26 @@ const SubscriptionConfirmedEmail = ({ data, mode = 'dark' }: { data: EmailData; 
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
+export const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <EmailWrapper mode={mode}>
       <EmailHeader title="תקופת הניסיון שלך עומדת להסתיים" icon={AlertTriangleIcon} mode={mode} variant="warning" />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> מסתיימת בעוד{' '}
-            <span className="email-text--bold">{data.daysRemaining} ימים</span>.
+            רצינו להזכיר שתקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> מסתיימת
+            בעוד <span className="email-text--bold">{data.daysRemaining} ימים</span>.
           </p>
         </div>
         <div className={`email-alert-box email-alert-box--warning ${isLight ? 'email-alert-box--light' : ''}`}>
-          <p>לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span> לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.</p>
+          <p>
+            לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span>{' '}
+            לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.
+          </p>
         </div>
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
           <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
@@ -1245,17 +1898,19 @@ const TrialEndingReminderEmail = ({ data, mode = 'dark' }: { data: EmailData; mo
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
+export const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <EmailWrapper mode={mode}>
       <EmailHeader title="פעולה נדרשת: התשלום נכשל" icon={AlertTriangleIcon} mode={mode} variant="danger" />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span className="email-text--bold">{data.planName}</span> לאחר סיום תקופת הניסיון.
+            לא הצלחנו לעבד את התשלום עבור המינוי שלך לתוכנית <span className="email-text--bold">{data.planName}</span>{' '}
+            לאחר סיום תקופת הניסיון.
           </p>
         </div>
         <div className={`email-alert-box email-alert-box--danger ${isLight ? 'email-alert-box--light' : ''}`}>
@@ -1280,24 +1935,28 @@ const TrialChargeFailedEmail = ({ data, mode = 'dark' }: { data: EmailData; mode
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
+export const TrialStartedConfirmationEmail = ({ data, mode = 'dark' }: { data: EmailData; mode?: ThemeMode }) => {
   const isLight = mode === 'light';
   return (
     <EmailWrapper mode={mode}>
       <EmailHeader title="תקופת הניסיון שלך התחילה!" icon={PlayCircleIcon} mode={mode} />
       <div className="email-body">
         <div className="email-greeting">
-          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>היי {data.customerName},</p>
+          <p className={`email-greeting__name ${isLight ? 'email-greeting__name--light' : ''}`}>
+            היי {data.customerName},
+          </p>
           <p className={`email-greeting__text ${isLight ? 'email-greeting__text--light' : ''}`}>
-            ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span> הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.
+            ברוך הבא ל-StudioZ! תקופת הניסיון שלך לתוכנית <span className="email-text--brand">{data.planName}</span>{' '}
+            הופעלה בהצלחה. עכשיו זה הזמן להפיח חיים ביצירה שלך.
           </p>
         </div>
         <div className={`email-trial-highlight ${isLight ? 'email-trial-highlight--light' : ''}`}>
           <div className="email-trial-highlight__icon">
             <SparklesIcon sx={{ fontSize: 32 }} />
           </div>
-          <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>ניסיון ללא עלות</h2>
+          <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>
+            ניסיון ללא עלות
+          </h2>
           <p className="email-trial-highlight__date">מסתיים ב-{data.trialEndDate}</p>
         </div>
         <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
@@ -1335,10 +1994,18 @@ const EmailTemplatePreview = ({
         const varName = part.slice(1, -1);
         const value = (data as Record<string, unknown>)[varName];
         if (varName === 'studioName' || varName === 'planName') {
-          return <span key={i} className="email-text--brand">{String(value || varName)}</span>;
+          return (
+            <span key={i} className="email-text--brand">
+              {String(value || varName)}
+            </span>
+          );
         }
         if (varName === 'experienceName' || varName === 'daysRemaining') {
-          return <span key={i} className="email-text--bold">{String(value || varName)}</span>;
+          return (
+            <span key={i} className="email-text--bold">
+              {String(value || varName)}
+            </span>
+          );
         }
         return <span key={i}>{String(value || varName)}</span>;
       }
@@ -1351,7 +2018,10 @@ const EmailTemplatePreview = ({
     const isLight = mode === 'light';
     const info = EMAIL_TYPE_INFO[type];
     const Icon = info.icon;
-    const customerName = type === 'NEW_RESERVATION_OWNER' ? data.ownerName : data.customerName;
+    // Determine if this is a vendor/owner-facing template
+    const isVendorTemplate =
+      type === 'NEW_BOOKING_VENDOR' || type === 'BOOKING_CANCELLED_VENDOR' || type === 'PAYOUT_CONFIRMATION';
+    const customerName = isVendorTemplate ? data.ownerName : data.customerName;
 
     return (
       <EmailWrapper mode={mode}>
@@ -1366,48 +2036,59 @@ const EmailTemplatePreview = ({
             </p>
           </div>
 
-          {/* Type-specific content */}
-          {(type === 'RESERVATION_CONFIRMED' || type === 'NEW_RESERVATION_OWNER') && (
+          {/* Booking templates */}
+          {(type === 'BOOKING_CONFIRMED_CUSTOMER' || type === 'NEW_BOOKING_VENDOR') && (
             <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-              {type === 'NEW_RESERVATION_OWNER' && (
-                <EmailDetailRow label="חוויה" value={data.experienceName || ''} icon={SparklesIcon} mode={mode} />
-              )}
-              <EmailDetailRow label="תאריך ושעה" value={`${data.dateTime} (${data.duration})`} icon={CalendarIcon} mode={mode} />
-              {type === 'NEW_RESERVATION_OWNER' && (
+              {type === 'NEW_BOOKING_VENDOR' && (
                 <>
-                  <EmailDetailRow label="אורח" value={data.customerName || ''} icon={UserLucideIcon} mode={mode} />
-                  <EmailDetailRow label="פרטי קשר" value={`${data.guestEmail} • ${data.guestPhone}`} icon={MailIcon} mode={mode} />
+                  <EmailDetailRow label="לקוח" value={data.customerName || ''} icon={UserLucideIcon} mode={mode} />
+                  <EmailDetailRow
+                    label="פרטי קשר"
+                    value={`${data.guestEmail} • ${data.guestPhone}`}
+                    icon={MailIcon}
+                    mode={mode}
+                  />
                 </>
               )}
-              <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
-              <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
-              <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
-              <EmailDetailRow label="הערות" value={data.notes || 'אין'} icon={FileTextIcon} mode={mode} />
+              <EmailDetailRow label="שירות" value={data.serviceName || ''} icon={SparklesIcon} mode={mode} />
+              <EmailDetailRow
+                label="תאריך ושעה"
+                value={`${data.dateTime} (${data.duration})`}
+                icon={CalendarIcon}
+                mode={mode}
+              />
+              {type === 'BOOKING_CONFIRMED_CUSTOMER' && (
+                <>
+                  <EmailDetailRow label="מיקום" value={data.location || ''} icon={LocationIcon} mode={mode} />
+                  <EmailDetailRow label="סך הכל שולם" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
+                </>
+              )}
             </div>
           )}
 
-          {type === 'SUBSCRIPTION_CONFIRMED' && (
+          {/* Subscription activation */}
+          {type === 'SUBSCRIPTION_ACTIVATED' && (
             <>
               <div className={`email-plan-highlight ${isLight ? 'email-plan-highlight--light' : ''}`}>
                 <h2 className="email-plan-highlight__name">{data.planName}</h2>
-                <div className="email-plan-highlight__price">
-                  <span className={`email-plan-highlight__amount ${isLight ? 'email-plan-highlight__amount--light' : ''}`}>₪{data.price}</span>
-                  <span className="email-plan-highlight__period">/month</span>
-                </div>
               </div>
               <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
-                <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
+                <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={SparklesIcon} mode={mode} />
                 <EmailDetailRow label="תאריך התחלה" value={data.startDate || ''} icon={CalendarIcon} mode={mode} />
-                <EmailDetailRow label="תאריך חיוב הבא" value={data.nextBillingDate || ''} icon={ClockIcon} mode={mode} />
               </div>
             </>
           )}
 
-          {(type === 'TRIAL_ENDING_REMINDER' || type === 'TRIAL_CHARGE_FAILED' || type === 'TRIAL_STARTED_CONFIRMATION') && (
+          {/* Trial & subscription payment templates */}
+          {(type === 'TRIAL_ENDING_REMINDER' || type === 'TRIAL_CHARGE_FAILED' || type === 'TRIAL_STARTED') && (
             <>
               {type === 'TRIAL_ENDING_REMINDER' && (
                 <div className={`email-alert-box email-alert-box--warning ${isLight ? 'email-alert-box--light' : ''}`}>
-                  <p>לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span className="email-text--bold">₪{data.price}</span> לחודש, אלא אם תבטל לפני ה-{data.trialEndDate}.</p>
+                  <p>
+                    לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של{' '}
+                    <span className="email-text--bold">₪{data.price}</span> לחודש, אלא אם תבטל לפני ה-
+                    {data.trialEndDate}.
+                  </p>
                 </div>
               )}
               {type === 'TRIAL_CHARGE_FAILED' && (
@@ -1419,35 +2100,131 @@ const EmailTemplatePreview = ({
                   <p>{data.failureReason || 'פרטי כרטיס לא מעודכנים או חוסר במסגרת אשראי'}</p>
                 </div>
               )}
-              {type === 'TRIAL_STARTED_CONFIRMATION' && (
+              {type === 'TRIAL_STARTED' && (
                 <div className={`email-trial-highlight ${isLight ? 'email-trial-highlight--light' : ''}`}>
                   <div className="email-trial-highlight__icon">
                     <SparklesIcon sx={{ fontSize: 32 }} />
                   </div>
-                  <h2 className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}>ניסיון ללא עלות</h2>
+                  <h2
+                    className={`email-trial-highlight__title ${isLight ? 'email-trial-highlight__title--light' : ''}`}
+                  >
+                    ניסיון ללא עלות
+                  </h2>
                   <p className="email-trial-highlight__date">מסתיים ב-{data.trialEndDate}</p>
                 </div>
               )}
               <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
                 <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={CreditCardIcon} mode={mode} />
-                <EmailDetailRow label="תאריך סיום ניסיון" value={data.trialEndDate || ''} icon={CalendarIcon} mode={mode} />
-                <EmailDetailRow label={type === 'TRIAL_CHARGE_FAILED' ? 'סכום לתשלום' : 'מחיר חודשי'} value={`₪${data.price}`} icon={CreditCardIcon} mode={mode} />
-                {type === 'TRIAL_CHARGE_FAILED' && (
-                  <EmailDetailRow label="מזהה מינוי" value={data.subscriptionId || ''} icon={HashIcon} mode={mode} />
-                )}
+                <EmailDetailRow
+                  label="תאריך סיום ניסיון"
+                  value={data.trialEndDate || ''}
+                  icon={CalendarIcon}
+                  mode={mode}
+                />
+                <EmailDetailRow
+                  label={type === 'TRIAL_CHARGE_FAILED' ? 'סכום לתשלום' : 'מחיר חודשי'}
+                  value={`₪${data.price}`}
+                  icon={CreditCardIcon}
+                  mode={mode}
+                />
               </div>
             </>
           )}
 
+          {/* Generic templates with simple details */}
+          {[
+            'PASSWORD_RESET',
+            'EMAIL_VERIFICATION',
+            'PURCHASE_CONFIRMATION',
+            'PAYOUT_CONFIRMATION',
+            'REFUND_CONFIRMATION',
+            'ORDER_CANCELLED',
+            'BOOKING_REMINDER',
+            'BOOKING_MODIFIED',
+            'SUBSCRIPTION_PAYMENT_CONFIRMATION',
+            'SUBSCRIPTION_PAYMENT_FAILED',
+            'SUBSCRIPTION_EXPIRING',
+            'INVOICE_DOCUMENT_SENT'
+          ].includes(type) && (
+            <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+              {type === 'PASSWORD_RESET' && (
+                <EmailDetailRow label="מזהה בקשה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
+              )}
+              {type === 'EMAIL_VERIFICATION' && (
+                <EmailDetailRow label="קוד אימות" value={data.verificationCode || ''} icon={LockIcon} mode={mode} />
+              )}
+              {type === 'PURCHASE_CONFIRMATION' && (
+                <>
+                  <EmailDetailRow label="מספר הזמנה" value={data.orderNumber || ''} icon={HashIcon} mode={mode} />
+                  <EmailDetailRow label="סכום" value={data.totalPaid || ''} icon={CreditCardIcon} mode={mode} />
+                </>
+              )}
+              {type === 'PAYOUT_CONFIRMATION' && (
+                <EmailDetailRow label="סכום הזיכוי" value={data.payoutAmount || ''} icon={DollarIcon} mode={mode} />
+              )}
+              {type === 'REFUND_CONFIRMATION' && (
+                <EmailDetailRow label="סכום ההחזר" value={data.refundAmount || ''} icon={CreditCardIcon} mode={mode} />
+              )}
+              {type === 'ORDER_CANCELLED' && (
+                <>
+                  <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
+                  <EmailDetailRow label="סטודיו" value={data.studioName || ''} icon={LocationIcon} mode={mode} />
+                </>
+              )}
+              {type === 'BOOKING_REMINDER' && (
+                <>
+                  <EmailDetailRow label="סטודיו" value={data.studioName || ''} icon={LocationIcon} mode={mode} />
+                  <EmailDetailRow label="מועד" value={data.dateTime || ''} icon={CalendarIcon} mode={mode} />
+                </>
+              )}
+              {type === 'SUBSCRIPTION_PAYMENT_CONFIRMATION' && (
+                <>
+                  <EmailDetailRow label="סכום" value={data.price || ''} icon={CreditCardIcon} mode={mode} />
+                  <EmailDetailRow
+                    label="תאריך חיוב הבא"
+                    value={data.nextBillingDate || ''}
+                    icon={ClockIcon}
+                    mode={mode}
+                  />
+                </>
+              )}
+              {type === 'SUBSCRIPTION_PAYMENT_FAILED' && (
+                <EmailDetailRow label="סכום" value={data.price || ''} icon={CreditCardIcon} mode={mode} />
+              )}
+              {type === 'SUBSCRIPTION_EXPIRING' && (
+                <EmailDetailRow
+                  label="תאריך תפוגה"
+                  value={data.nextBillingDate || ''}
+                  icon={CalendarIcon}
+                  mode={mode}
+                />
+              )}
+              {type === 'INVOICE_DOCUMENT_SENT' && (
+                <>
+                  <EmailDetailRow label="שם המסמך" value={data.documentName || ''} icon={FileTextIcon} mode={mode} />
+                  <EmailDetailRow label="צפייה במסמך" value="לחץ כאן" icon={ExternalLinkIcon} mode={mode} />
+                </>
+              )}
+              {type === 'BOOKING_MODIFIED' && (
+                <EmailDetailRow label="מספר הזמנה" value={data.reservationId || ''} icon={HashIcon} mode={mode} />
+              )}
+            </div>
+          )}
+
+          {/* Upgrade/Downgrade templates */}
+          {(type === 'SUBSCRIPTION_UPGRADED' || type === 'SUBSCRIPTION_DOWNGRADED') && (
+            <div className={`email-details-card ${isLight ? 'email-details-card--light' : ''}`}>
+              <EmailDetailRow label="תוכנית" value={data.planName || ''} icon={SparklesIcon} mode={mode} />
+            </div>
+          )}
+
           <div className="email-actions">
             <EmailActionButton
-              href={data.actionUrl}
+              href={text.ctaUrl.startsWith('{{') ? data.actionUrl : text.ctaUrl}
               label={text.ctaText}
-              variant={type === 'TRIAL_CHARGE_FAILED' ? 'danger' : 'primary'}
+              variant={info.variant === 'danger' ? 'danger' : 'primary'}
             />
-            {text.footerText && (
-              <p className="email-actions__helper">{text.footerText}</p>
-            )}
+            {text.footerText && <p className="email-actions__helper">{text.footerText}</p>}
           </div>
         </div>
         <EmailFooter studioName={data.studioName} mode={mode} />
@@ -1513,182 +2290,246 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
   };
 
   // Generate template-specific content using editable templateText
-  const { title, greeting, body, ctaText, footerText } = templateText;
+  const { title, greeting, body, ctaText, ctaUrl, footerText } = templateText;
   const processedBody = processText(body);
 
-  // Common greeting section
-  const greetingSection =
-    type === 'NEW_RESERVATION_OWNER'
-      ? `<p style="${styles.greetingName}">${greeting} ${data.ownerName},</p>`
-      : `<p style="${styles.greetingName}">${greeting} ${data.customerName},</p>`;
+  // Determine if this is a vendor/owner-facing template
+  const isVendorTemplate =
+    type === 'NEW_BOOKING_VENDOR' || type === 'BOOKING_CANCELLED_VENDOR' || type === 'PAYOUT_CONFIRMATION';
+  const greetingSection = isVendorTemplate
+    ? `<p style="${styles.greetingName}">${greeting} ${data.ownerName},</p>`
+    : `<p style="${styles.greetingName}">${greeting} ${data.customerName},</p>`;
 
-  let content = '';
+  // Icon mapping for templates
+  const iconMap: Record<string, string> = {
+    SIGNUP_CONFIRMATION_LEGACY: '📧',
+    PASSWORD_RESET: '🔑',
+    WELCOME_SIGNUP: '✨',
+    EMAIL_VERIFICATION: '🛡️',
+    ACCOUNT_DEACTIVATION: '👋',
+    PURCHASE_CONFIRMATION: '✓',
+    PAYOUT_CONFIRMATION: '💰',
+    REFUND_CONFIRMATION: '↩️',
+    ORDER_CANCELLED: '❌',
+    NEW_BOOKING_VENDOR: '🔔',
+    BOOKING_CONFIRMED_CUSTOMER: '✓',
+    BOOKING_REMINDER: '⏰',
+    BOOKING_CANCELLED_CUSTOMER: '❌',
+    BOOKING_CANCELLED_VENDOR: '❌',
+    BOOKING_MODIFIED: '⚙️',
+    REQUEST_REVIEW: '⭐',
+    SUBSCRIPTION_ACTIVATED: '💳',
+    SUBSCRIPTION_PAYMENT_CONFIRMATION: '✓',
+    SUBSCRIPTION_CANCELLATION: '❌',
+    TRIAL_STARTED: '▶️',
+    TRIAL_ENDING_REMINDER: '⚠️',
+    TRIAL_CHARGE_FAILED: '⚠️',
+    SUBSCRIPTION_PAYMENT_FAILED: '⚠️',
+    SUBSCRIPTION_EXPIRING: '⏰',
+    SUBSCRIPTION_UPGRADED: '🚀',
+    SUBSCRIPTION_DOWNGRADED: 'ℹ️',
+    INVOICE_DOCUMENT_SENT: '📄'
+  };
 
-  switch (type) {
-    case 'RESERVATION_CONFIRMED':
-      content = `
-        <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">${title}</h1>
-          <div style="${styles.headerIcon}">✓</div>
-        </div>
-        <div style="${styles.body}">
-          <div style="${styles.greeting}">
-            ${greetingSection}
-            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
-          </div>
-          <div style="${styles.detailsCard}">
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך ושעה</span><span style="${styles.detailValue}">${data.dateTime} (${data.duration})</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 מיקום</span><span style="${styles.detailValue}">${data.location}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סך הכל שולם</span><span style="${styles.detailValue}">${data.totalPaid}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>
-            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">📝 הערות</span><span style="${styles.detailValue}">${data.notes}</span></div>
-          </div>
-          <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
-            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
-          </div>
+  const icon = iconMap[type] || '📧';
+
+  // Determine header icon color based on variant
+  const info = EMAIL_TYPE_INFO[type];
+  // Header icon always uses brand gold - no green variants
+  const headerIconStyle = styles.headerIcon;
+
+  // Generate details based on template type
+  const generateDetails = (): string => {
+    const rows: string[] = [];
+
+    // Booking templates
+    if (type === 'NEW_BOOKING_VENDOR') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">👤 לקוח</span><span style="${styles.detailValue}">${data.customerName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📧 פרטי קשר</span><span style="${styles.detailValue}">${data.guestEmail} • ${data.guestPhone}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">✨ שירות</span><span style="${styles.detailValue}">${data.serviceName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך ושעה</span><span style="${styles.detailValue}">${data.dateTime} (${data.duration})</span></div>`
+      );
+    } else if (type === 'BOOKING_CONFIRMED_CUSTOMER') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">✨ שירות</span><span style="${styles.detailValue}">${data.serviceName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך ושעה</span><span style="${styles.detailValue}">${data.dateTime} (${data.duration})</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 מיקום</span><span style="${styles.detailValue}">${data.location}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סך הכל שולם</span><span style="${styles.detailValue}">${data.totalPaid}</span></div>`
+      );
+    }
+    // Subscription templates
+    else if (type === 'SUBSCRIPTION_ACTIVATED') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">✨ תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך התחלה</span><span style="${styles.detailValue}">${data.startDate}</span></div>`
+      );
+    }
+    // Trial templates
+    else if (type === 'TRIAL_STARTED' || type === 'TRIAL_ENDING_REMINDER') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך סיום ניסיון</span><span style="${styles.detailValue}">${data.trialEndDate}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💰 מחיר חודשי</span><span style="${styles.detailValue}">₪${data.price}</span></div>`
+      );
+    } else if (type === 'TRIAL_CHARGE_FAILED' || type === 'SUBSCRIPTION_PAYMENT_FAILED') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💰 סכום</span><span style="${styles.detailValue}">${data.price}</span></div>`
+      );
+    }
+    // Transaction templates
+    else if (type === 'PURCHASE_CONFIRMATION') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.orderNumber}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סכום</span><span style="${styles.detailValue}">${data.totalPaid}</span></div>`
+      );
+    } else if (type === 'PAYOUT_CONFIRMATION') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💰 סכום הזיכוי</span><span style="${styles.detailValue}">${data.payoutAmount}</span></div>`
+      );
+    } else if (type === 'REFUND_CONFIRMATION') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">↩️ סכום ההחזר</span><span style="${styles.detailValue}">${data.refundAmount}</span></div>`
+      );
+    } else if (type === 'ORDER_CANCELLED') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 סטודיו</span><span style="${styles.detailValue}">${data.studioName}</span></div>`
+      );
+    }
+    // Auth templates
+    else if (type === 'PASSWORD_RESET') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מזהה בקשה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>`
+      );
+    } else if (type === 'EMAIL_VERIFICATION') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">🔐 קוד אימות</span><span style="${styles.detailValue}">${data.verificationCode}</span></div>`
+      );
+    }
+    // Document templates
+    else if (type === 'INVOICE_DOCUMENT_SENT') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📄 שם המסמך</span><span style="${styles.detailValue}">${data.documentName}</span></div>`
+      );
+    }
+    // Misc templates
+    else if (type === 'BOOKING_REMINDER') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 סטודיו</span><span style="${styles.detailValue}">${data.studioName}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 מועד</span><span style="${styles.detailValue}">${data.dateTime}</span></div>`
+      );
+    } else if (type === 'SUBSCRIPTION_PAYMENT_CONFIRMATION') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סכום</span><span style="${styles.detailValue}">${data.price}</span></div>`
+      );
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">⏰ תאריך חיוב הבא</span><span style="${styles.detailValue}">${data.nextBillingDate}</span></div>`
+      );
+    } else if (type === 'SUBSCRIPTION_EXPIRING') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך תפוגה</span><span style="${styles.detailValue}">${data.nextBillingDate}</span></div>`
+      );
+    } else if (type === 'SUBSCRIPTION_UPGRADED' || type === 'SUBSCRIPTION_DOWNGRADED') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}">✨ תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>`
+      );
+    } else if (type === 'BOOKING_MODIFIED') {
+      rows.push(
+        `<div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>`
+      );
+    }
+
+    if (rows.length === 0) return '';
+    // Set last row without border
+    const lastIdx = rows.length - 1;
+    rows[lastIdx] = rows[lastIdx].replace(styles.detailRow, `${styles.detailRow}; border-bottom: none;`);
+    return `<div style="${styles.detailsCard}">${rows.join('')}</div>`;
+  };
+
+  // Generate special highlight sections for certain templates
+  const generateHighlight = (): string => {
+    if (type === 'TRIAL_STARTED') {
+      return `
+        <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: #f7c041; display: inline-flex; align-items: center; justify-content: center; color: #000000; margin-bottom: 16px; box-shadow: 0 20px 40px -10px rgba(247,192,65,0.4);">✨</div>
+          <h2 style="font-size: 24px; font-weight: 800; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'} margin: 0 0 8px 0;">ניסיון ללא עלות</h2>
+          <p style="font-size: 14px; color: #a1a1aa; margin: 0;">מסתיים ב-${data.trialEndDate}</p>
         </div>`;
-      break;
-
-    case 'NEW_RESERVATION_OWNER':
-      content = `
-        <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">${title}</h1>
-          <div style="${styles.headerIcon}">✨</div>
-        </div>
-        <div style="${styles.body}">
-          <div style="${styles.greeting}">
-            ${greetingSection}
-            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
-          </div>
-          <div style="${styles.detailsCard}">
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">✨ חוויה</span><span style="${styles.detailValue}">${data.experienceName}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך ושעה</span><span style="${styles.detailValue}">${data.dateTime} (${data.duration})</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">👤 אורח</span><span style="${styles.detailValue}">${data.customerName}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📧 פרטי קשר</span><span style="${styles.detailValue}">${data.guestEmail} • ${data.guestPhone}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 סך הכל</span><span style="${styles.detailValue}">${data.totalPaid}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מספר הזמנה</span><span style="${styles.detailValue}">${data.reservationId}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📍 מיקום</span><span style="${styles.detailValue}">${data.location}</span></div>
-            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">📝 הערות</span><span style="${styles.detailValue}">${data.notes}</span></div>
-          </div>
-          <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
-            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
-          </div>
+    }
+    if (type === 'SUBSCRIPTION_ACTIVATED') {
+      return `
+        <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
+          <h2 style="font-size: 24px; font-weight: 800; color: #f7c041; margin: 0;">${data.planName}</h2>
         </div>`;
-      break;
-
-    case 'SUBSCRIPTION_CONFIRMED':
-      content = `
-        <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">${title}</h1>
-          <div style="${styles.headerIcon}">💳</div>
-        </div>
-        <div style="${styles.body}">
-          <div style="${styles.greeting}">
-            ${greetingSection}
-            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
-          </div>
-          <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
-            <h2 style="font-size: 24px; font-weight: 800; color: #f7c041; margin: 0 0 16px 0;">${data.planName}</h2>
-            <div style="display: flex; align-items: baseline; justify-content: center; gap: 4px; direction: ltr;">
-              <span style="font-size: 3rem; font-weight: 900; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'}">₪${data.price}</span>
-              <span style="font-size: 16px; color: #71717a;">/month</span>
-            </div>
-          </div>
-          <div style="${styles.detailsCard}">
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}"># מזהה מינוי</span><span style="${styles.detailValue}">${data.subscriptionId}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך התחלה</span><span style="${styles.detailValue}">${data.startDate}</span></div>
-            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">⏰ תאריך חיוב הבא</span><span style="${styles.detailValue}">${data.nextBillingDate}</span></div>
-          </div>
-          <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
-            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
-          </div>
+    }
+    if (type === 'TRIAL_ENDING_REMINDER') {
+      return `
+        <div style="background: rgba(245,158,11,0.05); border: 1px dashed rgba(245,158,11,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#92400e' : 'rgba(253,230,138,0.7)'};">
+          <p style="margin: 0;">לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span style="${styles.textBold}">₪${data.price}</span> לחודש, אלא אם תבטל לפני ה-${data.trialEndDate}.</p>
         </div>`;
-      break;
-
-    case 'TRIAL_ENDING_REMINDER':
-      content = `
-        <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">${title}</h1>
-          <div style="${styles.headerIcon}; background: #f59e0b;">⚠️</div>
-        </div>
-        <div style="${styles.body}">
-          <div style="${styles.greeting}">
-            ${greetingSection}
-            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
-          </div>
-          <div style="background: rgba(245,158,11,0.05); border: 1px dashed rgba(245,158,11,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#92400e' : 'rgba(253,230,138,0.7)'};">
-            <p style="margin: 0;">לאחר סיום תקופת הניסיון, תחויב אוטומטית בסך של <span style="${styles.textBold}">₪${data.price}</span> לחודש, אלא אם תבטל לפני ה-${data.trialEndDate}.</p>
-          </div>
-          <div style="${styles.detailsCard}">
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך סיום ניסיון</span><span style="${styles.detailValue}">${data.trialEndDate}</span></div>
-            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">💰 מחיר חודשי</span><span style="${styles.detailValue}">₪${data.price}</span></div>
-          </div>
-          <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
-            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
-          </div>
+    }
+    if (type === 'TRIAL_CHARGE_FAILED' || type === 'SUBSCRIPTION_PAYMENT_FAILED') {
+      return `
+        <div style="background: rgba(239,68,68,0.05); border: 1px dashed rgba(239,68,68,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#991b1b' : 'rgba(252,165,165,0.7)'};">
+          <p style="font-weight: 700; margin: 0 0 8px 0;">⚠️ סיבת הכישלון:</p>
+          <p style="margin: 0;">${data.failureReason || 'פרטי כרטיס לא מעודכנים או חוסר במסגרת אשראי'}</p>
         </div>`;
-      break;
+    }
+    return '';
+  };
 
-    case 'TRIAL_CHARGE_FAILED':
-      content = `
-        <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">${title}</h1>
-          <div style="${styles.headerIcon}; background: #ef4444;">⚠️</div>
-        </div>
-        <div style="${styles.body}">
-          <div style="${styles.greeting}">
-            ${greetingSection}
-            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
-          </div>
-          <div style="background: rgba(239,68,68,0.05); border: 1px dashed rgba(239,68,68,0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; color: ${isLight ? '#991b1b' : 'rgba(252,165,165,0.7)'};">
-            <p style="font-weight: 700; margin: 0 0 8px 0;">⚠️ סיבת הכישלון:</p>
-            <p style="margin: 0;">${data.failureReason}</p>
-          </div>
-          <div style="${styles.detailsCard}">
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💰 סכום לתשלום</span><span style="${styles.detailValue}">₪${data.price}</span></div>
-            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}"># מזהה מינוי</span><span style="${styles.detailValue}">${data.subscriptionId}</span></div>
-          </div>
-          <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}; background: #ef4444; box-shadow: 0 10px 25px -5px rgba(239,68,68,0.3);">${ctaText}</a>
-            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
-          </div>
-        </div>`;
-      break;
+  // Determine CTA button style
+  const ctaBtnStyle =
+    info.variant === 'danger'
+      ? `${styles.actionBtn}; background: #ef4444; box-shadow: 0 10px 25px -5px rgba(239,68,68,0.3);`
+      : styles.actionBtn;
 
-    case 'TRIAL_STARTED_CONFIRMATION':
-      content = `
-        <div style="${styles.header}">
-          <h1 style="${styles.headerTitle}">${title}</h1>
-          <div style="${styles.headerIcon}">▶️</div>
-        </div>
-        <div style="${styles.body}">
-          <div style="${styles.greeting}">
-            ${greetingSection}
-            <p style="${styles.greetingText}"><span>${processedBody}</span></p>
-          </div>
-          <div style="background: rgba(247,192,65,0.05); border: 1px solid rgba(247,192,65,0.1); border-radius: 16px; padding: 32px; margin-bottom: 24px; text-align: center;">
-            <div style="width: 64px; height: 64px; border-radius: 50%; background: #f7c041; display: inline-flex; align-items: center; justify-content: center; color: #000000; margin-bottom: 16px; box-shadow: 0 20px 40px -10px rgba(247,192,65,0.4);">✨</div>
-            <h2 style="font-size: 24px; font-weight: 800; ${isLight ? 'color: #1c1917;' : 'color: #ffffff;'} margin: 0 0 8px 0;">ניסיון ללא עלות</h2>
-            <p style="font-size: 14px; color: #a1a1aa; margin: 0;">מסתיים ב-${data.trialEndDate}</p>
-          </div>
-          <div style="${styles.detailsCard}">
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">💳 תוכנית</span><span style="${styles.detailValue}">${data.planName}</span></div>
-            <div style="${styles.detailRow}"><span style="${styles.detailLabel}">📅 תאריך סיום ניסיון</span><span style="${styles.detailValue}">${data.trialEndDate}</span></div>
-            <div style="${styles.detailRow}; border-bottom: none;"><span style="${styles.detailLabel}">💰 מחיר לאחר הניסיון</span><span style="${styles.detailValue}">₪${data.price} לחודש</span></div>
-          </div>
-          <div style="margin-top: 32px; text-align: center;">
-            <a href="${data.actionUrl}" style="${styles.actionBtn}">${ctaText}</a>
-            ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
-          </div>
-        </div>`;
-      break;
-  }
+  // Build the content
+  const content = `
+    <div style="${styles.header}">
+      <h1 style="${styles.headerTitle}">${title}</h1>
+      <div style="${headerIconStyle}">${icon}</div>
+    </div>
+    <div style="${styles.body}">
+      <div style="${styles.greeting}">
+        ${greetingSection}
+        <p style="${styles.greetingText}"><span>${processedBody}</span></p>
+      </div>
+      ${generateHighlight()}
+      ${generateDetails()}
+      <div style="margin-top: 32px; text-align: center;">
+        <a href="${ctaUrl}" style="${ctaBtnStyle}">${ctaText}</a>
+        ${footerText ? `<p style="font-size: 12px; color: #71717a; margin-top: 16px;">${footerText}</p>` : ''}
+      </div>
+    </div>`;
 
   // Wrap in full HTML document
   return `<!DOCTYPE html>
@@ -1707,7 +2548,7 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
       ${content}
       <div style="${styles.footer}">
         <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
-          <img src="https://www.studioz.co.il/android-chrome-512x512.png" alt="StudioZ" style="width: 24px; height: 24px;">
+          <img src="https://www.studioz.co.il/logo.png" alt="StudioZ" style="width: 24px; height: 24px; border-radius: 6px;">
           <span style="${styles.footerBrand}">STUDIOZ</span>
         </div>
         <p style="${styles.footerCopyright}">© ${new Date().getFullYear()} StudioZ — תודה שאתם חלק מהקהילה היצירתית שלנו.</p>
@@ -1721,7 +2562,7 @@ const generateBrevoHTML = (type: EmailType, mode: ThemeMode, templateText: Templ
 // Email Templates Tab Content
 const EmailTemplatesView = () => {
   const { t } = useTranslation('admin');
-  const [selectedType, setSelectedType] = useState<EmailType>('RESERVATION_CONFIRMED');
+  const [selectedType, setSelectedType] = useState<EmailType>('BOOKING_CONFIRMED_CUSTOMER');
   const [previewMode, setPreviewMode] = useState<ThemeMode>('dark');
   const [viewMode, setViewMode] = useState<'preview' | 'variables' | 'edit'>('preview');
   const [exportStatus, setExportStatus] = useState<string | null>(null);
@@ -1729,6 +2570,10 @@ const EmailTemplatesView = () => {
   // Editable template text state
   const [templateText, setTemplateText] = useState<Record<EmailType, TemplateTextContent>>(() => loadTemplateText());
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Test email state
+  const [isSendingTestEmail, setIsSendingTestEmail] = useState(false);
+  const [testEmailStatus, setTestEmailStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const emailTypes = Object.keys(EMAIL_TYPE_INFO) as EmailType[];
 
@@ -1800,6 +2645,29 @@ const EmailTemplatesView = () => {
       console.error('Copy failed:', err);
       setExportStatus('שגיאה בהעתקה');
       setTimeout(() => setExportStatus(null), 3000);
+    }
+  };
+
+  // Send test email
+  const handleSendTestEmail = async () => {
+    setIsSendingTestEmail(true);
+    setTestEmailStatus(null);
+    try {
+      const result = await sendTestEmail('admin@studioz.online', selectedType);
+      setTestEmailStatus({
+        type: 'success',
+        message: `נשלח בהצלחה! (Template ID: ${result.templateId})`
+      });
+      setTimeout(() => setTestEmailStatus(null), 5000);
+    } catch (err) {
+      console.error('Failed to send test email:', err);
+      setTestEmailStatus({
+        type: 'error',
+        message: 'שגיאה בשליחת המייל'
+      });
+      setTimeout(() => setTestEmailStatus(null), 5000);
+    } finally {
+      setIsSendingTestEmail(false);
     }
   };
 
@@ -1947,6 +2815,41 @@ const EmailTemplatesView = () => {
           </div>
         </div>
 
+        {/* Send Test Email */}
+        <div className="admin-email-templates__controls">
+          <h3 className="admin-email-templates__controls-title">שליחת מייל בדיקה</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>
+              שלח מייל בדיקה ל-admin@studioz.online עם נתונים לדוגמה
+            </div>
+            <button
+              type="button"
+              className="admin-btn admin-btn--primary"
+              onClick={handleSendTestEmail}
+              disabled={isSendingTestEmail}
+              style={{ width: '100%', opacity: isSendingTestEmail ? 0.7 : 1 }}
+            >
+              <MailIcon sx={{ fontSize: 16 }} />
+              {isSendingTestEmail ? 'שולח...' : 'שלח מייל בדיקה'}
+            </button>
+          </div>
+          {testEmailStatus && (
+            <div
+              style={{
+                marginTop: '8px',
+                padding: '8px',
+                background: testEmailStatus.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)',
+                color: testEmailStatus.type === 'success' ? '#22c55e' : '#ef4444',
+                borderRadius: '8px',
+                fontSize: '11px',
+                textAlign: 'center'
+              }}
+            >
+              {testEmailStatus.message}
+            </div>
+          )}
+        </div>
+
         <div className="admin-email-templates__list">
           <h3 className="admin-email-templates__list-title">{t('emailTemplates.templates', 'תבניות')}</h3>
           {emailTypes.map((type) => {
@@ -2022,7 +2925,9 @@ const EmailTemplatesView = () => {
           </div>
         </div>
         <div className="admin-email-templates__preview-content">
-          {viewMode === 'preview' && <EmailTemplatePreview type={selectedType} mode={previewMode} templateText={currentText} />}
+          {viewMode === 'preview' && (
+            <EmailTemplatePreview type={selectedType} mode={previewMode} templateText={currentText} />
+          )}
           {viewMode === 'edit' && (
             <div style={{ padding: '24px', color: 'var(--text-primary)' }}>
               <h4 style={{ margin: '0 0 8px 0', color: 'var(--text-primary)' }}>עריכת טקסט התבנית</h4>
@@ -2114,6 +3019,32 @@ const EmailTemplatesView = () => {
                       direction: 'rtl'
                     }}
                   />
+                </div>
+
+                {/* CTA URL */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    קישור כפתור (URL)
+                  </label>
+                  <input
+                    type="text"
+                    value={currentText.ctaUrl}
+                    onChange={(e) => handleTextChange('ctaUrl', e.target.value)}
+                    placeholder="לדוגמה: https://studioz.co.il/profile או {{ params.bookingUrl }}"
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-primary)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      fontSize: '14px',
+                      direction: 'ltr',
+                      fontFamily: 'monospace'
+                    }}
+                  />
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    השתמש ב-{'{{ params.variableName }}'} לקישורים דינמיים מ-Brevo
+                  </span>
                 </div>
 
                 {/* Footer Text */}
