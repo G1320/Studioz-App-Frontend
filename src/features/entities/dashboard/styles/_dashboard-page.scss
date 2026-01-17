@@ -10,6 +10,10 @@
   padding: vars.$spacing-large 0;
   color: var(--text-primary);
   text-align: start;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 
   .dashboard-header {
     margin-bottom: vars.$spacing-2xl;

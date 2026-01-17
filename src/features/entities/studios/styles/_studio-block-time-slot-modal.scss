@@ -61,6 +61,22 @@
       }
     }
 
+    // Section wrapper with label
+    .block-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      &__label {
+        font-size: ds.$font-sm;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: start;
+      }
+    }
+
     // Info text for entire day blocking
     .entire-day-info {
       font-size: ds.$font-md;
@@ -84,8 +100,25 @@
         text-align: start;
       }
 
-      input {
+      // RTL: Put icon on left (end), text on right (start)
+      [dir='rtl'] & .MuiInputBase-root {
+        flex-direction: row-reverse;
+      }
+
+      .MuiInputBase-input {
         text-align: start !important;
+        padding-inline-start: 14px !important;
+        padding-inline-end: 48px !important;
+      }
+
+      // In RTL, the input needs less end padding since icon is at the other side
+      [dir='rtl'] & .MuiInputBase-input {
+        padding-inline-end: 14px !important;
+        padding-inline-start: 14px !important;
+      }
+
+      .MuiInputAdornment-root {
+        margin: 0 8px;
       }
     }
 

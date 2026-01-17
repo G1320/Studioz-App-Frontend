@@ -523,12 +523,15 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
 
       {/* Hour selector for time slot mode */}
       {blockMode === 'timeSlot' && (
-        <HourSelector
-          value={selectedHours}
-          onIncrement={handleIncrement}
-          onDecrement={handleDecrement}
-          min={1}
-        />
+        <div className="block-section">
+          <label className="block-section__label">{t('studio:duration', 'Duration')}</label>
+          <HourSelector
+            value={selectedHours}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            min={1}
+          />
+        </div>
       )}
 
       {/* Info text for entire day blocking */}
@@ -544,17 +547,22 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
 
       {/* Date pickers based on mode */}
       {blockMode === 'timeSlot' && (
-        <MuiDateTimePicker 
-          value={selectedDate} 
-          onChange={handleDateChange} 
-          studioAvailability={studioAvailability}
-        />
+        <div className="block-section">
+          <label className="block-section__label">{t('studio:date_and_time', 'Date & Time')}</label>
+          <MuiDateTimePicker 
+            value={selectedDate} 
+            onChange={handleDateChange} 
+            studioAvailability={studioAvailability}
+            label=""
+          />
+        </div>
       )}
 
       {blockMode === 'singleDay' && (
-        <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
-          <DatePicker
-            label={t('studio:select_date', 'Select date')}
+        <div className="block-section">
+          <label className="block-section__label">{t('studio:select_date', 'Select Date')}</label>
+          <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
+            <DatePicker
             value={selectedDateOnly}
             onChange={handleDateOnlyChange}
             format={isRTL ? 'DD/MM/YYYY' : 'MM/DD/YYYY'}
@@ -568,12 +576,6 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
                 color: 'var(--text-primary)',
                 display: 'flex',
                 alignItems: 'center'
-              },
-              '& .MuiInputLabel-root': {
-                color: 'var(--text-secondary) !important'
-              },
-              '& .MuiInputLabel-root.Mui-error': {
-                color: 'var(--text-secondary) !important'
               },
               '& .MuiOutlinedInput-notchedOutline': {
                 borderColor: 'var(--border-primary)'
@@ -594,7 +596,17 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
                 fullWidth: true,
                 margin: 'none',
                 dir: isRTL ? 'rtl' : 'ltr',
-                error: false
+                error: false,
+                placeholder: isRTL ? 'DD/MM/YYYY' : 'MM/DD/YYYY',
+                InputProps: {
+                  sx: {
+                    flexDirection: isRTL ? 'row-reverse' : 'row',
+                    '& input': {
+                      textAlign: 'start',
+                      paddingInlineEnd: '8px'
+                    }
+                  }
+                }
               }
             }}
             slots={{
@@ -602,10 +614,16 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
               rightArrowIcon: isRTL ? ChevronLeftIcon : ChevronRightIcon
             }}
           />
+          </div>
         </div>
       )}
 
-      {blockMode === 'dateRange' && renderDateRangeCalendar()}
+      {blockMode === 'dateRange' && (
+        <div className="block-section">
+          <label className="block-section__label">{t('studio:select_date_range', 'Select Date Range')}</label>
+          {renderDateRangeCalendar()}
+        </div>
+      )}
 
       <input
         type="text"

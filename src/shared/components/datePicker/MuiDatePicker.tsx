@@ -27,6 +27,8 @@ interface MuiDateTimePickerProps {
   item?: Item;
   /** Full studio object for advanced availability calculations */
   studio?: Studio;
+  /** Optional label override. Pass empty string to hide the label. */
+  label?: string;
 }
 
 export const MuiDateTimePicker = ({
@@ -35,7 +37,8 @@ export const MuiDateTimePicker = ({
   itemAvailability = [],
   studioAvailability,
   item,
-  studio
+  studio,
+  label: labelProp
 }: MuiDateTimePickerProps) => {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'he';
@@ -181,10 +184,13 @@ export const MuiDateTimePicker = ({
     [onChange]
   );
 
+  const defaultLabel = isRTL ? 'בחר תאריך ושעה' : 'Select date and time';
+  const label = labelProp !== undefined ? labelProp : defaultLabel;
+
   return (
     <div className="date-picker-container" dir={isRTL ? 'rtl' : 'ltr'}>
       <DateTimePicker
-        label={isRTL ? 'בחר תאריך ושעה' : 'Select date and time'}
+        label={label || undefined}
         value={internalValue}
         onChange={handleChange}
         format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
@@ -231,7 +237,8 @@ export const MuiDateTimePicker = ({
             fullWidth: true,
             margin: 'none',
             dir: isRTL ? 'rtl' : 'ltr',
-            error: false
+            error: false,
+            placeholder: !label ? (isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm') : undefined
           }
         }}
         slots={{

@@ -11,6 +11,10 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden; // Prevent horizontal overflow
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   
   // Direction is inherited from html[lang] in base styles
 }
@@ -111,6 +115,9 @@
   grid-template-columns: 1fr;
   gap: ds.$space-4;
   margin-bottom: 2rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -132,6 +139,8 @@
   justify-content: space-between;
   gap: ds.$space-4;
   transition: all 0.3s ease;
+  min-width: 0; // Allow flex items to shrink below content size
+  overflow: hidden;
 
   &:hover {
     border-color: var(--border-hover);
