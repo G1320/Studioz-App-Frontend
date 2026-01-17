@@ -2,13 +2,15 @@ import { useMutationHandler } from '@shared/hooks';
 import { cancelReservationById, updateReservationById, approveReservationById } from '@shared/services';
 import { Reservation } from 'src/types/index';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 export const useCancelReservationMutation = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutationHandler<Reservation, string>({
     mutationFn: (reservationId: string) => cancelReservationById(reservationId),
-    successMessage: 'Reservation cancelled successfully',
+    successMessage: t('toasts.success.reservationCancelled'),
     invalidateQueries: [{ queryKey: 'reservationsList' }, { queryKey: 'reservations' }],
     onSuccess: (_data, reservationId) => {
       queryClient.invalidateQueries({ queryKey: ['reservation', reservationId] }),
@@ -19,10 +21,11 @@ export const useCancelReservationMutation = () => {
 
 export const useUpdateReservationMutation = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutationHandler<Reservation, { reservationId: string; updates: Partial<Reservation> }>({
     mutationFn: ({ reservationId, updates }) => updateReservationById(reservationId, updates),
-    successMessage: 'Reservation updated successfully',
+    successMessage: t('toasts.success.reservationUpdated'),
     invalidateQueries: [{ queryKey: 'reservationsList' }, { queryKey: 'reservations' }],
     onSuccess: (_data, variables) => {
       // Invalidate the specific reservation query
@@ -33,10 +36,11 @@ export const useUpdateReservationMutation = () => {
 
 export const useApproveReservationMutation = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutationHandler<Reservation, string>({
     mutationFn: (reservationId: string) => approveReservationById(reservationId),
-    successMessage: 'Reservation approved successfully',
+    successMessage: t('toasts.success.reservationApproved'),
     invalidateQueries: [{ queryKey: 'reservationsList' }, { queryKey: 'reservations' }],
     onSuccess: (_data, reservationId) => {
       queryClient.invalidateQueries({ queryKey: ['reservation', reservationId] });

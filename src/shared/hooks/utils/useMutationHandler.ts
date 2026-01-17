@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useErrorHandling, useInvalidateQueries } from '@shared/hooks';
+import { useTranslation } from 'react-i18next';
 
 type MutationHandlerOptions<TData, TVariables> = {
   mutationFn: (variables: TVariables) => Promise<TData>;
@@ -21,6 +22,7 @@ export const useMutationHandler = <TData, TVariables>({
 }: MutationHandlerOptions<TData, TVariables>) => {
   const handleError = useErrorHandling();
   const invalidate = useInvalidateQueries(() => invalidateQueries);
+  const { t } = useTranslation('common');
 
   return useMutation<TData, Error, TVariables>({
     mutationFn,
@@ -31,7 +33,7 @@ export const useMutationHandler = <TData, TVariables>({
         toast.success(message, {
           action: undoAction
             ? {
-                label: 'Undo',
+                label: t('buttons.undo', 'Undo'),
                 onClick: () => undoAction(variables, data).then(invalidate).catch(handleError)
               }
             : undefined

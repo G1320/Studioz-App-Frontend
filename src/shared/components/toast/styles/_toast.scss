@@ -16,11 +16,6 @@
 [data-sonner-toaster] {
   font-family: 'DM Sans', system-ui, sans-serif !important;
   z-index: 9999 !important;
-
-  // RTL support - toasts should respect document direction
-  [dir='rtl'] & {
-    direction: rtl;
-  }
 }
 
 // Individual Toast
@@ -38,48 +33,53 @@
   box-shadow: var(--toast-shadow) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  padding: 0 !important;
+  padding: 14px !important;
+  padding-inline-end: 44px !important; // Space for close button
   overflow: hidden !important;
-  min-width: 320px !important;
-  max-width: 420px !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+  gap: 12px !important;
 
   // Hover effect
   &:hover {
     border-color: rgba(63, 63, 70, 0.9) !important; // zinc-700
   }
 
-  // Inner content wrapper
+  // Inner content wrapper - Sonner uses this for the main content
   [data-content] {
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     gap: 12px !important;
-    padding: 16px !important;
+    padding: 0 !important;
+    flex: 1 !important;
   }
 
   // Toast icon
   [data-icon] {
     flex-shrink: 0 !important;
-    width: 40px !important;
-    height: 40px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 8px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     margin: 0 !important;
+    order: 0 !important;
 
     svg {
-      width: 20px !important;
-      height: 20px !important;
+      width: 18px !important;
+      height: 18px !important;
     }
   }
 
   // Title
   [data-title] {
     font-size: 14px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     color: var(--toast-text) !important;
     letter-spacing: -0.01em !important;
     line-height: 1.4 !important;
+    flex: 1 !important;
   }
 
   // Description
@@ -88,20 +88,22 @@
     font-weight: 500 !important;
     color: var(--toast-text-muted) !important;
     line-height: 1.5 !important;
-    margin-top: 4px !important;
+    margin-top: 2px !important;
   }
 
-  // Close button
+  // Close button - positioned absolutely on the "end" side (right in LTR, left in RTL)
   [data-close-button] {
     position: absolute !important;
-    top: 12px !important;
-    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    inset-inline-end: 14px !important; // RTL-aware: right in LTR, left in RTL
+    inset-inline-start: auto !important;
     width: 24px !important;
     height: 24px !important;
     border-radius: 50% !important;
-    background: transparent !important;
+    background: rgba(0, 0, 0, 0.05) !important;
     border: none !important;
-    color: #71717a !important; // zinc-500
+    color: var(--toast-text-muted) !important;
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
@@ -110,19 +112,13 @@
     padding: 0 !important;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1) !important;
-      color: #ffffff !important;
+      background: rgba(0, 0, 0, 0.1) !important;
+      color: var(--toast-text) !important;
     }
 
     svg {
-      width: 16px !important;
-      height: 16px !important;
-    }
-
-    // RTL positioning
-    [dir='rtl'] & {
-      right: auto !important;
-      left: 12px !important;
+      width: 14px !important;
+      height: 14px !important;
     }
   }
 
@@ -310,17 +306,20 @@
 @keyframes toast-progress {
   from {
     transform: scaleX(1);
-    transform-origin: left;
   }
   to {
     transform: scaleX(0);
-    transform-origin: left;
   }
 }
 
-// RTL progress bar direction
-[dir='rtl'] [data-sonner-toast]::after {
-  transform-origin: right !important;
+// Progress bar direction based on document direction
+[data-sonner-toast]::after {
+  transform-origin: right;
+}
+
+html[dir='ltr'] [data-sonner-toast]::after,
+html:not([dir='rtl']) [data-sonner-toast]::after {
+  transform-origin: left;
 }
 
 // ============================================
@@ -329,17 +328,18 @@
 
 [data-theme='light'] {
   [data-sonner-toast] {
-    --toast-bg: rgba(255, 255, 255, 0.95);
-    --toast-border: rgba(228, 228, 231, 0.8); // zinc-200
+    --toast-bg: rgba(255, 255, 255, 0.98);
+    --toast-border: rgba(228, 228, 231, 1); // zinc-200
     --toast-text: #18181b; // zinc-900
     --toast-text-muted: #71717a; // zinc-500
-    --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
     [data-close-button] {
+      background: rgba(0, 0, 0, 0.04) !important;
       color: #a1a1aa !important;
 
       &:hover {
-        background: rgba(0, 0, 0, 0.05) !important;
+        background: rgba(0, 0, 0, 0.08) !important;
         color: #18181b !important;
       }
     }

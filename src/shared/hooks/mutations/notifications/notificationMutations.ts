@@ -7,6 +7,7 @@ import {
   deleteNotification
 } from '@shared/services/notification-service';
 import Notification from 'src/types/notification';
+import { useTranslation } from 'react-i18next';
 
 export const useMarkNotificationAsReadMutation = () => {
   const userId = getLocalUser()?._id;
@@ -22,10 +23,11 @@ export const useMarkNotificationAsReadMutation = () => {
 
 export const useMarkAllNotificationsAsReadMutation = () => {
   const userId = getLocalUser()?._id;
+  const { t } = useTranslation('common');
 
   return useMutationHandler<{ modifiedCount: number }, void>({
     mutationFn: () => markAllNotificationsAsRead(),
-    successMessage: 'All notifications marked as read',
+    successMessage: t('toasts.success.allNotificationsRead'),
     invalidateQueries: [
       { queryKey: 'notifications', targetId: userId },
       { queryKey: 'notificationCount', targetId: userId }
@@ -36,10 +38,11 @@ export const useMarkAllNotificationsAsReadMutation = () => {
 export const useDeleteNotificationMutation = () => {
   const userId = getLocalUser()?._id;
   const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
 
   return useMutationHandler<{ message: string }, string>({
     mutationFn: (notificationId: string) => deleteNotification(notificationId),
-    successMessage: 'Notification deleted',
+    successMessage: t('toasts.success.notificationDeleted'),
     invalidateQueries: [
       { queryKey: 'notifications', targetId: userId },
       { queryKey: 'notificationCount', targetId: userId }

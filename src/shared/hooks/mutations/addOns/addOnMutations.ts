@@ -1,11 +1,14 @@
 import { useInvalidateQueries, useMutationHandler } from '@shared/hooks';
 import { createAddOn, deleteAddOn, updateAddOn } from '@shared/services';
 import { AddOn } from 'src/types/index';
+import { useTranslation } from 'react-i18next';
 
 export const useCreateAddOnMutation = (itemId?: string) => {
+  const { t } = useTranslation('common');
+
   return useMutationHandler<AddOn, AddOn>({
     mutationFn: (newAddOn) => createAddOn(newAddOn),
-    successMessage: 'Add-on created',
+    successMessage: t('toasts.success.addOnCreated'),
     invalidateQueries: [
       { queryKey: 'addOns' },
       ...(itemId
@@ -23,6 +26,8 @@ export const useCreateAddOnMutation = (itemId?: string) => {
 };
 
 export const useDeleteAddOnMutation = () => {
+  const { t } = useTranslation('common');
+
   const invalidateQueries = useInvalidateQueries<AddOn>((addOn) => [
     { queryKey: 'addOns' },
     { queryKey: 'addOns', targetId: addOn?.itemId },
@@ -31,7 +36,7 @@ export const useDeleteAddOnMutation = () => {
 
   return useMutationHandler<AddOn, string>({
     mutationFn: (addOnId) => deleteAddOn(addOnId),
-    successMessage: 'Add-on deleted',
+    successMessage: t('toasts.success.addOnDeleted'),
     invalidateQueries: [],
     undoAction: (_variables, data) => createAddOn(data),
     onSuccess: (data) => {
@@ -41,9 +46,11 @@ export const useDeleteAddOnMutation = () => {
 };
 
 export const useUpdateAddOnMutation = (addOnId: string, itemId?: string) => {
+  const { t } = useTranslation('common');
+
   return useMutationHandler<AddOn, AddOn>({
     mutationFn: (updatedAddOn) => updateAddOn(addOnId, updatedAddOn),
-    successMessage: 'Add-on updated',
+    successMessage: t('toasts.success.addOnUpdated'),
     invalidateQueries: [
       { queryKey: 'addOn', targetId: addOnId },
       { queryKey: 'addOns' },

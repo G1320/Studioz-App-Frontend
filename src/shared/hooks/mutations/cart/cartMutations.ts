@@ -1,6 +1,7 @@
 import { getLocalUser } from '@shared/services';
 import { useCartOperations, useMutationHandler } from '@shared/hooks';
 import { Cart, CartItem } from 'src/types/index';
+import { useTranslation } from 'react-i18next';
 
 export const useAddItemToCartMutation = () => {
   const { addItem, generateSuccessMessage } = useCartOperations();
@@ -36,10 +37,11 @@ export const useRemoveItemFromCartMutation = () => {
 export const useAddItemsToCartMutation = () => {
   const { addItems, removeItems } = useCartOperations();
   const userId = getLocalUser()?._id;
+  const { t } = useTranslation('common');
 
   return useMutationHandler<CartItem[], Cart>({
     mutationFn: ({ items }) => addItems(items),
-    successMessage: 'Items added to cart',
+    successMessage: t('toasts.success.itemsAddedToCart'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => removeItems(variables?.items)
   });
@@ -48,10 +50,11 @@ export const useAddItemsToCartMutation = () => {
 export const useDeleteUserCartMutation = () => {
   const { clearCart, addItems } = useCartOperations();
   const userId = getLocalUser()?._id;
+  const { t } = useTranslation('common');
 
   return useMutationHandler<CartItem[], CartItem[]>({
     mutationFn: () => clearCart(),
-    successMessage: 'Cart cleared',
+    successMessage: t('toasts.success.cartCleared'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => addItems(variables)
   });
@@ -60,10 +63,11 @@ export const useDeleteUserCartMutation = () => {
 export const useUpdateCartMutation = () => {
   const { updateCart } = useCartOperations();
   const userId = getLocalUser()?._id;
+  const { t } = useTranslation('common');
 
   return useMutationHandler<Cart, Cart>({
     mutationFn: (newCart) => updateCart(newCart),
-    successMessage: 'Cart updated',
+    successMessage: t('toasts.success.cartUpdated'),
     invalidateQueries: [{ queryKey: 'cart', targetId: userId }],
     undoAction: (variables, _data) => updateCart(variables)
   });
