@@ -118,7 +118,7 @@
     border: 1px solid var(--border-primary);
     border-radius: vars.$border-radius-xl;
     overflow: visible; // Allow dropdown menus to overflow
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-card);
   }
 
   &__table-scroll {

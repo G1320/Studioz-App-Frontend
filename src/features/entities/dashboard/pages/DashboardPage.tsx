@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
 import { DashboardCalendar, RecentActivity } from '../components';
@@ -8,6 +9,14 @@ import { StudioManager } from '@features/entities/studios';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
+
+// Subtle fade transition for view switching
+const viewTransition = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.2, ease: 'easeOut' }
+};
 
 type DashboardTab = 'overview' | 'studios' | 'stats' | 'documents';
 
@@ -90,41 +99,47 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
       )}
 
-      {/* Overview Tab Content */}
-      {activeTab === 'overview' && (
-        <div className="dashboard-content">
-          {/* Recent Activity Section - Only for studio owners */}
-          {isStudioOwner && (
-            <RecentActivity
-              studioIds={userStudios.map((s) => s._id)}
+      {/* Tab Content with transition */}
+      <AnimatePresence mode="wait">
+        {activeTab === 'overview' && (
+          <motion.div
+            key="overview"
+            className="dashboard-content"
+            {...viewTransition}
+          >
+            {isStudioOwner && (
+              <RecentActivity
+                studioIds={userStudios.map((s) => s._id)}
+                isStudioOwner={isStudioOwner}
+                limit={4}
+              />
+            )}
+            <DashboardCalendar
+              studios={userStudios}
+              reservations={reservations}
               isStudioOwner={isStudioOwner}
-              limit={4}
             />
-          )}
+          </motion.div>
+        )}
 
-          {/* Calendar Section */}
-          <DashboardCalendar
-            studios={userStudios}
-            reservations={reservations}
-            isStudioOwner={isStudioOwner}
-          />
-        </div>
-      )}
+        {activeTab === 'studios' && isStudioOwner && (
+          <motion.div key="studios" {...viewTransition}>
+            <StudioManager studios={userStudios} />
+          </motion.div>
+        )}
 
-      {/* Studios Management Tab Content */}
-      {activeTab === 'studios' && isStudioOwner && (
-        <StudioManager studios={userStudios} />
-      )}
+        {activeTab === 'stats' && isStudioOwner && (
+          <motion.div key="stats" {...viewTransition}>
+            <MerchantStatsPage />
+          </motion.div>
+        )}
 
-      {/* Stats Tab Content */}
-      {activeTab === 'stats' && isStudioOwner && (
-        <MerchantStatsPage />
-      )}
-
-      {/* Documents Tab Content */}
-      {activeTab === 'documents' && isStudioOwner && (
-        <MerchantDocumentsPage />
-      )}
+        {activeTab === 'documents' && isStudioOwner && (
+          <motion.div key="documents" {...viewTransition}>
+            <MerchantDocumentsPage />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -61,6 +61,9 @@ export const DesktopFooter = () => {
               <li>
                 <a href={`${langPrefix}/privacy`} onClick={(e) => handleClick(e, '/privacy')}>{t('footer.privacy')}</a>
               </li>
+              <li>
+                <a href={`${langPrefix}/security`} onClick={(e) => handleClick(e, '/security')}>{t('footer.security')}</a>
+              </li>
             </ul>
           </div>
 
