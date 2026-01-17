@@ -51,6 +51,11 @@
       width: 20px;
       height: 20px;
     }
+
+    // RTL - flip the arrow icon direction
+    [dir='rtl'] & svg {
+      transform: scaleX(-1);
+    }
   }
 
   &__title {

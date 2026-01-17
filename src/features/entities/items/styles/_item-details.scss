@@ -58,7 +58,7 @@
     .close-button {
       position: absolute;
       top: 0.75rem;
-      left: 0.75rem;
+      inset-inline-start: 0.75rem;
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -94,10 +94,9 @@
         height: 16px;
       }
 
-      // RTL - keep on left side (matches Hebrew reading direction)
-      [dir='rtl'] & {
-        left: 0.75rem;
-        right: auto;
+      // RTL - flip the arrow icon direction
+      [dir='rtl'] & svg {
+        transform: scaleX(-1);
       }
     }
 

@@ -397,6 +397,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   }, [pendingBookingItem, item, selectedAddOnIds, addOns, t, i18n.language]);
 
   // Slide animation variants (same as ItemContent's customer info ↔ reservation transition)
+  // In LTR: forward = slide from right, back = slide from left
+  // In RTL: mirrored - forward = slide from left, back = slide from right
   const isRTL = i18n.language === 'he';
   const slideVariants = {
     enter: (direction: number) => ({
