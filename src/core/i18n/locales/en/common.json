@@ -194,6 +194,7 @@
       "selectDateTime": "Please select a valid date and time",
       "closingTimeUnavailable": "Studio closing time is unavailable",
       "hoursExceedClosing": "Selected hours exceed the studio closing time. Please adjust your booking.",
+      "minimumHours": "Minimum booking is {{min}} hours",
       "addOnDeleteFailed": "Failed to delete add-on",
       "addOnUpdateFailed": "Failed to update add-on",
       "itemCreatedAddOnsFailed": "Item created but failed to create some add-ons. Please add them manually.",

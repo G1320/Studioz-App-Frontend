@@ -193,6 +193,7 @@
     "error": {
       "selectDateTime": "אנא בחר תאריך ושעה תקינים",
       "closingTimeUnavailable": "שעת הסגירה של האולפן אינה זמינה",
+      "minimumHours": "מינימום הזמנה הוא {{min}} שעות",
       "hoursExceedClosing": "השעות שנבחרו חורגות משעת הסגירה של האולפן. אנא התאם את ההזמנה.",
       "addOnDeleteFailed": "מחיקת התוספת נכשלה",
       "addOnUpdateFailed": "עדכון התוספת נכשל",

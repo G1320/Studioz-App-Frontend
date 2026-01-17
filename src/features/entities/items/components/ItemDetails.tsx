@@ -206,12 +206,23 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const handleCancelReservation = useCallback(() => {
     localStorage.removeItem(`reservation_${itemId}`);
     setCurrentReservationId(null);
-  }, [itemId]);
+    // Reset form state for new reservation
+    setSelectedDate(null);
+    setSelectedQuantity(minHours);
+    setSelectedAddOnIds([]);
+    setComment('');
+  }, [itemId, minHours]);
 
   // Prepare booking item data (shared between direct booking and payment flow)
   const prepareBookingItem = useCallback((): CartItem | null => {
     const confirmedDate = selectedDate?.toString() || null;
     const hours = selectedQuantity;
+
+    // Validate minimum hours
+    if (hours < minHours) {
+      toast.error(t('toasts.error.minimumHours', { min: minHours }));
+      return null;
+    }
 
     const { bookingDate, startTime } = splitDateTime(confirmedDate || '');
     if (!bookingDate || !startTime) {
@@ -260,7 +271,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       customerPhone,
       comment
     };
-  }, [selectedDate, selectedQuantity, studio, item, customerName, customerPhone, comment, addOnsTotal, t]);
+  }, [selectedDate, selectedQuantity, studio, item, customerName, customerPhone, comment, addOnsTotal, t, minHours]);
 
   // Execute the actual booking mutation
   const executeBooking = useCallback(
