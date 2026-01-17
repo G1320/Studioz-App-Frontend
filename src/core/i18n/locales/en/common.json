@@ -156,7 +156,10 @@
       "galleryImagesUploaded": "Gallery images uploaded successfully",
       "audioFilesUploaded": "Audio files uploaded successfully",
       "profilePictureUpdated": "Profile picture updated successfully!",
-      "searchResults": "Found {{count}} results for \"{{term}}\""
+      "searchResults": "Found {{count}} results for \"{{term}}\"",
+      "serviceAdded": "{{serviceName}} at {{studioName}} added",
+      "serviceBooked": "{{hours}} hours of {{serviceName}} at {{studioName}} booked for {{date}} at {{time}}",
+      "serviceRemoved": "{{serviceName}} at {{studioName}} removed"
     },
     "error": {
       "selectDateTime": "Please select a valid date and time",

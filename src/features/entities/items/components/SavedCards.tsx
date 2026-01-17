@@ -62,10 +62,12 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
                   {!['visa', 'mastercard'].includes(card.brand) && <CreditCardIcon />}
                 </div>
                 <div className="saved-cards__details">
-                  <span className="saved-cards__number">•••• {card.last4}</span>
-                  <span className="saved-cards__expiry">
-                    {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
-                  </span>
+                  <span className="saved-cards__number">•••• •••• •••• {card.last4}</span>
+                  {card.expiryMonth && card.expiryYear && (
+                    <span className="saved-cards__expiry">
+                      {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
+                    </span>
+                  )}
                 </div>
               </div>
 

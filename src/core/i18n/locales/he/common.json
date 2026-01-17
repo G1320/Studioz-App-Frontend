@@ -156,7 +156,10 @@
       "galleryImagesUploaded": "תמונות הגלריה הועלו בהצלחה",
       "audioFilesUploaded": "קבצי האודיו הועלו בהצלחה",
       "profilePictureUpdated": "תמונת הפרופיל עודכנה בהצלחה!",
-      "searchResults": "נמצאו {{count}} תוצאות עבור \"{{term}}\""
+      "searchResults": "נמצאו {{count}} תוצאות עבור \"{{term}}\"",
+      "serviceAdded": "שירות {{serviceName}} ב{{studioName}} נוסף",
+      "serviceBooked": "{{hours}} שעות של {{serviceName}} ב{{studioName}} הוזמנו לתאריך {{date}} בשעה {{time}}",
+      "serviceRemoved": "שירות {{serviceName}} ב{{studioName}} הוסר"
     },
     "error": {
       "selectDateTime": "אנא בחר תאריך ושעה תקינים",

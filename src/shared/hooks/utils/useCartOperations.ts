@@ -10,18 +10,36 @@ import {
   updateUserCart
 } from '@shared/services';
 import { Cart, CartItem } from 'src/types/index';
+import { useTranslation } from 'react-i18next';
 
 export const useCartOperations = () => {
   const { user } = useUserContext();
   const { setOfflineCartContext } = useOfflineCartContext();
+  const { t, i18n } = useTranslation('common');
+  
+  // Get the correct language name based on current locale
+  const getLocalizedName = (name: { en?: string; he?: string } | undefined) => {
+    if (!name) return '';
+    const lang = i18n.language === 'he' ? 'he' : 'en';
+    return name[lang] || name.en || '';
+  };
 
   const generateSuccessMessage = (item: CartItem, action: string) => {
-    if (action == 'added') {
-      return `${action} ${item.name.en} service at ${item.studioName.en} `;
-    } else if (action == 'booked') {
-      return `${item.hours} hours of ${item.name.en} service at ${item.studioName.en} ${action} for ${item.bookingDate} at ${item.startTime}`;
+    const serviceName = getLocalizedName(item.name);
+    const studioName = getLocalizedName(item.studioName);
+    
+    if (action === 'added') {
+      return t('toasts.success.serviceAdded', { serviceName, studioName });
+    } else if (action === 'booked') {
+      return t('toasts.success.serviceBooked', {
+        hours: item.hours,
+        serviceName,
+        studioName,
+        date: item.bookingDate,
+        time: item.startTime
+      });
     } else {
-      return `removed ${item.name.en} service at ${item.studioName.en} `;
+      return t('toasts.success.serviceRemoved', { serviceName, studioName });
     }
   };
 

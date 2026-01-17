@@ -383,22 +383,22 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: var(--bg-primary);
+    background: var(--bg-input);
     border: 1px solid var(--border-primary);
-    border-radius: 12px; // rounded-lg
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
-    text-align: inherit; // Reset button text align
+    text-align: inherit;
 
     &:hover {
       border-color: var(--border-hover);
-      background: rgba(24, 24, 27, 0.3);
+      background: var(--bg-hover);
     }
 
     &--selected {
-      background: rgba(24, 24, 27, 1); // zinc-900
+      background: var(--bg-surface);
       border-color: var(--color-brand);
-      box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2);
+      box-shadow: 0 0 0 1px var(--color-brand-glow);
     }
   }
 
@@ -465,6 +465,8 @@
     font-weight: 500;
     color: var(--text-primary);
     font-family: 'DM Mono', monospace;
+    direction: ltr; // Force LTR for card number display
+    unicode-bidi: isolate;
   }
 
   &__expiry {
@@ -514,7 +516,7 @@
 
     &:hover {
       border-color: var(--border-hover);
-      background: rgba(24, 24, 27, 0.5);
+      background: var(--bg-hover);
       color: var(--text-primary);
     }
 
