@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getReservations, PaginatedReservationsResponse } from '@shared/services';
+import { getReservations } from '@shared/services';
 import { Reservation } from 'src/types/index';
 
 export const useReservations = () => {
