@@ -1,11 +1,13 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import dayjs from 'dayjs';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
 import { DashboardCalendar, RecentActivity, QuickActions } from '../components';
-import { StudioManager } from '@features/entities/studios';
+import { StudioManager, StudioBlockModal } from '@features/entities/studios';
+import { QuickChargeModal, NewInvoiceModal } from '@features/entities/merchant-documents';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
@@ -31,9 +33,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   user,
   studios
 }) => {
-  const { t } = useTranslation('dashboard');
+  const { t, i18n } = useTranslation('dashboard');
   const { data: reservations = [] } = useReservations();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Modal states
+  const [isQuickChargeOpen, setIsQuickChargeOpen] = useState(false);
+  const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
+  const [blockTimeStudioId, setBlockTimeStudioId] = useState<string | null>(null);
 
   // Get active tab from URL, default to 'studios'
   const activeTab = useMemo((): DashboardTab => {
@@ -67,6 +74,91 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     return studios.filter((studio) => studio.createdBy === user._id);
   }, [studios, user?._id]);
 
+  // Helper to get localized studio name
+  const getLocalizedName = useCallback((name: string | { en?: string; he?: string } | undefined): string => {
+    if (!name) return '';
+    if (typeof name === 'string') return name;
+    return name[i18n.language as 'en' | 'he'] || name.he || name.en || '';
+  }, [i18n.language]);
+
+  // Get the studio being blocked (for the modal)
+  const blockTimeStudio = useMemo(() => {
+    if (!blockTimeStudioId) return null;
+    return userStudios.find(s => s._id === blockTimeStudioId) || null;
+  }, [blockTimeStudioId, userStudios]);
+
+  // Quick action handlers
+  const handleQuickCharge = useCallback(() => {
+    setIsQuickChargeOpen(true);
+  }, []);
+
+  const handleNewInvoice = useCallback(() => {
+    setIsNewInvoiceOpen(true);
+  }, []);
+
+  const handleBlockTime = useCallback((studioId: string) => {
+    setBlockTimeStudioId(studioId);
+  }, []);
+
+  const handleDownloadReport = useCallback(() => {
+    // Generate and download a quick CSV report
+    const rows: string[][] = [];
+    const now = dayjs();
+    const monthStart = now.startOf('month').format('DD/MM/YYYY');
+    const monthEnd = now.endOf('month').format('DD/MM/YYYY');
+
+    rows.push([t('quickActions.downloadReport', 'Quick Report')]);
+    rows.push([`${monthStart} - ${monthEnd}`]);
+    rows.push([t('stats.generatedAt', 'Generated'), now.format('DD/MM/YYYY HH:mm')]);
+    rows.push([]);
+
+    rows.push([t('stats.activeStudios', 'Active Studios'), String(userStudios.length)]);
+    rows.push([t('stats.upcomingBookings', 'Upcoming Bookings'), String(reservations.filter(r => dayjs(r.bookingDate, 'DD/MM/YYYY').isAfter(now)).length)]);
+    rows.push([]);
+
+    // Studio list
+    rows.push([t('myStudios.title', 'My Studios')]);
+    userStudios.forEach(studio => {
+      rows.push([getLocalizedName(studio.name)]);
+    });
+
+    const csvContent = rows
+      .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `quick_report_${now.format('YYYY-MM-DD')}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, [t, userStudios, reservations, getLocalizedName]);
+
+  // Modal close handlers
+  const handleQuickChargeClose = useCallback(() => {
+    setIsQuickChargeOpen(false);
+  }, []);
+
+  const handleNewInvoiceClose = useCallback(() => {
+    setIsNewInvoiceOpen(false);
+  }, []);
+
+  const handleBlockTimeClose = useCallback(() => {
+    setBlockTimeStudioId(null);
+  }, []);
+
+  // Success handlers (can trigger refetch or toast if needed)
+  const handleQuickChargeSuccess = useCallback(() => {
+    setIsQuickChargeOpen(false);
+  }, []);
+
+  const handleNewInvoiceSuccess = useCallback(() => {
+    setIsNewInvoiceOpen(false);
+  }, []);
+
   return (
     <div className="dashboard-page">
       {/* Tab Navigation for Studio Owners */}
@@ -99,7 +191,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             </button>
           </div>
           
-          <QuickActions studios={userStudios} />
+          <QuickActions 
+            studios={userStudios}
+            onQuickCharge={handleQuickCharge}
+            onNewInvoice={handleNewInvoice}
+            onBlockTime={handleBlockTime}
+            onDownloadReport={handleDownloadReport}
+          />
         </>
       )}
 
@@ -144,6 +242,30 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Quick Action Modals */}
+      <QuickChargeModal
+        open={isQuickChargeOpen}
+        onClose={handleQuickChargeClose}
+        onSuccess={handleQuickChargeSuccess}
+        studioName={getLocalizedName(userStudios[0]?.name)}
+      />
+
+      <NewInvoiceModal
+        open={isNewInvoiceOpen}
+        onClose={handleNewInvoiceClose}
+        onSuccess={handleNewInvoiceSuccess}
+        studioName={getLocalizedName(userStudios[0]?.name)}
+      />
+
+      {blockTimeStudio && (
+        <StudioBlockModal
+          studioId={blockTimeStudio._id}
+          studioAvailability={blockTimeStudio.studioAvailability}
+          open={!!blockTimeStudioId}
+          onClose={handleBlockTimeClose}
+        />
+      )}
     </div>
   );
 };

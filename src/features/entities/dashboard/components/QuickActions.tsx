@@ -15,8 +15,10 @@ import {
 
 interface QuickActionsProps {
   studios?: Studio[];
+  onQuickCharge?: () => void;
   onNewInvoice?: () => void;
   onBlockTime?: (studioId: string) => void;
+  onDownloadReport?: () => void;
   className?: string;
 }
 
@@ -24,8 +26,10 @@ type MenuType = 'add-service' | 'new-reservation' | 'block-time' | null;
 
 export const QuickActions: React.FC<QuickActionsProps> = ({
   studios = [],
+  onQuickCharge,
   onNewInvoice,
   onBlockTime,
+  onDownloadReport,
   className = ''
 }) => {
   const { t, i18n } = useTranslation('dashboard');
@@ -83,8 +87,11 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
     // Other actions
     switch (actionId) {
       case 'quick-charge':
-        // TODO: Open quick charge modal
-        console.log('Quick charge');
+        if (onQuickCharge) {
+          onQuickCharge();
+        } else {
+          langNavigate('/dashboard?tab=documents');
+        }
         break;
       case 'new-invoice':
         if (onNewInvoice) {
@@ -97,8 +104,11 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
         langNavigate('/studio/create');
         break;
       case 'download-report':
-        // Navigate to stats page where export dropdown is available
-        langNavigate('/dashboard?tab=stats');
+        if (onDownloadReport) {
+          onDownloadReport();
+        } else {
+          langNavigate('/dashboard?tab=stats');
+        }
         break;
     }
   };

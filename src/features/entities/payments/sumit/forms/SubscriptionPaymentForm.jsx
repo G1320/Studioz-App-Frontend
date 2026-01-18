@@ -174,10 +174,6 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
     }
   };
 
-  // Calculate trial end date for display
-  const trialEndDate = new Date();
-  trialEndDate.setDate(trialEndDate.getDate() + trialDays);
-
   return (
     <div className="subscription-payment-form">
       {/* Show trial info for new subscriptions, upgrade info for upgrades */}
@@ -190,12 +186,16 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
           <div className="trial-details">
             <h3>{t('trial.startYourTrial', 'Start Your Free Trial')}</h3>
             <p>
-              {t('trial.description', 'Try {{planName}} free for {{days}} days. Your card will be charged ₪{{price}} on {{date}} unless you cancel.', {
-                planName: plan.name,
-                days: trialDays,
-                price: plan.price,
-                date: trialEndDate.toLocaleDateString('he-IL')
-              })}
+              {t(
+                'trial.description',
+                'Try {{planName}} free for {{days}} days. Your card will be charged ₪{{price}} on {{date}} unless you cancel.',
+                {
+                  planName: plan.name,
+                  days: trialDays,
+                  price: plan.price,
+                  date: trialEndDate.toLocaleDateString('he-IL')
+                }
+              )}
             </p>
           </div>
         </div>
@@ -232,10 +232,14 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
       {!isUpgrade && (
         <div className="subscription-payment-form__terms">
           <p>
-            {t('trial.terms', 'By starting your trial, you agree to be charged ₪{{price}} monthly after the trial ends. Cancel anytime before {{date}} to avoid charges.', {
-              price: plan.price,
-              date: trialEndDate.toLocaleDateString('he-IL')
-            })}
+            {t(
+              'trial.terms',
+              'By starting your trial, you agree to be charged ₪{{price}} monthly after the trial ends. Cancel anytime before {{date}} to avoid charges.',
+              {
+                price: plan.price,
+                date: trialEndDate.toLocaleDateString('he-IL')
+              }
+            )}
           </p>
         </div>
       )}
