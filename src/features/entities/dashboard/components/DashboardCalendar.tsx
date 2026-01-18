@@ -8,12 +8,14 @@ interface DashboardCalendarProps {
   studios: Studio[];
   reservations: Reservation[];
   isStudioOwner?: boolean;
+  onNewReservation?: () => void;
 }
 
 export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
   studios,
   reservations,
-  isStudioOwner = false
+  isStudioOwner = false,
+  onNewReservation
 }) => {
   const { t } = useTranslation('dashboard');
 
@@ -36,6 +38,7 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
         title=""
         studioAvailability={studioAvailability}
         studioReservations={calendarReservations}
+        onNewEvent={onNewReservation}
       />
     </div>
   );

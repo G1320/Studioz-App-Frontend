@@ -178,45 +178,51 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 
   return (
     <div className="dashboard-page">
+      {/* Dashboard Title */}
+      <h1 className="dashboard-page__title">{t('title', 'Dashboard')}</h1>
+
+      {/* Quick Actions for Studio Owners */}
+      {isStudioOwner && (
+        <QuickActions 
+          studios={userStudios}
+          onQuickCharge={handleQuickCharge}
+          onNewInvoice={handleNewInvoice}
+          onNewReservation={handleNewReservation}
+          onBlockTime={handleBlockTime}
+          onDownloadReport={handleDownloadReport}
+        />
+      )}
+
       {/* Tab Navigation for Studio Owners */}
       {isStudioOwner && (
-        <>
+        <div className="dashboard-page__views">
           <div className="dashboard-tabs">
-            <button 
-              className={`dashboard-tab ${activeTab === 'studios' ? 'dashboard-tab--active' : ''}`}
-              onClick={() => setActiveTab('studios')}
-            >
-              {t('tabs.manageStudios', 'ניהול נכסים')}
-            </button>
-            <button 
-              className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
-              onClick={() => setActiveTab('overview')}
-            >
-              {t('tabs.overview', 'יומן פעילות')}
-            </button>
-            <button 
-              className={`dashboard-tab ${activeTab === 'stats' ? 'dashboard-tab--active' : ''}`}
-              onClick={() => setActiveTab('stats')}
-            >
-              {t('tabs.stats', 'סטטיסטיקות')}
-            </button>
-            <button 
-              className={`dashboard-tab ${activeTab === 'documents' ? 'dashboard-tab--active' : ''}`}
-              onClick={() => setActiveTab('documents')}
-            >
-              {t('tabs.documents', 'מסמכים')}
-            </button>
-          </div>
-          
-          <QuickActions 
-            studios={userStudios}
-            onQuickCharge={handleQuickCharge}
-            onNewInvoice={handleNewInvoice}
-            onNewReservation={handleNewReservation}
-            onBlockTime={handleBlockTime}
-            onDownloadReport={handleDownloadReport}
-          />
-        </>
+          <button 
+            className={`dashboard-tab ${activeTab === 'studios' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('studios')}
+          >
+            {t('tabs.manageStudios', 'Manage Studios')}
+          </button>
+          <button 
+            className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            {t('tabs.overview', 'Activity Log')}
+          </button>
+          <button 
+            className={`dashboard-tab ${activeTab === 'stats' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('stats')}
+          >
+            {t('tabs.stats', 'Statistics')}
+          </button>
+          <button 
+            className={`dashboard-tab ${activeTab === 'documents' ? 'dashboard-tab--active' : ''}`}
+            onClick={() => setActiveTab('documents')}
+          >
+            {t('tabs.documents', 'Documents')}
+          </button>
+        </div>
+      </div>
       )}
 
       {/* Tab Content with transition */}
@@ -238,6 +244,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               studios={userStudios}
               reservations={reservations}
               isStudioOwner={isStudioOwner}
+              onNewReservation={() => handleNewReservation()}
             />
           </motion.div>
         )}

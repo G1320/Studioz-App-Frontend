@@ -6,10 +6,23 @@
 // ==========================================
 
 .quick-actions {
-  margin-bottom: vars.$spacing-2xl;
+  margin-bottom: vars.$spacing-xl;
+  padding: vars.$spacing-large;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
+  border-radius: vars.$border-radius-2xl;
+
+  @media (max-width: 640px) {
+    padding: vars.$spacing-sm-md;
+    border-radius: vars.$border-radius-xl;
+  }
 
   &__header {
-    margin-bottom: vars.$spacing-large;
+    margin-bottom: vars.$spacing-medium;
+
+    @media (max-width: 640px) {
+      margin-bottom: vars.$spacing-xs;
+    }
   }
 
   &__title {
@@ -18,16 +31,30 @@
     color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+
+    @media (max-width: 640px) {
+      font-size: vars.$font-size-sm-md;
+    }
   }
 
   &__grid {
     display: flex;
     flex-wrap: wrap;
     gap: vars.$spacing-small;
+
+    @media (max-width: 640px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: vars.$spacing-xs;
+    }
   }
 
   &__btn-wrapper {
     position: relative;
+
+    @media (max-width: 640px) {
+      width: 100%;
+    }
   }
 
   &__btn {
@@ -44,6 +71,14 @@
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
+
+    @media (max-width: 640px) {
+      padding: vars.$spacing-xs vars.$spacing-small;
+      gap: vars.$spacing-xs;
+      font-size: vars.$font-size-xs;
+      width: 100%;
+      justify-content: center;
+    }
 
     &:hover {
       background: var(--bg-hover);
@@ -86,6 +121,11 @@
     height: 18px;
     color: var(--text-muted);
     transition: color 0.2s ease;
+
+    @media (max-width: 640px) {
+      width: 14px;
+      height: 14px;
+    }
 
     svg {
       width: 100%;
@@ -204,17 +244,22 @@
 // LIGHT MODE ADJUSTMENTS
 // ==========================================
 [data-theme='light'] {
-  .quick-actions__btn {
+  .quick-actions {
     background: var(--bg-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .quick-actions__btn {
+    background: var(--bg-secondary);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
     &:hover {
-      background: var(--bg-secondary);
+      background: var(--bg-hover);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     }
 
     &--active {
-      background: var(--bg-secondary);
+      background: var(--bg-hover);
     }
   }
 

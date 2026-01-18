@@ -27,6 +27,7 @@ interface CalendarProps {
   title?: string;
   studioAvailability?: StudioAvailability;
   studioReservations?: Reservation[];
+  onNewEvent?: () => void;
 }
 
 // --- Constants ---
@@ -360,12 +361,14 @@ function ListView({
   currentDate,
   events,
   onEventClick,
-  t
+  t,
+  onNewEvent
 }: {
   currentDate: Dayjs;
   events: CalendarEvent[];
   onEventClick: (event: CalendarEvent) => void;
   t: (key: string) => string;
+  onNewEvent?: () => void;
 }) {
   const dayEvents = events.filter((e) => e.start.isSame(currentDate, 'day'));
 
@@ -414,7 +417,7 @@ function ListView({
         <div className="studioz-calendar__empty-state">
           <CalendarIcon sx={{ fontSize: 48 }} className="studioz-calendar__empty-icon" />
           <p className="studioz-calendar__empty-text">{t('calendar.noEvents')}</p>
-          <button className="studioz-calendar__empty-action">{t('calendar.addEvent')} +</button>
+          <button className="studioz-calendar__empty-action" onClick={onNewEvent}>{t('calendar.addEvent')} +</button>
         </div>
       )}
     </div>
@@ -426,7 +429,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   title,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   studioAvailability: _studioAvailability,
-  studioReservations = []
+  studioReservations = [],
+  onNewEvent
 }) => {
   const { t, i18n } = useTranslation('common');
   const lang = i18n.language;
@@ -532,7 +536,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               <ViewTab label={t('calendar.list')} isActive={view === 'list'} onClick={() => setView('list')} />
             </div>
 
-            <button className="studioz-calendar__add-event-btn">
+            <button className="studioz-calendar__add-event-btn" onClick={onNewEvent}>
               <AddIcon sx={{ fontSize: 20 }} />
               <span>{t('calendar.newEvent')}</span>
             </button>
@@ -551,7 +555,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             <DayView currentDate={currentDate} events={events} onEventClick={handleEventClick} lang={lang} />
           )}
           {view === 'list' && (
-            <ListView currentDate={currentDate} events={events} onEventClick={handleEventClick} t={t} />
+            <ListView currentDate={currentDate} events={events} onEventClick={handleEventClick} t={t} onNewEvent={onNewEvent} />
           )}
         </div>
       </div>
