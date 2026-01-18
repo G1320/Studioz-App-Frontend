@@ -14,6 +14,7 @@ interface BookingActionsProps {
   onBookNow: () => void;
   addOnsTotal?: number;
   isLoading?: boolean;
+  paymentEnabled?: boolean;
 }
 
 export const BookingActions = React.memo(
@@ -26,11 +27,15 @@ export const BookingActions = React.memo(
     cart,
     onBookNow,
     addOnsTotal = 0,
-    isLoading = false
+    isLoading = false,
+    paymentEnabled = false
   }: BookingActionsProps) => {
     const { t } = useTranslation('common');
 
     const totalPrice = price * quantity + addOnsTotal;
+    const buttonText = paymentEnabled 
+      ? t('buttons.continue_to_payment', 'Continue to Payment')
+      : t('buttons.add_to_cart');
 
     if (!currentReservationId && isPhoneVerified) {
       return (
@@ -43,7 +48,7 @@ export const BookingActions = React.memo(
             <span className="button-loading-spinner" />
           ) : (
             <>
-          {t('buttons.add_to_cart')}
+          {buttonText}
           <span>({totalPrice}₪)</span>
             </>
           )}

@@ -53,5 +53,59 @@
     "bookedAt": "הזמין {{item}}",
     "anonymousClient": "אנונימי",
     "viewAll": "צפה בכל ההיסטוריה"
+  },
+  "manualBooking": {
+    "title": "הזמנה חדשה",
+    "steps": {
+      "service": "שירות",
+      "schedule": "תאריך",
+      "customer": "לקוח",
+      "payment": "סיום"
+    },
+    "selectStudio": "בחר אולפן",
+    "serviceType": "סוג שירות",
+    "existingService": "שירות קיים",
+    "customService": "שירות מותאם",
+    "selectService": "בחר שירות",
+    "noServices": "אין שירותים זמינים",
+    "customServiceDetails": "פרטי השירות",
+    "serviceDescription": "תיאור השירות",
+    "serviceDescriptionPlaceholder": "הכנס תיאור",
+    "servicePrice": "מחיר כולל",
+    "selectDateTime": "בחר תאריך ושעה",
+    "dateTimeLabel": "תאריך ושעה",
+    "duration": "משך הזמן",
+    "customerDetails": "פרטי לקוח",
+    "customerName": "שם לקוח",
+    "customerNamePlaceholder": "הזן שם",
+    "customerEmail": "אימייל",
+    "customerPhone": "טלפון",
+    "notes": "הערות",
+    "notesPlaceholder": "הערות נוספות (אופציונלי)",
+    "summary": "סיכום הזמנה",
+    "service": "שירות",
+    "dateTime": "תאריך ושעה",
+    "customer": "לקוח",
+    "total": "סה\"כ",
+    "paymentOption": "אפשרות תשלום",
+    "bookOnly": "הזמנה בלבד",
+    "bookOnlyDesc": "יצור הזמנה ללא תשלום",
+    "bookAndCharge": "הזמנה + תשלום",
+    "bookAndChargeDesc": "יצור הזמנה וחייב את הלקוח",
+    "confirmBooking": "אשר הזמנה",
+    "confirmAndCharge": "אשר וחייב",
+    "creating": "יוצר הזמנה...",
+    "errors": {
+      "bookingFailed": "יצירת ההזמנה נכשלה"
+    },
+    "success": {
+      "title": "ההזמנה נוצרה בהצלחה!",
+      "bookedMessage": "ההזמנה נוספה ליומן",
+      "chargedMessage": "הלקוח חויב וקבלה נשלחה באימייל",
+      "viewReceipt": "צפה בקבלה",
+      "done": "סיום",
+      "booked": "ההזמנה נוצרה בהצלחה",
+      "bookedAndCharged": "ההזמנה נוצרה והתשלום עבר"
+    }
   }
 }

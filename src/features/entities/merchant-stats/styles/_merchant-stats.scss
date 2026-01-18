@@ -92,7 +92,7 @@
 .merchant-stats__export-btn {
   padding: 0.625rem;
   background: var(--color-brand);
-  color: var(--text-inverse);
+  color: var(--btn-primary-text);
   border: none;
   border-radius: ds.$radius-md;
   cursor: pointer;
@@ -287,7 +287,7 @@
 
   &--active {
     background: var(--color-brand);
-    color: var(--text-inverse);
+    color: var(--btn-primary-text);
     box-shadow: 0 4px 12px var(--color-brand-glow);
   }
 }
@@ -947,7 +947,7 @@
 
     &--selected {
       background: var(--color-brand);
-      color: white;
+      color: var(--btn-primary-text);
     }
 
     &--in-range {

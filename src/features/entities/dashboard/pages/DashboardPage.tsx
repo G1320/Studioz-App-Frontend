@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
-import { DashboardCalendar, RecentActivity, QuickActions } from '../components';
+import { DashboardCalendar, RecentActivity, QuickActions, ManualBookingModal } from '../components';
 import { StudioManager, StudioBlockModal } from '@features/entities/studios';
 import { QuickChargeModal, NewInvoiceModal } from '@features/entities/merchant-documents';
 
@@ -40,6 +40,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   // Modal states
   const [isQuickChargeOpen, setIsQuickChargeOpen] = useState(false);
   const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
+  const [isManualBookingOpen, setIsManualBookingOpen] = useState(false);
+  const [manualBookingStudioId, setManualBookingStudioId] = useState<string | undefined>(undefined);
   const [blockTimeStudioId, setBlockTimeStudioId] = useState<string | null>(null);
 
   // Get active tab from URL, default to 'studios'
@@ -100,6 +102,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setBlockTimeStudioId(studioId);
   }, []);
 
+  const handleNewReservation = useCallback((studioId?: string) => {
+    setManualBookingStudioId(studioId);
+    setIsManualBookingOpen(true);
+  }, []);
+
   const handleDownloadReport = useCallback(() => {
     // Generate and download a quick CSV report
     const rows: string[][] = [];
@@ -150,6 +157,16 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setBlockTimeStudioId(null);
   }, []);
 
+  const handleManualBookingClose = useCallback(() => {
+    setIsManualBookingOpen(false);
+    setManualBookingStudioId(undefined);
+  }, []);
+
+  const handleManualBookingSuccess = useCallback(() => {
+    setIsManualBookingOpen(false);
+    setManualBookingStudioId(undefined);
+  }, []);
+
   // Success handlers (can trigger refetch or toast if needed)
   const handleQuickChargeSuccess = useCallback(() => {
     setIsQuickChargeOpen(false);
@@ -195,6 +212,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             studios={userStudios}
             onQuickCharge={handleQuickCharge}
             onNewInvoice={handleNewInvoice}
+            onNewReservation={handleNewReservation}
             onBlockTime={handleBlockTime}
             onDownloadReport={handleDownloadReport}
           />
@@ -266,6 +284,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           onClose={handleBlockTimeClose}
         />
       )}
+
+      <ManualBookingModal
+        open={isManualBookingOpen}
+        onClose={handleManualBookingClose}
+        onSuccess={handleManualBookingSuccess}
+        studios={userStudios}
+        preselectedStudioId={manualBookingStudioId}
+      />
     </div>
   );
 };

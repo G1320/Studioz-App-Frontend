@@ -239,6 +239,9 @@
   }
 }
 
+// Primary/Brand CTA Button
+// Uses --btn-primary-bg (brand color) and --btn-primary-text (black)
+// For consistent brand CTAs, use this mixin or the alias below
 @mixin button-primary {
   @include button-base;
   background: var(--btn-primary-bg);
@@ -251,6 +254,18 @@
   &:active:not(:disabled) {
     transform: scale(0.98);
   }
+}
+
+// Alias for brand CTA - same as button-primary but more semantic name
+// Use this when you want a brand-colored CTA with black text
+@mixin brand-cta {
+  @include button-primary;
+}
+
+// Standalone text color for brand backgrounds
+// Use this when you have a custom element with brand background
+@mixin brand-bg-text {
+  color: var(--btn-primary-text);
 }
 
 @mixin button-secondary {

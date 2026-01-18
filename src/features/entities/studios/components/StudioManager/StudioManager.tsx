@@ -9,7 +9,6 @@ import { StudioBlockModal } from '../StudioBlockTimeSlotModal';
 import {
   BusinessIcon,
   LocationIcon,
-  MoreVertIcon,
   EditIcon,
   CalendarIcon,
   SettingsIcon,
@@ -22,7 +21,8 @@ import {
   ChevronUpIcon,
   SearchIcon,
   FilterIcon,
-  WalletIcon
+  WalletIcon,
+  ExternalLinkIcon
 } from '@shared/components/icons';
 
 import { Studio } from 'src/types/index';
@@ -123,6 +123,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
   onAddItem
 }) => {
   const { t, i18n } = useTranslation('studioManager');
+  const langNavigate = useLanguageNavigate();
   const [isExpanded, setIsExpanded] = useState(true);
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const currentLang = i18n.language as 'en' | 'he';
@@ -184,6 +185,13 @@ const StudioCard: React.FC<StudioCardProps> = ({
           </div>
           
           <div className="studio-card__actions">
+            <button 
+              className="studio-card__action-btn" 
+              title={t('viewStudio', 'צפה בסטודיו')}
+              onClick={() => window.open(`/studio/${studio._id}`, '_blank')}
+            >
+              <ExternalLinkIcon />
+            </button>
             <button 
               className="studio-card__action-btn" 
               title={t('editStudio', 'ערוך פרטי סטודיו')}
@@ -271,7 +279,10 @@ const StudioCard: React.FC<StudioCardProps> = ({
                   </div>
 
                   <div className="studio-card__item-controls">
-                    <button className="studio-card__item-link">
+                    <button 
+                      className="studio-card__item-link"
+                      onClick={() => langNavigate(`/studio/${studio._id}/items/${itemId}/edit`)}
+                    >
                       {t('manageAvailability', 'ניהול זמינות')}
                     </button>
                     
@@ -286,8 +297,12 @@ const StudioCard: React.FC<StudioCardProps> = ({
                         onChange={(checked) => onToggleItem(studio._id, itemId, checked)}
                         disabled={isTogglingItem}
                       />
-                      <button className="studio-card__item-more">
-                        <MoreVertIcon />
+                      <button 
+                        className="studio-card__item-more"
+                        onClick={() => window.open(`/studio/${studio._id}?item=${itemId}`, '_blank')}
+                        title={t('viewItem', 'צפה בשירות')}
+                      >
+                        <ExternalLinkIcon />
                       </button>
                     </div>
                   </div>

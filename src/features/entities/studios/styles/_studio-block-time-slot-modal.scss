@@ -284,7 +284,7 @@
 
       .block-button {
         background-color: var(--color-brand);
-        color: var(--text-inverse);
+        color: var(--btn-primary-text);
 
         &:hover:not(:disabled) {
           background-color: var(--color-brand-hover);

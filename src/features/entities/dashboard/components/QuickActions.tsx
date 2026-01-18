@@ -17,6 +17,7 @@ interface QuickActionsProps {
   studios?: Studio[];
   onQuickCharge?: () => void;
   onNewInvoice?: () => void;
+  onNewReservation?: (studioId?: string) => void;
   onBlockTime?: (studioId: string) => void;
   onDownloadReport?: () => void;
   className?: string;
@@ -28,6 +29,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   studios = [],
   onQuickCharge,
   onNewInvoice,
+  onNewReservation,
   onBlockTime,
   onDownloadReport,
   className = ''
@@ -65,8 +67,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
     if (actionType === 'add-service') {
       langNavigate(`/studio/${studioId}/items/create`);
     } else if (actionType === 'new-reservation') {
-      // Navigate to studio page where they can create reservations
-      langNavigate(`/studios/${studioId}`);
+      // Open manual booking modal with preselected studio
+      onNewReservation?.(studioId);
     } else if (actionType === 'block-time') {
       onBlockTime?.(studioId);
     }

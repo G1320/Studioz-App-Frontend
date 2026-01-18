@@ -203,6 +203,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
         onBookNow={onBookNow}
         addOnsTotal={addOnsTotal}
         isLoading={isLoading}
+        paymentEnabled={studio?.paymentEnabled}
       />
     </>
   );

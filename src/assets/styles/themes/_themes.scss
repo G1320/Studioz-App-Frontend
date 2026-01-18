@@ -103,7 +103,9 @@
   --tooltip-bg: #27272a;
   --dropdown-bg: #1c1c1e;
 
-  // Button variants
+  // Button variants (Brand CTA styling - centralized here)
+  // Change --btn-primary-bg to update brand CTA background color
+  // Change --btn-primary-text to update text color on all brand CTAs
   --btn-primary-bg: #ffd166;
   --btn-primary-text: #000000;
   --btn-primary-hover: #ffe199;
@@ -223,7 +225,9 @@
   --tooltip-bg: #1c1917;
   --dropdown-bg: #ffffff;
 
-  // Button variants
+  // Button variants (Brand CTA styling - centralized here)
+  // Change --btn-primary-bg to update brand CTA background color
+  // Change --btn-primary-text to update text color on all brand CTAs
   --btn-primary-bg: #f7c041;
   --btn-primary-text: #000000;
   --btn-primary-hover: #e1ac2f;

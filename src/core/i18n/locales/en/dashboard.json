@@ -53,5 +53,59 @@
     "bookedAt": "Booked {{item}}",
     "anonymousClient": "Anonymous",
     "viewAll": "View Full History"
+  },
+  "manualBooking": {
+    "title": "New Reservation",
+    "steps": {
+      "service": "Service",
+      "schedule": "Date",
+      "customer": "Customer",
+      "payment": "Complete"
+    },
+    "selectStudio": "Select Studio",
+    "serviceType": "Service Type",
+    "existingService": "Existing Service",
+    "customService": "Custom Service",
+    "selectService": "Select Service",
+    "noServices": "No services available",
+    "customServiceDetails": "Service Details",
+    "serviceDescription": "Service Description",
+    "serviceDescriptionPlaceholder": "Enter description",
+    "servicePrice": "Total Price",
+    "selectDateTime": "Select Date & Time",
+    "dateTimeLabel": "Date & Time",
+    "duration": "Duration",
+    "customerDetails": "Customer Details",
+    "customerName": "Customer Name",
+    "customerNamePlaceholder": "Enter name",
+    "customerEmail": "Email",
+    "customerPhone": "Phone",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes (optional)",
+    "summary": "Booking Summary",
+    "service": "Service",
+    "dateTime": "Date & Time",
+    "customer": "Customer",
+    "total": "Total",
+    "paymentOption": "Payment Option",
+    "bookOnly": "Book Only",
+    "bookOnlyDesc": "Create reservation without payment",
+    "bookAndCharge": "Book & Charge",
+    "bookAndChargeDesc": "Create reservation and charge customer",
+    "confirmBooking": "Confirm Booking",
+    "confirmAndCharge": "Confirm & Charge",
+    "creating": "Creating reservation...",
+    "errors": {
+      "bookingFailed": "Failed to create reservation"
+    },
+    "success": {
+      "title": "Reservation Created Successfully!",
+      "bookedMessage": "The reservation has been added to the calendar",
+      "chargedMessage": "Customer has been charged and receipt sent via email",
+      "viewReceipt": "View Receipt",
+      "done": "Done",
+      "booked": "Reservation created successfully",
+      "bookedAndCharged": "Reservation created and payment processed"
+    }
   }
 }

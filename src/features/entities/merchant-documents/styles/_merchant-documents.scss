@@ -58,7 +58,7 @@
 
     &--primary {
       background: var(--color-brand);
-      color: #000000;
+      color: var(--btn-primary-text);
       box-shadow: 0 0 20px rgba(247, 192, 65, 0.2);
 
       &:hover {
@@ -944,7 +944,7 @@
     &--primary {
       background: var(--color-brand);
       border: none;
-      color: white;
+      color: var(--btn-primary-text);
 
       &:hover:not(:disabled) {
         opacity: 0.9;
