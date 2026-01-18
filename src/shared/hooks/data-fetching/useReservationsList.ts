@@ -61,7 +61,8 @@ export const useReservationsList = (options: UseReservationsListOptions = {}) =>
       if (accessMethod === 'user' && user?._id) {
         // For logged-in users, get all reservations
         // We'll filter by incoming/outgoing in the filtering logic below
-        return await getReservations();
+        const response = await getReservations({ limit: 100 });
+        return response.reservations || [];
       }
       return [];
     },

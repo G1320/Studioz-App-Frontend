@@ -3,6 +3,16 @@ import { Reservation } from 'src/types/index';
 
 const reservationEndpoint = '/reservations';
 
+export interface PaginatedReservationsResponse {
+  reservations: Reservation[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export const createReservation = async (reservation: Reservation): Promise<Reservation> => {
   try {
     return await httpService.post(reservationEndpoint, reservation);
@@ -12,9 +22,11 @@ export const createReservation = async (reservation: Reservation): Promise<Reser
   }
 };
 
-export const getReservations = async (params = {}): Promise<Reservation[]> => {
+export const getReservations = async (
+  params: { page?: number; limit?: number } = {}
+): Promise<PaginatedReservationsResponse> => {
   try {
-    return await httpService.get(reservationEndpoint, { params });
+    return await httpService.get(reservationEndpoint, params);
   } catch (error) {
     console.error('Error fetching reservations:', error);
     throw error;

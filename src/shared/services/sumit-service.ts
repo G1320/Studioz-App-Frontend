@@ -407,5 +407,56 @@ export const sumitService = {
       console.error('Error getting trial subscriptions ending:', error);
       throw error;
     }
+  },
+
+  // ============================================
+  // Quick Charge (סליקה מהירה) for Studio Owners
+  // ============================================
+
+  /**
+   * Quick charge - manual one-time payment by studio owner
+   * Uses vendor's Sumit credentials and creates receipt
+   */
+  quickCharge: async (params: {
+    singleUseToken: string;
+    customerInfo: {
+      name: string;
+      email: string;
+      phone?: string;
+    };
+    items: Array<{
+      description: string;
+      price: number;
+      quantity: number;
+    }>;
+    description?: string;
+    remarks?: string;
+    vendorId: string;
+  }): Promise<{
+    success: boolean;
+    data?: {
+      paymentId: string;
+      amount: number;
+      documentUrl?: string;
+      greenInvoiceUrl?: string;
+    };
+    error?: string;
+  }> => {
+    try {
+      const response = await httpService.post<{
+        success: boolean;
+        data?: {
+          paymentId: string;
+          amount: number;
+          documentUrl?: string;
+          greenInvoiceUrl?: string;
+        };
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/quick-charge`, params);
+      return response;
+    } catch (error) {
+      console.error('Error processing quick charge:', error);
+      throw error;
+    }
   }
 };

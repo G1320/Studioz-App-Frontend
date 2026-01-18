@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getReservations } from '@shared/services';
+import { getReservations, PaginatedReservationsResponse } from '@shared/services';
 import { Reservation } from 'src/types/index';
 
 export const useReservations = () => {
@@ -8,10 +8,13 @@ export const useReservations = () => {
     queryKey: ['reservations'],
     staleTime: 0, // Always fetch fresh data
     refetchInterval: 30000, // Poll every 30 seconds
-    queryFn: () => getReservations(),
+    queryFn: async () => {
+      const response = await getReservations({ limit: 100 });
+      return response.reservations;
+    },
     placeholderData: keepPreviousData,
     initialData: () => queryClient.getQueryData<Reservation[]>(['reservations'])
   });
 
-  return { data, isLoading, error, refetch };
+  return { data: data || [], isLoading, error, refetch };
 };

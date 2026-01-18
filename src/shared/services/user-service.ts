@@ -60,9 +60,19 @@ export const removeStudioFromUser = async (userId: string, studioId: string): Pr
   }
 };
 
-export const getUsers = async (): Promise<User[]> => {
+export interface PaginatedUsersResponse {
+  users: User[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export const getUsers = async (params: { page?: number; limit?: number } = {}): Promise<PaginatedUsersResponse> => {
   try {
-    return await httpService.get(userEndpoint);
+    return await httpService.get(userEndpoint, params);
   } catch (error) {
     console.error(error);
     throw error;

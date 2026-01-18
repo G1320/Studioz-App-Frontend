@@ -27,7 +27,7 @@ import {
 import { useUserContext } from '@core/contexts';
 import { useStudios, useMerchantDocuments } from '@shared/hooks';
 import { MerchantDocument, DocStatus, httpService } from '@shared/services';
-import { NewInvoiceModal, DocumentActionsDropdown } from '../components';
+import { NewInvoiceModal, DocumentActionsDropdown, QuickChargeModal } from '../components';
 import { DateRangePicker, type DateRange } from '../../merchant-stats/components';
 import '../styles/_merchant-documents.scss';
 
@@ -219,6 +219,7 @@ const MerchantDocumentsPage: React.FC = () => {
 
   // Modal states
   const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
+  const [isQuickChargeOpen, setIsQuickChargeOpen] = useState(false);
 
   // Fetch documents using new hook
   const {
@@ -448,6 +449,11 @@ const MerchantDocumentsPage: React.FC = () => {
     refetch();
   }, [refetch]);
 
+  // Handle quick charge success
+  const handleQuickChargeSuccess = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <div className="merchant-documents">
       {/* Header */}
@@ -464,6 +470,12 @@ const MerchantDocumentsPage: React.FC = () => {
           >
             <Download size={18} />
             {t('actions.exportReport')}
+          </button>
+          <button
+            className="merchant-documents__btn merchant-documents__btn--accent"
+            onClick={() => setIsQuickChargeOpen(true)}
+          >
+            {t('actions.quickCharge', 'סליקה מהירה')}
           </button>
           <button
             className="merchant-documents__btn merchant-documents__btn--primary"
@@ -664,6 +676,14 @@ const MerchantDocumentsPage: React.FC = () => {
         open={isNewInvoiceOpen}
         onClose={() => setIsNewInvoiceOpen(false)}
         onSuccess={handleNewInvoiceSuccess}
+        studioName={getLocalizedName(userStudios[0]?.name)}
+      />
+
+      {/* Quick Charge Modal */}
+      <QuickChargeModal
+        open={isQuickChargeOpen}
+        onClose={() => setIsQuickChargeOpen(false)}
+        onSuccess={handleQuickChargeSuccess}
         studioName={getLocalizedName(userStudios[0]?.name)}
       />
     </div>
