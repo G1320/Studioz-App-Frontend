@@ -103,31 +103,35 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
     }
   };
 
-  // Check if user owns the studio for this item
+  // Check if user owns the studio for this reservation
   const userOwnsStudioForItem = useMemo(() => {
     if (!user?._id || userStudios.length === 0) return false;
-    return userStudios.some((studio) => {
-      if (!studio.items || studio.items.length === 0) return false;
-      return studio.items.some((item) => item.itemId === reservation.itemId);
-    });
-  }, [user?._id, userStudios, reservation.itemId]);
+    // Check if any of user's studios matches this reservation's studioId
+    return userStudios.some((studio) => studio._id === reservation.studioId);
+  }, [user?._id, userStudios, reservation.studioId]);
 
-  // Determine if this is an "incoming" reservation
+  // Determine if this is an "incoming" reservation (someone else booked the studio owner's studio)
   const isIncomingReservation = useMemo(() => {
     if (!user?._id) return false;
     const userMadeReservation = reservation.userId === user._id || reservation.customerId === user._id;
     return userOwnsStudioForItem && !userMadeReservation;
   }, [user?._id, userOwnsStudioForItem, reservation.userId, reservation.customerId]);
 
-  const showCancelButton = !isIncomingReservation;
+  // Studio owner: owns the studio (either incoming or their own booking)
+  const isStudioOwner = isIncomingReservation || userOwnsStudioForItem;
+
+  // Status checks
   const isCancelledStatus = reservation.status === 'cancelled' || reservation.status === 'rejected';
   const isConfirmedStatus = reservation.status === 'confirmed';
   const isExpiredStatus = reservation.status === 'expired';
 
+  // Studio owners should Cancel from edit view, not the main card
+  // Only show Cancel button for customers viewing their own reservations
+  const showCancelButton = !isStudioOwner;
+
   // Permission-based editing
   // Studio owners can always edit
   // Customers can only edit pending reservations (not confirmed/cancelled/expired)
-  const isStudioOwner = isIncomingReservation || userOwnsStudioForItem;
   const canEditReservation = isStudioOwner || (!isConfirmedStatus && !isCancelledStatus && !isExpiredStatus);
   const canEditStatus = isStudioOwner;
   const canEditPhone = isStudioOwner;
@@ -565,7 +569,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                       </button>
                     )}
 
-                    {isIncomingReservation && isPending && (
+                    {isStudioOwner && isPending && (
                       <button
                         className="reservation-card__action-btn reservation-card__action-btn--confirm"
                         onClick={async (e) => {
