@@ -1,0 +1,225 @@
+@use 'utilities/variables' as vars;
+
+// ==========================================
+// QUICK ACTIONS COMPONENT
+// Dashboard quick action buttons grid
+// ==========================================
+
+.quick-actions {
+  margin-bottom: vars.$spacing-2xl;
+
+  &__header {
+    margin-bottom: vars.$spacing-large;
+  }
+
+  &__title {
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-small;
+  }
+
+  &__btn-wrapper {
+    position: relative;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-sm-md vars.$spacing-large;
+    border-radius: 9999px; // Pill shape
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    font-size: vars.$font-size-sm-md;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &--active {
+      background: var(--bg-hover);
+      border-color: var(--color-brand);
+    }
+
+    // Primary variant (highlighted action)
+    &--primary {
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      color: var(--btn-primary-text);
+      font-weight: 600;
+
+      .quick-actions__btn-icon {
+        color: var(--btn-primary-text);
+      }
+
+      &:hover {
+        background: var(--color-brand-hover);
+        border-color: var(--color-brand-hover);
+      }
+    }
+  }
+
+  &__btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__btn:hover &__btn-icon {
+    color: var(--color-brand);
+  }
+
+  &__btn--primary:hover &__btn-icon {
+    color: var(--btn-primary-text);
+  }
+
+  &__btn-label {
+    line-height: 1;
+  }
+
+  &__btn-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-inline-start: vars.$spacing-xs;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  // ==========================================
+  // DROPDOWN MENU
+  // ==========================================
+  &__menu {
+    position: absolute;
+    top: calc(100% + vars.$spacing-small);
+    inset-inline-start: 0;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    border-radius: vars.$border-radius-xl;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    overflow: hidden;
+    animation: quickActionsMenuIn 0.15s ease-out;
+  }
+
+  @keyframes quickActionsMenuIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &__menu-header {
+    padding: vars.$spacing-small vars.$spacing-medium;
+    font-size: vars.$font-size-xs;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  &__menu-item {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-medium;
+    width: 100%;
+    padding: vars.$spacing-medium;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: vars.$font-size-sm-md;
+    text-align: start;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--bg-hover);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--border-secondary);
+    }
+  }
+
+  &__menu-item-image {
+    width: 32px;
+    height: 32px;
+    border-radius: vars.$border-radius-medium;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__menu-item-name {
+    flex: 1;
+    font-weight: 500;
+  }
+}
+
+// ==========================================
+// LIGHT MODE ADJUSTMENTS
+// ==========================================
+[data-theme='light'] {
+  .quick-actions__btn {
+    background: var(--bg-primary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      background: var(--bg-secondary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    &--active {
+      background: var(--bg-secondary);
+    }
+  }
+
+  .quick-actions__menu {
+    background: var(--bg-primary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+}

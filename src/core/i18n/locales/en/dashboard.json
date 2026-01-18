@@ -8,6 +8,17 @@
     "stats": "Statistics",
     "documents": "Documents"
   },
+  "quickActions": {
+    "title": "Quick Actions",
+    "quickCharge": "Quick Charge",
+    "newInvoice": "New Invoice",
+    "newReservation": "New Reservation",
+    "blockTime": "Block Time",
+    "addService": "Add Service",
+    "addStudio": "Add Studio",
+    "downloadReport": "Download Report",
+    "selectStudio": "Select Studio"
+  },
   "stats": {
     "title": "Statistics",
     "totalBookings": "Total Bookings",

@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
-import { DashboardCalendar, RecentActivity } from '../components';
+import { DashboardCalendar, RecentActivity, QuickActions } from '../components';
 import { StudioManager } from '@features/entities/studios';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
@@ -71,32 +71,36 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     <div className="dashboard-page">
       {/* Tab Navigation for Studio Owners */}
       {isStudioOwner && (
-        <div className="dashboard-tabs">
-          <button 
-            className={`dashboard-tab ${activeTab === 'studios' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('studios')}
-          >
-            {t('tabs.manageStudios', 'ניהול נכסים')}
-          </button>
-          <button 
-            className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('overview')}
-          >
-            {t('tabs.overview', 'יומן פעילות')}
-          </button>
-          <button 
-            className={`dashboard-tab ${activeTab === 'stats' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('stats')}
-          >
-            {t('tabs.stats', 'סטטיסטיקות')}
-          </button>
-          <button 
-            className={`dashboard-tab ${activeTab === 'documents' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('documents')}
-          >
-            {t('tabs.documents', 'מסמכים')}
-          </button>
-        </div>
+        <>
+          <div className="dashboard-tabs">
+            <button 
+              className={`dashboard-tab ${activeTab === 'studios' ? 'dashboard-tab--active' : ''}`}
+              onClick={() => setActiveTab('studios')}
+            >
+              {t('tabs.manageStudios', 'ניהול נכסים')}
+            </button>
+            <button 
+              className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
+              onClick={() => setActiveTab('overview')}
+            >
+              {t('tabs.overview', 'יומן פעילות')}
+            </button>
+            <button 
+              className={`dashboard-tab ${activeTab === 'stats' ? 'dashboard-tab--active' : ''}`}
+              onClick={() => setActiveTab('stats')}
+            >
+              {t('tabs.stats', 'סטטיסטיקות')}
+            </button>
+            <button 
+              className={`dashboard-tab ${activeTab === 'documents' ? 'dashboard-tab--active' : ''}`}
+              onClick={() => setActiveTab('documents')}
+            >
+              {t('tabs.documents', 'מסמכים')}
+            </button>
+          </div>
+          
+          <QuickActions studios={userStudios} />
+        </>
       )}
 
       {/* Tab Content with transition */}

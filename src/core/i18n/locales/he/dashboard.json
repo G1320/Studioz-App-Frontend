@@ -8,6 +8,17 @@
     "stats": "סטטיסטיקות",
     "documents": "מסמכים"
   },
+  "quickActions": {
+    "title": "פעולות מהירות",
+    "quickCharge": "סליקה מהירה",
+    "newInvoice": "חשבונית חדשה",
+    "newReservation": "הזמנה חדשה",
+    "blockTime": "חסום זמן",
+    "addService": "הוסף שירות",
+    "addStudio": "הוסף אולפן",
+    "downloadReport": "הורד דו״ח",
+    "selectStudio": "בחר אולפן"
+  },
   "stats": {
     "title": "סטטיסטיקות",
     "totalBookings": "סה\"כ הזמנות",
