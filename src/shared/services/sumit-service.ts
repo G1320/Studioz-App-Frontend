@@ -415,7 +415,7 @@ export const sumitService = {
 
   /**
    * Quick charge - manual one-time payment by studio owner
-   * Uses vendor's Sumit credentials and creates receipt
+   * Uses vendor's Sumit credentials - Sumit issues חשבונית מס קבלה from vendor
    */
   quickCharge: async (params: {
     singleUseToken: string;
@@ -437,8 +437,7 @@ export const sumitService = {
     data?: {
       paymentId: string;
       amount: number;
-      documentUrl?: string;
-      greenInvoiceUrl?: string;
+      documentUrl?: string; // Sumit invoice URL (from vendor's account)
     };
     error?: string;
   }> => {
@@ -449,7 +448,6 @@ export const sumitService = {
           paymentId: string;
           amount: number;
           documentUrl?: string;
-          greenInvoiceUrl?: string;
         };
         error?: string;
       }>(`${SUMIT_ENDPOINT}/quick-charge`, params);

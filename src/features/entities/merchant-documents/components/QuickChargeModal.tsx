@@ -162,10 +162,10 @@ export const QuickChargeModal: React.FC<QuickChargeModalProps> = ({
         throw new Error(response.error || t('quickCharge.errors.paymentFailed', 'Payment failed'));
       }
 
-      // Success!
+      // Success! Use Sumit document URL (vendor's invoice)
       setSuccessData({
         amount: response.data?.amount || calculateTotal(),
-        documentUrl: response.data?.documentUrl || response.data?.greenInvoiceUrl
+        documentUrl: response.data?.documentUrl // Sumit's חשבונית מס קבלה from vendor
       });
       setStep('success');
       onSuccess();
