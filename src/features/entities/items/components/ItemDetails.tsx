@@ -133,29 +133,30 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     };
   }, [itemId]); // Re-run cleanup when itemId changes
 
-  // Reset quantity to minimum when date changes, and clamp to valid range
+  // Clamp quantity to valid range when maxHours changes (e.g., after selecting a time)
+  // Don't reset on date change - handleDateChange already sets to minHours
   useEffect(() => {
-    if (selectedDate && minHours) {
+    if (selectedDate && minHours && maxHours !== undefined && maxHours > 0) {
       setSelectedQuantity((prev) => {
         // Ensure quantity is at least minHours
         if (prev < minHours) return minHours;
-        // Ensure quantity doesn't exceed maxHours
-        if (maxHours !== undefined && prev > maxHours) return maxHours;
+        // Ensure quantity doesn't exceed maxHours (only if maxHours is valid)
+        if (prev > maxHours) return maxHours;
         return prev;
       });
     }
-  }, [selectedDate, minHours, maxHours]);
+  }, [maxHours]); // Only run when maxHours changes, not on every date change
 
   const handleDateChange = useCallback(
     (newDate: Date | null) => {
       setSelectedDate(newDate);
       // Reset quantity to minimum when date changes
-      if (newDate && item) {
-        const min = getMinimumHours(item);
-        setSelectedQuantity(min);
+      if (newDate) {
+        // Use memoized minHours which is guaranteed to be at least 1
+        setSelectedQuantity(minHours);
       }
     },
-    [item]
+    [minHours]
   );
 
   const handleIncrement = useCallback(() => {

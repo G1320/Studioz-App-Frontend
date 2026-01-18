@@ -24,6 +24,19 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
   const { i18n } = useTranslation('studios');
   const { getDisplayByEnglish } = useDays();
 
+  // Helper to format time range (handles 24-hour availability)
+  const formatTimeRange = (start?: string, end?: string, isHebrew?: boolean) => {
+    const is24Hours = 
+      (start === '00:00' && (end === '23:59' || end === '24:00' || end === '00:00')) ||
+      (start === '0:00' && (end === '23:59' || end === '24:00' || end === '0:00'));
+    
+    if (is24Hours) {
+      return isHebrew ? '24 שעות' : '24 Hours';
+    }
+    
+    return isHebrew ? `${end} - ${start}` : `${start} - ${end}`;
+  };
+
   const todayLabelAndHours = useMemo(() => {
     if (!studio?.studioAvailability || !studio.studioAvailability.days?.length) {
       return null;
@@ -45,10 +58,7 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
     }
 
     const timeRange = studio.studioAvailability.times[availabilityIndex];
-    const value =
-      i18n.language === 'he'
-        ? `${timeRange?.end ?? ''} - ${timeRange?.start ?? ''}`
-        : `${timeRange?.start ?? ''} - ${timeRange?.end ?? ''}`;
+    const value = formatTimeRange(timeRange?.start, timeRange?.end, i18n.language === 'he');
 
     return {
       label: displayDay,

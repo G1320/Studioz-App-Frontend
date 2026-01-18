@@ -135,6 +135,20 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
       .filter((rule) => rule.length > 0);
   }, [studio?.cancellationPolicy?.houseRules, currentLang]);
 
+  // Helper to check if time range represents 24 hours
+  const formatTimeRange = (start?: string, end?: string, isHebrew?: boolean) => {
+    // Check for 24-hour availability (00:00 to 23:59, 00:00 to 24:00, or 00:00 to 00:00)
+    const is24Hours = 
+      (start === '00:00' && (end === '23:59' || end === '24:00' || end === '00:00')) ||
+      (start === '0:00' && (end === '23:59' || end === '24:00' || end === '0:00'));
+    
+    if (is24Hours) {
+      return isHebrew ? '24 שעות' : '24 Hours';
+    }
+    
+    return isHebrew ? `${end} - ${start}` : `${start} - ${end}`;
+  };
+
   // Format availability for display
   const formattedAvailability = useMemo(() => {
     if (!studio?.studioAvailability?.days?.length || !studio?.studioAvailability?.times?.length) {
@@ -155,8 +169,7 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
         };
       }
       const timeSlot = times[index];
-      const hours =
-        i18n.language === 'he' ? `${timeSlot?.end} - ${timeSlot?.start}` : `${timeSlot?.start} - ${timeSlot?.end}`;
+      const hours = formatTimeRange(timeSlot?.start, timeSlot?.end, i18n.language === 'he');
       return {
         day,
         displayDay: getDisplayByEnglish(day),
