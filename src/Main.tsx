@@ -29,7 +29,29 @@ import './core/i18n/config';
 if (import.meta.env.VITE_NODE_ENV === 'production') {
   Sentry.init({
     dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
-    integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration(),
+      Sentry.feedbackIntegration({
+        // Customize the feedback widget
+        colorScheme: 'system',
+        isNameRequired: false,
+        isEmailRequired: false,
+        showBranding: false,
+        buttonLabel: 'דווח על בעיה',
+        submitButtonLabel: 'שלח',
+        cancelButtonLabel: 'ביטול',
+        formTitle: 'דווח על בעיה',
+        nameLabel: 'שם',
+        namePlaceholder: 'השם שלך',
+        emailLabel: 'אימייל',
+        emailPlaceholder: 'your@email.com',
+        messageLabel: 'תיאור הבעיה',
+        messagePlaceholder: 'מה קרה? מה ציפית שיקרה?',
+        successMessageText: 'תודה על המשוב!'
+      })
+    ],
+
     // Performance Monitoring
     tracesSampleRate: 1.0,
     // Session Replay
