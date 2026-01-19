@@ -33,6 +33,8 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
       Sentry.feedbackIntegration({
+        // Don't auto-inject - we'll control when to show it
+        autoInject: false,
         // Customize the feedback widget
         colorScheme: 'system',
         isNameRequired: false,
@@ -47,7 +49,7 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
         emailLabel: 'אימייל',
         emailPlaceholder: 'your@email.com',
         messageLabel: 'תיאור הבעיה',
-        messagePlaceholder: 'מה קרה? מה ציפית שיקרה?',
+        messagePlaceholder: 'אנא תארו את הבעיה שצפיתם',
         successMessageText: 'תודה על המשוב!'
       })
     ],
