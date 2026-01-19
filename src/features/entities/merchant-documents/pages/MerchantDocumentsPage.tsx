@@ -89,7 +89,7 @@ const DocumentRow = React.memo(
       <td className="documents-table__td">
         <span className="documents-table__customer">{doc.customerName}</span>
       </td>
-      <td className="documents-table__td">
+      <td className="documents-table__td documents-table__td--date">
         <div className="documents-table__date-info">
           <span className="documents-table__date">{doc.date}</span>
           <span className="documents-table__due-date">
@@ -100,7 +100,7 @@ const DocumentRow = React.memo(
       <td className="documents-table__td documents-table__td--amount">
         <span className="documents-table__amount">₪{doc.amount.toLocaleString()}</span>
       </td>
-      <td className="documents-table__td">
+      <td className="documents-table__td documents-table__td--status">
         <StatusBadge status={doc.status} t={t} />
       </td>
       <td className="documents-table__td documents-table__td--actions">
@@ -594,6 +594,14 @@ const MerchantDocumentsPage: React.FC = () => {
       <div className="merchant-documents__table-container">
         <div className="merchant-documents__table-scroll">
           <table className="documents-table">
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
             <thead>
               <tr>
                 <th className="documents-table__th" onClick={() => toggleSort('number')}>
@@ -608,7 +616,7 @@ const MerchantDocumentsPage: React.FC = () => {
                     <ArrowUpDown size={12} className={sortBy === 'customerName' ? 'active' : ''} />
                   </div>
                 </th>
-                <th className="documents-table__th" onClick={() => toggleSort('date')}>
+                <th className="documents-table__th documents-table__th--date" onClick={() => toggleSort('date')}>
                   <div className="documents-table__th-content">
                     {t('table.date')}
                     <ArrowUpDown size={12} className={sortBy === 'date' ? 'active' : ''} />
@@ -620,7 +628,7 @@ const MerchantDocumentsPage: React.FC = () => {
                     <ArrowUpDown size={12} className={sortBy === 'amount' ? 'active' : ''} />
                   </div>
                 </th>
-                <th className="documents-table__th">{t('table.status')}</th>
+                <th className="documents-table__th documents-table__th--status">{t('table.status')}</th>
                 <th className="documents-table__th documents-table__th--actions">{t('table.actions')}</th>
               </tr>
             </thead>

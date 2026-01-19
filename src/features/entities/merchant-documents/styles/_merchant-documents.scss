@@ -319,6 +319,17 @@
   width: 100%;
   text-align: start;
   border-collapse: collapse;
+  table-layout: fixed;
+
+  // Column widths
+  colgroup {
+    col:nth-child(1) { width: 15%; } // Document
+    col:nth-child(2) { width: 18%; } // Customer
+    col:nth-child(3) { width: 18%; } // Date
+    col:nth-child(4) { width: 12%; } // Amount
+    col:nth-child(5) { width: 15%; } // Status
+    col:nth-child(6) { width: 12%; } // Actions
+  }
 
   &__th {
     padding: vars.$spacing-medium vars.$spacing-large;
@@ -337,8 +348,10 @@
       color: var(--text-primary);
     }
 
-    &--amount {
-      text-align: end;
+    &--date,
+    &--amount,
+    &--status {
+      text-align: center;
     }
 
     &--actions {
@@ -355,6 +368,12 @@
     .active {
       color: var(--color-brand);
     }
+  }
+
+  &__th--date &__th-content,
+  &__th--amount &__th-content,
+  &__th--status &__th-content {
+    justify-content: center;
   }
 
   &__row {
@@ -379,8 +398,10 @@
     padding: vars.$spacing-large;
     vertical-align: middle;
 
-    &--amount {
-      text-align: end;
+    &--date,
+    &--amount,
+    &--status {
+      text-align: center;
     }
 
     &--actions {
@@ -432,6 +453,7 @@
   &__date-info {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
   &__date {
@@ -447,6 +469,8 @@
   &__amount {
     color: var(--text-primary);
     font-weight: 900;
+    display: block;
+    text-align: center;
   }
 
   &__actions {
