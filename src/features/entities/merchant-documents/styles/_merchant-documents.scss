@@ -957,16 +957,16 @@
 .quick-charge-modal {
   .modal-wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 5rem 2rem 2rem;
   }
 
   .modal-content {
     width: 100%;
     max-width: 640px;
-    max-height: 90vh;
+    max-height: calc(100vh - 7rem);
     background: var(--bg-secondary);
     border-radius: vars.$border-radius-large;
     overflow: hidden;
@@ -974,7 +974,7 @@
 
   &__content {
     overflow-y: auto;
-    max-height: 90vh;
+    max-height: calc(100vh - 7rem);
   }
 
   &__header {
@@ -998,9 +998,9 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+    background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
     border-radius: vars.$border-radius-medium;
-    color: #8b5cf6;
+    color: var(--color-brand);
   }
 
   &__close {
@@ -1047,8 +1047,8 @@
 
     &.active {
       .quick-charge-modal__step-number {
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        color: white;
+        background: var(--color-brand);
+        color: var(--btn-primary-text);
       }
 
       .quick-charge-modal__step-label {
@@ -1141,6 +1141,7 @@
       font-size: 0.75rem;
       font-weight: 500;
       color: var(--text-muted);
+      text-align: start;
     }
 
     input,
@@ -1153,6 +1154,7 @@
       color: var(--text-primary);
       font-size: 0.875rem;
       transition: border-color 0.15s ease;
+      text-align: start;
 
       &:focus {
         outline: none;
@@ -1308,12 +1310,13 @@
     }
 
     &--primary {
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      background: var(--color-brand);
       border: none;
-      color: white;
+      color: var(--btn-primary-text);
 
       &:hover:not(:disabled) {
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        background: var(--color-brand-hover);
+        box-shadow: 0 4px 15px rgba(var(--color-brand-rgb, 247, 192, 65), 0.3);
       }
     }
   }

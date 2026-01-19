@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar } from '@features/entities/bookings';
+import { CalendarIcon } from '@shared/components/icons';
 import { Studio } from 'src/types/index';
 import Reservation from 'src/types/reservation';
 
@@ -32,6 +33,7 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
   return (
     <div className="dashboard-calendar">
       <h2 className="dashboard-section-title">
+        <CalendarIcon className="dashboard-section-title__icon" />
         {isStudioOwner ? t('calendar.studioOwnerTitle') : t('calendar.userTitle')}
       </h2>
       <Calendar

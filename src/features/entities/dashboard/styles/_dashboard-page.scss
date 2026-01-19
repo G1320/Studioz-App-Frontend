@@ -60,11 +60,20 @@
   }
 
   .dashboard-section-title {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
     font-size: vars.$font-size-xl;
     font-weight: 700;
     margin: 0 0 vars.$spacing-large 0;
     color: var(--text-primary);
     text-align: start;
+
+    &__icon {
+      width: 24px;
+      height: 24px;
+      color: var(--color-brand);
+    }
   }
 
   .dashboard-subscription-section {
