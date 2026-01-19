@@ -16,7 +16,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const HOSTNAME = 'https://studioz.co.il';
+const HOSTNAME = 'https://www.studioz.co.il';
 const API_URL = 'https://api.studioz.co.il/api';
 const LANGUAGES = ['en', 'he'];
 

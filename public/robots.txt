@@ -17,4 +17,4 @@ Disallow: /*/dashboard
 Disallow: /*/calendar
 Disallow: /*/admin
 
-Sitemap: https://studioz.co.il/sitemap.xml
+Sitemap: https://www.studioz.co.il/sitemap.xml

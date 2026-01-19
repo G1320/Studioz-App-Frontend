@@ -54,7 +54,7 @@ interface SaveCardParams {
   singleUseToken: string;
   customerInfo: {
     name: string;
-    email: string;
+    email?: string;
     phone: string;
   };
   vendorId: string;
