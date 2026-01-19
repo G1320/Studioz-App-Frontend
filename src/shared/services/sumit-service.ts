@@ -496,14 +496,16 @@ export const sumitService = {
       quantity: number;
       price: number;
     }>;
-    vatType: 'INCLUDED' | 'EXCLUDED' | 'NONE';
+    vatIncluded: boolean;
     remarks?: string;
   }): Promise<{
     success: boolean;
     data?: {
-      documentId: string;
-      documentNumber?: string;
-      documentUrl: string;
+      documentId: number;
+      documentNumber?: number;
+      customerId: number;
+      documentUrl?: string;
+      paymentUrl?: string;
     };
     error?: string;
   }> => {
@@ -511,9 +513,11 @@ export const sumitService = {
       const response = await httpService.post<{
         success: boolean;
         data?: {
-          documentId: string;
-          documentNumber?: string;
-          documentUrl: string;
+          documentId: number;
+          documentNumber?: number;
+          customerId: number;
+          documentUrl?: string;
+          paymentUrl?: string;
         };
         error?: string;
       }>(`${SUMIT_ENDPOINT}/create-invoice`, params);

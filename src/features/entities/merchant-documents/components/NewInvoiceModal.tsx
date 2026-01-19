@@ -138,7 +138,7 @@ export const NewInvoiceModal: React.FC<NewInvoiceModalProps> = ({
             quantity: item.quantity,
             price: item.price
           })),
-        vatType: formData.vatType,
+        vatIncluded: formData.vatType === 'INCLUDED',
         remarks: formData.remarks || undefined
       });
 
