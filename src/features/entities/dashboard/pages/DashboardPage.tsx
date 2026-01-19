@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import { User, Studio } from 'src/types/index';
 import { useReservations } from '@shared/hooks';
+import { GenericCarousel } from '@shared/components';
 import { DashboardCalendar, RecentActivity, QuickActions, ManualBookingModal } from '../components';
 import { StudioManager, StudioBlockModal } from '@features/entities/studios';
 import { QuickChargeModal, NewInvoiceModal } from '@features/entities/merchant-documents';
@@ -20,9 +21,9 @@ const viewTransition = {
   transition: { duration: 0.2, ease: 'easeOut' }
 };
 
-type DashboardTab = 'overview' | 'studios' | 'stats' | 'documents';
+type DashboardTab = 'overview' | 'activity' | 'studios' | 'stats' | 'documents';
 
-const VALID_TABS: DashboardTab[] = ['overview', 'studios', 'stats', 'documents'];
+const VALID_TABS: DashboardTab[] = ['overview', 'activity', 'studios', 'stats', 'documents'];
 
 interface DashboardPageProps {
   user: User | null;
@@ -196,62 +197,62 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Tab Navigation for Studio Owners */}
       {isStudioOwner && (
         <div className="dashboard-page__views">
-          <div className="dashboard-tabs">
-          <button 
-            className={`dashboard-tab ${activeTab === 'studios' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('studios')}
-          >
-            {t('tabs.manageStudios', 'Manage Studios')}
-          </button>
-          <button 
-            className={`dashboard-tab ${activeTab === 'overview' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('overview')}
-          >
-            {t('tabs.overview', 'Activity Log')}
-          </button>
-          <button 
-            className={`dashboard-tab ${activeTab === 'stats' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('stats')}
-          >
-            {t('tabs.stats', 'Statistics')}
-          </button>
-          <button 
-            className={`dashboard-tab ${activeTab === 'documents' ? 'dashboard-tab--active' : ''}`}
-            onClick={() => setActiveTab('documents')}
-          >
-            {t('tabs.documents', 'Documents')}
-          </button>
+          <GenericCarousel
+            data={[
+              { key: 'studios', label: t('tabs.manageStudios', 'Manage Studios') },
+              { key: 'activity', label: t('tabs.activity', 'Activity') },
+              { key: 'overview', label: t('tabs.overview', 'Calendar') },
+              { key: 'stats', label: t('tabs.stats', 'Statistics') },
+              { key: 'documents', label: t('tabs.documents', 'Documents') }
+            ]}
+            className="dashboard-tabs-carousel"
+            autoWidth
+            hideHeader
+            spaceBetween={8}
+            selectedIndex={['studios', 'activity', 'overview', 'stats', 'documents'].indexOf(activeTab)}
+            renderItem={(tab) => (
+              <button 
+                key={tab.key}
+                className={`dashboard-tab ${activeTab === tab.key ? 'dashboard-tab--active' : ''}`}
+                onClick={() => setActiveTab(tab.key as DashboardTab)}
+              >
+                {tab.label}
+              </button>
+            )}
+          />
         </div>
-      </div>
       )}
 
       {/* Tab Content with transition */}
       <AnimatePresence mode="wait">
+        {activeTab === 'studios' && isStudioOwner && (
+          <motion.div key="studios" {...viewTransition}>
+            <StudioManager studios={userStudios} />
+          </motion.div>
+        )}
+
+        {activeTab === 'activity' && isStudioOwner && (
+          <motion.div key="activity" {...viewTransition}>
+            <RecentActivity
+              studioIds={userStudios.map((s) => s._id)}
+              isStudioOwner={isStudioOwner}
+              limit={5}
+            />
+          </motion.div>
+        )}
+
         {activeTab === 'overview' && (
           <motion.div
             key="overview"
             className="dashboard-content"
             {...viewTransition}
           >
-            {isStudioOwner && (
-              <RecentActivity
-                studioIds={userStudios.map((s) => s._id)}
-                isStudioOwner={isStudioOwner}
-                limit={3}
-              />
-            )}
             <DashboardCalendar
               studios={userStudios}
               reservations={reservations}
               isStudioOwner={isStudioOwner}
               onNewReservation={() => handleNewReservation()}
             />
-          </motion.div>
-        )}
-
-        {activeTab === 'studios' && isStudioOwner && (
-          <motion.div key="studios" {...viewTransition}>
-            <StudioManager studios={userStudios} />
           </motion.div>
         )}
 

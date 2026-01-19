@@ -4,7 +4,8 @@
   "guest": "אורח",
   "studioOwnerSubtitle": "נהל את הסטודיו וההזמנות שלך",
   "tabs": {
-    "overview": "יומן פעילות",
+    "overview": "יומן",
+    "activity": "פעילות",
     "manageStudios": "ניהול נכסים",
     "stats": "סטטיסטיקות",
     "documents": "מסמכים"

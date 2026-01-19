@@ -4,7 +4,8 @@
   "guest": "Guest",
   "studioOwnerSubtitle": "Manage your studios and bookings",
   "tabs": {
-    "overview": "Overview",
+    "overview": "Calendar",
+    "activity": "Activity",
     "manageStudios": "Manage Assets",
     "stats": "Statistics",
     "documents": "Documents"

@@ -82,29 +82,29 @@
     }
   }
 
-  // Dashboard Tabs
-  .dashboard-tabs {
-    display: flex;
-    gap: vars.$spacing-xs;
+  // Dashboard Tabs Carousel
+  .dashboard-tabs-carousel {
     margin-bottom: vars.$spacing-xl;
-    padding: vars.$spacing-xs;
-    background: var(--bg-primary);
-    border-radius: vars.$border-radius-2xl;
-    border: 1px solid var(--border-secondary);
-    width: fit-content;
     max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; // Firefox
-    
-    &::-webkit-scrollbar {
-      display: none; // Chrome, Safari
+
+    // Hide carousel header/navigation - we only want the swiper
+    .swiper-navigation-title-container {
+      display: none;
     }
 
-    // On mobile, allow full width scrolling
-    @media (max-width: 640px) {
-      width: 100%;
-      border-radius: vars.$border-radius-xl;
+    .swiper_wrap {
+      padding: vars.$spacing-xs;
+      background: var(--bg-primary);
+      border-radius: vars.$border-radius-2xl;
+      border: 1px solid var(--border-secondary);
+
+      @media (max-width: 640px) {
+        border-radius: vars.$border-radius-xl;
+      }
+    }
+
+    .swiper-slide {
+      width: auto !important;
     }
   }
 
@@ -119,10 +119,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
-    flex-shrink: 0;
 
     @media (max-width: 640px) {
-      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      padding: vars.$spacing-xs vars.$spacing-medium;
       font-size: vars.$font-size-sm-md;
     }
 

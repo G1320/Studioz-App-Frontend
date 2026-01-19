@@ -281,7 +281,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                   <div className="studio-card__item-controls">
                     <button 
                       className="studio-card__item-link"
-                      onClick={() => langNavigate(`/studio/${studio._id}/items/${itemId}/edit`)}
+                      onClick={() => langNavigate(`/item/${itemId}/edit?step=booking-settings`)}
                     >
                       {t('manageAvailability', 'ניהול זמינות')}
                     </button>
@@ -297,6 +297,13 @@ const StudioCard: React.FC<StudioCardProps> = ({
                         onChange={(checked) => onToggleItem(studio._id, itemId, checked)}
                         disabled={isTogglingItem}
                       />
+                      <button 
+                        className="studio-card__item-more"
+                        onClick={() => langNavigate(`/item/${itemId}/edit`)}
+                        title={t('editItem', 'ערוך שירות')}
+                      >
+                        <EditIcon />
+                      </button>
                       <button 
                         className="studio-card__item-more"
                         onClick={() => window.open(`/studio/${studio._id}?item=${itemId}`, '_blank')}
