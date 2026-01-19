@@ -1,12 +1,12 @@
 /**
  * NewInvoiceModal Component
- * Modal for creating a new invoice
+ * Modal for creating a new invoice via Sumit
  */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Plus, Trash2 } from 'lucide-react';
 import { GenericModal } from '@shared/components/modal';
-import { httpService } from '@shared/services';
+import { sumitService } from '@shared/services';
 
 interface InvoiceLineItem {
   description: string;
@@ -28,6 +28,7 @@ interface NewInvoiceModalProps {
   onClose: () => void;
   onSuccess: () => void;
   studioName?: string;
+  vendorId?: string; // User ID with Sumit credentials
 }
 
 const INITIAL_ITEM: InvoiceLineItem = { description: '', quantity: 1, price: 0 };
@@ -45,7 +46,8 @@ export const NewInvoiceModal: React.FC<NewInvoiceModalProps> = ({
   open,
   onClose,
   onSuccess,
-  studioName
+  studioName,
+  vendorId
 }) => {
   const { t } = useTranslation('merchantDocs');
   const [formData, setFormData] = useState<NewInvoiceFormData>(INITIAL_FORM_DATA);
@@ -113,19 +115,23 @@ export const NewInvoiceModal: React.FC<NewInvoiceModalProps> = ({
 
     if (!validateForm()) return;
 
+    if (!vendorId) {
+      setError(t('invoice.errors.noVendor', 'Missing vendor credentials'));
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
     try {
-      const invoiceData = {
-        type: 300, // Invoice + Receipt (חשבונית מס קבלה)
-        lang: 'he',
-        client: {
+      const response = await sumitService.createInvoice({
+        vendorId,
+        customerInfo: {
           name: formData.customerName,
           email: formData.customerEmail,
           phone: formData.customerPhone || undefined
         },
-        income: formData.items
+        items: formData.items
           .filter(item => item.description.trim() && item.price > 0)
           .map(item => ({
             description: item.description,
@@ -133,11 +139,12 @@ export const NewInvoiceModal: React.FC<NewInvoiceModalProps> = ({
             price: item.price
           })),
         vatType: formData.vatType,
-        currency: 'ILS',
         remarks: formData.remarks || undefined
-      };
+      });
 
-      await httpService.post('/invoices/create', invoiceData);
+      if (!response.success) {
+        throw new Error(response.error || t('invoice.errors.createFailed'));
+      }
 
       handleClose();
       onSuccess();

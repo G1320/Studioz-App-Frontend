@@ -677,6 +677,7 @@ const MerchantDocumentsPage: React.FC = () => {
         onClose={() => setIsNewInvoiceOpen(false)}
         onSuccess={handleNewInvoiceSuccess}
         studioName={getLocalizedName(userStudios[0]?.name)}
+        vendorId={user?._id}
       />
 
       {/* Quick Charge Modal */}

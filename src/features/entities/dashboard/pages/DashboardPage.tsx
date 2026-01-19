@@ -281,6 +281,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         onClose={handleNewInvoiceClose}
         onSuccess={handleNewInvoiceSuccess}
         studioName={getLocalizedName(userStudios[0]?.name)}
+        vendorId={user?._id}
       />
 
       {blockTimeStudio && (

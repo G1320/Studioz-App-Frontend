@@ -413,6 +413,117 @@ export const sumitService = {
   // Quick Charge (סליקה מהירה) for Studio Owners
   // ============================================
 
+  // ============================================
+  // Document Creation (חשבונית חדשה)
+  // ============================================
+
+  /**
+   * Create an accounting document (invoice, receipt, etc.)
+   * Uses Sumit's Accounting_Documents_Create API
+   * Type values:
+   *   1 = חשבונית מס (Tax Invoice)
+   *   2 = חשבונית מס קבלה (Tax Invoice + Receipt)
+   *   3 = קבלה (Receipt)
+   *   4 = הצעת מחיר (Quote)
+   *   5 = הזמנה (Order)
+   *   6 = חשבון עסקה (Proforma Invoice)
+   *   10 = חשבונית זיכוי (Credit Invoice)
+   */
+  createDocument: async (params: {
+    vendorId: string;
+    documentType: number; // 1=invoice, 2=invoice+receipt, 3=receipt, etc.
+    customer: {
+      name: string;
+      email?: string;
+      phone?: string;
+      address?: string;
+      city?: string;
+    };
+    items: Array<{
+      name: string;
+      description?: string;
+      quantity: number;
+      unitPrice: number;
+    }>;
+    vatIncluded?: boolean;
+    sendByEmail?: boolean;
+    remarks?: string;
+    dueDate?: string; // For payment request
+  }): Promise<{
+    success: boolean;
+    data?: {
+      documentId: number;
+      documentNumber?: number;
+      customerId: number;
+      documentUrl?: string;
+      paymentUrl?: string;
+    };
+    error?: string;
+  }> => {
+    try {
+      const response = await httpService.post<{
+        success: boolean;
+        data?: {
+          documentId: number;
+          documentNumber?: number;
+          customerId: number;
+          documentUrl?: string;
+          paymentUrl?: string;
+        };
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/create-document`, params);
+      return response;
+    } catch (error) {
+      console.error('Error creating Sumit document:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Create an invoice (חשבונית מס) via Sumit.
+   * This uses the vendor's Sumit account to issue the document without payment.
+   * For the NewInvoiceModal use case.
+   */
+  createInvoice: async (params: {
+    vendorId: string;
+    customerInfo: {
+      name: string;
+      email: string;
+      phone?: string;
+    };
+    items: Array<{
+      description: string;
+      quantity: number;
+      price: number;
+    }>;
+    vatType: 'INCLUDED' | 'EXCLUDED' | 'NONE';
+    remarks?: string;
+  }): Promise<{
+    success: boolean;
+    data?: {
+      documentId: string;
+      documentNumber?: string;
+      documentUrl: string;
+    };
+    error?: string;
+  }> => {
+    try {
+      const response = await httpService.post<{
+        success: boolean;
+        data?: {
+          documentId: string;
+          documentNumber?: string;
+          documentUrl: string;
+        };
+        error?: string;
+      }>(`${SUMIT_ENDPOINT}/create-invoice`, params);
+      return response;
+    } catch (error) {
+      console.error('Error creating Sumit invoice:', error);
+      throw error;
+    }
+  },
+
   /**
    * Quick charge - manual one-time payment by studio owner
    * Uses vendor's Sumit credentials - Sumit issues חשבונית מס קבלה from vendor
