@@ -14,6 +14,8 @@
     min-height: 100vh;
     padding: 2rem;
     max-width: 100%;
+    // Allow clicks to pass through to backdrop
+    pointer-events: none;
   }
 
   .modal-content {
@@ -24,6 +26,8 @@
     border-radius: vars.$border-radius-large;
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    // Re-enable clicks on the actual modal content
+    pointer-events: auto;
   }
 
   &__content {

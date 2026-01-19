@@ -697,18 +697,42 @@
     justify-content: center;
     min-height: 100vh;
     padding: 2rem;
+    // Allow clicks to pass through to backdrop
+    pointer-events: none;
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+      align-items: flex-start;
+      padding-top: 3rem; // Space from header
+    }
   }
 
   .modal-content {
     width: 100%;
     max-width: 600px;
+    max-height: calc(100vh - 4rem);
     background: var(--bg-secondary);
     border-radius: vars.$border-radius-large;
     overflow: hidden;
+    // Re-enable clicks on modal content
+    pointer-events: auto;
+
+    @media (max-width: 768px) {
+      max-height: calc(100vh - 4rem);
+      border-radius: vars.$border-radius-medium;
+    }
   }
 
   &__content {
     // Direction is inherited from html[lang] in base styles
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 4rem);
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      max-height: calc(100vh - 4rem);
+    }
   }
 
   &__header {
@@ -717,11 +741,16 @@
     justify-content: space-between;
     padding: 1.5rem;
     border-bottom: 1px solid var(--border-primary);
+    flex-shrink: 0;
 
     h2 {
       font-size: 1.25rem;
       font-weight: 700;
       margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      padding: 1rem;
     }
   }
 
@@ -749,10 +778,22 @@
     background: var(--bg-primary);
     font-size: 0.875rem;
     color: var(--text-muted);
+    flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      padding: 0.5rem 1rem;
+    }
   }
 
   &__form {
     padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0; // Important for flex scrolling
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
   }
 
   &__section {
