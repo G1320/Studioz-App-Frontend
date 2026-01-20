@@ -43,17 +43,17 @@ const DEMO_RESPONSE: MerchantDocumentsResponse = {
   pagination: { total: DEMO_DOCUMENTS.length, page: 1, limit: 50, pages: 1 }
 };
 
-// Empty response for when there's no data
-const EMPTY_RESPONSE: MerchantDocumentsResponse = {
-  documents: [],
-  stats: {
-    totalRevenue: 0,
-    pendingAmount: 0,
-    overdueAmount: 0,
-    totalDocs: 0
-  },
-  pagination: { total: 0, page: 1, limit: 50, pages: 0 }
-};
+// Empty response for when there's no data (commented out for demo mode)
+// const EMPTY_RESPONSE: MerchantDocumentsResponse = {
+//   documents: [],
+//   stats: {
+//     totalRevenue: 0,
+//     pendingAmount: 0,
+//     overdueAmount: 0,
+//     totalDocs: 0
+//   },
+//   pagination: { total: 0, page: 1, limit: 50, pages: 0 }
+// };
 
 /**
  * Hook to fetch merchant documents (invoices, receipts, etc.)
@@ -91,14 +91,13 @@ export const useMerchantDocuments = (options: UseMerchantDocumentsOptions = {}) 
     retry: 1
   });
 
-  // Check if we should use demo data
-  const hasRealData = query.data && query.data.documents.length > 0;
-
+  // TEMP: Always show demo data for demonstration video
+  // TODO: Revert this after recording
   return {
-    data: hasRealData ? query.data : (query.isError || !query.data ? DEMO_RESPONSE : query.data),
-    isLoading: query.isLoading,
-    error: query.error,
+    data: DEMO_RESPONSE,
+    isLoading: false,
+    error: null,
     refetch: query.refetch,
-    isDemo: !hasRealData
+    isDemo: false
   };
 };

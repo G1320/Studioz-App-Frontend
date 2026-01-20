@@ -42,7 +42,7 @@ const CartDetailsPage = lazy(() => import('@features/entities/cart/pages/CartDet
 const WishlistDetailsPage = lazy(() => import('@features/entities/wishlists/pages/WishlistDetailsPage'));
 const MyReservationsPage = lazy(() => import('@features/entities/reservations/pages/MyReservationsPage'));
 const ReservationDetailsPage = lazy(() => import('@features/entities/reservations/pages/ReservationDetailsPage'));
-const LandingPage = lazy(() => import('@features/landing/pages/LandingPage'));
+// const LandingPage = lazy(() => import('@features/landing/pages/LandingPage'));
 const ProfilePage = lazy(() => import('@features/entities/profile/pages/ProfilePage'));
 const AdminPage = lazy(() => import('@features/entities/admin/pages/AdminPage'));
 

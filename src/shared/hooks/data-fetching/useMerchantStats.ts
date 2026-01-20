@@ -31,12 +31,12 @@ export const useMerchantStats = (params?: UseMerchantStatsParams) => {
     retry: 1
   });
 
-  // Check if we should use demo data
-  const hasRealData = query.data && (
-    query.data.totalBookings > 0 ||
-    query.data.totalRevenue > 0 ||
-    query.data.topClients.length > 0
-  );
+  // Check if we should use demo data (commented out for demo mode)
+  // const hasRealData = query.data && (
+  //   query.data.totalBookings > 0 ||
+  //   query.data.totalRevenue > 0 ||
+  //   query.data.topClients.length > 0
+  // );
 
   // Create demo stats structure
   const demoStats: MerchantStats = {
@@ -60,8 +60,7 @@ export const useMerchantStats = (params?: UseMerchantStatsParams) => {
       avgSessionTime: 2.5,
       occupancy: 68,
       studios: [
-        { studioId: 'demo-1', name: 'אולפן A', occupancy: 75 },
-        { studioId: 'demo-2', name: 'אולפן B', occupancy: 61 }
+        { studioId: 'demo-1', name: '1320', occupancy: 75 }
       ]
     },
     topClients: DEMO_CLIENTS.map(c => ({
@@ -75,11 +74,13 @@ export const useMerchantStats = (params?: UseMerchantStatsParams) => {
     revenueByPeriod: DEMO_CHART_DATA
   };
 
+  // TEMP: Always show demo data for demonstration video
+  // TODO: Revert this after recording
   return {
-    data: hasRealData ? query.data : (query.isError || !query.data ? demoStats : query.data),
-    isLoading: query.isLoading,
-    error: query.error,
+    data: demoStats,
+    isLoading: false,
+    error: null,
     refetch: query.refetch,
-    isDemo: !hasRealData
+    isDemo: false
   };
 };

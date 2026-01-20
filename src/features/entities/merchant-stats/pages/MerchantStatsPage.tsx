@@ -39,7 +39,7 @@ const MerchantStatsPage: React.FC = () => {
   });
 
   // Pass date range to hook - it will auto-refetch when dates change
-  const { data: stats, isLoading, isDemo } = useMerchantStats({
+  const { data: stats, isLoading } = useMerchantStats({
     startDate: dateRange.startDate,
     endDate: dateRange.endDate
   });
@@ -116,13 +116,6 @@ const MerchantStatsPage: React.FC = () => {
 
   return (
     <div className="merchant-stats">
-      {/* Demo mode indicator */}
-      {isDemo && (
-        <div className="merchant-stats__demo-banner">
-          <span>{t('demo.notice', 'מציג נתוני הדגמה - הנתונים האמיתיים יופיעו כאשר יהיו הזמנות')}</span>
-        </div>
-      )}
-
       {/* Header */}
       <header className="merchant-stats__header">
         <div className="merchant-stats__title-row">
