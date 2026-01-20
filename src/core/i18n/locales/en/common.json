@@ -71,7 +71,19 @@
     "security": "Security",
     "contact": "Contact",
     "feedback": "Send Feedback",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "feedbackForm": {
+      "title": "Report an Issue",
+      "submitButton": "Send",
+      "cancelButton": "Cancel",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "messageLabel": "Description",
+      "messagePlaceholder": "Please describe the issue you encountered",
+      "successMessage": "Thank you for your feedback!"
+    }
   },
   "hours": "Duration (hours)",
   "min": "min.",

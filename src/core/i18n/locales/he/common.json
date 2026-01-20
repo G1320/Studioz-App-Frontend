@@ -71,7 +71,19 @@
     "security": "אבטחה",
     "contact": "צור קשר",
     "feedback": "שלח משוב",
-    "rights": "כל הזכויות שמורות."
+    "rights": "כל הזכויות שמורות.",
+    "feedbackForm": {
+      "title": "דווח על בעיה",
+      "submitButton": "שלח",
+      "cancelButton": "ביטול",
+      "nameLabel": "שם",
+      "namePlaceholder": "השם שלך",
+      "emailLabel": "אימייל",
+      "emailPlaceholder": "your@email.com",
+      "messageLabel": "תיאור הבעיה",
+      "messagePlaceholder": "אנא תארו את הבעיה שצפיתם",
+      "successMessage": "תודה על המשוב!"
+    }
   },
   "hours": "משך (שעות)",
   "min": "מינ׳",

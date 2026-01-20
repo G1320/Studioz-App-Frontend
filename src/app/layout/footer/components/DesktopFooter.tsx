@@ -1,27 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useLanguageNavigate, useSentryFeedback } from '@shared/hooks/utils';
 import { EmailIcon } from '@shared/components/icons';
-import * as Sentry from '@sentry/react';
 
 export const DesktopFooter = () => {
   const { t, i18n } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
+  const { openFeedback } = useSentryFeedback();
   const currentLang = i18n.language || 'en';
   const langPrefix = currentLang === 'he' ? '/he' : '/en';
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     langNavigate(path);
-  };
-
-  const handleFeedback = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const feedback = Sentry.getFeedback();
-    if (feedback) {
-      const form = await feedback.createForm();
-      form.appendToDom();
-      form.open();
-    }
   };
 
   return (
@@ -86,7 +76,7 @@ export const DesktopFooter = () => {
               <span>info@studioz.online</span>
             </a>
             <button 
-              onClick={handleFeedback} 
+              onClick={openFeedback} 
               className="desktop-footer__feedback"
               type="button"
             >

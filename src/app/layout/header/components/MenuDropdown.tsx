@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLanguageNavigate, useLanguageSwitcher } from '@shared/hooks/utils';
+import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
@@ -19,7 +19,6 @@ import {
   ChevronRightIcon,
 } from '@shared/components/icons';
 import { useAuth0LoginHandler } from '@shared/hooks';
-import * as Sentry from '@sentry/react';
 import './styles/menu-dropdown.scss';
 
 interface MenuDropdownProps {
@@ -32,6 +31,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
+  const { openFeedback } = useSentryFeedback();
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
@@ -41,15 +41,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const changeLanguage = (lang: string) => {
     switchLanguage(lang);
     setIsLangSubmenuOpen(false);
-  };
-
-  const handleFeedback = async () => {
-    const feedback = Sentry.getFeedback();
-    if (feedback) {
-      const form = await feedback.createForm();
-      form.appendToDom();
-      form.open();
-    }
   };
 
   return (
@@ -173,7 +164,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/terms')}>
           {t('profile.legal.terms')}
         </button>
-        <button className="menu-dropdown__item menu-dropdown__item--link" onClick={handleFeedback}>
+        <button className="menu-dropdown__item menu-dropdown__item--link" onClick={openFeedback}>
           {t('profile.legal.feedback')}
         </button>
       </div>
