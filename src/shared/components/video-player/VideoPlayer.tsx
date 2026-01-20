@@ -78,7 +78,14 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       autoplay: autoPlay ? 'true' : 'false',
       loop: loop ? 'true' : 'false',
       muted: muted ? 'true' : 'false',
-      preload: 'true'
+      preload: 'true',
+      playsinline: 'true',
+      // Cleaner player UI - hide extra controls
+      showSpeed: 'false',
+      showCaptions: 'false',
+      showHeatmap: 'false',
+      showPlaylist: 'false',
+      showShareButton: 'false'
     });
     return `${url}${separator}${params.toString()}`;
   };
@@ -140,7 +147,6 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           className="video-player__iframe"
           loading="lazy"
           allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
           onLoad={handleIframeLoad}
           onError={handleIframeError}
         />
