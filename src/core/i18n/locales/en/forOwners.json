@@ -20,6 +20,17 @@
     "event2_title": "Photo Shoot",
     "event2_time": "09:00 - 18:00"
   },
+  "showcase": {
+    "title_part1": "Design",
+    "title_accent": "that converts visitors",
+    "title_part2": "into paying clients",
+    "description": "We don't just display your studio - we sell it. With custom pages that work perfectly in both dark and light mode.",
+    "feature1_title": "Clean, modern interface",
+    "feature1_description": "Premium app-level user experience",
+    "feature2_title": "Available everywhere",
+    "feature2_description": "Fully responsive on all devices and browsers",
+    "view_original": "View original"
+  },
   "features": {
     "title": "Built for Studio Owners",
     "subtitle": "Professional tools designed to help you save time and increase bookings.",

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -9,8 +10,10 @@ import {
   ArrowForwardIcon,
   ClockIcon,
   DashboardIcon,
-  PeopleIcon
+  PeopleIcon,
+  CloseIcon
 } from '@shared/components/icons';
+import { GenericModal } from '@shared/components/modal';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -27,6 +30,7 @@ const fadeInUp = {
 const ForOwnersPage: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleListStudio = () => {
     navigate('/studio/create');
@@ -164,6 +168,108 @@ const ForOwnersPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Asset Showcase Section */}
+      <section className="owners-showcase">
+        <div className="owners-container">
+          <div className="owners-showcase__grid">
+            {/* Text Content */}
+            <div className="owners-showcase__text">
+              <h2 className="owners-showcase__title">
+                {t('showcase.title_part1')} <span className="owners-hero__accent">{t('showcase.title_accent')}</span>
+                <br />
+                {t('showcase.title_part2')}
+              </h2>
+              <p className="owners-showcase__description">{t('showcase.description')}</p>
+
+              <div className="owners-showcase__features">
+                <div className="owners-showcase__feature-card">
+                  <div className="owners-showcase__feature-icon owners-showcase__feature-icon--primary">
+                    <DashboardIcon />
+                  </div>
+                  <div className="owners-showcase__feature-content">
+                    <h4>{t('showcase.feature1_title')}</h4>
+                    <p>{t('showcase.feature1_description')}</p>
+                  </div>
+                </div>
+
+                <div className="owners-showcase__feature-card">
+                  <div className="owners-showcase__feature-icon owners-showcase__feature-icon--blue">
+                    <PublicIcon />
+                  </div>
+                  <div className="owners-showcase__feature-content">
+                    <h4>{t('showcase.feature2_title')}</h4>
+                    <p>{t('showcase.feature2_description')}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Screenshots Grid */}
+            <div className="owners-showcase__images">
+              <div className="owners-showcase__images-glow" />
+              <div className="owners-showcase__images-grid">
+                <motion.div
+                  whileHover={{ scale: 1.05, zIndex: 20 }}
+                  className="owners-showcase__image-wrapper"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-Dark-1-V1.webp')}
+                >
+                  <img
+                    src="/images/optimized/Studioz-Studio-Page-Dark-1-V1.webp"
+                    alt="Studio Page Dark Mode 1"
+                    loading="lazy"
+                  />
+                  <div className="owners-showcase__image-overlay">
+                    <span>{t('showcase.view_original')}</span>
+                  </div>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, zIndex: 20 }}
+                  className="owners-showcase__image-wrapper"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-Dark-2-V1.webp')}
+                >
+                  <img
+                    src="/images/optimized/Studioz-Studio-Page-Dark-2-V1.webp"
+                    alt="Studio Page Dark Mode 2"
+                    loading="lazy"
+                  />
+                  <div className="owners-showcase__image-overlay">
+                    <span>{t('showcase.view_original')}</span>
+                  </div>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, zIndex: 20 }}
+                  className="owners-showcase__image-wrapper"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-light-1-V1.webp')}
+                >
+                  <img
+                    src="/images/optimized/Studioz-Studio-Page-light-1-V1.webp"
+                    alt="Studio Page Light Mode 1"
+                    loading="lazy"
+                  />
+                  <div className="owners-showcase__image-overlay">
+                    <span>{t('showcase.view_original')}</span>
+                  </div>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, zIndex: 20 }}
+                  className="owners-showcase__image-wrapper"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-light-2-V1.webp')}
+                >
+                  <img
+                    src="/images/optimized/Studioz-Studio-Page-light-2-V1.webp"
+                    alt="Studio Page Light Mode 2"
+                    loading="lazy"
+                  />
+                  <div className="owners-showcase__image-overlay">
+                    <span>{t('showcase.view_original')}</span>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="owners-features">
         <div className="owners-container">
@@ -238,6 +344,32 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Image Lightbox Modal */}
+      <GenericModal
+        open={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        className="owners-lightbox"
+        ariaLabel="Image preview"
+      >
+        <div className="owners-lightbox__content">
+          <button
+            className="owners-lightbox__close"
+            onClick={() => setSelectedImage(null)}
+            type="button"
+            aria-label="Close"
+          >
+            <CloseIcon />
+          </button>
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Studio page preview"
+              className="owners-lightbox__image"
+            />
+          )}
+        </div>
+      </GenericModal>
     </div>
   );
 };
