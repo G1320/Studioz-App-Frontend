@@ -518,47 +518,44 @@
 // IMAGE LIGHTBOX MODAL
 // ==========================================
 .owners-lightbox {
+  // Override default modal sizing for lightbox
   .modal-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    max-width: none !important;
+    width: auto !important;
     padding: vars.$spacing-large;
   }
 
   .modal-content {
-    background: transparent;
-    max-width: 90vw;
-    max-height: 90vh;
+    background: transparent !important;
+    width: auto !important;
+    max-width: none !important;
   }
 
   &__content {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
   }
 
   &__close {
     position: absolute;
-    top: vars.$spacing-medium;
-    right: vars.$spacing-medium;
+    top: vars.$spacing-small;
+    right: vars.$spacing-small;
     z-index: 10;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-primary);
-    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: #fff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(4px);
 
     &:hover {
-      background: var(--bg-card);
+      background: rgba(0, 0, 0, 0.9);
       transform: scale(1.1);
     }
 
@@ -569,11 +566,13 @@
   }
 
   &__image {
-    max-width: 90vw;
+    display: block;
+    max-width: min(90vw, 1200px);
     max-height: 85vh;
-    border-radius: vars.$border-radius-xl;
-    box-shadow: var(--shadow-xl);
-    object-fit: contain;
+    width: auto;
+    height: auto;
+    border-radius: vars.$border-radius-large;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 }
 
