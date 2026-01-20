@@ -35,9 +35,9 @@ const convertDemoToApiFormat = (demoDoc: typeof DEMO_DOCUMENTS[0]): MerchantDocu
 const DEMO_RESPONSE: MerchantDocumentsResponse = {
   documents: DEMO_DOCUMENTS.map(convertDemoToApiFormat),
   stats: {
-    totalRevenue: 8590, // Sum of paid documents
-    pendingAmount: 2550, // Sum of pending documents
-    overdueAmount: 1800, // Sum of overdue documents
+    totalRevenue: 8590, // Sum of all paid documents
+    pendingAmount: 0,
+    overdueAmount: 0,
     totalDocs: DEMO_DOCUMENTS.length
   },
   pagination: { total: DEMO_DOCUMENTS.length, page: 1, limit: 50, pages: 1 }

@@ -105,7 +105,7 @@ export const DEMO_DOCUMENTS: DemoDocument[] = [
     amount: 2100,
     date: '2026-01-18',
     dueDate: '2026-02-05',
-    status: 'pending',
+    status: 'paid',
     customerName: 'להקת "העננים"'
   },
   {
@@ -116,7 +116,7 @@ export const DEMO_DOCUMENTS: DemoDocument[] = [
     amount: 450,
     date: '2026-01-16',
     dueDate: '2026-02-02',
-    status: 'pending',
+    status: 'paid',
     customerName: 'יוסי מזרחי'
   },
   {
@@ -127,7 +127,7 @@ export const DEMO_DOCUMENTS: DemoDocument[] = [
     amount: 1800,
     date: '2025-12-28',
     dueDate: '2026-01-14',
-    status: 'overdue',
+    status: 'paid',
     customerName: 'פרויקט גמר - דנה'
   },
   {
@@ -160,7 +160,7 @@ export const DEMO_DOCUMENTS: DemoDocument[] = [
     amount: 950,
     date: '2026-01-19',
     dueDate: '2026-02-06',
-    status: 'draft',
+    status: 'paid',
     customerName: 'מיכל אברהם'
   }
 ];
