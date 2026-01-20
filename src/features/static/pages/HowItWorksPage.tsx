@@ -128,6 +128,7 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
             embedUrl={videoEmbedUrl}
             showFrameBar={true}
             placeholderText="Video Coming Soon"
+            aspectRatio="3 / 2"
           />
         </motion.div>
 
