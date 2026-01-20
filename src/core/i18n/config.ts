@@ -130,10 +130,11 @@ i18n
         security: securityHe
       }
     },
+    lng: 'he', // Default to Hebrew
     fallbackLng: 'he',
     supportedLngs: ['en', 'he'],
     detection: {
-      order: ['path', 'navigator'],
+      order: ['path'], // Only detect from URL path, ignore browser language
       lookupFromPathIndex: 0
     },
     interpolation: {

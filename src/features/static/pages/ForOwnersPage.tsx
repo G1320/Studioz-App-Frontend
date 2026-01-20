@@ -135,46 +135,31 @@ const ForOwnersPage: React.FC = () => {
       {/* Dashboard Preview Section */}
       <section className="owners-dashboard">
         <div className="owners-container">
-          <div className="owners-dashboard__mockup">
-            <div className="owners-dashboard__inner">
-              <div className="owners-dashboard__content">
-                {/* Header */}
-                <div className="owners-dashboard__header">
-                  <div className="owners-dashboard__tabs">
-                    <div className="owners-dashboard__tab owners-dashboard__tab--active" />
-                    <div className="owners-dashboard__tab" />
-                  </div>
-                  <div className="owners-dashboard__actions">
-                    <div className="owners-dashboard__action owners-dashboard__action--primary" />
-                    <div className="owners-dashboard__action" />
-                  </div>
-                </div>
-                {/* Calendar Grid */}
-                <div className="owners-dashboard__calendar">
-                  {Array.from({ length: 35 }).map((_, i) => (
-                    <div key={i} className="owners-dashboard__cell">
-                      {i === 12 && (
-                        <div className="owners-dashboard__event owners-dashboard__event--primary">
-                          <span>{t('dashboard.event1_title')}</span>
-                          <small>{t('dashboard.event1_time')}</small>
-                        </div>
-                      )}
-                      {i === 15 && (
-                        <div className="owners-dashboard__event owners-dashboard__event--blue">
-                          <span>{t('dashboard.event2_title')}</span>
-                          <small>{t('dashboard.event2_time')}</small>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+          <div className="owners-dashboard__browser">
+            {/* macOS-style browser chrome */}
+            <div className="owners-dashboard__browser-header">
+              <div className="owners-dashboard__browser-dots">
+                <span className="owners-dashboard__dot owners-dashboard__dot--red" />
+                <span className="owners-dashboard__dot owners-dashboard__dot--yellow" />
+                <span className="owners-dashboard__dot owners-dashboard__dot--green" />
               </div>
             </div>
-            {/* Overlay */}
-            <div className="owners-dashboard__overlay">
-              <h3>{t('dashboard.title')}</h3>
-              <p>{t('dashboard.description')}</p>
+            {/* Video content */}
+            <div className="owners-dashboard__browser-content">
+              <iframe
+                src="https://player.mediadelivery.net/embed/583287/331d0d73-1047-442a-95f7-40b59db09f5e?autoplay=true&loop=true&muted=true&preload=true"
+                loading="lazy"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+                className="owners-dashboard__video"
+                title={t('dashboard.title')}
+              />
             </div>
+          </div>
+          {/* Text overlay below */}
+          <div className="owners-dashboard__text">
+            <h3>{t('dashboard.title')}</h3>
+            <p>{t('dashboard.description')}</p>
           </div>
         </div>
       </section>
