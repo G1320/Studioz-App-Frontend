@@ -12,7 +12,22 @@
   },
   "upgrade": {
     "title": "Upgrade to {{planName}}",
-    "description": "You will be charged ₪{{price}} now and monthly thereafter."
+    "description": "You will be charged ₪{{price}} now and monthly thereafter.",
+    "button": "Upgrade Now",
+    "featureTitle": "Unlock {{feature}}",
+    "tierTitle": "Upgrade to {{tier}}",
+    "featureDescription": "{{feature}} is available on the {{tier}} plan and above.",
+    "tierDescription": "Get access to all {{tier}} features and more.",
+    "currentTier": "You're currently on the {{tier}} plan",
+    "features": {
+      "calendar": "Digital Calendar",
+      "googleCalendar": "Google Calendar Sync",
+      "payments": "Payment Processing",
+      "prioritySupport": "Priority Support",
+      "unlimitedListings": "Unlimited Listings",
+      "analytics": "Analytics Dashboard",
+      "customBranding": "Custom Branding"
+    }
   },
   "form": {
     "processing": "Processing...",

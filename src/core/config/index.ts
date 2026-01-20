@@ -8,3 +8,4 @@ export * from './featureFlags';
 export * from './queryClient';
 export * from './persister';
 export * from './persistenceOptions';
+export * from './subscriptionTiers';

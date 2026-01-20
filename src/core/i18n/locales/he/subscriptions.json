@@ -12,7 +12,22 @@
   },
   "upgrade": {
     "title": "שדרוג לתוכנית {{planName}}",
-    "description": "תחויבו ב-₪{{price}} עכשיו ומדי חודש לאחר מכן."
+    "description": "תחויבו ב-₪{{price}} עכשיו ומדי חודש לאחר מכן.",
+    "button": "שדרגו עכשיו",
+    "featureTitle": "שחררו את {{feature}}",
+    "tierTitle": "שדרגו ל{{tier}}",
+    "featureDescription": "{{feature}} זמין בתוכנית {{tier}} ומעלה.",
+    "tierDescription": "קבלו גישה לכל התכונות של {{tier}} ועוד.",
+    "currentTier": "אתם כרגע בתוכנית {{tier}}",
+    "features": {
+      "calendar": "יומן דיגיטלי",
+      "googleCalendar": "סנכרון Google Calendar",
+      "payments": "עיבוד תשלומים",
+      "prioritySupport": "תמיכה בעדיפות גבוהה",
+      "unlimitedListings": "מודעות ללא הגבלה",
+      "analytics": "לוח בקרה אנליטי",
+      "customBranding": "מיתוג מותאם אישית"
+    }
   },
   "form": {
     "processing": "מעבד...",
