@@ -19,7 +19,6 @@ const PayPalWrapper = ({ children }: { children: ReactNode }) => {
 import { Header, ResponsiveFooter } from '@app/layout';
 import { ScrollToTop } from '@shared/utility-components';
 import { CookieConsentBanner } from '@shared/components/cookie-consent';
-import { SentryFeedback } from '@shared/components/feedback/SentryFeedback';
 
 import { shuffleArray } from '@shared/utils';
 import { SEOTags } from '@shared/utility-components/SEOTags';
@@ -66,7 +65,6 @@ function App() {
 
         <ResponsiveFooter />
         <CookieConsentBanner />
-        <SentryFeedback />
         <Toaster
           position="bottom-center"
           expand={false}

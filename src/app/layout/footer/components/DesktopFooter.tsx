@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { EmailIcon } from '@shared/components/icons';
+import * as Sentry from '@sentry/react';
 
 export const DesktopFooter = () => {
   const { t, i18n } = useTranslation('common');
@@ -11,6 +12,16 @@ export const DesktopFooter = () => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     langNavigate(path);
+  };
+
+  const handleFeedback = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const feedback = Sentry.getFeedback();
+    if (feedback) {
+      const form = await feedback.createForm();
+      form.appendToDom();
+      form.open();
+    }
   };
 
   return (
@@ -74,6 +85,13 @@ export const DesktopFooter = () => {
               <EmailIcon />
               <span>info@studioz.online</span>
             </a>
+            <button 
+              onClick={handleFeedback} 
+              className="desktop-footer__feedback"
+              type="button"
+            >
+              {t('footer.feedback', 'Send Feedback')}
+            </button>
           </div>
         </div>
 
