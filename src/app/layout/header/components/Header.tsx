@@ -18,14 +18,10 @@ interface HeaderProps {
 }
 
 const shouldShowBackButton = (pathname: string): boolean => {
-  // Show back button on all pages except landing page, studios page, and for-owners page
+  // Show back button on all pages except landing page
   // Landing page patterns: /en, /he, /en/, /he/
   const landingPagePattern = /^\/[a-z]{2}\/?$/;
-  // Studios page patterns: /en/studios, /he/studios (with optional category/subcategory)
-  const studiosPagePattern = /^\/[a-z]{2}\/studios\/?/;
-  // For-owners page patterns: /en/for-owners, /he/for-owners
-  const forOwnersPagePattern = /^\/[a-z]{2}\/for-owners\/?$/;
-  return !landingPagePattern.test(pathname) && !studiosPagePattern.test(pathname) && !forOwnersPagePattern.test(pathname);
+  return !landingPagePattern.test(pathname);
 };
 
 export const Header: React.FC<HeaderProps> = ({ user }) => {

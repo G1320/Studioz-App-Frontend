@@ -33,7 +33,7 @@ const ForOwnersPage: React.FC = () => {
   };
 
   const handleViewDemo = () => {
-    navigate('/studios');
+    navigate('/how-it-works');
   };
 
   // const stats = [

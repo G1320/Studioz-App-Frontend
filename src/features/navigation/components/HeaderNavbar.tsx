@@ -48,10 +48,10 @@ export function HeaderNavbar() {
         {t('navigation.howItWorks')}
       </Link>
       <Link
-        to={`/${currLang}/for-owners`}
+        to={`/${currLang}/studio/create`}
         className="navbar-link"
         aria-label={t('navigation.create_studio')}
-        aria-current={isCurrentPage(`/${currLang}/for-owners`) ? 'page' : undefined}
+        aria-current={isCurrentPage(`/${currLang}/studio/create`) ? 'page' : undefined}
         onClick={() => scrollToTop()}
       >
         {t('navigation.create_studio')}

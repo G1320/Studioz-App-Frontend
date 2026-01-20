@@ -10,7 +10,7 @@ export const homeBanners: BannerConfig = {
       titleKey: 'home.banner1.title',
       subtitleKey: 'home.banner1.subtitle',
       ctaTextKey: 'home.banner1.cta',
-      ctaLink: '/studios',
+      ctaLink: '/studio/create',
       overlayPosition: 'left',
       textColor: 'light'
     },
@@ -21,7 +21,7 @@ export const homeBanners: BannerConfig = {
       titleKey: 'home.banner2.title',
       subtitleKey: 'home.banner2.subtitle',
       ctaTextKey: 'home.banner2.cta',
-      ctaLink: '/studios/music/Mixing',
+      ctaLink: '/studio/create',
       overlayPosition: 'center',
       textColor: 'light'
     },
@@ -32,7 +32,7 @@ export const homeBanners: BannerConfig = {
       titleKey: 'home.banner3.title',
       subtitleKey: 'home.banner3.subtitle',
       ctaTextKey: 'home.banner3.cta',
-      ctaLink: '/studios',
+      ctaLink: '/studio/create',
       overlayPosition: 'right',
       textColor: 'light'
     }

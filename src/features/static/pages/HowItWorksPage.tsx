@@ -66,7 +66,7 @@ const HowItWorksPage: React.FC<HowItWorksPageProps> = ({ videoEmbedUrl }) => {
   const navigate = useLanguageNavigate();
 
   const handleFindStudio = () => {
-    navigate('/studios');
+    navigate('/studio/create');
   };
 
   const steps = [

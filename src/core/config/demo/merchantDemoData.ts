@@ -53,14 +53,14 @@ export const DEMO_CLIENTS: DemoClient[] = [
     name: "להקת 'השכנים'",
     role: 'הרכב רוק',
     totalSpent: 5600,
-    lastVisit: '04/01/2024'
+    lastVisit: '15/01/2026'
   },
   {
     id: '4',
     name: 'גיא מרגלית',
     role: 'פודקאסטר',
     totalSpent: 4100,
-    lastVisit: '01/01/2024',
+    lastVisit: '10/01/2026',
     avatarUrl: 'https://randomuser.me/api/portraits/men/86.jpg'
   },
   {
@@ -68,7 +68,7 @@ export const DEMO_CLIENTS: DemoClient[] = [
     name: 'נועה קירל',
     role: 'אמנית',
     totalSpent: 3200,
-    lastVisit: '28/12/2023',
+    lastVisit: '05/01/2026',
     avatarUrl: 'https://randomuser.me/api/portraits/women/68.jpg'
   }
 ];
@@ -77,89 +77,89 @@ export const DEMO_CLIENTS: DemoClient[] = [
 export const DEMO_DOCUMENTS: DemoDocument[] = [
   {
     id: '1',
-    number: 'INV-2024-001',
+    number: 'INV-2026-001',
     type: 'invoice',
     studioName: 'אולפני רזוננס',
     amount: 1250,
-    date: '2024-03-15',
-    dueDate: '2024-03-30',
+    date: '2026-01-15',
+    dueDate: '2026-01-30',
     status: 'paid',
     customerName: 'עידו לוי'
   },
   {
     id: '2',
-    number: 'INV-2024-002',
+    number: 'INV-2026-002',
     type: 'invoice',
     studioName: 'פולס סטודיו',
     amount: 840,
-    date: '2024-03-10',
-    dueDate: '2024-03-25',
+    date: '2026-01-10',
+    dueDate: '2026-01-25',
     status: 'paid',
     customerName: 'שרה כהן'
   },
   {
     id: '3',
-    number: 'INV-2024-003',
+    number: 'INV-2026-003',
     type: 'invoice',
     studioName: 'אולפני רזוננס',
     amount: 2100,
-    date: '2024-03-20',
-    dueDate: '2024-04-05',
+    date: '2026-01-18',
+    dueDate: '2026-02-05',
     status: 'pending',
     customerName: 'להקת "העננים"'
   },
   {
     id: '4',
-    number: 'INV-2024-004',
+    number: 'INV-2026-004',
     type: 'invoice',
     studioName: 'קרימזון ביט',
     amount: 450,
-    date: '2024-03-18',
-    dueDate: '2024-04-02',
+    date: '2026-01-16',
+    dueDate: '2026-02-02',
     status: 'pending',
     customerName: 'יוסי מזרחי'
   },
   {
     id: '5',
-    number: 'INV-2024-005',
+    number: 'INV-2026-005',
     type: 'invoice',
     studioName: 'אולפני רזוננס',
     amount: 1800,
-    date: '2024-02-28',
-    dueDate: '2024-03-14',
+    date: '2025-12-28',
+    dueDate: '2026-01-14',
     status: 'overdue',
     customerName: 'פרויקט גמר - דנה'
   },
   {
     id: '6',
-    number: 'REC-2024-012',
+    number: 'REC-2026-012',
     type: 'receipt',
     studioName: 'פולס סטודיו',
     amount: 1200,
-    date: '2024-03-12',
-    dueDate: '2024-03-12',
+    date: '2026-01-12',
+    dueDate: '2026-01-12',
     status: 'paid',
     customerName: 'אביב גפן'
   },
   {
     id: '7',
-    number: 'CTR-2024-001',
+    number: 'CTR-2026-001',
     type: 'contract',
     studioName: 'אולפני רזוננס',
     amount: 0,
-    date: '2024-01-15',
-    dueDate: '2024-01-15',
+    date: '2026-01-05',
+    dueDate: '2026-01-05',
     status: 'paid',
     customerName: 'הפקות בע"מ'
   },
   {
     id: '8',
-    number: 'INV-2024-006',
+    number: 'INV-2026-006',
     type: 'invoice',
     studioName: 'קרימזון ביט',
     amount: 950,
-    date: '2024-03-22',
-    dueDate: '2024-04-06',
+    date: '2026-01-19',
+    dueDate: '2026-02-06',
     status: 'draft',
     customerName: 'מיכל אברהם'
   }

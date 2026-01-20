@@ -35,13 +35,10 @@ export const DesktopFooter = () => {
                 <a href={`${langPrefix}/`} onClick={(e) => handleClick(e, '/')}>{t('footer.home')}</a>
               </li>
               <li>
-                <a href={`${langPrefix}/studios`} onClick={(e) => handleClick(e, '/studios')}>{t('footer.browse')}</a>
-              </li>
-              <li>
                 <a href={`${langPrefix}/how-it-works`} onClick={(e) => handleClick(e, '/how-it-works')}>{t('footer.how_it_works')}</a>
               </li>
               <li>
-                <a href={`${langPrefix}/for-owners`} onClick={(e) => handleClick(e, '/for-owners')}>{t('footer.for_owners')}</a>
+                <a href={`${langPrefix}/studio/create`} onClick={(e) => handleClick(e, '/studio/create')}>{t('footer.for_owners')}</a>
               </li>
               <li>
                 <a href={`${langPrefix}/subscription`} onClick={(e) => handleClick(e, '/subscription')}>{t('footer.pricing')}</a>

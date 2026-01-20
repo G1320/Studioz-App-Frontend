@@ -63,7 +63,7 @@ export const DistanceSlider: React.FC = () => {
     }
 
     const strippedPath = location.pathname.replace(/^\/[a-z]{2}(?=\/|$)/i, '');
-    const nextPath = strippedPath.length > 0 ? strippedPath : '/studios';
+    const nextPath = strippedPath.length > 0 ? strippedPath : '/';
     const searchString = newSearchParams.toString();
     const newUrl = `${nextPath}${searchString ? `?${searchString}` : ''}`;
     

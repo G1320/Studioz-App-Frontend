@@ -17,8 +17,8 @@ export const MobileNavigation = () => {
 
   const currLang = i18n.language || 'en';
 
-  // Hide mobile navigation on create/edit forms, landing page, and for-owners page
-  const hiddenPaths = ['/studio/create', '/studio/', '/items/create', '/item/', '/for-owners'];
+  // Hide mobile navigation on create/edit forms and landing page
+  const hiddenPaths = ['/studio/create', '/studio/', '/items/create', '/item/'];
   const isLandingPage = currentPath === '/' || currentPath === `/${currLang}` || currentPath === `/${currLang}/`;
   if (isLandingPage || hiddenPaths.some((path) => currentPath.includes(path))) {
     return null;
@@ -33,10 +33,10 @@ export const MobileNavigation = () => {
     <nav className="mobile-navigation" aria-label={t('navigation.main', 'Main navigation')}>
       <div className="mobile-navigation__grid">
         <Link
-          to={`/${currLang}/studios`}
+          to={`/${currLang}`}
           className="mobile-navigation__link"
           aria-label={t('navigation.home')}
-          aria-current={isCurrentPage(`/${currLang}/studios`) ? 'page' : undefined}
+          aria-current={isCurrentPage(`/${currLang}`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
           <div className="mobile-navigation__link-content">

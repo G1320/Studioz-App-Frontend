@@ -7,6 +7,24 @@
   font-family: 'DM Sans', sans-serif;
   color: var(--text-primary);
 
+  // Demo Banner
+  &__demo-banner {
+    background: linear-gradient(90deg, rgba(255, 209, 102, 0.1), transparent);
+    border: 1px solid var(--color-brand);
+    border-radius: vars.$border-radius-medium;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    margin-bottom: vars.$spacing-large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      color: var(--color-brand);
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+    }
+  }
+
   // Header
   &__header {
     display: flex;

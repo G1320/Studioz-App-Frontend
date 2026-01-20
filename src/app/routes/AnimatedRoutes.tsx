@@ -117,7 +117,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang"
             element={
               <AnimatedRoute>
-                <LandingPage studios={studios} />
+                <ForOwnersPage />
               </AnimatedRoute>
             }
           />
@@ -129,7 +129,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
                   <DiscoverPage studios={studios} items={items} />
                 </AnimatedRoute>
               ) : (
-                <Navigate to={`/${i18n.language}/studios`} replace />
+                <Navigate to={`/${i18n.language}`} replace />
               )
             }
           />

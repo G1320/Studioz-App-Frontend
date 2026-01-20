@@ -19,7 +19,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
 
   // Redirect if checkout is disabled
   if (!featureFlags.checkout) {
-    return <Navigate to={`/${i18n.language}/studios`} replace />;
+    return <Navigate to={`/${i18n.language}`} replace />;
   }
 
   const filteredCart = { items: cart?.items?.filter((item) => item?.studioId === studioId) };

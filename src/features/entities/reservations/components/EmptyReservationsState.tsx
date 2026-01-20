@@ -48,7 +48,7 @@ export const EmptyReservationsState: React.FC<EmptyReservationsStateProps> = ({
       title={getMessage()}
       subtitle={getSubtitle()}
       actionLabel={t('emptyStates.browseStudios')}
-      onAction={() => langNavigate('/studios')}
+      onAction={() => langNavigate('/')}
       hideAction={hasFilters}
     />
   );

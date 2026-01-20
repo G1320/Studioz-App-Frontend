@@ -64,7 +64,6 @@ const DiscoverPage: React.FC<DiscoverPageProps> = ({ studios, items }) => {
         renderItem={studioRenderItem}
         autoplay={false}
         title={t('sections.studioz_for_you')}
-        seeAllPath="/studios"
       />
       <GenericCarousel
         data={items}
@@ -77,7 +76,6 @@ const DiscoverPage: React.FC<DiscoverPageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.recording_studioz')}
-        seeAllPath="/studios/music/Vocal%20&%20Instrument%20Recording"
       />
       <GenericCarousel
         data={mixingItems}
@@ -90,7 +88,6 @@ const DiscoverPage: React.FC<DiscoverPageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.podcast_studioz')}
-        seeAllPath="/studios/music/Podcast%20Recording"
       />
       <h2>{t('sections.charge_up_your_mix')}</h2>
       <StudiosList studios={mixingStudios.slice(0, 6)} />
@@ -99,14 +96,12 @@ const DiscoverPage: React.FC<DiscoverPageProps> = ({ studios, items }) => {
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.mastering_studioz')}
-        seeAllPath="/studios/music/Mastering"
       />
       <GenericCarousel
         data={audioEngineeringStudios}
         className="studios-carousel slider-gradient"
         renderItem={studioRenderItem}
         title={t('sections.audio_engineerz')}
-        seeAllPath="/studios/music/Music%20Production"
       />
       <h2>{t('sections.book_now_think_later')}</h2>
       <StudiosList studios={mixingStudios.slice(4, 10)} />

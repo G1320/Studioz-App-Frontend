@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMerchantDocuments, GetDocumentsParams, MerchantDocumentsResponse } from '@shared/services';
+import { getMerchantDocuments, GetDocumentsParams, MerchantDocumentsResponse, MerchantDocument } from '@shared/services';
 import { useUserContext } from '@core/contexts';
+import { DEMO_DOCUMENTS } from '@core/config/demo';
 
 interface UseMerchantDocumentsOptions {
   page?: number;
@@ -12,6 +13,35 @@ interface UseMerchantDocumentsOptions {
   endDate?: string;
   enabled?: boolean;
 }
+
+// Convert demo documents to the API format
+const convertDemoToApiFormat = (demoDoc: typeof DEMO_DOCUMENTS[0]): MerchantDocument => ({
+  id: demoDoc.id,
+  externalId: `ext-${demoDoc.id}`,
+  number: demoDoc.number,
+  type: demoDoc.type,
+  studioId: 'demo-studio',
+  studioName: demoDoc.studioName,
+  amount: demoDoc.amount,
+  currency: 'ILS',
+  date: demoDoc.date,
+  dueDate: demoDoc.dueDate,
+  status: demoDoc.status,
+  customerName: demoDoc.customerName,
+  customerEmail: 'demo@example.com'
+});
+
+// Demo response with statistics
+const DEMO_RESPONSE: MerchantDocumentsResponse = {
+  documents: DEMO_DOCUMENTS.map(convertDemoToApiFormat),
+  stats: {
+    totalRevenue: 8590, // Sum of paid documents
+    pendingAmount: 2550, // Sum of pending documents
+    overdueAmount: 1800, // Sum of overdue documents
+    totalDocs: DEMO_DOCUMENTS.length
+  },
+  pagination: { total: DEMO_DOCUMENTS.length, page: 1, limit: 50, pages: 1 }
+};
 
 // Empty response for when there's no data
 const EMPTY_RESPONSE: MerchantDocumentsResponse = {
@@ -27,7 +57,7 @@ const EMPTY_RESPONSE: MerchantDocumentsResponse = {
 
 /**
  * Hook to fetch merchant documents (invoices, receipts, etc.)
- * Always uses real data from the API
+ * Falls back to demo data if no real data is available or on error
  */
 export const useMerchantDocuments = (options: UseMerchantDocumentsOptions = {}) => {
   const { user } = useUserContext();
@@ -61,11 +91,14 @@ export const useMerchantDocuments = (options: UseMerchantDocumentsOptions = {}) 
     retry: 1
   });
 
+  // Check if we should use demo data
+  const hasRealData = query.data && query.data.documents.length > 0;
+
   return {
-    data: query.data || EMPTY_RESPONSE,
+    data: hasRealData ? query.data : (query.isError || !query.data ? DEMO_RESPONSE : query.data),
     isLoading: query.isLoading,
     error: query.error,
     refetch: query.refetch,
-    isDemo: false // Always using real data now
+    isDemo: !hasRealData
   };
 };

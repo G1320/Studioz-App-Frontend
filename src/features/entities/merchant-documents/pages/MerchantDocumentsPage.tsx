@@ -225,7 +225,8 @@ const MerchantDocumentsPage: React.FC = () => {
   const {
     data: documentsData,
     isLoading,
-    refetch
+    refetch,
+    isDemo
   } = useMerchantDocuments({
     status: selectedStatus,
     studioId: selectedStudio,
@@ -456,6 +457,13 @@ const MerchantDocumentsPage: React.FC = () => {
 
   return (
     <div className="merchant-documents">
+      {/* Demo mode indicator */}
+      {isDemo && (
+        <div className="merchant-documents__demo-banner">
+          <span>{t('demo.notice', 'מציג נתוני הדגמה - הנתונים האמיתיים יופיעו כאשר יהיו מסמכים')}</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="merchant-documents__header">
         <div className="merchant-documents__title-row">
