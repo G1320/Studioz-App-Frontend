@@ -210,11 +210,11 @@ const ForOwnersPage: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
                   className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-Dark-1-V1.webp')}
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-dark-1-V2.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Page-Dark-1-V1.webp"
-                    alt="Studio Page Dark Mode 1"
+                    src="/images/optimized/Studioz-Studio-Details-dark-1-V2.webp"
+                    alt="Studio Details Dark Mode 1"
                     loading="lazy"
                   />
                   <div className="owners-showcase__image-overlay">
@@ -224,11 +224,11 @@ const ForOwnersPage: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
                   className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-Dark-2-V1.webp')}
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-dark-2-V2.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Page-Dark-2-V1.webp"
-                    alt="Studio Page Dark Mode 2"
+                    src="/images/optimized/Studioz-Studio-Details-dark-2-V2.webp"
+                    alt="Studio Details Dark Mode 2"
                     loading="lazy"
                   />
                   <div className="owners-showcase__image-overlay">
@@ -238,11 +238,11 @@ const ForOwnersPage: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
                   className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-light-1-V1.webp')}
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-dark-info-V1.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Page-light-1-V1.webp"
-                    alt="Studio Page Light Mode 1"
+                    src="/images/optimized/Studioz-Studio-Details-dark-info-V1.webp"
+                    alt="Studio Details Dark Mode Info"
                     loading="lazy"
                   />
                   <div className="owners-showcase__image-overlay">
@@ -252,11 +252,39 @@ const ForOwnersPage: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
                   className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Page-light-2-V1.webp')}
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-Light-1-V2.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Page-light-2-V1.webp"
-                    alt="Studio Page Light Mode 2"
+                    src="/images/optimized/Studioz-Studio-Details-Light-1-V2.webp"
+                    alt="Studio Details Light Mode 1"
+                    loading="lazy"
+                  />
+                  <div className="owners-showcase__image-overlay">
+                    <span>{t('showcase.view_original')}</span>
+                  </div>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, zIndex: 20 }}
+                  className="owners-showcase__image-wrapper"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-Light-2-V2.webp')}
+                >
+                  <img
+                    src="/images/optimized/Studioz-Studio-Details-Light-2-V2.webp"
+                    alt="Studio Details Light Mode 2"
+                    loading="lazy"
+                  />
+                  <div className="owners-showcase__image-overlay">
+                    <span>{t('showcase.view_original')}</span>
+                  </div>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, zIndex: 20 }}
+                  className="owners-showcase__image-wrapper"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-Light-info-V1.webp')}
+                >
+                  <img
+                    src="/images/optimized/Studioz-Studio-Details-Light-info-V1.webp"
+                    alt="Studio Details Light Mode Info"
                     loading="lazy"
                   />
                   <div className="owners-showcase__image-overlay">
@@ -352,6 +380,12 @@ const ForOwnersPage: React.FC = () => {
         ariaLabel="Image preview"
       >
         <div className="owners-lightbox__content">
+          {/* Clickable backdrop */}
+          <div 
+            className="owners-lightbox__backdrop"
+            onClick={() => setSelectedImage(null)}
+            aria-hidden="true"
+          />
           <button
             className="owners-lightbox__close"
             onClick={() => setSelectedImage(null)}
