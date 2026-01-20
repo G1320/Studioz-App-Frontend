@@ -19,6 +19,7 @@ import {
   ChevronRightIcon,
 } from '@shared/components/icons';
 import { useAuth0LoginHandler } from '@shared/hooks';
+import * as Sentry from '@sentry/react';
 import './styles/menu-dropdown.scss';
 
 interface MenuDropdownProps {
@@ -40,6 +41,15 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const changeLanguage = (lang: string) => {
     switchLanguage(lang);
     setIsLangSubmenuOpen(false);
+  };
+
+  const handleFeedback = async () => {
+    const feedback = Sentry.getFeedback();
+    if (feedback) {
+      const form = await feedback.createForm();
+      form.appendToDom();
+      form.open();
+    }
   };
 
   return (
@@ -162,6 +172,9 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         </button>
         <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/terms')}>
           {t('profile.legal.terms')}
+        </button>
+        <button className="menu-dropdown__item menu-dropdown__item--link" onClick={handleFeedback}>
+          {t('profile.legal.feedback')}
         </button>
       </div>
     </PopupDropdown>
