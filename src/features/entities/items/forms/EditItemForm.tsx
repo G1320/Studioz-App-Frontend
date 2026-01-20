@@ -800,17 +800,15 @@ export const EditItemForm = () => {
         if (newAddOns.length > 0 && itemId) {
           try {
             await createAddOnsBatch(itemId, newAddOns);
-            toast.success(t('common:toasts.success.itemUpdatedWithAddOns', { count: newAddOns.length }));
+            // Note: The main success toast is shown by useMutationHandler
             // Remove created add-ons from pending list, keep existing ones
             setPendingAddOns((prev) => prev.filter((addOn) => addOn._id));
           } catch (error) {
             console.error('Error creating add-ons:', error);
             toast.error(t('common:toasts.error.itemUpdatedAddOnsFailed'));
           }
-        } else if (pendingAddOns.length > 0) {
-          // All add-ons are existing ones, just show success
-          toast.success(t('common:toasts.success.itemUpdated'));
         }
+        // Removed extra toast.success - useMutationHandler already shows the success toast
         // Invalidate addOns queries
         if (itemId) {
           await queryClient.invalidateQueries({ queryKey: ['addOns', 'item', itemId] });

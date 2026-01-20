@@ -52,6 +52,7 @@
     gap: 12px !important;
     padding: 0 !important;
     flex: 1 !important;
+    min-width: 0 !important; // Allow text to truncate if needed
   }
 
   // Toast icon
@@ -122,22 +123,26 @@
     }
   }
 
-  // Action button
+  // Action button (undo, etc.)
   [data-button] {
-    margin-top: 12px !important;
-    padding: 8px 14px !important;
-    border-radius: 8px !important;
+    margin: 0 !important;
+    margin-inline-start: auto !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
     font-size: 12px !important;
-    font-weight: 700 !important;
-    background: #ffd166 !important;
-    color: #000000 !important;
-    border: none !important;
+    font-weight: 600 !important;
+    background: rgba(255, 209, 102, 0.15) !important;
+    color: #ffd166 !important;
+    border: 1px solid rgba(255, 209, 102, 0.3) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 4px 12px rgba(255, 209, 102, 0.15) !important;
+    flex-shrink: 0 !important;
+    align-self: center !important;
+    white-space: nowrap !important;
 
     &:hover {
-      background: #ffdb85 !important;
+      background: rgba(255, 209, 102, 0.25) !important;
+      border-color: rgba(255, 209, 102, 0.5) !important;
     }
 
     &:active {
@@ -341,6 +346,17 @@ html:not([dir='rtl']) [data-sonner-toast]::after {
       &:hover {
         background: rgba(0, 0, 0, 0.08) !important;
         color: #18181b !important;
+      }
+    }
+
+    [data-button] {
+      background: rgba(180, 140, 50, 0.12) !important;
+      color: #9a7b35 !important;
+      border: 1px solid rgba(180, 140, 50, 0.25) !important;
+
+      &:hover {
+        background: rgba(180, 140, 50, 0.2) !important;
+        border-color: rgba(180, 140, 50, 0.4) !important;
       }
     }
 
