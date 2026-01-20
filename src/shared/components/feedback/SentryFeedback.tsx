@@ -21,9 +21,14 @@ const EXCLUDED_PATHS = [
 // Delay before showing feedback (in milliseconds)
 const SHOW_DELAY_MS = 2 * 60 * 1000; // 2 minutes
 
+// Widget type - has removeFromDom method for cleanup
+interface FeedbackWidget {
+  removeFromDom: () => void;
+}
+
 export const SentryFeedback = () => {
   const location = useLocation();
-  const widgetRef = useRef<ReturnType<ReturnType<typeof Sentry.getFeedback>['createWidget']> | null>(null);
+  const widgetRef = useRef<FeedbackWidget | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
