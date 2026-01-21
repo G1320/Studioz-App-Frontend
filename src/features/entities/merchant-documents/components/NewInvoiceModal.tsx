@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { X, Plus, Trash2, FileText } from 'lucide-react';
 import { GenericModal } from '@shared/components/modal';
 import { sumitService } from '@shared/services';
 
@@ -160,6 +160,9 @@ export const NewInvoiceModal: React.FC<NewInvoiceModalProps> = ({
     <GenericModal open={open} onClose={handleClose} className="new-invoice-modal">
       <div className="new-invoice-modal__content">
         <div className="new-invoice-modal__header">
+          <div className="new-invoice-modal__header-icon">
+            <FileText size={24} />
+          </div>
           <h2>{t('invoice.title')}</h2>
           <button
             type="button"

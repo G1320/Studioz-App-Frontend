@@ -736,7 +736,8 @@
     justify-content: center;
     min-height: 100vh;
     min-height: 100dvh;
-    padding: 2rem;
+    // Consistent gap from header (same as quick-charge-modal)
+    padding: calc(env(safe-area-inset-top, 0px) + 4rem) 2rem calc(env(safe-area-inset-bottom, 0px) + 2rem);
     // Allow clicks to pass through to backdrop
     pointer-events: none;
 
@@ -780,20 +781,34 @@
   &__header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.75rem;
     padding: 1.5rem;
     border-bottom: 1px solid var(--border-primary);
     flex-shrink: 0;
 
     h2 {
+      flex: 1;
       font-size: 1.25rem;
       font-weight: 700;
       margin: 0;
+      text-align: center;
     }
 
     @media (max-width: 768px) {
       padding: 1rem;
     }
+  }
+
+  &__header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
+    border-radius: vars.$border-radius-medium;
+    color: var(--color-brand);
+    flex-shrink: 0;
   }
 
   &__close {
@@ -803,6 +818,7 @@
     width: 2rem;
     height: 2rem;
     background: transparent;
+    flex-shrink: 0;
     border: none;
     border-radius: vars.$border-radius-small;
     color: var(--text-muted);
@@ -1115,6 +1131,7 @@
       font-size: 1.25rem;
       font-weight: 700;
       margin: 0;
+      text-align: center;
     }
   }
 
@@ -1127,6 +1144,7 @@
     background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
     border-radius: vars.$border-radius-medium;
     color: var(--color-brand);
+    flex-shrink: 0;
   }
 
   &__close {
@@ -1141,6 +1159,7 @@
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.15s ease;
+    flex-shrink: 0;
 
     &:hover {
       background: var(--bg-hover);
