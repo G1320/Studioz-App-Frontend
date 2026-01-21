@@ -613,6 +613,11 @@
     @include mixins.badge-neutral;
     font-size: 10px;
     padding: 2px 6px;
+
+    // Hidden state - preserve space but invisible
+    &--hidden {
+      visibility: hidden;
+    }
   }
 
   .studio-card__item-meta {
@@ -680,7 +685,7 @@
     color: var(--text-muted);
     text-transform: uppercase;
     white-space: nowrap;
-    text-align: start;
+    text-align: end;
 
     @media (min-width: 640px) {
       display: block;

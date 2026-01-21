@@ -264,11 +264,9 @@ const StudioCard: React.FC<StudioCardProps> = ({
                         <h4 className={`studio-card__item-name ${!itemActive ? 'studio-card__item-name--inactive' : ''}`}>
                           {itemName}
                         </h4>
-                        {!itemActive && (
-                          <span className="studio-card__item-status-tag">
-                            {t('unavailable', 'לא זמין')}
-                          </span>
-                        )}
+                        <span className={`studio-card__item-status-tag ${itemActive ? 'studio-card__item-status-tag--hidden' : ''}`}>
+                          {t('unavailable', 'לא זמין')}
+                        </span>
                       </div>
                       <p className="studio-card__item-meta">
                         <span>₪{itemPrice} {itemPricePer === 'hour' ? t('perHour', 'לשעה') : `/${itemPricePer}`}</span>
