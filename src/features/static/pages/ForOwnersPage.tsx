@@ -14,6 +14,7 @@ import {
   CloseIcon
 } from '@shared/components/icons';
 import { GenericModal } from '@shared/components/modal';
+import { PricingSection } from '../components/PricingSection';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -352,6 +353,9 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <PricingSection />
 
       {/* CTA Section */}
       <section className="owners-cta">

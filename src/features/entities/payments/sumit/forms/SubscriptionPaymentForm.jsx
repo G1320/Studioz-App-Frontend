@@ -37,6 +37,13 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
   // Get trial days for the selected plan
   const trialDays = PLAN_CONFIG[plan.planId]?.trialDays || 7;
 
+  // Calculate trial end date
+  const trialEndDate = useMemo(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + trialDays);
+    return date;
+  }, [trialDays]);
+
   const handleCouponApplied = useCallback((coupon) => {
     setAppliedCoupon(coupon);
   }, []);

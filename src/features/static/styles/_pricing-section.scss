@@ -1,0 +1,371 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+// ==========================================
+// PRICING SECTION - StudioZ Style Guide
+// Bold, editorial aesthetic with high contrast
+// ==========================================
+
+.pricing-section {
+  padding: 4rem 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.5s, color 0.5s;
+  overflow-x: hidden;
+
+  @media (min-width: 768px) {
+    padding: 6rem 0;
+  }
+
+  // Light mode overrides
+  [data-theme='light'] & {
+    background: #fafafa;
+  }
+
+  &__container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 vars.$spacing-medium;
+  }
+
+  // ==========================================
+  // HEADER
+  // ==========================================
+  &__header {
+    max-width: 700px;
+    margin: 0 auto vars.$spacing-2xl;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      margin-bottom: vars.$spacing-3xl;
+    }
+  }
+
+  &__title {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: vars.$spacing-medium;
+  }
+
+  &__title-break {
+    display: none;
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+  }
+
+  &__title-accent {
+    color: var(--color-brand);
+  }
+
+  &__subtitle {
+    font-size: vars.$font-size-medium;
+    font-weight: 500;
+    color: var(--text-muted);
+
+    @media (min-width: 768px) {
+      font-size: vars.$font-size-large;
+    }
+  }
+
+  // ==========================================
+  // GRID
+  // ==========================================
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-medium;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: flex-end;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: vars.$spacing-large;
+    }
+  }
+}
+
+// ==========================================
+// PRICING CARD
+// ==========================================
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  padding: vars.$spacing-large;
+  border-radius: 2rem;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+  min-height: 420px;
+  transition: all 0.3s;
+
+  @media (min-width: 768px) {
+    padding: vars.$spacing-xl;
+    min-height: 480px;
+  }
+
+  // Light mode
+  [data-theme='light'] & {
+    background: #ffffff;
+    border-color: #e4e4e7;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      border-color: rgba(255, 209, 102, 0.3);
+    }
+  }
+
+  // Dark mode hover
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  // ==========================================
+  // FEATURED CARD
+  // ==========================================
+  &--featured {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #000000;
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(255, 209, 102, 0.15);
+    z-index: 10;
+    min-height: 450px;
+
+    @media (min-width: 768px) {
+      transform: scale(1.03);
+      min-height: 510px;
+    }
+
+    [data-theme='light'] & {
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+    }
+
+    &:hover {
+      border-color: var(--color-brand);
+    }
+
+    .pricing-card__label {
+      border-color: rgba(0, 0, 0, 0.3);
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    .pricing-card__price,
+    .pricing-card__period {
+      color: #000000;
+    }
+
+    .pricing-card__description {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .pricing-card__feature {
+      color: #000000;
+    }
+
+    .pricing-card__feature-icon {
+      color: #000000;
+    }
+
+    .pricing-card__trial-badge {
+      background: rgba(0, 0, 0, 0.1);
+      color: #000000;
+    }
+
+    .pricing-card__cta {
+      background: #000000;
+      color: #ffffff;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  // ==========================================
+  // TIER LABEL
+  // ==========================================
+  &__label {
+    display: inline-block;
+    padding: vars.$spacing-xs vars.$spacing-medium;
+    border-radius: 9999px;
+    border: 1px solid currentColor;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-bottom: vars.$spacing-medium;
+
+    @media (min-width: 768px) {
+      margin-bottom: vars.$spacing-large;
+    }
+
+    [data-theme='light'] & {
+      background: #f4f4f5;
+      border-color: transparent;
+    }
+  }
+
+  // ==========================================
+  // PRICE
+  // ==========================================
+  &__price-container {
+    display: flex;
+    align-items: baseline;
+    gap: vars.$spacing-xs;
+    margin-bottom: vars.$spacing-small;
+  }
+
+  &__price {
+    font-size: clamp(2.5rem, 6vw, 3rem);
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  &__period {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-style: italic;
+    opacity: 0.6;
+  }
+
+  // ==========================================
+  // DESCRIPTION
+  // ==========================================
+  &__description {
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.3;
+    margin-bottom: vars.$spacing-medium;
+  }
+
+  // ==========================================
+  // TRIAL BADGE
+  // ==========================================
+  &__trial-badge {
+    display: inline-block;
+    padding: vars.$spacing-xs vars.$spacing-small;
+    background: var(--color-brand-bg);
+    color: var(--color-brand);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: vars.$border-radius-medium;
+    margin-bottom: vars.$spacing-medium;
+  }
+
+  // ==========================================
+  // FEATURES
+  // ==========================================
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__feature {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+
+  &__feature-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--color-brand);
+  }
+
+  // ==========================================
+  // CTA BUTTON
+  // ==========================================
+  &__cta {
+    width: 100%;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    border-radius: vars.$border-radius-xl;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-size: vars.$font-size-medium;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: vars.$spacing-large;
+
+    @media (min-width: 768px) {
+      padding: vars.$spacing-medium vars.$spacing-large;
+      font-size: vars.$font-size-large;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme='light'] & {
+      background: #18181b;
+      color: #ffffff;
+
+      &:hover {
+        background: #000000;
+      }
+    }
+  }
+
+  // ==========================================
+  // SELECTED STATE
+  // ==========================================
+  &--selected {
+    border-color: var(--color-brand) !important;
+    box-shadow: 0 0 30px rgba(255, 209, 102, 0.2);
+  }
+}
+
+// ==========================================
+// PAYMENT FORM SECTION
+// ==========================================
+.pricing-section__payment {
+  margin-top: vars.$spacing-3xl;
+  overflow: hidden;
+}
+
+.pricing-section__payment-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: vars.$spacing-xl;
+  background: var(--bg-secondary);
+  border-radius: vars.$border-radius-2xl;
+  border: 1px solid var(--border-primary);
+
+  [data-theme='light'] & {
+    background: #ffffff;
+    border-color: #e4e4e7;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+}

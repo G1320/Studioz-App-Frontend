@@ -81,5 +81,48 @@
     "privacy": "Privacy",
     "contact": "Contact",
     "rights": "All rights reserved."
+  },
+  "pricing": {
+    "title": "Choose your",
+    "titleAccent": "speed.",
+    "subtitle": "Simple, high-performance pricing for every stage of your studio's growth.",
+    "period": "/mo",
+    "trialBadge": "{{days}}-day free trial",
+    "cta": {
+      "start": "Get Started",
+      "trial": "Start Free Trial"
+    },
+    "tiers": {
+      "free": {
+        "name": "Free",
+        "description": "Perfect for starting out",
+        "features": {
+          "listing": "1 Active Listing",
+          "calendar": "Digital Calendar",
+          "approvals": "Manual Approvals",
+          "support": "Standard Support"
+        }
+      },
+      "starter": {
+        "description": "Best for growing studios",
+        "features": {
+          "services": "Unlimited Services",
+          "googleSync": "Google Calendar Sync",
+          "invoicing": "Automated Invoicing",
+          "payments": "25 Card Payments/mo",
+          "trial": "7-Day Free Trial"
+        }
+      },
+      "pro": {
+        "description": "For industry leaders",
+        "features": {
+          "multiStudio": "Multi-Studio Management",
+          "analytics": "Advanced Analytics",
+          "payments": "200 Card Payments/mo",
+          "support": "Priority Support",
+          "trial": "14-Day Free Trial"
+        }
+      }
+    }
   }
 }

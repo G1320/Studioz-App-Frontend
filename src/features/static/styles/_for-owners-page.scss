@@ -114,10 +114,36 @@
 .owners-hero {
   position: relative;
   padding: 5rem 0 5rem;
-  overflow: hidden;
+  overflow: visible; // Allow pseudo-element to extend above
+  
+  // Light mode: dark gradient that complements gold brand color
+  [data-theme='light'] & {
+    background: linear-gradient(
+      180deg,
+      #1a1a2e 0%,
+      #16213e 50%,
+      #0f0f23 100%
+    );
+    margin-top: -100px; // Pull up to cover header gap
+    padding-top: calc(5rem + 100px); // Compensate for margin
+    
+    // Override text colors for dark background in light mode
+    .owners-hero__title,
+    .owners-hero__description {
+      color: #ffffff;
+    }
+    
+    .owners-hero__description {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
 
   @media (min-width: 768px) {
     padding: 13rem 0 8rem;
+    
+    [data-theme='light'] & {
+      padding-top: calc(13rem + 100px);
+    }
   }
 
   &__glow {
@@ -126,6 +152,10 @@
     filter: blur(120px);
     opacity: 0.2;
     pointer-events: none;
+    
+    [data-theme='light'] & {
+      opacity: 0.3;
+    }
 
     &--primary {
       top: 20%;

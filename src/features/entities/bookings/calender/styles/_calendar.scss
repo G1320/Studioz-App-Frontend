@@ -10,6 +10,7 @@
   min-height: 100vh;
   background: var(--bg-primary);
   color: var(--text-primary);
+  overflow-x: hidden;
 
   // Container
   &__container {
@@ -18,6 +19,9 @@
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-2xl;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 vars.$spacing-medium;
   }
 
   // ==========================================
@@ -190,6 +194,9 @@
     overflow: hidden;
     min-height: 600px;
     border: 1px solid var(--border-primary);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   // ==========================================
@@ -202,13 +209,16 @@
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
     border: 1px solid var(--border-secondary);
+    width: 100%;
+    max-width: 100%;
   }
 
   &__weekday-header {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     background: var(--bg-tertiary);
     border-bottom: 1px solid var(--border-secondary);
+    width: 100%;
   }
 
   &__weekday-cell {
@@ -224,11 +234,14 @@
   &__month-grid {
     flex: 1;
     background: var(--bg-tertiary);
+    width: 100%;
+    overflow: hidden;
   }
 
   &__week-row {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    width: 100%;
   }
 
   &__day-cell {
@@ -239,6 +252,7 @@
     border-left: 1px solid var(--border-secondary);
     background: var(--bg-tertiary);
     transition: background 0.2s ease;
+    overflow: hidden;
 
     [dir='rtl'] & {
       border-left: none;
@@ -290,6 +304,8 @@
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-xs;
+    overflow: hidden;
+    max-width: 100%;
   }
 
   &__more-events {
@@ -320,6 +336,8 @@
       border: 1px solid var(--border-secondary);
       border-radius: vars.$border-radius-small;
       overflow: hidden;
+      max-width: 100%;
+      min-width: 0;
 
       &:hover {
         border-color: var(--color-brand);
