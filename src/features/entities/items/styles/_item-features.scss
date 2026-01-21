@@ -10,16 +10,18 @@ div.item-features-container {
   flex-wrap: wrap;
   justify-content: flex-start;
   margin-top: 0.5rem;
+  // Don't create a new positioning context - let item-badges position relative to item-card
+  position: static;
 
-  .item-city-badge {
+  .item-city-badge,
+  .item-studio-badge {
     display: inline-flex;
     align-items: center;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
     background: var(--bg-elevated);
     border: none;
-    box-shadow: var(--shadow-md);
-    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.2;
@@ -33,31 +35,20 @@ div.item-features-container {
   }
 
   .item-studio-badge {
-    display: inline-flex;
-    align-items: center;
     gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 999px;
-    background: var(--bg-elevated);
-    border: none;
-    box-shadow: var(--shadow-md);
-    backdrop-filter: blur(10px);
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.2;
 
     &__icon {
       width: 0.75rem;
       height: 0.75rem;
-      color: var(--text-primary);
+      color: var(--color-brand-text);
       font-size: 0.75rem !important;
+      flex-shrink: 0;
     }
+  }
 
-    span {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      line-height: 1.2;
-    }
+  // Ensure ItemBadges stays absolutely positioned relative to item-card
+  // Override any inherited static positioning
+  .item-badges {
+    position: absolute !important;
   }
 }
