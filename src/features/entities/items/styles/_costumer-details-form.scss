@@ -7,6 +7,18 @@
 
 .item-modal {
   overflow-y: auto;
+
+  // Mobile positioning - float centered with gap from header and bottom
+  @media (max-width: 768px) {
+    .modal-wrapper {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      // Push down to account for header + safe area
+      margin-top: calc(env(safe-area-inset-top, 0px) + 2rem);
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 8rem);
+    }
+  }
 }
 
 .customer-details {

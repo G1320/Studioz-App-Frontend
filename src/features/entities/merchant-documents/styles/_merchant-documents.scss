@@ -6,6 +6,10 @@
 .merchant-documents {
   font-family: 'DM Sans', sans-serif;
   color: var(--text-primary);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 
   // Demo Banner
   &__demo-banner {
@@ -130,15 +134,18 @@
     border-radius: vars.$border-radius-xl;
     padding: vars.$spacing-medium;
     margin-bottom: vars.$spacing-large;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   &__filters-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: vars.$spacing-medium;
+    max-width: 100%;
 
     @media (min-width: 768px) {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
@@ -149,10 +156,13 @@
     border-radius: vars.$border-radius-xl;
     overflow: visible; // Allow dropdown menus to overflow
     box-shadow: var(--shadow-card);
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   &__table-scroll {
     overflow-x: auto;
+    max-width: 100%;
   }
 
   // Load More
@@ -335,18 +345,19 @@
 // Documents Table
 .documents-table {
   width: 100%;
+  max-width: 100%;
   text-align: start;
   border-collapse: collapse;
   table-layout: fixed;
 
-  // Column widths
+  // Column widths - adjusted for mobile
   colgroup {
-    col:nth-child(1) { width: 15%; } // Document
-    col:nth-child(2) { width: 18%; } // Customer
+    col:nth-child(1) { width: 18%; } // Document
+    col:nth-child(2) { width: 16%; } // Customer
     col:nth-child(3) { width: 18%; } // Date
-    col:nth-child(4) { width: 12%; } // Amount
-    col:nth-child(5) { width: 15%; } // Status
-    col:nth-child(6) { width: 12%; } // Actions
+    col:nth-child(4) { width: 14%; } // Amount
+    col:nth-child(5) { width: 14%; } // Status
+    col:nth-child(6) { width: 10%; } // Actions
   }
 
   &__th {
@@ -416,10 +427,18 @@
     padding: vars.$spacing-large;
     vertical-align: middle;
 
-    &--date,
+    &--date {
+      text-align: center;
+    }
+
     &--amount,
     &--status {
       text-align: center;
+      
+      // Center flex/inline-flex children
+      > * {
+        margin-inline: auto;
+      }
     }
 
     &--actions {
@@ -586,12 +605,14 @@
 .status-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.375rem;
   padding: 0.25rem 0.625rem;
   border-radius: 9999px;
   border: 1px solid;
   font-size: 0.75rem;
   font-weight: 700;
+  white-space: nowrap;
 
   &--paid {
     color: #34d399; // emerald-400
@@ -714,14 +735,15 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    min-height: 100dvh;
     padding: 2rem;
     // Allow clicks to pass through to backdrop
     pointer-events: none;
 
     @media (max-width: 768px) {
-      padding: 1rem;
-      align-items: flex-start;
-      padding-top: 3rem; // Space from header
+      // Floating centered with gap from header and bottom
+      padding: calc(env(safe-area-inset-top, 0px) + 4rem) 1rem calc(env(safe-area-inset-bottom, 0px) + 2rem);
+      align-items: center;
     }
   }
 
@@ -729,6 +751,7 @@
     width: 100%;
     max-width: 600px;
     max-height: calc(100vh - 4rem);
+    max-height: calc(100dvh - 4rem);
     background: var(--bg-secondary);
     border-radius: vars.$border-radius-large;
     overflow: hidden;
@@ -736,8 +759,8 @@
     pointer-events: auto;
 
     @media (max-width: 768px) {
-      max-height: calc(100vh - 4rem);
-      border-radius: vars.$border-radius-medium;
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
+      border-radius: vars.$border-radius-large;
     }
   }
 
@@ -746,10 +769,11 @@
     display: flex;
     flex-direction: column;
     max-height: calc(100vh - 4rem);
+    max-height: calc(100dvh - 4rem);
     overflow: hidden;
 
     @media (max-width: 768px) {
-      max-height: calc(100vh - 4rem);
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
     }
   }
 
@@ -1040,24 +1064,43 @@
 .quick-charge-modal {
   .modal-wrapper {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 5rem 2rem 2rem;
+    min-height: 100dvh;
+    // Account for header and safe areas on real devices
+    padding: calc(env(safe-area-inset-top, 0px) + 4rem) 2rem calc(env(safe-area-inset-bottom, 0px) + 2rem);
+
+    @media (max-width: 768px) {
+      // Floating centered with gap from header and bottom
+      align-items: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 4rem) 1rem calc(env(safe-area-inset-bottom, 0px) + 2rem);
+    }
   }
 
   .modal-content {
     width: 100%;
     max-width: 640px;
-    max-height: calc(100vh - 7rem);
+    max-height: calc(100vh - 6rem);
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
     background: var(--bg-secondary);
     border-radius: vars.$border-radius-large;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
+      border-radius: vars.$border-radius-large;
+    }
   }
 
   &__content {
     overflow-y: auto;
-    max-height: calc(100vh - 7rem);
+    max-height: calc(100vh - 6rem);
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
+
+    @media (max-width: 768px) {
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
+    }
   }
 
   &__header {

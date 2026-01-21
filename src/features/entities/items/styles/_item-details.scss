@@ -14,6 +14,7 @@
   overflow-y: auto;
   overflow-x: hidden; // Prevent horizontal scroll during slide animation
   max-height: calc(85vh - 4rem);
+  max-height: calc(85dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 4rem);
   min-height: 35rem; // Ensure modal always reserves space for image (19rem at max width) + content
   max-width: 35rem;
   width: 100%;
@@ -35,6 +36,13 @@
   // Prevent layout shifts during animation
   contain: layout style;
   will-change: transform, opacity;
+
+  // Mobile-specific adjustments - floating modal with gaps
+  @media (max-width: 768px) {
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 8rem);
+    min-height: auto;
+    border-radius: 16px;
+  }
 
   // Close button is now positioned inside .image-container for proper alignment
 

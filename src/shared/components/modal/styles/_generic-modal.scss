@@ -21,6 +21,10 @@
     max-width: 35rem;
     width: 100%;
     box-sizing: border-box;
+    
+    // Account for safe areas on mobile devices
+    max-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 2rem);
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 2rem);
 
     .modal-content {
       display: grid;
@@ -37,8 +41,20 @@
 @media screen and (max-width: 768px) {
   .generic-modal {
     .modal-wrapper {
-      width: calc(100% - 1rem);
-      max-width: calc(100% - 3rem);
+      width: calc(100% - 2rem);
+      max-width: calc(100% - 2rem);
+      // On mobile, center with safe padding from header and bottom
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      // Account for header (~4rem) + safe areas + some breathing room
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 8rem);
+      margin-top: calc(env(safe-area-inset-top, 0px) + 2rem);
+      border-radius: 1rem;
+    }
+    
+    .modal-content {
+      border-radius: 1rem;
     }
   }
 }
