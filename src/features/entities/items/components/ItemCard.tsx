@@ -99,7 +99,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         <p className="description">{item?.description[currentLang] || item?.description.en}</p>
         <div className="item-price-container">
           <small className="item-price">
-            ₪{item?.price}/{getTranslatedPricePer(item?.pricePer || '')}
+            <span className="item-price__amount">₪{item?.price}</span>
+            <span className="item-price__per">/{getTranslatedPricePer(item?.pricePer || '')}</span>
           </small>
           <StatusBadge createdAt={item?.createdAt} />
           <InstantBookBadge instantBook={item?.instantBook} />

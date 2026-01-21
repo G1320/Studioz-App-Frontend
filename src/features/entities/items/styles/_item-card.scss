@@ -60,7 +60,10 @@
     }
 
     small.item-price {
-      color: var(--text-muted);
+      .item-price__amount,
+      .item-price__per {
+        color: var(--text-muted);
+      }
     }
 
     // Disable interactions
@@ -143,8 +146,18 @@
 
   small.item-price {
     font-weight: 600;
-    color: var(--color-brand);
     white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .item-price__amount {
+    color: var(--color-brand-text);
+  }
+
+  .item-price__per {
+    color: var(--text-primary);
+    font-weight: 500;
   }
 
   p.description {

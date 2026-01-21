@@ -57,18 +57,17 @@
   &-price {
     display: flex;
     align-items: baseline;
-    gap: 0.25rem;
+    gap: 0.125rem;
     margin-bottom: 0.5rem;
+    font-weight: 600;
 
-    .price-amount {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-primary);
+    &__amount {
+      color: var(--color-brand-text);
     }
 
-    .price-per {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
+    &__per {
+      color: var(--text-primary);
+      font-weight: 500;
     }
   }
 

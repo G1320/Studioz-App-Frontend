@@ -47,8 +47,8 @@ export const AddOnCard = ({ addOn, onEdit, onDelete, onAdd, showAddButton, isSel
         <div className="addon-card-right">
           <div className="addon-card-price-button-row">
             <div className="addon-card-price">
-              ₪{addOn.price}
-              {pricePerLabel && `/${pricePerLabel}`}
+              <span className="addon-card-price__amount">₪{addOn.price}</span>
+              {pricePerLabel && <span className="addon-card-price__per">/{pricePerLabel}</span>}
             </div>
             {showAddButton && (
               <AddRemoveButton
