@@ -279,15 +279,22 @@
 .owners-dashboard {
   padding: vars.$spacing-3xl 0;
 
-  // macOS-style browser window
-  &__browser {
+  // Outer card with shadow
+  &__card {
     max-width: 1100px;
     margin-inline: auto;
     border-radius: vars.$border-radius-2xl;
     overflow: hidden;
     box-shadow: 
-      0 25px 50px -12px rgba(0, 0, 0, 0.5),
+      0 25px 50px -12px rgba(0, 0, 0, 0.15),
       0 0 0 1px var(--border-primary);
+    background: var(--bg-primary);
+  }
+
+  // macOS-style browser window
+  &__browser {
+    border-radius: vars.$border-radius-2xl vars.$border-radius-2xl 0 0;
+    overflow: hidden;
     background: var(--bg-secondary);
   }
 
@@ -326,6 +333,19 @@
     position: relative;
     aspect-ratio: 16 / 9;
     background: #000;
+
+    // Subtle fade overlay at bottom
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.15), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
   }
 
   &__video {
@@ -336,12 +356,11 @@
     border: none;
   }
 
-  // Text below browser
+  // Text inside card
   &__text {
-    text-align: center;
-    margin-top: vars.$spacing-2xl;
-    max-width: 640px;
-    margin-inline: auto;
+    text-align: start;
+    padding: vars.$spacing-xl vars.$spacing-2xl;
+    border-top: 1px solid var(--border-subtle);
 
     h3 {
       font-size: clamp(1.5rem, 3vw, 2rem);
@@ -354,6 +373,7 @@
       font-size: vars.$font-size-large;
       color: var(--text-secondary);
       line-height: 1.6;
+      margin: 0;
     }
   }
 }

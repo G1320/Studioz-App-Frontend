@@ -139,30 +139,33 @@ const ForOwnersPage: React.FC = () => {
       {/* Dashboard Preview Section */}
       <section className="owners-dashboard">
         <div className="owners-container">
-          <div className="owners-dashboard__browser">
-            {/* macOS-style browser chrome */}
-            <div className="owners-dashboard__browser-header">
-              <div className="owners-dashboard__browser-dots">
-                <span className="owners-dashboard__dot owners-dashboard__dot--red" />
-                <span className="owners-dashboard__dot owners-dashboard__dot--yellow" />
-                <span className="owners-dashboard__dot owners-dashboard__dot--green" />
+          <div className="owners-dashboard__card">
+            {/* Browser mockup */}
+            <div className="owners-dashboard__browser">
+              {/* macOS-style browser chrome */}
+              <div className="owners-dashboard__browser-header">
+                <div className="owners-dashboard__browser-dots">
+                  <span className="owners-dashboard__dot owners-dashboard__dot--red" />
+                  <span className="owners-dashboard__dot owners-dashboard__dot--yellow" />
+                  <span className="owners-dashboard__dot owners-dashboard__dot--green" />
+                </div>
+              </div>
+              {/* Video content */}
+              <div className="owners-dashboard__browser-content">
+                <iframe
+                  src="https://player.mediadelivery.net/embed/583287/331d0d73-1047-442a-95f7-40b59db09f5e?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
+                  loading="lazy"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                  className="owners-dashboard__video"
+                  title={t('dashboard.title')}
+                />
               </div>
             </div>
-            {/* Video content */}
-            <div className="owners-dashboard__browser-content">
-              <iframe
-                src="https://player.mediadelivery.net/embed/583287/331d0d73-1047-442a-95f7-40b59db09f5e?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
-                loading="lazy"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                className="owners-dashboard__video"
-                title={t('dashboard.title')}
-              />
+            {/* Text inside card */}
+            <div className="owners-dashboard__text">
+              <h3>{t('dashboard.title')}</h3>
+              <p>{t('dashboard.description')}</p>
             </div>
-          </div>
-          {/* Text overlay below */}
-          <div className="owners-dashboard__text">
-            <h3>{t('dashboard.title')}</h3>
-            <p>{t('dashboard.description')}</p>
           </div>
         </div>
       </section>
