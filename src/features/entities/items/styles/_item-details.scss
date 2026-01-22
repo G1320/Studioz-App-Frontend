@@ -210,9 +210,9 @@
 
     &__label {
       margin: 0;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       font-size: vars.$font-size-small;
-      font-weight: 500;
+      font-weight: 700;
       text-align: start;
     }
 
@@ -245,6 +245,7 @@
 
       &.selected {
         background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.1);
+        border-radius: vars.$border-radius-medium;
 
         &:hover {
           background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
