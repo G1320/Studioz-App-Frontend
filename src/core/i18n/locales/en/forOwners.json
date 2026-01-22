@@ -29,7 +29,23 @@
     "feature1_description": "Premium app-level user experience",
     "feature2_title": "Available everywhere",
     "feature2_description": "Fully responsive on all devices and browsers",
-    "view_original": "View original"
+    "view_original": "View original",
+    "calendar": {
+      "title": "Smart Calendar",
+      "description": "Full sync with Google Calendar and real-time booking system. Prevent double bookings and manage your studio hours with a click."
+    },
+    "stats": {
+      "title": "Insights & Data",
+      "description": "Track revenue, active hours and growth metrics at a glance. Make data-driven decisions to increase your profitability."
+    },
+    "service": {
+      "title": "Service Setup",
+      "description": "Customize every detail of your recording or podcast packages. Set flexible pricing, add-ons, and booking terms easily."
+    },
+    "payments": {
+      "title": "Payments & Billing",
+      "description": "Accept payments securely, auto-generate invoices and manage cash flow. All in one place, hassle-free."
+    }
   },
   "features": {
     "title": "Built for Studio Owners",

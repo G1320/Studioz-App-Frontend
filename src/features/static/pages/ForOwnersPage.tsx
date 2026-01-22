@@ -15,6 +15,7 @@ import {
 } from '@shared/components/icons';
 import { GenericModal } from '@shared/components/modal';
 import { PricingSection } from '../components/PricingSection';
+import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -167,6 +168,9 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Scroll-Driven Feature Showcase */}
+      <ScrollDrivenShowcase />
 
       {/* Asset Showcase Section */}
       <section className="owners-showcase">
