@@ -16,6 +16,7 @@ import {
 import { GenericModal } from '@shared/components/modal';
 import { PricingSection } from '../components/PricingSection';
 import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
+import { ScheduleControlSection } from '../components/ScheduleControlSection';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -295,6 +296,9 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Schedule Control Section */}
+      <ScheduleControlSection />
 
       {/* Studio Preview Section */}
       <section className="owners-preview">

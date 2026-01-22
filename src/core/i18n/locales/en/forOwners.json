@@ -98,6 +98,18 @@
     "contact": "Contact",
     "rights": "All rights reserved."
   },
+  "schedule_control": {
+    "title_line1": "Accept Bookings",
+    "title_line2": "Only When It Works",
+    "description": "Set advanced availability rules, buffer times, and gaps between sessions. The system ensures no double bookings and your day runs exactly as planned.",
+    "feature1_title": "Flexible Availability Rules",
+    "feature1_description": "Set different operating hours for each day of the week or specific dates that are closed for bookings.",
+    "feature2_title": "Automatic Buffer Times",
+    "feature2_description": "Add buffer time between sessions to ensure time for setup, cleanup, and rest.",
+    "feature3_title": "Instant or Manual Approval",
+    "feature3_description": "Choose whether to approve each booking yourself or allow clients to book automatically.",
+    "cta": "Start Managing Your Calendar"
+  },
   "pricing": {
     "title": "Choose your",
     "titleAccent": "speed.",

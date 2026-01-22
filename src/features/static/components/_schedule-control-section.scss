@@ -1,0 +1,354 @@
+/**
+ * Schedule Control Section Styles
+ * Light Pro aesthetic with bold editorial typography
+ */
+@use 'utilities/variables' as vars;
+
+// Design tokens
+$schedule-bg: #ffffff;
+$schedule-text: #18181b;
+$schedule-text-muted: #71717a;
+$schedule-border: #e4e4e7;
+$schedule-surface: #f4f4f5;
+$schedule-primary: var(--color-brand);
+
+.schedule-control {
+  padding: 6rem 0;
+  background: $schedule-bg;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    padding: 8rem 0;
+  }
+
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+
+    @media (min-width: 768px) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      gap: 4rem;
+    }
+
+    @media (min-width: 1280px) {
+      gap: 6rem;
+    }
+  }
+
+  // Content Side
+  &__content {
+    width: 100%;
+    order: 2;
+
+    @media (min-width: 1024px) {
+      width: 45%;
+      order: 1;
+    }
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: $schedule-text;
+
+    @media (min-width: 768px) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__title-accent {
+    color: $schedule-primary;
+    text-decoration: underline;
+    text-decoration-color: $schedule-text;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 3px;
+  }
+
+  &__description {
+    font-size: 1.125rem;
+    color: $schedule-text-muted;
+    line-height: 1.7;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    max-width: 560px;
+
+    @media (min-width: 768px) {
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  // Features
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+
+    @media (min-width: 768px) {
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  &__feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    &:hover {
+      .schedule-control__feature-icon {
+        background: rgba(247, 192, 65, 0.1);
+        border-color: rgba(247, 192, 65, 0.3);
+
+        svg {
+          color: var(--color-brand);
+        }
+      }
+    }
+  }
+
+  &__feature-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    background: $schedule-surface;
+    border: 1px solid $schedule-border;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $schedule-text;
+      transition: color 0.3s ease;
+    }
+  }
+
+  &__feature-content {
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 900;
+      color: $schedule-text;
+      margin: 0 0 0.25rem 0;
+      letter-spacing: -0.02em;
+
+      @media (min-width: 768px) {
+        font-size: 1.25rem;
+      }
+    }
+
+    p {
+      font-size: 0.9375rem;
+      color: $schedule-text-muted;
+      font-weight: 500;
+      line-height: 1.6;
+      margin: 0;
+
+      @media (min-width: 768px) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  // CTA Button
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.125rem;
+    font-weight: 900;
+    color: $schedule-text;
+    background: $schedule-bg;
+    border: 2px solid $schedule-text;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @media (min-width: 768px) {
+      font-size: 1.25rem;
+      padding: 1.25rem 2.5rem;
+      border-radius: 1.25rem;
+    }
+
+    &:hover {
+      background: $schedule-text;
+      color: $schedule-bg;
+
+      .schedule-control__cta-icon {
+        transform: translateX(-8px);
+      }
+    }
+  }
+
+  &__cta-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  // Visual Side
+  &__visual {
+    width: 100%;
+    order: 1;
+
+    @media (min-width: 1024px) {
+      width: 55%;
+      order: 2;
+    }
+  }
+
+  &__visual-wrapper {
+    position: relative;
+  }
+
+  // Decorative Glows
+  &__deco-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+
+    &--primary {
+      top: -80px;
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      background: rgba(247, 192, 65, 0.08);
+
+      @media (min-width: 768px) {
+        width: 500px;
+        height: 500px;
+      }
+    }
+
+    &--secondary {
+      bottom: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      background: $schedule-surface;
+
+      @media (min-width: 768px) {
+        width: 400px;
+        height: 400px;
+      }
+    }
+  }
+
+  // Mockup
+  &__mockup {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Browser Frame
+  &__browser {
+    background: $schedule-bg;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid $schedule-border;
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s ease;
+
+    @media (min-width: 768px) {
+      border-radius: 2rem;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+
+      .schedule-control__browser-content img {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__browser-bar {
+    height: 2.5rem;
+    background: $schedule-surface;
+    border-bottom: 1px solid $schedule-border;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.5rem;
+
+    @media (min-width: 768px) {
+      height: 3rem;
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__browser-dots {
+    display: flex;
+    gap: 0.375rem;
+
+    span {
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: 50%;
+      background: $schedule-border;
+
+      @media (min-width: 768px) {
+        width: 0.75rem;
+        height: 0.75rem;
+      }
+    }
+  }
+
+  &__browser-address {
+    margin: 0 auto;
+    width: 33%;
+    height: 1.25rem;
+    background: $schedule-surface;
+    border: 1px solid $schedule-border;
+    border-radius: 0.5rem;
+
+    @media (min-width: 768px) {
+      height: 1.5rem;
+    }
+  }
+
+  &__browser-content {
+    aspect-ratio: 16 / 9;
+    background: $schedule-surface;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.7s ease;
+    }
+  }
+
+  &__browser-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.2), transparent, transparent);
+    pointer-events: none;
+  }
+}
