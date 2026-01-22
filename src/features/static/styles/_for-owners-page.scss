@@ -503,7 +503,14 @@
     z-index: 1;
 
     @media (min-width: 768px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      gap: vars.$spacing-large;
+    }
+  }
+
+  &__images--mobile {
+    .owners-showcase__images-grid {
+      max-width: 100%;
     }
   }
 
@@ -524,6 +531,15 @@
 
     &:hover img {
       transform: scale(1.05);
+    }
+
+    // Mobile screenshot styling - portrait orientation with phone frame effect
+    &--mobile {
+      border-radius: vars.$border-radius-2xl;
+      background: var(--bg-elevated);
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px var(--border-primary);
     }
   }
 
@@ -636,15 +652,12 @@
     position: relative;
     z-index: 2;
     display: block;
-    max-width: 100vw;
-    max-height: 100vh;
-
-    // On larger screens, add some constraints
-    @media (min-width: 768px) {
-      max-width: min(90vw, 1400px);
-      max-height: 90vh;
-      border-radius: vars.$border-radius-medium;
-    }
+    width: auto;
+    height: 77vh;
+    max-height: 77vh;
+    max-width: 94vw;
+    object-fit: contain;
+    border-radius: vars.$border-radius-large;
   }
 }
 

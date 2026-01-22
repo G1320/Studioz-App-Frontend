@@ -208,17 +208,17 @@ const ForOwnersPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Screenshots Grid */}
-            <div className="owners-showcase__images">
+            {/* Mobile Screenshots Grid */}
+            <div className="owners-showcase__images owners-showcase__images--mobile">
               <div className="owners-showcase__images-glow" />
               <div className="owners-showcase__images-grid">
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-dark-1-V2.webp')}
+                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Dark.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-dark-1-V2.webp"
+                    src="/images/optimized/Studioz-Studio-Details-1-Dark.webp"
                     alt="Studio Details Dark Mode 1"
                     loading="lazy"
                   />
@@ -228,11 +228,11 @@ const ForOwnersPage: React.FC = () => {
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-dark-2-V2.webp')}
+                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-2-Dark.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-dark-2-V2.webp"
+                    src="/images/optimized/Studioz-Studio-Details-2-Dark.webp"
                     alt="Studio Details Dark Mode 2"
                     loading="lazy"
                   />
@@ -242,25 +242,11 @@ const ForOwnersPage: React.FC = () => {
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-dark-info-V1.webp')}
+                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Light.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-dark-info-V1.webp"
-                    alt="Studio Details Dark Mode Info"
-                    loading="lazy"
-                  />
-                  <div className="owners-showcase__image-overlay">
-                    <span>{t('showcase.view_original')}</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-Light-1-V2.webp')}
-                >
-                  <img
-                    src="/images/optimized/Studioz-Studio-Details-Light-1-V2.webp"
+                    src="/images/optimized/Studioz-Studio-Details-1-Light.webp"
                     alt="Studio Details Light Mode 1"
                     loading="lazy"
                   />
@@ -270,26 +256,12 @@ const ForOwnersPage: React.FC = () => {
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-Light-2-V2.webp')}
+                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Detail-2-Light.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-Light-2-V2.webp"
+                    src="/images/optimized/Studioz-Studio-Detail-2-Light.webp"
                     alt="Studio Details Light Mode 2"
-                    loading="lazy"
-                  />
-                  <div className="owners-showcase__image-overlay">
-                    <span>{t('showcase.view_original')}</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-Light-info-V1.webp')}
-                >
-                  <img
-                    src="/images/optimized/Studioz-Studio-Details-Light-info-V1.webp"
-                    alt="Studio Details Light Mode Info"
                     loading="lazy"
                   />
                   <div className="owners-showcase__image-overlay">
@@ -387,16 +359,21 @@ const ForOwnersPage: React.FC = () => {
         className="owners-lightbox"
         ariaLabel="Image preview"
       >
-        <div className="owners-lightbox__content">
-          {/* Clickable backdrop */}
-          <div 
-            className="owners-lightbox__backdrop"
-            onClick={() => setSelectedImage(null)}
-            aria-hidden="true"
-          />
+        <div 
+          className="owners-lightbox__content"
+          onClick={() => setSelectedImage(null)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Escape' && setSelectedImage(null)}
+        >
+          {/* Background overlay */}
+          <div className="owners-lightbox__backdrop" aria-hidden="true" />
           <button
             className="owners-lightbox__close"
-            onClick={() => setSelectedImage(null)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
             type="button"
             aria-label="Close"
           >

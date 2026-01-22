@@ -7,11 +7,13 @@
  * - Hebrew RTL support
  * - Smooth animations with Framer Motion
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, CreditCard, BarChart3, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import './_scroll-driven-showcase.scss';
+
+const AUTOPLAY_INTERVAL = 6000; // 4 seconds per slide
 
 interface Feature {
   id: string;
@@ -29,7 +31,7 @@ const FEATURES: Feature[] = [
     descriptionKey: 'showcase.calendar.description',
     icon: Calendar,
     color: '#f7c041',
-    image: 'https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/3a367b33-67cb-40f8-95ff-6e999870beae/1769012590264-b28e14a0/Studioz-calendar.PNG'
+    image: '/images/optimized/Studioz-Dashboard-Calendar.webp'
   },
   {
     id: 'stats',
@@ -60,11 +62,53 @@ const FEATURES: Feature[] = [
 export const ScrollDrivenShowcase: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
   const activeFeature = FEATURES[activeIndex];
   const Icon = activeFeature.icon;
 
+  // Auto-advance to next slide
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % FEATURES.length);
+    setProgress(0); // Reset progress for new slide
+  }, []);
+
+  // Progress animation effect
+  useEffect(() => {
+    if (isPaused) return;
+
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          nextSlide();
+          return 0;
+        }
+        return prev + (100 / (AUTOPLAY_INTERVAL / 50)); // Update every 50ms
+      });
+    }, 50);
+
+    return () => clearInterval(progressInterval);
+  }, [isPaused, nextSlide]);
+
+  // Handle manual dot click - pause permanently until mouse leaves
+  const handleDotClick = (idx: number) => {
+    setActiveIndex(idx);
+    setProgress(100); // Show pill as fully selected
+    setIsPaused(true);
+  };
+
+  // Pause on hover/touch
+  const handleInteractionStart = () => setIsPaused(true);
+  const handleInteractionEnd = () => setIsPaused(false);
+
   return (
-    <section className="feature-showcase">
+    <section 
+      className="feature-showcase"
+      onMouseEnter={handleInteractionStart}
+      onMouseLeave={handleInteractionEnd}
+      onTouchStart={handleInteractionStart}
+      onTouchEnd={handleInteractionEnd}
+    >
       <div className="feature-showcase__container">
         
         {/* Text Side */}
@@ -103,19 +147,24 @@ export const ScrollDrivenShowcase: React.FC = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Dots */}
-            <div className="feature-showcase__dots">
+            {/* Progress Indicators */}
+            <div className="feature-showcase__progress-bars">
               {FEATURES.map((feature, idx) => (
                 <button
                   key={feature.id}
                   type="button"
-                  className={`feature-showcase__dot ${idx === activeIndex ? 'feature-showcase__dot--active' : ''}`}
-                  style={{ 
-                    backgroundColor: idx === activeIndex ? feature.color : undefined 
-                  }}
-                  onClick={() => setActiveIndex(idx)}
+                  className={`feature-showcase__progress-bar ${idx === activeIndex ? 'feature-showcase__progress-bar--active' : ''} ${idx < activeIndex ? 'feature-showcase__progress-bar--completed' : ''}`}
+                  onClick={() => handleDotClick(idx)}
                   aria-label={t(feature.titleKey)}
-                />
+                >
+                  <div 
+                    className="feature-showcase__progress-fill"
+                    style={{ 
+                      width: idx === activeIndex ? `${progress}%` : idx < activeIndex ? '100%' : '0%',
+                      backgroundColor: feature.color
+                    }}
+                  />
+                </button>
               ))}
             </div>
           </div>
