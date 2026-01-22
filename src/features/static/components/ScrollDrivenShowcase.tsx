@@ -7,13 +7,14 @@
  * - Hebrew RTL support
  * - Smooth animations with Framer Motion
  */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, CreditCard, BarChart3, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import './_scroll-driven-showcase.scss';
 
-const AUTOPLAY_INTERVAL = 6000; // 4 seconds per slide
+const AUTOPLAY_INTERVAL = 6000; // 6 seconds per slide
+const SWIPE_THRESHOLD = 50; // Minimum swipe distance in pixels
 
 interface Feature {
   id: string;
@@ -66,11 +67,21 @@ export const ScrollDrivenShowcase: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const activeFeature = FEATURES[activeIndex];
   const Icon = activeFeature.icon;
+  
+  // Touch/swipe handling
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
 
   // Auto-advance to next slide
   const nextSlide = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % FEATURES.length);
     setProgress(0); // Reset progress for new slide
+  }, []);
+
+  // Go to previous slide
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + FEATURES.length) % FEATURES.length);
+    setProgress(0);
   }, []);
 
   // Progress animation effect
@@ -101,13 +112,60 @@ export const ScrollDrivenShowcase: React.FC = () => {
   const handleInteractionStart = () => setIsPaused(true);
   const handleInteractionEnd = () => setIsPaused(false);
 
+  // Swipe/scroll handling
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    setIsPaused(true);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX.current;
+    const deltaY = touchEndY - touchStartY.current;
+    
+    // Only handle horizontal swipes (ignore vertical scrolling)
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      if (deltaX > 0) {
+        // Swipe right - next slide in RTL (previous in LTR)
+        nextSlide();
+      } else {
+        // Swipe left - previous slide in RTL (next in LTR)
+        prevSlide();
+      }
+      setProgress(0);
+    }
+    
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  // Handle mouse wheel horizontal scroll
+  const handleWheel = (e: React.WheelEvent) => {
+    // Only respond to horizontal scroll or significant deltaX
+    if (Math.abs(e.deltaX) > 30) {
+      e.preventDefault();
+      setIsPaused(true);
+      if (e.deltaX > 0) {
+        prevSlide();
+      } else {
+        nextSlide();
+      }
+      setProgress(0);
+    }
+  };
+
   return (
     <section 
       className="feature-showcase"
       onMouseEnter={handleInteractionStart}
       onMouseLeave={handleInteractionEnd}
-      onTouchStart={handleInteractionStart}
-      onTouchEnd={handleInteractionEnd}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onWheel={handleWheel}
     >
       <div className="feature-showcase__container">
         
