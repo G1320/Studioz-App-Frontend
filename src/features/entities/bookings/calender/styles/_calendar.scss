@@ -7,10 +7,10 @@
 
 .studioz-calendar {
   width: 100%;
-  min-height: 100vh;
   background: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
+  padding-bottom: vars.$spacing-2xl;
 
   // Container
   &__container {
@@ -192,7 +192,6 @@
     padding: vars.$spacing-xs;
     box-shadow: var(--shadow-lg);
     overflow: hidden;
-    min-height: 600px;
     border: 1px solid var(--border-primary);
     width: 100%;
     max-width: 100%;
