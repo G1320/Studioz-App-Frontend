@@ -400,6 +400,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     transition: color 0.2s ease;
+    direction: ltr; // Keep time reading left-to-right so hours show first when truncated
+    text-align: start;
   }
 
   &__event-bar {
