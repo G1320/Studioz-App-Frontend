@@ -5,6 +5,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircleIcon } from '@shared/components/icons';
 import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/forms/SubscriptionPaymentForm';
 import '../styles/_pricing-section.scss';
@@ -29,6 +30,7 @@ interface PricingSectionProps {
 
 export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }) => {
   const { t, i18n } = useTranslation('forOwners');
+  const navigate = useNavigate();
   const isRtl = i18n.language === 'he';
   
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
@@ -42,7 +44,8 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
 
   const handlePlanSelect = (plan: Plan) => {
     if (plan.id === 'free') {
-      // Free plan doesn't need payment form - could navigate to signup
+      // Free plan navigates directly to create studio
+      navigate('/studio/create');
       return;
     }
     

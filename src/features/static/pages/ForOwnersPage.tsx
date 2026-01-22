@@ -6,7 +6,6 @@ import {
   CalendarIcon,
   CreditCardIcon,
   PublicIcon,
-  CheckCircleIcon,
   ArrowForwardIcon,
   ClockIcon,
   DashboardIcon,
@@ -39,9 +38,7 @@ const ForOwnersPage: React.FC = () => {
     navigate('/studio/create');
   };
 
-  const handleViewDemo = () => {
-    navigate('/how-it-works');
-  };
+ 
 
   // const stats = [
   //   { label: t('stats.active_studios'), value: '500+' },
@@ -89,13 +86,13 @@ const ForOwnersPage: React.FC = () => {
     }
   ];
 
-  const studioFeatures = [
-    t('studio_preview.feature1'),
-    // t('studio_preview.feature2'),
-    t('studio_preview.feature3'),
-    t('studio_preview.feature4'),
-    t('studio_preview.feature5')
-  ];
+  // const studioFeatures = [
+  //   t('studio_preview.feature1'),
+  //   // t('studio_preview.feature2'),
+  //   t('studio_preview.feature3'),
+  //   t('studio_preview.feature4'),
+  //   t('studio_preview.feature5')
+  // ];
 
   return (
     <div className="owners-page">
@@ -299,40 +296,6 @@ const ForOwnersPage: React.FC = () => {
 
       {/* Schedule Control Section */}
       <ScheduleControlSection />
-
-      {/* Studio Preview Section */}
-      <section className="owners-preview">
-        <div className="owners-container">
-          <div className="owners-preview__content">
-            <div className="owners-preview__text">
-              <h2 className="owners-section-title">
-                {t('studio_preview.title_part1')} <br />
-                <span className="owners-hero__accent">{t('studio_preview.title_accent')}</span>
-              </h2>
-              <p className="owners-preview__description">{t('studio_preview.description')}</p>
-              <ul className="owners-preview__list">
-                {studioFeatures.map((item, i) => (
-                  <li key={i}>
-                    <CheckCircleIcon />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <button className="owners-preview__link" onClick={handleViewDemo} type="button">
-                {t('studio_preview.cta')} <ArrowForwardIcon />
-              </button>
-            </div>
-            <div className="owners-preview__image-wrapper">
-              <div className="owners-preview__glow" />
-              <img
-                src="https://pquxfbbxflqvtidtlrhl.supabase.co/storage/v1/object/public/hmac-uploads/brand/91893494-7bbb-41d7-99cc-7cc9c8d44ebc/assets/17f74143-c16b-4ec8-9977-28fe1929edaf.jpg"
-                alt="Studio Page Example"
-                className="owners-preview__image"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Pricing Section */}
       <PricingSection />
