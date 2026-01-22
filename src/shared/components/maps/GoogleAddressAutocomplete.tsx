@@ -1,5 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import { Autocomplete } from '@react-google-maps/api';
+import { Autocomplete, LoadScript } from '@react-google-maps/api';
+
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+const LIBRARIES: ('places')[] = ['places'];
 
 interface EnglishAddressData {
   address: string;
@@ -106,19 +109,15 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
     }
   }, [defaultValue]);
 
-  return (
-    <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChange}>
+  if (!GOOGLE_MAPS_API_KEY) {
+    return (
       <input
-        ref={inputRef}
         className="form-input"
         type="text"
         name={fieldName}
         id={fieldName}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        onChange={handleInputChange}
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={ariaInvalid}
+        placeholder="Google Maps API key not configured"
+        disabled
         style={{
           width: '100%',
           padding: '0.5rem',
@@ -126,6 +125,31 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
           borderRadius: '4px'
         }}
       />
-    </Autocomplete>
+    );
+  }
+
+  return (
+    <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={LIBRARIES}>
+      <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChange}>
+        <input
+          ref={inputRef}
+          className="form-input"
+          type="text"
+          name={fieldName}
+          id={fieldName}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          onChange={handleInputChange}
+          aria-describedby={ariaDescribedBy}
+          aria-invalid={ariaInvalid}
+          style={{
+            width: '100%',
+            padding: '0.5rem',
+            border: '1px solid #ccc',
+            borderRadius: '4px'
+          }}
+        />
+      </Autocomplete>
+    </LoadScript>
   );
 };

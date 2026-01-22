@@ -36,15 +36,13 @@ $showcase-phone-border: #18181b;
   &__text-side {
     flex: 1;
     width: 100%;
+    text-align: start;
   }
 
   &__text-content {
     max-width: 28rem;
-    margin: 0 auto;
-
-    @media (min-width: 768px) {
-      margin: 0;
-    }
+    margin: 0;
+    text-align: start;
   }
 
   // Feature Content
