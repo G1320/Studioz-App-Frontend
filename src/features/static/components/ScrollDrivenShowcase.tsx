@@ -45,7 +45,7 @@ const FEATURES: Feature[] = [
     descriptionKey: 'showcase.service.description',
     icon: Sparkles,
     color: '#10b981',
-    image: 'https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/3a367b33-67cb-40f8-95ff-6e999870beae/1769012593305-ffadc3ba/Studioz-Service-Details.PNG'
+    image: '/images/optimized/Studioz-Studio-Details-Order-1-Light.webp'
   },
   {
     id: 'payments',
