@@ -114,36 +114,40 @@
 .owners-hero {
   position: relative;
   padding: 5rem 0 5rem;
-  overflow: visible; // Allow pseudo-element to extend above
+  overflow: visible;
   
-  // Light mode: dark gradient that complements gold brand color
+  // Light mode: light gray background with subtle grid
   [data-theme='light'] & {
-    background: linear-gradient(
-      180deg,
-      #1a1a2e 0%,
-      #16213e 50%,
-      #0f0f23 100%
-    );
-    margin-top: -100px; // Pull up to cover header gap
-    padding-top: calc(5rem + 100px); // Compensate for margin
+    background-color: #f4f4f5;
+    background-image: 
+      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
     
-    // Override text colors for dark background in light mode
-    .owners-hero__title,
-    .owners-hero__description {
-      color: #ffffff;
+    // Fade out the grid at the bottom
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      background: linear-gradient(to bottom, transparent, #f4f4f5 70%, var(--bg-primary));
+      pointer-events: none;
+    }
+    
+    // Dark text for light background
+    .owners-hero__title {
+      color: #18181b;
     }
     
     .owners-hero__description {
-      color: rgba(255, 255, 255, 0.8);
+      color: #52525b;
     }
   }
 
   @media (min-width: 768px) {
-    padding: 13rem 0 8rem;
-    
-    [data-theme='light'] & {
-      padding-top: calc(13rem + 100px);
-    }
+    padding: 8rem 0 6rem;
   }
 
   &__glow {
@@ -154,7 +158,7 @@
     pointer-events: none;
     
     [data-theme='light'] & {
-      opacity: 0.3;
+      opacity: 0.15;
     }
 
     &--primary {
@@ -175,7 +179,11 @@
       right: 10%;
       width: 384px;
       height: 384px;
-      background: var(--color-info);
+      background: var(--color-brand);
+      
+      [data-theme='light'] & {
+        background: #d4d4d8;
+      }
 
       [dir='rtl'] & {
         right: auto;
