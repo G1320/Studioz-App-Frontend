@@ -143,7 +143,7 @@ export const ScheduleControlSection: React.FC = () => {
                   {/* Content Area */}
                   <div className="schedule-control__browser-content">
                     <img 
-                      src="/images/optimized/Studio-Availability-Controls-desktop-1-V2.webp"
+                      src="/images/optimized/Studio-Availability-Controls-desktop-1-V3.webp"
                       alt="Studio Availability Control Interface"
                       loading="lazy"
                     />
