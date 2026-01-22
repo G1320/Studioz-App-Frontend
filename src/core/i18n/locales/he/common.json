@@ -52,6 +52,9 @@
     "out_of_stock": "Out of Stock",
     "availability": "Availability"
   },
+  "addOns": {
+    "sectionTitle": "שירותים נוספים"
+  },
   "search": {
     "placeholder": "חפש אולפן או שירות"
   },

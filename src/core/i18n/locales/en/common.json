@@ -52,6 +52,9 @@
     "out_of_stock": "Out of Stock",
     "availability": "Availability"
   },
+  "addOns": {
+    "sectionTitle": "Add-ons"
+  },
   "search": {
     "placeholder": "Search studios and services"
   },

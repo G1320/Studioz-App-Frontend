@@ -153,6 +153,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
           >
             {isFeatureEnabled('addOns') && addOns.length > 0 && (
               <section className="item-addons-section">
+                <h4 className="item-addons-section__label">{t('addOns.sectionTitle', 'שירותים נוספים')}</h4>
                 <AddOnsList addOns={addOns} showAddButton onAdd={onAddOnToggle} selectedAddOnIds={selectedAddOnIds} />
               </section>
             )}

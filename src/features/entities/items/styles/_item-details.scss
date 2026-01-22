@@ -202,62 +202,66 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-medium;
-    border-radius: 12px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-primary);
+    gap: vars.$spacing-xs;
+    padding-bottom: vars.$spacing-small;
+    padding-inline:   vars.$spacing-xs;
+    border-bottom: 1px solid var(--border-secondary);
+    margin-bottom: vars.$spacing-xs;
 
-    h3 {
+    &__label {
       margin: 0;
-      color: var(--text-primary);
-      font-size: vars.$font-size-large;
-      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: vars.$font-size-small;
+      font-weight: 500;
+      text-align: start;
     }
 
     .addons-list {
       display: flex;
       flex-direction: column;
-      gap: vars.$spacing-small;
+      gap: 0;
     }
 
     .addon-card {
-      background: var(--bg-input);
-      border: 1px solid var(--border-primary);
+      background: transparent;
+      border: none;
       color: var(--text-primary);
       display: flex;
-      flex-direction: column;
-      padding: vars.$spacing-sm-md;
-      margin: 0;
+      flex-direction: row;
+      align-items: center;
+      padding: vars.$spacing-small vars.$spacing-sm-md;
+      margin: 0 calc(-1 * vars.$spacing-sm-md);
       box-shadow: none;
-      border-radius: 12px;
-      transition: all 0.2s ease;
-      max-width: 100%;
+      border-radius: vars.$border-radius-small;
+      transition: background 0.15s ease;
+      max-width: calc(100% + 2 * vars.$spacing-sm-md);
       min-width: 0;
       overflow: hidden;
+      cursor: pointer;
 
       &:hover {
-        border-color: var(--border-hover);
         background: var(--bg-hover);
       }
 
       &.selected {
-        border-color: var(--color-brand);
-        background: var(--bg-hover);
-        box-shadow: 0 0 0 1px var(--color-brand);
+        background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.1);
 
         &:hover {
-          border-color: var(--color-brand);
-          background: var(--bg-hover);
+          background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
         }
       }
+
       &-content {
         display: flex;
         flex-direction: row;
-        gap: vars.$spacing-medium;
+        gap: vars.$spacing-sm-md;
         align-items: center;
         min-width: 0;
         width: 100%;
+      }
+
+      &-image {
+        display: none; // Hide image in item details for cleaner look
       }
 
       &-left {
@@ -266,14 +270,14 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: vars.$spacing-xs;
+        gap: 0;
       }
 
       &-right {
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: vars.$spacing-xs;
+        flex-direction: row;
+        align-items: center;
+        gap: vars.$spacing-sm-md;
         flex-shrink: 0;
       }
 
@@ -281,63 +285,41 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: vars.$spacing-xs;
+        gap: vars.$spacing-sm-md;
       }
 
       &-name {
         color: var(--text-primary);
         margin: 0;
         font-size: vars.$font-size-medium;
-        font-weight: 600;
+        font-weight: 500;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
       &-description {
-        color: var(--text-secondary);
-        margin: 0;
-        font-size: vars.$font-size-small;
-        white-space: pre-line; // Preserve line breaks
-        max-width: 100%;
-        overflow: hidden;
+        display: none; // Hide description in item details for cleaner look
       }
 
       &-price {
         margin: 0;
-        font-size: 0.8rem;
+        font-size: vars.$font-size-small;
         font-weight: 600;
-        color: var(--color-brand);
+        white-space: nowrap;
+
+        &__amount {
+          color: var(--color-brand-text);
+        }
+
+        &__per {
+          color: var(--text-secondary);
+          font-weight: 400;
+        }
       }
 
       &-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: vars.$spacing-xs;
-
-        button {
-          background: var(--bg-hover);
-          color: var(--text-primary);
-          padding: vars.$spacing-xs vars.$spacing-xs;
-          border-radius: vars.$border-radius-small;
-
-          &.btn-edit {
-            background: var(--color-info);
-
-            &:hover {
-              background: var(--color-info-dark);
-            }
-          }
-
-          &.btn-delete {
-            background: var(--color-error);
-
-            &:hover {
-              background: var(--color-error-dark);
-            }
-          }
-        }
+        display: none; // Hide edit/delete in item details view
       }
     }
   }
