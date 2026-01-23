@@ -175,7 +175,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     disconnect: disconnectCalendar
   } = useGoogleCalendar();
   const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
-  const hasActiveSubscription = hasSubscription && user?.subscriptionStatus === 'ACTIVE';
+  const hasActiveSubscription = hasSubscription && ['ACTIVE', 'TRIAL'].includes(user?.subscriptionStatus || '');
 
   // Get plan display info
   const getPlanName = () => {

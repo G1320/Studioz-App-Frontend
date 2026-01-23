@@ -16,6 +16,8 @@ export interface FeatureAccessResult {
   tier: SubscriptionTier;
   /** Whether user has an active subscription */
   hasSubscription: boolean;
+  /** Whether user is on a trial subscription */
+  isTrial: boolean;
   /** Whether subscription data is still loading */
   isLoading: boolean;
   /** Check if user has access to a specific feature */
@@ -57,7 +59,7 @@ export interface FeatureAccessResult {
  * ```
  */
 export const useFeatureAccess = (): FeatureAccessResult => {
-  const { isLoading, hasSubscription, isPro, isStarter, subscription } = useSubscription();
+  const { isLoading, hasSubscription, isPro, isStarter, isTrial, subscription } = useSubscription();
 
   // Determine current tier
   const tier = useMemo((): SubscriptionTier => {
@@ -123,6 +125,7 @@ export const useFeatureAccess = (): FeatureAccessResult => {
   return {
     tier,
     hasSubscription,
+    isTrial,
     isLoading,
     hasFeature,
     hasTier,

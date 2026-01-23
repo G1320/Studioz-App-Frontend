@@ -90,7 +90,8 @@
       "month": "month",
       "status": "Status",
       "active": "Active",
-      "inactive": "Inactive"
+      "inactive": "Inactive",
+      "trial": "Trial"
     },
     "connected": "Connected",
     "notConnected": "Not connected",

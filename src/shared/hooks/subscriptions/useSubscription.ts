@@ -3,11 +3,15 @@ import { useUserContext } from '@core/contexts';
 import { getSubscriptionDetails } from '@shared/services/subscription-service';
 import type { Subscription } from 'src/types/subscription';
 
+// Valid subscription statuses that count as "has subscription"
+const ACTIVE_STATUSES = ['ACTIVE', 'TRIAL'];
+
 interface SubscriptionState {
   isLoading: boolean;
   hasSubscription: boolean;
   isPro: boolean;
   isStarter: boolean;
+  isTrial: boolean;
   subscription: Subscription | null;
 }
 
@@ -18,18 +22,22 @@ export const useSubscription = () => {
     hasSubscription: false,
     isPro: false,
     isStarter: false,
+    isTrial: false,
     subscription: null
   });
 
   useEffect(() => {
     const checkSubscription = async () => {
-      if (!user?._id || !user.subscriptionId || user.subscriptionStatus !== 'ACTIVE') {
+      const hasValidStatus = user?.subscriptionStatus && ACTIVE_STATUSES.includes(user.subscriptionStatus);
+      
+      if (!user?._id || !user.subscriptionId || !hasValidStatus) {
         setSubscriptionData((prev) => ({
           ...prev,
           isLoading: false,
           hasSubscription: false,
           isPro: false,
           isStarter: false,
+          isTrial: false,
           subscription: null
         }));
         return;
@@ -43,6 +51,7 @@ export const useSubscription = () => {
           hasSubscription: true,
           isPro: subscription.planId === 'pro',
           isStarter: subscription.planId === 'starter',
+          isTrial: user.subscriptionStatus === 'TRIAL',
           subscription
         });
       } catch (error) {
@@ -52,6 +61,7 @@ export const useSubscription = () => {
           hasSubscription: false,
           isPro: false,
           isStarter: false,
+          isTrial: false,
           subscription: null
         });
       }

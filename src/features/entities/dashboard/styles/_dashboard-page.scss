@@ -208,6 +208,10 @@
     svg {
       width: 20px;
       height: 20px;
+
+      [dir='rtl'] & {
+        transform: rotate(180deg);
+      }
     }
 
     &:hover {

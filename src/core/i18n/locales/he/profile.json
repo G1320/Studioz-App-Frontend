@@ -90,7 +90,8 @@
       "month": "חודש",
       "status": "סטטוס",
       "active": "פעיל",
-      "inactive": "לא פעיל"
+      "inactive": "לא פעיל",
+      "trial": "תקופת ניסיון"
     },
     "connected": "מחובר",
     "notConnected": "לא מחובר",
