@@ -251,10 +251,11 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
           reservationId: reservation._id,
           updates
         });
-        // Close modal after successful update
-        if (onCancel) {
-          onCancel();
-        }
+      }
+      // Close modal after successful save (whether or not there were changes)
+      if (onCancel) {
+        onCancel();
+        return; // Don't update state after closing modal
       }
       setIsEditing(false);
     } catch (error) {

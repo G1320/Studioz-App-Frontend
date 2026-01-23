@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useReservation, useStudios } from '@shared/hooks';
-import { useUserContext } from '@core/contexts';
+import { useUserContext, useReservationModal } from '@core/contexts';
 import { ReservationCard } from './ReservationCard';
 import './styles/_reservation-details.scss';
 
@@ -12,6 +12,7 @@ interface ReservationDetailsProps {
 export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservationId }) => {
   const { t } = useTranslation('reservations');
   const { user } = useUserContext();
+  const { closeReservationModal } = useReservationModal();
   const { data: allStudios = [], isLoading: isLoadingStudios } = useStudios();
   const { data: reservation, isLoading: isLoadingReservation, error } = useReservation(reservationId);
 
@@ -45,7 +46,12 @@ export const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservat
 
   return (
     <article className="reservation-details">
-      <ReservationCard reservation={reservation} variant="itemCard" userStudios={userStudios} />
+      <ReservationCard 
+        reservation={reservation} 
+        variant="itemCard" 
+        userStudios={userStudios}
+        onCancel={closeReservationModal}
+      />
     </article>
   );
 };
