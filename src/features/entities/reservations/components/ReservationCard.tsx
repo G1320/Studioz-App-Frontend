@@ -608,7 +608,9 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                               reservationId: reservation._id,
                               updates: { status: 'confirmed' }
                             });
+                            // Close modal after successful confirm
                             if (onConfirm) onConfirm();
+                            if (onCancel) onCancel();
                           } catch (error) {
                             console.error('Error confirming reservation:', error);
                           }
