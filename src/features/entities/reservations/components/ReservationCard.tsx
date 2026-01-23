@@ -251,6 +251,10 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
           reservationId: reservation._id,
           updates
         });
+        // Close modal after successful update
+        if (onCancel) {
+          onCancel();
+        }
       }
       setIsEditing(false);
     } catch (error) {
@@ -530,6 +534,29 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                   <CloseIcon className="reservation-card__action-icon" />
                   <span>{t('cancelChanges', 'בטל שינויים')}</span>
                 </button>
+                {/* Cancel reservation button for studio owners in edit mode */}
+                {isStudioOwner && !isCancelledStatus && !showCancelConfirm && (
+                  <button
+                    className="reservation-card__action-btn reservation-card__action-btn--cancel"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCancel();
+                    }}
+                    disabled={cancelMutation.isPending}
+                  >
+                    <CancelIcon className="reservation-card__action-icon" />
+                    <span>{t('cancelReservation', 'בטל הזמנה')}</span>
+                  </button>
+                )}
+                {showCancelConfirm && (
+                  <div className="reservation-card__cancel-confirm-wrapper" onClick={(e) => e.stopPropagation()}>
+                    <CancelReservationConfirm
+                      onConfirm={handleCancel}
+                      onCancel={() => setShowCancelConfirm(false)}
+                      isPending={cancelMutation.isPending}
+                    />
+                  </div>
+                )}
               </>
             ) : (
               <>
@@ -593,7 +620,7 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                   </>
                 )}
 
-                {variant === 'itemCard' && (
+                {variant === 'itemCard' && !isStudioOwner && (
                   <button
                     className="reservation-card__action-btn reservation-card__action-btn--secondary"
                     onClick={(e) => {

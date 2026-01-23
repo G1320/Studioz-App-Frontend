@@ -40,6 +40,7 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
         title=""
         studioAvailability={studioAvailability}
         studioReservations={calendarReservations}
+        userStudios={studios}
         onNewEvent={onNewReservation}
       />
     </div>

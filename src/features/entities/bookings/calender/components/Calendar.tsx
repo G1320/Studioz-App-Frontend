@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/he';
 import { useTranslation } from 'react-i18next';
-import { StudioAvailability } from 'src/types/studio';
+import { StudioAvailability, Studio } from 'src/types/studio';
 import Reservation from 'src/types/reservation';
 import { ReservationCard } from '@features/entities/reservations';
 import { GenericModal } from '@shared/components';
@@ -27,6 +27,7 @@ interface CalendarProps {
   title?: string;
   studioAvailability?: StudioAvailability;
   studioReservations?: Reservation[];
+  userStudios?: Studio[];
   onNewEvent?: () => void;
 }
 
@@ -430,6 +431,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   studioAvailability: _studioAvailability,
   studioReservations = [],
+  userStudios = [],
   onNewEvent
 }) => {
   const { t, i18n } = useTranslation('common');
@@ -563,7 +565,12 @@ export const Calendar: React.FC<CalendarProps> = ({
       {/* Event Modal */}
       {selectedEvent?.reservation && (
         <GenericModal open={!!selectedEvent} onClose={handleCloseModal} className="calendar-event-modal">
-          <ReservationCard reservation={selectedEvent.reservation} variant="itemCard" />
+          <ReservationCard 
+            reservation={selectedEvent.reservation} 
+            variant="itemCard" 
+            userStudios={userStudios}
+            onCancel={handleCloseModal}
+          />
         </GenericModal>
       )}
     </div>
