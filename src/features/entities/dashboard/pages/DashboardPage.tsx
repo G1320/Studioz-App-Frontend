@@ -4,11 +4,12 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import { User, Studio } from 'src/types/index';
-import { useReservations } from '@shared/hooks';
+import { useReservations, useLanguageNavigate } from '@shared/hooks';
 import { GenericCarousel } from '@shared/components';
 import { DashboardCalendar, RecentActivity, QuickActions, ManualBookingModal } from '../components';
 import { StudioManager, StudioBlockModal } from '@features/entities/studios';
 import { QuickChargeModal, NewInvoiceModal } from '@features/entities/merchant-documents';
+import { BusinessIcon, ArrowForwardIcon } from '@shared/components/icons';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
@@ -37,6 +38,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   const { t, i18n } = useTranslation('dashboard');
   const { data: reservations = [] } = useReservations();
   const [searchParams, setSearchParams] = useSearchParams();
+  const langNavigate = useLanguageNavigate();
 
   // Modal states
   const [isQuickChargeOpen, setIsQuickChargeOpen] = useState(false);
@@ -177,10 +179,42 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setIsNewInvoiceOpen(false);
   }, []);
 
+  // Check if user is a subscriber but doesn't have studios yet
+  const isSubscriber = user?.subscriptionStatus && ['ACTIVE', 'TRIAL'].includes(user.subscriptionStatus);
+  const showEmptyState = isSubscriber && !isStudioOwner;
+
   return (
     <div className="dashboard-page">
       {/* Dashboard Title */}
       <h1 className="dashboard-page__title">{t('title', 'Dashboard')}</h1>
+
+      {/* Empty State for subscribers without studios */}
+      {showEmptyState && (
+        <motion.div 
+          className="dashboard-empty-state"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+          <div className="dashboard-empty-state__icon">
+            <BusinessIcon />
+          </div>
+          <h2 className="dashboard-empty-state__title">
+            {t('emptyState.title', 'ברוכים הבאים! 🎉')}
+          </h2>
+          <p className="dashboard-empty-state__description">
+            {t('emptyState.description', 'המינוי שלך פעיל. הגיע הזמן ליצור את האולפן הראשון שלך ולהתחיל לקבל הזמנות.')}
+          </p>
+          <button 
+            className="dashboard-empty-state__cta"
+            onClick={() => langNavigate('/studio/create')}
+          >
+            <BusinessIcon />
+            {t('emptyState.createStudio', 'צור את האולפן שלך')}
+            <ArrowForwardIcon />
+          </button>
+        </motion.div>
+      )}
 
       {/* Quick Actions for Studio Owners */}
       {isStudioOwner && (

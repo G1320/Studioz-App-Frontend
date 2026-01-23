@@ -141,3 +141,108 @@
     }
   }
 }
+
+// ==========================================
+// DASHBOARD EMPTY STATE
+// ==========================================
+
+.dashboard-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: vars.$spacing-4xl vars.$spacing-xl;
+  margin: vars.$spacing-2xl 0;
+  background: var(--bg-secondary);
+  border-radius: vars.$border-radius-2xl;
+  border: 1px dashed var(--border-secondary);
+
+  &__icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-brand);
+    border-radius: 50%;
+    margin-bottom: vars.$spacing-xl;
+
+    svg {
+      width: 40px;
+      height: 40px;
+      color: var(--btn-primary-text);
+    }
+  }
+
+  &__title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 vars.$spacing-medium 0;
+    letter-spacing: -0.025em;
+  }
+
+  &__description {
+    font-size: vars.$font-size-lg;
+    color: var(--text-secondary);
+    margin: 0 0 vars.$spacing-2xl 0;
+    max-width: 400px;
+    line-height: 1.6;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+    padding: vars.$spacing-medium vars.$spacing-2xl;
+    font-size: vars.$font-size-lg;
+    font-weight: 600;
+    color: var(--btn-primary-text);
+    background: var(--color-brand);
+    border: none;
+    border-radius: vars.$border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: var(--color-brand-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 640px) {
+    padding: vars.$spacing-2xl vars.$spacing-medium;
+    margin: vars.$spacing-large 0;
+
+    &__icon {
+      width: 64px;
+      height: 64px;
+
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &__description {
+      font-size: vars.$font-size-medium;
+    }
+
+    &__cta {
+      width: 100%;
+      justify-content: center;
+      padding: vars.$spacing-medium;
+    }
+  }
+}

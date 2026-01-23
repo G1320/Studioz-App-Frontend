@@ -3,6 +3,11 @@
   "welcome": "Welcome, {{name}}!",
   "guest": "Guest",
   "studioOwnerSubtitle": "Manage your studios and bookings",
+  "emptyState": {
+    "title": "Welcome! 🎉",
+    "description": "Your subscription is active. It's time to create your first studio and start receiving bookings.",
+    "createStudio": "Create Your Studio"
+  },
   "tabs": {
     "overview": "Calendar",
     "activity": "Activity",

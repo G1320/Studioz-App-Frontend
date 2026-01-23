@@ -247,6 +247,7 @@ $font-size-xs: 10px;
 $font-size-small: 12px;
 $font-size-sm-md: 14px; // Between small and medium
 $font-size-medium: 16px;
+$font-size-lg: 18px; // Between medium and large
 $font-size-large: 20px;
 $font-size-xl: 24px;
 $font-size-2xl: 32px;
@@ -254,6 +255,7 @@ $font-size-3xl: 40px;
 
 // Spacing
 $spacing-xs: 4px;
+$spacing-sm: 6px; // Small
 $spacing-small: 8px;
 $spacing-sm-md: 12px; // Between small and medium
 $spacing-medium: 16px;
@@ -262,6 +264,7 @@ $spacing-large: 24px;
 $spacing-xl: 32px;
 $spacing-2xl: 48px;
 $spacing-3xl: 64px;
+$spacing-4xl: 80px;
 
 // Border Radius
 $border-radius-xs: 6px;

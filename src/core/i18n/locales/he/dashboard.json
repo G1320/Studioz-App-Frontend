@@ -3,6 +3,11 @@
   "welcome": "ברוכים הבאים, {{name}}!",
   "guest": "אורח",
   "studioOwnerSubtitle": "נהל את הסטודיו וההזמנות שלך",
+  "emptyState": {
+    "title": "ברוכים הבאים! 🎉",
+    "description": "המינוי שלך פעיל. הגיע הזמן ליצור את האולפן הראשון שלך ולהתחיל לקבל הזמנות.",
+    "createStudio": "צור את האולפן שלך"
+  },
   "tabs": {
     "overview": "יומן",
     "activity": "פעילות",
