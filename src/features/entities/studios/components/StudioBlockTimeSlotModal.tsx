@@ -534,14 +534,17 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
         </div>
       )}
 
-      {/* Info text for entire day blocking */}
-      {blockMode === 'singleDay' && entireDayHours > 0 && (
-        <div className="entire-day-info">
-          {t('studio:will_block_hours', { 
-            hours: entireDayHours, 
-            start: studioAvailability?.times[0]?.start,
-            end: studioAvailability?.times[0]?.end
-          })}
+      {/* Info text for entire day blocking - wrapped in block-section for consistent height */}
+      {blockMode === 'singleDay' && (
+        <div className="block-section">
+          <label className="block-section__label">{t('studio:duration', 'Duration')}</label>
+          <div className="entire-day-info">
+            {entireDayHours > 0 ? t('studio:will_block_hours', { 
+              hours: entireDayHours, 
+              start: studioAvailability?.times[0]?.start,
+              end: studioAvailability?.times[0]?.end
+            }) : t('studio:select_date', 'Select a date')}
+          </div>
         </div>
       )}
 
