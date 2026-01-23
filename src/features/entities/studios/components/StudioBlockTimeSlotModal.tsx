@@ -395,21 +395,12 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
         </div>
 
         <div className="block-range-calendar__hint">
-          {selectingRangeStart 
-            ? t('studio:select_start_date', 'Select start date')
-            : t('studio:select_end_date', 'Select end date')}
+          {rangeStart && rangeEnd 
+            ? `${rangeStart.format('DD/MM')} - ${rangeEnd.format('DD/MM')}`
+            : selectingRangeStart 
+              ? t('studio:select_start_date', 'Select start date')
+              : t('studio:select_end_date', 'Select end date')}
         </div>
-
-        {rangeStart && rangeEnd && (
-          <div className="block-range-calendar__summary">
-            {t('studio:will_block_days', { 
-              count: daysToBlock,
-              start: rangeStart.format('DD/MM'),
-              end: rangeEnd.format('DD/MM'),
-              defaultValue: 'Will block {{count}} days ({{start}} - {{end}})'
-            })}
-          </div>
-        )}
       </div>
     );
   };
@@ -538,11 +529,11 @@ export const StudioBlockModal: React.FC<StudioBlockModalProps> = ({ studioId, st
       {blockMode === 'singleDay' && (
         <div className="block-section">
           <label className="block-section__label">{t('studio:duration', 'Duration')}</label>
-          <div className="entire-day-info">
+        <div className="entire-day-info">
             {entireDayHours > 0 ? t('studio:will_block_hours', { 
-              hours: entireDayHours, 
-              start: studioAvailability?.times[0]?.start,
-              end: studioAvailability?.times[0]?.end
+            hours: entireDayHours, 
+            start: studioAvailability?.times[0]?.start,
+            end: studioAvailability?.times[0]?.end
             }) : t('studio:select_date', 'Select a date')}
           </div>
         </div>

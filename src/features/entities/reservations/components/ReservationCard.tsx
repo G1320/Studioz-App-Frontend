@@ -16,10 +16,10 @@ import {
   CheckCircleIcon,
   EditIcon,
   SaveIcon,
-  CloseIcon,
   InventoryIcon,
   CalendarTodayIcon,
-  ClockIcon
+  ClockIcon,
+  ArrowBackIcon
 } from '@shared/components/icons';
 import './styles/_reservation-card.scss';
 
@@ -526,28 +526,30 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
                   <SaveIcon className="reservation-card__action-icon" />
                   <span>{updateMutation.isPending ? t('saving', 'שומר...') : t('saveChanges', 'שמור שינויים')}</span>
                 </button>
-                <button
-                  className="reservation-card__action-btn reservation-card__action-btn--cancel-edit"
-                  onClick={handleCancelEditing}
-                  disabled={updateMutation.isPending}
-                >
-                  <CloseIcon className="reservation-card__action-icon" />
-                  <span>{t('cancelChanges', 'בטל שינויים')}</span>
-                </button>
-                {/* Cancel reservation button for studio owners in edit mode */}
-                {isStudioOwner && !isCancelledStatus && !showCancelConfirm && (
+                {/* Back button + Cancel reservation button row */}
+                <div className="reservation-card__actions-row">
                   <button
-                    className="reservation-card__action-btn reservation-card__action-btn--cancel"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCancel();
-                    }}
-                    disabled={cancelMutation.isPending}
+                    className="reservation-card__action-btn reservation-card__action-btn--back"
+                    onClick={handleCancelEditing}
+                    disabled={updateMutation.isPending}
                   >
-                    <CancelIcon className="reservation-card__action-icon" />
-                    <span>{t('cancelReservation', 'בטל הזמנה')}</span>
+                    <ArrowBackIcon className="reservation-card__action-icon" />
+                    <span>{t('back', 'חזור')}</span>
                   </button>
-                )}
+                  {isStudioOwner && !isCancelledStatus && !showCancelConfirm && (
+                    <button
+                      className="reservation-card__action-btn reservation-card__action-btn--cancel"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCancel();
+                      }}
+                      disabled={cancelMutation.isPending}
+                    >
+                      <CancelIcon className="reservation-card__action-icon" />
+                      <span>{t('cancelReservation', 'בטל הזמנה')}</span>
+                    </button>
+                  )}
+                </div>
                 {showCancelConfirm && (
                   <div className="reservation-card__cancel-confirm-wrapper" onClick={(e) => e.stopPropagation()}>
                     <CancelReservationConfirm

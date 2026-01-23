@@ -458,6 +458,32 @@
         color: var(--text-primary);
       }
     }
+
+    &--back {
+      flex: 0 0 auto;
+
+      .reservation-card__action-icon {
+        [dir='rtl'] & {
+          transform: rotate(180deg);
+        }
+      }
+
+      &:hover:not(:disabled) {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+    }
+  }
+
+  // Row for back + cancel buttons
+  &__actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+
+    .reservation-card__action-btn {
+      flex: 1;
+    }
   }
 
   &__action-icon {
