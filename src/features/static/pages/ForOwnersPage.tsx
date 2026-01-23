@@ -153,7 +153,7 @@ const ForOwnersPage: React.FC = () => {
               {/* Video content */}
               <div className="owners-dashboard__browser-content">
                 <iframe
-                  src="https://player.mediadelivery.net/embed/583287/bc5a399b-c172-4c83-9b70-4ec59fe85dcf?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
+                  src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
                   loading="lazy"
                   allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
                   className="owners-dashboard__video"
