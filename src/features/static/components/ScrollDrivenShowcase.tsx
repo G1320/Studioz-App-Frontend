@@ -64,13 +64,31 @@ export const ScrollDrivenShowcase: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const [progress, setProgress] = useState(0);
   const activeFeature = FEATURES[activeIndex];
   const Icon = activeFeature.icon;
   
-  // Touch/swipe handling
+  // Refs
+  const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+
+  // Intersection Observer - start autoplay only when in view
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.3 } // Trigger when 30% of section is visible
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   // Auto-advance to next slide
   const nextSlide = useCallback(() => {
@@ -84,9 +102,9 @@ export const ScrollDrivenShowcase: React.FC = () => {
     setProgress(0);
   }, []);
 
-  // Progress animation effect
+  // Progress animation effect - only run when in view and not paused
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !isInView) return;
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -99,7 +117,7 @@ export const ScrollDrivenShowcase: React.FC = () => {
     }, 50);
 
     return () => clearInterval(progressInterval);
-  }, [isPaused, nextSlide]);
+  }, [isPaused, isInView, nextSlide]);
 
   // Handle manual dot click - pause permanently until mouse leaves
   const handleDotClick = (idx: number) => {
@@ -160,6 +178,7 @@ export const ScrollDrivenShowcase: React.FC = () => {
 
   return (
     <section 
+      ref={sectionRef}
       className="feature-showcase"
       onMouseEnter={handleInteractionStart}
       onMouseLeave={handleInteractionEnd}
