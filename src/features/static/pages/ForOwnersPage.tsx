@@ -38,8 +38,6 @@ const ForOwnersPage: React.FC = () => {
     navigate('/studio/create');
   };
 
- 
-
   // const stats = [
   //   { label: t('stats.active_studios'), value: '500+' },
   //   { label: t('stats.monthly_bookings'), value: '2.5k+' },
@@ -275,6 +273,9 @@ const ForOwnersPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Schedule Control Section */}
+      <ScheduleControlSection />
+
       {/* Features Section */}
       <section className="owners-features">
         <div className="owners-container">
@@ -296,9 +297,6 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Schedule Control Section */}
-      <ScheduleControlSection />
 
       {/* Pricing Section */}
       <PricingSection />
@@ -329,7 +327,7 @@ const ForOwnersPage: React.FC = () => {
         className="owners-lightbox"
         ariaLabel="Image preview"
       >
-        <div 
+        <div
           className="owners-lightbox__content"
           onClick={() => setSelectedImage(null)}
           role="button"
@@ -349,13 +347,7 @@ const ForOwnersPage: React.FC = () => {
           >
             <CloseIcon />
           </button>
-          {selectedImage && (
-            <img
-              src={selectedImage}
-              alt="Studio page preview"
-              className="owners-lightbox__image"
-            />
-          )}
+          {selectedImage && <img src={selectedImage} alt="Studio page preview" className="owners-lightbox__image" />}
         </div>
       </GenericModal>
     </div>
