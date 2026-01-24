@@ -1,7 +1,7 @@
 /**
  * Brevo Conversations Chat Widget Loader
  * Loads the Brevo chat widget script dynamically
- * Widget button is hidden by CSS - use openBrevoChat() to open programmatically
+ * Widget launcher is hidden - use openBrevoChat() to open programmatically
  */
 
 let isLoaded = false;
@@ -9,7 +9,7 @@ let isReady = false;
 let readyCallbacks: (() => void)[] = [];
 
 /**
- * Load the Brevo widget script (hidden by default)
+ * Load the Brevo widget script (launcher hidden, chat available on demand)
  */
 export const loadBrevoWidget = (): void => {
   // Prevent loading multiple times
@@ -24,8 +24,15 @@ export const loadBrevoWidget = (): void => {
   const w = window as any;
   const d = document;
 
-  // Initialize Brevo
+  // Initialize Brevo with hidden launcher
   w.BrevoConversationsID = import.meta.env.VITE_BREVO_CONVERSATIONS_ID;
+  
+  // Pre-configure to hide the floating button
+  w.BrevoConversationsSetup = {
+    startHidden: true,
+    hideLauncherIcon: true
+  };
+  
   w.BrevoConversations =
     w.BrevoConversations ||
     function (...args: any[]) {
@@ -38,12 +45,16 @@ export const loadBrevoWidget = (): void => {
   script.async = true;
   script.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
 
-  // Set language based on HTML lang attribute when script loads
+  // Configure after script loads
   script.onload = () => {
     const currentLang = d.documentElement.lang || 'he';
     const brevoLang = currentLang === 'he' ? 'he' : 'en';
+    
     if (w.BrevoConversations) {
+      // Set language
       w.BrevoConversations('set', 'language', brevoLang);
+      // Hide the launcher button
+      w.BrevoConversations('hide');
       
       // Mark as ready and call any waiting callbacks
       isReady = true;
@@ -66,9 +77,17 @@ export const loadBrevoWidget = (): void => {
 export const openBrevoChat = (): void => {
   const w = window as any;
   
+  const showChat = () => {
+    if (w.BrevoConversations) {
+      // Show the chat window (try multiple API methods for compatibility)
+      w.BrevoConversations('show');
+      w.BrevoConversations('openChat', true);
+    }
+  };
+  
   // If already ready, open immediately
   if (isReady && w.BrevoConversations) {
-    w.BrevoConversations('openChat', true);
+    showChat();
     return;
   }
   
@@ -78,11 +97,7 @@ export const openBrevoChat = (): void => {
   }
   
   // Queue the open action for when ready
-  readyCallbacks.push(() => {
-    if (w.BrevoConversations) {
-      w.BrevoConversations('openChat', true);
-    }
-  });
+  readyCallbacks.push(showChat);
 };
 
 /**
