@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { useLanguageNavigate, useSentryFeedback } from '@shared/hooks/utils';
+import { useLanguageNavigate, useSentryFeedback, useBrevoChat } from '@shared/hooks/utils';
 import { EmailIcon } from '@shared/components/icons';
 
 export const DesktopFooter = () => {
   const { t, i18n } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
   const { openFeedback } = useSentryFeedback();
+  const { openChat } = useBrevoChat();
   const currentLang = i18n.language || 'en';
   const langPrefix = currentLang === 'he' ? '/he' : '/en';
 
@@ -72,6 +73,13 @@ export const DesktopFooter = () => {
               <EmailIcon />
               <span>info@studioz.online</span>
             </a>
+            <button 
+              onClick={openChat} 
+              className="desktop-footer__feedback"
+              type="button"
+            >
+              {t('footer.chat', 'Live Chat')}
+            </button>
             <button 
               onClick={openFeedback} 
               className="desktop-footer__feedback"

@@ -187,8 +187,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   };
 
   const getPlanPrice = () => {
-    if (isPro) return '199';
-    if (isStarter) return '39';
+    if (isPro) return '99';
+    if (isStarter) return '49';
     return '0';
   };
 

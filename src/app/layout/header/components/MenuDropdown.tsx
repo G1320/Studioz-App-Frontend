@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
+import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback, useBrevoChat } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
@@ -32,6 +32,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
   const { openFeedback } = useSentryFeedback();
+  const { openChat } = useBrevoChat();
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
@@ -163,6 +164,9 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         </button>
         <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/terms')}>
           {t('profile.legal.terms')}
+        </button>
+        <button className="menu-dropdown__item menu-dropdown__item--link" onClick={openChat}>
+          {t('profile.legal.chat', 'Live Chat')}
         </button>
         <button className="menu-dropdown__item menu-dropdown__item--link" onClick={openFeedback}>
           {t('profile.legal.feedback')}

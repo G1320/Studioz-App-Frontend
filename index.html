@@ -91,29 +91,16 @@
   <meta name="twitter:image" content="https://www.studioz.co.il/logo.png">
 
   <style>
-    /* Hide Brevo chat widget on mobile devices */
-    @media screen and (max-width: 768px) {
-
-      #brevo-conversations-container,
-      [id*="brevo-conversations"],
-      iframe[src*="brevo-conversations"],
-      iframe[src*="conversations-widget.brevo.com"] {
-        display: none !important;
-      }
+    /* Hide Brevo floating chat button - we use footer/menu links instead */
+    #brevo-conversations,
+    .brevo-conversations-button,
+    [class*="brevo-conversations"][class*="button"],
+    [id*="brevo-conversations"]:not([id*="chat-window"]) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
     }
   </style>
-
-  <!-- Brevo chat - lazy loaded after page is interactive -->
-  <script>
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        var s = document.createElement('script');
-        s.src = 'https://cdn.brevo.com/js/sdk-loader.js';
-        s.async = true;
-        document.head.appendChild(s);
-      }, 3000); // Load 3 seconds after page load
-    });
-  </script>
 
   <!-- Meta Pixel Code (Production Only) -->
   <script>

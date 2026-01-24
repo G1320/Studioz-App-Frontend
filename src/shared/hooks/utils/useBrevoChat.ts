@@ -1,28 +1,34 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { loadBrevoWidget } from '@shared/utils/brevoWidget';
+import { useEffect, useCallback } from 'react';
 import { featureFlags } from '@core/config/featureFlags';
+import { loadBrevoWidget, openBrevoChat } from '@shared/utils/brevoWidget';
+
+interface UseBrevoReturn {
+  openChat: () => void;
+}
 
 /**
- * Hook to conditionally load the Brevo chat widget
- * Only loads on create, edit, and subscription pages when feature flag is enabled
+ * Hook for Brevo chat functionality
+ * Preloads the widget and provides a function to open the chat
+ * 
+ * @example
+ * const { openChat } = useBrevoChat();
+ * <button onClick={openChat}>Chat with us</button>
  */
-export const useBrevoChat = (): void => {
-  const { pathname } = useLocation();
-
+export const useBrevoChat = (): UseBrevoReturn => {
+  // Preload the widget on mount if feature is enabled
   useEffect(() => {
-    // Check feature flag first
-    if (!featureFlags.brevoChat) {
-      return;
-    }
-
-    const shouldLoadChat =
-      pathname.includes('/create') ||
-      pathname.includes('/edit') ||
-      pathname.includes('/subscriptions');
-
-    if (shouldLoadChat) {
+    if (featureFlags.brevoChat) {
       loadBrevoWidget();
     }
-  }, [pathname]);
+  }, []);
+
+  const openChat = useCallback(() => {
+    if (!featureFlags.brevoChat) {
+      console.warn('Brevo chat is disabled via feature flag');
+      return;
+    }
+    openBrevoChat();
+  }, []);
+
+  return { openChat };
 };

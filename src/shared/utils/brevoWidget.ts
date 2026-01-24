@@ -1,10 +1,16 @@
 /**
  * Brevo Conversations Chat Widget Loader
- * Loads the Brevo chat widget script dynamically on specific pages
+ * Loads the Brevo chat widget script dynamically
+ * Widget button is hidden by CSS - use openBrevoChat() to open programmatically
  */
 
 let isLoaded = false;
+let isReady = false;
+let readyCallbacks: (() => void)[] = [];
 
+/**
+ * Load the Brevo widget script (hidden by default)
+ */
 export const loadBrevoWidget = (): void => {
   // Prevent loading multiple times
   if (isLoaded || typeof window === 'undefined') return;
@@ -38,6 +44,11 @@ export const loadBrevoWidget = (): void => {
     const brevoLang = currentLang === 'he' ? 'he' : 'en';
     if (w.BrevoConversations) {
       w.BrevoConversations('set', 'language', brevoLang);
+      
+      // Mark as ready and call any waiting callbacks
+      isReady = true;
+      readyCallbacks.forEach(cb => cb());
+      readyCallbacks = [];
     }
   };
 
@@ -47,6 +58,37 @@ export const loadBrevoWidget = (): void => {
 
   isLoaded = true;
 };
+
+/**
+ * Open the Brevo chat widget programmatically
+ * Will load the widget first if not already loaded
+ */
+export const openBrevoChat = (): void => {
+  const w = window as any;
+  
+  // If already ready, open immediately
+  if (isReady && w.BrevoConversations) {
+    w.BrevoConversations('openChat', true);
+    return;
+  }
+  
+  // Load widget if not loaded
+  if (!isLoaded) {
+    loadBrevoWidget();
+  }
+  
+  // Queue the open action for when ready
+  readyCallbacks.push(() => {
+    if (w.BrevoConversations) {
+      w.BrevoConversations('openChat', true);
+    }
+  });
+};
+
+/**
+ * Check if Brevo widget is loaded and ready
+ */
+export const isBrevoReady = (): boolean => isReady;
 
 export const unloadBrevoWidget = (): void => {
   const script = document.getElementById('brevo-conversations-script');
@@ -61,4 +103,6 @@ export const unloadBrevoWidget = (): void => {
   }
 
   isLoaded = false;
+  isReady = false;
+  readyCallbacks = [];
 };
