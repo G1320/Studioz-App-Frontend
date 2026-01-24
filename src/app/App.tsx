@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useMemo, ReactNode } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
-import { useItems, useStudios, useCart } from '@shared/hooks';
+import { useItems, useStudios, useCart, useBrevoChat } from '@shared/hooks';
 import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@core/config';
@@ -33,6 +33,9 @@ function App() {
 
   const { user } = useUserContext();
   const { offlineCart } = useOfflineCartContext();
+
+  // Load Brevo chat widget on create, edit, and subscription pages
+  useBrevoChat();
 
   const { data: onlineCart } = useCart(user?._id || '');
   const { data: originalItems } = useItems();

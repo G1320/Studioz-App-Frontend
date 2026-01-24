@@ -34,7 +34,7 @@ export const featureFlags: FeatureFlags = {
   headerBackButton: false,
   dynamicCategorySelector: false,
   forOwnersPage: true,
-  brevoChat: true,
+  brevoChat: false,
   studioInfoModal: false,
   discoverPage: false,
   mobileFooterNavigation: false
