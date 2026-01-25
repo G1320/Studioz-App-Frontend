@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
+import { trackEvent } from '@shared/utils/analytics';
 import {
   ArrowForwardIcon,
   CloseIcon,
@@ -35,6 +36,19 @@ const ForOwnersPage: React.FC = () => {
   const navigate = useLanguageNavigate();
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const hasTrackedViewContent = useRef(false);
+
+  // Track ViewContent event when page loads (once)
+  useEffect(() => {
+    if (!hasTrackedViewContent.current) {
+      hasTrackedViewContent.current = true;
+      trackEvent('ViewContent', {
+        content_name: 'For Owners Landing Page',
+        content_category: 'Landing Page',
+        content_type: 'page'
+      });
+    }
+  }, []);
 
   // Handle hash navigation (scroll to section on page load)
   useEffect(() => {
@@ -49,6 +63,11 @@ const ForOwnersPage: React.FC = () => {
   }, [location.hash]);
 
   const handleListStudio = () => {
+    // Track Lead event when user clicks CTA
+    trackEvent('Lead', {
+      content_name: 'For Owners CTA Click',
+      content_category: 'Conversion'
+    });
     navigate('/studio/create');
   };
 
