@@ -5,7 +5,7 @@ import { useStudio, useWishlists } from '@shared/hooks';
 import { StudioSchema } from '@shared/components/seo';
 import { trackEvent } from '@shared/utils/analytics';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Cart, Item, User } from 'src/types/index';
@@ -26,6 +26,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   const { currStudio } = studioObj || {};
 
   const { selectedItemId, openModal } = useModal();
+  const trackedStudioRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (studioObj && currStudio && items) {
@@ -34,9 +35,10 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
     }
   }, [studioObj, currStudio, items]);
 
-  // Track ViewContent event when studio is loaded
+  // Track ViewContent event when studio is loaded (once per studio)
   useEffect(() => {
-    if (currStudio) {
+    if (currStudio && currStudio._id !== trackedStudioRef.current) {
+      trackedStudioRef.current = currStudio._id;
       trackEvent('ViewContent', {
         content_name: currStudio.name?.en || currStudio.name?.he || 'Studio',
         content_category: 'Studio',
