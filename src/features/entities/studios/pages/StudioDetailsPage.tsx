@@ -3,6 +3,7 @@ import { StudioDetails, ContinueToCheckoutButton, ItemCard } from '@features/ent
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
 import { StudioSchema } from '@shared/components/seo';
+import { trackEvent } from '@shared/utils/analytics';
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -32,6 +33,18 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
       setFilteredItems(filtered);
     }
   }, [studioObj, currStudio, items]);
+
+  // Track ViewContent event when studio is loaded
+  useEffect(() => {
+    if (currStudio) {
+      trackEvent('ViewContent', {
+        content_name: currStudio.name?.en || currStudio.name?.he || 'Studio',
+        content_category: 'Studio',
+        content_ids: [currStudio._id],
+        content_type: 'product'
+      });
+    }
+  }, [currStudio?._id]);
 
   const handleItemClick = (item: Item) => {
     openModal(item);

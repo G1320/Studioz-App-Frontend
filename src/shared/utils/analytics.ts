@@ -2,14 +2,14 @@
  * Analytics Utility for Meta Pixel (Facebook Pixel) and potentially others
  */
 
-type FbqEventName = 
-  | 'PageView' 
-  | 'Purchase' 
-  | 'Lead' 
-  | 'CompleteRegistration' 
-  | 'AddToCart' 
-  | 'InitiateCheckout' 
-  | 'Search' 
+type FbqEventName =
+  | 'PageView'
+  | 'Purchase'
+  | 'Lead'
+  | 'CompleteRegistration'
+  | 'AddToCart'
+  | 'InitiateCheckout'
+  | 'Search'
   | 'ViewContent'
   | 'Contact';
 
