@@ -4,14 +4,13 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import {
-  CalendarIcon,
-  CreditCardIcon,
-  PublicIcon,
   ArrowForwardIcon,
-  ClockIcon,
+  CloseIcon,
+  SyncIcon,
+  ShieldIcon,
+  AutoAwesomeIcon,
   DashboardIcon,
-  PeopleIcon,
-  CloseIcon
+  PublicIcon
 } from '@shared/components/icons';
 import { GenericModal } from '@shared/components/modal';
 import { PricingSection } from '../components/PricingSection';
@@ -62,40 +61,22 @@ const ForOwnersPage: React.FC = () => {
 
   const features = [
     {
-      icon: <CalendarIcon />,
-      title: t('features.booking.title'),
-      description: t('features.booking.description'),
-      colorClass: 'owners-feature--primary'
-    },
-    {
-      icon: <ClockIcon />,
+      icon: <SyncIcon />,
       title: t('features.calendar.title'),
       description: t('features.calendar.description'),
       colorClass: 'owners-feature--blue'
     },
     {
-      icon: <DashboardIcon />,
-      title: t('features.page.title'),
-      description: t('features.page.description'),
+      icon: <ShieldIcon />,
+      title: t('features.noShows.title'),
+      description: t('features.noShows.description'),
+      colorClass: 'owners-feature--primary'
+    },
+    {
+      icon: <AutoAwesomeIcon />,
+      title: t('features.autopilot.title'),
+      description: t('features.autopilot.description'),
       colorClass: 'owners-feature--purple'
-    },
-    {
-      icon: <PublicIcon />,
-      title: t('features.exposure.title'),
-      description: t('features.exposure.description'),
-      colorClass: 'owners-feature--emerald'
-    },
-    {
-      icon: <PeopleIcon />,
-      title: t('features.crm.title'),
-      description: t('features.crm.description'),
-      colorClass: 'owners-feature--pink'
-    },
-    {
-      icon: <CreditCardIcon />,
-      title: t('features.payments.title'),
-      description: t('features.payments.description'),
-      colorClass: 'owners-feature--orange'
     }
   ];
 
@@ -298,11 +279,13 @@ const ForOwnersPage: React.FC = () => {
       <section className="owners-features">
         <div className="owners-container">
           <div className="owners-features__header">
-            <h2 className="owners-section-title">{t('features.title')}</h2>
+            <h2 className="owners-section-title">
+              {t('features.title')} <span className="owners-hero__accent">{t('features.titleAccent')}</span>
+            </h2>
             <p className="owners-section-subtitle">{t('features.subtitle')}</p>
           </div>
 
-          <div className="owners-features__grid">
+          <div className="owners-features__grid owners-features__grid--three">
             {features.map((feature, i) => (
               <FeatureCard
                 key={i}
