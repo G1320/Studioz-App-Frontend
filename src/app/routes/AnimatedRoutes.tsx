@@ -29,7 +29,7 @@ const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-p
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
 const NotFoundPage = lazy(() => import('@features/static/pages/NotFoundPage'));
 const ForOwnersPage = lazy(() => import('@features/static/pages/ForOwnersPage'));
-const HowItWorksPage = lazy(() => import('@features/static/pages/HowItWorksPage'));
+// HowItWorksPage content is now embedded in ForOwnersPage as a section
 const ChangelogPage = lazy(() => import('@features/static/pages/ChangelogPage'));
 const SecurityPage = lazy(() => import('@features/static/pages/SecurityPage'));
 const ServicesPage = lazy(() => import('@features/entities/items/pages/ServicesPage'));
@@ -351,13 +351,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               }
             />
           )}
+          {/* Redirect old how-it-works page to home with anchor */}
           <Route
             path="/:lang?/how-it-works"
-            element={
-              <AnimatedRoute>
-                <HowItWorksPage videoEmbedUrl="https://player.mediadelivery.net/embed/583287/65c4a479-7457-4b84-a0f3-18b2792429b5" />
-              </AnimatedRoute>
-            }
+            element={<Navigate to={`/${i18n.language}#how-it-works`} replace />}
           />
           <Route
             path="/:lang?/changelog"

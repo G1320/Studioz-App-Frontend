@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useLanguageNavigate, useSentryFeedback } from '@shared/hooks/utils';
 import { EmailIcon } from '@shared/components/icons';
 
@@ -6,12 +7,27 @@ export const DesktopFooter = () => {
   const { t, i18n } = useTranslation('common');
   const langNavigate = useLanguageNavigate();
   const { openFeedback } = useSentryFeedback();
+  const location = useLocation();
   const currentLang = i18n.language || 'en';
   const langPrefix = currentLang === 'he' ? '/he' : '/en';
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     langNavigate(path);
+  };
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, anchor: string) => {
+    e.preventDefault();
+    const isHomePage = location.pathname === '/' || location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`;
+    
+    if (isHomePage) {
+      // Already on home page, just scroll to section
+      const element = document.getElementById(anchor);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate to home page with hash
+      langNavigate(`/#${anchor}`);
+    }
   };
 
   return (
@@ -35,7 +51,7 @@ export const DesktopFooter = () => {
                 <a href={`${langPrefix}/`} onClick={(e) => handleClick(e, '/')}>{t('footer.home')}</a>
               </li>
               <li>
-                <a href={`${langPrefix}/how-it-works`} onClick={(e) => handleClick(e, '/how-it-works')}>{t('footer.how_it_works')}</a>
+                <a href={`${langPrefix}/#how-it-works`} onClick={(e) => handleAnchorClick(e, 'how-it-works')}>{t('footer.how_it_works')}</a>
               </li>
               <li>
                 <a href={`${langPrefix}/studio/create`} onClick={(e) => handleClick(e, '/studio/create')}>{t('footer.for_owners')}</a>

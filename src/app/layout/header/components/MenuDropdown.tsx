@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
@@ -27,7 +28,8 @@ interface MenuDropdownProps {
 
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const { t } = useTranslation(['profile', 'common']);
+  const location = useLocation();
+  const { t, i18n } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
@@ -36,6 +38,20 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const handleNavigate = (path: string) => {
     langNavigate(path);
     scrollToTop();
+  };
+
+  const handleAnchorNavigate = (anchor: string) => {
+    const currentLang = i18n.language || 'en';
+    const isHomePage = location.pathname === '/' || location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`;
+    
+    if (isHomePage) {
+      // Already on home page, just scroll to section
+      const element = document.getElementById(anchor);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate to home page with hash
+      langNavigate(`/#${anchor}`);
+    }
   };
 
   const changeLanguage = (lang: string) => {
@@ -81,7 +97,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         </button>
         <button
           className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => handleNavigate('/how-it-works')}
+          onClick={() => handleAnchorNavigate('how-it-works')}
         >
           <PlayCircleIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.howItWorks')}</span>
@@ -102,7 +118,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/how-it-works')}>
+            <button className="menu-dropdown__item" onClick={() => handleAnchorNavigate('how-it-works')}>
               <PlayCircleIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.howItWorks')}</span>
             </button>

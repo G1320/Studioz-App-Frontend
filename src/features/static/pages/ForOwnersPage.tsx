@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -16,6 +17,7 @@ import { GenericModal } from '@shared/components/modal';
 import { PricingSection } from '../components/PricingSection';
 import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
+import { HowItWorksSection } from '../components/HowItWorksSection';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -32,7 +34,20 @@ const fadeInUp = {
 const ForOwnersPage: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
+  const location = useLocation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // Handle hash navigation (scroll to section on page load)
+  useEffect(() => {
+    if (location.hash) {
+      const elementId = location.hash.replace('#', '');
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const element = document.getElementById(elementId);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [location.hash]);
 
   const handleListStudio = () => {
     navigate('/studio/create');
@@ -275,6 +290,9 @@ const ForOwnersPage: React.FC = () => {
 
       {/* Schedule Control Section */}
       <ScheduleControlSection />
+
+      {/* How It Works Section */}
+      <HowItWorksSection />
 
       {/* Features Section */}
       <section className="owners-features">
