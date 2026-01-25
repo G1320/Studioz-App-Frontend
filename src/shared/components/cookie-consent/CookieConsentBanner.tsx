@@ -11,10 +11,10 @@ export const CookieConsentBanner: React.FC = () => {
 
   useEffect(() => {
     if (showBanner) {
-      // Small delay to ensure smooth animation trigger
+      // Delay showing banner by 1 minute to not interrupt user experience
       const timer = setTimeout(() => {
         setIsVisible(true);
-      }, 50);
+      }, 60000); // 60 seconds
       return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
