@@ -64,11 +64,23 @@
     background: var(--color-brand);
     color: var(--btn-primary-text);
     box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    animation: cta-pulse 2s ease-in-out infinite;
 
     &:hover {
       background: var(--color-brand-hover);
       box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
       transform: scale(1.05);
+      animation: none; // Stop pulse on hover
+    }
+  }
+  
+  // Subtle pulse animation to draw attention on mobile
+  @keyframes cta-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
     }
   }
 
@@ -113,7 +125,7 @@
 // ==========================================
 .owners-hero {
   position: relative;
-  padding: 5rem 0 5rem;
+  padding: 2.5rem 0 3rem; // Compact on mobile for above-the-fold CTA visibility
   overflow: visible;
   
   // Light mode: light gray background with subtle grid
@@ -148,7 +160,7 @@
   }
 
   @media (min-width: 768px) {
-    padding: 8rem 0 6rem;
+    padding: 6rem 0 5rem;
   }
 
   &__glow {
@@ -202,11 +214,15 @@
   }
 
   &__title {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2rem, 6vw, 4.5rem); // Smaller on mobile for faster read
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;
-    margin-bottom: vars.$spacing-xl;
+    margin-bottom: vars.$spacing-medium;
+    
+    @media (min-width: 768px) {
+      margin-bottom: vars.$spacing-xl;
+    }
   }
 
   &__accent {
@@ -214,12 +230,25 @@
   }
 
   &__description {
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-size: clamp(1rem, 2vw, 1.5rem); // Smaller on mobile
     color: var(--text-secondary);
-    margin-bottom: vars.$spacing-xl;
+    margin-bottom: vars.$spacing-large;
     max-width: 640px;
     margin-inline: auto;
-    line-height: 1.6;
+    line-height: 1.5;
+    
+    // Hide on very small screens, show condensed version
+    @media (max-width: 480px) {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    @media (min-width: 768px) {
+      margin-bottom: vars.$spacing-xl;
+      line-height: 1.6;
+    }
   }
 
   &__buttons {
@@ -235,10 +264,34 @@
 
     .owners-btn {
       width: 100%;
+      
+      // Larger CTA on mobile for better touch target
+      @media (max-width: 639px) {
+        font-size: vars.$font-size-large;
+        padding: vars.$spacing-medium vars.$spacing-2xl;
+        min-height: 56px;
+      }
 
       @media (min-width: 640px) {
         width: auto;
       }
+    }
+  }
+  
+  // Free badge below CTA on mobile
+  &__free-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-small;
+    margin-top: vars.$spacing-medium;
+    font-size: vars.$font-size-small;
+    color: var(--text-tertiary);
+    
+    svg {
+      width: 16px;
+      height: 16px;
+      color: var(--color-success);
     }
   }
 }
