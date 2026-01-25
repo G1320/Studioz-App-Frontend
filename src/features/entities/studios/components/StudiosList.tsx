@@ -24,8 +24,8 @@ export const StudiosList: React.FC<StudiosListProps> = ({ studios, title, hasFil
           subtitle={
             hasFilters ? t('emptyStates.tryDifferentFilters') : t('emptyStates.discoverStudios')
           }
-          actionLabel={t('emptyStates.browseStudios')}
-          onAction={() => langNavigate('/studios')}
+          actionLabel={t('emptyStates.returnHome')}
+          onAction={() => langNavigate('/')}
         />
       </section>
     );

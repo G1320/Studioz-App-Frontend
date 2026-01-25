@@ -2,13 +2,12 @@
 // StudioZ Theme System
 // ============================================
 // CSS Custom Properties for theming
-// Themes: dark (default), light
+// Themes: light (default), dark
 // ============================================
 
 // ===================
-// ROOT (Dark Theme - Default)
+// DARK THEME
 // ===================
-:root,
 [data-theme='dark'] {
   color-scheme: dark;
 
@@ -129,8 +128,9 @@
 }
 
 // ===================
-// LIGHT THEME
+// ROOT (Light Theme - Default)
 // ===================
+:root,
 [data-theme='light'] {
   color-scheme: light;
 
