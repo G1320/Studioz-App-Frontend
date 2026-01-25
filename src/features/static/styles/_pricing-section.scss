@@ -10,7 +10,9 @@
   padding: 4rem 0;
   background: var(--bg-primary);
   color: var(--text-primary);
-  transition: background 0.5s, color 0.5s;
+  transition:
+    background 0.5s,
+    color 0.5s;
   overflow-x: hidden;
   scroll-margin-top: 80px; // Account for fixed header when scrolling to anchor
 
@@ -354,6 +356,7 @@
 .pricing-section__payment {
   margin-top: vars.$spacing-3xl;
   overflow: hidden;
+  scroll-margin-top: 160px; // Extra space so form header + pricing info stays visible
 }
 
 .pricing-section__payment-wrapper {
