@@ -8,6 +8,15 @@
   },
   "releases": {
     "jan2026": {
+      "updates": {
+        "date": "January 20-25",
+        "title": "General Improvements",
+        "description": "Support and feedback",
+        "changes": {
+          "feedback": "Direct feedback form to the dev team",
+          "trial": "Trial subscription support"
+        }
+      },
       "theme": {
         "date": "January 14",
         "title": "Light & Dark Theme Support",
