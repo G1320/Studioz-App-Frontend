@@ -48,31 +48,20 @@
     }
   },
   "features": {
-    "title": "Built for Studio Owners",
-    "subtitle": "Professional tools designed to help you save time and increase bookings.",
-    "booking": {
-      "title": "Advanced booking engine",
-      "description": "Live availability blocks double bookings. Define hours, rules, buffers, and booking lengths."
-    },
+    "title": "Less Headaches,",
+    "titleAccent": "More Sessions",
+    "subtitle": "While you create, the system works for you.",
     "calendar": {
-      "title": "Google Calendar sync",
-      "description": "Mirror every Studioz booking inside your Google calendar to avoid overlaps."
+      "title": "Auto-Sync to Your Calendar",
+      "description": "Every new booking goes straight to your Google Calendar. No manual updates, no forgetting."
     },
-    "page": {
-      "title": "Studio page that converts",
-      "description": "Publish a sharp, SEO-ready profile that highlights gear, looks, and perks. Share a direct booking link."
+    "noShows": {
+      "title": "Fewer Cancellations & No-Shows",
+      "description": "Clients pay upfront, which means fewer surprises and more certainty in your income."
     },
-    "exposure": {
-      "title": "Maximum exposure",
-      "description": "Show up when musicians, podcasters, and creators search for spaces nearby."
-    },
-    "crm": {
-      "title": "Reservation management",
-      "description": "Log client details, requests, and booking history inside a secure workspace."
-    },
-    "payments": {
-      "title": "Secure payments",
-      "description": "Capture payments before the session so cancellations stay low."
+    "autopilot": {
+      "title": "Your Business Runs Itself",
+      "description": "Bookings close, confirmations go out, invoices are sent - and your calendar stays updated. Without you lifting a finger."
     }
   },
   "studio_preview": {
@@ -127,7 +116,7 @@
         "features": {
           "listing": "1 Active Listing",
           "calendar": "Digital Calendar",
-          "approvals": "Manual Approvals",
+          "approvals": "Up to 3 Services",
           "support": "Standard Support"
         }
       },

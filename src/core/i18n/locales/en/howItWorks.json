@@ -1,25 +1,25 @@
 {
   "title": {
-    "prefix": "How Does It",
-    "highlight": "Work?"
+    "prefix": "How Clients Book",
+    "highlight": "Sessions"
   },
-  "subtitle": "Booking a studio has never been easier. In just a few seconds, your session is reserved and waiting for you.",
+  "subtitle": "Booking has never been easier - your clients book a session in seconds.",
   "steps": {
     "search": {
-      "title": "Choose Your Studio",
-      "description": "Browse our variety of studios, filter by equipment, location and price, and find the perfect space."
+      "title": "They Explore Your Studio",
+      "description": "Clients land on your studio page, see photos, gear, pricing and reviews - everything they need to be impressed and book on the spot."
     },
     "schedule": {
-      "title": "Reserve a Time",
-      "description": "Check real-time availability in our smart calendar and choose the hours that work for you."
+      "title": "They Pick a Time",
+      "description": "Clients see your real-time availability and choose their hours in a click - no phone calls, no back-and-forth."
     },
     "book": {
       "title": "Complete Booking",
       "description": "Pay securely and receive instant booking confirmation directly to your email and personal profile."
     },
     "create": {
-      "title": "Come Create",
-      "description": "That's it! The studio is waiting for you. Get all arrival details and entry code automatically."
+      "title": "The Booking is Done",
+      "description": "The client pays, you get notified, and the booking automatically appears in your calendar. Just like that."
     }
   },
   "cta": {
