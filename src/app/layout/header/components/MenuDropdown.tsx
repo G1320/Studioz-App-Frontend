@@ -124,7 +124,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
             </button>
           </>
         )}
-        <button className="menu-dropdown__item" onClick={() => handleNavigate('/subscription')}>
+        <button className="menu-dropdown__item" onClick={() => handleAnchorNavigate('pricing')}>
           <MembershipIcon className="menu-dropdown__icon" />
           <span>{t('profile.sellerAccount.buttons.subscription')}</span>
         </button>

@@ -57,7 +57,7 @@ export const DesktopFooter = () => {
                 <a href={`${langPrefix}/studio/create`} onClick={(e) => handleClick(e, '/studio/create')}>{t('footer.for_owners')}</a>
               </li>
               <li>
-                <a href={`${langPrefix}/subscription`} onClick={(e) => handleClick(e, '/subscription')}>{t('footer.pricing')}</a>
+                <a href={`${langPrefix}/#pricing`} onClick={(e) => handleAnchorClick(e, 'pricing')}>{t('footer.pricing')}</a>
               </li>
             </ul>
           </div>
