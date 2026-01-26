@@ -7,6 +7,7 @@ import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { getLocalUser } from '@shared/services';
 import { studioStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
+import { trackEvent } from '@shared/utils/analytics';
 // Step icons
 import {
   TextFieldsIcon,
@@ -793,6 +794,11 @@ export const CreateStudioForm = () => {
       },
       {
         onSuccess: () => {
+          // Track CompleteRegistration event for studio creation
+          trackEvent('CompleteRegistration', {
+            content_name: 'Studio Created',
+            content_category: 'Onboarding'
+          });
           // Clear saved form data and controlled state after successful submission
           clearSavedData();
           clearSavedState();

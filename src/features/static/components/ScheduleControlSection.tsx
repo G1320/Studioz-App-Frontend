@@ -11,6 +11,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useLanguageNavigate } from '@shared/hooks';
+import { trackEvent } from '@shared/utils/analytics';
 import './_schedule-control-section.scss';
 
 interface FeatureItemProps {
@@ -45,6 +46,11 @@ export const ScheduleControlSection: React.FC = () => {
   const navigate = useLanguageNavigate();
 
   const handleCTA = () => {
+    // Track Lead event when user clicks CTA
+    trackEvent('Lead', {
+      content_name: 'Schedule Control CTA',
+      content_category: 'Conversion'
+    });
     navigate('/studio/create');
   };
 

@@ -11,7 +11,8 @@ type FbqEventName =
   | 'InitiateCheckout'
   | 'Search'
   | 'ViewContent'
-  | 'Contact';
+  | 'Contact'
+  | 'StartTrial';
 
 interface FbqParams {
   currency?: string;

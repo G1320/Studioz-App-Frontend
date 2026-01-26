@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircleIcon } from '@shared/components/icons';
 import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/forms/SubscriptionPaymentForm';
+import { trackEvent } from '@shared/utils/analytics';
 import '../styles/_pricing-section.scss';
 
 // Plan interface matching what SumitSubscriptionPaymentForm expects
@@ -43,6 +44,12 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
   };
 
   const handlePlanSelect = (plan: Plan) => {
+    // Track Lead event when user selects a plan
+    trackEvent('Lead', {
+      content_name: `Pricing CTA - ${plan.id}`,
+      content_category: 'Conversion'
+    });
+
     if (plan.id === 'free') {
       // Free plan navigates directly to create studio
       navigate('/studio/create');

@@ -9,6 +9,7 @@ import { SumitPaymentForm } from '@shared/components';
 import { prepareFormData } from '../utils';
 import { applyCoupon } from '@shared/services/coupon-service';
 import { useSubscription } from '@shared/hooks/subscriptions/useSubscription';
+import { trackEvent } from '@shared/utils/analytics';
 
 // Plan configuration with trial days
 const PLAN_CONFIG = {
@@ -166,10 +167,24 @@ export const SumitSubscriptionPaymentForm = ({ plan }) => {
         // UPGRADE: Charge immediately
         await handleUpgrade(token, finalPrice);
         console.log('Upgrade completed successfully');
+        // Track Purchase event for subscription upgrade
+        trackEvent('Purchase', {
+          currency: 'ILS',
+          value: finalPrice,
+          content_name: `Subscription Upgrade - ${plan.name}`,
+          content_category: 'Subscription'
+        });
       } else {
         // NEW SUBSCRIPTION: Start free trial
         await handleNewSubscription(token);
         console.log('Trial started successfully');
+        // Track StartTrial event
+        trackEvent('StartTrial', {
+          currency: 'ILS',
+          value: plan.price,
+          content_name: `${plan.name} Trial`,
+          content_category: 'Subscription'
+        });
       }
 
       langNavigate('/dashboard');
