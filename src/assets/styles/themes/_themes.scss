@@ -6,132 +6,11 @@
 // ============================================
 
 // ===================
-// DARK THEME
-// ===================
-[data-theme='dark'] {
-  color-scheme: dark;
-
-  // Brand Colors
-  --color-brand: #ffd166;
-  --color-brand-hover: #ffe199;
-  --color-brand-muted: rgba(255, 209, 102, 0.15);
-  --color-brand-text: #ffd166;
-  --color-brand-bg: rgba(255, 209, 102, 0.1);
-  --color-brand-border: rgba(255, 209, 102, 0.2);
-  --color-brand-glow: rgba(255, 209, 102, 0.3);
-
-  // Background Colors
-  --bg-primary: #000000;
-  --bg-secondary: #242728;
-  --bg-tertiary: #1a1a1a;
-  --bg-card: #242728;
-  --bg-surface: #18181b;
-  --bg-elevated: #27272a;
-  --bg-input: #18181b;
-  --bg-hover: rgba(255, 255, 255, 0.05);
-  --bg-active: rgba(255, 255, 255, 0.1);
-  --bg-skeleton: linear-gradient(90deg, #27272a 0%, #3f3f46 50%, #27272a 100%);
-
-  // Text Colors
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --text-tertiary: rgba(255, 255, 255, 0.5);
-  --text-muted: rgba(255, 255, 255, 0.4);
-  --text-inverse: #000000;
-  --text-link: #60a5fa;
-  --text-link-hover: #93c5fd;
-
-  // Border Colors
-  --border-primary: rgba(255, 255, 255, 0.1);
-  --border-secondary: #27272a;
-  --border-focus: #ffd166;
-  --border-hover: rgba(255, 255, 255, 0.2);
-  --border-active: rgba(255, 255, 255, 0.3);
-
-  // Status Colors
-  --color-success: #10b981;
-  --color-success-text: #34d399;
-  --color-success-bg: rgba(52, 211, 153, 0.15);
-  --color-success-border: rgba(52, 211, 153, 0.3);
-
-  --color-warning: #f59e0b;
-  --color-warning-text: #fbbf24;
-  --color-warning-bg: rgba(251, 191, 36, 0.15);
-  --color-warning-border: rgba(251, 191, 36, 0.2);
-
-  --color-error: #ef4444;
-  --color-error-text: #f87171;
-  --color-error-bg: rgba(248, 113, 113, 0.15);
-  --color-error-border: rgba(248, 113, 113, 0.3);
-
-  --color-info: #3b82f6;
-  --color-info-text: #7dd3fc;
-  --color-info-bg: rgba(59, 130, 246, 0.15);
-  --color-info-border: rgba(59, 130, 246, 0.25);
-
-  // Sumit Brand Color (blue)
-  --color-sumit: #0066cc;
-  --color-sumit-hover: #0052a3;
-  --color-sumit-glow: rgba(0, 102, 204, 0.4);
-
-  // Shadows (darker for dark theme)
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px rgba(255, 209, 102, 0.3);
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-dropdown: 0 10px 40px rgba(0, 0, 0, 0.5);
-
-  // Overlay
-  --overlay-bg: rgba(0, 0, 0, 0.8);
-  --overlay-bg-hover: rgba(0, 0, 0, 0.9);
-  --backdrop-blur: blur(8px);
-
-  // Scrollbar
-  --scrollbar-track: #18181b;
-  --scrollbar-thumb: #3f3f46;
-  --scrollbar-thumb-hover: #52525b;
-
-  // Component-specific
-  --header-bg: rgba(0, 0, 0, 0.95);
-  --footer-bg: #000000;
-  --card-bg: #242728;
-  --card-border: rgba(255, 255, 255, 0.08);
-  --modal-bg: #1a1a1a;
-  --tooltip-bg: #27272a;
-  --dropdown-bg: #1c1c1e;
-
-  // Button variants (Brand CTA styling - centralized here)
-  // Change --btn-primary-bg to update brand CTA background color
-  // Change --btn-primary-text to update text color on all brand CTAs
-  --btn-primary-bg: #ffd166;
-  --btn-primary-text: #000000;
-  --btn-primary-hover: #ffe199;
-  --btn-secondary-bg: rgba(255, 255, 255, 0.1);
-  --btn-secondary-text: #ffffff;
-  --btn-secondary-hover: rgba(255, 255, 255, 0.15);
-  --btn-ghost-hover: rgba(255, 255, 255, 0.05);
-
-  // Input fields
-  --input-bg: #18181b;
-  --input-border: rgba(255, 255, 255, 0.1);
-  --input-border-focus: #ffd166;
-  --input-focus-border: #ffd166;
-  --input-placeholder: rgba(255, 255, 255, 0.4);
-
-  // Dividers
-  --divider-color: rgba(255, 255, 255, 0.08);
-
-  // Focus ring
-  --focus-ring: 0 0 0 2px rgba(255, 209, 102, 0.5);
-}
-
-// ===================
 // ROOT (Light Theme - Default)
 // ===================
-:root,
-[data-theme='light'] {
+// :root defines the default (light) theme
+// [data-theme='dark'] comes AFTER to override when dark mode is active
+:root {
   color-scheme: light;
 
   // Brand Colors (same yellow as dark mode)
@@ -248,6 +127,127 @@
 
   // Focus ring
   --focus-ring: 0 0 0 2px rgba(247, 192, 65, 0.4);
+}
+
+// ===================
+// DARK THEME
+// ===================
+// Must come AFTER :root so it overrides when data-theme="dark"
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  // Brand Colors
+  --color-brand: #ffd166;
+  --color-brand-hover: #ffe199;
+  --color-brand-muted: rgba(255, 209, 102, 0.15);
+  --color-brand-text: #ffd166;
+  --color-brand-bg: rgba(255, 209, 102, 0.1);
+  --color-brand-border: rgba(255, 209, 102, 0.2);
+  --color-brand-glow: rgba(255, 209, 102, 0.3);
+
+  // Background Colors
+  --bg-primary: #000000;
+  --bg-secondary: #242728;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #242728;
+  --bg-surface: #18181b;
+  --bg-elevated: #27272a;
+  --bg-input: #18181b;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-active: rgba(255, 255, 255, 0.1);
+  --bg-skeleton: linear-gradient(90deg, #27272a 0%, #3f3f46 50%, #27272a 100%);
+
+  // Text Colors
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --text-inverse: #000000;
+  --text-link: #60a5fa;
+  --text-link-hover: #93c5fd;
+
+  // Border Colors
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: #27272a;
+  --border-focus: #ffd166;
+  --border-hover: rgba(255, 255, 255, 0.2);
+  --border-active: rgba(255, 255, 255, 0.3);
+
+  // Status Colors
+  --color-success: #10b981;
+  --color-success-text: #34d399;
+  --color-success-bg: rgba(52, 211, 153, 0.15);
+  --color-success-border: rgba(52, 211, 153, 0.3);
+
+  --color-warning: #f59e0b;
+  --color-warning-text: #fbbf24;
+  --color-warning-bg: rgba(251, 191, 36, 0.15);
+  --color-warning-border: rgba(251, 191, 36, 0.2);
+
+  --color-error: #ef4444;
+  --color-error-text: #f87171;
+  --color-error-bg: rgba(248, 113, 113, 0.15);
+  --color-error-border: rgba(248, 113, 113, 0.3);
+
+  --color-info: #3b82f6;
+  --color-info-text: #7dd3fc;
+  --color-info-bg: rgba(59, 130, 246, 0.15);
+  --color-info-border: rgba(59, 130, 246, 0.25);
+
+  // Sumit Brand Color (blue)
+  --color-sumit: #0066cc;
+  --color-sumit-hover: #0052a3;
+  --color-sumit-glow: rgba(0, 102, 204, 0.4);
+
+  // Shadows (darker for dark theme)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(255, 209, 102, 0.3);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-dropdown: 0 10px 40px rgba(0, 0, 0, 0.5);
+
+  // Overlay
+  --overlay-bg: rgba(0, 0, 0, 0.8);
+  --overlay-bg-hover: rgba(0, 0, 0, 0.9);
+  --backdrop-blur: blur(8px);
+
+  // Scrollbar
+  --scrollbar-track: #18181b;
+  --scrollbar-thumb: #3f3f46;
+  --scrollbar-thumb-hover: #52525b;
+
+  // Component-specific
+  --header-bg: rgba(0, 0, 0, 0.95);
+  --footer-bg: #000000;
+  --card-bg: #242728;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --modal-bg: #1a1a1a;
+  --tooltip-bg: #27272a;
+  --dropdown-bg: #1c1c1e;
+
+  // Button variants
+  --btn-primary-bg: #ffd166;
+  --btn-primary-text: #000000;
+  --btn-primary-hover: #ffe199;
+  --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+  --btn-secondary-text: #ffffff;
+  --btn-secondary-hover: rgba(255, 255, 255, 0.15);
+  --btn-ghost-hover: rgba(255, 255, 255, 0.05);
+
+  // Input fields
+  --input-bg: #18181b;
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-border-focus: #ffd166;
+  --input-focus-border: #ffd166;
+  --input-placeholder: rgba(255, 255, 255, 0.4);
+
+  // Dividers
+  --divider-color: rgba(255, 255, 255, 0.08);
+
+  // Focus ring
+  --focus-ring: 0 0 0 2px rgba(255, 209, 102, 0.5);
 }
 
 // ===================

@@ -20,6 +20,7 @@ body:has(.discover-page) main {
 
 @media screen and (max-width: 650px) {
   main {
+    padding-top: 3.5rem; // Account for fixed header on mobile (3.5rem + 0.5rem spacing)
     padding-block-end: 3.5rem;
   }
 }

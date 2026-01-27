@@ -111,6 +111,20 @@ const ForOwnersPage: React.FC = () => {
     <div className="owners-page">
       {/* Hero Section */}
       <section className="owners-hero">
+        {/* Background Image */}
+        <div className="owners-hero__background">
+          <picture>
+            <source srcSet="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" />
+            <img
+              src="/images/optimized/Landing-Studio1320-1.jpg"
+              alt=""
+              className="owners-hero__image"
+              loading="eager"
+            />
+          </picture>
+          <div className="owners-hero__overlay" />
+        </div>
+
         <div className="owners-hero__glow owners-hero__glow--primary" />
         <div className="owners-hero__glow owners-hero__glow--blue" />
 

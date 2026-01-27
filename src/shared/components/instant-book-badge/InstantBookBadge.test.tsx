@@ -4,7 +4,7 @@ import { InstantBookBadge } from './InstantBookBadge';
 
 // Mock icon
 vi.mock('@shared/components/icons', () => ({
-  FlashIcon: ({ className, 'aria-hidden': ariaHidden }: { className?: string; 'aria-hidden'?: string }) => (
+  FlashIcon: ({ className, 'aria-hidden': ariaHidden }: { className?: string; 'aria-hidden'?: boolean }) => (
     <span data-testid="flash-icon" className={className} aria-hidden={ariaHidden}>⚡</span>
   ),
 }));

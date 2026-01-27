@@ -1,20 +1,12 @@
 /**
  * Schedule Control Section Styles
- * Light Pro aesthetic with bold editorial typography
+ * Bold editorial typography with theme support
  */
 @use 'utilities/variables' as vars;
 
-// Design tokens
-$schedule-bg: #ffffff;
-$schedule-text: #18181b;
-$schedule-text-muted: #71717a;
-$schedule-border: #e4e4e7;
-$schedule-surface: #f4f4f5;
-$schedule-primary: var(--color-brand);
-
 .schedule-control {
   padding: 6rem 0;
-  background: $schedule-bg;
+  background: var(--bg-primary);
   overflow: hidden;
 
   @media (min-width: 768px) {
@@ -68,7 +60,7 @@ $schedule-primary: var(--color-brand);
     letter-spacing: -0.03em;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    color: $schedule-text;
+    color: var(--text-primary);
     text-align: start;
 
     @media (min-width: 768px) {
@@ -77,9 +69,9 @@ $schedule-primary: var(--color-brand);
   }
 
   &__title-accent {
-    color: $schedule-primary;
+    color: var(--color-brand);
     text-decoration: underline;
-    text-decoration-color: $schedule-text;
+    text-decoration-color: var(--text-primary);
     text-underline-offset: 8px;
     text-decoration-thickness: 3px;
     white-space: nowrap;
@@ -87,7 +79,7 @@ $schedule-primary: var(--color-brand);
 
   &__description {
     font-size: 1.125rem;
-    color: $schedule-text-muted;
+    color: var(--text-secondary);
     line-height: 1.7;
     font-weight: 500;
     margin-bottom: 2.5rem;
@@ -136,8 +128,8 @@ $schedule-primary: var(--color-brand);
     width: 3rem;
     height: 3rem;
     border-radius: 1rem;
-    background: $schedule-surface;
-    border: 1px solid $schedule-border;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -147,7 +139,7 @@ $schedule-primary: var(--color-brand);
     svg {
       width: 1.5rem;
       height: 1.5rem;
-      color: $schedule-text;
+      color: var(--text-primary);
       transition: color 0.3s ease;
     }
   }
@@ -158,7 +150,7 @@ $schedule-primary: var(--color-brand);
     h3 {
       font-size: 1.125rem;
       font-weight: 900;
-      color: $schedule-text;
+      color: var(--text-primary);
       margin: 0 0 0.25rem 0;
       letter-spacing: -0.02em;
       text-align: start;
@@ -170,7 +162,7 @@ $schedule-primary: var(--color-brand);
 
     p {
       font-size: 0.9375rem;
-      color: $schedule-text-muted;
+      color: var(--text-secondary);
       font-weight: 500;
       line-height: 1.6;
       margin: 0;
@@ -190,9 +182,9 @@ $schedule-primary: var(--color-brand);
     gap: 1rem;
     font-size: 1.125rem;
     font-weight: 900;
-    color: $schedule-text;
-    background: $schedule-bg;
-    border: 2px solid $schedule-text;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 2px solid var(--text-primary);
     padding: 1rem 2rem;
     border-radius: 1rem;
     cursor: pointer;
@@ -205,8 +197,8 @@ $schedule-primary: var(--color-brand);
     }
 
     &:hover {
-      background: $schedule-text;
-      color: $schedule-bg;
+      background: var(--text-primary);
+      color: var(--bg-primary);
 
       .schedule-control__cta-icon {
         transform: translateX(-8px);
@@ -248,7 +240,7 @@ $schedule-primary: var(--color-brand);
       right: -80px;
       width: 400px;
       height: 400px;
-      background: rgba(247, 192, 65, 0.08);
+      background: var(--color-brand-muted);
 
       @media (min-width: 768px) {
         width: 500px;
@@ -261,7 +253,7 @@ $schedule-primary: var(--color-brand);
       left: -80px;
       width: 300px;
       height: 300px;
-      background: $schedule-surface;
+      background: var(--bg-surface);
 
       @media (min-width: 768px) {
         width: 400px;
@@ -278,11 +270,11 @@ $schedule-primary: var(--color-brand);
 
   // Browser Frame
   &__browser {
-    background: $schedule-bg;
+    background: var(--bg-card);
     border-radius: 1.5rem;
     overflow: hidden;
-    border: 1px solid $schedule-border;
-    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-xl);
     transition: transform 0.5s ease;
 
     @media (min-width: 768px) {
@@ -300,8 +292,8 @@ $schedule-primary: var(--color-brand);
 
   &__browser-bar {
     height: 2.5rem;
-    background: $schedule-surface;
-    border-bottom: 1px solid $schedule-border;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-primary);
     display: flex;
     align-items: center;
     padding: 0 1rem;
@@ -321,7 +313,7 @@ $schedule-primary: var(--color-brand);
       width: 0.625rem;
       height: 0.625rem;
       border-radius: 50%;
-      background: $schedule-border;
+      background: var(--border-secondary);
 
       @media (min-width: 768px) {
         width: 0.75rem;
@@ -334,8 +326,8 @@ $schedule-primary: var(--color-brand);
     margin: 0 auto;
     width: 33%;
     height: 1.25rem;
-    background: $schedule-surface;
-    border: 1px solid $schedule-border;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-primary);
     border-radius: 0.5rem;
 
     @media (min-width: 768px) {
@@ -345,7 +337,7 @@ $schedule-primary: var(--color-brand);
 
   &__browser-content {
     aspect-ratio: 16 / 9;
-    background: $schedule-surface;
+    background: var(--bg-surface);
     position: relative;
     overflow: hidden;
 
@@ -360,7 +352,7 @@ $schedule-primary: var(--color-brand);
   &__browser-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.2), transparent, transparent);
+    background: linear-gradient(to top, var(--bg-hover), transparent, transparent);
     pointer-events: none;
   }
 }
