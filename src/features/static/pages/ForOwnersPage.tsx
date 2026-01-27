@@ -144,9 +144,7 @@ const ForOwnersPage: React.FC = () => {
                   {t('hero.cta_secondary')}
                 </button> */}
               </div>
-              <p className="owners-hero__free-badge">
-                ✓ {t('hero.free_note')}
-              </p>
+              <p className="owners-hero__free-badge">✓ {t('hero.free_note')}</p>
             </motion.div>
           </div>
         </div>
