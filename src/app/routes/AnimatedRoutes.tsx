@@ -2,28 +2,30 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense, useMemo } from 'react';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
-
-import DiscoverPage from '@features/home/pages/DiscoverPage';
-import WishListsPage from '@features/entities/wishlists/pages/WishlistsPage';
-import StudioDetailsPage from '@features/entities/studios/pages/StudioDetailsPage';
-import StudioReviewsPage from '@features/entities/studios/pages/StudioReviewsPage';
-import ItemDetailsPage from '@features/entities/items/pages/ItemDetailsPage';
-import OrderPage from '@features/entities/orders/pages/OrderPage';
-import SearchPage from '@features/search/pages/SearchPage';
-import CreateStudioPage from '@features/entities/studios/pages/CreateStudioPage';
-import EditStudioPage from '@features/entities/studios/pages/EditStudioPage';
-import OrderSuccessPage from '@features/entities/orders/pages/OrderSuccessPage';
-import StudioCalendarPage from '@features/entities/bookings/calender/pages/CalenderPage';
-import DashboardPage from '@features/entities/dashboard/pages/DashboardPage';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
 import Cart from 'src/types/cart';
 import User from 'src/types/user';
-import { SumitSubscriptionPage, MySubscriptionPage } from '@features/entities/subscriptions';
 import { useTranslation } from 'react-i18next';
-import VendorOnboardingPage from '@features/vendor-onboarding/sumit/pages/VendorOnboardingPage';
 import { featureFlags, isFeatureEnabled } from '@core/config/featureFlags';
 import { ProtectedAdminRoute } from '@shared/components/route-guards';
+
+// Lazy load all pages for better code splitting
+const DiscoverPage = lazy(() => import('@features/home/pages/DiscoverPage'));
+const WishListsPage = lazy(() => import('@features/entities/wishlists/pages/WishlistsPage'));
+const StudioDetailsPage = lazy(() => import('@features/entities/studios/pages/StudioDetailsPage'));
+const StudioReviewsPage = lazy(() => import('@features/entities/studios/pages/StudioReviewsPage'));
+const ItemDetailsPage = lazy(() => import('@features/entities/items/pages/ItemDetailsPage'));
+const OrderPage = lazy(() => import('@features/entities/orders/pages/OrderPage'));
+const SearchPage = lazy(() => import('@features/search/pages/SearchPage'));
+const CreateStudioPage = lazy(() => import('@features/entities/studios/pages/CreateStudioPage'));
+const EditStudioPage = lazy(() => import('@features/entities/studios/pages/EditStudioPage'));
+const OrderSuccessPage = lazy(() => import('@features/entities/orders/pages/OrderSuccessPage'));
+const StudioCalendarPage = lazy(() => import('@features/entities/bookings/calender/pages/CalenderPage'));
+const DashboardPage = lazy(() => import('@features/entities/dashboard/pages/DashboardPage'));
+const SumitSubscriptionPage = lazy(() => import('@features/entities/subscriptions/pages/SumitSubscriptionPage'));
+const MySubscriptionPage = lazy(() => import('@features/entities/subscriptions/pages/MySubscriptionPage'));
+const VendorOnboardingPage = lazy(() => import('@features/vendor-onboarding/sumit/pages/VendorOnboardingPage'));
 
 const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
