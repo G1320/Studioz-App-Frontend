@@ -1,0 +1,139 @@
+.projects-list {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary, #333);
+  }
+
+  &__filter {
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    background: var(--background-color, #fff);
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color, #4a90d9);
+    }
+  }
+
+  &__loading,
+  &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: var(--text-secondary, #666);
+    font-size: 1rem;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    text-align: center;
+    color: var(--text-secondary, #666);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__empty-hint {
+    font-size: 0.875rem;
+    margin-top: 8px !important;
+    color: var(--text-tertiary, #999);
+  }
+
+  &__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__item {
+    background: var(--surface-color, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      border-color: var(--primary-color, #4a90d9);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__item-link {
+    display: block;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  &__item-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary, #333);
+  }
+
+  &__item-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #666);
+    margin-bottom: 8px;
+  }
+
+  &__item-separator {
+    color: var(--text-tertiary, #999);
+  }
+
+  &__item-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: var(--text-tertiary, #999);
+  }
+
+  &__item-price {
+    font-weight: 500;
+    color: var(--text-secondary, #666);
+  }
+
+  &__item-deadline {
+    color: var(--text-tertiary, #999);
+  }
+}

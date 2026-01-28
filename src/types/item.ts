@@ -15,6 +15,14 @@ export interface BlockDiscounts {
   twelveHour?: number;
 }
 
+export interface ProjectPricing {
+  basePrice?: number;
+  depositPercentage?: number;
+  estimatedDeliveryDays?: number;
+  revisionsIncluded?: number;
+  revisionPrice?: number;
+}
+
 export default interface Item {
   _id: string;
   studio: string;
@@ -66,7 +74,14 @@ export default interface Item {
   remoteService?: boolean;
   remoteAccessMethod?: 'zoom' | 'teams' | 'skype' | 'custom' | 'other';
   softwareRequirements?: string[];
-  
+
+  // Remote Project Settings
+  remoteWorkType?: 'session' | 'project';
+  projectPricing?: ProjectPricing;
+  acceptedFileTypes?: string[];
+  maxFileSize?: number;
+  maxFilesPerProject?: number;
+
   // Quantity Management
   maxQuantityPerBooking?: number;
   

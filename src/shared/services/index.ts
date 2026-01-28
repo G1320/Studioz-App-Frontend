@@ -24,5 +24,6 @@ export * from './cookie-consent-service';
 export * from './merchant-service';
 export * from './studio-coupon-service';
 export * from './email-preferences-service';
+export * from './remote-project-service';
 // booking-analytics-service and reschedule-service types/functions are already exported
 // from merchant-service and reservation-service respectively. Import directly if needed.

@@ -45,6 +45,8 @@ const ReservationDetailsPage = lazy(() => import('@features/entities/reservation
 // const LandingPage = lazy(() => import('@features/landing/pages/LandingPage'));
 const ProfilePage = lazy(() => import('@features/entities/profile/pages/ProfilePage'));
 const AdminPage = lazy(() => import('@features/entities/admin/pages/AdminPage'));
+const ProjectsListPage = lazy(() => import('@features/entities/remote-projects/pages/ProjectsListPage'));
+const ProjectDetailPage = lazy(() => import('@features/entities/remote-projects/pages/ProjectDetailPage'));
 
 interface AnimatedRoutesProps {
   studios: Studio[];
@@ -316,6 +318,24 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               }
             />
           )}
+
+          {/* Remote Projects */}
+          <Route
+            path="/:lang?/projects"
+            element={
+              <AnimatedRoute>
+                <ProjectsListPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/projects/:projectId"
+            element={
+              <AnimatedRoute>
+                <ProjectDetailPage />
+              </AnimatedRoute>
+            }
+          />
 
           <Route
             path="/:lang?/privacy"
