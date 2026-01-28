@@ -71,8 +71,7 @@ const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 import App from './app/App.js';
 
-const root = document.getElementById('root') as HTMLElement;
-ReactDOM.createRoot(root).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="light">
       <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
