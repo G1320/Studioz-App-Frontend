@@ -96,33 +96,11 @@ header.app-header {
     display: block;
     text-decoration: none;
     // Font styles for text logo (when faviconLogo is false)
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      'Roboto',
-      'Helvetica Neue',
-      Arial,
-      sans-serif;
+    font-family: inherit;
     font-weight: 600;
     letter-spacing: 0.02em;
     color: inherit;
     line-height: 1.1;
-
-    // Override Hebrew font styles for text logo
-    html[lang='he'] &,
-    html[dir='rtl'] & {
-      font-family:
-        system-ui,
-        -apple-system,
-        'Segoe UI',
-        'Roboto',
-        'Helvetica Neue',
-        Arial,
-        sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
 
     .logo-image {
       height: 2.5rem; // Larger for taller header
@@ -252,20 +230,6 @@ header.app-header {
       margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
-    // Logo always uses English font - override Hebrew font styles
-    html[lang='he'] &,
-    html[dir='rtl'] & {
-      font-family:
-        system-ui,
-        -apple-system,
-        'Segoe UI',
-        'Roboto',
-        'Helvetica Neue',
-        Arial,
-        sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
 
     @media screen and (max-width: 600px) {
       &.logo--mobile-shifted {
