@@ -120,6 +120,10 @@ const ForOwnersPage: React.FC = () => {
               alt=""
               className="owners-hero__image"
               loading="eager"
+              fetchPriority="high"
+              width={1320}
+              height={880}
+              decoding="async"
             />
           </picture>
           <div className="owners-hero__overlay" />

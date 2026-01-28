@@ -148,6 +148,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
               src="/images/optimized/Landing-Studio1320-1.jpg"
               alt="Studio Background"
               className="landing-hero__image"
+              loading="eager"
+              fetchPriority="high"
+              width={1320}
+              height={880}
               decoding="async"
             />
           </picture>
