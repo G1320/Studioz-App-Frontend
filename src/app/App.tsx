@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useMemo, ReactNode } from 'react';
+import { useMemo, useEffect, ReactNode } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { useItems, useStudios, useCart, useBrevoChat } from '@shared/hooks';
 import { Toaster } from 'sonner';
@@ -33,6 +33,11 @@ function App() {
 
   const { user } = useUserContext();
   const { offlineCart } = useOfflineCartContext();
+
+  // Mark root as hydrated to remove CSS background placeholder
+  useEffect(() => {
+    document.getElementById('root')?.classList.add('hydrated');
+  }, []);
 
   // Load Brevo chat widget on create, edit, and subscription pages
   useBrevoChat();
