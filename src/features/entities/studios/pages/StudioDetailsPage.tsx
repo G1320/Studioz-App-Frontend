@@ -39,11 +39,16 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   useEffect(() => {
     if (currStudio && currStudio._id !== trackedStudioRef.current) {
       trackedStudioRef.current = currStudio._id;
+      // Get minimum price from studio items for Meta tracking
+      const prices = currStudio.items?.map((item) => item.price).filter((p): p is number => p !== undefined && p > 0);
+      const minPrice = prices && prices.length > 0 ? Math.min(...prices) : 0;
       trackEvent('ViewContent', {
         content_name: currStudio.name?.en || currStudio.name?.he || 'Studio',
         content_category: 'Studio',
         content_ids: [currStudio._id],
-        content_type: 'product'
+        content_type: 'product',
+        currency: 'ILS',
+        value: minPrice
       });
     }
   }, [currStudio?._id]);

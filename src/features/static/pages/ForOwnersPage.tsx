@@ -45,7 +45,9 @@ const ForOwnersPage: React.FC = () => {
       trackEvent('ViewContent', {
         content_name: 'For Owners Landing Page',
         content_category: 'Landing Page',
-        content_type: 'page'
+        content_type: 'page',
+        currency: 'ILS',
+        value: 0
       });
     }
   }, []);
