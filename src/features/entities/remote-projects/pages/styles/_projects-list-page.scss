@@ -423,20 +423,11 @@
       width: 0.875rem;
       height: 0.875rem;
       transition: transform 0.2s ease;
-
-      // Flip arrow for RTL
-      [dir='rtl'] & {
-        transform: scaleX(-1);
-      }
     }
   }
 
   &__card:hover &__card-link svg {
-    transform: translateX(-2px);
-
-    [dir='rtl'] & {
-      transform: scaleX(-1) translateX(-2px);
-    }
+    transform: translateX(-3px);
   }
 
   // Legacy list view support

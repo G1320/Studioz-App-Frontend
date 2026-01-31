@@ -318,9 +318,49 @@ export const itemStep4Schema = z.object({
 }).passthrough();
 
 /**
- * Step 5: Add-ons Schema (optional - no validation required, always passes)
+ * Step 5: Remote Settings Schema
+ * Validates: remoteService, remoteWorkType, projectPricing, file settings
  */
-export const itemStep5Schema = z.object({}).passthrough();
+export const itemStep5RemoteSchema = z.object({
+  remoteService: z.boolean().optional(),
+  remoteWorkType: z.enum(['session', 'project']).optional(),
+  projectPricing: z.object({
+    basePrice: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    depositPercentage: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().min(0).max(100).optional()
+    ),
+    estimatedDeliveryDays: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().positive().optional()
+    ),
+    revisionsIncluded: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().min(0).optional()
+    ),
+    revisionPrice: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().min(0).optional()
+    )
+  }).optional(),
+  acceptedFileTypes: z.array(z.string()).optional(),
+  maxFileSize: z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+    z.number().positive().optional()
+  ),
+  maxFilesPerProject: z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+    z.number().positive().optional()
+  )
+}).passthrough();
+
+/**
+ * Step 6: Add-ons Schema (optional - no validation required, always passes)
+ */
+export const itemStep6AddOnsSchema = z.object({}).passthrough();
 
 /**
  * Step schema map for easy access
@@ -330,7 +370,8 @@ export const itemStepSchemas = {
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
   'booking-settings': itemStep4Schema,
-  'add-ons': itemStep5Schema
+  'remote-settings': itemStep5RemoteSchema,
+  'add-ons': itemStep6AddOnsSchema
 } as const;
 
 /**
@@ -341,7 +382,8 @@ export const itemStepSchemasEdit = {
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
   'booking-settings': itemStep4Schema,
-  'add-ons': itemStep5Schema
+  'remote-settings': itemStep5RemoteSchema,
+  'add-ons': itemStep6AddOnsSchema
 } as const;
 
 /**

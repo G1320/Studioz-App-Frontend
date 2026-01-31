@@ -510,6 +510,8 @@
       "pricingDesc": "Set price and booking options",
       "bookingSettings": "Booking Settings",
       "bookingSettingsDesc": "Set booking rules and preparation times",
+      "remoteSettings": "Remote Services",
+      "remoteSettingsDesc": "Enable and configure remote project options",
       "policies": "Policies",
       "policiesDesc": "Define cancellation and booking policies",
       "addOns": "Add-Ons",
@@ -526,6 +528,39 @@
       "amenitiesGearDesc": "Select amenities and list equipment",
       "portfolio": "Portfolio",
       "portfolioDesc": "Showcase your best work and social profiles"
+    },
+    "remoteSettings": {
+      "enableRemote": {
+        "title": "Enable Remote Services",
+        "description": "Allow customers to request work remotely without visiting your studio"
+      },
+      "workType": {
+        "label": "Remote Work Type",
+        "project": "Project-Based",
+        "projectDesc": "Customer uploads files, you deliver results",
+        "session": "Live Session",
+        "sessionDesc": "Real-time collaboration via video call"
+      },
+      "projectPricing": {
+        "title": "Project Pricing",
+        "basePrice": "Base Price",
+        "deposit": "Deposit Required",
+        "deliveryDays": "Delivery Time",
+        "days": "days",
+        "revisions": "Revisions Included",
+        "revisionPrice": "Extra Revision Price"
+      },
+      "fileSettings": {
+        "title": "File Upload Settings",
+        "maxSize": "Max File Size",
+        "maxFiles": "Max Files Per Project",
+        "acceptedTypes": "Accepted File Types"
+      },
+      "info": {
+        "title": "How Remote Projects Work",
+        "projectDesc": "Customers submit a project request with their requirements and files. You review, accept, and deliver the completed work through the platform.",
+        "sessionDesc": "Customers book a time slot for a live remote session. You connect via video call to collaborate in real-time."
+      }
     },
     "portfolio": {
       "socialProfiles": "Social Profiles",

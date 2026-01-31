@@ -35,7 +35,9 @@ import {
   HourglassIcon,
   CategoryIcon,
   LibraryMusicIcon,
-  InventoryIcon
+  InventoryIcon,
+  UploadIcon,
+  PublicIcon
 } from '@shared/components/icons';
 import './_createItemForm.scss';
 import { ITEM_NAME_MAX, ITEM_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
@@ -97,6 +99,24 @@ export const CreateItemForm = () => {
   const [preparationTime, setPreparationTime] = useState<Duration>({});
   const [instantBook, setInstantBook] = useState<boolean>(false);
 
+  // Remote Project Settings State
+  const [remoteService, setRemoteService] = useState<boolean>(false);
+  const [remoteWorkType, setRemoteWorkType] = useState<'session' | 'project'>('project');
+  const [projectPricing, setProjectPricing] = useState<{
+    basePrice?: number;
+    depositPercentage?: number;
+    estimatedDeliveryDays?: number;
+    revisionsIncluded?: number;
+    revisionPrice?: number;
+  }>({
+    depositPercentage: 50,
+    estimatedDeliveryDays: 7,
+    revisionsIncluded: 2
+  });
+  const [acceptedFileTypes, setAcceptedFileTypes] = useState<string[]>(['.wav', '.mp3', '.aif', '.flac', '.zip']);
+  const [maxFileSize, setMaxFileSize] = useState<number>(500); // MB
+  const [maxFilesPerProject, setMaxFilesPerProject] = useState<number>(20);
+
   // Policies State
 
   interface FormData {
@@ -123,6 +143,19 @@ export const CreateItemForm = () => {
     minimumQuantity?: number;
     advanceBookingRequired?: Duration;
     preparationTime?: Duration;
+    // Remote Settings
+    remoteService?: boolean;
+    remoteWorkType?: 'session' | 'project';
+    projectPricing?: {
+      basePrice?: number;
+      depositPercentage?: number;
+      estimatedDeliveryDays?: number;
+      revisionsIncluded?: number;
+      revisionPrice?: number;
+    };
+    acceptedFileTypes?: string[];
+    maxFileSize?: number;
+    maxFilesPerProject?: number;
   }
 
   const pricePerOptions = [
@@ -476,6 +509,286 @@ export const CreateItemForm = () => {
     [t, pricePer, minimumQuantity, advanceBookingRequired, preparationTime, instantBook]
   );
 
+  // Remote Project Settings custom content
+  const remoteSettingsContent = useMemo(
+    () => (
+      <div className="remote-settings-step">
+        {/* Remote Service Toggle */}
+        <div className="remote-settings-step__toggle-section">
+          <div className="remote-settings-step__toggle-header">
+            <PublicIcon className="remote-settings-step__toggle-icon" />
+            <div className="remote-settings-step__toggle-info">
+              <h3 className="remote-settings-step__toggle-title">
+                {t('form.remoteSettings.enableRemote.title', { defaultValue: 'Enable Remote Services' })}
+              </h3>
+              <p className="remote-settings-step__toggle-description">
+                {t('form.remoteSettings.enableRemote.description', {
+                  defaultValue: 'Allow customers to request work remotely without visiting your studio'
+                })}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setRemoteService(!remoteService)}
+            className={`remote-settings-step__toggle-btn ${remoteService ? 'remote-settings-step__toggle-btn--active' : ''}`}
+            aria-pressed={remoteService}
+          >
+            <span className="remote-settings-step__toggle-slider" />
+          </button>
+        </div>
+
+        {remoteService && (
+          <>
+            {/* Work Type Selection */}
+            <div className="remote-settings-step__work-type">
+              <label className="remote-settings-step__label">
+                {t('form.remoteSettings.workType.label', { defaultValue: 'Remote Work Type' })}
+              </label>
+              <div className="remote-settings-step__radio-group">
+                <button
+                  type="button"
+                  onClick={() => setRemoteWorkType('project')}
+                  className={`remote-settings-step__radio-btn ${remoteWorkType === 'project' ? 'remote-settings-step__radio-btn--active' : ''}`}
+                >
+                  <UploadIcon />
+                  <div>
+                    <strong>{t('form.remoteSettings.workType.project', { defaultValue: 'Project-Based' })}</strong>
+                    <span>{t('form.remoteSettings.workType.projectDesc', { defaultValue: 'Customer uploads files, you deliver results' })}</span>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRemoteWorkType('session')}
+                  className={`remote-settings-step__radio-btn ${remoteWorkType === 'session' ? 'remote-settings-step__radio-btn--active' : ''}`}
+                >
+                  <EventAvailableIcon />
+                  <div>
+                    <strong>{t('form.remoteSettings.workType.session', { defaultValue: 'Live Session' })}</strong>
+                    <span>{t('form.remoteSettings.workType.sessionDesc', { defaultValue: 'Real-time collaboration via video call' })}</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Project Pricing Section - only for project-based */}
+            {remoteWorkType === 'project' && (
+              <div className="remote-settings-step__pricing-section">
+                <h4 className="remote-settings-step__section-title">
+                  {t('form.remoteSettings.projectPricing.title', { defaultValue: 'Project Pricing' })}
+                </h4>
+                
+                <div className="remote-settings-step__grid">
+                  {/* Base Price */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.projectPricing.basePrice', { defaultValue: 'Base Price' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <span className="remote-settings-step__input-prefix">₪</span>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={projectPricing.basePrice ?? ''}
+                        onChange={(e) =>
+                          setProjectPricing((prev) => ({
+                            ...prev,
+                            basePrice: e.target.value ? Number(e.target.value) : undefined
+                          }))
+                        }
+                        className="remote-settings-step__input remote-settings-step__input--with-prefix"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Deposit Percentage */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.projectPricing.deposit', { defaultValue: 'Deposit Required' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <input
+                        type="number"
+                        min={0}
+                        max={100}
+                        placeholder="50"
+                        value={projectPricing.depositPercentage ?? ''}
+                        onChange={(e) =>
+                          setProjectPricing((prev) => ({
+                            ...prev,
+                            depositPercentage: e.target.value ? Number(e.target.value) : undefined
+                          }))
+                        }
+                        className="remote-settings-step__input remote-settings-step__input--with-suffix"
+                      />
+                      <span className="remote-settings-step__input-suffix">%</span>
+                    </div>
+                  </div>
+
+                  {/* Estimated Delivery Days */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.projectPricing.deliveryDays', { defaultValue: 'Delivery Time' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <input
+                        type="number"
+                        min={1}
+                        placeholder="7"
+                        value={projectPricing.estimatedDeliveryDays ?? ''}
+                        onChange={(e) =>
+                          setProjectPricing((prev) => ({
+                            ...prev,
+                            estimatedDeliveryDays: e.target.value ? Number(e.target.value) : undefined
+                          }))
+                        }
+                        className="remote-settings-step__input remote-settings-step__input--with-suffix"
+                      />
+                      <span className="remote-settings-step__input-suffix">
+                        {t('form.remoteSettings.projectPricing.days', { defaultValue: 'days' })}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Revisions Included */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.projectPricing.revisions', { defaultValue: 'Revisions Included' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <input
+                        type="number"
+                        min={0}
+                        placeholder="2"
+                        value={projectPricing.revisionsIncluded ?? ''}
+                        onChange={(e) =>
+                          setProjectPricing((prev) => ({
+                            ...prev,
+                            revisionsIncluded: e.target.value ? Number(e.target.value) : undefined
+                          }))
+                        }
+                        className="remote-settings-step__input"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Extra Revision Price */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.projectPricing.revisionPrice', { defaultValue: 'Extra Revision Price' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <span className="remote-settings-step__input-prefix">₪</span>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={projectPricing.revisionPrice ?? ''}
+                        onChange={(e) =>
+                          setProjectPricing((prev) => ({
+                            ...prev,
+                            revisionPrice: e.target.value ? Number(e.target.value) : undefined
+                          }))
+                        }
+                        className="remote-settings-step__input remote-settings-step__input--with-prefix"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* File Settings */}
+                <h4 className="remote-settings-step__section-title" style={{ marginTop: '1.5rem' }}>
+                  {t('form.remoteSettings.fileSettings.title', { defaultValue: 'File Upload Settings' })}
+                </h4>
+                
+                <div className="remote-settings-step__grid">
+                  {/* Max File Size */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.fileSettings.maxSize', { defaultValue: 'Max File Size' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <input
+                        type="number"
+                        min={1}
+                        placeholder="500"
+                        value={maxFileSize ?? ''}
+                        onChange={(e) => setMaxFileSize(e.target.value ? Number(e.target.value) : 500)}
+                        className="remote-settings-step__input remote-settings-step__input--with-suffix"
+                      />
+                      <span className="remote-settings-step__input-suffix">MB</span>
+                    </div>
+                  </div>
+
+                  {/* Max Files Per Project */}
+                  <div className="remote-settings-step__field">
+                    <label className="remote-settings-step__label">
+                      {t('form.remoteSettings.fileSettings.maxFiles', { defaultValue: 'Max Files Per Project' })}
+                    </label>
+                    <div className="remote-settings-step__input-wrapper">
+                      <input
+                        type="number"
+                        min={1}
+                        placeholder="20"
+                        value={maxFilesPerProject ?? ''}
+                        onChange={(e) => setMaxFilesPerProject(e.target.value ? Number(e.target.value) : 20)}
+                        className="remote-settings-step__input"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accepted File Types */}
+                <div className="remote-settings-step__field" style={{ marginTop: '1rem' }}>
+                  <label className="remote-settings-step__label">
+                    {t('form.remoteSettings.fileSettings.acceptedTypes', { defaultValue: 'Accepted File Types' })}
+                  </label>
+                  <div className="remote-settings-step__file-types">
+                    {['.wav', '.mp3', '.aif', '.aiff', '.flac', '.zip', '.rar', '.pdf', '.mid', '.stems'].map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => {
+                          setAcceptedFileTypes((prev) =>
+                            prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+                          );
+                        }}
+                        className={`remote-settings-step__file-type-btn ${acceptedFileTypes.includes(type) ? 'remote-settings-step__file-type-btn--active' : ''}`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Info Box */}
+            <div className="remote-settings-step__info-box">
+              <InfoOutlinedIcon className="remote-settings-step__info-icon" />
+              <div className="remote-settings-step__info-content">
+                <h4 className="remote-settings-step__info-title">
+                  {t('form.remoteSettings.info.title', { defaultValue: 'How Remote Projects Work' })}
+                </h4>
+                <p className="remote-settings-step__info-text">
+                  {remoteWorkType === 'project'
+                    ? t('form.remoteSettings.info.projectDesc', {
+                        defaultValue:
+                          'Customers submit a project request with their requirements and files. You review, accept, and deliver the completed work through the platform.'
+                      })
+                    : t('form.remoteSettings.info.sessionDesc', {
+                        defaultValue:
+                          'Customers book a time slot for a live remote session. You connect via video call to collaborate in real-time.'
+                      })}
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    ),
+    [t, remoteService, remoteWorkType, projectPricing, acceptedFileTypes, maxFileSize, maxFilesPerProject]
+  );
+
   // Define form steps with Zod schemas
   const steps: FormStep[] = useMemo(
     () => [
@@ -514,6 +827,15 @@ export const CreateItemForm = () => {
         icon: CalendarIcon,
         customContent: bookingSettingsContent
       },
+      {
+        id: 'remote-settings',
+        title: t('form.steps.remoteSettings') || 'Remote Services',
+        description: t('form.steps.remoteSettingsDesc') || 'Enable and configure remote project options',
+        fieldNames: ['remoteService', 'remoteWorkType', 'projectPricing'],
+        schema: itemStepSchemas['remote-settings'],
+        icon: PublicIcon,
+        customContent: remoteSettingsContent
+      },
       ...(isFeatureEnabled('addOns')
         ? [
             {
@@ -535,7 +857,7 @@ export const CreateItemForm = () => {
           ]
         : [])
     ],
-    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn, pricingContent, bookingSettingsContent]
+    [t, pendingAddOns, handleAddAddOn, handleRemoveAddOn, pricingContent, bookingSettingsContent, remoteSettingsContent]
   );
 
   // Initialize currentStepIndex from URL on mount (after steps are defined)
@@ -601,6 +923,23 @@ export const CreateItemForm = () => {
     }
     if (preparationTime.value && preparationTime.unit) {
       formData.preparationTime = preparationTime;
+    }
+
+    // Add remote settings
+    formData.remoteService = remoteService;
+    if (remoteService) {
+      formData.remoteWorkType = remoteWorkType;
+      if (remoteWorkType === 'project') {
+        // Only include projectPricing if it has values
+        const hasProjectPricing = projectPricing.basePrice || projectPricing.depositPercentage || 
+          projectPricing.estimatedDeliveryDays || projectPricing.revisionsIncluded;
+        if (hasProjectPricing) {
+          formData.projectPricing = projectPricing;
+        }
+        formData.acceptedFileTypes = acceptedFileTypes;
+        formData.maxFileSize = maxFileSize;
+        formData.maxFilesPerProject = maxFilesPerProject;
+      }
     }
 
     // Remove UI-only fields that shouldn't be sent to the API
