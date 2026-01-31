@@ -11,42 +11,42 @@ export const ProjectStatusBadge: React.FC<ProjectStatusBadgeProps> = ({
   status,
   className = '',
 }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('remoteProjects');
 
   const statusConfig: Record<
     RemoteProjectStatus,
     { label: string; variant: string }
   > = {
     requested: {
-      label: t('remoteProjects.status.requested', 'Pending Review'),
+      label: t('status.requested', 'Pending Review'),
       variant: 'warning',
     },
     accepted: {
-      label: t('remoteProjects.status.accepted', 'Accepted'),
+      label: t('status.accepted', 'Accepted'),
       variant: 'info',
     },
     in_progress: {
-      label: t('remoteProjects.status.inProgress', 'In Progress'),
+      label: t('status.inProgress', 'In Progress'),
       variant: 'info',
     },
     delivered: {
-      label: t('remoteProjects.status.delivered', 'Delivered'),
+      label: t('status.delivered', 'Delivered'),
       variant: 'success',
     },
     revision_requested: {
-      label: t('remoteProjects.status.revisionRequested', 'Revision Requested'),
+      label: t('status.revisionRequested', 'Revision Requested'),
       variant: 'warning',
     },
     completed: {
-      label: t('remoteProjects.status.completed', 'Completed'),
+      label: t('status.completed', 'Completed'),
       variant: 'success',
     },
     cancelled: {
-      label: t('remoteProjects.status.cancelled', 'Cancelled'),
+      label: t('status.cancelled', 'Cancelled'),
       variant: 'error',
     },
     declined: {
-      label: t('remoteProjects.status.declined', 'Declined'),
+      label: t('status.declined', 'Declined'),
       variant: 'error',
     },
   };

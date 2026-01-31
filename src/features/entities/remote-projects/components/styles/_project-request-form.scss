@@ -1,134 +1,423 @@
-.project-request-form {
-  max-width: 600px;
-  padding: 1.5rem;
+// Project Request Form Modal - Following StudioZ Remote Projects Style Guide
+// Customer submits a new project request for remote services
 
+.project-request-form {
+  // Modal Overlay
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+
+    @media (min-width: 640px) {
+      padding: 1.5rem;
+    }
+  }
+
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+  }
+
+  // Modal Container
+  &__modal {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  // Header
   &__header {
-    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-primary);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &__header-content {
+    flex: 1;
   }
 
   &__title {
     font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
   }
 
   &__service-name {
-    color: var(--color-text-secondary);
-    font-size: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
   }
 
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  // Content
+  &__content {
+    padding: 2rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-primary) transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-primary);
+      border-radius: 3px;
+    }
+  }
+
+  // Pricing Info Grid
   &__pricing {
-    background: var(--color-bg-secondary);
-    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__pricing-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     padding: 1rem;
-    margin-bottom: 1.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 1rem;
+  }
+
+  &__pricing-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-bottom: 0.5rem;
+
+    &--price { color: var(--color-brand); }
+    &--deposit { color: #22c55e; }
+    &--delivery { color: #3b82f6; }
+    &--revisions { color: #f97316; }
+  }
+
+  &__pricing-label {
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  &__pricing-value {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  // Form Fields
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__field {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  &__price,
-  &__deposit,
-  &__delivery,
-  &__revisions {
+  &__label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  &__price-value {
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--color-primary);
-  }
-
-  &__field {
-    margin-bottom: 1rem;
-  }
-
-  &__label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  &__hint {
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  &__label-hint {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-secondary);
   }
 
   &__input,
   &__textarea {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
+    padding: 0.875rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
 
     &:focus {
       outline: none;
-      border-color: var(--color-primary);
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.1);
     }
   }
 
   &__textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 150px;
   }
 
   &__char-count {
-    display: block;
-    text-align: right;
+    align-self: flex-end;
     font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    margin-top: 0.25rem;
+    color: var(--text-secondary);
+  }
+
+  // Reference Links
+  &__links-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  &__links-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  &__add-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-brand);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
+
+  &__links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   &__link-row {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
+  }
+
+  &__link-input-wrapper {
+    position: relative;
+    flex: 1;
+
+    svg {
+      position: absolute;
+      left: 0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1rem;
+      height: 1rem;
+      color: var(--text-secondary);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-brand);
+      }
+    }
   }
 
   &__remove-link {
-    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
     background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.75rem;
+    color: var(--text-secondary);
     cursor: pointer;
-    font-size: 1.25rem;
-    line-height: 1;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: var(--color-bg-secondary);
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 
-  &__add-link {
-    background: transparent;
-    border: none;
-    color: var(--color-primary);
-    cursor: pointer;
-    padding: 0.5rem 0;
+  // Info Notice
+  &__notice {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 209, 102, 0.05);
+    border: 1px solid rgba(255, 209, 102, 0.2);
+    border-radius: 1rem;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--color-brand);
+      flex-shrink: 0;
+    }
+
+    p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0;
+
+      strong {
+        color: var(--text-primary);
+        font-weight: 700;
+      }
+    }
+  }
+
+  // Footer
+  &__footer {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border-primary);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &__cancel {
+    flex: 1;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 0.75rem;
     font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
 
     &:hover {
-      text-decoration: underline;
+      background: rgba(255, 255, 255, 0.05);
     }
   }
 
-  &__contact {
-    border-top: 1px solid var(--color-border);
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
+  &__submit {
+    flex: 2;
+    padding: 1rem;
+    background: var(--color-brand);
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(255, 209, 102, 0.15);
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 
-  &__section-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  // Legacy support for max-width container usage
+  max-width: 600px;
+  padding: 1.5rem;
+
+  &__hint {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
   }
 
   &__actions {
@@ -137,12 +426,12 @@
     justify-content: flex-end;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--border-primary);
   }
 
   &__note {
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
     margin-top: 1rem;
     text-align: center;
   }

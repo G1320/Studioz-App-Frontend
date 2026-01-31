@@ -31,6 +31,7 @@ import changelog from './locales/en/changelog.json';
 import merchantStats from './locales/en/merchantStats.json';
 import merchantDocs from './locales/en/merchantDocs.json';
 import security from './locales/en/security.json';
+import remoteProjects from './locales/en/remoteProjects.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -61,6 +62,7 @@ import changelogHe from './locales/he/changelog.json';
 import merchantStatsHe from './locales/he/merchantStats.json';
 import merchantDocsHe from './locales/he/merchantDocs.json';
 import securityHe from './locales/he/security.json';
+import remoteProjectsHe from './locales/he/remoteProjects.json';
 
 i18n
   .use(LanguageDetector)
@@ -96,7 +98,8 @@ i18n
         changelog,
         merchantStats,
         merchantDocs,
-        security
+        security,
+        remoteProjects
       },
       he: {
         discoverPage: discoverPageHe,
@@ -127,7 +130,8 @@ i18n
         changelog: changelogHe,
         merchantStats: merchantStatsHe,
         merchantDocs: merchantDocsHe,
-        security: securityHe
+        security: securityHe,
+        remoteProjects: remoteProjectsHe
       }
     },
     lng: 'he', // Default to Hebrew

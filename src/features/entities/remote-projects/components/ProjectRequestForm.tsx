@@ -24,7 +24,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   onSuccess,
   onCancel,
 }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('remoteProjects');
   const createProjectMutation = useCreateProjectMutation();
 
   const [title, setTitle] = useState('');
@@ -87,7 +87,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
     <form className="project-request-form" onSubmit={handleSubmit}>
       <div className="project-request-form__header">
         <h2 className="project-request-form__title">
-          {t('remoteProjects.requestProject', 'Request Project')}
+          {t('requestProject')}
         </h2>
         <p className="project-request-form__service-name">
           {item.name?.en || item.name?.he}
@@ -97,7 +97,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
       <div className="project-request-form__pricing">
         <div className="project-request-form__price">
           <span className="project-request-form__price-label">
-            {t('remoteProjects.projectPrice', 'Project Price')}
+            {t('projectPrice')}
           </span>
           <span className="project-request-form__price-value">
             {price.toLocaleString()} ILS
@@ -106,7 +106,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
         {depositAmount && (
           <div className="project-request-form__deposit">
             <span className="project-request-form__deposit-label">
-              {t('remoteProjects.depositRequired', 'Deposit Required')}
+              {t('depositRequired')}
             </span>
             <span className="project-request-form__deposit-value">
               {depositAmount.toLocaleString()} ILS ({projectPricing?.depositPercentage}%)
@@ -115,16 +115,15 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
         )}
         <div className="project-request-form__delivery">
           <span className="project-request-form__delivery-label">
-            {t('remoteProjects.estimatedDelivery', 'Estimated Delivery')}
+            {t('estimatedDelivery')}
           </span>
           <span className="project-request-form__delivery-value">
-            {projectPricing?.estimatedDeliveryDays || 7}{' '}
-            {t('remoteProjects.days', 'days')}
+            {projectPricing?.estimatedDeliveryDays || 7} {t('days')}
           </span>
         </div>
         <div className="project-request-form__revisions">
           <span className="project-request-form__revisions-label">
-            {t('remoteProjects.revisionsIncluded', 'Revisions Included')}
+            {t('revisionsIncluded')}
           </span>
           <span className="project-request-form__revisions-value">
             {projectPricing?.revisionsIncluded || 1}
@@ -134,7 +133,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
 
       <div className="project-request-form__field">
         <label className="project-request-form__label" htmlFor="project-title">
-          {t('remoteProjects.projectTitle', 'Project Title')} *
+          {t('projectTitle')} *
         </label>
         <input
           id="project-title"
@@ -142,7 +141,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
           className="project-request-form__input"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder={t('remoteProjects.titlePlaceholder', 'e.g., Mix and Master - My Song Name')}
+          placeholder={t('titlePlaceholder')}
           required
           maxLength={100}
         />
@@ -150,17 +149,14 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
 
       <div className="project-request-form__field">
         <label className="project-request-form__label" htmlFor="project-brief">
-          {t('remoteProjects.projectBrief', 'Project Brief')} *
+          {t('projectBrief')} *
         </label>
         <textarea
           id="project-brief"
           className="project-request-form__textarea"
           value={brief}
           onChange={(e) => setBrief(e.target.value)}
-          placeholder={t(
-            'remoteProjects.briefPlaceholder',
-            'Describe your project, desired style, reference tracks, any specific requirements...'
-          )}
+          placeholder={t('briefPlaceholder')}
           required
           rows={5}
           maxLength={2000}
@@ -172,13 +168,10 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
 
       <div className="project-request-form__field">
         <label className="project-request-form__label">
-          {t('remoteProjects.referenceLinks', 'Reference Links')}
+          {t('referenceLinks')}
         </label>
         <p className="project-request-form__hint">
-          {t(
-            'remoteProjects.referenceLinksHint',
-            'Add Spotify, YouTube, or SoundCloud links for reference'
-          )}
+          {t('referenceLinksHint')}
         </p>
         {referenceLinks.map((link, index) => (
           <div key={index} className="project-request-form__link-row">
@@ -194,7 +187,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
                 type="button"
                 className="project-request-form__remove-link"
                 onClick={() => handleRemoveReferenceLink(index)}
-                aria-label={t('remoteProjects.removeLink', 'Remove link')}
+                aria-label={t('removeLink')}
               >
                 &times;
               </button>
@@ -207,19 +200,19 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
             className="project-request-form__add-link"
             onClick={handleAddReferenceLink}
           >
-            + {t('remoteProjects.addLink', 'Add another link')}
+            + {t('addLink')}
           </button>
         )}
       </div>
 
       <div className="project-request-form__contact">
         <h3 className="project-request-form__section-title">
-          {t('remoteProjects.contactInfo', 'Contact Information')}
+          {t('contactInfo')}
         </h3>
 
         <div className="project-request-form__field">
           <label className="project-request-form__label" htmlFor="customer-name">
-            {t('remoteProjects.name', 'Name')}
+            {t('name')}
           </label>
           <input
             id="customer-name"
@@ -232,7 +225,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
 
         <div className="project-request-form__field">
           <label className="project-request-form__label" htmlFor="customer-email">
-            {t('remoteProjects.email', 'Email')}
+            {t('email')}
           </label>
           <input
             id="customer-email"
@@ -245,7 +238,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
 
         <div className="project-request-form__field">
           <label className="project-request-form__label" htmlFor="customer-phone">
-            {t('remoteProjects.phone', 'Phone')}
+            {t('phone')}
           </label>
           <input
             id="customer-phone"
@@ -265,7 +258,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
             onClick={onCancel}
             disabled={createProjectMutation.isPending}
           >
-            {t('common.cancel', 'Cancel')}
+            {t('common.cancel')}
           </Button>
         )}
         <Button
@@ -273,17 +266,12 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
           className="button--primary"
           disabled={!title.trim() || !brief.trim() || createProjectMutation.isPending}
         >
-          {createProjectMutation.isPending
-            ? t('common.submitting', 'Submitting...')
-            : t('remoteProjects.submitRequest', 'Submit Request')}
+          {createProjectMutation.isPending ? t('common.submitting') : t('submitRequest')}
         </Button>
       </div>
 
       <p className="project-request-form__note">
-        {t(
-          'remoteProjects.submitNote',
-          'After submitting, you can upload your files. The studio will review your request and accept or decline within 24-48 hours.'
-        )}
+        {t('submitNote')}
       </p>
     </form>
   );

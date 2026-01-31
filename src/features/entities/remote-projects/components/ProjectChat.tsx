@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { Button } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { useProjectMessages, useSendMessageMutation, useMarkMessagesReadMutation } from '@shared/hooks';
 import { ProjectMessage } from 'src/types/index';
@@ -12,19 +11,77 @@ interface ProjectChatProps {
   disabled?: boolean;
 }
 
+// Demo messages for preview
+const DEMO_MESSAGES: ProjectMessage[] = [
+  {
+    _id: 'msg-1',
+    projectId: 'demo-1',
+    senderId: { _id: 'customer-1', name: 'Daniel Cohen' },
+    senderRole: 'customer',
+    message: 'Hey! Just uploaded the tracks. Looking forward to hearing what you can do with them!',
+    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    readAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 3600000).toISOString(),
+  },
+  {
+    _id: 'msg-2',
+    projectId: 'demo-1',
+    senderId: { _id: 'vendor-1', name: 'Pulse Studios' },
+    senderRole: 'vendor',
+    message: 'Thanks Daniel! Got the files. Great recordings! I\'ll start working on the mix today. Any specific references for the drum sound you\'re going for?',
+    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 7200000).toISOString(),
+    readAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    _id: 'msg-3',
+    projectId: 'demo-1',
+    senderId: { _id: 'customer-1', name: 'Daniel Cohen' },
+    senderRole: 'customer',
+    message: 'Yeah! Check out "Let It Happen" by Tame Impala - love how punchy yet spacious the drums sound there. Also added a Spotify link to the project references.',
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    readAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 1800000).toISOString(),
+  },
+  {
+    _id: 'msg-4',
+    projectId: 'demo-1',
+    senderId: { _id: 'vendor-1', name: 'Pulse Studios' },
+    senderRole: 'vendor',
+    message: 'Perfect reference! I know exactly what you mean. I\'ll aim for that warm analog feel with some tape saturation. Should have the first mix ready by tomorrow evening.',
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    readAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 3600000).toISOString(),
+  },
+  {
+    _id: 'msg-5',
+    projectId: 'demo-1',
+    senderId: { _id: 'customer-1', name: 'Daniel Cohen' },
+    senderRole: 'customer',
+    message: 'Awesome, can\'t wait! 🎵',
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 7200000).toISOString(),
+    readAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
 export const ProjectChat: React.FC<ProjectChatProps> = ({
   projectId,
   currentUserId,
   currentUserRole: _currentUserRole,
   disabled = false,
 }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('remoteProjects');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [newMessage, setNewMessage] = useState('');
+  const [demoMessages, setDemoMessages] = useState<ProjectMessage[]>(DEMO_MESSAGES);
 
-  const { messages, isLoading, refetch } = useProjectMessages({ projectId });
+  // Check if this is a demo project
+  const isDemoProject = projectId?.startsWith('demo-');
+
+  const { messages: realMessages, isLoading, refetch } = useProjectMessages({ 
+    projectId: isDemoProject ? '' : projectId 
+  });
   const sendMessageMutation = useSendMessageMutation();
   const markReadMutation = useMarkMessagesReadMutation();
+
+  // Use demo or real messages
+  const messages = isDemoProject ? demoMessages : realMessages;
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -56,15 +113,28 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     if (typeof msg.senderId === 'object' && msg.senderId.name) {
       return msg.senderId.name;
     }
-    return msg.senderRole === 'customer'
-      ? t('remoteProjects.customer', 'Customer')
-      : t('remoteProjects.studio', 'Studio');
+    return msg.senderRole === 'customer' ? t('customer') : t('vendor');
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!newMessage.trim() || disabled) return;
+
+    // Handle demo mode - add message locally
+    if (isDemoProject) {
+      const demoMsg: ProjectMessage = {
+        _id: `msg-demo-${Date.now()}`,
+        projectId,
+        senderId: { _id: currentUserId, name: 'You' },
+        senderRole: 'vendor',
+        message: newMessage.trim(),
+        createdAt: new Date().toISOString(),
+      };
+      setDemoMessages(prev => [...prev, demoMsg]);
+      setNewMessage('');
+      return;
+    }
 
     try {
       await sendMessageMutation.mutateAsync({
@@ -91,23 +161,29 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   };
 
   const isOwnMessage = (msg: ProjectMessage): boolean => {
+    // In demo mode, vendor messages are "own" (we're viewing as studio)
+    if (isDemoProject) {
+      return msg.senderRole === 'vendor';
+    }
     return getSenderId(msg.senderId) === currentUserId;
   };
 
   return (
     <div className="project-chat">
-      <h3 className="project-chat__title">
-        {t('remoteProjects.messages', 'Messages')}
-      </h3>
+      <div className="project-chat__header">
+        <h3 className="project-chat__title">
+          {t('messages')}
+        </h3>
+      </div>
 
       <div className="project-chat__messages">
         {isLoading ? (
           <div className="project-chat__loading">
-            {t('common.loading', 'Loading...')}
+            {t('common.loading')}
           </div>
         ) : messages.length === 0 ? (
           <div className="project-chat__empty">
-            {t('remoteProjects.noMessages', 'No messages yet. Start the conversation!')}
+            {t('noMessages')}
           </div>
         ) : (
           messages.map((msg: ProjectMessage) => (
@@ -130,7 +206,7 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
               <div className="project-chat__message-content">{msg.message}</div>
               {msg.readAt && isOwnMessage(msg) && (
                 <span className="project-chat__message-read">
-                  {t('remoteProjects.read', 'Read')}
+                  {t('read')}
                 </span>
               )}
             </div>
@@ -144,9 +220,9 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
           className="project-chat__input"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder={t('remoteProjects.typeMessage', 'Type your message...')}
+          placeholder={t('typeMessage')}
           disabled={disabled || sendMessageMutation.isPending}
-          rows={2}
+          rows={1}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
@@ -154,15 +230,13 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
             }
           }}
         />
-        <Button
+        <button
           type="submit"
-          className="button--primary"
+          className="project-chat__send-button"
           disabled={!newMessage.trim() || disabled || sendMessageMutation.isPending}
         >
-          {sendMessageMutation.isPending
-            ? t('common.sending', 'Sending...')
-            : t('remoteProjects.send', 'Send')}
-        </Button>
+          {sendMessageMutation.isPending ? t('common.sending') : t('send')}
+        </button>
       </form>
     </div>
   );

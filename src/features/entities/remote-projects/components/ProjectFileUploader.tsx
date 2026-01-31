@@ -32,7 +32,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   maxFiles = 50,
   disabled = false,
 }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('remoteProjects');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploads, setUploads] = useState<UploadProgress[]>([]);
@@ -57,12 +57,12 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     // Check file extension
     const extension = '.' + file.name.split('.').pop()?.toLowerCase();
     if (!acceptedTypes.includes(extension)) {
-      return t('remoteProjects.invalidFileType', 'Invalid file type');
+      return t('invalidFileType');
     }
 
     // Check file size
     if (file.size > maxFileSize * 1024 * 1024) {
-      return t('remoteProjects.fileTooLarge', `File exceeds ${maxFileSize}MB limit`);
+      return t('fileTooLarge', { size: maxFileSize });
     }
 
     return null;
@@ -121,7 +121,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
 
     // Check max files limit
     if (files.length + filesToUpload.length > maxFiles) {
-      alert(t('remoteProjects.maxFilesExceeded', `Maximum ${maxFiles} files allowed`));
+      alert(t('maxFilesExceeded', { count: maxFiles }));
       return;
     }
 
@@ -162,7 +162,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   };
 
   const handleDeleteFile = async (fileId: string) => {
-    if (!confirm(t('remoteProjects.confirmDelete', 'Are you sure you want to delete this file?'))) {
+    if (!confirm(t('confirmDelete'))) {
       return;
     }
 
@@ -175,9 +175,9 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   };
 
   const fileTypeLabel = {
-    source: t('remoteProjects.sourceFiles', 'Source Files'),
-    deliverable: t('remoteProjects.deliverables', 'Deliverables'),
-    revision: t('remoteProjects.revisions', 'Revisions'),
+    source: t('sourceFiles'),
+    deliverable: t('deliverables'),
+    revision: t('revisionFiles'),
   }[fileType];
 
   return (
@@ -203,14 +203,12 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
         />
         <div className="project-file-uploader__dropzone-content">
           <p className="project-file-uploader__dropzone-text">
-            {isDragging
-              ? t('remoteProjects.dropHere', 'Drop files here')
-              : t('remoteProjects.dragOrClick', 'Drag files here or click to browse')}
+            {isDragging ? t('dropHere') : t('dragOrClick')}
           </p>
           <p className="project-file-uploader__dropzone-hint">
-            {t('remoteProjects.acceptedFormats', 'Accepted formats')}: {acceptedTypes.join(', ')}
+            {t('acceptedFormats')}: {acceptedTypes.join(', ')}
             <br />
-            {t('remoteProjects.maxSize', 'Max size')}: {maxFileSize}MB
+            {t('maxSize')}: {maxFileSize}MB
           </p>
         </div>
       </div>
@@ -231,7 +229,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
               )}
               {upload.status === 'complete' && (
                 <span className="project-file-uploader__progress-status project-file-uploader__progress-status--complete">
-                  {t('remoteProjects.uploadComplete', 'Complete')}
+                  {t('uploadComplete')}
                 </span>
               )}
               {upload.status === 'error' && (
@@ -247,7 +245,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
       {/* Files list */}
       {isLoading ? (
         <div className="project-file-uploader__loading">
-          {t('common.loading', 'Loading...')}
+          {t('common.loading')}
         </div>
       ) : files.length > 0 ? (
         <ul className="project-file-uploader__file-list">
@@ -270,7 +268,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                     );
                   }}
                 >
-                  {t('remoteProjects.download', 'Download')}
+                  {t('download')}
                 </Button>
                 {!disabled && (
                   <Button
@@ -278,7 +276,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                     onClick={() => handleDeleteFile(file._id)}
                     disabled={deleteMutation.isPending}
                   >
-                    {t('remoteProjects.delete', 'Delete')}
+                    {t('delete')}
                   </Button>
                 )}
               </div>
@@ -287,7 +285,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
         </ul>
       ) : (
         <p className="project-file-uploader__empty">
-          {t('remoteProjects.noFiles', 'No files uploaded yet')}
+          {t('noFiles')}
         </p>
       )}
     </div>
