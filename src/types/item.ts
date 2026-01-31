@@ -23,6 +23,8 @@ export interface ProjectPricing {
   revisionPrice?: number;
 }
 
+export type ServiceDeliveryType = 'in-studio' | 'remote';
+
 export default interface Item {
   _id: string;
   studio: string;
@@ -62,21 +64,18 @@ export default interface Item {
   instantBook?: boolean;
   addOnIds?: string[];
   
-  // Booking Requirements
+  // Service Delivery Type
+  serviceDeliveryType?: ServiceDeliveryType;
+  
+  // Booking Requirements (for in-studio)
   minimumBookingDuration?: Duration;
   minimumQuantity?: number;
   advanceBookingRequired?: AdvanceBookingRequired;
   
-  // Setup & Preparation
+  // Setup & Preparation (for in-studio)
   preparationTime?: Duration;
-  
-  // Remote Service
-  remoteService?: boolean;
-  remoteAccessMethod?: 'zoom' | 'teams' | 'skype' | 'custom' | 'other';
-  softwareRequirements?: string[];
 
-  // Remote Project Settings
-  remoteWorkType?: 'session' | 'project';
+  // Remote Project Settings (for remote)
   projectPricing?: ProjectPricing;
   acceptedFileTypes?: string[];
   maxFileSize?: number;

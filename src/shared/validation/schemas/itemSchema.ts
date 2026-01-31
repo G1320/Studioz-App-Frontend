@@ -318,12 +318,18 @@ export const itemStep4Schema = z.object({
 }).passthrough();
 
 /**
- * Step 5: Remote Settings Schema
- * Validates: remoteService, remoteWorkType, projectPricing, file settings
+ * Step: Service Type Schema
+ * Validates: serviceDeliveryType selection
+ */
+export const itemServiceTypeSchema = z.object({
+  serviceDeliveryType: z.enum(['in-studio', 'remote']).optional()
+}).passthrough();
+
+/**
+ * Step 5: Remote Settings Schema (Project Pricing)
+ * Validates: projectPricing, file settings
  */
 export const itemStep5RemoteSchema = z.object({
-  remoteService: z.boolean().optional(),
-  remoteWorkType: z.enum(['session', 'project']).optional(),
   projectPricing: z.object({
     basePrice: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
@@ -367,6 +373,7 @@ export const itemStep6AddOnsSchema = z.object({}).passthrough();
  */
 export const itemStepSchemas = {
   'basic-info': itemStep1Schema,
+  'service-type': itemServiceTypeSchema,
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
   'booking-settings': itemStep4Schema,
@@ -379,6 +386,7 @@ export const itemStepSchemas = {
  */
 export const itemStepSchemasEdit = {
   'basic-info': itemStep1EditSchema,
+  'service-type': itemServiceTypeSchema,
   categories: itemStep2Schema,
   pricing: itemStep3Schema,
   'booking-settings': itemStep4Schema,

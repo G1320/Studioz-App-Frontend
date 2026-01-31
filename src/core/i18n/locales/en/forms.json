@@ -504,10 +504,14 @@
     "steps": {
       "basicInfo": "Basic Information",
       "basicInfoDesc": "Enter studio name and description",
+      "serviceType": "Service Type",
+      "serviceTypeDesc": "Choose how this service is delivered",
       "categories": "Categories & Genres",
       "categoriesDesc": "Select categories and genres",
       "pricing": "Pricing & Options",
       "pricingDesc": "Set price and booking options",
+      "projectPricing": "Project Pricing",
+      "projectPricingDesc": "Set pricing and delivery options for remote projects",
       "bookingSettings": "Booking Settings",
       "bookingSettingsDesc": "Set booking rules and preparation times",
       "remoteSettings": "Remote Services",
@@ -528,6 +532,20 @@
       "amenitiesGearDesc": "Select amenities and list equipment",
       "portfolio": "Portfolio",
       "portfolioDesc": "Showcase your best work and social profiles"
+    },
+    "serviceType": {
+      "title": "How is this service delivered?",
+      "description": "Choose whether clients visit your studio or work with you remotely",
+      "inStudio": {
+        "title": "In-Studio",
+        "description": "Clients book time at your studio for recording, rehearsal, or sessions",
+        "info": "In-studio services use hourly or session-based pricing. Clients will book available time slots in your calendar."
+      },
+      "remote": {
+        "title": "Remote Project",
+        "description": "Clients upload files and you deliver the finished work online",
+        "info": "Remote projects use project-based pricing. Clients submit their files and requirements, and you deliver the completed work."
+      }
     },
     "remoteSettings": {
       "enableRemote": {
