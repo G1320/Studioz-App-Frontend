@@ -211,17 +211,20 @@ export const ItemContent: React.FC<ItemContentProps> = ({
               />
 
               {/* Customer Info with OTP (no comment for projects - brief serves that purpose) */}
-              <ReservationDetailsForm
-                customerName={customerName}
-                customerPhone={customerPhone}
-                comment={comment}
-                onNameChange={onNameChange}
-                onPhoneChange={onPhoneChange}
-                onCommentChange={onCommentChange}
-                isRTL={isRTL}
-                onPhoneVerified={onPhoneVerified}
-                hideComment
-              />
+              <div className="contact-info-section">
+                <h4 className="contact-info-section__label">{tProject('contactInfo')}</h4>
+                <ReservationDetailsForm
+                  customerName={customerName}
+                  customerPhone={customerPhone}
+                  comment={comment}
+                  onNameChange={onNameChange}
+                  onPhoneChange={onPhoneChange}
+                  onCommentChange={onCommentChange}
+                  isRTL={isRTL}
+                  onPhoneVerified={onPhoneVerified}
+                  hideComment
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

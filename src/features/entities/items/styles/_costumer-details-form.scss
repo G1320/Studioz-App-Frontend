@@ -12,6 +12,27 @@
   width: 100%;
 }
 
+// ==========================================
+// CONTACT INFO SECTION (for remote projects)
+// ==========================================
+
+.contact-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-small;
+  width: 100%;
+
+  &__label {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: start;
+  }
+}
+
 .project-card-container {
   display: flex;
   flex-direction: column;
