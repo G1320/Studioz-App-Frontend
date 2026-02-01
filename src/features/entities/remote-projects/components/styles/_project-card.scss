@@ -12,9 +12,13 @@
   width: 100%;
   overflow: hidden;
   animation: projectCardFadeIn 0.3s ease-out;
+  box-sizing: border-box;
 
   &--item-card {
     cursor: default;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   &:not(.project-card--item-card) {
@@ -34,6 +38,7 @@
     flex-direction: column;
     gap: ds.$space-3;
     padding: 1.25rem;
+    flex-shrink: 0;
   }
 
   &__status-indicator {
@@ -116,7 +121,9 @@
     gap: 0;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
   }
 
   &__detail-row {
@@ -184,6 +191,7 @@
     border-top: 1px solid var(--border-secondary);
     width: 100%;
     box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   &__action-btn {

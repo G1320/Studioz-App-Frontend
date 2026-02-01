@@ -223,6 +223,7 @@
       "imageSizeTooLarge": "גודל התמונה חייב להיות קטן מ-5MB",
       "imageUploadFailed": "העלאת התמונה נכשלה. אנא נסה שוב.",
       "verificationFailed": "האימות נכשל. אנא בדוק את הקוד ונסה שוב.",
+      "rateLimitExceeded": "יותר מדי ניסיונות. אנא המתן מספר דקות ונסה שוב.",
       "minimumHoursRequired": "נדרשות לפחות {{min}} שעות להזמנה זו"
     }
   },

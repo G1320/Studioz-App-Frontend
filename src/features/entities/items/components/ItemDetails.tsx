@@ -11,6 +11,7 @@ import {
   useReserveStudioItemTimeSlotsMutation,
   useReservation,
   useRemoteProject,
+  useCreateProjectMutation,
   useSavedCards,
   useSavedCardsByPhone,
   useRemoveSavedCardMutation
@@ -58,6 +59,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
 
+  // Project form state (for remote services)
+  const [projectTitle, setProjectTitle] = useState('');
+  const [projectBrief, setProjectBrief] = useState('');
+  const [projectReferenceLinks, setProjectReferenceLinks] = useState<string[]>(['']);
+
   // Saved cards for payment (must be after state declarations)
   // For logged-in users: fetch by userId
   // For non-logged-in users: fetch by verified phone number
@@ -68,10 +74,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const savedCards = user?._id ? userSavedCards : phoneSavedCards;
   const removeSavedCardMutation = useRemoveSavedCardMutation(user?._id);
 
-  // Payment step state
+  // Payment step state (for bookings)
   const [showPaymentStep, setShowPaymentStep] = useState(false);
   const [pendingBookingItem, setPendingBookingItem] = useState<CartItem | null>(null);
   const [paymentError, setPaymentError] = useState<string>('');
+
+  // Payment step state (for projects)
+  const [showProjectPaymentStep, setShowProjectPaymentStep] = useState(false);
+  const [pendingProjectData, setPendingProjectData] = useState<{
+    title: string;
+    brief: string;
+    referenceLinks: string[];
+    price: number;
+    depositAmount?: number;
+  } | null>(null);
 
   // Fetch reservation data when we have a reservation ID
   const { data: reservation } = useReservation(currentReservationId || '');
@@ -137,7 +153,12 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       setShowPaymentStep(false);
       setPendingBookingItem(null);
       setPaymentError('');
-      // Don't clear project ID on unmount - we want to persist it
+      // Reset project form state but don't clear project ID - we want to persist it
+      setProjectTitle('');
+      setProjectBrief('');
+      setProjectReferenceLinks(['']);
+      setShowProjectPaymentStep(false);
+      setPendingProjectData(null);
     };
   }, [itemId]); // Re-run cleanup when itemId changes
 
@@ -228,20 +249,112 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     setSelectedAddOnIds([]);
   }, [itemId, minHours]);
 
-  // Handle project creation success
-  const handleProjectSuccess = useCallback(
-    (projectId: string) => {
-      localStorage.setItem(`project_${itemId}`, projectId);
-      setCurrentProjectId(projectId);
-    },
-    [itemId]
-  );
-
   // Handle clearing project to create a new one
   const handleClearProject = useCallback(() => {
     localStorage.removeItem(`project_${itemId}`);
     setCurrentProjectId(null);
+    // Reset project form
+    setProjectTitle('');
+    setProjectBrief('');
+    setProjectReferenceLinks(['']);
   }, [itemId]);
+
+  // Project creation mutation
+  const createProjectMutation = useCreateProjectMutation();
+
+  // Calculate project price and deposit
+  const projectPrice = useMemo(() => {
+    return item?.projectPricing?.basePrice || item?.price || 0;
+  }, [item]);
+
+  const projectDepositAmount = useMemo(() => {
+    if (!item?.projectPricing?.depositPercentage) return undefined;
+    return (projectPrice * item.projectPricing.depositPercentage) / 100;
+  }, [projectPrice, item?.projectPricing?.depositPercentage]);
+
+  // Handle project submission - show payment step first
+  const handleSubmitProject = useCallback(() => {
+    if (!projectTitle.trim() || !projectBrief.trim() || !item) {
+      return;
+    }
+
+    // Only show payment step if:
+    // 1. Item has a price (projectPrice > 0)
+    // 2. Studio owner has payment integration enabled
+    const shouldShowPayment = projectPrice > 0 && studio?.paymentEnabled === true;
+
+    if (shouldShowPayment) {
+      setPendingProjectData({
+        title: projectTitle.trim(),
+        brief: projectBrief.trim(),
+        referenceLinks: projectReferenceLinks.filter((link) => link.trim() !== ''),
+        price: projectPrice,
+        depositAmount: projectDepositAmount
+      });
+      setShowProjectPaymentStep(true);
+      setPaymentError('');
+    } else {
+      // No payment needed - create project directly
+      executeProjectCreation();
+    }
+  }, [projectTitle, projectBrief, projectReferenceLinks, item, projectPrice, projectDepositAmount, studio?.paymentEnabled]);
+
+  // Execute the actual project creation
+  // Note: paymentData will be used when backend payment integration is complete
+  const executeProjectCreation = useCallback(async (_paymentData?: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
+    if (!item) return;
+
+    try {
+      const result = await createProjectMutation.mutateAsync({
+        itemId: item._id,
+        customerId: user?._id || '',
+        title: pendingProjectData?.title || projectTitle.trim(),
+        brief: pendingProjectData?.brief || projectBrief.trim(),
+        referenceLinks: pendingProjectData?.referenceLinks || projectReferenceLinks.filter((link) => link.trim() !== ''),
+        customerName: customerName.trim() || undefined,
+        customerEmail: user?.email || undefined,
+        customerPhone: customerPhone.trim() || undefined
+      });
+
+      if (result._id) {
+        localStorage.setItem(`project_${itemId}`, result._id);
+        setCurrentProjectId(result._id);
+        setShowProjectPaymentStep(false);
+        setPendingProjectData(null);
+        setPaymentError('');
+      }
+    } catch (error: any) {
+      console.error('Failed to create project:', error);
+      setPaymentError(error.message || 'Failed to create project');
+    }
+  }, [
+    item,
+    user?._id,
+    user?.email,
+    customerName,
+    customerPhone,
+    itemId,
+    createProjectMutation,
+    pendingProjectData,
+    projectTitle,
+    projectBrief,
+    projectReferenceLinks
+  ]);
+
+  // Handle payment submission for projects
+  const handleProjectPaymentSubmit = useCallback(
+    async (paymentData: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
+      await executeProjectCreation(paymentData);
+    },
+    [executeProjectCreation]
+  );
+
+  // Handle going back from project payment step
+  const handleBackFromProjectPayment = useCallback(() => {
+    setShowProjectPaymentStep(false);
+    setPendingProjectData(null);
+    setPaymentError('');
+  }, []);
 
   // Prepare booking item data (shared between direct booking and payment flow)
   const prepareBookingItem = useCallback((): CartItem | null => {
@@ -437,6 +550,31 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     return items;
   }, [pendingBookingItem, item, selectedAddOnIds, addOns, t, i18n.language]);
 
+  // Build order items for Project OrderSummary
+  const projectOrderItems = useMemo(() => {
+    if (!pendingProjectData || !item) return [];
+
+    const currentLang = i18n.language as 'en' | 'he';
+    const itemName = item.name?.[currentLang] || item.name?.en || 'Service';
+
+    const items = [
+      {
+        id: 'base',
+        label: itemName,
+        value: pendingProjectData.price,
+        isPrice: true
+      }
+    ];
+
+    return items;
+  }, [pendingProjectData, item, i18n.language]);
+
+  // Check if this is a remote project service
+  const isRemoteProject = item?.serviceDeliveryType === 'remote' || item?.remoteService === true;
+
+  // Combined payment step state
+  const isInPaymentStep = showPaymentStep || showProjectPaymentStep;
+
   // Slide animation variants (same as ItemContent's customer info ↔ reservation transition)
   // In LTR: forward = slide from right, back = slide from left
   // In RTL: mirrored - forward = slide from left, back = slide from right
@@ -462,12 +600,15 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   };
 
   // Direction: 1 = forward (to payment), -1 = backward (from payment)
-  const direction = showPaymentStep ? 1 : -1;
+  const direction = isInPaymentStep ? 1 : -1;
+
+  // Handle back from payment based on type
+  const handleBackFromCurrentPayment = isRemoteProject ? handleBackFromProjectPayment : handleBackFromPayment;
 
   return (
     <article
       onMouseEnter={prefetchItem}
-      className={`details item-details ${showPaymentStep ? 'item-details--payment-active' : ''}`}
+      className={`details item-details ${isInPaymentStep ? 'item-details--payment-active' : ''}`}
     >
       {/* Header with close button inside image */}
       <ItemHeader
@@ -476,17 +617,18 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         user={user as User}
         onEdit={handleGoToEdit}
         onImageClick={handleImageClicked}
-        onClose={showPaymentStep ? handleBackFromPayment : closeModal}
-        showBackButton={showPaymentStep}
+        onClose={isInPaymentStep ? handleBackFromCurrentPayment : closeModal}
+        showBackButton={isInPaymentStep}
       />
 
       {/* Item card hidden during payment step */}
-      {!showPaymentStep && (
+      {!isInPaymentStep && (
         <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} studioActive={studio?.active} />
       )}
 
       {/* Animated content area - swaps between ItemContent and OrderSummary */}
       <AnimatePresence mode="wait" initial={false} custom={direction}>
+        {/* Booking Payment Step */}
         {showPaymentStep && pendingBookingItem ? (
           <motion.div
             key="payment-content"
@@ -515,6 +657,39 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               onPaymentSubmit={handlePaymentSubmit}
               onRemoveCard={() => removeSavedCardMutation.mutate()}
               isProcessing={reserveItemTimeSlotMutation.isPending}
+              error={paymentError}
+              currency="₪"
+            />
+          </motion.div>
+        ) : showProjectPaymentStep && pendingProjectData ? (
+          /* Project Payment Step */
+          <motion.div
+            key="project-payment-content"
+            className="item-content-animated"
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+          >
+            <OrderSummary
+              studioName={
+                item?.studioName?.[i18n.language as 'en' | 'he'] ||
+                studio?.name?.[i18n.language as 'en' | 'he'] ||
+                item?.studioName?.en ||
+                studio?.name?.en ||
+                ''
+              }
+              studioLocation=""
+              bookingDate=""
+              bookingTime=""
+              items={projectOrderItems}
+              totalAmount={pendingProjectData.depositAmount || pendingProjectData.price}
+              savedCards={savedCards}
+              onPaymentSubmit={handleProjectPaymentSubmit}
+              onRemoveCard={() => removeSavedCardMutation.mutate()}
+              isProcessing={createProjectMutation.isPending}
               error={paymentError}
               currency="₪"
             />
@@ -560,9 +735,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               onCancelReservation={handleCancelReservation}
               // Remote project props
               customerId={user?._id}
+              currentProjectId={currentProjectId}
               currentProject={currentProject}
-              onProjectSuccess={handleProjectSuccess}
               onClearProject={handleClearProject}
+              // Project form state
+              projectTitle={projectTitle}
+              projectBrief={projectBrief}
+              projectReferenceLinks={projectReferenceLinks}
+              onProjectTitleChange={setProjectTitle}
+              onProjectBriefChange={setProjectBrief}
+              onProjectReferenceLinksChange={setProjectReferenceLinks}
+              onSubmitProject={handleSubmitProject}
+              isProjectLoading={createProjectMutation.isPending}
+              projectPrice={projectPrice}
+              paymentEnabled={studio?.paymentEnabled}
             />
           </motion.div>
         )}

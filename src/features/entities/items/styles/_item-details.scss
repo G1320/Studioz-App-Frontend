@@ -4,8 +4,13 @@
 // Animated content wrapper for slide transitions
 .item-content-animated {
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   width: 100%;
+  min-height: 0;
+  flex: 1;
+  overflow-x: hidden; // Prevent horizontal scroll during slide animation
+  overflow-y: auto; // Allow vertical scrolling for long content
 }
 
 .item-details {

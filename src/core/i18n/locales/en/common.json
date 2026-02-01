@@ -223,6 +223,7 @@
       "imageSizeTooLarge": "Image size must be less than 5MB",
       "imageUploadFailed": "Failed to upload image. Please try again.",
       "verificationFailed": "Verification failed. Please check the code and try again.",
+      "rateLimitExceeded": "Too many attempts. Please wait a moment and try again.",
       "minimumHoursRequired": "Minimum {{min}} hours required for this booking"
     }
   },

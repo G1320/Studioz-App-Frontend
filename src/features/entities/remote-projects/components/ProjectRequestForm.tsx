@@ -1,14 +1,9 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCreateProjectMutation } from '@shared/hooks';
 import { Item } from 'src/types/index';
 import {
   EditNoteIcon,
   DescriptionIcon,
   LinkIcon,
-  PersonIcon,
-  EmailIcon,
-  PhoneIcon,
   OfferIcon,
   ScheduleIcon,
   SyncIcon,
@@ -17,33 +12,24 @@ import './styles/_project-request-form.scss';
 
 interface ProjectRequestFormProps {
   item: Item;
-  customerId: string;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  onSuccess?: (projectId: string) => void;
-  onCancel?: () => void;
+  title: string;
+  brief: string;
+  referenceLinks: string[];
+  onTitleChange: (value: string) => void;
+  onBriefChange: (value: string) => void;
+  onReferenceLinksChange: (links: string[]) => void;
 }
 
 export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   item,
-  customerId,
-  customerName: initialName = '',
-  customerEmail: initialEmail = '',
-  customerPhone: initialPhone = '',
-  onSuccess,
-  onCancel
+  title,
+  brief,
+  referenceLinks,
+  onTitleChange,
+  onBriefChange,
+  onReferenceLinksChange,
 }) => {
-  const { t, i18n } = useTranslation('remoteProjects');
-  const isRTL = i18n.language === 'he';
-  const createProjectMutation = useCreateProjectMutation();
-
-  const [title, setTitle] = useState('');
-  const [brief, setBrief] = useState('');
-  const [referenceLinks, setReferenceLinks] = useState<string[]>(['']);
-  const [customerName, setCustomerName] = useState(initialName);
-  const [customerEmail, setCustomerEmail] = useState(initialEmail);
-  const [customerPhone, setCustomerPhone] = useState(initialPhone);
+  const { t } = useTranslation('remoteProjects');
 
   const projectPricing = item.projectPricing;
   const price = projectPricing?.basePrice || item.price || 0;
@@ -53,49 +39,22 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
 
   const handleAddReferenceLink = () => {
     if (referenceLinks.length < 5) {
-      setReferenceLinks([...referenceLinks, '']);
+      onReferenceLinksChange([...referenceLinks, '']);
     }
   };
 
   const handleRemoveReferenceLink = (index: number) => {
-    setReferenceLinks(referenceLinks.filter((_, i) => i !== index));
+    onReferenceLinksChange(referenceLinks.filter((_, i) => i !== index));
   };
 
   const handleReferenceLinkChange = (index: number, value: string) => {
     const updated = [...referenceLinks];
     updated[index] = value;
-    setReferenceLinks(updated);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!title.trim() || !brief.trim()) {
-      return;
-    }
-
-    try {
-      const result = await createProjectMutation.mutateAsync({
-        itemId: item._id,
-        customerId,
-        title: title.trim(),
-        brief: brief.trim(),
-        referenceLinks: referenceLinks.filter((link) => link.trim() !== ''),
-        customerName: customerName.trim() || undefined,
-        customerEmail: customerEmail.trim() || undefined,
-        customerPhone: customerPhone.trim() || undefined
-      });
-
-      if (onSuccess && result._id) {
-        onSuccess(result._id);
-      }
-    } catch (error) {
-      console.error('Failed to create project:', error);
-    }
+    onReferenceLinksChange(updated);
   };
 
   return (
-    <form className="project-form" onSubmit={handleSubmit}>
+    <div className="project-form">
       {/* Pricing Summary */}
       <div className="project-form__pricing">
         <div className="project-form__pricing-item">
@@ -131,7 +90,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
             className="project-input has-icon"
             placeholder={t('titlePlaceholder')}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => onTitleChange(e.target.value)}
             required
             maxLength={100}
           />
@@ -143,7 +102,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
             className="project-input has-icon"
             placeholder={t('briefPlaceholder')}
             value={brief}
-            onChange={(e) => setBrief(e.target.value)}
+            onChange={(e) => onBriefChange(e.target.value)}
             required
             maxLength={2000}
           />
@@ -189,60 +148,8 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
             </div>
           ))}
         </div>
-
-        {/* Contact Info */}
-        <div className="project-form__contact-section">
-          <span className="project-form__section-label">{t('contactInfo')}</span>
-          
-          <div className="input-container">
-            <PersonIcon className="input-icon" />
-            <input
-              type="text"
-              className="project-input has-icon"
-              placeholder={t('name')}
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-            />
-          </div>
-
-          <div className="input-container">
-            <EmailIcon className="input-icon" />
-            <input
-              type="email"
-              className="project-input has-icon"
-              placeholder={t('email')}
-              value={customerEmail}
-              onChange={(e) => setCustomerEmail(e.target.value)}
-              dir="ltr"
-            />
-          </div>
-
-          <div className="input-container full-width">
-            <PhoneIcon className="input-icon" />
-            <input
-              type="tel"
-              className="project-input has-icon"
-              placeholder={t('phone')}
-              value={customerPhone}
-              onChange={(e) => setCustomerPhone(e.target.value)}
-              dir={isRTL ? 'rtl' : 'ltr'}
-              pattern="[0-9]*"
-            />
-          </div>
-        </div>
       </div>
-
-      {/* Submit Button */}
-      <button
-        type="submit"
-        className="project-form__submit"
-        disabled={!title.trim() || !brief.trim() || createProjectMutation.isPending}
-      >
-        {createProjectMutation.isPending ? t('common.submitting') : t('submitRequest')}
-      </button>
-
-      <p className="project-form__note">{t('submitNote')}</p>
-    </form>
+    </div>
   );
 };
 

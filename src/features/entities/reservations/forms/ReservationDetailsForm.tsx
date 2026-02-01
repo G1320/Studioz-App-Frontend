@@ -14,6 +14,7 @@ interface ReservationDetailsFormProps {
   isRTL: boolean;
   disabled?: boolean;
   onPhoneVerified: () => void;
+  hideComment?: boolean;
 }
 
 export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
@@ -25,7 +26,8 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
   onCommentChange,
   isRTL,
   disabled,
-  onPhoneVerified
+  onPhoneVerified,
+  hideComment = false
 }) => {
   const [verificationCode, setVerificationCode] = useState('');
   const [codeSent, setCodeSent] = useState(false);
@@ -92,16 +94,18 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
         />
       </div>
 
-      <div className="input-container full-width">
-        <NotesIcon className="input-icon" />
-        <textarea
-          className="customer-input has-icon"
-          placeholder={t('form.customerDetails.comment.placeholder')}
-          value={comment}
-          onChange={(e) => onCommentChange(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+      {!hideComment && (
+        <div className="input-container full-width">
+          <NotesIcon className="input-icon" />
+          <textarea
+            className="customer-input has-icon"
+            placeholder={t('form.customerDetails.comment.placeholder')}
+            value={comment}
+            onChange={(e) => onCommentChange(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
+      )}
 
       {!localStorage.getItem('isPhoneVerified') && !codeSent && (
         <button

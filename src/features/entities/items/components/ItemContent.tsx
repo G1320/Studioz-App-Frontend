@@ -41,9 +41,21 @@ interface ItemContentProps {
   onCancelReservation: () => void;
   // Remote project props
   customerId?: string;
+  currentProjectId?: string | null;
   currentProject?: RemoteProject | null;
-  onProjectSuccess?: (projectId: string) => void;
   onClearProject?: () => void;
+  // Project form state
+  projectTitle?: string;
+  projectBrief?: string;
+  projectReferenceLinks?: string[];
+  onProjectTitleChange?: (value: string) => void;
+  onProjectBriefChange?: (value: string) => void;
+  onProjectReferenceLinksChange?: (links: string[]) => void;
+  onSubmitProject?: () => void;
+  isProjectLoading?: boolean;
+  // Project pricing
+  projectPrice?: number;
+  paymentEnabled?: boolean;
 }
 
 // Slide animation variants (same as SteppedForm)
@@ -97,18 +109,31 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   onCancelReservation,
   // Remote project props
   customerId,
+  currentProjectId,
   currentProject,
-  onProjectSuccess,
-  onClearProject
+  onClearProject,
+  // Project form state
+  projectTitle = '',
+  projectBrief = '',
+  projectReferenceLinks = [''],
+  onProjectTitleChange,
+  onProjectBriefChange,
+  onProjectReferenceLinksChange,
+  onSubmitProject,
+  isProjectLoading = false,
+  // Project pricing
+  projectPrice = 0,
+  paymentEnabled = false
 }) => {
   const { i18n, t } = useTranslation('common');
+  const { t: tProject } = useTranslation('remoteProjects');
   const isRTL = i18n.language === 'he';
 
   // Check if this is a remote project service
   const isRemoteProject = item?.serviceDeliveryType === 'remote' || item?.remoteService === true;
   
   const showReservation = currentReservationId && reservation;
-  const showProject = isRemoteProject && currentProject;
+  const showProject = isRemoteProject && currentProjectId && currentProject;
 
   // Create availability context for calculations
   const availabilityContext = useMemo<AvailabilityContext | null>(() => {
@@ -144,46 +169,85 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   // Render remote project flow
   if (isRemoteProject) {
     return (
-      <AnimatePresence mode="wait" initial={false} custom={isRTL}>
-        {showProject ? (
-          <motion.div
-            key="project-card"
-            custom={isRTL}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={slideTransition}
-            className="item-content-animated"
-          >
-            <ProjectCard
-              project={currentProject}
-              variant="itemCard"
-              onCreateNew={onClearProject}
-            />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="project-form"
-            custom={isRTL}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={slideTransition}
-            className="item-content-animated"
-          >
-            <ProjectRequestForm
-              item={item}
-              customerId={customerId || ''}
-              customerName={customerName}
-              customerEmail={customerEmail}
-              customerPhone={customerPhone}
-              onSuccess={onProjectSuccess}
-            />
-          </motion.div>
+      <>
+        <AnimatePresence mode="wait" initial={false} custom={isRTL}>
+          {showProject ? (
+            <motion.div
+              key="project-card"
+              custom={isRTL}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={slideTransition}
+              className="project-card-container"
+            >
+              <ProjectCard
+                project={currentProject}
+                variant="itemCard"
+                onCreateNew={onClearProject}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="project-form"
+              custom={isRTL}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={slideTransition}
+              className="project-form-container"
+            >
+              {/* Project Details Form */}
+              <ProjectRequestForm
+                item={item}
+                title={projectTitle}
+                brief={projectBrief}
+                referenceLinks={projectReferenceLinks}
+                onTitleChange={onProjectTitleChange || (() => {})}
+                onBriefChange={onProjectBriefChange || (() => {})}
+                onReferenceLinksChange={onProjectReferenceLinksChange || (() => {})}
+              />
+
+              {/* Customer Info with OTP (no comment for projects - brief serves that purpose) */}
+              <ReservationDetailsForm
+                customerName={customerName}
+                customerPhone={customerPhone}
+                comment={comment}
+                onNameChange={onNameChange}
+                onPhoneChange={onPhoneChange}
+                onCommentChange={onCommentChange}
+                isRTL={isRTL}
+                onPhoneVerified={onPhoneVerified}
+                hideComment
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Submit Button for Projects - only show after phone verification (same as BookingActions) */}
+        {!showProject && isPhoneVerified && (
+          <div className="project-actions">
+            <button
+              type="button"
+              className="project-actions__submit"
+              onClick={onSubmitProject}
+              disabled={!projectTitle.trim() || !projectBrief.trim() || isProjectLoading}
+            >
+              {isProjectLoading ? (
+                <span className="button-loading-spinner" />
+              ) : (
+                <>
+                  {paymentEnabled ? t('buttons.continue_to_payment', 'Continue to Payment') : tProject('submitRequest')}
+                  {projectPrice > 0 && <span> (₪{projectPrice.toLocaleString()})</span>}
+                </>
+              )}
+            </button>
+            {!paymentEnabled && <p className="project-actions__note">{tProject('submitNote')}</p>}
+          </div>
         )}
-      </AnimatePresence>
+      </>
     );
   }
 

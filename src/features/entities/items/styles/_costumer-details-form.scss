@@ -2,6 +2,23 @@
 @use 'utilities/mixins' as mixins;
 
 // ==========================================
+// PROJECT FORM CONTAINER
+// ==========================================
+
+.project-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+  width: 100%;
+}
+
+.project-card-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+// ==========================================
 // CUSTOMER DETAILS FORM - Theme-Aware
 // ==========================================
 
@@ -341,6 +358,53 @@
     letter-spacing: 0.05em;
     margin-bottom: vars.$spacing-small;
     text-align: start;
+  }
+}
+
+// ==========================================
+// PROJECT ACTIONS - Submit Button for Remote Projects
+// ==========================================
+
+.project-actions {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-small;
+  padding: vars.$spacing-medium 0;
+
+  &__submit {
+    width: 100%;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    border-radius: vars.$border-radius-xl;
+    background-color: var(--color-brand);
+    color: var(--btn-primary-text);
+    border: none;
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 48px;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-brand-hover);
+      box-shadow: 0 0 20px var(--color-brand-glow);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__note {
+    font-size: vars.$font-size-small;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
   }
 }
 
