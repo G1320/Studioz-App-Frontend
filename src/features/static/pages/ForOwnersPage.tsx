@@ -18,6 +18,7 @@ import { PricingSection } from '../components/PricingSection';
 import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
+import { StudioZOwnersRemoteShowcase } from '../components/StudioZOwnersRemoteShowcase';
 import '../styles/_for-owners-page.scss';
 
 /**
@@ -203,6 +204,9 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Remote Projects Showcase */}
+      <StudioZOwnersRemoteShowcase />
 
       {/* Scroll-Driven Feature Showcase */}
       <ScrollDrivenShowcase />

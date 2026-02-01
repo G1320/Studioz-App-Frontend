@@ -15,6 +15,7 @@ import './_scroll-driven-showcase.scss';
 
 const AUTOPLAY_INTERVAL = 6000; // 6 seconds per slide
 const SWIPE_THRESHOLD = 50; // Minimum swipe distance in pixels
+const TOUCH_RESUME_DELAY = 1500; // Resume autoplay 1.5s after touch ends
 
 interface Feature {
   id: string;
@@ -73,6 +74,7 @@ export const ScrollDrivenShowcase: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+  const touchResumeTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // Intersection Observer - start autoplay only when in view
   useEffect(() => {
@@ -88,6 +90,15 @@ export const ScrollDrivenShowcase: React.FC = () => {
 
     observer.observe(section);
     return () => observer.disconnect();
+  }, []);
+
+  // Cleanup touch resume timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (touchResumeTimeout.current) {
+        clearTimeout(touchResumeTimeout.current);
+      }
+    };
   }, []);
 
   // Auto-advance to next slide
@@ -135,6 +146,11 @@ export const ScrollDrivenShowcase: React.FC = () => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
     setIsPaused(true);
+    // Clear any pending resume timeout
+    if (touchResumeTimeout.current) {
+      clearTimeout(touchResumeTimeout.current);
+      touchResumeTimeout.current = null;
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -159,6 +175,11 @@ export const ScrollDrivenShowcase: React.FC = () => {
     
     touchStartX.current = null;
     touchStartY.current = null;
+
+    // Resume autoplay after a short delay on mobile
+    touchResumeTimeout.current = setTimeout(() => {
+      setIsPaused(false);
+    }, TOUCH_RESUME_DELAY);
   };
 
   // Handle mouse wheel horizontal scroll
