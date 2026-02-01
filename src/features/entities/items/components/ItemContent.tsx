@@ -90,7 +90,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   selectedQuantity,
   customerName,
   customerPhone,
-  customerEmail,
+  customerEmail: _customerEmail,
   comment,
   isPhoneVerified,
   isBooked,
@@ -108,7 +108,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   onBookNow,
   onCancelReservation,
   // Remote project props
-  customerId,
+  customerId: _customerId,
   currentProjectId,
   currentProject,
   onClearProject,
