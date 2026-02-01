@@ -79,6 +79,11 @@ $remote-showcase-green: #22c55e;
     gap: 2rem;
     z-index: 10;
     text-align: right;
+    order: 2;
+
+    @media (min-width: 1024px) {
+      order: 1;
+    }
   }
 
   // Title
@@ -193,6 +198,11 @@ $remote-showcase-green: #22c55e;
   &__visual {
     flex: 1;
     position: relative;
+    order: 1;
+
+    @media (min-width: 1024px) {
+      order: 2;
+    }
   }
 
   &__visual-wrapper {
