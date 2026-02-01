@@ -23,7 +23,7 @@
 // ==========================================
 
 .item-modal {
-  overflow-y: auto;
+  // Scrolling handled by .item-details (Wolt-style modal)
 
   // Mobile positioning - float centered with gap from header and bottom
   @media (max-width: 768px) {
