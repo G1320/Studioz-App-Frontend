@@ -1,122 +1,31 @@
-// Project Request Form Modal - Following StudioZ Remote Projects Style Guide
-// Customer submits a new project request for remote services
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
 
-.project-request-form {
-  // Modal Overlay
-  &__overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    overflow-y: auto;
+// ==========================================
+// PROJECT REQUEST FORM - Theme-Aware
+// Consistent with customer-details form styling
+// ==========================================
 
-    @media (min-width: 640px) {
-      padding: 1.5rem;
-    }
-  }
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-medium;
+  width: 100%;
+  box-sizing: border-box;
 
-  &__backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(4px);
-  }
-
-  // Modal Container
-  &__modal {
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: 1.5rem;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-  }
-
-  // Header
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--border-primary);
-    background: rgba(0, 0, 0, 0.2);
-  }
-
-  &__header-content {
-    flex: 1;
-  }
-
-  &__title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0 0 0.25rem 0;
-  }
-
-  &__service-name {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin: 0;
-  }
-
-  &__close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    background: transparent;
-    border: none;
-    border-radius: 9999px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-primary);
-    }
-
-    svg {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
-
-  // Content
-  &__content {
-    padding: 2rem;
-    max-height: 70vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border-primary) transparent;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--border-primary);
-      border-radius: 3px;
-    }
-  }
-
-  // Pricing Info Grid
+  // ==========================================
+  // PRICING SUMMARY
+  // ==========================================
   &__pricing {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: vars.$spacing-small;
+    padding: vars.$spacing-medium;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
 
-    @media (min-width: 640px) {
+    @media (min-width: 480px) {
       grid-template-columns: repeat(4, 1fr);
     }
   }
@@ -126,16 +35,14 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 1rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-primary);
-    border-radius: 1rem;
+    padding: vars.$spacing-small;
+    gap: 0.25rem;
   }
 
   &__pricing-icon {
     width: 1.25rem;
     height: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 
     &--price { color: var(--color-brand); }
     &--deposit { color: #22c55e; }
@@ -144,105 +51,178 @@
   }
 
   &__pricing-label {
-    font-size: 0.625rem;
+    font-size: vars.$font-size-xs;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-secondary);
-    margin-bottom: 0.25rem;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
   }
 
   &__pricing-value {
-    font-size: 0.875rem;
+    font-size: vars.$font-size-small;
     font-weight: 700;
     color: var(--text-primary);
   }
 
-  // Form Fields
+  // ==========================================
+  // FORM FIELDS - Matching customer-details
+  // ==========================================
   &__fields {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  &__field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  &__label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  &__label-hint {
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: var(--text-secondary);
-  }
-
-  &__input,
-  &__textarea {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: vars.$spacing-medium;
     width: 100%;
-    padding: 0.875rem 1rem;
-    background: var(--bg-primary);
+  }
+
+  .input-container {
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    .input-icon {
+      position: absolute;
+      left: vars.$spacing-medium;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+      pointer-events: none;
+      z-index: 1;
+
+      [dir='rtl'] & {
+        left: auto;
+        right: vars.$spacing-medium;
+      }
+    }
+
+    &:focus-within .input-icon {
+      color: var(--color-brand);
+    }
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    // For textarea, position icon at top
+    &:has(textarea) .input-icon {
+      top: vars.$spacing-medium;
+      transform: none;
+    }
+  }
+
+  .project-input {
+    width: 100%;
+    max-width: 100%;
+    padding: vars.$spacing-medium;
+    padding-inline-start: vars.$spacing-medium;
     border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
+    border-radius: 12px;
+    font-size: vars.$font-size-medium;
     font-family: inherit;
+    background: var(--bg-input);
     color: var(--text-primary);
+    text-align: start;
     transition: all 0.2s ease;
+    box-sizing: border-box;
+
+    &.has-icon {
+      padding-inline-start: 2.75rem;
+    }
+
+    &[dir='rtl'] {
+      text-align: right;
+    }
+    &[dir='ltr'] {
+      text-align: left;
+    }
 
     &::placeholder {
-      color: var(--text-secondary);
+      color: var(--text-muted);
     }
 
     &:focus {
       outline: none;
       border-color: var(--color-brand);
-      box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.1);
+      box-shadow: 0 0 0 1px var(--color-brand);
+      background: var(--bg-hover);
+    }
+
+    &:hover:not(:focus):not(:disabled) {
+      border-color: var(--border-hover);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
-  &__textarea {
-    resize: vertical;
-    min-height: 150px;
+  // Textarea specific styles
+  textarea.project-input {
+    min-height: 120px;
+    max-width: 100%;
+    resize: none;
+    padding-top: vars.$spacing-medium;
+    box-sizing: border-box;
+    line-height: 1.5;
+
+    &.has-icon {
+      padding-inline-start: 2.75rem;
+    }
   }
 
   &__char-count {
-    align-self: flex-end;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
+    position: absolute;
+    bottom: vars.$spacing-small;
+    right: vars.$spacing-small;
+    font-size: vars.$font-size-xs;
+    color: var(--text-muted);
+
+    [dir='rtl'] & {
+      right: auto;
+      left: vars.$spacing-small;
+    }
   }
 
-  // Reference Links
+  // ==========================================
+  // REFERENCE LINKS SECTION
+  // ==========================================
+  &__links-section {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-small;
+  }
+
   &__links-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.75rem;
   }
 
-  &__links-title {
-    font-size: 0.875rem;
+  &__links-label {
+    font-size: vars.$font-size-small;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__hint {
+    font-size: vars.$font-size-small;
+    color: var(--text-secondary);
+    margin: 0;
   }
 
   &__add-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
     padding: 0;
     background: transparent;
     border: none;
-    font-size: 0.75rem;
-    font-weight: 500;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
     color: var(--color-brand);
     cursor: pointer;
     transition: opacity 0.2s ease;
@@ -255,56 +235,15 @@
       opacity: 0.3;
       cursor: not-allowed;
     }
-
-    svg {
-      width: 0.75rem;
-      height: 0.75rem;
-    }
-  }
-
-  &__links-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
   }
 
   &__link-row {
     display: flex;
-    gap: 0.5rem;
-  }
+    align-items: center;
+    gap: vars.$spacing-small;
 
-  &__link-input-wrapper {
-    position: relative;
-    flex: 1;
-
-    svg {
-      position: absolute;
-      left: 0.875rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1rem;
-      height: 1rem;
-      color: var(--text-secondary);
-    }
-
-    input {
-      width: 100%;
-      padding: 0.75rem 1rem 0.75rem 2.5rem;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-primary);
-      border-radius: 0.75rem;
-      font-size: 0.875rem;
-      color: var(--text-primary);
-      transition: all 0.2s ease;
-
-      &::placeholder {
-        color: var(--text-secondary);
-      }
-
-      &:focus {
-        outline: none;
-        border-color: var(--color-brand);
-      }
+    .project-input {
+      flex: 1;
     }
   }
 
@@ -312,11 +251,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
     background: transparent;
     border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
+    border-radius: 12px;
     color: var(--text-secondary);
+    font-size: 1.25rem;
     cursor: pointer;
     transition: all 0.2s ease;
 
@@ -325,114 +267,68 @@
       border-color: rgba(239, 68, 68, 0.3);
       color: #ef4444;
     }
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
   }
 
-  // Info Notice
-  &__notice {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    background: rgba(255, 209, 102, 0.05);
-    border: 1px solid rgba(255, 209, 102, 0.2);
-    border-radius: 1rem;
-
-    svg {
-      width: 1.5rem;
-      height: 1.5rem;
-      color: var(--color-brand);
-      flex-shrink: 0;
-    }
-
-    p {
-      font-size: 0.875rem;
-      line-height: 1.6;
-      color: var(--text-secondary);
-      margin: 0;
-
-      strong {
-        color: var(--text-primary);
-        font-weight: 700;
-      }
-    }
-  }
-
-  // Footer
-  &__footer {
-    display: flex;
-    gap: 1rem;
-    padding: 1.5rem 2rem;
+  // ==========================================
+  // CONTACT INFO SECTION
+  // ==========================================
+  &__contact-section {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: vars.$spacing-medium;
+    padding-top: vars.$spacing-medium;
     border-top: 1px solid var(--border-primary);
-    background: rgba(0, 0, 0, 0.2);
   }
 
-  &__cancel {
-    flex: 1;
-    padding: 1rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
+  &__section-label {
+    grid-column: 1 / -1;
+    font-size: vars.$font-size-small;
     font-weight: 700;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
+  // ==========================================
+  // SUBMIT BUTTON
+  // ==========================================
   &__submit {
-    flex: 2;
-    padding: 1rem;
-    background: var(--color-brand);
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    border-radius: vars.$border-radius-xl;
+    background-color: var(--color-brand);
+    color: var(--btn-primary-text);
     border: none;
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
+    font-size: vars.$font-size-medium;
     font-weight: 700;
-    color: #000;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(255, 209, 102, 0.15);
+    min-height: 48px;
+    width: 100%;
 
     &:hover:not(:disabled) {
-      opacity: 0.9;
+      background-color: var(--color-brand-hover);
+      box-shadow: 0 0 20px var(--color-brand-glow);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
     }
 
     &:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
     }
   }
 
-  // Legacy support for max-width container usage
-  max-width: 600px;
-  padding: 1.5rem;
-
-  &__hint {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-  }
-
-  &__actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-primary);
-  }
-
+  // ==========================================
+  // NOTE
+  // ==========================================
   &__note {
-    font-size: 0.875rem;
+    font-size: vars.$font-size-small;
     color: var(--text-secondary);
-    margin-top: 1rem;
     text-align: center;
+    margin: 0;
+    line-height: 1.5;
   }
 }

@@ -1,8 +1,18 @@
 import { useState } from 'react';
-import { Button } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { useCreateProjectMutation } from '@shared/hooks';
 import { Item } from 'src/types/index';
+import {
+  EditNoteIcon,
+  DescriptionIcon,
+  LinkIcon,
+  PersonIcon,
+  EmailIcon,
+  PhoneIcon,
+  OfferIcon,
+  ScheduleIcon,
+  SyncIcon,
+} from '@shared/components/icons';
 import './styles/_project-request-form.scss';
 
 interface ProjectRequestFormProps {
@@ -24,7 +34,8 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   onSuccess,
   onCancel
 }) => {
-  const { t } = useTranslation('remoteProjects');
+  const { t, i18n } = useTranslation('remoteProjects');
+  const isRTL = i18n.language === 'he';
   const createProjectMutation = useCreateProjectMutation();
 
   const [title, setTitle] = useState('');
@@ -84,165 +95,153 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   };
 
   return (
-    <form className="project-request-form" onSubmit={handleSubmit}>
-      <div className="project-request-form__header">
-        <h2 className="project-request-form__title">{t('requestProject')}</h2>
-        <p className="project-request-form__service-name">{item.name?.en || item.name?.he}</p>
-      </div>
-
-      <div className="project-request-form__pricing">
-        <div className="project-request-form__price">
-          <span className="project-request-form__price-label">{t('projectPrice')}</span>
-          <span className="project-request-form__price-value">{price.toLocaleString()} ILS</span>
+    <form className="project-form" onSubmit={handleSubmit}>
+      {/* Pricing Summary */}
+      <div className="project-form__pricing">
+        <div className="project-form__pricing-item">
+          <OfferIcon className="project-form__pricing-icon project-form__pricing-icon--price" />
+          <span className="project-form__pricing-label">{t('projectPrice')}</span>
+          <span className="project-form__pricing-value">₪{price.toLocaleString()}</span>
         </div>
         {depositAmount && (
-          <div className="project-request-form__deposit">
-            <span className="project-request-form__deposit-label">{t('depositRequired')}</span>
-            <span className="project-request-form__deposit-value">
-              {depositAmount.toLocaleString()} ILS ({projectPricing?.depositPercentage}%)
-            </span>
+          <div className="project-form__pricing-item">
+            <OfferIcon className="project-form__pricing-icon project-form__pricing-icon--deposit" />
+            <span className="project-form__pricing-label">{t('depositRequired')}</span>
+            <span className="project-form__pricing-value">₪{depositAmount.toLocaleString()}</span>
           </div>
         )}
-        <div className="project-request-form__delivery">
-          <span className="project-request-form__delivery-label">{t('estimatedDelivery')}</span>
-          <span className="project-request-form__delivery-value">
-            {projectPricing?.estimatedDeliveryDays || 7} {t('days')}
-          </span>
+        <div className="project-form__pricing-item">
+          <ScheduleIcon className="project-form__pricing-icon project-form__pricing-icon--delivery" />
+          <span className="project-form__pricing-label">{t('estimatedDelivery')}</span>
+          <span className="project-form__pricing-value">{projectPricing?.estimatedDeliveryDays || 7} {t('days')}</span>
         </div>
-        <div className="project-request-form__revisions">
-          <span className="project-request-form__revisions-label">{t('revisionsIncluded')}</span>
-          <span className="project-request-form__revisions-value">{projectPricing?.revisionsIncluded || 1}</span>
+        <div className="project-form__pricing-item">
+          <SyncIcon className="project-form__pricing-icon project-form__pricing-icon--revisions" />
+          <span className="project-form__pricing-label">{t('revisionsIncluded')}</span>
+          <span className="project-form__pricing-value">{projectPricing?.revisionsIncluded || 1}</span>
         </div>
       </div>
 
-      <div className="project-request-form__field">
-        <label className="project-request-form__label" htmlFor="project-title">
-          {t('projectTitle')} *
-        </label>
-        <input
-          id="project-title"
-          type="text"
-          className="project-request-form__input"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={t('titlePlaceholder')}
-          required
-          maxLength={100}
-        />
-      </div>
+      {/* Project Details */}
+      <div className="project-form__fields">
+        <div className="input-container full-width">
+          <EditNoteIcon className="input-icon" />
+          <input
+            type="text"
+            className="project-input has-icon"
+            placeholder={t('titlePlaceholder')}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            maxLength={100}
+          />
+        </div>
 
-      <div className="project-request-form__field">
-        <label className="project-request-form__label" htmlFor="project-brief">
-          {t('projectBrief')} *
-        </label>
-        <textarea
-          id="project-brief"
-          className="project-request-form__textarea"
-          value={brief}
-          onChange={(e) => setBrief(e.target.value)}
-          placeholder={t('briefPlaceholder')}
-          required
-          rows={5}
-          maxLength={2000}
-        />
-        <span className="project-request-form__char-count">{brief.length}/2000</span>
-      </div>
+        <div className="input-container full-width">
+          <DescriptionIcon className="input-icon" />
+          <textarea
+            className="project-input has-icon"
+            placeholder={t('briefPlaceholder')}
+            value={brief}
+            onChange={(e) => setBrief(e.target.value)}
+            required
+            maxLength={2000}
+          />
+          <span className="project-form__char-count">{brief.length}/2000</span>
+        </div>
 
-      <div className="project-request-form__field">
-        <label className="project-request-form__label">{t('referenceLinks')}</label>
-        <p className="project-request-form__hint">{t('referenceLinksHint')}</p>
-        {referenceLinks.map((link, index) => (
-          <div key={index} className="project-request-form__link-row">
-            <input
-              type="url"
-              className="project-request-form__input"
-              value={link}
-              onChange={(e) => handleReferenceLinkChange(index, e.target.value)}
-              placeholder="https://..."
-            />
-            {referenceLinks.length > 1 && (
+        {/* Reference Links */}
+        <div className="project-form__links-section">
+          <div className="project-form__links-header">
+            <span className="project-form__links-label">{t('referenceLinks')}</span>
+            {referenceLinks.length < 5 && (
               <button
                 type="button"
-                className="project-request-form__remove-link"
-                onClick={() => handleRemoveReferenceLink(index)}
-                aria-label={t('removeLink')}
+                className="project-form__add-link"
+                onClick={handleAddReferenceLink}
               >
-                &times;
+                + {t('addLink')}
               </button>
             )}
           </div>
-        ))}
-        {referenceLinks.length < 5 && (
-          <button type="button" className="project-request-form__add-link" onClick={handleAddReferenceLink}>
-            + {t('addLink')}
-          </button>
-        )}
-      </div>
-
-      <div className="project-request-form__contact">
-        <h3 className="project-request-form__section-title">{t('contactInfo')}</h3>
-
-        <div className="project-request-form__field">
-          <label className="project-request-form__label" htmlFor="customer-name">
-            {t('name')}
-          </label>
-          <input
-            id="customer-name"
-            type="text"
-            className="project-request-form__input"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-          />
+          <p className="project-form__hint">{t('referenceLinksHint')}</p>
+          {referenceLinks.map((link, index) => (
+            <div key={index} className="input-container full-width project-form__link-row">
+              <LinkIcon className="input-icon" />
+              <input
+                type="url"
+                className="project-input has-icon"
+                value={link}
+                onChange={(e) => handleReferenceLinkChange(index, e.target.value)}
+                placeholder="https://spotify.com/track/..."
+                dir="ltr"
+              />
+              {referenceLinks.length > 1 && (
+                <button
+                  type="button"
+                  className="project-form__remove-link"
+                  onClick={() => handleRemoveReferenceLink(index)}
+                  aria-label={t('removeLink')}
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
         </div>
 
-        <div className="project-request-form__field">
-          <label className="project-request-form__label" htmlFor="customer-email">
-            {t('email')}
-          </label>
-          <input
-            id="customer-email"
-            type="email"
-            className="project-request-form__input"
-            value={customerEmail}
-            onChange={(e) => setCustomerEmail(e.target.value)}
-          />
-        </div>
+        {/* Contact Info */}
+        <div className="project-form__contact-section">
+          <span className="project-form__section-label">{t('contactInfo')}</span>
+          
+          <div className="input-container">
+            <PersonIcon className="input-icon" />
+            <input
+              type="text"
+              className="project-input has-icon"
+              placeholder={t('name')}
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+          </div>
 
-        <div className="project-request-form__field">
-          <label className="project-request-form__label" htmlFor="customer-phone">
-            {t('phone')}
-          </label>
-          <input
-            id="customer-phone"
-            type="tel"
-            className="project-request-form__input"
-            value={customerPhone}
-            onChange={(e) => setCustomerPhone(e.target.value)}
-          />
+          <div className="input-container">
+            <EmailIcon className="input-icon" />
+            <input
+              type="email"
+              className="project-input has-icon"
+              placeholder={t('email')}
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              dir="ltr"
+            />
+          </div>
+
+          <div className="input-container full-width">
+            <PhoneIcon className="input-icon" />
+            <input
+              type="tel"
+              className="project-input has-icon"
+              placeholder={t('phone')}
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
+              dir={isRTL ? 'rtl' : 'ltr'}
+              pattern="[0-9]*"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="project-request-form__actions">
-        {onCancel && (
-          <Button
-            type="button"
-            className="button--secondary"
-            onClick={onCancel}
-            disabled={createProjectMutation.isPending}
-          >
-            {t('common.cancel')}
-          </Button>
-        )}
-        <Button
-          type="submit"
-          className="button--primary"
-          disabled={!title.trim() || !brief.trim() || createProjectMutation.isPending}
-        >
-          {createProjectMutation.isPending ? t('common.submitting') : t('submitRequest')}
-        </Button>
-      </div>
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="project-form__submit"
+        disabled={!title.trim() || !brief.trim() || createProjectMutation.isPending}
+      >
+        {createProjectMutation.isPending ? t('common.submitting') : t('submitRequest')}
+      </button>
 
-      <p className="project-request-form__note">{t('submitNote')}</p>
+      <p className="project-form__note">{t('submitNote')}</p>
     </form>
   );
 };
