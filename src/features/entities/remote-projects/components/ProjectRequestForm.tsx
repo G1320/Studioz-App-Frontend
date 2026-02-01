@@ -1,13 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Item } from 'src/types/index';
-import {
-  EditNoteIcon,
-  DescriptionIcon,
-  LinkIcon,
-  OfferIcon,
-  ScheduleIcon,
-  SyncIcon,
-} from '@shared/components/icons';
+import { EditNoteIcon, DescriptionIcon, LinkIcon, OfferIcon, ScheduleIcon, SyncIcon } from '@shared/components/icons';
 import './styles/_project-request-form.scss';
 
 interface ProjectRequestFormProps {
@@ -27,7 +20,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   referenceLinks,
   onTitleChange,
   onBriefChange,
-  onReferenceLinksChange,
+  onReferenceLinksChange
 }) => {
   const { t } = useTranslation('remoteProjects');
 
@@ -72,7 +65,9 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
         <div className="project-form__pricing-item">
           <ScheduleIcon className="project-form__pricing-icon project-form__pricing-icon--delivery" />
           <span className="project-form__pricing-label">{t('estimatedDelivery')}</span>
-          <span className="project-form__pricing-value">{projectPricing?.estimatedDeliveryDays || 7} {t('days')}</span>
+          <span className="project-form__pricing-value">
+            {projectPricing?.estimatedDeliveryDays || 7} {t('days')}
+          </span>
         </div>
         <div className="project-form__pricing-item">
           <SyncIcon className="project-form__pricing-icon project-form__pricing-icon--revisions" />
@@ -114,11 +109,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
           <div className="project-form__links-header">
             <span className="project-form__links-label">{t('referenceLinks')}</span>
             {referenceLinks.length < 5 && (
-              <button
-                type="button"
-                className="project-form__add-link"
-                onClick={handleAddReferenceLink}
-              >
+              <button type="button" className="project-form__add-link" onClick={handleAddReferenceLink}>
                 + {t('addLink')}
               </button>
             )}

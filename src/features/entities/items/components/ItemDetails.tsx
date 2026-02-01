@@ -297,49 +297,61 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       // No payment needed - create project directly
       executeProjectCreation();
     }
-  }, [projectTitle, projectBrief, projectReferenceLinks, item, projectPrice, projectDepositAmount, studio?.paymentEnabled]);
+  }, [
+    projectTitle,
+    projectBrief,
+    projectReferenceLinks,
+    item,
+    projectPrice,
+    projectDepositAmount,
+    studio?.paymentEnabled
+  ]);
 
   // Execute the actual project creation
   // Note: paymentData will be used when backend payment integration is complete
-  const executeProjectCreation = useCallback(async (_paymentData?: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
-    if (!item) return;
+  const executeProjectCreation = useCallback(
+    async (_paymentData?: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
+      if (!item) return;
 
-    try {
-      const result = await createProjectMutation.mutateAsync({
-        itemId: item._id,
-        customerId: user?._id || '',
-        title: pendingProjectData?.title || projectTitle.trim(),
-        brief: pendingProjectData?.brief || projectBrief.trim(),
-        referenceLinks: pendingProjectData?.referenceLinks || projectReferenceLinks.filter((link) => link.trim() !== ''),
-        customerName: customerName.trim() || undefined,
-        customerEmail: user?.email || undefined,
-        customerPhone: customerPhone.trim() || undefined
-      });
+      try {
+        const result = await createProjectMutation.mutateAsync({
+          itemId: item._id,
+          customerId: user?._id || '',
+          title: pendingProjectData?.title || projectTitle.trim(),
+          brief: pendingProjectData?.brief || projectBrief.trim(),
+          referenceLinks:
+            pendingProjectData?.referenceLinks || projectReferenceLinks.filter((link) => link.trim() !== ''),
+          customerName: customerName.trim() || undefined,
+          customerEmail: user?.email || undefined,
+          customerPhone: customerPhone.trim() || undefined
+        });
 
-      if (result._id) {
-        localStorage.setItem(`project_${itemId}`, result._id);
-        setCurrentProjectId(result._id);
-        setShowProjectPaymentStep(false);
-        setPendingProjectData(null);
-        setPaymentError('');
+        if (result._id) {
+          localStorage.setItem(`project_${itemId}`, result._id);
+          setCurrentProjectId(result._id);
+          setShowProjectPaymentStep(false);
+          setPendingProjectData(null);
+          setPaymentError('');
+        }
+      } catch (error: any) {
+        console.error('Failed to create project:', error);
+        setPaymentError(error.message || 'Failed to create project');
       }
-    } catch (error: any) {
-      console.error('Failed to create project:', error);
-      setPaymentError(error.message || 'Failed to create project');
-    }
-  }, [
-    item,
-    user?._id,
-    user?.email,
-    customerName,
-    customerPhone,
-    itemId,
-    createProjectMutation,
-    pendingProjectData,
-    projectTitle,
-    projectBrief,
-    projectReferenceLinks
-  ]);
+    },
+    [
+      item,
+      user?._id,
+      user?.email,
+      customerName,
+      customerPhone,
+      itemId,
+      createProjectMutation,
+      pendingProjectData,
+      projectTitle,
+      projectBrief,
+      projectReferenceLinks
+    ]
+  );
 
   // Handle payment submission for projects
   const handleProjectPaymentSubmit = useCallback(

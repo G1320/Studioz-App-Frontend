@@ -131,7 +131,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
 
   // Check if this is a remote project service
   const isRemoteProject = item?.serviceDeliveryType === 'remote' || item?.remoteService === true;
-  
+
   const showReservation = currentReservationId && reservation;
   const showProject = isRemoteProject && currentProjectId && currentProject;
 
@@ -182,11 +182,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
               transition={slideTransition}
               className="project-card-container"
             >
-              <ProjectCard
-                project={currentProject}
-                variant="itemCard"
-                onCreateNew={onClearProject}
-              />
+              <ProjectCard project={currentProject} variant="itemCard" onCreateNew={onClearProject} />
             </motion.div>
           ) : (
             <motion.div
