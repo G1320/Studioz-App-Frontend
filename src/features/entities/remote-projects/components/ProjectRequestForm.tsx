@@ -22,7 +22,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   customerEmail: initialEmail = '',
   customerPhone: initialPhone = '',
   onSuccess,
-  onCancel,
+  onCancel
 }) => {
   const { t } = useTranslation('remoteProjects');
   const createProjectMutation = useCreateProjectMutation();
@@ -72,7 +72,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
         referenceLinks: referenceLinks.filter((link) => link.trim() !== ''),
         customerName: customerName.trim() || undefined,
         customerEmail: customerEmail.trim() || undefined,
-        customerPhone: customerPhone.trim() || undefined,
+        customerPhone: customerPhone.trim() || undefined
       });
 
       if (onSuccess && result._id) {
@@ -86,48 +86,32 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
   return (
     <form className="project-request-form" onSubmit={handleSubmit}>
       <div className="project-request-form__header">
-        <h2 className="project-request-form__title">
-          {t('requestProject')}
-        </h2>
-        <p className="project-request-form__service-name">
-          {item.name?.en || item.name?.he}
-        </p>
+        <h2 className="project-request-form__title">{t('requestProject')}</h2>
+        <p className="project-request-form__service-name">{item.name?.en || item.name?.he}</p>
       </div>
 
       <div className="project-request-form__pricing">
         <div className="project-request-form__price">
-          <span className="project-request-form__price-label">
-            {t('projectPrice')}
-          </span>
-          <span className="project-request-form__price-value">
-            {price.toLocaleString()} ILS
-          </span>
+          <span className="project-request-form__price-label">{t('projectPrice')}</span>
+          <span className="project-request-form__price-value">{price.toLocaleString()} ILS</span>
         </div>
         {depositAmount && (
           <div className="project-request-form__deposit">
-            <span className="project-request-form__deposit-label">
-              {t('depositRequired')}
-            </span>
+            <span className="project-request-form__deposit-label">{t('depositRequired')}</span>
             <span className="project-request-form__deposit-value">
               {depositAmount.toLocaleString()} ILS ({projectPricing?.depositPercentage}%)
             </span>
           </div>
         )}
         <div className="project-request-form__delivery">
-          <span className="project-request-form__delivery-label">
-            {t('estimatedDelivery')}
-          </span>
+          <span className="project-request-form__delivery-label">{t('estimatedDelivery')}</span>
           <span className="project-request-form__delivery-value">
             {projectPricing?.estimatedDeliveryDays || 7} {t('days')}
           </span>
         </div>
         <div className="project-request-form__revisions">
-          <span className="project-request-form__revisions-label">
-            {t('revisionsIncluded')}
-          </span>
-          <span className="project-request-form__revisions-value">
-            {projectPricing?.revisionsIncluded || 1}
-          </span>
+          <span className="project-request-form__revisions-label">{t('revisionsIncluded')}</span>
+          <span className="project-request-form__revisions-value">{projectPricing?.revisionsIncluded || 1}</span>
         </div>
       </div>
 
@@ -161,18 +145,12 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
           rows={5}
           maxLength={2000}
         />
-        <span className="project-request-form__char-count">
-          {brief.length}/2000
-        </span>
+        <span className="project-request-form__char-count">{brief.length}/2000</span>
       </div>
 
       <div className="project-request-form__field">
-        <label className="project-request-form__label">
-          {t('referenceLinks')}
-        </label>
-        <p className="project-request-form__hint">
-          {t('referenceLinksHint')}
-        </p>
+        <label className="project-request-form__label">{t('referenceLinks')}</label>
+        <p className="project-request-form__hint">{t('referenceLinksHint')}</p>
         {referenceLinks.map((link, index) => (
           <div key={index} className="project-request-form__link-row">
             <input
@@ -195,20 +173,14 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
           </div>
         ))}
         {referenceLinks.length < 5 && (
-          <button
-            type="button"
-            className="project-request-form__add-link"
-            onClick={handleAddReferenceLink}
-          >
+          <button type="button" className="project-request-form__add-link" onClick={handleAddReferenceLink}>
             + {t('addLink')}
           </button>
         )}
       </div>
 
       <div className="project-request-form__contact">
-        <h3 className="project-request-form__section-title">
-          {t('contactInfo')}
-        </h3>
+        <h3 className="project-request-form__section-title">{t('contactInfo')}</h3>
 
         <div className="project-request-form__field">
           <label className="project-request-form__label" htmlFor="customer-name">
@@ -270,9 +242,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
         </Button>
       </div>
 
-      <p className="project-request-form__note">
-        {t('submitNote')}
-      </p>
+      <p className="project-request-form__note">{t('submitNote')}</p>
     </form>
   );
 };

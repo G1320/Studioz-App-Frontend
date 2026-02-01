@@ -75,6 +75,10 @@ export default interface Item {
   // Setup & Preparation (for in-studio)
   preparationTime?: Duration;
 
+  // Remote Service (set by backend based on serviceDeliveryType)
+  remoteService?: boolean;
+  remoteWorkType?: 'session' | 'project';
+
   // Remote Project Settings (for remote)
   projectPricing?: ProjectPricing;
   acceptedFileTypes?: string[];

@@ -10,8 +10,19 @@
   "loginRequired": "Please log in to view your projects",
   "loadError": "Failed to load projects",
   "viewProject": "View Project",
+  "createNewProject": "Create New Project",
   "createdAt": "Created",
   "due": "Due",
+  "deliveryIn": "Delivery in {{days}} days",
+  "revisions_one": "{{count}} revision left",
+  "revisions_other": "{{count}} revisions left",
+  "revisionsUsed": "Revisions Used",
+  "payment": "Payment",
+  "paymentStatus": {
+    "pending": "Pending",
+    "depositPaid": "Deposit Paid",
+    "fullyPaid": "Fully Paid"
+  },
 
   "status": {
     "requested": "Pending Review",

@@ -4,9 +4,10 @@ import { ReservationDetailsForm, HourSelector, BookingActions } from '@features/
 import { MuiDateTimePicker } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { ReservationCard } from '@features/entities/reservations';
+import { ProjectRequestForm, ProjectCard } from '@features/entities/remote-projects/components';
 import { AddOnsList } from '@features/entities/addOns/components';
 import { isFeatureEnabled } from '@core/config/featureFlags';
-import { AddOn, Cart, Item, Reservation, Studio } from 'src/types/index';
+import { AddOn, Cart, Item, Reservation, Studio, RemoteProject } from 'src/types/index';
 import { AnimatePresence, motion } from 'framer-motion';
 import { getMinimumHours, getMaximumHours, AvailabilityContext } from '@shared/utils/availabilityUtils';
 
@@ -21,6 +22,7 @@ interface ItemContentProps {
   selectedQuantity: number;
   customerName: string;
   customerPhone: string;
+  customerEmail?: string;
   comment: string;
   isPhoneVerified: boolean;
   isBooked: boolean;
@@ -37,6 +39,11 @@ interface ItemContentProps {
   onPhoneVerified: () => void;
   onBookNow: () => void;
   onCancelReservation: () => void;
+  // Remote project props
+  customerId?: string;
+  currentProject?: RemoteProject | null;
+  onProjectSuccess?: (projectId: string) => void;
+  onClearProject?: () => void;
 }
 
 // Slide animation variants (same as SteppedForm)
@@ -71,6 +78,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   selectedQuantity,
   customerName,
   customerPhone,
+  customerEmail,
   comment,
   isPhoneVerified,
   isBooked,
@@ -86,12 +94,21 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   onCommentChange,
   onPhoneVerified,
   onBookNow,
-  onCancelReservation
+  onCancelReservation,
+  // Remote project props
+  customerId,
+  currentProject,
+  onProjectSuccess,
+  onClearProject
 }) => {
   const { i18n, t } = useTranslation('common');
   const isRTL = i18n.language === 'he';
 
+  // Check if this is a remote project service
+  const isRemoteProject = item?.serviceDeliveryType === 'remote' || item?.remoteService === true;
+  
   const showReservation = currentReservationId && reservation;
+  const showProject = isRemoteProject && currentProject;
 
   // Create availability context for calculations
   const availabilityContext = useMemo<AvailabilityContext | null>(() => {
@@ -124,6 +141,53 @@ export const ItemContent: React.FC<ItemContentProps> = ({
     return baseLabel;
   }, [item?.pricePer, t, minHours]);
 
+  // Render remote project flow
+  if (isRemoteProject) {
+    return (
+      <AnimatePresence mode="wait" initial={false} custom={isRTL}>
+        {showProject ? (
+          <motion.div
+            key="project-card"
+            custom={isRTL}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+            className="item-content-animated"
+          >
+            <ProjectCard
+              project={currentProject}
+              variant="itemCard"
+              onCreateNew={onClearProject}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="project-form"
+            custom={isRTL}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={slideTransition}
+            className="item-content-animated"
+          >
+            <ProjectRequestForm
+              item={item}
+              customerId={customerId || ''}
+              customerName={customerName}
+              customerEmail={customerEmail}
+              customerPhone={customerPhone}
+              onSuccess={onProjectSuccess}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    );
+  }
+
+  // Render in-studio booking flow
   return (
     <>
       <AnimatePresence mode="wait" initial={false} custom={isRTL}>

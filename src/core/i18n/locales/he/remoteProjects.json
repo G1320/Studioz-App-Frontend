@@ -10,8 +10,19 @@
   "loginRequired": "יש להתחבר כדי לצפות בפרויקטים",
   "loadError": "שגיאה בטעינת הפרויקטים",
   "viewProject": "צפה בפרויקט",
+  "createNewProject": "צור פרויקט חדש",
   "createdAt": "נוצר",
   "due": "תאריך יעד",
+  "deliveryIn": "אספקה תוך {{days}} ימים",
+  "revisions_one": "נותר תיקון {{count}}",
+  "revisions_other": "נותרו {{count}} תיקונים",
+  "revisionsUsed": "תיקונים שנוצלו",
+  "payment": "תשלום",
+  "paymentStatus": {
+    "pending": "ממתין",
+    "depositPaid": "מקדמה שולמה",
+    "fullyPaid": "שולם במלואו"
+  },
 
   "status": {
     "requested": "ממתין לאישור",

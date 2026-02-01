@@ -10,6 +10,7 @@ import {
   usePrefetchItem,
   useReserveStudioItemTimeSlotsMutation,
   useReservation,
+  useRemoteProject,
   useSavedCards,
   useSavedCardsByPhone,
   useRemoveSavedCardMutation
@@ -51,6 +52,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const [currentReservationId, setCurrentReservationId] = useState<string | null>(() => {
     return localStorage.getItem(`reservation_${itemId}`) || null;
   });
+  const [currentProjectId, setCurrentProjectId] = useState<string | null>(() => {
+    return localStorage.getItem(`project_${itemId}`) || null;
+  });
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
 
@@ -71,6 +75,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
 
   // Fetch reservation data when we have a reservation ID
   const { data: reservation } = useReservation(currentReservationId || '');
+
+  // Fetch project data when we have a project ID (for remote services)
+  const { project: currentProject } = useRemoteProject(currentProjectId || '');
 
   const isBooked = useMemo(() => cart?.items.some((cartItem) => cartItem.itemId === item?._id), [cart, item]);
 
@@ -130,8 +137,15 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       setShowPaymentStep(false);
       setPendingBookingItem(null);
       setPaymentError('');
+      // Don't clear project ID on unmount - we want to persist it
     };
   }, [itemId]); // Re-run cleanup when itemId changes
+
+  // Sync project ID when switching items
+  useEffect(() => {
+    const storedProjectId = localStorage.getItem(`project_${itemId}`);
+    setCurrentProjectId(storedProjectId);
+  }, [itemId]);
 
   // Clamp quantity to valid range when maxHours changes (e.g., after selecting a time)
   // Don't reset on date change - handleDateChange already sets to minHours
@@ -213,6 +227,21 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     setComment('');
     setSelectedAddOnIds([]);
   }, [itemId, minHours]);
+
+  // Handle project creation success
+  const handleProjectSuccess = useCallback(
+    (projectId: string) => {
+      localStorage.setItem(`project_${itemId}`, projectId);
+      setCurrentProjectId(projectId);
+    },
+    [itemId]
+  );
+
+  // Handle clearing project to create a new one
+  const handleClearProject = useCallback(() => {
+    localStorage.removeItem(`project_${itemId}`);
+    setCurrentProjectId(null);
+  }, [itemId]);
 
   // Prepare booking item data (shared between direct booking and payment flow)
   const prepareBookingItem = useCallback((): CartItem | null => {
@@ -450,7 +479,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         onClose={showPaymentStep ? handleBackFromPayment : closeModal}
         showBackButton={showPaymentStep}
       />
-      
+
       {/* Item card hidden during payment step */}
       {!showPaymentStep && (
         <ItemCard item={item as Item} user={user as User} onEdit={handleGoToEdit} studioActive={studio?.active} />
@@ -470,7 +499,13 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             transition={slideTransition}
           >
             <OrderSummary
-              studioName={item?.studioName?.[i18n.language as 'en' | 'he'] || studio?.name?.[i18n.language as 'en' | 'he'] || item?.studioName?.en || studio?.name?.en || ''}
+              studioName={
+                item?.studioName?.[i18n.language as 'en' | 'he'] ||
+                studio?.name?.[i18n.language as 'en' | 'he'] ||
+                item?.studioName?.en ||
+                studio?.name?.en ||
+                ''
+              }
               studioLocation={studio?.address || ''}
               bookingDate={formattedBookingDate}
               bookingTime={formattedBookingTime}
@@ -506,6 +541,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               selectedQuantity={selectedQuantity}
               customerName={customerName}
               customerPhone={customerPhone}
+              customerEmail={user?.email}
               comment={comment}
               isPhoneVerified={isPhoneVerified}
               isBooked={isBooked as boolean}
@@ -522,6 +558,11 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               onPhoneVerified={handlePhoneVerified}
               onBookNow={handleBookNow}
               onCancelReservation={handleCancelReservation}
+              // Remote project props
+              customerId={user?._id}
+              currentProject={currentProject}
+              onProjectSuccess={handleProjectSuccess}
+              onClearProject={handleClearProject}
             />
           </motion.div>
         )}

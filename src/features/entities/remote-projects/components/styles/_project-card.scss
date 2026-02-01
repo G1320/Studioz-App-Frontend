@@ -1,0 +1,258 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
+
+// ============================================
+// StudioZ Project Card - Themed Component
+// ============================================
+
+.project-card {
+  @include mixins.card-interactive;
+  border-radius: 1rem;
+  width: 100%;
+  overflow: hidden;
+  animation: projectCardFadeIn 0.3s ease-out;
+
+  &--item-card {
+    cursor: default;
+  }
+
+  &:not(.project-card--item-card) {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+      border-color: var(--border-hover);
+    }
+  }
+
+  // ========================================
+  // Summary View
+  // ========================================
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$space-3;
+    padding: 1.25rem;
+  }
+
+  &__status-indicator {
+    display: flex;
+    align-items: center;
+  }
+
+  &__summary-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  &__title {
+    font-size: ds.$font-base;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  &__price {
+    font-family: 'Roboto Mono', monospace;
+    font-size: ds.$font-base;
+    font-weight: 700;
+    color: var(--color-brand);
+    white-space: nowrap;
+  }
+
+  &__subtitle {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    margin: 0;
+    line-height: 1.3;
+    text-align: start;
+    width: 100%;
+  }
+
+  &__summary-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: ds.$font-sm;
+    color: var(--text-secondary);
+  }
+
+  &__meta-icon {
+    font-size: 0.875rem !important;
+    color: var(--text-tertiary);
+  }
+
+  // ========================================
+  // Details Section
+  // ========================================
+  &__details {
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  &__detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-primary);
+    font-size: ds.$font-md;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &--brief {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+
+  &__label {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+
+  &__value {
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__detail-icon {
+    font-size: 0.875rem !important;
+    color: var(--text-tertiary);
+  }
+
+  &__brief {
+    background: var(--bg-hover);
+    padding: 0.75rem;
+    border-radius: ds.$radius-md;
+    font-size: ds.$font-sm;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    width: 100%;
+    // Limit to 3 lines
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // ========================================
+  // Action Buttons
+  // ========================================
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border-secondary);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__action-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: ds.$radius-md;
+    font-weight: 600;
+    font-size: ds.$font-md;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &--primary {
+      @include mixins.button-primary;
+      box-shadow: var(--shadow-glow);
+    }
+
+    &--secondary {
+      @include mixins.button-secondary;
+
+      &:hover:not(:disabled) {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ========================================
+  // Responsive
+  // ========================================
+  @media (max-width: 480px) {
+    &__summary {
+      padding: ds.$space-4;
+    }
+
+    &__title {
+      font-size: 0.9375rem;
+    }
+
+    &__price {
+      font-size: 0.9375rem;
+    }
+
+    &__details {
+      padding: 0 1rem 1rem;
+    }
+
+    &__actions {
+      padding: 0.75rem 1rem;
+      gap: 0.5rem;
+    }
+
+    &__action-btn {
+      padding: 0.625rem;
+    }
+  }
+}
+
+@keyframes projectCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

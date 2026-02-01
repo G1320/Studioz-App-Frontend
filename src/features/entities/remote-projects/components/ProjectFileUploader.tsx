@@ -30,7 +30,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   acceptedTypes = ['.wav', '.aif', '.aiff', '.mp3', '.flac', '.zip'],
   maxFileSize = 500,
   maxFiles = 50,
-  disabled = false,
+  disabled = false
 }) => {
   const { t } = useTranslation('remoteProjects');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,12 +41,15 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const uploadMutation = useUploadFileMutation();
   const deleteMutation = useDeleteFileMutation();
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    if (!disabled) {
-      setIsDragging(true);
-    }
-  }, [disabled]);
+  const handleDragOver = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      if (!disabled) {
+        setIsDragging(true);
+      }
+    },
+    [disabled]
+  );
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -72,10 +75,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     const tempId = `temp-${Date.now()}-${file.name}`;
 
     // Add to upload progress
-    setUploads((prev) => [
-      ...prev,
-      { fileId: tempId, fileName: file.name, progress: 0, status: 'uploading' },
-    ]);
+    setUploads((prev) => [...prev, { fileId: tempId, fileName: file.name, progress: 0, status: 'uploading' }]);
 
     try {
       await uploadMutation.mutateAsync({
@@ -83,20 +83,12 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
         file,
         type: fileType,
         onProgress: (progress) => {
-          setUploads((prev) =>
-            prev.map((u) =>
-              u.fileId === tempId ? { ...u, progress } : u
-            )
-          );
-        },
+          setUploads((prev) => prev.map((u) => (u.fileId === tempId ? { ...u, progress } : u)));
+        }
       });
 
       // Mark as complete
-      setUploads((prev) =>
-        prev.map((u) =>
-          u.fileId === tempId ? { ...u, progress: 100, status: 'complete' } : u
-        )
-      );
+      setUploads((prev) => prev.map((u) => (u.fileId === tempId ? { ...u, progress: 100, status: 'complete' } : u)));
 
       // Remove from progress after delay
       setTimeout(() => {
@@ -107,11 +99,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
       refetch();
     } catch (error) {
       setUploads((prev) =>
-        prev.map((u) =>
-          u.fileId === tempId
-            ? { ...u, status: 'error', error: (error as Error).message }
-            : u
-        )
+        prev.map((u) => (u.fileId === tempId ? { ...u, status: 'error', error: (error as Error).message } : u))
       );
     }
   };
@@ -177,7 +165,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const fileTypeLabel = {
     source: t('sourceFiles'),
     deliverable: t('deliverables'),
-    revision: t('revisionFiles'),
+    revision: t('revisionFiles')
   }[fileType];
 
   return (
@@ -202,9 +190,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
           disabled={disabled}
         />
         <div className="project-file-uploader__dropzone-content">
-          <p className="project-file-uploader__dropzone-text">
-            {isDragging ? t('dropHere') : t('dragOrClick')}
-          </p>
+          <p className="project-file-uploader__dropzone-text">{isDragging ? t('dropHere') : t('dragOrClick')}</p>
           <p className="project-file-uploader__dropzone-hint">
             {t('acceptedFormats')}: {acceptedTypes.join(', ')}
             <br />
@@ -221,10 +207,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
               <span className="project-file-uploader__progress-name">{upload.fileName}</span>
               {upload.status === 'uploading' && (
                 <div className="project-file-uploader__progress-bar">
-                  <div
-                    className="project-file-uploader__progress-fill"
-                    style={{ width: `${upload.progress}%` }}
-                  />
+                  <div className="project-file-uploader__progress-fill" style={{ width: `${upload.progress}%` }} />
                 </div>
               )}
               {upload.status === 'complete' && (
@@ -244,28 +227,21 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
 
       {/* Files list */}
       {isLoading ? (
-        <div className="project-file-uploader__loading">
-          {t('common.loading')}
-        </div>
+        <div className="project-file-uploader__loading">{t('common.loading')}</div>
       ) : files.length > 0 ? (
         <ul className="project-file-uploader__file-list">
           {files.map((file: ProjectFile) => (
             <li key={file._id} className="project-file-uploader__file-item">
               <div className="project-file-uploader__file-info">
                 <span className="project-file-uploader__file-name">{file.fileName}</span>
-                <span className="project-file-uploader__file-size">
-                  {formatFileSize(file.fileSize)}
-                </span>
+                <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
               </div>
               <div className="project-file-uploader__file-actions">
                 <Button
                   className="button--secondary button--small"
                   onClick={() => {
                     // Download will be handled by getting download URL
-                    window.open(
-                      `/api/remote-projects/${projectId}/files/${file._id}/download`,
-                      '_blank'
-                    );
+                    window.open(`/api/remote-projects/${projectId}/files/${file._id}/download`, '_blank');
                   }}
                 >
                   {t('download')}
@@ -284,9 +260,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
           ))}
         </ul>
       ) : (
-        <p className="project-file-uploader__empty">
-          {t('noFiles')}
-        </p>
+        <p className="project-file-uploader__empty">{t('noFiles')}</p>
       )}
     </div>
   );
