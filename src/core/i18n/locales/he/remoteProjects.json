@@ -124,13 +124,5 @@
     "processing": "מעבד...",
     "submitting": "שולח...",
     "sending": "שולח..."
-  },
-
-  "demo": {
-    "modeLabel": "מצב דמו",
-    "liveDataLabel": "נתונים אמיתיים",
-    "bannerTitle": "מצב דמו:",
-    "bannerDescription": "מציג פרויקטים לדוגמה. כבה כדי לראות נתונים אמיתיים.",
-    "detailBannerDescription": "אלו נתונים לדוגמה. פעולות יציגו התראות במקום לבצע שינויים אמיתיים."
   }
 }

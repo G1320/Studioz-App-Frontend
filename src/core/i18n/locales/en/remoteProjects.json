@@ -124,13 +124,5 @@
     "processing": "Processing...",
     "submitting": "Submitting...",
     "sending": "Sending..."
-  },
-
-  "demo": {
-    "modeLabel": "Demo Mode",
-    "liveDataLabel": "Live Data",
-    "bannerTitle": "Demo Mode:",
-    "bannerDescription": "Showing sample projects. Toggle off to see real data.",
-    "detailBannerDescription": "This is sample data. Actions will show alerts instead of making real changes."
   }
 }

@@ -11,58 +11,6 @@ interface ProjectChatProps {
   disabled?: boolean;
 }
 
-// Demo messages for preview
-const DEMO_MESSAGES: ProjectMessage[] = [
-  {
-    _id: 'msg-1',
-    projectId: 'demo-1',
-    senderId: { _id: 'customer-1', name: 'Daniel Cohen' },
-    senderRole: 'customer',
-    message: 'Hey! Just uploaded the tracks. Looking forward to hearing what you can do with them!',
-    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-    readAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 3600000).toISOString()
-  },
-  {
-    _id: 'msg-2',
-    projectId: 'demo-1',
-    senderId: { _id: 'vendor-1', name: 'Pulse Studios' },
-    senderRole: 'vendor',
-    message:
-      "Thanks Daniel! Got the files. Great recordings! I'll start working on the mix today. Any specific references for the drum sound you're going for?",
-    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 7200000).toISOString(),
-    readAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    _id: 'msg-3',
-    projectId: 'demo-1',
-    senderId: { _id: 'customer-1', name: 'Daniel Cohen' },
-    senderRole: 'customer',
-    message:
-      'Yeah! Check out "Let It Happen" by Tame Impala - love how punchy yet spacious the drums sound there. Also added a Spotify link to the project references.',
-    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    readAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 1800000).toISOString()
-  },
-  {
-    _id: 'msg-4',
-    projectId: 'demo-1',
-    senderId: { _id: 'vendor-1', name: 'Pulse Studios' },
-    senderRole: 'vendor',
-    message:
-      "Perfect reference! I know exactly what you mean. I'll aim for that warm analog feel with some tape saturation. Should have the first mix ready by tomorrow evening.",
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    readAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 3600000).toISOString()
-  },
-  {
-    _id: 'msg-5',
-    projectId: 'demo-1',
-    senderId: { _id: 'customer-1', name: 'Daniel Cohen' },
-    senderRole: 'customer',
-    message: "Awesome, can't wait! 🎵",
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 7200000).toISOString(),
-    readAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-  }
-];
-
 export const ProjectChat: React.FC<ProjectChatProps> = ({
   projectId,
   currentUserId,
@@ -72,23 +20,14 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   const { t } = useTranslation('remoteProjects');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [newMessage, setNewMessage] = useState('');
-  const [demoMessages, setDemoMessages] = useState<ProjectMessage[]>(DEMO_MESSAGES);
-
-  // Check if this is a demo project
-  const isDemoProject = projectId?.startsWith('demo-');
 
   const {
-    messages: realMessages,
+    messages,
     isLoading,
     refetch
-  } = useProjectMessages({
-    projectId: isDemoProject ? '' : projectId
-  });
+  } = useProjectMessages({ projectId });
   const sendMessageMutation = useSendMessageMutation();
   const markReadMutation = useMarkMessagesReadMutation();
-
-  // Use demo or real messages
-  const messages = isDemoProject ? demoMessages : realMessages;
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -127,21 +66,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
 
     if (!newMessage.trim() || disabled) return;
 
-    // Handle demo mode - add message locally
-    if (isDemoProject) {
-      const demoMsg: ProjectMessage = {
-        _id: `msg-demo-${Date.now()}`,
-        projectId,
-        senderId: { _id: currentUserId, name: 'You' },
-        senderRole: 'vendor',
-        message: newMessage.trim(),
-        createdAt: new Date().toISOString()
-      };
-      setDemoMessages((prev) => [...prev, demoMsg]);
-      setNewMessage('');
-      return;
-    }
-
     try {
       await sendMessageMutation.mutateAsync({
         projectId,
@@ -167,10 +91,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   };
 
   const isOwnMessage = (msg: ProjectMessage): boolean => {
-    // In demo mode, vendor messages are "own" (we're viewing as studio)
-    if (isDemoProject) {
-      return msg.senderRole === 'vendor';
-    }
     return getSenderId(msg.senderId) === currentUserId;
   };
 

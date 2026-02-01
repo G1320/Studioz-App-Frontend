@@ -11,130 +11,16 @@ import './styles/_projects-list-page.scss';
 
 type FilterStatus = 'all' | RemoteProjectStatus;
 
-// Demo projects for development/preview
-const DEMO_PROJECTS: RemoteProject[] = [
-  {
-    _id: 'demo-1',
-    title: 'Summer EP - Mix & Master',
-    brief: 'Looking for a warm, analog sound for these 4 tracks. Similar vibe to Tame Impala but with more punchy drums.',
-    itemId: 'item-1',
-    studioId: 'studio-1',
-    customerId: 'customer-1',
-    vendorId: 'vendor-1',
-    itemName: { en: 'Full Mix & Master', he: 'מיקס ומאסטרינג מלא' },
-    studioName: { en: 'Pulse Studios', he: 'אולפני פאלס' },
-    customerName: 'Daniel Cohen',
-    price: 1200,
-    depositPaid: true,
-    finalPaid: false,
-    estimatedDeliveryDays: 5,
-    deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    revisionsIncluded: 3,
-    revisionsUsed: 1,
-    status: 'in_progress',
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    _id: 'demo-2',
-    title: 'Podcast Episode 12 - Post Production',
-    brief: 'Need cleanup, EQ, and mastering for our weekly podcast episode.',
-    itemId: 'item-2',
-    studioId: 'studio-2',
-    customerId: 'customer-2',
-    vendorId: 'vendor-2',
-    itemName: { en: 'Podcast Post-Production', he: 'עריכת פודקאסט' },
-    studioName: { en: 'Magic Recordings', he: 'מג\'יק הקלטות' },
-    customerName: 'Maya Levi',
-    price: 350,
-    depositPaid: true,
-    finalPaid: true,
-    estimatedDeliveryDays: 2,
-    revisionsIncluded: 2,
-    revisionsUsed: 0,
-    status: 'delivered',
-    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    deliveredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    _id: 'demo-3',
-    title: 'Vocal Tuning - Single Release',
-    brief: 'Professional vocal tuning and alignment for upcoming single.',
-    itemId: 'item-3',
-    studioId: 'studio-3',
-    customerId: 'customer-3',
-    vendorId: 'vendor-3',
-    itemName: { en: 'Pro Vocal Alignment', he: 'עריכת שירה מקצועית' },
-    studioName: { en: 'Resonance Studio', he: 'אולפן רזוננס' },
-    customerName: 'Amit Shapira',
-    price: 450,
-    depositPaid: false,
-    finalPaid: false,
-    estimatedDeliveryDays: 3,
-    deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-    revisionsIncluded: 2,
-    revisionsUsed: 0,
-    status: 'requested',
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    _id: 'demo-4',
-    title: 'Album Mastering - 10 Tracks',
-    brief: 'Final mastering for indie rock album, ready for streaming release.',
-    itemId: 'item-4',
-    studioId: 'studio-1',
-    customerId: 'customer-4',
-    vendorId: 'vendor-1',
-    itemName: { en: 'Album Mastering', he: 'מאסטרינג אלבום' },
-    studioName: { en: 'Pulse Studios', he: 'אולפני פאלס' },
-    customerName: 'Yael Ben-David',
-    price: 2500,
-    depositPaid: true,
-    finalPaid: true,
-    estimatedDeliveryDays: 7,
-    revisionsIncluded: 2,
-    revisionsUsed: 2,
-    status: 'completed',
-    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-    completedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    _id: 'demo-5',
-    title: 'Beat Production - Hip Hop Track',
-    brief: 'Custom beat production with 808s and melodic elements.',
-    itemId: 'item-5',
-    studioId: 'studio-4',
-    customerId: 'customer-5',
-    vendorId: 'vendor-4',
-    itemName: { en: 'Beat Production', he: 'הפקת ביט' },
-    studioName: { en: 'Urban Sound Lab', he: 'אורבן סאונד לאב' },
-    customerName: 'Omer Katz',
-    price: 800,
-    depositPaid: true,
-    finalPaid: false,
-    estimatedDeliveryDays: 4,
-    deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
-    revisionsIncluded: 3,
-    revisionsUsed: 1,
-    status: 'revision_requested',
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-];
-
 export const ProjectsListPage: React.FC = () => {
   const { t, i18n } = useTranslation('remoteProjects');
   const { user } = useUserContext();
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showDemo, setShowDemo] = useState(true); // Toggle for demo mode
 
-  const { projects: realProjects, isLoading, error } = useRemoteProjects({
+  const { projects, isLoading } = useRemoteProjects({
     customerId: user?._id,
     status: statusFilter === 'all' ? undefined : statusFilter,
   });
-
-  // Use demo projects if enabled or if there's an error/no real projects
-  const useDemoData = showDemo || error || (!isLoading && realProjects.length === 0);
-  const projects = useDemoData ? DEMO_PROJECTS : realProjects;
 
   // Filter projects by status and search query
   const filteredProjects = projects.filter((project: RemoteProject) => {
@@ -211,13 +97,6 @@ export const ProjectsListPage: React.FC = () => {
           <p className="projects-list__subtitle">{t('subtitle')}</p>
         </div>
         <div className="projects-list__header-actions">
-          {/* Demo Mode Toggle */}
-          <button 
-            className={`projects-list__demo-toggle ${showDemo ? 'projects-list__demo-toggle--active' : ''}`}
-            onClick={() => setShowDemo(!showDemo)}
-          >
-            {showDemo ? `🎭 ${t('demo.modeLabel')}` : `📊 ${t('demo.liveDataLabel')}`}
-          </button>
           <button className="projects-list__new-button">
             <Plus />
             {t('newProject')}
@@ -252,18 +131,8 @@ export const ProjectsListPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Demo Banner */}
-      {useDemoData && (
-        <div className="projects-list__demo-banner">
-          <span>🎭</span>
-          <p>
-            <strong>{t('demo.bannerTitle')}</strong> {t('demo.bannerDescription')}
-          </p>
-        </div>
-      )}
-
       {/* Content */}
-      {isLoading && !useDemoData ? (
+      {isLoading ? (
         <div className="projects-list__loading">{t('common.loading')}</div>
       ) : filteredProjects.length === 0 ? (
         <div className="projects-list__empty">

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@shared/components';
@@ -20,149 +20,18 @@ import { ProjectChat } from '../components/ProjectChat';
 import { RemoteProject } from 'src/types/index';
 import './styles/_project-detail-page.scss';
 
-// Demo projects data (shared with ProjectsListPage)
-const DEMO_PROJECTS: RemoteProject[] = [
-  {
-    _id: 'demo-1',
-    title: 'Summer EP - Mix & Master',
-    brief:
-      'Looking for a warm, analog sound for these 4 tracks. Similar vibe to Tame Impala but with more punchy drums. The songs are indie rock with psychedelic elements. I want the vocals to sit nicely in the mix without being too upfront. Reference tracks: "Let It Happen" and "Elephant" by Tame Impala.',
-    itemId: 'item-1',
-    studioId: 'studio-1',
-    customerId: 'customer-1',
-    vendorId: 'vendor-1',
-    itemName: { en: 'Full Mix & Master', he: 'מיקס ומאסטרינג מלא' },
-    studioName: { en: 'Pulse Studios', he: 'אולפני פאלס' },
-    customerName: 'Daniel Cohen',
-    price: 1200,
-    depositPaid: true,
-    finalPaid: false,
-    estimatedDeliveryDays: 5,
-    deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    revisionsIncluded: 3,
-    revisionsUsed: 1,
-    status: 'in_progress',
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    referenceLinks: ['https://open.spotify.com/track/example1', 'https://youtube.com/watch?v=example']
-  },
-  {
-    _id: 'demo-2',
-    title: 'Podcast Episode 12 - Post Production',
-    brief:
-      'Need cleanup, EQ, and mastering for our weekly podcast episode. There are 2 hosts and 1 guest. The recording was done remotely so there might be some background noise to clean up. Episode length is about 45 minutes.',
-    itemId: 'item-2',
-    studioId: 'studio-2',
-    customerId: 'customer-2',
-    vendorId: 'vendor-2',
-    itemName: { en: 'Podcast Post-Production', he: 'עריכת פודקאסט' },
-    studioName: { en: 'Magic Recordings', he: "מג'יק הקלטות" },
-    customerName: 'Maya Levi',
-    price: 350,
-    depositPaid: true,
-    finalPaid: true,
-    estimatedDeliveryDays: 2,
-    revisionsIncluded: 2,
-    revisionsUsed: 0,
-    status: 'delivered',
-    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    deliveredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    _id: 'demo-3',
-    title: 'Vocal Tuning - Single Release',
-    brief:
-      'Professional vocal tuning and alignment for upcoming single. The song is a ballad in Hebrew. I want subtle, natural-sounding tuning - nothing too robotic. The takes are mostly good but need some pitch correction in the bridge section.',
-    itemId: 'item-3',
-    studioId: 'studio-3',
-    customerId: 'customer-3',
-    vendorId: 'vendor-3',
-    itemName: { en: 'Pro Vocal Alignment', he: 'עריכת שירה מקצועית' },
-    studioName: { en: 'Resonance Studio', he: 'אולפן רזוננס' },
-    customerName: 'Amit Shapira',
-    price: 450,
-    depositPaid: false,
-    finalPaid: false,
-    estimatedDeliveryDays: 3,
-    deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-    revisionsIncluded: 2,
-    revisionsUsed: 0,
-    status: 'requested',
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    _id: 'demo-4',
-    title: 'Album Mastering - 10 Tracks',
-    brief:
-      'Final mastering for indie rock album, ready for streaming release. All tracks are already mixed. Looking for a cohesive sound across all tracks with proper loudness for streaming platforms (-14 LUFS integrated). Will need both WAV masters and streaming-optimized files.',
-    itemId: 'item-4',
-    studioId: 'studio-1',
-    customerId: 'customer-4',
-    vendorId: 'vendor-1',
-    itemName: { en: 'Album Mastering', he: 'מאסטרינג אלבום' },
-    studioName: { en: 'Pulse Studios', he: 'אולפני פאלס' },
-    customerName: 'Yael Ben-David',
-    price: 2500,
-    depositPaid: true,
-    finalPaid: true,
-    estimatedDeliveryDays: 7,
-    revisionsIncluded: 2,
-    revisionsUsed: 2,
-    status: 'completed',
-    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-    completedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    _id: 'demo-5',
-    title: 'Beat Production - Hip Hop Track',
-    brief:
-      'Custom beat production with 808s and melodic elements. Looking for something dark and atmospheric, similar to Travis Scott or Don Toliver production style. BPM should be around 140-150. Need stems delivered as well.',
-    itemId: 'item-5',
-    studioId: 'studio-4',
-    customerId: 'customer-5',
-    vendorId: 'vendor-4',
-    itemName: { en: 'Beat Production', he: 'הפקת ביט' },
-    studioName: { en: 'Urban Sound Lab', he: 'אורבן סאונד לאב' },
-    customerName: 'Omer Katz',
-    price: 800,
-    depositPaid: true,
-    finalPaid: false,
-    estimatedDeliveryDays: 4,
-    deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
-    revisionsIncluded: 3,
-    revisionsUsed: 1,
-    status: 'revision_requested',
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    referenceLinks: ['https://open.spotify.com/track/travisscott', 'https://youtube.com/watch?v=dontoliver']
-  }
-];
-
 export const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation('remoteProjects');
   const { user } = useUserContext();
 
-  // Check if this is a demo project
-  const isDemoProject = projectId?.startsWith('demo-');
-
-  // Find demo project if applicable
-  const demoProject = useMemo(() => {
-    if (!isDemoProject) return null;
-    return DEMO_PROJECTS.find((p) => p._id === projectId) || null;
-  }, [projectId, isDemoProject]);
-
-  // Only fetch real data if not a demo project
   const {
-    project: realProject,
-    fileCounts: realFileCounts,
+    project,
+    fileCounts,
     isLoading,
-    error: _error,
     refetch
-  } = useRemoteProject(isDemoProject ? '' : projectId || '');
-
-  // Use demo or real project data
-  const project = isDemoProject ? demoProject : realProject;
-  const fileCounts = isDemoProject ? { source: 3, deliverable: 2, revision: 1 } : realFileCounts;
+  } = useRemoteProject(projectId || '');
 
   const acceptMutation = useAcceptProjectMutation();
   const declineMutation = useDeclineProjectMutation();
@@ -183,15 +52,14 @@ export const ProjectDetailPage: React.FC = () => {
     return <div className="project-detail__error">{t('projectNotFound')}</div>;
   }
 
-  // For demo projects, skip loading state
-  if (!isDemoProject && isLoading) {
+  if (isLoading) {
     return <div className="project-detail__loading">{t('common.loading')}</div>;
   }
 
   if (!project) {
     return (
       <div className="project-detail__error">
-        {isDemoProject ? t('projectNotFound') : t('loadError')}
+        {t('loadError')}
         <Button onClick={() => navigate(-1)} className="button--secondary">
           {t('common.goBack')}
         </Button>
@@ -199,15 +67,9 @@ export const ProjectDetailPage: React.FC = () => {
     );
   }
 
-  // For demo, simulate that the current user is the vendor (to see vendor actions)
-  const isVendor = isDemoProject ? true : user?._id === getVendorId(project);
-  const isCustomer = isDemoProject ? true : user?._id === getCustomerId(project);
+  const isVendor = user?._id === getVendorId(project);
+  const isCustomer = user?._id === getCustomerId(project);
   const userRole: 'customer' | 'vendor' = isVendor ? 'vendor' : 'customer';
-
-  // Demo mode handler - shows alert instead of actual API call
-  const handleDemoAction = (action: string) => {
-    alert(`${t('demo.bannerTitle')} "${action}" - ${t('demo.detailBannerDescription')}`);
-  };
 
   function getVendorId(proj: RemoteProject): string {
     return typeof proj.vendorId === 'string' ? proj.vendorId : proj.vendorId._id;
@@ -218,7 +80,6 @@ export const ProjectDetailPage: React.FC = () => {
   }
 
   const handleAccept = async () => {
-    if (isDemoProject) return handleDemoAction(t('accept'));
     try {
       await acceptMutation.mutateAsync(projectId);
       refetch();
@@ -228,10 +89,6 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const handleDecline = async () => {
-    if (isDemoProject) {
-      setShowDeclineModal(false);
-      return handleDemoAction(t('decline'));
-    }
     try {
       await declineMutation.mutateAsync({ projectId, reason: declineReason });
       setShowDeclineModal(false);
@@ -242,7 +99,6 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const handleStart = async () => {
-    if (isDemoProject) return handleDemoAction(t('startWorking'));
     try {
       await startMutation.mutateAsync(projectId);
       refetch();
@@ -252,10 +108,6 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const handleDeliver = async () => {
-    if (isDemoProject) {
-      setShowDeliveryModal(false);
-      return handleDemoAction(t('deliver'));
-    }
     try {
       await deliverMutation.mutateAsync({ projectId, deliveryNotes });
       setShowDeliveryModal(false);
@@ -266,10 +118,6 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const handleRequestRevision = async () => {
-    if (isDemoProject) {
-      setShowRevisionModal(false);
-      return handleDemoAction(t('requestRevision'));
-    }
     if (!revisionFeedback.trim()) return;
     try {
       await revisionMutation.mutateAsync({ projectId, feedback: revisionFeedback });
@@ -282,7 +130,6 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const handleComplete = async () => {
-    if (isDemoProject) return handleDemoAction(t('markComplete'));
     try {
       await completeMutation.mutateAsync(projectId);
       refetch();
@@ -292,7 +139,6 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const handleCancel = async () => {
-    if (isDemoProject) return handleDemoAction(t('cancel'));
     if (!confirm(t('confirmCancel'))) {
       return;
     }
@@ -331,16 +177,6 @@ export const ProjectDetailPage: React.FC = () => {
 
   return (
     <div className="project-detail">
-      {/* Demo Banner */}
-      {isDemoProject && (
-        <div className="project-detail__demo-banner">
-          <span>🎭</span>
-          <p>
-            <strong>{t('demo.bannerTitle')}</strong> {t('demo.detailBannerDescription')}
-          </p>
-        </div>
-      )}
-
       <div className="project-detail__header">
         <button className="project-detail__back" onClick={() => navigate(-1)} aria-label={t('common.goBack')}>
           <ArrowLeft size={18} />
