@@ -311,16 +311,19 @@ export const ItemContent: React.FC<ItemContentProps> = ({
               </div>
             </div>
 
-            <ReservationDetailsForm
-              customerName={customerName}
-              customerPhone={customerPhone}
-              comment={comment}
-              onNameChange={onNameChange}
-              onPhoneChange={onPhoneChange}
-              onCommentChange={onCommentChange}
-              isRTL={isRTL}
-              onPhoneVerified={onPhoneVerified}
-            />
+            <div className="contact-info-section">
+              <h4 className="contact-info-section__label">{t('reservations:customerInformation')}</h4>
+              <ReservationDetailsForm
+                customerName={customerName}
+                customerPhone={customerPhone}
+                comment={comment}
+                onNameChange={onNameChange}
+                onPhoneChange={onPhoneChange}
+                onCommentChange={onCommentChange}
+                isRTL={isRTL}
+                onPhoneVerified={onPhoneVerified}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

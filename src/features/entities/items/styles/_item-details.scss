@@ -163,7 +163,8 @@
   article.item-card {
     cursor: default;
     height: auto;
-    min-height: 8rem;
+    min-height: 9.5rem;
+    overflow: visible; // Allow badges to be visible
 
     // Disable hover effect - card is not clickable in modal view
     &:hover {
