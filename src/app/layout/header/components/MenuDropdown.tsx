@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
@@ -10,12 +9,10 @@ import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import {
   WavyMenuIcon,
   AddBusinessIcon,
-  MembershipIcon,
   DashboardIcon,
   FavoriteIcon,
   PersonOutlineIcon,
   EventIcon,
-  PlayCircleIcon,
   LanguageIcon,
   ChevronRightIcon,
 } from '@shared/components/icons';
@@ -28,8 +25,7 @@ interface MenuDropdownProps {
 
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const location = useLocation();
-  const { t, i18n } = useTranslation(['profile', 'common']);
+  const { t } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
@@ -38,20 +34,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const handleNavigate = (path: string) => {
     langNavigate(path);
     scrollToTop();
-  };
-
-  const handleAnchorNavigate = (anchor: string) => {
-    const currentLang = i18n.language || 'en';
-    const isHomePage = location.pathname === '/' || location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`;
-    
-    if (isHomePage) {
-      // Already on home page, just scroll to section
-      const element = document.getElementById(anchor);
-      element?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // Navigate to home page with hash
-      langNavigate(`/#${anchor}`);
-    }
   };
 
   const changeLanguage = (lang: string) => {
@@ -80,54 +62,48 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           </button>
         )}
 
-        {/* Common items for all users - hidden on desktop when nav is visible */}
-        <button
-          className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => handleNavigate('/reservations')}
-        >
-          <EventIcon className="menu-dropdown__icon" />
-          <span>{t('profile.buttons.reservations')}</span>
-        </button>
-        <button
-          className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => handleNavigate('/studio/create')}
-        >
-          <AddBusinessIcon className="menu-dropdown__icon" />
-          <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
-        </button>
-        <button
-          className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => handleAnchorNavigate('how-it-works')}
-        >
-          <PlayCircleIcon className="menu-dropdown__icon" />
-          <span>{t('profile.buttons.howItWorks')}</span>
-        </button>
-
-        {/* Logged-in user only items */}
+        {/* Logged-in user items - organized by priority */}
         {user && (
           <>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/profile')}>
               <PersonOutlineIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.profile')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
-              <DashboardIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.dashboard')}</span>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
+              <EventIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.reservations')}</span>
             </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleAnchorNavigate('how-it-works')}>
-              <PlayCircleIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.howItWorks')}</span>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
+              <DashboardIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.dashboard')}</span>
             </button>
           </>
         )}
-        <button className="menu-dropdown__item" onClick={() => handleAnchorNavigate('pricing')}>
-          <MembershipIcon className="menu-dropdown__icon" />
-          <span>{t('profile.sellerAccount.buttons.subscription')}</span>
+
+        {/* List studio - available to all, mobile-only for non-logged-in */}
+        <button
+          className={`menu-dropdown__item ${!user ? 'menu-dropdown__item--mobile-only' : ''}`}
+          onClick={() => handleNavigate('/studio/create')}
+        >
+          <AddBusinessIcon className="menu-dropdown__icon" />
+          <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
         </button>
+
+        {/* Mobile-only reservations for non-logged-in users */}
+        {!user && (
+          <button
+            className="menu-dropdown__item menu-dropdown__item--mobile-only"
+            onClick={() => handleNavigate('/reservations')}
+          >
+            <EventIcon className="menu-dropdown__icon" />
+            <span>{t('profile.buttons.reservations')}</span>
+          </button>
+        )}
+
         {user && (
           <div className="menu-dropdown__item menu-dropdown__item--logout">
             <LogoutButton aria-label="Logout" className="menu-dropdown__logout-button" />

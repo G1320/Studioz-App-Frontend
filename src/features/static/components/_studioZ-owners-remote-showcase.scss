@@ -78,7 +78,7 @@ $remote-showcase-green: #22c55e;
     flex-direction: column;
     gap: 2rem;
     z-index: 10;
-    text-align: right;
+    text-align: start;
     order: 2;
 
     @media (min-width: 1024px) {
@@ -186,11 +186,20 @@ $remote-showcase-green: #22c55e;
   &__cta-icon {
     width: 1.5rem;
     height: 1.5rem;
-    margin-right: 0.75rem;
+    margin-inline-start: 0.75rem;
     transition: transform 0.3s ease;
+
+    // Flip arrow for LTR languages
+    [dir="ltr"] & {
+      transform: scaleX(-1);
+    }
 
     .remote-showcase__cta-btn:hover & {
       transform: translateX(-0.25rem);
+
+      [dir="ltr"] & {
+        transform: scaleX(-1) translateX(-0.25rem);
+      }
     }
   }
 

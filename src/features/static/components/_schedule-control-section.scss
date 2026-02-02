@@ -202,6 +202,11 @@
 
       .schedule-control__cta-icon {
         transform: translateX(-8px);
+
+        // Move right for LTR languages (arrow is flipped)
+        [dir="ltr"] & {
+          transform: scaleX(-1) translateX(-8px);
+        }
       }
     }
   }
@@ -210,6 +215,11 @@
     width: 1.5rem;
     height: 1.5rem;
     transition: transform 0.3s ease;
+
+    // Flip arrow for LTR languages
+    [dir="ltr"] & {
+      transform: scaleX(-1);
+    }
   }
 
   // Visual Side
