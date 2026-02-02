@@ -29,26 +29,50 @@ export const scrollToTop = () => {
   });
 };
 
-// Component that scrolls to top on route changes
-export const ScrollToTop = () => {
-  const { pathname } = useLocation();
+// Scroll to a specific element by ID (for hash navigation)
+const scrollToHash = (hash: string) => {
+  const element = document.getElementById(hash);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+    return true;
+  }
+  return false;
+};
 
-  // Prevent scroll restoration on initial load
+// Component that scrolls to top on route changes (respects hash navigation)
+export const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
+
+  // Prevent browser's default scroll restoration
   useLayoutEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
-    // Remove hash from URL if present
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
-    scrollToTop();
   }, []);
 
-  // Scroll to top on route change
+  // Handle scroll on route change
   useEffect(() => {
-    scrollToTop();
-  }, [pathname]);
+    // If there's a hash, scroll to that element instead of top
+    if (hash) {
+      const elementId = hash.slice(1); // Remove the # prefix
+      // Wait for DOM to be ready, then scroll to element
+      const attemptScroll = (retries = 0) => {
+        if (scrollToHash(elementId)) {
+          return; // Successfully scrolled
+        }
+        // Retry a few times in case element isn't rendered yet
+        if (retries < 10) {
+          requestAnimationFrame(() => attemptScroll(retries + 1));
+        }
+      };
+      
+      // Start attempting to scroll after a brief delay
+      requestAnimationFrame(() => attemptScroll());
+    } else {
+      // No hash, scroll to top
+      scrollToTop();
+    }
+  }, [pathname, hash]);
 
   return null;
 };

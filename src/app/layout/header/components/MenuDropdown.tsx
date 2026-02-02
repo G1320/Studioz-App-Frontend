@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
+import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback, useAnchorNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
@@ -28,7 +27,7 @@ interface MenuDropdownProps {
 
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const location = useLocation();
+  const anchorNavigate = useAnchorNavigate();
   const { t } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
@@ -38,19 +37,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const handleNavigate = (path: string) => {
     langNavigate(path);
     scrollToTop();
-  };
-
-  const handleAnchorNavigate = (path: string, anchor: string) => {
-    const isTargetPage = location.pathname.includes(path);
-
-    if (isTargetPage) {
-      // Already on target page, just scroll to section
-      const element = document.getElementById(anchor);
-      element?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // Navigate to page with hash
-      langNavigate(`${path}#${anchor}`);
-    }
   };
 
   const changeLanguage = (lang: string) => {
@@ -130,14 +116,14 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         {/* Mobile-only navigation links (hidden on desktop where header nav is visible) */}
         <button
           className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => handleAnchorNavigate('/', 'how-it-works')}
+          onClick={() => anchorNavigate('', 'how-it-works')}
         >
           <PlayCircleIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.howItWorks')}</span>
         </button>
         <button
           className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => handleAnchorNavigate('/for-owners', 'pricing')}
+          onClick={() => anchorNavigate('/for-owners', 'pricing')}
         >
           <MembershipIcon className="menu-dropdown__icon" />
           <span>{t('common:navigation.pricing')}</span>

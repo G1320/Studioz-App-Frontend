@@ -1,12 +1,13 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
+import { useAnchorNavigate } from '@shared/hooks/utils';
 import { featureFlags } from '@core/config/featureFlags';
 
 export function HeaderNavbar() {
   const { t, i18n } = useTranslation('common');
   const location = useLocation();
-  const navigate = useNavigate();
+  const anchorNavigate = useAnchorNavigate();
 
   const currentPath = location.pathname;
   const currLang = i18n.language || 'en';
@@ -16,32 +17,14 @@ export function HeaderNavbar() {
     return currentPath === path || currentPath.startsWith(`${path}/`);
   };
 
-  const isHomePage = currentPath === '/' || currentPath === `/${currLang}` || currentPath === `/${currLang}/`;
-
   const handleHowItWorksClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isHomePage) {
-      // Already on home page, just scroll to section
-      const element = document.getElementById('how-it-works');
-      element?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // Navigate to home page with hash
-      navigate(`/${currLang}#how-it-works`);
-    }
+    anchorNavigate('', 'how-it-works'); // Empty path = home page
   };
-
-  const isForOwnersPage = currentPath.includes('/for-owners');
 
   const handlePricingClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isForOwnersPage) {
-      // Already on for-owners page, just scroll to section
-      const element = document.getElementById('pricing');
-      element?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // Navigate to for-owners page with hash
-      navigate(`/${currLang}/for-owners#pricing`);
-    }
+    anchorNavigate('/for-owners', 'pricing');
   };
 
   return (
