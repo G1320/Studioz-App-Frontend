@@ -2,7 +2,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { featureFlags } from '@core/config/featureFlags';
-import { AddIcon } from '@shared/components/icons';
 
 export function HeaderNavbar() {
   const { t, i18n } = useTranslation('common');
@@ -28,6 +27,20 @@ export function HeaderNavbar() {
     } else {
       // Navigate to home page with hash
       navigate(`/${currLang}#how-it-works`);
+    }
+  };
+
+  const isForOwnersPage = currentPath.includes('/for-owners');
+
+  const handlePricingClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isForOwnersPage) {
+      // Already on for-owners page, just scroll to section
+      const element = document.getElementById('pricing');
+      element?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate to for-owners page with hash
+      navigate(`/${currLang}/for-owners#pricing`);
     }
   };
 
@@ -61,16 +74,14 @@ export function HeaderNavbar() {
       >
         {t('navigation.howItWorks')}
       </a>
-      <Link
-        to={`/${currLang}/studio/create`}
+      <a
+        href={`/${currLang}/for-owners#pricing`}
         className="navbar-link"
-        aria-label={t('navigation.create_studio')}
-        aria-current={isCurrentPage(`/${currLang}/studio/create`) ? 'page' : undefined}
-        onClick={() => scrollToTop()}
+        aria-label={t('navigation.pricing')}
+        onClick={handlePricingClick}
       >
-        {t('navigation.create_studio')}
-        <AddIcon className="navbar-link__icon" />
-      </Link>
+        {t('navigation.pricing')}
+      </a>
     </nav>
   );
 }
