@@ -1,4 +1,47 @@
 {
+  "quickCharge": {
+    "title": "סליקה מהירה",
+    "close": "סגור",
+    "steps": {
+      "details": "פרטים",
+      "payment": "תשלום",
+      "done": "סיום"
+    },
+    "customerDetails": "פרטי לקוח",
+    "customerName": "שם לקוח",
+    "customerNamePlaceholder": "הזן שם לקוח",
+    "customerEmail": "אימייל",
+    "customerPhone": "טלפון",
+    "items": "פירוט התשלום",
+    "itemDescription": "תיאור",
+    "itemDescriptionPlaceholder": "תיאור השירות/מוצר",
+    "quantity": "כמות",
+    "price": "מחיר",
+    "itemTotal": "סה\"כ",
+    "removeItem": "הסר פריט",
+    "addItem": "הוסף פריט",
+    "remarks": "הערות",
+    "remarksPlaceholder": "הערות נוספות (אופציונלי)",
+    "totalToCharge": "סכום לחיוב",
+    "cancel": "ביטול",
+    "continueToPayment": "המשך לתשלום",
+    "customer": "לקוח",
+    "amount": "סכום",
+    "chargeNow": "חייב עכשיו",
+    "backToDetails": "חזור לפרטים",
+    "success": {
+      "title": "התשלום בוצע בהצלחה!",
+      "message": "קבלה נשלחה ללקוח באימייל",
+      "viewReceipt": "צפה בקבלה",
+      "done": "סיום"
+    },
+    "errors": {
+      "nameRequired": "נא להזין שם לקוח",
+      "emailRequired": "נא להזין אימייל לקוח",
+      "itemsRequired": "נא להזין לפחות פריט אחד עם תיאור ומחיר",
+      "paymentFailed": "התשלום נכשל"
+    }
+  },
   "title": "ניהול מסמכים",
   "subtitle": "נהל את החשבוניות, הקבלות והחוזים של האולפנים שלך במקום אחד.",
   "stats": {

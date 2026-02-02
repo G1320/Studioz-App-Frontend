@@ -1,4 +1,47 @@
 {
+  "quickCharge": {
+    "title": "Quick Charge",
+    "close": "Close",
+    "steps": {
+      "details": "Details",
+      "payment": "Payment",
+      "done": "Done"
+    },
+    "customerDetails": "Customer Details",
+    "customerName": "Customer Name",
+    "customerNamePlaceholder": "Enter customer name",
+    "customerEmail": "Email",
+    "customerPhone": "Phone",
+    "items": "Payment Details",
+    "itemDescription": "Description",
+    "itemDescriptionPlaceholder": "Service/product description",
+    "quantity": "Quantity",
+    "price": "Price",
+    "itemTotal": "Total",
+    "removeItem": "Remove Item",
+    "addItem": "Add Item",
+    "remarks": "Notes",
+    "remarksPlaceholder": "Additional notes (optional)",
+    "totalToCharge": "Amount to Charge",
+    "cancel": "Cancel",
+    "continueToPayment": "Continue to Payment",
+    "customer": "Customer",
+    "amount": "Amount",
+    "chargeNow": "Charge Now",
+    "backToDetails": "Back to Details",
+    "success": {
+      "title": "Payment Successful!",
+      "message": "Receipt sent to customer via email",
+      "viewReceipt": "View Receipt",
+      "done": "Done"
+    },
+    "errors": {
+      "nameRequired": "Customer name is required",
+      "emailRequired": "Customer email is required",
+      "itemsRequired": "At least one item with description and price is required",
+      "paymentFailed": "Payment failed"
+    }
+  },
   "title": "Document Management",
   "subtitle": "Manage your studio invoices, receipts, and contracts in one place.",
   "stats": {

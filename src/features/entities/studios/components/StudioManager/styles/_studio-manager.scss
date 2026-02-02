@@ -561,6 +561,8 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-medium;
+    flex: 1;
+    min-width: 0; // Allow text truncation
   }
 
   .studio-card__item-icon {
@@ -590,17 +592,27 @@
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-xs;
+    min-width: 0; // Allow text truncation in children
   }
 
   .studio-card__item-name-row {
     display: flex;
     align-items: center;
     gap: vars.$spacing-xs;
+    min-width: 0; // Allow text truncation in children
   }
 
   .studio-card__item-name {
     font-weight: 500;
     color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+
+    @media (min-width: 768px) {
+      max-width: 300px;
+    }
 
     &--inactive {
       color: var(--text-muted);
@@ -639,6 +651,7 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-large;
+    flex-shrink: 0;
   }
 
   .studio-card__item-link {
@@ -651,6 +664,8 @@
     text-decoration: underline;
     text-decoration-color: transparent;
     transition: all 0.2s ease;
+    min-width: 120px;
+    text-align: end;
 
     @media (min-width: 640px) {
       display: block;
@@ -686,6 +701,7 @@
     text-transform: uppercase;
     white-space: nowrap;
     text-align: end;
+    min-width: 70px;
 
     @media (min-width: 640px) {
       display: block;

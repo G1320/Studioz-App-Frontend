@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
@@ -13,6 +14,8 @@ import {
   FavoriteIcon,
   PersonOutlineIcon,
   EventIcon,
+  PlayCircleIcon,
+  MembershipIcon,
   LanguageIcon,
   ChevronRightIcon,
 } from '@shared/components/icons';
@@ -25,7 +28,8 @@ interface MenuDropdownProps {
 
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
-  const { t } = useTranslation(['profile', 'common']);
+  const location = useLocation();
+  const { t, i18n } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
@@ -34,6 +38,20 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const handleNavigate = (path: string) => {
     langNavigate(path);
     scrollToTop();
+  };
+
+  const handleAnchorNavigate = (path: string, anchor: string) => {
+    const currentLang = i18n.language || 'en';
+    const isTargetPage = location.pathname.includes(path);
+
+    if (isTargetPage) {
+      // Already on target page, just scroll to section
+      const element = document.getElementById(anchor);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate to page with hash
+      langNavigate(`${path}#${anchor}`);
+    }
   };
 
   const changeLanguage = (lang: string) => {
@@ -109,6 +127,23 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
             <LogoutButton aria-label="Logout" className="menu-dropdown__logout-button" />
           </div>
         )}
+
+        {/* Mobile-only navigation links (hidden on desktop where header nav is visible) */}
+        <button
+          className="menu-dropdown__item menu-dropdown__item--mobile-only"
+          onClick={() => handleAnchorNavigate('/', 'how-it-works')}
+        >
+          <PlayCircleIcon className="menu-dropdown__icon" />
+          <span>{t('profile.buttons.howItWorks')}</span>
+        </button>
+        <button
+          className="menu-dropdown__item menu-dropdown__item--mobile-only"
+          onClick={() => handleAnchorNavigate('/for-owners', 'pricing')}
+        >
+          <MembershipIcon className="menu-dropdown__icon" />
+          <span>{t('common:navigation.pricing')}</span>
+        </button>
+
         <div className="menu-dropdown__divider" />
         <div className="menu-dropdown__theme-item">
           <ThemeToggle variant="dropdown" size="sm" />
