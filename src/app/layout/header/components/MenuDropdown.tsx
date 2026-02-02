@@ -17,7 +17,7 @@ import {
   PlayCircleIcon,
   MembershipIcon,
   LanguageIcon,
-  ChevronRightIcon,
+  ChevronRightIcon
 } from '@shared/components/icons';
 import { useAuth0LoginHandler } from '@shared/hooks';
 import './styles/menu-dropdown.scss';
@@ -29,7 +29,7 @@ interface MenuDropdownProps {
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const location = useLocation();
-  const { t, i18n } = useTranslation(['profile', 'common']);
+  const { t } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
@@ -41,7 +41,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   };
 
   const handleAnchorNavigate = (path: string, anchor: string) => {
-    const currentLang = i18n.language || 'en';
     const isTargetPage = location.pathname.includes(path);
 
     if (isTargetPage) {

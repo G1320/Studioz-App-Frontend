@@ -537,7 +537,6 @@
     padding: vars.$spacing-medium vars.$spacing-large;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     border-bottom: 1px solid var(--border-primary);
     transition: background 0.2s ease;
     gap: vars.$spacing-medium;
@@ -561,8 +560,17 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-medium;
-    flex: 1;
     min-width: 0; // Allow text truncation
+    width: 280px; // Fixed width ensures controls always align
+    flex-shrink: 0;
+
+    @media (min-width: 768px) {
+      width: 360px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 420px;
+    }
   }
 
   .studio-card__item-icon {
@@ -593,6 +601,8 @@
     flex-direction: column;
     gap: vars.$spacing-xs;
     min-width: 0; // Allow text truncation in children
+    flex: 1;
+    overflow: hidden;
   }
 
   .studio-card__item-name-row {
@@ -608,11 +618,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
-
-    @media (min-width: 768px) {
-      max-width: 300px;
-    }
 
     &--inactive {
       color: var(--text-muted);
@@ -651,7 +656,7 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-large;
-    flex-shrink: 0;
+    margin-inline-start: auto; // Push to end
   }
 
   .studio-card__item-link {
@@ -664,7 +669,7 @@
     text-decoration: underline;
     text-decoration-color: transparent;
     transition: all 0.2s ease;
-    min-width: 120px;
+    width: 130px;
     text-align: end;
 
     @media (min-width: 640px) {
@@ -701,7 +706,7 @@
     text-transform: uppercase;
     white-space: nowrap;
     text-align: end;
-    min-width: 70px;
+    width: 75px;
 
     @media (min-width: 640px) {
       display: block;
