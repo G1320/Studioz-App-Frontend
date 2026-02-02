@@ -100,6 +100,61 @@
     "feature3_description": "Choose whether to approve each booking yourself or allow clients to book automatically.",
     "cta": "Start Managing Your Calendar"
   },
+  "remoteShowcase": {
+    "title_line1": "Grow Your Revenue",
+    "title_accent": "Beyond Studio Walls",
+    "description": "Offer mixing, mastering, and post-production services to artists nationwide. Your studio doesn't need to be open for you to keep working and earning.",
+    "features": {
+      "async": {
+        "title": "Asynchronous Work",
+        "description": "Work on your own schedule. Clients upload files, you deliver results when you're ready."
+      },
+      "pricing": {
+        "title": "Project-Based Pricing",
+        "description": "Set custom prices for complete projects, not just hourly rates."
+      },
+      "chat": {
+        "title": "Integrated Chat",
+        "description": "Manage all feedback and file history in one professional thread."
+      },
+      "payments": {
+        "title": "Secure Payments",
+        "description": "Automatic deposits and final payments upon project delivery."
+      }
+    },
+    "cta": "List Your Studio",
+    "mockup": {
+      "title": "Remote Mixing",
+      "price_label": "Price",
+      "price_value": "₪2,200",
+      "delivery_label": "Delivery",
+      "delivery_value": "14 days",
+      "project_description_label": "Project Description",
+      "project_description_placeholder": "\"I need a powerful mix for 12 rock tracks. Reference: Foo Fighters - Everlong...\"",
+      "references_label": "Reference Links",
+      "references_placeholder": "https://spotify.com/track/4vNo...",
+      "cancel_btn": "Cancel",
+      "submit_btn": "Submit Request"
+    },
+    "stats": {
+      "capacity": {
+        "label": "Capacity Increase",
+        "value": "+100%"
+      },
+      "audience": {
+        "label": "Client Reach",
+        "value": "Nationwide"
+      },
+      "schedule": {
+        "label": "Schedule",
+        "value": "Flexible"
+      },
+      "pricing": {
+        "label": "Pricing Structure",
+        "value": "Yours"
+      }
+    }
+  },
   "pricing": {
     "title": "Choose your",
     "titleAccent": "speed.",

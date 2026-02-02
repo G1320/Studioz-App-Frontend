@@ -100,6 +100,61 @@
     "feature3_description": "בחר אם לאשר כל הזמנה בעצמך או לאפשר ללקוחות לסגור שעות באופן אוטומטי.",
     "cta": "התחל לנהל את היומן"
   },
+  "remoteShowcase": {
+    "title_line1": "הגדל את ההכנסות",
+    "title_accent": "מעבר לכותלי הסטודיו",
+    "description": "הצע שירותי מיקס, מאסטרינג ופוסט-פרודקשן לאמנים בכל הארץ. הסטודיו שלך לא חייב להיות פתוח כדי שתמשיך לעבוד ולהרוויח.",
+    "features": {
+      "async": {
+        "title": "עבודה א-סינכרונית",
+        "description": "עבוד בלוח הזמנים שלך. לקוחות מעלים קבצים, אתה מספק תוצאות כשאתה מוכן."
+      },
+      "pricing": {
+        "title": "תמחור מבוסס פרויקט",
+        "description": "קבע מחירים מותאמים אישית לפרויקטים מלאים, לא רק לפי שעה."
+      },
+      "chat": {
+        "title": "צ׳אט אינטגרטיבי",
+        "description": "נהל את כל הפידבקים והיסטוריית הקבצים בשרשור מקצועי אחד."
+      },
+      "payments": {
+        "title": "תשלומים מאובטחים",
+        "description": "מקדמות ותשלומים סופיים אוטומטיים עם מסירת הפרויקט."
+      }
+    },
+    "cta": "רשום את הסטודיו שלך",
+    "mockup": {
+      "title": "מיקס מרחוק (Mixing)",
+      "price_label": "מחיר",
+      "price_value": "₪2,200",
+      "delivery_label": "זמן מסירה",
+      "delivery_value": "14 ימים",
+      "project_description_label": "תיאור הפרויקט",
+      "project_description_placeholder": "\"אני צריך מיקס עוצמתי ל-12 ערוצים של רוק. רפרנס: Foo Fighters - Everlong...\"",
+      "references_label": "לינקים לרפרנסים",
+      "references_placeholder": "https://spotify.com/track/4vNo...",
+      "cancel_btn": "ביטול",
+      "submit_btn": "שלח בקשה"
+    },
+    "stats": {
+      "capacity": {
+        "label": "הגדלת קיבולת",
+        "value": "+100%"
+      },
+      "audience": {
+        "label": "קהל לקוחות",
+        "value": "ארצי"
+      },
+      "schedule": {
+        "label": "לוח זמנים",
+        "value": "גמיש"
+      },
+      "pricing": {
+        "label": "מבנה התמחור",
+        "value": "שלך"
+      }
+    }
+  },
   "pricing": {
     "title": "בחר את",
     "titleAccent": "הקצב שלך.",
