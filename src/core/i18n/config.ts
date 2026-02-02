@@ -134,12 +134,12 @@ i18n
         remoteProjects: remoteProjectsHe
       }
     },
-    lng: 'he', // Default to Hebrew
     fallbackLng: 'he',
     supportedLngs: ['en', 'he'],
     detection: {
       order: ['path'], // Only detect from URL path, ignore browser language
-      lookupFromPathIndex: 0
+      lookupFromPathIndex: 0,
+      caches: [] // Don't cache the detected language
     },
     interpolation: {
       escapeValue: false
