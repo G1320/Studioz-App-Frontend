@@ -246,9 +246,61 @@ const StudioCard: React.FC<StudioCardProps> = ({
               const itemName = fullItem?.name?.[currentLang] || fullItem?.name?.en || fullItem?.name?.he || 
                                item.name?.[currentLang] || item.name?.en || item.name?.he || 
                                item.subCategories?.[0] || item.categories?.[0] || 'Service';
-              const itemPrice = fullItem?.price ?? item.price ?? 0;
-              const itemPricePer = fullItem?.pricePer || 'hour';
-              const itemDuration = fullItem?.minimumBookingDuration?.value || item.minimumBookingDuration?.value || 60;
+              const itemPrice = fullItem?.price ?? item.price;
+              const itemPricePer = fullItem?.pricePer || item.pricePer;
+              
+              // Detect if this is a remote/project item (not hourly booking)
+              const isRemoteItem = fullItem?.isRemote || item.isRemote || 
+                                   itemName.toLowerCase().includes('remote') ||
+                                   itemPricePer === 'project' || itemPricePer === 'song';
+              
+              // Get duration info - only relevant for hourly items
+              const durationValue = fullItem?.minimumBookingDuration?.value || item.minimumBookingDuration?.value;
+              const durationUnit = fullItem?.minimumBookingDuration?.unit || item.minimumBookingDuration?.unit || 'minutes';
+              const isHourlyItem = itemPricePer === 'hour' && !isRemoteItem;
+              
+              // Format price display
+              const getPriceDisplay = () => {
+                // Remote/project items - show price per project or contact for pricing
+                if (isRemoteItem) {
+                  if (itemPrice && itemPrice > 0) {
+                    if (itemPricePer === 'song') return `₪${itemPrice} ${t('perSong', 'לשיר')}`;
+                    return `₪${itemPrice} ${t('perProject', 'לפרויקט')}`;
+                  }
+                  return t('priceOnRequest', 'מחיר לפי בקשה');
+                }
+                
+                // Hourly items
+                if (itemPricePer === 'hour' || !itemPricePer) {
+                  if (itemPrice && itemPrice > 0) {
+                    return `₪${itemPrice} ${t('perHour', 'לשעה')}`;
+                  }
+                  return t('priceOnRequest', 'מחיר לפי בקשה');
+                }
+                
+                // Other price types
+                const priceLabel = {
+                  'session': t('perSession', 'לסשן'),
+                  'day': t('perDay', 'ליום'),
+                  'project': t('perProject', 'לפרויקט'),
+                  'song': t('perSong', 'לשיר'),
+                }[itemPricePer] || `/${itemPricePer}`;
+                
+                if (itemPrice && itemPrice > 0) {
+                  return `₪${itemPrice} ${priceLabel}`;
+                }
+                return t('priceOnRequest', 'מחיר לפי בקשה');
+              };
+              
+              // Format duration display
+              const getDurationLabel = () => {
+                if (!durationValue) return null;
+                switch (durationUnit) {
+                  case 'hours': return `${durationValue} ${t('hours', 'שעות')}`;
+                  case 'days': return `${durationValue} ${t('days', 'ימים')}`;
+                  default: return `${durationValue} ${t('minutes', 'דק׳')}`;
+                }
+              };
               
               return (
                 <div 
@@ -269,9 +321,13 @@ const StudioCard: React.FC<StudioCardProps> = ({
                         </span>
                       </div>
                       <p className="studio-card__item-meta">
-                        <span>₪{itemPrice} {itemPricePer === 'hour' ? t('perHour', 'לשעה') : `/${itemPricePer}`}</span>
-                        <span className="studio-card__item-meta-divider" />
-                        <span>{t('upTo', 'עד')} {itemDuration} {t('minutes', 'דק׳')}</span>
+                        <span>{getPriceDisplay()}</span>
+                        {isHourlyItem && durationValue && (
+                          <>
+                            <span className="studio-card__item-meta-divider" />
+                            <span>{t('minimum', 'מינימום')} {getDurationLabel()}</span>
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
