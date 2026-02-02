@@ -122,6 +122,8 @@ $remote-showcase-green: #22c55e;
 
   // Feature Item
   &__feature {
+    text-align: start;
+
     &:hover .remote-showcase__feature-icon-wrapper {
       background: rgba($color-brand, 0.1);
       border-color: rgba($color-brand, 0.2);
@@ -152,11 +154,13 @@ $remote-showcase-green: #22c55e;
     font-size: 1.25rem;
     font-weight: 900;
     margin-bottom: 0.75rem;
+    text-align: start;
   }
 
   &__feature-desc {
     color: $zinc-500;
     line-height: 1.625;
+    text-align: start;
   }
 
   // CTA Button
