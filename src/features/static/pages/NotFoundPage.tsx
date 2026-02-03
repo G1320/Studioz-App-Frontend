@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { HomeIcon } from '@shared/components/icons';
+import '../styles/_not-found-page.scss';
 
 const AUTO_REDIRECT_DELAY = 10; // seconds
 

@@ -6,6 +6,7 @@ import { useCategories, useCities } from '@shared/hooks/utils';
 import { cities } from '@core/config/cities/cities';
 import { StudioCard } from '@features/entities';
 import { Studio } from 'src/types/index';
+import '../styles/_landing-page.scss';
 import {
   getSubcategoryIcon,
   MusicProductionIcon,
