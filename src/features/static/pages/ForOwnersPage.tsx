@@ -208,6 +208,7 @@ const ForOwnersPage: React.FC = () => {
                 </div>
               </div>
               {/* Video content - autoplay when scrolled into view */}
+              {/* Using consistent skeleton to prevent CLS during hydration */}
               <div className="owners-dashboard__browser-content">
                 {isVideoVisible ? (
                   <iframe
@@ -222,6 +223,8 @@ const ForOwnersPage: React.FC = () => {
                       src="/images/optimized/Studioz-Dashboard-Calendar.webp"
                       alt=""
                       className="owners-dashboard__video-thumbnail"
+                      width={1920}
+                      height={1080}
                     />
                   </div>
                 )}
@@ -291,6 +294,8 @@ const ForOwnersPage: React.FC = () => {
                     src="/images/optimized/Studioz-Studio-Details-1-Dark.webp"
                     alt="Studio Details Dark Mode 1"
                     loading="lazy"
+                    width={390}
+                    height={844}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
@@ -305,6 +310,8 @@ const ForOwnersPage: React.FC = () => {
                     src="/images/optimized/Studioz-Studio-Details-2-Dark.webp"
                     alt="Studio Details Dark Mode 2"
                     loading="lazy"
+                    width={390}
+                    height={844}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
@@ -319,6 +326,8 @@ const ForOwnersPage: React.FC = () => {
                     src="/images/optimized/Studioz-Studio-Details-1-Light.webp"
                     alt="Studio Details Light Mode 1"
                     loading="lazy"
+                    width={390}
+                    height={844}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
@@ -333,6 +342,8 @@ const ForOwnersPage: React.FC = () => {
                     src="/images/optimized/Studioz-Studio-Detail-2-Light.webp"
                     alt="Studio Details Light Mode 2"
                     loading="lazy"
+                    width={390}
+                    height={844}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>

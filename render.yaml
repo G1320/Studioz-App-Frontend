@@ -119,14 +119,14 @@ services:
         source: /he/studios/music/*
         destination: /he/studios
 
-      # Pre-rendered landing pages - redirect to trailing slash
-      # (Render serves /he/index.html automatically when visiting /he/)
-      - type: redirect
+      # Pre-rendered landing pages - serve directly (no redirect)
+      # Both /he and /he/ serve the pre-rendered content
+      - type: rewrite
         source: /en
-        destination: /en/
-      - type: redirect
+        destination: /en/index.html
+      - type: rewrite
         source: /he
-        destination: /he/
+        destination: /he/index.html
 
       # SPA rewrite - all other routes serve index.html
       - type: rewrite
