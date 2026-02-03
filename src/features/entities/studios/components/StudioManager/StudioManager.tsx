@@ -247,10 +247,11 @@ const StudioCard: React.FC<StudioCardProps> = ({
                                item.name?.[currentLang] || item.name?.en || item.name?.he || 
                                item.subCategories?.[0] || item.categories?.[0] || 'Service';
               const itemPrice = fullItem?.price ?? item.price;
-              const itemPricePer = fullItem?.pricePer || item.pricePer;
+              const itemPricePer = fullItem?.pricePer;
               
               // Detect if this is a remote/project item (not hourly booking)
-              const isRemoteItem = fullItem?.isRemote || item.isRemote || 
+              const isRemoteItem = fullItem?.remoteService || 
+                                   fullItem?.serviceDeliveryType === 'remote' ||
                                    itemName.toLowerCase().includes('remote') ||
                                    itemPricePer === 'project' || itemPricePer === 'song';
               
@@ -279,12 +280,13 @@ const StudioCard: React.FC<StudioCardProps> = ({
                 }
                 
                 // Other price types
-                const priceLabel = {
+                const priceLabels: Record<string, string> = {
                   'session': t('perSession', 'לסשן'),
                   'day': t('perDay', 'ליום'),
                   'project': t('perProject', 'לפרויקט'),
                   'song': t('perSong', 'לשיר'),
-                }[itemPricePer] || `/${itemPricePer}`;
+                };
+                const priceLabel = (itemPricePer && priceLabels[itemPricePer]) || `/${itemPricePer}`;
                 
                 if (itemPrice && itemPrice > 0) {
                   return `₪${itemPrice} ${priceLabel}`;
