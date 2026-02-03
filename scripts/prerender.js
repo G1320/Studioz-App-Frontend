@@ -150,28 +150,15 @@ async function prerenderRoute(browser, route) {
       `${preloadHints}\n${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
-    // Defer main app CSS for faster FCP, keep page-specific CSS
-    // Inline styles on key elements prevent bad FOUC appearance
+    // Defer ALL CSS for fast loader display (Twitch-style)
+    // Content is hidden via inline style, revealed when CSS loads
     const cssLinks = [];
     html = html.replace(
       /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
       (match, before, href, after) => {
-        // Skip if already has media="print" (already deferred)
         if (match.includes('media="print"')) return match;
-        
-        // Keep page-specific CSS render-blocking (critical for landing page)
-        if (href.includes('ForOwnersPage') || href.includes('forOwners')) {
-          return match;
-        }
-        
-        // Defer main app CSS and Google Fonts
-        if (href.includes('/assets/index') || href.includes('fonts.googleapis.com')) {
-          cssLinks.push(href);
-          return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
-        }
-        
-        // Keep other CSS render-blocking by default
-        return match;
+        cssLinks.push(href);
+        return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
       }
     );
     
