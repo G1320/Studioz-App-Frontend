@@ -119,7 +119,31 @@ services:
         source: /he/studios/music/*
         destination: /he/studios
 
+      # Pre-rendered landing pages (serve static HTML for faster cold loads)
+      # These must come BEFORE the SPA catch-all
+      - type: rewrite
+        source: /en
+        destination: /en/index.html
+      - type: rewrite
+        source: /he
+        destination: /he/index.html
+
       # SPA rewrite - all other routes serve index.html
       - type: rewrite
         source: /*
         destination: /index.html
+    
+    # CDN caching headers for better performance
+    headers:
+      - path: /en/index.html
+        name: Cache-Control
+        value: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+      - path: /he/index.html
+        name: Cache-Control
+        value: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /images/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
