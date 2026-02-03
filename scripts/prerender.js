@@ -148,31 +148,27 @@ async function prerenderRoute(browser, route) {
       `${preconnectHints}${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
-    // Defer non-critical CSS by converting link tags to async loading
-    // This allows the page to paint with critical CSS while full CSS loads
+    // Only defer truly non-critical CSS (fonts, third-party)
+    // Keep main app CSS to prevent CLS
     const cssLinks = [];
     html = html.replace(
       /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
       (match, before, href, after) => {
         // Skip if already has media="print" (already deferred)
         if (match.includes('media="print"')) return match;
-        cssLinks.push(href);
-        // Preserve crossorigin and other attributes, add async loading
-        return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
+        
+        // Only defer Google Fonts - keep all other CSS to prevent CLS
+        if (href.includes('fonts.googleapis.com')) {
+          cssLinks.push(href);
+          return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
+        }
+        
+        // Keep main CSS files as render-blocking to prevent layout shifts
+        return match;
       }
     );
     
-    // Also handle links with crossorigin before rel
-    html = html.replace(
-      /<link\s+([^>]*?)href="([^"]+)"([^>]*?)rel="stylesheet"([^>]*)>/g,
-      (match, before, href, middle, after) => {
-        if (match.includes('media="print"')) return match;
-        if (!cssLinks.includes(href)) cssLinks.push(href);
-        return `<link ${before}href="${href}"${middle}rel="stylesheet"${after} media="print" onload="this.media='all'">`;
-      }
-    );
-    
-    // Add noscript fallback for deferred CSS
+    // Add noscript fallback for deferred CSS (fonts only)
     if (cssLinks.length > 0) {
       const noscriptCSS = cssLinks.map(href => 
         `<link rel="stylesheet" href="${href}">`

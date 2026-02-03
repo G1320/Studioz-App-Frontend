@@ -7,6 +7,8 @@ footer.desktop-footer {
   padding: vars.$spacing-3xl 0;
   // Prevent CLS - isolate layout and use system font stack for footer
   contain: layout style;
+  // Reserve minimum height to prevent layout shifts
+  min-height: 300px;
   
   // Use system fonts in footer to prevent CLS from web font loading
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;

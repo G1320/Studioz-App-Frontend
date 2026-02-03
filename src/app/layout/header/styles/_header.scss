@@ -150,6 +150,9 @@ header.app-header {
     gap: 0.5rem; // Increased gap for larger buttons
     grid-column: 6 / span 2;
     justify-self: end;
+    // Prevent CLS by reserving minimum space
+    min-height: 2.5rem;
+    min-width: 5rem;
   }
 
   .header-icon-button,
