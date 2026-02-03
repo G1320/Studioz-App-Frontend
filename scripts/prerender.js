@@ -128,24 +128,47 @@ async function prerenderRoute(browser, route) {
     // Get the rendered HTML
     let html = await page.content();
     
-    // Add prerender marker and inline critical CSS
+    // Add preconnect hints for third-party resources (improves LCP)
+    // Add preload for LCP image to reduce render delay
+    const preconnectHints = `
+<link rel="preconnect" href="https://api.studioz.co.il" crossorigin>
+<link rel="preconnect" href="https://player.mediadelivery.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" fetchpriority="high">
+`;
+    
+    // Add prerender marker, preconnect hints, and inline critical CSS
     const criticalStyleTag = criticalCSS.length > 0 
       ? `<style id="critical-css">${criticalCSS}</style>\n` 
       : '';
     
     html = html.replace(
       '</head>',
-      `${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
+      `${preconnectHints}${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
     // Defer non-critical CSS by converting link tags to async loading
     // This allows the page to paint with critical CSS while full CSS loads
     const cssLinks = [];
     html = html.replace(
-      /<link rel="stylesheet" href="([^"]+)"/g,
-      (match, href) => {
+      /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
+      (match, before, href, after) => {
+        // Skip if already has media="print" (already deferred)
+        if (match.includes('media="print"')) return match;
         cssLinks.push(href);
-        return `<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'"`;
+        // Preserve crossorigin and other attributes, add async loading
+        return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
+      }
+    );
+    
+    // Also handle links with crossorigin before rel
+    html = html.replace(
+      /<link\s+([^>]*?)href="([^"]+)"([^>]*?)rel="stylesheet"([^>]*)>/g,
+      (match, before, href, middle, after) => {
+        if (match.includes('media="print"')) return match;
+        if (!cssLinks.includes(href)) cssLinks.push(href);
+        return `<link ${before}href="${href}"${middle}rel="stylesheet"${after} media="print" onload="this.media='all'">`;
       }
     );
     
