@@ -1,14 +1,16 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import * as Sentry from '@sentry/react';
 
 /**
  * Hook to open Sentry feedback form with translations
+ * Uses dynamic import to support lazy-loaded Sentry
  */
 export const useSentryFeedback = () => {
   const { t } = useTranslation('common');
 
   const openFeedback = useCallback(async () => {
+    // Dynamic import - Sentry may already be loaded or will load now
+    const Sentry = await import('@sentry/react');
     const feedback = Sentry.getFeedback();
     if (!feedback) return;
 

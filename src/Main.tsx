@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import * as Sentry from '@sentry/react';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
@@ -25,45 +24,49 @@ import {
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
 import './core/i18n/config';
 
-// Initialize Sentry for error tracking (production only)
+// Lazy load Sentry after page is interactive (improves LCP)
 if (import.meta.env.VITE_NODE_ENV === 'production') {
-  Sentry.init({
-    dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration(),
-      Sentry.feedbackIntegration({
-        // Don't auto-inject - we'll control when to show it
-        autoInject: false,
-        // Customize the feedback widget
-        colorScheme: 'system',
-        isNameRequired: false,
-        isEmailRequired: false,
-        showBranding: false,
-        buttonLabel: 'דווח על בעיה',
-        submitButtonLabel: 'שלח',
-        cancelButtonLabel: 'ביטול',
-        formTitle: 'דווח על בעיה',
-        nameLabel: 'שם',
-        namePlaceholder: 'השם שלך',
-        emailLabel: 'אימייל',
-        emailPlaceholder: 'your@email.com',
-        messageLabel: 'תיאור הבעיה',
-        messagePlaceholder: 'אנא תארו את הבעיה שצפיתם',
-        successMessageText: 'תודה על המשוב!'
-      })
-    ],
+  const initSentry = () => {
+    import('@sentry/react').then((Sentry) => {
+      Sentry.init({
+        dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
+        integrations: [
+          Sentry.browserTracingIntegration(),
+          Sentry.replayIntegration(),
+          Sentry.feedbackIntegration({
+            autoInject: false,
+            colorScheme: 'system',
+            isNameRequired: false,
+            isEmailRequired: false,
+            showBranding: false,
+            buttonLabel: 'דווח על בעיה',
+            submitButtonLabel: 'שלח',
+            cancelButtonLabel: 'ביטול',
+            formTitle: 'דווח על בעיה',
+            nameLabel: 'שם',
+            namePlaceholder: 'השם שלך',
+            emailLabel: 'אימייל',
+            emailPlaceholder: 'your@email.com',
+            messageLabel: 'תיאור הבעיה',
+            messagePlaceholder: 'אנא תארו את הבעיה שצפיתם',
+            successMessageText: 'תודה על המשוב!'
+          })
+        ],
+        tracesSampleRate: 1.0,
+        replaysSessionSampleRate: 0.1,
+        replaysOnErrorSampleRate: 1.0,
+        sendDefaultPii: true,
+        environment: 'production'
+      });
+    });
+  };
 
-    // Performance Monitoring
-    tracesSampleRate: 1.0,
-    // Session Replay
-    replaysSessionSampleRate: 0.1, // Sample 10% of sessions
-    replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors
-    // Send default PII data
-    sendDefaultPii: true,
-    // Environment
-    environment: 'production'
-  });
+  // Initialize after page is interactive (requestIdleCallback or 3s timeout)
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initSentry, { timeout: 3000 });
+  } else {
+    setTimeout(initSentry, 3000);
+  }
 }
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
