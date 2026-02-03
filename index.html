@@ -10,27 +10,37 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Critical preconnects - ordered by LCP impact -->
+  <!-- Critical preconnects - BEFORE any blocking resources -->
+  <!-- Note: crossorigin needed for CORS requests (fonts, API), not needed for scripts/images -->
   <link rel="preconnect" href="https://api.studioz.co.il" crossorigin>
-  <link rel="preconnect" href="https://player.mediadelivery.net" crossorigin>
-  <link rel="preconnect" href="https://assets.mediadelivery.net" crossorigin>
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://player.mediadelivery.net">
+  <link rel="preconnect" href="https://assets.mediadelivery.net">
   
-  <!-- DNS prefetch for secondary resources -->
-  <link rel="dns-prefetch" href="https://api.studioz.co.il">
-  <link rel="dns-prefetch" href="https://player.mediadelivery.net">
-  <link rel="dns-prefetch" href="https://assets.mediadelivery.net">
-  <link rel="dns-prefetch" href="https://fonts.bunny.net">
+  <!-- DNS prefetch for lower priority origins -->
   <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-  <!-- Preload LCP hero image for faster initial paint - responsive -->
+  <!-- Preload LCP hero image - MUST be before CSS to start loading early -->
   <link rel="preload" href="/images/optimized/Landing-Studio1320-1-640w.webp" as="image" type="image/webp" media="(max-width: 640px)" fetchpriority="high">
   <link rel="preload" href="/images/optimized/Landing-Studio1320-1-960w.webp" as="image" type="image/webp" media="(min-width: 641px) and (max-width: 960px)" fetchpriority="high">
   <link rel="preload" href="/images/optimized/Landing-Studio1320-1.webp" as="image" type="image/webp" media="(min-width: 961px)" fetchpriority="high">
+
+  <!-- Critical CSS for LCP - allows hero to render before main CSS loads -->
+  <style id="critical-hero-css">
+    .owners-hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+    .owners-hero__background{position:absolute;inset:0;z-index:0}
+    .owners-hero__image{width:100%;height:100%;object-fit:cover}
+    .owners-hero__overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.4) 100%)}
+    .owners-container{width:100%;max-width:1200px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+    .owners-hero__content{max-width:600px}
+    .owners-hero__title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .owners-hero__accent{background:linear-gradient(135deg,#f7c041,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .owners-hero__description{font-size:1.125rem;color:rgba(255,255,255,0.9);margin-bottom:1.5rem;line-height:1.6}
+    .app-header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem}
+  </style>
 
   <link rel="stylesheet" href="./src/assets/styles/main.scss" />
   

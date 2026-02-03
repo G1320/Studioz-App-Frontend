@@ -143,30 +143,8 @@ async function prerenderRoute(browser, route) {
       `${preloadHints}\n${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
-    // Keep CSS render-blocking for stable visual loading
-    // Only defer Google Fonts (they use font-display:swap)
-    const cssLinks = [];
-    html = html.replace(
-      /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
-      (match, before, href, after) => {
-        if (match.includes('media="print"')) return match;
-        
-        if (href.includes('fonts.googleapis.com')) {
-          cssLinks.push(href);
-          return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
-        }
-        
-        return match;
-      }
-    );
-    
-    // Add noscript fallback for deferred CSS (fonts only)
-    if (cssLinks.length > 0) {
-      const noscriptCSS = cssLinks.map(href => 
-        `<link rel="stylesheet" href="${href}">`
-      ).join('\n');
-      html = html.replace('</head>', `<noscript>${noscriptCSS}</noscript>\n</head>`);
-    }
+    // Keep all CSS as-is - fonts already have good loading strategy in index.html
+    // Don't modify CSS links to avoid duplication issues
     
     // Create output directory
     const outputDir = join(DIST_DIR, route);
