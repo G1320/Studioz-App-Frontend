@@ -149,9 +149,13 @@ export const ScheduleControlSection: React.FC = () => {
                   {/* Content Area */}
                   <div className="schedule-control__browser-content">
                     <img 
-                      src="/images/optimized/Studio-Availability-Controls-desktop-1-V3.webp"
+                      src="/images/optimized/Studio-Availability-Controls-desktop-1-V3-634w.webp"
+                      srcSet="/images/optimized/Studio-Availability-Controls-desktop-1-V3-634w.webp 634w, /images/optimized/Studio-Availability-Controls-desktop-1-V3-1268w.webp 1268w"
+                      sizes="(max-width: 768px) 100vw, 634px"
                       alt="Studio Availability Control Interface"
                       loading="lazy"
+                      width={634}
+                      height={355}
                     />
                     {/* Subtle Overlay */}
                     <div className="schedule-control__browser-overlay" />

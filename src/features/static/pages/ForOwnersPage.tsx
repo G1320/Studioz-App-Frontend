@@ -291,11 +291,13 @@ const ForOwnersPage: React.FC = () => {
                   onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Dark.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-1-Dark.webp"
+                    src="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp"
+                    srcSet="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Dark-630w.webp 630w"
+                    sizes="(max-width: 768px) 150px, 315px"
                     alt="Studio Details Dark Mode 1"
                     loading="lazy"
-                    width={390}
-                    height={844}
+                    width={315}
+                    height={683}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
@@ -307,11 +309,13 @@ const ForOwnersPage: React.FC = () => {
                   onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-2-Dark.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-2-Dark.webp"
+                    src="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp"
+                    srcSet="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-2-Dark-630w.webp 630w"
+                    sizes="(max-width: 768px) 150px, 315px"
                     alt="Studio Details Dark Mode 2"
                     loading="lazy"
-                    width={390}
-                    height={844}
+                    width={315}
+                    height={683}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
@@ -323,11 +327,13 @@ const ForOwnersPage: React.FC = () => {
                   onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Light.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Details-1-Light.webp"
+                    src="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp"
+                    srcSet="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Light-630w.webp 630w"
+                    sizes="(max-width: 768px) 150px, 315px"
                     alt="Studio Details Light Mode 1"
                     loading="lazy"
-                    width={390}
-                    height={844}
+                    width={315}
+                    height={683}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
@@ -339,11 +345,13 @@ const ForOwnersPage: React.FC = () => {
                   onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Detail-2-Light.webp')}
                 >
                   <img
-                    src="/images/optimized/Studioz-Studio-Detail-2-Light.webp"
+                    src="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp"
+                    srcSet="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Detail-2-Light-630w.webp 630w"
+                    sizes="(max-width: 768px) 150px, 315px"
                     alt="Studio Details Light Mode 2"
                     loading="lazy"
-                    width={390}
-                    height={844}
+                    width={315}
+                    height={683}
                   />
                   <div className="owners-showcase__image-overlay">
                     <span>{t('showcase.view_original')}</span>
