@@ -150,8 +150,8 @@ async function prerenderRoute(browser, route) {
       `${preloadHints}\n${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
-    // Smart CSS deferring: defer main app CSS, keep page-specific CSS
-    // Page CSS has landing page styles, main CSS has app-wide styles (mostly unused)
+    // Defer main app CSS for faster FCP, keep page-specific CSS
+    // Inline styles on key elements prevent bad FOUC appearance
     const cssLinks = [];
     html = html.replace(
       /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
@@ -159,12 +159,12 @@ async function prerenderRoute(browser, route) {
         // Skip if already has media="print" (already deferred)
         if (match.includes('media="print"')) return match;
         
-        // Keep page-specific CSS render-blocking (small, critical for landing)
+        // Keep page-specific CSS render-blocking (critical for landing page)
         if (href.includes('ForOwnersPage') || href.includes('forOwners')) {
           return match;
         }
         
-        // Defer main app CSS and Google Fonts (large, mostly unused on landing)
+        // Defer main app CSS and Google Fonts
         if (href.includes('/assets/index') || href.includes('fonts.googleapis.com')) {
           cssLinks.push(href);
           return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
