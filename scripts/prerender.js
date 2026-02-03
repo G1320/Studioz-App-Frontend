@@ -128,28 +128,30 @@ async function prerenderRoute(browser, route) {
     // Get the rendered HTML
     let html = await page.content();
     
-    // Add preconnect hints for third-party resources (improves LCP)
-    // Add preload for LCP image to reduce render delay
-    const preconnectHints = `
+    // Add preconnect hints at the TOP of head (must be early for effect)
+    const earlyHints = `
 <link rel="preconnect" href="https://api.studioz.co.il" crossorigin>
 <link rel="preconnect" href="https://player.mediadelivery.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" fetchpriority="high">
-`;
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`;
     
-    // Add prerender marker, preconnect hints, and inline critical CSS
+    // Insert preconnects right after <head> tag (before any other resources)
+    html = html.replace(/<head([^>]*)>/, `<head$1>${earlyHints}`);
+    
+    // Add critical CSS and preload at end of head
     const criticalStyleTag = criticalCSS.length > 0 
       ? `<style id="critical-css">${criticalCSS}</style>\n` 
       : '';
     
+    const preloadHints = `<link rel="preload" as="image" href="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" fetchpriority="high">`;
+    
     html = html.replace(
       '</head>',
-      `${preconnectHints}${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
+      `${preloadHints}\n${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
-    // Only defer truly non-critical CSS (fonts, third-party)
-    // Keep main app CSS to prevent CLS
+    // Smart CSS deferring: defer main app CSS, keep page-specific CSS
+    // Page CSS has landing page styles, main CSS has app-wide styles (mostly unused)
     const cssLinks = [];
     html = html.replace(
       /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
@@ -157,13 +159,18 @@ async function prerenderRoute(browser, route) {
         // Skip if already has media="print" (already deferred)
         if (match.includes('media="print"')) return match;
         
-        // Only defer Google Fonts - keep all other CSS to prevent CLS
-        if (href.includes('fonts.googleapis.com')) {
+        // Keep page-specific CSS render-blocking (small, critical for landing)
+        if (href.includes('ForOwnersPage') || href.includes('forOwners')) {
+          return match;
+        }
+        
+        // Defer main app CSS and Google Fonts (large, mostly unused on landing)
+        if (href.includes('/assets/index') || href.includes('fonts.googleapis.com')) {
           cssLinks.push(href);
           return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
         }
         
-        // Keep main CSS files as render-blocking to prevent layout shifts
+        // Keep other CSS render-blocking by default
         return match;
       }
     );
