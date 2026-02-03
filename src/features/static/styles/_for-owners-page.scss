@@ -126,6 +126,19 @@
 // ==========================================
 // HERO SECTION
 // ==========================================
+
+// CSS-based hero animation (replaces Framer Motion for faster initial paint)
+@keyframes hero-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .owners-hero {
   position: relative;
   padding: 2.5rem 0 3rem; // Compact on mobile for above-the-fold CTA visibility
@@ -137,6 +150,11 @@
   @media (min-width: 768px) {
     padding: 6rem 0 5rem;
     min-height: 600px;
+  }
+
+  // CSS animation class for hero content
+  &__content--animated {
+    animation: hero-fade-in-up 0.6s ease-out forwards;
   }
 
   // Background image container
@@ -419,6 +437,34 @@
     width: 100%;
     height: 100%;
     border: none;
+  }
+
+  // Video skeleton/placeholder shown before autoplay loads
+  &__video-skeleton {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__video-thumbnail {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    // Subtle pulse animation while loading
+    animation: thumbnail-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes thumbnail-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.7; }
   }
 
   // Text inside card

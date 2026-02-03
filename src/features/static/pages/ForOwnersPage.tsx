@@ -22,12 +22,35 @@ import { StudioZOwnersRemoteShowcase } from '../components/StudioZOwnersRemoteSh
 import '../styles/_for-owners-page.scss';
 
 /**
- * Animation variants for Framer Motion
+ * Hook to lazy load heavy content when visible
  */
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 }
+const useLazyLoad = (threshold = 0.1) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold, rootMargin: '100px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
 };
+
+// Hero animation now handled via CSS for faster initial paint
+// Framer Motion still used for interactive elements (hover effects) below the fold
 
 /**
  * Main Owners Page Component for Studioz
@@ -38,6 +61,9 @@ const ForOwnersPage: React.FC = () => {
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const hasTrackedViewContent = useRef(false);
+  
+  // Lazy load the dashboard video - autoplay when scrolled into view
+  const { ref: videoRef, isVisible: isVideoVisible } = useLazyLoad(0.2);
 
   // Track ViewContent event when page loads (once)
   useEffect(() => {
@@ -136,23 +162,19 @@ const ForOwnersPage: React.FC = () => {
         <div className="owners-hero__glow owners-hero__glow--blue" />
 
         <div className="owners-container">
-          <div className="owners-hero__content">
-            <motion.div {...fadeInUp} transition={{ duration: 0.6 }}>
-              <h1 className="owners-hero__title">
-                {t('hero.title_part1')} <br />
-                <span className="owners-hero__accent">{t('hero.title_accent')}</span>
-              </h1>
-              <p className="owners-hero__description">{t('hero.description')}</p>
-              <div className="owners-hero__buttons">
-                <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
-                  {t('hero.cta_primary')} <ArrowForwardIcon />
-                </button>
-                {/* <button className="owners-btn owners-btn--secondary" onClick={handleViewDemo} type="button">
-                  {t('hero.cta_secondary')}
-                </button> */}
-              </div>
-              <p className="owners-hero__free-badge">✓ {t('hero.free_note')}</p>
-            </motion.div>
+          {/* CSS animation instead of Framer Motion for faster LCP */}
+          <div className="owners-hero__content owners-hero__content--animated">
+            <h1 className="owners-hero__title">
+              {t('hero.title_part1')} <br />
+              <span className="owners-hero__accent">{t('hero.title_accent')}</span>
+            </h1>
+            <p className="owners-hero__description">{t('hero.description')}</p>
+            <div className="owners-hero__buttons">
+              <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
+                {t('hero.cta_primary')} <ArrowForwardIcon />
+              </button>
+            </div>
+            <p className="owners-hero__free-badge">✓ {t('hero.free_note')}</p>
           </div>
         </div>
       </section>
@@ -172,7 +194,7 @@ const ForOwnersPage: React.FC = () => {
       </section> */}
 
       {/* Dashboard Preview Section */}
-      <section className="owners-dashboard">
+      <section className="owners-dashboard" ref={videoRef}>
         <div className="owners-container">
           <div className="owners-dashboard__card">
             {/* Browser mockup */}
@@ -185,15 +207,24 @@ const ForOwnersPage: React.FC = () => {
                   <span className="owners-dashboard__dot owners-dashboard__dot--green" />
                 </div>
               </div>
-              {/* Video content */}
+              {/* Video content - autoplay when scrolled into view */}
               <div className="owners-dashboard__browser-content">
-                <iframe
-                  src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
-                  loading="lazy"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                  className="owners-dashboard__video"
-                  title={t('dashboard.title')}
-                />
+                {isVideoVisible ? (
+                  <iframe
+                    src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&controls=false&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                    className="owners-dashboard__video"
+                    title={t('dashboard.title')}
+                  />
+                ) : (
+                  <div className="owners-dashboard__video-skeleton">
+                    <img
+                      src="/images/optimized/Studioz-Dashboard-Calendar.webp"
+                      alt=""
+                      className="owners-dashboard__video-thumbnail"
+                    />
+                  </div>
+                )}
               </div>
             </div>
             {/* Text inside card */}
