@@ -19,7 +19,6 @@ import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
 import { StudioZOwnersRemoteShowcase } from '../components/StudioZOwnersRemoteShowcase';
-import '../styles/_for-owners-page.scss';
 
 /**
  * Hook to lazy load heavy content when visible

@@ -1,12 +1,6 @@
-// CSS code splitting: These styles are imported directly in their respective
-// lazy-loaded components, so they get bundled separately for better performance.
-// Do NOT add them back here - it would duplicate them in the main CSS bundle.
-
-// @use 'for-owners-page';     → imported in ForOwnersPage.tsx
-// @use 'how-it-works-page';   → imported in HowItWorksPage.tsx (if exists)
-// @use 'security-page';       → imported in SecurityPage.tsx
-// @use 'not-found-page';      → imported in NotFoundPage.tsx
-
-// Only pricing-section is kept as it's used across multiple pages
+@use 'for-owners-page';
+@use 'how-it-works-page';
+@use 'security-page';
+@use 'not-found-page';
 @use 'pricing-section';
 
