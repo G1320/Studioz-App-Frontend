@@ -170,11 +170,19 @@ async function prerender() {
   
   console.log(`📦 Static server running on http://localhost:${PORT}\n`);
   
-  // Launch Puppeteer
-  const browser = await puppeteer.launch({
+  // Launch Puppeteer (use system Chrome if available via PUPPETEER_EXECUTABLE_PATH)
+  const launchOptions = {
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  };
+  
+  // Use system Chromium on CI/Render if PUPPETEER_EXECUTABLE_PATH is set
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    launchOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+    console.log(`  Using system Chrome: ${process.env.PUPPETEER_EXECUTABLE_PATH}`);
+  }
+  
+  const browser = await puppeteer.launch(launchOptions);
   
   try {
     // Pre-render each route
