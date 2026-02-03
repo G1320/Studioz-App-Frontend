@@ -55,19 +55,18 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
 
   return (
     <>
-      {/* Inline styles prevent skip links showing during FOUC */}
-      <div className="skip-links-container" style={{ position: 'absolute' }}>
-        <a href="#main-content" className="skip-link" style={{ position: 'absolute', left: '-9999px' }}>
+      <div className="skip-links-container">
+        <a href="#main-content" className="skip-link">
           {t('navigation.skipToContent', 'Skip to Content')}
         </a>
-        <a href="#main-navigation" className="skip-link" style={{ position: 'absolute', left: '-9999px' }}>
+        <a href="#main-navigation" className="skip-link">
           {t('navigation.skipToNavigation', 'Skip to Navigation')}
         </a>
-        <a href="#main-footer" className="skip-link" style={{ position: 'absolute', left: '-9999px' }}>
+        <a href="#main-footer" className="skip-link">
           {t('navigation.skipToFooter', 'Skip to Footer')}
         </a>
       </div>
-      <header className="app-header" style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '3.5rem', display: 'flex', alignItems: 'center', zIndex: 1400 }}>
+      <header className="app-header">
         {featureFlags.headerBackButton && (
         <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
         )}
@@ -94,9 +93,8 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
               className="header-search-button-container header-icon-button"
               aria-label="Go to search page"
               onClick={() => scrollToTop()}
-              style={{ maxWidth: '44px', maxHeight: '44px' }}
             >
-              <SearchIcon aria-label="Search icon" style={{ width: '24px', height: '24px' }} />
+              <SearchIcon aria-label="Search icon" />
             </Link>
           )}
           {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}

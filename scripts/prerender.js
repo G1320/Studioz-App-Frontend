@@ -150,15 +150,20 @@ async function prerenderRoute(browser, route) {
       `${preloadHints}\n${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
     
-    // Defer ALL CSS for fast loader display (Twitch-style)
-    // Content is hidden via inline style, revealed when CSS loads
+    // Keep CSS render-blocking for stable visual loading
+    // Only defer Google Fonts (they use font-display:swap)
     const cssLinks = [];
     html = html.replace(
       /<link\s+rel="stylesheet"([^>]*)\s+href="([^"]+)"([^>]*)>/g,
       (match, before, href, after) => {
         if (match.includes('media="print"')) return match;
-        cssLinks.push(href);
-        return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
+        
+        if (href.includes('fonts.googleapis.com')) {
+          cssLinks.push(href);
+          return `<link rel="stylesheet"${before} href="${href}"${after} media="print" onload="this.media='all'">`;
+        }
+        
+        return match;
       }
     );
     
