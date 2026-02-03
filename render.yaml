@@ -132,7 +132,6 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
-    
     # CDN caching headers for better performance
     headers:
       - path: /en/index.html
