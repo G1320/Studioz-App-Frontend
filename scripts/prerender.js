@@ -92,6 +92,9 @@ async function prerenderRoute(browser, route) {
   console.log(`  Rendering: ${route}`);
   
   try {
+    // Start CSS coverage to find critical CSS
+    await page.coverage.startCSSCoverage();
+    
     await page.goto(url, { 
       waitUntil: 'networkidle0',
       timeout: 30000 
@@ -100,14 +103,59 @@ async function prerenderRoute(browser, route) {
     // Wait a bit for React to finish rendering
     await new Promise(resolve => setTimeout(resolve, 1500));
     
+    // Get critical CSS (above-the-fold styles)
+    const cssCoverage = await page.coverage.stopCSSCoverage();
+    let criticalCSS = '';
+    
+    for (const entry of cssCoverage) {
+      // Only include first-party CSS (from our domain or assets)
+      if (entry.url.includes('localhost') || entry.url.includes('/assets/')) {
+        for (const range of entry.ranges) {
+          criticalCSS += entry.text.substring(range.start, range.end);
+        }
+      }
+    }
+    
+    // Minify critical CSS (basic - remove extra whitespace)
+    criticalCSS = criticalCSS
+      .replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
+      .replace(/\s+/g, ' ')              // Collapse whitespace
+      .replace(/\s*([{}:;,])\s*/g, '$1') // Remove space around symbols
+      .trim();
+    
+    console.log(`  Critical CSS: ${(criticalCSS.length / 1024).toFixed(1)}KB`);
+    
     // Get the rendered HTML
     let html = await page.content();
     
-    // Add prerender marker
+    // Add prerender marker and inline critical CSS
+    const criticalStyleTag = criticalCSS.length > 0 
+      ? `<style id="critical-css">${criticalCSS}</style>\n` 
+      : '';
+    
     html = html.replace(
       '</head>',
-      `<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
+      `${criticalStyleTag}<meta name="prerender-status" content="prerendered" data-prerender-time="${new Date().toISOString()}">\n</head>`
     );
+    
+    // Defer non-critical CSS by converting link tags to async loading
+    // This allows the page to paint with critical CSS while full CSS loads
+    const cssLinks = [];
+    html = html.replace(
+      /<link rel="stylesheet" href="([^"]+)"/g,
+      (match, href) => {
+        cssLinks.push(href);
+        return `<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'"`;
+      }
+    );
+    
+    // Add noscript fallback for deferred CSS
+    if (cssLinks.length > 0) {
+      const noscriptCSS = cssLinks.map(href => 
+        `<link rel="stylesheet" href="${href}">`
+      ).join('\n');
+      html = html.replace('</head>', `<noscript>${noscriptCSS}</noscript>\n</head>`);
+    }
     
     // Create output directory
     const outputDir = join(DIST_DIR, route);
