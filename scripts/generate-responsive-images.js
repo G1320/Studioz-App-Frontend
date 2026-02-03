@@ -16,6 +16,11 @@ const IMAGES_DIR = join(__dirname, '..', 'public', 'images', 'optimized');
 
 // Images that need responsive versions with their target display widths
 const RESPONSIVE_IMAGES = [
+  // Hero image - displayed at various widths, needs mobile version
+  {
+    source: 'Landing-Studio1320-1.webp',
+    sizes: [640, 960, 1320], // mobile, tablet, desktop
+  },
   // Mobile screenshots - displayed at ~315px width
   {
     source: 'Studioz-Studio-Details-1-Dark.webp',

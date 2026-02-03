@@ -143,9 +143,13 @@ const ForOwnersPage: React.FC = () => {
         {/* Background Image */}
         <div className="owners-hero__background">
           <picture>
-            <source srcSet="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" />
+            <source 
+              srcSet="/images/optimized/Landing-Studio1320-1-640w.webp 640w, /images/optimized/Landing-Studio1320-1-960w.webp 960w, /images/optimized/Landing-Studio1320-1.webp 1320w"
+              sizes="100vw"
+              type="image/webp" 
+            />
             <img
-              src="/images/optimized/Landing-Studio1320-1.jpg"
+              src="/images/optimized/Landing-Studio1320-1.webp"
               alt=""
               className="owners-hero__image"
               loading="eager"

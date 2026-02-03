@@ -128,22 +128,15 @@ async function prerenderRoute(browser, route) {
     // Get the rendered HTML
     let html = await page.content();
     
-    // Add preconnect hints at the TOP of head (must be early for effect)
-    const earlyHints = `
-<link rel="preconnect" href="https://api.studioz.co.il" crossorigin>
-<link rel="preconnect" href="https://player.mediadelivery.net" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`;
-    
-    // Insert preconnects right after <head> tag (before any other resources)
-    html = html.replace(/<head([^>]*)>/, `<head$1>${earlyHints}`);
+    // Note: Preconnects are already in index.html, no need to duplicate here
     
     // Add critical CSS and preload at end of head
     const criticalStyleTag = criticalCSS.length > 0 
       ? `<style id="critical-css">${criticalCSS}</style>\n` 
       : '';
     
-    const preloadHints = `<link rel="preload" as="image" href="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" fetchpriority="high">`;
+    // Note: Preload hints are already in index.html with responsive versions
+    const preloadHints = '';
     
     html = html.replace(
       '</head>',

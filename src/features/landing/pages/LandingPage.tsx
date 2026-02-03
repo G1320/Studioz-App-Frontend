@@ -143,9 +143,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
       <section className="landing-hero">
         <div className="landing-hero__background">
           <picture>
-            <source srcSet="/images/optimized/Landing-Studio1320-1.webp" type="image/webp" />
+            <source 
+              srcSet="/images/optimized/Landing-Studio1320-1-640w.webp 640w, /images/optimized/Landing-Studio1320-1-960w.webp 960w, /images/optimized/Landing-Studio1320-1.webp 1320w"
+              sizes="100vw"
+              type="image/webp" 
+            />
             <img
-              src="/images/optimized/Landing-Studio1320-1.jpg"
+              src="/images/optimized/Landing-Studio1320-1.webp"
               alt="Studio Background"
               className="landing-hero__image"
               loading="eager"
