@@ -499,7 +499,7 @@
   padding: vars.$spacing-3xl 0;
   background: var(--bg-surface);
   position: relative;
-  overflow: hidden;
+  // Removed overflow: hidden - was clipping content
 
   &__grid {
     display: grid;
@@ -933,7 +933,7 @@
 // ==========================================
 .owners-preview {
   padding: vars.$spacing-3xl 0;
-  overflow: hidden;
+  // Removed overflow: hidden - was clipping content
 
   &__content {
     display: flex;
@@ -1057,7 +1057,7 @@
 .owners-cta {
   padding: vars.$spacing-3xl 0;
   position: relative;
-  overflow: hidden;
+  // Removed overflow: hidden - was clipping content
 
   &__overlay {
     position: absolute;
