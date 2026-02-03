@@ -1,13 +1,14 @@
 /**
  * StudioZ Owners Remote Showcase Styles
  * A marketing section for studio owners explaining the Remote Projects feature.
- * Light mode, Hebrew RTL support, professional aesthetic.
+ * Dark/Light mode support, Hebrew RTL support, professional aesthetic.
  */
 
 @use '../../../assets/styles/utilities/variables' as *;
 
 // Local variables
 $remote-showcase-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.1);
+$remote-showcase-shadow-dark: 0 32px 64px -16px rgba(0, 0, 0, 0.4);
 $remote-showcase-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 $remote-showcase-radius-card: 2.5rem;
 $remote-showcase-radius-lg: 1.5rem;
@@ -17,9 +18,13 @@ $remote-showcase-green: #22c55e;
 .remote-showcase {
   position: relative;
   padding: 6rem 0;
-  background: #ffffff;
+  background: var(--bg-primary, #000000);
   overflow: hidden;
   font-family: 'DM Sans', sans-serif;
+
+  [data-theme='light'] & {
+    background: #ffffff;
+  }
 
   // Background Glows
   &__glow {
@@ -90,9 +95,13 @@ $remote-showcase-green: #22c55e;
   &__title {
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 900;
-    color: #000000;
+    color: var(--text-primary, #ffffff);
     line-height: 1.1;
     letter-spacing: -0.025em;
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   &__title-accent {
@@ -103,9 +112,13 @@ $remote-showcase-green: #22c55e;
   &__description {
     margin-top: 1.5rem;
     font-size: 1.25rem;
-    color: $zinc-600;
+    color: var(--text-secondary, $zinc-400);
     line-height: 1.75;
     max-width: 36rem;
+
+    [data-theme='light'] & {
+      color: $zinc-600;
+    }
   }
 
   // Features Grid
@@ -133,34 +146,51 @@ $remote-showcase-green: #22c55e;
   &__feature-icon-wrapper {
     width: 3.5rem;
     height: 3.5rem;
-    background: $zinc-50;
-    border: 1px solid $zinc-100;
+    background: var(--bg-secondary, $zinc-800);
+    border: 1px solid var(--border-primary, $zinc-700);
     border-radius: $remote-showcase-radius-xl;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.25rem;
     transition: all 0.3s ease;
+
+    [data-theme='light'] & {
+      background: $zinc-50;
+      border-color: $zinc-100;
+    }
   }
 
   &__feature-icon {
     width: 1.75rem;
     height: 1.75rem;
-    color: #000000;
+    color: var(--text-primary, #ffffff);
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   &__feature-title {
-    color: #000000;
+    color: var(--text-primary, #ffffff);
     font-size: 1.25rem;
     font-weight: 900;
     margin-bottom: 0.75rem;
     text-align: start;
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   &__feature-desc {
-    color: $zinc-500;
+    color: var(--text-secondary, $zinc-400);
     line-height: 1.625;
     text-align: start;
+
+    [data-theme='light'] & {
+      color: $zinc-500;
+    }
   }
 
   // CTA Button
@@ -225,19 +255,30 @@ $remote-showcase-green: #22c55e;
 
   // Mockup Card
   &__mockup {
-    background: #ffffff;
-    border: 1px solid $zinc-100;
+    background: var(--bg-secondary, $zinc-900);
+    border: 1px solid var(--border-primary, $zinc-700);
     border-radius: $remote-showcase-radius-card;
-    box-shadow: $remote-showcase-shadow;
+    box-shadow: $remote-showcase-shadow-dark;
     overflow: hidden;
     max-width: 32rem;
     margin: 0 auto;
+
+    [data-theme='light'] & {
+      background: #ffffff;
+      border-color: $zinc-100;
+      box-shadow: $remote-showcase-shadow;
+    }
   }
 
   &__mockup-header {
     padding: 2rem;
-    border-bottom: 1px solid rgba($zinc-100, 0.5);
-    background: rgba($zinc-50, 0.3);
+    border-bottom: 1px solid var(--border-primary, $zinc-700);
+    background: var(--bg-tertiary, rgba($zinc-800, 0.5));
+
+    [data-theme='light'] & {
+      border-bottom-color: rgba($zinc-100, 0.5);
+      background: rgba($zinc-50, 0.3);
+    }
   }
 
   &__mockup-header-row {
@@ -248,9 +289,13 @@ $remote-showcase-green: #22c55e;
   }
 
   &__mockup-title {
-    color: #000000;
+    color: var(--text-primary, #ffffff);
     font-weight: 900;
     font-size: 1.5rem;
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   &__mockup-stats {
@@ -260,26 +305,40 @@ $remote-showcase-green: #22c55e;
   }
 
   &__mockup-stat {
-    background: #ffffff;
+    background: var(--bg-primary, $zinc-900);
     padding: 1rem;
     border-radius: $remote-showcase-radius-xl;
-    border: 1px solid $zinc-100;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-primary, $zinc-700);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+    [data-theme='light'] & {
+      background: #ffffff;
+      border-color: $zinc-100;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
   }
 
   &__mockup-stat-label {
     font-size: 0.6875rem;
-    color: $zinc-400;
+    color: var(--text-tertiary, $zinc-500);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: 0.25rem;
+
+    [data-theme='light'] & {
+      color: $zinc-400;
+    }
   }
 
   &__mockup-stat-value {
-    color: #000000;
+    color: var(--text-primary, #ffffff);
     font-weight: 900;
     font-size: 1.125rem;
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   // Mockup Body
@@ -300,25 +359,35 @@ $remote-showcase-green: #22c55e;
   &__mockup-label {
     font-size: 0.875rem;
     font-weight: 900;
-    color: #000000;
+    color: var(--text-primary, #ffffff);
     text-align: start;
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   &__mockup-textarea {
     height: 7rem;
-    background: $zinc-50;
-    border: 1px solid $zinc-100;
+    background: var(--bg-tertiary, $zinc-800);
+    border: 1px solid var(--border-primary, $zinc-700);
     border-radius: $remote-showcase-radius-xl;
     padding: 1rem;
     font-size: 0.875rem;
-    color: $zinc-400;
+    color: var(--text-tertiary, $zinc-500);
     font-style: italic;
     line-height: 1.625;
+
+    [data-theme='light'] & {
+      background: $zinc-50;
+      border-color: $zinc-100;
+      color: $zinc-400;
+    }
   }
 
   &__mockup-input {
-    background: $zinc-50;
-    border: 1px solid $zinc-100;
+    background: var(--bg-tertiary, $zinc-800);
+    border: 1px solid var(--border-primary, $zinc-700);
     border-radius: $remote-showcase-radius-xl;
     padding: 0.75rem 1rem;
     font-size: 0.75rem;
@@ -327,6 +396,11 @@ $remote-showcase-green: #22c55e;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    [data-theme='light'] & {
+      background: $zinc-50;
+      border-color: $zinc-100;
+    }
   }
 
   // Mockup Actions
@@ -349,26 +423,47 @@ $remote-showcase-green: #22c55e;
 
     &--cancel {
       flex: 1;
-      background: $zinc-100;
-      border: 1px solid $zinc-200;
-      color: $zinc-500;
+      background: var(--bg-tertiary, $zinc-800);
+      border: 1px solid var(--border-primary, $zinc-700);
+      color: var(--text-secondary, $zinc-400);
       font-size: 0.875rem;
 
+      [data-theme='light'] & {
+        background: $zinc-100;
+        border-color: $zinc-200;
+        color: $zinc-500;
+      }
+
       &:hover {
-        background: $zinc-200;
+        background: var(--bg-hover, $zinc-700);
+
+        [data-theme='light'] & {
+          background: $zinc-200;
+        }
       }
     }
 
     &--submit {
       flex: 2;
-      background: #000000;
-      color: #ffffff;
+      background: $color-brand;
+      color: #000000;
       font-weight: 900;
       font-size: 1rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 15px -3px rgba(255, 209, 102, 0.2);
+
+      [data-theme='light'] & {
+        background: #000000;
+        color: #ffffff;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
 
       &:hover {
-        background: $zinc-800;
+        filter: brightness(1.1);
+
+        [data-theme='light'] & {
+          background: $zinc-800;
+          filter: none;
+        }
       }
     }
   }
@@ -376,8 +471,8 @@ $remote-showcase-green: #22c55e;
   // Floating Cards
   &__floating-card {
     position: absolute;
-    background: #ffffff;
-    border: 1px solid $zinc-100;
+    background: var(--bg-secondary, $zinc-900);
+    border: 1px solid var(--border-primary, $zinc-700);
     padding: 1.25rem;
     border-radius: $remote-showcase-radius-lg;
     box-shadow: $remote-showcase-shadow-2xl;
@@ -385,6 +480,11 @@ $remote-showcase-green: #22c55e;
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    [data-theme='light'] & {
+      background: #ffffff;
+      border-color: $zinc-100;
+    }
 
     &--top {
       top: -1.5rem;
@@ -438,13 +538,21 @@ $remote-showcase-green: #22c55e;
   &__floating-title {
     font-size: 0.875rem;
     font-weight: 900;
-    color: #000000;
+    color: var(--text-primary, #ffffff);
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 
   &__floating-subtitle {
     font-size: 0.75rem;
-    color: $zinc-500;
+    color: var(--text-secondary, $zinc-400);
     font-weight: 500;
+
+    [data-theme='light'] & {
+      color: $zinc-500;
+    }
   }
 
   // Cursor Animation
@@ -458,10 +566,15 @@ $remote-showcase-green: #22c55e;
   &__cursor-icon {
     width: 2.5rem;
     height: 2.5rem;
-    color: #000000;
-    fill: #000000;
+    color: var(--text-primary, #ffffff);
+    fill: var(--text-primary, #ffffff);
     filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15));
     transform: rotate(-90deg);
+
+    [data-theme='light'] & {
+      color: #000000;
+      fill: #000000;
+    }
   }
 
   // Decorative Circles
@@ -476,17 +589,25 @@ $remote-showcase-green: #22c55e;
     &--outer {
       width: 120%;
       height: 120%;
-      border: 1px solid $zinc-100;
+      border: 1px solid var(--border-primary, $zinc-700);
       transform: translate(-50%, -50%) scale(1.1);
       opacity: 0.5;
+
+      [data-theme='light'] & {
+        border-color: $zinc-100;
+      }
     }
 
     &--inner {
       width: 100%;
       height: 100%;
-      border: 1px solid $zinc-50;
+      border: 1px solid var(--border-secondary, $zinc-800);
       transform: translate(-50%, -50%) scale(1.25);
       opacity: 0.3;
+
+      [data-theme='light'] & {
+        border-color: $zinc-50;
+      }
     }
   }
 
@@ -494,10 +615,14 @@ $remote-showcase-green: #22c55e;
   &__stats {
     margin-top: 8rem;
     padding-top: 4rem;
-    border-top: 1px solid $zinc-100;
+    border-top: 1px solid var(--border-primary, $zinc-700);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
+
+    [data-theme='light'] & {
+      border-top-color: $zinc-100;
+    }
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(4, 1fr);
@@ -509,16 +634,24 @@ $remote-showcase-green: #22c55e;
   }
 
   &__stat-label {
-    color: $zinc-500;
+    color: var(--text-secondary, $zinc-400);
     font-size: 0.9375rem;
     font-weight: 500;
     margin-bottom: 0.25rem;
+
+    [data-theme='light'] & {
+      color: $zinc-500;
+    }
   }
 
   &__stat-value {
-    color: #000000;
+    color: var(--text-primary, #ffffff);
     font-size: 2.5rem;
     font-weight: 900;
     letter-spacing: -0.025em;
+
+    [data-theme='light'] & {
+      color: #000000;
+    }
   }
 }
