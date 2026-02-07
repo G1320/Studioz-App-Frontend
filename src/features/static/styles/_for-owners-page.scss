@@ -3,12 +3,26 @@
 @use 'design-system' as ds;
 
 // ==========================================
-// FOR OWNERS PAGE STYLES - StudioZ Design System
-// Theme: Dark Mode Dominant, Professional, High-Contrast
+// FOR OWNERS PAGE STYLES - Editorial / Luxury-Refined
+// Distinctive typography (Syne display), motion, spatial composition, depth
 // ==========================================
 
-// Accent colors for features (using CSS custom properties)
-// These map to theme-aware variables
+// Page-scoped design tokens (display font for headings)
+.owners-page {
+  --owners-font-display: 'Syne', system-ui, sans-serif;
+}
+
+// Subtle grain overlay for depth (fixed, non-blocking)
+.owners-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
 
 // Container
 .owners-container {
@@ -19,10 +33,12 @@
   padding: 0 vars.$spacing-medium;
 }
 
-// Section Titles
+// Section Titles - distinctive display font
 .owners-section-title {
+  font-family: var(--owners-font-display);
   font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 700;
+  letter-spacing: -0.03em;
   margin-bottom: vars.$spacing-large;
   color: var(--text-primary);
   text-align: center;
@@ -34,6 +50,7 @@
   max-width: 640px;
   margin-inline: auto;
   text-align: center;
+  line-height: 1.6;
 }
 
 // ==========================================
@@ -67,12 +84,13 @@
     color: var(--btn-primary-text);
     box-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
     animation: cta-pulse 2s ease-in-out infinite;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 
     &:hover {
       background: var(--color-brand-hover);
-      box-shadow: 0 0 30px rgba(255, 209, 102, 0.5);
-      transform: scale(1.05);
-      animation: none; // Stop pulse on hover
+      box-shadow: 0 0 32px rgba(255, 209, 102, 0.5), 0 4px 24px rgba(0, 0, 0, 0.15);
+      transform: scale(1.04) translateY(-2px);
+      animation: none;
     }
   }
 
@@ -112,10 +130,10 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
-  // Break out of main's max-width to be full-bleed
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
+  position: relative;
 
   img {
     border-radius: 0;
@@ -127,11 +145,11 @@
 // HERO SECTION
 // ==========================================
 
-// CSS-based hero animation (replaces Framer Motion for faster initial paint)
+// Staggered hero reveal (high-impact page load)
 @keyframes hero-fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -141,7 +159,7 @@
 
 .owners-hero {
   position: relative;
-  padding: 2.5rem 0 3rem; // Compact on mobile for above-the-fold CTA visibility
+  padding: 2.5rem 0 3rem;
   overflow: visible;
   min-height: 500px;
   display: flex;
@@ -152,9 +170,16 @@
     min-height: 600px;
   }
 
-  // CSS animation class for hero content
+  // Staggered children (title → description → buttons → badge)
   &__content--animated {
-    animation: hero-fade-in-up 0.6s ease-out forwards;
+    & > * {
+      opacity: 0;
+      animation: hero-fade-in-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .owners-hero__title { animation-delay: 0s; }
+    .owners-hero__description { animation-delay: 0.08s; }
+    .owners-hero__buttons { animation-delay: 0.16s; }
+    .owners-hero__free-badge { animation-delay: 0.24s; }
   }
 
   // Background image container
@@ -236,10 +261,11 @@
   }
 
   &__title {
-    font-size: clamp(2rem, 6vw, 4.5rem); // Smaller on mobile for faster read
+    font-family: var(--owners-font-display);
+    font-size: clamp(2rem, 6vw, 4.5rem);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
     margin-bottom: vars.$spacing-medium;
 
     @media (min-width: 768px) {
@@ -477,8 +503,10 @@
     border-top: 1px solid var(--border-subtle);
 
     h3 {
+      font-family: var(--owners-font-display);
       font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
+      letter-spacing: -0.02em;
       margin-bottom: vars.$spacing-sm-md;
       color: var(--text-primary);
     }
@@ -493,7 +521,7 @@
 }
 
 // ==========================================
-// ASSET SHOWCASE SECTION
+// ASSET SHOWCASE SECTION - Asymmetric layout, gradient mesh
 // ==========================================
 .owners-showcase {
   padding: vars.$spacing-3xl 0;
@@ -501,15 +529,28 @@
   position: relative;
   overflow: hidden;
 
+  // Subtle gradient mesh for depth (no purple - brand gold tint only)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 70% 50%, var(--color-brand-bg) 0%, transparent 55%);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: vars.$spacing-3xl;
     align-items: center;
+    position: relative;
+    z-index: 1;
 
     @media (min-width: 1024px) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.05fr 0.95fr; // Slight asymmetry
       gap: vars.$spacing-2xl;
+      align-items: center;
     }
   }
 
@@ -522,9 +563,11 @@
   }
 
   &__title {
+    font-family: var(--owners-font-display);
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 700;
-    line-height: 1.2;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
     margin-bottom: vars.$spacing-large;
     color: var(--text-primary);
     text-align: start;
@@ -550,19 +593,18 @@
   &__feature-card {
     display: flex;
     align-items: center;
-
     gap: vars.$spacing-medium;
     background: var(--bg-card);
     padding: vars.$spacing-medium;
     border-radius: vars.$border-radius-2xl;
     border: 1px solid var(--border-primary);
-    transition:
-      background 0.2s,
-      border-color 0.2s;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 
     &:hover {
       background: var(--bg-elevated);
       border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
   }
 
@@ -842,13 +884,16 @@
   border-radius: vars.$border-radius-3xl;
   position: relative;
   overflow: hidden;
-  transition: background 0.3s;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
 
   &:hover {
     background: var(--bg-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
 
     .owners-feature__icon {
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
   }
 
@@ -881,7 +926,7 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto vars.$spacing-large;
-    transition: transform 0.3s;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 
     svg {
       width: 24px;
@@ -1052,7 +1097,7 @@
 }
 
 // ==========================================
-// CTA SECTION
+// CTA SECTION - Gradient mesh, display typography
 // ==========================================
 .owners-cta {
   padding: vars.$spacing-3xl 0;
@@ -1062,7 +1107,8 @@
   &__overlay {
     position: absolute;
     inset: 0;
-    background: var(--color-brand-bg);
+    background: linear-gradient(135deg, var(--color-brand-bg) 0%, transparent 50%, var(--color-brand-bg) 100%);
+    opacity: 0.9;
   }
 
   &__content {
@@ -1072,8 +1118,10 @@
   }
 
   &__title {
+    font-family: var(--owners-font-display);
     font-size: clamp(2rem, 5vw, 3.75rem);
     font-weight: 700;
+    letter-spacing: -0.03em;
     margin-bottom: vars.$spacing-large;
     color: var(--text-primary);
   }

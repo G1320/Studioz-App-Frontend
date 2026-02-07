@@ -253,7 +253,13 @@ const ForOwnersPage: React.FC = () => {
         <div className="owners-container">
           <div className="owners-showcase__grid">
             {/* Text Content */}
-            <div className="owners-showcase__text">
+            <motion.div
+              className="owners-showcase__text"
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
               <h2 className="owners-showcase__title">
                 {t('showcase.title_part1')} <span className="owners-hero__accent">{t('showcase.title_accent')}</span>
                 <br />
@@ -282,10 +288,16 @@ const ForOwnersPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Mobile Screenshots Grid */}
-            <div className="owners-showcase__images owners-showcase__images--mobile">
+            <motion.div
+              className="owners-showcase__images owners-showcase__images--mobile"
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
               <div className="owners-showcase__images-glow" />
               <div className="owners-showcase__images-grid">
                 <motion.div
@@ -361,7 +373,7 @@ const ForOwnersPage: React.FC = () => {
                   </div>
                 </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -384,13 +396,20 @@ const ForOwnersPage: React.FC = () => {
 
           <div className="owners-features__grid owners-features__grid--three">
             {features.map((feature, i) => (
-              <FeatureCard
+              <motion.div
                 key={i}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-                colorClass={feature.colorClass}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-20px' }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <FeatureCard
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  colorClass={feature.colorClass}
+                />
+              </motion.div>
             ))}
           </div>
         </div>

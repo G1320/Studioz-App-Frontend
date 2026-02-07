@@ -74,11 +74,12 @@
 }
 
 .how-it-works-section__title {
+  font-family: var(--owners-font-display, 'Syne', system-ui, sans-serif);
   font-size: 2.5rem;
-  font-weight: 900;
+  font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
   margin-bottom: ds.$space-4;
 
   @media (min-width: 768px) {

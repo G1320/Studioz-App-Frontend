@@ -53,12 +53,13 @@
   }
 
   &__title {
+    font-family: var(--owners-font-display, 'Syne', system-ui, sans-serif);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 900;
+    font-weight: 700;
     font-style: italic;
     text-transform: uppercase;
     letter-spacing: -0.03em;
-    line-height: 1.1;
+    line-height: 1.08;
     margin-bottom: 1.5rem;
     color: var(--text-primary);
     text-align: start;
@@ -181,14 +182,14 @@
     align-self: flex-start;
     gap: 1rem;
     font-size: 1.125rem;
-    font-weight: 900;
+    font-weight: 700;
     color: var(--text-primary);
     background: var(--bg-primary);
     border: 2px solid var(--text-primary);
     padding: 1rem 2rem;
     border-radius: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 
     @media (min-width: 768px) {
       font-size: 1.25rem;
@@ -199,11 +200,12 @@
     &:hover {
       background: var(--text-primary);
       color: var(--bg-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
 
       .schedule-control__cta-icon {
         transform: translateX(-8px);
 
-        // Move right for LTR languages (arrow is flipped)
         [dir="ltr"] & {
           transform: scaleX(-1) translateX(-8px);
         }
