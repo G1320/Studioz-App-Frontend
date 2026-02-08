@@ -23,16 +23,37 @@ import {
   NotificationProvider
 } from '@core/contexts';
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
+import { isInAppBrowser } from '@shared/utils/botDetection';
 import './core/i18n/config';
+
+// Mark network-error rejections as handled to avoid unhandled rejection noise (e.g. offline, CORS)
+// Sentry still captures them; we just prevent them from being reported as "unhandled"
+const isNetworkError = (reason: unknown): boolean => {
+  if (reason instanceof Error) {
+    const msg = reason.message ?? '';
+    return (
+      msg === 'Network Error' ||
+      msg === 'Failed to fetch' ||
+      msg === 'Load failed' ||
+      (reason as { code?: string }).code === 'ERR_NETWORK'
+    );
+  }
+  return false;
+};
+if (typeof window !== 'undefined') {
+  window.addEventListener('unhandledrejection', (event) => {
+    if (isNetworkError(event.reason)) {
+      event.preventDefault();
+    }
+  });
+}
 
 // Initialize Sentry for error tracking (production only)
 if (import.meta.env.VITE_NODE_ENV === 'production') {
-  Sentry.init({
-    dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration(),
-      Sentry.feedbackIntegration({
+  const inApp = isInAppBrowser();
+  const integrations: Sentry.Integration[] = [
+    Sentry.browserTracingIntegration(),
+    Sentry.feedbackIntegration({
         // Don't auto-inject - we'll control when to show it
         autoInject: false,
         // Customize the feedback widget
@@ -52,13 +73,20 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
         messagePlaceholder: 'אנא תארו את הבעיה שצפיתם',
         successMessageText: 'תודה על המשוב!'
       })
-    ],
+    ];
+  // Facebook/Instagram in-app browsers restrict postMessage; Replay uses it and throws InvalidAccessError
+  if (!inApp) {
+    integrations.push(Sentry.replayIntegration());
+  }
+  Sentry.init({
+    dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
+    integrations,
 
     // Performance Monitoring
     tracesSampleRate: 1.0,
-    // Session Replay
-    replaysSessionSampleRate: 0.1, // Sample 10% of sessions
-    replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors
+    // Session Replay (disabled in Facebook/Instagram in-app browsers - postMessage throws InvalidAccessError)
+    replaysSessionSampleRate: inApp ? 0 : 0.1,
+    replaysOnErrorSampleRate: inApp ? 0 : 1.0,
     // Send default PII data
     sendDefaultPii: true,
     // Environment

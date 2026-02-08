@@ -1,7 +1,17 @@
 /**
- * Utility functions to detect bots and crawlers
+ * Utility functions to detect bots, crawlers, and restricted browser environments
  * Prevents location permission popups and geolocation API calls for crawlers
  */
+
+/**
+ * Detect Facebook / Instagram in-app browsers (iOS & Android).
+ * These WebViews restrict `window.webkit.messageHandlers` and `postMessage`,
+ * causing TypeErrors and InvalidAccessErrors in third-party SDKs (Brevo, Sentry Replay).
+ */
+export const isInAppBrowser = (): boolean => {
+  if (typeof navigator === 'undefined' || !navigator.userAgent) return false;
+  return /FBAN|FBAV|Instagram|InstagramApp/i.test(navigator.userAgent);
+};
 
 /**
  * Check if the current user agent is a bot/crawler

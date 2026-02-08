@@ -3,11 +3,16 @@
  * Loads the Brevo chat widget script dynamically on specific pages
  */
 
+import { isInAppBrowser } from './botDetection';
+
 let isLoaded = false;
 
 export const loadBrevoWidget = (): void => {
   // Prevent loading multiple times
   if (isLoaded || typeof window === 'undefined') return;
+
+  // Skip in Facebook/Instagram in-app browsers to avoid webkit.messageHandlers TypeError
+  if (isInAppBrowser()) return;
 
   // Check if script already exists
   if (document.getElementById('brevo-conversations-script')) {

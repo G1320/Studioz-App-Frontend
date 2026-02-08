@@ -20,8 +20,18 @@ export const queryClient = new QueryClient({
       // Keep unused data in memory for 30 minutes before garbage collection
       gcTime: 30 * 60 * 1000, // 30 minutes
 
-      // Retry failed requests twice
-      retry: 2,
+      // Retry failed requests twice, but not on network errors (user offline / CORS / etc.)
+      retry: (failureCount, error) => {
+        if (failureCount >= 2) return false;
+        const msg = (error as Error)?.message ?? '';
+        const code = (error as { code?: string })?.code;
+        const isNetworkError =
+          msg === 'Network Error' ||
+          msg === 'Failed to fetch' ||
+          msg === 'Load failed' ||
+          code === 'ERR_NETWORK';
+        return !isNetworkError;
+      },
 
       // Don't refetch on every window focus (too aggressive)
       // But do refetch if data is stale when window regains focus

@@ -6,9 +6,13 @@ export const usePrefetchItem = (itemId: string) => {
   const queryClient = useQueryClient();
 
   return useCallback(() => {
-    queryClient.prefetchQuery({
-      queryKey: ['item', itemId],
-      queryFn: () => getItemById(itemId)
-    });
+    queryClient
+      .prefetchQuery({
+        queryKey: ['item', itemId],
+        queryFn: () => getItemById(itemId)
+      })
+      .catch(() => {
+        // Prefetch is best-effort; avoid unhandled rejection (e.g. network errors in Sentry)
+      });
   }, [queryClient, itemId]);
 };

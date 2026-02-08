@@ -3,6 +3,26 @@
 
 <head>
   <meta charset="UTF-8" />
+  <!-- Stub for WebKit messageHandlers to avoid TypeError in in-app browsers (Facebook, Instagram) where it is undefined -->
+  <script>
+    (function () {
+      if (typeof window === 'undefined') return;
+      var needsStub = false;
+      try {
+        needsStub = !window.webkit || typeof window.webkit.messageHandlers === 'undefined';
+      } catch (e) { needsStub = true; }
+      if (!needsStub) return;
+      try {
+        var noop = function () {};
+        window.webkit = window.webkit || {};
+        if (typeof Proxy !== 'undefined') {
+          window.webkit.messageHandlers = new Proxy({}, { get: function () { return { postMessage: noop }; } });
+        } else {
+          window.webkit.messageHandlers = {};
+        }
+      } catch (e) {}
+    })();
+  </script>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -17,37 +37,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://player.mediadelivery.net">
   <link rel="preconnect" href="https://assets.mediadelivery.net">
-  
+
   <!-- DNS prefetch for lower priority origins -->
   <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
   <!-- Preload LCP hero image - MUST be before CSS to start loading early -->
-  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-640w.webp" as="image" type="image/webp" media="(max-width: 640px)" fetchpriority="high">
-  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-960w.webp" as="image" type="image/webp" media="(min-width: 641px) and (max-width: 960px)" fetchpriority="high">
-  <link rel="preload" href="/images/optimized/Landing-Studio1320-1.webp" as="image" type="image/webp" media="(min-width: 961px)" fetchpriority="high">
+  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-640w.webp" as="image" type="image/webp"
+    media="(max-width: 640px)" fetchpriority="high">
+  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-960w.webp" as="image" type="image/webp"
+    media="(min-width: 641px) and (max-width: 960px)" fetchpriority="high">
+  <link rel="preload" href="/images/optimized/Landing-Studio1320-1.webp" as="image" type="image/webp"
+    media="(min-width: 961px)" fetchpriority="high">
 
   <link rel="stylesheet" href="./src/assets/styles/main.scss" />
-  
+
   <!-- Consolidated fonts: DM Sans (body), IBM Plex Sans (paragraphs), Syne (for-owners display) -->
-  <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=swap"
-    as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=swap" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+
   <!-- Fallback for browsers that don't support preload -->
   <noscript>
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=swap">
   </noscript>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
@@ -91,15 +109,18 @@
     }
   </style>
 
-  <!-- Brevo chat - lazy loaded after page is interactive -->
+  <!-- Brevo chat - lazy loaded after page is interactive (skipped in Facebook/Instagram in-app browsers to avoid webkit.messageHandlers errors) -->
   <script>
     window.addEventListener('load', function () {
+      var ua = navigator.userAgent || '';
+      var isInAppBrowser = /FBAN|FBAV|Instagram|InstagramApp/i.test(ua);
+      if (isInAppBrowser) return;
       setTimeout(function () {
         var s = document.createElement('script');
         s.src = 'https://cdn.brevo.com/js/sdk-loader.js';
         s.async = true;
         document.head.appendChild(s);
-      }, 3000); // Load 3 seconds after page load
+      }, 3000);
     });
   </script>
 
