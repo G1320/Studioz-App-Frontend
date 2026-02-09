@@ -32,6 +32,7 @@ import merchantStats from './locales/en/merchantStats.json';
 import merchantDocs from './locales/en/merchantDocs.json';
 import security from './locales/en/security.json';
 import remoteProjects from './locales/en/remoteProjects.json';
+import features from './locales/en/features.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -63,6 +64,7 @@ import merchantStatsHe from './locales/he/merchantStats.json';
 import merchantDocsHe from './locales/he/merchantDocs.json';
 import securityHe from './locales/he/security.json';
 import remoteProjectsHe from './locales/he/remoteProjects.json';
+import featuresHe from './locales/he/features.json';
 
 i18n
   .use(LanguageDetector)
@@ -99,7 +101,8 @@ i18n
         merchantStats,
         merchantDocs,
         security,
-        remoteProjects
+        remoteProjects,
+        features
       },
       he: {
         discoverPage: discoverPageHe,
@@ -131,7 +134,8 @@ i18n
         merchantStats: merchantStatsHe,
         merchantDocs: merchantDocsHe,
         security: securityHe,
-        remoteProjects: remoteProjectsHe
+        remoteProjects: remoteProjectsHe,
+        features: featuresHe
       }
     },
     fallbackLng: 'he',

@@ -51,9 +51,13 @@ if (typeof window !== 'undefined') {
 // Initialize Sentry for error tracking (production only)
 if (import.meta.env.VITE_NODE_ENV === 'production') {
   const inApp = isInAppBrowser();
-  const integrations: Sentry.Integration[] = [
-    Sentry.browserTracingIntegration(),
-    Sentry.feedbackIntegration({
+  Sentry.init({
+    dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      // Facebook/Instagram in-app browsers restrict postMessage; Replay uses it and throws InvalidAccessError
+      ...(!inApp ? [Sentry.replayIntegration()] : []),
+      Sentry.feedbackIntegration({
         // Don't auto-inject - we'll control when to show it
         autoInject: false,
         // Customize the feedback widget
@@ -73,14 +77,7 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
         messagePlaceholder: 'אנא תארו את הבעיה שצפיתם',
         successMessageText: 'תודה על המשוב!'
       })
-    ];
-  // Facebook/Instagram in-app browsers restrict postMessage; Replay uses it and throws InvalidAccessError
-  if (!inApp) {
-    integrations.push(Sentry.replayIntegration());
-  }
-  Sentry.init({
-    dsn: 'https://9aae340b19784f7ebb4ef1a2e1a10bee@o4510709493071872.ingest.de.sentry.io/4510709534883920',
-    integrations,
+    ],
 
     // Performance Monitoring
     tracesSampleRate: 1.0,

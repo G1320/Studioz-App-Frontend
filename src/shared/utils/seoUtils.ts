@@ -132,6 +132,11 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
     return currentLang === 'he' ? `הצטרפו כמארחים | ${brandName}` : `List Your Studio | ${brandName}`;
   }
 
+  // Features page (Holo-consumable)
+  if (basePath.startsWith('/features')) {
+    return currentLang === 'he' ? `תכונות המוצר | ${brandName}` : `Product Features | ${brandName}`;
+  }
+
   // Default fallback
   return currentLang === 'he' ? `אולפנים להשכרה | ${brandName}` : `Studio Rentals & Services | ${brandName}`;
 };
@@ -215,6 +220,13 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
     return currentLang === 'he'
       ? 'הצטרפו ל-Studioz והתחילו להרוויח מהסטודיו שלכם. פרסמו את הסטודיו שלכם תוך דקות והתחברו עם יוצרים מקצועיים.'
       : 'Join Studioz and start earning from your studio. List your studio in minutes and connect with professional creators looking for the perfect location.';
+  }
+
+  // Features page (Holo-consumable)
+  if (basePath.startsWith('/features')) {
+    return currentLang === 'he'
+      ? 'תכונות פלטפורמת Studioz: יומן חכם, תובנות, הגדרת שירותים, תשלומים, דפי סטודיו, שליטת זמינות ופרויקטים מרחוק. הסברים ותמונות לכל תכונה.'
+      : 'Studioz platform features: smart calendar, insights, service setup, payments, studio pages, availability control, and remote projects. Explanations and images for each feature.';
   }
 
   // Default fallback

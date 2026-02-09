@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "title": "Product Features",
+    "description": "Studioz platform features: smart calendar, insights, service setup, payments, studio pages, availability control, and remote projects. Explanations and images for each feature."
+  },
+  "list": [
+    {
+      "id": "calendar",
+      "title": "Smart Calendar & Sync",
+      "description": "Full sync with Google Calendar and real-time booking system. Prevent double bookings and manage your studio hours with a click. Every new booking appears in your calendar automatically."
+    },
+    {
+      "id": "insights",
+      "title": "Insights & Data",
+      "description": "Track revenue, active hours, and growth metrics at a glance. Make data-driven decisions to increase your profitability with clear dashboards and reports."
+    },
+    {
+      "id": "services",
+      "title": "Service Setup",
+      "description": "Customize every detail of your recording or podcast packages. Set flexible pricing, add-ons, and booking terms easily. Define multiple services per studio."
+    },
+    {
+      "id": "payments",
+      "title": "Payments & Billing",
+      "description": "Accept payments securely, auto-generate invoices, and manage cash flow. All in one place—deposits, final payments, and reporting by period."
+    },
+    {
+      "id": "studio_pages",
+      "title": "Studio Pages That Convert",
+      "description": "We don't just display your studio—we sell it. Custom pages that work perfectly in dark and light mode. Premium, ad-free experience for your clients."
+    },
+    {
+      "id": "availability",
+      "title": "Availability Control",
+      "description": "Set advanced availability rules, buffer times, and gaps between sessions. The system ensures no double bookings and your day runs exactly as planned. Instant or manual approval."
+    },
+    {
+      "id": "remote",
+      "title": "Remote Projects",
+      "description": "Offer mixing, mastering, and post-production to artists nationwide. Asynchronous workflow, project-based pricing, integrated chat, and secure payments. Your studio doesn't need to be open for you to earn."
+    }
+  ]
+}
