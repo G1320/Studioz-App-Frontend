@@ -280,7 +280,8 @@ const uploadToPresignedUrl = (
     });
 
     xhr.open('PUT', url);
-    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+    // Don't set Content-Type header - let browser handle it or use presigned URL's content type
+    // Setting extra headers can cause CORS issues with R2
     xhr.send(file);
   });
 };
