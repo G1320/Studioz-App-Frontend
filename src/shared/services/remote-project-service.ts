@@ -218,7 +218,7 @@ export const uploadProjectFile = async (
   });
 
   // Step 2: Upload to R2 using presigned URL
-  await uploadToPresignedUrl(uploadUrlResponse.uploadUrl, file, onProgress);
+  await uploadToR2(uploadUrlResponse.uploadUrl, file, onProgress);
 
   // Step 3: Register file in database
   const registeredFile = await registerFile(projectId, {
@@ -234,14 +234,10 @@ export const uploadProjectFile = async (
   return registeredFile;
 };
 
-// Cloudflare Worker proxy URL for R2 uploads (bypasses R2 CORS issues)
-const R2_PROXY_URL = import.meta.env.VITE_R2_PROXY_URL || '';
-
 /**
- * Upload file to presigned URL with progress tracking
- * Uses Worker proxy if configured, otherwise direct upload
+ * Upload file directly to R2 using presigned URL
  */
-const uploadToPresignedUrl = (url: string, file: File, onProgress?: (progress: number) => void): Promise<void> => {
+const uploadToR2 = (url: string, file: File, onProgress?: (progress: number) => void): Promise<void> => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
 
@@ -264,10 +260,7 @@ const uploadToPresignedUrl = (url: string, file: File, onProgress?: (progress: n
       reject(new Error('Upload failed'));
     });
 
-    // Use Worker proxy if configured, otherwise direct R2 URL
-    const uploadUrl = R2_PROXY_URL ? `${R2_PROXY_URL}/proxy?url=${encodeURIComponent(url)}` : url;
-
-    xhr.open('PUT', uploadUrl);
+    xhr.open('PUT', url);
     xhr.send(file);
   });
 };
