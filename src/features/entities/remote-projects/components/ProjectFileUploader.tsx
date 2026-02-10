@@ -292,24 +292,6 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
         <div className="project-file-uploader__loading">{t('common.loading')}</div>
       ) : files.length > 0 ? (
         <>
-          <div className="project-file-uploader__toolbar">
-            <Button
-              className="button--secondary button--small"
-              onClick={handleDownloadAll}
-              disabled={isDownloadingAll}
-            >
-              {isDownloadingAll ? t('common.processing') : t('downloadAll')}
-            </Button>
-            {!disabled && (
-              <Button
-                className="button--danger button--small"
-                onClick={handleDeleteAll}
-                disabled={isDeletingAll || deleteMutation.isPending}
-              >
-                {isDeletingAll ? t('common.processing') : t('deleteAll')}
-              </Button>
-            )}
-          </div>
           <ul className="project-file-uploader__file-list">
           {files.map((file: ProjectFile) => (
             <li key={file._id} className="project-file-uploader__file-item">
@@ -337,6 +319,24 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
             </li>
           ))}
           </ul>
+          <div className="project-file-uploader__toolbar">
+            <Button
+              className="button--secondary button--small"
+              onClick={handleDownloadAll}
+              disabled={isDownloadingAll}
+            >
+              {isDownloadingAll ? t('common.processing') : t('downloadAll')}
+            </Button>
+            {!disabled && (
+              <Button
+                className="button--danger button--small"
+                onClick={handleDeleteAll}
+                disabled={isDeletingAll || deleteMutation.isPending}
+              >
+                {isDeletingAll ? t('common.processing') : t('deleteAll')}
+              </Button>
+            )}
+          </div>
         </>
       ) : (
         <p className="project-file-uploader__empty">{t('noFiles')}</p>
