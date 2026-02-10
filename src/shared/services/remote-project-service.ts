@@ -9,7 +9,7 @@ import {
   ProjectDetailResponse,
   UploadUrlResponse,
   DownloadUrlResponse,
-  MessagesResponse,
+  MessagesResponse
 } from 'src/types';
 
 const endpoint = '/remote-projects';
@@ -65,10 +65,7 @@ export const acceptProject = async (projectId: string): Promise<RemoteProject> =
   }
 };
 
-export const declineProject = async (
-  projectId: string,
-  reason?: string
-): Promise<RemoteProject> => {
+export const declineProject = async (projectId: string, reason?: string): Promise<RemoteProject> => {
   try {
     return await httpService.patch(`${endpoint}/${projectId}/decline`, { reason });
   } catch (error) {
@@ -86,10 +83,7 @@ export const startProject = async (projectId: string): Promise<RemoteProject> =>
   }
 };
 
-export const deliverProject = async (
-  projectId: string,
-  deliveryNotes?: string
-): Promise<RemoteProject> => {
+export const deliverProject = async (projectId: string, deliveryNotes?: string): Promise<RemoteProject> => {
   try {
     return await httpService.patch(`${endpoint}/${projectId}/deliver`, { deliveryNotes });
   } catch (error) {
@@ -98,10 +92,7 @@ export const deliverProject = async (
   }
 };
 
-export const requestRevision = async (
-  projectId: string,
-  feedback: string
-): Promise<RemoteProject> => {
+export const requestRevision = async (projectId: string, feedback: string): Promise<RemoteProject> => {
   try {
     return await httpService.patch(`${endpoint}/${projectId}/request-revision`, { feedback });
   } catch (error) {
@@ -175,10 +166,7 @@ export const registerFile = async (
   }
 };
 
-export const getProjectFiles = async (
-  projectId: string,
-  type?: ProjectFileType
-): Promise<{ files: ProjectFile[] }> => {
+export const getProjectFiles = async (projectId: string, type?: ProjectFileType): Promise<{ files: ProjectFile[] }> => {
   try {
     const params = type ? { type } : {};
     return await httpService.get(`${endpoint}/${projectId}/files`, params);
@@ -188,10 +176,7 @@ export const getProjectFiles = async (
   }
 };
 
-export const getDownloadUrl = async (
-  projectId: string,
-  fileId: string
-): Promise<DownloadUrlResponse> => {
+export const getDownloadUrl = async (projectId: string, fileId: string): Promise<DownloadUrlResponse> => {
   try {
     return await httpService.get(`${endpoint}/${projectId}/files/${fileId}/download`);
   } catch (error) {
@@ -229,7 +214,7 @@ export const uploadProjectFile = async (
     fileSize: file.size,
     mimeType: file.type || 'application/octet-stream',
     type,
-    description,
+    description
   });
 
   // Step 2: Upload to R2 using presigned URL
@@ -243,20 +228,20 @@ export const uploadProjectFile = async (
     mimeType: file.type || 'application/octet-stream',
     storageKey: uploadUrlResponse.storageKey,
     type,
-    description,
+    description
   });
 
   return registeredFile;
 };
 
+// Cloudflare Worker proxy URL for R2 uploads (bypasses R2 CORS issues)
+const R2_PROXY_URL = import.meta.env.VITE_R2_PROXY_URL || '';
+
 /**
  * Upload file to presigned URL with progress tracking
+ * Uses Worker proxy if configured, otherwise direct upload
  */
-const uploadToPresignedUrl = (
-  url: string,
-  file: File,
-  onProgress?: (progress: number) => void
-): Promise<void> => {
+const uploadToPresignedUrl = (url: string, file: File, onProgress?: (progress: number) => void): Promise<void> => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
 
@@ -279,9 +264,10 @@ const uploadToPresignedUrl = (
       reject(new Error('Upload failed'));
     });
 
-    xhr.open('PUT', url);
-    // Don't set Content-Type header - let browser handle it or use presigned URL's content type
-    // Setting extra headers can cause CORS issues with R2
+    // Use Worker proxy if configured, otherwise direct R2 URL
+    const uploadUrl = R2_PROXY_URL ? `${R2_PROXY_URL}/proxy?url=${encodeURIComponent(url)}` : url;
+
+    xhr.open('PUT', uploadUrl);
     xhr.send(file);
   });
 };
@@ -312,7 +298,7 @@ export const sendMessage = async (
     return await httpService.post(`${endpoint}/${projectId}/messages`, {
       senderId,
       message,
-      attachmentIds,
+      attachmentIds
     });
   } catch (error) {
     console.error(`Error sending message for project ${projectId}:`, error);
@@ -328,7 +314,7 @@ export const markMessagesAsRead = async (
   try {
     return await httpService.patch(`${endpoint}/${projectId}/messages/read`, {
       userId,
-      messageIds,
+      messageIds
     });
   } catch (error) {
     console.error(`Error marking messages as read for project ${projectId}:`, error);
@@ -363,7 +349,7 @@ export const getStatusInfo = (status: string): { label: string; color: string } 
     revision_requested: { label: 'Revision Requested', color: 'warning' },
     completed: { label: 'Completed', color: 'success' },
     cancelled: { label: 'Cancelled', color: 'error' },
-    declined: { label: 'Declined', color: 'error' },
+    declined: { label: 'Declined', color: 'error' }
   };
   return statusMap[status] || { label: status, color: 'default' };
 };
