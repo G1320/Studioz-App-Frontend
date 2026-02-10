@@ -3,7 +3,7 @@ import { Button } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { useUploadFileMutation, useDeleteFileMutation } from '@shared/hooks';
 import { useProjectFiles } from '@shared/hooks';
-import { formatFileSize } from '@shared/services';
+import { formatFileSize, getDownloadUrl } from '@shared/services';
 import { ProjectFileType, ProjectFile } from 'src/types/index';
 import './styles/_project-file-uploader.scss';
 
@@ -36,6 +36,8 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploads, setUploads] = useState<UploadProgress[]>([]);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
+  const [isDownloadingAll, setIsDownloadingAll] = useState(false);
 
   const { files, isLoading, refetch } = useProjectFiles({ projectId, type: fileType });
   const uploadMutation = useUploadFileMutation();
@@ -162,6 +164,57 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     }
   };
 
+  const handleDownloadFile = async (file: ProjectFile) => {
+    try {
+      const response = await getDownloadUrl(projectId, file._id);
+      window.open(response.downloadUrl, '_blank');
+    } catch (error) {
+      console.error('Failed to get download URL:', error);
+      alert('Failed to download file');
+    }
+  };
+
+  const handleDownloadAll = async () => {
+    if (files.length === 0) return;
+    setIsDownloadingAll(true);
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const response = await getDownloadUrl(projectId, file._id);
+        const link = document.createElement('a');
+        link.href = response.downloadUrl;
+        link.setAttribute('download', file.fileName);
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        if (i < files.length - 1) {
+          await new Promise((r) => setTimeout(r, 500));
+        }
+      }
+    } catch (error) {
+      console.error('Failed to download files:', error);
+    } finally {
+      setIsDownloadingAll(false);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (files.length === 0) return;
+    if (!confirm(t('confirmDeleteAll', { count: files.length }))) return;
+    setIsDeletingAll(true);
+    try {
+      for (const file of files) {
+        await deleteMutation.mutateAsync({ projectId, fileId: file._id });
+      }
+      refetch();
+    } catch (error) {
+      console.error('Failed to delete files:', error);
+    } finally {
+      setIsDeletingAll(false);
+    }
+  };
+
   const fileTypeLabel = {
     source: t('sourceFiles'),
     deliverable: t('deliverables'),
@@ -229,7 +282,26 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
       {isLoading ? (
         <div className="project-file-uploader__loading">{t('common.loading')}</div>
       ) : files.length > 0 ? (
-        <ul className="project-file-uploader__file-list">
+        <>
+          <div className="project-file-uploader__toolbar">
+            <Button
+              className="button--secondary button--small"
+              onClick={handleDownloadAll}
+              disabled={isDownloadingAll}
+            >
+              {isDownloadingAll ? t('common.processing') : t('downloadAll')}
+            </Button>
+            {!disabled && (
+              <Button
+                className="button--danger button--small"
+                onClick={handleDeleteAll}
+                disabled={isDeletingAll || deleteMutation.isPending}
+              >
+                {isDeletingAll ? t('common.processing') : t('deleteAll')}
+              </Button>
+            )}
+          </div>
+          <ul className="project-file-uploader__file-list">
           {files.map((file: ProjectFile) => (
             <li key={file._id} className="project-file-uploader__file-item">
               <div className="project-file-uploader__file-info">
@@ -239,10 +311,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
               <div className="project-file-uploader__file-actions">
                 <Button
                   className="button--secondary button--small"
-                  onClick={() => {
-                    // Download will be handled by getting download URL
-                    window.open(`/api/remote-projects/${projectId}/files/${file._id}/download`, '_blank');
-                  }}
+                  onClick={() => handleDownloadFile(file)}
                 >
                   {t('download')}
                 </Button>
@@ -258,7 +327,8 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
               </div>
             </li>
           ))}
-        </ul>
+          </ul>
+        </>
       ) : (
         <p className="project-file-uploader__empty">{t('noFiles')}</p>
       )}

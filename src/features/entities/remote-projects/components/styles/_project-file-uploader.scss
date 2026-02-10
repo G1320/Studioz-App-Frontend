@@ -197,11 +197,20 @@
     font-size: 0.875rem;
   }
 
+  // Toolbar (Download All / Delete All)
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
   // File List (uploaded files)
   &__file-list {
     list-style: none;
     padding: 0;
-    margin: 1rem 0 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

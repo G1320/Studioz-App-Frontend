@@ -82,8 +82,11 @@
   "maxFilesExceeded": "מקסימום {{count}} קבצים מותר",
   "uploadComplete": "העלאה הושלמה",
   "confirmDelete": "האם אתה בטוח שברצונך למחוק קובץ זה?",
+  "confirmDeleteAll": "האם אתה בטוח שברצונך למחוק את כל {{count}} הקבצים? לא ניתן לבטל.",
   "download": "הורד",
   "delete": "מחק",
+  "downloadAll": "הורד הכל",
+  "deleteAll": "מחק הכל",
 
   "messages": "הודעות",
   "noMessages": "אין הודעות עדיין. התחל את השיחה!",
