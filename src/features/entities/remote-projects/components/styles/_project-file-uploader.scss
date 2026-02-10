@@ -198,24 +198,38 @@
     font-size: 0.875rem;
   }
 
+  // Toolbar (Download All / Delete All) — above list, with label so purpose is clear
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding-inline: 1rem;
+  }
+
+  &__toolbar-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  &__toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
   // File List (uploaded files)
   &__file-list {
     list-style: none;
     padding: 0;
-    margin: 1rem 0 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  // Toolbar (Download All / Delete All) — below list, same end padding as file-item so buttons align
-  &__toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: flex-end;
-    margin-top: 0.75rem;
-    padding-inline: 1rem;
   }
 
   &__file-item {

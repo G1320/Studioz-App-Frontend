@@ -87,6 +87,7 @@
   "delete": "Delete",
   "downloadAll": "Download All",
   "deleteAll": "Delete All",
+  "bulkActionsLabel": "For all files",
   "downloadFailed": "Failed to download file",
 
   "messages": "Messages",
