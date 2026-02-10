@@ -87,6 +87,7 @@
   "delete": "Delete",
   "downloadAll": "Download All",
   "deleteAll": "Delete All",
+  "downloadFailed": "Failed to download file",
 
   "messages": "Messages",
   "noMessages": "No messages yet. Start the conversation!",

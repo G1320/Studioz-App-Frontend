@@ -164,13 +164,29 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     }
   };
 
+  /** Fetch file as blob and trigger download so the browser saves the file instead of opening/playing it. */
+  const downloadFileAsBlob = async (file: ProjectFile) => {
+    const { downloadUrl } = await getDownloadUrl(projectId, file._id);
+    const res = await fetch(downloadUrl, { mode: 'cors' });
+    if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = file.fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  };
+
   const handleDownloadFile = async (file: ProjectFile) => {
     try {
-      const response = await getDownloadUrl(projectId, file._id);
-      window.open(response.downloadUrl, '_blank');
+      await downloadFileAsBlob(file);
     } catch (error) {
-      console.error('Failed to get download URL:', error);
-      alert('Failed to download file');
+      console.error('Failed to download file:', error);
+      alert(t('downloadFailed'));
     }
   };
 
@@ -179,21 +195,14 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     setIsDownloadingAll(true);
     try {
       for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const response = await getDownloadUrl(projectId, file._id);
-        const link = document.createElement('a');
-        link.href = response.downloadUrl;
-        link.setAttribute('download', file.fileName);
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        await downloadFileAsBlob(files[i]);
         if (i < files.length - 1) {
           await new Promise((r) => setTimeout(r, 500));
         }
       }
     } catch (error) {
       console.error('Failed to download files:', error);
+      alert(t('downloadFailed'));
     } finally {
       setIsDownloadingAll(false);
     }
