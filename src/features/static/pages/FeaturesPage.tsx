@@ -1,50 +1,32 @@
 /**
- * Features Page – Product features with explanations and images.
- * Consumable by Holo and other tools via JSON-LD and semantic HTML.
+ * Features List Page – All product features with links to each feature page.
+ * Path: /:lang/features
+ * Consumable by Holo via JSON-LD and semantic HTML.
  */
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { BASE_URL, FEATURE_IMAGES, toAbsoluteImageUrl } from '../featuresConfig';
+import type { FeatureId } from '../featuresConfig';
 import '../styles/_features-page.scss';
-
-const BASE_URL = 'https://www.studioz.co.il';
-
-// Feature id → image paths (relative). Same for all locales.
-const FEATURE_IMAGES: Record<string, string[]> = {
-  calendar: ['/images/optimized/Studioz-Dashboard-Calendar.webp'],
-  insights: [
-    'https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/3a367b33-67cb-40f8-95ff-6e999870beae/1769012593593-19b82447/Studioz-stats.PNG'
-  ],
-  services: ['/images/optimized/Studioz-Studio-Details-Order-1-Light.webp'],
-  payments: [
-    'https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/3a367b33-67cb-40f8-95ff-6e999870beae/1769012592283-95784a84/Studioz-Service-Detail-PaymentStep-Saved-Cards.PNG'
-  ],
-  studio_pages: [
-    '/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp',
-    '/images/optimized/Studioz-Studio-Details-1-Light-315w.webp'
-  ],
-  availability: ['/images/optimized/Studio-Availability-Controls-desktop-1-V3-634w.webp'],
-  remote: ['/images/optimized/Studioz-Dashboard-Calendar.webp']
-};
-
-function toAbsolute(url: string): string {
-  if (url.startsWith('http')) return url;
-  return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
-}
 
 export default function FeaturesPage() {
   const { t, i18n } = useTranslation('features');
   const { lang } = useParams<{ lang?: string }>();
   const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
 
-  const list = t('list', { returnObjects: true }) as Array<{ id: string; title: string; description: string }>;
+  const list = t('list', { returnObjects: true }) as Array<{
+    id: string;
+    title: string;
+    description: string;
+  }>;
   const features = useMemo(() => {
     if (!Array.isArray(list)) return [];
     return list.map((item) => ({
       ...item,
-      images: FEATURE_IMAGES[item.id] || []
+      images: FEATURE_IMAGES[item.id as FeatureId] ?? []
     }));
   }, [list]);
 
@@ -54,10 +36,10 @@ export default function FeaturesPage() {
       position: index + 1,
       item: {
         '@type': 'Thing',
-        '@id': `${BASE_URL}/${currentLang}/features#${f.id}`,
+        '@id': `${BASE_URL}/${currentLang}/features/${f.id}`,
         name: f.title,
         description: f.description,
-        image: f.images.map(toAbsolute)
+        image: f.images.map(toAbsoluteImageUrl)
       }
     }));
 
@@ -99,12 +81,29 @@ export default function FeaturesPage() {
                 transition={{ duration: 0.4, delay: index * 0.06 }}
               >
                 <div className="features-page__card-content">
-                  <h2 className="features-page__card-title">{feature.title}</h2>
+                  <h2 className="features-page__card-title">
+                    <Link
+                      to={`/${currentLang}/features/${feature.id}`}
+                      className="features-page__card-link"
+                    >
+                      {feature.title}
+                    </Link>
+                  </h2>
                   <p className="features-page__card-description">{feature.description}</p>
+                  <Link
+                    to={`/${currentLang}/features/${feature.id}`}
+                    className="features-page__card-cta"
+                  >
+                    {currentLang === 'he' ? 'לפרטים ולתמונות' : 'View details & images'}
+                  </Link>
                 </div>
                 {feature.images.length > 0 && (
-                  <div className="features-page__card-images">
-                    {feature.images.map((src, i) => (
+                  <Link
+                    to={`/${currentLang}/features/${feature.id}`}
+                    className="features-page__card-images"
+                    aria-label={feature.title}
+                  >
+                    {feature.images.slice(0, 2).map((src, i) => (
                       <div key={i} className="features-page__card-image-wrap">
                         <img
                           src={src}
@@ -115,7 +114,12 @@ export default function FeaturesPage() {
                         />
                       </div>
                     ))}
-                  </div>
+                    {feature.images.length > 2 && (
+                      <span className="features-page__card-more">
+                        +{feature.images.length - 2}
+                      </span>
+                    )}
+                  </Link>
                 )}
               </motion.article>
             ))}

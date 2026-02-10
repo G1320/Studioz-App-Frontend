@@ -4,3 +4,4 @@ export { default as ForOwnersPage } from './ForOwnersPage';
 export { default as HowItWorksPage } from './HowItWorksPage';
 export { default as SecurityPage } from './SecurityPage';
 export { default as FeaturesPage } from './FeaturesPage';
+export { default as FeatureDetailPage } from './FeatureDetailPage';

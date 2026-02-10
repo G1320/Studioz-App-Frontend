@@ -35,6 +35,7 @@ const ForOwnersPage = lazy(() => import('@features/static/pages/ForOwnersPage'))
 const ChangelogPage = lazy(() => import('@features/static/pages/ChangelogPage'));
 const SecurityPage = lazy(() => import('@features/static/pages/SecurityPage'));
 const FeaturesPage = lazy(() => import('@features/static/pages/FeaturesPage'));
+const FeatureDetailPage = lazy(() => import('@features/static/pages/FeatureDetailPage'));
 const ServicesPage = lazy(() => import('@features/entities/items/pages/ServicesPage'));
 const StudiosPage = lazy(() => import('@features/entities/studios/pages/StudiosPage'));
 const CreateItemPage = lazy(() => import('@features/entities/items/pages/CreateItemPage'));
@@ -361,6 +362,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <SecurityPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/features/:featureId"
+            element={
+              <AnimatedRoute>
+                <FeatureDetailPage />
               </AnimatedRoute>
             }
           />

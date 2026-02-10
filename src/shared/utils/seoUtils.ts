@@ -132,9 +132,14 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
     return currentLang === 'he' ? `הצטרפו כמארחים | ${brandName}` : `List Your Studio | ${brandName}`;
   }
 
-  // Features page (Holo-consumable)
-  if (basePath.startsWith('/features')) {
+  // Features list page
+  if (basePath === '/features') {
     return currentLang === 'he' ? `תכונות המוצר | ${brandName}` : `Product Features | ${brandName}`;
+  }
+
+  // Feature detail page (/features/calendar, etc.)
+  if (basePath.startsWith('/features/')) {
+    return currentLang === 'he' ? `תכונת מוצר | ${brandName}` : `Product Feature | ${brandName}`;
   }
 
   // Default fallback
@@ -222,11 +227,18 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
       : 'Join Studioz and start earning from your studio. List your studio in minutes and connect with professional creators looking for the perfect location.';
   }
 
-  // Features page (Holo-consumable)
-  if (basePath.startsWith('/features')) {
+  // Features list page
+  if (basePath === '/features') {
     return currentLang === 'he'
       ? 'תכונות פלטפורמת Studioz: יומן חכם, תובנות, הגדרת שירותים, תשלומים, דפי סטודיו, שליטת זמינות ופרויקטים מרחוק. הסברים ותמונות לכל תכונה.'
       : 'Studioz platform features: smart calendar, insights, service setup, payments, studio pages, availability control, and remote projects. Explanations and images for each feature.';
+  }
+
+  // Feature detail page (overridden by Helmet on the page)
+  if (basePath.startsWith('/features/')) {
+    return currentLang === 'he'
+      ? 'תכונת פלטפורמת Studioz – הסבר מפורט ותמונות.'
+      : 'Studioz platform feature – detailed explanation and images.';
   }
 
   // Default fallback
