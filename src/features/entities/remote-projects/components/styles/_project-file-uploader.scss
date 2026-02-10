@@ -48,6 +48,7 @@
     inset: 0;
     opacity: 0;
     cursor: pointer;
+    pointer-events: none; /* Only dropzone receives clicks; one programmatic .click() = one dialog open */
 
     &:disabled {
       cursor: not-allowed;
