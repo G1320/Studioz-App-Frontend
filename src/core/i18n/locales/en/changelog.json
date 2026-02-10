@@ -2,11 +2,25 @@
   "title": "System Updates",
   "subtitle": "All new features, improvements, and fixes",
   "months": {
+    "feb2026": "February 2026",
     "jan2026": "January 2026",
     "dec2025": "December 2025",
     "nov2025": "November 2025"
   },
   "releases": {
+    "feb2026": {
+      "remoteProjects": {
+        "date": "February 2026",
+        "title": "Remote Projects — Fully Functional",
+        "description": "Offer mixing, mastering, and post-production to artists nationwide",
+        "changes": {
+          "workflow": "End-to-end workflow: request, upload, chat, deliver, and pay",
+          "chat": "Integrated chat and file history per project",
+          "uploads": "File uploads and delivery with secure storage",
+          "payments": "Deposits and final payments upon project delivery"
+        }
+      }
+    },
     "jan2026": {
       "updates": {
         "date": "January 20-25",

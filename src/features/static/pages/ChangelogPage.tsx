@@ -37,6 +37,23 @@ interface MonthGroup {
 
 const CHANGELOG_DATA: MonthGroup[] = [
   {
+    monthKey: 'months.feb2026',
+    releases: [
+      {
+        version: 'feb-remote-projects',
+        dateKey: 'releases.feb2026.remoteProjects.date',
+        titleKey: 'releases.feb2026.remoteProjects.title',
+        descriptionKey: 'releases.feb2026.remoteProjects.description',
+        changes: [
+          { id: 'rp1', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.workflow' },
+          { id: 'rp2', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.chat' },
+          { id: 'rp3', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.uploads' },
+          { id: 'rp4', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.payments' },
+        ],
+      },
+    ],
+  },
+  {
     monthKey: 'months.jan2026',
     releases: [
       {
