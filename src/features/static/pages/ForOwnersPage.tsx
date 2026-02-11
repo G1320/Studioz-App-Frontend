@@ -102,8 +102,11 @@ const ForOwnersPage: React.FC = () => {
     navigate('/studio/create');
   };
 
+  const [howItWorksVideoKey, setHowItWorksVideoKey] = useState(0);
+
   const scrollToHowItWorks = () => {
     document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+    setHowItWorksVideoKey((k) => k + 1);
   };
 
   // const stats = [
@@ -197,7 +200,7 @@ const ForOwnersPage: React.FC = () => {
       </section>
 
       {/* How It Works (how to order) — bottom of fold for better flow */}
-      <HowItWorksSection />
+      <HowItWorksSection videoRestartKey={howItWorksVideoKey} />
 
       {/* Schedule Control (קבל הזמנות / רק כשמתאים לך) — second section after How It Works */}
       <ScheduleControlSection />

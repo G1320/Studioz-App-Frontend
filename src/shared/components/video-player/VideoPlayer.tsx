@@ -43,7 +43,7 @@ export interface VideoPlayerProps {
 
 /**
  * Reusable Video Player Component
- * 
+ *
  * Supports embedded videos with:
  * - Loading spinner overlay
  * - macOS-style frame bar
@@ -109,17 +109,10 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
   }, [embedUrl, onLoadStart]);
 
-  const containerClasses = [
-    'video-player',
-    `video-player--${variant}`,
-    className
-  ].filter(Boolean).join(' ');
+  const containerClasses = ['video-player', `video-player--${variant}`, className].filter(Boolean).join(' ');
 
   return (
-    <div 
-      className={containerClasses}
-      style={{ '--video-aspect-ratio': aspectRatio } as React.CSSProperties}
-    >
+    <div className={containerClasses} style={{ '--video-aspect-ratio': aspectRatio } as React.CSSProperties}>
       {/* macOS-style Frame Bar */}
       {showFrameBar && (
         <div className="video-player__frame">
@@ -132,9 +125,9 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       {/* Loading Overlay */}
       {isLoading && embedUrl && !hasError && (
         <div className="video-player__loading-overlay">
-          <div 
+          <div
             className="video-player__spinner"
-            style={spinnerColor ? { borderTopColor: spinnerColor } as React.CSSProperties : undefined}
+            style={spinnerColor ? ({ borderTopColor: spinnerColor } as React.CSSProperties) : undefined}
           />
         </div>
       )}
@@ -153,11 +146,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       ) : (
         <div className="video-player__placeholder">
           {posterUrl ? (
-            <img 
-              src={posterUrl} 
-              alt="Video poster" 
-              className="video-player__poster"
-            />
+            <img src={posterUrl} alt="Video poster" className="video-player__poster" />
           ) : (
             <>
               <PlayIcon className="video-player__placeholder-icon" />

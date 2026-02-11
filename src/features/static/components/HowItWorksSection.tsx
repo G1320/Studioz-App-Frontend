@@ -51,11 +51,16 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, stepNumbe
 // Video embed URL for the how it works demo
 const VIDEO_EMBED_URL = 'https://player.mediadelivery.net/embed/583287/65c4a479-7457-4b84-a0f3-18b2792429b5';
 
+export interface HowItWorksSectionProps {
+  /** When this value changes, the demo video remounts and starts from the beginning (e.g. when user clicks View Demo). */
+  videoRestartKey?: number;
+}
+
 /**
  * How It Works Section Component
  * Embedded section for ForOwnersPage
  */
-export const HowItWorksSection: React.FC = () => {
+export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoRestartKey = 0 }) => {
   const { t } = useTranslation('howItWorks');
 
   const steps = [
@@ -109,6 +114,7 @@ export const HowItWorksSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <VideoPlayer
+              key={videoRestartKey}
               embedUrl={VIDEO_EMBED_URL}
               showFrameBar={true}
               placeholderText="Video Coming Soon"
