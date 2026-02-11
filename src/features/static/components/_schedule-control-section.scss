@@ -43,6 +43,7 @@
   // Content Side
   &__content {
     width: 100%;
+    min-width: 0;
     order: 2;
     text-align: start;
 
@@ -63,6 +64,9 @@
     margin-bottom: 1.5rem;
     color: var(--text-primary);
     text-align: start;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
 
     @media (min-width: 768px) {
       margin-bottom: 2rem;
@@ -76,6 +80,10 @@
     text-underline-offset: 8px;
     text-decoration-thickness: 3px;
     white-space: nowrap;
+
+    @media (max-width: 480px) {
+      white-space: normal;
+    }
   }
 
   &__description {

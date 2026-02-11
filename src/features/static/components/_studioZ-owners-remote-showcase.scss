@@ -78,6 +78,7 @@ $remote-showcase-green: #22c55e;
   // Content Side
   &__content {
     flex: 1;
+    min-width: 0; /* allow flex child to shrink and prevent overflow */
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -90,7 +91,7 @@ $remote-showcase-green: #22c55e;
     }
   }
 
-  // Title - display font when inside for-owners page
+  // Title - display font when inside for-owners page; wrap long lines to prevent overflow
   &__title {
     font-family: var(--owners-font-display, inherit);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -98,6 +99,9 @@ $remote-showcase-green: #22c55e;
     color: var(--text-primary, #ffffff);
     line-height: 1.08;
     letter-spacing: -0.03em;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
 
     [data-theme='light'] & {
       color: #000000;

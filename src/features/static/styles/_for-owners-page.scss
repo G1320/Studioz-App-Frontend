@@ -256,8 +256,10 @@
     position: relative;
     z-index: 10;
     max-width: 896px;
+    width: 100%;
     margin-inline: auto;
     text-align: center;
+    min-width: 0;
   }
 
   &__title {
@@ -267,6 +269,9 @@
     letter-spacing: -0.03em;
     line-height: 1.08;
     margin-bottom: vars.$spacing-medium;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
 
     @media (min-width: 768px) {
       margin-bottom: vars.$spacing-xl;
