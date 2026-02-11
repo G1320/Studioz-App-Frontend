@@ -130,9 +130,8 @@
 }
 
 // ===================
-// DARK THEME — Blue-tinted palette (Frame.io / premium dark UI style)
+// DARK THEME — Dark, subtle cool-gray (softer than pure black, less blue)
 // ===================
-// Softer than pure black; slate/blue-gray base for reduced eye strain
 [data-theme='dark'] {
   color-scheme: dark;
 
@@ -145,33 +144,33 @@
   --color-brand-border: rgba(255, 209, 102, 0.2);
   --color-brand-glow: rgba(255, 209, 102, 0.3);
 
-  // Background Colors — blue-gray (slate) instead of pure black
-  --bg-primary: #0f172a;       /* slate-900 — main canvas */
-  --bg-secondary: #1e293b;     /* slate-800 — cards, panels */
-  --bg-tertiary: #1e293b;
-  --bg-card: #1e293b;
-  --bg-surface: #1e293b;       /* sections, sidebars */
-  --bg-elevated: #334155;     /* slate-700 — dropdowns, popovers */
-  --bg-input: #1e293b;
+  // Background Colors — darker, subtle cool-gray (not as blue as slate)
+  --bg-primary: #0a0e14;       /* main canvas */
+  --bg-secondary: #13171d;     /* cards, panels */
+  --bg-tertiary: #13171d;
+  --bg-card: #13171d;
+  --bg-surface: #13171d;
+  --bg-elevated: #1a1f28;      /* dropdowns, popovers */
+  --bg-input: #13171d;
   --bg-hover: rgba(255, 255, 255, 0.06);
   --bg-active: rgba(255, 255, 255, 0.1);
-  --bg-skeleton: linear-gradient(90deg, #334155 0%, #475569 50%, #334155 100%);
+  --bg-skeleton: linear-gradient(90deg, #1a1f28 0%, #252b36 50%, #1a1f28 100%);
 
-  // Text Colors — slight blue-white for harmony
-  --text-primary: #f8fafc;    /* slate-50 */
-  --text-secondary: #cbd5e1;  /* slate-300 — 0.85 equiv */
-  --text-tertiary: #94a3b8;   /* slate-400 */
-  --text-muted: #64748b;      /* slate-500 */
-  --text-inverse: #0f172a;
+  // Text Colors — neutral light grays
+  --text-primary: #f1f5f9;
+  --text-secondary: #b8c0cc;
+  --text-tertiary: #88909c;
+  --text-muted: #5c6470;
+  --text-inverse: #0a0e14;
   --text-link: #60a5fa;
   --text-link-hover: #93c5fd;
 
-  // Border Colors — blue-tinted subtle
-  --border-primary: rgba(148, 163, 184, 0.15);  /* slate-400 */
-  --border-secondary: #334155;
+  // Border Colors — neutral gray, subtle
+  --border-primary: rgba(200, 205, 212, 0.12);
+  --border-secondary: #1a1f28;
   --border-focus: #ffd166;
-  --border-hover: rgba(148, 163, 184, 0.25);
-  --border-active: rgba(148, 163, 184, 0.35);
+  --border-hover: rgba(200, 205, 212, 0.2);
+  --border-active: rgba(200, 205, 212, 0.28);
 
   // Status Colors
   --color-success: #10b981;
@@ -199,37 +198,37 @@
   --color-sumit-hover: #0052a3;
   --color-sumit-glow: rgba(0, 102, 204, 0.4);
 
-  // Shadows — blue-black tint for depth
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.4);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.5), 0 2px 4px -2px rgba(15, 23, 42, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.5), 0 4px 6px -4px rgba(15, 23, 42, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.6), 0 8px 10px -6px rgba(15, 23, 42, 0.5);
+  // Shadows — dark neutral
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.55), 0 8px 10px -6px rgba(0, 0, 0, 0.45);
   --shadow-glow: 0 0 20px rgba(255, 209, 102, 0.3);
-  --shadow-card: 0 4px 12px rgba(15, 23, 42, 0.5);
-  --shadow-dropdown: 0 10px 40px rgba(15, 23, 42, 0.6);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-dropdown: 0 10px 40px rgba(0, 0, 0, 0.55);
 
   // Overlay
-  --overlay-bg: rgba(15, 23, 42, 0.85);
-  --overlay-bg-hover: rgba(15, 23, 42, 0.92);
+  --overlay-bg: rgba(10, 14, 20, 0.88);
+  --overlay-bg-hover: rgba(10, 14, 20, 0.94);
   --backdrop-blur: blur(8px);
 
   // Scrollbar — match surface
-  --scrollbar-track: #1e293b;
-  --scrollbar-thumb: #475569;
-  --scrollbar-thumb-hover: #64748b;
+  --scrollbar-track: #13171d;
+  --scrollbar-thumb: #2a313c;
+  --scrollbar-thumb-hover: #3a424e;
 
   // Component-specific
-  --header-bg: rgba(15, 23, 42, 0.95);
-  --footer-bg: #0f172a;
-  --card-bg: #1e293b;
-  --card-border: rgba(148, 163, 184, 0.12);
-  --modal-bg: #1e293b;
-  --tooltip-bg: #334155;
-  --dropdown-bg: #1e293b;
+  --header-bg: rgba(10, 14, 20, 0.96);
+  --footer-bg: #0a0e14;
+  --card-bg: #13171d;
+  --card-border: rgba(200, 205, 212, 0.1);
+  --modal-bg: #13171d;
+  --tooltip-bg: #1a1f28;
+  --dropdown-bg: #13171d;
 
   // Button variants
   --btn-primary-bg: #ffd166;
-  --btn-primary-text: #0f172a;
+  --btn-primary-text: #0a0e14;
   --btn-primary-hover: #ffe199;
   --btn-secondary-bg: rgba(255, 255, 255, 0.08);
   --btn-secondary-text: #f8fafc;
@@ -237,14 +236,14 @@
   --btn-ghost-hover: rgba(255, 255, 255, 0.06);
 
   // Input fields
-  --input-bg: #1e293b;
-  --input-border: rgba(148, 163, 184, 0.2);
+  --input-bg: #13171d;
+  --input-border: rgba(200, 205, 212, 0.18);
   --input-border-focus: #ffd166;
   --input-focus-border: #ffd166;
-  --input-placeholder: #64748b;
+  --input-placeholder: #5c6470;
 
   // Dividers
-  --divider-color: rgba(148, 163, 184, 0.12);
+  --divider-color: rgba(200, 205, 212, 0.1);
 
   // Focus ring
   --focus-ring: 0 0 0 2px rgba(255, 209, 102, 0.5);
