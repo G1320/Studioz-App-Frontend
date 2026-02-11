@@ -21,7 +21,9 @@
 
   &--expanded {
     border-color: var(--border-hover);
-    box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-hover);
+    box-shadow:
+      var(--shadow-lg),
+      0 0 0 1px var(--border-hover);
   }
 
   &--item-card {

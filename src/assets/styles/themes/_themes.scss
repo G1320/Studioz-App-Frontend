@@ -10,10 +10,11 @@
 // ===================
 // :root defines the default (light) theme
 // [data-theme='dark'] comes AFTER to override when dark mode is active
+// For accessible brand-colored text on light backgrounds, use --color-brand-text (not --color-brand).
 :root {
   color-scheme: light;
 
-  // Brand Colors (same yellow as dark mode)
+  // Brand Colors (same yellow as dark mode) — use --color-brand-text for text on light bg
   --color-brand: #f7c041;
   --color-brand-hover: #e1ac2f;
   --color-brand-muted: rgba(255, 209, 102, 0.15);
@@ -22,19 +23,19 @@
   --color-brand-border: rgba(255, 209, 102, 0.3);
   --color-brand-glow: rgba(255, 209, 102, 0.3);
 
-  // Background Colors - warm, sophisticated neutrals
+  // Background Colors - warm neutrals, clearer separation between levels
   --bg-primary: #fafaf9;
-  --bg-secondary: #f5f5f4;
+  --bg-secondary: #f2f2f0;
   --bg-tertiary: #ffffff;
   --bg-card: #ffffff;
-  --bg-surface: #f5f5f4;
+  --bg-surface: #f2f2f0;
   --bg-elevated: #ffffff;
   --bg-input: #ffffff;
-  --bg-hover: rgba(0, 0, 0, 0.04);
-  --bg-active: rgba(0, 0, 0, 0.08);
+  --bg-hover: rgba(0, 0, 0, 0.05);
+  --bg-active: rgba(0, 0, 0, 0.09);
   --bg-skeleton: linear-gradient(90deg, #e7e5e4 0%, #d6d3d1 50%, #e7e5e4 100%);
 
-  // Text Colors - softer black for less strain
+  // Text Colors - softer black for less strain (unchanged)
   --text-primary: #1c1917;
   --text-secondary: #57534e;
   --text-tertiary: #78716c;
@@ -43,12 +44,12 @@
   --text-link: #2563eb;
   --text-link-hover: #1d4ed8;
 
-  // Border Colors
-  --border-primary: rgba(0, 0, 0, 0.08);
-  --border-secondary: #e7e5e4;
+  // Border Colors - slightly stronger for clearer UI and accessibility
+  --border-primary: rgba(0, 0, 0, 0.1);
+  --border-secondary: #e5e4e2;
   --border-focus: #f7c041;
-  --border-hover: rgba(0, 0, 0, 0.15);
-  --border-active: rgba(0, 0, 0, 0.2);
+  --border-hover: rgba(0, 0, 0, 0.18);
+  --border-active: rgba(0, 0, 0, 0.24);
 
   // Status Colors (optimized for light bg readability)
   --color-success: #059669;
@@ -91,42 +92,40 @@
   --backdrop-blur: blur(8px);
 
   // Scrollbar
-  --scrollbar-track: #f5f5f4;
-  --scrollbar-thumb: #d6d3d1;
+  --scrollbar-track: #f2f2f0;
+  --scrollbar-thumb: #d1d0ce;
   --scrollbar-thumb-hover: #a8a29e;
 
-  // Component-specific
-  --header-bg: rgba(250, 250, 249, 0.95);
-  --footer-bg: #f5f5f4;
+  // Component-specific - clearer surfaces and borders
+  --header-bg: rgba(250, 250, 249, 0.97);
+  --footer-bg: #f2f2f0;
   --card-bg: #ffffff;
-  --card-border: rgba(0, 0, 0, 0.06);
+  --card-border: rgba(0, 0, 0, 0.09);
   --modal-bg: #ffffff;
   --tooltip-bg: #1c1917;
   --dropdown-bg: #ffffff;
 
   // Button variants (Brand CTA styling - centralized here)
-  // Change --btn-primary-bg to update brand CTA background color
-  // Change --btn-primary-text to update text color on all brand CTAs
   --btn-primary-bg: #f7c041;
   --btn-primary-text: #000000;
   --btn-primary-hover: #e1ac2f;
-  --btn-secondary-bg: rgba(0, 0, 0, 0.06);
+  --btn-secondary-bg: rgba(0, 0, 0, 0.07);
   --btn-secondary-text: #1c1917;
-  --btn-secondary-hover: rgba(0, 0, 0, 0.1);
-  --btn-ghost-hover: rgba(0, 0, 0, 0.04);
+  --btn-secondary-hover: rgba(0, 0, 0, 0.12);
+  --btn-ghost-hover: rgba(0, 0, 0, 0.05);
 
-  // Input fields
+  // Input fields - clearer borders for accessibility
   --input-bg: #ffffff;
-  --input-border: #e7e5e4;
+  --input-border: #e0dfdd;
   --input-border-focus: #f7c041;
   --input-focus-border: #f7c041;
   --input-placeholder: #a8a29e;
 
-  // Dividers
-  --divider-color: rgba(0, 0, 0, 0.06);
+  // Dividers - slightly stronger for coherence
+  --divider-color: rgba(0, 0, 0, 0.08);
 
-  // Focus ring
-  --focus-ring: 0 0 0 2px rgba(247, 192, 65, 0.4);
+  // Focus ring - stronger for visibility (accessibility)
+  --focus-ring: 0 0 0 2px rgba(247, 192, 65, 0.5);
 }
 
 // ===================
@@ -145,12 +144,12 @@
   --color-brand-glow: rgba(255, 209, 102, 0.3);
 
   // Background Colors — darker, subtle cool-gray (not as blue as slate)
-  --bg-primary: #0a0e14;       /* main canvas */
-  --bg-secondary: #13171d;     /* cards, panels */
+  --bg-primary: #0a0e14; /* main canvas */
+  --bg-secondary: #13171d; /* cards, panels */
   --bg-tertiary: #13171d;
   --bg-card: #13171d;
   --bg-surface: #13171d;
-  --bg-elevated: #1a1f28;      /* dropdowns, popovers */
+  --bg-elevated: #1a1f28; /* dropdowns, popovers */
   --bg-input: #13171d;
   --bg-hover: rgba(255, 255, 255, 0.06);
   --bg-active: rgba(255, 255, 255, 0.1);

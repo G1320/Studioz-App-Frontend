@@ -431,7 +431,9 @@
         font-size: clamp(1rem, 3vw, 2.5rem);
         font-weight: 700;
         color: #ffffff !important; // Always white for visibility on images
-        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.9); // Stronger shadow for readability
+        text-shadow:
+          0 2px 12px rgba(0, 0, 0, 0.8),
+          0 1px 3px rgba(0, 0, 0, 0.9); // Stronger shadow for readability
         z-index: 1010;
         white-space: nowrap;
         max-width: calc(100% - 2rem);

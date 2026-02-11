@@ -155,7 +155,7 @@
 
   &__feature-content {
     text-align: start;
-    
+
     h3 {
       font-size: 1.125rem;
       font-weight: 900;
@@ -197,7 +197,11 @@
     padding: 1rem 2rem;
     border-radius: 1rem;
     cursor: pointer;
-    transition: background 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease;
 
     @media (min-width: 768px) {
       font-size: 1.25rem;
@@ -214,7 +218,7 @@
       .schedule-control__cta-icon {
         transform: translateX(-8px);
 
-        [dir="ltr"] & {
+        [dir='ltr'] & {
           transform: scaleX(-1) translateX(-8px);
         }
       }
@@ -227,7 +231,7 @@
     transition: transform 0.3s ease;
 
     // Flip arrow for LTR languages
-    [dir="ltr"] & {
+    [dir='ltr'] & {
       transform: scaleX(-1);
     }
   }

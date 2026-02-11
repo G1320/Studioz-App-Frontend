@@ -38,7 +38,7 @@
   }
 
   &__title-icon {
-    color: var(--color-brand);
+    color: var(--color-brand-text);
     font-size: 1.5rem !important;
   }
 
@@ -175,7 +175,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       box-shadow: 0 0 0 1px var(--color-brand);
     }
 
@@ -221,7 +221,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       box-shadow: 0 0 0 1px var(--color-brand);
     }
 
@@ -244,7 +244,7 @@
   }
 
   &__block-discounts-icon {
-    color: var(--color-brand);
+    color: var(--color-brand-text);
     font-size: 1rem !important;
   }
 
@@ -320,7 +320,7 @@
   }
 
   &__title-icon {
-    color: var(--color-brand);
+    color: var(--color-brand-text);
     font-size: 1.5rem !important;
   }
 
@@ -364,7 +364,7 @@
 
     &--active {
       background: var(--color-brand-bg);
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
     }
   }
 
@@ -410,7 +410,7 @@
     }
 
     &--active {
-      color: var(--color-brand);
+      color: var(--color-brand-text);
     }
   }
 
@@ -479,7 +479,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       box-shadow: 0 0 0 1px var(--color-brand);
     }
 
@@ -521,7 +521,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       box-shadow: 0 0 0 1px var(--color-brand);
     }
 
@@ -581,7 +581,7 @@
     min-width: 48px;
     background: var(--color-brand-bg);
     border-radius: 12px;
-    color: var(--color-brand);
+    color: var(--color-brand-text);
     font-size: 1.5rem !important;
   }
 
@@ -623,7 +623,7 @@
 
     &--active {
       background: var(--color-brand);
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
     }
   }
 
@@ -712,14 +712,14 @@
 
     &--active {
       background: var(--color-brand-bg);
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
 
       svg {
-        color: var(--color-brand);
+        color: var(--color-brand-text);
       }
 
       strong {
-        color: var(--color-brand);
+        color: var(--color-brand-text);
       }
     }
   }
@@ -809,7 +809,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       box-shadow: 0 0 0 1px var(--color-brand);
     }
 
@@ -858,7 +858,7 @@
 
     &--active {
       background: var(--color-brand);
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       color: var(--text-inverse);
     }
   }
@@ -973,7 +973,7 @@
 
     &--active {
       background: var(--color-brand-bg);
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
       box-shadow: 0 4px 20px var(--color-brand-glow);
     }
   }
@@ -1008,7 +1008,7 @@
     transition: color 0.3s ease;
 
     .service-type-step__option--active & {
-      color: var(--color-brand);
+      color: var(--color-brand-text);
     }
   }
 

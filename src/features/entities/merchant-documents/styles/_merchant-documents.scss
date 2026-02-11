@@ -352,12 +352,24 @@
 
   // Column widths - adjusted for mobile
   colgroup {
-    col:nth-child(1) { width: 18%; } // Document
-    col:nth-child(2) { width: 16%; } // Customer
-    col:nth-child(3) { width: 18%; } // Date
-    col:nth-child(4) { width: 14%; } // Amount
-    col:nth-child(5) { width: 14%; } // Status
-    col:nth-child(6) { width: 10%; } // Actions
+    col:nth-child(1) {
+      width: 18%;
+    } // Document
+    col:nth-child(2) {
+      width: 16%;
+    } // Customer
+    col:nth-child(3) {
+      width: 18%;
+    } // Date
+    col:nth-child(4) {
+      width: 14%;
+    } // Amount
+    col:nth-child(5) {
+      width: 14%;
+    } // Status
+    col:nth-child(6) {
+      width: 10%;
+    } // Actions
   }
 
   &__th {
@@ -434,7 +446,7 @@
     &--amount,
     &--status {
       text-align: center;
-      
+
       // Center flex/inline-flex children
       > * {
         margin-inline: auto;

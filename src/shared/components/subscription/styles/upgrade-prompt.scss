@@ -7,31 +7,31 @@
   background: var(--surface-elevated);
   border: 1px solid var(--border-primary);
   border-radius: vars.$border-radius-medium;
-  
+
   // Inline variant - compact, fits in content flow
   &--inline {
     padding: vars.$spacing-small vars.$spacing-medium;
     font-size: vars.$font-size-small;
-    
+
     .upgrade-prompt__icon {
       font-size: 1rem;
     }
-    
+
     .upgrade-prompt__title {
       font-size: vars.$font-size-small;
       margin: 0;
     }
-    
+
     .upgrade-prompt__description {
       display: none;
     }
-    
+
     .upgrade-prompt__button {
       padding: vars.$spacing-xs vars.$spacing-small;
       font-size: vars.$font-size-small;
     }
   }
-  
+
   // Card variant - standalone card
   &--card {
     flex-direction: column;
@@ -39,17 +39,17 @@
     padding: vars.$spacing-xl;
     max-width: 400px;
     margin: vars.$spacing-large auto;
-    
+
     .upgrade-prompt__icon {
       font-size: 2.5rem;
       margin-bottom: vars.$spacing-small;
     }
-    
+
     .upgrade-prompt__content {
       margin-bottom: vars.$spacing-medium;
     }
   }
-  
+
   // Page variant - full page takeover
   &--page {
     flex-direction: column;
@@ -57,14 +57,10 @@
     padding: vars.$spacing-3xl;
     max-width: 600px;
     margin: vars.$spacing-3xl auto;
-    background: linear-gradient(
-      135deg,
-      var(--surface-elevated) 0%,
-      var(--surface-primary) 100%
-    );
+    background: linear-gradient(135deg, var(--surface-elevated) 0%, var(--surface-primary) 100%);
     border: 2px solid var(--color-brand);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    
+
     .upgrade-prompt__icon {
       width: 80px;
       height: 80px;
@@ -74,25 +70,25 @@
       background: var(--color-brand);
       border-radius: 50%;
       margin-bottom: vars.$spacing-large;
-      
+
       svg {
         width: 40px;
         height: 40px;
         color: white;
       }
     }
-    
+
     .upgrade-prompt__title {
       font-size: vars.$font-size-2xl;
       margin-bottom: vars.$spacing-medium;
     }
-    
+
     .upgrade-prompt__description {
       font-size: vars.$font-size-medium;
       max-width: 400px;
       margin: 0 auto vars.$spacing-large;
     }
-    
+
     .upgrade-prompt__current-tier {
       font-size: vars.$font-size-small;
       color: var(--text-muted);
@@ -102,13 +98,13 @@
       border-radius: vars.$border-radius-small;
       display: inline-block;
     }
-    
+
     .upgrade-prompt__button {
       padding: vars.$spacing-medium vars.$spacing-2xl;
       font-size: vars.$font-size-medium;
     }
   }
-  
+
   // Banner variant - horizontal banner
   &--banner {
     padding: vars.$spacing-medium vars.$spacing-large;
@@ -120,73 +116,73 @@
     border: none;
     border-radius: vars.$border-radius-small;
     color: white;
-    
+
     .upgrade-prompt__icon {
       color: white;
       opacity: 0.9;
     }
-    
+
     .upgrade-prompt__title {
       color: white;
       font-size: vars.$font-size-medium;
       margin: 0;
     }
-    
+
     .upgrade-prompt__description {
       color: rgba(255, 255, 255, 0.9);
       font-size: vars.$font-size-small;
       margin: vars.$spacing-xs 0 0;
     }
-    
+
     .upgrade-prompt__content {
       flex: 1;
     }
-    
+
     .upgrade-prompt__button {
       background: white;
       color: var(--color-brand);
-      
+
       &:hover {
         background: rgba(255, 255, 255, 0.9);
       }
     }
   }
-  
+
   // Icon styles
   &__icon {
     color: var(--color-brand);
     flex-shrink: 0;
-    
+
     svg {
       width: 24px;
       height: 24px;
     }
   }
-  
+
   &__lock-icon,
   &__star-icon {
     width: 100%;
     height: 100%;
   }
-  
+
   // Content styles
   &__content {
     flex: 1;
     min-width: 0;
   }
-  
+
   &__title {
     font-weight: 600;
     color: var(--text-primary);
     margin: 0 0 vars.$spacing-xs;
   }
-  
+
   &__description {
     color: var(--text-secondary);
     margin: 0;
     line-height: 1.5;
   }
-  
+
   // Button styles
   &__button {
     flex-shrink: 0;
@@ -200,12 +196,12 @@
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
-    
+
     &:hover {
       background: var(--color-brand-dark, color-mix(in srgb, var(--color-brand) 85%, black));
       transform: translateY(-1px);
     }
-    
+
     &:active {
       transform: translateY(0);
     }
@@ -218,7 +214,7 @@
   align-items: center;
   justify-content: center;
   min-height: 300px;
-  
+
   .loading-spinner {
     width: 40px;
     height: 40px;

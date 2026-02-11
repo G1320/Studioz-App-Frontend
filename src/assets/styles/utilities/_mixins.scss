@@ -35,7 +35,7 @@
 
 @mixin text-link {
   color: var(--text-link);
-  
+
   &:hover {
     color: var(--text-link-hover);
   }
@@ -76,13 +76,15 @@
   border: 1px solid var(--card-border);
   border-radius: ds.$radius-lg;
   color: var(--text-primary);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 @mixin card-interactive {
   @include card-base;
   cursor: pointer;
-  
+
   &:hover {
     border-color: var(--border-hover);
     box-shadow: var(--shadow-card);
@@ -232,7 +234,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -246,11 +248,11 @@
   @include button-base;
   background: var(--btn-primary-bg);
   color: var(--btn-primary-text);
-  
+
   &:hover:not(:disabled) {
     background: var(--btn-primary-hover);
   }
-  
+
   &:active:not(:disabled) {
     transform: scale(0.98);
   }
@@ -273,7 +275,7 @@
   background: var(--btn-secondary-bg);
   color: var(--btn-secondary-text);
   border: 1px solid var(--border-primary);
-  
+
   &:hover:not(:disabled) {
     background: var(--btn-secondary-hover);
     border-color: var(--border-hover);
@@ -284,7 +286,7 @@
   @include button-base;
   background: transparent;
   color: var(--text-primary);
-  
+
   &:hover:not(:disabled) {
     background: var(--btn-ghost-hover);
   }
@@ -296,7 +298,7 @@
   border-radius: ds.$radius-md;
   background: transparent;
   color: var(--text-secondary);
-  
+
   &:hover:not(:disabled) {
     background: var(--bg-hover);
     color: var(--text-primary);
@@ -316,18 +318,20 @@
   border-radius: ds.$radius-md;
   color: var(--text-primary);
   font-size: ds.$font-base;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
   &::placeholder {
     color: var(--input-placeholder);
   }
-  
+
   &:focus {
     outline: none;
     border-color: var(--input-border-focus);
     box-shadow: var(--focus-ring);
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -336,7 +340,7 @@
 
 @mixin input-error {
   border-color: var(--color-error);
-  
+
   &:focus {
     border-color: var(--color-error);
     box-shadow: 0 0 0 2px var(--color-error-bg);
@@ -370,16 +374,16 @@
     width: 8px;
     height: 8px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: var(--scrollbar-track);
     border-radius: 4px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
     border-radius: 4px;
-    
+
     &:hover {
       background: var(--scrollbar-thumb-hover);
     }
@@ -449,12 +453,12 @@
   transition: background-color 0.2s ease;
   width: 100%;
   text-align: start;
-  
+
   &:hover {
     background: var(--bg-hover);
   }
-  
-  &[aria-selected="true"],
+
+  &[aria-selected='true'],
   &.is-selected {
     background: var(--color-brand-muted);
     color: var(--color-brand);

@@ -33,7 +33,7 @@
     svg {
       width: 1rem;
       height: 1rem;
-      color: var(--color-brand);
+      color: var(--color-brand-text);
     }
   }
 
@@ -106,7 +106,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-brand);
+    color: var(--color-brand-text);
   }
 
   &__message-time {
@@ -180,7 +180,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-brand);
+      border-color: var(--color-brand-text);
     }
 
     &:disabled {

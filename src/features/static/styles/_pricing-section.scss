@@ -10,7 +10,9 @@
   padding: 4rem 0;
   background: var(--bg-primary);
   color: var(--text-primary);
-  transition: background 0.5s ease, color 0.5s ease;
+  transition:
+    background 0.5s ease,
+    color 0.5s ease;
   overflow-x: hidden;
   scroll-margin-top: 80px;
   position: relative;
@@ -117,7 +119,10 @@
   border: 1px solid var(--border-primary);
   background: var(--bg-secondary);
   min-height: 420px;
-  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease;
 
   @media (min-width: 768px) {
     padding: vars.$spacing-xl;
