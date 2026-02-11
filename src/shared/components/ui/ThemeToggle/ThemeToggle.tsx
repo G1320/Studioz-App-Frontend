@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { MoonIcon, SunIcon, MonitorIcon } from '@shared/components/icons';
 import { useTheme, type Theme } from '@shared/contexts/ThemeContext';
 import './styles/_theme-toggle.scss';
@@ -12,6 +13,7 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: ThemeToggleProps) {
+  const { t } = useTranslation('common');
   const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
 
   const iconSize = {
@@ -39,16 +41,16 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
     );
   }
 
-  // Dropdown variant for settings pages
-  const themes: { value: Theme; label: string; icon: JSX.Element }[] = [
-    { value: 'light', label: 'Light', icon: <SunIcon size={iconSize} /> },
-    { value: 'dark', label: 'Dark', icon: <MoonIcon size={iconSize} /> },
-    { value: 'system', label: 'System', icon: <MonitorIcon size={iconSize} /> },
+  // Dropdown variant — labels from i18n
+  const themes: { value: Theme; labelKey: string; icon: JSX.Element }[] = [
+    { value: 'light', labelKey: 'theme.light', icon: <SunIcon size={iconSize} /> },
+    { value: 'dark', labelKey: 'theme.dark', icon: <MoonIcon size={iconSize} /> },
+    { value: 'system', labelKey: 'theme.system', icon: <MonitorIcon size={iconSize} /> },
   ];
 
   return (
     <div className={`theme-toggle-dropdown ${className}`}>
-      {themes.map(({ value, label, icon }) => (
+      {themes.map(({ value, labelKey, icon }) => (
         <button
           key={value}
           type="button"
@@ -57,7 +59,7 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
           aria-pressed={theme === value}
         >
           {icon}
-          <span>{label}</span>
+          <span>{t(labelKey)}</span>
         </button>
       ))}
     </div>

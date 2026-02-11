@@ -19,6 +19,11 @@
     "continue_to_payment": "Continue to Payment",
     "add_to_wishlist": "Add to Wishlist"
   },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
   "navigation": {
     "logo": "Studioz",
     "home": "Home",

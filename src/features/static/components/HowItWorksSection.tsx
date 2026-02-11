@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import {
-  SearchIcon,
-  CalendarIcon,
-  CheckCircleIcon
-} from '@shared/components/icons';
+import { SearchIcon, CalendarIcon, CheckCircleIcon } from '@shared/components/icons';
 import { VideoPlayer } from '@shared/components';
 import './_how-it-works-section.scss';
 

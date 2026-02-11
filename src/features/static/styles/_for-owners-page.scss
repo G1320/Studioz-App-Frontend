@@ -570,7 +570,7 @@
     z-index: 1;
 
     @media (min-width: 1024px) {
-      grid-template-columns: 1.05fr 0.95fr; // Slight asymmetry
+      grid-template-columns: 0.9fr 1.1fr; // More space for the two screenshots
       gap: vars.$spacing-2xl;
       align-items: center;
     }
@@ -610,6 +610,24 @@
     flex-direction: column;
     gap: vars.$spacing-medium;
     align-items: stretch;
+  }
+
+  &__theme-cta {
+    margin-top: vars.$spacing-xl;
+    padding-top: vars.$spacing-large;
+    border-top: 1px solid var(--border-primary);
+  }
+
+  &__theme-cta-text {
+    margin: 0 0 vars.$spacing-medium;
+    font-size: vars.$font-size-sm-md;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  // Same ThemeToggle as menu — constrain width so it matches menu size
+  &__theme-cta .theme-toggle-dropdown {
+    max-width: 320px;
   }
 
   &__feature-card {
@@ -698,16 +716,22 @@
     z-index: 0;
   }
 
+  // Two screenshots only — larger cells so they're easier to see
   &__images-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: vars.$spacing-medium;
+    gap: vars.$spacing-large;
     position: relative;
     z-index: 1;
+    max-width: 100%;
 
     @media (min-width: 768px) {
-      grid-template-columns: repeat(4, 1fr);
-      gap: vars.$spacing-large;
+      gap: vars.$spacing-2xl;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      gap: 2.5rem;
     }
   }
 

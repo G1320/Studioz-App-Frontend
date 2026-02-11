@@ -74,36 +74,40 @@
   }
 }
 
-// Dropdown variant for settings
+// Dropdown variant — single canonical style used in menu and elsewhere
 .theme-toggle-dropdown {
   display: flex;
-  gap: ds.$space-2;
-  padding: ds.$space-1;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
   background: var(--bg-surface);
   border-radius: ds.$radius-lg;
   border: 1px solid var(--border-primary);
 
   &__option {
+    flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: ds.$space-2;
-    padding: ds.$space-2 ds.$space-3;
-    background: transparent;
-    border: none;
-    border-radius: ds.$radius-md;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: var(--bg-hover);
+    border: 1px solid transparent;
     color: var(--text-secondary);
-    font-size: ds.$font-sm;
+    font-size: 0.75rem;
     cursor: pointer;
-    transition: all 200ms ease;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: var(--bg-hover);
+      background: var(--bg-active);
       color: var(--text-primary);
     }
 
     &.is-active {
       background: var(--color-brand-muted);
-      color: var(--color-brand);
+      border-color: var(--border-hover);
+      color: var(--text-primary);
 
       svg {
         color: var(--color-brand);
@@ -112,6 +116,7 @@
 
     svg {
       flex-shrink: 0;
+      opacity: 0.8;
     }
   }
 }

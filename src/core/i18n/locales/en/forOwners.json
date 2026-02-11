@@ -4,7 +4,7 @@
     "title_accent": "a packed calendar",
     "description": "Own the schedule, accept payments, and stay busy without chasing clients.",
     "cta_primary": "Start free today",
-    "cta_secondary": "Watch a quick demo",
+    "cta_secondary": "View Demo",
     "free_note": "No credit card · No commitment"
   },
   "stats": {
@@ -31,6 +31,9 @@
     "feature2_title": "Available everywhere",
     "feature2_description": "Fully responsive on all devices and browsers",
     "view_original": "View original",
+    "try_dark_mode": "Try dark mode",
+    "try_light_mode": "Try light mode",
+    "try_theme_cta": "Switch theme to see both — try it yourself",
     "calendar": {
       "title": "Smart Calendar",
       "description": "Full sync with Google Calendar and real-time booking system. Prevent double bookings and manage your studio hours with a click."

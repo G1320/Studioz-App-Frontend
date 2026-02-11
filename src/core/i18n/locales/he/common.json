@@ -19,6 +19,11 @@
     "continue_to_payment": "המשך לתשלום",
     "add_to_wishlist": "הוסף לרשימה"
   },
+  "theme": {
+    "light": "בהיר",
+    "dark": "כהה",
+    "system": "מערכת"
+  },
   "navigation": {
     "logo": "סטודיוז",
     "home": "דף הבית",

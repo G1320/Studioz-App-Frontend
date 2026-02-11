@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
+import { useTheme } from '@shared/contexts/ThemeContext';
 import { trackEvent } from '@shared/utils/analytics';
 import {
   ArrowForwardIcon,
@@ -14,6 +15,7 @@ import {
   PublicIcon
 } from '@shared/components/icons';
 import { GenericModal } from '@shared/components/modal';
+import { ThemeToggle } from '@shared/components';
 import { PricingSection } from '../components/PricingSection';
 import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
@@ -58,6 +60,7 @@ const ForOwnersPage: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
   const location = useLocation();
+  const { isDark } = useTheme();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const hasTrackedViewContent = useRef(false);
   
@@ -97,6 +100,10 @@ const ForOwnersPage: React.FC = () => {
       content_category: 'Conversion'
     });
     navigate('/studio/create');
+  };
+
+  const scrollToHowItWorks = () => {
+    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // const stats = [
@@ -176,79 +183,26 @@ const ForOwnersPage: React.FC = () => {
               <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
                 {t('hero.cta_primary')} <ArrowForwardIcon />
               </button>
+              <button
+                className="owners-btn owners-btn--secondary"
+                onClick={scrollToHowItWorks}
+                type="button"
+              >
+                {t('hero.cta_secondary')}
+              </button>
             </div>
             <p className="owners-hero__free-badge">✓ {t('hero.free_note')}</p>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      {/* <section className="owners-stats">
-        <div className="owners-container">
-          <div className="owners-stats__grid">
-            {stats.map((stat, i) => (
-              <div key={i} className="owners-stat">
-                <div className="owners-stat__value">{stat.value}</div>
-                <div className="owners-stat__label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
+      {/* How It Works (how to order) — bottom of fold for better flow */}
+      <HowItWorksSection />
 
-      {/* Dashboard Preview Section */}
-      <section className="owners-dashboard" ref={videoRef}>
-        <div className="owners-container">
-          <div className="owners-dashboard__card">
-            {/* Browser mockup */}
-            <div className="owners-dashboard__browser">
-              {/* macOS-style browser chrome */}
-              <div className="owners-dashboard__browser-header">
-                <div className="owners-dashboard__browser-dots">
-                  <span className="owners-dashboard__dot owners-dashboard__dot--red" />
-                  <span className="owners-dashboard__dot owners-dashboard__dot--yellow" />
-                  <span className="owners-dashboard__dot owners-dashboard__dot--green" />
-                </div>
-              </div>
-              {/* Video content - autoplay when scrolled into view */}
-              {/* Using consistent skeleton to prevent CLS during hydration */}
-              <div className="owners-dashboard__browser-content">
-                {isVideoVisible ? (
-                  <iframe
-                    src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&controls=false&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                    className="owners-dashboard__video"
-                    title={t('dashboard.title')}
-                  />
-                ) : (
-                  <div className="owners-dashboard__video-skeleton">
-                    <img
-                      src="/images/optimized/Studioz-Dashboard-Calendar.webp"
-                      alt=""
-                      className="owners-dashboard__video-thumbnail"
-                      width={1920}
-                      height={1080}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-            {/* Text inside card */}
-            <div className="owners-dashboard__text">
-              <h3>{t('dashboard.title')}</h3>
-              <p>{t('dashboard.description')}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Schedule Control (קבל הזמנות / רק כשמתאים לך) — second section after How It Works */}
+      <ScheduleControlSection />
 
-      {/* Remote Projects Showcase */}
-      <StudioZOwnersRemoteShowcase />
-
-      {/* Scroll-Driven Feature Showcase */}
-      <ScrollDrivenShowcase />
-
-      {/* Asset Showcase Section */}
+      {/* Asset Showcase (Design that converts) — no video back-to-back with How It Works */}
       <section className="owners-showcase">
         <div className="owners-container">
           <div className="owners-showcase__grid">
@@ -288,9 +242,15 @@ const ForOwnersPage: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Theme toggle — same as menu, try both themes and see screenshots update */}
+              <div className="owners-showcase__theme-cta">
+                <p className="owners-showcase__theme-cta-text">{t('showcase.try_theme_cta')}</p>
+                <ThemeToggle variant="dropdown" size="sm" />
+              </div>
             </motion.div>
 
-            {/* Mobile Screenshots Grid */}
+            {/* Mobile Screenshots — only the ones matching current theme */}
             <motion.div
               className="owners-showcase__images owners-showcase__images--mobile"
               initial={{ opacity: 0, x: 24 }}
@@ -300,89 +260,137 @@ const ForOwnersPage: React.FC = () => {
             >
               <div className="owners-showcase__images-glow" />
               <div className="owners-showcase__images-grid">
-                <motion.div
-                  whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Dark.webp')}
-                >
-                  <img
-                    src="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp"
-                    srcSet="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Dark-630w.webp 630w"
-                    sizes="(max-width: 768px) 150px, 315px"
-                    alt="Studio Details Dark Mode 1"
-                    loading="lazy"
-                    width={315}
-                    height={683}
-                  />
-                  <div className="owners-showcase__image-overlay">
-                    <span>{t('showcase.view_original')}</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-2-Dark.webp')}
-                >
-                  <img
-                    src="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp"
-                    srcSet="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-2-Dark-630w.webp 630w"
-                    sizes="(max-width: 768px) 150px, 315px"
-                    alt="Studio Details Dark Mode 2"
-                    loading="lazy"
-                    width={315}
-                    height={683}
-                  />
-                  <div className="owners-showcase__image-overlay">
-                    <span>{t('showcase.view_original')}</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Light.webp')}
-                >
-                  <img
-                    src="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp"
-                    srcSet="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Light-630w.webp 630w"
-                    sizes="(max-width: 768px) 150px, 315px"
-                    alt="Studio Details Light Mode 1"
-                    loading="lazy"
-                    width={315}
-                    height={683}
-                  />
-                  <div className="owners-showcase__image-overlay">
-                    <span>{t('showcase.view_original')}</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, zIndex: 20 }}
-                  className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                  onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Detail-2-Light.webp')}
-                >
-                  <img
-                    src="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp"
-                    srcSet="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Detail-2-Light-630w.webp 630w"
-                    sizes="(max-width: 768px) 150px, 315px"
-                    alt="Studio Details Light Mode 2"
-                    loading="lazy"
-                    width={315}
-                    height={683}
-                  />
-                  <div className="owners-showcase__image-overlay">
-                    <span>{t('showcase.view_original')}</span>
-                  </div>
-                </motion.div>
+                {isDark ? (
+                  <>
+                    <motion.div
+                      whileHover={{ scale: 1.05, zIndex: 20 }}
+                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Dark.webp')}
+                    >
+                      <img
+                        src="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp"
+                        srcSet="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Dark-630w.webp 630w"
+                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
+                        alt="Studio Details Dark Mode 1"
+                        loading="lazy"
+                        width={315}
+                        height={683}
+                      />
+                      <div className="owners-showcase__image-overlay">
+                        <span>{t('showcase.view_original')}</span>
+                      </div>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.05, zIndex: 20 }}
+                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-2-Dark.webp')}
+                    >
+                      <img
+                        src="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp"
+                        srcSet="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-2-Dark-630w.webp 630w"
+                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
+                        alt="Studio Details Dark Mode 2"
+                        loading="lazy"
+                        width={315}
+                        height={683}
+                      />
+                      <div className="owners-showcase__image-overlay">
+                        <span>{t('showcase.view_original')}</span>
+                      </div>
+                    </motion.div>
+                  </>
+                ) : (
+                  <>
+                    <motion.div
+                      whileHover={{ scale: 1.05, zIndex: 20 }}
+                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Light.webp')}
+                    >
+                      <img
+                        src="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp"
+                        srcSet="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Light-630w.webp 630w"
+                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
+                        alt="Studio Details Light Mode 1"
+                        loading="lazy"
+                        width={315}
+                        height={683}
+                      />
+                      <div className="owners-showcase__image-overlay">
+                        <span>{t('showcase.view_original')}</span>
+                      </div>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.05, zIndex: 20 }}
+                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Detail-2-Light.webp')}
+                    >
+                      <img
+                        src="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp"
+                        srcSet="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Detail-2-Light-630w.webp 630w"
+                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
+                        alt="Studio Details Light Mode 2"
+                        loading="lazy"
+                        width={315}
+                        height={683}
+                      />
+                      <div className="owners-showcase__image-overlay">
+                        <span>{t('showcase.view_original')}</span>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Schedule Control Section */}
-      <ScheduleControlSection />
+      {/* Dashboard Preview (ניהול מרכזי) — after Design section so the two videos aren't back-to-back */}
+      <section className="owners-dashboard" ref={videoRef}>
+        <div className="owners-container">
+          <div className="owners-dashboard__card">
+            <div className="owners-dashboard__browser">
+              <div className="owners-dashboard__browser-header">
+                <div className="owners-dashboard__browser-dots">
+                  <span className="owners-dashboard__dot owners-dashboard__dot--red" />
+                  <span className="owners-dashboard__dot owners-dashboard__dot--yellow" />
+                  <span className="owners-dashboard__dot owners-dashboard__dot--green" />
+                </div>
+              </div>
+              <div className="owners-dashboard__browser-content">
+                {isVideoVisible ? (
+                  <iframe
+                    src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&controls=false&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                    className="owners-dashboard__video"
+                    title={t('dashboard.title')}
+                  />
+                ) : (
+                  <div className="owners-dashboard__video-skeleton">
+                    <img
+                      src="/images/optimized/Studioz-Dashboard-Calendar.webp"
+                      alt=""
+                      className="owners-dashboard__video-thumbnail"
+                      width={1920}
+                      height={1080}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="owners-dashboard__text">
+              <h3>{t('dashboard.title')}</h3>
+              <p>{t('dashboard.description')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* How It Works Section */}
-      <HowItWorksSection />
+      {/* Remote Projects Showcase */}
+      <StudioZOwnersRemoteShowcase />
+
+      {/* Scroll-Driven Feature Showcase */}
+      <ScrollDrivenShowcase />
 
       {/* Features Section */}
       <section className="owners-features">
