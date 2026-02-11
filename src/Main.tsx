@@ -98,7 +98,7 @@ import App from './app/App.js';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="light">
+    <ThemeProvider defaultTheme="dark">
       <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
         <Router>
           <CookieConsentProvider>
