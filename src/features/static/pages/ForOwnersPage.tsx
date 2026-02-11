@@ -63,7 +63,7 @@ const ForOwnersPage: React.FC = () => {
   const { isDark } = useTheme();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const hasTrackedViewContent = useRef(false);
-  
+
   // Lazy load the dashboard video - autoplay when scrolled into view
   const { ref: videoRef, isVisible: isVideoVisible } = useLazyLoad(0.2);
 
@@ -152,10 +152,10 @@ const ForOwnersPage: React.FC = () => {
         {/* Background Image */}
         <div className="owners-hero__background">
           <picture>
-            <source 
+            <source
               srcSet="/images/optimized/Landing-Studio1320-1-640w.webp 640w, /images/optimized/Landing-Studio1320-1-960w.webp 960w, /images/optimized/Landing-Studio1320-1.webp 1320w"
               sizes="100vw"
-              type="image/webp" 
+              type="image/webp"
             />
             <img
               src="/images/optimized/Landing-Studio1320-1.webp"
@@ -186,11 +186,7 @@ const ForOwnersPage: React.FC = () => {
               <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
                 {t('hero.cta_primary')} <ArrowForwardIcon />
               </button>
-              <button
-                className="owners-btn owners-btn--secondary"
-                onClick={scrollToHowItWorks}
-                type="button"
-              >
+              <button className="owners-btn owners-btn--secondary" onClick={scrollToHowItWorks} type="button">
                 {t('hero.cta_secondary')}
               </button>
             </div>
