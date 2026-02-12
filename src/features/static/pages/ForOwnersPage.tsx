@@ -158,7 +158,7 @@ const ForOwnersPage: React.FC = () => {
         <div className="owners-hero__background">
           <picture>
             <source
-              srcSet="/images/optimized/Landing-Studio1320-1-640w.webp 640w, /images/optimized/Landing-Studio1320-1-960w.webp 960w, /images/optimized/Landing-Studio1320-1.webp 1320w"
+              srcSet="/images/optimized/Landing-Studio1320-1-640w.webp 640w, /images/optimized/Landing-Studio1320-1-960w.webp 960w, /images/optimized/Landing-Studio1320-1-1320w.webp 1320w"
               sizes="(max-width: 640px) 100vw, (max-width: 960px) 100vw, 1320px"
               type="image/webp"
             />
@@ -169,7 +169,7 @@ const ForOwnersPage: React.FC = () => {
               loading="eager"
               fetchPriority="high"
               width={1320}
-              height={880}
+              height={742}
               decoding="async"
             />
           </picture>
