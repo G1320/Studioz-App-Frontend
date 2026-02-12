@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';

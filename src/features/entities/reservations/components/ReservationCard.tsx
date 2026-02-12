@@ -5,7 +5,7 @@ import { useUserContext } from '@core/contexts';
 import { Reservation, Studio } from 'src/types/index';
 import { CancelReservationConfirm } from './CancelReservationConfirm';
 import { MuiDateTimePicker } from '@shared/components';
-import { HourSelector } from '@features/entities';
+import { HourSelector } from '@features/entities/items/components/HourSelector';
 import { splitDateTime } from '@shared/utils';
 import dayjs from 'dayjs';
 import 'dayjs/locale/he';

@@ -1,3 +1,5 @@
+import './styles/_index.scss';
+
 const PrivacyPolicyPage = () => {
   return (
     <section className="privacy-policy-container">

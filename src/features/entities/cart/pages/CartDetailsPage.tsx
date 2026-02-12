@@ -1,4 +1,5 @@
-import { ShoppingCart } from '@features/entities';
+import '../styles/_index.scss';
+import { ShoppingCart } from '@features/entities/cart/components/ShoppingCart';
 import { Cart } from 'src/types/index';
 import { Helmet } from 'react-helmet';
 

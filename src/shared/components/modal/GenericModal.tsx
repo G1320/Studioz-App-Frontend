@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import { Modal } from '@mui/material';
 import { useLayoutEffect, useRef, useEffect, useId } from 'react';
 

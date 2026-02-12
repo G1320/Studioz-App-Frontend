@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { StudioRating } from '@shared/components';

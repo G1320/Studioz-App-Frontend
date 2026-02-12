@@ -1,4 +1,4 @@
-import { StudioCard } from '@features/entities';
+import { StudioCard } from './StudioCard';
 import { EmptyState, GenericList } from '@shared/components';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { useTranslation } from 'react-i18next';

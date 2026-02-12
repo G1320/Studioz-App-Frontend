@@ -1,4 +1,5 @@
-import { EditItemForm } from '@features/entities';
+import '../styles/_index.scss';
+import { EditItemForm } from '@features/entities/items/forms/EditItemForm';
 
 const EditItemPage = () => {
   return (

@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { ReservationDetailsForm, HourSelector, BookingActions } from '@features/entities';
+import { ReservationDetailsForm } from '@features/entities/reservations/forms/ReservationDetailsForm';
+import { HourSelector } from './HourSelector';
+import { BookingActions } from './BookingActions';
 import { MuiDateTimePicker } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { ReservationCard } from '@features/entities/reservations';

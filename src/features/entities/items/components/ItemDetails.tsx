@@ -1,6 +1,9 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ItemHeader, ItemCard, ItemContent, OrderSummary } from '@features/entities';
+import { ItemHeader } from './ItemHeader';
+import { ItemCard } from './ItemCard';
+import { ItemContent } from './ItemContent';
+import { OrderSummary } from './OrderSummary';
 import {
   useAddItemToCartMutation,
   useItem,

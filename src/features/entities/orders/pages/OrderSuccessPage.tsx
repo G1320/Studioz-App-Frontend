@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import React, { useEffect } from 'react';
 import { useUserContext } from '@core/contexts';
 import { useLocation, useNavigate } from 'react-router-dom';

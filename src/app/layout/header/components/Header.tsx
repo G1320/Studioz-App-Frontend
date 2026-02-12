@@ -1,16 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { SearchIcon, LocationIcon } from '@shared/components/icons';
-import { NotificationBell } from '@shared/components/notifications';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useCities } from '@shared/hooks/utils/cities';
 import { featureFlags } from '@core/config/featureFlags';
 import { MenuDropdown } from './MenuDropdown';
+
+// Lazy-load NotificationBell — only needed for logged-in users
+const LazyNotificationBell = lazy(() =>
+  import('@shared/components/notifications/components/NotificationBell').then(m => ({
+    default: m.NotificationBell
+  }))
+);
 
 interface HeaderProps {
   cart?: Cart;
@@ -98,7 +104,11 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
             </Link>
           )}
           {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
-          {user && featureFlags.notifications && <NotificationBell />}
+          {user && featureFlags.notifications && (
+            <Suspense fallback={null}>
+              <LazyNotificationBell />
+            </Suspense>
+          )}
           <MenuDropdown user={user || null} />
         </div>
         <HeaderNavbar />

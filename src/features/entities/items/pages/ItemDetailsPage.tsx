@@ -1,5 +1,6 @@
+import '../styles/_index.scss';
 import { useParams } from 'react-router-dom';
-import { ItemCard } from '@features/entities';
+import { ItemCard } from '@features/entities/items/components/ItemCard';
 import { Button } from '@shared/components';
 import { useItem, useWishlists, useDeleteItemMutation, useLanguageNavigate } from '@shared/hooks';
 

@@ -1,4 +1,5 @@
-@use 'genericForm';
+// genericForm and steppedForm are imported at their component level
+// (GenericHeadlessForm.tsx and SteppedForm.tsx respectively).
+// Only forward branded-form mixin + design-system for pages that @use this module.
 @use 'design-system'; // Shared design system variables
 @forward 'branded-form';
-@forward 'steppedForm';

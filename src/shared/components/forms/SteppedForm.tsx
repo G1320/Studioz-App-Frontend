@@ -1,3 +1,4 @@
+import './styles/_steppedForm.scss';
 import { useState, useCallback, useMemo, useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +26,6 @@ import { useLanguageToggle } from './steppedForm/hooks/useLanguageToggle';
 import { useStepNavigation } from './steppedForm/hooks/useStepNavigation';
 import { StepContent } from './steppedForm/components/StepContent';
 import { StepNavigation } from './steppedForm/components/StepNavigation';
-import './styles/_steppedForm.scss';
 
 /**
  * SteppedForm - A reusable multi-step form component with progress indicators

@@ -1,3 +1,5 @@
+import './styles/_index.scss';
+
 const TermAndConditionsPage = () => {
   return (
     <section className="terms-container">

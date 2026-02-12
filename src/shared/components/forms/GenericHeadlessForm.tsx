@@ -1,3 +1,5 @@
+import './styles/_genericForm.scss';
+import './styles/_design-system.scss';
 import { Fragment, useState, useEffect, useCallback, Suspense, type ReactNode } from 'react';
 import { Listbox, Switch, Field, Label } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';

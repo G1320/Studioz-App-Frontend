@@ -1,15 +1,2 @@
-@use '../components/maps/styles' as maps;
-@use '../components/carousels/styles' as carousels;
-@use '../components/images/styles' as images;
-@use '../components/buttons/styles' as buttons;
-@use '../components/fileUploader/styles' as fileUploader;
-@use '../components/modal/styles' as modal;
-@use '../components/forms/styles' as forms;
-@use '../components/filters/styles' as filters;
-@use '../components/reviews/styles' as reviews;
-@use '../components/distance-badge/styles' as distance-badge;
-@use '../components/profile-image-uploader/styles' as profile-image-uploader;
-@use '../components/skeleton-loader/styles' as skeleton-loader;
-@use '../components/empty-state/styles' as empty-state;
-@use '../components/toast/styles' as toast;
-@use '../utility-components/styles' as utility-components;
+// Shared component styles are now imported at the component level
+// to enable Vite CSS code-splitting per route.

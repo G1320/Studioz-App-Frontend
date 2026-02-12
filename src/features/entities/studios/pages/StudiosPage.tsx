@@ -1,5 +1,8 @@
+import '../styles/_index.scss';
 import { useState, useEffect, Suspense, useMemo } from 'react';
-import { StudioCard, StudiosList, SidebarFilters, FilterState } from '@features/entities';
+import { StudioCard } from '@features/entities/studios/components/StudioCard';
+import { StudiosList } from '@features/entities/studios/components/StudiosList';
+import { SidebarFilters, FilterState } from '@features/entities/studios/components/SidebarFilters';
 import { LocationWelcomePopup, DistanceSlider } from '@shared/components';
 import { LazyStudiosMap } from '@shared/components/maps';
 import { GenericCarousel } from '@shared/components/carousels';

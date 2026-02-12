@@ -1,3 +1,4 @@
+import '../styles/_not-found-page.scss';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';

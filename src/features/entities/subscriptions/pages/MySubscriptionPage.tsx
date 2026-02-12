@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { SubscriptionDetails } from '@features/entities/subscriptions';
 
 export const MySubscriptionPage = () => {

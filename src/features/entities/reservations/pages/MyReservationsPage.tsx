@@ -6,7 +6,7 @@ import { ReservationsList } from '../components/ReservationsList';
 import { ReservationFilters, ReservationTypeToggle, ReservationViewType } from '../components';
 import { hasStoredReservations } from '@shared/utils/reservation-storage';
 import { useReservationFilters } from '../hooks/useReservationFilters';
-import './styles/_my-reservations-page.scss';
+import '../styles/_index.scss';
 
 const MyReservationsPage: React.FC = () => {
   const { t } = useTranslation('reservations');

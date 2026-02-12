@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import { useCallback, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { CameraIcon } from '@shared/components/icons';

@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { SearchInput, SearchResultsList } from '@features/search/components';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';

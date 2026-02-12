@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Map, {

@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import React, { useMemo } from 'react';
 import { StudioAvailability, DayOfWeek } from 'src/types/studio';
 import { useDays } from '@shared/hooks';

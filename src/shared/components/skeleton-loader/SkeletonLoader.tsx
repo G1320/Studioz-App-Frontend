@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import React from 'react';
 
 interface SkeletonLoaderProps {

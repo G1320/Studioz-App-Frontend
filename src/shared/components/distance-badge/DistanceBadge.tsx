@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import React from 'react';
 import { LocationIcon } from '@shared/components/icons';
 import { useTranslation } from 'react-i18next';

@@ -1,4 +1,4 @@
-import { ItemCard } from '@features/entities';
+import { ItemCard } from './ItemCard';
 import { EmptyState, GenericList } from '@shared/components';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { getLocalUser } from '@shared/services';

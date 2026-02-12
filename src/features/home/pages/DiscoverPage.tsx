@@ -1,4 +1,8 @@
-import { StudiosList, StudioCard, ItemCard, CategoryCard } from '@features/entities';
+import '../styles/_index.scss';
+import { StudiosList } from '@features/entities/studios/components/StudiosList';
+import { StudioCard } from '@features/entities/studios/components/StudioCard';
+import { ItemCard } from '@features/entities/items/components/ItemCard';
+import { CategoryCard } from '@features/entities/categories/components/CategoryCard';
 import { GenericCarousel, Banner } from '@shared/components';
 import { useWishlists, useMusicSubCategories } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';

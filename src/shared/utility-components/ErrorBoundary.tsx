@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import { ReactNode } from 'react';
 import { ErrorBoundaryComponent } from './ErrorBoundaryComponent';
 

@@ -1,3 +1,4 @@
+import '../styles/_for-owners-page.scss';
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';

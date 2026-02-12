@@ -1,5 +1,8 @@
+import '../styles/_index.scss';
 import { useEffect, Suspense } from 'react';
-import { CategoryCard, ItemsList, CityCard } from '@features/entities';
+import { CategoryCard } from '@features/entities/categories/components/CategoryCard';
+import { ItemsList } from '@features/entities/items/components/ItemsList';
+import { CityCard } from '@features/entities/cities/components/CityCard';
 import { GenericCarousel } from '@shared/components';
 import { LazyItemsMap } from '@shared/components/maps';
 import { useMusicSubCategories, useCities } from '@shared/hooks/utils';

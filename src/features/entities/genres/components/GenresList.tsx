@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { GenericList } from '@shared/components';
 import { GenreCard } from './GenreCard';
 import { useMusicGenres } from '@shared/hooks';

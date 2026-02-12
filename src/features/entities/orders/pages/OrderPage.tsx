@@ -1,5 +1,6 @@
+import '../styles/_index.scss';
 import { useUserContext } from '@core/contexts';
-import { CartItemCard } from '@features/entities';
+import { CartItemCard } from '@features/entities/cart/components/CartItemCard';
 import { useParams, Navigate } from 'react-router-dom';
 import { Cart, Studio } from 'src/types/index';
 import { PaymeCheckout } from '@shared/components/checkout';

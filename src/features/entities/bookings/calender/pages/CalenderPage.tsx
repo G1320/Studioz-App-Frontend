@@ -1,11 +1,12 @@
+import '../styles/_index.scss';
 import { useEffect, useState } from 'react';
 import { useUserContext } from '@core/contexts';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
 import { GenericCarousel, GenericList } from '@shared/components';
-import { StudioCard } from '@features/entities';
+import { StudioCard } from '@features/entities/studios/components/StudioCard';
 import { useStudioReservations } from '@shared/hooks';
-import { Calendar } from '@features/entities';
+import { Calendar } from '@features/entities/bookings/calender/components/Calendar';
 import { Link } from 'react-router-dom';
 
 interface CalendarPageProps {

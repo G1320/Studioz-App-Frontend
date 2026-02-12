@@ -1,3 +1,4 @@
+import './styles/index.scss';
 import { useState } from 'react';
 import { SkeletonLoader } from '@shared/components';
 

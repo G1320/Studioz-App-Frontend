@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { ProfileDetails } from '@features/entities/profile/components/ProfileDetails';
 import { User } from 'src/types/index';
 

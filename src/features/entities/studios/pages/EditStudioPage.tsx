@@ -1,4 +1,5 @@
-import { EditStudioForm } from '@features/entities';
+import '../styles/_index.scss';
+import { EditStudioForm } from '@features/entities/studios/forms/EditStudioForm';
 
 const EditStudioPage = () => {
   return (

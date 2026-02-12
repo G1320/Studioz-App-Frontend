@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import { CSSProperties, ReactNode } from 'react';
 
 interface ButtonProps {

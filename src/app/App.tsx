@@ -1,11 +1,29 @@
 import { useLocation } from 'react-router-dom';
-import { useMemo, ReactNode } from 'react';
+import { useMemo, ReactNode, lazy, Suspense } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { useItems, useStudios, useCart, useBrevoChat } from '@shared/hooks';
-import { Toaster } from 'sonner';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@core/config';
 import { HelmetProvider } from 'react-helmet-async';
+import { Header, ResponsiveFooter } from '@app/layout';
+import { ScrollToTop } from '@shared/utility-components';
+import { shuffleArray } from '@shared/utils';
+import { SEOTags } from '@shared/utility-components/SEOTags';
+import { ErrorBoundary } from '@shared/utility-components/ErrorBoundary';
+import AnimatedRoutes from './routes/AnimatedRoutes';
+
+import 'dayjs/locale/he';
+import 'dayjs/locale/en';
+
+// Lazy-load Toaster — toast styles only needed when a toast fires
+const LazyToaster = lazy(() => import('@shared/components/toast/StudiOzToaster'));
+
+// Lazy-load CookieConsent — one-time banner delayed 60s anyway
+const LazyCookieConsent = lazy(() =>
+  import('@shared/components/cookie-consent/CookieConsentBanner').then(m => ({
+    default: m.CookieConsentBanner
+  }))
+);
 
 // Feature flag to disable PayPal SDK loading (saves ~93 KiB)
 const ENABLE_PAYPAL = import.meta.env.VITE_ENABLE_PAYPAL === 'true';
@@ -15,18 +33,6 @@ const PayPalWrapper = ({ children }: { children: ReactNode }) => {
   if (!ENABLE_PAYPAL) return <>{children}</>;
   return <PayPalScriptProvider options={initialOptions}>{children}</PayPalScriptProvider>;
 };
-
-import { Header, ResponsiveFooter } from '@app/layout';
-import { ScrollToTop } from '@shared/utility-components';
-import { CookieConsentBanner } from '@shared/components/cookie-consent';
-
-import { shuffleArray } from '@shared/utils';
-import { SEOTags } from '@shared/utility-components/SEOTags';
-import { ErrorBoundary } from '@shared/utility-components/ErrorBoundary';
-import AnimatedRoutes from './routes/AnimatedRoutes';
-
-import 'dayjs/locale/he';
-import 'dayjs/locale/en';
 
 function App() {
   const location = useLocation();
@@ -64,17 +70,12 @@ function App() {
         </main>
 
         <ResponsiveFooter />
-        <CookieConsentBanner />
-        <Toaster
-          position="bottom-center"
-          expand={false}
-          richColors
-          closeButton
-          duration={5000}
-          toastOptions={{
-            className: 'studioz-toast'
-          }}
-        />
+        <Suspense fallback={null}>
+          <LazyCookieConsent />
+        </Suspense>
+        <Suspense fallback={null}>
+          <LazyToaster />
+        </Suspense>
       </PayPalWrapper>
     </HelmetProvider>
   );

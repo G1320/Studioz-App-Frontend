@@ -3,10 +3,6 @@
 @use 'layout';
 @use 'themes/themes';
 
-// @import 'tailwindcss/base';
-// @import 'tailwindcss/components';
-// @import 'tailwindcss/utilities';
-
-@use '../../shared/styles' as shared;
-@use '../../features/styles' as features;
+// Shared and feature styles are imported at the component/page level
+// to enable Vite CSS code-splitting per route.
 @use '../../app/styles' as app;

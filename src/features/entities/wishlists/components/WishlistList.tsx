@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { WishlistCard } from '@features/entities';
+import { WishlistCard } from './WishlistCard';
 import { GenericList, GenericMultiDropdownEntryCard, GenericMuiDropdown, Button } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';

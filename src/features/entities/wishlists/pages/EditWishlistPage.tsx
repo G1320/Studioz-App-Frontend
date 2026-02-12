@@ -1,4 +1,5 @@
-import { EditWishlistForm } from '@features/entities';
+import '../styles/_index.scss';
+import { EditWishlistForm } from '@features/entities/wishlists/forms/EditWishlistForm';
 
 const EditWishlistPage = () => {
   return (

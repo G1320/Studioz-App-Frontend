@@ -1,5 +1,8 @@
+import '../styles/_index.scss';
 import { GenericCarousel } from '@shared/components';
-import { StudioDetails, ContinueToCheckoutButton, ItemCard } from '@features/entities';
+import { StudioDetails } from '@features/entities/studios/components/StudioDetails';
+import { ContinueToCheckoutButton } from '@features/entities/orders/components/ContinueToCheckoutButton';
+import { ItemCard } from '@features/entities/items/components/ItemCard';
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
 import { StudioSchema } from '@shared/components/seo';

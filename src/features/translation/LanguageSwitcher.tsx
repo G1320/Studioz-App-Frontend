@@ -1,3 +1,4 @@
+import './styles/_index.scss';
 import { LanguageIcon } from '@shared/components/icons';
 import { IconButton } from '@mui/material';
 import { PopupDropdown } from '@shared/components/drop-downs';

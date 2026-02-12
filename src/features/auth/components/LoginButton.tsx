@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { useAuth0LoginHandler } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 

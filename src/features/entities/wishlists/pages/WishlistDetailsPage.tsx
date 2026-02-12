@@ -1,6 +1,8 @@
+import '../styles/_index.scss';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ItemsList, StudiosList } from '@features/entities';
+import { ItemsList } from '@features/entities/items/components/ItemsList';
+import { StudiosList } from '@features/entities/studios/components/StudiosList';
 import { useStudios, useWishlist } from '@shared/hooks';
 import { Item, Studio, WishlistItem } from 'src/types/index';
 import { getLocalUser } from '@shared/services';

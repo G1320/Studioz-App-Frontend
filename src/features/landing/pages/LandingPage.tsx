@@ -1,10 +1,11 @@
+import '../styles/_index.scss';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCategories, useCities } from '@shared/hooks/utils';
 import { cities } from '@core/config/cities/cities';
-import { StudioCard } from '@features/entities';
+import { StudioCard } from '@features/entities/studios/components/StudioCard';
 import { Studio } from 'src/types/index';
 import {
   getSubcategoryIcon,

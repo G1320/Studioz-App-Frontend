@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Item } from 'src/types/index';
 import { GenericModal } from '@shared/components';
-import { ItemDetails } from '@features/entities';
+import { ItemDetails } from '@features/entities/items/components/ItemDetails';
 import { getStudioById } from '@shared/services/studio-service';
 import { preloadImage } from '@shared/utils/preloadUtils';
 

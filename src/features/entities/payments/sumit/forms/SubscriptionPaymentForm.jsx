@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { useUserContext } from '@core/contexts';
 import { useState, useCallback, useMemo } from 'react';
 import { sumitService } from '@shared/services/sumit-service';

@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { GenericList } from '@shared/components';
 import { CategoryCard } from './CategoryCard';
 import { useMusicSubCategories } from '@shared/hooks';

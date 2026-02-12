@@ -10,7 +10,7 @@ import {
   ReservationDetailsLoadingState,
   ReservationDetailsErrorState
 } from '../components';
-import './styles/_reservation-details-page.scss';
+import '../styles/_index.scss';
 
 const ReservationDetailsPage: React.FC = () => {
   const { reservationId } = useParams<{ reservationId: string }>();

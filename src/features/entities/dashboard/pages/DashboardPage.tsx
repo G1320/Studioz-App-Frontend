@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import React, { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
