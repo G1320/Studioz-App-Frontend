@@ -201,6 +201,46 @@ const ForOwnersPage: React.FC = () => {
       {/* Schedule Control (קבל הזמנות / רק כשמתאים לך) — second section after How It Works */}
       <ScheduleControlSection />
 
+      {/* Visibility: Studioz listing can rank above Google Business Profile — social proof */}
+      <section className="owners-visibility">
+        <div className="owners-container">
+          <div className="owners-visibility__grid">
+            <motion.div
+              className="owners-visibility__text"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="owners-visibility__title">
+                {t('visibility.title')}
+                {t('visibility.title') && ' '}
+                <span className="owners-hero__accent">{t('visibility.title_accent')}</span>
+              </h2>
+              <p className="owners-visibility__description">{t('visibility.description')}</p>
+            </motion.div>
+            <motion.div
+              className="owners-visibility__image-wrap"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <img
+                src="/images/optimized/For-Owners-Google-Ranking-630w.webp"
+                srcSet="/images/optimized/For-Owners-Google-Ranking-315w.webp 315w, /images/optimized/For-Owners-Google-Ranking-630w.webp 630w"
+                sizes="(max-width: 768px) 100vw, 420px"
+                alt={t('visibility.image_alt')}
+                loading="lazy"
+                width={420}
+                height={560}
+                className="owners-visibility__image"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Asset Showcase (Design that converts) — no video back-to-back with How It Works */}
       <section className="owners-showcase">
         <div className="owners-container">

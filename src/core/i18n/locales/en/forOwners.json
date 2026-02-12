@@ -68,6 +68,12 @@
       "description": "Bookings close, confirmations go out, invoices are sent - and your calendar stays updated. Without you lifting a finger."
     }
   },
+  "visibility": {
+    "title": "Get discovered on Google",
+    "title_accent": "Your listing, front and center",
+    "description": "Studioz listings are built to be found. Real search result: a studio's Studioz page can rank above their own Google Business Profile—so when artists search, they see you first.",
+    "image_alt": "Google search result showing Studioz listing above Google Business Profile"
+  },
   "studio_preview": {
     "title_part1": "Your studio,",
     "title_accent": "beautifully presented",

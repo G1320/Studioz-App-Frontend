@@ -47,6 +47,12 @@ const RESPONSIVE_IMAGES = [
   {
     source: 'Studioz-Studio-Details-Order-1-Light.webp',
     sizes: [400, 800]
+  },
+  // For Owners: Google ranking screenshot (PNG source → WebP output)
+  {
+    source: 'For-Owners-Google-Ranking.png',
+    sizes: [315, 630], // 1x and 2x for visibility section
+    outputExt: '.webp'
   }
 ];
 
@@ -63,9 +69,10 @@ async function generateResponsiveImages() {
 
     const ext = extname(config.source);
     const baseName = basename(config.source, ext);
+    const outExt = config.outputExt ?? ext;
 
     for (const width of config.sizes) {
-      const outputName = `${baseName}-${width}w${ext}`;
+      const outputName = `${baseName}-${width}w${outExt}`;
       const outputPath = join(IMAGES_DIR, outputName);
 
       // Skip if already exists
@@ -75,13 +82,14 @@ async function generateResponsiveImages() {
       }
 
       try {
-        await sharp(sourcePath)
-          .resize(width, null, {
-            withoutEnlargement: true,
-            fit: 'inside'
-          })
-          .webp({ quality: 80 })
-          .toFile(outputPath);
+        let pipeline = sharp(sourcePath).resize(width, null, {
+          withoutEnlargement: true,
+          fit: 'inside'
+        });
+        if (outExt === '.webp') {
+          pipeline = pipeline.webp({ quality: 80 });
+        }
+        await pipeline.toFile(outputPath);
 
         console.log(`  ✓ Created: ${outputName}`);
       } catch (err) {

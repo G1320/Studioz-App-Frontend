@@ -85,6 +85,7 @@ export const EditItemForm = () => {
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const hasPopulatedAddOns = useRef(false);
+  const hasSyncedStateFromItem = useRef(false);
 
   // Unique formId per item to prevent autoSave data from one item bleeding into another
   const formId = `edit-item-form-${itemId}`;
@@ -95,6 +96,11 @@ export const EditItemForm = () => {
       clearAllFormData(formId);
     }
   }, [itemId, formId]);
+
+  // Reset sync ref when navigating to a different item
+  useEffect(() => {
+    hasSyncedStateFromItem.current = false;
+  }, [itemId]);
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
@@ -204,6 +210,42 @@ export const EditItemForm = () => {
       setSelectedSubCategories([remoteSubCats[0]]);
     }
   };
+
+  // Sync all form state from item when item loads (item is async, so initial useState(item?...) is often undefined)
+  useEffect(() => {
+    if (!item || !itemId || item._id !== itemId || hasSyncedStateFromItem.current) return;
+    hasSyncedStateFromItem.current = true;
+
+    const isRemote =
+      item.serviceDeliveryType === 'remote' || (item as Item & { remoteService?: boolean }).remoteService === true;
+
+    setServiceDeliveryType(isRemote ? 'remote' : 'in-studio');
+    setPricePer(item.pricePer || (isRemote ? 'project' : 'hour'));
+    setPrice(item.price);
+    setBlockDiscounts(item.blockDiscounts || {});
+    setMinimumBookingDuration(item.minimumBookingDuration || {});
+    setMinimumQuantity(item.minimumQuantity);
+    setAdvanceBookingRequired(item.advanceBookingRequired || {});
+    setPreparationTime(item.preparationTime || {});
+    setInstantBook(item.instantBook ?? false);
+    setProjectPricing(
+      item.projectPricing || {
+        depositPercentage: 50,
+        estimatedDeliveryDays: 7,
+        revisionsIncluded: 2
+      }
+    );
+    setAcceptedFileTypes(item.acceptedFileTypes || ['.wav', '.mp3', '.aif', '.flac', '.zip']);
+    setMaxFileSize(item.maxFileSize ?? 500);
+    setMaxFilesPerProject(item.maxFilesPerProject ?? 20);
+
+    if (item.categories?.length) {
+      setSelectedCategories(item.categories);
+      setSubCategories(getSubCategoriesForSelection(item.categories, isRemote));
+    }
+    if (item.subCategories?.length) setSelectedSubCategories(item.subCategories);
+    if (item.genres?.length) setSelectedGenres(item.genres);
+  }, [item, itemId, getSubCategoriesForSelection]);
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedSubCategories(values);

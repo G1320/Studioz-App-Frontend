@@ -543,6 +543,68 @@
 }
 
 // ==========================================
+// VISIBILITY SECTION - Google ranking social proof
+// ==========================================
+.owners-visibility {
+  padding: vars.$spacing-3xl 0;
+  background: var(--bg-primary);
+  position: relative;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-2xl;
+    align-items: center;
+    max-width: 56rem;
+    margin: 0 auto;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 1fr 1fr;
+      gap: vars.$spacing-3xl;
+    }
+  }
+
+  &__text {
+    text-align: start;
+  }
+
+  &__title {
+    font-family: var(--owners-font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: vars.$spacing-medium;
+    color: var(--text-primary);
+    text-align: start;
+  }
+
+  &__description {
+    font-size: vars.$font-size-large;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+    text-align: start;
+  }
+
+  &__image-wrap {
+    position: relative;
+    border-radius: vars.$border-radius-2xl;
+    overflow: hidden;
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-xl);
+    background: var(--bg-surface);
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+}
+
+// ==========================================
 // ASSET SHOWCASE SECTION - Asymmetric layout, gradient mesh
 // ==========================================
 .owners-showcase {
