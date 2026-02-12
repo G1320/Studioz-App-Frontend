@@ -69,8 +69,8 @@
     }
   },
   "visibility": {
-    "title": "",
-    "title_accent": "העמוד שלכם בראש התוצאות",
+    "title": "העמוד שלכם",
+    "title_accent": "בראש התוצאות",
     "description": "דפי הסטודיו ב-Studioz בנויים כדי שימצאו אתכם. בתוצאות חיפוש אמיתיות העמוד שלכם יכול להופיע מעל פרופיל Google Business של האולפן. כשמחפשים אולפן, אתם בראש הרשימה.",
     "image_alt": "תוצאת חיפוש בגוגל: עמוד Studioz מעל פרופיל Google Business"
   },
@@ -183,12 +183,16 @@
           "calendar": "יומן דיגיטלי",
           "approvals": "עד 3 שירותים",
           "support": "תמיכה סטנדרטית"
+        },
+        "excluded": {
+          "remoteProjects": "פרויקטים מרחוק"
         }
       },
       "starter": {
         "description": "הטוב ביותר לאולפנים בצמיחה",
         "features": {
           "services": "שירותים ללא הגבלה",
+          "unlimitedProjectsSessions": "פרויקטים וסשנים ללא הגבלה",
           "googleSync": "סנכרון ליומן גוגל",
           "invoicing": "חשבוניות אוטומטיות",
           "payments": "25 סליקות בחודש",
@@ -199,6 +203,7 @@
         "description": "לאולפנים המובילים בתעשייה",
         "features": {
           "multiStudio": "ניהול מספר אולפנים",
+          "unlimitedProjectsSessions": "פרויקטים וסשנים ללא הגבלה",
           "analytics": "אנליטיקה מתקדמת",
           "payments": "200 סליקות בחודש",
           "support": "תמיכה בעדיפות",

@@ -276,7 +276,7 @@
 
   &__title {
     font-family: var(--owners-font-display);
-    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-size: clamp(2.5rem, 7.5vw, 5rem);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.08;
@@ -317,27 +317,31 @@
 
   &__buttons {
     display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-medium;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: vars.$spacing-small;
     align-items: center;
     justify-content: center;
 
     @media (min-width: 640px) {
-      flex-direction: row;
+      gap: vars.$spacing-medium;
     }
 
     .owners-btn {
-      width: 100%;
+      flex: 1 1 0;
+      min-width: 0;
 
-      // Larger CTA on mobile for better touch target
       @media (max-width: 639px) {
-        font-size: vars.$font-size-large;
-        padding: vars.$spacing-medium vars.$spacing-2xl;
-        min-height: 56px;
+        font-size: vars.$font-size-sm-md;
+        padding: vars.$spacing-medium vars.$spacing-medium;
+        min-height: 48px;
       }
 
       @media (min-width: 640px) {
+        flex: 0 0 auto;
         width: auto;
+        font-size: vars.$font-size-large;
+        padding: vars.$spacing-medium vars.$spacing-2xl;
       }
     }
   }
@@ -555,8 +559,6 @@
     grid-template-columns: 1fr;
     gap: vars.$spacing-2xl;
     align-items: center;
-    max-width: 56rem;
-    margin: 0 auto;
 
     @media (min-width: 1024px) {
       grid-template-columns: 1fr 1fr;
@@ -570,13 +572,17 @@
 
   &__title {
     font-family: var(--owners-font-display);
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 700;
     letter-spacing: -0.03em;
-    line-height: 1.2;
-    margin-bottom: vars.$spacing-medium;
+    line-height: 1.15;
+    margin-bottom: vars.$spacing-large;
     color: var(--text-primary);
     text-align: start;
+
+    .owners-hero__accent {
+      color: var(--color-brand);
+    }
   }
 
   &__description {

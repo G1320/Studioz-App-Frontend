@@ -105,8 +105,12 @@ const ForOwnersPage: React.FC = () => {
   const [howItWorksVideoKey, setHowItWorksVideoKey] = useState(0);
 
   const scrollToHowItWorks = () => {
-    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+    trackEvent('ViewContent', {
+      content_name: 'For Owners View Demo',
+      content_category: 'Engagement'
+    });
     setHowItWorksVideoKey((k) => k + 1);
+    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // const stats = [
@@ -183,11 +187,11 @@ const ForOwnersPage: React.FC = () => {
             </h1>
             <p className="owners-hero__description">{t('hero.description')}</p>
             <div className="owners-hero__buttons">
-              <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
-                {t('hero.cta_primary')} <ArrowForwardIcon />
-              </button>
               <button className="owners-btn owners-btn--secondary" onClick={scrollToHowItWorks} type="button">
                 {t('hero.cta_secondary')}
+              </button>
+              <button className="owners-btn owners-btn--primary" onClick={handleListStudio} type="button">
+                {t('hero.cta_primary')} <ArrowForwardIcon />
               </button>
             </div>
             <p className="owners-hero__free-badge">✓ {t('hero.free_note')}</p>
@@ -201,47 +205,7 @@ const ForOwnersPage: React.FC = () => {
       {/* Schedule Control (קבל הזמנות / רק כשמתאים לך) — second section after How It Works */}
       <ScheduleControlSection />
 
-      {/* Visibility: Studioz listing can rank above Google Business Profile — social proof */}
-      <section className="owners-visibility">
-        <div className="owners-container">
-          <div className="owners-visibility__grid">
-            <motion.div
-              className="owners-visibility__text"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="owners-visibility__title">
-                {t('visibility.title')}
-                {t('visibility.title') && ' '}
-                <span className="owners-hero__accent">{t('visibility.title_accent')}</span>
-              </h2>
-              <p className="owners-visibility__description">{t('visibility.description')}</p>
-            </motion.div>
-            <motion.div
-              className="owners-visibility__image-wrap"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <img
-                src="/images/optimized/For-Owners-Google-Ranking-630w.webp"
-                srcSet="/images/optimized/For-Owners-Google-Ranking-315w.webp 315w, /images/optimized/For-Owners-Google-Ranking-630w.webp 630w"
-                sizes="(max-width: 768px) 100vw, 420px"
-                alt={t('visibility.image_alt')}
-                loading="lazy"
-                width={420}
-                height={560}
-                className="owners-visibility__image"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Asset Showcase (Design that converts) — no video back-to-back with How It Works */}
+      {/* Asset Showcase (Design that converts) — first after Schedule Control */}
       <section className="owners-showcase">
         <div className="owners-container">
           <div className="owners-showcase__grid">
@@ -379,6 +343,46 @@ const ForOwnersPage: React.FC = () => {
                   </>
                 )}
               </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Visibility: Studioz listing can rank above Google Business Profile — social proof */}
+      <section className="owners-visibility">
+        <div className="owners-container">
+          <div className="owners-visibility__grid">
+            <motion.div
+              className="owners-visibility__text"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="owners-visibility__title">
+                {t('visibility.title')}
+                {t('visibility.title') && ' '}
+                <span className="owners-hero__accent">{t('visibility.title_accent')}</span>
+              </h2>
+              <p className="owners-visibility__description">{t('visibility.description')}</p>
+            </motion.div>
+            <motion.div
+              className="owners-visibility__image-wrap"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <img
+                src="/images/optimized/For-Owners-Google-Ranking-630w.webp"
+                srcSet="/images/optimized/For-Owners-Google-Ranking-315w.webp 315w, /images/optimized/For-Owners-Google-Ranking-630w.webp 630w"
+                sizes="(max-width: 768px) 100vw, 420px"
+                alt={t('visibility.image_alt')}
+                loading="lazy"
+                width={420}
+                height={560}
+                className="owners-visibility__image"
+              />
             </motion.div>
           </div>
         </div>

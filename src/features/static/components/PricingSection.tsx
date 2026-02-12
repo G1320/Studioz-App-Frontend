@@ -6,7 +6,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircleIcon } from '@shared/components/icons';
+import { CheckCircleIcon, CloseIcon } from '@shared/components/icons';
 import { SumitSubscriptionPaymentForm } from '@features/entities/payments/sumit/forms/SubscriptionPaymentForm';
 import { trackEvent } from '@shared/utils/analytics';
 import '../styles/_pricing-section.scss';
@@ -21,6 +21,8 @@ interface Plan {
   highlight: string;
   features: string[];
   notIncluded?: string[];
+  /** Insert notIncluded items after this feature index (0-based). If undefined, notIncluded is rendered after all features. */
+  notIncludedAfterIndex?: number;
   isPopular?: boolean;
   ctaText: string;
 }
@@ -79,6 +81,8 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
         t('pricing.tiers.free.features.approvals'),
         t('pricing.tiers.free.features.support'),
       ],
+      notIncluded: [t('pricing.tiers.free.excluded.remoteProjects')],
+      notIncludedAfterIndex: 2,
       ctaText: t('pricing.cta.start'),
     },
     {
@@ -90,6 +94,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
       highlight: t('pricing.tiers.starter.description'),
       features: [
         t('pricing.tiers.starter.features.services'),
+        t('pricing.tiers.starter.features.unlimitedProjectsSessions'),
         t('pricing.tiers.starter.features.googleSync'),
         t('pricing.tiers.starter.features.invoicing'),
         t('pricing.tiers.starter.features.payments'),
@@ -107,6 +112,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
       highlight: t('pricing.tiers.pro.description'),
       features: [
         t('pricing.tiers.pro.features.multiStudio'),
+        t('pricing.tiers.pro.features.unlimitedProjectsSessions'),
         t('pricing.tiers.pro.features.analytics'),
         t('pricing.tiers.pro.features.payments'),
         t('pricing.tiers.pro.features.support'),
@@ -189,11 +195,27 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
                 {/* Features */}
                 <ul className="pricing-card__features">
                   {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="pricing-card__feature">
-                      <CheckCircleIcon className="pricing-card__feature-icon" />
-                      <span>{feature}</span>
-                    </li>
+                    <React.Fragment key={featureIndex}>
+                      <li className="pricing-card__feature">
+                        <CheckCircleIcon className="pricing-card__feature-icon" />
+                        <span>{feature}</span>
+                      </li>
+                      {plan.notIncludedAfterIndex === featureIndex &&
+                        plan.notIncluded?.map((label, idx) => (
+                          <li key={`excluded-${idx}`} className="pricing-card__feature pricing-card__feature--excluded">
+                            <CloseIcon className="pricing-card__feature-icon pricing-card__feature-icon--excluded" />
+                            <span className="pricing-card__feature-text--strike">{label}</span>
+                          </li>
+                        ))}
+                    </React.Fragment>
                   ))}
+                  {plan.notIncludedAfterIndex === undefined &&
+                    plan.notIncluded?.map((label, idx) => (
+                      <li key={`excluded-${idx}`} className="pricing-card__feature pricing-card__feature--excluded">
+                        <CloseIcon className="pricing-card__feature-icon pricing-card__feature-icon--excluded" />
+                        <span className="pricing-card__feature-text--strike">{label}</span>
+                      </li>
+                    ))}
                 </ul>
               </div>
 

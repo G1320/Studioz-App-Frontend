@@ -183,12 +183,16 @@
           "calendar": "Digital Calendar",
           "approvals": "Up to 3 Services",
           "support": "Standard Support"
+        },
+        "excluded": {
+          "remoteProjects": "Remote projects"
         }
       },
       "starter": {
         "description": "Best for growing studios",
         "features": {
           "services": "Unlimited Services",
+          "unlimitedProjectsSessions": "Unlimited projects & sessions",
           "googleSync": "Google Calendar Sync",
           "invoicing": "Automated Invoicing",
           "payments": "25 Card Payments/mo",
@@ -199,6 +203,7 @@
         "description": "For industry leaders",
         "features": {
           "multiStudio": "Multi-Studio Management",
+          "unlimitedProjectsSessions": "Unlimited projects & sessions",
           "analytics": "Advanced Analytics",
           "payments": "200 Card Payments/mo",
           "support": "Priority Support",
