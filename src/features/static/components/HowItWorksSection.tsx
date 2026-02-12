@@ -63,6 +63,21 @@ export interface HowItWorksSectionProps {
  */
 export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoRestartKey = 0 }) => {
   const { t } = useTranslation('howItWorks');
+  const [videoInView, setVideoInView] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = videoContainerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVideoInView(true);
+      },
+      { rootMargin: '100px', threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const steps = [
     {
