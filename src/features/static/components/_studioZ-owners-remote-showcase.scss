@@ -157,7 +157,7 @@ $remote-showcase-green: #22c55e;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.25rem;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
     [data-theme='light'] & {
       background: $zinc-50;
@@ -442,7 +442,7 @@ $remote-showcase-green: #22c55e;
     justify-content: center;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
     border: none;
 
     &--cancel {

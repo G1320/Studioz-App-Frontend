@@ -230,7 +230,7 @@ const ForOwnersPage: React.FC = () => {
                     <DashboardIcon />
                   </div>
                   <div className="owners-showcase__feature-content">
-                    <h4>{t('showcase.feature1_title')}</h4>
+                    <h3>{t('showcase.feature1_title')}</h3>
                     <p>{t('showcase.feature1_description')}</p>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ const ForOwnersPage: React.FC = () => {
                     <PublicIcon />
                   </div>
                   <div className="owners-showcase__feature-content">
-                    <h4>{t('showcase.feature2_title')}</h4>
+                    <h3>{t('showcase.feature2_title')}</h3>
                     <p>{t('showcase.feature2_description')}</p>
                   </div>
                 </div>

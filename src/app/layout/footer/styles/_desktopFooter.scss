@@ -41,7 +41,7 @@ footer.desktop-footer {
 
   .desktop-footer__brand {
     p {
-      color: var(--text-muted);
+      color: var(--text-secondary);
       margin: 0;
       line-height: 1.6;
     }
@@ -87,10 +87,9 @@ footer.desktop-footer {
     }
 
     a {
-      color: var(--text-muted);
+      color: var(--text-secondary);
       font-size: vars.$font-size-sm-md;
       text-decoration: none;
-      transition: color 0.2s;
       cursor: pointer;
 
       &:hover {
@@ -116,7 +115,6 @@ footer.desktop-footer {
     color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
     text-decoration: none;
-    transition: color 0.2s;
 
     svg {
       width: 20px;
@@ -135,11 +133,10 @@ footer.desktop-footer {
     background: none;
     border: none;
     padding: 0;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
     font-family: inherit;
     cursor: pointer;
-    transition: color 0.2s;
     text-align: start;
 
     &:hover {
@@ -151,7 +148,7 @@ footer.desktop-footer {
     border-top: 1px solid var(--divider-color);
     padding-top: vars.$spacing-xl;
     text-align: center;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: vars.$font-size-sm-md;
   }
 

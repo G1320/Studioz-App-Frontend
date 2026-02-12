@@ -348,7 +348,7 @@
     font-style: italic;
     letter-spacing: -0.01em;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     margin-top: vars.$spacing-large;
 
     @media (min-width: 768px) {

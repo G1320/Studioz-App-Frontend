@@ -24,6 +24,8 @@ interface Feature {
   icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   color: string;
   image: string;
+  srcSet?: string;
+  sizes?: string;
 }
 
 const FEATURES: Feature[] = [
@@ -33,7 +35,9 @@ const FEATURES: Feature[] = [
     descriptionKey: 'showcase.calendar.description',
     icon: Calendar,
     color: '#f7c041',
-    image: '/images/optimized/Studioz-Dashboard-Calendar.webp'
+    image: '/images/optimized/Studioz-Dashboard-Calendar-400w.webp',
+    srcSet: '/images/optimized/Studioz-Dashboard-Calendar-400w.webp 400w, /images/optimized/Studioz-Dashboard-Calendar-800w.webp 800w',
+    sizes: '(max-width: 768px) 200px, 400px'
   },
   {
     id: 'stats',
@@ -49,7 +53,9 @@ const FEATURES: Feature[] = [
     descriptionKey: 'showcase.service.description',
     icon: Sparkles,
     color: '#10b981',
-    image: '/images/optimized/Studioz-Studio-Details-Order-1-Light.webp'
+    image: '/images/optimized/Studioz-Studio-Details-Order-1-Light-400w.webp',
+    srcSet: '/images/optimized/Studioz-Studio-Details-Order-1-Light-400w.webp 400w, /images/optimized/Studioz-Studio-Details-Order-1-Light-800w.webp 800w',
+    sizes: '(max-width: 768px) 200px, 400px'
   },
   {
     id: 'payments',
@@ -279,8 +285,12 @@ export const ScrollDrivenShowcase: React.FC = () => {
                   <motion.img
                     key={activeFeature.id}
                     src={activeFeature.image}
+                    srcSet={activeFeature.srcSet}
+                    sizes={activeFeature.sizes}
                     alt={t(activeFeature.titleKey)}
                     className="feature-showcase__phone-image"
+                    loading="lazy"
+                    decoding="async"
                     initial={{ opacity: 0, scale: 1.1 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}

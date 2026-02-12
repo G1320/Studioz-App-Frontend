@@ -145,13 +145,12 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
     svg {
       width: 1.5rem;
       height: 1.5rem;
       color: var(--text-primary);
-      transition: color 0.3s ease;
     }
   }
 
@@ -200,8 +199,7 @@
     border-radius: 1rem;
     cursor: pointer;
     transition:
-      background 0.25s ease,
-      color 0.25s ease,
+      background-color 0.25s ease,
       transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.25s ease;
 

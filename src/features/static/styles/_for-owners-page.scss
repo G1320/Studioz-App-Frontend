@@ -66,7 +66,7 @@
   padding: vars.$spacing-medium vars.$spacing-xl;
   border-radius: vars.$border-radius-3xl;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s, opacity 0.2s;
   border: none;
   white-space: nowrap;
 
@@ -768,7 +768,7 @@
   }
 
   &__feature-content {
-    h4 {
+    h3 {
       font-size: vars.$font-size-large;
       font-weight: 700;
       color: var(--text-primary);
@@ -945,7 +945,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: background-color 0.2s;
     backdrop-filter: blur(8px);
     margin-top: 16px;
 
