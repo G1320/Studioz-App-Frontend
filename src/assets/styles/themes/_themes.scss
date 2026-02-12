@@ -251,22 +251,6 @@
 // ===================
 // THEME TRANSITIONS
 // ===================
-// Smooth transitions when theme changes
-html {
-  transition:
-    background-color 300ms ease,
-    color 300ms ease;
-}
-
-// Apply to key elements for smooth theme switching
-body,
-.header,
-.footer,
-.card,
-.modal,
-.button {
-  transition:
-    background-color 300ms ease,
-    color 300ms ease,
-    border-color 300ms ease;
-}
+// Theme switches are instant for better performance.
+// Non-composited transitions (color, background-color, border-color) on the root
+// element force full-page repaints and hurt FCP/LCP on every page load.

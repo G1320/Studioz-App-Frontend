@@ -232,7 +232,7 @@
   font-size: ds.$font-base;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   border: none;
 
   &:disabled {
@@ -507,7 +507,7 @@
   font-size: ds.$font-md;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   white-space: nowrap;
   flex-shrink: 0;
 
@@ -569,7 +569,7 @@
   padding: 0.5rem;
   background-color: var(--btn-secondary-bg);
 
-  transition: all 0.25s ease;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 
   &:hover:not(:disabled) {
     transform: scale(1.05);
@@ -603,7 +603,7 @@
   border: 1px solid var(--border-primary);
   color: var(--text-tertiary);
 
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 
   &:hover:not(:disabled) {
     color: var(--text-primary);
@@ -738,7 +738,6 @@
     flex-shrink: 0;
     color: var(--text-tertiary);
     order: 1;
-    transition: color 0.2s ease;
   }
 
   &__logout-button {
@@ -756,9 +755,7 @@
     font-size: ds.$font-base;
     font-weight: 500;
     text-align: right;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
+    transition: background-color 0.2s ease;
 
     &:hover {
       background-color: var(--bg-hover);
@@ -773,7 +770,6 @@
       height: 1.25rem;
       color: var(--text-tertiary);
       order: 1;
-      transition: color 0.2s ease;
     }
   }
 
