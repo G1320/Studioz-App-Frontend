@@ -51,21 +51,17 @@
   <link rel="stylesheet" href="./src/assets/styles/main.scss" />
 
   <!-- Consolidated fonts: DM Sans (body), IBM Plex Sans (paragraphs), Syne (for-owners display)
+       Single request for all families to reduce connection overhead.
        Using display=optional to eliminate CLS from font swapping.
        Fonts load instantly from cache on repeat visits; first visit uses system fallback if slow. -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=optional"
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=optional"
     as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=optional"
-    as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=optional" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
 
   <!-- Fallback for browsers that don't support preload -->
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=optional">
     <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=optional">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=optional">
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=optional">
   </noscript>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
