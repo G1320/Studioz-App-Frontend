@@ -38,7 +38,7 @@ export const DesktopFooter = () => {
           {/* Brand */}
           <div className="desktop-footer__brand">
             <div className="desktop-footer__logo">
-              <img src="https://www.studioz.co.il/android-chrome-512x512.png" alt="Studioz Logo" width={32} height={32} />
+              <img src="/favicon-32x32.png" alt="Studioz Logo" width={32} height={32} loading="lazy" decoding="async" />
               <span>Studioz</span>
             </div>
             <p>{t('footer.tagline')}</p>

@@ -30,13 +30,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Critical preconnects - BEFORE any blocking resources -->
-  <!-- Note: crossorigin needed for CORS requests (fonts, API), not needed for scripts/images -->
+  <!-- Critical preconnects - keep to 4 or fewer; video (mediadelivery) loads on scroll so not needed at load -->
   <link rel="preconnect" href="https://api.studioz.co.il" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://player.mediadelivery.net">
-  <link rel="preconnect" href="https://assets.mediadelivery.net">
 
   <!-- DNS prefetch for lower priority origins -->
   <link rel="dns-prefetch" href="https://res.cloudinary.com">
