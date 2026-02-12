@@ -20,6 +20,8 @@ $remote-showcase-green: #22c55e;
   padding: 6rem 0;
   background: var(--bg-primary, #000000);
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 
   [data-theme='light'] & {
     background: #ffffff;

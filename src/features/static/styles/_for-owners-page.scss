@@ -634,6 +634,8 @@
   background: var(--bg-surface);
   position: relative;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 
   // Subtle gradient mesh for depth (no purple - brand gold tint only)
   &::before {

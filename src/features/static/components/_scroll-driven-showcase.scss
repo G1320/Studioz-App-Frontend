@@ -13,6 +13,8 @@ $showcase-phone-border: #18181b;
   background: var(--color-bg-primary, var(--bg-primary));
   position: relative;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
 
   // Subtle gradient for depth
   &::before {

@@ -10,11 +10,11 @@
   padding: 4rem 0;
   background: var(--bg-primary);
   color: var(--text-primary);
-  transition:
-    background 0.5s ease,
-    color 0.5s ease;
+  transition: background-color 0.5s ease;
   overflow-x: hidden;
   scroll-margin-top: 80px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
   position: relative;
 
   @media (min-width: 768px) {
