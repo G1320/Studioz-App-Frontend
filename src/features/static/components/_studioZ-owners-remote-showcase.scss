@@ -258,7 +258,25 @@ $remote-showcase-green: #22c55e;
     z-index: 20;
   }
 
-  // Mockup Card
+  // Wrapper for real ProjectRequestForm (same as ItemDetails for projects)
+  &__project-form-wrap {
+    background: var(--bg-secondary, $zinc-900);
+    border: 1px solid var(--border-primary, $zinc-700);
+    border-radius: $remote-showcase-radius-card;
+    box-shadow: $remote-showcase-shadow-dark;
+    overflow: hidden;
+    max-width: 32rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+
+    [data-theme='light'] & {
+      background: #ffffff;
+      border-color: $zinc-100;
+      box-shadow: $remote-showcase-shadow;
+    }
+  }
+
+  // Legacy mockup card (kept for reference; replaced by __project-form-wrap + ProjectRequestForm)
   &__mockup {
     background: var(--bg-secondary, $zinc-900);
     border: 1px solid var(--border-primary, $zinc-700);

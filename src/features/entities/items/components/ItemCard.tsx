@@ -69,6 +69,17 @@ export const ItemCard: React.FC<ItemCardProps> = ({
     return pricePerMap[pricePer] || pricePer;
   };
 
+  const isRemoteProject =
+    item?.serviceDeliveryType === 'remote' || item?.remoteService === true;
+
+  const displayPrice = isRemoteProject
+    ? (item?.projectPricing?.basePrice ?? item?.price ?? 0)
+    : (item?.price ?? 0);
+
+  const displayPriceLabel = isRemoteProject
+    ? t('forms:form.pricePer.project')
+    : getTranslatedPricePer(item?.pricePer || 'hour');
+
   const titleText = item?.name?.[currentLang] || item?.name?.en || '';
   // Item is unavailable if either the item itself or its parent studio is disabled
   const isUnavailable = item?.active === false || studioActive === false;
@@ -99,8 +110,10 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         <p className="description">{item?.description[currentLang] || item?.description.en}</p>
         <div className="item-price-container">
           <small className="item-price">
-            <span className="item-price__amount">₪{item?.price}</span>
-            <span className="item-price__per">/{getTranslatedPricePer(item?.pricePer || '')}</span>
+            <span className="item-price__amount">₪{displayPrice}</span>
+            {displayPriceLabel && (
+              <span className="item-price__per">/{displayPriceLabel}</span>
+            )}
           </small>
           <StatusBadge createdAt={item?.createdAt} />
           <InstantBookBadge instantBook={item?.instantBook} />

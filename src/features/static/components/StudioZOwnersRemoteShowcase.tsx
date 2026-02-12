@@ -2,14 +2,42 @@
  * StudioZOwnersRemoteShowcase
  * A marketing section for studio owners explaining the Remote Projects feature.
  * Highlights: global reach, async workflow, project management.
- * Fully translated with i18n support.
+ * Uses the real ProjectRequestForm from ItemDetails (projects) for the visual.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { ClockIcon, MusicNoteIcon, SmsIcon, ShieldIcon, ArrowBackIcon } from '@shared/components/icons';
+import { ProjectRequestForm } from '@features/entities/remote-projects/components';
+import type { Item } from 'src/types/index';
 import './_studioZ-owners-remote-showcase.scss';
+
+/** Sample item so the real project request form renders with realistic pricing/delivery. */
+const SAMPLE_PROJECT_ITEM: Item = {
+  _id: 'for-owners-showcase-sample',
+  studio: '',
+  studioId: '',
+  name: { en: 'Mixing (Remote)', he: 'מיקס (מרוחק)' },
+  description: { en: 'Professional remote mixing service.', he: 'שירות מיקס מקצועי מרחוק.' },
+  studioName: { en: '', he: '' },
+  address: '',
+  city: '',
+  categories: [],
+  subCategories: [],
+  inStock: true,
+  createdBy: '',
+  studioImgUrl: '',
+  serviceDeliveryType: 'remote',
+  remoteService: true,
+  projectPricing: {
+    basePrice: 2200,
+    depositPercentage: 50,
+    estimatedDeliveryDays: 14,
+    revisionsIncluded: 3
+  },
+  price: 2200
+} as Item;
 
 interface FeatureConfig {
   icon: React.ComponentType<{ className?: string }>;
@@ -45,6 +73,9 @@ const STAT_KEYS = ['capacity', 'audience', 'schedule', 'pricing'] as const;
 export const StudioZOwnersRemoteShowcase: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
+  const [showcaseTitle, setShowcaseTitle] = useState('');
+  const [showcaseBrief, setShowcaseBrief] = useState('');
+  const [showcaseLinks, setShowcaseLinks] = useState<string[]>(['']);
 
   const handleListStudio = () => {
     navigate('/studio/create');
@@ -107,7 +138,7 @@ export const StudioZOwnersRemoteShowcase: React.FC = () => {
             </div>
           </div>
 
-          {/* Visual Showcase Side */}
+          {/* Visual Showcase Side – real project request form (same as ItemDetails for projects) */}
           <div className="remote-showcase__visual">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -116,46 +147,16 @@ export const StudioZOwnersRemoteShowcase: React.FC = () => {
               transition={{ ease: 'easeOut' }}
               className="remote-showcase__visual-wrapper"
             >
-              {/* Submission Form Mockup */}
-              <div className="remote-showcase__mockup">
-                <div className="remote-showcase__mockup-header">
-                  <div className="remote-showcase__mockup-header-row">
-                    <h4 className="remote-showcase__mockup-title">{t('remoteShowcase.mockup.title')}</h4>
-                  </div>
-                  <div className="remote-showcase__mockup-stats">
-                    <div className="remote-showcase__mockup-stat">
-                      <p className="remote-showcase__mockup-stat-label">{t('remoteShowcase.mockup.price_label')}</p>
-                      <p className="remote-showcase__mockup-stat-value">{t('remoteShowcase.mockup.price_value')}</p>
-                    </div>
-                    <div className="remote-showcase__mockup-stat">
-                      <p className="remote-showcase__mockup-stat-label">{t('remoteShowcase.mockup.delivery_label')}</p>
-                      <p className="remote-showcase__mockup-stat-value">{t('remoteShowcase.mockup.delivery_value')}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="remote-showcase__mockup-body">
-                  <div className="remote-showcase__mockup-field">
-                    <label className="remote-showcase__mockup-label">
-                      {t('remoteShowcase.mockup.project_description_label')}
-                    </label>
-                    <div className="remote-showcase__mockup-textarea">
-                      {t('remoteShowcase.mockup.project_description_placeholder')}
-                    </div>
-                  </div>
-                  <div className="remote-showcase__mockup-field">
-                    <label className="remote-showcase__mockup-label">{t('remoteShowcase.mockup.references_label')}</label>
-                    <div className="remote-showcase__mockup-input">{t('remoteShowcase.mockup.references_placeholder')}</div>
-                  </div>
-                  <div className="remote-showcase__mockup-actions">
-                    <div className="remote-showcase__mockup-btn remote-showcase__mockup-btn--cancel">
-                      {t('remoteShowcase.mockup.cancel_btn')}
-                    </div>
-                    <div className="remote-showcase__mockup-btn remote-showcase__mockup-btn--submit">
-                      {t('remoteShowcase.mockup.submit_btn')}
-                    </div>
-                  </div>
-                </div>
+              <div className="remote-showcase__project-form-wrap">
+                <ProjectRequestForm
+                  item={SAMPLE_PROJECT_ITEM}
+                  title={showcaseTitle}
+                  brief={showcaseBrief}
+                  referenceLinks={showcaseLinks}
+                  onTitleChange={setShowcaseTitle}
+                  onBriefChange={setShowcaseBrief}
+                  onReferenceLinksChange={setShowcaseLinks}
+                />
               </div>
 
               {/* Decorative Background Circles */}
