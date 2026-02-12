@@ -42,7 +42,7 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
   // Listen for system theme changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       setSystemTheme(e.matches ? 'dark' : 'light');
     };
@@ -60,7 +60,7 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute('data-theme', resolvedTheme);
-    
+
     // Also update meta theme-color for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -78,20 +78,19 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
     setTheme(nextTheme);
   }, [resolvedTheme, setTheme]);
 
-  const value = useMemo<ThemeContextType>(() => ({
-    theme,
-    resolvedTheme,
-    setTheme,
-    toggleTheme,
-    isDark: resolvedTheme === 'dark',
-    isLight: resolvedTheme === 'light',
-  }), [theme, resolvedTheme, setTheme, toggleTheme]);
-
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
+  const value = useMemo<ThemeContextType>(
+    () => ({
+      theme,
+      resolvedTheme,
+      setTheme,
+      toggleTheme,
+      isDark: resolvedTheme === 'dark',
+      isLight: resolvedTheme === 'light'
+    }),
+    [theme, resolvedTheme, setTheme, toggleTheme]
   );
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme(): ThemeContextType {

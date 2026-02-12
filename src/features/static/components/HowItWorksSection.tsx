@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { SearchIcon, CalendarIcon, CheckCircleIcon } from '@shared/components/icons';
@@ -101,8 +102,8 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoResta
           <p className="how-it-works-section__subtitle">{t('subtitle')}</p>
         </motion.div>
 
-        {/* Video Section */}
-        <div className="how-it-works-section__video">
+        {/* Video Section — video iframe only mounts when in view to reduce TBT and LCP */}
+        <div className="how-it-works-section__video" ref={videoContainerRef}>
           <div className="how-it-works-section__video-glow how-it-works-section__video-glow--primary" />
           <div className="how-it-works-section__video-glow how-it-works-section__video-glow--secondary" />
 
@@ -113,16 +114,20 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoResta
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <VideoPlayer
-              key={videoRestartKey}
-              embedUrl={VIDEO_EMBED_URL}
-              showFrameBar={true}
-              placeholderText="Video Coming Soon"
-              aspectRatio="3 / 2"
-              autoPlay={true}
-              muted={true}
-              loop={true}
-            />
+            {videoInView ? (
+              <VideoPlayer
+                key={videoRestartKey}
+                embedUrl={VIDEO_EMBED_URL}
+                showFrameBar={true}
+                placeholderText="Video Coming Soon"
+                aspectRatio="3 / 2"
+                autoPlay={true}
+                muted={true}
+                loop={true}
+              />
+            ) : (
+              <div className="how-it-works-section__video-placeholder" style={{ aspectRatio: '3 / 2' }} aria-hidden />
+            )}
           </motion.div>
         </div>
 

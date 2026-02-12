@@ -158,11 +158,11 @@ const ForOwnersPage: React.FC = () => {
           <picture>
             <source
               srcSet="/images/optimized/Landing-Studio1320-1-640w.webp 640w, /images/optimized/Landing-Studio1320-1-960w.webp 960w, /images/optimized/Landing-Studio1320-1.webp 1320w"
-              sizes="100vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 960px) 100vw, 1320px"
               type="image/webp"
             />
             <img
-              src="/images/optimized/Landing-Studio1320-1.webp"
+              src="/images/optimized/Landing-Studio1320-1-640w.webp"
               alt=""
               className="owners-hero__image"
               loading="eager"
@@ -410,13 +410,22 @@ const ForOwnersPage: React.FC = () => {
                   />
                 ) : (
                   <div className="owners-dashboard__video-skeleton">
-                    <img
-                      src="/images/optimized/Studioz-Dashboard-Calendar.webp"
-                      alt=""
-                      className="owners-dashboard__video-thumbnail"
-                      width={1920}
-                      height={1080}
-                    />
+                    <picture>
+                      <source
+                        srcSet="/images/optimized/Studioz-Dashboard-Calendar-400w.webp 400w, /images/optimized/Studioz-Dashboard-Calendar-800w.webp 800w"
+                        sizes="(max-width: 768px) 380px, 800px"
+                        type="image/webp"
+                      />
+                      <img
+                        src="/images/optimized/Studioz-Dashboard-Calendar-400w.webp"
+                        alt=""
+                        className="owners-dashboard__video-thumbnail"
+                        width={1920}
+                        height={1080}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
                   </div>
                 )}
               </div>

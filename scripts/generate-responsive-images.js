@@ -53,6 +53,11 @@ const RESPONSIVE_IMAGES = [
     source: 'For-Owners-Google-Ranking.png',
     sizes: [315, 630], // 1x and 2x for visibility section
     outputExt: '.webp'
+  },
+  // Dashboard calendar thumbnail (For Owners) — displayed ~380px on mobile
+  {
+    source: 'Studioz-Dashboard-Calendar.webp',
+    sizes: [400, 800]
   }
 ];
 

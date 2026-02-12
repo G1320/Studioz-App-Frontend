@@ -63,6 +63,13 @@
   }
 }
 
+.how-it-works-section__video-placeholder {
+  width: 100%;
+  background: var(--bg-secondary);
+  border-radius: inherit;
+  min-height: 200px;
+}
+
 @keyframes how-it-works-pulse {
   0%,
   100% {

@@ -373,9 +373,22 @@ html:not([dir='rtl']) [data-sonner-toast]::after {
 // ============================================
 
 @media (max-width: 480px) {
+  [data-sonner-toaster] {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding-inline: 16px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
   [data-sonner-toast] {
     min-width: unset !important;
     max-width: calc(100vw - 32px) !important;
-    margin: 0 16px !important;
+    margin-inline: auto !important;
   }
 }
