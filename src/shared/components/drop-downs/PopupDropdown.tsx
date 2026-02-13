@@ -1,6 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 import { useDropdown } from '@shared/hooks/utils';
 import './styles/popup-dropdown.scss';
+
+// Context so any child can close the dropdown (e.g. NotificationItem on click)
+const PopupDropdownContext = createContext<{ close: () => void }>({ close: () => {} });
+
+/** Hook for children to close the nearest PopupDropdown */
+export const usePopupDropdownClose = () => useContext(PopupDropdownContext).close;
 
 interface PopupDropdownProps {
   trigger: ReactNode; // Button or icon to trigger the dropdown
@@ -27,7 +33,8 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
   maxWidth = '400px',
   width = 'max-content'
 }) => {
-  const { isOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
+  const { isOpen, setIsOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
+  const close = () => setIsOpen(false);
 
   // Type assertions for refs
   const divDropdownRef = dropdownRef as React.RefObject<HTMLDivElement>;
@@ -89,7 +96,9 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
           onClick={(e) => e.stopPropagation()}
           role="menu"
         >
-          {children}
+          <PopupDropdownContext.Provider value={{ close }}>
+            {children}
+          </PopupDropdownContext.Provider>
         </div>
       )}
     </div>

@@ -5,6 +5,7 @@ import Notification from 'src/types/notification';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { useReservation } from '@shared/hooks';
+import { usePopupDropdownClose } from '@shared/components/drop-downs/PopupDropdown';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {
@@ -28,6 +29,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
   const { t, i18n } = useTranslation('common');
   const { markAsRead, deleteNotificationById } = useNotificationContext();
   const { openReservationModal } = useReservationModal();
+  const closeDropdown = usePopupDropdownClose();
 
   // Check if this is a reservation-related notification
   const isReservationNotification = useMemo(() => {
@@ -59,6 +61,9 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     if (isReservationNotification && reservation) {
       openReservationModal(reservation);
     }
+
+    // Close the notification dropdown
+    closeDropdown();
   };
 
   const handleDelete = async (e: React.MouseEvent) => {
@@ -183,7 +188,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
   // For other notifications with actionUrl, use Link
   if (notification.actionUrl) {
     return (
-      <Link to={notification.actionUrl} className="notification-item__link">
+      <Link to={notification.actionUrl} className="notification-item__link" onClick={closeDropdown}>
         {content}
       </Link>
     );
