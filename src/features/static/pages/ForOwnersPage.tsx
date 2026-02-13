@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTheme } from '@shared/contexts/ThemeContext';
-import { trackEvent } from '@shared/utils/analytics';
+import { trackEvent, trackCustomEvent } from '@shared/utils/analytics';
 import {
   ArrowForwardIcon,
   CloseIcon,
@@ -68,16 +68,13 @@ const ForOwnersPage: React.FC = () => {
   // Lazy load the dashboard video - autoplay when scrolled into view
   const { ref: videoRef, isVisible: isVideoVisible } = useLazyLoad(0.2);
 
-  // Track ViewContent event when page loads (once)
+  // Track landing page view as custom event (not ViewContent — that's for product pages with real prices)
   useEffect(() => {
     if (!hasTrackedViewContent.current) {
       hasTrackedViewContent.current = true;
-      trackEvent('ViewContent', {
+      trackCustomEvent('ViewLandingPage', {
         content_name: 'For Owners Landing Page',
-        content_category: 'Landing Page',
-        content_type: 'page',
-        currency: 'ILS',
-        value: 0
+        content_category: 'Landing Page'
       });
     }
   }, []);
@@ -106,7 +103,7 @@ const ForOwnersPage: React.FC = () => {
   const [howItWorksVideoKey, setHowItWorksVideoKey] = useState(0);
 
   const scrollToHowItWorks = () => {
-    trackEvent('ViewContent', {
+    trackCustomEvent('ViewDemo', {
       content_name: 'For Owners View Demo',
       content_category: 'Engagement'
     });
