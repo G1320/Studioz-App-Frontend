@@ -95,9 +95,23 @@ export class ErrorBoundaryComponent extends Component<Props, { hasError: boolean
   }
 
   componentDidCatch(error: Error): void {
-    // Auto-reload for chunk loading errors
-    if (error.message?.includes('Failed to fetch dynamically imported module')) {
-      window.location.reload();
+    const isChunkError =
+      error.message?.includes('Failed to fetch dynamically imported module') ||
+      error.message?.includes('Loading chunk') ||
+      error.message?.includes('Loading CSS chunk');
+
+    if (isChunkError) {
+      // Guard against infinite reload loops — only reload once per 10 seconds
+      const retryKey = 'chunk-retry';
+      const lastRetry = sessionStorage.getItem(retryKey);
+      const now = Date.now();
+
+      if (!lastRetry || now - Number(lastRetry) >= 10_000) {
+        sessionStorage.setItem(retryKey, String(now));
+        window.location.reload();
+        return;
+      }
+      // If we already retried recently, fall through to show the error UI
     }
 
     // Log error for debugging

@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { lazy, Suspense, useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import Studio from 'src/types/studio';
 import Item from 'src/types/item';
@@ -9,48 +9,49 @@ import User from 'src/types/user';
 import { useTranslation } from 'react-i18next';
 import { featureFlags, isFeatureEnabled } from '@core/config/featureFlags';
 import { ProtectedAdminRoute } from '@shared/components/route-guards';
+import { lazyWithRetry } from '@shared/utils/lazyWithRetry';
 
-// Lazy load all pages for better code splitting
-const DiscoverPage = lazy(() => import('@features/home/pages/DiscoverPage'));
-const WishListsPage = lazy(() => import('@features/entities/wishlists/pages/WishlistsPage'));
-const StudioDetailsPage = lazy(() => import('@features/entities/studios/pages/StudioDetailsPage'));
-const StudioReviewsPage = lazy(() => import('@features/entities/studios/pages/StudioReviewsPage'));
-const ItemDetailsPage = lazy(() => import('@features/entities/items/pages/ItemDetailsPage'));
-const OrderPage = lazy(() => import('@features/entities/orders/pages/OrderPage'));
-const SearchPage = lazy(() => import('@features/search/pages/SearchPage'));
-const CreateStudioPage = lazy(() => import('@features/entities/studios/pages/CreateStudioPage'));
-const EditStudioPage = lazy(() => import('@features/entities/studios/pages/EditStudioPage'));
-const OrderSuccessPage = lazy(() => import('@features/entities/orders/pages/OrderSuccessPage'));
-const StudioCalendarPage = lazy(() => import('@features/entities/bookings/calender/pages/CalenderPage'));
-const DashboardPage = lazy(() => import('@features/entities/dashboard/pages/DashboardPage'));
-const SumitSubscriptionPage = lazy(() => import('@features/entities/subscriptions/pages/SumitSubscriptionPage'));
-const MySubscriptionPage = lazy(() => import('@features/entities/subscriptions/pages/MySubscriptionPage'));
-const VendorOnboardingPage = lazy(() => import('@features/vendor-onboarding/sumit/pages/VendorOnboardingPage'));
+// Lazy load all pages — lazyWithRetry auto-reloads on stale chunks after deploys
+const DiscoverPage = lazyWithRetry(() => import('@features/home/pages/DiscoverPage'));
+const WishListsPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/WishlistsPage'));
+const StudioDetailsPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudioDetailsPage'));
+const StudioReviewsPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudioReviewsPage'));
+const ItemDetailsPage = lazyWithRetry(() => import('@features/entities/items/pages/ItemDetailsPage'));
+const OrderPage = lazyWithRetry(() => import('@features/entities/orders/pages/OrderPage'));
+const SearchPage = lazyWithRetry(() => import('@features/search/pages/SearchPage'));
+const CreateStudioPage = lazyWithRetry(() => import('@features/entities/studios/pages/CreateStudioPage'));
+const EditStudioPage = lazyWithRetry(() => import('@features/entities/studios/pages/EditStudioPage'));
+const OrderSuccessPage = lazyWithRetry(() => import('@features/entities/orders/pages/OrderSuccessPage'));
+const StudioCalendarPage = lazyWithRetry(() => import('@features/entities/bookings/calender/pages/CalenderPage'));
+const DashboardPage = lazyWithRetry(() => import('@features/entities/dashboard/pages/DashboardPage'));
+const SumitSubscriptionPage = lazyWithRetry(() => import('@features/entities/subscriptions/pages/SumitSubscriptionPage'));
+const MySubscriptionPage = lazyWithRetry(() => import('@features/entities/subscriptions/pages/MySubscriptionPage'));
+const VendorOnboardingPage = lazyWithRetry(() => import('@features/vendor-onboarding/sumit/pages/VendorOnboardingPage'));
 
-const PrivacyPolicyPage = lazy(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
-const TermsAndConditionsPage = lazy(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
-const NotFoundPage = lazy(() => import('@features/static/pages/NotFoundPage'));
-const ForOwnersPage = lazy(() => import('@features/static/pages/ForOwnersPage'));
+const PrivacyPolicyPage = lazyWithRetry(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
+const TermsAndConditionsPage = lazyWithRetry(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
+const NotFoundPage = lazyWithRetry(() => import('@features/static/pages/NotFoundPage'));
+const ForOwnersPage = lazyWithRetry(() => import('@features/static/pages/ForOwnersPage'));
 // HowItWorksPage content is now embedded in ForOwnersPage as a section
-const ChangelogPage = lazy(() => import('@features/static/pages/ChangelogPage'));
-const SecurityPage = lazy(() => import('@features/static/pages/SecurityPage'));
-const FeaturesPage = lazy(() => import('@features/static/pages/FeaturesPage'));
-const FeatureDetailPage = lazy(() => import('@features/static/pages/FeatureDetailPage'));
-const ServicesPage = lazy(() => import('@features/entities/items/pages/ServicesPage'));
-const StudiosPage = lazy(() => import('@features/entities/studios/pages/StudiosPage'));
-const CreateItemPage = lazy(() => import('@features/entities/items/pages/CreateItemPage'));
-const CreateWishlistPage = lazy(() => import('@features/entities/wishlists/pages/CreateWishlistPage'));
-const EditItemPage = lazy(() => import('@features/entities/items/pages/EditItemPage'));
-const EditWishlistPage = lazy(() => import('@features/entities/wishlists/pages/EditWishlistPage'));
-const CartDetailsPage = lazy(() => import('@features/entities/cart/pages/CartDetailsPage'));
-const WishlistDetailsPage = lazy(() => import('@features/entities/wishlists/pages/WishlistDetailsPage'));
-const MyReservationsPage = lazy(() => import('@features/entities/reservations/pages/MyReservationsPage'));
-const ReservationDetailsPage = lazy(() => import('@features/entities/reservations/pages/ReservationDetailsPage'));
-// const LandingPage = lazy(() => import('@features/landing/pages/LandingPage'));
-const ProfilePage = lazy(() => import('@features/entities/profile/pages/ProfilePage'));
-const AdminPage = lazy(() => import('@features/entities/admin/pages/AdminPage'));
-const ProjectsListPage = lazy(() => import('@features/entities/remote-projects/pages/ProjectsListPage'));
-const ProjectDetailPage = lazy(() => import('@features/entities/remote-projects/pages/ProjectDetailPage'));
+const ChangelogPage = lazyWithRetry(() => import('@features/static/pages/ChangelogPage'));
+const SecurityPage = lazyWithRetry(() => import('@features/static/pages/SecurityPage'));
+const FeaturesPage = lazyWithRetry(() => import('@features/static/pages/FeaturesPage'));
+const FeatureDetailPage = lazyWithRetry(() => import('@features/static/pages/FeatureDetailPage'));
+const ServicesPage = lazyWithRetry(() => import('@features/entities/items/pages/ServicesPage'));
+const StudiosPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudiosPage'));
+const CreateItemPage = lazyWithRetry(() => import('@features/entities/items/pages/CreateItemPage'));
+const CreateWishlistPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/CreateWishlistPage'));
+const EditItemPage = lazyWithRetry(() => import('@features/entities/items/pages/EditItemPage'));
+const EditWishlistPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/EditWishlistPage'));
+const CartDetailsPage = lazyWithRetry(() => import('@features/entities/cart/pages/CartDetailsPage'));
+const WishlistDetailsPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/WishlistDetailsPage'));
+const MyReservationsPage = lazyWithRetry(() => import('@features/entities/reservations/pages/MyReservationsPage'));
+const ReservationDetailsPage = lazyWithRetry(() => import('@features/entities/reservations/pages/ReservationDetailsPage'));
+// const LandingPage = lazyWithRetry(() => import('@features/landing/pages/LandingPage'));
+const ProfilePage = lazyWithRetry(() => import('@features/entities/profile/pages/ProfilePage'));
+const AdminPage = lazyWithRetry(() => import('@features/entities/admin/pages/AdminPage'));
+const ProjectsListPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectsListPage'));
+const ProjectDetailPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectDetailPage'));
 
 interface AnimatedRoutesProps {
   studios: Studio[];
@@ -116,7 +117,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
 
   return (
     <AnimatePresence mode="wait">
-      <Suspense>
+      <Suspense fallback={<div className="page-loader"><div className="page-loader__spinner" /></div>}>
         <Routes location={location}>
           <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
           <Route

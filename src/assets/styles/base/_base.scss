@@ -121,6 +121,28 @@ body,
   top: 100px;
 }
 
+// Global spinner keyframes (used by page-loader and many components)
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Full-page loading fallback for Suspense (available before any lazy CSS loads)
+.page-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+
+  &__spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border-primary, rgba(255, 255, 255, 0.1));
+    border-top-color: var(--color-brand, #6366f1);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
 .card {
   display: grid;
   place-items: center;
