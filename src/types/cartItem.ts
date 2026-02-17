@@ -28,4 +28,5 @@ export default interface CartItem {
   singleUseToken?: string;
   customerEmail?: string;
   useSavedCard?: boolean; // Use customer's saved card instead of new token
+  sumitCustomerId?: string; // Sumit customer ID for saved card payments (incognito users)
 }

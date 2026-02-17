@@ -490,9 +490,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         ...pendingBookingItem,
         customerEmail: user?.email,
         // New card: pass the single-use token
-        // Saved card: set flag to use customer's saved card
+        // Saved card: set flag to use customer's saved card + pass Sumit customer ID
         singleUseToken: paymentData.method === 'new' ? paymentData.singleUseToken : undefined,
-        useSavedCard: paymentData.method === 'saved'
+        useSavedCard: paymentData.method === 'saved',
+        sumitCustomerId: paymentData.method === 'saved' ? paymentData.cardId : undefined
       };
 
       executeBooking(bookingItemWithPayment);
