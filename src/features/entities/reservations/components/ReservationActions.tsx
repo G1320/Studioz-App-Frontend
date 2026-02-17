@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '@core/contexts';
-import { useCancelReservationMutation, useUpdateReservationMutation } from '@shared/hooks';
+import { useCancelReservationMutation, useApproveReservationMutation } from '@shared/hooks';
 import { Reservation, Studio } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { getStoredCustomerPhone } from '@shared/utils/reservation-storage';
@@ -21,7 +21,7 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const cancelMutation = useCancelReservationMutation();
-  const updateReservationMutation = useUpdateReservationMutation();
+  const approveReservationMutation = useApproveReservationMutation();
 
   // Check if user is the reservation owner (logged in)
   const isLoggedInOwner = useMemo(() => {
@@ -108,10 +108,7 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
 
   const handleConfirmReservation = async () => {
     try {
-      await updateReservationMutation.mutateAsync({
-        reservationId: reservation._id,
-        updates: { status: 'confirmed' }
-      });
+      await approveReservationMutation.mutateAsync(reservation._id);
     } catch (error) {
       // Error is handled by mutation handler
     }
@@ -177,10 +174,10 @@ export const ReservationActions: React.FC<ReservationActionsProps> = ({ reservat
         <button
           className="reservation-actions__button reservation-actions__button--confirm-reservation"
           onClick={handleConfirmReservation}
-          disabled={updateReservationMutation.isPending}
+          disabled={approveReservationMutation.isPending}
           aria-label={t('confirmReservation')}
         >
-          {updateReservationMutation.isPending ? t('confirming') : t('confirmReservation')}
+          {approveReservationMutation.isPending ? t('confirming') : t('confirmReservation')}
         </button>
       )}
 
