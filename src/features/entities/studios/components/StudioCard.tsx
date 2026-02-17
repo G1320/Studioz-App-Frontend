@@ -1,3 +1,4 @@
+import '../styles/_studio-card.scss';
 import { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Studio } from 'src/types/index';

@@ -1,3 +1,4 @@
+import '../styles/_item-card.scss';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, StatusBadge, InstantBookBadge } from '@shared/components';

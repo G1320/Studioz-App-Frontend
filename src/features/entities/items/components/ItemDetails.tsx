@@ -1,3 +1,4 @@
+import '../styles/_index.scss';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ItemHeader } from './ItemHeader';
