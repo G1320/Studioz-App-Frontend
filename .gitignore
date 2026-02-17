@@ -34,3 +34,6 @@ dist-ssr
 vite.config.*.timestamp*
 # Large video files
 public/videos/*.mp4
+
+# Remotion rendered outputs (build artifacts)
+remotion-ads/out/

@@ -194,7 +194,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
   // Sumit onboarding status
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
-  const showSumitCard = Boolean(user?.studios && user.studios.length > 0);
+  const showSumitCard = Boolean((user?.studios && user.studios.length > 0) || hasActiveSubscription);
 
   const handleCalendarToggle = async () => {
     try {
@@ -341,7 +341,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
         {/* Sidebar */}
         <div className="profile-sidebar">
           {/* Google Calendar Integration */}
-          <div className="profile-card profile-card--integration">
+          <div className={`profile-card profile-card--integration ${!hasActiveSubscription ? 'profile-card--locked' : ''}`}>
             <div className="profile-card__glow profile-card__glow--blue" />
 
             <SectionTitle
@@ -371,21 +371,35 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 />
               </div>
 
-              <button
-                className={`profile-btn profile-btn--full ${isGoogleCalendarConnected ? 'profile-btn--secondary' : 'profile-btn--google'}`}
-                onClick={handleCalendarToggle}
-                disabled={isCalendarLoading}
-              >
-                {isCalendarLoading ? (
-                  t('profile.buttons.saving', 'Loading...')
-                ) : isGoogleCalendarConnected ? (
-                  t('profile.buttons.disconnect', 'Disconnect')
-                ) : (
-                  <>
-                    {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
-                  </>
-                )}
-              </button>
+              {!hasActiveSubscription ? (
+                <div className="profile-integration-box__locked-overlay">
+                  <p className="profile-integration-box__locked-text">
+                    {t('profile.calendarLocked', 'Google Calendar Sync is available on paid plans')}
+                  </p>
+                  <button
+                    className="profile-btn profile-btn--full profile-btn--google"
+                    onClick={() => langNavigate('/subscription')}
+                  >
+                    {t('profile.buttons.upgradePlan', 'Upgrade Plan')}
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className={`profile-btn profile-btn--full ${isGoogleCalendarConnected ? 'profile-btn--secondary' : 'profile-btn--google'}`}
+                  onClick={handleCalendarToggle}
+                  disabled={isCalendarLoading}
+                >
+                  {isCalendarLoading ? (
+                    t('profile.buttons.saving', 'Loading...')
+                  ) : isGoogleCalendarConnected ? (
+                    t('profile.buttons.disconnect', 'Disconnect')
+                  ) : (
+                    <>
+                      {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 

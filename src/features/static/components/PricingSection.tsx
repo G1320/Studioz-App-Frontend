@@ -82,8 +82,11 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
         t('pricing.tiers.free.features.unlimitedSessions'),
         t('pricing.tiers.free.features.support'),
       ],
-      notIncluded: [t('pricing.tiers.free.excluded.remoteProjects')],
-      notIncludedAfterIndex: 3,
+      notIncluded: [
+        t('pricing.tiers.free.excluded.googleSync'),
+        t('pricing.tiers.free.excluded.remoteProjects'),
+      ],
+      notIncludedAfterIndex: 4,
       ctaText: t('pricing.cta.start'),
     },
     {

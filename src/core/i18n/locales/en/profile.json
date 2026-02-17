@@ -20,7 +20,8 @@
       "disconnect": "Disconnect",
       "connectAccount": "Connect Account",
       "manageSubscription": "Manage Subscription",
-      "upgrade": "Upgrade"
+      "upgrade": "Upgrade",
+      "upgradePlan": "Upgrade Plan"
     },
     "email": {
       "label": "Email",
@@ -95,6 +96,7 @@
     },
     "connected": "Connected",
     "notConnected": "Not connected",
+    "calendarLocked": "Google Calendar Sync is available on paid plans",
     "comingSoon": "This section will be available in the next version"
   }
 }

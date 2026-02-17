@@ -516,6 +516,30 @@
 }
 
 // ==========================================
+// Locked card (free tier gating)
+// ==========================================
+.profile-card--locked {
+  .profile-integration-box__header {
+    filter: blur(2px);
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+.profile-integration-box__locked-overlay {
+  text-align: center;
+  padding: 0.25rem 0 0;
+}
+
+.profile-integration-box__locked-text {
+  font-size: ds.$font-sm;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+  font-weight: 500;
+}
+
+// ==========================================
 // Subscription Info
 // ==========================================
 .profile-subscription-info {

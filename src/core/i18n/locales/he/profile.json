@@ -20,7 +20,8 @@
       "disconnect": "נתק",
       "connectAccount": "התחבר לחשבון",
       "manageSubscription": "ניהול מנוי",
-      "upgrade": "שדרג"
+      "upgrade": "שדרג",
+      "upgradePlan": "שדרג מסלול"
     },
     "email": {
       "label": "אימייל",
@@ -95,6 +96,7 @@
     },
     "connected": "מחובר",
     "notConnected": "לא מחובר",
+    "calendarLocked": "סנכרון Google Calendar זמין במסלולים בתשלום",
     "comingSoon": "אזור זה יהיה זמין בגרסה הבאה"
   }
 }

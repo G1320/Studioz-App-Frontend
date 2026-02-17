@@ -186,6 +186,7 @@
           "support": "Standard Support"
         },
         "excluded": {
+          "googleSync": "Google Calendar Sync",
           "remoteProjects": "Remote projects"
         }
       },
