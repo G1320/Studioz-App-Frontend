@@ -1,0 +1,241 @@
+@use 'utilities/variables' as vars;
+@use 'utilities/mixins' as mixins;
+
+.a11y-trigger {
+  position: fixed;
+  bottom: 1.5rem;
+  inset-inline-end: 1.5rem;
+  z-index: 9998;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-brand);
+  color: var(--btn-primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: var(--shadow-glow);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 3px;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.a11y-popover {
+  position: fixed;
+  bottom: 5.5rem;
+  inset-inline-end: 1.5rem;
+  z-index: 9998;
+  width: 320px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: vars.$border-radius-xl;
+  box-shadow: var(--shadow-xl);
+  @include mixins.custom-scrollbar;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: vars.$spacing-medium vars.$spacing-medium vars.$spacing-small;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: vars.$font-size-lg;
+    font-weight: 600;
+  }
+
+  &__close {
+    @include mixins.button-icon;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__body {
+    padding: vars.$spacing-medium;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-medium;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__section-label {
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  // Font size selector - 3 buttons in a row
+  &__font-sizes {
+    display: flex;
+    gap: vars.$spacing-xs;
+  }
+
+  &__font-btn {
+    flex: 1;
+    padding: vars.$spacing-small vars.$spacing-xs;
+    border: 1px solid var(--border-primary);
+    border-radius: vars.$border-radius-medium;
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: vars.$font-size-sm-md;
+
+    &:hover {
+      border-color: var(--color-brand);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    &--active {
+      background-color: var(--color-brand);
+      color: var(--btn-primary-text);
+      border-color: var(--color-brand);
+    }
+  }
+
+  // Toggle buttons for boolean settings
+  &__toggles {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: vars.$spacing-small vars.$spacing-sm-md;
+    border: 1px solid var(--border-primary);
+    border-radius: vars.$border-radius-medium;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: start;
+
+    &:hover {
+      border-color: var(--color-brand);
+      background: var(--bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    &--active {
+      background-color: var(--color-brand-bg);
+      border-color: var(--color-brand);
+    }
+  }
+
+  &__toggle-label {
+    font-size: vars.$font-size-sm-md;
+    font-weight: 500;
+  }
+
+  &__toggle-state {
+    font-size: vars.$font-size-xs;
+    color: var(--text-muted);
+    font-weight: 500;
+
+    .a11y-popover__toggle--active & {
+      color: var(--color-brand-text);
+    }
+  }
+
+  // Footer with reset button
+  &__footer {
+    padding: vars.$spacing-small vars.$spacing-medium vars.$spacing-medium;
+    border-top: 1px solid var(--border-primary);
+  }
+
+  &__reset {
+    width: 100%;
+    padding: vars.$spacing-small;
+    border: 1px solid var(--border-primary);
+    border-radius: vars.$border-radius-medium;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      color: var(--color-error-text);
+      border-color: var(--color-error);
+      background: var(--color-error-bg);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // Mobile responsive
+  @media (max-width: 768px) {
+    inset-inline-end: 0.75rem;
+    width: calc(100vw - 1.5rem);
+    max-width: 360px;
+    bottom: 5rem;
+  }
+}
+
+// Move trigger up when cookie banner is showing
+.cookie-banner--visible ~ .a11y-trigger,
+.cookie-banner ~ .a11y-trigger {
+  bottom: 6rem;
+
+  @media (max-width: 768px) {
+    bottom: 12rem;
+  }
+}

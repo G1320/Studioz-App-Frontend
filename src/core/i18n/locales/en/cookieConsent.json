@@ -1,8 +1,40 @@
 {
   "banner": {
-    "description": "We use cookies to enhance your browsing experience.",
-    "note": "We only use necessary cookies for authentication and site functionality.",
+    "ariaLabel": "Cookie consent",
+    "description": "We use cookies and similar technologies to enhance your browsing experience, analyze site traffic, and personalize content. You can choose which categories to allow.",
+    "privacyLink": "Read our Privacy Policy",
     "acceptAll": "Accept All",
-    "necessaryOnly": "Necessary Only"
+    "necessaryOnly": "Necessary Only",
+    "managePreferences": "Manage Preferences"
+  },
+  "preferences": {
+    "title": "Cookie Preferences",
+    "close": "Close cookie preferences",
+    "description": "Choose which cookie categories you want to allow. Essential cookies are always active as they are necessary for the website to function properly.",
+    "savePreferences": "Save Preferences",
+    "acceptAll": "Accept All",
+    "categories": {
+      "essential": {
+        "title": "Essential",
+        "description": "Required for the website to function. Includes authentication, security, cookie preferences, and basic functionality.",
+        "services": "Auth0, Cookie Consent, Theme, Language",
+        "alwaysOn": "Always Active"
+      },
+      "functional": {
+        "title": "Functional",
+        "description": "Enable enhanced functionality such as live chat support and payment processing.",
+        "services": "Brevo Chat, PayPal"
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Help us understand how visitors interact with our website so we can improve the user experience.",
+        "services": "Google Analytics, Microsoft Clarity"
+      },
+      "marketing": {
+        "title": "Marketing",
+        "description": "Used to deliver relevant advertisements and measure their effectiveness across platforms.",
+        "services": "Meta Pixel (Facebook)"
+      }
+    }
   }
 }

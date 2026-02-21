@@ -1,0 +1,22 @@
+{
+  "trigger": {
+    "label": "Accessibility options"
+  },
+  "popover": {
+    "title": "Accessibility",
+    "close": "Close accessibility panel",
+    "fontSize": "Font Size",
+    "fontDefault": "Default",
+    "fontLarge": "Large",
+    "fontLargest": "Largest",
+    "highContrast": "High Contrast",
+    "stopAnimations": "Stop Animations",
+    "highlightLinks": "Highlight Links",
+    "textSpacing": "Text Spacing",
+    "bigCursor": "Big Cursor",
+    "keyboardHighlight": "Keyboard Navigation",
+    "resetAll": "Reset All",
+    "enabled": "on",
+    "disabled": "off"
+  }
+}

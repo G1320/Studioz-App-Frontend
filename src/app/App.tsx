@@ -10,6 +10,9 @@ import { ScrollToTop } from '@shared/utility-components';
 import { shuffleArray } from '@shared/utils';
 import { SEOTags } from '@shared/utility-components/SEOTags';
 import { ErrorBoundary } from '@shared/utility-components/ErrorBoundary';
+import { CookieConsentBanner } from '@shared/components/cookie-consent/CookieConsentBanner';
+import { CookiePreferencesModal } from '@shared/components/cookie-consent/CookiePreferencesModal';
+import { RouteAnnouncer } from '@shared/utility-components/RouteAnnouncer';
 import AnimatedRoutes from './routes/AnimatedRoutes';
 
 import 'dayjs/locale/he';
@@ -18,11 +21,9 @@ import 'dayjs/locale/en';
 // Lazy-load Toaster — toast styles only needed when a toast fires
 const LazyToaster = lazy(() => import('@shared/components/toast/StudiOzToaster'));
 
-// Lazy-load CookieConsent — one-time banner delayed 60s anyway
-const LazyCookieConsent = lazy(() =>
-  import('@shared/components/cookie-consent/CookieConsentBanner').then(m => ({
-    default: m.CookieConsentBanner
-  }))
+// Lazy-load Accessibility popover — not needed for initial render
+const LazyAccessibilityPopover = lazy(
+  () => import('@shared/components/accessibility/AccessibilityPopover')
 );
 
 // Feature flag to disable PayPal SDK loading (saves ~93 KiB)
@@ -57,6 +58,7 @@ function App() {
         <SEOTags path={location.pathname} search={location.search} />
 
         <main className="main-content" id="main-content">
+          <RouteAnnouncer />
           <ScrollToTop />
           <ErrorBoundary>
             <AnimatedRoutes
@@ -70,8 +72,10 @@ function App() {
         </main>
 
         <ResponsiveFooter />
+        <CookieConsentBanner />
+        <CookiePreferencesModal />
         <Suspense fallback={null}>
-          <LazyCookieConsent />
+          <LazyAccessibilityPopover />
         </Suspense>
         <Suspense fallback={null}>
           <LazyToaster />

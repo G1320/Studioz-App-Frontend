@@ -1,73 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useCookieConsent } from '@core/contexts';
 import './styles/_cookie-consent-banner.scss';
 
 export const CookieConsentBanner: React.FC = () => {
-  const { t } = useTranslation('cookieConsent');
-  const { showBanner, acceptCookies, rejectCookies } = useCookieConsent();
-  const [isVisible, setIsVisible] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
+  const { t, i18n } = useTranslation('cookieConsent');
+  const { showBanner, acceptAll, rejectNonEssential, openPreferences } = useCookieConsent();
+  const [visible, setVisible] = useState(false);
+  const firstButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (showBanner) {
-      // Delay showing banner by 1 minute to not interrupt user experience
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 60000); // 60 seconds
-      return () => clearTimeout(timer);
+      // Trigger CSS animation on next frame
+      requestAnimationFrame(() => setVisible(true));
     } else {
-      setIsVisible(false);
+      setVisible(false);
     }
   }, [showBanner]);
-
-  const handleAccept = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      acceptCookies();
-      setIsExiting(false);
-    }, 300);
-  };
-
-  const handleReject = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      rejectCookies();
-      setIsExiting(false);
-    }, 300);
-  };
 
   if (!showBanner) return null;
 
   return (
-    <div 
-      className={`cookie-consent-banner ${isVisible && !isExiting ? 'cookie-consent-banner--visible' : ''} ${isExiting ? 'cookie-consent-banner--exiting' : ''}`}
+    <div
+      className={`cookie-banner ${visible ? 'cookie-banner--visible' : ''}`}
+      role="dialog"
+      aria-label={t('banner.ariaLabel')}
+      aria-describedby="cookie-banner-desc"
     >
-      <div className="cookie-consent-banner__content">
-        <div className="cookie-consent-banner__text-wrapper">
-          <p className="cookie-consent-banner__text">
+      <div className="cookie-banner__content">
+        <div className="cookie-banner__text">
+          <p id="cookie-banner-desc" className="cookie-banner__description">
             {t('banner.description')}
           </p>
-          <p className="cookie-consent-banner__note">
-            {t('banner.note')}
-          </p>
+          <Link to={`/${i18n.language}/privacy`} className="cookie-banner__privacy-link">
+            {t('banner.privacyLink')}
+          </Link>
         </div>
-        <div className="cookie-consent-banner__actions">
+        <div className="cookie-banner__actions">
           <button
-            className="cookie-consent-banner__button cookie-consent-banner__button--accept"
-            onClick={handleAccept}
+            ref={firstButtonRef}
+            className="cookie-banner__btn cookie-banner__btn--accept"
+            onClick={acceptAll}
           >
             {t('banner.acceptAll')}
           </button>
           <button
-            className="cookie-consent-banner__button cookie-consent-banner__button--reject"
-            onClick={handleReject}
+            className="cookie-banner__btn cookie-banner__btn--reject"
+            onClick={rejectNonEssential}
           >
             {t('banner.necessaryOnly')}
+          </button>
+          <button
+            className="cookie-banner__btn cookie-banner__btn--manage"
+            onClick={openPreferences}
+          >
+            {t('banner.managePreferences')}
           </button>
         </div>
       </div>
     </div>
   );
 };
-

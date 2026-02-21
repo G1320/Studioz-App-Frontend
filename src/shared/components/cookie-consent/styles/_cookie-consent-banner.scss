@@ -1,7 +1,7 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
 
-.cookie-consent-banner {
+.cookie-banner {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -12,25 +12,16 @@
   z-index: 9999;
   box-shadow: vars.$box-shadow-xl;
   border-top: 1px solid var(--border-primary);
-  
-  // Initial state - hidden below viewport
+
+  // Initial state — hidden below viewport
   transform: translateY(100%);
   opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  
-  // Visible state - slide up and fade in
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
   &--visible {
     transform: translateY(0);
     opacity: 1;
-  }
-  
-  // Exiting state - slide down and fade out
-  &--exiting {
-    transform: translateY(100%);
-    opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 1, 1),
-                opacity 0.3s cubic-bezier(0.4, 0, 1, 1);
   }
 
   &__content {
@@ -41,37 +32,36 @@
     justify-content: space-between;
     gap: vars.$spacing-medium;
     flex-wrap: wrap;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
-  }
-  
-  &--visible &__content {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  &__text-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
   }
 
   &__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 280px;
+  }
+
+  &__description {
     margin: 0;
-    font-size: vars.$font-size-medium;
+    font-size: vars.$font-size-sm-md;
     line-height: 1.5;
     color: var(--text-primary);
   }
 
-  &__note {
-    margin: 0;
+  &__privacy-link {
     font-size: vars.$font-size-small;
-    line-height: 1.4;
-    color: rgba(var(--text-primary), 0.8);
-    font-style: italic;
+    color: var(--color-brand-text);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-brand);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
   }
 
   &__actions {
@@ -80,15 +70,20 @@
     flex-shrink: 0;
   }
 
-  &__button {
-    padding: 0.75rem 1.5rem;
+  &__btn {
+    padding: 0.625rem 1.25rem;
     border: none;
     border-radius: vars.$border-radius-medium;
-    font-size: vars.$font-size-medium;
+    font-size: vars.$font-size-sm-md;
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     white-space: nowrap;
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
 
     &--accept {
       background-color: var(--color-brand);
@@ -96,13 +91,8 @@
       box-shadow: var(--shadow-md);
 
       &:hover {
+        background-color: var(--color-brand-hover);
         box-shadow: var(--shadow-glow);
-        transform: translateY(-1px);
-      }
-
-      &:focus,
-      &:focus-visible {
-        outline: 4px auto var(--color-brand);
       }
     }
 
@@ -115,10 +105,15 @@
         background-color: var(--bg-hover);
         border-color: var(--color-brand);
       }
+    }
 
-      &:focus,
-      &:focus-visible {
-        outline: 4px auto var(--color-brand);
+    &--manage {
+      background-color: transparent;
+      color: var(--text-secondary);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--text-primary);
       }
     }
   }
@@ -132,28 +127,24 @@
       gap: vars.$spacing-small;
     }
 
-    &__text-wrapper {
-      text-align: center;
-    }
-
     &__text {
-      font-size: vars.$font-size-small;
+      text-align: center;
+      min-width: auto;
     }
 
-    &__note {
-      font-size: 0.75rem;
+    &__description {
+      font-size: vars.$font-size-small;
     }
 
     &__actions {
       width: 100%;
       flex-direction: column;
-      gap: vars.$spacing-small;
+      gap: vars.$spacing-xs;
     }
 
-    &__button {
+    &__btn {
       width: 100%;
-      padding: 0.875rem 1.25rem;
+      padding: 0.75rem 1rem;
     }
   }
 }
-

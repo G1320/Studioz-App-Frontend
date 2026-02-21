@@ -1,0 +1,102 @@
+@use '../utilities/variables' as vars;
+
+// ============================================
+// Accessibility Overrides
+// ============================================
+// Triggered by CSS classes on <html>, managed by AccessibilityContext.
+// ============================================
+
+// ===================
+// Font Size Scaling
+// ===================
+html.a11y-font-1 { font-size: 112.5%; } // 18px base
+html.a11y-font-2 { font-size: 125%; }   // 20px base
+
+// ===================
+// High Contrast
+// ===================
+// Override CSS custom properties for maximum readability.
+html.a11y-high-contrast {
+  --text-primary: #000000;
+  --text-secondary: #1a1a1a;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --border-primary: #000000;
+  --color-brand: #0000ee;
+  --color-brand-text: #0000ee;
+
+  &[data-theme='dark'] {
+    --text-primary: #ffffff;
+    --text-secondary: #f0f0f0;
+    --bg-primary: #000000;
+    --bg-secondary: #111111;
+    --border-primary: #ffffff;
+    --color-brand: #ffff00;
+    --color-brand-text: #ffff00;
+  }
+}
+
+// ===================
+// Stop Animations
+// ===================
+html.a11y-stop-animations *,
+html.a11y-stop-animations *::before,
+html.a11y-stop-animations *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+// ===================
+// Highlight Links
+// ===================
+html.a11y-highlight-links a {
+  outline: 2px solid currentColor !important;
+  outline-offset: 2px;
+  text-decoration: underline !important;
+}
+
+// ===================
+// Text Spacing
+// ===================
+html.a11y-text-spacing {
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+
+  p,
+  li,
+  span,
+  a,
+  td,
+  th,
+  label,
+  div {
+    line-height: 1.8 !important;
+  }
+}
+
+// ===================
+// Big Cursor
+// ===================
+html.a11y-big-cursor {
+  cursor: crosshair !important;
+}
+
+html.a11y-big-cursor a,
+html.a11y-big-cursor button,
+html.a11y-big-cursor [role='button'],
+html.a11y-big-cursor input,
+html.a11y-big-cursor select,
+html.a11y-big-cursor textarea {
+  cursor: pointer !important;
+}
+
+// ===================
+// Keyboard Navigation Highlight
+// ===================
+html.a11y-keyboard-highlight *:focus-visible {
+  outline: 3px solid #ff0 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgba(255, 255, 0, 0.3) !important;
+}

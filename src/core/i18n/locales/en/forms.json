@@ -793,5 +793,11 @@
       "phone": "Phone",
       "website": "Website"
     }
+  },
+  "consent": {
+    "dataProcessing": "I agree to the processing of my personal data in accordance with the <privacyLink>Privacy Policy</privacyLink>.",
+    "marketingEmails": "I agree to receive promotional emails and marketing communications. You can unsubscribe at any time.",
+    "required": "You must agree to the privacy policy to continue.",
+    "privacyPolicyLink": "Privacy Policy"
   }
 }

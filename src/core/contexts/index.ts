@@ -7,3 +7,4 @@ export * from './ReservationModalContext';
 export * from './CookieConsentContext';
 export * from './LocationPermissionContext';
 export * from './NotificationContext';
+export * from './AccessibilityContext';

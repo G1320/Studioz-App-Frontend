@@ -1,0 +1,58 @@
+@use 'utilities/variables' as vars;
+
+.consent-checkbox {
+  margin: vars.$spacing-small 0;
+
+  &__label {
+    display: flex;
+    align-items: flex-start;
+    gap: vars.$spacing-small;
+    cursor: pointer;
+    font-size: vars.$font-size-small;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  &__input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--color-brand);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__text {
+    flex: 1;
+  }
+
+  &__link {
+    color: var(--color-brand-text);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-brand);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__error {
+    margin: vars.$spacing-xs 0 0 calc(18px + vars.$spacing-small);
+    font-size: vars.$font-size-xs;
+    color: var(--color-error);
+  }
+
+  &--error &__input {
+    outline: 2px solid var(--color-error);
+    outline-offset: 1px;
+  }
+}

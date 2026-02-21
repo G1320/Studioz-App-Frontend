@@ -1,0 +1,22 @@
+{
+  "trigger": {
+    "label": "אפשרויות נגישות"
+  },
+  "popover": {
+    "title": "נגישות",
+    "close": "סגור חלונית נגישות",
+    "fontSize": "גודל גופן",
+    "fontDefault": "רגיל",
+    "fontLarge": "גדול",
+    "fontLargest": "גדול מאוד",
+    "highContrast": "ניגודיות גבוהה",
+    "stopAnimations": "עצור אנימציות",
+    "highlightLinks": "הדגש קישורים",
+    "textSpacing": "ריווח טקסט",
+    "bigCursor": "סמן גדול",
+    "keyboardHighlight": "ניווט מקלדת",
+    "resetAll": "אפס הכל",
+    "enabled": "פעיל",
+    "disabled": "כבוי"
+  }
+}

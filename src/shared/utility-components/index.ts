@@ -4,3 +4,4 @@ export * from './AddressDropdown';
 export * from './PhoneDropdown';
 export * from './ErrorBoundary';
 export * from './ErrorBoundaryComponent';
+export * from './RouteAnnouncer';

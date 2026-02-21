@@ -1,12 +1,29 @@
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { hasConsent, saveConsent } from '@shared/services/cookie-consent-service';
+import { createContext, useState, useContext, useCallback, ReactNode, useEffect } from 'react';
+import {
+  getConsent,
+  saveConsent,
+  clearConsent,
+  needsReconsent,
+  logConsentEvent,
+  getAllCategories,
+  getDefaultCategories,
+  type CookieConsentCategories,
+  type CookieConsentData
+} from '@shared/services/cookie-consent-service';
 import { isBot } from '@shared/utils/botDetection';
 
 interface CookieConsentContextType {
-  hasConsented: boolean;
+  consent: CookieConsentData | null;
+  hasDecided: boolean;
   showBanner: boolean;
-  acceptCookies: () => void;
-  rejectCookies: () => void;
+  showPreferences: boolean;
+  acceptAll: () => void;
+  rejectNonEssential: () => void;
+  savePreferences: (categories: CookieConsentCategories) => void;
+  openPreferences: () => void;
+  closePreferences: () => void;
+  hasCategory: (cat: keyof CookieConsentCategories) => boolean;
+  withdrawConsent: () => void;
 }
 
 interface CookieConsentProviderProps {
@@ -16,45 +33,104 @@ interface CookieConsentProviderProps {
 const CookieConsentContext = createContext<CookieConsentContextType | undefined>(undefined);
 
 export const CookieConsentProvider: React.FC<CookieConsentProviderProps> = ({ children }) => {
-  const [hasConsented, setHasConsented] = useState(false);
+  const [consent, setConsent] = useState<CookieConsentData | null>(null);
+  const [hasDecided, setHasDecided] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
+  const [showPreferences, setShowPreferences] = useState(false);
 
   useEffect(() => {
-    // Skip cookie consent banner for bots/crawlers (prevents banner during Google crawling)
+    // Skip for bots/crawlers
     if (isBot()) {
-      setHasConsented(true); // Mark as consented so banner never shows
-      setShowBanner(false);
+      setHasDecided(true);
       return;
     }
 
-    // Check consent on mount
-    const consent = hasConsent();
-    setHasConsented(consent);
-
-    // Wait 2.5 seconds before showing banner for a more thoughtful, less intrusive experience
-    if (!consent) {
-      const timer = setTimeout(() => {
-        setShowBanner(true);
-      }, 2500);
-
-      return () => clearTimeout(timer);
+    const stored = getConsent();
+    if (stored && !needsReconsent()) {
+      setConsent(stored);
+      setHasDecided(true);
+    } else {
+      // Show banner immediately — no delay (תיקון 13 compliance)
+      setShowBanner(true);
     }
   }, []);
 
-  const acceptCookies = () => {
-    saveConsent(true);
-    setHasConsented(true);
-    setShowBanner(false);
-  };
+  const dispatchConsentChanged = useCallback(() => {
+    window.dispatchEvent(new Event('consent-changed'));
+  }, []);
 
-  const rejectCookies = () => {
-    saveConsent(false);
-    setHasConsented(false);
+  const acceptAll = useCallback(() => {
+    const categories = getAllCategories();
+    saveConsent(categories);
+    logConsentEvent('granted_all', categories);
+    setConsent(getConsent());
+    setHasDecided(true);
     setShowBanner(false);
-  };
+    setShowPreferences(false);
+    dispatchConsentChanged();
+  }, [dispatchConsentChanged]);
+
+  const rejectNonEssential = useCallback(() => {
+    const categories = getDefaultCategories();
+    saveConsent(categories);
+    logConsentEvent('rejected_non_essential', categories);
+    setConsent(getConsent());
+    setHasDecided(true);
+    setShowBanner(false);
+    setShowPreferences(false);
+    dispatchConsentChanged();
+  }, [dispatchConsentChanged]);
+
+  const savePreferencesHandler = useCallback((categories: CookieConsentCategories) => {
+    saveConsent(categories);
+    logConsentEvent('custom', categories);
+    setConsent(getConsent());
+    setHasDecided(true);
+    setShowBanner(false);
+    setShowPreferences(false);
+    dispatchConsentChanged();
+  }, [dispatchConsentChanged]);
+
+  const openPreferences = useCallback(() => {
+    setShowPreferences(true);
+  }, []);
+
+  const closePreferences = useCallback(() => {
+    setShowPreferences(false);
+  }, []);
+
+  const hasCategoryCheck = useCallback((cat: keyof CookieConsentCategories): boolean => {
+    if (cat === 'essential') return true;
+    if (!consent) return false;
+    return consent.categories[cat] === true;
+  }, [consent]);
+
+  const withdrawConsentHandler = useCallback(() => {
+    const categories = getDefaultCategories();
+    logConsentEvent('withdrawn', categories);
+    clearConsent();
+    setConsent(null);
+    setHasDecided(false);
+    setShowBanner(true);
+    dispatchConsentChanged();
+  }, [dispatchConsentChanged]);
 
   return (
-    <CookieConsentContext.Provider value={{ hasConsented, showBanner, acceptCookies, rejectCookies }}>
+    <CookieConsentContext.Provider
+      value={{
+        consent,
+        hasDecided,
+        showBanner,
+        showPreferences,
+        acceptAll,
+        rejectNonEssential,
+        savePreferences: savePreferencesHandler,
+        openPreferences,
+        closePreferences,
+        hasCategory: hasCategoryCheck,
+        withdrawConsent: withdrawConsentHandler
+      }}
+    >
       {children}
     </CookieConsentContext.Provider>
   );

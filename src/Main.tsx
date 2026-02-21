@@ -23,6 +23,7 @@ import {
   NotificationProvider
 } from '@core/contexts';
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
+import { AccessibilityProvider } from '@core/contexts/AccessibilityContext';
 import { isInAppBrowser } from '@shared/utils/botDetection';
 import './core/i18n/config';
 
@@ -99,42 +100,44 @@ import App from './app/App.js';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="dark">
-      <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
-        <Router>
-          <CookieConsentProvider>
-            <LocationPermissionProvider>
-              <UserProvider>
-                <OfflineCartProvider>
-                  <SocketProvider>
-                    <NotificationProvider>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-                        <Auth0Provider
-                          domain={domain}
-                          clientId={clientId}
-                          authorizationParams={{
-                            redirect_uri: window.location.origin,
-                            audience: 'https://items-app-backend.onrender.com',
-                            scope: 'openid profile email'
-                          }}
-                        >
-                          <ModalProvider>
-                            <ReservationModalProvider>
-                              <SearchProvider>
-                                <App />
-                              </SearchProvider>
-                            </ReservationModalProvider>
-                          </ModalProvider>
-                        </Auth0Provider>
-                      </LocalizationProvider>
-                    </NotificationProvider>
-                  </SocketProvider>
-                </OfflineCartProvider>
-              </UserProvider>
-            </LocationPermissionProvider>
-          </CookieConsentProvider>
-        </Router>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      </PersistQueryClientProvider>
+      <AccessibilityProvider>
+        <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+          <Router>
+            <CookieConsentProvider>
+              <LocationPermissionProvider>
+                <UserProvider>
+                  <OfflineCartProvider>
+                    <SocketProvider>
+                      <NotificationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
+                          <Auth0Provider
+                            domain={domain}
+                            clientId={clientId}
+                            authorizationParams={{
+                              redirect_uri: window.location.origin,
+                              audience: 'https://items-app-backend.onrender.com',
+                              scope: 'openid profile email'
+                            }}
+                          >
+                            <ModalProvider>
+                              <ReservationModalProvider>
+                                <SearchProvider>
+                                  <App />
+                                </SearchProvider>
+                              </ReservationModalProvider>
+                            </ModalProvider>
+                          </Auth0Provider>
+                        </LocalizationProvider>
+                      </NotificationProvider>
+                    </SocketProvider>
+                  </OfflineCartProvider>
+                </UserProvider>
+              </LocationPermissionProvider>
+            </CookieConsentProvider>
+          </Router>
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </PersistQueryClientProvider>
+      </AccessibilityProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

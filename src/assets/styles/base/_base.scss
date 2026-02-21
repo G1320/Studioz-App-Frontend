@@ -110,8 +110,18 @@ body,
   border: 1px solid var(--border-primary);
 }
 
-.MuiIconButton-root:focus,
-.MuiIconButton-root:focus-visible {
+// Global focus-visible styles for keyboard navigation (WCAG 2.4.7)
+*:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+// Remove focus ring for mouse clicks only
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.MuiIconButton-root:focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -238,6 +248,18 @@ body,
   .gallery-image {
     border: 1px solid rgba(vars.$border-color-primary, 0.15) !important;
     box-shadow: none !important;
+  }
+}
+
+// Respect system preference for reduced motion (WCAG 2.3.3)
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

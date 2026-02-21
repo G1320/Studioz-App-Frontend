@@ -33,6 +33,8 @@ import merchantDocs from './locales/en/merchantDocs.json';
 import security from './locales/en/security.json';
 import remoteProjects from './locales/en/remoteProjects.json';
 import features from './locales/en/features.json';
+import privacyPolicy from './locales/en/privacyPolicy.json';
+import accessibility from './locales/en/accessibility.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -65,6 +67,8 @@ import merchantDocsHe from './locales/he/merchantDocs.json';
 import securityHe from './locales/he/security.json';
 import remoteProjectsHe from './locales/he/remoteProjects.json';
 import featuresHe from './locales/he/features.json';
+import privacyPolicyHe from './locales/he/privacyPolicy.json';
+import accessibilityHe from './locales/he/accessibility.json';
 
 i18n
   .use(LanguageDetector)
@@ -102,7 +106,9 @@ i18n
         merchantDocs,
         security,
         remoteProjects,
-        features
+        features,
+        privacyPolicy,
+        accessibility
       },
       he: {
         discoverPage: discoverPageHe,
@@ -135,7 +141,9 @@ i18n
         merchantDocs: merchantDocsHe,
         security: securityHe,
         remoteProjects: remoteProjectsHe,
-        features: featuresHe
+        features: featuresHe,
+        privacyPolicy: privacyPolicyHe,
+        accessibility: accessibilityHe
       }
     },
     fallbackLng: 'he',
