@@ -15,25 +15,269 @@ html.a11y-font-2 { font-size: 125%; }   // 20px base
 // ===================
 // High Contrast
 // ===================
-// Override CSS custom properties for maximum readability.
+// Comprehensive override of the full theme token surface for WCAG AAA-level
+// contrast.  Both light and dark variants are covered so every component that
+// consumes CSS custom-properties automatically inherits high-contrast values.
+
 html.a11y-high-contrast {
-  --text-primary: #000000;
-  --text-secondary: #1a1a1a;
+  // Brand — keep recognisable but darken for text-on-white legibility
+  --color-brand: #0000cc;
+  --color-brand-hover: #000099;
+  --color-brand-muted: rgba(0, 0, 204, 0.12);
+  --color-brand-text: #0000cc;
+  --color-brand-bg: rgba(0, 0, 204, 0.08);
+  --color-brand-border: #0000cc;
+  --color-brand-glow: transparent;
+
+  // Backgrounds — pure white surfaces
   --bg-primary: #ffffff;
   --bg-secondary: #f5f5f5;
-  --border-primary: #000000;
-  --color-brand: #0000ee;
-  --color-brand-text: #0000ee;
+  --bg-tertiary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-surface: #f5f5f5;
+  --bg-elevated: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.1);
+  --bg-active: rgba(0, 0, 0, 0.15);
 
+  // Text — pure black for maximum contrast on white
+  --text-primary: #000000;
+  --text-secondary: #1a1a1a;
+  --text-tertiary: #333333;
+  --text-muted: #555555;
+  --text-inverse: #ffffff;
+  --text-link: #0000cc;
+  --text-link-hover: #000066;
+
+  // Borders — strong visible lines
+  --border-primary: #000000;
+  --border-secondary: #333333;
+  --border-focus: #0000cc;
+  --border-hover: #000000;
+  --border-active: #000000;
+
+  // Buttons — dark buttons with white text for unambiguous CTAs
+  --btn-primary-bg: #1a1a1a;
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #333333;
+  --btn-secondary-bg: #ffffff;
+  --btn-secondary-text: #000000;
+  --btn-secondary-hover: #e5e5e5;
+  --btn-ghost-hover: rgba(0, 0, 0, 0.1);
+
+  // Inputs
+  --input-bg: #ffffff;
+  --input-border: #000000;
+  --input-border-focus: #0000cc;
+  --input-focus-border: #0000cc;
+  --input-placeholder: #555555;
+
+  // Status — accessible on white
+  --color-success: #006400;
+  --color-success-text: #006400;
+  --color-success-bg: rgba(0, 100, 0, 0.1);
+  --color-success-border: #006400;
+  --color-warning: #7a4100;
+  --color-warning-text: #7a4100;
+  --color-warning-bg: rgba(122, 65, 0, 0.1);
+  --color-warning-border: #7a4100;
+  --color-error: #cc0000;
+  --color-error-text: #cc0000;
+  --color-error-bg: rgba(204, 0, 0, 0.1);
+  --color-error-border: #cc0000;
+  --color-info: #0000cc;
+  --color-info-text: #0000cc;
+  --color-info-bg: rgba(0, 0, 204, 0.1);
+  --color-info-border: #0000cc;
+
+  // Component surfaces
+  --header-bg: #ffffff;
+  --footer-bg: #f5f5f5;
+  --card-bg: #ffffff;
+  --card-border: #000000;
+  --modal-bg: #ffffff;
+  --tooltip-bg: #000000;
+  --dropdown-bg: #ffffff;
+
+  // Shadows — flatten to borders in high contrast
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-glow: none;
+  --shadow-card: 0 0 0 1px #000000;
+  --shadow-dropdown: 0 0 0 1px #000000;
+
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --divider-color: #000000;
+  --focus-ring: 0 0 0 3px #0000cc;
+
+  // Subtle / accent tokens
+  --border-subtle: #666666;
+  --bg-modal-overlay: #f0f0f0;
+  --color-purple: #5b21b6;
+  --color-purple-subtle: rgba(91, 33, 182, 0.15);
+  --color-pink: #9d174d;
+  --color-sumit: #0000cc;
+  --color-sumit-hover: #000099;
+  --color-sumit-glow: transparent;
+
+  // Scrollbar
+  --scrollbar-track: #f5f5f5;
+  --scrollbar-thumb: #666666;
+  --scrollbar-thumb-hover: #333333;
+
+  // ---- Dark high-contrast ----
   &[data-theme='dark'] {
+    --color-brand: #ffff00;
+    --color-brand-hover: #ffff66;
+    --color-brand-muted: rgba(255, 255, 0, 0.15);
+    --color-brand-text: #ffff00;
+    --color-brand-bg: rgba(255, 255, 0, 0.1);
+    --color-brand-border: #ffff00;
+    --color-brand-glow: transparent;
+
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #000000;
+    --bg-card: #000000;
+    --bg-surface: #0a0a0a;
+    --bg-elevated: #0a0a0a;
+    --bg-input: #000000;
+    --bg-hover: rgba(255, 255, 255, 0.12);
+    --bg-active: rgba(255, 255, 255, 0.18);
+
     --text-primary: #ffffff;
     --text-secondary: #f0f0f0;
-    --bg-primary: #000000;
-    --bg-secondary: #111111;
+    --text-tertiary: #cccccc;
+    --text-muted: #aaaaaa;
+    --text-inverse: #000000;
+    --text-link: #ffff00;
+    --text-link-hover: #ffffff;
+
     --border-primary: #ffffff;
-    --color-brand: #ffff00;
-    --color-brand-text: #ffff00;
+    --border-secondary: #cccccc;
+    --border-focus: #ffff00;
+    --border-hover: #ffffff;
+    --border-active: #ffffff;
+
+    --btn-primary-bg: #ffffff;
+    --btn-primary-text: #000000;
+    --btn-primary-hover: #e0e0e0;
+    --btn-secondary-bg: #000000;
+    --btn-secondary-text: #ffffff;
+    --btn-secondary-hover: #1a1a1a;
+    --btn-ghost-hover: rgba(255, 255, 255, 0.12);
+
+    --input-bg: #000000;
+    --input-border: #ffffff;
+    --input-border-focus: #ffff00;
+    --input-focus-border: #ffff00;
+    --input-placeholder: #aaaaaa;
+
+    --color-success: #00cc00;
+    --color-success-text: #00cc00;
+    --color-success-bg: rgba(0, 204, 0, 0.15);
+    --color-success-border: #00cc00;
+    --color-warning: #ffcc00;
+    --color-warning-text: #ffcc00;
+    --color-warning-bg: rgba(255, 204, 0, 0.15);
+    --color-warning-border: #ffcc00;
+    --color-error: #ff3333;
+    --color-error-text: #ff3333;
+    --color-error-bg: rgba(255, 51, 51, 0.15);
+    --color-error-border: #ff3333;
+    --color-info: #66b3ff;
+    --color-info-text: #66b3ff;
+    --color-info-bg: rgba(102, 179, 255, 0.15);
+    --color-info-border: #66b3ff;
+
+    --header-bg: #000000;
+    --footer-bg: #000000;
+    --card-bg: #000000;
+    --card-border: #ffffff;
+    --modal-bg: #000000;
+    --tooltip-bg: #ffffff;
+    --dropdown-bg: #000000;
+
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-xl: none;
+    --shadow-glow: none;
+    --shadow-card: 0 0 0 1px #ffffff;
+    --shadow-dropdown: 0 0 0 1px #ffffff;
+
+    --overlay-bg: rgba(0, 0, 0, 0.85);
+    --divider-color: #ffffff;
+    --focus-ring: 0 0 0 3px #ffff00;
+
+    --border-subtle: #cccccc;
+    --bg-modal-overlay: #1a1a1a;
+    --color-purple: #c4b5fd;
+    --color-purple-subtle: rgba(196, 181, 253, 0.15);
+    --color-pink: #f9a8d4;
+    --color-sumit: #66b3ff;
+    --color-sumit-hover: #99ccff;
+    --color-sumit-glow: transparent;
+
+    --scrollbar-track: #000000;
+    --scrollbar-thumb: #666666;
+    --scrollbar-thumb-hover: #999999;
   }
+}
+
+// ===================
+// High Contrast — Hardcoded element overrides
+// ===================
+// Sections that bypass CSS custom-properties need targeted rules.
+
+// Landing hero
+html.a11y-high-contrast .landing-hero__description {
+  color: #ffffff !important;
+}
+
+html.a11y-high-contrast .landing-hero__overlay {
+  background: rgba(0, 0, 0, 0.85) !important;
+}
+
+// For-Owners hero
+html.a11y-high-contrast .owners-hero__title {
+  color: #ffffff !important;
+}
+
+html.a11y-high-contrast .owners-hero__description {
+  color: #ffffff !important;
+}
+
+html.a11y-high-contrast .owners-hero__overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.75) 50%,
+    var(--bg-primary) 100%
+  ) !important;
+}
+
+html.a11y-high-contrast .owners-hero__free-badge {
+  color: #ffffff !important;
+}
+
+// CTA glow pseudo-elements should be invisible in high contrast
+html.a11y-high-contrast .owners-btn--primary::before {
+  display: none !important;
+}
+
+html.a11y-high-contrast .landing-cta__glow--primary,
+html.a11y-high-contrast .landing-cta__glow--blue,
+html.a11y-high-contrast .owners-hero__glow--primary,
+html.a11y-high-contrast .owners-hero__glow--blue {
+  display: none !important;
+}
+
+// Dashboard browser chrome dots — keep visible in high contrast
+html.a11y-high-contrast .owners-dashboard__browser-content {
+  background: var(--bg-primary) !important;
 }
 
 // ===================
@@ -79,8 +323,13 @@ html.a11y-text-spacing {
 // ===================
 // Big Cursor
 // ===================
+// Large 32×32 arrow cursor encoded as an inline SVG data-URI.
+// The 4 4 hotspot keeps the click point at the arrow tip.
+$big-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 2l20 14H14l6 12-4 2-6-12-6 8z' fill='%23000' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E") 4 4, auto;
+$big-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M10 2v20l5-5h8z' fill='%23000' stroke='%23fff' stroke-width='1.5'/%3E%3Cpath d='M9 24l4 6 4-6z' fill='%23000' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E") 10 2, pointer;
+
 html.a11y-big-cursor {
-  cursor: crosshair !important;
+  cursor: $big-cursor !important;
 }
 
 html.a11y-big-cursor a,
@@ -89,7 +338,7 @@ html.a11y-big-cursor [role='button'],
 html.a11y-big-cursor input,
 html.a11y-big-cursor select,
 html.a11y-big-cursor textarea {
-  cursor: pointer !important;
+  cursor: $big-pointer !important;
 }
 
 // ===================

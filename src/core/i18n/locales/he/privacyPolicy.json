@@ -181,6 +181,7 @@
   "cookieCategories": {
     "title": "קטגוריות עוגיות",
     "description": "להלן פירוט מפורט של העוגיות בהן אנו משתמשים בשירות, מסווגות לפי מטרה:",
+    "manageButton": "ניהול העדפות עוגיות",
     "tableHeaders": {
       "category": "קטגוריה",
       "services": "שירותים",

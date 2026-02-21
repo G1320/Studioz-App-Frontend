@@ -181,6 +181,7 @@
   "cookieCategories": {
     "title": "Cookie Categories",
     "description": "Below is a detailed breakdown of the cookies used on our Service, categorized by purpose:",
+    "manageButton": "Manage Cookie Preferences",
     "tableHeaders": {
       "category": "Category",
       "services": "Services",

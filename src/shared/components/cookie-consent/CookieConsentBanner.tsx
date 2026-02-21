@@ -12,19 +12,25 @@ export const CookieConsentBanner: React.FC = () => {
 
   useEffect(() => {
     if (showBanner) {
-      // Trigger CSS animation on next frame
       requestAnimationFrame(() => setVisible(true));
     } else {
       setVisible(false);
     }
   }, [showBanner]);
 
+  // Move focus into the banner when it becomes visible so screen readers announce it
+  useEffect(() => {
+    if (visible) {
+      firstButtonRef.current?.focus();
+    }
+  }, [visible]);
+
   if (!showBanner) return null;
 
   return (
     <div
       className={`cookie-banner ${visible ? 'cookie-banner--visible' : ''}`}
-      role="dialog"
+      role="region"
       aria-label={t('banner.ariaLabel')}
       aria-describedby="cookie-banner-desc"
     >

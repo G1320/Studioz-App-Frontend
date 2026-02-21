@@ -252,9 +252,7 @@ const PrivacyPolicyPage = () => {
               className="privacy-policy-manage-btn"
               onClick={openPreferences}
             >
-              {t('cookieCategories.tableHeaders.category') === 'Category'
-                ? 'Manage Cookie Preferences'
-                : 'ניהול העדפות עוגיות'}
+              {t('cookieCategories.manageButton')}
             </button>
           </p>
 

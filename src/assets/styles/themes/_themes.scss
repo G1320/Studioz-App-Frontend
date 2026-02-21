@@ -124,6 +124,13 @@
   // Dividers - slightly stronger for coherence
   --divider-color: rgba(0, 0, 0, 0.08);
 
+  // Subtle / accent tokens used by feature pages
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --bg-modal-overlay: rgba(0, 0, 0, 0.03);
+  --color-purple: #7c3aed;
+  --color-purple-subtle: rgba(124, 58, 237, 0.1);
+  --color-pink: #db2777;
+
   // Focus ring - stronger for visibility (accessibility)
   --focus-ring: 0 0 0 2px rgba(247, 192, 65, 0.5);
 }
@@ -243,6 +250,13 @@
 
   // Dividers
   --divider-color: rgba(200, 205, 212, 0.1);
+
+  // Subtle / accent tokens used by feature pages
+  --border-subtle: rgba(200, 205, 212, 0.08);
+  --bg-modal-overlay: rgba(255, 255, 255, 0.05);
+  --color-purple: #a78bfa;
+  --color-purple-subtle: rgba(167, 139, 250, 0.1);
+  --color-pink: #f472b6;
 
   // Focus ring
   --focus-ring: 0 0 0 2px rgba(255, 209, 102, 0.5);

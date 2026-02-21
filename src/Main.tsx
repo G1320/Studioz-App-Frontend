@@ -23,7 +23,7 @@ import {
   NotificationProvider
 } from '@core/contexts';
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
-import { AccessibilityProvider } from '@core/contexts/AccessibilityContext';
+import { AccessibilityProvider } from '@core/contexts';
 import { isInAppBrowser } from '@shared/utils/botDetection';
 import './core/i18n/config';
 

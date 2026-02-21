@@ -164,6 +164,7 @@ const AccessibilityPopover: React.FC = () => {
           id={POPOVER_ID}
           className="a11y-popover"
           role="dialog"
+          aria-modal="true"
           aria-label={t('popover.title')}
         >
           {/* Header */}
