@@ -9,8 +9,12 @@
 // ===================
 // Font Size Scaling
 // ===================
-html.a11y-font-1 { font-size: 112.5%; } // 18px base
-html.a11y-font-2 { font-size: 125%; }   // 20px base
+html.a11y-font-1 {
+  font-size: 112.5%;
+} // 18px base
+html.a11y-font-2 {
+  font-size: 125%;
+} // 20px base
 
 // ===================
 // High Contrast
@@ -280,6 +284,37 @@ html.a11y-high-contrast .owners-dashboard__browser-content {
   background: var(--bg-primary) !important;
 }
 
+// Featured pricing card — solid brand-color fill is unreadable in HC;
+// switch to outlined style with a thick accent border instead.
+html.a11y-high-contrast .pricing-card--featured {
+  background: var(--bg-primary) !important;
+  border: 3px solid var(--color-brand) !important;
+  color: var(--text-primary) !important;
+  box-shadow: none !important;
+
+  .pricing-card__price,
+  .pricing-card__period,
+  .pricing-card__feature,
+  .pricing-card__feature-icon,
+  .pricing-card__trial-badge {
+    color: var(--text-primary) !important;
+  }
+
+  .pricing-card__label {
+    color: var(--color-brand) !important;
+    border-color: var(--color-brand) !important;
+  }
+
+  .pricing-card__description {
+    color: var(--text-secondary) !important;
+  }
+
+  .pricing-card__cta {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+  }
+}
+
 // ===================
 // Stop Animations
 // ===================
@@ -325,8 +360,14 @@ html.a11y-text-spacing {
 // ===================
 // Large 32×32 arrow cursor encoded as an inline SVG data-URI.
 // The 4 4 hotspot keeps the click point at the arrow tip.
-$big-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 2l20 14H14l6 12-4 2-6-12-6 8z' fill='%23000' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E") 4 4, auto;
-$big-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M10 2v20l5-5h8z' fill='%23000' stroke='%23fff' stroke-width='1.5'/%3E%3Cpath d='M9 24l4 6 4-6z' fill='%23000' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E") 10 2, pointer;
+$big-cursor:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 2l20 14H14l6 12-4 2-6-12-6 8z' fill='%23000' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E")
+    4 4,
+  auto;
+$big-pointer:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M10 2v20l5-5h8z' fill='%23000' stroke='%23fff' stroke-width='1.5'/%3E%3Cpath d='M9 24l4 6 4-6z' fill='%23000' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E")
+    10 2,
+  pointer;
 
 html.a11y-big-cursor {
   cursor: $big-cursor !important;
