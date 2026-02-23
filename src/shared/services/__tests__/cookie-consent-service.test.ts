@@ -22,6 +22,8 @@ vi.mock('js-cookie', () => ({
   }
 }));
 
+const mockCookieGet = Cookies.get as unknown as ReturnType<typeof vi.fn<[], string | undefined>>;
+
 describe('cookie-consent-service', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -70,7 +72,7 @@ describe('cookie-consent-service', () => {
 
   describe('getConsent', () => {
     it('returns null when no cookie exists', () => {
-      vi.mocked(Cookies.get).mockReturnValue(undefined);
+      mockCookieGet.mockReturnValue(undefined);
       expect(getConsent()).toBeNull();
     });
 
@@ -80,18 +82,18 @@ describe('cookie-consent-service', () => {
         timestamp: '2025-01-01T00:00:00.000Z',
         version: '1.0'
       };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(data));
+      mockCookieGet.mockReturnValue(JSON.stringify(data));
       expect(getConsent()).toEqual(data);
     });
 
     it('handles malformed JSON gracefully', () => {
-      vi.mocked(Cookies.get).mockReturnValue('not-json');
+      mockCookieGet.mockReturnValue('not-json');
       expect(getConsent()).toBeNull();
     });
 
     it('migrates legacy format (accepted: true) to all categories', () => {
       const legacy = { accepted: true, timestamp: '2024-12-01T00:00:00.000Z' };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(legacy));
+      mockCookieGet.mockReturnValue(JSON.stringify(legacy));
 
       const result = getConsent();
       expect(result).not.toBeNull();
@@ -106,7 +108,7 @@ describe('cookie-consent-service', () => {
 
     it('migrates legacy format (accepted: false) to essential only', () => {
       const legacy = { accepted: false, timestamp: '2024-12-01T00:00:00.000Z' };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(legacy));
+      mockCookieGet.mockReturnValue(JSON.stringify(legacy));
 
       const result = getConsent();
       expect(result!.categories).toEqual({
@@ -120,7 +122,7 @@ describe('cookie-consent-service', () => {
 
   describe('hasConsent', () => {
     it('returns false when no consent stored', () => {
-      vi.mocked(Cookies.get).mockReturnValue(undefined);
+      mockCookieGet.mockReturnValue(undefined);
       expect(hasConsent()).toBe(false);
     });
 
@@ -130,19 +132,19 @@ describe('cookie-consent-service', () => {
         timestamp: '2025-01-01T00:00:00.000Z',
         version: '1.0'
       };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(data));
+      mockCookieGet.mockReturnValue(JSON.stringify(data));
       expect(hasConsent()).toBe(true);
     });
   });
 
   describe('hasCategory', () => {
     it('returns true for essential even without consent', () => {
-      vi.mocked(Cookies.get).mockReturnValue(undefined);
+      mockCookieGet.mockReturnValue(undefined);
       expect(hasCategory('essential')).toBe(true);
     });
 
     it('returns false for analytics without consent', () => {
-      vi.mocked(Cookies.get).mockReturnValue(undefined);
+      mockCookieGet.mockReturnValue(undefined);
       expect(hasCategory('analytics')).toBe(false);
     });
 
@@ -152,7 +154,7 @@ describe('cookie-consent-service', () => {
         timestamp: '2025-01-01T00:00:00.000Z',
         version: '1.0'
       };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(data));
+      mockCookieGet.mockReturnValue(JSON.stringify(data));
       expect(hasCategory('functional')).toBe(true);
       expect(hasCategory('analytics')).toBe(false);
     });
@@ -195,7 +197,7 @@ describe('cookie-consent-service', () => {
 
   describe('needsReconsent', () => {
     it('returns false when no consent exists', () => {
-      vi.mocked(Cookies.get).mockReturnValue(undefined);
+      mockCookieGet.mockReturnValue(undefined);
       expect(needsReconsent()).toBe(false);
     });
 
@@ -205,7 +207,7 @@ describe('cookie-consent-service', () => {
         timestamp: '2025-01-01T00:00:00.000Z',
         version: '1.0'
       };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(data));
+      mockCookieGet.mockReturnValue(JSON.stringify(data));
       expect(needsReconsent()).toBe(false);
     });
 
@@ -215,7 +217,7 @@ describe('cookie-consent-service', () => {
         timestamp: '2025-01-01T00:00:00.000Z',
         version: '0.9'
       };
-      vi.mocked(Cookies.get).mockReturnValue(JSON.stringify(data));
+      mockCookieGet.mockReturnValue(JSON.stringify(data));
       expect(needsReconsent()).toBe(true);
     });
   });

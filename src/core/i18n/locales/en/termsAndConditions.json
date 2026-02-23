@@ -1,0 +1,349 @@
+{
+  "meta": {
+    "title": "Terms and Conditions",
+    "lastUpdated": "Last updated: February 2025",
+    "intro": "Please read these terms and conditions carefully before using Our Service."
+  },
+  "toc": {
+    "title": "Table of Contents",
+    "interpretationAndDefinitions": "Interpretation and Definitions",
+    "acknowledgment": "Acknowledgment",
+    "thePlatform": "The Platform",
+    "userAccounts": "User Accounts",
+    "studioOwnerTerms": "Studio Owner Terms",
+    "renterTerms": "Renter Terms",
+    "bookings": "Bookings and Reservations",
+    "cancellation": "Cancellation Policy",
+    "feesAndPayments": "Fees and Payments",
+    "userContent": "User Content",
+    "contentRestrictions": "Content Restrictions",
+    "intellectualProperty": "Intellectual Property",
+    "limitationOfLiability": "Limitation of Liability",
+    "disclaimer": "Disclaimer",
+    "indemnification": "Indemnification",
+    "governingLaw": "Governing Law",
+    "disputeResolution": "Dispute Resolution",
+    "forceMajeure": "Force Majeure",
+    "privacy": "Privacy",
+    "accessibility": "Accessibility",
+    "severabilityAndWaiver": "Severability and Waiver",
+    "changesToTerms": "Changes to These Terms",
+    "contactUs": "Contact Us"
+  },
+  "intro": {
+    "paragraph1": "These Terms and Conditions (\"Terms\") govern Your use of the Studioz platform and the agreement that operates between You and the Company. By accessing or using the Service, You agree to be bound by these Terms.",
+    "paragraph2": "If You disagree with any part of these Terms, You may not access or use the Service."
+  },
+  "interpretationAndDefinitions": {
+    "title": "Interpretation and Definitions",
+    "interpretation": {
+      "title": "Interpretation",
+      "description": "The following definitions shall apply to these Terms and Conditions. These definitions shall have the same meaning regardless of whether they appear in singular or in plural."
+    },
+    "definitions": {
+      "title": "Definitions",
+      "intro": "For the purposes of these Terms and Conditions:",
+      "account": {
+        "term": "Account",
+        "definition": "means a unique account created for You to access our Service or parts of our Service."
+      },
+      "booking": {
+        "term": "Booking",
+        "definition": "means a reservation made by a Renter through the Platform to use a Studio for a specified date, time, and duration."
+      },
+      "company": {
+        "term": "Company",
+        "definition": "(referred to as \"the Company\", \"We\", \"Us\" or \"Our\" in this Agreement) refers to Studioz, Allenby 70, Tel Aviv, Israel."
+      },
+      "content": {
+        "term": "Content",
+        "definition": "refers to any text, images, reviews, descriptions, or other information that can be posted, uploaded, or otherwise made available through the Service."
+      },
+      "country": {
+        "term": "Country",
+        "definition": "refers to the State of Israel."
+      },
+      "device": {
+        "term": "Device",
+        "definition": "means any device that can access the Service such as a computer, a cellphone, or a digital tablet."
+      },
+      "listing": {
+        "term": "Listing",
+        "definition": "means a Studio Owner's published description of a Studio on the Platform, including its availability, pricing, amenities, and rules."
+      },
+      "platform": {
+        "term": "Platform",
+        "definition": "refers to the Studioz marketplace that connects Studio Owners with Renters."
+      },
+      "renter": {
+        "term": "Renter",
+        "definition": "means a User who searches for, books, or uses Studios through the Platform."
+      },
+      "service": {
+        "term": "Service",
+        "definition": "refers to the Website and the Platform."
+      },
+      "serviceFee": {
+        "term": "Service Fee",
+        "definition": "means the fee charged by the Company to Studio Owners and/or Renters for the use of the Platform, as detailed in the Fees and Payments section."
+      },
+      "studioOwner": {
+        "term": "Studio Owner",
+        "definition": "means a User who lists and offers Studios for rent through the Platform."
+      },
+      "studio": {
+        "term": "Studio",
+        "definition": "refers to the physical space listed on the Platform by a Studio Owner for use by Renters."
+      },
+      "user": {
+        "term": "User",
+        "definition": "means any individual, company, or legal entity that accesses or uses the Service, whether as a Renter, Studio Owner, or visitor."
+      },
+      "website": {
+        "term": "Website",
+        "definition": "refers to Studioz, accessible from",
+        "url": "https://www.studioz.co.il"
+      }
+    }
+  },
+  "acknowledgment": {
+    "title": "Acknowledgment",
+    "paragraph1": "These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms set out the rights and obligations of all Users regarding the use of the Service.",
+    "paragraph2": "Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms. These Terms apply to all visitors, Users, Studio Owners, and Renters who access or use the Service.",
+    "paragraph3": "By accessing or using the Service You agree to be bound by these Terms. If You disagree with any part of these Terms, then You may not access the Service.",
+    "paragraph4": "You represent that You are over the age of 18. The Company does not permit those under 18 to use the Service.",
+    "paragraph5": "Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the Privacy Policy of the Company. Please read Our Privacy Policy carefully before using Our Service."
+  },
+  "thePlatform": {
+    "title": "The Platform",
+    "paragraph1": "Studioz operates as an online marketplace that connects Studio Owners who wish to rent out their spaces with Renters who are looking to book studios for various purposes, including but not limited to music recording, photography, rehearsal, podcasting, and other creative activities.",
+    "paragraph2": "The Company acts solely as an intermediary platform and is not a party to any agreement between Studio Owners and Renters. The Company does not own, manage, or control any Studios listed on the Platform.",
+    "paragraph3": "The Company does not guarantee the quality, safety, legality, or suitability of any Studio listed on the Platform. Studio Owners are solely responsible for the accuracy of their Listings and compliance with all applicable laws and regulations.",
+    "paragraph4": "The Company does not act as an agent for either Studio Owners or Renters. Any agreement for the use of a Studio is directly between the Studio Owner and the Renter."
+  },
+  "userAccounts": {
+    "title": "User Accounts",
+    "paragraph1": "When You create an Account with Us, You must provide Us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of Your Account.",
+    "paragraph2": "You are responsible for safeguarding the password that You use to access the Service and for any activities or actions under Your Account, whether Your password is with Our Service or a third-party authentication provider.",
+    "paragraph3": "You agree not to disclose Your password to any third party. You must notify Us immediately upon becoming aware of any breach of security or unauthorized use of Your Account.",
+    "paragraph4": "You may not use as a username the name of another person or entity or that is not lawfully available for use, a name or trademark that is subject to any rights of another person or entity other than You without appropriate authorization, or a name that is otherwise offensive, vulgar, or obscene.",
+    "paragraph5": "You may register as a Renter, a Studio Owner, or both. Each role carries specific obligations as outlined in these Terms."
+  },
+  "studioOwnerTerms": {
+    "title": "Studio Owner Terms",
+    "obligations": {
+      "title": "Studio Owner Obligations",
+      "description": "As a Studio Owner, You agree to:",
+      "items": {
+        "accuracy": "Provide accurate and complete information in Your Listings, including descriptions, photos, availability, pricing, amenities, and any rules or restrictions.",
+        "legal": "Ensure Your Studio complies with all applicable Israeli laws, regulations, building codes, safety requirements, and licensing requirements.",
+        "availability": "Keep Your availability calendar up to date and honor confirmed Bookings.",
+        "condition": "Maintain Your Studio in a safe and clean condition as described in Your Listing.",
+        "insurance": "Maintain appropriate insurance coverage for Your Studio as required by law.",
+        "taxes": "Comply with all applicable tax obligations, including reporting income from Bookings and charging VAT where required under Israeli tax law.",
+        "accessibility": "Accurately represent the accessibility features of Your Studio in accordance with the Equal Rights for Persons with Disabilities Law, 5758-1998."
+      }
+    },
+    "listings": {
+      "title": "Listings",
+      "paragraph1": "You are solely responsible for the content and accuracy of Your Listings. The Company reserves the right to remove or modify any Listing that violates these Terms or applicable law.",
+      "paragraph2": "By creating a Listing, You represent and warrant that You have all necessary rights, permissions, and authority to list and rent out the Studio."
+    }
+  },
+  "renterTerms": {
+    "title": "Renter Terms",
+    "obligations": {
+      "title": "Renter Obligations",
+      "description": "As a Renter, You agree to:",
+      "items": {
+        "rules": "Comply with the Studio rules and guidelines specified in the Listing and by the Studio Owner.",
+        "care": "Treat the Studio and its equipment with reasonable care and return it in the same condition as received, subject to normal wear and tear.",
+        "timing": "Arrive and vacate the Studio within the Booked time slot.",
+        "damage": "Be liable for any damage caused to the Studio or its equipment during Your Booking, beyond normal wear and tear.",
+        "legal": "Use the Studio only for lawful purposes.",
+        "occupancy": "Not exceed the maximum occupancy specified in the Listing."
+      }
+    }
+  },
+  "bookings": {
+    "title": "Bookings and Reservations",
+    "paragraph1": "A Booking is confirmed when the Renter completes the payment process through the Platform. Upon confirmation, both the Renter and the Studio Owner are bound by the terms of the Booking.",
+    "paragraph2": "The Company does not guarantee that any particular Studio will be available at any given time. Studio availability is managed by Studio Owners through the Platform.",
+    "paragraph3": "By making a Booking, You acknowledge that You are entering into an agreement with the Studio Owner for the use of their Studio, and the Company is not a party to that agreement."
+  },
+  "cancellation": {
+    "title": "Cancellation Policy",
+    "consumerRights": {
+      "title": "Your Cancellation Rights Under Israeli Law",
+      "paragraph1": "In accordance with the Israeli Consumer Protection Law, 5741-1981 (חוק הגנת הצרכן) and the Consumer Protection Regulations (Transaction Cancellation), You have the right to cancel a Booking within the following terms:",
+      "items": {
+        "timeframe": "You may cancel a Booking within 14 days of making the Booking, provided that the cancellation is made at least 2 days before the scheduled Booking date.",
+        "refund": "Upon valid cancellation, You are entitled to a full refund minus cancellation fees not exceeding 5% of the transaction amount or 100 ILS, whichever is lower, as permitted by law.",
+        "method": "Refunds will be processed using the same payment method used for the original transaction."
+      }
+    },
+    "platformPolicy": {
+      "title": "Platform Cancellation Policy",
+      "paragraph1": "In addition to Your statutory rights under Israeli law, the following cancellation terms apply:",
+      "items": {
+        "renter": "Renters may cancel a Booking in accordance with the Studio Owner's cancellation policy as stated in the Listing, subject to the minimum rights granted by Israeli consumer protection law.",
+        "studioOwner": "Studio Owners who cancel a confirmed Booking may be subject to penalties, including reduced visibility in search results and potential Account suspension for repeated cancellations.",
+        "noShow": "If a Renter fails to show up for a confirmed Booking without prior cancellation, the Renter forfeits the full Booking amount.",
+        "force": "Cancellations due to force majeure events (as defined in these Terms) may be eligible for a full refund or credit at the Company's discretion."
+      }
+    }
+  },
+  "feesAndPayments": {
+    "title": "Fees and Payments",
+    "serviceFees": {
+      "title": "Service Fees",
+      "paragraph1": "The Company charges Service Fees to both Studio Owners and Renters for the use of the Platform. These fees are deducted automatically during the payment process.",
+      "paragraph2": "The applicable Service Fees are displayed to You before You complete a Booking or confirm a Listing. By using the Platform, You agree to pay the applicable Service Fees.",
+      "paragraph3": "The Company reserves the right to change its Service Fee structure at any time. Changes to Service Fees will be communicated in advance and will not apply to existing confirmed Bookings."
+    },
+    "payments": {
+      "title": "Payments",
+      "paragraph1": "All payments are processed in Israeli New Shekels (₪ / ILS) through secure third-party payment processors. The Company does not directly store Your payment card details.",
+      "paragraph2": "Payment is collected from the Renter at the time of Booking. Funds are released to the Studio Owner after the Booking is completed, minus the applicable Service Fee.",
+      "paragraph3": "Payment methods include credit cards, debit cards, and other payment methods made available through the Platform (such as PayPal)."
+    },
+    "taxes": {
+      "title": "Taxes",
+      "paragraph1": "All prices displayed on the Platform are inclusive of VAT unless otherwise stated. Studio Owners are responsible for complying with their tax obligations under Israeli tax law.",
+      "paragraph2": "The Company may be required to withhold taxes on payments to Studio Owners in accordance with applicable tax regulations."
+    }
+  },
+  "userContent": {
+    "title": "User Content",
+    "posting": {
+      "title": "Your Right to Post Content",
+      "paragraph1": "Our Service allows You to post Content, including reviews, photos, and studio descriptions. You are responsible for the Content that You post to the Service, including its legality, reliability, and appropriateness.",
+      "paragraph2": "By posting Content to the Service, You grant Us a non-exclusive, worldwide, royalty-free license to use, modify, publicly display, reproduce, and distribute such Content on and through the Service. You retain all rights to Your Content.",
+      "paragraph3": "You represent and warrant that: (i) the Content is Yours or You have the right to use it and grant Us the license as provided in these Terms, and (ii) the posting of Your Content does not violate the privacy rights, publicity rights, copyrights, or any other rights of any person."
+    },
+    "reviews": {
+      "title": "Reviews",
+      "paragraph1": "Renters may leave reviews for Studios they have booked. Reviews must be honest, accurate, and based on the Renter's actual experience.",
+      "paragraph2": "The Company reserves the right to remove reviews that violate these Terms, contain offensive or inappropriate content, or are determined to be fraudulent.",
+      "paragraph3": "Studio Owners may respond to reviews. Responses must be respectful and comply with these Terms."
+    }
+  },
+  "contentRestrictions": {
+    "title": "Content Restrictions",
+    "paragraph1": "You may not transmit any Content that is unlawful, offensive, threatening, defamatory, obscene, or otherwise objectionable. Examples include, but are not limited to:",
+    "items": {
+      "unlawful": "Unlawful content or content promoting unlawful activity.",
+      "defamatory": "Defamatory, discriminatory, or hateful content, including references targeting religion, race, sexual orientation, gender, national or ethnic origin, or other protected groups.",
+      "spam": "Spam, unsolicited advertising, or any form of unauthorized solicitation.",
+      "malware": "Content containing viruses, malware, or any code designed to disrupt, damage, or limit the functioning of the Service.",
+      "infringement": "Content infringing on any intellectual property rights, including patent, trademark, trade secret, copyright, or right of publicity.",
+      "impersonation": "Impersonating any person or entity, including the Company and its employees.",
+      "privacy": "Content violating the privacy of any third person.",
+      "false": "False, misleading, or deceptive information."
+    },
+    "paragraph2": "The Company reserves the right, but is not obligated, to remove any Content that violates these Terms. The Company may also limit or revoke Your access to the Service if You post objectionable Content."
+  },
+  "intellectualProperty": {
+    "title": "Intellectual Property",
+    "paragraph1": "The Service and its original content (excluding Content provided by Users), features, and functionality are and will remain the exclusive property of the Company and its licensors.",
+    "paragraph2": "The Service is protected by copyright, trademark, and other intellectual property laws of the State of Israel and international treaties, including the Israeli Copyright Law, 5768-2007 (חוק זכות יוצרים).",
+    "paragraph3": "Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of the Company.",
+    "infringement": {
+      "title": "Intellectual Property Infringement",
+      "paragraph1": "We respect the intellectual property rights of others. If You believe that any Content on the Service infringes Your intellectual property rights, You must submit a written notice to our designated agent via email at admin@studioz.online.",
+      "paragraph2": "Your notice must include: (i) identification of the copyrighted work or intellectual property; (ii) identification of the infringing material on the Service; (iii) Your contact information; (iv) a statement of good faith belief that the use is not authorized; and (v) a statement under penalty that the information is accurate.",
+      "paragraph3": "You may be held liable for damages for materially misrepresenting that any Content infringes Your intellectual property rights."
+    },
+    "feedback": {
+      "title": "Your Feedback to Us",
+      "paragraph1": "You assign all rights, title, and interest in any feedback, suggestions, or ideas You provide the Company regarding the Service. If for any reason such assignment is ineffective, You agree to grant the Company a non-exclusive, perpetual, irrevocable, royalty-free, worldwide license to use, reproduce, modify, and distribute such feedback without restriction."
+    }
+  },
+  "limitationOfLiability": {
+    "title": "Limitation of Liability",
+    "paragraph1": "To the maximum extent permitted by applicable law, the entire liability of the Company under any provision of these Terms shall be limited to the total Service Fees actually paid by You to the Company in the twelve (12) months preceding the event giving rise to the claim, or 1,000 ILS, whichever is greater.",
+    "paragraph2": "The Company shall not be liable for any disputes, claims, or damages arising from the interaction between Studio Owners and Renters, including but not limited to the condition of Studios, cancellations by either party, or personal injury.",
+    "paragraph3": "To the maximum extent permitted by applicable law, in no event shall the Company be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to damages for loss of profits, loss of data, business interruption, or personal injury arising out of or in any way related to the use of the Service.",
+    "paragraph4": "Nothing in these Terms shall exclude or limit liability that cannot be excluded or limited under applicable Israeli law, including liability for fraud, willful misconduct, or death or personal injury caused by negligence."
+  },
+  "disclaimer": {
+    "title": "\"AS IS\" and \"AS AVAILABLE\" Disclaimer",
+    "paragraph1": "The Service is provided to You \"AS IS\" and \"AS AVAILABLE\" without warranty of any kind. To the maximum extent permitted under applicable law, the Company expressly disclaims all warranties, whether express, implied, statutory, or otherwise, including all implied warranties of merchantability, fitness for a particular purpose, title, and non-infringement.",
+    "paragraph2": "The Company does not warrant or guarantee: (i) the quality, safety, legality, or suitability of any Studio listed on the Platform; (ii) the accuracy of any Listing, review, or other Content; (iii) that the Service will be uninterrupted or error-free; (iv) that any Studio will meet Your requirements or expectations.",
+    "paragraph3": "Some jurisdictions do not allow the exclusion of certain warranties or limitations on applicable statutory rights. In such cases, the exclusions and limitations set forth in this section shall be applied to the greatest extent enforceable under applicable law."
+  },
+  "indemnification": {
+    "title": "Indemnification",
+    "paragraph1": "You agree to indemnify, defend, and hold harmless the Company, its affiliates, officers, directors, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including legal fees) arising out of or related to:",
+    "items": {
+      "breach": "Your breach of these Terms.",
+      "content": "Content You post or submit through the Service.",
+      "use": "Your use of the Service or any Studio booked through the Platform.",
+      "violation": "Your violation of any applicable law or regulation.",
+      "rights": "Your infringement of any third-party rights."
+    }
+  },
+  "governingLaw": {
+    "title": "Governing Law",
+    "paragraph1": "These Terms shall be governed by and construed in accordance with the laws of the State of Israel, without regard to its conflict of law principles.",
+    "paragraph2": "Any legal proceedings arising out of or in connection with these Terms shall be brought exclusively in the competent courts of Tel Aviv-Jaffa, Israel.",
+    "paragraph3": "Your use of the Service may also be subject to other applicable local, national, or international laws, including the Israeli Consumer Protection Law, 5741-1981."
+  },
+  "disputeResolution": {
+    "title": "Dispute Resolution",
+    "betweenUsers": {
+      "title": "Disputes Between Users",
+      "paragraph1": "The Company encourages Studio Owners and Renters to resolve disputes directly with each other. The Company may, at its sole discretion, offer mediation assistance but is not obligated to do so.",
+      "paragraph2": "The Company is not responsible for resolving disputes between Users, including disputes related to the condition of a Studio, damage to property, or the quality of service."
+    },
+    "withCompany": {
+      "title": "Disputes with the Company",
+      "paragraph1": "If You have a dispute with the Company regarding the Service, You agree to first attempt to resolve the dispute informally by contacting Us at the email address provided in the Contact Us section.",
+      "paragraph2": "If the dispute cannot be resolved informally within 30 days, You may file a complaint with the Israeli Consumer Protection Authority or pursue legal action in the competent courts of Tel Aviv-Jaffa."
+    }
+  },
+  "forceMajeure": {
+    "title": "Force Majeure",
+    "paragraph1": "Neither the Company, Studio Owners, nor Renters shall be liable for any failure or delay in performing their obligations under these Terms if such failure or delay results from circumstances beyond the party's reasonable control.",
+    "paragraph2": "Such circumstances include but are not limited to: natural disasters, war, terrorism, security situations, government actions, epidemics or pandemics, strikes, power outages, internet or telecommunications failures, or other events beyond reasonable control.",
+    "paragraph3": "In the event of a force majeure situation affecting a Booking, the affected party shall notify the other party as soon as reasonably possible. The Company will use reasonable efforts to facilitate fair resolution, which may include full or partial refunds or credit."
+  },
+  "privacy": {
+    "title": "Privacy",
+    "paragraph1": "Your use of the Service is also governed by Our Privacy Policy, which describes how We collect, use, and protect Your personal information in accordance with the Israeli Privacy Protection Law, 5741-1981 and Amendment 13 thereto.",
+    "paragraph2": "By using the Service, You consent to the collection and use of Your information as described in Our Privacy Policy.",
+    "linkText": "Read our Privacy Policy"
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "paragraph1": "The Company is committed to making the Service accessible to all users in accordance with Israeli Standard SI 5568 and WCAG 2.1 Level AA guidelines.",
+    "paragraph2": "If You encounter any accessibility barriers while using the Service, please contact us so we can assist You and work to improve accessibility."
+  },
+  "severabilityAndWaiver": {
+    "title": "Severability and Waiver",
+    "severability": {
+      "title": "Severability",
+      "paragraph1": "If any provision of these Terms is held to be unenforceable or invalid, such provision will be modified and interpreted to accomplish its objectives to the greatest extent possible under applicable law, and the remaining provisions will continue in full force and effect."
+    },
+    "waiver": {
+      "title": "Waiver",
+      "paragraph1": "The failure to exercise a right or to require performance of an obligation under these Terms shall not affect a party's ability to exercise such right or require such performance at any time thereafter, nor shall the waiver of a breach constitute a waiver of any subsequent breach."
+    }
+  },
+  "changesToTerms": {
+    "title": "Changes to These Terms and Conditions",
+    "paragraph1": "We reserve the right to modify or replace these Terms at any time at Our sole discretion. If a revision is material, We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect.",
+    "paragraph2": "By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, please stop using the Service.",
+    "paragraph3": "In the event of a conflict between the Hebrew and English versions of these Terms, the Hebrew version shall prevail for Users in Israel."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "If you have any questions about these Terms and Conditions, You can contact us:",
+    "emailLabel": "By email:",
+    "email": "info@studioz.online",
+    "addressLabel": "By mail:",
+    "address": "Allenby 70, Tel Aviv, Israel",
+    "websiteLabel": "Website:",
+    "website": "https://www.studioz.co.il"
+  }
+}
