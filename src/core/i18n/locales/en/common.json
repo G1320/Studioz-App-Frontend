@@ -231,6 +231,9 @@
       "verificationFailed": "Verification failed. Please check the code and try again.",
       "rateLimitExceeded": "Too many attempts. Please wait a moment and try again.",
       "minimumHoursRequired": "Minimum {{min}} hours required for this booking"
+    },
+    "info": {
+      "appUpdated": "Updated to the latest version"
     }
   },
   "studioDetails": {

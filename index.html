@@ -42,6 +42,29 @@
           }
         } catch (_) {}
       });
+
+      // 3. Recover from stale CSS after deployments.
+      //    Vite injects <link rel="stylesheet"> for CSS chunks; if a new deploy
+      //    removed old hashed files, these fire an "error" event.  One reload
+      //    picks up the fresh index.html with correct asset URLs.
+      window.addEventListener('error', function (e) {
+        try {
+          var target = e.target;
+          if (
+            target && target.tagName === 'LINK' &&
+            (target.rel === 'stylesheet' || target.rel === 'modulepreload') &&
+            target.href && target.href.indexOf('/assets/') !== -1
+          ) {
+            var key = 'stale-asset-retry';
+            var last = sessionStorage.getItem(key);
+            var now = Date.now();
+            if (!last || now - Number(last) >= 10000) {
+              sessionStorage.setItem(key, String(now));
+              window.location.reload();
+            }
+          }
+        } catch (_) {}
+      }, true);
     })();
   </script>
 

@@ -231,6 +231,9 @@
       "verificationFailed": "האימות נכשל. אנא בדוק את הקוד ונסה שוב.",
       "rateLimitExceeded": "יותר מדי ניסיונות. אנא המתן מספר דקות ונסה שוב.",
       "minimumHoursRequired": "נדרשות לפחות {{min}} שעות להזמנה זו"
+    },
+    "info": {
+      "appUpdated": "עודכן לגרסה האחרונה"
     }
   },
   "studioDetails": {

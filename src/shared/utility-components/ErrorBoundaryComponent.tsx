@@ -1,6 +1,7 @@
 import { Component, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HomeIcon } from '@shared/components/icons';
+import { isStaleAssetError, reloadOnStaleAsset } from '@shared/utils/staleAssetReload';
 
 interface Props {
   children: ReactNode;
@@ -95,26 +96,10 @@ export class ErrorBoundaryComponent extends Component<Props, { hasError: boolean
   }
 
   componentDidCatch(error: Error): void {
-    const isChunkError =
-      error.message?.includes('Failed to fetch dynamically imported module') ||
-      error.message?.includes('Loading chunk') ||
-      error.message?.includes('Loading CSS chunk');
-
-    if (isChunkError) {
-      // Guard against infinite reload loops — only reload once per 10 seconds
-      const retryKey = 'chunk-retry';
-      const lastRetry = sessionStorage.getItem(retryKey);
-      const now = Date.now();
-
-      if (!lastRetry || now - Number(lastRetry) >= 10_000) {
-        sessionStorage.setItem(retryKey, String(now));
-        window.location.reload();
-        return;
-      }
-      // If we already retried recently, fall through to show the error UI
+    if (isStaleAssetError(error) && reloadOnStaleAsset()) {
+      return;
     }
 
-    // Log error for debugging
     console.error('ErrorBoundary caught an error:', error);
   }
 

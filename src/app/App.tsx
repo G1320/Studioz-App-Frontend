@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useMemo, ReactNode, lazy, Suspense } from 'react';
+import { useEffect, useMemo, ReactNode, lazy, Suspense } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { useItems, useStudios, useCart, useBrevoChat } from '@shared/hooks';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
@@ -14,6 +14,8 @@ import { CookieConsentBanner } from '@shared/components/cookie-consent/CookieCon
 import { CookiePreferencesModal } from '@shared/components/cookie-consent/CookiePreferencesModal';
 import { RouteAnnouncer } from '@shared/utility-components/RouteAnnouncer';
 import AnimatedRoutes from './routes/AnimatedRoutes';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 import 'dayjs/locale/he';
 import 'dayjs/locale/en';
@@ -50,6 +52,19 @@ function App() {
 
   const items = useMemo(() => shuffleArray(originalItems || []), [originalItems]);
   const studios = useMemo(() => shuffleArray(originalStudios || []), [originalStudios]);
+
+  const { t } = useTranslation('common');
+
+  useEffect(() => {
+    try {
+      const key = 'stale-asset-retry';
+      const timestamp = sessionStorage.getItem(key);
+      if (timestamp && Date.now() - Number(timestamp) < 10_000) {
+        sessionStorage.removeItem(key);
+        toast.info(t('toasts.info.appUpdated'));
+      }
+    } catch { /* sessionStorage may be unavailable */ }
+  }, []);
 
   return (
     <HelmetProvider>
