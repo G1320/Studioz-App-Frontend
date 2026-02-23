@@ -59,9 +59,7 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
       // Facebook/Instagram in-app browsers restrict postMessage; Replay uses it and throws InvalidAccessError
       ...(!inApp ? [Sentry.replayIntegration()] : []),
       Sentry.feedbackIntegration({
-        // Don't auto-inject - we'll control when to show it
         autoInject: false,
-        // Customize the feedback widget
         colorScheme: 'system',
         isNameRequired: false,
         isEmailRequired: false,
@@ -80,14 +78,41 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
       })
     ],
 
-    // Performance Monitoring
+    ignoreErrors: [
+      // Benign browser internals
+      'ResizeObserver loop limit exceeded',
+      'ResizeObserver loop completed with undelivered notifications',
+      // Vite CSS preload failures (ad blockers, stale cache after deploy, flaky network)
+      /Unable to preload CSS/,
+      // Facebook/Instagram WebView bridge errors (iOS + Android)
+      'InvalidAccessError',
+      /Java object is gone/,
+      /enableButtonsClickedMetaDataLogging/,
+      // Network errors (offline, CORS, connection reset)
+      'Network Error',
+      'Failed to fetch',
+      'Load failed',
+      'NetworkError when attempting to fetch resource',
+      // React Query wraps 4xx rejections as "redacted" in production builds
+      /^redacted$/
+    ],
+
+    beforeSend(event) {
+      const msg = event.exception?.values?.[0]?.value ?? '';
+
+      // Drop Facebook/Instagram Android bridge errors
+      if (msg.includes('Java object is gone')) return null;
+
+      // Drop CSS preload failures (stale assets after deployment)
+      if (msg.includes('Unable to preload CSS')) return null;
+
+      return event;
+    },
+
     tracesSampleRate: 1.0,
-    // Session Replay (disabled in Facebook/Instagram in-app browsers - postMessage throws InvalidAccessError)
     replaysSessionSampleRate: inApp ? 0 : 0.1,
     replaysOnErrorSampleRate: inApp ? 0 : 1.0,
-    // Send default PII data
     sendDefaultPii: true,
-    // Environment
     environment: 'production'
   });
 }

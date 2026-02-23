@@ -3,24 +3,45 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!-- Stub for WebKit messageHandlers to avoid TypeError in in-app browsers (Facebook, Instagram) where it is undefined -->
+  <!-- Stub for WebKit messageHandlers + suppress InvalidAccessError from Facebook/Instagram in-app browsers on iOS -->
   <script>
     (function () {
       if (typeof window === 'undefined') return;
+
+      // 1. Stub webkit.messageHandlers so scripts that probe it don't throw
       var needsStub = false;
       try {
         needsStub = !window.webkit || typeof window.webkit.messageHandlers === 'undefined';
       } catch (e) { needsStub = true; }
-      if (!needsStub) return;
-      try {
-        var noop = function () {};
-        window.webkit = window.webkit || {};
-        if (typeof Proxy !== 'undefined') {
-          window.webkit.messageHandlers = new Proxy({}, { get: function () { return { postMessage: noop }; } });
-        } else {
-          window.webkit.messageHandlers = {};
-        }
-      } catch (e) {}
+
+      if (needsStub) {
+        try {
+          var noop = function () {};
+          window.webkit = window.webkit || {};
+          if (typeof Proxy !== 'undefined') {
+            window.webkit.messageHandlers = new Proxy({}, {
+              get: function () { return { postMessage: noop }; }
+            });
+          } else {
+            window.webkit.messageHandlers = {};
+          }
+        } catch (e) {}
+      }
+
+      // 2. Suppress InvalidAccessError from native postMessage in Facebook/Instagram WebViews.
+      //    This DOMException (code 15) originates in native bridge code we cannot control;
+      //    swallowing the unhandled rejection prevents it from polluting Sentry.
+      window.addEventListener('unhandledrejection', function (e) {
+        try {
+          var err = e.reason;
+          if (
+            err instanceof DOMException &&
+            (err.name === 'InvalidAccessError' || err.code === 15)
+          ) {
+            e.preventDefault();
+          }
+        } catch (_) {}
+      });
     })();
   </script>
 
