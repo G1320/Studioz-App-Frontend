@@ -164,7 +164,7 @@ const ForOwnersPage: React.FC = () => {
               alt=""
               className="owners-hero__image"
               loading="eager"
-              fetchPriority="high"
+              fetchpriority="high"
               width={1320}
               height={742}
               decoding="async"
