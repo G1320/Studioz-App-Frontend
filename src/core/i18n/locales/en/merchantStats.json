@@ -1,10 +1,20 @@
 {
   "header": {
+    "title": "Statistics",
     "greeting": "Hello,",
     "defaultStudio": "Your Studio",
     "subtitle": "Here's an overview of your performance for this period",
     "month": "January 2024",
     "export": "Export"
+  },
+  "loading": "Loading...",
+  "close": "Close",
+  "tabs": {
+    "overview": "Overview",
+    "studios": "Studios",
+    "customers": "Customers",
+    "projections": "Projections",
+    "insights": "Insights"
   },
   "demo": {
     "notice": "Showing demo data - real data will appear when you have bookings"
@@ -13,11 +23,13 @@
     "totalRevenue": "Total Revenue",
     "totalBookings": "Total Bookings",
     "avgPerBooking": "Avg per Booking",
-    "newClients": "New Clients"
+    "newClients": "New Clients",
+    "projectedMonthly": "Projected (Month)"
   },
   "revenueChart": {
     "title": "Revenue Trend",
-    "subtitle": "Gross revenue before fees"
+    "subtitle": "Gross revenue before fees",
+    "revenue": "Revenue"
   },
   "period": {
     "daily": "Daily",
@@ -77,6 +89,85 @@
     "name": "Name",
     "totalSpent": "Total Spent",
     "bookingsCount": "Bookings Count"
+  },
+  "studios": {
+    "bookings": "Bookings",
+    "avgBooking": "Avg",
+    "occupancy": "Occupancy",
+    "topItems": "Top Items",
+    "topCustomers": "Top Customers",
+    "comparison": "Studio Comparison",
+    "noStudios": "No studio data for this period"
+  },
+  "customers": {
+    "searchPlaceholder": "Search by name...",
+    "sortByLTV": "By LTV",
+    "sortByBookings": "By Bookings",
+    "sortByLastVisit": "By Last Visit",
+    "name": "Name",
+    "ltv": "LTV",
+    "bookings": "Bookings",
+    "lastVisit": "Last Visit",
+    "churnRisk": "Churn Risk",
+    "repeat": "Repeat",
+    "new": "New",
+    "repeatVsNew": "Repeat vs New",
+    "noCustomers": "No customers in this period"
+  },
+  "churn": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+  "customerDetail": {
+    "bookingHistory": "Booking History",
+    "date": "Date",
+    "studio": "Studio",
+    "item": "Item",
+    "price": "Price",
+    "status": "Status",
+    "statusConfirmed": "Confirmed",
+    "statusPending": "Pending",
+    "statusCancelled": "Cancelled",
+    "statusCompleted": "Completed",
+    "statusNoShow": "No show",
+    "spendingTrend": "Spending Trend",
+    "preferences": "Preferences",
+    "preferredSlots": "Slots",
+    "preferredDays": "Days",
+    "noData": "No data"
+  },
+  "projections": {
+    "confirmedUpcoming": "Confirmed Upcoming",
+    "next30Days": "30-Day Projection",
+    "next60Days": "60-Day Projection",
+    "next90Days": "90-Day Projection",
+    "confidence": "Confidence",
+    "confidenceLevel": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "chartTitle": "Actual vs Projected Revenue",
+    "chartSubtitle": "The dashed line is estimated revenue for the next 3 months based on recent trends.",
+    "actual": "Actual",
+    "projected": "Projected"
+  },
+  "insights": {
+    "cancellationRate": "Cancellation Rate",
+    "trend": "Trend",
+    "couponImpact": "Coupon Impact",
+    "bookingsWithCoupon": "bookings with coupon",
+    "avgDiscount": "avg discount",
+    "heatmapTitle": "Revenue by Hour",
+    "revenueByDay": "Revenue by Day",
+    "cancellations": "Cancellations",
+    "cancellationsByDay": "Cancellations by Day"
+  },
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page"
   },
   "dateRange": {
     "today": "Today",

@@ -84,13 +84,7 @@
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://o4510709493071872.ingest.de.sentry.io">
 
-  <!-- Preload LCP hero image - MUST be before CSS to start loading early -->
-  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-640w.webp" as="image" type="image/webp"
-    media="(max-width: 640px)" fetchpriority="high">
-  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-960w.webp" as="image" type="image/webp"
-    media="(min-width: 641px) and (max-width: 960px)" fetchpriority="high">
-  <link rel="preload" href="/images/optimized/Landing-Studio1320-1-1320w.webp" as="image" type="image/webp"
-    media="(min-width: 961px)" fetchpriority="high">
+  <!-- Hero image is not preloaded here to avoid "preloaded but not used" when the first view is not For Owners/Landing. It still loads with loading="eager" and fetchpriority="high" when that page mounts. -->
 
   <link rel="stylesheet" href="./src/assets/styles/main.scss" />
 

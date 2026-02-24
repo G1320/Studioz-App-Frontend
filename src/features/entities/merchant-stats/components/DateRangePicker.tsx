@@ -3,9 +3,11 @@
  * A dropdown for selecting date ranges for statistics filtering
  */
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarTodayIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@shared/components/icons';
+import { useDropdownPosition } from '@shared/hooks';
 
 export interface DateRange {
   startDate: Date;
@@ -38,18 +40,27 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({ value, onChang
   const [selectingStart, setSelectingStart] = useState(true);
   const [tempStart, setTempStart] = useState<Date | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const isRtl = typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'rtl';
+  const { menuRef, menuStyle } = useDropdownPosition(isOpen, triggerRef, {
+    placement: isRtl ? 'bottom-end' : 'bottom-start',
+    gap: 8
+  });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-        setShowCalendar(false);
-      }
+      const target = event.target as Node;
+      if (
+        dropdownRef.current?.contains(target) ||
+        menuRef.current?.contains(target)
+      ) return;
+      setIsOpen(false);
+      setShowCalendar(false);
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [menuRef]);
 
   const handlePresetSelect = (preset: ReturnType<typeof getPresetRanges>[0]) => {
     const { startDate, endDate } = preset.getDates();
@@ -177,9 +188,43 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({ value, onChang
     );
   };
 
+  const dropdownContent = (
+    <div
+      ref={menuRef as React.RefObject<HTMLDivElement>}
+      className="date-range-picker__dropdown"
+      style={menuStyle}
+    >
+      {!showCalendar ? (
+        <div className="date-range-picker__presets">
+          {presetRanges.map(preset => (
+            <button
+              key={preset.key}
+              type="button"
+              className={`date-range-picker__preset ${value.label === preset.label ? 'date-range-picker__preset--active' : ''}`}
+              onClick={() => handlePresetSelect(preset)}
+            >
+              {preset.label}
+            </button>
+          ))}
+          <div className="date-range-picker__divider" />
+          <button
+            type="button"
+            className="date-range-picker__preset date-range-picker__preset--custom"
+            onClick={handleCustomClick}
+          >
+            {t('dateRange.customRange')}
+          </button>
+        </div>
+      ) : (
+        renderCalendar()
+      )}
+    </div>
+  );
+
   return (
     <div className="date-range-picker" ref={dropdownRef}>
       <button
+        ref={triggerRef}
         type="button"
         className="date-range-picker__trigger"
         onClick={() => setIsOpen(!isOpen)}
@@ -189,34 +234,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({ value, onChang
         <ChevronDownIcon className={`date-range-picker__chevron ${isOpen ? 'date-range-picker__chevron--open' : ''}`} />
       </button>
 
-      {isOpen && (
-        <div className="date-range-picker__dropdown">
-          {!showCalendar ? (
-            <div className="date-range-picker__presets">
-              {presetRanges.map(preset => (
-                <button
-                  key={preset.key}
-                  type="button"
-                  className={`date-range-picker__preset ${value.label === preset.label ? 'date-range-picker__preset--active' : ''}`}
-                  onClick={() => handlePresetSelect(preset)}
-                >
-                  {preset.label}
-                </button>
-              ))}
-              <div className="date-range-picker__divider" />
-              <button
-                type="button"
-                className="date-range-picker__preset date-range-picker__preset--custom"
-                onClick={handleCustomClick}
-              >
-                {t('dateRange.customRange')}
-              </button>
-            </div>
-          ) : (
-            renderCalendar()
-          )}
-        </div>
-      )}
+      {isOpen && createPortal(dropdownContent, document.body)}
     </div>
   );
 };

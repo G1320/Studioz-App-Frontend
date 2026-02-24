@@ -40,6 +40,17 @@ const CHANGELOG_DATA: MonthGroup[] = [
     monthKey: 'months.feb2026',
     releases: [
       {
+        version: 'feb-stats-dashboard-ux',
+        dateKey: 'releases.feb2026.statsPolish.date',
+        titleKey: 'releases.feb2026.statsPolish.title',
+        descriptionKey: 'releases.feb2026.statsPolish.description',
+        changes: [
+          { id: 'sp1', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.studioChart' },
+          { id: 'sp2', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.readableNumbers' },
+          { id: 'sp3', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.customerModal' },
+        ],
+      },
+      {
         version: 'feb-remote-projects',
         dateKey: 'releases.feb2026.remoteProjects.date',
         titleKey: 'releases.feb2026.remoteProjects.title',

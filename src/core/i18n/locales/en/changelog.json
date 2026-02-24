@@ -9,6 +9,16 @@
   },
   "releases": {
     "feb2026": {
+      "statsPolish": {
+        "date": "February 24, 2026",
+        "title": "Stats & Charts Refresh",
+        "description": "Your dashboard just got easier to read and use",
+        "changes": {
+          "studioChart": "Studio comparison chart redesigned with labels beside the bars",
+          "readableNumbers": "Clearer numbers across charts and heatmap",
+          "customerModal": "Customer details show status and preferred days"
+        }
+      },
       "remoteProjects": {
         "date": "February 2026",
         "title": "Remote Projects",

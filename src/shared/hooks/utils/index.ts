@@ -6,6 +6,7 @@ export * from './useScrollTop';
 export * from './useLangNavigation';
 export * from './useLanguageSwitcher';
 export * from './useDropdown';
+export * from './useDropdownPosition';
 export * from './useSwipeGesture';
 export * from './categories';
 export * from './genres';

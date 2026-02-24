@@ -1,10 +1,20 @@
 {
   "header": {
+    "title": "סטטיסטיקות",
     "greeting": "שלום,",
     "defaultStudio": "האולפן שלך",
     "subtitle": "הנה סקירה של הביצועים שלך לתקופה זו",
     "month": "ינואר 2024",
     "export": "ייצוא"
+  },
+  "loading": "טוען נתונים...",
+  "close": "סגור",
+  "tabs": {
+    "overview": "סקירה",
+    "studios": "אולפנים",
+    "customers": "לקוחות",
+    "projections": "תחזית",
+    "insights": "תובנות"
   },
   "demo": {
     "notice": "מציג נתוני הדגמה - הנתונים האמיתיים יופיעו כאשר יהיו הזמנות"
@@ -13,7 +23,8 @@
     "totalRevenue": "סה״כ הכנסות",
     "totalBookings": "סה״כ הזמנות",
     "avgPerBooking": "ממוצע להזמנה",
-    "newClients": "לקוחות חדשים"
+    "newClients": "לקוחות חדשים",
+    "projectedMonthly": "תחזית חודש"
   },
   "revenueChart": {
     "title": "מגמת הכנסות",
@@ -77,6 +88,85 @@
     "name": "שם",
     "totalSpent": "סה\"כ הוצאות",
     "bookingsCount": "מספר הזמנות"
+  },
+  "studios": {
+    "bookings": "הזמנות",
+    "avgBooking": "ממוצע",
+    "occupancy": "תפוסה",
+    "topItems": "פריטים מובילים",
+    "topCustomers": "לקוחות מובילים",
+    "comparison": "השוואת אולפנים",
+    "noStudios": "אין נתוני אולפנים בתקופה זו"
+  },
+  "customers": {
+    "searchPlaceholder": "חיפוש לפי שם...",
+    "sortByLTV": "לפי ערך",
+    "sortByBookings": "לפי הזמנות",
+    "sortByLastVisit": "לפי ביקור אחרון",
+    "name": "שם",
+    "ltv": "ערך לאורך זמן",
+    "bookings": "הזמנות",
+    "lastVisit": "ביקור אחרון",
+    "churnRisk": "סיכון נטישה",
+    "repeat": "חוזרים",
+    "new": "חדשים",
+    "repeatVsNew": "חוזרים vs חדשים",
+    "noCustomers": "אין לקוחות בתקופה זו"
+  },
+  "churn": {
+    "low": "נמוך",
+    "medium": "בינוני",
+    "high": "גבוה"
+  },
+  "customerDetail": {
+    "bookingHistory": "היסטוריית הזמנות",
+    "date": "תאריך",
+    "studio": "אולפן",
+    "item": "פריט",
+    "price": "מחיר",
+    "status": "סטטוס",
+    "statusConfirmed": "מאושר",
+    "statusPending": "ממתין",
+    "statusCancelled": "בוטל",
+    "statusCompleted": "הושלם",
+    "statusNoShow": "לא הופיע",
+    "spendingTrend": "מגמת הוצאות",
+    "preferences": "העדפות",
+    "preferredSlots": "שעות",
+    "preferredDays": "ימים",
+    "noData": "אין נתונים"
+  },
+  "projections": {
+    "confirmedUpcoming": "אישור הזמנות עתידיות",
+    "next30Days": "תחזית 30 יום",
+    "next60Days": "תחזית 60 יום",
+    "next90Days": "תחזית 90 יום",
+    "confidence": "רמת ביטחון",
+    "confidenceLevel": {
+      "high": "גבוהה",
+      "medium": "בינונית",
+      "low": "נמוכה"
+    },
+    "chartTitle": "הכנסות בפועל ותחזית",
+    "chartSubtitle": "הקו המקווקו מציג הערכת הכנסות ל־3 החודשים הבאים לפי מגמת החודשים האחרונים",
+    "actual": "פועל",
+    "projected": "תחזית"
+  },
+  "insights": {
+    "cancellationRate": "שיעור ביטולים",
+    "trend": "מגמה",
+    "couponImpact": "השפעת קופונים",
+    "bookingsWithCoupon": "הזמנות עם קופון",
+    "avgDiscount": "ממוצע הנחה",
+    "heatmapTitle": "הכנסות לפי שעה",
+    "revenueByDay": "הכנסות לפי יום",
+    "cancellations": "ביטולים",
+    "cancellationsByDay": "ביטולים לפי יום"
+  },
+  "pagination": {
+    "prev": "הקודם",
+    "next": "הבא",
+    "page": "עמוד"
   },
   "dateRange": {
     "today": "היום",

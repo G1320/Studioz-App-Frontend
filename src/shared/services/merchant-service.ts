@@ -19,6 +19,9 @@ export interface StudioOccupancy {
 
 export interface MerchantStats {
   totalRevenue: number;
+  revenueNet?: number;
+  totalCouponDiscounts?: number;
+  conversionRate?: number;
   totalBookings: number;
   avgPerBooking: number;
   newClients: number;
@@ -213,4 +216,139 @@ export const getAllAnalytics = async (params: GetStatsParams): Promise<{
   ]);
 
   return { timeSlots, cancellations, repeatCustomers };
+};
+
+// ============================================================
+// STUDIO ANALYTICS
+// ============================================================
+
+export interface StudioAnalyticsItem {
+  itemId: string;
+  name: string;
+  bookings: number;
+  revenue: number;
+}
+
+export interface StudioAnalyticsTopCustomer {
+  id: string;
+  name: string;
+  totalSpent: number;
+  bookingsCount: number;
+}
+
+export interface StudioAnalyticsRow {
+  studioId: string;
+  studioName: string;
+  revenue: number;
+  bookingCount: number;
+  avgBookingValue: number;
+  occupancy: number;
+  topItems: StudioAnalyticsItem[];
+  growthTrend: string;
+  topCustomers: StudioAnalyticsTopCustomer[];
+}
+
+export const getStudioAnalytics = async (params: GetStatsParams): Promise<{ studios: StudioAnalyticsRow[] }> => {
+  return httpService.get<{ studios: StudioAnalyticsRow[] }>('/merchant/analytics/studios', params);
+};
+
+// ============================================================
+// CUSTOMER ANALYTICS
+// ============================================================
+
+export type ChurnRisk = 'low' | 'medium' | 'high';
+
+export interface CustomerAnalyticsRow {
+  customerId: string;
+  customerName: string;
+  avatarUrl?: string;
+  lifetimeValue: number;
+  bookingCount: number;
+  avgSpendPerVisit: number;
+  firstVisit: string;
+  lastVisit: string;
+  favoriteStudio: string;
+  favoriteItem: string;
+  visitFrequency: number;
+  churnRisk: ChurnRisk;
+}
+
+export interface GetCustomerAnalyticsParams extends GetStatsParams {
+  page?: number;
+  limit?: number;
+  sortBy?: 'totalSpent' | 'bookings' | 'lastVisit';
+  search?: string;
+}
+
+export interface CustomerAnalyticsResponse {
+  customers: CustomerAnalyticsRow[];
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
+
+export const getCustomerAnalytics = async (params: GetCustomerAnalyticsParams): Promise<CustomerAnalyticsResponse> => {
+  return httpService.get<CustomerAnalyticsResponse>('/merchant/analytics/customers', params);
+};
+
+export interface CustomerDetailBooking {
+  id: string;
+  date: string;
+  studioName: string;
+  itemName: string;
+  price: number;
+  status: string;
+}
+
+export interface CustomerDetailResponse {
+  customerId: string;
+  bookingHistory: CustomerDetailBooking[];
+  spendingTrend: number[];
+  preferredTimeSlots: string[];
+  preferredDays: string[];
+}
+
+export const getCustomerDetail = async (
+  customerId: string,
+  params: GetStatsParams
+): Promise<CustomerDetailResponse> => {
+  return httpService.get<CustomerDetailResponse>(`/merchant/analytics/customers/${customerId}`, params);
+};
+
+// ============================================================
+// PROJECTIONS
+// ============================================================
+
+export interface ProjectionsResponse {
+  confirmedUpcoming: number;
+  projectedMonthly: number[];
+  monthlyActuals: number[];
+  projectedLine: number[];
+  confidence: 'high' | 'medium' | 'low';
+}
+
+export const getProjections = async (params: Pick<GetStatsParams, 'userId'>): Promise<ProjectionsResponse> => {
+  return httpService.get<ProjectionsResponse>('/merchant/analytics/projections', params);
+};
+
+// ============================================================
+// REVENUE BREAKDOWN
+// ============================================================
+
+export interface RevenueBreakdownResponse {
+  byStudio: { name: string; revenue: number; percentage: number }[];
+  byItem: { name: string; studioName: string; revenue: number; bookings: number; percentage: number }[];
+  byDayOfWeek: { day: string; dayIndex: number; revenue: number; bookings: number }[];
+  byTimeOfDay: { hour: number; revenue: number; bookings: number }[];
+  couponImpact: {
+    totalDiscounts: number;
+    avgDiscountPercent: number;
+    bookingsWithCoupon: number;
+    bookingsWithoutCoupon: number;
+  };
+}
+
+export const getRevenueBreakdown = async (params: GetStatsParams): Promise<RevenueBreakdownResponse> => {
+  return httpService.get<RevenueBreakdownResponse>('/merchant/analytics/revenue-breakdown', params);
 };

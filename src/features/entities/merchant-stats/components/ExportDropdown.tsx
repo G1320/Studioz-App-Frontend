@@ -3,9 +3,11 @@
  * A dropdown for exporting statistics data in various formats
  */
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { DownloadIcon, FileTextIcon, TableIcon } from '@shared/components/icons';
 import dayjs from 'dayjs';
+import { useDropdownPosition } from '@shared/hooks';
 
 interface ExportData {
   totalRevenue: number;
@@ -27,17 +29,23 @@ export const ExportDropdown: React.FC<ExportDropdownProps> = ({ data, studioName
   const [isOpen, setIsOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const isRtl = typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'rtl';
+  const { menuRef, menuStyle } = useDropdownPosition(isOpen, triggerRef, {
+    placement: isRtl ? 'bottom-start' : 'bottom-end',
+    gap: 8
+  });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = event.target as Node;
+      if (dropdownRef.current?.contains(target) || menuRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [menuRef]);
 
   const generateCSV = () => {
     const rows: string[][] = [];
@@ -267,9 +275,31 @@ export const ExportDropdown: React.FC<ExportDropdownProps> = ({ data, studioName
     }
   };
 
+  const menuContent = (
+    <div ref={menuRef as React.RefObject<HTMLDivElement>} className="export-dropdown__menu" style={menuStyle}>
+      <button
+        type="button"
+        className="export-dropdown__item"
+        onClick={downloadCSV}
+      >
+        <TableIcon />
+        <span>{t('export.csv')}</span>
+      </button>
+      <button
+        type="button"
+        className="export-dropdown__item"
+        onClick={downloadPDF}
+      >
+        <FileTextIcon />
+        <span>{t('export.pdf')}</span>
+      </button>
+    </div>
+  );
+
   return (
     <div className="export-dropdown" ref={dropdownRef}>
       <button
+        ref={triggerRef}
         type="button"
         className="export-dropdown__trigger"
         onClick={() => setIsOpen(!isOpen)}
@@ -279,26 +309,7 @@ export const ExportDropdown: React.FC<ExportDropdownProps> = ({ data, studioName
         <DownloadIcon />
       </button>
 
-      {isOpen && (
-        <div className="export-dropdown__menu">
-          <button
-            type="button"
-            className="export-dropdown__item"
-            onClick={downloadCSV}
-          >
-            <TableIcon />
-            <span>{t('export.csv')}</span>
-          </button>
-          <button
-            type="button"
-            className="export-dropdown__item"
-            onClick={downloadPDF}
-          >
-            <FileTextIcon />
-            <span>{t('export.pdf')}</span>
-          </button>
-        </div>
-      )}
+      {isOpen && createPortal(menuContent, document.body)}
     </div>
   );
 };
