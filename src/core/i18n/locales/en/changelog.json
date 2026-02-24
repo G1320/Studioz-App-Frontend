@@ -16,7 +16,17 @@
         "changes": {
           "studioChart": "Studio comparison chart redesigned with labels beside the bars",
           "readableNumbers": "Clearer numbers across charts and heatmap",
+          "accessibility": "Improved contrast so numbers and labels are easier to read",
           "customerModal": "Customer details show status and preferred days"
+        }
+      },
+      "accessibility": {
+        "date": "February 2026",
+        "title": "Accessibility Toolbar",
+        "description": "Adjust the site to your needs",
+        "changes": {
+          "toolbar": "New accessibility panel: font size, high contrast, stop animations, highlight links, and more",
+          "saved": "Your choices are saved and apply across the site every time you visit"
         }
       },
       "remoteProjects": {

@@ -8,6 +8,7 @@ import {
   LightbulbIcon,
   SendIcon
 } from '@shared/components/icons';
+import { useSentryFeedback } from '@shared/hooks/utils';
 import './_changelog.scss';
 
 // --- Types ---
@@ -47,7 +48,18 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: 'sp1', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.studioChart' },
           { id: 'sp2', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.readableNumbers' },
-          { id: 'sp3', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.customerModal' },
+          { id: 'sp3', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.accessibility' },
+          { id: 'sp4', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.customerModal' },
+        ],
+      },
+      {
+        version: 'feb-accessibility',
+        dateKey: 'releases.feb2026.accessibility.date',
+        titleKey: 'releases.feb2026.accessibility.title',
+        descriptionKey: 'releases.feb2026.accessibility.description',
+        changes: [
+          { id: 'a11y1', type: 'feature', descriptionKey: 'releases.feb2026.accessibility.changes.toolbar' },
+          { id: 'a11y2', type: 'feature', descriptionKey: 'releases.feb2026.accessibility.changes.saved' },
         ],
       },
       {
@@ -233,11 +245,10 @@ function TypeBadge({ type }: { type: ChangeType }) {
 
 export const ChangelogPage: React.FC = () => {
   const { t } = useTranslation('changelog');
+  const { openFeedback } = useSentryFeedback();
   const [expandedReleases, setExpandedReleases] = useState<string[]>([
     CHANGELOG_DATA[0]?.releases[0]?.version || ''
   ]);
-  const [showSuggestionForm, setShowSuggestionForm] = useState(false);
-  const [suggestion, setSuggestion] = useState('');
 
   const toggleRelease = (version: string) => {
     setExpandedReleases(prev =>
@@ -245,15 +256,6 @@ export const ChangelogPage: React.FC = () => {
         ? prev.filter(v => v !== version)
         : [...prev, version]
     );
-  };
-
-  const handleSubmitSuggestion = () => {
-    if (suggestion.trim()) {
-      // TODO: Implement suggestion submission
-      console.log('Suggestion submitted:', suggestion);
-      setSuggestion('');
-      setShowSuggestionForm(false);
-    }
   };
 
   return (
@@ -348,41 +350,14 @@ export const ChangelogPage: React.FC = () => {
             </p>
           </div>
 
-          {!showSuggestionForm ? (
-            <button
-              onClick={() => setShowSuggestionForm(true)}
-              className="changelog__suggestion-trigger"
-            >
-              <span>{t('suggestion.placeholder', 'שתפו רעיון חדש...')}</span>
-              <SendIcon className="changelog__suggestion-trigger-icon" />
-            </button>
-          ) : (
-            <div className="changelog__suggestion-form">
-              <textarea
-                value={suggestion}
-                onChange={(e) => setSuggestion(e.target.value)}
-                placeholder={t('suggestion.textareaPlaceholder', 'תארו לנו את הרעיון שלכם...')}
-                className="changelog__suggestion-textarea"
-                rows={3}
-              />
-              <div className="changelog__suggestion-actions">
-                <button
-                  onClick={() => setShowSuggestionForm(false)}
-                  className="changelog__suggestion-cancel"
-                >
-                  {t('suggestion.cancel', 'ביטול')}
-                </button>
-                <button
-                  onClick={handleSubmitSuggestion}
-                  className="changelog__suggestion-submit"
-                  disabled={!suggestion.trim()}
-                >
-                  <SendIcon className="changelog__suggestion-submit-icon" />
-                  {t('suggestion.submit', 'שלח הצעה')}
-                </button>
-              </div>
-            </div>
-          )}
+          <button
+            onClick={openFeedback}
+            className="changelog__suggestion-trigger"
+            type="button"
+          >
+            <span>{t('suggestion.placeholder', 'שתפו רעיון חדש...')}</span>
+            <SendIcon className="changelog__suggestion-trigger-icon" />
+          </button>
         </section>
       </div>
     </div>
