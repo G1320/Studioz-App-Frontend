@@ -123,12 +123,23 @@ export const sendTestEmail = async (
 };
 
 /**
- * Get the preview URL for an email template
+ * Get the preview URL for an email template (used when embedding would be blocked by X-Frame-Options).
+ * Prefer getEmailPreviewHtml and iframe srcdoc to avoid "refused to connect" in production.
  */
 export const getEmailPreviewUrl = (templateType: string, mode: 'dark' | 'light' = 'dark'): string => {
   const baseUrl =
     import.meta.env.VITE_NODE_ENV === 'production' ? 'https://api.studioz.co.il/api' : 'http://localhost:3003/api';
   return `${baseUrl}/emails/preview/${templateType}?mode=${mode}`;
+};
+
+/**
+ * Fetch email preview HTML from the API. Use with iframe srcdoc to avoid X-Frame-Options blocking.
+ */
+export const getEmailPreviewHtml = async (
+  templateType: string,
+  mode: 'dark' | 'light' = 'dark'
+): Promise<string> => {
+  return httpService.getText(`/emails/preview/${templateType}`, { mode });
 };
 
 export type { EmailResponse };

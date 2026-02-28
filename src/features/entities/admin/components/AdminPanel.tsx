@@ -45,7 +45,7 @@ import {
 import { useReservations } from '@shared/hooks';
 import { Studio, User as UserType } from 'src/types/index';
 import { Coupon, createCoupon, getAllCoupons, deleteCoupon, toggleCouponStatus } from '@shared/services/coupon-service';
-import { sendTestEmail, getEmailPreviewUrl } from '@shared/services/email-service';
+import { sendTestEmail, getEmailPreviewHtml } from '@shared/services/email-service';
 import './styles/_admin-panel.scss';
 
 // --- Types ---
@@ -968,8 +968,37 @@ const EmailTemplatesView = () => {
   const [isSendingTestEmail, setIsSendingTestEmail] = useState(false);
   const [testEmailStatus, setTestEmailStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
+  // Preview HTML (fetched via API to avoid iframe src blocked by X-Frame-Options)
+  const [previewHtml, setPreviewHtml] = useState<string>('');
+  const [previewLoading, setPreviewLoading] = useState(true);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+
   const emailTypes = Object.keys(EMAIL_TYPE_INFO) as EmailType[];
-  const previewUrl = getEmailPreviewUrl(selectedType, previewMode);
+
+  useEffect(() => {
+    let cancelled = false;
+    setPreviewLoading(true);
+    setPreviewError(null);
+    getEmailPreviewHtml(selectedType, previewMode)
+      .then((html) => {
+        if (!cancelled) {
+          setPreviewHtml(html);
+          setPreviewError(null);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setPreviewHtml('');
+          setPreviewError(err?.message || 'Failed to load preview');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setPreviewLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedType, previewMode]);
 
   const handleSendTestEmail = async () => {
     setIsSendingTestEmail(true);
@@ -1136,20 +1165,32 @@ const EmailTemplatesView = () => {
             minHeight: '600px'
           }}
         >
-          <iframe
-            key={`${selectedType}-${previewMode}`}
-            src={previewUrl}
-            title="Email Preview"
-            style={{
-              width: previewDevice === 'desktop' ? '600px' : '375px',
-              height: '800px',
-              border: 'none',
-              borderRadius: '12px',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-              transition: 'width 0.3s ease',
-              background: previewMode === 'dark' ? '#18181b' : '#fafaf9'
-            }}
-          />
+          {previewLoading && (
+            <div style={{ alignSelf: 'center', color: 'var(--text-muted)', fontSize: '14px' }}>
+              טוען תצוגה...
+            </div>
+          )}
+          {previewError && !previewLoading && (
+            <div style={{ alignSelf: 'center', color: 'var(--color-danger, #ef4444)', fontSize: '14px', textAlign: 'center' }}>
+              {previewError}
+            </div>
+          )}
+          {!previewLoading && !previewError && previewHtml && (
+            <iframe
+              key={`${selectedType}-${previewMode}`}
+              srcDoc={previewHtml}
+              title="Email Preview"
+              style={{
+                width: previewDevice === 'desktop' ? '600px' : '375px',
+                height: '800px',
+                border: 'none',
+                borderRadius: '12px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                transition: 'width 0.3s ease',
+                background: previewMode === 'dark' ? '#18181b' : '#fafaf9'
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

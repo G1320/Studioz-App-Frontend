@@ -12,6 +12,7 @@ const axios = Axios.create({
 
 export const httpService = {
   get: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'GET', data),
+  getText: (endpoint: string, data: unknown = null): Promise<string> => ajaxText(endpoint, 'GET', data),
   post: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'POST', data),
   put: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'PUT', data),
   patch: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'PATCH', data),
@@ -37,6 +38,33 @@ async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): 
         sessionStorage.clear();
         localStorage.clear();
         // window.location.assign('/');
+        throw refreshError;
+      }
+    }
+    throw err;
+  }
+}
+
+/** GET request that returns response body as plain text (e.g. for HTML preview). */
+async function ajaxText(endpoint: string, method = 'GET', data: unknown = null): Promise<string> {
+  try {
+    const accessToken = await getAccessToken();
+    setAuthorizationHeader(accessToken as string);
+    const config =
+      method === 'GET' && data
+        ? { params: data, responseType: 'text' as const }
+        : { data, responseType: 'text' as const };
+    const res = await axios({ url: `${BASE_URL}${endpoint}`, method, ...config });
+    return res.data as string;
+  } catch (err) {
+    if (isAxiosError(err) && err.response && err.response.status === 401) {
+      try {
+        const refreshedToken = await refreshAccessToken();
+        if (refreshedToken) return ajaxText(endpoint, method, data);
+      } catch (refreshError) {
+        console.error('Failed to refresh token', refreshError);
+        sessionStorage.clear();
+        localStorage.clear();
         throw refreshError;
       }
     }
