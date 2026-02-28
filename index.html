@@ -16,11 +16,13 @@
 
       if (needsStub) {
         try {
-          var noop = function () {};
+          var safePostMessage = function () {
+            return Promise.resolve(undefined);
+          };
           window.webkit = window.webkit || {};
           if (typeof Proxy !== 'undefined') {
             window.webkit.messageHandlers = new Proxy({}, {
-              get: function () { return { postMessage: noop }; }
+              get: function () { return { postMessage: safePostMessage }; }
             });
           } else {
             window.webkit.messageHandlers = {};
