@@ -220,7 +220,7 @@ export { default as ArrowDropDownIcon } from '@mui/icons-material/ArrowDropDownC
 // LUCIDE ICONS (Theme only)
 // ===================
 // Lucide icons for Theme toggle - use `size` prop, not `sx`
-export { Moon as MoonIcon, Sun as SunIcon, Monitor as MonitorIcon } from 'lucide-react';
+export { Moon as MoonIcon, Sun as SunIcon, Monitor as MonitorIcon, Smartphone as SmartphoneIcon } from 'lucide-react';
 
 // ===================
 // MUI EQUIVALENTS FOR ADMIN PANEL
