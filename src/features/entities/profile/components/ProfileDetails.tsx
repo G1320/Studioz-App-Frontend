@@ -20,7 +20,8 @@ import {
   SaveIcon,
   OpenNewIcon,
   ChevronRightIcon,
-  ShieldIcon
+  ShieldIcon,
+  RefreshIcon
 } from '@shared/components/icons';
 
 import '../styles/_profile-page.scss';
@@ -172,7 +173,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     isConnected: isGoogleCalendarConnected,
     isLoading: isCalendarLoading,
     connect: connectCalendar,
-    disconnect: disconnectCalendar
+    disconnect: disconnectCalendar,
+    sync: syncCalendar
   } = useGoogleCalendar();
   const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
   const hasActiveSubscription = hasSubscription && ['ACTIVE', 'TRIAL'].includes(user?.subscriptionStatus || '');
@@ -196,15 +198,26 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
   const showSumitCard = Boolean((user?.studios && user.studios.length > 0) || hasActiveSubscription);
 
+  const [isCalendarSyncing, setIsCalendarSyncing] = useState(false);
   const handleCalendarToggle = async () => {
     try {
       if (isGoogleCalendarConnected) {
         await disconnectCalendar();
       } else {
-        await connectCalendar();
+        await connectCalendar(i18n.language);
       }
     } catch (err) {
       console.error('Error toggling Google Calendar connection:', err);
+    }
+  };
+  const handleCalendarSync = async () => {
+    try {
+      setIsCalendarSyncing(true);
+      await syncCalendar();
+    } catch (err) {
+      console.error('Error syncing Google Calendar:', err);
+    } finally {
+      setIsCalendarSyncing(false);
     }
   };
 
@@ -384,21 +397,34 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   </button>
                 </div>
               ) : (
-                <button
-                  className={`profile-btn profile-btn--full ${isGoogleCalendarConnected ? 'profile-btn--secondary' : 'profile-btn--google'}`}
-                  onClick={handleCalendarToggle}
-                  disabled={isCalendarLoading}
-                >
-                  {isCalendarLoading ? (
-                    t('profile.buttons.saving', 'Loading...')
-                  ) : isGoogleCalendarConnected ? (
-                    t('profile.buttons.disconnect', 'Disconnect')
-                  ) : (
-                    <>
-                      {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
-                    </>
+                <div className="profile-integration-box__actions">
+                  {isGoogleCalendarConnected && (
+                    <button
+                      type="button"
+                      className="profile-btn profile-btn--secondary profile-btn--small"
+                      onClick={handleCalendarSync}
+                      disabled={isCalendarSyncing || isCalendarLoading}
+                    >
+                      <RefreshIcon style={{ width: 14, height: 14 }} />
+                      {isCalendarSyncing ? t('profile.buttons.syncing', 'Syncing...') : t('profile.buttons.syncNow', 'Sync now')}
+                    </button>
                   )}
-                </button>
+                  <button
+                    className={`profile-btn profile-btn--full ${isGoogleCalendarConnected ? 'profile-btn--secondary' : 'profile-btn--google'}`}
+                    onClick={handleCalendarToggle}
+                    disabled={isCalendarLoading}
+                  >
+                    {isCalendarLoading ? (
+                      t('profile.buttons.saving', 'Loading...')
+                    ) : isGoogleCalendarConnected ? (
+                      t('profile.buttons.disconnect', 'Disconnect')
+                    ) : (
+                      <>
+                        {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
+                      </>
+                    )}
+                  </button>
+                </div>
               )}
             </div>
           </div>

@@ -14,7 +14,7 @@ export const GoogleCalendarConnectButton: React.FC<GoogleCalendarConnectButtonPr
   variant = 'button'
 }) => {
   const { isConnected, isLoading, error, connect, disconnect, refreshStatus } = useGoogleCalendar();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Always render the button, even if there's an error
@@ -39,7 +39,7 @@ export const GoogleCalendarConnectButton: React.FC<GoogleCalendarConnectButtonPr
       if (isConnected) {
         await disconnect();
       } else {
-        await connect();
+        await connect(i18n.language);
       }
     } catch (err) {
       console.error('Error toggling Google Calendar connection:', err);

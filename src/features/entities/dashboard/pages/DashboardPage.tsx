@@ -14,6 +14,7 @@ import { BusinessIcon, ArrowForwardIcon } from '@shared/components/icons';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
+import BillingPage from '@features/entities/billing/pages/BillingPage';
 
 // Subtle fade transition for view switching
 const viewTransition = {
@@ -23,9 +24,9 @@ const viewTransition = {
   transition: { duration: 0.2, ease: 'easeOut' }
 };
 
-type DashboardTab = 'overview' | 'activity' | 'studios' | 'stats' | 'documents';
+type DashboardTab = 'overview' | 'activity' | 'studios' | 'stats' | 'documents' | 'billing';
 
-const VALID_TABS: DashboardTab[] = ['overview', 'activity', 'studios', 'stats', 'documents'];
+const VALID_TABS: DashboardTab[] = ['overview', 'activity', 'studios', 'stats', 'documents', 'billing'];
 
 interface DashboardPageProps {
   user: User | null;
@@ -238,13 +239,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               { key: 'activity', label: t('tabs.activity', 'Activity') },
               { key: 'overview', label: t('tabs.overview', 'Calendar') },
               { key: 'stats', label: t('tabs.stats', 'Statistics') },
-              { key: 'documents', label: t('tabs.documents', 'Documents') }
+              { key: 'documents', label: t('tabs.documents', 'Documents') },
+              { key: 'billing', label: t('tabs.billing', 'Billing') }
             ]}
             className="dashboard-tabs-carousel"
             autoWidth
             hideHeader
             spaceBetween={8}
-            selectedIndex={['studios', 'activity', 'overview', 'stats', 'documents'].indexOf(activeTab)}
+            selectedIndex={['studios', 'activity', 'overview', 'stats', 'documents', 'billing'].indexOf(activeTab)}
             renderItem={(tab) => (
               <button 
                 key={tab.key}
@@ -300,6 +302,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         {activeTab === 'documents' && isStudioOwner && (
           <motion.div key="documents" {...viewTransition}>
             <MerchantDocumentsPage />
+          </motion.div>
+        )}
+
+        {activeTab === 'billing' && isStudioOwner && (
+          <motion.div key="billing" {...viewTransition}>
+            <BillingPage />
           </motion.div>
         )}
       </AnimatePresence>

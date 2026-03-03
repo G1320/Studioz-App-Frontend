@@ -13,13 +13,25 @@ export interface GoogleCalendarAuthUrl {
 
 /**
  * Get Google Calendar OAuth authorization URL
+ * @param lang - Optional language code (e.g. 'he', 'en') for callback redirect
  * @returns Authorization URL
  */
-export const getGoogleCalendarAuthUrl = async (): Promise<string> => {
+export const getGoogleCalendarAuthUrl = async (lang?: string): Promise<string> => {
+  const params = lang ? { lang } : undefined;
   const response = await httpService.get<GoogleCalendarAuthUrl>(
-    `${googleCalendarEndpoint}/connect`
+    `${googleCalendarEndpoint}/connect`,
+    params
   );
   return response.authUrl;
+};
+
+/**
+ * Trigger sync of Google Calendar events to block time slots
+ */
+export const syncGoogleCalendar = async (): Promise<{ message: string; syncToken?: string }> => {
+  return await httpService.post<{ message: string; syncToken?: string }>(
+    `${googleCalendarEndpoint}/sync`
+  );
 };
 
 /**

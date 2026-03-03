@@ -1,0 +1,336 @@
+@use 'src/assets/styles/utilities/variables' as vars;
+@use 'design-system' as ds;
+
+// ===========================================
+// BILLING - Theme-Aware (RTL)
+// ===========================================
+
+.billing {
+  min-height: 50vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.billing__loader {
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+// ===== HEADER =====
+.billing__header {
+  margin-bottom: 2rem;
+}
+
+.billing__title-row {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-small;
+  margin-bottom: 0.25rem;
+}
+
+.billing__title {
+  font-size: vars.$font-size-xl;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.billing__title-icon {
+  color: var(--color-brand);
+  width: 24px;
+  height: 24px;
+}
+
+.billing__subtitle {
+  color: var(--text-muted);
+  font-size: ds.$font-md;
+  margin: 0;
+}
+
+// ===== CURRENT PERIOD CARD =====
+.billing__current-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-secondary);
+  border-radius: ds.$radius-lg;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.billing__current-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.billing__current-icon {
+  color: var(--color-brand);
+  width: 20px;
+  height: 20px;
+}
+
+.billing__current-title {
+  font-size: ds.$font-lg;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.billing__current-badge {
+  display: inline-block;
+  font-size: ds.$font-xs;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border-radius: ds.$radius-full;
+  padding: 0.125rem 0.625rem;
+  margin-top: 0.25rem;
+}
+
+.billing__current-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.billing__current-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.billing__current-stat-label {
+  font-size: ds.$font-sm;
+  color: var(--text-muted);
+}
+
+.billing__current-stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+
+  &--fee {
+    color: var(--color-brand);
+  }
+}
+
+// ===== HISTORY TABLE =====
+.billing__history {
+  margin-top: 1rem;
+}
+
+.billing__section-title {
+  font-size: ds.$font-lg;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+}
+
+.billing__empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.billing__table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border-secondary);
+  border-radius: ds.$radius-lg;
+}
+
+.billing__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: ds.$font-md;
+
+  th, td {
+    padding: 0.75rem 1rem;
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  th {
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: ds.$font-sm;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+
+  tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--bg-surface);
+    }
+
+    &:not(:last-child) td {
+      border-bottom: 1px solid var(--border-secondary);
+    }
+  }
+}
+
+.billing__cell--period {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.billing__cell--fee {
+  font-weight: 600;
+  color: var(--color-brand);
+}
+
+// Status badges
+.billing__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: ds.$font-xs;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: ds.$radius-full;
+
+  &--paid {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.1);
+  }
+
+  &--pending {
+    color: #d97706;
+    background: rgba(217, 119, 6, 0.1);
+  }
+
+  &--failed {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+  }
+}
+
+.billing__invoice-link {
+  color: var(--color-brand);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: ds.$font-sm;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.billing__no-invoice {
+  color: var(--text-muted);
+}
+
+// ===== MODAL =====
+.billing__modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.billing__modal {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: ds.$radius-lg;
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.billing__modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-secondary);
+
+  h2 {
+    margin: 0;
+    font-size: ds.$font-lg;
+    font-weight: 600;
+  }
+}
+
+.billing__modal-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.25rem;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.billing__modal-content {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.billing__modal-loader,
+.billing__modal-empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.billing__modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: ds.$font-sm;
+
+  th, td {
+    padding: 0.625rem 0.75rem;
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  th {
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+
+  tbody tr:not(:last-child) td {
+    border-bottom: 1px solid var(--border-secondary);
+  }
+}
+
+.billing__fee-status {
+  font-size: ds.$font-xs;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  border-radius: ds.$radius-full;
+
+  &--paid {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.1);
+  }
+
+  &--pending, &--billed {
+    color: #d97706;
+    background: rgba(217, 119, 6, 0.1);
+  }
+
+  &--credited, &--waived {
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+  }
+}

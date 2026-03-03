@@ -3,6 +3,7 @@ import {
   getGoogleCalendarAuthUrl,
   disconnectGoogleCalendar,
   getGoogleCalendarStatus,
+  syncGoogleCalendar,
   GoogleCalendarStatus
 } from '@shared/services/google-calendar-service';
 
@@ -10,9 +11,10 @@ interface UseGoogleCalendarReturn {
   isConnected: boolean;
   isLoading: boolean;
   error: Error | null;
-  connect: () => Promise<void>;
+  connect: (lang?: string) => Promise<void>;
   disconnect: () => Promise<void>;
   refreshStatus: () => Promise<void>;
+  sync: () => Promise<void>;
 }
 
 /**
@@ -64,11 +66,11 @@ export const useGoogleCalendar = (): UseGoogleCalendarReturn => {
     fetchStatus();
   }, [fetchStatus]);
 
-  // Connect to Google Calendar
-  const connect = useCallback(async () => {
+  // Connect to Google Calendar (pass lang so callback redirects to /:lang/dashboard)
+  const connect = useCallback(async (lang?: string) => {
     try {
       setError(null);
-      const authUrl = await getGoogleCalendarAuthUrl();
+      const authUrl = await getGoogleCalendarAuthUrl(lang);
       // Redirect to Google OAuth
       window.location.href = authUrl;
     } catch (err) {
@@ -77,6 +79,20 @@ export const useGoogleCalendar = (): UseGoogleCalendarReturn => {
       throw error;
     }
   }, []);
+
+  // Sync calendar events to block time slots
+  const sync = useCallback(async () => {
+    try {
+      setError(null);
+      await syncGoogleCalendar();
+      hasFetched.current = false;
+      await fetchStatus(true);
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('Failed to sync calendar');
+      setError(error);
+      throw error;
+    }
+  }, [fetchStatus]);
 
   // Disconnect Google Calendar
   const disconnect = useCallback(async () => {
@@ -104,7 +120,8 @@ export const useGoogleCalendar = (): UseGoogleCalendarReturn => {
     error,
     connect,
     disconnect,
-    refreshStatus
+    refreshStatus,
+    sync
   };
 };
 

@@ -513,6 +513,18 @@
       box-shadow: 0 0 8px var(--color-success-glow);
     }
   }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+
+    .profile-btn--small {
+      padding: 0.5rem 0.75rem;
+      font-size: ds.$font-sm;
+    }
+  }
 }
 
 // ==========================================
