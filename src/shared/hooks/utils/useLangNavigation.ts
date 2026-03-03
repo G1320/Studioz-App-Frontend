@@ -24,29 +24,19 @@ export const useAnchorNavigate = () => {
 
   return useCallback((targetPath: string, anchor: string) => {
     const currentLang = i18n.language || 'en';
-    // Handle empty targetPath as home page
     const normalizedPath = targetPath || '';
     const fullTargetPath = `/${currentLang}${normalizedPath}`;
-    
-    // Normalize current pathname for comparison (handle trailing slashes)
-    const currentPathNormalized = location.pathname.replace(/\/$/, '');
-    const targetPathNormalized = fullTargetPath.replace(/\/$/, '');
-    
-    // Check if we're already on the target page
-    const isOnTargetPage = currentPathNormalized === targetPathNormalized ||
-                           (normalizedPath === '' && (currentPathNormalized === `/${currentLang}` || currentPathNormalized === ''));
 
-    if (isOnTargetPage) {
-      // Already on target page, just scroll smoothly (no route change)
-      const element = document.getElementById(anchor);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-      // Update URL hash without navigation
+    // If the anchor element already exists in the DOM, scroll directly.
+    // Handles cases like home page rendering the same content as /for-owners.
+    const element = document.getElementById(anchor);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
       window.history.pushState(null, '', `${location.pathname}#${anchor}`);
-    } else {
-      // Navigate to the page with hash - ScrollToTop will handle scrolling
-      navigate(`${fullTargetPath}#${anchor}`);
+      return;
     }
+
+    // Element not on current page — navigate with hash; ScrollToTop handles the rest
+    navigate(`${fullTargetPath}#${anchor}`);
   }, [i18n.language, navigate, location.pathname]);
 };

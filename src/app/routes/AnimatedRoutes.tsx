@@ -83,6 +83,7 @@ const pageVariants = {
 
 // Moved outside AnimatedRoutes to prevent recreation on every render
 const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { hash } = useLocation();
   return (
     <motion.div
       initial="initial"
@@ -90,8 +91,9 @@ const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       exit="exit"
       variants={pageVariants}
       onAnimationComplete={(definition) => {
-        // Only scroll on enter animation, not exit
-        if (definition === 'enter') {
+        // Skip scroll-to-top when navigating with a hash anchor — let
+        // ScrollToTop / page-level handlers scroll to the target element.
+        if (definition === 'enter' && !hash) {
           scrollToTop();
         }
       }}
