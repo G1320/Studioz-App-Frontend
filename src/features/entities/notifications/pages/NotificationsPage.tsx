@@ -1,14 +1,14 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useUserContext } from '@core/contexts/UserContext';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { getNotifications } from '@shared/services/notification-service';
-import Notification, { NotificationCategory, NOTIFICATION_CATEGORIES } from '@appTypes/notification';
+import Notification, { NotificationCategory, NOTIFICATION_CATEGORIES, getNotificationCategory } from '@appTypes/notification';
 import { NotificationItem } from '@shared/components/notifications/components/NotificationItem';
 import '../styles/notifications-page.scss';
 
-const ITEMS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 20;
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('common');
@@ -16,16 +16,11 @@ const NotificationsPage: React.FC = () => {
   const { markAllAsRead, deleteAllRead } = useNotificationContext();
   const [activeCategory, setActiveCategory] = useState<NotificationCategory | 'all'>('all');
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['notifications-page', user?._id, activeCategory],
+    queryKey: ['notifications-page', user?._id],
     queryFn: ({ pageParam }) =>
-      getNotifications({
-        category: activeCategory === 'all' ? undefined : activeCategory,
-        limit: ITEMS_PER_PAGE,
-        cursor: pageParam as string | undefined
-      }),
+      getNotifications({ limit: ITEMS_PER_PAGE, cursor: pageParam as string | undefined }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => {
       if (lastPage.length < ITEMS_PER_PAGE) return undefined;
@@ -35,9 +30,13 @@ const NotificationsPage: React.FC = () => {
     enabled: !!user?._id
   });
 
-  const notifications = data?.pages.flat() ?? [];
+  const allNotifications = useMemo(() => data?.pages.flat() ?? [], [data]);
 
-  // Intersection observer for infinite scroll
+  const notifications = useMemo(() => {
+    if (activeCategory === 'all') return allNotifications;
+    return allNotifications.filter((n) => getNotificationCategory(n) === activeCategory);
+  }, [allNotifications, activeCategory]);
+
   const lastItemRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (isFetchingNextPage) return;
@@ -53,9 +52,7 @@ const NotificationsPage: React.FC = () => {
   );
 
   useEffect(() => {
-    return () => {
-      observerRef.current?.disconnect();
-    };
+    return () => observerRef.current?.disconnect();
   }, []);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -64,7 +61,6 @@ const NotificationsPage: React.FC = () => {
   return (
     <div className="notifications-page">
       <div className="notifications-page__container">
-        {/* Header */}
         <header className="notifications-page__header">
           <div className="notifications-page__header-left">
             <h1 className="notifications-page__title">{t('notifications.page.title', 'Notifications')}</h1>
@@ -87,7 +83,6 @@ const NotificationsPage: React.FC = () => {
           </div>
         </header>
 
-        {/* Category filters */}
         <div className="notifications-page__filters">
           <button
             className={`notifications-page__filter ${activeCategory === 'all' ? 'notifications-page__filter--active' : ''}`}
@@ -106,7 +101,6 @@ const NotificationsPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Notification list */}
         <div className="notifications-page__list">
           {isLoading ? (
             <div className="notifications-page__empty">{t('common.loading', 'Loading...')}</div>
@@ -134,7 +128,6 @@ const NotificationsPage: React.FC = () => {
               {isFetchingNextPage && (
                 <div className="notifications-page__loading-more">{t('common.loading', 'Loading...')}</div>
               )}
-              <div ref={loadMoreRef} />
             </>
           )}
         </div>

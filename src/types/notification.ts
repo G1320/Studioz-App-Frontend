@@ -44,6 +44,30 @@ export const NOTIFICATION_CATEGORIES: { key: NotificationCategory; label: string
   { key: 'activity', label: 'Activity' },
 ];
 
+const TYPE_TO_CATEGORY: Record<NotificationType, NotificationCategory> = {
+  new_reservation: 'bookings',
+  reservation_confirmed: 'bookings',
+  reservation_cancelled: 'bookings',
+  reservation_expired: 'bookings',
+  reservation_modified: 'bookings',
+  reservation_reminder: 'bookings',
+  payout_completed: 'payments',
+  payout_failed: 'payments',
+  new_review: 'reviews',
+  subscription_trial_ending: 'billing',
+  subscription_payment_failed: 'billing',
+  subscription_renewed: 'billing',
+  calendar_sync_error: 'system',
+  platform_announcement: 'system',
+  weekly_summary: 'system',
+  customer_message: 'activity',
+  availability_alert: 'activity',
+  system_alert: 'system'
+};
+
+export const getNotificationCategory = (n: { category?: NotificationCategory; type: NotificationType }): NotificationCategory =>
+  n.category || TYPE_TO_CATEGORY[n.type] || 'system';
+
 export default interface Notification {
   _id: string;
   userId: string;
