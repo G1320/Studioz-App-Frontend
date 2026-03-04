@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { CompanyDetails } from '@shared/services';
+import { useState, useMemo, useRef } from 'react';
+import { CompanyDetails, createVendor, saveVendorCard } from '@shared/services';
 import { useUserContext } from '@core/contexts';
 import { useCreateVendorMutation } from '@shared/hooks/mutations';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,18 +9,22 @@ import {
   BusinessIcon,
   PersonIcon,
   BankIcon,
+  CreditCardIcon,
   ArrowBackIcon,
   AutoAwesomeIcon,
   InfoOutlinedIcon,
   ErrorIcon
 } from '@shared/components/icons';
+import { sumitService } from '@shared/services/sumit-service';
+import { prepareFormData } from '@features/entities/payments/sumit/utils';
 import CircularProgress from '@mui/material/CircularProgress';
 import './styles/_vendor-onboarding-form.scss';
 
 const STEPS = [
   { id: 1, title: 'פרטי עסק', icon: BusinessIcon },
   { id: 2, title: 'איש קשר', icon: PersonIcon },
-  { id: 3, title: 'חשבון בנק', icon: BankIcon }
+  { id: 3, title: 'חשבון בנק', icon: BankIcon },
+  { id: 4, title: 'כרטיס אשראי', icon: CreditCardIcon }
 ];
 
 const ENTITY_TYPES = [
@@ -68,6 +72,7 @@ export const VendorOnboardingForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isCompleted, setIsCompleted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmittingCard, setIsSubmittingCard] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const [formData, setFormData] = useState<FormData>({
@@ -165,6 +170,8 @@ export const VendorOnboardingForm = () => {
         return validateStep2();
       case 3:
         return validateStep3();
+      case 4:
+        return true;
       default:
         return true;
     }
@@ -175,15 +182,72 @@ export const VendorOnboardingForm = () => {
     return Boolean(user?._id);
   }, [user]);
 
-  const handleNext = () => {
+  const cardFormRef = useRef<HTMLFormElement | null>(null);
+
+  const handleNext = async () => {
+    if (currentStep === 4) {
+      await handleSubmitWithCard();
+      return;
+    }
+
     if (!validateCurrentStep()) {
       return;
     }
 
     if (currentStep < STEPS.length) {
       setCurrentStep((prev) => prev + 1);
-    } else {
-      handleSubmit();
+    }
+  };
+
+  const handleSubmitWithCard = async () => {
+    if (!canSubmit || !user?._id) {
+      setError('יש להתחבר לחשבון כדי להמשיך');
+      return;
+    }
+
+    const form = cardFormRef.current || (document.getElementById('vendor-onboarding-card-form') as HTMLFormElement);
+    if (!form) {
+      setError('נא למלא את פרטי כרטיס האשראי');
+      return;
+    }
+
+    setError(null);
+    setIsSubmittingCard(true);
+
+    try {
+      const tokenFormData = prepareFormData(form);
+      const singleUseToken = await sumitService.getSumitToken(tokenFormData);
+
+      const companyDetails: CompanyDetails = {
+        Name: formData.businessName.trim(),
+        EmailAddress: formData.contactEmail.trim(),
+        Phone: formData.contactPhone.replace(/-/g, ''),
+        Address: formData.businessCity
+          ? `${formData.businessAddress.trim()}, ${formData.businessCity.trim()}`
+          : formData.businessAddress.trim(),
+        CorporateNumber: formData.businessId.trim(),
+        Country: 'Israel',
+        Title: 'Vendor at Studioz',
+        Website: formData.website?.trim() || undefined,
+        bankCode: parseInt(formData.bankCode, 10),
+        branchCode: parseInt(formData.branchNumber, 10),
+        accountNumber: formData.accountNumber.trim()
+      };
+
+      await createVendor(companyDetails, user._id);
+
+      const saveCardResponse = await saveVendorCard(singleUseToken);
+      if (!saveCardResponse.success) {
+        setError('החשבון נוצר בהצלחה אך שמירת כרטיס האשראי נכשלה. תוכל להוסיף כרטיס מהפרופיל.');
+      }
+      setIsCompleted(true);
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message || err?.message || 'אירעה שגיאה. אנא נסה שוב.';
+      setError(errorMessage);
+      console.error('Vendor onboarding error:', err);
+    } finally {
+      setIsSubmittingCard(false);
     }
   };
 
@@ -193,44 +257,6 @@ export const VendorOnboardingForm = () => {
       setValidationErrors({});
       setError(null);
     }
-  };
-
-  const handleSubmit = () => {
-    if (!canSubmit) {
-      setError('יש להתחבר לחשבון כדי להמשיך');
-      return;
-    }
-
-    setError(null);
-
-    // Map form data to CompanyDetails interface
-    const companyDetails: CompanyDetails = {
-      Name: formData.businessName.trim(),
-      EmailAddress: formData.contactEmail.trim(),
-      Phone: formData.contactPhone.replace(/-/g, ''),
-      Address: formData.businessCity
-        ? `${formData.businessAddress.trim()}, ${formData.businessCity.trim()}`
-        : formData.businessAddress.trim(),
-      CorporateNumber: formData.businessId.trim(),
-      Country: 'Israel',
-      Title: 'Vendor at Studioz',
-      Website: formData.website?.trim() || undefined,
-      bankCode: parseInt(formData.bankCode, 10),
-      branchCode: parseInt(formData.branchNumber, 10),
-      accountNumber: formData.accountNumber.trim()
-    };
-
-    createVendorMutation.mutate(companyDetails, {
-      onSuccess: () => {
-        setIsCompleted(true);
-      },
-      onError: (err: any) => {
-        const errorMessage =
-          err?.response?.data?.message || err?.message || 'אירעה שגיאה בעת יצירת החשבון. אנא נסה שוב.';
-        setError(errorMessage);
-        console.error('Vendor creation error:', err);
-      }
-    });
   };
 
   const renderStepContent = () => {
@@ -421,6 +447,94 @@ export const VendorOnboardingForm = () => {
           </div>
         );
 
+      case 4:
+        return (
+          <div className="step-content">
+            <div className="step-content__header">
+              <h2>כרטיס אשראי לעמלת פלטפורמה</h2>
+              <p className="step-content__narrative">אנחנו מרוויחים רק כשאתה מרוויח.</p>
+              <p>
+                StudioZ בחינם לתמיד. אנחנו גובים עמלה קטנה (9%) רק כשאתה מרוויח מסשנים שאושרו.
+                הכרטיס ישמש לחיוב חודשי של עמלת הפלטפורמה.
+              </p>
+            </div>
+            <div className="step-content__notice">
+              <InfoOutlinedIcon className="notice-icon" />
+              <p>פרטי הכרטיס נשמרים בצורה מאובטחת ולא יגבו כעת.</p>
+            </div>
+            <form
+              id="vendor-onboarding-card-form"
+              ref={cardFormRef}
+              className="step-content__fields step-content__fields--card"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <div className="field">
+                <label>מספר כרטיס אשראי *</label>
+                <input
+                  type="text"
+                  name="CreditCardNumber"
+                  data-og="cardnumber"
+                  required
+                  placeholder="XXXX XXXX XXXX XXXX"
+                  dir="ltr"
+                />
+              </div>
+              <div className="field-row field-row--card">
+                <div className="field">
+                  <label>חודש *</label>
+                  <select name="ExpMonth" data-og="expirationmonth" required>
+                    <option value="">בחר</option>
+                    {[...Array(12)].map((_, i) => (
+                      <option key={i + 1} value={(i + 1).toString().padStart(2, '0')}>
+                        {(i + 1).toString().padStart(2, '0')}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="field">
+                  <label>שנה *</label>
+                  <select name="ExpYear" data-og="expirationyear" required>
+                    <option value="">בחר</option>
+                    {[...Array(10)].map((_, i) => {
+                      const year = (new Date().getFullYear() + i).toString();
+                      return (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="field">
+                  <label>CVV *</label>
+                  <input
+                    type="text"
+                    name="CVV"
+                    data-og="cvv"
+                    maxLength={4}
+                    required
+                    placeholder="XXX"
+                    dir="ltr"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label>ת.ז. / ח.פ. (9 ספרות) *</label>
+                <input
+                  type="text"
+                  name="citizen-id"
+                  data-og="citizenid"
+                  inputMode="numeric"
+                  maxLength={9}
+                  required
+                  placeholder="9 ספרות"
+                  dir="ltr"
+                />
+              </div>
+            </form>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -517,13 +631,13 @@ export const VendorOnboardingForm = () => {
           <button
             type="button"
             onClick={handleNext}
-            disabled={createVendorMutation.isPending}
+            disabled={createVendorMutation.isPending || isSubmittingCard}
             className="nav-btn nav-btn--next"
           >
-            {createVendorMutation.isPending ? (
+            {createVendorMutation.isPending || isSubmittingCard ? (
               <>
                 <CircularProgress size={20} color="inherit" />
-                <span>שולח...</span>
+                <span>{currentStep === 4 ? 'שומר כרטיס...' : 'שולח...'}</span>
               </>
             ) : (
               <>

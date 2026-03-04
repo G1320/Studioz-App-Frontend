@@ -5,7 +5,6 @@ import { Studio } from 'src/types';
 import {
   CreditCardIcon,
   CalendarIcon,
-  FileTextIcon,
   BusinessIcon,
   MicIcon,
   BlockIcon,
@@ -16,7 +15,6 @@ import {
 interface QuickActionsProps {
   studios?: Studio[];
   onQuickCharge?: () => void;
-  onNewInvoice?: () => void;
   onNewReservation?: (studioId?: string) => void;
   onBlockTime?: (studioId: string) => void;
   onDownloadReport?: () => void;
@@ -28,7 +26,6 @@ type MenuType = 'add-service' | 'new-reservation' | 'block-time' | null;
 export const QuickActions: React.FC<QuickActionsProps> = ({
   studios = [],
   onQuickCharge,
-  onNewInvoice,
   onNewReservation,
   onBlockTime,
   onDownloadReport,
@@ -95,13 +92,6 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
           langNavigate('/dashboard?tab=documents');
         }
         break;
-      case 'new-invoice':
-        if (onNewInvoice) {
-          onNewInvoice();
-        } else {
-          langNavigate('/dashboard?tab=documents');
-        }
-        break;
       case 'add-studio':
         langNavigate('/studio/create');
         break;
@@ -122,13 +112,6 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       defaultLabel: 'סליקה מהירה',
       icon: <CreditCardIcon />,
       variant: 'primary' as const,
-      hasMenu: false
-    },
-    {
-      id: 'new-invoice',
-      labelKey: 'quickActions.newInvoice',
-      defaultLabel: 'חשבונית חדשה',
-      icon: <FileTextIcon />,
       hasMenu: false
     },
     {

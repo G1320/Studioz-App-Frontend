@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 
 export const SubscriptionDetails = () => {
-  const { isLoading, hasSubscription, isPro, subscription } = useSubscription();
-  const { updateSubscription } = useUserContext();
-  const { t } = useTranslation('subscriptions');
+  const { isLoading, hasSubscription, subscription } = useSubscription();
+  const { user, updateSubscription } = useUserContext();
+  const { t } = useTranslation(['subscriptions', 'profile']);
   const langNavigate = useLanguageNavigate();
   const cancelSubscriptionMutation = useCancelSubscriptionMutation(subscription?._id || '');
+
+  const hasCardOnFile = Boolean(user?.sumitCustomerId || user?.savedCardLastFour);
 
   const handleCancelSubscription = () => {
     if (!subscription?._id) return;
@@ -33,79 +35,53 @@ export const SubscriptionDetails = () => {
       <div className="subscription-details no-subscription">
         <h3>{t('subscriptionDetails.noSubscription.title')}</h3>
         <p>{t('subscriptionDetails.noSubscription.description')}</p>
-        <button onClick={() => langNavigate('/subscription')} className="primary-button">
-          {t('subscriptionDetails.noSubscription.viewPlans')}
+        <button onClick={() => langNavigate('/dashboard?tab=billing')} className="primary-button">
+          {t('subscriptionDetails.noSubscription.viewBilling')}
         </button>
       </div>
     );
   }
 
-  const getNextBillingDate = () => {
-    if (!subscription?.sumitPaymentDetails?.Payment?.Date) return null;
-    const nextBillingDate = new Date(subscription.sumitPaymentDetails.Payment.Date);
-    nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
-    return nextBillingDate;
-  };
-
-  const nextBillingDate = getNextBillingDate();
-
   return (
     <div className="subscription-details">
       <div className="subscription-header">
         <div className="title-status">
-          <h3>{t(isPro ? 'subscriptionDetails.planNames.pro' : 'subscriptionDetails.planNames.starter')}</h3>
+          <h3>{t('subscriptionDetails.planNames.free')}</h3>
           <p className="status">
             {subscription?.status === 'ACTIVE'
               ? t('subscriptionDetails.status.active')
               : t('subscriptionDetails.status.cancelled')}
           </p>
         </div>
-        <span className={`plan-badge ${isPro ? 'pro' : 'starter'}`}>
-          {t(isPro ? 'subscriptionDetails.badges.pro' : 'subscriptionDetails.badges.starter')}
-        </span>
+        <span className="plan-badge free">{t('subscriptionDetails.badges.free')}</span>
       </div>
 
       <div className="subscription-info">
-        {subscription?.startDate && (
-          <div className="info-item">
-            <p className="label">{t('subscriptionDetails.info.startDate.label')}</p>
-            <p className="value">{new Date(subscription.startDate).toLocaleDateString()}</p>
-          </div>
-        )}
-
-        {nextBillingDate && subscription?.status === 'ACTIVE' && (
-          <div className="info-item">
-            <p className="label">{t('subscriptionDetails.info.nextBilling.label')}</p>
-            <p className="value">{nextBillingDate.toLocaleDateString()}</p>
-          </div>
-        )}
-
         <div className="info-item">
-          <p className="label">{t('subscriptionDetails.info.price.label')}</p>
+          <p className="label">{t('subscriptionDetails.info.monthlyFee.label')}</p>
+          <p className="value">{t('subscriptionDetails.info.monthlyFee.free')}</p>
+        </div>
+        <div className="info-item">
+          <p className="label">{t('subscriptionDetails.info.platformFee.label')}</p>
+          <p className="value">{t('subscriptionDetails.info.platformFee.value')}</p>
+        </div>
+        <div className="info-item">
+          <p className="label">{t('profile.platformFee.cardOnFile', { ns: 'profile' })}</p>
           <p className="value">
-            {t('subscriptionDetails.info.price.value', {
-              amount: subscription?.sumitPaymentDetails?.Payment?.Amount || (isPro ? '149' : '79')
-            })}
+            {hasCardOnFile
+              ? user?.savedCardLastFour
+                ? `•••• ${user.savedCardLastFour}`
+                : t('profile.platformFee.saved', { ns: 'profile' })
+              : t('profile.platformFee.notSaved', { ns: 'profile' })}
           </p>
         </div>
-
-        {/* {subscription?.sumitPaymentDetails?.Payment.PaymentMethod.CreditCard_LastDigits && (
-          <div className="info-item">
-            <p className="label">{t('subscriptionDetails.info.paymentMethod.label')}</p>
-            <p className="value">
-              {t('subscriptionDetails.info.paymentMethod.card', {
-                lastDigits: subscription.sumitPaymentDetails.Payment.PaymentMethod.CreditCard_LastDigits
-              })}
-            </p>
-          </div>
-        )} */}
       </div>
 
       <div className="subscription-actions">
         {subscription?.status === 'ACTIVE' && (
           <>
-            <button onClick={() => langNavigate('/subscription')} className="manage-link">
-              {t(isPro ? 'subscriptionDetails.actions.managePlan' : 'subscriptionDetails.actions.upgradePlan')}
+            <button onClick={() => langNavigate('/dashboard?tab=billing')} className="manage-link">
+              {t('subscriptionDetails.actions.managePayment')}
             </button>
             <button onClick={handleCancelSubscription} className="cancel-button">
               {t('subscriptionDetails.actions.cancelPlan')}

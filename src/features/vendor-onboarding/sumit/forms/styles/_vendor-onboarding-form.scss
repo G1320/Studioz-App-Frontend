@@ -166,6 +166,15 @@
       }
     }
 
+    &__narrative {
+      font-size: ds.$font-lg;
+      font-weight: 700;
+      color: var(--color-brand);
+      margin: 0 0 0.5rem;
+      font-style: italic;
+      text-align: center;
+    }
+
     &__notice {
       display: flex;
       align-items: flex-start;

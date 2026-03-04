@@ -9,7 +9,7 @@ import { useReservations, useLanguageNavigate } from '@shared/hooks';
 import { GenericCarousel } from '@shared/components';
 import { DashboardCalendar, RecentActivity, QuickActions, ManualBookingModal } from '../components';
 import { StudioManager, StudioBlockModal } from '@features/entities/studios';
-import { QuickChargeModal, NewInvoiceModal } from '@features/entities/merchant-documents';
+import { QuickChargeModal } from '@features/entities/merchant-documents';
 import { BusinessIcon, ArrowForwardIcon } from '@shared/components/icons';
 
 import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
@@ -44,7 +44,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 
   // Modal states
   const [isQuickChargeOpen, setIsQuickChargeOpen] = useState(false);
-  const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
   const [isManualBookingOpen, setIsManualBookingOpen] = useState(false);
   const [manualBookingStudioId, setManualBookingStudioId] = useState<string | undefined>(undefined);
   const [blockTimeStudioId, setBlockTimeStudioId] = useState<string | null>(null);
@@ -99,10 +98,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setIsQuickChargeOpen(true);
   }, []);
 
-  const handleNewInvoice = useCallback(() => {
-    setIsNewInvoiceOpen(true);
-  }, []);
-
   const handleBlockTime = useCallback((studioId: string) => {
     setBlockTimeStudioId(studioId);
   }, []);
@@ -154,10 +149,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setIsQuickChargeOpen(false);
   }, []);
 
-  const handleNewInvoiceClose = useCallback(() => {
-    setIsNewInvoiceOpen(false);
-  }, []);
-
   const handleBlockTimeClose = useCallback(() => {
     setBlockTimeStudioId(null);
   }, []);
@@ -175,10 +166,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   // Success handlers (can trigger refetch or toast if needed)
   const handleQuickChargeSuccess = useCallback(() => {
     setIsQuickChargeOpen(false);
-  }, []);
-
-  const handleNewInvoiceSuccess = useCallback(() => {
-    setIsNewInvoiceOpen(false);
   }, []);
 
   // Check if user is a subscriber but doesn't have studios yet
@@ -218,12 +205,28 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         </motion.div>
       )}
 
+      {/* Sumit setup required banner — studios but no payment setup */}
+      {isStudioOwner && user && !user.sumitCompanyId && (
+        <div className="dashboard-page__setup-banner">
+          <p className="dashboard-page__setup-banner-text">
+            {t('setupBanner.text', 'Complete your payment setup to start receiving bookings.')}
+          </p>
+          <button
+            type="button"
+            className="dashboard-page__setup-banner-cta"
+            onClick={() => langNavigate('/onboarding')}
+          >
+            {t('setupBanner.cta', 'Complete payment setup')}
+            <ArrowForwardIcon />
+          </button>
+        </div>
+      )}
+
       {/* Quick Actions for Studio Owners */}
       {isStudioOwner && (
         <QuickActions 
           studios={userStudios}
           onQuickCharge={handleQuickCharge}
-          onNewInvoice={handleNewInvoice}
           onNewReservation={handleNewReservation}
           onBlockTime={handleBlockTime}
           onDownloadReport={handleDownloadReport}
@@ -318,14 +321,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         onClose={handleQuickChargeClose}
         onSuccess={handleQuickChargeSuccess}
         studioName={getLocalizedName(userStudios[0]?.name)}
-      />
-
-      <NewInvoiceModal
-        open={isNewInvoiceOpen}
-        onClose={handleNewInvoiceClose}
-        onSuccess={handleNewInvoiceSuccess}
-        studioName={getLocalizedName(userStudios[0]?.name)}
-        vendorId={user?._id}
       />
 
       {blockTimeStudio && (

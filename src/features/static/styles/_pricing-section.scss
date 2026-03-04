@@ -90,6 +90,19 @@
     }
   }
 
+  &__tagline {
+    font-size: vars.$font-size-medium;
+    font-weight: 700;
+    color: var(--color-brand);
+    line-height: 1.4;
+    margin: vars.$spacing-small 0 0;
+    font-style: italic;
+
+    @media (min-width: 768px) {
+      font-size: vars.$font-size-large;
+    }
+  }
+
   // ==========================================
   // GRID
   // ==========================================
@@ -105,6 +118,24 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: vars.$spacing-large;
     }
+
+    &--single {
+      max-width: 520px;
+
+      @media (min-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__comparison {
+    max-width: 560px;
+    margin: vars.$spacing-2xl auto 0;
+    text-align: center;
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.5;
   }
 }
 

@@ -5,7 +5,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { Mail, Copy, Ban, Printer, Eye, Download, MoreVertical } from 'lucide-react';
+import { Mail, Ban, Printer, Eye, Download, MoreVertical } from 'lucide-react';
 import { MerchantDocument } from '@shared/services';
 import { useDropdownPosition } from '@shared/hooks';
 
@@ -14,7 +14,6 @@ interface DocumentActionsDropdownProps {
   onView: (doc: MerchantDocument) => void;
   onDownload: (doc: MerchantDocument) => void;
   onSendEmail: (doc: MerchantDocument) => void;
-  onDuplicate: (doc: MerchantDocument) => void;
   onVoid: (doc: MerchantDocument) => void;
   onPrint: (doc: MerchantDocument) => void;
 }
@@ -24,7 +23,6 @@ export const DocumentActionsDropdown: React.FC<DocumentActionsDropdownProps> = (
   onView,
   onDownload,
   onSendEmail,
-  onDuplicate,
   onVoid,
   onPrint
 }) => {
@@ -97,15 +95,6 @@ export const DocumentActionsDropdown: React.FC<DocumentActionsDropdownProps> = (
       >
         <Mail size={16} />
         <span>{t('dropdown.sendEmail', 'שלח באימייל')}</span>
-      </button>
-
-      <button
-        type="button"
-        className="document-actions-dropdown__item"
-        onClick={() => handleAction(() => onDuplicate(doc))}
-      >
-        <Copy size={16} />
-        <span>{t('dropdown.duplicate', 'שכפל מסמך')}</span>
       </button>
 
       {canVoid && (

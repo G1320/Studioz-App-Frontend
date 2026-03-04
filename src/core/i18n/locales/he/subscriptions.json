@@ -47,7 +47,7 @@
       "features": {
         "listing": "מודעה אחת פעילה",
         "booking": "הזמנות אונליין",
-        "support": "תמיכה סטנדרטית"
+        "support": "תמיכה טכנית"
       },
       "notIncluded": {
         "calendar": "יומן דיגיטלי",
@@ -64,7 +64,7 @@
         "calendar": "יומן דיגיטלי",
         "googleCalendar": "סנכרון Google Calendar",
         "payment": "עד 25 סליקות בחודש",
-        "support": "תמיכה סטנדרטית",
+        "support": "תמיכה טכנית",
         "cancel": "ביטול בכל עת"
       },
       "notIncluded": {
@@ -132,8 +132,9 @@
     "loading": "טוען...",
     "noSubscription": {
       "title": "אין מנוי פעיל",
-      "description": "שדרגו את החשבון כדי לגשת לתכונות פרימיום",
-      "viewPlans": "צפייה בתוכניות"
+      "description": "הוסיפו אמצעי תשלום כדי לשלם עמלת פלטפורמה כשאתם מרוויחים.",
+      "viewPlans": "צפייה בתוכניות",
+      "viewBilling": "צפייה בחיוב"
     },
     "status": {
       "active": "פעיל",
@@ -159,11 +160,20 @@
       "price": {
         "label": "מחיר",
         "value": "₪{{amount}} / חודש"
+      },
+      "monthlyFee": {
+        "label": "דמי מנוי",
+        "free": "חינם"
+      },
+      "platformFee": {
+        "label": "עמלת פלטפורמה",
+        "value": "9% על סשנים שאושרו"
       }
     },
     "actions": {
       "managePlan": "ניהול תוכנית",
       "upgradePlan": "שדרוג תוכנית",
+      "managePayment": "ניהול אמצעי תשלום",
       "cancelPlan": "ביטול תוכנית"
     },
     "cancellation": {

@@ -21,7 +21,8 @@
       "connectAccount": "Connect Account",
       "manageSubscription": "Manage Subscription",
       "upgrade": "Upgrade",
-      "upgradePlan": "Upgrade Plan"
+      "upgradePlan": "Upgrade Plan",
+      "viewBilling": "View billing"
     },
     "email": {
       "label": "Email",
@@ -65,18 +66,31 @@
       "calendarDesc": "Sync your bookings with Google Calendar",
       "sumit": "Credit card processing",
       "sumitDesc": "Receive payments directly to your bank account",
-      "subscription": "Subscription & Payments"
+      "subscription": "Subscription & Payments",
+      "platformFee": "Platform fee"
     },
     "sumit": {
       "provider": "Sumit.co.il",
+      "setupRequired": "Complete your payment setup to start receiving bookings",
       "status": {
         "pending": "Onboarding status",
         "active": "Connected & active"
       },
       "buttons": {
         "continue": "Continue onboarding",
-        "manage": "Manage"
+        "manage": "Manage",
+        "completeSetup": "Complete payment setup"
       }
+    },
+    "platformFee": {
+      "plan": "Plan",
+      "freePlan": "Free",
+      "feeLabel": "Platform fee",
+      "onSessions": "on approved sessions",
+      "narrative": "We only make money when you make money.",
+      "cardOnFile": "Card on file",
+      "saved": "Saved",
+      "notSaved": "Not set"
     },
     "fields": {
       "firstName": "First Name",

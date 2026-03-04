@@ -18,8 +18,6 @@ import {
   useMusicGenres,
   useGenres,
   useStudio,
-  useItems,
-  useSubscription,
   useCategories
 } from '@shared/hooks';
 import { Item } from 'src/types/index';
@@ -49,31 +47,11 @@ export const CreateItemForm = () => {
   const queryClient = useQueryClient();
   const createItemMutation = useCreateItemMutation(studioId || '');
   const { data: studioObj } = useStudio(studioId || '');
-  const { data: allItems = [] } = useItems();
-  const { hasSubscription, isPro, isStarter, isLoading: isSubscriptionLoading } = useSubscription();
   const { t } = useTranslation(['forms', 'common']);
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
 
   const studio = studioObj?.currStudio;
-
-  // Count user's items
-  const userItemCount = useMemo(() => {
-    if (!user?._id) return 0;
-    return allItems.filter((item) => item.createdBy === user._id).length;
-  }, [allItems, user?._id]);
-
-  // Check if user can create more items
-  const canCreateItem = useMemo(() => {
-    // If subscription is loading, allow (will be validated on submit)
-    if (isSubscriptionLoading) return true;
-
-    // If user has paid subscription (pro or starter), allow unlimited
-    if (hasSubscription && (isPro || isStarter)) return true;
-
-    // If user has free subscription (no subscription or inactive), limit to 3 items
-    return userItemCount < 3;
-  }, [hasSubscription, isPro, isStarter, userItemCount, isSubscriptionLoading]);
 
   const musicCategories = useMusicCategories();
   const musicSubCategories = useMusicSubCategories();
@@ -375,7 +353,7 @@ export const CreateItemForm = () => {
             <p className="pricing-step__info-text">
               {t('form.pricing.platformFee.description', {
                 defaultValue:
-                  'StudioZ takes a 9% commission on confirmed bookings. Your payout will be calculated automatically.'
+                  'We only make money when you make money. StudioZ takes a 9% commission on confirmed bookings; your payout is calculated automatically.'
               })}
             </p>
           </div>
@@ -952,17 +930,6 @@ export const CreateItemForm = () => {
   }, [currentStepIndex]);
 
   const handleSubmit = async (formData: FormData) => {
-    // Check subscription limit before submitting
-    if (!canCreateItem) {
-      toast.error(
-        t('form.errors.itemLimitReached', {
-          defaultValue:
-            'You have reached the maximum limit of 3 services for free accounts. Please upgrade to a paid plan to create more services.'
-        })
-      );
-      return;
-    }
-
     // Convert subCategories and genres to English values for consistent database storage
     const englishSubCategories = selectedSubCategories.map((subCat) => getEnglishByDisplay(subCat));
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
@@ -1167,43 +1134,8 @@ export const CreateItemForm = () => {
     }
   ];
 
-  // Calculate remaining items for free users
-  const remainingItems = useMemo(() => {
-    if (isSubscriptionLoading) return null;
-    if (hasSubscription && (isPro || isStarter)) return null; // Unlimited for paid users
-    return Math.max(0, 3 - userItemCount);
-  }, [hasSubscription, isPro, isStarter, userItemCount, isSubscriptionLoading]);
-
   return (
     <section>
-      {remainingItems !== null && (
-        <div
-          style={{
-            padding: '12px 16px',
-            marginBottom: '16px',
-            backgroundColor: remainingItems === 0 ? 'rgba(248, 113, 113, 0.2)' : 'rgba(16, 185, 129, 0.1)',
-            border: `1px solid ${remainingItems === 0 ? 'rgba(248, 113, 113, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`,
-            borderRadius: '8px',
-            color: remainingItems === 0 ? '#f87171' : '#10b981'
-          }}
-        >
-          {remainingItems === 0 ? (
-            <p style={{ margin: 0, fontWeight: 600 }}>
-              {t('form.errors.itemLimitReached', {
-                defaultValue:
-                  'You have reached the maximum limit of 3 items. Please upgrade to a paid plan to create more items.'
-              })}
-            </p>
-          ) : (
-            <p style={{ margin: 0, fontWeight: 500 }}>
-              {t('form.itemLimitInfo', {
-                defaultValue: `You have ${remainingItems} item${remainingItems !== 1 ? 's' : ''} remaining on your free plan. Upgrade to create unlimited items.`,
-                count: remainingItems
-              })}
-            </p>
-          )}
-        </div>
-      )}
       <section className="form-wrapper create-item-form-wrapper">
         <SteppedForm
           className="create-item-form"

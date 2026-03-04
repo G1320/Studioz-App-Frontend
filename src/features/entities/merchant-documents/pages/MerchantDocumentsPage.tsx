@@ -27,7 +27,7 @@ import {
 import { useUserContext } from '@core/contexts';
 import { useStudios, useMerchantDocuments } from '@shared/hooks';
 import { MerchantDocument, DocStatus, httpService } from '@shared/services';
-import { NewInvoiceModal, DocumentActionsDropdown, QuickChargeModal } from '../components';
+import { DocumentActionsDropdown, QuickChargeModal } from '../components';
 import { DateRangePicker, type DateRange } from '../../merchant-stats/components';
 import '../styles/_merchant-documents.scss';
 
@@ -59,7 +59,6 @@ const DocumentRow = React.memo(
     onDownload,
     onView,
     onSendEmail,
-    onDuplicate,
     onVoid,
     onPrint,
     t
@@ -68,7 +67,6 @@ const DocumentRow = React.memo(
     onDownload: (doc: MerchantDocument) => void;
     onView: (doc: MerchantDocument) => void;
     onSendEmail: (doc: MerchantDocument) => void;
-    onDuplicate: (doc: MerchantDocument) => void;
     onVoid: (doc: MerchantDocument) => void;
     onPrint: (doc: MerchantDocument) => void;
     t: (key: string) => string;
@@ -126,7 +124,6 @@ const DocumentRow = React.memo(
             onView={onView}
             onDownload={onDownload}
             onSendEmail={onSendEmail}
-            onDuplicate={onDuplicate}
             onVoid={onVoid}
             onPrint={onPrint}
           />
@@ -218,7 +215,6 @@ const MerchantDocumentsPage: React.FC = () => {
   }, [search, selectedStudio, selectedStatus, sortBy, sortOrder, page, dateRange, setSearchParams]);
 
   // Modal states
-  const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
   const [isQuickChargeOpen, setIsQuickChargeOpen] = useState(false);
 
   // Fetch documents using new hook
@@ -360,11 +356,6 @@ const MerchantDocumentsPage: React.FC = () => {
     [t]
   );
 
-  const handleDuplicateDocument = useCallback(() => {
-    // Open new invoice modal (could be pre-filled with data from this document in future)
-    setIsNewInvoiceOpen(true);
-  }, []);
-
   const handleVoidDocument = useCallback(
     async (doc: MerchantDocument) => {
       if (!confirm(t('alerts.cancelConfirm'))) return;
@@ -444,11 +435,6 @@ const MerchantDocumentsPage: React.FC = () => {
     URL.revokeObjectURL(url);
   }, [dateRange.label, stats, sortedDocs, t]);
 
-  // Handle new invoice success
-  const handleNewInvoiceSuccess = useCallback(() => {
-    refetch();
-  }, [refetch]);
-
   // Handle quick charge success
   const handleQuickChargeSuccess = useCallback(() => {
     refetch();
@@ -476,12 +462,6 @@ const MerchantDocumentsPage: React.FC = () => {
             onClick={() => setIsQuickChargeOpen(true)}
           >
             {t('actions.quickCharge', 'סליקה מהירה')}
-          </button>
-          <button
-            className="merchant-documents__btn merchant-documents__btn--primary"
-            onClick={() => setIsNewInvoiceOpen(true)}
-          >
-            {t('actions.newInvoice')}
           </button>
         </div>
       </div>
@@ -651,7 +631,6 @@ const MerchantDocumentsPage: React.FC = () => {
                       onDownload={handleDownloadDocument}
                       onView={handleViewDocument}
                       onSendEmail={handleSendEmail}
-                      onDuplicate={handleDuplicateDocument}
                       onVoid={handleVoidDocument}
                       onPrint={handlePrintDocument}
                       t={t}
@@ -678,15 +657,6 @@ const MerchantDocumentsPage: React.FC = () => {
           </button>
         </div>
       )}
-
-      {/* New Invoice Modal */}
-      <NewInvoiceModal
-        open={isNewInvoiceOpen}
-        onClose={() => setIsNewInvoiceOpen(false)}
-        onSuccess={handleNewInvoiceSuccess}
-        studioName={getLocalizedName(userStudios[0]?.name)}
-        vendorId={user?._id}
-      />
 
       {/* Quick Charge Modal */}
       <QuickChargeModal

@@ -25,3 +25,19 @@ export const createVendor = async (companyDetails: CompanyDetails, userId: strin
     throw error;
   }
 };
+
+export interface SaveVendorCardResponse {
+  success: boolean;
+  savedCardLastFour?: string;
+}
+
+/**
+ * Save vendor's credit card for platform fee billing (authenticated).
+ * Call after vendor onboarding (create) so the user has Sumit credentials.
+ */
+export const saveVendorCard = async (singleUseToken: string): Promise<SaveVendorCardResponse> => {
+  const response = await httpService.post<SaveVendorCardResponse>(`${vendorEndpoint}/save-card`, {
+    singleUseToken
+  });
+  return response;
+};

@@ -170,6 +170,25 @@
     "subtitle": "Simple, high-performance pricing for every stage of your studio's growth.",
     "period": "/mo",
     "trialBadge": "{{days}}-day free trial",
+    "freeForever": {
+      "title": "StudioZ is free.",
+      "titleAccent": "Forever.",
+      "subtitle": "0% upfront. We only earn when you earn — 9% on approved sessions.",
+      "tagline": "We only make money when you make money.",
+      "badge": "Free Plan",
+      "period": "/month",
+      "valueProp": "All features included. No monthly fees. We're fair and offer great value.",
+      "features": {
+        "unlimitedListings": "Unlimited listings & studios",
+        "calendarSync": "Google Calendar sync",
+        "payments": "Accept payments & invoicing",
+        "analytics": "Analytics & insights",
+        "invoicing": "Automated invoicing",
+        "support": "Standard support"
+      },
+      "cta": "Get Started",
+      "comparison": "Traditional platforms charge ₪49–99/month. We charge nothing. Just a small fee when you earn."
+    },
     "cta": {
       "start": "Get Started",
       "trial": "Start Free Trial"

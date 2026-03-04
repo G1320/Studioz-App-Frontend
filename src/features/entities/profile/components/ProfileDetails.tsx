@@ -188,15 +188,12 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     return t('profile.subscription.proPlan', 'Pro Plan');
   };
 
-  const getPlanPrice = () => {
-    if (isPro) return '99';
-    if (isStarter) return '49';
-    return '0';
-  };
-
-  // Sumit onboarding status
+  // Sumit onboarding status (vendor credentials + card on file for platform fees)
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
-  const showSumitCard = Boolean((user?.studios && user.studios.length > 0) || hasActiveSubscription);
+  const hasCardOnFile = Boolean(user?.sumitCustomerId || user?.savedCardLastFour);
+  const hasStudios = Boolean(user?.studios && user.studios.length > 0);
+  const showSumitCard = hasStudios || hasActiveSubscription;
+  const showSumitSetupBanner = hasStudios && !isSumitConnected;
 
   const [isCalendarSyncing, setIsCalendarSyncing] = useState(false);
   const handleCalendarToggle = async () => {
@@ -353,8 +350,24 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
         {/* Sidebar */}
         <div className="profile-sidebar">
-          {/* Google Calendar Integration */}
-          <div className={`profile-card profile-card--integration ${!hasActiveSubscription ? 'profile-card--locked' : ''}`}>
+          {/* Banner: studios but no Sumit — push to complete onboarding */}
+          {showSumitSetupBanner && (
+            <div className="profile-card profile-card--alert profile-card--sumit-required">
+              <p className="profile-card__alert-text">
+                {t('profile.sumit.setupRequired', 'Complete your payment setup to start receiving bookings')}
+              </p>
+              <button
+                type="button"
+                className="profile-btn profile-btn--full profile-btn--primary"
+                onClick={() => handleNavigate('/onboarding')}
+              >
+                {t('profile.sumit.buttons.completeSetup', 'Complete payment setup')} <OpenNewIcon />
+              </button>
+            </div>
+          )}
+
+          {/* Google Calendar Integration - available to everyone (free plan) */}
+          <div className="profile-card profile-card--integration">
             <div className="profile-card__glow profile-card__glow--blue" />
 
             <SectionTitle
@@ -384,48 +397,34 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 />
               </div>
 
-              {!hasActiveSubscription ? (
-                <div className="profile-integration-box__locked-overlay">
-                  <p className="profile-integration-box__locked-text">
-                    {t('profile.calendarLocked', 'Google Calendar Sync is available on paid plans')}
-                  </p>
+              <div className="profile-integration-box__actions">
+                {isGoogleCalendarConnected && (
                   <button
-                    className="profile-btn profile-btn--full profile-btn--google"
-                    onClick={() => langNavigate('/subscription')}
+                    type="button"
+                    className="profile-btn profile-btn--secondary profile-btn--small"
+                    onClick={handleCalendarSync}
+                    disabled={isCalendarSyncing || isCalendarLoading}
                   >
-                    {t('profile.buttons.upgradePlan', 'Upgrade Plan')}
+                    <RefreshIcon style={{ width: 14, height: 14 }} />
+                    {isCalendarSyncing ? t('profile.buttons.syncing', 'Syncing...') : t('profile.buttons.syncNow', 'Sync now')}
                   </button>
-                </div>
-              ) : (
-                <div className="profile-integration-box__actions">
-                  {isGoogleCalendarConnected && (
-                    <button
-                      type="button"
-                      className="profile-btn profile-btn--secondary profile-btn--small"
-                      onClick={handleCalendarSync}
-                      disabled={isCalendarSyncing || isCalendarLoading}
-                    >
-                      <RefreshIcon style={{ width: 14, height: 14 }} />
-                      {isCalendarSyncing ? t('profile.buttons.syncing', 'Syncing...') : t('profile.buttons.syncNow', 'Sync now')}
-                    </button>
+                )}
+                <button
+                  className={`profile-btn profile-btn--full ${isGoogleCalendarConnected ? 'profile-btn--secondary' : 'profile-btn--google'}`}
+                  onClick={handleCalendarToggle}
+                  disabled={isCalendarLoading}
+                >
+                  {isCalendarLoading ? (
+                    t('profile.buttons.saving', 'Loading...')
+                  ) : isGoogleCalendarConnected ? (
+                    t('profile.buttons.disconnect', 'Disconnect')
+                  ) : (
+                    <>
+                      {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
+                    </>
                   )}
-                  <button
-                    className={`profile-btn profile-btn--full ${isGoogleCalendarConnected ? 'profile-btn--secondary' : 'profile-btn--google'}`}
-                    onClick={handleCalendarToggle}
-                    disabled={isCalendarLoading}
-                  >
-                    {isCalendarLoading ? (
-                      t('profile.buttons.saving', 'Loading...')
-                    ) : isGoogleCalendarConnected ? (
-                      t('profile.buttons.disconnect', 'Disconnect')
-                    ) : (
-                      <>
-                        {t('profile.buttons.connectAccount', 'Connect Account')} <OpenNewIcon />
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -478,54 +477,61 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             </div>
           )}
 
-          {/* Subscription */}
-          <div
-            className={`profile-card profile-card--subscription ${hasActiveSubscription ? 'profile-card--subscription-active' : ''}`}
-          >
-            {hasActiveSubscription && <div className="profile-card__glow profile-card__glow--gold" />}
-
-            <SectionTitle icon={CreditCardIcon} title={t('profile.sections.subscription', 'Subscription')} />
+          {/* Platform Fee / Billing */}
+          <div className="profile-card profile-card--subscription profile-card--platform-fee">
+            <SectionTitle icon={CreditCardIcon} title={t('profile.sections.platformFee', 'Platform fee')} />
 
             <div className="profile-subscription-info">
               <div className="profile-subscription-info__header">
                 <div>
                   <span className="profile-subscription-info__label">
-                    {t('profile.subscription.currentPlan', 'Current Plan')}
+                    {t('profile.platformFee.plan', 'Plan')}
                   </span>
-                  <h3 className="profile-subscription-info__plan">{getPlanName()}</h3>
+                  <h3 className="profile-subscription-info__plan">
+                    {hasActiveSubscription ? getPlanName() : t('profile.platformFee.freePlan', 'Free')}
+                  </h3>
                 </div>
-                {hasActiveSubscription && (
-                  <div className="profile-subscription-info__price">
-                    <span className="profile-subscription-info__amount">₪{getPlanPrice()}</span>
-                    <span className="profile-subscription-info__period">
-                      /{t('profile.subscription.month', 'month')}
-                    </span>
-                  </div>
-                )}
               </div>
 
               <div className="profile-subscription-info__details">
+                <p className="profile-subscription-info__narrative">
+                  {t('profile.platformFee.narrative', 'We only make money when you make money.')}
+                </p>
                 <div className="profile-subscription-info__row">
-                  <span>{t('profile.subscription.status', 'Status')}</span>
+                  <span>{t('profile.platformFee.feeLabel', 'Platform fee')}</span>
+                  <span className="profile-subscription-info__status profile-subscription-info__status--active">
+                    9% {t('profile.platformFee.onSessions', 'on approved sessions')}
+                  </span>
+                </div>
+                <div className="profile-subscription-info__row">
+                  <span>{t('profile.platformFee.cardOnFile', 'Card on file')}</span>
                   <span
-                    className={`profile-subscription-info__status ${hasActiveSubscription ? 'profile-subscription-info__status--active' : ''}`}
+                    className={`profile-subscription-info__status ${hasCardOnFile ? 'profile-subscription-info__status--active' : ''}`}
                   >
-                    {hasActiveSubscription
-                      ? t('profile.subscription.active', 'Active')
-                      : t('profile.subscription.inactive', 'Inactive')}
+                    {hasCardOnFile
+                      ? (user?.savedCardLastFour ? `•••• ${user.savedCardLastFour}` : t('profile.platformFee.saved', 'Saved'))
+                      : t('profile.platformFee.notSaved', 'Not set')}
                   </span>
                 </div>
               </div>
 
-              <button
-                className="profile-btn profile-btn--primary profile-btn--full"
-                onClick={() => handleNavigate(hasActiveSubscription ? '/my-subscription' : '/subscription')}
-              >
-                {hasActiveSubscription
-                  ? t('profile.buttons.manageSubscription', 'Manage Subscription')
-                  : t('profile.buttons.upgrade', 'Upgrade')}
-                <ChevronRightIcon className="profile-btn__chevron" />
-              </button>
+              {hasActiveSubscription ? (
+                <button
+                  className="profile-btn profile-btn--primary profile-btn--full"
+                  onClick={() => handleNavigate('/my-subscription')}
+                >
+                  {t('profile.buttons.manageSubscription', 'Manage Subscription')}
+                  <ChevronRightIcon className="profile-btn__chevron" />
+                </button>
+              ) : (
+                <button
+                  className="profile-btn profile-btn--secondary profile-btn--full"
+                  onClick={() => handleNavigate('/dashboard?tab=billing')}
+                >
+                  {t('profile.buttons.viewBilling', 'View billing')}
+                  <ChevronRightIcon className="profile-btn__chevron" />
+                </button>
+              )}
             </div>
           </div>
 

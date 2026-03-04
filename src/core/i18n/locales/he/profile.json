@@ -21,7 +21,8 @@
       "connectAccount": "התחבר לחשבון",
       "manageSubscription": "ניהול מנוי",
       "upgrade": "שדרג",
-      "upgradePlan": "שדרג מסלול"
+      "upgradePlan": "שדרג מסלול",
+      "viewBilling": "צפה בחיוב"
     },
     "email": {
       "label": "אימייל",
@@ -65,18 +66,31 @@
       "calendarDesc": "סנכרן את ההזמנות שלך עם Google Calendar",
       "sumit": "סליקת אשראי",
       "sumitDesc": "קבל תשלומים באשראי ישירות לחשבון הבנק",
-      "subscription": "מנוי ותשלומים"
+      "subscription": "מנוי ותשלומים",
+      "platformFee": "עמלת פלטפורמה"
     },
     "sumit": {
       "provider": "Sumit.co.il",
+      "setupRequired": "השלם את הגדרת התשלום כדי להתחיל לקבל הזמנות",
       "status": {
         "pending": "סטטוס הרשמה",
         "active": "מחובר ופעיל"
       },
       "buttons": {
         "continue": "המשך בתהליך הרשמה",
-        "manage": "ניהול"
+        "manage": "ניהול",
+        "completeSetup": "השלם הגדרת תשלום"
       }
+    },
+    "platformFee": {
+      "plan": "תוכנית",
+      "freePlan": "חינם",
+      "feeLabel": "עמלת פלטפורמה",
+      "onSessions": "על סשנים שאושרו",
+      "narrative": "אנחנו מרוויחים רק כשאתה מרוויח.",
+      "cardOnFile": "כרטיס על הקובץ",
+      "saved": "שמור",
+      "notSaved": "לא הוגדר"
     },
     "fields": {
       "firstName": "שם פרטי",

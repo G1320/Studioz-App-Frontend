@@ -528,6 +528,21 @@
 }
 
 // ==========================================
+// Alert card (e.g. Sumit setup required)
+// ==========================================
+.profile-card--alert {
+  border-color: var(--color-brand);
+  background: var(--color-brand-bg);
+}
+
+.profile-card__alert-text {
+  margin: 0 0 0.75rem;
+  font-size: ds.$font-sm;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+// ==========================================
 // Locked card (free tier gating)
 // ==========================================
 .profile-card--locked {
@@ -600,6 +615,15 @@
     margin: 1rem 0;
     padding-top: 1rem;
     border-top: 1px solid rgba(var(--border-primary), 0.5);
+  }
+
+  &__narrative {
+    font-size: ds.$font-sm;
+    font-weight: 600;
+    color: var(--color-brand);
+    margin: 0 0 0.75rem;
+    font-style: italic;
+    line-height: 1.4;
   }
 
   &__row {

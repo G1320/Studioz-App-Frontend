@@ -170,6 +170,25 @@
     "subtitle": "תמחור פשוט  לכל שלב בצמיחה שלך.",
     "period": "/לחודש",
     "trialBadge": "{{days}} ימי ניסיון חינם",
+    "freeForever": {
+      "title": "StudioZ בחינם.",
+      "titleAccent": "לתמיד.",
+      "subtitle": "0% מקדמה. אנחנו מרוויחים רק כשאתה מרוויח — 9% על סשנים שאושרו.",
+      "tagline": "אנחנו מרוויחים רק כשאתה מרוויח.",
+      "badge": "תוכנית חינם",
+      "period": "/חודש",
+      "valueProp": "כל התכונות כלולות. בלי דמי מנוי.",
+      "features": {
+        "unlimitedListings": "עמודים ואולפנים ללא הגבלה",
+        "calendarSync": "סנכרון Google Calendar",
+        "payments": "קבלת תשלומים והנפקת חשבוניות",
+        "analytics": "אנליטיקה ותובנות",
+        "invoicing": "חשבוניות אוטומטיות",
+        "support": "תמיכה טכנית"
+      },
+      "cta": "התחל עכשיו",
+      "comparison": ""
+    },
     "cta": {
       "start": "התחל עכשיו",
       "trial": "התחל ניסיון חינם"
@@ -183,7 +202,7 @@
           "calendar": "יומן דיגיטלי",
           "approvals": "עד 3 שירותים",
           "unlimitedSessions": "סשנים ללא הגבלה",
-          "support": "תמיכה סטנדרטית"
+          "support": "תמיכה טכנית"
         },
         "excluded": {
           "googleSync": "סנכרון Google Calendar",

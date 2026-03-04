@@ -32,7 +32,7 @@ import {
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { DayOfWeek, StudioAvailability, EquipmentCategory, PortfolioItem, SocialLinks } from 'src/types/studio';
-import { STUDIO_NAME_MAX, STUDIO_SUBTITLE_MAX, STUDIO_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
+import { STUDIO_NAME_MAX, STUDIO_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 
 interface StudioFormData {
   coverImage?: string;
@@ -319,8 +319,6 @@ export const EditStudioForm = () => {
           'languageToggle',
           'name.en',
           'name.he',
-          'subtitle.en',
-          'subtitle.he',
           'description.en',
           'description.he'
         ],
@@ -454,26 +452,6 @@ export const EditStudioForm = () => {
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
       helperText: t('form.name.helperText'),
       maxLength: STUDIO_NAME_MAX,
-      showCharCounter: true
-    },
-    {
-      name: 'subtitle.en',
-      label: `${t('form.subtitle.en')} 🇺🇸`,
-      type: 'text' as FieldType,
-      value: studio?.subtitle?.en,
-      placeholder: t('form.subtitle.placeholder', { defaultValue: 'e.g. Professional Recording & Mixing' }),
-      helperText: t('form.subtitle.helperText'),
-      maxLength: STUDIO_SUBTITLE_MAX,
-      showCharCounter: true
-    },
-    {
-      name: 'subtitle.he',
-      label: `${t('form.subtitle.he')} 🇮🇱`,
-      type: 'text' as FieldType,
-      value: studio?.subtitle?.he,
-      placeholder: t('form.subtitle.placeholderHe', { defaultValue: 'לדוגמה: הקלטות ומיקס מקצועי' }),
-      helperText: t('form.subtitle.helperText'),
-      maxLength: STUDIO_SUBTITLE_MAX,
       showCharCounter: true
     },
     {

@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 import { FileUploader, SteppedForm, FieldType, FormStep, PortfolioStep } from '@shared/components';
 import type { CancellationPolicy } from '@shared/components';
 import { AmenitiesSelector } from '@shared/components/amenities-selector';
@@ -33,8 +34,6 @@ import {
   useStudioFileUpload,
   useFormAutoSaveUncontrolled,
   useControlledStateAutoSave,
-  useSubscription,
-  useStudios,
   useAuth0LoginHandler
 } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
@@ -42,7 +41,7 @@ import { Studio } from 'src/types/index';
 import { toast } from 'sonner';
 import { DayOfWeek, StudioAvailability, EquipmentCategory, PortfolioItem, SocialLinks } from 'src/types/studio';
 import { loadFormState } from '@shared/utils/formAutoSaveUtils';
-import { STUDIO_NAME_MAX, STUDIO_SUBTITLE_MAX, STUDIO_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
+import { STUDIO_NAME_MAX, STUDIO_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 
 interface StudioFormData {
   coverImage?: string;
@@ -74,8 +73,7 @@ export const CreateStudioForm = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getDays, getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
-  const { isPro, isStarter } = useSubscription();
-  const { data: allStudios = [] } = useStudios();
+  const langNavigate = useLanguageNavigate();
 
   const { t, i18n } = useTranslation('forms');
 
@@ -92,15 +90,6 @@ export const CreateStudioForm = () => {
   const createStudioMutation = useCreateStudioMutation();
 
   const FORM_ID = 'create-studio';
-
-  // Count user's existing studios
-  const userStudioCount = useMemo(() => {
-    if (!user?._id) return 0;
-    return allStudios.filter((studio) => studio.createdBy === user._id).length;
-  }, [allStudios, user?._id]);
-
-  // Check if user has paid subscription (Starter or Pro)
-  const hasPaidSubscription = isPro || isStarter;
 
   // Load saved state on mount (before initializing useState)
   const savedState = loadFormState<{
@@ -404,8 +393,6 @@ export const CreateStudioForm = () => {
           'languageToggle',
           'name.en',
           'name.he',
-          'subtitle.en',
-          'subtitle.he',
           'description.en',
           'description.he'
         ],
@@ -551,24 +538,6 @@ export const CreateStudioForm = () => {
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
       helperText: t('form.name.helperText'),
       maxLength: STUDIO_NAME_MAX,
-      showCharCounter: true
-    },
-    {
-      name: 'subtitle.en',
-      label: `${t('form.subtitle.en')} 🇺🇸`,
-      type: 'text' as FieldType,
-      placeholder: t('form.subtitle.placeholder', { defaultValue: 'e.g. Professional Recording & Mixing' }),
-      helperText: t('form.subtitle.helperText'),
-      maxLength: STUDIO_SUBTITLE_MAX,
-      showCharCounter: true
-    },
-    {
-      name: 'subtitle.he',
-      label: `${t('form.subtitle.he')} 🇮🇱`,
-      type: 'text' as FieldType,
-      placeholder: t('form.subtitle.placeholderHe', { defaultValue: 'לדוגמה: הקלטות ומיקס מקצועי' }),
-      helperText: t('form.subtitle.helperText'),
-      maxLength: STUDIO_SUBTITLE_MAX,
       showCharCounter: true
     },
     {
@@ -777,16 +746,6 @@ export const CreateStudioForm = () => {
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;
 
-    // Check if user can create a studio
-    // Free users (without paid subscription) are limited to 1 studio
-    if (!hasPaidSubscription && userStudioCount >= 1) {
-      return toast.error(
-        t('form.errors.studioLimitReached', {
-          defaultValue: 'Free accounts are limited to 1 studio. Please upgrade to a paid plan to create more studios.'
-        })
-      );
-    }
-
     createStudioMutation.mutate(
       {
         userId: user?._id || '',
@@ -802,6 +761,15 @@ export const CreateStudioForm = () => {
           // Clear saved form data and controlled state after successful submission
           clearSavedData();
           clearSavedState();
+          // If vendor has not completed Sumit onboarding, redirect to complete payment setup
+          if (!user?.sumitCompanyId) {
+            toast.success(
+              t('form.studioCreatedCompletePayment', {
+                defaultValue: 'Your studio is created! Complete payment setup to start accepting bookings.'
+              })
+            );
+            langNavigate('/onboarding');
+          }
         }
       }
     );

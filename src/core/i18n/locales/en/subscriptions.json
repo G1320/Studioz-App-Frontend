@@ -132,8 +132,9 @@
     "loading": "Loading...",
     "noSubscription": {
       "title": "No Active Subscription",
-      "description": "Upgrade your account to access premium features",
-      "viewPlans": "View Plans"
+      "description": "Add a payment method to pay platform fees when you earn.",
+      "viewPlans": "View Plans",
+      "viewBilling": "View billing"
     },
     "status": {
       "active": "Active",
@@ -159,11 +160,20 @@
       "price": {
         "label": "Price",
         "value": "₪{{amount}} / month"
+      },
+      "monthlyFee": {
+        "label": "Monthly fee",
+        "free": "Free"
+      },
+      "platformFee": {
+        "label": "Platform fee",
+        "value": "9% on approved sessions"
       }
     },
     "actions": {
       "managePlan": "Manage Plan",
       "upgradePlan": "Upgrade Plan",
+      "managePayment": "Manage payment method",
       "cancelPlan": "Cancel Plan"
     },
     "cancellation": {

@@ -27,6 +27,45 @@
     }
   }
 
+  &__setup-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: vars.$spacing-medium;
+    padding: vars.$spacing-medium vars.$spacing-large;
+    margin-bottom: vars.$spacing-large;
+    background: var(--color-brand-bg);
+    border: 1px solid var(--color-brand);
+    border-radius: vars.$border-radius-large;
+    color: var(--text-primary);
+  }
+
+  &__setup-banner-text {
+    margin: 0;
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+  }
+
+  &__setup-banner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    padding: vars.$spacing-small vars.$spacing-medium;
+    background: var(--color-brand);
+    color: #000;
+    border: none;
+    border-radius: vars.$border-radius-medium;
+    font-weight: 700;
+    font-size: vars.$font-size-small;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
   &__views {
     margin-top: vars.$spacing-large;
 
