@@ -119,7 +119,7 @@ export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCu
             {t('projections.chartSubtitle', 'הקו המקווקו מציג הערכת הכנסות ל־3 החודשים הבאים לפי מגמת החודשים האחרונים')}
           </p>
           <ResponsiveContainer width="100%" height={320}>
-            <ComposedChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+            <ComposedChart data={chartData} margin={{ top: 20, right: 20, left: 10, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} />
               <XAxis
                 dataKey="name"
@@ -128,6 +128,8 @@ export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCu
               />
               <YAxis
                 tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+              tickMargin={20}
+              width={68}
                 tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
               />
               <Tooltip

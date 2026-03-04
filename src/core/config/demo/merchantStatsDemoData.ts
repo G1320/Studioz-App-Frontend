@@ -310,11 +310,14 @@ export function getDemoProjections(): ProjectionsResponse {
   const monthly = buildMonthlyRevenue();
   const lastThree = monthly.slice(-3);
   const avg = lastThree.reduce((a, b) => a + b, 0) / 3;
+  const m1 = Math.round(avg);
+  const m2 = Math.round(avg * 1.03);
+  const m3 = Math.round(avg * 1.06);
   return {
     confirmedUpcoming: 4200,
-    projectedMonthly: [Math.round(avg), Math.round(avg * 1.02), Math.round(avg * 1.04)],
+    projectedMonthly: [m1, m1 + m2, m1 + m2 + m3],
     monthlyActuals: monthly,
-    projectedLine: [Math.round(avg), Math.round(avg * 1.02), Math.round(avg * 1.04)],
+    projectedLine: [m1, m2, m3],
     confidence: 'high'
   };
 }
