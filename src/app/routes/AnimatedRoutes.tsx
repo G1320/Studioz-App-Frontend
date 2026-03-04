@@ -49,6 +49,7 @@ const MyReservationsPage = lazyWithRetry(() => import('@features/entities/reserv
 const ReservationDetailsPage = lazyWithRetry(() => import('@features/entities/reservations/pages/ReservationDetailsPage'));
 // const LandingPage = lazyWithRetry(() => import('@features/landing/pages/LandingPage'));
 const ProfilePage = lazyWithRetry(() => import('@features/entities/profile/pages/ProfilePage'));
+const NotificationsPage = lazyWithRetry(() => import('@features/entities/notifications/pages/NotificationsPage'));
 const AdminPage = lazyWithRetry(() => import('@features/entities/admin/pages/AdminPage'));
 const ProjectsListPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectsListPage'));
 const ProjectDetailPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectDetailPage'));
@@ -293,6 +294,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <ProfilePage user={user || null} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/notifications"
+            element={
+              <AnimatedRoute>
+                <NotificationsPage />
               </AnimatedRoute>
             }
           />

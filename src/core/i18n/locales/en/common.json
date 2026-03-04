@@ -143,8 +143,60 @@
     "loading": "Loading notifications...",
     "empty": "No notifications",
     "markAllAsRead": "Mark all as read",
+    "deleteAllRead": "Clear read",
+    "seeAll": "See all notifications",
+    "markAllRead": "Mark all as read",
+    "deleteRead": "Clear read",
+    "deleteNotification": "Delete notification",
     "messages": {
       "reservationBooked": "{{name}} booked {{item}} on {{date}} at {{time}}"
+    },
+    "page": {
+      "title": "Notifications",
+      "empty": "No notifications yet",
+      "emptyFilter": "Try selecting a different category"
+    },
+    "categories": {
+      "all": "All",
+      "bookings": "Bookings",
+      "payments": "Payments",
+      "reviews": "Reviews",
+      "billing": "Billing",
+      "system": "System",
+      "activity": "Activity"
+    },
+    "prefs": {
+      "emailNotifications": "Email notifications",
+      "pushNotifications": "Push notifications",
+      "category": "Category",
+      "inApp": "In-App",
+      "email": "Email",
+      "push": "Push",
+      "inAppAlwaysOn": "In-app notifications are always on",
+      "quietHours": "Quiet hours",
+      "quietHoursDesc": "Suppress non-critical notifications during set hours",
+      "from": "From",
+      "to": "To"
+    },
+    "types": {
+      "new_reservation": "New Booking",
+      "reservation_confirmed": "Booking Confirmed",
+      "reservation_cancelled": "Booking Cancelled",
+      "reservation_expired": "Booking Expired",
+      "reservation_modified": "Booking Modified",
+      "reservation_reminder": "Booking Reminder",
+      "payout_completed": "Payout Completed",
+      "payout_failed": "Payout Failed",
+      "new_review": "New Review",
+      "subscription_trial_ending": "Trial Ending Soon",
+      "subscription_payment_failed": "Payment Failed",
+      "subscription_renewed": "Subscription Renewed",
+      "calendar_sync_error": "Calendar Sync Error",
+      "platform_announcement": "Announcement",
+      "weekly_summary": "Weekly Summary",
+      "customer_message": "New Message",
+      "availability_alert": "Availability Alert",
+      "system_alert": "System Alert"
     }
   },
   "reviews": {
@@ -202,6 +254,7 @@
       "vendorCreated": "Vendor account created successfully",
       "notificationDeleted": "Notification deleted",
       "allNotificationsRead": "All notifications marked as read",
+      "allReadNotificationsDeleted": "Read notifications deleted",
       "cartUpdated": "Cart updated",
       "cartCleared": "Cart cleared",
       "itemsAddedToCart": "Items added to cart",

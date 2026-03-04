@@ -23,6 +23,7 @@ import {
   ShieldIcon,
   RefreshIcon
 } from '@shared/components/icons';
+import { NotificationPreferences } from '@shared/components/notifications';
 
 import '../styles/_profile-page.scss';
 
@@ -335,16 +336,14 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             </div>
           </div>
 
-          {/* Security Section (Coming Soon) */}
-          <div className="profile-card profile-card--disabled profile-card--security">
+          {/* Notification Preferences */}
+          <div className="profile-card profile-card--security">
             <SectionTitle
               icon={ShieldIcon}
-              title={t('profile.sections.security', 'Security & Notifications')}
-              description={t('profile.sections.securityDesc', 'Coming soon: Manage passwords and email preferences')}
+              title={t('profile.sections.security', 'Notification Preferences')}
+              description={t('profile.sections.securityDesc', 'Control how and when you receive notifications')}
             />
-            <div className="profile-coming-soon">
-              {t('profile.comingSoon', 'This section will be available in the next version')}
-            </div>
+            <NotificationPreferences />
           </div>
         </div>
 

@@ -1,23 +1,29 @@
-import { createContext, useContext, useEffect, ReactNode, useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { createContext, useContext, useEffect, useMemo, ReactNode, useCallback } from 'react';
+import { useQueryClient, useQuery, useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
 import { useSocket } from './SocketContext';
 import { useUserContext } from './UserContext';
-import Notification from 'src/types/notification';
+import Notification from '@appTypes/notification';
 import { getNotifications, getUnreadNotificationCount } from '@shared/services/notification-service';
 import {
   useMarkNotificationAsReadMutation,
   useMarkAllNotificationsAsReadMutation,
-  useDeleteNotificationMutation
+  useDeleteNotificationMutation,
+  useDeleteAllReadNotificationsMutation
 } from '@shared/hooks/mutations';
-import { useQuery } from '@tanstack/react-query';
+
+const PAGE_SIZE = 10;
 
 interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
   isLoading: boolean;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
   markAsRead: (notificationId: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
   deleteNotificationById: (notificationId: string) => Promise<void>;
+  deleteAllRead: () => Promise<void>;
   refetch: () => void;
 }
 
@@ -32,21 +38,35 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   const socket = useSocket();
   const queryClient = useQueryClient();
 
-  // Fetch notifications
-  const { data: notifications = [], isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    hasNextPage = false,
+    isFetchingNextPage,
+    fetchNextPage
+  } = useInfiniteQuery({
     queryKey: ['notifications', user?._id],
-    queryFn: () => getNotifications({ limit: 20 }),
+    queryFn: ({ pageParam }) =>
+      getNotifications({ limit: PAGE_SIZE, cursor: pageParam as string | undefined }),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length < PAGE_SIZE) return undefined;
+      const lastItem = lastPage[lastPage.length - 1];
+      return lastItem?.createdAt;
+    },
     enabled: !!user?._id,
     refetchOnWindowFocus: false,
-    staleTime: 30000 // 30 seconds
+    staleTime: 30000
   });
+
+  const notifications = useMemo(() => data?.pages.flat() ?? [], [data]);
 
   // Fetch unread count
   const { data: unreadCountData } = useQuery({
     queryKey: ['notificationCount', user?._id],
     queryFn: getUnreadNotificationCount,
     enabled: !!user?._id,
-    refetchInterval: 60000 // Refetch every minute
+    refetchInterval: 60000
   });
 
   const unreadCount = unreadCountData?.count || 0;
@@ -55,25 +75,32 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   const markAsReadMutation = useMarkNotificationAsReadMutation();
   const markAllAsReadMutation = useMarkAllNotificationsAsReadMutation();
   const deleteNotificationMutation = useDeleteNotificationMutation();
+  const deleteAllReadMutation = useDeleteAllReadNotificationsMutation();
 
   // Handle socket events
   useEffect(() => {
     if (!socket || !user?._id) return;
 
-    const handleNewNotification = (data: { notification: Notification }) => {
-      // Add new notification to the list
-      queryClient.setQueryData(['notifications', user._id], (old: Notification[] = []) => {
-        return [data.notification, ...old].slice(0, 20);
-      });
+    const handleNewNotification = (incoming: { notification: Notification }) => {
+      queryClient.setQueryData<InfiniteData<Notification[]>>(
+        ['notifications', user._id],
+        (old) => {
+          if (!old) return old;
+          const firstPage = old.pages[0] ?? [];
+          return {
+            ...old,
+            pages: [[incoming.notification, ...firstPage], ...old.pages.slice(1)]
+          };
+        }
+      );
 
-      // Update unread count
       queryClient.setQueryData(['notificationCount', user._id], (old: { count: number } = { count: 0 }) => {
         return { count: old.count + 1 };
       });
     };
 
-    const handleCountUpdate = (data: { count: number }) => {
-      queryClient.setQueryData(['notificationCount', user._id], { count: data.count });
+    const handleCountUpdate = (incoming: { count: number }) => {
+      queryClient.setQueryData(['notificationCount', user._id], { count: incoming.count });
     };
 
     socket.on('notification:new', handleNewNotification);
@@ -103,13 +130,21 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     [deleteNotificationMutation]
   );
 
+  const deleteAllRead = useCallback(async () => {
+    await deleteAllReadMutation.mutateAsync();
+  }, [deleteAllReadMutation]);
+
   const value: NotificationContextType = {
     notifications,
     unreadCount,
     isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
     markAsRead,
     markAllAsRead,
     deleteNotificationById,
+    deleteAllRead,
     refetch: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications', user?._id] });
       queryClient.invalidateQueries({ queryKey: ['notificationCount', user?._id] });
@@ -119,20 +154,22 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 
-// Default context value for when provider isn't ready (HMR, initial load race conditions)
 const defaultContextValue: NotificationContextType = {
   notifications: [],
   unreadCount: 0,
   isLoading: false,
+  hasNextPage: false,
+  isFetchingNextPage: false,
+  fetchNextPage: () => {},
   markAsRead: async () => {},
   markAllAsRead: async () => {},
   deleteNotificationById: async () => {},
+  deleteAllRead: async () => {},
   refetch: () => {}
 };
 
 export const useNotificationContext = (): NotificationContextType => {
   const context = useContext(NotificationContext);
-  // Return default value instead of throwing to handle HMR and race conditions gracefully
   if (context === undefined) {
     return defaultContextValue;
   }

@@ -143,8 +143,60 @@
     "loading": "טוען התראות...",
     "empty": "אין התראות",
     "markAllAsRead": "סמן הכל כנקרא",
+    "deleteAllRead": "נקה נקראות",
+    "seeAll": "הצג את כל ההתראות",
+    "markAllRead": "סמן הכל כנקרא",
+    "deleteRead": "נקה נקראות",
+    "deleteNotification": "מחק התראה",
     "messages": {
       "reservationBooked": "{{name}} הזמין {{item}} ב {{date}} בשעה {{time}}"
+    },
+    "page": {
+      "title": "התראות",
+      "empty": "אין התראות עדיין",
+      "emptyFilter": "נסה לבחור קטגוריה אחרת"
+    },
+    "categories": {
+      "all": "הכל",
+      "bookings": "הזמנות",
+      "payments": "תשלומים",
+      "reviews": "ביקורות",
+      "billing": "חיוב",
+      "system": "מערכת",
+      "activity": "פעילות"
+    },
+    "prefs": {
+      "emailNotifications": "התראות באימייל",
+      "pushNotifications": "התראות פוש",
+      "category": "קטגוריה",
+      "inApp": "באפליקציה",
+      "email": "אימייל",
+      "push": "פוש",
+      "inAppAlwaysOn": "התראות באפליקציה תמיד פעילות",
+      "quietHours": "שעות שקטות",
+      "quietHoursDesc": "השתק התראות לא קריטיות בשעות מוגדרות",
+      "from": "מ",
+      "to": "עד"
+    },
+    "types": {
+      "new_reservation": "הזמנה חדשה",
+      "reservation_confirmed": "הזמנה אושרה",
+      "reservation_cancelled": "הזמנה בוטלה",
+      "reservation_expired": "הזמנה פגה",
+      "reservation_modified": "הזמנה שונתה",
+      "reservation_reminder": "תזכורת הזמנה",
+      "payout_completed": "תשלום הושלם",
+      "payout_failed": "תשלום נכשל",
+      "new_review": "ביקורת חדשה",
+      "subscription_trial_ending": "תקופת הניסיון מסתיימת",
+      "subscription_payment_failed": "תשלום מנוי נכשל",
+      "subscription_renewed": "מנוי חודש",
+      "calendar_sync_error": "שגיאת סנכרון יומן",
+      "platform_announcement": "הודעה",
+      "weekly_summary": "סיכום שבועי",
+      "customer_message": "הודעה חדשה",
+      "availability_alert": "התראת זמינות",
+      "system_alert": "התראת מערכת"
     }
   },
   "reviews": {
@@ -202,6 +254,7 @@
       "vendorCreated": "חשבון הספק נוצר בהצלחה",
       "notificationDeleted": "ההתראה נמחקה",
       "allNotificationsRead": "כל ההתראות סומנו כנקראו",
+      "allReadNotificationsDeleted": "ההתראות שנקראו נמחקו",
       "cartUpdated": "העגלה עודכנה",
       "cartCleared": "העגלה נוקתה",
       "itemsAddedToCart": "פריטים נוספו לעגלה",

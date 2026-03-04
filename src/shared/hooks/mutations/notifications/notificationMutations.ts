@@ -1,12 +1,13 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, InfiniteData } from '@tanstack/react-query';
 import { getLocalUser } from '@shared/services';
 import { useMutationHandler } from '@shared/hooks';
 import {
   markNotificationAsRead,
   markAllNotificationsAsRead,
-  deleteNotification
+  deleteNotification,
+  deleteAllReadNotifications
 } from '@shared/services/notification-service';
-import Notification from 'src/types/notification';
+import Notification from '@appTypes/notification';
 import { useTranslation } from 'react-i18next';
 
 export const useMarkNotificationAsReadMutation = () => {
@@ -35,6 +36,20 @@ export const useMarkAllNotificationsAsReadMutation = () => {
   });
 };
 
+export const useDeleteAllReadNotificationsMutation = () => {
+  const userId = getLocalUser()?._id;
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<{ deletedCount: number }, void>({
+    mutationFn: () => deleteAllReadNotifications(),
+    successMessage: t('toasts.success.allReadNotificationsDeleted', 'Read notifications deleted'),
+    invalidateQueries: [
+      { queryKey: 'notifications', targetId: userId },
+      { queryKey: 'notificationCount', targetId: userId }
+    ]
+  });
+};
+
 export const useDeleteNotificationMutation = () => {
   const userId = getLocalUser()?._id;
   const queryClient = useQueryClient();
@@ -48,18 +63,24 @@ export const useDeleteNotificationMutation = () => {
       { queryKey: 'notificationCount', targetId: userId }
     ],
     onSuccess: (_data, notificationId) => {
-      // Optimistically remove the notification from cache for immediate UI update
-      queryClient.setQueryData(['notifications', userId], (old: Notification[] = []) => {
-        const filtered = old.filter((n) => n._id !== notificationId);
-        // Also optimistically update unread count if the deleted notification was unread
-        const deletedNotification = old.find((n) => n._id === notificationId);
-        if (deletedNotification && !deletedNotification.read) {
-          queryClient.setQueryData(['notificationCount', userId], (oldCount: { count: number } = { count: 0 }) => {
-            return { count: Math.max(0, oldCount.count - 1) };
+      queryClient.setQueryData<InfiniteData<Notification[]>>(
+        ['notifications', userId],
+        (old) => {
+          if (!old) return old;
+          let wasUnread = false;
+          const pages = old.pages.map((page) => {
+            const target = page.find((n) => n._id === notificationId);
+            if (target && !target.read) wasUnread = true;
+            return page.filter((n) => n._id !== notificationId);
           });
+          if (wasUnread) {
+            queryClient.setQueryData(['notificationCount', userId], (oldCount: { count: number } = { count: 0 }) => ({
+              count: Math.max(0, oldCount.count - 1)
+            }));
+          }
+          return { ...old, pages };
         }
-        return filtered;
-      });
+      );
     }
   });
 };

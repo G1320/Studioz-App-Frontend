@@ -84,7 +84,7 @@ export default defineConfig(({ _command, mode }) => {
         '@features': path.resolve(__dirname, './src/features'),
         '@app': path.resolve(__dirname, './src/app'),
         '@core': path.resolve(__dirname, './src/core'),
-        '@types': path.resolve(__dirname, './src/types')
+        '@appTypes': path.resolve(__dirname, './src/types')
       }
     },
     css: {

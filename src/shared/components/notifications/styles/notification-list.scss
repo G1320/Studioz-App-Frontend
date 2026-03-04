@@ -8,7 +8,7 @@
 // ==========================================
 
 .notification-list {
-  max-height: 380px;
+  max-height: min(75vh, 520px);
   overflow: hidden;
   background-color: var(--dropdown-bg);
   border-radius: vars.$border-radius-xl;
@@ -37,7 +37,14 @@
     letter-spacing: -0.01em;
   }
 
-  &__mark-all-read {
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  &__mark-all-read,
+  &__delete-read {
     background: var(--color-brand-bg);
     border: none;
     color: var(--color-brand);
@@ -47,6 +54,7 @@
     padding: 0.25rem 0.625rem;
     border-radius: 999px;
     transition: all 0.2s ease;
+    white-space: nowrap;
 
     &:hover {
       background: var(--color-brand-glow);
@@ -58,9 +66,19 @@
     }
   }
 
+  &__delete-read {
+    background: var(--color-error-bg, rgba(239, 68, 68, 0.1));
+    color: var(--color-error, #ef4444);
+
+    &:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--color-error, #ef4444);
+    }
+  }
+
   &__items {
     min-height: 60px;
-    max-height: 320px;
+    flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -115,6 +133,40 @@
       opacity: 0.4;
     }
   }
+
+  &__see-all {
+    display: block;
+    text-align: center;
+    padding: 0.625rem 0.875rem;
+    border-top: 1px solid var(--border-primary);
+    color: var(--color-brand);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--color-brand-bg);
+    }
+  }
+
+  &__loading-more {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+
+    &::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-primary);
+      border-top-color: var(--color-brand);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+
 }
 
 @keyframes spin {
@@ -129,7 +181,7 @@
 
 @media (max-width: 768px) {
   .notification-list {
-    max-height: 340px;
+    max-height: min(70vh, 400px);
 
     &__header {
       padding: 0.5rem 0.75rem;
@@ -145,8 +197,6 @@
     }
 
     &__items {
-      max-height: 280px;
-
       &::-webkit-scrollbar {
         width: 3px;
       }

@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Notification from 'src/types/notification';
+import Notification from '@appTypes/notification';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { useReservationModal } from '@core/contexts/ReservationModalContext';
 import { useReservation } from '@shared/hooks';
 import { usePopupDropdownClose } from '@shared/components/drop-downs/PopupDropdown';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/he';
 import {
   DeleteIcon,
   NotificationIcon,
@@ -15,7 +16,14 @@ import {
   CancelIcon,
   ClockIcon,
   EditIcon,
-  CampaignIcon
+  CampaignIcon,
+  MoneyIcon,
+  StarIcon,
+  CreditCardIcon,
+  SyncDisabledIcon,
+  BarChartIcon,
+  EmailIcon,
+  ErrorIcon
 } from '@shared/components/icons';
 import '../styles/notification-item.scss';
 
@@ -74,48 +82,70 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
 
   const getNotificationIcon = () => {
     const iconStyle = { fontSize: 24 };
-    
+    const glow = (color: string, rgb: string) => ({
+      ...iconStyle,
+      color,
+      filter: `drop-shadow(0 0 8px rgba(${rgb},0.5))`
+    });
+
     switch (notification.type) {
+      // Bookings
       case 'new_reservation':
-        return (
-          <NotificationIcon 
-            style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
-          />
-        );
+        return <NotificationIcon style={glow('#ffd166', '255,209,102')} />;
       case 'reservation_confirmed':
-        return (
-          <CheckCircleIcon 
-            style={{ ...iconStyle, color: '#22c55e', filter: 'drop-shadow(0 0 8px rgba(34,197,94,0.5))' }} 
-          />
-        );
+        return <CheckCircleIcon style={glow('#22c55e', '34,197,94')} />;
       case 'reservation_cancelled':
-        return (
-          <CancelIcon 
-            style={{ ...iconStyle, color: '#ef4444', filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.5))' }} 
-          />
-        );
+        return <CancelIcon style={glow('#ef4444', '239,68,68')} />;
       case 'reservation_expired':
-        return (
-          <ClockIcon 
-            style={{ ...iconStyle, color: '#fb7185', filter: 'drop-shadow(0 0 8px rgba(251,113,133,0.5))' }} 
-          />
-        );
+        return <ClockIcon style={glow('#fb7185', '251,113,133')} />;
       case 'reservation_modified':
-        return (
-          <EditIcon 
-            style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
-          />
-        );
+        return <EditIcon style={glow('#ffd166', '255,209,102')} />;
+      case 'reservation_reminder':
+        return <ClockIcon style={glow('#60a5fa', '96,165,250')} />;
+
+      // Payments
+      case 'payout_completed':
+        return <MoneyIcon style={glow('#22c55e', '34,197,94')} />;
+      case 'payout_failed':
+        return <MoneyIcon style={glow('#ef4444', '239,68,68')} />;
+
+      // Reviews
+      case 'new_review':
+        return <StarIcon style={glow('#fbbf24', '251,191,36')} />;
+
+      // Billing
+      case 'subscription_trial_ending':
+        return <CreditCardIcon style={glow('#f59e0b', '245,158,11')} />;
+      case 'subscription_payment_failed':
+        return <CreditCardIcon style={glow('#ef4444', '239,68,68')} />;
+      case 'subscription_renewed':
+        return <CreditCardIcon style={glow('#22c55e', '34,197,94')} />;
+
+      // System
+      case 'calendar_sync_error':
+        return <SyncDisabledIcon style={glow('#ef4444', '239,68,68')} />;
+      case 'platform_announcement':
+        return <CampaignIcon style={glow('#a78bfa', '167,139,250')} />;
+      case 'weekly_summary':
+        return <BarChartIcon style={glow('#60a5fa', '96,165,250')} />;
+
+      // Activity
+      case 'customer_message':
+        return <EmailIcon style={glow('#60a5fa', '96,165,250')} />;
+      case 'availability_alert':
+        return <NotificationIcon style={glow('#f59e0b', '245,158,11')} />;
+
+      case 'system_alert':
+        return <ErrorIcon style={glow('#f59e0b', '245,158,11')} />;
+
       default:
-        return (
-          <CampaignIcon 
-            style={{ ...iconStyle, color: '#ffd166', filter: 'drop-shadow(0 0 8px rgba(255,209,102,0.5))' }} 
-          />
-        );
+        return <CampaignIcon style={glow('#ffd166', '255,209,102')} />;
     }
   };
 
-  const timeAgo = notification.createdAt ? dayjs(notification.createdAt).fromNow() : '';
+  const localizedTitle = t(`notifications.types.${notification.type}`, notification.title);
+
+  const timeAgo = notification.createdAt ? dayjs(notification.createdAt).locale(i18n.language).fromNow() : '';
 
   const message = useMemo(() => {
     if (isReservationNotification && reservation) {
@@ -161,15 +191,15 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     >
       <div className="notification-item__icon">{getNotificationIcon()}</div>
       <div className="notification-item__content">
-        <div className="notification-item__title">{notification.title}</div>
+        <div className="notification-item__title">{localizedTitle}</div>
         <div className="notification-item__message">{message}</div>
         <div className="notification-item__time">{timeAgo}</div>
       </div>
       <button
         className="notification-item__delete"
         onClick={handleDelete}
-        aria-label="Delete notification"
-        title="Delete notification"
+        aria-label={t('notifications.deleteNotification', 'Delete notification')}
+        title={t('notifications.deleteNotification', 'Delete notification')}
       >
         <DeleteIcon fontSize="small" />
       </button>

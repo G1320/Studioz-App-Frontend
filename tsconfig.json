@@ -12,7 +12,8 @@
       "@features/*": ["src/features/*"],
       "@app/*": ["src/app/*"],
       "@shared/*": ["src/shared/*"],
-      "@core/*": ["src/core/*"]
+      "@core/*": ["src/core/*"],
+      "@appTypes/*": ["src/types/*"]
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
