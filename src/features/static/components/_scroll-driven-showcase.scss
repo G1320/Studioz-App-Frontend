@@ -60,12 +60,16 @@ $showcase-phone-border: #18181b;
     text-align: start;
   }
 
-  // Feature Content
+  // Feature Content (CSS transition when slide changes)
   &__feature {
     min-height: 200px;
 
     @media (min-width: 768px) {
       min-height: 240px;
+    }
+
+    &--animate {
+      animation: feature-showcase-fade-in 0.3s ease;
     }
   }
 
@@ -180,7 +184,7 @@ $showcase-phone-border: #18181b;
     left: 0;
     height: 100%;
     border-radius: 9999px;
-    transition: width 0.05s linear;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   // Phone Side
@@ -246,6 +250,14 @@ $showcase-phone-border: #18181b;
     overflow: hidden;
   }
 
+  // Swiper scoped to phone screen (fade effect fills the frame)
+  &-swiper__container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   &__phone-image {
     width: 100%;
     height: 100%;
@@ -265,5 +277,33 @@ $showcase-phone-border: #18181b;
     z-index: -1;
     pointer-events: none;
     transition: background 0.5s ease;
+  }
+}
+
+@keyframes feature-showcase-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Swiper overrides: fill phone screen, fade slides
+.feature-showcase-swiper {
+  width: 100%;
+  height: 100%;
+
+  .swiper-wrapper {
+    align-items: stretch;
+  }
+
+  .swiper-slide {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

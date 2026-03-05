@@ -1,21 +1,20 @@
 /**
  * ScrollDrivenShowcase Component
- * Interactive feature showcase with clickable navigation dots.
- * Features:
- * - Phone mockup with cross-fading screenshots
- * - Clickable dots to navigate between features
- * - Hebrew RTL support
- * - Smooth animations with Framer Motion
+ * Feature showcase carousel using Swiper (fade effect, autoplay, pagination).
+ * Touch/swipe and animations are handled by Swiper for reliable behavior on all devices.
  */
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
+import type { Swiper as SwiperType } from 'swiper';
 import { Calendar, CreditCard, BarChart3, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
 import './_scroll-driven-showcase.scss';
 
-const AUTOPLAY_INTERVAL = 6000; // 6 seconds per slide
-const SWIPE_THRESHOLD = 50; // Minimum swipe distance in pixels
-const TOUCH_RESUME_DELAY = 1500; // Resume autoplay 1.5s after touch ends
+const AUTOPLAY_DELAY = 6000;
 
 interface Feature {
   id: string;
@@ -67,204 +66,120 @@ const FEATURES: Feature[] = [
   }
 ];
 
+const PROGRESS_TICK_MS = 50;
+
 export const ScrollDrivenShowcase: React.FC = () => {
-  const { t } = useTranslation('forOwners');
+  const { t, i18n } = useTranslation('forOwners');
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isInView, setIsInView] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [inView, setInView] = useState(false);
+  const [textHover, setTextHover] = useState(false);
+  const [phoneHover, setPhoneHover] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
+  const slideStartTimeRef = useRef(Date.now());
+
+  const contentHover = textHover || phoneHover;
+
   const activeFeature = FEATURES[activeIndex];
   const Icon = activeFeature.icon;
-  
-  // Refs
-  const sectionRef = useRef<HTMLElement>(null);
-  const touchStartX = useRef<number | null>(null);
-  const touchStartY = useRef<number | null>(null);
-  const touchResumeTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isRTL = i18n.dir() === 'rtl';
 
-  // Intersection Observer - start autoplay only when in view
+  // Resume autoplay when mouse leaves both pause zones (and section is in view)
+  useEffect(() => {
+    if (!contentHover && inView) {
+      slideStartTimeRef.current = Date.now();
+      setProgress(0);
+      swiperRef.current?.autoplay?.start();
+    }
+  }, [contentHover, inView]);
+
+  // Start autoplay when section is in view, stop when out of view; reset progress when entering view
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting);
+        const now = Date.now();
+        if (entry.isIntersecting) {
+          setInView(true);
+          slideStartTimeRef.current = now;
+          setProgress(0);
+        } else {
+          setInView(false);
+          swiperRef.current?.autoplay?.stop();
+        }
       },
-      { threshold: 0.3 } // Trigger when 30% of section is visible
+      { threshold: 0.3 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  // Cleanup touch resume timeout on unmount
+  // Progress tick: fill the active pill over AUTOPLAY_DELAY when in view (paused when hovering content)
   useEffect(() => {
-    return () => {
-      if (touchResumeTimeout.current) {
-        clearTimeout(touchResumeTimeout.current);
-      }
-    };
-  }, []);
-
-  // Auto-advance to next slide
-  const nextSlide = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % FEATURES.length);
-    setProgress(0); // Reset progress for new slide
-  }, []);
-
-  // Go to previous slide
-  const prevSlide = useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + FEATURES.length) % FEATURES.length);
-    setProgress(0);
-  }, []);
-
-  // Progress animation effect - only run when in view and not paused
-  useEffect(() => {
-    if (isPaused || !isInView) return;
-
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          nextSlide();
-          return 0;
-        }
-        return prev + (100 / (AUTOPLAY_INTERVAL / 50)); // Update every 50ms
-      });
-    }, 50);
-
-    return () => clearInterval(progressInterval);
-  }, [isPaused, isInView, nextSlide]);
-
-  // Handle manual dot click - pause permanently until mouse leaves
-  const handleDotClick = (idx: number) => {
-    setActiveIndex(idx);
-    setProgress(100); // Show pill as fully selected
-    setIsPaused(true);
-  };
-
-  // Pause on hover/touch
-  const handleInteractionStart = () => setIsPaused(true);
-  const handleInteractionEnd = () => setIsPaused(false);
-
-  // Swipe/scroll handling
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-    setIsPaused(true);
-    // Clear any pending resume timeout
-    if (touchResumeTimeout.current) {
-      clearTimeout(touchResumeTimeout.current);
-      touchResumeTimeout.current = null;
-    }
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null || touchStartY.current === null) return;
-    
-    const touchEndX = e.changedTouches[0].clientX;
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaX = touchEndX - touchStartX.current;
-    const deltaY = touchEndY - touchStartY.current;
-    
-    // Only handle horizontal swipes (ignore vertical scrolling)
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
-      if (deltaX > 0) {
-        // Swipe right - next slide in RTL (previous in LTR)
-        nextSlide();
-      } else {
-        // Swipe left - previous slide in RTL (next in LTR)
-        prevSlide();
-      }
-      setProgress(0);
-    }
-    
-    touchStartX.current = null;
-    touchStartY.current = null;
-
-    // Resume autoplay after a short delay on mobile
-    touchResumeTimeout.current = setTimeout(() => {
-      setIsPaused(false);
-    }, TOUCH_RESUME_DELAY);
-  };
-
-  // Handle mouse wheel horizontal scroll
-  const handleWheel = (e: React.WheelEvent) => {
-    // Only respond to horizontal scroll or significant deltaX
-    if (Math.abs(e.deltaX) > 30) {
-      e.preventDefault();
-      setIsPaused(true);
-      if (e.deltaX > 0) {
-        prevSlide();
-      } else {
-        nextSlide();
-      }
-      setProgress(0);
-    }
-  };
+    if (!inView || contentHover) return;
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - slideStartTimeRef.current;
+      const value = Math.min(1, elapsed / AUTOPLAY_DELAY);
+      setProgress(value);
+    }, PROGRESS_TICK_MS);
+    return () => clearInterval(interval);
+  }, [inView, activeIndex, contentHover]);
 
   return (
-    <section 
-      ref={sectionRef}
-      className="feature-showcase"
-      onMouseEnter={handleInteractionStart}
-      onMouseLeave={handleInteractionEnd}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onWheel={handleWheel}
-    >
+    <section ref={sectionRef} className="feature-showcase">
       <div className="feature-showcase__container">
-        
-        {/* Text Side */}
-        <div className="feature-showcase__text-side">
+        {/* Text Side - synced via onSlideChange + CSS transition; separate pause zone */}
+        <div
+          className="feature-showcase__text-side feature-showcase__pause-zone"
+          onMouseEnter={() => {
+            setTextHover(true);
+            swiperRef.current?.autoplay?.stop();
+          }}
+          onMouseLeave={() => setTextHover(false)}
+        >
           <div className="feature-showcase__text-content">
-            {/* Feature Content with Animation */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeFeature.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="feature-showcase__feature"
-              >
-                <div className="feature-showcase__feature-header">
-                  <div 
-                    className="feature-showcase__feature-icon-wrapper"
-                    style={{ borderColor: activeFeature.color }}
-                  >
-                    <Icon 
-                      className="feature-showcase__feature-icon" 
-                      style={{ color: activeFeature.color }} 
-                    />
-                  </div>
-                  <span className="feature-showcase__feature-index">
-                    0{activeIndex + 1}
-                  </span>
+            <div key={activeIndex} className="feature-showcase__feature feature-showcase__feature--animate">
+              <div className="feature-showcase__feature-header">
+                <div
+                  className="feature-showcase__feature-icon-wrapper"
+                  style={{ borderColor: activeFeature.color }}
+                >
+                  <Icon
+                    className="feature-showcase__feature-icon"
+                    style={{ color: activeFeature.color }}
+                  />
                 </div>
-                <h2 className="feature-showcase__feature-title">
-                  {t(activeFeature.titleKey)}
-                </h2>
-                <p className="feature-showcase__feature-description">
-                  {t(activeFeature.descriptionKey)}
-                </p>
-              </motion.div>
-            </AnimatePresence>
+                <span className="feature-showcase__feature-index">
+                  0{activeIndex + 1}
+                </span>
+              </div>
+              <h2 className="feature-showcase__feature-title">
+                {t(activeFeature.titleKey)}
+              </h2>
+              <p className="feature-showcase__feature-description">
+                {t(activeFeature.descriptionKey)}
+              </p>
+            </div>
 
-            {/* Progress Indicators */}
+            {/* Custom pill navigation - click calls swiper.slideTo */}
             <div className="feature-showcase__progress-bars">
               {FEATURES.map((feature, idx) => (
                 <button
                   key={feature.id}
                   type="button"
                   className={`feature-showcase__progress-bar ${idx === activeIndex ? 'feature-showcase__progress-bar--active' : ''} ${idx < activeIndex ? 'feature-showcase__progress-bar--completed' : ''}`}
-                  onClick={() => handleDotClick(idx)}
+                  onClick={() => swiperRef.current?.slideToLoop(idx)}
                   aria-label={t(feature.titleKey)}
+                  aria-current={idx === activeIndex ? 'true' : undefined}
                 >
-                  <div 
+                  <div
                     className="feature-showcase__progress-fill"
-                    style={{ 
-                      width: idx === activeIndex ? `${progress}%` : idx < activeIndex ? '100%' : '0%',
+                    style={{
+                      width: idx === activeIndex ? `${progress * 100}%` : idx < activeIndex ? '100%' : '0%',
                       backgroundColor: feature.color
                     }}
                   />
@@ -274,39 +189,65 @@ export const ScrollDrivenShowcase: React.FC = () => {
           </div>
         </div>
 
-        {/* Phone Side */}
+        {/* Phone Side - single Swiper with fade effect; separate pause zone */}
         <div className="feature-showcase__phone-side">
-          <div className="feature-showcase__phone-container">
-            {/* Phone Frame */}
+          <div
+            className="feature-showcase__phone-container feature-showcase__pause-zone"
+            onMouseEnter={() => {
+              setPhoneHover(true);
+              swiperRef.current?.autoplay?.stop();
+            }}
+            onMouseLeave={() => setPhoneHover(false)}
+          >
             <div className="feature-showcase__phone-frame">
               <div className="feature-showcase__phone-notch" />
-              <div className="feature-showcase__phone-screen">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={activeFeature.id}
-                    src={activeFeature.image}
-                    srcSet={activeFeature.srcSet}
-                    sizes={activeFeature.sizes}
-                    alt={t(activeFeature.titleKey)}
-                    className="feature-showcase__phone-image"
-                    loading="lazy"
-                    decoding="async"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </AnimatePresence>
+              <div className="feature-showcase__phone-screen feature-showcase-swiper__container">
+                <Swiper
+                  onSwiper={(swiper) => {
+                    swiperRef.current = swiper;
+                  }}
+                  onSlideChange={(swiper) => {
+                    slideStartTimeRef.current = Date.now();
+                    setProgress(0);
+                    setActiveIndex(swiper.realIndex);
+                  }}
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                  className="feature-showcase-swiper feature-showcase-swiper--phone"
+                  modules={[Autoplay, EffectFade, Pagination]}
+                  effect="fade"
+                  fadeEffect={{ crossFade: true }}
+                  speed={300}
+                  allowTouchMove={true}
+                  slidesPerView={1}
+                  spaceBetween={0}
+                  loop={true}
+                  autoplay={{
+                    delay: AUTOPLAY_DELAY,
+                    disableOnInteraction: false
+                  }}
+                  pagination={false}
+                >
+                  {FEATURES.map((feature) => (
+                    <SwiperSlide key={feature.id}>
+                      <img
+                        src={feature.image}
+                        srcSet={feature.srcSet}
+                        sizes={feature.sizes}
+                        alt={t(feature.titleKey)}
+                        className="feature-showcase__phone-image"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
-
-            {/* Decorative Glow */}
-            <motion.div 
+            <div
               className="feature-showcase__deco-glow"
-              animate={{ 
+              style={{
                 background: `radial-gradient(ellipse at center, ${activeFeature.color}20 0%, transparent 70%)`
               }}
-              transition={{ duration: 0.5 }}
             />
           </div>
         </div>
