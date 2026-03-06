@@ -1,0 +1,108 @@
+{
+  "pageTitle": "Meta Campaign Manager",
+  "tabs": {
+    "overview": "Overview",
+    "campaigns": "Campaigns",
+    "audiences": "Audiences",
+    "analytics": "Analytics"
+  },
+  "overview": {
+    "title": "Campaign Overview",
+    "totalSpend": "Total Spend",
+    "impressions": "Impressions",
+    "clicks": "Clicks",
+    "conversions": "Conversions",
+    "ctr": "CTR",
+    "cpc": "CPC",
+    "cpm": "CPM",
+    "roas": "ROAS",
+    "activeCampaigns": "Active Campaigns",
+    "spendOverTime": "Spend Over Time",
+    "noData": "No campaign data available yet"
+  },
+  "campaigns": {
+    "title": "Campaigns",
+    "create": "Create Campaign",
+    "search": "Search campaigns...",
+    "all": "All",
+    "active": "Active",
+    "paused": "Paused",
+    "noCampaigns": "No campaigns found",
+    "budget": "Budget",
+    "spent": "Spent",
+    "results": "Results",
+    "status": "Status",
+    "daily": "Daily",
+    "lifetime": "Lifetime",
+    "confirmDelete": "Are you sure you want to delete this campaign? This action cannot be undone."
+  },
+  "detail": {
+    "back": "Back to Campaigns",
+    "editCampaign": "Edit Campaign",
+    "performance": "Performance",
+    "adSets": "Ad Sets",
+    "noAdSets": "No ad sets found for this campaign",
+    "adSetName": "Ad Set",
+    "adSetStatus": "Status",
+    "adSetBudget": "Budget",
+    "adSetImpressions": "Impressions",
+    "adSetClicks": "Clicks"
+  },
+  "wizard": {
+    "title": "Create Campaign",
+    "steps": {
+      "objective": "Objective",
+      "adSet": "Ad Set",
+      "audience": "Audience",
+      "creative": "Creative",
+      "review": "Review"
+    },
+    "back": "Back",
+    "next": "Next",
+    "launch": "Launch Campaign",
+    "launching": "Launching...",
+    "review": {
+      "title": "Review & Launch",
+      "campaignName": "Campaign Name",
+      "objective": "Objective",
+      "budget": "Budget",
+      "schedule": "Schedule",
+      "targeting": "Targeting",
+      "creative": "Creative",
+      "headline": "Headline",
+      "cta": "Call to Action",
+      "destination": "Destination URL"
+    }
+  },
+  "audiences": {
+    "title": "Custom Audiences",
+    "create": "Create Audience",
+    "noAudiences": "No custom audiences found",
+    "size": "Size",
+    "type": "Type",
+    "confirmDelete": "Are you sure you want to delete this audience?"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "dateRange": "Date Range",
+    "last7": "Last 7 days",
+    "last14": "Last 14 days",
+    "last30": "Last 30 days",
+    "breakdown": "Breakdown",
+    "none": "None",
+    "byAge": "By Age",
+    "byGender": "By Gender",
+    "byPlacement": "By Placement",
+    "byDevice": "By Device",
+    "exportCsv": "Export CSV",
+    "metric": "Metric",
+    "value": "Value",
+    "noData": "No analytics data available for the selected period"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "PAUSED": "Paused",
+    "DELETED": "Deleted",
+    "ARCHIVED": "Archived"
+  }
+}

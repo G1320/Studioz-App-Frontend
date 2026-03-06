@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   UsersIcon,
@@ -46,10 +47,11 @@ import { useReservations } from '@shared/hooks';
 import { Studio, User as UserType } from 'src/types/index';
 import { Coupon, createCoupon, getAllCoupons, deleteCoupon, toggleCouponStatus } from '@shared/services/coupon-service';
 import { sendTestEmail, getEmailPreviewHtml } from '@shared/services/email-service';
+import { httpService } from '@shared/services/http-service';
 import './styles/_admin-panel.scss';
 
 // --- Types ---
-type Tab = 'overview' | 'users' | 'studios' | 'services' | 'coupons' | 'emailTemplates';
+type Tab = 'overview' | 'users' | 'studios' | 'services' | 'coupons' | 'emailTemplates' | 'paymentCanary';
 
 // Email Template Types - Backend template names
 type EmailType =
@@ -1197,6 +1199,167 @@ const EmailTemplatesView = () => {
   );
 };
 
+// --- Payment Canary View ---
+
+interface CanaryResult {
+  testId: string;
+  status: 'pass' | 'charge_failed' | 'refund_failed';
+  chargeAmount: number;
+  currency: string;
+  chargeLatencyMs: number;
+  refundLatencyMs?: number;
+  sumitPaymentId?: string;
+  refundId?: string;
+  errorMessage?: string;
+  timestamp: string;
+}
+
+const PaymentCanaryView = () => {
+  const [results, setResults] = useState<CanaryResult[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRunning, setIsRunning] = useState(false);
+  const [runFeedback, setRunFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const fetchHistory = async () => {
+    setIsLoading(true);
+    try {
+      const data = await httpService.get<{ results: CanaryResult[] }>('/payment-canary/history?limit=50');
+      setResults(data.results);
+    } catch {
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchHistory(); }, []);
+
+  const handleRunTest = async () => {
+    setIsRunning(true);
+    setRunFeedback(null);
+    try {
+      const result = await httpService.post<CanaryResult>('/payment-canary/run');
+      setResults((prev) => [result, ...prev]);
+      setRunFeedback({
+        type: result.status === 'pass' ? 'success' : 'error',
+        message: result.status === 'pass'
+          ? `Test passed — charge ${result.chargeLatencyMs}ms, refund ${result.refundLatencyMs}ms`
+          : `Test failed: ${result.errorMessage}`
+      });
+    } catch (err: any) {
+      setRunFeedback({ type: 'error', message: err?.message || 'Failed to run canary test' });
+    } finally {
+      setIsRunning(false);
+      setTimeout(() => setRunFeedback(null), 8000);
+    }
+  };
+
+  const lastResult = results[0] || null;
+
+  const formatTimestamp = (ts: string) => {
+    try {
+      return new Date(ts).toLocaleString('en-IL', { timeZone: 'Asia/Jerusalem', hour12: false });
+    } catch {
+      return ts;
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'pass': return 'Active';
+      case 'charge_failed': return 'Suspended';
+      case 'refund_failed': return 'Pending';
+      default: return status;
+    }
+  };
+
+  return (
+    <div>
+      {/* Status Card */}
+      <div className="admin-card" style={{ borderLeft: `4px solid ${lastResult ? (lastResult.status === 'pass' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)') : 'var(--color-border, #e5e7eb)'}`, marginBottom: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+          <div>
+            <h3 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: 600 }}>System Status</h3>
+            {lastResult ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <StatusBadge status={getStatusLabel(lastResult.status)} />
+                  <span style={{ color: 'var(--text-secondary, #6b7280)' }}>{formatTimestamp(lastResult.timestamp)}</span>
+                </div>
+                {lastResult.status === 'pass' && (
+                  <span style={{ color: 'var(--text-secondary, #6b7280)' }}>
+                    Charge: {lastResult.chargeLatencyMs}ms · Refund: {lastResult.refundLatencyMs}ms
+                  </span>
+                )}
+                {lastResult.errorMessage && (
+                  <span style={{ color: 'var(--color-error, #ef4444)', fontSize: '13px' }}>{lastResult.errorMessage}</span>
+                )}
+              </div>
+            ) : (
+              <p style={{ margin: 0, color: 'var(--text-secondary, #6b7280)', fontSize: '14px' }}>
+                No canary tests have been run yet.
+              </p>
+            )}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+            <button className="admin-btn admin-btn--primary" onClick={handleRunTest} disabled={isRunning}>
+              {isRunning ? (
+                <><RefreshIcon sx={{ fontSize: 16, animation: 'spin 1s linear infinite' }} /> Running...</>
+              ) : (
+                <><PlayCircleIcon sx={{ fontSize: 16 }} /> Run Test Now</>
+              )}
+            </button>
+            {runFeedback && (
+              <span style={{ fontSize: '13px', color: runFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
+                {runFeedback.message}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Results History Table */}
+      <div className="admin-card">
+        <h3 style={{ margin: '0 0 16px', fontSize: '16px', fontWeight: 600 }}>Test History</h3>
+        {isLoading ? (
+          <p style={{ color: 'var(--text-secondary, #6b7280)', textAlign: 'center', padding: '24px' }}>Loading history...</p>
+        ) : results.length === 0 ? (
+          <p style={{ color: 'var(--text-secondary, #6b7280)', textAlign: 'center', padding: '24px' }}>No test results yet.</p>
+        ) : (
+          <div className="admin-table-wrapper">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Timestamp</th>
+                  <th>Charge Latency</th>
+                  <th>Refund Latency</th>
+                  <th>Payment ID</th>
+                  <th>Error</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.map((r) => (
+                  <tr key={r.testId}>
+                    <td><StatusBadge status={getStatusLabel(r.status)} /></td>
+                    <td>{formatTimestamp(r.timestamp)}</td>
+                    <td>{r.chargeLatencyMs}ms</td>
+                    <td>{r.refundLatencyMs != null ? `${r.refundLatencyMs}ms` : '—'}</td>
+                    <td style={{ fontFamily: 'monospace', fontSize: '12px' }}>{r.sumitPaymentId || '—'}</td>
+                    <td style={{ color: r.errorMessage ? 'var(--color-error, #ef4444)' : undefined, maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={r.errorMessage}>
+                      {r.errorMessage || '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // --- Main Component ---
 
 interface AdminPanelProps {
@@ -1205,7 +1368,7 @@ interface AdminPanelProps {
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
-  const { t } = useTranslation('admin');
+  const { t, i18n } = useTranslation('admin');
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const { data: reservations = [] } = useReservations();
@@ -1375,13 +1538,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
 
   const pendingStudios = studioTableData.filter((s) => s.status.includes('Pending'));
 
+  const navigate = useNavigate();
+
   const navItems = [
     { id: 'overview', label: t('nav.overview'), icon: BarChart3Icon },
     { id: 'users', label: t('nav.users'), icon: UsersIcon },
     { id: 'studios', label: t('nav.studios'), icon: BuildingIcon },
     { id: 'services', label: t('nav.services'), icon: PackageIcon },
     { id: 'coupons', label: t('nav.coupons', 'Coupons'), icon: TicketIcon },
-    { id: 'emailTemplates', label: t('nav.emailTemplates', 'Email Templates'), icon: MailIcon }
+    { id: 'emailTemplates', label: t('nav.emailTemplates', 'Email Templates'), icon: MailIcon },
+    { id: 'paymentCanary', label: t('nav.paymentCanary', 'Payment Canary'), icon: CreditCardIcon },
+    { id: 'metaCampaigns', label: t('nav.metaCampaigns', 'Meta Campaigns'), icon: BarChart3Icon, href: `/${i18n.language}/admin/meta-campaigns` }
   ];
 
   return (
@@ -1400,7 +1567,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id as Tab)}
+                onClick={() => item.href ? navigate(item.href) : setActiveTab(item.id as Tab)}
                 className={cn('admin-sidebar__nav-item', activeTab === item.id && 'admin-sidebar__nav-item--active')}
               >
                 <item.icon sx={{ fontSize: 18 }} />
@@ -1438,7 +1605,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id as Tab)}
+                onClick={() => item.href ? navigate(item.href) : setActiveTab(item.id as Tab)}
                 className={cn('admin-mobile-nav__item', activeTab === item.id && 'admin-mobile-nav__item--active')}
               >
                 <item.icon sx={{ fontSize: 18 }} />
@@ -1624,6 +1791,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
               description={t('sections.emailTemplates.description', 'Preview and manage automated email templates')}
             />
             <EmailTemplatesView />
+          </div>
+        )}
+
+        {activeTab === 'paymentCanary' && (
+          <div className="admin-content admin-content--animate">
+            <SectionHeader
+              title="Payment Canary"
+              description="Automated payment health checks — charges 1 ILS and refunds it every 12 hours"
+            />
+            <PaymentCanaryView />
           </div>
         )}
       </main>

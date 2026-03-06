@@ -1,0 +1,108 @@
+{
+  "pageTitle": "מנהל קמפיינים מטא",
+  "tabs": {
+    "overview": "סקירה",
+    "campaigns": "קמפיינים",
+    "audiences": "קהלים",
+    "analytics": "אנליטיקס"
+  },
+  "overview": {
+    "title": "סקירת קמפיינים",
+    "totalSpend": "הוצאה כוללת",
+    "impressions": "חשיפות",
+    "clicks": "קליקים",
+    "conversions": "המרות",
+    "ctr": "CTR",
+    "cpc": "CPC",
+    "cpm": "CPM",
+    "roas": "ROAS",
+    "activeCampaigns": "קמפיינים פעילים",
+    "spendOverTime": "הוצאה לאורך זמן",
+    "noData": "אין נתוני קמפיינים עדיין"
+  },
+  "campaigns": {
+    "title": "קמפיינים",
+    "create": "צור קמפיין",
+    "search": "חיפוש קמפיינים...",
+    "all": "הכל",
+    "active": "פעיל",
+    "paused": "מושהה",
+    "noCampaigns": "לא נמצאו קמפיינים",
+    "budget": "תקציב",
+    "spent": "הוצאה",
+    "results": "תוצאות",
+    "status": "סטטוס",
+    "daily": "יומי",
+    "lifetime": "כולל",
+    "confirmDelete": "האם אתה בטוח שברצונך למחוק קמפיין זה? פעולה זו אינה ניתנת לביטול."
+  },
+  "detail": {
+    "back": "חזרה לקמפיינים",
+    "editCampaign": "עריכת קמפיין",
+    "performance": "ביצועים",
+    "adSets": "סטים של מודעות",
+    "noAdSets": "לא נמצאו סטים של מודעות לקמפיין זה",
+    "adSetName": "סט מודעות",
+    "adSetStatus": "סטטוס",
+    "adSetBudget": "תקציב",
+    "adSetImpressions": "חשיפות",
+    "adSetClicks": "קליקים"
+  },
+  "wizard": {
+    "title": "יצירת קמפיין",
+    "steps": {
+      "objective": "מטרה",
+      "adSet": "סט מודעות",
+      "audience": "קהל יעד",
+      "creative": "קריאייטיב",
+      "review": "סקירה"
+    },
+    "back": "חזרה",
+    "next": "הבא",
+    "launch": "השק קמפיין",
+    "launching": "משיק...",
+    "review": {
+      "title": "סקירה והשקה",
+      "campaignName": "שם קמפיין",
+      "objective": "מטרה",
+      "budget": "תקציב",
+      "schedule": "לוח זמנים",
+      "targeting": "טירגוט",
+      "creative": "קריאייטיב",
+      "headline": "כותרת",
+      "cta": "קריאה לפעולה",
+      "destination": "כתובת יעד"
+    }
+  },
+  "audiences": {
+    "title": "קהלים מותאמים",
+    "create": "צור קהל",
+    "noAudiences": "לא נמצאו קהלים מותאמים",
+    "size": "גודל",
+    "type": "סוג",
+    "confirmDelete": "האם אתה בטוח שברצונך למחוק קהל זה?"
+  },
+  "analytics": {
+    "title": "אנליטיקס",
+    "dateRange": "טווח תאריכים",
+    "last7": "7 ימים אחרונים",
+    "last14": "14 ימים אחרונים",
+    "last30": "30 ימים אחרונים",
+    "breakdown": "פילוח",
+    "none": "ללא",
+    "byAge": "לפי גיל",
+    "byGender": "לפי מגדר",
+    "byPlacement": "לפי מיקום",
+    "byDevice": "לפי מכשיר",
+    "exportCsv": "ייצוא CSV",
+    "metric": "מדד",
+    "value": "ערך",
+    "noData": "אין נתוני אנליטיקס זמינים לתקופה שנבחרה"
+  },
+  "status": {
+    "ACTIVE": "פעיל",
+    "PAUSED": "מושהה",
+    "DELETED": "נמחק",
+    "ARCHIVED": "בארכיון"
+  }
+}

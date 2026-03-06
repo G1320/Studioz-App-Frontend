@@ -51,6 +51,9 @@ const ReservationDetailsPage = lazyWithRetry(() => import('@features/entities/re
 const ProfilePage = lazyWithRetry(() => import('@features/entities/profile/pages/ProfilePage'));
 const NotificationsPage = lazyWithRetry(() => import('@features/entities/notifications/pages/NotificationsPage'));
 const AdminPage = lazyWithRetry(() => import('@features/entities/admin/pages/AdminPage'));
+const MetaCampaignsPage = lazyWithRetry(() => import('@features/entities/meta-campaigns/pages/MetaCampaignsPage'));
+const MetaCampaignDetailPage = lazyWithRetry(() => import('@features/entities/meta-campaigns/pages/CampaignDetailPage'));
+const MetaCreateCampaignPage = lazyWithRetry(() => import('@features/entities/meta-campaigns/pages/CreateCampaignPage'));
 const ProjectsListPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectsListPage'));
 const ProjectDetailPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectDetailPage'));
 
@@ -312,6 +315,37 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               <ProtectedAdminRoute>
                 <AnimatedRoute>
                   <AdminPage user={user || null} studios={studios} />
+                </AnimatedRoute>
+              </ProtectedAdminRoute>
+            }
+          />
+          {/* Meta Campaigns — admin only */}
+          <Route
+            path="/:lang?/admin/meta-campaigns"
+            element={
+              <ProtectedAdminRoute>
+                <AnimatedRoute>
+                  <MetaCampaignsPage />
+                </AnimatedRoute>
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/:lang?/admin/meta-campaigns/create"
+            element={
+              <ProtectedAdminRoute>
+                <AnimatedRoute>
+                  <MetaCreateCampaignPage />
+                </AnimatedRoute>
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/:lang?/admin/meta-campaigns/:campaignId"
+            element={
+              <ProtectedAdminRoute>
+                <AnimatedRoute>
+                  <MetaCampaignDetailPage />
                 </AnimatedRoute>
               </ProtectedAdminRoute>
             }

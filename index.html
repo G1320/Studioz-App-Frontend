@@ -27,7 +27,7 @@
           } else {
             window.webkit.messageHandlers = {};
           }
-        } catch (e) {}
+        } catch (e) { }
       }
 
       // 2. Suppress InvalidAccessError from native postMessage in Facebook/Instagram WebViews.
@@ -42,7 +42,7 @@
           ) {
             e.preventDefault();
           }
-        } catch (_) {}
+        } catch (_) { }
       });
 
       // 3. Recover from stale CSS after deployments.
@@ -65,7 +65,7 @@
               window.location.reload();
             }
           }
-        } catch (_) {}
+        } catch (_) { }
       }, true);
     })();
   </script>
@@ -158,7 +158,7 @@
             return JSON.parse(decodeURIComponent(c.substring('cookieConsent='.length)));
           }
         }
-      } catch (e) {}
+      } catch (e) { }
       return null;
     }
 
