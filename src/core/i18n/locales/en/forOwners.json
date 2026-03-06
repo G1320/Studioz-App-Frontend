@@ -173,21 +173,50 @@
     "freeForever": {
       "title": "StudioZ is free.",
       "titleAccent": "Forever.",
-      "subtitle": "0% upfront. We only earn when you earn — 9% on approved sessions.",
+      "subtitle": "0% upfront. We only earn when you earn — starting at 9%, dropping to 5% as you grow.",
       "tagline": "We only make money when you make money.",
       "badge": "Free Plan",
       "period": "/month",
       "valueProp": "All features included. No monthly fees. We're fair and offer great value.",
       "features": {
         "unlimitedListings": "Unlimited listings & studios",
+        "remoteProjects": "Unlimited sessions & remote projects",
         "calendarSync": "Google Calendar sync",
-        "payments": "Accept payments & invoicing",
+        "payments": "Accept payments & automated invoicing",
         "analytics": "Analytics & insights",
-        "invoicing": "Automated invoicing",
+        "reports": "Reports & exports",
         "support": "Standard support"
       },
       "cta": "Get Started",
-      "comparison": "Traditional platforms charge ₪49–99/month. We charge nothing. Just a small fee when you earn."
+      "comparison": "Traditional platforms charge ₪49–99/month. We charge nothing. Just 9% on your first ₪15K, 7% up to ₪40K, and 5% above that."
+    },
+    "feeTiers": {
+      "title": "How our",
+      "titleAccent": "pricing works.",
+      "subtitle": "Progressive rates that reward your growth. The more you earn, the less you pay.",
+      "marginalNote": "Rates are applied marginally — each bracket applies only to the revenue within that range, not your entire volume.",
+      "tier1": {
+        "rate": "9%",
+        "range": "₪0 – ₪15,000",
+        "label": "Getting started",
+        "description": "Your first ₪15,000 in monthly bookings."
+      },
+      "tier2": {
+        "rate": "7%",
+        "range": "₪15,001 – ₪40,000",
+        "label": "Growing",
+        "description": "Revenue between ₪15K and ₪40K."
+      },
+      "tier3": {
+        "rate": "5%",
+        "range": "₪40,001+",
+        "label": "Thriving",
+        "description": "Everything above ₪40K."
+      },
+      "example": {
+        "title": "Example",
+        "description": "₪50,000 in monthly bookings = ₪3,600 in fees (₪15K×9% + ₪25K×7% + ₪10K×5%) — an effective rate of just 7.2%."
+      }
     },
     "cta": {
       "start": "Get Started",

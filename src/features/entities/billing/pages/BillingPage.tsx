@@ -51,6 +51,9 @@ const BillingPage: React.FC = () => {
           totalFeeAmount={currentFees.totalFeeAmount}
           totalTransactionAmount={currentFees.totalTransactionAmount}
           count={currentFees.count}
+          feeTier={currentFees.feeTier}
+          nextTier={currentFees.nextTier}
+          tiers={currentFees.tiers}
         />
       )}
 

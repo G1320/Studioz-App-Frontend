@@ -2,6 +2,35 @@ import { httpService } from './http-service';
 
 // ─── Types ──────────────────────────────────────────────────────
 
+export interface TierBreakdownItem {
+  tierIndex: number;
+  label: string;
+  rate: number;
+  amountInBand: number;
+  feeAmount: number;
+}
+
+export interface FeeTierInfo {
+  tierIndex: number;
+  tierLabel: string;
+  effectiveRate: number;
+  breakdown: TierBreakdownItem[];
+}
+
+export interface NextTierNudge {
+  thresholdAmount: number;
+  currentAmount: number;
+  amountToGo: number;
+  nextRate: number;
+  nextLabel: string;
+}
+
+export interface FeeTierConfig {
+  maxAmount: number | null;
+  rate: number;
+  label: string;
+}
+
 export interface BillingCycle {
   _id: string;
   vendorId: string;
@@ -10,6 +39,8 @@ export interface BillingCycle {
   totalFeeAmount: number;
   feeCount: number;
   feePercentage: number;
+  feeModel?: 'flat' | 'tiered';
+  tierBreakdown?: TierBreakdownItem[];
   status: 'pending' | 'processing' | 'paid' | 'failed';
   sumitPaymentId?: string;
   chargedAt?: string;
@@ -42,6 +73,9 @@ export interface CurrentFeesResponse {
   totalFeeAmount: number;
   totalTransactionAmount: number;
   count: number;
+  feeTier?: FeeTierInfo;
+  nextTier?: NextTierNudge;
+  tiers?: FeeTierConfig[];
 }
 
 // ─── API Functions ──────────────────────────────────────────────

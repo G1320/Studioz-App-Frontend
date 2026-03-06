@@ -411,6 +411,156 @@
 }
 
 // ==========================================
+// FEE TIERS EXPLAINER
+// ==========================================
+.pricing-section__fee-tiers {
+  max-width: 900px;
+  margin: vars.$spacing-3xl auto 0;
+  text-align: center;
+}
+
+.pricing-section__fee-tiers-title {
+  font-family: var(--owners-font-display, 'Syne', system-ui, sans-serif);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: vars.$spacing-small;
+}
+
+.pricing-section__fee-tiers-subtitle {
+  font-size: vars.$font-size-medium;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto vars.$spacing-xl;
+
+  @media (min-width: 768px) {
+    font-size: vars.$font-size-large;
+  }
+}
+
+.pricing-section__tiers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: vars.$spacing-medium;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: vars.$spacing-large;
+  }
+}
+
+.pricing-tier-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: vars.$spacing-xl vars.$spacing-medium;
+  border-radius: 1.5rem;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+
+  [data-theme='light'] & {
+    background: #ffffff;
+    border-color: #e4e4e7;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  &:hover {
+    border-color: var(--color-brand);
+    transform: translateY(-4px);
+  }
+}
+
+.pricing-tier-card__rate {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: var(--color-brand);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pricing-tier-card__range {
+  font-size: vars.$font-size-small;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  color: var(--text-primary);
+  margin-top: vars.$spacing-small;
+  letter-spacing: -0.01em;
+}
+
+.pricing-tier-card__label {
+  display: inline-block;
+  margin-top: vars.$spacing-small;
+  padding: vars.$spacing-xs vars.$spacing-medium;
+  border-radius: 9999px;
+  border: 1px solid currentColor;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+.pricing-tier-card__desc {
+  font-size: vars.$font-size-small;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: vars.$spacing-small;
+  text-align: center;
+}
+
+.pricing-section__example {
+  max-width: 700px;
+  margin: vars.$spacing-xl auto 0;
+  padding: vars.$spacing-medium vars.$spacing-large;
+  border-radius: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  text-align: start;
+
+  [data-theme='light'] & {
+    background: #fafafa;
+    border-color: #e4e4e7;
+  }
+}
+
+.pricing-section__example-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-brand);
+  margin-bottom: vars.$spacing-xs;
+}
+
+.pricing-section__example-text {
+  font-size: vars.$font-size-medium;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.pricing-section__marginal-note {
+  max-width: 600px;
+  margin: vars.$spacing-medium auto 0;
+  font-size: vars.$font-size-small;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+// ==========================================
 // PAYMENT FORM SECTION
 // ==========================================
 .pricing-section__payment {

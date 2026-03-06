@@ -70,7 +70,14 @@ export const BillingHistoryTable: React.FC<BillingHistoryTableProps> = ({ cycles
                 <td className="billing__cell--period">{formatPeriod(cycle.period)}</td>
                 <td>{cycle.feeCount}</td>
                 <td>₪{cycle.totalTransactionAmount.toLocaleString()}</td>
-                <td className="billing__cell--fee">₪{cycle.totalFeeAmount.toFixed(2)}</td>
+                <td className="billing__cell--fee">
+                  <span>₪{cycle.totalFeeAmount.toFixed(2)}</span>
+                  {cycle.feeModel === 'tiered' && (
+                    <span className="billing__tiered-badge" title={t('history.tieredTooltip', 'עמלה מדורגת')}>
+                      {(cycle.feePercentage * 100).toFixed(1)}%
+                    </span>
+                  )}
+                </td>
                 <td><StatusBadge status={cycle.status} /></td>
                 <td>
                   {cycle.invoiceDocumentUrl ? (
