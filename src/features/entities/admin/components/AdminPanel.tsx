@@ -1221,17 +1221,17 @@ const PaymentCanaryView = () => {
   const [runFeedback, setRunFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Card setup state
-  const [isConfigured, setIsConfigured] = useState<boolean | null>(null);
+  const [canaryConfig, setCanaryConfig] = useState<{ configured: boolean; customerId: string | null; hasVendor: boolean } | null>(null);
   const [showCardForm, setShowCardForm] = useState(false);
   const [isSettingUp, setIsSettingUp] = useState(false);
   const [setupFeedback, setSetupFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const fetchConfig = async () => {
     try {
-      const data = await httpService.get<{ configured: boolean }>('/payment-canary/config');
-      setIsConfigured(data.configured);
+      const data = await httpService.get<{ configured: boolean; customerId: string | null; hasVendor: boolean }>('/payment-canary/config');
+      setCanaryConfig(data);
     } catch {
-      setIsConfigured(false);
+      setCanaryConfig({ configured: false, customerId: null, hasVendor: false });
     }
   };
 
@@ -1301,7 +1301,7 @@ const PaymentCanaryView = () => {
       }
 
       setSetupFeedback({ type: 'success', message: `Card ending in ${result.lastFourDigits} saved. ${result.instructions}` });
-      setIsConfigured(true);
+      setCanaryConfig(prev => prev ? { ...prev, configured: true, customerId: result.customerId } : { configured: true, customerId: result.customerId, hasVendor: true });
       setShowCardForm(false);
       form.reset();
     } catch (err: any) {
@@ -1352,122 +1352,124 @@ const PaymentCanaryView = () => {
 
   return (
     <div>
-      {/* Card Setup Section */}
-      {isConfigured === false && !showCardForm && (
-        <div className="admin-card" style={{ borderLeft: '4px solid var(--color-warning, #f59e0b)', marginBottom: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      {/* Card Configuration */}
+      <div className="admin-card" style={{ borderLeft: `4px solid ${canaryConfig?.configured ? 'var(--color-success, #22c55e)' : 'var(--color-warning, #f59e0b)'}`, marginBottom: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: showCardForm ? '16px' : 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <CreditCardIcon sx={{ fontSize: 20, color: canaryConfig?.configured ? 'var(--color-success, #22c55e)' : 'var(--color-warning, #f59e0b)' }} />
             <div>
-              <h3 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: 600 }}>Card Not Configured</h3>
-              <p style={{ margin: 0, color: 'var(--text-secondary, #6b7280)', fontSize: '14px' }}>
-                Add a credit card to enable automated payment health checks.
-              </p>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 600 }}>Canary Card</h3>
+              <span style={{ fontSize: '13px', color: 'var(--text-secondary, #6b7280)' }}>
+                {canaryConfig?.configured
+                  ? `Customer ID: ${canaryConfig.customerId}`
+                  : 'No card configured'}
+                {canaryConfig && !canaryConfig.hasVendor && ' · No vendor found'}
+              </span>
             </div>
-            <button className="admin-btn admin-btn--primary" onClick={() => { setShowCardForm(true); setSetupFeedback(null); }}>
-              <CreditCardIcon sx={{ fontSize: 16 }} /> Setup Card
-            </button>
           </div>
+          <button
+            className={`admin-btn ${canaryConfig?.configured ? 'admin-btn--ghost' : 'admin-btn--primary'}`}
+            onClick={() => { setShowCardForm(!showCardForm); setSetupFeedback(null); }}
+          >
+            <CreditCardIcon sx={{ fontSize: 14 }} />
+            {canaryConfig?.configured ? 'Change Card' : 'Setup Card'}
+          </button>
         </div>
-      )}
 
-      {showCardForm && (
-        <div className="admin-card" style={{ borderLeft: '4px solid var(--color-primary, #6366f1)', marginBottom: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>Setup Canary Card</h3>
-            <button className="admin-btn admin-btn--ghost" onClick={() => { setShowCardForm(false); setSetupFeedback(null); }} style={{ padding: '4px 8px' }}>
-              <XIcon sx={{ fontSize: 16 }} />
-            </button>
+        {setupFeedback && !showCardForm && (
+          <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '8px', fontSize: '13px', background: setupFeedback.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: setupFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
+            {setupFeedback.message}
           </div>
-          <p style={{ margin: '0 0 16px', color: 'var(--text-secondary, #6b7280)', fontSize: '13px' }}>
-            This card will be charged 1 ILS every 12 hours and immediately refunded to verify the payment system is healthy.
-          </p>
-          <form onSubmit={handleSetupCard}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Card Number</label>
-                <input
-                  type="text"
-                  name="CreditCardNumber"
-                  required
-                  placeholder="0000 0000 0000 0000"
-                  inputMode="numeric"
-                  maxLength={19}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
-                />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+        )}
+
+        {showCardForm && (
+          <>
+            <p style={{ margin: '0 0 16px', color: 'var(--text-secondary, #6b7280)', fontSize: '13px' }}>
+              This card will be charged 1 ILS every 12 hours and immediately refunded to verify the payment system is healthy.
+            </p>
+            <form onSubmit={handleSetupCard}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Month</label>
-                  <select name="ExpMonth" required style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px' }}>
-                    <option value="">MM</option>
-                    {[...Array(12)].map((_, i) => (
-                      <option key={i + 1} value={(i + 1).toString().padStart(2, '0')}>
-                        {(i + 1).toString().padStart(2, '0')}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Year</label>
-                  <select name="ExpYear" required style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px' }}>
-                    <option value="">YYYY</option>
-                    {[...Array(10)].map((_, i) => {
-                      const year = (new Date().getFullYear() + i).toString();
-                      return <option key={year} value={year}>{year}</option>;
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>CVV</label>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Card Number</label>
                   <input
                     type="text"
-                    name="CVV"
+                    name="CreditCardNumber"
                     required
-                    placeholder="000"
+                    placeholder="0000 0000 0000 0000"
                     inputMode="numeric"
-                    maxLength={4}
+                    maxLength={19}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Month</label>
+                    <select name="ExpMonth" required style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px' }}>
+                      <option value="">MM</option>
+                      {[...Array(12)].map((_, i) => (
+                        <option key={i + 1} value={(i + 1).toString().padStart(2, '0')}>
+                          {(i + 1).toString().padStart(2, '0')}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Year</label>
+                    <select name="ExpYear" required style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px' }}>
+                      <option value="">YYYY</option>
+                      {[...Array(10)].map((_, i) => {
+                        const year = (new Date().getFullYear() + i).toString();
+                        return <option key={year} value={year}>{year}</option>;
+                      })}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>CVV</label>
+                    <input
+                      type="text"
+                      name="CVV"
+                      required
+                      placeholder="000"
+                      inputMode="numeric"
+                      maxLength={4}
+                      style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>ID Number (תעודת זהות)</label>
+                  <input
+                    type="text"
+                    name="CitizenID"
+                    required
+                    placeholder="000000000"
+                    inputMode="numeric"
+                    maxLength={9}
                     style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
                   />
                 </div>
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>ID Number (תעודת זהות)</label>
-                <input
-                  type="text"
-                  name="CitizenID"
-                  required
-                  placeholder="000000000"
-                  inputMode="numeric"
-                  maxLength={9}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
-                />
+              {setupFeedback && (
+                <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '8px', fontSize: '13px', background: setupFeedback.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: setupFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
+                  {setupFeedback.message}
+                </div>
+              )}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                <button type="submit" className="admin-btn admin-btn--primary" disabled={isSettingUp}>
+                  {isSettingUp ? (
+                    <><RefreshIcon sx={{ fontSize: 16, animation: 'spin 1s linear infinite' }} /> Saving...</>
+                  ) : (
+                    <><LockIcon sx={{ fontSize: 14 }} /> Save Card</>
+                  )}
+                </button>
+                <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { setShowCardForm(false); setSetupFeedback(null); }}>
+                  Cancel
+                </button>
               </div>
-            </div>
-            {setupFeedback && (
-              <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '8px', fontSize: '13px', background: setupFeedback.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: setupFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
-                {setupFeedback.message}
-              </div>
-            )}
-            <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-              <button type="submit" className="admin-btn admin-btn--primary" disabled={isSettingUp}>
-                {isSettingUp ? (
-                  <><RefreshIcon sx={{ fontSize: 16, animation: 'spin 1s linear infinite' }} /> Saving...</>
-                ) : (
-                  <><LockIcon sx={{ fontSize: 14 }} /> Save Card</>
-                )}
-              </button>
-              <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { setShowCardForm(false); setSetupFeedback(null); }}>
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      {setupFeedback && !showCardForm && (
-        <div style={{ marginBottom: '16px', padding: '10px 14px', borderRadius: '8px', fontSize: '13px', background: setupFeedback.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: setupFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
-          {setupFeedback.message}
-        </div>
-      )}
+            </form>
+          </>
+        )}
+      </div>
 
       {/* Status Card */}
       <div className="admin-card" style={{ borderLeft: `4px solid ${lastResult ? (lastResult.status === 'pass' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)') : 'var(--color-border, #e5e7eb)'}`, marginBottom: '24px' }}>
