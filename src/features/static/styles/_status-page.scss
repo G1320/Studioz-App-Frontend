@@ -3,13 +3,9 @@
 @use 'design-system' as ds;
 
 // ==========================================
-// STATUS PAGE STYLES - StudioZ Design System
-// Theme: Dark Mode Dominant, Professional
+// STATUS PAGE — Clean, Minimal Status Board
 // ==========================================
 
-// ==========================================
-// PAGE CONTAINER
-// ==========================================
 .status-page {
   min-height: 100vh;
   background: var(--bg-primary);
@@ -31,17 +27,16 @@
 }
 
 // ==========================================
-// HERO SECTION
+// HERO — Compact with integrated status
 // ==========================================
 .status-hero {
   position: relative;
-  padding: vars.$spacing-3xl vars.$spacing-medium;
-  padding-top: 8rem;
+  padding: 7rem vars.$spacing-medium vars.$spacing-2xl;
   overflow: hidden;
   text-align: center;
 
   @media (min-width: 768px) {
-    padding: 10rem vars.$spacing-large 5rem;
+    padding: 8rem vars.$spacing-large vars.$spacing-3xl;
   }
 
   &__background {
@@ -58,39 +53,64 @@
   &__glow {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
+    filter: blur(140px);
 
     &--primary {
-      top: -10%;
-      left: -10%;
-      width: 40%;
-      height: 40%;
-      background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.1);
-    }
-
-    &--secondary {
-      bottom: -10%;
-      right: -10%;
-      width: 40%;
-      height: 40%;
-      background: var(--bg-secondary);
-      opacity: 0.5;
+      top: -20%;
+      left: 20%;
+      width: 60%;
+      height: 60%;
+      background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.06);
     }
   }
 
   &__content {
     position: relative;
     z-index: 10;
-    max-width: 1152px;
+    max-width: 640px;
     margin-inline: auto;
   }
 
-  &__title {
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.03em;
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-small;
+    padding: 6px vars.$spacing-medium;
+    border-radius: 9999px;
+    font-size: vars.$font-size-small;
+    font-weight: 700;
     margin-bottom: vars.$spacing-xl;
+
+    &--operational {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #10b981;
+    }
+
+    &--degraded {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #f59e0b;
+    }
+
+    &--major_outage {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #ef4444;
+    }
+  }
+
+  &__overall-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: vars.$spacing-medium;
     color: var(--text-primary);
 
     &--highlight {
@@ -99,62 +119,135 @@
   }
 
   &__subtitle {
-    font-size: vars.$font-size-xl;
+    font-size: vars.$font-size-medium;
     color: var(--text-muted);
-    max-width: 640px;
-    margin-inline: auto;
     line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  &__updated {
+    font-size: vars.$font-size-xs;
+    color: var(--text-muted);
+    opacity: 0.6;
+    margin-top: vars.$spacing-medium;
   }
 }
 
 // ==========================================
-// MAIN CONTENT
+// MAIN
 // ==========================================
 .status-main {
-  max-width: 1152px;
+  max-width: 720px;
   margin-inline: auto;
-  padding: vars.$spacing-xl vars.$spacing-medium vars.$spacing-3xl;
+  padding: 0 vars.$spacing-medium vars.$spacing-3xl;
 
   @media (min-width: 768px) {
-    padding: vars.$spacing-2xl vars.$spacing-large 5rem;
+    padding: 0 vars.$spacing-large 6rem;
   }
 }
 
 // ==========================================
-// OVERALL STATUS BANNER
+// SERVICE LIST
 // ==========================================
-.status-banner {
+.status-services {
+  background: rgba(var(--bg-secondary-rgb, 39, 39, 42), 0.4);
+  border: 1px solid var(--border-primary);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.status-service {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: vars.$spacing-medium;
+  justify-content: space-between;
   padding: vars.$spacing-large vars.$spacing-xl;
-  border-radius: 2rem;
-  font-size: vars.$font-size-xl;
-  font-weight: 700;
-  margin-bottom: vars.$spacing-large;
 
-  &__icon {
-    width: 28px;
-    height: 28px;
+  & + & {
+    border-top: 1px solid rgba(var(--border-primary-rgb, 63, 63, 70), 0.5);
   }
 
-  &--operational {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #10b981;
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-medium;
   }
 
-  &--degraded {
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    color: #f59e0b;
+  &__name {
+    font-size: vars.$font-size-medium;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
-  &--outage {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #ef4444;
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-large;
+  }
+
+  &__meta {
+    font-size: vars.$font-size-small;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__label {
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    &--operational { color: #10b981; }
+    &--degraded { color: #f59e0b; }
+    &--down { color: #ef4444; }
+  }
+}
+
+// ==========================================
+// METRICS SECTION
+// ==========================================
+.status-metrics {
+  margin-top: vars.$spacing-xl;
+  background: rgba(var(--bg-secondary-rgb, 39, 39, 42), 0.4);
+  border: 1px solid var(--border-primary);
+  border-radius: 1.5rem;
+  padding: vars.$spacing-xl;
+
+  &__title {
+    font-size: vars.$font-size-small;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: vars.$spacing-large;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-large;
+
+    @media (min-width: 520px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__item {
+    text-align: center;
+  }
+
+  &__value {
+    display: block;
+    font-size: vars.$font-size-xl;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  &__label {
+    font-size: vars.$font-size-xs;
+    color: var(--text-muted);
   }
 }
 
@@ -166,15 +259,15 @@
   align-items: flex-start;
   gap: vars.$spacing-medium;
   padding: vars.$spacing-large;
-  border-radius: vars.$border-radius-2xl;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  margin-bottom: vars.$spacing-large;
+  border-radius: 1.5rem;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  margin-bottom: vars.$spacing-xl;
   color: #f59e0b;
 
   &__icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
     margin-top: 2px;
   }
@@ -182,184 +275,68 @@
   strong {
     display: block;
     font-weight: 700;
-    margin-bottom: vars.$spacing-small;
+    font-size: vars.$font-size-small;
+    margin-bottom: 2px;
   }
 
   p {
     margin: 0;
-    font-size: vars.$font-size-small;
-    color: var(--text-muted);
-  }
-}
-
-// ==========================================
-// LAST UPDATED TEXT
-// ==========================================
-.status-updated {
-  text-align: center;
-  font-size: vars.$font-size-small;
-  color: var(--text-muted);
-  margin-bottom: vars.$spacing-2xl;
-}
-
-// ==========================================
-// SERVICE CARDS GRID
-// ==========================================
-.status-cards-grid {
-  display: grid;
-  gap: vars.$spacing-xl;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-// ==========================================
-// SERVICE CARD
-// ==========================================
-.status-card {
-  padding: vars.$spacing-xl;
-  border-radius: 2rem;
-  background: rgba(var(--bg-secondary-rgb, 39, 39, 42), 0.5);
-  border: 1px solid var(--border-primary);
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: rgba(var(--color-brand-rgb, 247, 192, 65), 0.3);
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: vars.$spacing-large;
-  }
-
-  &__name {
-    font-size: vars.$font-size-large;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  &__status {
-    display: flex;
-    align-items: center;
-    gap: vars.$spacing-small;
-  }
-
-  &__label {
     font-size: vars.$font-size-xs;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-
-    &--operational {
-      color: #10b981;
-    }
-
-    &--degraded {
-      color: #f59e0b;
-    }
-
-    &--down {
-      color: #ef4444;
-    }
-  }
-
-  &__details {
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-medium;
-  }
-
-  &__metric {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: vars.$spacing-small 0;
-    border-bottom: 1px solid rgba(var(--border-primary-rgb, 63, 63, 70), 0.4);
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  &__metric-label {
-    font-size: vars.$font-size-small;
     color: var(--text-muted);
-  }
-
-  &__metric-value {
-    font-size: vars.$font-size-small;
-    font-weight: 600;
-    color: var(--text-secondary);
-    font-variant-numeric: tabular-nums;
-  }
-
-  &__icon-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: vars.$spacing-small;
-  }
-
-  &__service-icon {
-    width: 20px;
-    height: 20px;
-    color: var(--text-muted);
-    opacity: 0.5;
+    line-height: 1.5;
   }
 }
 
 // ==========================================
-// STATUS DOT (pulsing indicator)
+// STATUS DOT
 // ==========================================
 .status-dot {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 
   &--operational {
     background: #10b981;
-    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
-    animation: status-pulse-green 2s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+    animation: status-pulse-green 2.5s ease-in-out infinite;
   }
 
   &--degraded {
     background: #f59e0b;
-    box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
-    animation: status-pulse-amber 2s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+    animation: status-pulse-amber 2.5s ease-in-out infinite;
   }
 
   &--down {
     background: #ef4444;
-    box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
-    animation: status-pulse-red 2s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+    animation: status-pulse-red 2.5s ease-in-out infinite;
   }
 }
 
 @keyframes status-pulse-green {
-  0%, 100% { box-shadow: 0 0 4px rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.8); }
+  0%, 100% { box-shadow: 0 0 4px rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.7); }
 }
 
 @keyframes status-pulse-amber {
-  0%, 100% { box-shadow: 0 0 4px rgba(245, 158, 11, 0.4); }
-  50% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.8); }
+  0%, 100% { box-shadow: 0 0 4px rgba(245, 158, 11, 0.3); }
+  50% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.7); }
 }
 
 @keyframes status-pulse-red {
-  0%, 100% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.8); }
+  0%, 100% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
 }
 
 // ==========================================
-// LOADING & ERROR STATES
+// LOADING & ERROR
 // ==========================================
 .status-loading {
   text-align: center;
-  font-size: vars.$font-size-large;
+  font-size: vars.$font-size-medium;
   color: var(--text-muted);
   padding: vars.$spacing-3xl 0;
 }
@@ -369,65 +346,40 @@
   align-items: center;
   justify-content: center;
   gap: vars.$spacing-medium;
-  padding: vars.$spacing-xl;
-  border-radius: 2rem;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: vars.$spacing-large;
+  border-radius: 1.5rem;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.2);
   color: #ef4444;
-  font-size: vars.$font-size-medium;
+  font-size: vars.$font-size-small;
 
-  svg {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-
-  p {
-    margin: 0;
-  }
+  svg { width: 20px; height: 20px; flex-shrink: 0; }
+  p { margin: 0; }
 }
 
 // ==========================================
-// LIGHT MODE ADJUSTMENTS
+// LIGHT MODE
 // ==========================================
 [data-theme='light'] {
-  .status-page {
-    background: var(--bg-primary);
-  }
-
   .status-hero__glow--primary {
-    background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
+    background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.1);
   }
 
-  .status-hero__glow--secondary {
-    background: var(--bg-secondary);
-    opacity: 0.3;
-  }
-
-  .status-card {
+  .status-services,
+  .status-metrics {
     background: var(--bg-elevated);
     border-color: var(--border-secondary);
   }
 
-  .status-banner {
-    &--operational {
-      background: rgba(16, 185, 129, 0.08);
-    }
-
-    &--degraded {
-      background: rgba(245, 158, 11, 0.08);
-    }
-
-    &--outage {
-      background: rgba(239, 68, 68, 0.08);
-    }
+  .status-service + .status-service {
+    border-color: var(--border-secondary);
   }
 
   .status-incident {
-    background: rgba(245, 158, 11, 0.06);
+    background: rgba(245, 158, 11, 0.05);
   }
 
   .status-error {
-    background: rgba(239, 68, 68, 0.06);
+    background: rgba(239, 68, 68, 0.05);
   }
 }
