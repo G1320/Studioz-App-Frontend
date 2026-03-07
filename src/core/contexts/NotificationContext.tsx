@@ -80,10 +80,11 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   // Handle socket events
   useEffect(() => {
     if (!socket || !user?._id) return;
+    const userId = user._id;
 
     const handleNewNotification = (incoming: { notification: Notification }) => {
-      queryClient.setQueryData<InfiniteData<Notification[]>>(
-        ['notifications', user._id],
+      const updated = queryClient.setQueryData<InfiniteData<Notification[]>>(
+        ['notifications', userId],
         (old) => {
           if (!old) return old;
           const firstPage = old.pages[0] ?? [];
@@ -94,21 +95,32 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
         }
       );
 
-      queryClient.setQueryData(['notificationCount', user._id], (old: { count: number } = { count: 0 }) => {
+      if (!updated) {
+        queryClient.invalidateQueries({ queryKey: ['notifications', userId] });
+      }
+
+      queryClient.setQueryData(['notificationCount', userId], (old: { count: number } = { count: 0 }) => {
         return { count: old.count + 1 };
       });
     };
 
     const handleCountUpdate = (incoming: { count: number }) => {
-      queryClient.setQueryData(['notificationCount', user._id], { count: incoming.count });
+      queryClient.setQueryData(['notificationCount', userId], { count: incoming.count });
+    };
+
+    const handleReconnect = () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications', userId] });
+      queryClient.invalidateQueries({ queryKey: ['notificationCount', userId] });
     };
 
     socket.on('notification:new', handleNewNotification);
     socket.on('notification:count', handleCountUpdate);
+    socket.io.on('reconnect', handleReconnect);
 
     return () => {
       socket.off('notification:new', handleNewNotification);
       socket.off('notification:count', handleCountUpdate);
+      socket.io.off('reconnect', handleReconnect);
     };
   }, [socket, user?._id, queryClient]);
 

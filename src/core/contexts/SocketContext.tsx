@@ -1,5 +1,5 @@
 // SocketContext.tsx
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
 import { invalidateCartQueries, invalidateItemQueries, invalidateReservationQueries } from '@shared/utils/queryUtils';
@@ -22,66 +22,66 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const queryClient = useQueryClient();
   const { user } = useUserContext();
-
   const { setOfflineCartContext } = useOfflineCartContext();
 
+  const userRef = useRef(user);
+  userRef.current = user;
+
+  const queryClientRef = useRef(queryClient);
+  queryClientRef.current = queryClient;
+
+  const offlineCartRef = useRef(setOfflineCartContext);
+  offlineCartRef.current = setOfflineCartContext;
+
   useEffect(() => {
+    if (!user?._id) {
+      setSocket(null);
+      return;
+    }
+
     const newSocket = io(BASE_URL, {
       withCredentials: true,
       transports: ['websocket', 'polling'],
-      reconnection: true
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 10000,
     });
 
     newSocket.on('connect', () => {
-      // Join user-specific room for notifications when connected
-      if (user?._id) {
-        newSocket.emit('join:user', { userId: user._id });
+      const currentUser = userRef.current;
+      if (currentUser?._id) {
+        newSocket.emit('join:user', { userId: currentUser._id });
       }
     });
 
-    // Join user room if user is already available when socket connects
-    if (user?._id && newSocket.connected) {
-      newSocket.emit('join:user', { userId: user._id });
-    }
-
     newSocket.on('availabilityUpdated', (data) => {
-      // Handle both single itemId and batched itemIds
       if (data.itemIds && Array.isArray(data.itemIds)) {
-        invalidateItemQueries(queryClient, data.itemIds);
+        invalidateItemQueries(queryClientRef.current, data.itemIds);
       } else if (data.itemId) {
-        invalidateItemQueries(queryClient, data.itemId);
+        invalidateItemQueries(queryClientRef.current, data.itemId);
       }
     });
 
     newSocket.on('reservationUpdated', (data) => {
-      // Keep existing offline cart cleanup & toast behavior
       const updatedCart = removeExpiredItemsFromOfflineCart(data.reservationIds);
       if (updatedCart) {
-        setOfflineCartContext(updatedCart);
+        offlineCartRef.current(updatedCart);
       }
-      invalidateCartQueries(queryClient, data.customerId);
-      invalidateReservationQueries(queryClient, data.reservationIds);
+      invalidateCartQueries(queryClientRef.current, data.customerId);
+      invalidateReservationQueries(queryClientRef.current, data.reservationIds);
     });
 
     newSocket.on('connect_error', (error) => {
-      console.error('Socket connection error:', error);
+      console.error('Socket connection error:', error.message);
     });
 
     setSocket(newSocket);
 
     return () => {
-      if (newSocket.connected) {
-        newSocket.disconnect();
-      }
+      newSocket.removeAllListeners();
+      newSocket.disconnect();
     };
-  }, [queryClient]);
-
-  // Handle user room joining when user changes
-  useEffect(() => {
-    if (socket && user?._id && socket.connected) {
-      socket.emit('join:user', { userId: user._id });
-    }
-  }, [socket, user?._id]);
+  }, [user?._id]);
 
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };
