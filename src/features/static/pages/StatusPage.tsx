@@ -34,7 +34,6 @@ interface StatusData {
       totalTests24h: number;
       passedTests24h: number;
       lastCheck: string | null;
-      lastTestFailed: boolean;
     };
   };
   timestamp: string;
@@ -142,8 +141,8 @@ const StatusPage: React.FC = () => {
 
         {data && (
           <>
-            {/* Incident banner */}
-            {data.services.payments.lastTestFailed && (
+            {/* Incident banner — only for actual outages */}
+            {data.overall === 'major_outage' && (
               <motion.div {...fadeIn} transition={{ delay: 0.2 }} className="status-incident">
                 <AlertTriangleIcon className="status-incident__icon" />
                 <div>
