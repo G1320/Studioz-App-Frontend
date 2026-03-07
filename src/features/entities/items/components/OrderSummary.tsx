@@ -6,6 +6,7 @@ import { sumitService } from '@shared/services';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
 import { SavedCards, type SavedCard } from './SavedCards';
 import '../styles/_order-summary.scss';
+import '@features/entities/payments/sumit/styles/_SumitSubscriptionPaymentForm.scss';
 
 // --- Types ---
 export interface OrderItem {

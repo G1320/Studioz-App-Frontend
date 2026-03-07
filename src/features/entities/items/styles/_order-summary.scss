@@ -593,21 +593,49 @@
 
   // New Card Form Wrapper
   &__new-card {
-    // Styling overrides for Sumit Form if necessary
     .sumit-payment-form {
-      &__input {
-        background: var(--bg-input);
-        border-color: var(--border-primary);
-        color: var(--text-primary);
+      max-width: 100%;
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
 
-        &:focus {
-          border-color: var(--color-brand);
-          box-shadow: 0 0 0 1px var(--color-brand);
+      &__field {
+        input,
+        select {
+          background: var(--bg-input);
+          border-color: var(--border-primary);
+          color: var(--text-primary);
+
+          &::placeholder {
+            color: var(--text-muted);
+          }
+
+          &:focus {
+            border-color: var(--color-brand);
+            box-shadow: 0 0 0 1px var(--color-brand);
+          }
+        }
+
+        label {
+          color: var(--text-secondary);
         }
       }
 
-      &__label {
-        color: var(--text-secondary);
+      &__submit button {
+        background: var(--color-brand);
+        color: var(--btn-primary-text);
+        box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+
+        &:hover:not(:disabled) {
+          background: var(--color-brand-hover);
+          box-shadow: 0 0 25px var(--color-brand-glow);
+        }
+      }
+
+      &__footer {
+        border-top: none;
       }
     }
   }
