@@ -1203,13 +1203,11 @@ const EmailTemplatesView = () => {
 
 interface CanaryResult {
   testId: string;
-  status: 'pass' | 'charge_failed' | 'refund_failed';
+  status: 'pass' | 'charge_failed';
   chargeAmount: number;
   currency: string;
   chargeLatencyMs: number;
-  refundLatencyMs?: number;
   sumitPaymentId?: string;
-  refundId?: string;
   errorMessage?: string;
   timestamp: string;
 }
@@ -1320,7 +1318,7 @@ const PaymentCanaryView = () => {
       setRunFeedback({
         type: result.status === 'pass' ? 'success' : 'error',
         message: result.status === 'pass'
-          ? `Test passed — charge ${result.chargeLatencyMs}ms, refund ${result.refundLatencyMs}ms`
+          ? `Test passed — authorized in ${result.chargeLatencyMs}ms`
           : `Test failed: ${result.errorMessage}`
       });
     } catch (err: any) {
@@ -1345,7 +1343,6 @@ const PaymentCanaryView = () => {
     switch (status) {
       case 'pass': return 'Active';
       case 'charge_failed': return 'Suspended';
-      case 'refund_failed': return 'Pending';
       default: return status;
     }
   };
@@ -1385,7 +1382,7 @@ const PaymentCanaryView = () => {
         {showCardForm && (
           <>
             <p style={{ margin: '0 0 16px', color: 'var(--text-secondary, #6b7280)', fontSize: '13px' }}>
-              This card will be charged 1 ILS every 12 hours and immediately refunded to verify the payment system is healthy.
+              This card will be validated via a 1 ILS authorization (no actual charge) every 12 hours to verify the payment system is healthy.
             </p>
             <form onSubmit={handleSetupCard}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -1484,7 +1481,7 @@ const PaymentCanaryView = () => {
                 </div>
                 {lastResult.status === 'pass' && (
                   <span style={{ color: 'var(--text-secondary, #6b7280)' }}>
-                    Charge: {lastResult.chargeLatencyMs}ms · Refund: {lastResult.refundLatencyMs}ms
+                    Auth: {lastResult.chargeLatencyMs}ms
                   </span>
                 )}
                 {lastResult.errorMessage && (
@@ -1528,8 +1525,7 @@ const PaymentCanaryView = () => {
                 <tr>
                   <th>Status</th>
                   <th>Timestamp</th>
-                  <th>Charge Latency</th>
-                  <th>Refund Latency</th>
+                  <th>Auth Latency</th>
                   <th>Payment ID</th>
                   <th>Error</th>
                 </tr>
@@ -1540,7 +1536,6 @@ const PaymentCanaryView = () => {
                     <td><StatusBadge status={getStatusLabel(r.status)} /></td>
                     <td>{formatTimestamp(r.timestamp)}</td>
                     <td>{r.chargeLatencyMs}ms</td>
-                    <td>{r.refundLatencyMs != null ? `${r.refundLatencyMs}ms` : '—'}</td>
                     <td style={{ fontFamily: 'monospace', fontSize: '12px' }}>{r.sumitPaymentId || '—'}</td>
                     <td style={{ color: r.errorMessage ? 'var(--color-error, #ef4444)' : undefined, maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={r.errorMessage}>
                       {r.errorMessage || '—'}
@@ -1994,7 +1989,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
           <div className="admin-content admin-content--animate">
             <SectionHeader
               title="Payment Canary"
-              description="Automated payment health checks — charges 1 ILS and refunds it every 12 hours"
+              description="Automated payment health checks — authorizes 1 ILS via multivendorcharge every 12 hours (no actual charge)"
             />
             <PaymentCanaryView />
           </div>
