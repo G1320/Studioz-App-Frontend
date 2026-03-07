@@ -1220,6 +1220,21 @@ const PaymentCanaryView = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [runFeedback, setRunFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
+  // Card setup state
+  const [isConfigured, setIsConfigured] = useState<boolean | null>(null);
+  const [showCardForm, setShowCardForm] = useState(false);
+  const [isSettingUp, setIsSettingUp] = useState(false);
+  const [setupFeedback, setSetupFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const fetchConfig = async () => {
+    try {
+      const data = await httpService.get<{ configured: boolean }>('/payment-canary/config');
+      setIsConfigured(data.configured);
+    } catch {
+      setIsConfigured(false);
+    }
+  };
+
   const fetchHistory = async () => {
     setIsLoading(true);
     try {
@@ -1232,7 +1247,69 @@ const PaymentCanaryView = () => {
     }
   };
 
-  useEffect(() => { fetchHistory(); }, []);
+  useEffect(() => { fetchConfig(); fetchHistory(); }, []);
+
+  const handleSetupCard = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSettingUp(true);
+    setSetupFeedback(null);
+
+    try {
+      const form = e.target as HTMLFormElement;
+
+      // Build FormData for Sumit tokenization
+      const formData = new FormData();
+      const cardNumber = (form.elements.namedItem('CreditCardNumber') as HTMLInputElement)?.value?.trim();
+      const expMonth = (form.elements.namedItem('ExpMonth') as HTMLSelectElement)?.value;
+      const expYear = (form.elements.namedItem('ExpYear') as HTMLSelectElement)?.value;
+      const cvv = (form.elements.namedItem('CVV') as HTMLInputElement)?.value?.trim();
+      const citizenId = (form.elements.namedItem('CitizenID') as HTMLInputElement)?.value?.trim();
+
+      if (!cardNumber || !expMonth || !expYear || !cvv || !citizenId) {
+        throw new Error('Please fill in all card fields.');
+      }
+
+      formData.append('CardNumber', cardNumber);
+      formData.append('ExpirationMonth', expMonth);
+      formData.append('ExpirationYear', expYear);
+      formData.append('CVV', cvv);
+      formData.append('CitizenID', citizenId);
+      formData.append('Credentials.CompanyID', import.meta.env.VITE_SUMIT_COMPANY_ID);
+      formData.append('Credentials.APIPublicKey', import.meta.env.VITE_SUMIT_PUBLIC_API_KEY);
+      formData.append('ResponseLanguage', 'he');
+
+      // Get single-use token from Sumit
+      const tokenResponse = await fetch('https://api.sumit.co.il/creditguy/vault/tokenizesingleuse', {
+        method: 'POST',
+        headers: { accept: 'text/plain' },
+        body: formData
+      });
+      const tokenData = await tokenResponse.json();
+
+      if (!tokenResponse.ok || tokenData.Status !== 0 || !tokenData.Data?.SingleUseToken) {
+        throw new Error(tokenData.UserErrorMessage || 'Failed to tokenize card. Check card details.');
+      }
+
+      // Call setup-card endpoint
+      const result = await httpService.post<{ success: boolean; customerId: string; lastFourDigits: string; instructions: string; error?: string }>(
+        '/payment-canary/setup-card',
+        { singleUseToken: tokenData.Data.SingleUseToken }
+      );
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to save card.');
+      }
+
+      setSetupFeedback({ type: 'success', message: `Card ending in ${result.lastFourDigits} saved. ${result.instructions}` });
+      setIsConfigured(true);
+      setShowCardForm(false);
+      form.reset();
+    } catch (err: any) {
+      setSetupFeedback({ type: 'error', message: err?.message || 'Failed to set up canary card.' });
+    } finally {
+      setIsSettingUp(false);
+    }
+  };
 
   const handleRunTest = async () => {
     setIsRunning(true);
@@ -1275,6 +1352,123 @@ const PaymentCanaryView = () => {
 
   return (
     <div>
+      {/* Card Setup Section */}
+      {isConfigured === false && !showCardForm && (
+        <div className="admin-card" style={{ borderLeft: '4px solid var(--color-warning, #f59e0b)', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <h3 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: 600 }}>Card Not Configured</h3>
+              <p style={{ margin: 0, color: 'var(--text-secondary, #6b7280)', fontSize: '14px' }}>
+                Add a credit card to enable automated payment health checks.
+              </p>
+            </div>
+            <button className="admin-btn admin-btn--primary" onClick={() => { setShowCardForm(true); setSetupFeedback(null); }}>
+              <CreditCardIcon sx={{ fontSize: 16 }} /> Setup Card
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showCardForm && (
+        <div className="admin-card" style={{ borderLeft: '4px solid var(--color-primary, #6366f1)', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>Setup Canary Card</h3>
+            <button className="admin-btn admin-btn--ghost" onClick={() => { setShowCardForm(false); setSetupFeedback(null); }} style={{ padding: '4px 8px' }}>
+              <XIcon sx={{ fontSize: 16 }} />
+            </button>
+          </div>
+          <p style={{ margin: '0 0 16px', color: 'var(--text-secondary, #6b7280)', fontSize: '13px' }}>
+            This card will be charged 1 ILS every 12 hours and immediately refunded to verify the payment system is healthy.
+          </p>
+          <form onSubmit={handleSetupCard}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Card Number</label>
+                <input
+                  type="text"
+                  name="CreditCardNumber"
+                  required
+                  placeholder="0000 0000 0000 0000"
+                  inputMode="numeric"
+                  maxLength={19}
+                  style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Month</label>
+                  <select name="ExpMonth" required style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px' }}>
+                    <option value="">MM</option>
+                    {[...Array(12)].map((_, i) => (
+                      <option key={i + 1} value={(i + 1).toString().padStart(2, '0')}>
+                        {(i + 1).toString().padStart(2, '0')}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>Year</label>
+                  <select name="ExpYear" required style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px' }}>
+                    <option value="">YYYY</option>
+                    {[...Array(10)].map((_, i) => {
+                      const year = (new Date().getFullYear() + i).toString();
+                      return <option key={year} value={year}>{year}</option>;
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>CVV</label>
+                  <input
+                    type="text"
+                    name="CVV"
+                    required
+                    placeholder="000"
+                    inputMode="numeric"
+                    maxLength={4}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '4px', color: 'var(--text-secondary, #6b7280)' }}>ID Number (תעודת זהות)</label>
+                <input
+                  type="text"
+                  name="CitizenID"
+                  required
+                  placeholder="000000000"
+                  inputMode="numeric"
+                  maxLength={9}
+                  style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border, #e5e7eb)', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+                />
+              </div>
+            </div>
+            {setupFeedback && (
+              <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '8px', fontSize: '13px', background: setupFeedback.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: setupFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
+                {setupFeedback.message}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+              <button type="submit" className="admin-btn admin-btn--primary" disabled={isSettingUp}>
+                {isSettingUp ? (
+                  <><RefreshIcon sx={{ fontSize: 16, animation: 'spin 1s linear infinite' }} /> Saving...</>
+                ) : (
+                  <><LockIcon sx={{ fontSize: 14 }} /> Save Card</>
+                )}
+              </button>
+              <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { setShowCardForm(false); setSetupFeedback(null); }}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {setupFeedback && !showCardForm && (
+        <div style={{ marginBottom: '16px', padding: '10px 14px', borderRadius: '8px', fontSize: '13px', background: setupFeedback.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: setupFeedback.type === 'success' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)' }}>
+          {setupFeedback.message}
+        </div>
+      )}
+
       {/* Status Card */}
       <div className="admin-card" style={{ borderLeft: `4px solid ${lastResult ? (lastResult.status === 'pass' ? 'var(--color-success, #22c55e)' : 'var(--color-error, #ef4444)') : 'var(--color-border, #e5e7eb)'}`, marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
