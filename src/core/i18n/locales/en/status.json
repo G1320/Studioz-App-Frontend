@@ -1,0 +1,48 @@
+{
+  "hero": {
+    "title": {
+      "line1": "SYSTEM",
+      "line2": "STATUS"
+    },
+    "subtitle": "Real-time health monitoring for all StudioZ services."
+  },
+  "overall": {
+    "operational": "All Systems Operational",
+    "degraded": "Partial Service Disruption",
+    "major_outage": "Major Service Outage"
+  },
+  "services": {
+    "server": {
+      "name": "Server",
+      "uptime": "Uptime",
+      "memory": "Memory",
+      "latency": "Latency"
+    },
+    "database": {
+      "name": "Database"
+    },
+    "payments": {
+      "name": "Payment System",
+      "uptime24h": "Uptime (24h)",
+      "avgLatency": "Avg Latency",
+      "totalTests": "Tests (24h)",
+      "lastCheck": "Last Check"
+    }
+  },
+  "status": {
+    "operational": "Operational",
+    "degraded": "Degraded",
+    "down": "Down"
+  },
+  "incident": {
+    "title": "Active Incident",
+    "paymentFailure": "The latest payment system health check failed. Our team is investigating."
+  },
+  "lastUpdated": "Last updated {{seconds}}s ago",
+  "loading": "Checking service health...",
+  "error": "Unable to reach status API. Please try again later.",
+  "units": {
+    "ms": "ms",
+    "mb": "MB"
+  }
+}

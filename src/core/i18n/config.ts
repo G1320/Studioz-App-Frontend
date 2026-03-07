@@ -37,6 +37,7 @@ import privacyPolicy from './locales/en/privacyPolicy.json';
 import accessibility from './locales/en/accessibility.json';
 import termsAndConditions from './locales/en/termsAndConditions.json';
 import metaCampaigns from './locales/en/metaCampaigns.json';
+import status from './locales/en/status.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -73,6 +74,7 @@ import privacyPolicyHe from './locales/he/privacyPolicy.json';
 import accessibilityHe from './locales/he/accessibility.json';
 import termsAndConditionsHe from './locales/he/termsAndConditions.json';
 import metaCampaignsHe from './locales/he/metaCampaigns.json';
+import statusHe from './locales/he/status.json';
 
 i18n
   .use(LanguageDetector)
@@ -114,7 +116,8 @@ i18n
         privacyPolicy,
         accessibility,
         termsAndConditions,
-        metaCampaigns
+        metaCampaigns,
+        status
       },
       he: {
         discoverPage: discoverPageHe,
@@ -151,7 +154,8 @@ i18n
         privacyPolicy: privacyPolicyHe,
         accessibility: accessibilityHe,
         termsAndConditions: termsAndConditionsHe,
-        metaCampaigns: metaCampaignsHe
+        metaCampaigns: metaCampaignsHe,
+        status: statusHe
       }
     },
     fallbackLng: 'he',

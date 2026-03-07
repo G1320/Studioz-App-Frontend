@@ -35,6 +35,7 @@ const ForOwnersPage = lazyWithRetry(() => import('@features/static/pages/ForOwne
 // HowItWorksPage content is now embedded in ForOwnersPage as a section
 const ChangelogPage = lazyWithRetry(() => import('@features/static/pages/ChangelogPage'));
 const SecurityPage = lazyWithRetry(() => import('@features/static/pages/SecurityPage'));
+const StatusPage = lazyWithRetry(() => import('@features/static/pages/StatusPage'));
 const FeaturesPage = lazyWithRetry(() => import('@features/static/pages/FeaturesPage'));
 const FeatureDetailPage = lazyWithRetry(() => import('@features/static/pages/FeatureDetailPage'));
 const ServicesPage = lazyWithRetry(() => import('@features/entities/items/pages/ServicesPage'));
@@ -408,6 +409,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <SecurityPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/status"
+            element={
+              <AnimatedRoute>
+                <StatusPage />
               </AnimatedRoute>
             }
           />
