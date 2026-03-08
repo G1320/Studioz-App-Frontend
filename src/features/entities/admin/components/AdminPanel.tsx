@@ -1516,24 +1516,46 @@ const PaymentCanaryView = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>Test History</h3>
           {results.length > 0 && (
-            <button
-              className="admin-btn admin-btn--ghost"
-              style={{ color: 'var(--color-error, #ef4444)', fontSize: '13px' }}
-              onClick={async () => {
-                if (!window.confirm('Clear all canary test history? This cannot be undone.')) return;
-                try {
-                  await httpService.delete('/payment-canary/history');
-                  setResults([]);
-                  setRunFeedback({ type: 'success', message: 'History cleared' });
-                  setTimeout(() => setRunFeedback(null), 3000);
-                } catch {
-                  setRunFeedback({ type: 'error', message: 'Failed to clear history' });
-                  setTimeout(() => setRunFeedback(null), 3000);
-                }
-              }}
-            >
-              <TrashIcon sx={{ fontSize: 14 }} /> Clear History
-            </button>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {results.some(r => r.status === 'charge_failed') && (
+                <button
+                  className="admin-btn admin-btn--ghost"
+                  style={{ color: 'var(--color-warning, #f59e0b)', fontSize: '13px' }}
+                  onClick={async () => {
+                    if (!window.confirm('Clear all failed canary tests? This cannot be undone.')) return;
+                    try {
+                      await httpService.delete('/payment-canary/history/failed');
+                      setResults(prev => prev.filter(r => r.status !== 'charge_failed'));
+                      setRunFeedback({ type: 'success', message: 'Failed tests cleared' });
+                      setTimeout(() => setRunFeedback(null), 3000);
+                    } catch {
+                      setRunFeedback({ type: 'error', message: 'Failed to clear history' });
+                      setTimeout(() => setRunFeedback(null), 3000);
+                    }
+                  }}
+                >
+                  <TrashIcon sx={{ fontSize: 14 }} /> Clear Failed
+                </button>
+              )}
+              <button
+                className="admin-btn admin-btn--ghost"
+                style={{ color: 'var(--color-error, #ef4444)', fontSize: '13px' }}
+                onClick={async () => {
+                  if (!window.confirm('Clear all canary test history? This cannot be undone.')) return;
+                  try {
+                    await httpService.delete('/payment-canary/history');
+                    setResults([]);
+                    setRunFeedback({ type: 'success', message: 'History cleared' });
+                    setTimeout(() => setRunFeedback(null), 3000);
+                  } catch {
+                    setRunFeedback({ type: 'error', message: 'Failed to clear history' });
+                    setTimeout(() => setRunFeedback(null), 3000);
+                  }
+                }}
+              >
+                <TrashIcon sx={{ fontSize: 14 }} /> Clear All
+              </button>
+            </div>
           )}
         </div>
         {isLoading ? (
