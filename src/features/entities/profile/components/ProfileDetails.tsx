@@ -177,17 +177,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     disconnect: disconnectCalendar,
     sync: syncCalendar
   } = useGoogleCalendar();
-  const { hasSubscription, isPro, isStarter, subscription } = useSubscription();
+  const { hasSubscription, subscription } = useSubscription();
   const hasActiveSubscription = hasSubscription && ['ACTIVE', 'TRIAL'].includes(user?.subscriptionStatus || '');
-
-  // Get plan display info
-  const getPlanName = () => {
-    if (!hasActiveSubscription) return t('profile.subscription.freePlan', 'Free Plan');
-    if (subscription?.planName) return subscription.planName;
-    if (isPro) return t('subscriptions.plans.pro.name', 'Professional');
-    if (isStarter) return t('subscriptions.plans.starter.name', 'Starter');
-    return t('profile.subscription.proPlan', 'Pro Plan');
-  };
 
   // Sumit onboarding status (vendor credentials + card on file for platform fees)
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
@@ -481,17 +472,6 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             <SectionTitle icon={CreditCardIcon} title={t('profile.sections.platformFee', 'Platform fee')} />
 
             <div className="profile-subscription-info">
-              <div className="profile-subscription-info__header">
-                <div>
-                  <span className="profile-subscription-info__label">
-                    {t('profile.platformFee.plan', 'Plan')}
-                  </span>
-                  <h3 className="profile-subscription-info__plan">
-                    {hasActiveSubscription ? getPlanName() : t('profile.platformFee.freePlan', 'Free')}
-                  </h3>
-                </div>
-              </div>
-
               <div className="profile-subscription-info__details">
                 <p className="profile-subscription-info__narrative">
                   {t('profile.platformFee.narrative', 'We only make money when you make money.')}
