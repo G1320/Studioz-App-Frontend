@@ -426,6 +426,16 @@ export const ReservationCard: React.FC<ReservationCardProps> = ({
               </div>
             )}
 
+            {/* Price */}
+            {reservation.totalPrice != null && (
+              <div className="reservation-card__detail-row">
+                <span className="reservation-card__label">{t('total')}:</span>
+                <span className="reservation-card__value reservation-card__value--price">
+                  ₪{reservation.totalPrice}
+                </span>
+              </div>
+            )}
+
             {/* Client Name */}
             <div className="reservation-card__detail-row">
               <span className="reservation-card__label">{t('name')}:</span>

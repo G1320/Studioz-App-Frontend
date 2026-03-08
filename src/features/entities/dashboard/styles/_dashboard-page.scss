@@ -64,6 +64,12 @@
     &:hover {
       opacity: 0.9;
     }
+
+    svg {
+      [dir='rtl'] & {
+        transform: scaleX(-1);
+      }
+    }
   }
 
   &__views {

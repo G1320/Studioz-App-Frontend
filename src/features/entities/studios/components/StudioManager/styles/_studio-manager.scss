@@ -12,6 +12,8 @@
 .studio-manager {
   @include mixins.surface-primary;
   width: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
 
   &__container {
     max-width: 1400px;
@@ -19,6 +21,7 @@
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-xl;
+    box-sizing: border-box;
 
     @media (min-width: 1200px) {
       max-width: 1600px;
@@ -319,13 +322,15 @@
 // Scope all studio-card__* styles to studio-manager to avoid conflicts
 .studio-manager {
   .studio-card__header {
-    padding: vars.$spacing-large;
+    padding: vars.$spacing-medium;
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-large;
+    gap: vars.$spacing-medium;
     border-bottom: 1px solid var(--border-primary);
 
     @media (min-width: 768px) {
+      padding: vars.$spacing-large;
+      gap: vars.$spacing-large;
       flex-direction: row;
       align-items: center;
     }
@@ -448,19 +453,22 @@
   .studio-card__controls {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-large;
+    gap: vars.$spacing-sm-md;
     width: 100%;
     justify-content: space-between;
     border-top: 1px solid var(--border-secondary);
     padding-top: vars.$spacing-medium;
     margin-top: vars.$spacing-xs;
+    flex-wrap: wrap;
 
     @media (min-width: 768px) {
       width: auto;
+      gap: vars.$spacing-large;
       justify-content: flex-end;
       border-top: none;
       padding-top: 0;
       margin-top: 0;
+      flex-wrap: nowrap;
     }
   }
 
@@ -536,13 +544,22 @@
   }
 
   .studio-card__item {
-    padding: vars.$spacing-medium vars.$spacing-large;
+    padding: vars.$spacing-sm-md vars.$spacing-medium;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     border-bottom: 1px solid var(--border-primary);
     transition: background 0.2s ease;
-    gap: vars.$spacing-medium;
-    cursor: default; // Item row is not clickable, only action buttons are
+    gap: vars.$spacing-sm-md;
+    cursor: default;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    @media (min-width: 768px) {
+      padding: vars.$spacing-medium vars.$spacing-large;
+      gap: vars.$spacing-medium;
+    }
 
     &:last-child {
       border-bottom: none;
@@ -562,16 +579,22 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-medium;
-    min-width: 0; // Allow text truncation
-    width: 280px; // Fixed width ensures controls always align
-    flex-shrink: 0;
+    min-width: 0;
+    flex: 1;
+
+    @media (min-width: 640px) {
+      width: 280px;
+      flex: 0 0 280px;
+    }
 
     @media (min-width: 768px) {
       width: 360px;
+      flex: 0 0 360px;
     }
 
     @media (min-width: 1024px) {
       width: 420px;
+      flex: 0 0 420px;
     }
   }
 
@@ -657,8 +680,12 @@
   .studio-card__item-controls {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-large;
-    margin-inline-start: auto; // Push to end
+    gap: vars.$spacing-sm-md;
+    margin-inline-start: auto;
+
+    @media (min-width: 768px) {
+      gap: vars.$spacing-large;
+    }
   }
 
   .studio-card__item-link {
@@ -697,7 +724,11 @@
   .studio-card__item-toggle-group {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-sm-md;
+    gap: vars.$spacing-xs;
+
+    @media (min-width: 768px) {
+      gap: vars.$spacing-sm-md;
+    }
   }
 
   .studio-card__item-toggle-label {
