@@ -532,6 +532,8 @@
 .studio-manager {
   .studio-card__items-section {
     background: var(--bg-hover);
+    border-radius: 0 0 vars.$border-radius-2xl vars.$border-radius-2xl;
+    overflow: hidden;
   }
 
   .studio-card__items-toggle {
