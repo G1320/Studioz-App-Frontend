@@ -177,7 +177,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
     disconnect: disconnectCalendar,
     sync: syncCalendar
   } = useGoogleCalendar();
-  const { hasSubscription, subscription } = useSubscription();
+  const { hasSubscription } = useSubscription();
   const hasActiveSubscription = hasSubscription && ['ACTIVE', 'TRIAL'].includes(user?.subscriptionStatus || '');
 
   // Sumit onboarding status (vendor credentials + card on file for platform fees)
