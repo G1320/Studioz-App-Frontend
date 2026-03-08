@@ -21,7 +21,7 @@ import { PricingSection } from '../components/PricingSection';
 import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
-import { StudioZOwnersRemoteShowcase } from '../components/StudioZOwnersRemoteShowcase';
+import { StudiozOwnersRemoteShowcase } from '../components/StudiozOwnersRemoteShowcase';
 
 /**
  * Hook to lazy load heavy content when visible
@@ -437,7 +437,7 @@ const ForOwnersPage: React.FC = () => {
       </section>
 
       {/* Remote Projects Showcase */}
-      <StudioZOwnersRemoteShowcase />
+      <StudiozOwnersRemoteShowcase />
 
       {/* Scroll-Driven Feature Showcase */}
       <ScrollDrivenShowcase />

@@ -421,6 +421,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             }
           />
           <Route
+            path="/:lang?/status"
+            element={
+              <AnimatedRoute>
+                <StatusPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
             path="/:lang?/features/:featureId"
             element={
               <AnimatedRoute>

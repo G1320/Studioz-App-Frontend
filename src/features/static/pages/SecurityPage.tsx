@@ -1,7 +1,7 @@
 /**
- * StudioZ Security Page
+ * Studioz Security Page
  *
- * A comprehensive trust and security page for StudioZ.
+ * A comprehensive trust and security page for Studioz.
  * Explains PCI compliance through providers, tokenization, and data storage policies.
  */
 

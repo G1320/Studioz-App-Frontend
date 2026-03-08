@@ -1,48 +1,49 @@
 {
   "hero": {
-    "title": {
-      "line1": "סטטוס",
-      "line2": "המערכת"
-    },
-    "subtitle": "ניטור בריאות בזמן אמת עבור כל שירותי StudioZ."
+    "title": "סטטוס מערכת",
+    "allOperational": "כל המערכות תקינות",
+    "degraded": "ביצועים מופחתים",
+    "majorOutage": "תקלה חמורה"
   },
-  "overall": {
-    "operational": "כל המערכות פעילות",
-    "degraded": "שיבוש חלקי בשירות",
-    "major_outage": "תקלה מרכזית בשירות"
+  "incident": {
+    "title": "תקלה פעילה",
+    "paymentFailure": "בדיקת מערכת תשלומים נכשלה",
+    "at": "בשעה"
   },
   "services": {
     "server": {
       "name": "שרת",
-      "uptime": "זמן פעילות",
-      "memory": "זיכרון",
-      "latency": "זמן תגובה"
+      "uptime": "זמן פעילות"
     },
     "database": {
-      "name": "מסד נתונים"
+      "name": "מסד נתונים",
+      "latency": "זמן תגובה"
     },
     "payments": {
       "name": "מערכת תשלומים",
-      "uptime24h": "זמן פעילות (24 שעות)",
-      "avgLatency": "זמן תגובה ממוצע",
-      "totalTests": "בדיקות (24 שעות)",
-      "lastCheck": "בדיקה אחרונה"
+      "uptime90d": "זמינות 90 יום"
     }
   },
   "status": {
-    "operational": "פעיל",
-    "degraded": "ירוד",
+    "operational": "תקין",
+    "degraded": "מופחת",
     "down": "מושבת"
   },
-  "incident": {
-    "title": "תקלה פעילה",
-    "paymentFailure": "בדיקת הבריאות האחרונה של מערכת התשלומים נכשלה. הצוות שלנו בודק את הנושא."
+  "bars": {
+    "daysAgo": "לפני {{count}} ימים",
+    "today": "היום",
+    "passed": "עבר",
+    "failed": "נכשל",
+    "noData": "אין נתונים"
   },
-  "lastUpdated": "עודכן לפני {{seconds}} שניות",
-  "loading": "בודק בריאות שירותים...",
-  "error": "לא ניתן להגיע ל-API הסטטוס. נסה שוב מאוחר יותר.",
-  "units": {
-    "ms": "מ\"ש",
-    "mb": "מ\"ב"
+  "latency": {
+    "title": "זמן תגובה",
+    "avg": "ממוצע",
+    "last24": "24 בדיקות אחרונות"
+  },
+  "footer": {
+    "lastUpdated": "עודכן לאחרונה",
+    "secondsAgo": "לפני {{count}} שניות",
+    "autoRefresh": "מתעדכן אוטומטית כל 60 שניות"
   }
 }

@@ -1,32 +1,27 @@
 {
   "hero": {
-    "title": {
-      "line1": "SYSTEM",
-      "line2": "STATUS"
-    },
-    "subtitle": "Real-time health monitoring for all StudioZ services."
+    "title": "System Status",
+    "allOperational": "All Systems Operational",
+    "degraded": "Degraded Performance",
+    "majorOutage": "Major Outage"
   },
-  "overall": {
-    "operational": "All Systems Operational",
-    "degraded": "Partial Service Disruption",
-    "major_outage": "Major Service Outage"
+  "incident": {
+    "title": "Active Incident",
+    "paymentFailure": "Payment system check failed",
+    "at": "at"
   },
   "services": {
     "server": {
       "name": "Server",
-      "uptime": "Uptime",
-      "memory": "Memory",
-      "latency": "Latency"
+      "uptime": "Uptime"
     },
     "database": {
-      "name": "Database"
+      "name": "Database",
+      "latency": "Latency"
     },
     "payments": {
       "name": "Payment System",
-      "uptime24h": "Uptime (24h)",
-      "avgLatency": "Avg Latency",
-      "totalTests": "Tests (24h)",
-      "lastCheck": "Last Check"
+      "uptime90d": "90-day uptime"
     }
   },
   "status": {
@@ -34,15 +29,21 @@
     "degraded": "Degraded",
     "down": "Down"
   },
-  "incident": {
-    "title": "Active Incident",
-    "paymentFailure": "The latest payment system health check failed. Our team is investigating."
+  "bars": {
+    "daysAgo": "{{count}} days ago",
+    "today": "Today",
+    "passed": "Passed",
+    "failed": "Failed",
+    "noData": "No data"
   },
-  "lastUpdated": "Last updated {{seconds}}s ago",
-  "loading": "Checking service health...",
-  "error": "Unable to reach status API. Please try again later.",
-  "units": {
-    "ms": "ms",
-    "mb": "MB"
+  "latency": {
+    "title": "Response Time",
+    "avg": "Avg",
+    "last24": "Last 24 checks"
+  },
+  "footer": {
+    "lastUpdated": "Last updated",
+    "secondsAgo": "{{count}}s ago",
+    "autoRefresh": "Auto-refreshes every 60s"
   }
 }

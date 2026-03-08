@@ -60,7 +60,7 @@ header.app-header {
   z-index: 1400; // Above MUI Modal (1300) to keep header visible
   padding: 0 1rem;
 
-  // StudioZ style guide: themed header with blur
+  // Studioz style guide: themed header with blur
   background: var(--header-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);

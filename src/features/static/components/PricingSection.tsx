@@ -1,5 +1,5 @@
 /**
- * Pricing Section Component for StudioZ
+ * Pricing Section Component for Studioz
  * Free-forever model with progressive tiered platform fees.
  */
 import React from 'react';

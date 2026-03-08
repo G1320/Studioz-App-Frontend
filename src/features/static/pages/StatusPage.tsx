@@ -1,89 +1,202 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import {
-  CheckCircleIcon,
-  ErrorIcon,
-  AlertTriangleIcon,
-} from '@shared/components/icons';
+import { CheckCircleIcon, ErrorIcon, AlertTriangleIcon } from '@shared/components/icons';
 import '../styles/_status-page.scss';
 
-const API_BASE =
-  import.meta.env.VITE_NODE_ENV === 'production'
-    ? 'https://api.studioz.co.il/api'
-    : 'http://localhost:3003/api';
+const BASE_URL =
+  import.meta.env.VITE_NODE_ENV === 'production' ? 'https://api.studioz.co.il/api' : 'http://localhost:3003/api';
 
 const REFRESH_INTERVAL = 60_000;
 
-type ServiceStatus = 'operational' | 'degraded' | 'down';
-type OverallStatus = 'operational' | 'degraded' | 'major_outage';
+interface DailyAggregate {
+  date: string;
+  total: number;
+  passed: number;
+  failed: number;
+  avgLatencyMs: number;
+}
+
+interface RecentCheck {
+  timestamp: string;
+  status: 'pass' | 'charge_failed';
+  latencyMs: number;
+}
 
 interface StatusData {
-  overall: OverallStatus;
+  overall: 'operational' | 'degraded' | 'major_outage';
   services: {
-    server: {
-      status: ServiceStatus;
-      uptimeSeconds?: number;
-      latencyMs?: number;
-    };
-    database: { status: ServiceStatus };
+    server: { status: string; uptimeSeconds: number; memoryMb: number };
+    database: { status: string; latencyMs: number | null };
     payments: {
-      status: ServiceStatus;
-      uptimePercent: number;
-      avgLatencyMs: number;
-      totalTests24h: number;
-      passedTests24h: number;
-      lastCheck: string | null;
+      status: string;
+      uptimePercent: number | null;
+      latestCheck: { timestamp: string; status: string; latencyMs: number } | null;
     };
+  };
+  paymentHistory: {
+    daily: DailyAggregate[];
+    recent: RecentCheck[];
   };
   timestamp: string;
 }
 
-const fadeIn = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 }
 };
 
 function formatUptime(seconds: number): string {
   const d = Math.floor(seconds / 86400);
   const h = Math.floor((seconds % 86400) / 3600);
   const m = Math.floor((seconds % 3600) / 60);
-  if (d > 0) return `${d}d ${h}h ${m}m`;
+  if (d > 0) return `${d}d ${h}h`;
   if (h > 0) return `${h}h ${m}m`;
   return `${m}m`;
 }
 
-function timeAgo(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return '< 1m ago';
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  return `${hrs}h ${mins % 60}m ago`;
+function fillDailyGaps(daily: DailyAggregate[], days: number): (DailyAggregate | null)[] {
+  const map = new Map(daily.map((d) => [d.date, d]));
+  const result: (DailyAggregate | null)[] = [];
+  const now = new Date();
+
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(now);
+    date.setDate(date.getDate() - i);
+    const key = date.toISOString().slice(0, 10);
+    result.push(map.get(key) ?? null);
+  }
+  return result;
 }
 
-const StatusDot: React.FC<{ status: ServiceStatus }> = ({ status }) => (
+const StatusDot: React.FC<{ status: string }> = ({ status }) => (
   <span className={`status-dot status-dot--${status}`} />
 );
 
-const OverallIcon: React.FC<{ overall: OverallStatus }> = ({ overall }) => {
-  if (overall === 'operational') return <CheckCircleIcon className="status-hero__overall-icon status-hero__overall-icon--ok" />;
-  if (overall === 'degraded') return <AlertTriangleIcon className="status-hero__overall-icon status-hero__overall-icon--warn" />;
-  return <ErrorIcon className="status-hero__overall-icon status-hero__overall-icon--bad" />;
+const UptimeBars: React.FC<{
+  daily: (DailyAggregate | null)[];
+  t: (key: string, opts?: Record<string, unknown>) => string;
+}> = ({ daily, t }) => {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  return (
+    <div className="uptime-bars">
+      <div className="uptime-bars__row">
+        {daily.map((day, i) => {
+          const status = !day ? 'none' : day.failed > 0 ? 'failed' : 'passed';
+          return (
+            <div
+              key={i}
+              className={`uptime-bars__bar uptime-bars__bar--${status}`}
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            >
+              {hoveredIdx === i && day && (
+                <div className="uptime-bars__tooltip">
+                  <span className="uptime-bars__tooltip-date">{day.date}</span>
+                  <span className="uptime-bars__tooltip-stat uptime-bars__tooltip-stat--pass">
+                    {t('bars.passed')}: {day.passed}
+                  </span>
+                  {day.failed > 0 && (
+                    <span className="uptime-bars__tooltip-stat uptime-bars__tooltip-stat--fail">
+                      {t('bars.failed')}: {day.failed}
+                    </span>
+                  )}
+                </div>
+              )}
+              {hoveredIdx === i && !day && (
+                <div className="uptime-bars__tooltip">
+                  <span className="uptime-bars__tooltip-date">
+                    {(() => {
+                      const d = new Date();
+                      d.setDate(d.getDate() - (daily.length - 1 - i));
+                      return d.toISOString().slice(0, 10);
+                    })()}
+                  </span>
+                  <span className="uptime-bars__tooltip-stat">{t('bars.noData')}</span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="uptime-bars__labels">
+        <span>{t('bars.daysAgo', { count: daily.length })}</span>
+        <span>{t('bars.today')}</span>
+      </div>
+    </div>
+  );
+};
+
+const LatencyBars: React.FC<{
+  recent: RecentCheck[];
+  t: (key: string, opts?: Record<string, unknown>) => string;
+}> = ({ recent, t }) => {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  const maxLatency = useMemo(() => Math.max(...recent.map((r) => r.latencyMs), 1), [recent]);
+  const avgLatency = useMemo(
+    () => (recent.length > 0 ? Math.round(recent.reduce((s, r) => s + r.latencyMs, 0) / recent.length) : 0),
+    [recent]
+  );
+
+  const reversed = useMemo(() => [...recent].reverse(), [recent]);
+
+  return (
+    <div className="latency-bars">
+      <div className="latency-bars__header">
+        <span className="latency-bars__title">{t('latency.title')}</span>
+        <span className="latency-bars__avg">
+          {t('latency.avg')}: {avgLatency} ms
+        </span>
+      </div>
+      <div className="latency-bars__row">
+        {reversed.map((check, i) => {
+          const heightPercent = Math.max((check.latencyMs / maxLatency) * 100, 4);
+          const isSlow = check.latencyMs > maxLatency * 0.75;
+          return (
+            <div
+              key={i}
+              className="latency-bars__bar-wrapper"
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            >
+              <div
+                className={`latency-bars__bar ${isSlow ? 'latency-bars__bar--slow' : ''}`}
+                style={{ height: `${heightPercent}%` }}
+              />
+              {hoveredIdx === i && (
+                <div className="latency-bars__tooltip">
+                  <span>{check.latencyMs} ms</span>
+                  <span className="latency-bars__tooltip-time">
+                    {new Date(check.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="latency-bars__label">{t('latency.last24')}</div>
+    </div>
+  );
 };
 
 const StatusPage: React.FC = () => {
   const { t } = useTranslation('status');
   const [data, setData] = useState<StatusData | null>(null);
   const [error, setError] = useState(false);
+  const [lastFetched, setLastFetched] = useState<Date | null>(null);
   const [secondsAgo, setSecondsAgo] = useState(0);
 
   const fetchStatus = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE}/status`);
+      const res = await fetch(`${BASE_URL}/status`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setData(await res.json());
+      const json = await res.json();
+      setData(json);
       setError(false);
+      setLastFetched(new Date());
       setSecondsAgo(0);
     } catch {
       setError(true);
@@ -97,138 +210,187 @@ const StatusPage: React.FC = () => {
   }, [fetchStatus]);
 
   useEffect(() => {
-    const tick = setInterval(() => setSecondsAgo((s) => s + 1), 1000);
+    const tick = setInterval(() => {
+      if (lastFetched) {
+        setSecondsAgo(Math.floor((Date.now() - lastFetched.getTime()) / 1000));
+      }
+    }, 1000);
     return () => clearInterval(tick);
-  }, []);
+  }, [lastFetched]);
+
+  const dailyBars = useMemo(() => (data ? fillDailyGaps(data.paymentHistory.daily, 90) : []), [data]);
+
+  const overallIcon =
+    data?.overall === 'operational' ? (
+      <CheckCircleIcon className="status-hero__icon status-hero__icon--operational" />
+    ) : data?.overall === 'degraded' ? (
+      <AlertTriangleIcon className="status-hero__icon status-hero__icon--degraded" />
+    ) : (
+      <ErrorIcon className="status-hero__icon status-hero__icon--down" />
+    );
+
+  const overallLabel = data
+    ? data.overall === 'operational'
+      ? t('hero.allOperational')
+      : data.overall === 'degraded'
+        ? t('hero.degraded')
+        : t('hero.majorOutage')
+    : '';
+
+  const statusLabel = (s: string) =>
+    s === 'operational' ? t('status.operational') : s === 'degraded' ? t('status.degraded') : t('status.down');
+
+  const hasIncident = data?.services.payments.latestCheck?.status === 'charge_failed';
 
   return (
     <div className="status-page">
-      {/* Hero — compact, with overall status integrated */}
       <section className="status-hero">
         <div className="status-hero__background">
           <div className="status-hero__glow status-hero__glow--primary" />
         </div>
         <div className="status-hero__content">
+          <motion.h1 {...fadeInUp} transition={{ delay: 0.1 }} className="status-hero__title">
+            {t('hero.title')}
+          </motion.h1>
           {data && (
-            <motion.div {...fadeIn} transition={{ delay: 0.05 }} className={`status-hero__badge status-hero__badge--${data.overall}`}>
-              <OverallIcon overall={data.overall} />
-              <span>{t(`overall.${data.overall}`)}</span>
+            <motion.div
+              {...fadeInUp}
+              transition={{ delay: 0.2 }}
+              className={`status-hero__badge status-hero__badge--${data.overall}`}
+            >
+              {overallIcon}
+              <span>{overallLabel}</span>
             </motion.div>
           )}
-          <motion.h1 {...fadeIn} transition={{ delay: 0.1 }} className="status-hero__title">
-            {t('hero.title.line1')} <span className="status-hero__title--highlight">{t('hero.title.line2')}</span>
-          </motion.h1>
-          <motion.p {...fadeIn} transition={{ delay: 0.15 }} className="status-hero__subtitle">
-            {t('hero.subtitle')}
-          </motion.p>
-          {data && (
-            <motion.p {...fadeIn} transition={{ delay: 0.2 }} className="status-hero__updated">
-              {t('lastUpdated', { seconds: secondsAgo })}
-            </motion.p>
+          {!data && !error && (
+            <div className="status-hero__loading">
+              <div className="status-hero__spinner" />
+            </div>
+          )}
+          {error && !data && (
+            <div className="status-hero__badge status-hero__badge--major_outage">
+              <ErrorIcon className="status-hero__icon status-hero__icon--down" />
+              <span>{t('hero.majorOutage')}</span>
+            </div>
           )}
         </div>
       </section>
 
       <main className="status-main">
-        {!data && !error && <p className="status-loading">{t('loading')}</p>}
-
-        {error && (
-          <div className="status-error">
-            <ErrorIcon />
-            <p>{t('error')}</p>
-          </div>
+        {hasIncident && data && (
+          <motion.div {...fadeInUp} transition={{ delay: 0.25 }} className="status-incident">
+            <ErrorIcon className="status-incident__icon" />
+            <div className="status-incident__content">
+              <h3 className="status-incident__title">{t('incident.title')}</h3>
+              <p className="status-incident__detail">
+                {t('incident.paymentFailure')} {t('incident.at')}{' '}
+                {new Date(data.services.payments.latestCheck!.timestamp).toLocaleString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  day: 'numeric',
+                  month: 'short'
+                })}
+              </p>
+            </div>
+          </motion.div>
         )}
 
         {data && (
           <>
-            {/* Incident banner — only for actual outages */}
-            {data.overall === 'major_outage' && (
-              <motion.div {...fadeIn} transition={{ delay: 0.2 }} className="status-incident">
-                <AlertTriangleIcon className="status-incident__icon" />
-                <div>
-                  <strong>{t('incident.title')}</strong>
-                  <p>{t('incident.paymentFailure')}</p>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Service list */}
-            <motion.div {...fadeIn} transition={{ delay: 0.25 }} className="status-services">
-              {/* Server */}
-              <div className="status-service">
-                <div className="status-service__left">
+            {/* Server */}
+            <motion.section {...fadeInUp} transition={{ delay: 0.3 }} className="status-service">
+              <div className="status-service__header">
+                <div className="status-service__name">
                   <StatusDot status={data.services.server.status} />
-                  <span className="status-service__name">{t('services.server.name')}</span>
+                  <h2>{t('services.server.name')}</h2>
                 </div>
-                <div className="status-service__right">
-                  {data.services.server.uptimeSeconds != null && (
-                    <span className="status-service__meta">{formatUptime(data.services.server.uptimeSeconds)}</span>
-                  )}
+                <div className="status-service__meta">
+                  <span className="status-service__metric">{formatUptime(data.services.server.uptimeSeconds)}</span>
                   <span className={`status-service__label status-service__label--${data.services.server.status}`}>
-                    {t(`status.${data.services.server.status}`)}
+                    {statusLabel(data.services.server.status)}
                   </span>
                 </div>
               </div>
+              <div className="uptime-bars uptime-bars--flat">
+                <div className="uptime-bars__row">
+                  {Array.from({ length: 90 }).map((_, i) => (
+                    <div key={i} className="uptime-bars__bar uptime-bars__bar--passed" />
+                  ))}
+                </div>
+                <div className="uptime-bars__labels">
+                  <span>{t('bars.daysAgo', { count: 90 })}</span>
+                  <span>{t('bars.today')}</span>
+                </div>
+              </div>
+            </motion.section>
 
-              {/* Database */}
-              <div className="status-service">
-                <div className="status-service__left">
+            {/* Database */}
+            <motion.section {...fadeInUp} transition={{ delay: 0.35 }} className="status-service">
+              <div className="status-service__header">
+                <div className="status-service__name">
                   <StatusDot status={data.services.database.status} />
-                  <span className="status-service__name">{t('services.database.name')}</span>
+                  <h2>{t('services.database.name')}</h2>
                 </div>
-                <div className="status-service__right">
+                <div className="status-service__meta">
+                  {data.services.database.latencyMs != null && (
+                    <span className="status-service__metric">{data.services.database.latencyMs} ms</span>
+                  )}
                   <span className={`status-service__label status-service__label--${data.services.database.status}`}>
-                    {t(`status.${data.services.database.status}`)}
+                    {statusLabel(data.services.database.status)}
                   </span>
                 </div>
               </div>
-
-              {/* Payments */}
-              <div className="status-service">
-                <div className="status-service__left">
-                  <StatusDot status={data.services.payments.status} />
-                  <span className="status-service__name">{t('services.payments.name')}</span>
+              <div className="uptime-bars uptime-bars--flat">
+                <div className="uptime-bars__row">
+                  {Array.from({ length: 90 }).map((_, i) => (
+                    <div key={i} className="uptime-bars__bar uptime-bars__bar--passed" />
+                  ))}
                 </div>
-                <div className="status-service__right">
-                  {data.services.payments.totalTests24h > 0 && (
-                    <span className="status-service__meta">{data.services.payments.uptimePercent}%</span>
+                <div className="uptime-bars__labels">
+                  <span>{t('bars.daysAgo', { count: 90 })}</span>
+                  <span>{t('bars.today')}</span>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* Payments */}
+            <motion.section {...fadeInUp} transition={{ delay: 0.4 }} className="status-service">
+              <div className="status-service__header">
+                <div className="status-service__name">
+                  <StatusDot status={data.services.payments.status} />
+                  <h2>{t('services.payments.name')}</h2>
+                </div>
+                <div className="status-service__meta">
+                  {data.services.payments.uptimePercent != null && (
+                    <span className="status-service__metric">{data.services.payments.uptimePercent}%</span>
                   )}
                   <span className={`status-service__label status-service__label--${data.services.payments.status}`}>
-                    {t(`status.${data.services.payments.status}`)}
+                    {statusLabel(data.services.payments.status)}
                   </span>
                 </div>
               </div>
-            </motion.div>
-
-            {/* Payment metrics — only shown when there's canary data */}
-            {data.services.payments.totalTests24h > 0 && (
-              <motion.div {...fadeIn} transition={{ delay: 0.3 }} className="status-metrics">
-                <h3 className="status-metrics__title">{t('services.payments.name')}</h3>
-                <div className="status-metrics__grid">
-                  <div className="status-metrics__item">
-                    <span className="status-metrics__value">{data.services.payments.uptimePercent}%</span>
-                    <span className="status-metrics__label">{t('services.payments.uptime24h')}</span>
-                  </div>
-                  <div className="status-metrics__item">
-                    <span className="status-metrics__value">{data.services.payments.avgLatencyMs}{t('units.ms')}</span>
-                    <span className="status-metrics__label">{t('services.payments.avgLatency')}</span>
-                  </div>
-                  <div className="status-metrics__item">
-                    <span className="status-metrics__value">{data.services.payments.passedTests24h}/{data.services.payments.totalTests24h}</span>
-                    <span className="status-metrics__label">{t('services.payments.totalTests')}</span>
-                  </div>
-                  {data.services.payments.lastCheck && (
-                    <div className="status-metrics__item">
-                      <span className="status-metrics__value">{timeAgo(data.services.payments.lastCheck)}</span>
-                      <span className="status-metrics__label">{t('services.payments.lastCheck')}</span>
-                    </div>
-                  )}
+              <UptimeBars daily={dailyBars} t={t} />
+              {data.services.payments.uptimePercent != null && (
+                <div className="status-service__uptime-label">
+                  {t('services.payments.uptime90d')}: {data.services.payments.uptimePercent}%
                 </div>
-              </motion.div>
-            )}
+              )}
+              {data.paymentHistory.recent.length > 0 && <LatencyBars recent={data.paymentHistory.recent} t={t} />}
+            </motion.section>
           </>
         )}
       </main>
+
+      <footer className="status-footer">
+        <div className="status-footer__content">
+          {lastFetched && (
+            <span className="status-footer__updated">
+              {t('footer.lastUpdated')} {t('footer.secondsAgo', { count: secondsAgo })}
+            </span>
+          )}
+          <span className="status-footer__auto">{t('footer.autoRefresh')}</span>
+        </div>
+      </footer>
     </div>
   );
 };

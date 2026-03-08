@@ -1,5 +1,5 @@
 /**
- * StudioZOwnersRemoteShowcase
+ * StudiozOwnersRemoteShowcase
  * A marketing section for studio owners explaining the Remote Projects feature.
  * Highlights: global reach, async workflow, project management.
  * Uses the real ProjectRequestForm from ItemDetails (projects) for the visual.
@@ -11,7 +11,7 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import { ClockIcon, MusicNoteIcon, SmsIcon, ShieldIcon, ArrowBackIcon } from '@shared/components/icons';
 import { ProjectRequestForm } from '@features/entities/remote-projects/components';
 import type { Item } from 'src/types/index';
-import './_studioZ-owners-remote-showcase.scss';
+import './_studioz-owners-remote-showcase.scss';
 
 /** Sample item so the real project request form renders with realistic pricing/delivery. */
 const SAMPLE_PROJECT_ITEM: Item = {
@@ -70,7 +70,7 @@ const FEATURE_CONFIGS: FeatureConfig[] = [
 
 const STAT_KEYS = ['capacity', 'audience', 'schedule', 'pricing'] as const;
 
-export const StudioZOwnersRemoteShowcase: React.FC = () => {
+export const StudiozOwnersRemoteShowcase: React.FC = () => {
   const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
   const [showcaseTitle, setShowcaseTitle] = useState('');
@@ -180,4 +180,4 @@ export const StudioZOwnersRemoteShowcase: React.FC = () => {
   );
 };
 
-export default StudioZOwnersRemoteShowcase;
+export default StudiozOwnersRemoteShowcase;

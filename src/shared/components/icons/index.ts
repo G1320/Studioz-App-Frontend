@@ -1,5 +1,5 @@
 // ============================================
-// StudioZ Icon System
+// Studioz Icon System
 // ============================================
 // Centralized icon exports with consistent naming and defaults.
 // 

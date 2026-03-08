@@ -8,7 +8,7 @@ interface Props {
   onGoHome?: () => void;
 }
 
-export interface StudioZErrorBoundaryProps {
+export interface StudiozErrorBoundaryProps {
   /**
    * The error object or message to display (optional for preview)
    */
@@ -31,7 +31,7 @@ export interface StudioZErrorBoundaryProps {
   description?: string;
 }
 
-export const StudioZErrorBoundary: React.FC<StudioZErrorBoundaryProps> = ({
+export const StudiozErrorBoundary: React.FC<StudiozErrorBoundaryProps> = ({
   error,
   resetErrorBoundary,
   onGoHome,
@@ -110,7 +110,7 @@ export class ErrorBoundaryComponent extends Component<Props, { hasError: boolean
   render() {
     if (this.state.hasError) {
       return (
-        <StudioZErrorBoundary
+        <StudiozErrorBoundary
           error={this.state.error || undefined}
           onGoHome={this.props.onGoHome}
           resetErrorBoundary={this.handleReset}
