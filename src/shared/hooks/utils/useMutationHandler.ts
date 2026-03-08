@@ -39,7 +39,7 @@ export const useMutationHandler = <TData, TVariables>({
             : undefined
         });
       }
-      if (onSuccess) onSuccess(data, variables);
+      onSuccess?.(data, variables);
     },
     onError: (error) => {
       handleError(error);
