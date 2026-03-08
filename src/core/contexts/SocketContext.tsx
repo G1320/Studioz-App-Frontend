@@ -1,7 +1,8 @@
-// SocketContext.tsx
 import { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
+import { refreshAccessToken } from '@shared/services/auth-service';
 import { invalidateCartQueries, invalidateItemQueries, invalidateReservationQueries } from '@shared/utils/queryUtils';
 import { removeExpiredItemsFromOfflineCart } from '@shared/utils/cartUtils';
 import { useOfflineCartContext } from './OfflineCartContext';
@@ -39,8 +40,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       return;
     }
 
+    let isRefreshing = false;
+
     const newSocket = io(BASE_URL, {
       withCredentials: true,
+      auth: { token: Cookies.get('accessToken') || '' },
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionDelay: 1000,
@@ -71,8 +75,24 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       invalidateReservationQueries(queryClientRef.current, data.reservationIds);
     });
 
-    newSocket.on('connect_error', (error) => {
-      console.error('Socket connection error:', error.message);
+    newSocket.on('connect_error', async (error) => {
+      const isAuthError =
+        error.message.includes('Authentication') ||
+        error.message.includes('token') ||
+        error.message.includes('expired');
+
+      if (isAuthError && !isRefreshing) {
+        isRefreshing = true;
+        try {
+          const { accessToken } = await refreshAccessToken();
+          newSocket.auth = { token: accessToken };
+        } catch {
+          // Refresh failed — user session is gone, socket will stop reconnecting
+          newSocket.disconnect();
+        } finally {
+          isRefreshing = false;
+        }
+      }
     });
 
     setSocket(newSocket);

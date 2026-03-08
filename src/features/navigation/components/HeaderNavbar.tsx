@@ -14,18 +14,12 @@ export function HeaderNavbar() {
   const currLang = i18n.language || 'en';
 
   const isCurrentPage = (path: string) => {
-    // Check exact match or if path starts with the base path (for sub-routes)
     return currentPath === path || currentPath.startsWith(`${path}/`);
   };
 
   const handleHowItWorksClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    anchorNavigate('', 'how-it-works'); // Empty path = home page
-  };
-
-  const handlePricingClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    anchorNavigate('/for-owners', 'pricing');
+    anchorNavigate('', 'how-it-works');
   };
 
   return (
@@ -50,6 +44,15 @@ export function HeaderNavbar() {
       >
         {t('navigation.reservations')}
       </Link>
+      <Link
+        to={`/${currLang}/projects`}
+        className="navbar-link"
+        aria-label={t('navigation.myProjects')}
+        aria-current={isCurrentPage(`/${currLang}/projects`) ? 'page' : undefined}
+        onClick={() => scrollToTop()}
+      >
+        {t('navigation.myProjects')}
+      </Link>
       <a
         href={`/${currLang}#how-it-works`}
         className="navbar-link"
@@ -57,14 +60,6 @@ export function HeaderNavbar() {
         onClick={handleHowItWorksClick}
       >
         {t('navigation.howItWorks')}
-      </a>
-      <a
-        href={`/${currLang}/for-owners#pricing`}
-        className="navbar-link"
-        aria-label={t('navigation.pricing')}
-        onClick={handlePricingClick}
-      >
-        {t('navigation.pricing')}
       </a>
     </nav>
   );
