@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, SteppedForm, FieldType, FormStep, PortfolioStep } from '@shared/components';
@@ -89,15 +89,41 @@ export const EditStudioForm = () => {
   const [openingHour, setOpeningHour] = useState<string>(studio?.studioAvailability?.times[0].start || '09:00');
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 
-  const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(
-    selectedDisplayDays.reduce(
-      (acc, day) => {
-        acc[day] = { start: openingHour, end: closingHour };
+  const autoSaveRestoredRef = useRef(false);
+
+  const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(() => {
+    if (studio?.studioAvailability && initialDisplayDays.length > 0) {
+      return initialDisplayDays.reduce((acc, day, index) => {
+        acc[day] = studio!.studioAvailability!.times[index] || { start: openingHour, end: closingHour };
+        return acc;
+      }, {} as Record<string, { start: string; end: string }>);
+    }
+    return {};
+  });
+
+  // Sync availability state when studio data loads asynchronously
+  // (useState initializers run before React Query resolves, so state stays at defaults)
+  useEffect(() => {
+    if (!studio?.studioAvailability || autoSaveRestoredRef.current) return;
+
+    const displayDays = studio.studioAvailability.days.map((day) => getDisplayByEnglish(day));
+    const perDayHours = displayDays.reduce(
+      (acc, day, index) => {
+        acc[day] = studio.studioAvailability!.times[index] || { start: '09:00', end: '17:00' };
         return acc;
       },
       {} as Record<string, { start: string; end: string }>
-    )
-  );
+    );
+
+    setSelectedDisplayDays((prev) => (prev.length > 0 ? prev : displayDays));
+    setStudioHours((prev) => (Object.keys(prev).length > 0 ? prev : perDayHours));
+
+    const firstTime = studio.studioAvailability.times[0];
+    if (firstTime) {
+      setOpeningHour(firstTime.start);
+      setClosingHour(firstTime.end);
+    }
+  }, [studio, getDisplayByEnglish]);
 
   const [galleryImages, setGalleryImages] = useState<string[]>(studio?.galleryImages || []);
   const [coverImage, setCoverImage] = useState<string>(studio?.coverImage || '');
@@ -174,14 +200,28 @@ export const EditStudioForm = () => {
     formId: FORM_ID,
     state: controlledState,
     onRestore: (restored) => {
-      // Only restore if we have saved data (don't overwrite initial studio data on first load)
-      // Restore all state values, but use studio data as fallback
+      autoSaveRestoredRef.current = true;
       setSelectedCategories(
         restored.selectedCategories ||
           (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories)
       );
       setSelectedDisplayDays(restored.selectedDisplayDays || initialDisplayDays);
-      setStudioHours(restored.studioHours || {});
+
+      // Fall back to per-day studio hours instead of empty object
+      if (restored.studioHours && Object.keys(restored.studioHours).length > 0) {
+        setStudioHours(restored.studioHours);
+      } else if (studio?.studioAvailability) {
+        const days = studio.studioAvailability.days.map((day) => getDisplayByEnglish(day));
+        setStudioHours(
+          days.reduce(
+            (acc, day, index) => {
+              acc[day] = studio.studioAvailability!.times[index] || { start: '09:00', end: '17:00' };
+              return acc;
+            },
+            {} as Record<string, { start: string; end: string }>
+          )
+        );
+      }
       setGalleryImages(restored.galleryImages || studio?.galleryImages || []);
       setCoverImage(restored.coverImage || studio?.coverImage || '');
       setGalleryAudioFiles(restored.galleryAudioFiles || studio?.galleryAudioFiles || []);

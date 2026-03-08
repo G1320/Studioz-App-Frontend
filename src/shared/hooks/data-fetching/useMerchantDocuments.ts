@@ -1,12 +1,14 @@
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getMerchantDocuments, GetDocumentsParams, MerchantDocumentsResponse, MerchantDocument } from '@shared/services';
+import { getMerchantDocuments, GetDocumentsParams, MerchantDocumentsResponse, MerchantDocument, DocStatus } from '@shared/services';
 import { useUserContext } from '@core/contexts';
 import { DEMO_DOCUMENTS } from '@core/config/demo';
+import dayjs from 'dayjs';
 
 interface UseMerchantDocumentsOptions {
   page?: number;
   limit?: number;
-  status?: 'paid' | 'pending' | 'overdue' | 'draft' | 'all';
+  status?: DocStatus | 'all';
   studioId?: string;
   search?: string;
   startDate?: string;
@@ -14,7 +16,6 @@ interface UseMerchantDocumentsOptions {
   enabled?: boolean;
 }
 
-// Convert demo documents to the API format
 const convertDemoToApiFormat = (demoDoc: typeof DEMO_DOCUMENTS[0]): MerchantDocument => ({
   id: demoDoc.id,
   externalId: `ext-${demoDoc.id}`,
@@ -31,33 +32,12 @@ const convertDemoToApiFormat = (demoDoc: typeof DEMO_DOCUMENTS[0]): MerchantDocu
   customerEmail: 'demo@example.com'
 });
 
-// Demo response with statistics
-const DEMO_RESPONSE: MerchantDocumentsResponse = {
-  documents: DEMO_DOCUMENTS.map(convertDemoToApiFormat),
-  stats: {
-    totalRevenue: 8590, // Sum of all paid documents
-    pendingAmount: 0,
-    overdueAmount: 0,
-    totalDocs: DEMO_DOCUMENTS.length
-  },
-  pagination: { total: DEMO_DOCUMENTS.length, page: 1, limit: 50, pages: 1 }
-};
-
-// Empty response for when there's no data (commented out for demo mode)
-// const EMPTY_RESPONSE: MerchantDocumentsResponse = {
-//   documents: [],
-//   stats: {
-//     totalRevenue: 0,
-//     pendingAmount: 0,
-//     overdueAmount: 0,
-//     totalDocs: 0
-//   },
-//   pagination: { total: 0, page: 1, limit: 50, pages: 0 }
-// };
+const ALL_DEMO_DOCS = DEMO_DOCUMENTS.map(convertDemoToApiFormat);
 
 /**
  * Hook to fetch merchant documents (invoices, receipts, etc.)
- * Falls back to demo data if no real data is available or on error
+ * TEMP: Uses demo data with client-side filtering
+ * TODO: Switch to real API when ready
  */
 export const useMerchantDocuments = (options: UseMerchantDocumentsOptions = {}) => {
   const { user } = useUserContext();
@@ -87,17 +67,57 @@ export const useMerchantDocuments = (options: UseMerchantDocumentsOptions = {}) 
     queryKey: ['merchantDocuments', params],
     queryFn: () => getMerchantDocuments(params),
     enabled: !!user?._id && enabled,
-    staleTime: 1000 * 60 * 1, // 1 minute - shorter stale time for fresher data
+    staleTime: 1000 * 60 * 1,
     retry: 1
   });
 
-  // TEMP: Always show demo data for demonstration video
-  // TODO: Revert this after recording
+  // Client-side filtered demo data
+  const demoResponse = useMemo((): MerchantDocumentsResponse => {
+    let docs = ALL_DEMO_DOCS;
+
+    if (status && status !== 'all') {
+      docs = docs.filter((d) => d.status === status);
+    }
+
+    if (search) {
+      const q = search.toLowerCase();
+      docs = docs.filter(
+        (d) =>
+          d.customerName.toLowerCase().includes(q) ||
+          d.number.toLowerCase().includes(q) ||
+          d.studioName.toLowerCase().includes(q)
+      );
+    }
+
+    if (startDate) {
+      docs = docs.filter((d) => dayjs(d.date).isSame(dayjs(startDate), 'day') || dayjs(d.date).isAfter(dayjs(startDate)));
+    }
+    if (endDate) {
+      docs = docs.filter((d) => dayjs(d.date).isSame(dayjs(endDate), 'day') || dayjs(d.date).isBefore(dayjs(endDate)));
+    }
+
+    const paidDocs = ALL_DEMO_DOCS.filter((d) => d.status === 'paid');
+    const pendingDocs = ALL_DEMO_DOCS.filter((d) => d.status === 'pending');
+    const overdueDocs = ALL_DEMO_DOCS.filter((d) => d.status === 'overdue');
+
+    return {
+      documents: docs,
+      stats: {
+        totalRevenue: paidDocs.reduce((sum, d) => sum + d.amount, 0),
+        pendingAmount: pendingDocs.reduce((sum, d) => sum + d.amount, 0),
+        overdueAmount: overdueDocs.reduce((sum, d) => sum + d.amount, 0),
+        totalDocs: ALL_DEMO_DOCS.length
+      },
+      pagination: { total: docs.length, page: 1, limit: 50, pages: 1 }
+    };
+  }, [status, search, startDate, endDate]);
+
+  // TEMP: Return filtered demo data
   return {
-    data: DEMO_RESPONSE,
+    data: demoResponse,
     isLoading: false,
     error: null,
     refetch: query.refetch,
-    isDemo: false
+    isDemo: true
   };
 };

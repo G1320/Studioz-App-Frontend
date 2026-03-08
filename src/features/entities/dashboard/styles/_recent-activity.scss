@@ -157,6 +157,14 @@
     white-space: nowrap;
   }
 
+  &__studio-name {
+    display: inline-block;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    color: var(--color-brand);
+    margin-bottom: 2px;
+  }
+
   &__description {
     font-size: vars.$font-size-small;
     color: var(--text-secondary);

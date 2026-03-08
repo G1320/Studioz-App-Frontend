@@ -162,6 +162,50 @@ export const DEMO_DOCUMENTS: DemoDocument[] = [
     dueDate: '2026-02-06',
     status: 'paid',
     customerName: 'מיכל אברהם'
+  },
+  {
+    id: '9',
+    number: 'INV-2026-007',
+    type: 'invoice',
+    studioName: '1320',
+    amount: 1600,
+    date: '2026-02-10',
+    dueDate: '2026-03-10',
+    status: 'pending',
+    customerName: 'אלון שפירא'
+  },
+  {
+    id: '10',
+    number: 'INV-2026-008',
+    type: 'invoice',
+    studioName: '1320',
+    amount: 720,
+    date: '2026-02-14',
+    dueDate: '2026-03-14',
+    status: 'pending',
+    customerName: 'רוני בן דוד'
+  },
+  {
+    id: '11',
+    number: 'INV-2026-009',
+    type: 'invoice',
+    studioName: '1320',
+    amount: 3200,
+    date: '2026-01-05',
+    dueDate: '2026-01-20',
+    status: 'overdue',
+    customerName: 'הפקות צליל בע"מ'
+  },
+  {
+    id: '12',
+    number: 'INV-2026-010',
+    type: 'invoice',
+    studioName: '1320',
+    amount: 500,
+    date: '2026-03-01',
+    dueDate: '2026-03-15',
+    status: 'draft',
+    customerName: 'תומר הראל'
   }
 ];
 

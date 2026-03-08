@@ -99,6 +99,11 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
     return `${hours}${t('recentActivity.hours')}`;
   };
 
+  const getStudioName = (reservation: Reservation) => {
+    if (i18n.language === 'he' && reservation.studioName?.he) return reservation.studioName.he;
+    return reservation.studioName?.en || '';
+  };
+
   const getActivityMessage = (reservation: Reservation) => {
     const itemName =
       i18n.language === 'he' && reservation.itemName?.he ? reservation.itemName.he : reservation.itemName?.en || '';
@@ -182,6 +187,10 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
                   </h4>
                   <span className="recent-activity__amount">₪{reservation.totalPrice?.toLocaleString() || 0}</span>
                 </div>
+
+                {getStudioName(reservation) && (
+                  <span className="recent-activity__studio-name">{getStudioName(reservation)}</span>
+                )}
 
                 <p className="recent-activity__description">{getActivityMessage(reservation)}</p>
 
