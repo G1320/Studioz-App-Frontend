@@ -4,7 +4,7 @@ services:
     runtime: static
     buildCommand: |
       apt-get update && apt-get install -y chromium
-      npm install
+      npm install --include=dev
       PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium npm run build
     staticPublishPath: ./dist
     routes:
