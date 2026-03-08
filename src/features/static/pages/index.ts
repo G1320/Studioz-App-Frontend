@@ -6,4 +6,3 @@ export { default as SecurityPage } from './SecurityPage';
 export { default as FeaturesPage } from './FeaturesPage';
 export { default as FeatureDetailPage } from './FeatureDetailPage';
 export { default as StatusPage } from './StatusPage';
-export { default as StatusPage } from './StatusPage';
