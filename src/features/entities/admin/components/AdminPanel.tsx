@@ -1382,7 +1382,7 @@ const PaymentCanaryView = () => {
         {showCardForm && (
           <>
             <p style={{ margin: '0 0 16px', color: 'var(--text-secondary, #6b7280)', fontSize: '13px' }}>
-              This card will be validated via a 1 ILS authorization (no actual charge) every 12 hours to verify the payment system is healthy.
+              This card will be validated via a 1 ILS authorization (no actual charge) every hour to verify the payment system is healthy.
             </p>
             <form onSubmit={handleSetupCard}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -1513,7 +1513,29 @@ const PaymentCanaryView = () => {
 
       {/* Results History Table */}
       <div className="admin-card">
-        <h3 style={{ margin: '0 0 16px', fontSize: '16px', fontWeight: 600 }}>Test History</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>Test History</h3>
+          {results.length > 0 && (
+            <button
+              className="admin-btn admin-btn--ghost"
+              style={{ color: 'var(--color-error, #ef4444)', fontSize: '13px' }}
+              onClick={async () => {
+                if (!window.confirm('Clear all canary test history? This cannot be undone.')) return;
+                try {
+                  await httpService.delete('/payment-canary/history');
+                  setResults([]);
+                  setRunFeedback({ type: 'success', message: 'History cleared' });
+                  setTimeout(() => setRunFeedback(null), 3000);
+                } catch {
+                  setRunFeedback({ type: 'error', message: 'Failed to clear history' });
+                  setTimeout(() => setRunFeedback(null), 3000);
+                }
+              }}
+            >
+              <TrashIcon sx={{ fontSize: 14 }} /> Clear History
+            </button>
+          )}
+        </div>
         {isLoading ? (
           <p style={{ color: 'var(--text-secondary, #6b7280)', textAlign: 'center', padding: '24px' }}>Loading history...</p>
         ) : results.length === 0 ? (
@@ -1989,7 +2011,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
           <div className="admin-content admin-content--animate">
             <SectionHeader
               title="Payment Canary"
-              description="Automated payment health checks — authorizes 1 ILS via multivendorcharge every 12 hours (no actual charge)"
+              description="Automated payment health checks — authorizes 1 ILS via multivendorcharge every hour (no actual charge)"
             />
             <PaymentCanaryView />
           </div>
