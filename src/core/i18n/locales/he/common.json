@@ -113,7 +113,16 @@
     "create_and_organize": "צור וארגן את האולפנים והשירותים האהובים עליך",
     "wishlist": "רשימה",
     "wishlists": "רשימות",
-    "saved": "שמורים"
+    "saved": "שמורים",
+    "my_wishlists": "הרשימות שלי",
+    "empty_title": "אין רשימות עדיין",
+    "empty_description": "שמרו את האולפנים והשירותים האהובים עליכם ברשימות כדי למצוא אותם בקלות",
+    "studios_count": "אולפן",
+    "studios_count_plural": "אולפנים",
+    "back_to_wishlists": "חזרה לרשימות",
+    "empty_wishlist": "הרשימה ריקה",
+    "empty_wishlist_description": "הוסיפו פריטים מאולפנים לרשימה זו כדי לראות אותם כאן",
+    "remove_from_wishlist": "הסרה"
   },
   "errors": {
     "required": "שדה זה נדרש",

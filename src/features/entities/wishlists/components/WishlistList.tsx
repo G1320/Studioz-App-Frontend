@@ -6,7 +6,7 @@ import { useWishlists } from '@shared/hooks';
 import { Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import { AddIcon } from '@shared/components/icons';
+import { AddIcon, FavoriteBorderIcon } from '@shared/components/icons';
 
 interface WishlistListProps {
   isDropdown?: boolean;
@@ -39,20 +39,26 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
     </Button>
   );
 
+  const hasWishlists = wishlists.length > 0;
+
   return (
     <section className="wishlists">
       <div className="wishlists-header">
-        <div className="wishlists-title-section"></div>
+        <h1 className="wishlists-title">{t('wishlists.my_wishlists')}</h1>
         <p className="wishlists-subtitle">
-          {wishlists.length === 0
-            ? t('wishlists.create_and_organize')
-            : `${wishlists.length} ${wishlists.length === 1 ? t('wishlists.wishlist') : t('wishlists.wishlists')} ${t('wishlists.saved')}`}
+          {hasWishlists
+            ? `${wishlists.length} ${wishlists.length === 1 ? t('wishlists.wishlist') : t('wishlists.wishlists')} ${t('wishlists.saved')}`
+            : t('wishlists.create_and_organize')}
         </p>
       </div>
-      <Link to={`/${i18n.language}/create-wishlist`} className="create-wishlist-button">
-        <AddIcon />
-        <span>{t('wishlists.create_new')}</span>
-      </Link>
+
+      {hasWishlists && (
+        <Link to={`/${i18n.language}/create-wishlist`} className="create-wishlist-button">
+          <AddIcon />
+          <span>{t('wishlists.create_new')}</span>
+        </Link>
+      )}
+
       {isDropdown ? (
         <GenericMuiDropdown
           data={wishlists}
@@ -61,8 +67,20 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
           title={t('navigation.wishlists')}
           emptyState={emptyState}
         />
-      ) : (
+      ) : hasWishlists ? (
         <GenericList data={wishlists} renderItem={renderItem} className="wishlist-list" />
+      ) : (
+        <div className="wishlists-empty">
+          <div className="wishlists-empty__icon">
+            <FavoriteBorderIcon />
+          </div>
+          <h2 className="wishlists-empty__title">{t('wishlists.empty_title')}</h2>
+          <p className="wishlists-empty__description">{t('wishlists.empty_description')}</p>
+          <Link to={`/${i18n.language}/create-wishlist`} className="create-wishlist-button">
+            <AddIcon />
+            <span>{t('wishlists.create_new')}</span>
+          </Link>
+        </div>
       )}
     </section>
   );

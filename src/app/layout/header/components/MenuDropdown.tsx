@@ -14,7 +14,6 @@ import {
   PersonOutlineIcon,
   EventIcon,
   PlayCircleIcon,
-  MembershipIcon,
   LanguageIcon,
   ChevronRightIcon
 } from '@shared/components/icons';
@@ -121,14 +120,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           <PlayCircleIcon className="menu-dropdown__icon" />
           <span>{t('profile.buttons.howItWorks')}</span>
         </button>
-        <button
-          className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => anchorNavigate('/for-owners', 'pricing')}
-        >
-          <MembershipIcon className="menu-dropdown__icon" />
-          <span>{t('common:navigation.pricing')}</span>
-        </button>
-
         <div className="menu-dropdown__divider" />
         <div className="menu-dropdown__theme-item">
           <ThemeToggle variant="dropdown" size="sm" />

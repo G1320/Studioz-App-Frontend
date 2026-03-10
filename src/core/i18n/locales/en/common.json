@@ -113,7 +113,16 @@
     "create_and_organize": "Create and organize your favorite studios and services",
     "wishlist": "wishlist",
     "wishlists": "wishlists",
-    "saved": "saved"
+    "saved": "saved",
+    "my_wishlists": "My Wishlists",
+    "empty_title": "No wishlists yet",
+    "empty_description": "Save your favorite studios and services into lists to find them easily later",
+    "studios_count": "studio",
+    "studios_count_plural": "studios",
+    "back_to_wishlists": "Back to Wishlists",
+    "empty_wishlist": "This wishlist is empty",
+    "empty_wishlist_description": "Add items from studios to this wishlist to see them here",
+    "remove_from_wishlist": "Remove"
   },
   "errors": {
     "required": "This field is required",

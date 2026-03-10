@@ -122,7 +122,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
       </div>
       {wishlistId && (
         <Button className="remove-from-wishlist-button" onClick={handleRemoveItemFromWishlist}>
-          Remove from Wishlist
+          {t('common:wishlists.remove_from_wishlist')}
         </Button>
       )}
       <ItemFeatures
