@@ -98,19 +98,20 @@
       border-color: var(--color-brand);
     }
 
-    // Primary variant (highlighted action)
+    // Primary variant (highlighted action — outline style)
     &--primary {
-      background: var(--color-brand);
+      background: transparent;
       border-color: var(--color-brand);
-      color: var(--btn-primary-text);
+      border-width: 2px;
+      color: var(--text-primary);
       font-weight: 600;
 
       .quick-actions__btn-icon {
-        color: var(--btn-primary-text);
+        color: var(--color-brand);
       }
 
       &:hover {
-        background: var(--color-brand-hover);
+        background: var(--color-brand-bg);
         border-color: var(--color-brand-hover);
       }
     }
@@ -141,7 +142,7 @@
   }
 
   &__btn--primary:hover &__btn-icon {
-    color: var(--btn-primary-text);
+    color: var(--color-brand-hover);
   }
 
   &__btn-label {
