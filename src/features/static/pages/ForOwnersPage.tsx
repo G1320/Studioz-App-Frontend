@@ -17,7 +17,6 @@ import {
 } from '@shared/components/icons';
 import { GenericModal } from '@shared/components/modal';
 import { ThemeToggle } from '@shared/components';
-import { PricingSection } from '../components/PricingSection';
 import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
@@ -472,9 +471,6 @@ const ForOwnersPage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Pricing Section */}
-      <PricingSection />
 
       {/* CTA Section */}
       <section className="owners-cta">
