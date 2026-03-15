@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "FAQ | Studioz",
+    "description": "Frequently asked questions about booking studios on Studioz. Learn about payments, cancellations, and how the platform works."
+  },
+  "hero": {
+    "title": "Frequently Asked",
+    "titleAccent": "Questions",
+    "subtitle": "Everything you need to know about finding and booking studios on Studioz."
+  },
+  "categories": {
+    "general": "General",
+    "booking": "Booking",
+    "payments": "Payments",
+    "account": "Account"
+  },
+  "questions": {
+    "what_is_studioz": {
+      "q": "What is Studioz?",
+      "a": "Studioz is a platform for discovering and booking professional creative spaces — recording studios, podcast rooms, photo studios, rehearsal spaces, and more. We make it easy to find the right space, book it online, and pay securely."
+    },
+    "how_to_book": {
+      "q": "How do I book a studio?",
+      "a": "Browse studios on the platform, pick one you like, choose an available time slot and any add-on services, then confirm your booking and pay online. You'll receive an instant confirmation with all the details."
+    },
+    "is_it_free": {
+      "q": "Is it free to use Studioz as a customer?",
+      "a": "Yes, creating an account and browsing studios is completely free. You only pay when you make a booking — the price shown on each service is the full price you'll pay."
+    },
+    "cancellation": {
+      "q": "Can I cancel a booking?",
+      "a": "Cancellation policies vary by studio. Each studio sets its own terms, which are clearly shown before you confirm your booking. Check the studio's cancellation policy on their page before booking."
+    },
+    "payment_methods": {
+      "q": "What payment methods are accepted?",
+      "a": "We accept all major credit and debit cards. Payments are processed securely through certified payment providers — we never store your full card details."
+    },
+    "payment_security": {
+      "q": "Is my payment information safe?",
+      "a": "Absolutely. We use tokenized payment processing through PCI-certified providers. Your card details go directly to the payment gateway — Studioz never sees or stores your full card number, CVV, or expiration date."
+    },
+    "studio_types": {
+      "q": "What types of studios can I find?",
+      "a": "Recording studios, mixing and mastering rooms, podcast studios, photo and video studios, rehearsal spaces, and more. Each studio lists its equipment, amenities, and specialties so you can find exactly what you need."
+    },
+    "reviews": {
+      "q": "How do reviews work?",
+      "a": "After completing a session, you can leave a review and rating for the studio. Reviews are verified — only people who actually booked can review. This helps other creators make informed decisions."
+    },
+    "remote_projects": {
+      "q": "What are remote projects?",
+      "a": "Some studios offer remote services like mixing, mastering, and post-production. You upload your files, describe what you need, and the studio delivers the finished product — no need to visit in person."
+    },
+    "contact_studio": {
+      "q": "How do I contact a studio owner?",
+      "a": "You can reach out through the booking flow or via the studio's profile page. For remote projects, there's an integrated chat thread for feedback and file sharing."
+    },
+    "wishlists": {
+      "q": "How do wishlists work?",
+      "a": "You can save your favorite studios and services into wishlists to find them easily later. Create multiple lists to organize by project, location, or any way you like."
+    },
+    "issue_with_booking": {
+      "q": "What if there's an issue with my booking?",
+      "a": "Contact us at admin@studioz.co.il and we'll help resolve it. We're committed to making sure every booking goes smoothly for both creators and studio owners."
+    }
+  }
+}

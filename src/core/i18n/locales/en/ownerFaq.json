@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "title": "Studio Owner FAQ | Studioz",
+    "description": "Frequently asked questions for studio owners on Studioz. Learn about listing your studio, fees, payments, and managing your business."
+  },
+  "hero": {
+    "title": "For Studio",
+    "titleAccent": "Owners",
+    "subtitle": "Answers to the most common questions about listing and managing your studio on Studioz."
+  },
+  "categories": {
+    "getting_started": "Getting Started",
+    "fees": "Fees & Payments",
+    "management": "Management",
+    "growth": "Growth"
+  },
+  "questions": {
+    "how_to_list": {
+      "q": "How do I list my studio on Studioz?",
+      "a": "Sign up for a free account, click \"List Your Studio\", and follow the guided setup. You'll add your studio details, photos, equipment list, services with pricing, and availability. The whole process takes about 10 minutes."
+    },
+    "cost_to_list": {
+      "q": "How much does it cost to list my studio?",
+      "a": "Listing your studio is completely free — no monthly fees, no setup costs, and no commitment. Studioz uses a commission-based model: we only take a small percentage when you actually receive a booking and get paid."
+    },
+    "how_fees_work": {
+      "q": "How do fees work?",
+      "a": "We use a progressive commission model that rewards growth. The rate starts at 9% on your first earnings and decreases as your monthly revenue grows. The more you earn, the lower your effective rate. There are no hidden fees or monthly charges."
+    },
+    "when_get_paid": {
+      "q": "When do I get paid?",
+      "a": "Customers pay at the time of booking. Funds are transferred to your account according to the payment schedule set during your onboarding. You can track all payments and pending transfers from your dashboard."
+    },
+    "invoicing": {
+      "q": "How do invoices work?",
+      "a": "Studioz automatically generates tax-compliant invoices for every booking. Invoices are sent to your customers and recorded in your dashboard. You can export reports for accounting at any time."
+    },
+    "multiple_studios": {
+      "q": "Can I manage multiple studios?",
+      "a": "Yes. You can list and manage multiple studio locations from a single account. Each studio has its own page, calendar, services, and settings."
+    },
+    "calendar_sync": {
+      "q": "How does calendar sync work?",
+      "a": "Studioz syncs with your Google Calendar in real-time. Every booking is automatically added to your calendar, and any time you block in Google Calendar is reflected as unavailable on Studioz. No double bookings."
+    },
+    "availability": {
+      "q": "Can I control when I'm available for bookings?",
+      "a": "Absolutely. Set custom availability rules for each day of the week, block specific dates, add buffer time between sessions, and choose whether bookings are automatically confirmed or require your manual approval."
+    },
+    "remote_services": {
+      "q": "Can I offer remote services?",
+      "a": "Yes. You can offer remote mixing, mastering, editing, and other post-production services. Clients submit project requests with their files, you set your own pricing and delivery timelines, and everything is managed through an integrated project workspace."
+    },
+    "cancellation_policy": {
+      "q": "How do cancellations work?",
+      "a": "You set your own cancellation policy when creating your services. Options range from flexible (full refund up to 24 hours before) to strict (no refunds). Your policy is clearly displayed to customers before they book."
+    },
+    "support": {
+      "q": "What support is available?",
+      "a": "We offer email support for all studios. Reach us at admin@studioz.co.il for any questions about your account, payments, or platform features."
+    },
+    "visibility": {
+      "q": "How will customers find my studio?",
+      "a": "Your studio page is optimized for search engines — it can rank on Google alongside or above your own website. Customers also discover studios through our search, filters, and category browsing. A complete profile with photos and reviews significantly increases visibility."
+    }
+  },
+  "cta": {
+    "title": "Ready to get started?",
+    "description": "List your studio for free and start receiving bookings today.",
+    "button": "List Your Studio"
+  }
+}

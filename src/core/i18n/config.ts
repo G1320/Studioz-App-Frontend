@@ -38,6 +38,9 @@ import accessibility from './locales/en/accessibility.json';
 import termsAndConditions from './locales/en/termsAndConditions.json';
 import metaCampaigns from './locales/en/metaCampaigns.json';
 import status from './locales/en/status.json';
+import about from './locales/en/about.json';
+import faq from './locales/en/faq.json';
+import ownerFaq from './locales/en/ownerFaq.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -75,6 +78,9 @@ import accessibilityHe from './locales/he/accessibility.json';
 import termsAndConditionsHe from './locales/he/termsAndConditions.json';
 import metaCampaignsHe from './locales/he/metaCampaigns.json';
 import statusHe from './locales/he/status.json';
+import aboutHe from './locales/he/about.json';
+import faqHe from './locales/he/faq.json';
+import ownerFaqHe from './locales/he/ownerFaq.json';
 
 i18n
   .use(LanguageDetector)
@@ -117,7 +123,10 @@ i18n
         accessibility,
         termsAndConditions,
         metaCampaigns,
-        status
+        status,
+        about,
+        faq,
+        ownerFaq
       },
       he: {
         discoverPage: discoverPageHe,
@@ -155,7 +164,10 @@ i18n
         accessibility: accessibilityHe,
         termsAndConditions: termsAndConditionsHe,
         metaCampaigns: metaCampaignsHe,
-        status: statusHe
+        status: statusHe,
+        about: aboutHe,
+        faq: faqHe,
+        ownerFaq: ownerFaqHe
       }
     },
     fallbackLng: 'he',

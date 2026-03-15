@@ -247,6 +247,9 @@ export { default as AlertTriangleIcon } from '@mui/icons-material/Warning';
 export { default as ExternalLinkIcon } from '@mui/icons-material/OpenInNew';
 export { default as FingerprintIcon } from '@mui/icons-material/Fingerprint';
 export { default as StorageIcon } from '@mui/icons-material/Storage';
+export { default as VisibilityIcon } from '@mui/icons-material/Visibility';
+export { default as BalanceIcon } from '@mui/icons-material/Balance';
+export { default as SpeedIcon } from '@mui/icons-material/Speed';
 
 // ===================
 // ICON TYPE

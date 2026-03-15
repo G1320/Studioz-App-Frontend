@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "title": "About Studioz | The Platform for Creative Spaces",
+    "description": "Studioz connects artists and creators with professional studios across Israel. Learn about our mission, values, and the team behind the platform."
+  },
+  "hero": {
+    "title": "We connect creators",
+    "titleAccent": "with the spaces they need.",
+    "subtitle": "Studioz is the professional platform for discovering, booking, and managing creative studio spaces across Israel."
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "The creative industry in Israel is thriving — but finding the right studio, managing bookings, and handling payments shouldn't be the hard part. We built Studioz to remove the friction between talent and the spaces where great work happens.",
+    "point1": {
+      "title": "For Creators",
+      "description": "Discover studios by location, gear, and availability. Book instantly, pay securely, and focus on what you do best."
+    },
+    "point2": {
+      "title": "For Studio Owners",
+      "description": "Fill your calendar, automate operations, and grow your business — all from a single dashboard. No monthly fees, ever."
+    }
+  },
+  "values": {
+    "title": "What drives us",
+    "transparency": {
+      "title": "Transparency",
+      "description": "No hidden fees. No surprise charges. What you see is what you pay — for both creators and studio owners."
+    },
+    "quality": {
+      "title": "Quality",
+      "description": "Every studio listing is detailed with photos, gear lists, and verified reviews. We set a high bar so you don't have to guess."
+    },
+    "simplicity": {
+      "title": "Simplicity",
+      "description": "From search to checkout in minutes. We eliminate unnecessary steps so you can get back to creating."
+    },
+    "fairness": {
+      "title": "Fairness",
+      "description": "We only earn when studios earn. Our model rewards growth — the more a studio succeeds, the lower their rate."
+    }
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "step1": {
+      "title": "Discover",
+      "description": "Browse studios by category, location, equipment, and availability. Every listing includes photos, gear details, and real reviews."
+    },
+    "step2": {
+      "title": "Book",
+      "description": "Choose your time slot, add any extras, and confirm your booking. Pay securely online — the studio gets notified instantly."
+    },
+    "step3": {
+      "title": "Create",
+      "description": "Show up and get to work. Everything is confirmed, paid, and ready. No awkward negotiations, no cash at the door."
+    }
+  },
+  "contact": {
+    "title": "Get in touch",
+    "description": "Have a question, partnership idea, or just want to say hi? We'd love to hear from you.",
+    "email": "admin@studioz.co.il",
+    "button": "Contact Us"
+  }
+}

@@ -38,6 +38,9 @@ const SecurityPage = lazyWithRetry(() => import('@features/static/pages/Security
 const StatusPage = lazyWithRetry(() => import('@features/static/pages/StatusPage'));
 const FeaturesPage = lazyWithRetry(() => import('@features/static/pages/FeaturesPage'));
 const FeatureDetailPage = lazyWithRetry(() => import('@features/static/pages/FeatureDetailPage'));
+const AboutPage = lazyWithRetry(() => import('@features/static/pages/AboutPage'));
+const FaqPage = lazyWithRetry(() => import('@features/static/pages/FaqPage'));
+const OwnerFaqPage = lazyWithRetry(() => import('@features/static/pages/OwnerFaqPage'));
 const ServicesPage = lazyWithRetry(() => import('@features/entities/items/pages/ServicesPage'));
 const StudiosPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudiosPage'));
 const CreateItemPage = lazyWithRetry(() => import('@features/entities/items/pages/CreateItemPage'));
@@ -458,6 +461,30 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           <Route
             path="/:lang?/how-it-works"
             element={<Navigate to={`/${i18n.language}#how-it-works`} replace />}
+          />
+          <Route
+            path="/:lang?/about"
+            element={
+              <AnimatedRoute>
+                <AboutPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/faq"
+            element={
+              <AnimatedRoute>
+                <FaqPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/owner-faq"
+            element={
+              <AnimatedRoute>
+                <OwnerFaqPage />
+              </AnimatedRoute>
+            }
           />
           <Route
             path="/:lang?/changelog"

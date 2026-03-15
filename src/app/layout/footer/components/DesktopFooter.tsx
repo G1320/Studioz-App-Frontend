@@ -72,6 +72,21 @@ export const DesktopFooter = () => {
             <h3>{t('footer.company')}</h3>
             <ul>
               <li>
+                <a href={`${langPrefix}/about`} onClick={(e) => handleClick(e, '/about')}>
+                  {t('footer.about')}
+                </a>
+              </li>
+              <li>
+                <a href={`${langPrefix}/faq`} onClick={(e) => handleClick(e, '/faq')}>
+                  {t('footer.faq')}
+                </a>
+              </li>
+              <li>
+                <a href={`${langPrefix}/owner-faq`} onClick={(e) => handleClick(e, '/owner-faq')}>
+                  {t('footer.owner_faq')}
+                </a>
+              </li>
+              <li>
                 <a href={`${langPrefix}/changelog`} onClick={(e) => handleClick(e, '/changelog')}>
                   {t('footer.changelog')}
                 </a>
