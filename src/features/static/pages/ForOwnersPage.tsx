@@ -244,6 +244,16 @@ const ForOwnersPage: React.FC = () => {
                 </div>
               </div>
 
+              <a
+                href="https://www.studioz.co.il/he/studio/6962554983fef09cc9b4f7db"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="owners-showcase__live-link"
+              >
+                {t('showcase.see_live_studio')}
+                <ArrowForwardIcon />
+              </a>
+
               {/* Theme toggle — same as menu, try both themes and see screenshots update */}
               <div className="owners-showcase__theme-cta">
                 <p className="owners-showcase__theme-cta-text">{t('showcase.try_theme_cta')}</p>

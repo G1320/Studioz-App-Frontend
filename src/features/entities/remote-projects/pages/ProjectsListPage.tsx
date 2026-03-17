@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Search, Filter, Plus, Clock, CheckCircle2, AlertCircle, User, ArrowLeft } from 'lucide-react';
+import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft } from 'lucide-react';
 import { useUserContext } from '@core/contexts';
 import { useRemoteProjects } from '@shared/hooks';
+import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
+import { EmptyState } from '@shared/components';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { RemoteProject, RemoteProjectStatus } from 'src/types/index';
 import './styles/_projects-list-page.scss';
@@ -16,6 +18,8 @@ export const ProjectsListPage: React.FC = () => {
   const { user } = useUserContext();
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const langNavigate = useLanguageNavigate();
 
   const { projects, isLoading } = useRemoteProjects({
     customerId: user?._id,
@@ -77,16 +81,7 @@ export const ProjectsListPage: React.FC = () => {
     { value: 'declined', label: t('status.declined') },
   ];
 
-  if (!user) {
-    return (
-      <div className="projects-list">
-        <div className="projects-list__empty">
-          <AlertCircle />
-          <h3>{t('loginRequired')}</h3>
-        </div>
-      </div>
-    );
-  }
+  const hasProjects = user && filteredProjects.length > 0;
 
   return (
     <div className="projects-list">
@@ -96,53 +91,56 @@ export const ProjectsListPage: React.FC = () => {
           <h1 className="projects-list__title">{t('myProjects')}</h1>
           <p className="projects-list__subtitle">{t('subtitle')}</p>
         </div>
-        <div className="projects-list__header-actions">
-          <button className="projects-list__new-button">
-            <Plus />
-            {t('newProject')}
-          </button>
-        </div>
+        {user && (
+          <div className="projects-list__header-actions">
+            <button className="projects-list__new-button">
+              <Plus />
+              {t('newProject')}
+            </button>
+          </div>
+        )}
       </header>
 
-      {/* Filters */}
-      <div className="projects-list__filters">
-        <div className="projects-list__search">
-          <Search />
-          <input
-            type="text"
-            className="projects-list__search-input"
-            placeholder={t('searchProjects')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      {/* Filters - only show when user has projects */}
+      {hasProjects && (
+        <div className="projects-list__filters">
+          <div className="projects-list__search">
+            <Search />
+            <input
+              type="text"
+              className="projects-list__search-input"
+              placeholder={t('searchProjects')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <div className="projects-list__filter">
+            <Filter />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as FilterStatus)}
+            >
+              {statusOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div className="projects-list__filter">
-          <Filter />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as FilterStatus)}
-          >
-            {statusOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      )}
 
       {/* Content */}
       {isLoading ? (
         <div className="projects-list__loading">{t('common.loading')}</div>
-      ) : filteredProjects.length === 0 ? (
-        <div className="projects-list__empty">
-          <AlertCircle />
-          <h3>{t('noProjects')}</h3>
-          <p>{t('noProjectsHint')}</p>
-          <button className="projects-list__empty-cta">
-            {t('exploreStudios')}
-          </button>
-        </div>
+      ) : !hasProjects ? (
+        <EmptyState
+          icon="🎵"
+          title={t('noProjects')}
+          subtitle={t('noProjectsHint')}
+          actionLabel={t('exploreStudios')}
+          onAction={() => langNavigate('/')}
+        />
       ) : (
         <div className="projects-list__grid">
           {filteredProjects.map((project: RemoteProject, idx: number) => (

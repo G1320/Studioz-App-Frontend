@@ -8,3 +8,4 @@ export * from './CookieConsentContext';
 export * from './LocationPermissionContext';
 export * from './NotificationContext';
 export * from './AccessibilityContext';
+export * from './PostHogContext';

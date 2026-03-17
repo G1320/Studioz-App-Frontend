@@ -20,7 +20,8 @@ import {
   ReservationModalProvider,
   CookieConsentProvider,
   LocationPermissionProvider,
-  NotificationProvider
+  NotificationProvider,
+  PostHogProvider
 } from '@core/contexts';
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
 import { AccessibilityProvider } from '@core/contexts';
@@ -129,35 +130,37 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
           <Router>
             <CookieConsentProvider>
-              <LocationPermissionProvider>
-                <UserProvider>
-                  <OfflineCartProvider>
-                    <SocketProvider>
-                      <NotificationProvider>
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-                          <Auth0Provider
-                            domain={domain}
-                            clientId={clientId}
-                            authorizationParams={{
-                              redirect_uri: window.location.origin,
-                              audience: 'https://items-app-backend.onrender.com',
-                              scope: 'openid profile email'
-                            }}
-                          >
-                            <ModalProvider>
-                              <ReservationModalProvider>
-                                <SearchProvider>
-                                  <App />
-                                </SearchProvider>
-                              </ReservationModalProvider>
-                            </ModalProvider>
-                          </Auth0Provider>
-                        </LocalizationProvider>
-                      </NotificationProvider>
-                    </SocketProvider>
-                  </OfflineCartProvider>
-                </UserProvider>
-              </LocationPermissionProvider>
+              <PostHogProvider>
+                <LocationPermissionProvider>
+                  <UserProvider>
+                    <OfflineCartProvider>
+                      <SocketProvider>
+                        <NotificationProvider>
+                          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
+                            <Auth0Provider
+                              domain={domain}
+                              clientId={clientId}
+                              authorizationParams={{
+                                redirect_uri: window.location.origin,
+                                audience: 'https://items-app-backend.onrender.com',
+                                scope: 'openid profile email'
+                              }}
+                            >
+                              <ModalProvider>
+                                <ReservationModalProvider>
+                                  <SearchProvider>
+                                    <App />
+                                  </SearchProvider>
+                                </ReservationModalProvider>
+                              </ModalProvider>
+                            </Auth0Provider>
+                          </LocalizationProvider>
+                        </NotificationProvider>
+                      </SocketProvider>
+                    </OfflineCartProvider>
+                  </UserProvider>
+                </LocationPermissionProvider>
+              </PostHogProvider>
             </CookieConsentProvider>
           </Router>
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
