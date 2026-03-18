@@ -29,6 +29,8 @@ interface ImportMetaEnv {
   readonly VITE_PAYME_API_URL?: string;
   readonly VITE_ENABLE_PAYPAL?: string;
   readonly VITE_R2_PROXY_URL?: string;
+  readonly VITE_PUBLIC_POSTHOG_KEY?: string;
+  readonly VITE_PUBLIC_POSTHOG_HOST?: string;
 }
 
 interface ImportMeta {
