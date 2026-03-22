@@ -336,5 +336,8 @@
     "noEvents": "No events for this day",
     "addEvent": "Add new event",
     "minutes": "min"
+  },
+  "accessibility": {
+    "showWidget": "Show accessibility button"
   }
 }

@@ -67,7 +67,13 @@
       "sumit": "סליקת אשראי",
       "sumitDesc": "קבל תשלומים באשראי ישירות לחשבון הבנק",
       "subscription": "מנוי ותשלומים",
-      "platformFee": "עמלת פלטפורמה"
+      "platformFee": "עמלת פלטפורמה",
+      "accessibility": "נגישות",
+      "accessibilityDesc": "ניהול נראות כפתור הנגישות"
+    },
+    "accessibility": {
+      "showWidget": "הצג כפתור נגישות",
+      "showWidgetHint": "כפתור הנגישות הצף בפינת המסך"
     },
     "sumit": {
       "provider": "Sumit.co.il",

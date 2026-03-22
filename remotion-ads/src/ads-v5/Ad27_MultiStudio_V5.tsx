@@ -158,7 +158,7 @@ const Scene2: React.FC = () => {
           <Badge text="Pro" color={GOLD} delay={10} />
         </div>
         <ScreenshotFrame
-          src="images/optimized/Dashboard-Main.png"
+          src="images/optimized/Dashboard-Overview-Mobile.png"
             cropTop={13}
           delay={15}
         />

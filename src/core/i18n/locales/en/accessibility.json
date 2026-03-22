@@ -16,6 +16,8 @@
     "bigCursor": "Big Cursor",
     "keyboardHighlight": "Keyboard Navigation",
     "resetAll": "Reset All",
+    "hideWidget": "Hide accessibility button",
+    "hideWidgetHint": "You can re-enable it in your profile settings",
     "enabled": "on",
     "disabled": "off"
   }

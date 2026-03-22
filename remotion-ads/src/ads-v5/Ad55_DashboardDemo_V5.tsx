@@ -25,7 +25,7 @@ import {
   GoldLine,
   GoldText,
   SectionLabel,
-  ScreenshotFrame,
+  PhoneMockup,
   CTAScene,
   useScale,
 } from "./shared";
@@ -72,9 +72,9 @@ const SceneMain: React.FC = () => {
         <GoldLine delay={8} width={120} />
 
         <div style={{ marginTop: s(10) }}>
-          <ScreenshotFrame
-            src="images/optimized/Dashboard-Main.png"
-            cropTop={13}
+          <PhoneMockup
+            src="images/optimized/Dashboard-Overview-Mobile.png"
+            cropTop={5}
             delay={12}
           />
         </div>
@@ -155,7 +155,7 @@ const SceneStatistics: React.FC = () => {
           gap: s(25),
         }}
       >
-        <SectionLabel text="STATISTICS" delay={0} />
+        <SectionLabel text="ANALYTICS" delay={0} />
 
         <h2
           style={{
@@ -168,13 +168,13 @@ const SceneStatistics: React.FC = () => {
             transform: `translateY(${interpolate(titleEnter, [0, 1], [s(-20), 0])}px)`,
           }}
         >
-          <GoldText>{"סטטיסטיקות"}</GoldText>
+          <GoldText>{"אנליטיקה"}</GoldText>
         </h2>
 
         <div style={{ marginTop: s(10) }}>
-          <ScreenshotFrame
-            src="images/optimized/Dashboard-Statistics-Charts.png"
-            cropTop={13}
+          <PhoneMockup
+            src="images/optimized/Dashboard-Analytics-Mobile.png"
+            cropTop={5}
             delay={8}
           />
         </div>

@@ -19,6 +19,7 @@ export interface AccessibilitySettings {
   textSpacing: boolean;
   bigCursor: boolean;
   keyboardHighlight: boolean;
+  widgetHidden: boolean;
 }
 
 interface AccessibilityContextType {
@@ -50,7 +51,8 @@ const DEFAULT_SETTINGS: AccessibilitySettings = {
   highlightLinks: false,
   textSpacing: false,
   bigCursor: false,
-  keyboardHighlight: false
+  keyboardHighlight: false,
+  widgetHidden: false
 };
 
 /**

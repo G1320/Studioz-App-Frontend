@@ -23,7 +23,8 @@ describe('AccessibilityContext', () => {
       highlightLinks: false,
       textSpacing: false,
       bigCursor: false,
-      keyboardHighlight: false
+      keyboardHighlight: false,
+      widgetHidden: false
     });
   });
 
@@ -75,7 +76,8 @@ describe('AccessibilityContext', () => {
       highlightLinks: false,
       textSpacing: false,
       bigCursor: false,
-      keyboardHighlight: false
+      keyboardHighlight: false,
+      widgetHidden: false
     });
   });
 

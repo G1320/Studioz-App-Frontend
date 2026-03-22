@@ -67,7 +67,13 @@
       "sumit": "Credit card processing",
       "sumitDesc": "Receive payments directly to your bank account",
       "subscription": "Subscription & Payments",
-      "platformFee": "Platform fee"
+      "platformFee": "Platform fee",
+      "accessibility": "Accessibility",
+      "accessibilityDesc": "Manage accessibility widget visibility"
+    },
+    "accessibility": {
+      "showWidget": "Show accessibility button",
+      "showWidgetHint": "The floating accessibility button in the corner of the screen"
     },
     "sumit": {
       "provider": "Sumit.co.il",

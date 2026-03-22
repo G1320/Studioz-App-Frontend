@@ -21,9 +21,11 @@ import {
   OpenNewIcon,
   ChevronRightIcon,
   ShieldIcon,
-  RefreshIcon
+  RefreshIcon,
+  VisibilityIcon
 } from '@shared/components/icons';
 import { NotificationPreferences } from '@shared/components/notifications';
+import { useAccessibility } from '@core/contexts/AccessibilityContext';
 
 import '../styles/_profile-page.scss';
 
@@ -89,6 +91,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const { t, i18n } = useTranslation('profile');
   const { setUser } = useUserContext();
+  const { settings: a11ySettings, updateSetting: updateA11ySetting } = useAccessibility();
   const updateUserMutation = useUpdateUserMutation();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -335,6 +338,34 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
               description={t('profile.sections.securityDesc', 'Control how and when you receive notifications')}
             />
             <NotificationPreferences />
+          </div>
+
+          {/* Accessibility Preferences */}
+          <div className="profile-card profile-card--accessibility">
+            <SectionTitle
+              icon={VisibilityIcon}
+              title={t('profile.sections.accessibility', 'Accessibility')}
+              description={t('profile.sections.accessibilityDesc', 'Manage accessibility widget visibility')}
+            />
+            <div className="profile-a11y-toggle">
+              <div className="profile-a11y-toggle__info">
+                <span className="profile-a11y-toggle__label">
+                  {t('profile.accessibility.showWidget', 'Show accessibility button')}
+                </span>
+                <span className="profile-a11y-toggle__hint">
+                  {t('profile.accessibility.showWidgetHint', 'The floating accessibility button in the corner of the screen')}
+                </span>
+              </div>
+              <button
+                type="button"
+                className={`profile-a11y-toggle__switch ${!a11ySettings.widgetHidden ? 'profile-a11y-toggle__switch--active' : ''}`}
+                role="switch"
+                aria-checked={!a11ySettings.widgetHidden}
+                onClick={() => updateA11ySetting('widgetHidden', !a11ySettings.widgetHidden)}
+              >
+                <span className="profile-a11y-toggle__knob" />
+              </button>
+            </div>
           </div>
         </div>
 

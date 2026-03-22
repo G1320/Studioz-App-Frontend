@@ -89,7 +89,7 @@ export const Post8_RevenueDashboard_V2: React.FC = () => {
             }}
           >
             <Img
-              src={staticFile("images/optimized/Dashboard-Statistics.png")}
+              src={staticFile("images/optimized/Dashboard-Predictions-Mobile.png")}
               style={{ width: "100%", display: "block" }}
             />
           </div>

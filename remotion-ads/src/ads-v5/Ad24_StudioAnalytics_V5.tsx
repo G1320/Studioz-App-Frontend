@@ -31,7 +31,7 @@ import {
   GoldLine,
   GoldText,
   SectionLabel,
-  ScreenshotFrame,
+  PhoneMockup,
   StatCard,
   Badge,
   CTAScene,
@@ -148,9 +148,9 @@ const Scene2: React.FC = () => {
         <div style={{ display: "flex", justifyContent: "center", marginBottom: s(20) }}>
           <Badge text="בתוכנית Pro" color={GOLD} delay={10} />
         </div>
-        <ScreenshotFrame
-          src="images/optimized/Dashboard-Statistics-Charts.png"
-            cropTop={13}
+        <PhoneMockup
+          src="images/optimized/Dashboard-Analytics-Mobile.png"
+          cropTop={5}
           delay={15}
         />
         <div style={{ marginTop: "auto" }}>

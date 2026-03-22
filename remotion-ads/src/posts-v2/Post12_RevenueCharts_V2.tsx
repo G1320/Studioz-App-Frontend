@@ -82,7 +82,7 @@ export const Post12_RevenueCharts_V2: React.FC = () => {
             }}
           >
             <Img
-              src={staticFile("images/optimized/Dashboard-Statistics-Charts.png")}
+              src={staticFile("images/optimized/Dashboard-Analytics-Mobile.png")}
               style={{ width: "100%", display: "block" }}
             />
           </div>

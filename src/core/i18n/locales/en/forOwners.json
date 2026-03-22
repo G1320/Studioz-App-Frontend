@@ -21,6 +21,27 @@
     "event2_title": "Photo Shoot",
     "event2_time": "09:00 - 18:00"
   },
+  "insights": {
+    "title": "Data-Driven",
+    "titleAccent": "Studio Management",
+    "subtitle": "Track revenue, predict trends, reduce churn — all from your phone.",
+    "overview": {
+      "title": "Revenue Overview",
+      "description": "Total bookings, revenue, average per booking and new clients — all at a glance."
+    },
+    "analytics": {
+      "title": "Deep Analytics",
+      "description": "Cancellation rates, coupon impact, and revenue broken down by hour and day."
+    },
+    "predictions": {
+      "title": "Revenue Forecasts",
+      "description": "30, 60, and 90-day revenue predictions based on your actual booking trends."
+    },
+    "clients": {
+      "title": "Client Insights",
+      "description": "Track churn risk, booking frequency, and lifetime value for every client."
+    }
+  },
   "showcase": {
     "title_part1": "Design",
     "title_accent": "that converts visitors",

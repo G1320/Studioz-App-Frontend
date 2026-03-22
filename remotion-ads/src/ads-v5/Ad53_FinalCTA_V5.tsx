@@ -137,7 +137,7 @@ const SceneDashboard: React.FC = () => {
 
         <div style={{ marginTop: s(10) }}>
           <ScreenshotFrame
-            src="images/optimized/Dashboard-Main.png"
+            src="images/optimized/Dashboard-Overview-Mobile.png"
             cropTop={13}
             delay={10}
           />

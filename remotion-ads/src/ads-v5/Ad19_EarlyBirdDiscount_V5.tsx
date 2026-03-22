@@ -160,7 +160,7 @@ const Scene2: React.FC = () => {
           <Badge Icon={ArrowUpCircle} text="14 ימי ניסיון Pro" delay={16} color={SUCCESS} />
         </div>
         <ScreenshotFrame
-          src="images/optimized/Dashboard-Main.png"
+          src="images/optimized/Dashboard-Overview-Mobile.png"
             cropTop={13}
           delay={20}
         />

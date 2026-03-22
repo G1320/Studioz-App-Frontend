@@ -13,7 +13,10 @@ import {
   ShieldIcon,
   AutoAwesomeIcon,
   DashboardIcon,
-  PublicIcon
+  PublicIcon,
+  TrendingUpIcon,
+  PeopleIcon,
+  BarChartIcon
 } from '@shared/components/icons';
 import { GenericModal } from '@shared/components/modal';
 import { ThemeToggle } from '@shared/components';
@@ -420,12 +423,12 @@ const ForOwnersPage: React.FC = () => {
                   <div className="owners-dashboard__video-skeleton">
                     <picture>
                       <source
-                        srcSet="/images/optimized/Studioz-Dashboard-Calendar-400w.webp 400w, /images/optimized/Studioz-Dashboard-Calendar-800w.webp 800w"
+                        srcSet="/images/optimized/Dashboard-Desktop-Screenshot-400w.webp 400w, /images/optimized/Dashboard-Desktop-Screenshot-800w.webp 800w"
                         sizes="(max-width: 768px) 380px, 800px"
                         type="image/webp"
                       />
                       <img
-                        src="/images/optimized/Studioz-Dashboard-Calendar-400w.webp"
+                        src="/images/optimized/Dashboard-Desktop-Screenshot-400w.webp"
                         alt=""
                         className="owners-dashboard__video-thumbnail"
                         width={1920}
@@ -442,6 +445,86 @@ const ForOwnersPage: React.FC = () => {
               <h3>{t('dashboard.title')}</h3>
               <p>{t('dashboard.description')}</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard Insights — new section showcasing mobile analytics screenshots */}
+      <section className="owners-insights">
+        <div className="owners-container">
+          <div className="owners-insights__header">
+            <h2 className="owners-section-title">
+              {t('insights.title')} <span className="owners-hero__accent">{t('insights.titleAccent')}</span>
+            </h2>
+            <p className="owners-section-subtitle">{t('insights.subtitle')}</p>
+          </div>
+
+          <div className="owners-insights__grid">
+            {[
+              {
+                key: 'overview',
+                icon: <BarChartIcon />,
+                image: '/images/optimized/Dashboard-Overview-Mobile-315w.webp',
+                srcSet: '/images/optimized/Dashboard-Overview-Mobile-315w.webp 315w, /images/optimized/Dashboard-Overview-Mobile-630w.webp 630w',
+                fullImage: '/images/optimized/Dashboard-Overview-Mobile.webp',
+                colorClass: 'owners-insights__card--primary'
+              },
+              {
+                key: 'analytics',
+                icon: <TrendingUpIcon />,
+                image: '/images/optimized/Dashboard-Clients-Mobile-315w.webp',
+                srcSet: '/images/optimized/Dashboard-Clients-Mobile-315w.webp 315w, /images/optimized/Dashboard-Clients-Mobile-630w.webp 630w',
+                fullImage: '/images/optimized/Dashboard-Clients-Mobile.webp',
+                colorClass: 'owners-insights__card--blue'
+              },
+              {
+                key: 'predictions',
+                icon: <DashboardIcon />,
+                image: '/images/optimized/Dashboard-Predictions-Mobile-315w.webp',
+                srcSet: '/images/optimized/Dashboard-Predictions-Mobile-315w.webp 315w, /images/optimized/Dashboard-Predictions-Mobile-630w.webp 630w',
+                fullImage: '/images/optimized/Dashboard-Predictions-Mobile.webp',
+                colorClass: 'owners-insights__card--emerald'
+              },
+              {
+                key: 'clients',
+                icon: <PeopleIcon />,
+                image: '/images/optimized/Dashboard-Analytics-Mobile-315w.webp',
+                srcSet: '/images/optimized/Dashboard-Analytics-Mobile-315w.webp 315w, /images/optimized/Dashboard-Analytics-Mobile-630w.webp 630w',
+                fullImage: '/images/optimized/Dashboard-Analytics-Mobile.webp',
+                colorClass: 'owners-insights__card--purple'
+              }
+            ].map((item, i) => (
+              <motion.div
+                key={item.key}
+                className={`owners-insights__card ${item.colorClass}`}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="owners-insights__card-text">
+                  <div className="owners-insights__card-icon">{item.icon}</div>
+                  <h3>{t(`insights.${item.key}.title`)}</h3>
+                  <p>{t(`insights.${item.key}.description`)}</p>
+                </div>
+                <motion.div
+                  className="owners-insights__card-image"
+                  whileHover={{ scale: 1.03 }}
+                  onClick={() => setSelectedImage(item.fullImage)}
+                >
+                  <img
+                    src={item.image}
+                    srcSet={item.srcSet}
+                    sizes="(max-width: 768px) 45vw, 260px"
+                    alt={t(`insights.${item.key}.title`)}
+                    loading="lazy"
+                    decoding="async"
+                    width={315}
+                    height={683}
+                  />
+                </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

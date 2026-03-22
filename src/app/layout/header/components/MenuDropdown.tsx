@@ -15,9 +15,11 @@ import {
   EventIcon,
   PlayCircleIcon,
   LanguageIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  VisibilityIcon
 } from '@shared/components/icons';
 import { useAuth0LoginHandler } from '@shared/hooks';
+import { useAccessibility } from '@core/contexts/AccessibilityContext';
 import './styles/menu-dropdown.scss';
 
 interface MenuDropdownProps {
@@ -32,6 +34,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
   const { openFeedback } = useSentryFeedback();
+  const { settings: a11ySettings, updateSetting: updateA11ySetting } = useAccessibility();
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
@@ -124,6 +127,15 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
         <div className="menu-dropdown__theme-item">
           <ThemeToggle variant="dropdown" size="sm" />
         </div>
+        {a11ySettings.widgetHidden && (
+          <button
+            className="menu-dropdown__item"
+            onClick={() => updateA11ySetting('widgetHidden', false)}
+          >
+            <VisibilityIcon className="menu-dropdown__icon" />
+            <span>{t('common:accessibility.showWidget')}</span>
+          </button>
+        )}
         <div className="menu-dropdown__lang-item-wrapper">
           <button
             className="menu-dropdown__item menu-dropdown__item--lang"

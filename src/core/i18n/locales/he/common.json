@@ -336,5 +336,8 @@
     "noEvents": "אין אירועים ליום זה",
     "addEvent": "הוסף אירוע חדש",
     "minutes": "דק׳"
+  },
+  "accessibility": {
+    "showWidget": "הצג כפתור נגישות"
   }
 }

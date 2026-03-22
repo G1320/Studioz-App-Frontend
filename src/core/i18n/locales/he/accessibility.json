@@ -16,6 +16,8 @@
     "bigCursor": "סמן גדול",
     "keyboardHighlight": "ניווט מקלדת",
     "resetAll": "אפס הכל",
+    "hideWidget": "הסתר כפתור נגישות",
+    "hideWidgetHint": "ניתן להפעיל מחדש בהגדרות הפרופיל",
     "enabled": "פעיל",
     "disabled": "כבוי"
   }

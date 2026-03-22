@@ -746,3 +746,73 @@
     }
   }
 }
+
+// ==========================================
+// ACCESSIBILITY TOGGLE
+// ==========================================
+.profile-a11y-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ds.$space-md;
+  padding: ds.$space-md;
+  border: 1px solid var(--border-primary);
+  border-radius: ds.$radius-lg;
+  background: var(--bg-secondary);
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    font-size: ds.$text-sm;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  &__hint {
+    font-size: ds.$text-xs;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  &__switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    border: none;
+    background: var(--bg-tertiary);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    padding: 0;
+
+    &--active {
+      background: var(--color-brand);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__knob {
+    position: absolute;
+    top: 2px;
+    inset-inline-start: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: inset-inline-start 0.2s ease;
+
+    .profile-a11y-toggle__switch--active & {
+      inset-inline-start: 22px;
+    }
+  }
+}

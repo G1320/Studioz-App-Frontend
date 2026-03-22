@@ -194,7 +194,7 @@ const SceneComparison: React.FC = () => {
 /* ─── Scene 2: Screenshot + CTA ─── */
 const SceneDashboardCTA: React.FC = () => (
   <ScreenshotCTAScene
-    screenshotSrc="images/optimized/Dashboard-Main.png"
+    screenshotSrc="images/optimized/Dashboard-Overview-Mobile.png"
     screenshotCropTop={13}
     headline={
       <>

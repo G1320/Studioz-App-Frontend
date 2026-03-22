@@ -44,7 +44,9 @@ const FEATURES: Feature[] = [
     descriptionKey: 'showcase.stats.description',
     icon: BarChart3,
     color: '#0ea5e9',
-    image: 'https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/3a367b33-67cb-40f8-95ff-6e999870beae/1769012593593-19b82447/Studioz-stats.PNG'
+    image: '/images/optimized/Dashboard-Overview-Mobile-315w.webp',
+    srcSet: '/images/optimized/Dashboard-Overview-Mobile-315w.webp 315w, /images/optimized/Dashboard-Overview-Mobile-630w.webp 630w',
+    sizes: '(max-width: 768px) 200px, 400px'
   },
   {
     id: 'service',

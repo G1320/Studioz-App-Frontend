@@ -199,6 +199,33 @@
   &__footer {
     padding: vars.$spacing-small vars.$spacing-medium vars.$spacing-medium;
     border-top: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+  }
+
+  &__hide-widget {
+    width: 100%;
+    padding: vars.$spacing-small;
+    border: 1px solid var(--border-primary);
+    border-radius: vars.$border-radius-medium;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: vars.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
   }
 
   &__reset {

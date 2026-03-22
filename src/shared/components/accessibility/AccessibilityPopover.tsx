@@ -139,9 +139,16 @@ const AccessibilityPopover: React.FC = () => {
     );
   };
 
+  const handleHideWidget = () => {
+    closePopover();
+    updateSetting('widgetHidden', true);
+  };
+
   // -----------------------------------------------------------------------
   // Render
   // -----------------------------------------------------------------------
+  if (settings.widgetHidden) return null;
+
   return (
     <>
       {/* Trigger button */}
@@ -227,6 +234,13 @@ const AccessibilityPopover: React.FC = () => {
 
           {/* Footer */}
           <div className="a11y-popover__footer">
+            <button
+              type="button"
+              className="a11y-popover__hide-widget"
+              onClick={handleHideWidget}
+            >
+              {t('popover.hideWidget')}
+            </button>
             <button
               type="button"
               className="a11y-popover__reset"

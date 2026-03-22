@@ -186,7 +186,7 @@ const SceneFeatures: React.FC = () => {
 
         <div style={{ marginTop: s(10) }}>
           <ScreenshotFrame
-            src="images/optimized/Dashboard-Statistics-Charts.png"
+            src="images/optimized/Dashboard-Analytics-Mobile.png"
             cropTop={13}
             delay={35}
           />

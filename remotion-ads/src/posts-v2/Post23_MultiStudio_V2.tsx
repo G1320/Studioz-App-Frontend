@@ -77,7 +77,7 @@ export const Post23_MultiStudio_V2: React.FC = () => {
           }}
         >
           <Img
-            src={staticFile("images/optimized/Dashboard-Main.png")}
+            src={staticFile("images/optimized/Dashboard-Overview-Mobile.png")}
             style={{ width: "100%", display: "block" }}
           />
         </div>
