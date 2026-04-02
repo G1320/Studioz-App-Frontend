@@ -253,7 +253,7 @@ const BigCTAScene: React.FC = () => {
 
           {/* Free badge */}
           <div style={{ marginBottom: 20 }}>
-            <Badge text="חינם לנצח — ₪0/חודש" color={SUCCESS} delay={15} Icon={Zap} />
+            <Badge text="חינם לתמיד — כל התכונות כלולות" color={SUCCESS} delay={15} Icon={Zap} />
           </div>
 
           {/* CTA Button */}

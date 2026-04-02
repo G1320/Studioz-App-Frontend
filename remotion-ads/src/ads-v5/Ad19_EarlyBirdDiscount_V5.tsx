@@ -1,5 +1,5 @@
 /**
- * Ad19 — Free Trial / Early Adopter Benefits
+ * Ad19 — Free Forever / Early Adopter Benefits
  * 240 frames (8s) at 30fps, 1080x1920 (9:16 portrait)
  * V5: New dashboard screenshots, no emojis, Lucide icons only.
  */
@@ -86,11 +86,11 @@ const Scene1: React.FC = () => {
             transform: `translateY(${interpolate(subtitleEnter, [0, 1], [s(20), 0])}px)`,
           }}
         >
-          תוכנית חינמית לנצח, שדרוג בקליק
+          חינם לתמיד — אנחנו מרוויחים רק כשאתה מרוויח
         </p>
         <GoldLine delay={15} width={120} />
         <div style={{ display: "flex", flexDirection: "column", gap: s(16), marginTop: s(30) }}>
-          <FeatureCard Icon={Gift} title="חינם ₪0/חודש" desc="ללא כרטיס אשראי" delay={20} />
+          <FeatureCard Icon={Gift} title="חינם לתמיד" desc="₪0 דמי מנוי" delay={20} />
           <FeatureCard
             Icon={Zap}
             title="הזמנות מיידיות"
@@ -156,8 +156,8 @@ const Scene2: React.FC = () => {
             marginBottom: s(25),
           }}
         >
-          <Badge Icon={Star} text="7 ימי ניסיון Starter" delay={8} color={GOLD} />
-          <Badge Icon={ArrowUpCircle} text="14 ימי ניסיון Pro" delay={16} color={SUCCESS} />
+          <Badge Icon={Star} text="כל התכונות כלולות" delay={8} color={GOLD} />
+          <Badge Icon={ArrowUpCircle} text="₪0 דמי מנוי — לתמיד" delay={16} color={SUCCESS} />
         </div>
         <ScreenshotFrame
           src="images/optimized/Dashboard-Overview-Mobile.png"
@@ -181,7 +181,7 @@ const Scene3: React.FC = () => (
       </>
     }
     buttonText="הרשם בחינם"
-    badgeText="התחל בחינם — ₪0/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
     subText="ללא כרטיס אשראי · ללא התחייבות"
   />
 );

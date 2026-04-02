@@ -137,7 +137,7 @@ const SceneCalendar: React.FC = () => {
             items={[
               "שעות פתיחה גמישות",
               "זמני מעבר בין הזמנות",
-              "סנכרון Google Calendar (Starter+)",
+              "סנכרון Google Calendar",
               "חסימת זמנים ידנית",
             ]}
             startDelay={20}

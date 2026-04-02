@@ -229,7 +229,7 @@ const PaymentCTA: React.FC = () => (
       </>
     }
     buttonText="התחל לקבל תשלומים"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="סליקה מיידית · ללא התחייבות"
   />
 );

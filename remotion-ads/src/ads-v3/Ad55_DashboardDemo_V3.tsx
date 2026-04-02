@@ -313,7 +313,7 @@ const DashboardCTA: React.FC = () => (
       </>
     }
     buttonText="גלה את הדשבורד"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="הגדרה תוך 5 דקות"
   />
 );

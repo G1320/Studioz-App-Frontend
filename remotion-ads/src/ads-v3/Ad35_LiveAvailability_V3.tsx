@@ -156,7 +156,7 @@ const AvailabilityCTA: React.FC = () => (
       </>
     }
     buttonText="נהל זמינות חכמה"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

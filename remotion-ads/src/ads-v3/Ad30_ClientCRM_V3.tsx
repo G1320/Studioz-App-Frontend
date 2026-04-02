@@ -293,7 +293,7 @@ const CRMCTA: React.FC = () => (
       </>
     }
     buttonText="התחל לנהל לקוחות"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="CRM מלא · ללא התחייבות"
   />
 );

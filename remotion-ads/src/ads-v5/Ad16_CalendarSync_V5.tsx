@@ -148,7 +148,7 @@ const SceneCalendar: React.FC = () => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", marginTop: s(20) }}>
-          <Badge text="מ-Starter ומעלה" delay={30} />
+          <Badge text="כלול בחינם" delay={30} />
         </div>
       </div>
     </AbsoluteFill>

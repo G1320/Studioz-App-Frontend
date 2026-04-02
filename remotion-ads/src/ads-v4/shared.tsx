@@ -715,7 +715,7 @@ export const CTAScene: React.FC<{
 }> = ({
   headline,
   buttonText = "פרסם את האולפן שלך עכשיו",
-  badgeText = "התחל בחינם — ₪0/חודש",
+  badgeText = "חינם לתמיד — כל התכונות כלולות",
   subText = "ללא כרטיס אשראי · ללא התחייבות",
 }) => {
   const frame = useCurrentFrame();

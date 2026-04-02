@@ -473,7 +473,7 @@ const PricingCTA: React.FC = () => {
               color: SUCCESS,
             }}
           >
-            התחל בחינם — ₪0/חודש
+            חינם לתמיד — כל התכונות כלולות
           </span>
         </div>
 

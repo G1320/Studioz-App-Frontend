@@ -171,7 +171,7 @@ const TourCTA: React.FC = () => (
       </>
     }
     buttonText="צור עמוד אולפן"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

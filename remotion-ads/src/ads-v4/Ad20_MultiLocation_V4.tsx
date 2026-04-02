@@ -88,7 +88,7 @@ const Scene1: React.FC = () => {
           <FeatureCard Icon={Settings} title="ניהול מרכזי" delay={34} />
         </div>
         <div style={{ marginTop: 30 }}>
-          <Badge text="בתוכנית Pro — ₪99/חודש" color={GOLD} delay={42} />
+          <Badge text="כלול בחינם" color={SUCCESS} delay={42} />
         </div>
         <div style={{ marginTop: "auto" }}>
           <Footer delay={46} />
@@ -151,7 +151,7 @@ const Scene3: React.FC = () => (
         נהל הכל מ<GoldText>מקום אחד</GoldText>
       </>
     }
-    badgeText="תוכנית Pro — ₪99/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

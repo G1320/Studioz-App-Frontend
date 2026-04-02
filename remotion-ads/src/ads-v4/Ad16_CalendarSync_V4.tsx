@@ -168,7 +168,7 @@ const SceneFeatures: React.FC = () => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", marginTop: 15 }}>
-          <Badge text="מ-Starter ומעלה" Icon={Zap} delay={40} color={SUCCESS} />
+          <Badge text="כלול בחינם" Icon={Zap} delay={40} color={SUCCESS} />
         </div>
       </div>
     </AbsoluteFill>

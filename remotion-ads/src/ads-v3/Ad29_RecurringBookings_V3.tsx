@@ -257,7 +257,7 @@ const RecurringCTA: React.FC = () => (
       </>
     }
     buttonText="הפעל הזמנות חוזרות"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="הגדרה פשוטה · ללא התחייבות"
   />
 );

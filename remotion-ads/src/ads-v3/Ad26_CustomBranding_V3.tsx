@@ -271,7 +271,7 @@ const BrandingCTA: React.FC = () => (
       </>
     }
     buttonText="התחל לעצב"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="עיצוב מותאם · ללא התחייבות"
   />
 );

@@ -314,7 +314,7 @@ const BeforeAfterCTA: React.FC = () => (
       </>
     }
     buttonText="שדרג את האולפן שלך"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="ההבדל מורגש מיד"
   />
 );

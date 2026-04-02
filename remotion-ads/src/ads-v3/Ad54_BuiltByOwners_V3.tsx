@@ -319,7 +319,7 @@ const BuiltCTA: React.FC = () => (
       </>
     }
     buttonText="התחל את המסע שלך"
-    freeText="חינם לנצח — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="נבנה בשבילך, עובד בשבילך"
   />
 );

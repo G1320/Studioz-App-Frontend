@@ -309,7 +309,7 @@ const PricingCTA: React.FC = () => (
       </>
     }
     buttonText="התחל לתמחר חכם"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="ללא עמלות נסתרות"
   />
 );

@@ -202,7 +202,7 @@ const RemoteCTA: React.FC = () => (
       </>
     }
     buttonText="התחל לנהל מרחוק"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="גישה מלאה מכל מכשיר"
   />
 );

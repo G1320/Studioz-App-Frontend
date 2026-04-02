@@ -1,6 +1,6 @@
 /**
  * Ad8_PricingTiers_V4
- * Theme: Pricing — correct prices only
+ * Theme: Pricing — Free forever + progressive fee tiers
  * Duration: 240 frames (8s) at 30fps, 1080x1920
  */
 import React from "react";
@@ -174,8 +174,7 @@ const SceneTitle: React.FC = () => {
             transform: `translateY(${interpolate(titleEnter, [0, 1], [-30, 0])}px)`,
           }}
         >
-          {"תוכניות "}
-          <GoldText>{"מחיר"}</GoldText>
+          <GoldText>{"חינם לתמיד"}</GoldText>
         </h1>
 
         <GoldLine delay={10} width={140} />
@@ -190,7 +189,7 @@ const SceneTitle: React.FC = () => {
             opacity: interpolate(frame, [15, 35], [0, 1], { extrapolateRight: "clamp" }),
           }}
         >
-          {"תוכנית לכל גודל עסק"}
+          {"₪0 דמי מנוי — עמלה רק מהכנסות"}
         </p>
       </div>
     </AbsoluteFill>
@@ -216,24 +215,23 @@ const SceneCards: React.FC = () => (
     >
       <PricingCard
         Icon={Gift}
-        name="Free"
-        price="₪0"
-        period="/חודש"
-        features={["1 ליסטינג", "3 שירותים", "יומן בסיסי"]}
+        name="בהתחלה"
+        price="9%"
+        period="₪0 – ₪15,000"
+        features={["כל התכונות כלולות", "₪0 דמי מנוי", "ללא כרטיס אשראי"]}
         accent={SUCCESS}
         delay={5}
       />
 
       <PricingCard
         Icon={Zap}
-        name="Starter"
-        price="₪49"
-        period="/חודש"
+        name="בצמיחה"
+        price="7%"
+        period="₪15,001 – ₪40,000"
         features={[
-          "שירותים ללא הגבלה",
-          "סנכרון Google Calendar",
-          "חשבוניות",
-          "25 תשלומי כרטיס/חודש",
+          "עמלה מופחתת",
+          "כל התכונות כלולות",
+          "ללא התחייבות",
         ]}
         accent={ACCENT_BLUE}
         delay={15}
@@ -241,14 +239,13 @@ const SceneCards: React.FC = () => (
 
       <PricingCard
         Icon={Crown}
-        name="Pro"
-        price="₪99"
-        period="/חודש"
+        name="בשיא"
+        price="5%"
+        period="₪40,001+"
         features={[
-          "ליסטינגים ללא הגבלה",
-          "אנליטיקס",
-          "200 תשלומי כרטיס/חודש",
-          "תמיכה עדיפה",
+          "העמלה הנמוכה ביותר",
+          "כל התכונות כלולות",
+          "אנחנו מרוויחים רק כשאתה מרוויח",
         ]}
         accent={GOLD}
         delay={25}
@@ -263,12 +260,12 @@ const SceneCTA: React.FC = () => (
   <CTAScene
     headline={
       <>
-        <GoldText>{"התחל בחינם"}</GoldText>
+        <GoldText>{"חינם לתמיד"}</GoldText>
         {"\n"}
-        {"ושדרג כשתצטרך"}
+        {"אנחנו מרוויחים רק כשאתה מרוויח"}
       </>
     }
-    badgeText="התחל בחינם — ₪0/חודש"
+    badgeText="₪0 דמי מנוי — כל התכונות כלולות"
   />
 );
 

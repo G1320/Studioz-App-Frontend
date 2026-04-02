@@ -229,7 +229,7 @@ const EarlyBirdScene: React.FC = () => {
               marginBottom: 6,
             }}
           >
-            ₪99/חודש
+            דמי מנוי
           </div>
           {/* Early bird price */}
           <div
@@ -325,7 +325,7 @@ const EarlyBirdCTA: React.FC = () => (
       </>
     }
     buttonText="הצטרף עכשיו בחינם"
-    freeText="🐦 מחיר Early Bird — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="מקומות מוגבלים · הצטרף היום"
   />
 );

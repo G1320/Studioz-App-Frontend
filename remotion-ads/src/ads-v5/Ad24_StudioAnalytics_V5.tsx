@@ -146,7 +146,7 @@ const Scene2: React.FC = () => {
           <GoldText>תמונה מלאה</GoldText> על האולפן
         </h2>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: s(20) }}>
-          <Badge text="בתוכנית Pro" color={GOLD} delay={10} />
+          <Badge text="כלול בחינם" color={SUCCESS} delay={10} />
         </div>
         <PhoneMockup
           src="images/optimized/Dashboard-Analytics-Mobile.png"
@@ -169,7 +169,7 @@ const Scene3: React.FC = () => (
         קבל <GoldText>תמונה מלאה</GoldText> על האולפן
       </>
     }
-    badgeText="תוכנית Pro — ₪99/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

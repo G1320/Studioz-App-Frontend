@@ -226,7 +226,7 @@ const CollageCTA: React.FC = () => (
       </>
     }
     buttonText="התחל בחינם"
-    freeText="6 כלים בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל הכלים כלולים"
     subText="ללא כרטיס אשראי · ללא התחייבות"
   />
 );

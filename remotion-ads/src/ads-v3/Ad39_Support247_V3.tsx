@@ -275,7 +275,7 @@ const SupportCTA: React.FC = () => (
       </>
     }
     buttonText="התחל עם תמיכה מלאה"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

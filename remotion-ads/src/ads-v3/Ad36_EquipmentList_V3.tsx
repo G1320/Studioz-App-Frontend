@@ -230,7 +230,7 @@ const EquipmentCTA: React.FC = () => (
       </>
     }
     buttonText="הוסף את הציוד שלך"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

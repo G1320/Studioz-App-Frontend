@@ -26,27 +26,27 @@ const PricingCards: React.FC = () => {
 
   const plans = [
     {
-      name: "חינם",
-      price: "₪0",
-      period: "/חודש",
-      features: ["סטודיו אחד", "יומן דיגיטלי", "עד 3 שירותים", "סשנים ללא הגבלה"],
+      name: "מתחילים",
+      price: "9%",
+      period: "עמלה",
+      features: ["כל התכונות כלולות", "חינם לתמיד — ₪0 דמי מנוי", "סטודיו + שירותים ללא הגבלה"],
       highlighted: false,
       delay: 10,
     },
     {
-      name: "סטארטר",
-      price: "₪49",
-      period: "/חודש",
-      features: ["שירותים ללא הגבלה", "סנכרון Google Calendar", "חשבוניות אוטומטיות", "7 ימי ניסיון חינם"],
+      name: "צומחים",
+      price: "7%",
+      period: "עמלה",
+      features: ["כל התכונות כלולות", "עמלה מופחתת ככל שתגדלו", "סנכרון יומן + חשבוניות"],
       highlighted: true,
       badge: "פופולרי",
       delay: 25,
     },
     {
-      name: "פרו",
-      price: "₪99",
-      period: "/חודש",
-      features: ["ניהול מולטי-סטודיו", "אנליטיקס מתקדם", "200 תשלומי כרטיס", "תמיכה עדיפותית"],
+      name: "מבוססים",
+      price: "5%",
+      period: "עמלה",
+      features: ["כל התכונות כלולות", "העמלה הנמוכה ביותר", "אנליטיקס + מולטי-סטודיו"],
       highlighted: false,
       delay: 40,
     },
@@ -171,7 +171,7 @@ const PricingCards: React.FC = () => {
           opacity: interpolate(frame, [60, 75], [0, 1], { extrapolateRight: "clamp" }),
         }}
       >
-        ללא כרטיס אשראי · ביטול בכל עת
+        חינם לתמיד · ₪0 דמי מנוי · עמלה פרוגרסיבית בלבד
       </p>
     </AbsoluteFill>
   );
@@ -203,7 +203,7 @@ const CTA: React.FC = () => {
           }}
         >
           <span style={{ fontFamily: "'DM Sans', 'Heebo', sans-serif", fontSize: 26, fontWeight: 700, color: DARK_BG }}>
-            התחל ניסיון חינם
+            התחל בחינם
           </span>
         </div>
         <span style={{ fontFamily: "'IBM Plex Sans', sans-serif", fontSize: 16, color: SUBTLE_TEXT, marginTop: 18, opacity: interpolate(frame, [25, 38], [0, 0.7], { extrapolateRight: "clamp" }) }}>

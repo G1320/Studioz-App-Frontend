@@ -273,7 +273,7 @@ const NoCallsCTA: React.FC = () => (
       </>
     }
     buttonText="הפעל הזמנות אוטומטיות"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="ללא שיחות · ללא טרחה"
   />
 );

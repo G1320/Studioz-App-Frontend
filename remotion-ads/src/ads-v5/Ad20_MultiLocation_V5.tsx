@@ -138,7 +138,7 @@ const Scene2: React.FC = () => {
           לוח בקרה <GoldText>מרכזי</GoldText>
         </h2>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: s(20) }}>
-          <Badge text="בתוכנית Pro" color={GOLD} delay={10} />
+          <Badge text="כלול בחינם" color={SUCCESS} delay={10} />
         </div>
         <ScreenshotFrame
           src="images/optimized/Dashboard-Overview-Mobile.png"
@@ -161,7 +161,7 @@ const Scene3: React.FC = () => (
         נהל הכל מ<GoldText>מקום אחד</GoldText>
       </>
     }
-    badgeText="תוכנית Pro — ₪99/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

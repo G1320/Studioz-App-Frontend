@@ -98,8 +98,8 @@ const Scene1: React.FC = () => {
           />
           <FeatureCard
             Icon={CreditCard}
-            title="עד 200 תשלומים/חודש"
-            desc="בתוכנית Pro"
+            title="תשלומים ללא הגבלה"
+            desc="כלול בחינם"
             delay={34}
           />
         </div>

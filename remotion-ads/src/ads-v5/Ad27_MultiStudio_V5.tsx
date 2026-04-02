@@ -178,7 +178,7 @@ const Scene3: React.FC = () => (
         כל האולפנים, <GoldText>דשבורד אחד</GoldText>
       </>
     }
-    badgeText="תוכנית Pro — ₪99/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

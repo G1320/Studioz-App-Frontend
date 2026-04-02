@@ -1,6 +1,6 @@
 /**
  * Ad41_FreeTrial_V4
- * Theme: Free trial — NOT referral program
+ * Theme: Free forever — all features included
  * Duration: 240 frames (8s) at 30fps, 1080x1920
  */
 import React from "react";
@@ -62,7 +62,7 @@ const SceneTrial: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <SectionLabel text="FREE TRIAL" delay={0} />
+        <SectionLabel text="FREE FOREVER" delay={0} />
 
         <h1
           style={{
@@ -91,8 +91,8 @@ const SceneTrial: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <Badge text="7 ימי ניסיון Starter" color={SUCCESS} delay={15} Icon={Gift} />
-          <Badge text="14 ימי ניסיון Pro" color={GOLD} delay={25} Icon={Star} />
+          <Badge text="כל התכונות כלולות" color={SUCCESS} delay={15} Icon={Gift} />
+          <Badge text="₪0 דמי מנוי" color={GOLD} delay={25} Icon={Star} />
         </div>
 
         <div
@@ -161,7 +161,7 @@ const SceneFeatures: React.FC = () => {
         <div style={{ display: "flex", flexDirection: "column", gap: 18, marginTop: 10 }}>
           <FeatureCard Icon={CreditCard} title="ללא כרטיס אשראי" desc="לא נדרש אמצעי תשלום" delay={10} />
           <FeatureCard Icon={Clock} title="התחילו מייד" desc="הרשמה בדקות ספורות" delay={22} />
-          <FeatureCard Icon={ArrowRight} title="שדרגו כשתרצו" desc="עברו ל-Starter או Pro בכל זמן" delay={34} />
+          <FeatureCard Icon={ArrowRight} title="שדרגו כשתרצו" desc="כל התכונות כלולות מההתחלה" delay={34} />
         </div>
       </div>
     </AbsoluteFill>
@@ -173,11 +173,11 @@ const SceneCTA: React.FC = () => (
   <CTAScene
     headline={
       <>
-        <GoldText>{"התחל ניסיון חינם"}</GoldText>
+        <GoldText>{"חינם לתמיד"}</GoldText>
       </>
     }
-    buttonText="התחל ניסיון חינם"
-    badgeText="התחל בחינם — ₪0/חודש"
+    buttonText="התחל עכשיו"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

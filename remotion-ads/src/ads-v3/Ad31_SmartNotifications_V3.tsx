@@ -327,7 +327,7 @@ const NotificationCTA: React.FC = () => (
       </>
     }
     buttonText="הפעל התראות חכמות"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="התראות בזמן אמת · ללא התחייבות"
   />
 );

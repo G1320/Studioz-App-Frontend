@@ -150,7 +150,7 @@ const Scene2: React.FC = () => {
           />
         </div>
         <div style={{ marginTop: 30 }}>
-          <Badge text="בתוכנית Pro" color={GOLD} delay={40} />
+          <Badge text="כלול בחינם" color={SUCCESS} delay={40} />
         </div>
         <div style={{ marginTop: "auto" }}>
           <Footer delay={50} />
@@ -168,7 +168,7 @@ const Scene3: React.FC = () => (
         קבל <GoldText>תמונה מלאה</GoldText> על האולפן
       </>
     }
-    badgeText="תוכנית Pro — ₪99/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

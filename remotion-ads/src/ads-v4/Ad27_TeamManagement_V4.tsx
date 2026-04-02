@@ -166,7 +166,7 @@ const Scene3: React.FC = () => (
         הרחב את <GoldText>העסק שלך</GoldText>
       </>
     }
-    badgeText="תוכנית Pro — ₪99/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

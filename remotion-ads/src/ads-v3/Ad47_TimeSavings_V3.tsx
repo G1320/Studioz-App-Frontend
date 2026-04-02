@@ -297,7 +297,7 @@ const TimeCTA: React.FC = () => (
       </>
     }
     buttonText="חסוך 5 שעות ביום"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="ההרשמה לוקחת 2 דקות"
   />
 );

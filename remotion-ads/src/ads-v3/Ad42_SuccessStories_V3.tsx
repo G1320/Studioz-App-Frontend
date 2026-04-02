@@ -316,7 +316,7 @@ const SuccessCTA: React.FC = () => (
       </>
     }
     buttonText="התחל את סיפור ההצלחה"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

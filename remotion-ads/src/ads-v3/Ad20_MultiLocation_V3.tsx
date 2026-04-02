@@ -299,7 +299,7 @@ const LocationCTA: React.FC = () => (
       </>
     }
     buttonText="התחל לנהל עכשיו"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="ללא כרטיס אשראי · ללא התחייבות"
   />
 );

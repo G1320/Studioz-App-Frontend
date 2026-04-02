@@ -317,6 +317,34 @@ import { Post4_DashboardOutcome_V3 } from './posts-v3/Post4_DashboardOutcome_V3'
 import { Post5_FounderCredibility_V3 } from './posts-v3/Post5_FounderCredibility_V3';
 import { Post6_WhyWeBuilt_V3 } from './posts-v3/Post6_WhyWeBuilt_V3';
 import { Post7_FreeTrial_V3 } from './posts-v3/Post7_FreeTrial_V3';
+// ── V6 Ads (Premium motion design — safe zones, device frames, premium animations) ──
+import { Ad1_HeroIntro_V6 } from './ads-v6/Ad1_HeroIntro_V6';
+import { Ad2_PainPoints_V6 } from './ads-v6/Ad2_PainPoints_V6';
+import { Ad3_ProductShowcase_V6 } from './ads-v6/Ad3_ProductShowcase_V6';
+import { Ad4_BookingFlow_V6 } from './ads-v6/Ad4_BookingFlow_V6';
+import { Ad5_Analytics_V6 } from './ads-v6/Ad5_Analytics_V6';
+import { Ad6_CalendarSync_V6 } from './ads-v6/Ad6_CalendarSync_V6';
+import { Ad7_Payments_V6 } from './ads-v6/Ad7_Payments_V6';
+import { Ad8_FreeForever_V6 } from './ads-v6/Ad8_FreeForever_V6';
+import { Ad9_BeforeAfter_V6 } from './ads-v6/Ad9_BeforeAfter_V6';
+import { Ad10_FinalCTA_V6 } from './ads-v6/Ad10_FinalCTA_V6';
+// ── V6 Ads — Light Mode ──
+import { Ad1_HeroIntro_V6_Light } from './ads-v6/Ad1_HeroIntro_V6_Light';
+import { Ad2_PainPoints_V6_Light } from './ads-v6/Ad2_PainPoints_V6_Light';
+import { Ad3_ProductShowcase_V6_Light } from './ads-v6/Ad3_ProductShowcase_V6_Light';
+import { Ad4_BookingFlow_V6_Light } from './ads-v6/Ad4_BookingFlow_V6_Light';
+import { Ad5_Analytics_V6_Light } from './ads-v6/Ad5_Analytics_V6_Light';
+import { Ad6_CalendarSync_V6_Light } from './ads-v6/Ad6_CalendarSync_V6_Light';
+import { Ad7_Payments_V6_Light } from './ads-v6/Ad7_Payments_V6_Light';
+import { Ad8_FreeForever_V6_Light } from './ads-v6/Ad8_FreeForever_V6_Light';
+import { Ad9_BeforeAfter_V6_Light } from './ads-v6/Ad9_BeforeAfter_V6_Light';
+import { Ad10_FinalCTA_V6_Light } from './ads-v6/Ad10_FinalCTA_V6_Light';
+// ── V6 Facebook Promos ──
+import { Promo_Facebook_V6 } from './ads-v6/Promo_Facebook_V6';
+import { Promo_Facebook_V6_Light } from './ads-v6/Promo_Facebook_V6_Light';
+// ── V6 Launch Videos ──
+import { Launch_V6 } from './ads-v6/Launch_V6';
+import { Launch_V6_Light } from './ads-v6/Launch_V6_Light';
 import { Post1_CancellationPain_V4 } from './posts-v4/Post1_CancellationPain_V4';
 import { Post2_EmptySlots_V4 } from './posts-v4/Post2_EmptySlots_V4';
 import { Post3_BookingOutcome_V4 } from './posts-v4/Post3_BookingOutcome_V4';
@@ -2552,6 +2580,79 @@ export const RemotionRoot: React.FC = () => {
           <Composition key={`${id}-1x1`} id={`${id}-1x1`} component={comp} durationInFrames={dur} fps={FPS} width={W11} height={H11} />
         ));
       })()}
+      {/* ── B2B Ads V6 (Premium motion design — safe zones, device frames) ── */}
+      {(() => {
+        const v6Ads: [string, React.FC, number][] = [
+          ['V6-Ad1-HeroIntro', Ad1_HeroIntro_V6, 240],
+          ['V6-Ad2-PainPoints', Ad2_PainPoints_V6, 240],
+          ['V6-Ad3-ProductShowcase', Ad3_ProductShowcase_V6, 240],
+          ['V6-Ad4-BookingFlow', Ad4_BookingFlow_V6, 240],
+          ['V6-Ad5-Analytics', Ad5_Analytics_V6, 240],
+          ['V6-Ad6-CalendarSync', Ad6_CalendarSync_V6, 240],
+          ['V6-Ad7-Payments', Ad7_Payments_V6, 240],
+          ['V6-Ad8-FreeForever', Ad8_FreeForever_V6, 240],
+          ['V6-Ad9-BeforeAfter', Ad9_BeforeAfter_V6, 240],
+          ['V6-Ad10-FinalCTA', Ad10_FinalCTA_V6, 240],
+        ];
+        return (
+          <>
+            {/* 9:16 */}
+            {v6Ads.map(([id, comp, dur]) => (
+              <Composition key={id} id={id} component={comp} durationInFrames={dur} fps={FPS} width={W} height={H} />
+            ))}
+            {/* 4:5 */}
+            {v6Ads.map(([id, comp, dur]) => (
+              <Composition key={`${id}-4x5`} id={`${id}-4x5`} component={comp} durationInFrames={dur} fps={FPS} width={1080} height={1350} />
+            ))}
+            {/* 1:1 */}
+            {v6Ads.map(([id, comp, dur]) => (
+              <Composition key={`${id}-1x1`} id={`${id}-1x1`} component={comp} durationInFrames={dur} fps={FPS} width={1080} height={1080} />
+            ))}
+          </>
+        );
+      })()}
+      {/* ── B2B Ads V6 — Light Mode (blue/green accents, no gold) ── */}
+      {(() => {
+        const v6Light: [string, React.FC, number][] = [
+          ['V6-Ad1-HeroIntro-Light', Ad1_HeroIntro_V6_Light, 240],
+          ['V6-Ad2-PainPoints-Light', Ad2_PainPoints_V6_Light, 240],
+          ['V6-Ad3-ProductShowcase-Light', Ad3_ProductShowcase_V6_Light, 240],
+          ['V6-Ad4-BookingFlow-Light', Ad4_BookingFlow_V6_Light, 240],
+          ['V6-Ad5-Analytics-Light', Ad5_Analytics_V6_Light, 240],
+          ['V6-Ad6-CalendarSync-Light', Ad6_CalendarSync_V6_Light, 240],
+          ['V6-Ad7-Payments-Light', Ad7_Payments_V6_Light, 240],
+          ['V6-Ad8-FreeForever-Light', Ad8_FreeForever_V6_Light, 240],
+          ['V6-Ad9-BeforeAfter-Light', Ad9_BeforeAfter_V6_Light, 240],
+          ['V6-Ad10-FinalCTA-Light', Ad10_FinalCTA_V6_Light, 240],
+        ];
+        return (
+          <>
+            {v6Light.map(([id, comp, dur]) => (
+              <Composition key={id} id={id} component={comp} durationInFrames={dur} fps={FPS} width={W} height={H} />
+            ))}
+            {v6Light.map(([id, comp, dur]) => (
+              <Composition key={`${id}-4x5`} id={`${id}-4x5`} component={comp} durationInFrames={dur} fps={FPS} width={1080} height={1350} />
+            ))}
+            {v6Light.map(([id, comp, dur]) => (
+              <Composition key={`${id}-1x1`} id={`${id}-1x1`} component={comp} durationInFrames={dur} fps={FPS} width={1080} height={1080} />
+            ))}
+          </>
+        );
+      })()}
+      {/* ── Facebook Promo V6 — Dark + Light (30s) ── */}
+      <Composition id="V6-Promo-Facebook" component={Promo_Facebook_V6} durationInFrames={900} fps={FPS} width={W} height={H} />
+      <Composition id="V6-Promo-Facebook-4x5" component={Promo_Facebook_V6} durationInFrames={900} fps={FPS} width={1080} height={1350} />
+      <Composition id="V6-Promo-Facebook-1x1" component={Promo_Facebook_V6} durationInFrames={900} fps={FPS} width={1080} height={1080} />
+      <Composition id="V6-Promo-Facebook-Light" component={Promo_Facebook_V6_Light} durationInFrames={900} fps={FPS} width={W} height={H} />
+      <Composition id="V6-Promo-Facebook-Light-4x5" component={Promo_Facebook_V6_Light} durationInFrames={900} fps={FPS} width={1080} height={1350} />
+      <Composition id="V6-Promo-Facebook-Light-1x1" component={Promo_Facebook_V6_Light} durationInFrames={900} fps={FPS} width={1080} height={1080} />
+      {/* ── Launch Videos V6 — Dark + Light (45s) ── */}
+      <Composition id="V6-Launch" component={Launch_V6} durationInFrames={1350} fps={FPS} width={W} height={H} />
+      <Composition id="V6-Launch-4x5" component={Launch_V6} durationInFrames={1350} fps={FPS} width={1080} height={1350} />
+      <Composition id="V6-Launch-1x1" component={Launch_V6} durationInFrames={1350} fps={FPS} width={1080} height={1080} />
+      <Composition id="V6-Launch-Light" component={Launch_V6_Light} durationInFrames={1350} fps={FPS} width={W} height={H} />
+      <Composition id="V6-Launch-Light-4x5" component={Launch_V6_Light} durationInFrames={1350} fps={FPS} width={1080} height={1350} />
+      <Composition id="V6-Launch-Light-1x1" component={Launch_V6_Light} durationInFrames={1350} fps={FPS} width={1080} height={1080} />
     </>
   );
 };

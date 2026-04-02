@@ -1,5 +1,5 @@
 /**
- * Ad19 — Free Trial / Early Adopter Benefits
+ * Ad19 — Free Forever / Early Adopter Benefits
  * 240 frames (8s) at 30fps, 1080x1920 (9:16 portrait)
  */
 import React from "react";
@@ -88,7 +88,7 @@ const Scene1: React.FC = () => {
         </p>
         <GoldLine delay={15} width={120} />
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 30 }}>
-          <FeatureCard Icon={Gift} title="חינם ₪0/חודש" desc="ללא כרטיס אשראי" delay={20} />
+          <FeatureCard Icon={Gift} title="חינם לתמיד" desc="₪0 דמי מנוי" delay={20} />
           <FeatureCard
             Icon={Zap}
             title="הזמנות מיידיות"
@@ -145,8 +145,8 @@ const Scene2: React.FC = () => {
           נסה את כל <GoldText>התכונות</GoldText>
         </h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 30 }}>
-          <Badge Icon={Star} text="7 ימי ניסיון ב-Starter" delay={10} color={GOLD} />
-          <Badge Icon={ArrowUpCircle} text="14 ימי ניסיון ב-Pro" delay={18} color={SUCCESS} />
+          <Badge Icon={Star} text="כל התכונות כלולות" delay={10} color={GOLD} />
+          <Badge Icon={ArrowUpCircle} text="₪0 דמי מנוי — לתמיד" delay={18} color={SUCCESS} />
         </div>
         <GoldLine delay={20} width={100} />
         <div style={{ marginTop: 30 }}>
@@ -178,7 +178,7 @@ const Scene3: React.FC = () => (
       </>
     }
     buttonText="הרשם בחינם"
-    badgeText="התחל בחינם — ₪0/חודש"
+    badgeText="חינם לתמיד — כל התכונות כלולות"
     subText="ללא כרטיס אשראי · ללא התחייבות"
   />
 );

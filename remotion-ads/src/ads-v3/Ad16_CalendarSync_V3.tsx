@@ -276,7 +276,7 @@ const SyncCTA: React.FC = () => (
       </>
     }
     buttonText="חבר את היומן שלך"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="Google · Apple · Outlook · ועוד"
   />
 );

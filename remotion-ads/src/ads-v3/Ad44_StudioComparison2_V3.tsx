@@ -250,7 +250,7 @@ const ComparisonCTA: React.FC = () => (
       </>
     }
     buttonText="התחל עם Studioz בחינם"
-    freeText="חינם לחלוטין — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="ללא כרטיס אשראי · ללא התחייבות"
   />
 );

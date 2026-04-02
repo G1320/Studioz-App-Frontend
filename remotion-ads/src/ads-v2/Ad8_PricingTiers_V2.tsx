@@ -48,39 +48,39 @@ interface PricingTier {
 
 const tiers: PricingTier[] = [
   {
-    name: "חינם",
-    price: "₪0",
-    period: "לחודש",
-    features: ["עד 10 הזמנות", "לוח שנה בסיסי", "תמיכה במייל"],
+    name: "מתחילים",
+    price: "9%",
+    period: "עמלה",
+    features: ["כל התכונות כלולות", "חינם לתמיד — ₪0 דמי מנוי", "הזמנות + סליקה ללא הגבלה"],
     highlighted: false,
     delay: 25,
   },
   {
-    name: "סטארטר",
-    price: "₪99",
-    period: "לחודש",
+    name: "צומחים",
+    price: "7%",
+    period: "עמלה",
     features: [
-      "הזמנות ללא הגבלה",
-      "לוח שנה מתקדם",
-      "סליקה מובנית",
-      "התראות אוטומטיות",
+      "כל התכונות כלולות",
+      "עמלה מופחתת ככל שתגדלו",
+      "לוח שנה מתקדם + התראות",
       "דף סטודיו מותאם",
+      "סליקה מובנית",
     ],
     highlighted: true,
     badge: "פופולרי",
     delay: 40,
   },
   {
-    name: "פרו",
-    price: "₪249",
-    period: "לחודש",
+    name: "מבוססים",
+    price: "5%",
+    period: "עמלה",
     features: [
-      "כל תכונות סטארטר",
+      "כל התכונות כלולות",
+      "העמלה הנמוכה ביותר",
       "אנליטיקס מתקדם",
-      "גישת API",
-      "תמיכה בעדיפות",
       "מספר סניפים",
       "דוחות מותאמים",
+      "תמיכה בעדיפות",
       "אינטגרציות",
     ],
     highlighted: false,
@@ -111,7 +111,7 @@ export const Ad8_PricingTiers_V2: React.FC = () => {
       >
         {/* Section label */}
         <div style={{ marginBottom: 16 }}>
-          <SectionLabel text="תוכניות מחירים" delay={5} />
+          <SectionLabel text="מודל תמחור" delay={5} />
         </div>
 
         {/* Pricing cards */}
@@ -221,7 +221,7 @@ export const Ad8_PricingTiers_V2: React.FC = () => {
                         color: SUBTLE_TEXT,
                       }}
                     >
-                      /{tier.period}
+                      {tier.period}
                     </span>
                   </div>
                 </div>

@@ -183,7 +183,7 @@ const RankingCTA: React.FC = () => (
       </>
     }
     buttonText="שפר את הדירוג שלך"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
     subText="SEO אוטומטי · דף אולפן מותאם"
   />
 );

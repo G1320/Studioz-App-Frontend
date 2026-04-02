@@ -1,6 +1,6 @@
 /**
  * Ad7_RemoteProjects_V4
- * Theme: Remote projects feature (Starter+)
+ * Theme: Remote projects feature (included free)
  * Duration: 240 frames (8s) at 30fps, 1080x1920
  */
 import React from "react";
@@ -109,7 +109,7 @@ const SceneBenefits: React.FC = () => {
         }}
       >
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Badge text="מתחיל מ-Starter" Icon={Zap} delay={5} />
+          <Badge text="כלול בחינם" Icon={Zap} delay={5} />
         </div>
 
         <h2

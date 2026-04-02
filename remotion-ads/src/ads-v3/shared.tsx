@@ -630,7 +630,7 @@ export const CTAScene: React.FC<{
   headline,
   goldLine,
   buttonText = "פרסם את האולפן שלך עכשיו",
-  freeText = "התחל בחינם — ₪0/חודש",
+  freeText = "חינם לתמיד — כל התכונות כלולות",
   subText = "ללא כרטיס אשראי · ללא התחייבות",
 }) => {
   const frame = useCurrentFrame();

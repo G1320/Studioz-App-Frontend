@@ -244,7 +244,7 @@ const SpotlightCTA: React.FC = () => (
       </>
     }
     buttonText="בנה את הפרופיל שלך"
-    freeText="התחל בחינם — ₪0/חודש"
+    freeText="חינם לתמיד — כל התכונות כלולות"
   />
 );
 

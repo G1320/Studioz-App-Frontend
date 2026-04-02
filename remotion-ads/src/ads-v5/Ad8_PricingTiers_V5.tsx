@@ -1,6 +1,6 @@
 /**
  * Ad8_PricingTiers_V5
- * Theme: Pricing tiers — Free, Starter, Pro
+ * Theme: Free forever + progressive fee tiers (9% → 7% → 5%)
  * Duration: 240 frames (8s) at 30fps, 1080x1920
  */
 import React from "react";
@@ -36,16 +36,15 @@ import {
   useScale,
 } from "./shared";
 
-/* ─── Pricing Card Component ─── */
-const PricingCard: React.FC<{
-  name: string;
-  price: string;
-  period: string;
-  features: string[];
+/* ─── Fee Tier Card Component ─── */
+const FeeTierCard: React.FC<{
+  rate: string;
+  range: string;
+  label: string;
   delay: number;
   highlight?: boolean;
   accentColor?: string;
-}> = ({ name, price, period, features, delay, highlight = false, accentColor = GOLD }) => {
+}> = ({ rate, range, label, delay, highlight = false, accentColor = GOLD }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = useScale();
@@ -56,7 +55,7 @@ const PricingCard: React.FC<{
       style={{
         backgroundColor: DARK_CARD,
         borderRadius: 22,
-        padding: `${s(32)}px ${s(26)}px`,
+        padding: `${s(28)}px ${s(26)}px`,
         border: highlight
           ? `2px solid ${accentColor}`
           : `1px solid rgba(255,209,102,0.08)`,
@@ -65,10 +64,9 @@ const PricingCard: React.FC<{
         boxShadow: highlight
           ? `0 0 40px ${accentColor}20, 0 8px 32px rgba(0,0,0,0.3)`
           : "0 6px 28px rgba(0,0,0,0.25)",
-        flex: 1,
         display: "flex",
-        flexDirection: "column",
-        gap: s(16),
+        alignItems: "center",
+        gap: s(20),
         position: "relative",
         overflow: "hidden",
       }}
@@ -89,39 +87,23 @@ const PricingCard: React.FC<{
       <div
         style={{
           fontFamily: FONT_HEADING,
-          fontSize: s(24),
-          fontWeight: 700,
+          fontSize: s(48),
+          fontWeight: 800,
           color: highlight ? accentColor : LIGHT_TEXT,
+          minWidth: s(90),
+          textAlign: "center",
         }}
       >
-        {name}
+        {rate}
       </div>
 
-      <div style={{ display: "flex", alignItems: "baseline", gap: s(6) }}>
-        <span
-          style={{
-            fontFamily: FONT_HEADING,
-            fontSize: s(44),
-            fontWeight: 800,
-            color: LIGHT_TEXT,
-          }}
-        >
-          {price}
+      <div style={{ display: "flex", flexDirection: "column", gap: s(4) }}>
+        <span style={{ fontFamily: FONT_HEADING, fontSize: s(22), fontWeight: 700, color: LIGHT_TEXT }}>
+          {label}
         </span>
-        <span style={{ fontFamily: FONT_BODY, fontSize: s(16), color: SUBTLE_TEXT }}>
-          {period}
+        <span style={{ fontFamily: FONT_BODY, fontSize: s(18), color: SUBTLE_TEXT }}>
+          {range}
         </span>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: s(10), marginTop: s(8) }}>
-        {features.map((feat, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: s(10) }}>
-            <Check size={16} color={SUCCESS} strokeWidth={2.5} />
-            <span style={{ fontFamily: FONT_BODY, fontSize: s(16), color: SUBTLE_TEXT }}>
-              {feat}
-            </span>
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -165,7 +147,7 @@ const SceneTitle: React.FC = () => {
             transform: `translateY(${interpolate(titleEnter, [0, 1], [s(-30), 0])}px)`,
           }}
         >
-          <GoldText>{"תוכניות מחיר"}</GoldText>
+          <GoldText>{"חינם לתמיד"}</GoldText>
         </h1>
 
         <GoldLine delay={10} width={140} />
@@ -174,9 +156,13 @@ const SceneTitle: React.FC = () => {
   );
 };
 
-/* ─── Scene 2: Pricing Cards ─── */
+/* ─── Scene 2: Fee Tier Cards ─── */
 const ScenePricing: React.FC = () => {
   const s = useScale();
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const subtitleEnter = spring({ frame: frame - 5, fps, config: SPRING_SMOOTH });
+
   return (
   <AbsoluteFill style={{ backgroundColor: DARK_BG, ...RTL }}>
     <NoiseOverlay />
@@ -190,42 +176,43 @@ const ScenePricing: React.FC = () => {
         padding: `${s(80)}px ${s(36)}px ${s(60)}px`,
         height: "100%",
         justifyContent: "center",
-        gap: s(20),
+        gap: s(18),
       }}
     >
-      <PricingCard
-        name="Free"
-        price="₪0"
-        period="/חודש"
-        features={["מודעה אחת", "3 שירותים", "יומן בסיסי"]}
-        delay={5}
+      <div
+        style={{
+          fontFamily: FONT_HEADING,
+          fontSize: s(28),
+          fontWeight: 700,
+          color: LIGHT_TEXT,
+          textAlign: "center",
+          marginBottom: s(10),
+          opacity: subtitleEnter,
+        }}
+      >
+        {"עמלות פרוגרסיביות"}
+      </div>
+
+      <FeeTierCard
+        rate="9%"
+        range="₪0 – ₪15,000"
+        label="בהתחלה"
+        delay={8}
       />
 
-      <PricingCard
-        name="Starter"
-        price="₪49"
-        period="/חודש"
-        features={[
-          "שירותים ללא הגבלה",
-          "סנכרון Google Calendar",
-          "חשבוניות אוטומטיות",
-          "25 תשלומי כרטיס/חודש",
-        ]}
-        delay={15}
+      <FeeTierCard
+        rate="7%"
+        range="₪15,001 – ₪40,000"
+        label="בצמיחה"
+        delay={16}
         accentColor={ACCENT_BLUE}
       />
 
-      <PricingCard
-        name="Pro"
-        price="₪99"
-        period="/חודש"
-        features={[
-          "מודעות ללא הגבלה",
-          "אנליטיקס מתקדם",
-          "200 תשלומי כרטיס/חודש",
-          "תמיכה בעדיפות",
-        ]}
-        delay={25}
+      <FeeTierCard
+        rate="5%"
+        range="₪40,001+"
+        label="בשיא"
+        delay={24}
         highlight
       />
     </div>
@@ -238,12 +225,13 @@ const SceneCTA: React.FC = () => (
   <CTAScene
     headline={
       <>
-        <GoldText>{"התחל בחינם"}</GoldText>
+        <GoldText>{"חינם לתמיד"}</GoldText>
         {"\n"}
-        {"שדרג כשתרצה"}
+        {"אנחנו מרוויחים רק כשאתה מרוויח"}
       </>
     }
-    buttonText="התחל בחינם"
+    buttonText="התחל עכשיו"
+    badgeText="₪0 דמי מנוי — כל התכונות כלולות"
   />
 );
 

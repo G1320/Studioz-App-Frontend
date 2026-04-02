@@ -1,6 +1,6 @@
 /**
  * Ad41_FreeTrial_V5
- * Theme: Free trial — NOT referral
+ * Theme: Free forever — all features included
  * Duration: 240 frames (8s) at 30fps, 1080x1920
  */
 import React from "react";
@@ -42,7 +42,7 @@ import {
   useScale,
 } from "./shared";
 
-/* ─── Scene 1: Trial Badges ─── */
+/* ─── Scene 1: Free Forever ─── */
 const SceneTrial: React.FC = () => {
   const frame = useCurrentFrame();
   const s = useScale();
@@ -65,7 +65,7 @@ const SceneTrial: React.FC = () => {
           gap: s(28),
         }}
       >
-        <SectionLabel text="FREE TRIAL" delay={0} />
+        <SectionLabel text="FREE FOREVER" delay={0} />
 
         <h1
           style={{
@@ -78,8 +78,8 @@ const SceneTrial: React.FC = () => {
             transform: `translateY(${interpolate(titleEnter, [0, 1], [s(-30), 0])}px)`,
           }}
         >
-          {"נסו "}
-          <GoldText>{"בחינם"}</GoldText>
+          {"חינם "}
+          <GoldText>{"לתמיד"}</GoldText>
         </h1>
 
         <GoldLine delay={10} width={120} />
@@ -94,13 +94,13 @@ const SceneTrial: React.FC = () => {
           }}
         >
           <Badge
-            text="7 ימי ניסיון — Starter"
+            text="כל התכונות כלולות"
             color={SUCCESS}
             delay={18}
             Icon={Rocket}
           />
           <Badge
-            text="14 ימי ניסיון — Pro"
+            text="₪0 דמי מנוי"
             color={GOLD}
             delay={28}
             Icon={Star}
@@ -119,7 +119,7 @@ const SceneTrial: React.FC = () => {
             }),
           }}
         >
-          {"ללא כרטיס אשראי · ללא התחייבות"}
+          {"אנחנו מרוויחים רק כשאתה מרוויח"}
         </div>
       </div>
     </AbsoluteFill>
@@ -189,10 +189,10 @@ const SceneCTA: React.FC = () => (
     headline={
       <>
         {"התחילו "}
-        <GoldText>{"ניסיון חינם"}</GoldText>
+        <GoldText>{"בחינם — לתמיד"}</GoldText>
       </>
     }
-    buttonText="התחל ניסיון חינם"
+    buttonText="התחל עכשיו"
   />
 );
 

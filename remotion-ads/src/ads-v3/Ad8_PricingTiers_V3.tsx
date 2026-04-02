@@ -39,7 +39,7 @@ import {
 const PricingCard: React.FC<{
   name: string;
   price: string;
-  period: string;
+  period?: string;
   features: string[];
   isRecommended?: boolean;
   delay: number;
@@ -219,7 +219,7 @@ const PricingScene: React.FC = () => {
       >
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 8 }}>
-          <SectionLabel text="תוכניות מחירים" delay={0} />
+          <SectionLabel text="חינם לתמיד" delay={0} />
         </div>
 
         <h2
@@ -235,7 +235,7 @@ const PricingScene: React.FC = () => {
             transform: `translateY(${interpolate(headEnter, [0, 1], [30, 0])}px)`,
           }}
         >
-          תוכנית ל<GoldText>כל אולפן</GoldText>
+          אנחנו מרוויחים רק{"\n"}כש<GoldText>אתה מרוויח</GoldText>
         </h2>
 
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 36 }}>
@@ -252,34 +252,31 @@ const PricingScene: React.FC = () => {
           }}
         >
           <PricingCard
-            name="חינמי"
-            price="₪0"
-            period="לחודש"
-            features={["דף אולפן", "5 הזמנות/חודש", "תמיכה בצ׳אט"]}
+            name="₪0–₪15K"
+            price="9%"
+            period="מהכנסות"
+            features={["כל התכונות כלולות", "₪0 דמי מנוי", "ללא התחייבות"]}
             delay={20}
           />
           <PricingCard
-            name="בסיסי"
-            price="₪99"
-            period="לחודש"
+            name="₪15K–₪40K"
+            price="7%"
+            period="מהכנסות"
             features={[
-              "הזמנות ללא הגבלה",
-              "תשלומים אונליין",
-              "סנכרון יומן",
-              "דוחות בסיסיים",
+              "כל התכונות כלולות",
+              "עמלה מופחתת",
+              "ככל שתגדל — תשלם פחות",
             ]}
             isRecommended
             delay={30}
           />
           <PricingCard
-            name="פרו"
-            price="₪249"
-            period="לחודש"
+            name="מעל ₪40K"
+            price="5%"
+            period="מהכנסות"
             features={[
-              "כל הבסיסי +",
-              "CRM מתקדם",
-              "מיתוג מותאם",
-              "API חיצוני",
+              "כל התכונות כלולות",
+              "העמלה הנמוכה ביותר",
               "תמיכה VIP",
             ]}
             delay={40}
@@ -299,7 +296,7 @@ const PricingScene: React.FC = () => {
             }),
           }}
         >
-          ללא התחייבות · בטל בכל עת
+          ₪0 דמי מנוי · אנחנו מרוויחים רק כשאתה מרוויח
         </p>
       </div>
     </AbsoluteFill>
@@ -311,13 +308,13 @@ const PricingCTA: React.FC = () => (
   <CTAScene
     headline={
       <>
-        בחר את התוכנית{"\n"}
-        <GoldText>המתאימה לך</GoldText>
+        חינם לתמיד{"\n"}
+        <GoldText>כל התכונות כלולות</GoldText>
       </>
     }
     buttonText="התחל בחינם"
-    freeText="התחל בחינם — ₪0/חודש"
-    subText="שדרג בכל עת · ללא התחייבות"
+    freeText="חינם לתמיד — כל התכונות כלולות"
+    subText="₪0 דמי מנוי · ללא התחייבות"
   />
 );
 
