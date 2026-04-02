@@ -253,7 +253,7 @@
     padding: vars.$spacing-xs vars.$spacing-medium;
     border-radius: 9999px;
     border: 1px solid currentColor;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -316,7 +316,7 @@
     padding: vars.$spacing-xs vars.$spacing-small;
     background: var(--color-brand-bg);
     color: var(--color-brand);
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 700;
     border-radius: vars.$border-radius-medium;
     margin-bottom: vars.$spacing-medium;
@@ -338,7 +338,7 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-small;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     font-style: italic;
@@ -501,7 +501,7 @@
   padding: vars.$spacing-xs vars.$spacing-medium;
   border-radius: 9999px;
   border: 1px solid currentColor;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -533,7 +533,7 @@
 
 .pricing-section__example-label {
   display: inline-block;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.08em;

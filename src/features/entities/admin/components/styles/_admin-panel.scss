@@ -463,7 +463,7 @@
   }
 
   &__change {
-    font-size: 10px;
+    font-size: 0.625rem;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     padding: 2px vars.$spacing-xs;
     border-radius: 9999px;
@@ -905,7 +905,7 @@
   display: inline-block;
   padding: vars.$spacing-xs vars.$spacing-small;
   border-radius: 9999px;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-weight: 700;
   text-transform: uppercase;

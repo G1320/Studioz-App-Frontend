@@ -308,7 +308,7 @@
   }
 
   &__more-events {
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 500;
     color: var(--text-muted);
     padding-left: vars.$spacing-small;
@@ -393,7 +393,7 @@
   }
 
   &__event-text {
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 500;
     color: var(--text-secondary);
     white-space: nowrap;
@@ -448,7 +448,7 @@
     display: flex;
     align-items: center;
     gap: vars.$spacing-xs;
-    font-size: 10px;
+    font-size: 0.625rem;
     opacity: 0.8;
     margin-top: 2px;
   }
@@ -564,7 +564,7 @@
 
   &__time-slot-label {
     height: 60px;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-family: 'DM Mono', monospace;
     color: var(--text-muted);
     text-align: left;
@@ -948,7 +948,7 @@
 
     &__weekday-cell {
       padding: vars.$spacing-xs;
-      font-size: 9px;
+      font-size: 0.5625rem;
     }
 
     &__week-header {
@@ -1026,7 +1026,7 @@
     }
 
     &__event-text {
-      font-size: 8px;
+      font-size: 0.5rem;
     }
 
     &__day-number {
@@ -1037,11 +1037,11 @@
 
     &__weekday-cell {
       padding: 4px 2px;
-      font-size: 8px;
+      font-size: 0.5rem;
     }
 
     &__more-events {
-      font-size: 8px;
+      font-size: 0.5rem;
     }
   }
 }

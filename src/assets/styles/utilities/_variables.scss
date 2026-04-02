@@ -242,16 +242,16 @@ $black-opacity-60: rgba(0, 0, 0, 0.6);
 $black-opacity-75: rgba(0, 0, 0, 0.75);
 $black-opacity-80: rgba(0, 0, 0, 0.8);
 
-// Font Sizes
-$font-size-xs: 10px;
-$font-size-small: 12px;
-$font-size-sm-md: 14px; // Between small and medium
-$font-size-medium: 16px;
-$font-size-lg: 18px; // Between medium and large
-$font-size-large: 20px;
-$font-size-xl: 24px;
-$font-size-2xl: 32px;
-$font-size-3xl: 40px;
+// Font Sizes (rem-based so they scale with the accessibility font-size override on <html>)
+$font-size-xs: 0.625rem; // 10px
+$font-size-small: 0.75rem; // 12px
+$font-size-sm-md: 0.875rem; // 14px
+$font-size-medium: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-large: 1.25rem; // 20px
+$font-size-xl: 1.5rem; // 24px
+$font-size-2xl: 2rem; // 32px
+$font-size-3xl: 2.5rem; // 40px
 
 // Spacing
 $spacing-xs: 4px;
