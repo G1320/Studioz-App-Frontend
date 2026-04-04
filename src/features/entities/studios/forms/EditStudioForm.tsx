@@ -154,7 +154,9 @@ export const EditStudioForm = () => {
   const [cancellationPolicy, setCancellationPolicy] = useState<CancellationPolicy>(
     (studio as any)?.cancellationPolicy || {}
   );
-  const [houseRules, setHouseRules] = useState<string>((studio as any)?.houseRules || '');
+  const [houseRules, setHouseRules] = useState<string>(
+    studio?.cancellationPolicy?.houseRules?.en || studio?.cancellationPolicy?.houseRules?.he || ''
+  );
 
   // Portfolio State
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>(studio?.portfolio || []);
@@ -680,14 +682,14 @@ export const EditStudioForm = () => {
     formData.equipment = equipmentCategories.length > 0 ? equipmentCategories : studio?.equipment || [];
     formData.parking = selectedParking;
 
-    // Add cancellation policy (only include if type is selected)
-    if (cancellationPolicy.type) {
-      formData.cancellationPolicy = cancellationPolicy;
-    }
-
-    // Add house rules if provided
-    if (houseRules.trim()) {
-      formData.houseRules = houseRules.trim();
+    // Add cancellation policy and house rules (nested inside cancellationPolicy)
+    if (cancellationPolicy.type || houseRules.trim()) {
+      formData.cancellationPolicy = {
+        ...(cancellationPolicy.type ? { type: cancellationPolicy.type } : {}),
+        ...(houseRules.trim()
+          ? { houseRules: { en: houseRules.trim(), he: houseRules.trim() } }
+          : {})
+      };
     }
 
     // Add portfolio if not empty
@@ -766,6 +768,7 @@ export const EditStudioForm = () => {
 
     // Remove UI-only fields that shouldn't be sent to the API
     delete formData.languageToggle;
+    delete formData.houseRules;
 
     // Validate enriched data
     try {

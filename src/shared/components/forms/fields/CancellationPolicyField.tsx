@@ -8,6 +8,10 @@ export interface CancellationPolicy {
     en?: string;
     he?: string;
   };
+  houseRules?: {
+    en?: string;
+    he?: string;
+  };
 }
 
 interface CancellationPolicyFieldProps {
