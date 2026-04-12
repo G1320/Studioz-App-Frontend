@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Pencil, Plus, X } from 'lucide-react';
 import { Button } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '@core/contexts';
@@ -12,7 +12,8 @@ import {
   useDeliverProjectMutation,
   useRequestRevisionMutation,
   useCompleteProjectMutation,
-  useCancelProjectMutation
+  useCancelProjectMutation,
+  useUpdateProjectMutation
 } from '@shared/hooks';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
@@ -40,6 +41,7 @@ export const ProjectDetailPage: React.FC = () => {
   const revisionMutation = useRequestRevisionMutation();
   const completeMutation = useCompleteProjectMutation();
   const cancelMutation = useCancelProjectMutation();
+  const updateMutation = useUpdateProjectMutation();
 
   const [declineReason, setDeclineReason] = useState('');
   const [deliveryNotes, setDeliveryNotes] = useState('');
@@ -47,6 +49,9 @@ export const ProjectDetailPage: React.FC = () => {
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [showRevisionModal, setShowRevisionModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editTitle, setEditTitle] = useState('');
+  const [editReferenceLinks, setEditReferenceLinks] = useState<string[]>([]);
 
   if (!projectId) {
     return <div className="project-detail__error">{t('projectNotFound')}</div>;
@@ -153,6 +158,26 @@ export const ProjectDetailPage: React.FC = () => {
     }
   };
 
+  const openEditModal = () => {
+    setEditTitle(project.title);
+    setEditReferenceLinks(project.referenceLinks?.length ? [...project.referenceLinks] : ['']);
+    setShowEditModal(true);
+  };
+
+  const handleSaveEdit = async () => {
+    const cleaned = editReferenceLinks.filter((l) => l.trim() !== '');
+    try {
+      await updateMutation.mutateAsync({
+        projectId,
+        data: { title: editTitle.trim(), referenceLinks: cleaned }
+      });
+      setShowEditModal(false);
+      refetch();
+    } catch (error) {
+      console.error('Failed to update project:', error);
+    }
+  };
+
   const canCancel = ['requested', 'accepted'].includes(project.status);
   const canAcceptDecline = isVendor && project.status === 'requested';
   const canStart = isVendor && project.status === 'accepted';
@@ -162,6 +187,7 @@ export const ProjectDetailPage: React.FC = () => {
   const canComplete = isCustomer && project.status === 'delivered';
   const canUploadSource = isCustomer && ['requested', 'accepted', 'in_progress'].includes(project.status);
   const canUploadDeliverable = isVendor && ['in_progress', 'revision_requested'].includes(project.status);
+  const canEdit = isVendor && !['completed', 'cancelled', 'declined'].includes(project.status);
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;
@@ -184,6 +210,11 @@ export const ProjectDetailPage: React.FC = () => {
         </button>
         <div className="project-detail__header-content">
           <h1 className="project-detail__title">{project.title}</h1>
+          {canEdit && (
+            <button className="project-detail__edit-button" onClick={openEditModal} aria-label={t('editProject')}>
+              <Pencil size={16} />
+            </button>
+          )}
           <ProjectStatusBadge status={project.status} />
         </div>
       </div>
@@ -405,6 +436,76 @@ export const ProjectDetailPage: React.FC = () => {
                 disabled={!revisionFeedback.trim() || revisionMutation.isPending}
               >
                 {revisionMutation.isPending ? t('common.processing') : t('submitRevision')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Project Modal */}
+      {showEditModal && (
+        <div className="project-detail__modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
+            <h3>{t('editProject')}</h3>
+
+            <label className="project-detail__edit-label">{t('editProjectTitle')}</label>
+            <input
+              className="project-detail__edit-input"
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              placeholder={t('editTitlePlaceholder')}
+            />
+
+            <label className="project-detail__edit-label">{t('editReferenceLinks')}</label>
+            <div className="project-detail__edit-links">
+              {editReferenceLinks.map((link, idx) => (
+                <div key={idx} className="project-detail__edit-link-row">
+                  <input
+                    className="project-detail__edit-input"
+                    type="url"
+                    value={link}
+                    onChange={(e) => {
+                      const updated = [...editReferenceLinks];
+                      updated[idx] = e.target.value;
+                      setEditReferenceLinks(updated);
+                    }}
+                    placeholder={t('editReferencePlaceholder')}
+                  />
+                  {editReferenceLinks.length > 1 && (
+                    <button
+                      type="button"
+                      className="project-detail__edit-link-remove"
+                      onClick={() => setEditReferenceLinks(editReferenceLinks.filter((_, i) => i !== idx))}
+                      aria-label={t('removeLink')}
+                    >
+                      <X size={14} />
+                    </button>
+                  )}
+                </div>
+              ))}
+              {editReferenceLinks.length < 5 && (
+                <button
+                  type="button"
+                  className="project-detail__edit-add-link"
+                  onClick={() => setEditReferenceLinks([...editReferenceLinks, ''])}
+                >
+                  <Plus size={14} />
+                  {t('addLink')}
+                </button>
+              )}
+            </div>
+
+            <div className="project-detail__modal-actions">
+              <Button className="button--secondary" onClick={() => setShowEditModal(false)}>
+                {t('common.cancel')}
+              </Button>
+              <Button
+                className="button--primary"
+                onClick={handleSaveEdit}
+                disabled={!editTitle.trim() || updateMutation.isPending}
+              >
+                {updateMutation.isPending ? t('common.processing') : t('saveChanges')}
               </Button>
             </div>
           </div>

@@ -67,6 +67,13 @@
   "revisionHint": "נותרו לך {{count}} תיקונים",
   "revisionFeedbackPlaceholder": "תאר אילו שינויים תרצה...",
   "submitRevision": "שלח בקשה",
+  "editProject": "ערוך פרויקט",
+  "editProjectTitle": "שם הפרויקט",
+  "editTitlePlaceholder": "שם הפרויקט",
+  "editReferenceLinks": "קישורים לייחוס",
+  "editReferencePlaceholder": "https://...",
+  "saveChanges": "שמור שינויים",
+
   "confirmCancel": "האם אתה בטוח שברצונך לבטל את הפרויקט?",
 
   "sourceFiles": "קבצי מקור",

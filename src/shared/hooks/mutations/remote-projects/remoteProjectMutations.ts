@@ -1,6 +1,7 @@
 import { useMutationHandler } from '@shared/hooks';
 import {
   createProject,
+  updateProject,
   acceptProject,
   declineProject,
   startProject,
@@ -13,6 +14,7 @@ import {
   sendMessage,
   markMessagesAsRead,
 } from '@shared/services';
+import type { UpdateProjectData } from '@shared/services/remote-project-service';
 import {
   RemoteProject,
   ProjectFile,
@@ -36,6 +38,21 @@ export const useCreateProjectMutation = () => {
     successMessage: t('toasts.success.projectCreated', 'Project request submitted'),
     invalidateQueries: [{ queryKey: 'remoteProjects' }],
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
+    },
+  });
+};
+
+export const useUpdateProjectMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<RemoteProject, { projectId: string; data: UpdateProjectData }>({
+    mutationFn: ({ projectId, data }) => updateProject(projectId, data),
+    successMessage: t('toasts.success.projectUpdated', 'Project updated'),
+    invalidateQueries: [{ queryKey: 'remoteProjects' }],
+    onSuccess: (_data, { projectId }) => {
+      queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
     },
   });

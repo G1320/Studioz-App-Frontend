@@ -52,6 +52,20 @@ export const getProjectById = async (projectId: string): Promise<ProjectDetailRe
   }
 };
 
+export interface UpdateProjectData {
+  title?: string;
+  referenceLinks?: string[];
+}
+
+export const updateProject = async (projectId: string, data: UpdateProjectData): Promise<RemoteProject> => {
+  try {
+    return await httpService.patch(`${endpoint}/${projectId}`, data);
+  } catch (error) {
+    console.error(`Error updating project ${projectId}:`, error);
+    throw error;
+  }
+};
+
 // ============================================================
 // PROJECT WORKFLOW ACTIONS
 // ============================================================

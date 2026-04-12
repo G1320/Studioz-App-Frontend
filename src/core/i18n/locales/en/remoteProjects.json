@@ -67,6 +67,13 @@
   "revisionHint": "You have {{count}} revision(s) remaining.",
   "revisionFeedbackPlaceholder": "Describe what changes you would like made...",
   "submitRevision": "Submit Request",
+  "editProject": "Edit Project",
+  "editProjectTitle": "Project Name",
+  "editTitlePlaceholder": "Project title",
+  "editReferenceLinks": "Reference Links",
+  "editReferencePlaceholder": "https://...",
+  "saveChanges": "Save Changes",
+
   "confirmCancel": "Are you sure you want to cancel this project?",
 
   "sourceFiles": "Source Files",
