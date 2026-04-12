@@ -2,6 +2,7 @@
   .gallery-images-list {
     flex-grow: 0;
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 0.5rem;
     padding: 0.5rem;
     div {

@@ -235,7 +235,7 @@
       padding: vars.$spacing-small vars.$spacing-sm-md;
       margin: 0 calc(-1 * vars.$spacing-sm-md);
       box-shadow: none;
-      border-radius: vars.$border-radius-small;
+      border-radius: vars.$border-radius-large;
       transition: background 0.15s ease;
       max-width: calc(100% + 2 * vars.$spacing-sm-md);
       min-width: 0;
@@ -248,7 +248,7 @@
 
       &.selected {
         background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.1);
-        border-radius: vars.$border-radius-medium;
+        border-radius: vars.$border-radius-large;
 
         &:hover {
           background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);

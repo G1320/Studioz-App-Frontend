@@ -542,6 +542,7 @@
         display: flex;
         gap: 0.5rem;
         overflow-x: auto;
+        overflow-y: hidden;
         height: 3rem !important;
         align-items: center;
 
@@ -673,8 +674,9 @@
         display: flex;
         gap: 0.5rem;
         overflow-x: auto;
+        overflow-y: hidden;
         height: 60px;
-        align-items: center; // Center items vertically
+        align-items: center;
 
         .render-item-container {
           position: relative;

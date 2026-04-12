@@ -90,10 +90,16 @@ export const StudioSchema: React.FC<StudioSchemaProps> = ({ studio, items, lang 
       hourGroups.set(timeKey, existing);
     });
 
-    // Check if it's 24/7 (all days, 00:00-23:59)
+    // Check if it's 24/7 (all days, any range spanning 23h59m+)
+    const is24HourRange = (start: string, end: string) => {
+      if ((start === '00:00' || start === '0:00') && (end === '24:00' || end === '00:00' || end === '0:00')) return true;
+      const [sh, sm] = start.split(':').map(Number);
+      const [eh, em] = end.split(':').map(Number);
+      return ((eh * 60 + em) - (sh * 60 + sm) + 1440) % 1440 >= 1439;
+    };
     const is24_7 =
       studio.studioAvailability.days.length === 7 &&
-      studio.studioAvailability.times.every((t) => t.start === '00:00' && (t.end === '23:59' || t.end === '00:00'));
+      studio.studioAvailability.times.every((t) => is24HourRange(t.start, t.end));
 
     if (is24_7) {
       return [

@@ -137,15 +137,18 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
 
   // Helper to check if time range represents 24 hours
   const formatTimeRange = (start?: string, end?: string, isHebrew?: boolean) => {
-    // Check for 24-hour availability (00:00 to 23:59, 00:00 to 24:00, or 00:00 to 00:00)
-    const is24Hours = 
-      (start === '00:00' && (end === '23:59' || end === '24:00' || end === '00:00')) ||
-      (start === '0:00' && (end === '23:59' || end === '24:00' || end === '0:00'));
-    
-    if (is24Hours) {
-      return isHebrew ? '24 שעות' : '24 Hours';
+    if (start && end) {
+      const [sh, sm] = start.split(':').map(Number);
+      const [eh, em] = end.split(':').map(Number);
+      const startMin = sh * 60 + sm;
+      const endMin = eh * 60 + em;
+      const duration = (endMin - startMin + 1440) % 1440;
+      const is24 = duration >= 1439
+        || ((start === '00:00' || start === '0:00') && (end === '24:00' || end === '00:00' || end === '0:00'));
+
+      if (is24) return isHebrew ? '24 שעות' : '24 Hours';
     }
-    
+
     return isHebrew ? `${end} - ${start}` : `${start} - ${end}`;
   };
 

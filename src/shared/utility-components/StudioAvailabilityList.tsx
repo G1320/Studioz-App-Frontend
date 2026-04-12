@@ -19,15 +19,28 @@ export const StudioAvailabilityList: React.FC<StudioAvailabilityListProps> = ({ 
   const formattedAvailability = useMemo(() => {
     const allDays: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+    const formatTimeRange = (start?: string, end?: string, isHebrew?: boolean) => {
+      if (start && end) {
+        const [sh, sm] = start.split(':').map(Number);
+        const [eh, em] = end.split(':').map(Number);
+        const startMin = sh * 60 + sm;
+        const endMin = eh * 60 + em;
+        const duration = (endMin - startMin + 1440) % 1440;
+        const is24 = duration >= 1439
+          || ((start === '00:00' || start === '0:00') && (end === '24:00' || end === '00:00' || end === '0:00'));
+
+        if (is24) return isHebrew ? '24 שעות' : '24 Hours';
+      }
+      return isHebrew ? `${end} - ${start}` : `${start} - ${end}`;
+    };
+
     return allDays.map((day) => {
       const index = availability?.days?.indexOf(day) ?? -1;
       if (index === -1) {
         return { day, displayDay: getDisplayByEnglish(day), hours: i18n.language === 'he' ? 'סגור' : 'Closed' };
       }
-      const hours =
-        i18n.language === 'he'
-          ? `${availability.times[index]?.end} - ${availability.times[index]?.start}`
-          : `${availability.times[index]?.start} - ${availability.times[index]?.end}`;
+      const timeSlot = availability.times[index];
+      const hours = formatTimeRange(timeSlot?.start, timeSlot?.end, i18n.language === 'he');
       return {
         day,
         displayDay: getDisplayByEnglish(day),

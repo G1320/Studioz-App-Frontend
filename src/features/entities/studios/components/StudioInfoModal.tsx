@@ -26,14 +26,18 @@ export const StudioInfoModal: React.FC<StudioInfoModalProps> = ({ open, onClose,
 
   // Helper to format time range (handles 24-hour availability)
   const formatTimeRange = (start?: string, end?: string, isHebrew?: boolean) => {
-    const is24Hours = 
-      (start === '00:00' && (end === '23:59' || end === '24:00' || end === '00:00')) ||
-      (start === '0:00' && (end === '23:59' || end === '24:00' || end === '0:00'));
-    
-    if (is24Hours) {
-      return isHebrew ? '24 שעות' : '24 Hours';
+    if (start && end) {
+      const [sh, sm] = start.split(':').map(Number);
+      const [eh, em] = end.split(':').map(Number);
+      const startMin = sh * 60 + sm;
+      const endMin = eh * 60 + em;
+      const duration = (endMin - startMin + 1440) % 1440;
+      const is24 = duration >= 1439
+        || ((start === '00:00' || start === '0:00') && (end === '24:00' || end === '00:00' || end === '0:00'));
+
+      if (is24) return isHebrew ? '24 שעות' : '24 Hours';
     }
-    
+
     return isHebrew ? `${end} - ${start}` : `${start} - ${end}`;
   };
 
