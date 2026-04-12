@@ -1,9 +1,12 @@
 /**
  * Demo/Mock data for merchant dashboard
- * Used for demonstration purposes when real data is not available
+ * Used for demonstration purposes when real data is not available.
+ * Only shown to the demo account (DEMO_USER_ID); all other users see real API data.
  */
 
 import type { BillingCycle, CurrentFeesResponse } from '@shared/services/billing-service';
+
+export const DEMO_USER_ID = '6645d783a319b216a0277e85';
 
 export interface DemoClient {
   id: string;

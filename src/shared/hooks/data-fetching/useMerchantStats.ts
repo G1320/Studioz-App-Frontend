@@ -11,6 +11,7 @@ import {
   type GetCustomerAnalyticsParams
 } from '@shared/services';
 import { useUserContext } from '@core/contexts';
+import { DEMO_USER_ID } from '@core/config/demo';
 import {
   getDemoMerchantStats,
   getDemoStudioAnalytics,
@@ -22,16 +23,13 @@ import {
   getDemoPopularTimeSlots
 } from '@core/config/demo/merchantStatsDemoData';
 
-/**
- * Toggle demo vs real data for the merchant stats dashboard.
- * - true  = use fixture data (no API, no backend seed needed)
- * - false = use real API with the logged-in user's data
- * File: Frontend/src/shared/hooks/data-fetching/useMerchantStats.ts
- */
-const USE_DEMO_DATA = true;
+function useIsDemoUser(): boolean {
+  const { user } = useUserContext();
+  return user?._id === DEMO_USER_ID;
+}
 
-function statsEnabled(userId: string | undefined): boolean {
-  return USE_DEMO_DATA || !!userId;
+function statsEnabled(userId: string | undefined, isDemoUser: boolean): boolean {
+  return isDemoUser || !!userId;
 }
 
 interface UseMerchantStatsParams {
@@ -45,21 +43,22 @@ interface UseMerchantStatsParams {
 export const useMerchantStats = (params?: UseMerchantStatsParams) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
 
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   const query = useQuery({
-    queryKey: ['merchantStats', USE_DEMO_DATA, userId, startDateStr, endDateStr],
+    queryKey: ['merchantStats', isDemoUser, userId, startDateStr, endDateStr],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(getDemoMerchantStats())
         : getMerchantStats({
             userId,
             startDate: startDateStr,
             endDate: endDateStr
           }),
-    enabled: statsEnabled(user?._id),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5,
     retry: 1
   });
@@ -78,20 +77,21 @@ export const useMerchantStats = (params?: UseMerchantStatsParams) => {
 export const useStudioAnalytics = (params?: UseMerchantStatsParams) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   return useQuery({
-    queryKey: ['merchantStudioAnalytics', USE_DEMO_DATA, userId, startDateStr, endDateStr],
+    queryKey: ['merchantStudioAnalytics', isDemoUser, userId, startDateStr, endDateStr],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(getDemoStudioAnalytics())
         : getStudioAnalytics({
             userId,
             startDate: startDateStr,
             endDate: endDateStr
           }),
-    enabled: statsEnabled(user?._id),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5
   });
 };
@@ -102,13 +102,14 @@ export const useStudioAnalytics = (params?: UseMerchantStatsParams) => {
 export const useCustomerAnalytics = (params: Partial<Omit<GetCustomerAnalyticsParams, 'startDate' | 'endDate'>> & { startDate?: Date; endDate?: Date } = {}) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   return useQuery({
     queryKey: [
       'merchantCustomerAnalytics',
-      USE_DEMO_DATA,
+      isDemoUser,
       userId,
       startDateStr,
       endDateStr,
@@ -118,7 +119,7 @@ export const useCustomerAnalytics = (params: Partial<Omit<GetCustomerAnalyticsPa
       params?.search
     ],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(
             getDemoCustomerAnalytics({
               page: params?.page,
@@ -136,7 +137,7 @@ export const useCustomerAnalytics = (params: Partial<Omit<GetCustomerAnalyticsPa
             sortBy: params?.sortBy,
             search: params?.search
           }),
-    enabled: statsEnabled(user?._id),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5
   });
 };
@@ -147,20 +148,21 @@ export const useCustomerAnalytics = (params: Partial<Omit<GetCustomerAnalyticsPa
 export const useCustomerDetail = (customerId: string | null, params?: UseMerchantStatsParams) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   return useQuery({
-    queryKey: ['merchantCustomerDetail', USE_DEMO_DATA, userId, customerId, startDateStr, endDateStr],
+    queryKey: ['merchantCustomerDetail', isDemoUser, userId, customerId, startDateStr, endDateStr],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(getDemoCustomerDetail(customerId!))
         : getCustomerDetail(customerId!, {
             userId,
             startDate: startDateStr,
             endDate: endDateStr
           }),
-    enabled: statsEnabled(user?._id) && !!customerId,
+    enabled: statsEnabled(user?._id, isDemoUser) && !!customerId,
     staleTime: 1000 * 60 * 5
   });
 };
@@ -171,12 +173,13 @@ export const useCustomerDetail = (customerId: string | null, params?: UseMerchan
 export const useProjections = () => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
 
   return useQuery({
-    queryKey: ['merchantProjections', USE_DEMO_DATA, userId],
+    queryKey: ['merchantProjections', isDemoUser, userId],
     queryFn: () =>
-      USE_DEMO_DATA ? Promise.resolve(getDemoProjections()) : getProjections({ userId }),
-    enabled: statsEnabled(user?._id),
+      isDemoUser ? Promise.resolve(getDemoProjections()) : getProjections({ userId }),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5
   });
 };
@@ -187,20 +190,21 @@ export const useProjections = () => {
 export const useCancellationStats = (params?: UseMerchantStatsParams) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   return useQuery({
-    queryKey: ['merchantCancellationStats', USE_DEMO_DATA, userId, startDateStr, endDateStr],
+    queryKey: ['merchantCancellationStats', isDemoUser, userId, startDateStr, endDateStr],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(getDemoCancellationStats())
         : getCancellationStats({
             userId,
             startDate: startDateStr,
             endDate: endDateStr
           }),
-    enabled: statsEnabled(user?._id),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5
   });
 };
@@ -211,20 +215,21 @@ export const useCancellationStats = (params?: UseMerchantStatsParams) => {
 export const usePopularTimeSlots = (params?: UseMerchantStatsParams) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   return useQuery({
-    queryKey: ['merchantPopularTimeSlots', USE_DEMO_DATA, userId, startDateStr, endDateStr],
+    queryKey: ['merchantPopularTimeSlots', isDemoUser, userId, startDateStr, endDateStr],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(getDemoPopularTimeSlots())
         : getPopularTimeSlots({
             userId,
             startDate: startDateStr,
             endDate: endDateStr
           }),
-    enabled: statsEnabled(user?._id),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5
   });
 };
@@ -235,20 +240,21 @@ export const usePopularTimeSlots = (params?: UseMerchantStatsParams) => {
 export const useRevenueBreakdown = (params?: UseMerchantStatsParams) => {
   const { user } = useUserContext();
   const userId = user?._id ?? '';
+  const isDemoUser = useIsDemoUser();
   const startDateStr = params?.startDate?.toISOString();
   const endDateStr = params?.endDate?.toISOString();
 
   return useQuery({
-    queryKey: ['merchantRevenueBreakdown', USE_DEMO_DATA, userId, startDateStr, endDateStr],
+    queryKey: ['merchantRevenueBreakdown', isDemoUser, userId, startDateStr, endDateStr],
     queryFn: () =>
-      USE_DEMO_DATA
+      isDemoUser
         ? Promise.resolve(getDemoRevenueBreakdown())
         : getRevenueBreakdown({
             userId,
             startDate: startDateStr,
             endDate: endDateStr
           }),
-    enabled: statsEnabled(user?._id),
+    enabled: statsEnabled(user?._id, isDemoUser),
     staleTime: 1000 * 60 * 5
   });
 };

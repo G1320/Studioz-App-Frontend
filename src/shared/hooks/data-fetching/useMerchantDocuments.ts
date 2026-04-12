@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getMerchantDocuments, GetDocumentsParams, MerchantDocumentsResponse, MerchantDocument, DocStatus } from '@shared/services';
 import { useUserContext } from '@core/contexts';
-import { DEMO_DOCUMENTS } from '@core/config/demo';
+import { DEMO_DOCUMENTS, DEMO_USER_ID } from '@core/config/demo';
 import dayjs from 'dayjs';
 
 interface UseMerchantDocumentsOptions {
@@ -112,12 +112,17 @@ export const useMerchantDocuments = (options: UseMerchantDocumentsOptions = {}) 
     };
   }, [status, search, startDate, endDate]);
 
-  // TEMP: Return filtered demo data
-  return {
-    data: demoResponse,
-    isLoading: false,
-    error: null,
-    refetch: query.refetch,
-    isDemo: true
-  };
+  const isDemoUser = user?._id === DEMO_USER_ID;
+
+  if (isDemoUser) {
+    return {
+      data: demoResponse,
+      isLoading: false,
+      error: null,
+      refetch: query.refetch,
+      isDemo: true
+    };
+  }
+
+  return { ...query, isDemo: false };
 };
