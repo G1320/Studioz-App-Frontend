@@ -19,7 +19,7 @@ export const useProjectMessages = ({
     staleTime: 30 * 1000, // 30 seconds - messages should be fairly fresh
     queryFn: () => getMessages(projectId, { page, limit, since }),
     enabled: !!projectId,
-    refetchInterval: 30 * 1000, // Poll for new messages every 30 seconds
+    refetchInterval: 10 * 1000, // Poll fallback every 10s (socket handles instant updates)
   });
 
   return {

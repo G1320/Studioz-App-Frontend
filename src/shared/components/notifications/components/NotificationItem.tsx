@@ -132,6 +132,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
       // Activity
       case 'customer_message':
         return <EmailIcon style={glow('#60a5fa', '96,165,250')} />;
+      case 'new_remote_project':
+        return <NotificationIcon style={glow('#a78bfa', '167,139,250')} />;
       case 'availability_alert':
         return <NotificationIcon style={glow('#f59e0b', '245,158,11')} />;
 

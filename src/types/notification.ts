@@ -21,6 +21,7 @@ export type NotificationType =
   | 'weekly_summary'
   // Activity
   | 'customer_message'
+  | 'new_remote_project'
   | 'availability_alert'
   // Legacy
   | 'system_alert';
@@ -61,6 +62,7 @@ const TYPE_TO_CATEGORY: Record<NotificationType, NotificationCategory> = {
   platform_announcement: 'system',
   weekly_summary: 'system',
   customer_message: 'activity',
+  new_remote_project: 'activity',
   availability_alert: 'activity',
   system_alert: 'system'
 };

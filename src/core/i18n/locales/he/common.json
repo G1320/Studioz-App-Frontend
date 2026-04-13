@@ -278,7 +278,18 @@
       "searchResults": "נמצאו {{count}} תוצאות עבור \"{{term}}\"",
       "serviceAdded": "שירות {{serviceName}} ב{{studioName}} נוסף",
       "serviceBooked": "{{hours}} שעות של {{serviceName}} ב{{studioName}} הוזמנו לתאריך {{date}} בשעה {{time}}",
-      "serviceRemoved": "שירות {{serviceName}} ב{{studioName}} הוסר"
+      "serviceRemoved": "שירות {{serviceName}} ב{{studioName}} הוסר",
+      "projectCreated": "בקשת הפרויקט נשלחה",
+      "projectUpdated": "הפרויקט עודכן",
+      "projectAccepted": "הפרויקט אושר",
+      "projectDeclined": "הפרויקט נדחה",
+      "projectStarted": "העבודה על הפרויקט החלה",
+      "projectDelivered": "הפרויקט נמסר",
+      "revisionRequested": "בקשת תיקון נשלחה",
+      "projectCompleted": "הפרויקט הושלם",
+      "projectCancelled": "הפרויקט בוטל",
+      "fileUploaded": "הקובץ הועלה",
+      "fileDeleted": "הקובץ נמחק"
     },
     "error": {
       "selectDateTime": "אנא בחר תאריך ושעה תקינים",

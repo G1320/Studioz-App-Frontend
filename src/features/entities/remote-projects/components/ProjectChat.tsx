@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProjectMessages, useSendMessageMutation, useMarkMessagesReadMutation } from '@shared/hooks';
+import { useSocket } from '@core/contexts/SocketContext';
 import { ProjectMessage } from 'src/types/index';
 import './styles/_project-chat.scss';
 
@@ -26,8 +27,28 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     isLoading,
     refetch
   } = useProjectMessages({ projectId });
+  const socket = useSocket();
   const sendMessageMutation = useSendMessageMutation();
   const markReadMutation = useMarkMessagesReadMutation();
+
+  const refetchMessages = useCallback(() => {
+    void refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const onProjectMessage = (payload: { projectId?: string }) => {
+      if (payload?.projectId === projectId) {
+        refetchMessages();
+      }
+    };
+
+    socket.on('project:message', onProjectMessage);
+    return () => {
+      socket.off('project:message', onProjectMessage);
+    };
+  }, [socket, projectId, refetchMessages]);
 
   // Scroll chat container to bottom when messages change (without affecting page scroll)
   useEffect(() => {
