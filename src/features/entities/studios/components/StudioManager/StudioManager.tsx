@@ -140,14 +140,14 @@ const StudioCard: React.FC<StudioCardProps> = ({
     <div className={`studio-card ${status !== 'active' ? 'studio-card--inactive' : ''}`}>
       {/* Studio Header */}
       <div className="studio-card__header">
-        <div className="studio-card__image-wrapper">
+        <div className="studio-card__image-wrapper" onClick={() => langNavigate(`/studio/${studio._id}`)} role="link">
           <img src={studioImage} alt={studioName} className="studio-card__image" />
           <div className="studio-card__image-overlay" />
         </div>
 
         <div className="studio-card__info">
           <div className="studio-card__info-main">
-            <div className="studio-card__title-row">
+            <div className="studio-card__title-row" onClick={() => langNavigate(`/studio/${studio._id}`)} role="link">
               <h3 className="studio-card__title">
                 {studioName}
                 <StatusBadge status={status} />

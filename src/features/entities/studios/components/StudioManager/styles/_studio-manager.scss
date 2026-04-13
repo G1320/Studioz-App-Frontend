@@ -357,6 +357,7 @@
     border-radius: vars.$border-radius-xl;
     overflow: hidden;
     flex-shrink: 0;
+    cursor: pointer;
 
     @media (min-width: 768px) {
       width: 128px;
@@ -407,6 +408,12 @@
     gap: vars.$spacing-xs;
     min-width: 0;
     overflow: hidden;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+
+    &:hover .studio-card__title {
+      color: var(--color-brand);
+    }
   }
 
   .studio-card__title {
@@ -417,6 +424,7 @@
     align-items: center;
     gap: vars.$spacing-sm-md;
     flex-wrap: wrap;
+    transition: color 0.15s ease;
   }
 
   .studio-card__address {
