@@ -10,6 +10,7 @@ export type RemoteProjectStatus =
 
 export type RemoteProjectPaymentStatus =
   | 'pending'
+  | 'card_saved'
   | 'deposit_paid'
   | 'fully_paid'
   | 'refunded';
@@ -132,6 +133,9 @@ export interface CreateProjectRequest {
   customerName?: string;
   customerEmail?: string;
   customerPhone?: string;
+  singleUseToken?: string;
+  useSavedCard?: boolean;
+  sumitCustomerId?: string;
 }
 
 export interface ProjectsResponse {

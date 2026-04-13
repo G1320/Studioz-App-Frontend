@@ -18,7 +18,8 @@ import {
   useCreateProjectMutation,
   useSavedCards,
   useSavedCardsByPhone,
-  useRemoveSavedCardMutation
+  useRemoveSavedCardMutation,
+  useAuth0LoginHandler
 } from '@shared/hooks';
 import { useModal, useUserContext } from '@core/contexts';
 import { User, Wishlist, AddOn, Item, CartItem } from 'src/types/index';
@@ -37,6 +38,7 @@ interface ItemDetailsProps {
 
 export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const { user } = useUserContext();
+  const { loginWithPopup } = useAuth0LoginHandler();
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
   const { data: cart } = useCart(user?._id || '');
@@ -311,10 +313,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     studio?.paymentEnabled
   ]);
 
-  // Execute the actual project creation
-  // Note: paymentData will be used when backend payment integration is complete
   const executeProjectCreation = useCallback(
-    async (_paymentData?: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
+    async (paymentData?: { method: 'saved' | 'new'; cardId?: string; singleUseToken?: string }) => {
       if (!item) return;
 
       try {
@@ -327,7 +327,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
             pendingProjectData?.referenceLinks || projectReferenceLinks.filter((link) => link.trim() !== ''),
           customerName: customerName.trim() || undefined,
           customerEmail: user?.email || undefined,
-          customerPhone: customerPhone.trim() || undefined
+          customerPhone: customerPhone.trim() || undefined,
+          singleUseToken: paymentData?.method === 'new' ? paymentData.singleUseToken : undefined,
+          useSavedCard: paymentData?.method === 'saved' || undefined,
+          sumitCustomerId: paymentData?.method === 'saved' ? paymentData.cardId : undefined,
         });
 
         if (result._id) {
@@ -766,6 +769,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               isProjectLoading={createProjectMutation.isPending}
               projectPrice={projectPrice}
               paymentEnabled={studio?.paymentEnabled}
+              isLoggedIn={!!user}
+              onLoginClick={loginWithPopup}
             />
           </motion.div>
         )}
