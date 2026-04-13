@@ -162,7 +162,8 @@
     "deleteRead": "Clear read",
     "deleteNotification": "Delete notification",
     "messages": {
-      "reservationBooked": "{{name}} booked {{item}} on {{date}} at {{time}}"
+      "reservationBooked": "{{name}} booked {{item}} on {{date}} at {{time}}",
+      "newRemoteProject": "{{customerName}} submitted a project request for {{projectTitle}}"
     },
     "page": {
       "title": "Notifications",
@@ -208,6 +209,7 @@
       "platform_announcement": "Announcement",
       "weekly_summary": "Weekly Summary",
       "customer_message": "New Message",
+      "new_remote_project": "New Project Request",
       "availability_alert": "Availability Alert",
       "system_alert": "System Alert"
     }

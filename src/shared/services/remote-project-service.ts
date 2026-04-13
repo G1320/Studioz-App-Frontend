@@ -30,6 +30,8 @@ export const createProject = async (data: CreateProjectRequest): Promise<RemoteP
 export const getProjects = async (params: {
   customerId?: string;
   vendorId?: string;
+  /** When set, returns projects where this user is customer OR vendor */
+  participantId?: string;
   studioId?: string;
   status?: string;
   page?: number;

@@ -5,6 +5,7 @@ import { RemoteProjectStatus } from 'src/types/index';
 interface UseRemoteProjectsParams {
   customerId?: string;
   vendorId?: string;
+  participantId?: string;
   studioId?: string;
   status?: RemoteProjectStatus;
   page?: number;
@@ -12,14 +13,14 @@ interface UseRemoteProjectsParams {
 }
 
 export const useRemoteProjects = (params: UseRemoteProjectsParams = {}) => {
-  const { customerId, vendorId, studioId, status, page = 1, limit = 20 } = params;
+  const { customerId, vendorId, participantId, studioId, status, page = 1, limit = 20 } = params;
 
   const { data, isLoading, error, refetch, isFetching } = useQuery({
-    queryKey: ['remoteProjects', { customerId, vendorId, studioId, status, page, limit }],
+    queryKey: ['remoteProjects', { customerId, vendorId, participantId, studioId, status, page, limit }],
     staleTime: 2 * 60 * 1000, // 2 minutes
-    queryFn: () => getProjects({ customerId, vendorId, studioId, status, page, limit }),
+    queryFn: () => getProjects({ customerId, vendorId, participantId, studioId, status, page, limit }),
     placeholderData: keepPreviousData,
-    enabled: !!(customerId || vendorId || studioId), // At least one filter required
+    enabled: !!(participantId || customerId || vendorId || studioId),
   });
 
   return {

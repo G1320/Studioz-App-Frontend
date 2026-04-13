@@ -175,6 +175,14 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
       });
     }
 
+    if (notification.type === 'new_remote_project' && notification.data) {
+      return t('notifications.messages.newRemoteProject', {
+        customerName: notification.data.customerName || notification.data.name || '',
+        projectTitle: notification.data.projectTitle || notification.data.title || '',
+        defaultValue: notification.message
+      });
+    }
+
     return notification.message;
   }, [
     i18n.language,
@@ -182,6 +190,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     notification.data,
     notification.message,
     notification.title,
+    notification.type,
     reservation,
     t
   ]);

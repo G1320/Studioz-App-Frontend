@@ -22,7 +22,7 @@ export const ProjectsListPage: React.FC = () => {
   const langNavigate = useLanguageNavigate();
 
   const { projects, isLoading } = useRemoteProjects({
-    customerId: user?._id,
+    participantId: user?._id,
     status: statusFilter === 'all' ? undefined : statusFilter,
   });
 

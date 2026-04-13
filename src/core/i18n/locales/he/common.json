@@ -162,7 +162,8 @@
     "deleteRead": "נקה נקראות",
     "deleteNotification": "מחק התראה",
     "messages": {
-      "reservationBooked": "{{name}} הזמין {{item}} ב {{date}} בשעה {{time}}"
+      "reservationBooked": "{{name}} הזמין {{item}} ב {{date}} בשעה {{time}}",
+      "newRemoteProject": "{{customerName}} שלח/ה בקשת פרויקט עבור {{projectTitle}}"
     },
     "page": {
       "title": "התראות",
@@ -208,6 +209,7 @@
       "platform_announcement": "הודעה",
       "weekly_summary": "סיכום שבועי",
       "customer_message": "הודעה חדשה",
+      "new_remote_project": "בקשת פרויקט חדשה",
       "availability_alert": "התראת זמינות",
       "system_alert": "התראת מערכת"
     }
