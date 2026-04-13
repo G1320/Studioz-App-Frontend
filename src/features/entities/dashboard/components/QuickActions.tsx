@@ -34,8 +34,19 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   const { t, i18n } = useTranslation('dashboard');
   const langNavigate = useLanguageNavigate();
   const [openMenu, setOpenMenu] = useState<MenuType>(null);
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return localStorage.getItem('quickActionsCollapsed') === 'true'; } catch { return false; }
+  });
   const menuRef = useRef<HTMLDivElement>(null);
   const currentLang = i18n.language as 'en' | 'he';
+
+  const toggleCollapsed = () => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      try { localStorage.setItem('quickActionsCollapsed', String(next)); } catch {}
+      return next;
+    });
+  };
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -152,14 +163,17 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   ];
 
   return (
-    <div className={`quick-actions ${className}`} ref={menuRef}>
-      <div className="quick-actions__header">
+    <div className={`quick-actions ${collapsed ? 'quick-actions--collapsed' : ''} ${className}`} ref={menuRef}>
+      <button className="quick-actions__header" onClick={toggleCollapsed} type="button">
         <h2 className="quick-actions__title">
           {t('quickActions.title', 'פעולות מהירות')}
+          <span className={`quick-actions__collapse-icon ${collapsed ? 'quick-actions__collapse-icon--collapsed' : ''}`}>
+            <ChevronDownIcon />
+          </span>
         </h2>
-      </div>
+      </button>
       
-      <div className="quick-actions__grid">
+      {!collapsed && <div className="quick-actions__grid">
         {actions.map((action) => (
           <div key={action.id} className="quick-actions__btn-wrapper">
             <button
@@ -207,7 +221,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
             )}
           </div>
         ))}
-      </div>
+      </div>}
     </div>
   );
 };
