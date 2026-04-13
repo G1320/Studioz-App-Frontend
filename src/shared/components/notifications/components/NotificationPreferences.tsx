@@ -14,6 +14,7 @@ import '../styles/notification-preferences.scss';
 
 const CATEGORY_ICONS: Record<string, string> = {
   bookings: '📅',
+  projects: '🎵',
   payments: '💰',
   reviews: '⭐',
   billing: '💳',

@@ -24,6 +24,7 @@ export interface NotificationPreferences {
     payments: ChannelPreferences;
     reviews: ChannelPreferences;
     billing: ChannelPreferences;
+    projects: ChannelPreferences;
     system: ChannelPreferences;
     activity: ChannelPreferences;
   };
