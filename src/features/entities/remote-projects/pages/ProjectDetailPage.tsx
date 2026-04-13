@@ -262,7 +262,7 @@ export const ProjectDetailPage: React.FC = () => {
                 <ul className="project-detail__references-list">
                   {project.referenceLinks.map((link, index) => (
                     <li key={index}>
-                      <a href={link} target="_blank" rel="noopener noreferrer">
+                      <a className="project-detail__reference-link" href={link} target="_blank" rel="noopener noreferrer">
                         {link}
                       </a>
                     </li>

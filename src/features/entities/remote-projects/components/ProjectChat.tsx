@@ -29,9 +29,12 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   const sendMessageMutation = useSendMessageMutation();
   const markReadMutation = useMarkMessagesReadMutation();
 
-  // Scroll to bottom when messages change
+  // Scroll chat container to bottom when messages change (without affecting page scroll)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = messagesEndRef.current;
+    if (el?.parentElement) {
+      el.parentElement.scrollTop = el.parentElement.scrollHeight;
+    }
   }, [messages]);
 
   // Mark messages as read when component mounts or new messages arrive
