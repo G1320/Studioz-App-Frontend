@@ -161,6 +161,10 @@
     "markAllRead": "סמן הכל כנקרא",
     "deleteRead": "נקה נקראות",
     "deleteNotification": "מחק התראה",
+    "fallbacks": {
+      "remoteProjectCustomer": "לקוח",
+      "remoteProjectTitle": "פרויקט ללא כותרת"
+    },
     "messages": {
       "reservationBooked": "{{name}} הזמין {{item}} ב {{date}} בשעה {{time}}",
       "newRemoteProject": "{{customerName}} שלח/ה בקשת פרויקט עבור {{projectTitle}}"
@@ -173,6 +177,7 @@
     "categories": {
       "all": "הכל",
       "bookings": "הזמנות",
+      "projects": "פרויקטים",
       "payments": "תשלומים",
       "reviews": "ביקורות",
       "billing": "חיוב",

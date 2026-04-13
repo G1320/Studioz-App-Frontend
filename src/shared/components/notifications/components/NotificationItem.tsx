@@ -175,10 +175,20 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
       });
     }
 
-    if (notification.type === 'new_remote_project' && notification.data) {
+    if (notification.type === 'new_remote_project') {
+      const d = notification.data;
+      const customerName = d?.customerName || d?.name || '';
+      const projectTitle = d?.projectTitle || d?.title || '';
+      if (!customerName && !projectTitle && notification.message) {
+        return notification.message;
+      }
       return t('notifications.messages.newRemoteProject', {
-        customerName: notification.data.customerName || notification.data.name || '',
-        projectTitle: notification.data.projectTitle || notification.data.title || '',
+        customerName:
+          customerName ||
+          t('notifications.fallbacks.remoteProjectCustomer', { defaultValue: 'A customer' }),
+        projectTitle:
+          projectTitle ||
+          t('notifications.fallbacks.remoteProjectTitle', { defaultValue: 'Untitled project' }),
         defaultValue: notification.message
       });
     }

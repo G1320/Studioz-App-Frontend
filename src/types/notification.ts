@@ -31,6 +31,7 @@ export type NotificationCategory =
   | 'payments'
   | 'reviews'
   | 'billing'
+  | 'projects'
   | 'system'
   | 'activity';
 
@@ -38,6 +39,7 @@ export type NotificationPriority = 'low' | 'medium' | 'high';
 
 export const NOTIFICATION_CATEGORIES: { key: NotificationCategory; label: string }[] = [
   { key: 'bookings', label: 'Bookings' },
+  { key: 'projects', label: 'Projects' },
   { key: 'payments', label: 'Payments' },
   { key: 'reviews', label: 'Reviews' },
   { key: 'billing', label: 'Billing' },
@@ -62,7 +64,7 @@ const TYPE_TO_CATEGORY: Record<NotificationType, NotificationCategory> = {
   platform_announcement: 'system',
   weekly_summary: 'system',
   customer_message: 'activity',
-  new_remote_project: 'activity',
+  new_remote_project: 'projects',
   availability_alert: 'activity',
   system_alert: 'system'
 };

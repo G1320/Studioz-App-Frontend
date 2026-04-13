@@ -161,6 +161,10 @@
     "markAllRead": "Mark all as read",
     "deleteRead": "Clear read",
     "deleteNotification": "Delete notification",
+    "fallbacks": {
+      "remoteProjectCustomer": "A customer",
+      "remoteProjectTitle": "Untitled project"
+    },
     "messages": {
       "reservationBooked": "{{name}} booked {{item}} on {{date}} at {{time}}",
       "newRemoteProject": "{{customerName}} submitted a project request for {{projectTitle}}"
@@ -173,6 +177,7 @@
     "categories": {
       "all": "All",
       "bookings": "Bookings",
+      "projects": "Projects",
       "payments": "Payments",
       "reviews": "Reviews",
       "billing": "Billing",
