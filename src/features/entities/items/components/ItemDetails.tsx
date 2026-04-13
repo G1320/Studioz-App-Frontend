@@ -65,10 +65,20 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
 
-  // Project form state (for remote services)
-  const [projectTitle, setProjectTitle] = useState('');
-  const [projectBrief, setProjectBrief] = useState('');
-  const [projectReferenceLinks, setProjectReferenceLinks] = useState<string[]>(['']);
+  // Project form state (for remote services) — persisted to survive auth remounts
+  const [projectTitle, setProjectTitle] = useState(
+    () => localStorage.getItem(`project_form_title_${itemId}`) || ''
+  );
+  const [projectBrief, setProjectBrief] = useState(
+    () => localStorage.getItem(`project_form_brief_${itemId}`) || ''
+  );
+  const [projectReferenceLinks, setProjectReferenceLinks] = useState<string[]>(() => {
+    const stored = localStorage.getItem(`project_form_links_${itemId}`);
+    if (stored) {
+      try { return JSON.parse(stored); } catch { /* fall through */ }
+    }
+    return [''];
+  });
 
   // Saved cards for payment (must be after state declarations)
   // For logged-in users: fetch by userId
@@ -151,7 +161,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   // Clear selections when modal closes or item changes
   useEffect(() => {
     return () => {
-      // Cleanup function runs when component unmounts (modal closes)
       setSelectedDate(null);
       setSelectedQuantity(1);
       setComment('');
@@ -159,14 +168,10 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       setShowPaymentStep(false);
       setPendingBookingItem(null);
       setPaymentError('');
-      // Reset project form state but don't clear project ID - we want to persist it
-      setProjectTitle('');
-      setProjectBrief('');
-      setProjectReferenceLinks(['']);
       setShowProjectPaymentStep(false);
       setPendingProjectData(null);
     };
-  }, [itemId]); // Re-run cleanup when itemId changes
+  }, [itemId]);
 
   // Sync project ID when switching items
   useEffect(() => {
@@ -228,6 +233,21 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     setCustomerName(value);
   }, []);
 
+  const handleProjectTitleChange = useCallback((value: string) => {
+    localStorage.setItem(`project_form_title_${itemId}`, value);
+    setProjectTitle(value);
+  }, [itemId]);
+
+  const handleProjectBriefChange = useCallback((value: string) => {
+    localStorage.setItem(`project_form_brief_${itemId}`, value);
+    setProjectBrief(value);
+  }, [itemId]);
+
+  const handleProjectReferenceLinksChange = useCallback((links: string[]) => {
+    localStorage.setItem(`project_form_links_${itemId}`, JSON.stringify(links));
+    setProjectReferenceLinks(links);
+  }, [itemId]);
+
   const handlePhoneChange = useCallback(
     (value: string) => {
       if (value !== customerPhone) {
@@ -255,15 +275,21 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     setSelectedAddOnIds([]);
   }, [itemId, minHours]);
 
+  const clearProjectFormStorage = useCallback((id: string) => {
+    localStorage.removeItem(`project_form_title_${id}`);
+    localStorage.removeItem(`project_form_brief_${id}`);
+    localStorage.removeItem(`project_form_links_${id}`);
+  }, []);
+
   // Handle clearing project to create a new one
   const handleClearProject = useCallback(() => {
     localStorage.removeItem(`project_${itemId}`);
     setCurrentProjectId(null);
-    // Reset project form
+    clearProjectFormStorage(itemId);
     setProjectTitle('');
     setProjectBrief('');
     setProjectReferenceLinks(['']);
-  }, [itemId]);
+  }, [itemId, clearProjectFormStorage]);
 
   // Project creation mutation
   const createProjectMutation = useCreateProjectMutation();
@@ -336,6 +362,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
         if (result._id) {
           localStorage.setItem(`project_${itemId}`, result._id);
           setCurrentProjectId(result._id);
+          clearProjectFormStorage(itemId);
           setShowProjectPaymentStep(false);
           setPendingProjectData(null);
           setPaymentError('');
@@ -356,7 +383,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       pendingProjectData,
       projectTitle,
       projectBrief,
-      projectReferenceLinks
+      projectReferenceLinks,
+      clearProjectFormStorage
     ]
   );
 
@@ -762,9 +790,9 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               projectTitle={projectTitle}
               projectBrief={projectBrief}
               projectReferenceLinks={projectReferenceLinks}
-              onProjectTitleChange={setProjectTitle}
-              onProjectBriefChange={setProjectBrief}
-              onProjectReferenceLinksChange={setProjectReferenceLinks}
+              onProjectTitleChange={handleProjectTitleChange}
+              onProjectBriefChange={handleProjectBriefChange}
+              onProjectReferenceLinksChange={handleProjectReferenceLinksChange}
               onSubmitProject={handleSubmitProject}
               isProjectLoading={createProjectMutation.isPending}
               projectPrice={projectPrice}
