@@ -178,7 +178,7 @@ export const ProjectDetailPage: React.FC = () => {
     }
   };
 
-  const canCancel = ['requested', 'accepted'].includes(project.status);
+  const canCancel = project.status === 'accepted';
   const canAcceptDecline = isVendor && project.status === 'requested';
   const canStart = isVendor && project.status === 'accepted';
   const canDeliver = isVendor && ['in_progress', 'revision_requested'].includes(project.status);
