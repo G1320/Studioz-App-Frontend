@@ -1,8 +1,9 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Button } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { useUploadFileMutation, useDeleteFileMutation } from '@shared/hooks';
 import { useProjectFiles } from '@shared/hooks';
+import { useSocket } from '@core/contexts/SocketContext';
 import { formatFileSize, getDownloadUrl } from '@shared/services';
 import { ProjectFileType, ProjectFile } from 'src/types/index';
 import './styles/_project-file-uploader.scss';
@@ -42,6 +43,22 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const { files, isLoading, refetch } = useProjectFiles({ projectId, type: fileType });
   const uploadMutation = useUploadFileMutation();
   const deleteMutation = useDeleteFileMutation();
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const onProjectFiles = (payload: { projectId?: string }) => {
+      if (payload?.projectId === projectId) {
+        refetch();
+      }
+    };
+
+    socket.on('project:files', onProjectFiles);
+    return () => {
+      socket.off('project:files', onProjectFiles);
+    };
+  }, [socket, projectId, refetch]);
 
   const handleDragOver = useCallback(
     (e: React.DragEvent) => {
