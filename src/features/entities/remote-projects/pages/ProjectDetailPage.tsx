@@ -44,15 +44,17 @@ export const ProjectDetailPage: React.FC = () => {
   useEffect(() => {
     if (!socket || !projectId) return;
 
-    const onStatusUpdate = (payload: { projectId?: string }) => {
+    const onProjectUpdate = (payload: { projectId?: string }) => {
       if (payload?.projectId === projectId) {
         refetchProject();
       }
     };
 
-    socket.on('project:status', onStatusUpdate);
+    socket.on('project:status', onProjectUpdate);
+    socket.on('project:files', onProjectUpdate);
     return () => {
-      socket.off('project:status', onStatusUpdate);
+      socket.off('project:status', onProjectUpdate);
+      socket.off('project:files', onProjectUpdate);
     };
   }, [socket, projectId, refetchProject]);
 
