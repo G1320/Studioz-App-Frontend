@@ -51,6 +51,7 @@
   "startWorking": "Start Working",
   "deliver": "Deliver Project",
   "requestRevision": "Request Revision",
+  "requestPaidRevision": "Request Revision ({{price}} ILS)",
   "markComplete": "Mark as Complete",
   "cancel": "Cancel Project",
   "noActions": "No actions available at this time",
@@ -65,6 +66,7 @@
   "confirmDelivery": "Confirm Delivery",
 
   "revisionHint": "You have {{count}} revision(s) remaining.",
+  "paidRevisionHint": "All free revisions have been used. This revision will be charged {{price}} ILS.",
   "revisionFeedbackPlaceholder": "Describe what changes you would like made...",
   "submitRevision": "Submit Request",
   "editProject": "Edit Project",

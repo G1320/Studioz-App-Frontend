@@ -206,8 +206,10 @@ export const ProjectDetailPage: React.FC = () => {
   const canAcceptDecline = isVendor && project.status === 'requested';
   const canStart = isVendor && project.status === 'accepted';
   const canDeliver = isVendor && ['in_progress', 'revision_requested'].includes(project.status);
+  const hasFreeRevisions = project.revisionsUsed < project.revisionsIncluded;
+  const isPaidRevision = !hasFreeRevisions && (project.revisionPrice ?? 0) > 0;
   const canRequestRevision =
-    isCustomer && project.status === 'delivered' && project.revisionsUsed < project.revisionsIncluded;
+    isCustomer && project.status === 'delivered' && (hasFreeRevisions || isPaidRevision);
   const canComplete = isCustomer && project.status === 'delivered';
   const canUploadSource = isCustomer && ['requested', 'accepted', 'in_progress'].includes(project.status);
   const canUploadDeliverable = isVendor && ['in_progress', 'revision_requested'].includes(project.status);
@@ -353,7 +355,9 @@ export const ProjectDetailPage: React.FC = () => {
 
             {canRequestRevision && (
               <Button className="button--secondary" onClick={() => setShowRevisionModal(true)}>
-                {t('requestRevision')}
+                {isPaidRevision
+                  ? t('requestPaidRevision', { price: project.revisionPrice })
+                  : t('requestRevision')}
               </Button>
             )}
 
@@ -439,9 +443,11 @@ export const ProjectDetailPage: React.FC = () => {
       {showRevisionModal && (
         <div className="project-detail__modal-overlay" onClick={() => setShowRevisionModal(false)}>
           <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
-            <h3>{t('requestRevision')}</h3>
+            <h3>{isPaidRevision ? t('requestPaidRevision', { price: project.revisionPrice }) : t('requestRevision')}</h3>
             <p className="project-detail__modal-hint">
-              {t('revisionHint', { count: project.revisionsIncluded - project.revisionsUsed })}
+              {isPaidRevision
+                ? t('paidRevisionHint', { price: project.revisionPrice })
+                : t('revisionHint', { count: project.revisionsIncluded - project.revisionsUsed })}
             </p>
             <textarea
               value={revisionFeedback}
