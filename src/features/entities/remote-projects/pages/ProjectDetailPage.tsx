@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Pencil, Plus, X } from 'lucide-react';
 import { Button } from '@shared/components';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '@core/contexts';
+import { useSocket } from '@core/contexts/SocketContext';
 import { useRemoteProject } from '@shared/hooks';
 import {
   useAcceptProjectMutation,
@@ -33,6 +34,27 @@ export const ProjectDetailPage: React.FC = () => {
     isLoading,
     refetch
   } = useRemoteProject(projectId || '');
+
+  const socket = useSocket();
+
+  const refetchProject = useCallback(() => {
+    void refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!socket || !projectId) return;
+
+    const onStatusUpdate = (payload: { projectId?: string }) => {
+      if (payload?.projectId === projectId) {
+        refetchProject();
+      }
+    };
+
+    socket.on('project:status', onStatusUpdate);
+    return () => {
+      socket.off('project:status', onStatusUpdate);
+    };
+  }, [socket, projectId, refetchProject]);
 
   const acceptMutation = useAcceptProjectMutation();
   const declineMutation = useDeclineProjectMutation();

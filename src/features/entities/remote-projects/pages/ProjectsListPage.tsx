@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft } from 'lucide-react';
 import { useUserContext } from '@core/contexts';
+import { useSocket } from '@core/contexts/SocketContext';
 import { useRemoteProjects } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { EmptyState } from '@shared/components';
@@ -21,10 +22,29 @@ export const ProjectsListPage: React.FC = () => {
 
   const langNavigate = useLanguageNavigate();
 
-  const { projects, isLoading } = useRemoteProjects({
+  const { projects, isLoading, refetch } = useRemoteProjects({
     participantId: user?._id,
     status: statusFilter === 'all' ? undefined : statusFilter,
   });
+
+  const socket = useSocket();
+
+  const refetchProjects = useCallback(() => {
+    void refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const onStatusUpdate = () => {
+      refetchProjects();
+    };
+
+    socket.on('project:status', onStatusUpdate);
+    return () => {
+      socket.off('project:status', onStatusUpdate);
+    };
+  }, [socket, refetchProjects]);
 
   // Filter projects by status and search query
   const filteredProjects = projects.filter((project: RemoteProject) => {
