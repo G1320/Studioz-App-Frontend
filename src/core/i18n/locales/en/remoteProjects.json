@@ -47,7 +47,7 @@
 
   "actions": "Actions",
   "accept": "Accept Project",
-  "decline": "Decline",
+  "decline": "Decline Project",
   "startWorking": "Start Working",
   "deliver": "Deliver Project",
   "requestRevision": "Request Revision",
