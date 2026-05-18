@@ -68,6 +68,7 @@
       "sumitDesc": "קבל תשלומים באשראי ישירות לחשבון הבנק",
       "subscription": "מנוי ותשלומים",
       "platformFee": "עמלת פלטפורמה",
+      "paymentMethods": "אמצעי תשלום",
       "accessibility": "נגישות",
       "accessibilityDesc": "ניהול נראות כפתור הנגישות"
     },
@@ -97,6 +98,12 @@
       "cardOnFile": "כרטיס על הקובץ",
       "saved": "שמור",
       "notSaved": "לא הוגדר"
+    },
+    "paymentMethods": {
+      "default": "ברירת מחדל",
+      "setDefault": "הגדר כברירת מחדל",
+      "remove": "הסר",
+      "empty": "אין אמצעי תשלום שמורים. כרטיסים נשמרים אוטומטית כאשר אתה מבצע הזמנה או תשלום עבור פרויקט."
     },
     "fields": {
       "firstName": "שם פרטי",

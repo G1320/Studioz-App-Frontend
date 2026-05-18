@@ -61,7 +61,9 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   const isRTL = i18n.language === 'he';
 
   const [paymentMethod, setPaymentMethod] = useState<'saved' | 'new'>('saved');
-  const [selectedCardId, setSelectedCardId] = useState<string>(savedCards[0]?.id || '');
+  const [selectedCardId, setSelectedCardId] = useState<string>(
+    savedCards.find((c) => c.isDefault)?.id || savedCards[0]?.id || ''
+  );
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
 
@@ -111,9 +113,10 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
     }
   };
 
-  const handleRemoveCard = () => {
-    if (selectedCardId && onRemoveCard) {
-      onRemoveCard(selectedCardId);
+  const handleRemoveCard = (cardId?: string) => {
+    const targetId = cardId || selectedCardId;
+    if (targetId && onRemoveCard) {
+      onRemoveCard(targetId);
     }
   };
 
@@ -200,6 +203,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
                 onRemoveCard={onRemoveCard ? handleRemoveCard : undefined}
                 paymentMethod={paymentMethod}
                 onPaymentMethodChange={setPaymentMethod}
+                showRemoveButton={!!onRemoveCard}
               />
             </div>
 
@@ -252,6 +256,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
               onRemoveCard={onRemoveCard ? handleRemoveCard : undefined}
               paymentMethod={paymentMethod}
               onPaymentMethodChange={setPaymentMethod}
+              showRemoveButton={!!onRemoveCard}
             >
               <SumitPaymentForm
                 variant="order"

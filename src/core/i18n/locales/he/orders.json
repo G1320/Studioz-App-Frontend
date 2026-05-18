@@ -16,6 +16,8 @@
   "expires": "תוקף",
   "removeSelectedCard": "הסר כרטיס נבחר",
   "removeCard": "הסר כרטיס",
+  "defaultCard": "ברירת מחדל",
+  "setAsDefault": "הגדר כברירת מחדל",
   "noSavedCards": "אין כרטיסים שמורים",
   "noSavedCardsHint": "הוסף את אמצעי התשלום הראשון שלך כדי להתחיל",
   "addNewCard": "הוסף כרטיס חדש",

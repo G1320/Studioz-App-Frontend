@@ -16,6 +16,8 @@
   "expires": "Expires",
   "removeSelectedCard": "Remove Selected Card",
   "removeCard": "Remove Card",
+  "defaultCard": "Default",
+  "setAsDefault": "Set as default",
   "noSavedCards": "No Saved Cards",
   "noSavedCardsHint": "Add your first payment method to get started",
   "addNewCard": "Add New Card",

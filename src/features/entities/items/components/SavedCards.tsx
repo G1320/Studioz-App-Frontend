@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { AddIcon, CreditCardIcon, DeleteIcon, CheckIcon } from '@shared/components/icons';
+import { AddIcon, CreditCardIcon, DeleteIcon, CheckIcon, StarIcon } from '@shared/components/icons';
 
 export interface SavedCard {
   id: string;
@@ -8,6 +8,7 @@ export interface SavedCard {
   brand: 'visa' | 'mastercard' | 'amex';
   expiryMonth: string;
   expiryYear: string;
+  isDefault?: boolean;
 }
 
 export interface SavedCardsProps {
@@ -15,11 +16,12 @@ export interface SavedCardsProps {
   selectedCardId: string;
   onSelectCard: (cardId: string) => void;
   onRemoveCard?: (cardId: string) => void;
+  onSetDefault?: (cardId: string) => void;
   paymentMethod: 'saved' | 'new';
   onPaymentMethodChange: (method: 'saved' | 'new') => void;
-  children?: React.ReactNode; // For the new card form
-  /** Whether to show the remove card button (default: false) */
+  children?: React.ReactNode;
   showRemoveButton?: boolean;
+  showDefaultToggle?: boolean;
 }
 
 export const SavedCards: React.FC<SavedCardsProps> = ({
@@ -27,14 +29,15 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
   selectedCardId,
   onSelectCard,
   onRemoveCard,
+  onSetDefault,
   paymentMethod,
   onPaymentMethodChange,
   children,
-  showRemoveButton = false
+  showRemoveButton = false,
+  showDefaultToggle = false,
 }) => {
   const { t } = useTranslation('orders');
 
-  // If adding new card, show the form (children)
   if (paymentMethod === 'new') {
     return <div className="saved-cards__new-card">{children}</div>;
   }
@@ -63,31 +66,55 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
                 </div>
                 <div className="saved-cards__details">
                   <span className="saved-cards__number">•••• •••• •••• {card.last4}</span>
-                  {card.expiryMonth && card.expiryYear && (
-                    <span className="saved-cards__expiry">
-                      {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
-                    </span>
-                  )}
+                  <div className="saved-cards__meta">
+                    {card.expiryMonth && card.expiryYear && (
+                      <span className="saved-cards__expiry">
+                        {t('expires', 'תוקף')} {card.expiryMonth}/{card.expiryYear}
+                      </span>
+                    )}
+                    {card.isDefault && (
+                      <span className="saved-cards__default-badge">
+                        {t('defaultCard', 'ברירת מחדל')}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className={`saved-cards__checkbox ${selectedCardId === card.id ? 'selected' : ''}`}>
-                {selectedCardId === card.id && <CheckIcon />}
-              </div>
+              <div className="saved-cards__actions">
+                {showDefaultToggle && !card.isDefault && onSetDefault && (
+                  <button
+                    type="button"
+                    className="saved-cards__default-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSetDefault(card.id);
+                    }}
+                    aria-label={t('setAsDefault', 'הגדר כברירת מחדל')}
+                    title={t('setAsDefault', 'הגדר כברירת מחדל')}
+                  >
+                    <StarIcon />
+                  </button>
+                )}
 
-              {showRemoveButton && onRemoveCard && (
-                <button
-                  type="button"
-                  className="saved-cards__remove-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onRemoveCard(card.id);
-                  }}
-                  aria-label={t('removeCard', 'הסר כרטיס')}
-                >
-                  <DeleteIcon />
-                </button>
-              )}
+                {showRemoveButton && onRemoveCard && (
+                  <button
+                    type="button"
+                    className="saved-cards__remove-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveCard(card.id);
+                    }}
+                    aria-label={t('removeCard', 'הסר כרטיס')}
+                  >
+                    <DeleteIcon />
+                  </button>
+                )}
+
+                <div className={`saved-cards__checkbox ${selectedCardId === card.id ? 'selected' : ''}`}>
+                  {selectedCardId === card.id && <CheckIcon />}
+                </div>
+              </div>
             </button>
           ))}
 
@@ -97,7 +124,6 @@ export const SavedCards: React.FC<SavedCardsProps> = ({
           </button>
         </div>
       ) : (
-        /* Empty State */
         <div className="saved-cards__empty">
           <CreditCardIcon className="saved-cards__empty-icon" />
           <p className="saved-cards__empty-title">{t('noSavedCards', 'אין כרטיסים שמורים')}</p>

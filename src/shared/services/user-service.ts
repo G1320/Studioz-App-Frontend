@@ -97,12 +97,16 @@ export const deleteUser = async (userId: string): Promise<null> => {
   }
 };
 
-// Saved Cards
+// Saved Cards (multi-card)
 export interface SavedCardResponse {
   id: string;
   last4: string;
   brand: string;
   sumitCustomerId: string;
+  expirationMonth?: number;
+  expirationYear?: number;
+  isDefault?: boolean;
+  label?: string;
 }
 
 export const getSavedCards = async (userId: string): Promise<SavedCardResponse[]> => {
@@ -114,11 +118,23 @@ export const getSavedCards = async (userId: string): Promise<SavedCardResponse[]
   }
 };
 
-export const removeSavedCard = async (userId: string): Promise<{ success: boolean }> => {
+export const removeSavedCard = async (userId: string, cardId?: string): Promise<{ success: boolean }> => {
   try {
-    return await httpService.delete(`${userEndpoint}/${userId}/saved-cards`);
+    const url = cardId
+      ? `${userEndpoint}/${userId}/saved-cards/${cardId}`
+      : `${userEndpoint}/${userId}/saved-cards`;
+    return await httpService.delete(url);
   } catch (error) {
     console.error('Failed to remove saved card', error);
+    throw error;
+  }
+};
+
+export const setDefaultCard = async (userId: string, cardId: string): Promise<{ success: boolean }> => {
+  try {
+    return await httpService.patch(`${userEndpoint}/${userId}/saved-cards/${cardId}/default`, {});
+  } catch (error) {
+    console.error('Failed to set default card', error);
     throw error;
   }
 };

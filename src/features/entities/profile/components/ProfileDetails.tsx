@@ -8,6 +8,7 @@ import { useUserContext } from '@core/contexts';
 import { setLocalUser } from '@shared/services';
 import { useUpdateUserMutation } from '@shared/hooks/mutations';
 import { useGoogleCalendar, useSubscription } from '@shared/hooks';
+import { useSavedCards, useRemoveSavedCardMutation, useSetDefaultCardMutation } from '@shared/hooks/data-fetching';
 
 import {
   PersonIcon,
@@ -22,7 +23,9 @@ import {
   ChevronRightIcon,
   ShieldIcon,
   RefreshIcon,
-  VisibilityIcon
+  VisibilityIcon,
+  DeleteIcon,
+  StarIcon
 } from '@shared/components/icons';
 import { NotificationPreferences } from '@shared/components/notifications';
 import { useAccessibility } from '@core/contexts/AccessibilityContext';
@@ -183,9 +186,14 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const { hasSubscription } = useSubscription();
   const hasActiveSubscription = hasSubscription && ['ACTIVE', 'TRIAL'].includes(user?.subscriptionStatus || '');
 
+  // Payment methods
+  const { data: savedCards = [] } = useSavedCards(user?._id);
+  const removeSavedCardMutation = useRemoveSavedCardMutation(user?._id);
+  const setDefaultCardMutation = useSetDefaultCardMutation(user?._id);
+
   // Sumit onboarding status (vendor credentials + card on file for platform fees)
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
-  const hasCardOnFile = Boolean(user?.sumitCustomerId || user?.savedCardLastFour);
+  const hasCardOnFile = savedCards.length > 0 || Boolean(user?.sumitCustomerId || user?.savedCardLastFour);
   const hasStudios = Boolean(user?.studios && user.studios.length > 0);
   const showSumitCard = hasStudios || hasActiveSubscription;
   const showSumitSetupBanner = hasStudios && !isSumitConnected;
@@ -498,32 +506,72 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
             </div>
           )}
 
-          {/* Platform Fee / Billing */}
-          <div className="profile-card profile-card--subscription profile-card--platform-fee">
-            <SectionTitle icon={CreditCardIcon} title={t('profile.sections.platformFee', 'Platform fee')} />
+          {/* Payment Methods */}
+          <div className="profile-card profile-card--subscription profile-card--payment-methods">
+            <SectionTitle icon={CreditCardIcon} title={t('profile.sections.paymentMethods', 'Payment methods')} />
 
             <div className="profile-subscription-info">
-              <div className="profile-subscription-info__details">
-                <p className="profile-subscription-info__narrative">
-                  {t('profile.platformFee.narrative', 'We only make money when you make money.')}
-                </p>
-                <div className="profile-subscription-info__row">
-                  <span>{t('profile.platformFee.feeLabel', 'Platform fee')}</span>
-                  <span className="profile-subscription-info__status profile-subscription-info__status--active">
-                    9% {t('profile.platformFee.onSessions', 'on approved sessions')}
-                  </span>
+              {savedCards.length > 0 ? (
+                <div className="profile-payment-methods">
+                  {savedCards.map((card) => (
+                    <div key={card.id} className="profile-payment-methods__card">
+                      <div className="profile-payment-methods__card-info">
+                        <div className="profile-payment-methods__brand">
+                          {card.brand === 'mastercard' && <span className="profile-payment-methods__brand-text">MC</span>}
+                          {card.brand === 'visa' && <span className="profile-payment-methods__brand-text">VISA</span>}
+                          {!['visa', 'mastercard'].includes(card.brand) && <CreditCardIcon />}
+                        </div>
+                        <div className="profile-payment-methods__details">
+                          <span className="profile-payment-methods__number">•••• {card.last4}</span>
+                          {card.expiryMonth && card.expiryYear && (
+                            <span className="profile-payment-methods__expiry">{card.expiryMonth}/{card.expiryYear}</span>
+                          )}
+                        </div>
+                        {card.isDefault && (
+                          <span className="profile-payment-methods__default-badge">
+                            {t('profile.paymentMethods.default', 'Default')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="profile-payment-methods__actions">
+                        {!card.isDefault && (
+                          <button
+                            className="profile-payment-methods__action-btn"
+                            onClick={() => setDefaultCardMutation.mutate(card.id)}
+                            title={t('profile.paymentMethods.setDefault', 'Set as default')}
+                          >
+                            <StarIcon />
+                          </button>
+                        )}
+                        <button
+                          className="profile-payment-methods__action-btn profile-payment-methods__action-btn--danger"
+                          onClick={() => removeSavedCardMutation.mutate(card.id)}
+                          title={t('profile.paymentMethods.remove', 'Remove')}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="profile-subscription-info__row">
-                  <span>{t('profile.platformFee.cardOnFile', 'Card on file')}</span>
-                  <span
-                    className={`profile-subscription-info__status ${hasCardOnFile ? 'profile-subscription-info__status--active' : ''}`}
-                  >
-                    {hasCardOnFile
-                      ? (user?.savedCardLastFour ? `•••• ${user.savedCardLastFour}` : t('profile.platformFee.saved', 'Saved'))
-                      : t('profile.platformFee.notSaved', 'Not set')}
-                  </span>
+              ) : (
+                <div className="profile-subscription-info__details">
+                  <p className="profile-subscription-info__narrative">
+                    {t('profile.paymentMethods.empty', 'No saved payment methods. Cards are saved automatically when you make a booking or project payment.')}
+                  </p>
                 </div>
-              </div>
+              )}
+
+              {hasStudios && (
+                <div className="profile-subscription-info__details" style={{ marginTop: savedCards.length > 0 ? '12px' : '0' }}>
+                  <div className="profile-subscription-info__row">
+                    <span>{t('profile.platformFee.feeLabel', 'Platform fee')}</span>
+                    <span className="profile-subscription-info__status profile-subscription-info__status--active">
+                      9% {t('profile.platformFee.onSessions', 'on approved sessions')}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {hasActiveSubscription ? (
                 <button
@@ -533,7 +581,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   {t('profile.buttons.manageSubscription', 'Manage Subscription')}
                   <ChevronRightIcon className="profile-btn__chevron" />
                 </button>
-              ) : (
+              ) : hasStudios ? (
                 <button
                   className="profile-btn profile-btn--secondary profile-btn--full"
                   onClick={() => handleNavigate('/dashboard?tab=billing')}
@@ -541,7 +589,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                   {t('profile.buttons.viewBilling', 'View billing')}
                   <ChevronRightIcon className="profile-btn__chevron" />
                 </button>
-              )}
+              ) : null}
             </div>
           </div>
 

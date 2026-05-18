@@ -816,3 +816,106 @@
     }
   }
 }
+
+// ==========================================
+// Payment Methods List (Profile)
+// ==========================================
+.profile-payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+
+  &__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-radius: 10px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-primary);
+    transition: background 0.15s;
+  }
+
+  &__card-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  &__brand {
+    flex-shrink: 0;
+  }
+
+  &__brand-text {
+    font-size: ds.$font-xs;
+    font-weight: 800;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  &__number {
+    font-size: ds.$font-sm;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__expiry {
+    font-size: ds.$font-xs;
+    color: var(--text-muted);
+  }
+
+  &__default-badge {
+    font-size: ds.$font-xs;
+    font-weight: 700;
+    color: var(--color-brand-text, var(--color-brand));
+    background: var(--color-brand-bg, rgba(247, 192, 65, 0.12));
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  &__action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background: var(--bg-active);
+      color: var(--text-primary);
+    }
+
+    &--danger:hover {
+      background: var(--color-error-bg);
+      color: var(--color-error);
+    }
+  }
+}

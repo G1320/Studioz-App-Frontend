@@ -68,6 +68,7 @@
       "sumitDesc": "Receive payments directly to your bank account",
       "subscription": "Subscription & Payments",
       "platformFee": "Platform fee",
+      "paymentMethods": "Payment methods",
       "accessibility": "Accessibility",
       "accessibilityDesc": "Manage accessibility widget visibility"
     },
@@ -97,6 +98,12 @@
       "cardOnFile": "Card on file",
       "saved": "Saved",
       "notSaved": "Not set"
+    },
+    "paymentMethods": {
+      "default": "Default",
+      "setDefault": "Set as default",
+      "remove": "Remove",
+      "empty": "No saved payment methods. Cards are saved automatically when you make a booking or project payment."
     },
     "fields": {
       "firstName": "First Name",
