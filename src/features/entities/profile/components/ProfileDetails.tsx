@@ -191,9 +191,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const removeSavedCardMutation = useRemoveSavedCardMutation(user?._id);
   const setDefaultCardMutation = useSetDefaultCardMutation(user?._id);
 
-  // Sumit onboarding status (vendor credentials + card on file for platform fees)
   const isSumitConnected = Boolean(user?.sumitCompanyId && (user?.sumitApiKey || user?.sumitApiPublicKey));
-  const hasCardOnFile = savedCards.length > 0 || Boolean(user?.sumitCustomerId || user?.savedCardLastFour);
   const hasStudios = Boolean(user?.studios && user.studios.length > 0);
   const showSumitCard = hasStudios || hasActiveSubscription;
   const showSumitSetupBanner = hasStudios && !isSumitConnected;
