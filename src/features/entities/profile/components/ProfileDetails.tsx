@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
@@ -176,13 +177,24 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   };
 
   const isRTL = i18n.language === 'he';
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     isConnected: isGoogleCalendarConnected,
     isLoading: isCalendarLoading,
     connect: connectCalendar,
     disconnect: disconnectCalendar,
-    sync: syncCalendar
-  } = useGoogleCalendar();
+    sync: syncCalendar,
+    refreshStatus: refreshCalendarStatus
+  } = useGoogleCalendar({ userId: user?._id });
+
+  useEffect(() => {
+    const calendarParam = searchParams.get('calendar');
+    if (calendarParam === 'connected' && user?._id) {
+      refreshCalendarStatus();
+      searchParams.delete('calendar');
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams, refreshCalendarStatus, user?._id]);
   const { hasSubscription } = useSubscription();
   const hasActiveSubscription = hasSubscription && ['ACTIVE', 'TRIAL'].includes(user?.subscriptionStatus || '');
 
@@ -202,7 +214,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
       if (isGoogleCalendarConnected) {
         await disconnectCalendar();
       } else {
-        await connectCalendar(i18n.language);
+        await connectCalendar(i18n.language, 'profile');
       }
     } catch (err) {
       console.error('Error toggling Google Calendar connection:', err);

@@ -16,11 +16,16 @@ export interface GoogleCalendarAuthUrl {
  * @param lang - Optional language code (e.g. 'he', 'en') for callback redirect
  * @returns Authorization URL
  */
-export const getGoogleCalendarAuthUrl = async (lang?: string): Promise<string> => {
-  const params = lang ? { lang } : undefined;
+export const getGoogleCalendarAuthUrl = async (
+  lang?: string,
+  returnTo?: 'profile' | 'dashboard'
+): Promise<string> => {
+  const params: Record<string, string> = {};
+  if (lang) params.lang = lang.split('-')[0];
+  if (returnTo) params.returnTo = returnTo;
   const response = await httpService.get<GoogleCalendarAuthUrl>(
     `${googleCalendarEndpoint}/connect`,
-    params
+    Object.keys(params).length > 0 ? params : undefined
   );
   return response.authUrl;
 };

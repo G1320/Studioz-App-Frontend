@@ -1,4 +1,5 @@
 import { useGoogleCalendar } from '@shared/hooks';
+import { useUserContext } from '@core/contexts';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -13,7 +14,10 @@ export const GoogleCalendarConnectButton: React.FC<GoogleCalendarConnectButtonPr
   className = '',
   variant = 'button'
 }) => {
-  const { isConnected, isLoading, error, connect, disconnect, refreshStatus } = useGoogleCalendar();
+  const { user } = useUserContext();
+  const { isConnected, isLoading, error, connect, disconnect, refreshStatus } = useGoogleCalendar({
+    userId: user?._id
+  });
   const { t, i18n } = useTranslation('common');
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -25,21 +29,20 @@ export const GoogleCalendarConnectButton: React.FC<GoogleCalendarConnectButtonPr
   // Check if we just connected (from OAuth callback redirect)
   useEffect(() => {
     const calendarParam = searchParams.get('calendar');
-    if (calendarParam === 'connected') {
-      // Refresh status to show connected state
+    if (calendarParam === 'connected' && user?._id) {
       refreshStatus();
       // Remove the query parameter
       searchParams.delete('calendar');
       setSearchParams(searchParams, { replace: true });
     }
-  }, [searchParams, setSearchParams, refreshStatus]);
+  }, [searchParams, setSearchParams, refreshStatus, user?._id]);
 
   const handleClick = async () => {
     try {
       if (isConnected) {
         await disconnect();
       } else {
-        await connect(i18n.language);
+        await connect(i18n.language, 'dashboard');
       }
     } catch (err) {
       console.error('Error toggling Google Calendar connection:', err);
