@@ -6,6 +6,11 @@ import { useProjectFiles } from '@shared/hooks';
 import { useSocket } from '@core/contexts/SocketContext';
 import { formatFileSize, getDownloadUrl } from '@shared/services';
 import { ProjectFileType, ProjectFile } from 'src/types/index';
+import {
+  REMOTE_PROJECT_ACCEPTED_FILE_TYPES,
+  REMOTE_PROJECT_MAX_FILE_SIZE_MB,
+  REMOTE_PROJECT_MAX_FILES_PER_PROJECT
+} from '@shared/constants/remoteProjectFileLimits';
 import './styles/_project-file-uploader.scss';
 
 interface ProjectFileUploaderProps {
@@ -28,9 +33,9 @@ interface UploadProgress {
 export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   projectId,
   fileType,
-  acceptedTypes = ['.wav', '.aif', '.aiff', '.mp3', '.flac', '.zip'],
-  maxFileSize = 500,
-  maxFiles = 50,
+  acceptedTypes = [...REMOTE_PROJECT_ACCEPTED_FILE_TYPES],
+  maxFileSize = REMOTE_PROJECT_MAX_FILE_SIZE_MB,
+  maxFiles = REMOTE_PROJECT_MAX_FILES_PER_PROJECT,
   disabled = false
 }) => {
   const { t } = useTranslation('remoteProjects');

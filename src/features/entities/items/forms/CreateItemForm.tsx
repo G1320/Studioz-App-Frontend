@@ -40,6 +40,11 @@ import {
 } from '@shared/components/icons';
 import './_createItemForm.scss';
 import { ITEM_NAME_MAX, ITEM_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
+import {
+  REMOTE_PROJECT_ACCEPTED_FILE_TYPES,
+  REMOTE_PROJECT_MAX_FILE_SIZE_MB,
+  REMOTE_PROJECT_MAX_FILES_PER_PROJECT
+} from '@shared/constants/remoteProjectFileLimits';
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
@@ -94,10 +99,6 @@ export const CreateItemForm = () => {
     estimatedDeliveryDays: 7,
     revisionsIncluded: 2
   });
-  const [acceptedFileTypes, setAcceptedFileTypes] = useState<string[]>(['.wav', '.mp3', '.aif', '.flac', '.zip']);
-  const [maxFileSize, setMaxFileSize] = useState<number>(500); // MB
-  const [maxFilesPerProject, setMaxFilesPerProject] = useState<number>(20);
-
   // Policies State
 
   interface FormData {
@@ -722,70 +723,6 @@ export const CreateItemForm = () => {
             </div>
           </div>
 
-          {/* File Settings */}
-          <h4 className="remote-settings-step__section-title" style={{ marginTop: '1.5rem' }}>
-            {t('form.remoteSettings.fileSettings.title', { defaultValue: 'File Upload Settings' })}
-          </h4>
-
-          <div className="remote-settings-step__grid">
-            {/* Max File Size */}
-            <div className="remote-settings-step__field">
-              <label className="remote-settings-step__label">
-                {t('form.remoteSettings.fileSettings.maxSize', { defaultValue: 'Max File Size' })}
-              </label>
-              <div className="remote-settings-step__input-wrapper">
-                <input
-                  type="number"
-                  min={1}
-                  placeholder="500"
-                  value={maxFileSize ?? ''}
-                  onChange={(e) => setMaxFileSize(e.target.value ? Number(e.target.value) : 500)}
-                  className="remote-settings-step__input remote-settings-step__input--with-suffix"
-                />
-                <span className="remote-settings-step__input-suffix">MB</span>
-              </div>
-            </div>
-
-            {/* Max Files Per Project */}
-            <div className="remote-settings-step__field">
-              <label className="remote-settings-step__label">
-                {t('form.remoteSettings.fileSettings.maxFiles', { defaultValue: 'Max Files Per Project' })}
-              </label>
-              <div className="remote-settings-step__input-wrapper">
-                <input
-                  type="number"
-                  min={1}
-                  placeholder="20"
-                  value={maxFilesPerProject ?? ''}
-                  onChange={(e) => setMaxFilesPerProject(e.target.value ? Number(e.target.value) : 20)}
-                  className="remote-settings-step__input"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Accepted File Types */}
-          <div className="remote-settings-step__field" style={{ marginTop: '1rem' }}>
-            <label className="remote-settings-step__label">
-              {t('form.remoteSettings.fileSettings.acceptedTypes', { defaultValue: 'Accepted File Types' })}
-            </label>
-            <div className="remote-settings-step__file-types">
-              {['.wav', '.mp3', '.aif', '.aiff', '.flac', '.zip', '.rar', '.pdf', '.mid', '.stems'].map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => {
-                    setAcceptedFileTypes((prev) =>
-                      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-                    );
-                  }}
-                  className={`remote-settings-step__file-type-btn ${acceptedFileTypes.includes(type) ? 'remote-settings-step__file-type-btn--active' : ''}`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Info Box */}
@@ -805,7 +742,7 @@ export const CreateItemForm = () => {
         </div>
       </div>
     ),
-    [t, projectPricing, acceptedFileTypes, maxFileSize, maxFilesPerProject]
+    [t, projectPricing]
   );
 
   // Define form steps with Zod schemas - conditional based on service delivery type
@@ -868,7 +805,7 @@ export const CreateItemForm = () => {
         id: 'project-pricing',
         title: t('form.steps.projectPricing') || 'Project Pricing',
         description: t('form.steps.projectPricingDesc') || 'Set pricing and delivery options for remote projects',
-        fieldNames: ['projectPricing', 'acceptedFileTypes', 'maxFileSize', 'maxFilesPerProject'],
+        fieldNames: ['projectPricing'],
         schema: itemStepSchemas['remote-settings'],
         icon: OfferIcon,
         customContent: projectPricingContent
@@ -981,9 +918,9 @@ export const CreateItemForm = () => {
       if (hasProjectPricing) {
         formData.projectPricing = projectPricing;
       }
-      formData.acceptedFileTypes = acceptedFileTypes;
-      formData.maxFileSize = maxFileSize;
-      formData.maxFilesPerProject = maxFilesPerProject;
+      formData.acceptedFileTypes = [...REMOTE_PROJECT_ACCEPTED_FILE_TYPES];
+      formData.maxFileSize = REMOTE_PROJECT_MAX_FILE_SIZE_MB;
+      formData.maxFilesPerProject = REMOTE_PROJECT_MAX_FILES_PER_PROJECT;
     }
 
     // Remove UI-only fields that shouldn't be sent to the API
