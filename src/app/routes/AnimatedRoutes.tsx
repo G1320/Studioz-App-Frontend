@@ -42,7 +42,8 @@ const AboutPage = lazyWithRetry(() => import('@features/static/pages/AboutPage')
 const FaqPage = lazyWithRetry(() => import('@features/static/pages/FaqPage'));
 const OwnerFaqPage = lazyWithRetry(() => import('@features/static/pages/OwnerFaqPage'));
 const ServicesPage = lazyWithRetry(() => import('@features/entities/items/pages/ServicesPage'));
-const StudiosPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudiosPage'));
+// Studios page not yet public — route redirects to homepage
+// const StudiosPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudiosPage'));
 const CreateItemPage = lazyWithRetry(() => import('@features/entities/items/pages/CreateItemPage'));
 const CreateWishlistPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/CreateWishlistPage'));
 const EditItemPage = lazyWithRetry(() => import('@features/entities/items/pages/EditItemPage'));
@@ -166,7 +167,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          <Route path="/:lang?/studios/:category?/:subcategory?" element={<StudiosPage studios={studios} />} />
+          <Route path="/:lang?/studios/:category?/:subcategory?" element={<Navigate to={`/${i18n.language}`} replace />} />
           {featureFlags.servicesPage && (
             <Route path="/:lang?/services/:category?/:subCategory?" element={<ServicesPage items={items} />} />
           )}
