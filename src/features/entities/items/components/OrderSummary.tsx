@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LocationIcon, CalendarTodayIcon, ArrowBackIcon, LockIcon } from '@shared/components/icons';
+import { LocationIcon, CalendarTodayIcon, ArrowBackIcon, LockIcon, InfoOutlinedIcon } from '@shared/components/icons';
 import { SumitPaymentForm } from '@shared/components';
 import { sumitService } from '@shared/services';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
@@ -27,6 +27,7 @@ export interface OrderSummaryProps {
   items?: OrderItem[];
   totalAmount?: number;
   savedCards?: SavedCard[];
+  cancellationPolicy?: 'flexible' | 'moderate' | 'strict';
   /**
    * Called with the Sumit single-use token when payment form is submitted
    * This token should be passed to the booking API
@@ -51,6 +52,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   items = [],
   totalAmount = 0,
   savedCards = [],
+  cancellationPolicy,
   onPaymentSubmit,
   onRemoveCard,
   currency = '₪',
@@ -189,6 +191,20 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
                     {totalAmount}
                   </span>
                 </div>
+
+                {cancellationPolicy && (
+                  <div className="order-summary__cancellation-row">
+                    <span className="order-summary__cancellation-label">
+                      {t('cancellationPolicy')}: {t(`cancellationPolicyTypes.${cancellationPolicy}`)}
+                    </span>
+                    <span className="order-summary__cancellation-info">
+                      <InfoOutlinedIcon style={{ fontSize: 16 }} />
+                      <span className="order-summary__cancellation-tooltip">
+                        {t(`cancellationPolicyTypes.${cancellationPolicy}Desc`)}
+                      </span>
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 

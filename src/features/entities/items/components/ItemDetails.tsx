@@ -702,6 +702,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               items={orderItems}
               totalAmount={pendingBookingItem.total}
               savedCards={savedCards}
+              cancellationPolicy={studio?.cancellationPolicy?.type}
               onPaymentSubmit={handlePaymentSubmit}
               onRemoveCard={(cardId) => removeSavedCardMutation.mutate(cardId)}
               isProcessing={reserveItemTimeSlotMutation.isPending}
@@ -735,6 +736,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               items={projectOrderItems}
               totalAmount={pendingProjectData.depositAmount || pendingProjectData.price}
               savedCards={savedCards}
+              cancellationPolicy={studio?.cancellationPolicy?.type}
               onPaymentSubmit={handleProjectPaymentSubmit}
               onRemoveCard={(cardId) => removeSavedCardMutation.mutate(cardId)}
               isProcessing={createProjectMutation.isPending}

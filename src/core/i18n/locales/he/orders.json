@@ -34,7 +34,15 @@
   "termsAgreement": "בלחיצה על \"שלם עכשיו\" אני מסכים/ה",
   "termsOfService": "לתנאי השימוש",
   "and": "ו",
-  "cancellationPolicy": "מדיניות הביטולים",
+  "cancellationPolicy": "מדיניות ביטולים",
+  "cancellationPolicyTypes": {
+    "flexible": "גמישה",
+    "flexibleDesc": "החזר מלא עד 24 שעות לפני תחילת הסשן.",
+    "moderate": "מתונה",
+    "moderateDesc": "החזר מלא עד 5 ימים לפני הסשן. החזר 50% עד 24 שעות לפני.",
+    "strict": "נוקשה",
+    "strictDesc": "החזר 50% עד 7 ימים לפני הסשן. אין החזר בתוך 7 ימים."
+  },
   "securedBy": "מאובטח על ידי",
   "paymentSolutions": "פתרונות תשלום",
   "sslSecured": "עסקה מאובטחת SSL"

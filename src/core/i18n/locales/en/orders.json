@@ -35,6 +35,14 @@
   "termsOfService": "Terms of Service",
   "and": "and",
   "cancellationPolicy": "Cancellation Policy",
+  "cancellationPolicyTypes": {
+    "flexible": "Flexible",
+    "flexibleDesc": "Full refund up to 24 hours before session start time.",
+    "moderate": "Moderate",
+    "moderateDesc": "Full refund up to 5 days before session. 50% refund up to 24h before.",
+    "strict": "Strict",
+    "strictDesc": "50% refund up to 7 days before session. No refund within 7 days."
+  },
   "securedBy": "Secured by",
   "paymentSolutions": "Payment Solutions",
   "sslSecured": "SSL Secured Transaction"
