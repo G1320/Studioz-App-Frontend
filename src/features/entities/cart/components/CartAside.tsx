@@ -3,6 +3,7 @@ import { CartItemCard } from './CartItemCard';
 import Cart from 'src/types/cart';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { featureFlags } from '@core/config/featureFlags';
 
 interface CartAsideProps {
   cart?: Cart;
@@ -12,7 +13,7 @@ interface CartAsideProps {
 
 export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) => {
   const totalPrice = cart?.items?.reduce((total, item) => total + (item.price * (item.quantity || 0) || 0), 0);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
   const asideRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,10 +35,16 @@ export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) =
   }, [isOpen, onClose]);
 
   return (
-    <aside ref={asideRef} className={`cart-aside ${isOpen ? 'open' : ''}`} data-direction={i18n.dir()}>
+    <aside
+      ref={asideRef}
+      className={`cart-aside ${isOpen ? 'open' : ''}`}
+      data-direction={i18n.dir()}
+      aria-label={t('navigation.cart', 'Your cart')}
+      aria-hidden={!isOpen}
+    >
       <div className="cart-aside-header">
-        <h2>Your Cart</h2>
-        <button onClick={onClose} className="close-btn">
+        <h2>{t('navigation.cart', 'Your Cart')}</h2>
+        <button type="button" onClick={onClose} className="close-btn" aria-label="Close cart">
           ×
         </button>
       </div>
@@ -49,9 +56,11 @@ export const CartAside: React.FC<CartAsideProps> = ({ cart, isOpen, onClose }) =
           <span>Total:</span>
           <span>₪{totalPrice?.toFixed(2)}</span>
         </div>
-        <Link to={`${i18n.language}/order`} onClick={onClose} className="checkout-button">
-          Checkout
-        </Link>
+        {featureFlags.checkout && (
+          <Link to={`${i18n.language}/order`} onClick={onClose} className="checkout-button">
+            Checkout
+          </Link>
+        )}
       </div>
     </aside>
   );

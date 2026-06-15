@@ -18,7 +18,8 @@ import {
   useMusicGenres,
   useGenres,
   useStudio,
-  useCategories
+  useCategories,
+  useAuth0LoginHandler
 } from '@shared/hooks';
 import { Item } from 'src/types/index';
 import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
@@ -48,6 +49,7 @@ import {
 
 export const CreateItemForm = () => {
   const user = getLocalUser();
+  const { loginWithPopup } = useAuth0LoginHandler();
   const { studioId } = useParams();
   const queryClient = useQueryClient();
   const createItemMutation = useCreateItemMutation(studioId || '');
@@ -867,6 +869,17 @@ export const CreateItemForm = () => {
   }, [currentStepIndex]);
 
   const handleSubmit = async (formData: FormData) => {
+    if (!user?._id) {
+      toast.error(t('form.errors.loginRequired', { defaultValue: 'Please log in to create a service.' }), {
+        action: {
+          label: t('common:buttons.log_in', { defaultValue: 'Log In' }),
+          onClick: () => loginWithPopup()
+        },
+        duration: 5000
+      });
+      return;
+    }
+
     // Convert subCategories and genres to English values for consistent database storage
     const englishSubCategories = selectedSubCategories.map((subCat) => getEnglishByDisplay(subCat));
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));

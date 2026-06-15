@@ -11,8 +11,8 @@ export const LoginButton = () => {
   };
 
   return (
-    <div role="button" onClick={handleClick} className="button login-button">
+    <button type="button" onClick={handleClick} className="button login-button">
       {t('buttons.log_in')}
-    </div>
+    </button>
   );
 };

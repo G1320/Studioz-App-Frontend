@@ -18,6 +18,7 @@ import {
   LanguageIcon
 } from '@shared/components/icons';
 
+import { GenericModal } from '@shared/components/modal/GenericModal';
 import './styles/_portfolio-step.scss';
 
 interface PortfolioStepProps {
@@ -40,7 +41,14 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({ isOpen, onClose, onAd
     coverUrl: ''
   });
 
-  if (!isOpen) return null;
+  const ensureProtocol = (url: string) => {
+    if (!url) return url;
+    const trimmed = url.trim();
+    if (trimmed && !/^https?:\/\//i.test(trimmed)) {
+      return `https://${trimmed}`;
+    }
+    return trimmed;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,8 +58,8 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({ isOpen, onClose, onAd
         title: formData.title,
         artist: formData.artist || '',
         type: formData.type as 'audio' | 'video' | 'album',
-        coverUrl: formData.coverUrl,
-        link: formData.link,
+        coverUrl: ensureProtocol(formData.coverUrl || ''),
+        link: ensureProtocol(formData.link),
         role: formData.role
       });
       setFormData({ type: 'audio', coverUrl: '' });
@@ -60,21 +68,25 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({ isOpen, onClose, onAd
   };
 
   return (
-    <div className="portfolio-modal-overlay" onClick={onClose}>
+    <GenericModal open={isOpen} onClose={onClose} className="portfolio-modal-wrapper">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="portfolio-modal"
-        onClick={(e) => e.stopPropagation()}
         dir={i18n.dir()}
       >
         <div className="portfolio-modal__header">
           <h3 className="portfolio-modal__title">
             {t('form.portfolio.addProject', { defaultValue: 'Add Project' })}
           </h3>
-          <button onClick={onClose} className="portfolio-modal__close">
-            <CloseIcon />
+          <button
+            type="button"
+            onClick={onClose}
+            className="portfolio-modal__close"
+            aria-label={t('form.portfolio.closeModal', { defaultValue: 'Close' })}
+          >
+            <CloseIcon aria-hidden="true" />
           </button>
         </div>
 
@@ -141,17 +153,17 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({ isOpen, onClose, onAd
               <label>{t('form.portfolio.link', { defaultValue: 'Link (Spotify / YouTube / SoundCloud)' })}</label>
               <input
                 required
-                type="url"
+                type="text"
                 value={formData.link || ''}
                 onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                placeholder="https://..."
+                placeholder="https://open.spotify.com/..."
               />
             </div>
 
             <div className="portfolio-modal__field">
               <label>{t('form.portfolio.coverUrl', { defaultValue: 'Cover Image URL (optional)' })}</label>
               <input
-                type="url"
+                type="text"
                 value={formData.coverUrl || ''}
                 onChange={(e) => setFormData({ ...formData, coverUrl: e.target.value })}
                 placeholder="https://..."
@@ -169,7 +181,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({ isOpen, onClose, onAd
           </div>
         </form>
       </motion.div>
-    </div>
+    </GenericModal>
   );
 };
 
@@ -231,7 +243,7 @@ export const PortfolioStep: React.FC<PortfolioStepProps> = ({
               {t('form.portfolio.spotify', { defaultValue: 'Spotify URL' })}
             </label>
             <input
-              type="url"
+              type="text"
               value={socialLinks.spotify || ''}
               onChange={(e) => handleSocialChange('spotify', e.target.value)}
               placeholder="https://open.spotify.com/..."
@@ -243,7 +255,7 @@ export const PortfolioStep: React.FC<PortfolioStepProps> = ({
               {t('form.portfolio.soundcloud', { defaultValue: 'SoundCloud URL' })}
             </label>
             <input
-              type="url"
+              type="text"
               value={socialLinks.soundcloud || ''}
               onChange={(e) => handleSocialChange('soundcloud', e.target.value)}
               placeholder="https://soundcloud.com/..."
@@ -255,7 +267,7 @@ export const PortfolioStep: React.FC<PortfolioStepProps> = ({
               {t('form.portfolio.youtube', { defaultValue: 'YouTube URL' })}
             </label>
             <input
-              type="url"
+              type="text"
               value={socialLinks.youtube || ''}
               onChange={(e) => handleSocialChange('youtube', e.target.value)}
               placeholder="https://youtube.com/..."
@@ -267,7 +279,7 @@ export const PortfolioStep: React.FC<PortfolioStepProps> = ({
               {t('form.portfolio.instagram', { defaultValue: 'Instagram URL' })}
             </label>
             <input
-              type="url"
+              type="text"
               value={socialLinks.instagram || ''}
               onChange={(e) => handleSocialChange('instagram', e.target.value)}
               placeholder="https://instagram.com/..."

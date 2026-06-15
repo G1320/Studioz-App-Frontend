@@ -1,10 +1,13 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { useToggleStudioActiveMutation, useToggleItemActiveMutation } from '@shared/hooks/mutations/studios/studioMutations';
-import { useItems } from '@shared/hooks';
+import { useItems, useMerchantStats } from '@shared/hooks';
 import Item from 'src/types/item';
 import { StudioBlockModal } from '../StudioBlockTimeSlotModal';
+import { useUserContext } from '@core/contexts';
+import dayjs from 'dayjs';
 
 import {
   BusinessIcon,
@@ -50,9 +53,9 @@ const StatusBadge: React.FC<{ status: Status }> = ({ status }) => {
   const { t } = useTranslation('studioManager');
   
   const labels = {
-    active: t('status.active', 'פעיל'),
-    offline: t('status.offline', 'לא זמין'),
-    maintenance: t('status.maintenance', 'בתחזוקה')
+    active: t('status.active', 'Active'),
+    offline: t('status.offline', 'Offline'),
+    maintenance: t('status.maintenance', 'Maintenance')
   };
 
   return (
@@ -73,6 +76,7 @@ const Toggle: React.FC<{
     onClick={() => !disabled && onChange(!checked)}
     className={`toggle ${checked ? 'toggle--active' : ''} ${disabled ? 'toggle--disabled' : ''}`}
     disabled={disabled}
+    aria-pressed={checked}
   >
     <span className="toggle__thumb" />
   </button>
@@ -140,14 +144,18 @@ const StudioCard: React.FC<StudioCardProps> = ({
     <div className={`studio-card ${status !== 'active' ? 'studio-card--inactive' : ''}`}>
       {/* Studio Header */}
       <div className="studio-card__header">
-        <div className="studio-card__image-wrapper" onClick={() => langNavigate(`/studio/${studio._id}`)} role="link">
+        <Link
+          to={`/${currentLang}/studio/${studio._id}`}
+          className="studio-card__image-wrapper"
+          aria-label={studioName}
+        >
           <img src={studioImage} alt={studioName} className="studio-card__image" />
-          <div className="studio-card__image-overlay" />
-        </div>
+          <div className="studio-card__image-overlay" aria-hidden="true" />
+        </Link>
 
         <div className="studio-card__info">
           <div className="studio-card__info-main">
-            <div className="studio-card__title-row" onClick={() => langNavigate(`/studio/${studio._id}`)} role="link">
+            <Link to={`/${currentLang}/studio/${studio._id}`} className="studio-card__title-row">
               <h3 className="studio-card__title">
                 {studioName}
                 <StatusBadge status={status} />
@@ -156,17 +164,17 @@ const StudioCard: React.FC<StudioCardProps> = ({
                 <LocationIcon />
                 {studio.address || studio.city || t('noAddress', 'No address')}
               </div>
-            </div>
+            </Link>
             
             <div className="studio-card__stats">
               <div className="studio-card__stat">
                 <div className="studio-card__stat-value">{studio.averageRating?.toFixed(1) || '—'}</div>
-                <div className="studio-card__stat-label">{t('rating', 'דירוג')}</div>
+                <div className="studio-card__stat-label">{t('rating', 'Rating')}</div>
               </div>
               <div className="studio-card__stat-divider" />
               <div className="studio-card__stat">
                 <div className="studio-card__stat-value">{studio.reviewCount || 0}</div>
-                <div className="studio-card__stat-label">{t('reviews', 'ביקורות')}</div>
+                <div className="studio-card__stat-label">{t('reviews', 'Reviews')}</div>
               </div>
             </div>
           </div>
@@ -175,7 +183,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
         <div className="studio-card__controls">
           <div className="studio-card__toggle-section">
             <span className={`studio-card__toggle-label ${isActive ? 'studio-card__toggle-label--active' : ''}`}>
-              {isActive ? t('available', 'זמין') : t('notAvailable', 'לא זמין')}
+              {isActive ? t('available', 'Available') : t('notAvailable', 'Not Available')}
             </span>
             <Toggle 
               checked={isActive} 
@@ -187,28 +195,28 @@ const StudioCard: React.FC<StudioCardProps> = ({
           <div className="studio-card__actions">
             <button 
               className="studio-card__action-btn" 
-              title={t('viewStudio', 'צפה בסטודיו')}
+              title={t('viewStudio', 'View Studio')}
               onClick={() => window.open(`/studio/${studio._id}`, '_blank')}
             >
               <ExternalLinkIcon />
             </button>
             <button 
               className="studio-card__action-btn" 
-              title={t('editStudio', 'ערוך פרטי סטודיו')}
+              title={t('editStudio', 'Edit Studio Details')}
               onClick={() => onEdit?.(studio._id)}
             >
               <EditIcon />
             </button>
             <button 
               className="studio-card__action-btn" 
-              title={t('calendar', 'יומן')}
+              title={t('calendar', 'Calendar')}
               onClick={() => setIsBlockModalOpen(true)}
             >
               <CalendarIcon />
             </button>
             <button 
               className="studio-card__action-btn" 
-              title={t('addNewService', 'הוסף שירות חדש')}
+              title={t('addNewService', 'Add New Service')}
               onClick={() => onAddItem?.(studio._id)}
             >
               <AddIcon />
@@ -231,7 +239,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
           onClick={() => setIsExpanded(!isExpanded)}
           className="studio-card__items-toggle"
         >
-          <span>{t('itemsAndServices', 'פריטים ושירותים')} ({items.length})</span>
+          <span>{t('itemsAndServices', 'Items & Services')} ({items.length})</span>
           {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
         </button>
         
@@ -245,7 +253,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
               const fullItem = itemsMap.get(itemId);
               const itemName = fullItem?.name?.[currentLang] || fullItem?.name?.en || fullItem?.name?.he || 
                                item.name?.[currentLang] || item.name?.en || item.name?.he || 
-                               item.subCategories?.[0] || item.categories?.[0] || 'Service';
+                               item.subCategories?.[0] || item.categories?.[0] || t('service', 'Service');
               const itemPrice = fullItem?.price ?? item.price;
               const itemPricePer = fullItem?.pricePer;
               
@@ -265,42 +273,42 @@ const StudioCard: React.FC<StudioCardProps> = ({
                 // Remote/project items - show price per project or contact for pricing
                 if (isRemoteItem) {
                   if (itemPrice && itemPrice > 0) {
-                    if (itemPricePer === 'song') return `₪${itemPrice} ${t('perSong', 'לשיר')}`;
-                    return `₪${itemPrice} ${t('perProject', 'לפרויקט')}`;
+                    if (itemPricePer === 'song') return `₪${itemPrice} ${t('perSong', 'per song')}`;
+                    return `₪${itemPrice} ${t('perProject', 'per project')}`;
                   }
-                  return t('priceOnRequest', 'מחיר לפי בקשה');
+                  return t('priceOnRequest', 'Price on request');
                 }
                 
                 // Hourly items
                 if (itemPricePer === 'hour' || !itemPricePer) {
                   if (itemPrice && itemPrice > 0) {
-                    return `₪${itemPrice} ${t('perHour', 'לשעה')}`;
+                    return `₪${itemPrice} ${t('perHour', 'per hour')}`;
                   }
-                  return t('priceOnRequest', 'מחיר לפי בקשה');
+                  return t('priceOnRequest', 'Price on request');
                 }
                 
                 // Other price types
                 const priceLabels: Record<string, string> = {
-                  'session': t('perSession', 'לסשן'),
-                  'day': t('perDay', 'ליום'),
-                  'project': t('perProject', 'לפרויקט'),
-                  'song': t('perSong', 'לשיר'),
+                  'session': t('perSession', 'per session'),
+                  'day': t('perDay', 'per day'),
+                  'project': t('perProject', 'per project'),
+                  'song': t('perSong', 'per song'),
                 };
                 const priceLabel = (itemPricePer && priceLabels[itemPricePer]) || `/${itemPricePer}`;
                 
                 if (itemPrice && itemPrice > 0) {
                   return `₪${itemPrice} ${priceLabel}`;
                 }
-                return t('priceOnRequest', 'מחיר לפי בקשה');
+                return t('priceOnRequest', 'Price on request');
               };
               
               // Format duration display
               const getDurationLabel = () => {
                 if (!durationValue) return null;
                 switch (durationUnit) {
-                  case 'hours': return `${durationValue} ${t('hours', 'שעות')}`;
-                  case 'days': return `${durationValue} ${t('days', 'ימים')}`;
-                  default: return `${durationValue} ${t('minutes', 'דק׳')}`;
+                  case 'hours': return `${durationValue} ${t('hours', 'hours')}`;
+                  case 'days': return `${durationValue} ${t('days', 'days')}`;
+                  default: return `${durationValue} ${t('minutes', 'min')}`;
                 }
               };
               
@@ -319,7 +327,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                           {itemName}
                         </h4>
                         <span className={`studio-card__item-status-tag ${itemActive ? 'studio-card__item-status-tag--hidden' : ''}`}>
-                          {t('unavailable', 'לא זמין')}
+                          {t('unavailable', 'Unavailable')}
                         </span>
                       </div>
                       <p className="studio-card__item-meta">
@@ -327,7 +335,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                         {isHourlyItem && durationValue && (
                           <>
                             <span className="studio-card__item-meta-divider" />
-                            <span>{t('minimum', 'מינימום')} {getDurationLabel()}</span>
+                            <span>{t('minimum', 'minimum')} {getDurationLabel()}</span>
                           </>
                         )}
                       </p>
@@ -339,14 +347,14 @@ const StudioCard: React.FC<StudioCardProps> = ({
                       className="studio-card__item-link"
                       onClick={() => langNavigate(`/item/${itemId}/edit?step=booking-settings`)}
                     >
-                      {t('manageAvailability', 'ניהול זמינות')}
+                      {t('manageAvailability', 'Manage Availability')}
                     </button>
                     
                     <div className="studio-card__item-divider" />
 
                     <div className="studio-card__item-toggle-group">
                       <span className="studio-card__item-toggle-label">
-                        {itemActive ? t('available', 'זמין') : t('notAvailable', 'לא זמין')}
+                        {itemActive ? t('available', 'Available') : t('notAvailable', 'Not Available')}
                       </span>
                       <Toggle 
                         checked={itemActive} 
@@ -356,14 +364,14 @@ const StudioCard: React.FC<StudioCardProps> = ({
                       <button 
                         className="studio-card__item-more"
                         onClick={() => langNavigate(`/item/${itemId}/edit`)}
-                        title={t('editItem', 'ערוך שירות')}
+                        title={t('editItem', 'Edit Service')}
                       >
                         <EditIcon />
                       </button>
                       <button 
                         className="studio-card__item-more"
                         onClick={() => window.open(`/studio/${studio._id}?item=${itemId}`, '_blank')}
-                        title={t('viewItem', 'צפה בשירות')}
+                        title={t('viewItem', 'View Service')}
                       >
                         <ExternalLinkIcon />
                       </button>
@@ -379,7 +387,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                 onClick={() => onAddItem?.(studio._id)}
               >
                 <AddIcon />
-                {t('addNewService', 'הוסף שירות חדש לסטודיו זה')}
+                {t('addNewService', 'Add new service to this studio')}
               </button>
             </div>
           </div>
@@ -398,12 +406,17 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
 }) => {
   const { t } = useTranslation('studioManager');
   const langNavigate = useLanguageNavigate();
+  const { user } = useUserContext();
   
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<'all' | 'active' | 'offline'>('all');
 
   // Fetch all items to get full item data including names
   const { data: items = [] } = useItems();
+  const { data: merchantStats } = useMerchantStats({
+    startDate: dayjs().startOf('month').toDate(),
+    endDate: dayjs().endOf('month').toDate()
+  });
   
   // Create a map of itemId -> full Item for quick lookup
   const itemsMap = useMemo(() => {
@@ -454,6 +467,13 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
     }, 0),
     totalItems: studios.reduce((acc, s) => acc + (s.items?.length || 0), 0)
   }), [studios]);
+  const monthlyRevenueDisplay = useMemo(() => {
+    if (user?.isAdmin) {
+      return '—';
+    }
+    const amount = merchantStats?.totalRevenue ?? 0;
+    return `₪${amount.toLocaleString()}`;
+  }, [merchantStats?.totalRevenue, user?.isAdmin]);
 
   const handleAddStudio = () => {
     if (onAddStudio) {
@@ -487,13 +507,13 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
         <div className="studio-manager__header">
           <div className="studio-manager__title-row">
             <BusinessIcon className="studio-manager__title-icon" />
-            <h1 className="studio-manager__title">{t('assetManagement', 'ניהול נכסים')}</h1>
+            <h1 className="studio-manager__title">{t('assetManagement', 'Asset Management')}</h1>
           </div>
           
           <div className="studio-manager__header-actions">
             <button className="studio-manager__add-btn" onClick={handleAddStudio}>
               <AddIcon />
-              <span>{t('addNewStudio', 'הוסף סטודיו חדש')}</span>
+              <span>{t('addNewStudio', 'Add New Studio')}</span>
             </button>
           </div>
         </div>
@@ -504,7 +524,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
             <SearchIcon className="studio-manager__search-icon" />
             <input 
               type="text" 
-              placeholder={t('searchPlaceholder', 'חפש לפי שם סטודיו או כתובת...')}
+              placeholder={t('searchPlaceholder', 'Search by studio name or address...')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="studio-manager__search-input"
@@ -520,7 +540,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
                 onClick={() => setFilter(f)}
                 className={`studio-manager__filter-tab ${filter === f ? 'studio-manager__filter-tab--active' : ''}`}
               >
-                {f === 'all' ? t('filterAll', 'הכל') : f === 'active' ? t('filterActive', 'פעילים') : t('filterOffline', 'לא זמינים')}
+                {f === 'all' ? t('filterAll', 'All') : f === 'active' ? t('filterActive', 'Active') : t('filterOffline', 'Offline')}
               </button>
             ))}
           </div>
@@ -530,7 +550,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
         <div className="studio-manager__stats">
           <div className="studio-manager__stat-card">
             <div className="studio-manager__stat-content">
-              <p className="studio-manager__stat-label">{t('totalStudios', 'סה״כ סטודיוס')}</p>
+              <p className="studio-manager__stat-label">{t('totalStudios', 'Total Studios')}</p>
               <p className="studio-manager__stat-value">{stats.totalStudios}</p>
             </div>
             <div className="studio-manager__stat-icon">
@@ -539,7 +559,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
           </div>
           <div className="studio-manager__stat-card">
             <div className="studio-manager__stat-content">
-              <p className="studio-manager__stat-label">{t('activeStudios', 'סטודיוס פעילים')}</p>
+              <p className="studio-manager__stat-label">{t('activeStudios', 'Active Studios')}</p>
               <p className="studio-manager__stat-value">{stats.activeStudios}</p>
             </div>
             <div className="studio-manager__stat-icon">
@@ -548,7 +568,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
           </div>
           <div className="studio-manager__stat-card">
             <div className="studio-manager__stat-content">
-              <p className="studio-manager__stat-label">{t('activeServices', 'שירותים פעילים')}</p>
+              <p className="studio-manager__stat-label">{t('activeServices', 'Active Services')}</p>
               <p className="studio-manager__stat-value">{stats.activeItems}/{stats.totalItems}</p>
             </div>
             <div className="studio-manager__stat-icon">
@@ -557,8 +577,8 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
           </div>
           <div className="studio-manager__stat-card">
             <div className="studio-manager__stat-content">
-              <p className="studio-manager__stat-label">{t('monthlyRevenue', 'הכנסות החודש')}</p>
-              <p className="studio-manager__stat-value">—</p>
+              <p className="studio-manager__stat-label">{t('monthlyRevenue', 'Monthly Revenue')}</p>
+              <p className="studio-manager__stat-value">{monthlyRevenueDisplay}</p>
             </div>
             <div className="studio-manager__stat-icon">
               <WalletIcon />
@@ -587,15 +607,15 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
               <div className="studio-manager__empty-icon">
                 <FilterIcon />
               </div>
-              <h3 className="studio-manager__empty-title">{t('noResults', 'לא נמצאו תוצאות')}</h3>
+              <h3 className="studio-manager__empty-title">{t('noResults', 'No Results Found')}</h3>
               <p className="studio-manager__empty-text">
-                {t('tryDifferentFilters', 'נסה לשנות את מסנני החיפוש או הוסף סטודיו חדש')}
+                {t('tryDifferentFilters', 'Try adjusting your filters or add a new studio')}
               </p>
               <button 
                 onClick={() => { setSearchTerm(''); setFilter('all'); }}
                 className="studio-manager__empty-clear"
               >
-                {t('clearFilters', 'נקה סינון')}
+                {t('clearFilters', 'Clear Filters')}
               </button>
             </div>
           )}

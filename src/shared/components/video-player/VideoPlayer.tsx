@@ -39,6 +39,8 @@ export interface VideoPlayerProps {
   onLoad?: () => void;
   /** Callback when video errors */
   onError?: () => void;
+  /** Accessible title for the embedded player iframe */
+  title?: string;
 }
 
 /**
@@ -65,7 +67,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   spinnerColor,
   onLoadStart,
   onLoad,
-  onError
+  onError,
+  title = 'Studioz video player'
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -138,6 +141,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           ref={iframeRef}
           src={buildEmbedUrl(embedUrl)}
           className="video-player__iframe"
+          title={title}
           loading="lazy"
           allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
           onLoad={handleIframeLoad}

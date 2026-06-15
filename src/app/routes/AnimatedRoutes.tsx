@@ -30,6 +30,9 @@ const VendorOnboardingPage = lazyWithRetry(() => import('@features/vendor-onboar
 
 const PrivacyPolicyPage = lazyWithRetry(() => import('@features/static/pages/compliance-pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazyWithRetry(() => import('@features/static/pages/compliance-pages/TermAndConditionsPage'));
+const AccessibilityStatementPage = lazyWithRetry(
+  () => import('@features/static/pages/compliance-pages/AccessibilityStatementPage')
+);
 const NotFoundPage = lazyWithRetry(() => import('@features/static/pages/NotFoundPage'));
 const ForOwnersPage = lazyWithRetry(() => import('@features/static/pages/ForOwnersPage'));
 // HowItWorksPage content is now embedded in ForOwnersPage as a section
@@ -260,17 +263,25 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           <Route
             path="/:lang?/subscription"
             element={
-              <AnimatedRoute>
-                <SumitSubscriptionPage />
-              </AnimatedRoute>
+              isFeatureEnabled('subscriptionsPage') ? (
+                <AnimatedRoute>
+                  <SumitSubscriptionPage />
+                </AnimatedRoute>
+              ) : (
+                <Navigate to={`/${i18n.language}`} replace />
+              )
             }
           />
           <Route
             path="/:lang?/my-subscription"
             element={
-              <AnimatedRoute>
-                <MySubscriptionPage />
-              </AnimatedRoute>
+              isFeatureEnabled('subscriptionsPage') ? (
+                <AnimatedRoute>
+                  <MySubscriptionPage />
+                </AnimatedRoute>
+              ) : (
+                <Navigate to={`/${i18n.language}`} replace />
+              )
             }
           />
           <Route
@@ -358,21 +369,27 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           <Route
             path="/:lang?/reservations"
             element={
-              <AnimatedRoute>
-                <MyReservationsPage />
-              </AnimatedRoute>
+              isFeatureEnabled('reservationsPage') ? (
+                <AnimatedRoute>
+                  <MyReservationsPage />
+                </AnimatedRoute>
+              ) : (
+                <Navigate to={`/${i18n.language}`} replace />
+              )
             }
           />
-          {isFeatureEnabled('reservationDetailsPage') && (
-            <Route
-              path="/:lang?/reservations/:reservationId"
-              element={
+          <Route
+            path="/:lang?/reservations/:reservationId"
+            element={
+              isFeatureEnabled('reservationDetailsPage') ? (
                 <AnimatedRoute>
                   <ReservationDetailsPage />
                 </AnimatedRoute>
-              }
-            />
-          )}
+              ) : (
+                <Navigate to={`/${i18n.language}/reservations`} replace />
+              )
+            }
+          />
 
           {/* Remote Projects */}
           <Route
@@ -405,6 +422,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <TermsAndConditionsPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/accessibility-statement"
+            element={
+              <AnimatedRoute>
+                <AccessibilityStatementPage />
               </AnimatedRoute>
             }
           />

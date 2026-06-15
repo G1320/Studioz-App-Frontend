@@ -4,6 +4,7 @@ const COOKIE_NAME = 'cookieConsent';
 const COOKIE_EXPIRY_DAYS = 365;
 const CONSENT_VERSION = '1.0';
 const AUDIT_LOG_KEY = 'consentAuditLog';
+const FORM_CONSENT_LOG_KEY = 'formConsentAuditLog';
 
 export interface CookieConsentCategories {
   essential: true;
@@ -150,6 +151,43 @@ export const getConsentAuditLog = (): ConsentAuditEntry[] => {
     const raw = localStorage.getItem(AUDIT_LOG_KEY);
     if (!raw) return [];
     return JSON.parse(raw) as ConsentAuditEntry[];
+  } catch {
+    return [];
+  }
+};
+
+export interface FormConsentAuditEntry {
+  timestamp: string;
+  formId: string;
+  version: string;
+  userAgent: string;
+}
+
+/**
+ * Log explicit form data-processing consent (תיקון 13 audit trail).
+ */
+export const logFormDataConsent = (formId: string): void => {
+  const entry: FormConsentAuditEntry = {
+    timestamp: new Date().toISOString(),
+    formId,
+    version: CONSENT_VERSION,
+    userAgent: navigator.userAgent
+  };
+
+  try {
+    const log = getFormConsentAuditLog();
+    log.push(entry);
+    localStorage.setItem(FORM_CONSENT_LOG_KEY, JSON.stringify(log.slice(-50)));
+  } catch {
+    // localStorage may be unavailable
+  }
+};
+
+export const getFormConsentAuditLog = (): FormConsentAuditEntry[] => {
+  try {
+    const raw = localStorage.getItem(FORM_CONSENT_LOG_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as FormConsentAuditEntry[];
   } catch {
     return [];
   }

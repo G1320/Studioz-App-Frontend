@@ -223,10 +223,7 @@ export const ScrollDrivenShowcase: React.FC = () => {
                   slidesPerView={1}
                   spaceBetween={0}
                   loop={true}
-                  autoplay={{
-                    delay: AUTOPLAY_DELAY,
-                    disableOnInteraction: false
-                  }}
+                  autoplay={false}
                   pagination={false}
                 >
                   {FEATURES.map((feature) => (

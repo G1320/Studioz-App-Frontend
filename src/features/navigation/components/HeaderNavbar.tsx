@@ -4,8 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useAnchorNavigate } from '@shared/hooks/utils';
 import { featureFlags } from '@core/config/featureFlags';
+import type { User } from 'src/types/index';
 
-export function HeaderNavbar() {
+interface HeaderNavbarProps {
+  user?: User | null;
+}
+
+export function HeaderNavbar({ user }: HeaderNavbarProps) {
   const { t, i18n } = useTranslation('common');
   const location = useLocation();
   const anchorNavigate = useAnchorNavigate();
@@ -52,6 +57,26 @@ export function HeaderNavbar() {
         onClick={() => scrollToTop()}
       >
         {t('navigation.myProjects')}
+      </Link>
+      {user && (
+        <Link
+          to={`/${currLang}/dashboard`}
+          className="navbar-link"
+          aria-label={t('profile:buttons.dashboard', 'Dashboard')}
+          aria-current={isCurrentPage(`/${currLang}/dashboard`) ? 'page' : undefined}
+          onClick={() => scrollToTop()}
+        >
+          {t('profile:buttons.dashboard', 'Dashboard')}
+        </Link>
+      )}
+      <Link
+        to={`/${currLang}/studio/create`}
+        className="navbar-link"
+        aria-label={t('navigation.list_studio')}
+        aria-current={isCurrentPage(`/${currLang}/studio/create`) ? 'page' : undefined}
+        onClick={() => scrollToTop()}
+      >
+        {t('navigation.list_studio_short', 'List Studio')}
       </Link>
       <a
         href={`/${currLang}#how-it-works`}

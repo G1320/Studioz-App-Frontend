@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { ConsentCheckbox } from '@shared/components/forms/ConsentCheckbox';
+import { logFormDataConsent } from '@shared/services/cookie-consent-service';
 import './styles/_phone-access-form.scss';
 
 interface PhoneAccessFormProps {
@@ -11,7 +13,10 @@ interface PhoneAccessFormProps {
 export const PhoneAccessForm: React.FC<PhoneAccessFormProps> = ({ onPhoneSubmit, isLoading }) => {
   const { t } = useTranslation('reservations');
   const [phone, setPhone] = useState('');
+  const [dataConsent, setDataConsent] = useState(false);
+  const [consentError, setConsentError] = useState<string | undefined>();
   const [isRTL, setIsRTL] = useState(false);
+  const { t: tForms } = useTranslation('forms');
 
   React.useEffect(() => {
     setIsRTL(document.documentElement.lang === 'he');
@@ -29,6 +34,12 @@ export const PhoneAccessForm: React.FC<PhoneAccessFormProps> = ({ onPhoneSubmit,
       toast.error(t('phoneInvalid'));
       return;
     }
+    if (!dataConsent) {
+      setConsentError(tForms('consent.required'));
+      return;
+    }
+    logFormDataConsent('phone-access');
+    setConsentError(undefined);
     onPhoneSubmit(phone.trim());
   };
 
@@ -55,7 +66,20 @@ export const PhoneAccessForm: React.FC<PhoneAccessFormProps> = ({ onPhoneSubmit,
               aria-required="true"
             />
           </div>
-          <button type="submit" className="phone-access-form__submit-button" disabled={isLoading || !phone.trim()}>
+          <ConsentCheckbox
+            name="phone-access-data-consent"
+            checked={dataConsent}
+            onChange={(checked) => {
+              setDataConsent(checked);
+              if (checked) setConsentError(undefined);
+            }}
+            error={consentError}
+          />
+          <button
+            type="submit"
+            className="phone-access-form__submit-button"
+            disabled={isLoading || !phone.trim() || !dataConsent}
+          >
             {isLoading ? t('loading') : t('viewReservations')}
           </button>
         </form>

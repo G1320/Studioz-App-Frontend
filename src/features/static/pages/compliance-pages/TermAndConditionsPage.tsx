@@ -316,6 +316,11 @@ const TermAndConditionsPage = () => {
           <h2 id="accessibility">{t('accessibility.title')}</h2>
           <p>{t('accessibility.paragraph1')}</p>
           <p>{t('accessibility.paragraph2')}</p>
+          <p>
+            <Link to={`/${i18n.language}/accessibility-statement`}>
+              {t('accessibility.linkText')}
+            </Link>
+          </p>
 
           {/* 21. Severability and Waiver */}
           <h2 id="severability">{t('severabilityAndWaiver.title')}</h2>

@@ -92,6 +92,7 @@ export interface SteppedFormProps {
   children?: ReactNode;
   showStepNumbers?: boolean;
   allowBackNavigation?: boolean;
+  allowForwardStepNavigation?: boolean;
   selectedLanguage?: 'en' | 'he';
   onLanguageChange?: (language: 'en' | 'he') => void;
 }
@@ -110,6 +111,7 @@ export const SteppedForm = ({
   children,
   showStepNumbers = true,
   allowBackNavigation = true,
+  allowForwardStepNavigation = true,
   selectedLanguage: externalSelectedLanguage,
   onLanguageChange
 }: SteppedFormProps) => {
@@ -127,7 +129,12 @@ export const SteppedForm = ({
   const isInitialMount = useRef(true);
   const isUpdatingUrlRef = useRef(false);
 
-  const [currentStepIndex, setCurrentStepIndex] = useState(() => getStepFromUrl(searchParams, steps));
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => {
+    if (!allowForwardStepNavigation) {
+      return 0;
+    }
+    return getStepFromUrl(searchParams, steps);
+  });
   const [direction, setDirection] = useState<number>(1);
   const previousStepIndexRef = useRef(currentStepIndex);
   const [internalSelectedLanguage, setInternalSelectedLanguage] = useState<'en' | 'he'>('en');
@@ -188,6 +195,13 @@ export const SteppedForm = ({
     if (isUpdatingUrlRef.current) return;
 
     const urlStepIndex = getStepFromUrl(searchParams, steps);
+
+    // When forward navigation is locked, do not allow direct URL jumps to future steps.
+    if (!allowForwardStepNavigation && urlStepIndex > currentStepIndex) {
+      updateUrlStepCallback(currentStepIndex, true);
+      return;
+    }
+
     if (urlStepIndex !== currentStepIndex && urlStepIndex >= 0 && urlStepIndex < steps.length) {
       // Determine direction based on step index change
       setDirection(urlStepIndex > currentStepIndex ? 1 : -1);
@@ -195,7 +209,7 @@ export const SteppedForm = ({
       setCurrentStepIndex(urlStepIndex);
       onStepChange?.(urlStepIndex, currentStepIndex);
     }
-  }, [searchParams, currentStepIndex, steps, onStepChange]);
+  }, [searchParams, currentStepIndex, steps, onStepChange, allowForwardStepNavigation, updateUrlStepCallback]);
 
   // Initialize URL on mount if no step param exists
   useEffect(() => {
@@ -381,6 +395,7 @@ export const SteppedForm = ({
     navigate,
     onStepChange,
     allowBackNavigation,
+    allowForwardStepNavigation,
     validateCurrentStep,
     isUpdatingUrlRef
   });
@@ -599,6 +614,7 @@ export const SteppedForm = ({
         prevBtnText={prevBtnText}
         nextBtnText={nextBtnText}
         submitBtnText={submitBtnText}
+        autoSaveLabel={t('form.autoSaved', 'Auto-saved')}
         onPrevious={handlePrevious}
         onNext={handleNext}
         onSubmit={() => handleSubmit({})}

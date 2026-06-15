@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "title": "Accessibility Statement",
+    "lastUpdated": "Last updated: June 10, 2026"
+  },
+  "toc": {
+    "title": "Table of Contents",
+    "general": "General Information",
+    "commitment": "Our Commitment",
+    "conformance": "Conformance Status",
+    "websiteMeasures": "Website Accessibility Measures",
+    "physicalAccess": "Physical Accessibility",
+    "assistiveTech": "Assistive Technology Compatibility",
+    "knownLimitations": "Known Limitations",
+    "feedback": "Feedback and Requests",
+    "coordinator": "Accessibility Coordinator",
+    "assessment": "Assessment Approach",
+    "enforcement": "Enforcement and Appeals",
+    "related": "Related Documents"
+  },
+  "intro": {
+    "paragraph1": "Studioz (\"the Company\" or \"we\") is committed to making its website and digital services accessible to everyone, including people with disabilities, so that all users can enjoy equal, dignified, accessible, and independent use to the greatest extent possible.",
+    "paragraph2": "This accessibility statement was prepared in accordance with the Equal Rights for Persons with Disabilities Regulations (Accessibility Adjustments for Service), 5773-2013, and Israeli Standard SI 5568 based on WCAG 2.1 Level AA."
+  },
+  "general": {
+    "title": "General Service Information",
+    "paragraph1": "The Studioz website (www.studioz.co.il) is a digital platform for discovering, booking, and managing creative studio spaces in Israel. The service is provided primarily online.",
+    "paragraph2": "Company details:",
+    "companyName": "Name: Studioz",
+    "address": "Address: 70 Allenby Street, Tel Aviv, Israel",
+    "website": "Website:",
+    "websiteUrl": "https://www.studioz.co.il",
+    "serviceEmail": "General email: info@studioz.online"
+  },
+  "commitment": {
+    "title": "Our Commitment to Accessibility",
+    "paragraph1": "We place high importance on accessibility and work continuously to improve the user experience for everyone, especially people with visual, hearing, motor, cognitive, and other disabilities.",
+    "paragraph2": "Accessibility is implemented at the code, structure, content, and user-assistance layers — and does not rely on external overlays alone. The on-site accessibility panel is a helpful supplement, not a substitute for standards-compliant accessibility."
+  },
+  "conformance": {
+    "title": "Conformance Status",
+    "paragraph1": "The website aims to meet SI 5568 and WCAG 2.1 Level AA requirements.",
+    "statusLabel": "Conformance status:",
+    "status": "Partially Conformant",
+    "paragraph2": "\"Partially Conformant\" means some parts of the content or functionality do not yet fully meet the standard, as described in the \"Known Limitations\" section below. We are working to close these gaps on an ongoing basis."
+  },
+  "websiteMeasures": {
+    "title": "Website Accessibility Measures",
+    "intro": "The following accessibility measures have been implemented on the site:",
+    "items": {
+      "bilingual": "Bilingual site (Hebrew and English) with appropriate lang and dir attributes.",
+      "semantic": "Semantic HTML structure: headings, navigation, main content, and footer landmarks.",
+      "skipLinks": "Skip links to main content, navigation, and footer.",
+      "toolbar": "Built-in accessibility panel: font size, high contrast, stop animations, link highlighting, text spacing, large cursor, and keyboard navigation highlight.",
+      "aria": "ARIA attributes on interactive interfaces (labels, states, live regions, and more).",
+      "routeAnnouncer": "SPA route-change announcements for screen readers.",
+      "forms": "Form field labels, accessible error display, and error association with relevant fields.",
+      "modals": "Focus management in modal dialogs, including focus trap and focus restoration on close.",
+      "images": "Required alternative text (alt) for content images.",
+      "keyboard": "Keyboard navigation support and visible focus indicators (:focus-visible).",
+      "motion": "Respect for prefers-reduced-motion user preference.",
+      "cookies": "Accessible cookie consent mechanism with preference management.",
+      "privacy": "Bilingual and accessible privacy policy."
+    }
+  },
+  "physicalAccess": {
+    "title": "Physical Accessibility",
+    "paragraph1": "Studioz's primary service is digital. The Company's offices at 70 Allenby Street, Tel Aviv are not open to the general public on a walk-in basis.",
+    "paragraph2": "Office meetings are by appointment only. People with disabilities who wish to meet in person are asked to contact us in advance so we can arrange appropriate accessibility accommodations, including assistance with entry, seating, and communication."
+  },
+  "assistiveTech": {
+    "title": "Assistive Technology Compatibility",
+    "intro": "The site was evaluated through self-assessment using the following browsers and technologies (current versions as of the assessment date):",
+    "browsers": {
+      "title": "Supported browsers:",
+      "items": {
+        "chrome": "Google Chrome",
+        "firefox": "Mozilla Firefox",
+        "safari": "Apple Safari",
+        "edge": "Microsoft Edge"
+      }
+    },
+    "assistive": {
+      "title": "Assistive technologies tested:",
+      "items": {
+        "voiceover": "VoiceOver (macOS / iOS)",
+        "nvda": "NVDA (Windows)",
+        "talkback": "TalkBack (Android)",
+        "keyboard": "Keyboard-only navigation"
+      }
+    },
+    "note": "Compatibility may vary between browser versions, operating systems, and assistive software. If you encounter a specific issue, please contact us."
+  },
+  "knownLimitations": {
+    "title": "Known Limitations",
+    "intro": "Despite ongoing efforts, the following areas are known to be only partially accessible:",
+    "items": {
+      "partialConformance": "The site is partially conformant with WCAG 2.1 AA; remediation work is ongoing.",
+      "contrast": "Not all color combinations have been systematically verified; some may not meet the 4.5:1 contrast ratio.",
+      "iconButtons": "Some icon-only buttons may need improved screen reader labels.",
+      "fieldsets": "Grouping related form fields with fieldset/legend is not yet complete everywhere.",
+      "tables": "Tables in dashboards (e.g., documents, orders) may require additional accessibility improvements.",
+      "thirdParty": "Third-party content and components (maps, payments, authentication) may depend on the external provider's accessibility level.",
+      "userContent": "Studio accessibility descriptions are entered by studio owners and may be inaccurate or incomplete.",
+      "automatedTesting": "Automated accessibility CI testing has not yet been fully implemented."
+    },
+    "closing": "We address these items as part of our ongoing roadmap and update this statement accordingly."
+  },
+  "feedback": {
+    "title": "Feedback and Requests",
+    "paragraph1": "We welcome your feedback if you encounter an accessibility barrier, need help accessing information or services, or have suggestions for improvement.",
+    "paragraph2": "When contacting us, please include:",
+    "requestItems": {
+      "description": "A description of the barrier or issue encountered",
+      "page": "The page URL where the issue occurred",
+      "browser": "Browser type and version",
+      "assistive": "Assistive technology in use (if applicable)",
+      "contact": "Your contact details for a response"
+    },
+    "paragraph3": "We commit to reviewing your request and responding within 5 business days. Complex cases may require additional time; we will keep you informed.",
+    "paragraph4": "If your request is not resolved to your satisfaction, you may contact the Accessibility Coordinator (details below) or use the enforcement channel described in \"Enforcement and Appeals\"."
+  },
+  "coordinator": {
+    "title": "Accessibility Coordinator",
+    "intro": "For accessibility-related inquiries, requests, and suggestions:",
+    "nameLabel": "Name:",
+    "name": "Darnell Green (דרנל גרין)",
+    "emailLabel": "Email:",
+    "email": "admin@studioz.online",
+    "phoneLabel": "Phone:",
+    "phone": "058-799-4325",
+    "phoneTel": "+972587994325",
+    "addressLabel": "Address:",
+    "address": "70 Allenby Street, Tel Aviv, Israel",
+    "responseTimeLabel": "Response time:",
+    "responseTime": "Within 5 business days"
+  },
+  "assessment": {
+    "title": "Assessment Approach",
+    "paragraph1": "Website accessibility was assessed through:",
+    "methods": {
+      "selfEvaluation": "Internal self-evaluation by the development team",
+      "codeReview": "Code and UI review against WCAG 2.1 AA and SI 5568",
+      "manualTesting": "Manual testing with keyboard and screen readers (VoiceOver, NVDA)",
+      "documentation": "Internal audit documentation (December 2024; ongoing updates)"
+    },
+    "lastAuditLabel": "Last assessment date:",
+    "lastAudit": "June 10, 2026",
+    "nextReviewLabel": "Next planned review:",
+    "nextReview": "December 2026"
+  },
+  "enforcement": {
+    "title": "Enforcement and Appeals",
+    "paragraph1": "If your inquiry to the Accessibility Coordinator is not resolved to your satisfaction, you may contact the Commission for Equal Rights of Persons with Disabilities:",
+    "commissionName": "Commission for Equal Rights of Persons with Disabilities",
+    "commissionUrl": "https://www.gov.il/en/departments/israel_accessibility_in_israel/govil-landing-page",
+    "commissionLinkText": "Commission website",
+    "paragraph2": "You may also contact other relevant public service channels depending on the nature of your request."
+  },
+  "related": {
+    "title": "Related Documents",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "termsAccessibilityNote": "A brief accessibility section also appears in the Terms of Service; this document is the full accessibility statement."
+  }
+}

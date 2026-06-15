@@ -26,11 +26,14 @@ button {
     border-color: var(--color-brand);
   }
 
-  &:focus,
-  &:focus-visible,
-  &:active {
+  &:focus:not(:focus-visible) {
     outline: none;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
   }
 
   &:disabled {

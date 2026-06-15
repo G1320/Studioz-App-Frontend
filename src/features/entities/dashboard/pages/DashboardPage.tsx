@@ -168,9 +168,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setIsQuickChargeOpen(false);
   }, []);
 
-  // Check if user is a subscriber but doesn't have studios yet
-  const isSubscriber = user?.subscriptionStatus && ['ACTIVE', 'TRIAL'].includes(user.subscriptionStatus);
-  const showEmptyState = isSubscriber && !isStudioOwner;
+  // Show first-studio empty state for any logged-in user who is not yet an owner.
+  const showEmptyState = Boolean(user?._id) && !isStudioOwner;
+  const hasActiveStudio = userStudios.some((studio) => studio.active !== false);
+  const hasActiveService = userStudios.some((studio) => studio.active !== false && (studio.items?.some((item) => item.active !== false) ?? false));
+  const hasPaymentSetup = Boolean(user?.sumitCompanyId);
+  const showGoLiveChecklist = isStudioOwner && (!hasPaymentSetup || !hasActiveStudio || !hasActiveService);
 
   return (
     <div className="dashboard-page">
@@ -219,6 +222,29 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             {t('setupBanner.cta', 'Complete payment setup')}
             <ArrowForwardIcon />
           </button>
+        </div>
+      )}
+
+      {showGoLiveChecklist && (
+        <div className="dashboard-page__setup-banner">
+          <p className="dashboard-page__setup-banner-text">
+            {t('setupBanner.goLiveTitle', 'Complete setup before going live:')}
+          </p>
+          <ul className="dashboard-page__setup-checklist">
+            <li>{hasActiveStudio ? '✅' : '⬜'} {t('setupBanner.checklist.studio', 'Have at least one active studio')}</li>
+            <li>{hasActiveService ? '✅' : '⬜'} {t('setupBanner.checklist.service', 'Have at least one active service')}</li>
+            <li>{hasPaymentSetup ? '✅' : '⬜'} {t('setupBanner.checklist.payment', 'Complete payment setup')}</li>
+          </ul>
+          {!hasPaymentSetup && (
+            <button
+              type="button"
+              className="dashboard-page__setup-banner-cta"
+              onClick={() => langNavigate('/onboarding')}
+            >
+              {t('setupBanner.cta', 'Complete payment setup')}
+              <ArrowForwardIcon />
+            </button>
+          )}
         </div>
       )}
 

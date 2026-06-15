@@ -113,7 +113,7 @@ export const ProjectsListPage: React.FC = () => {
         </div>
         {user && (
           <div className="projects-list__header-actions">
-            <button className="projects-list__new-button">
+            <button className="projects-list__new-button" onClick={() => langNavigate('/search')}>
               <Plus />
               {t('newProject')}
             </button>

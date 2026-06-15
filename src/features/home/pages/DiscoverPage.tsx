@@ -10,6 +10,7 @@ import { Studio, Item } from 'src/types/index';
 import { filterBySubcategory } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 import { homeBanners } from '@core/config';
+import { KeyboardActivatable } from '@shared/utility-components/KeyboardActivatable';
 
 interface DiscoverPageProps {
   studios: Studio[];
@@ -19,16 +20,25 @@ interface DiscoverPageProps {
 const DiscoverPage: React.FC<DiscoverPageProps> = ({ studios, items }) => {
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
-  const { t } = useTranslation('discoverPage');
+  const { t, i18n } = useTranslation('discoverPage');
   const musicSubCategories = useMusicSubCategories();
 
   const { openModal } = useModal();
 
+  const getItemLabel = (item: Item) => {
+    const lang = i18n.language === 'he' ? 'he' : 'en';
+    return item.name?.[lang] || item.name?.en || item.name?.he || t('openService', 'View service');
+  };
+
   const studioRenderItem = (studio: Studio) => <StudioCard studio={studio} />;
   const itemRenderItem = (item: Item) => (
-    <div onClick={() => handleItemClick(item)} key={item._id}>
+    <KeyboardActivatable
+      key={item._id}
+      onActivate={() => handleItemClick(item)}
+      ariaLabel={getItemLabel(item)}
+    >
       <ItemCard item={item} wishlists={wishlists} />
-    </div>
+    </KeyboardActivatable>
   );
   const categoryRenderItem = (category: string) => <CategoryCard category={category} />;
 

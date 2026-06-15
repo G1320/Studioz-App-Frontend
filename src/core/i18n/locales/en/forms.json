@@ -344,8 +344,8 @@
         "audio": "Audio files uploaded successfully"
       }
     },
-    "paypal": {
-      "error": "Please complete PayPal onboarding process before creating a studio"
+    "paymentSetup": {
+      "error": "Please complete payment onboarding before creating a studio"
     },
     "submit": {
       "button": "Submit",

@@ -6,6 +6,7 @@ import { useWishlists } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 import { Item } from 'src/types/index';
 import { useModal } from '@core/contexts';
+import { KeyboardActivatable } from '@shared/utility-components/KeyboardActivatable';
 
 interface ItemListProps {
   items?: Item[];
@@ -16,7 +17,7 @@ interface ItemListProps {
 export const ItemsList: React.FC<ItemListProps> = ({ items = [], className = '', hasFilters = false }) => {
   const user = getLocalUser();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
-  const { t } = useTranslation('services');
+  const { t, i18n } = useTranslation('services');
   const langNavigate = useLanguageNavigate();
 
   const { openModal } = useModal();
@@ -26,10 +27,19 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className = '',
   };
 
   // const renderItem = (item: Item) => <ItemCard item={item} key={item.name} wishlists={wishlists} />;
+  const getItemLabel = (item: Item) => {
+    const lang = i18n.language === 'he' ? 'he' : 'en';
+    return item.name?.[lang] || item.name?.en || item.name?.he || t('card.openService', 'View service');
+  };
+
   const renderItem = (item: Item) => (
-    <div onClick={() => handleItemClick(item)} key={item._id}>
+    <KeyboardActivatable
+      key={item._id}
+      onActivate={() => handleItemClick(item)}
+      ariaLabel={getItemLabel(item)}
+    >
       <ItemCard item={item} wishlists={wishlists} />
-    </div>
+    </KeyboardActivatable>
   );
 
   const containerClassName = ['items', className].filter(Boolean).join(' ');

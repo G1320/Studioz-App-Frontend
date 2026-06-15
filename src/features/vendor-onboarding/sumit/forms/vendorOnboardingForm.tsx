@@ -18,6 +18,11 @@ import {
 import { sumitService } from '@shared/services/sumit-service';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useAuth0LoginHandler } from '@shared/hooks';
+import { useLanguageNavigate } from '@shared/hooks/utils';
+import { ConsentCheckbox } from '@shared/components/forms/ConsentCheckbox';
+import { logFormDataConsent } from '@shared/services/cookie-consent-service';
+import { useTranslation } from 'react-i18next';
 import './styles/_vendor-onboarding-form.scss';
 
 const STEPS = [
@@ -67,6 +72,9 @@ interface FormData {
 
 export const VendorOnboardingForm = () => {
   const { user } = useUserContext();
+  const { loginWithPopup } = useAuth0LoginHandler();
+  const langNavigate = useLanguageNavigate();
+  const { t: tForms } = useTranslation('forms');
   const createVendorMutation = useCreateVendorMutation(user?._id || '');
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -74,6 +82,8 @@ export const VendorOnboardingForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmittingCard, setIsSubmittingCard] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [dataConsent, setDataConsent] = useState(false);
+  const [consentError, setConsentError] = useState<string | undefined>();
 
   const [formData, setFormData] = useState<FormData>({
     entityType: 'exempt_dealer',
@@ -185,6 +195,12 @@ export const VendorOnboardingForm = () => {
   const cardFormRef = useRef<HTMLFormElement | null>(null);
 
   const handleNext = async () => {
+    if (!user?._id) {
+      setError('יש להתחבר לחשבון כדי להמשיך');
+      loginWithPopup();
+      return;
+    }
+
     if (currentStep === 4) {
       await handleSubmitWithCard();
       return;
@@ -204,6 +220,14 @@ export const VendorOnboardingForm = () => {
       setError('יש להתחבר לחשבון כדי להמשיך');
       return;
     }
+
+    if (!dataConsent) {
+      setConsentError(tForms('consent.required'));
+      return;
+    }
+
+    logFormDataConsent('vendor-onboarding');
+    setConsentError(undefined);
 
     const form = cardFormRef.current || (document.getElementById('vendor-onboarding-card-form') as HTMLFormElement);
     if (!form) {
@@ -241,9 +265,10 @@ export const VendorOnboardingForm = () => {
         setError('החשבון נוצר בהצלחה אך שמירת כרטיס האשראי נכשלה. תוכל להוסיף כרטיס מהפרופיל.');
       }
       setIsCompleted(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errWithResponse = err as { response?: { data?: { message?: string } }; message?: string };
       const errorMessage =
-        err?.response?.data?.message || err?.message || 'אירעה שגיאה. אנא נסה שוב.';
+        errWithResponse?.response?.data?.message || errWithResponse?.message || 'אירעה שגיאה. אנא נסה שוב.';
       setError(errorMessage);
       console.error('Vendor onboarding error:', err);
     } finally {
@@ -356,36 +381,57 @@ export const VendorOnboardingForm = () => {
 
             <div className="step-content__fields">
               <div className={`field ${validationErrors.contactName ? 'field--error' : ''}`}>
-                <label>שם מלא *</label>
+                <label htmlFor="vendor-contact-name">שם מלא *</label>
                 <input
+                  id="vendor-contact-name"
                   type="text"
                   value={formData.contactName}
                   onChange={(e) => updateField('contactName', e.target.value)}
+                  aria-invalid={validationErrors.contactName ? true : undefined}
+                  aria-describedby={validationErrors.contactName ? 'vendor-contact-name-error' : undefined}
                 />
-                {validationErrors.contactName && <span className="field__error">{validationErrors.contactName}</span>}
+                {validationErrors.contactName && (
+                  <span id="vendor-contact-name-error" className="field__error" role="alert">
+                    {validationErrors.contactName}
+                  </span>
+                )}
               </div>
 
               <div className={`field ${validationErrors.contactPhone ? 'field--error' : ''}`}>
-                <label>טלפון נייד *</label>
+                <label htmlFor="vendor-contact-phone">טלפון נייד *</label>
                 <input
+                  id="vendor-contact-phone"
                   type="tel"
                   value={formData.contactPhone}
                   onChange={(e) => updateField('contactPhone', e.target.value)}
                   dir="ltr"
                   placeholder="050-0000000"
+                  aria-invalid={validationErrors.contactPhone ? true : undefined}
+                  aria-describedby={validationErrors.contactPhone ? 'vendor-contact-phone-error' : undefined}
                 />
-                {validationErrors.contactPhone && <span className="field__error">{validationErrors.contactPhone}</span>}
+                {validationErrors.contactPhone && (
+                  <span id="vendor-contact-phone-error" className="field__error" role="alert">
+                    {validationErrors.contactPhone}
+                  </span>
+                )}
               </div>
 
               <div className={`field ${validationErrors.contactEmail ? 'field--error' : ''}`}>
-                <label>כתובת אימייל *</label>
+                <label htmlFor="vendor-contact-email">כתובת אימייל *</label>
                 <input
+                  id="vendor-contact-email"
                   type="email"
                   value={formData.contactEmail}
                   onChange={(e) => updateField('contactEmail', e.target.value)}
                   dir="ltr"
+                  aria-invalid={validationErrors.contactEmail ? true : undefined}
+                  aria-describedby={validationErrors.contactEmail ? 'vendor-contact-email-error' : undefined}
                 />
-                {validationErrors.contactEmail && <span className="field__error">{validationErrors.contactEmail}</span>}
+                {validationErrors.contactEmail && (
+                  <span id="vendor-contact-email-error" className="field__error" role="alert">
+                    {validationErrors.contactEmail}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -462,6 +508,15 @@ export const VendorOnboardingForm = () => {
               <InfoOutlinedIcon className="notice-icon" />
               <p>פרטי הכרטיס נשמרים בצורה מאובטחת ולא יגבו כעת.</p>
             </div>
+            <ConsentCheckbox
+              name="vendor-onboarding-data-consent"
+              checked={dataConsent}
+              onChange={(checked) => {
+                setDataConsent(checked);
+                if (checked) setConsentError(undefined);
+              }}
+              error={consentError}
+            />
             <form
               id="vendor-onboarding-card-form"
               ref={cardFormRef}
@@ -552,10 +607,32 @@ export const VendorOnboardingForm = () => {
             במהלך הימים הקרובים תתבקש לוודא את פרטי העסק מול ספק הסליקה שלנו, Upay פיננסים לאחר אישור הפרטים ואישור
             החשבון תוכל לקבל תשלומים בפלטפורמה, התהליך לרוב לוקח כ 2 ימים עסקים
           </p>
-          <button type="button" onClick={() => (window.location.href = '/profile')} className="completion-card__button">
+          <button type="button" onClick={() => langNavigate('/profile')} className="completion-card__button">
             חזור לפרופיל
           </button>
         </div>
+      </div>
+    );
+  }
+
+  if (!user?._id) {
+    return (
+      <div className="vendor-onboarding" dir="rtl">
+        <main className="vendor-onboarding__main">
+          <div className="form-card">
+            <div className="step-content">
+              <div className="step-content__header">
+                <h2>יש להתחבר לחשבון כדי להמשיך</h2>
+                <p>התחבר כדי להשלים את חיבור הסליקה והגדרת התשלומים שלך.</p>
+              </div>
+              <div className="navigation-actions">
+                <button type="button" onClick={() => loginWithPopup()} className="nav-btn nav-btn--next">
+                  התחברות / הרשמה
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
@@ -623,8 +700,9 @@ export const VendorOnboardingForm = () => {
             onClick={handleBack}
             disabled={currentStep === 1 || createVendorMutation.isPending}
             className={`nav-btn nav-btn--back ${currentStep === 1 ? 'disabled' : ''}`}
+            aria-label="חזור לשלב הקודם"
           >
-            <ArrowBackIcon />
+            <ArrowBackIcon aria-hidden="true" />
             <span>חזור</span>
           </button>
 

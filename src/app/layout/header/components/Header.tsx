@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
         )}
 
-        <h1 className={featureFlags.headerBackButton && showBackButton ? 'logo--mobile-shifted' : ''}>
+        <div className={`site-logo ${featureFlags.headerBackButton && showBackButton ? 'logo--mobile-shifted' : ''}`}>
           <Link className="logo" to={`/${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
             {featureFlags.faviconLogo ? (
               <img src="/android-chrome-192x192.png" alt="Studioz" className="logo-image" width={40} height={40} />
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
               'Studioz'
             )}
           </Link>
-        </h1>
+        </div>
         {featureFlags.headerCurrentCity && currentCity && (
           <span className="header-current-city" aria-label={`Current city: ${getDisplayByCityName(currentCity)}`}>
             <LocationIcon className="header-current-city__icon" aria-hidden="true" />
@@ -111,7 +111,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           )}
           <MenuDropdown user={user || null} />
         </div>
-        <HeaderNavbar />
+        <HeaderNavbar user={user} />
         <Link to={`/${currLang}`} className="header-logo-text" aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
           Studioz
         </Link>

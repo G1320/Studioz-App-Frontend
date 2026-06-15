@@ -35,6 +35,7 @@ import remoteProjects from './locales/en/remoteProjects.json';
 import features from './locales/en/features.json';
 import privacyPolicy from './locales/en/privacyPolicy.json';
 import accessibility from './locales/en/accessibility.json';
+import accessibilityStatement from './locales/en/accessibilityStatement.json';
 import termsAndConditions from './locales/en/termsAndConditions.json';
 import metaCampaigns from './locales/en/metaCampaigns.json';
 import status from './locales/en/status.json';
@@ -75,6 +76,7 @@ import remoteProjectsHe from './locales/he/remoteProjects.json';
 import featuresHe from './locales/he/features.json';
 import privacyPolicyHe from './locales/he/privacyPolicy.json';
 import accessibilityHe from './locales/he/accessibility.json';
+import accessibilityStatementHe from './locales/he/accessibilityStatement.json';
 import termsAndConditionsHe from './locales/he/termsAndConditions.json';
 import metaCampaignsHe from './locales/he/metaCampaigns.json';
 import statusHe from './locales/he/status.json';
@@ -121,6 +123,7 @@ i18n
         features,
         privacyPolicy,
         accessibility,
+        accessibilityStatement,
         termsAndConditions,
         metaCampaigns,
         status,
@@ -162,6 +165,7 @@ i18n
         features: featuresHe,
         privacyPolicy: privacyPolicyHe,
         accessibility: accessibilityHe,
+        accessibilityStatement: accessibilityStatementHe,
         termsAndConditions: termsAndConditionsHe,
         metaCampaigns: metaCampaignsHe,
         status: statusHe,

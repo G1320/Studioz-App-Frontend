@@ -28,7 +28,7 @@ export const useUpdateStudioMutation = (studioId: string) => {
     mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
     successMessage: t('toasts.success.studioUpdated'),
     invalidateQueries: [{ queryKey: 'studio', targetId: studioId }, { queryKey: 'studios' }],
-    onSuccess: () => langNavigate(`/Studio/${studioId}`)
+    onSuccess: () => langNavigate(`/studio/${studioId}`)
   });
 };
 

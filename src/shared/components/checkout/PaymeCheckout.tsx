@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLanguageNavigate } from '@shared/hooks';
 import { paymeService, PayMeCartItem, PayMeCustomerInfo } from '@shared/services/payme-service';
+import { logFormDataConsent } from '@shared/services/cookie-consent-service';
+import { ConsentCheckbox } from '@shared/components/forms/ConsentCheckbox';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import './styles/_payme-checkout.scss';
@@ -22,6 +24,8 @@ export const PaymeCheckout: React.FC<PaymeCheckoutProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [dataConsent, setDataConsent] = useState(false);
+  const [consentError, setConsentError] = useState<string | undefined>();
   const langNavigate = useLanguageNavigate();
   const { t } = useTranslation('forms');
 
@@ -33,6 +37,13 @@ export const PaymeCheckout: React.FC<PaymeCheckoutProps> = ({
       return;
     }
 
+    if (!dataConsent) {
+      setConsentError(t('consent.required'));
+      return;
+    }
+
+    logFormDataConsent('checkout');
+    setConsentError(undefined);
     setIsLoading(true);
     setError(null);
 
@@ -118,12 +129,23 @@ export const PaymeCheckout: React.FC<PaymeCheckoutProps> = ({
         </div>
       </div>
 
-      {error && <div className="payme-checkout__error">{error}</div>}
+      {error && <div className="payme-checkout__error" role="alert">{error}</div>}
+
+      <ConsentCheckbox
+        name="checkout-data-consent"
+        checked={dataConsent}
+        onChange={(checked) => {
+          setDataConsent(checked);
+          if (checked) setConsentError(undefined);
+        }}
+        error={consentError}
+      />
 
       <button
+        type="button"
         className="payme-checkout__button"
         onClick={handlePayment}
-        disabled={isLoading || !cartItems || cartItems.length === 0}
+        disabled={isLoading || !cartItems || cartItems.length === 0 || !dataConsent}
       >
         {isLoading ? t('form.payment.processing', 'Processing...') : t('form.payment.payNow', 'Pay Now')}
       </button>

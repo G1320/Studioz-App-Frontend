@@ -30,15 +30,15 @@
     },
     "sellerAccount": {
       "title": "Seller Account",
-      "description": "Connect your PayPal account to start selling",
+      "description": "Connect your payment account to start selling",
       "status": {
-        "error": "There was an issue connecting your PayPal account. Please try again or contact support.",
-        "pending": "Your PayPal account connection is pending. Please complete the onboarding process.",
-        "success": "Your PayPal account is successfully connected."
+        "error": "There was an issue connecting your payment account. Please try again or contact support.",
+        "pending": "Your payment account connection is pending. Please complete the onboarding process.",
+        "success": "Your payment account is successfully connected."
       },
       "buttons": {
-        "connect": "Connect PayPal Account",
-        "connected": "PayPal Account Connected",
+        "connect": "Connect Payment Account",
+        "connected": "Payment Account Connected",
         "calendar": "My Calendar",
         "createStudio": "List your studio",
         "subscription": "Subscription Plans",

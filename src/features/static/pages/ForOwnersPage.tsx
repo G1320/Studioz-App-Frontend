@@ -414,7 +414,7 @@ const ForOwnersPage: React.FC = () => {
               <div className="owners-dashboard__browser-content">
                 {isVideoVisible ? (
                   <iframe
-                    src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=true&loop=true&muted=true&preload=true&playsinline=true&controls=false&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
+                    src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=false&loop=true&muted=true&preload=true&playsinline=true&controls=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
                     className="owners-dashboard__video"
                     title={t('dashboard.title')}

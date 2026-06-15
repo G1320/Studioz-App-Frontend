@@ -4,6 +4,7 @@ import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from
 import { useUserContext, useOfflineCartContext } from '@core/contexts';
 import { useErrorHandling } from '@shared/hooks';
 import { User } from 'src/types/index';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 
 /**
  * Hook to handle Auth0 login flow and update user context
@@ -14,10 +15,18 @@ import { User } from 'src/types/index';
 export const useAuth0LoginHandler = () => {
   const { user: auth0User, loginWithPopup, isAuthenticated } = useAuth0();
   const { setUser: setUserContext, user: currentUser } = useUserContext();
+  const langNavigate = useLanguageNavigate();
   const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
   const handleError = useErrorHandling();
   const processedSubRef = useRef<string | null>(null);
   const isProcessingRef = useRef(false);
+
+  const auth0Sub = auth0User?.sub;
+  const auth0Name = auth0User?.name;
+  const auth0Nickname = auth0User?.nickname;
+  const auth0Picture = auth0User?.picture;
+  const auth0Email = auth0User?.email;
+  const auth0EmailVerified = auth0User?.email_verified;
 
   useEffect(() => {
     const handleUserLogin = async () => {
@@ -26,11 +35,16 @@ export const useAuth0LoginHandler = () => {
         return;
       }
 
-      if (!isAuthenticated || !auth0User) {
+      if (!isAuthenticated || !auth0Sub) {
         return;
       }
 
-      const { name = '', sub, nickname: username = '', picture, email = '', email_verified = false } = auth0User;
+      const name = auth0Name || '';
+      const sub = auth0Sub;
+      const username = auth0Nickname || '';
+      const picture = auth0Picture;
+      const email = auth0Email || '';
+      const email_verified = auth0EmailVerified || false;
 
       if (!sub) {
         console.error('Auth0 user sub is undefined');
@@ -72,7 +86,8 @@ export const useAuth0LoginHandler = () => {
           setLocalOfflineCart({ items: [] });
         }
 
-        // Navigate to profile after successful login
+        const hasStudios = Boolean(loggedInUser.studios?.length);
+        langNavigate(hasStudios ? '/dashboard' : '/profile');
       } catch (error) {
         handleError(error);
         // Reset processed ref on error so we can retry
@@ -85,10 +100,16 @@ export const useAuth0LoginHandler = () => {
     handleUserLogin();
   }, [
     isAuthenticated,
-    auth0User?.sub,
+    auth0Sub,
+    auth0Name,
+    auth0Nickname,
+    auth0Picture,
+    auth0Email,
+    auth0EmailVerified,
     currentUser?.sub,
     handleError,
     offlineCart?.items?.length,
+    langNavigate,
     setOfflineCartContext,
     setUserContext
   ]);

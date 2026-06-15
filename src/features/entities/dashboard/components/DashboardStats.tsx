@@ -8,6 +8,8 @@ interface DashboardStatsProps {
   activeStudios?: number;
   upcomingBookings?: number;
   isStudioOwner?: boolean;
+  wishlistsCount?: number;
+  isAdmin?: boolean;
 }
 
 export const DashboardStats: React.FC<DashboardStatsProps> = ({
@@ -15,9 +17,12 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
   totalRevenue,
   activeStudios,
   upcomingBookings,
-  isStudioOwner = false
+  isStudioOwner = false,
+  wishlistsCount = 0,
+  isAdmin = false
 }) => {
   const { t } = useTranslation('dashboard');
+  const revenueDisplay = isAdmin ? '—' : totalRevenue ? `₪${totalRevenue.toLocaleString()}` : '₪0';
 
   const stats = isStudioOwner
     ? [
@@ -28,7 +33,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
         },
         {
           label: t('stats.totalRevenue'),
-          value: totalRevenue ? `₪${totalRevenue.toLocaleString()}` : '₪0',
+          value: revenueDisplay,
           icon: <MoneyIcon />
         },
         {
@@ -50,12 +55,12 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
         },
         {
           label: t('stats.totalSpent'),
-          value: totalRevenue ? `₪${totalRevenue.toLocaleString()}` : '₪0',
+          value: revenueDisplay,
           icon: <MoneyIcon />
         },
         {
           label: t('stats.wishlists'),
-          value: 0, // TODO: Fetch from user data
+          value: isAdmin ? 0 : wishlistsCount,
           icon: <FavoriteIcon />
         },
         {

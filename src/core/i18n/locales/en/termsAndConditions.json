@@ -317,7 +317,8 @@
   "accessibility": {
     "title": "Accessibility",
     "paragraph1": "The Company is committed to making the Service accessible to all users in accordance with Israeli Standard SI 5568 and WCAG 2.1 Level AA guidelines.",
-    "paragraph2": "If You encounter any accessibility barriers while using the Service, please contact us so we can assist You and work to improve accessibility."
+    "paragraph2": "If You encounter any accessibility barriers while using the Service, please contact us so we can assist You and work to improve accessibility.",
+    "linkText": "Read the full Accessibility Statement"
   },
   "severabilityAndWaiver": {
     "title": "Severability and Waiver",

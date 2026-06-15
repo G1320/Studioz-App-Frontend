@@ -8,6 +8,8 @@ import { ItemsList } from '@features/entities/items/components/ItemsList';
 import { GenericCarousel } from '@shared/components';
 import { StudiosAndItemsSearchResults } from 'src/types/searchResult';
 import { useWishlists } from '@shared/hooks';
+import { useTranslation } from 'react-i18next';
+import { KeyboardActivatable } from '@shared/utility-components/KeyboardActivatable';
 
 interface SearchResultsListProps {
   allStudios: Studio[];
@@ -19,6 +21,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios
   const { user } = useUserContext();
   const { data: wishlists = [] } = useWishlists(user?._id || '');
   const { openModal } = useModal();
+  const { t, i18n } = useTranslation('services');
 
   const results = searchResults as StudiosAndItemsSearchResults;
   const filteredStudios = useMemo(() => {
@@ -36,10 +39,19 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({ allStudios
     openModal(item);
   };
 
+  const getItemLabel = (item: Item) => {
+    const lang = i18n.language === 'he' ? 'he' : 'en';
+    return item.name?.[lang] || item.name?.en || item.name?.he || t('card.openService', 'View service');
+  };
+
   const renderItem = (item: Item) => (
-    <div onClick={() => handleItemClick(item)} key={item._id}>
+    <KeyboardActivatable
+      key={item._id}
+      onActivate={() => handleItemClick(item)}
+      ariaLabel={getItemLabel(item)}
+    >
       <ItemCard item={item} wishlists={wishlists} />
-    </div>
+    </KeyboardActivatable>
   );
 
   return (

@@ -102,6 +102,14 @@ export const DesktopFooter = () => {
                 </a>
               </li>
               <li>
+                <a
+                  href={`${langPrefix}/accessibility-statement`}
+                  onClick={(e) => handleClick(e, '/accessibility-statement')}
+                >
+                  {t('footer.accessibilityStatement')}
+                </a>
+              </li>
+              <li>
                 <a href={`${langPrefix}/security`} onClick={(e) => handleClick(e, '/security')}>
                   {t('footer.security')}
                 </a>

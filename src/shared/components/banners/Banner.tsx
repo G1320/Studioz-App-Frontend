@@ -10,7 +10,7 @@ interface BannerProps {
 }
 
 export const Banner: React.FC<BannerProps> = ({ config, className }) => {
-  const { slides, autoplay = true } = config;
+  const { slides, autoplay = false } = config;
 
   const renderSlide = (slide: (typeof slides)[0]) => <BannerSlide slide={slide} />;
 

@@ -136,7 +136,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoResta
                 showFrameBar={true}
                 placeholderText="Video Coming Soon"
                 aspectRatio="3 / 2"
-                autoPlay={true}
+                autoPlay={false}
                 muted={true}
                 loop={true}
               />

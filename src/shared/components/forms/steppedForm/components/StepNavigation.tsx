@@ -11,6 +11,7 @@ interface StepNavigationProps {
   prevBtnText: string;
   nextBtnText: string;
   submitBtnText: string;
+  autoSaveLabel: string;
   onPrevious: () => void;
   onNext: () => void;
   onSubmit: () => void;
@@ -26,6 +27,7 @@ export const StepNavigation = ({
   prevBtnText,
   nextBtnText,
   submitBtnText,
+  autoSaveLabel,
   onPrevious,
   onNext,
   onSubmit
@@ -60,7 +62,7 @@ export const StepNavigation = ({
 
       <div className="stepped-form__navigation-right">
         <span className="stepped-form__auto-save">
-          {t('form.autoSaved', 'Auto-saved 2 mins ago')}
+          {autoSaveLabel || t('form.autoSaved', 'Auto-saved')}
         </span>
         {!isLastStep ? (
           <button type="button" onClick={onNext} className="stepped-form__button stepped-form__button--next">

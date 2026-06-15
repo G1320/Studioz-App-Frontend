@@ -10,6 +10,8 @@ import { setLocalUser } from '@shared/services';
 import { useUpdateUserMutation } from '@shared/hooks/mutations';
 import { useGoogleCalendar, useSubscription } from '@shared/hooks';
 import { useSavedCards, useRemoveSavedCardMutation, useSetDefaultCardMutation } from '@shared/hooks/data-fetching';
+import { useAuth0LoginHandler } from '@shared/hooks';
+import { featureFlags } from '@core/config/featureFlags';
 
 import {
   PersonIcon,
@@ -94,6 +96,7 @@ const InputField: React.FC<{
 export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const langNavigate = useLanguageNavigate();
   const { t, i18n } = useTranslation('profile');
+  const { loginWithPopup } = useAuth0LoginHandler();
   const { setUser } = useUserContext();
   const { settings: a11ySettings, updateSetting: updateA11ySetting } = useAccessibility();
   const updateUserMutation = useUpdateUserMutation();
@@ -207,6 +210,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   const hasStudios = Boolean(user?.studios && user.studios.length > 0);
   const showSumitCard = hasStudios || hasActiveSubscription;
   const showSumitSetupBanner = hasStudios && !isSumitConnected;
+  const canAccessSubscriptions = featureFlags.subscriptionsPage;
 
   const [isCalendarSyncing, setIsCalendarSyncing] = useState(false);
   const handleCalendarToggle = async () => {
@@ -277,7 +281,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
           {/* Actions */}
           <div className="profile-header-actions">
-            {!isEditing ? (
+            {!user ? (
+              <button className="profile-btn profile-btn--primary" onClick={() => loginWithPopup()}>
+                {t('profile.buttons.loginSignup', 'Log in / Sign up')}
+              </button>
+            ) : !isEditing ? (
               <button className="profile-btn profile-btn--secondary" onClick={() => setIsEditing(true)}>
                 <EditIcon /> {t('profile.buttons.editProfile', 'Edit Profile')}
               </button>
@@ -583,7 +591,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
                 </div>
               )}
 
-              {hasActiveSubscription ? (
+              {hasActiveSubscription && canAccessSubscriptions ? (
                 <button
                   className="profile-btn profile-btn--primary profile-btn--full"
                   onClick={() => handleNavigate('/my-subscription')}

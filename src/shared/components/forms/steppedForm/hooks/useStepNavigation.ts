@@ -25,6 +25,7 @@ interface UseStepNavigationOptions {
   navigate: (url: string, options?: { replace?: boolean }) => void;
   onStepChange?: (currentStep: number, previousStep: number) => void;
   allowBackNavigation: boolean;
+  allowForwardStepNavigation: boolean;
   validateCurrentStep: () => boolean;
   isUpdatingUrlRef: React.MutableRefObject<boolean>;
 }
@@ -43,6 +44,7 @@ export const useStepNavigation = ({
   navigate,
   onStepChange,
   allowBackNavigation,
+  allowForwardStepNavigation,
   validateCurrentStep,
   isUpdatingUrlRef: _isUpdatingUrlRef
 }: UseStepNavigationOptions) => {
@@ -115,6 +117,11 @@ export const useStepNavigation = ({
 
   const handleStepClick = useCallback(
     (index: number) => {
+      const isForwardNavigation = index > currentStepIndex;
+      if (isForwardNavigation && !allowForwardStepNavigation) {
+        return;
+      }
+
       if (allowBackNavigation && index !== currentStepIndex) {
         const currentData = collectCurrentStepData();
         // Use mergeFormData to preserve both languages in nested objects
@@ -131,6 +138,7 @@ export const useStepNavigation = ({
     },
     [
       allowBackNavigation,
+      allowForwardStepNavigation,
       currentStepIndex,
       collectCurrentStepData,
       setFormData,

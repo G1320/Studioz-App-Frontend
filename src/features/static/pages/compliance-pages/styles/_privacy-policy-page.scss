@@ -34,6 +34,19 @@
   font-size: ds.$font-sm;
 }
 
+.accessibility-coordinator-contact {
+  font-style: normal;
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  border-radius: ds.$radius-md;
+
+  p {
+    margin: 0.35rem 0;
+  }
+}
+
 // Table of contents
 .privacy-policy-toc {
   background: var(--bg-tertiary);

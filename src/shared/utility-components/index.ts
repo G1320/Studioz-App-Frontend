@@ -1,4 +1,5 @@
 export * from './ScrollToTop';
+export * from './KeyboardActivatable';
 export * from './StudioAvailabilityList';
 export * from './AddressDropdown';
 export * from './PhoneDropdown';

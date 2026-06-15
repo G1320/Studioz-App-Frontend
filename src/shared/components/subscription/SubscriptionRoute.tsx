@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useUserContext } from '@core/contexts';
 import { useFeatureAccess } from '@shared/hooks/subscriptions/useFeatureAccess';
 import type { FeatureId, SubscriptionTier } from '@core/config/subscriptionTiers';
+import { featureFlags } from '@core/config/featureFlags';
 import { UpgradePrompt } from './UpgradePrompt';
 
 interface SubscriptionRouteProps {
@@ -13,7 +14,7 @@ interface SubscriptionRouteProps {
   feature?: FeatureId;
   /** Minimum tier required (alternative to feature) */
   requiredTier?: SubscriptionTier;
-  /** Where to redirect if not logged in (default: /login) */
+  /** Where to redirect if not logged in (default: /profile) */
   loginRedirect?: string;
   /** Custom fallback component instead of UpgradePrompt */
   fallback?: ReactNode;
@@ -61,7 +62,7 @@ export const SubscriptionRoute = ({
   children,
   feature,
   requiredTier,
-  loginRedirect = '/login',
+  loginRedirect = '/profile',
   fallback,
   redirectToSubscription = false,
 }: SubscriptionRouteProps) => {
@@ -105,7 +106,10 @@ export const SubscriptionRoute = ({
 
   // Redirect to subscription page
   if (redirectToSubscription) {
-    return <Navigate to={`${langPrefix}/subscription`} state={{ from: location, requiredTier: effectiveRequiredTier }} replace />;
+    if (featureFlags.subscriptionsPage) {
+      return <Navigate to={`${langPrefix}/subscription`} state={{ from: location, requiredTier: effectiveRequiredTier }} replace />;
+    }
+    return <Navigate to={`${langPrefix}/dashboard?tab=billing`} state={{ from: location, requiredTier: effectiveRequiredTier }} replace />;
   }
 
   // Show custom fallback or default upgrade prompt

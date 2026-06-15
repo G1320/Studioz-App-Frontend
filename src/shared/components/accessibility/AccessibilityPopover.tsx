@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   useAccessibility,
@@ -234,6 +235,16 @@ const AccessibilityPopover: React.FC = () => {
 
           {/* Footer */}
           <div className="a11y-popover__footer">
+            <Link
+              to="../accessibility-statement"
+              className="a11y-popover__statement-link"
+              onClick={() => {
+                closePopover();
+                triggerRef.current?.focus();
+              }}
+            >
+              {t('popover.statementLink')}
+            </Link>
             <button
               type="button"
               className="a11y-popover__hide-widget"

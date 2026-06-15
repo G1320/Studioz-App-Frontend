@@ -7,7 +7,8 @@ import { GenericCarousel, GenericList } from '@shared/components';
 import { StudioCard } from '@features/entities/studios/components/StudioCard';
 import { useStudioReservations } from '@shared/hooks';
 import { Calendar } from '@features/entities/bookings/calender/components/Calendar';
-import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 
 interface CalendarPageProps {
   studios: Studio[];
@@ -16,6 +17,8 @@ interface CalendarPageProps {
 
 const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
   const { user } = useUserContext();
+  const { t } = useTranslation('dashboard');
+  const langNavigate = useLanguageNavigate();
   const [selectedStudio, setSelectedStudio] = useState<Studio | null>(studios[0]);
   const { data: studioReservations } = useStudioReservations(selectedStudio?._id || '');
 
@@ -43,8 +46,11 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
 
   if (!studios.length) {
     return (
-      <div>
-        <Link to={'/studio/create'}>No studios yet, click here to add your first studio</Link>
+      <div className="calendar-page-empty-state">
+        <p>{t('emptyState.description', "Your subscription is active. It's time to create your first studio and start receiving bookings.")}</p>
+        <button type="button" className="stepped-form__button stepped-form__button--submit" onClick={() => langNavigate('/studio/create')}>
+          {t('emptyState.createStudio', 'Create Your Studio')}
+        </button>
       </div>
     );
   }

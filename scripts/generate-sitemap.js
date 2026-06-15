@@ -30,6 +30,7 @@ const BASE_ROUTES = [
   '/how-it-works',
   '/privacy',
   '/terms',
+  '/accessibility-statement',
   '/security'
 ];
 

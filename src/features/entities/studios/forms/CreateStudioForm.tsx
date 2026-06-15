@@ -105,6 +105,8 @@ export const CreateStudioForm = () => {
     equipmentList?: Record<string, string>;
     selectedParking?: 'private' | 'street' | 'paid' | 'none';
     is24Hours?: boolean;
+    portfolio?: PortfolioItem[];
+    socialLinks?: SocialLinks;
   }>(FORM_ID);
 
   // States for form fields - initialize from saved state if available
@@ -134,8 +136,8 @@ export const CreateStudioForm = () => {
   const [houseRules, setHouseRules] = useState<string>('');
 
   // Portfolio State
-  const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
-  const [socialLinks, setSocialLinks] = useState<SocialLinks>({});
+  const [portfolio, setPortfolio] = useState<PortfolioItem[]>(savedState?.portfolio || []);
+  const [socialLinks, setSocialLinks] = useState<SocialLinks>(savedState?.socialLinks || {});
 
   const { handleFileUpload } = useStudioFileUpload({
     setGalleryImages,
@@ -258,7 +260,9 @@ export const CreateStudioForm = () => {
       selectedAmenities,
       equipmentList,
       selectedParking,
-      is24Hours
+      is24Hours,
+      portfolio,
+      socialLinks
     }),
     [
       selectedCategories,
@@ -272,7 +276,9 @@ export const CreateStudioForm = () => {
       selectedAmenities,
       equipmentList,
       selectedParking,
-      is24Hours
+      is24Hours,
+      portfolio,
+      socialLinks
     ]
   );
 
@@ -781,9 +787,23 @@ export const CreateStudioForm = () => {
     setSelectedLanguage('en');
   }, [currentStepIndex]);
 
+  if (!user?._id) {
+    return (
+      <section className="form-wrapper create-studio-form-wrapper">
+        <div className="create-studio-login-gate" role="status" aria-live="polite">
+          <h2>{t('form.errors.loginRequired', { defaultValue: 'Please log in to create a studio.' })}</h2>
+          <p>{t('form.loginToStart', { defaultValue: 'Log in first to start your studio setup and save progress.' })}</p>
+          <button type="button" className="stepped-form__button stepped-form__button--submit" onClick={() => loginWithPopup()}>
+            {t('buttons.log_in', { defaultValue: 'Log In' })}
+          </button>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section>
-      {/* <h1>{t('form.AddStudioTitle')}</h1> */}
+      <h1>{t('form.AddStudioTitle')}</h1>
 
       <section className="form-wrapper create-studio-form-wrapper">
         <SteppedForm
@@ -796,6 +816,7 @@ export const CreateStudioForm = () => {
           submitButtonText={t('form.submit.createStudio')}
           nextButtonText={t('form.buttons.next') || 'Next'}
           previousButtonText={t('form.buttons.previous') || 'Previous'}
+          allowForwardStepNavigation={false}
           selectedLanguage={selectedLanguage}
           onLanguageChange={setSelectedLanguage}
           onStepChange={(current) => setCurrentStepIndex(current)}

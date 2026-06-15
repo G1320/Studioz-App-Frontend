@@ -8,6 +8,7 @@ export interface FeatureFlags {
   itemCardDistanceBadge: boolean;
   notifications: boolean;
   addOns: boolean;
+  reservationsPage: boolean;
   reservationDetailsPage: boolean;
   headerSearchIcon: boolean;
   headerBackButton: boolean;
@@ -17,6 +18,7 @@ export interface FeatureFlags {
   studioInfoModal: boolean;
   discoverPage: boolean;
   mobileFooterNavigation: boolean;
+  subscriptionsPage: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -29,6 +31,7 @@ export const featureFlags: FeatureFlags = {
   itemCardDistanceBadge: false,
   notifications: true,
   addOns: true,
+  reservationsPage: false,
   reservationDetailsPage: false,
   headerSearchIcon: true,
   headerBackButton: false,
@@ -37,7 +40,8 @@ export const featureFlags: FeatureFlags = {
   brevoChat: false,
   studioInfoModal: false,
   discoverPage: false,
-  mobileFooterNavigation: false
+  mobileFooterNavigation: false,
+  subscriptionsPage: false
 };
 
 /**

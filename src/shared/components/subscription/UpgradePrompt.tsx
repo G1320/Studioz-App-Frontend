@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { LockIcon, StarIcon } from '@shared/components/icons';
 import type { FeatureId, SubscriptionTier } from '@core/config/subscriptionTiers';
+import { featureFlags } from '@core/config/featureFlags';
 import './styles/upgrade-prompt.scss';
 
 interface UpgradePromptProps {
@@ -87,7 +88,7 @@ export const UpgradePrompt = ({
     if (onUpgradeClick) {
       onUpgradeClick();
     } else {
-      langNavigate('/subscription');
+      langNavigate(featureFlags.subscriptionsPage ? '/subscription' : '/dashboard?tab=billing');
     }
   };
 

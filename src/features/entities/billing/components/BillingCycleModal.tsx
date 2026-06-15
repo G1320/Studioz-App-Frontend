@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBillingCycleFees } from '@shared/hooks';
+import { GenericModal } from '@shared/components/modal/GenericModal';
 
 interface BillingCycleModalProps {
   cycleId: string;
@@ -28,14 +29,19 @@ export const BillingCycleModal: React.FC<BillingCycleModalProps> = ({ cycleId, o
   const { t } = useTranslation('billing');
   const { data: fees = [], isLoading } = useBillingCycleFees(open ? cycleId : null);
 
-  if (!open) return null;
-
   return (
-    <div className="billing__modal-overlay" onClick={onClose}>
-      <div className="billing__modal" onClick={(e) => e.stopPropagation()}>
+    <GenericModal open={open} onClose={onClose} className="billing__modal-wrapper">
+      <div className="billing__modal">
         <div className="billing__modal-header">
           <h2>{t('modal.title', 'פירוט עמלות')}</h2>
-          <button className="billing__modal-close" onClick={onClose}>✕</button>
+          <button
+            type="button"
+            className="billing__modal-close"
+            onClick={onClose}
+            aria-label={t('modal.close', 'סגור')}
+          >
+            ✕
+          </button>
         </div>
 
         {isLoading ? (
@@ -47,11 +53,11 @@ export const BillingCycleModal: React.FC<BillingCycleModalProps> = ({ cycleId, o
             <table className="billing__modal-table">
               <thead>
                 <tr>
-                  <th>{t('modal.date', 'תאריך')}</th>
-                  <th>{t('modal.type', 'סוג')}</th>
-                  <th>{t('modal.amount', 'סכום עסקה')}</th>
-                  <th>{t('modal.fee', 'עמלה')}</th>
-                  <th>{t('modal.status', 'סטטוס')}</th>
+                  <th scope="col">{t('modal.date', 'תאריך')}</th>
+                  <th scope="col">{t('modal.type', 'סוג')}</th>
+                  <th scope="col">{t('modal.amount', 'סכום עסקה')}</th>
+                  <th scope="col">{t('modal.fee', 'עמלה')}</th>
+                  <th scope="col">{t('modal.status', 'סטטוס')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,6 +83,6 @@ export const BillingCycleModal: React.FC<BillingCycleModalProps> = ({ cycleId, o
           </div>
         )}
       </div>
-    </div>
+    </GenericModal>
   );
 };
