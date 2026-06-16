@@ -6,12 +6,17 @@ main {
   max-width: 1540px;
   margin: 0 auto; // Center the main content
   padding: 0.5rem 1rem;
-  padding-top: 4rem; // Account for fixed header on mobile (3.5rem + 0.5rem spacing)
+  // Fixed header: 3.5rem mobile + gap; 5rem desktop + gap (see _header.scss)
+  padding-top: 4rem;
   justify-items: center;
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
   min-height: 100vh; // Push footer below the fold during initial load to prevent CLS
+
+  @media screen and (min-width: 768px) {
+    padding-top: 6rem;
+  }
 }
 
 body:has(.discover-page) main {
@@ -20,7 +25,7 @@ body:has(.discover-page) main {
 
 @media screen and (max-width: 650px) {
   main {
-    padding-top: 3.5rem; // Account for fixed header on mobile (3.5rem + 0.5rem spacing)
+    padding-top: 4rem; // 3.5rem header + 0.5rem gap
     padding-block-end: 3.5rem;
   }
 }
