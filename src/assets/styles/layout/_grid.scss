@@ -23,9 +23,22 @@ body:has(.discover-page) main {
   gap: 0rem;
 }
 
+/* Landing hero should sit flush under the fixed header (no breathing-room gap). */
+body:has(.landing-page) main {
+  padding-top: 3.5rem;
+
+  @media screen and (min-width: 768px) {
+    padding-top: 5rem;
+  }
+}
+
 @media screen and (max-width: 650px) {
   main {
     padding-top: 4rem; // 3.5rem header + 0.5rem gap
     padding-block-end: 3.5rem;
+  }
+
+  body:has(.landing-page) main {
+    padding-top: 3.5rem;
   }
 }
