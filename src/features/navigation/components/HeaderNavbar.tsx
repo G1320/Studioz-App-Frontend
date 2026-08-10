@@ -2,8 +2,8 @@ import '../styles/_index.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
-import { useAnchorNavigate } from '@shared/hooks/utils';
-import { featureFlags } from '@core/config/featureFlags';
+import { useAuth0LoginHandler } from '@shared/hooks';
+import type { MouseEvent } from 'react';
 import type { User } from 'src/types/index';
 
 interface HeaderNavbarProps {
@@ -13,7 +13,7 @@ interface HeaderNavbarProps {
 export function HeaderNavbar({ user }: HeaderNavbarProps) {
   const { t, i18n } = useTranslation('common');
   const location = useLocation();
-  const anchorNavigate = useAnchorNavigate();
+  const { loginWithPopup } = useAuth0LoginHandler();
 
   const currentPath = location.pathname;
   const currLang = i18n.language || 'en';
@@ -22,23 +22,36 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
     return currentPath === path || currentPath.startsWith(`${path}/`);
   };
 
-  const handleHowItWorksClick = (e: React.MouseEvent) => {
+  const handleDashboardClick = (e: MouseEvent) => {
+    if (user) {
+      scrollToTop();
+      return;
+    }
     e.preventDefault();
-    anchorNavigate('', 'how-it-works');
+    void loginWithPopup();
   };
 
   return (
     <nav id="main-navigation" className="navbar" aria-label={t('navigation.mainNavigation', 'Main Navigation')}>
-      {featureFlags.servicesPage && (
+      {user ? (
         <Link
-          to={`/${currLang}/services/music`}
+          to={`/${currLang}/dashboard`}
           className="navbar-link"
-          aria-label={t('navigation.services')}
-          aria-current={isCurrentPage(`/${currLang}/services`) ? 'page' : undefined}
-          onClick={() => scrollToTop()}
+          aria-label={t('navigation.dashboard')}
+          aria-current={isCurrentPage(`/${currLang}/dashboard`) ? 'page' : undefined}
+          onClick={handleDashboardClick}
         >
-          {t('navigation.services')}
+          {t('navigation.dashboard')}
         </Link>
+      ) : (
+        <button
+          type="button"
+          className="navbar-link"
+          aria-label={t('navigation.dashboard')}
+          onClick={handleDashboardClick}
+        >
+          {t('navigation.dashboard')}
+        </button>
       )}
       <Link
         to={`/${currLang}/reservations`}
@@ -58,25 +71,6 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
       >
         {t('navigation.myProjects')}
       </Link>
-      {user && (
-        <Link
-          to={`/${currLang}/dashboard`}
-          className="navbar-link"
-          aria-label={t('navigation.dashboard')}
-          aria-current={isCurrentPage(`/${currLang}/dashboard`) ? 'page' : undefined}
-          onClick={() => scrollToTop()}
-        >
-          {t('navigation.dashboard')}
-        </Link>
-      )}
-      <a
-        href={`/${currLang}#how-it-works`}
-        className="navbar-link"
-        aria-label={t('navigation.howItWorks')}
-        onClick={handleHowItWorksClick}
-      >
-        {t('navigation.howItWorks')}
-      </a>
     </nav>
   );
 }
