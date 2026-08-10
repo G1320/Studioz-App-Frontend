@@ -253,6 +253,11 @@
       border-color: rgba(255, 209, 102, 0.3);
     }
 
+    &--with-player {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
     &--deliverable {
       background: rgba(255, 209, 102, 0.05);
       border-color: rgba(255, 209, 102, 0.2);
@@ -261,6 +266,15 @@
         border-color: var(--color-brand);
       }
     }
+  }
+
+  &__file-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-width: 0;
+    width: 100%;
   }
 
   &__file-icon {
@@ -329,7 +343,13 @@
 
   // On very narrow screens, stack file info and actions so buttons are not clipped (RTL/LTR)
   @media (max-width: 380px) {
-    &__file-item {
+    &__file-item:not(&__file-item--with-player) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    &__file-header {
       flex-direction: column;
       align-items: stretch;
       gap: 0.75rem;

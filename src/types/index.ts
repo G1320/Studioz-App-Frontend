@@ -28,5 +28,6 @@ export type {
   ProjectDetailResponse,
   UploadUrlResponse,
   DownloadUrlResponse,
+  AudioMetaResponse,
   MessagesResponse,
 } from './remoteProject';

@@ -172,6 +172,19 @@ export interface DownloadUrlResponse {
   expiresIn: number;
 }
 
+export interface AudioMetaResponse {
+  fileId: string;
+  fileName: string;
+  mimeType: string;
+  fileSize: number;
+  codec: string | null;
+  sampleRate: number | null;
+  bitDepth: number | null;
+  channels: number | null;
+  durationMs: number | null;
+  container: string | null;
+}
+
 export interface MessagesResponse {
   messages: ProjectMessage[];
   pagination: {

@@ -9,6 +9,7 @@ import {
   ProjectDetailResponse,
   UploadUrlResponse,
   DownloadUrlResponse,
+  AudioMetaResponse,
   MessagesResponse
 } from 'src/types';
 
@@ -197,6 +198,15 @@ export const getDownloadUrl = async (projectId: string, fileId: string): Promise
     return await httpService.get(`${endpoint}/${projectId}/files/${fileId}/download`);
   } catch (error) {
     console.error(`Error getting download URL for file ${fileId}:`, error);
+    throw error;
+  }
+};
+
+export const getAudioMeta = async (projectId: string, fileId: string): Promise<AudioMetaResponse> => {
+  try {
+    return await httpService.get(`${endpoint}/${projectId}/files/${fileId}/audio-meta`);
+  } catch (error) {
+    console.error(`Error getting audio meta for file ${fileId}:`, error);
     throw error;
   }
 };

@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Button } from '@shared/components';
+import { RemoteAudioPlayer } from '@shared/components/audio';
 import { useTranslation } from 'react-i18next';
 import { useUploadFileMutation, useDeleteFileMutation } from '@shared/hooks';
 import { useProjectFiles } from '@shared/hooks';
@@ -9,7 +10,8 @@ import { ProjectFileType, ProjectFile } from 'src/types/index';
 import {
   REMOTE_PROJECT_ACCEPTED_FILE_TYPES,
   REMOTE_PROJECT_MAX_FILE_SIZE_MB,
-  REMOTE_PROJECT_MAX_FILES_PER_PROJECT
+  REMOTE_PROJECT_MAX_FILES_PER_PROJECT,
+  isPlayableAudioExtension
 } from '@shared/constants/remoteProjectFileLimits';
 import './styles/_project-file-uploader.scss';
 
@@ -337,28 +339,37 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
           </div>
           <ul className="project-file-uploader__file-list">
           {files.map((file: ProjectFile) => (
-            <li key={file._id} className="project-file-uploader__file-item">
-              <div className="project-file-uploader__file-info">
-                <span className="project-file-uploader__file-name">{file.fileName}</span>
-                <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
-              </div>
-              <div className="project-file-uploader__file-actions">
-                <Button
-                  className="button--secondary button--small"
-                  onClick={() => handleDownloadFile(file)}
-                >
-                  {t('download')}
-                </Button>
-                {!disabled && (
+            <li key={file._id} className="project-file-uploader__file-item project-file-uploader__file-item--with-player">
+              <div className="project-file-uploader__file-header">
+                <div className="project-file-uploader__file-info">
+                  <span className="project-file-uploader__file-name">{file.fileName}</span>
+                  <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
+                </div>
+                <div className="project-file-uploader__file-actions">
                   <Button
-                    className="button--danger button--small"
-                    onClick={() => handleDeleteFile(file._id)}
-                    disabled={deleteMutation.isPending}
+                    className="button--secondary button--small"
+                    onClick={() => handleDownloadFile(file)}
                   >
-                    {t('delete')}
+                    {t('download')}
                   </Button>
-                )}
+                  {!disabled && (
+                    <Button
+                      className="button--danger button--small"
+                      onClick={() => handleDeleteFile(file._id)}
+                      disabled={deleteMutation.isPending}
+                    >
+                      {t('delete')}
+                    </Button>
+                  )}
+                </div>
               </div>
+              {isPlayableAudioExtension(file.fileName) && (
+                <RemoteAudioPlayer
+                  projectId={projectId}
+                  file={file}
+                  onDownload={() => handleDownloadFile(file)}
+                />
+              )}
             </li>
           ))}
           </ul>
