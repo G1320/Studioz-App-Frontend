@@ -5,3 +5,4 @@ export * from './wasmAudioDecode';
 export * from './useHiFiAudioEngine';
 export * from './useAudioMeta';
 export * from './useRemoteAudioUrl';
+export * from './rangeFillStyle';

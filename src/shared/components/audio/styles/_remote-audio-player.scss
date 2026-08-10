@@ -69,6 +69,8 @@
     padding: 0;
     cursor: pointer;
     vertical-align: middle;
+    // Keep fill/thumb math LTR even on Hebrew pages
+    direction: ltr;
 
     &:disabled {
       cursor: not-allowed;
@@ -78,13 +80,26 @@
     &::-webkit-slider-runnable-track {
       height: 4px;
       border-radius: 9999px;
-      background: var(--border-primary);
+      background: linear-gradient(
+        to right,
+        var(--color-brand) 0%,
+        var(--color-brand) var(--range-fill, 0%),
+        var(--border-primary) var(--range-fill, 0%),
+        var(--border-primary) 100%
+      );
     }
 
     &::-moz-range-track {
       height: 4px;
       border-radius: 9999px;
       background: var(--border-primary);
+      border: none;
+    }
+
+    &::-moz-range-progress {
+      height: 4px;
+      border-radius: 9999px;
+      background: var(--color-brand);
       border: none;
     }
 
@@ -278,8 +293,7 @@
 
   &__scrubber {
     width: 100%;
-    accent-color: var(--color-brand);
-    cursor: pointer;
+    height: 1.75rem;
   }
 
   &__time {

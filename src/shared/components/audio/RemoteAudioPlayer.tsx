@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { ProjectFile } from 'src/types';
 import {
+  rangeFillStyle,
   resolvePlaybackCapability,
   useAudioMeta,
   useHiFiAudioEngine
@@ -210,6 +211,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           step={0.01}
           value={Math.min(currentTime, scrubberMax)}
           disabled={scrubberMax <= 0}
+          style={rangeFillStyle(Math.min(currentTime, scrubberMax), scrubberMax)}
           onChange={(e) => seek(Number(e.target.value))}
           aria-label={t('audioPlayer.seek')}
         />
@@ -230,6 +232,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
             max={1}
             step={0.01}
             value={muted ? 0 : volume}
+            style={rangeFillStyle(muted ? 0 : volume, 1)}
             onChange={(e) => {
               const v = Number(e.target.value);
               setVolume(v);

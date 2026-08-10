@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pause, Play, X } from 'lucide-react';
-import { useHiFiAudioEngine } from '@shared/audio';
+import { rangeFillStyle, useHiFiAudioEngine } from '@shared/audio';
 import './styles/_remote-audio-player.scss';
 
 function formatTime(seconds: number): string {
@@ -55,6 +55,9 @@ export const StickyRemoteAudioBar: FC = () => {
 
   if (!visible || !active) return null;
 
+  const scrubberMax = Math.max(duration || 0, currentTime, 0.01);
+  const scrubberValue = Math.min(currentTime, scrubberMax);
+
   return (
     <div
       className="sticky-remote-audio-bar"
@@ -84,19 +87,20 @@ export const StickyRemoteAudioBar: FC = () => {
         <div className="sticky-remote-audio-bar__transport">
           <input
             type="range"
-            className="sticky-remote-audio-bar__scrubber"
+            className="remote-audio-player__range sticky-remote-audio-bar__scrubber"
             min={0}
-            max={duration || 0}
+            max={scrubberMax}
             step={0.01}
-            value={currentTime}
-            disabled={duration <= 0}
+            value={scrubberValue}
+            disabled={scrubberMax <= 0}
+            style={rangeFillStyle(scrubberValue, scrubberMax)}
             onChange={(e) => seek(Number(e.target.value))}
             aria-label={t('audioPlayer.seek')}
           />
           <div className="sticky-remote-audio-bar__time">
             <span>{formatTime(currentTime)}</span>
             <span>/</span>
-            <span>{formatTime(duration)}</span>
+            <span>{formatTime(duration > 0 ? duration : scrubberMax)}</span>
           </div>
         </div>
 
