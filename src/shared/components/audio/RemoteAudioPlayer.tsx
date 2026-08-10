@@ -68,12 +68,13 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     setMuted
   } = useHiFiAudioEngine();
 
-  const isActive = active?.fileId === file._id && active?.projectId === projectId;
-  const isPlaying = isActive && status === 'playing';
+  // Selected = this file owns the engine (playing or paused) — keep full transport visible
+  const isSelected = active?.fileId === file._id && active?.projectId === projectId;
+  const isPlaying = isSelected && status === 'playing';
   const isBusy =
-    isActive && (status === 'loading_url' || status === 'decoding' || status === 'buffering');
+    isSelected && (status === 'loading_url' || status === 'decoding' || status === 'buffering');
 
-  const { data: meta } = useAudioMeta(projectId, file._id, file.fileName, true);
+  const { data: meta } = useAudioMeta(projectId, file._id, file.fileName, isSelected);
 
   const track = useMemo(
     () => ({
@@ -87,7 +88,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   );
 
   const displayDuration =
-    isActive && duration > 0
+    isSelected && duration > 0
       ? duration
       : meta?.durationMs
         ? meta.durationMs / 1000
@@ -105,15 +106,15 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
       if (e.code === 'Space') {
         e.preventDefault();
         handlePlayPause();
-      } else if (e.code === 'ArrowLeft') {
+      } else if (isSelected && e.code === 'ArrowLeft') {
         e.preventDefault();
-        seek((isActive ? currentTime : 0) - 5);
-      } else if (e.code === 'ArrowRight') {
+        seek(currentTime - 5);
+      } else if (isSelected && e.code === 'ArrowRight') {
         e.preventDefault();
-        seek((isActive ? currentTime : 0) + 5);
+        seek(currentTime + 5);
       }
     },
-    [handlePlayPause, seek, isActive, currentTime]
+    [handlePlayPause, seek, isSelected, currentTime]
   );
 
   const statusMessage = useMemo(() => {
@@ -123,7 +124,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     if (capability.strategy === 'unsupported') {
       return t('audioPlayer.unsupported');
     }
-    if (!isActive) return null;
+    if (!isSelected) return null;
     if (status === 'loading_url') return t('audioPlayer.loading');
     if (status === 'decoding') return t('audioPlayer.decoding');
     if (status === 'buffering') return t('audioPlayer.buffering');
@@ -132,7 +133,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
       return t('audioPlayer.error');
     }
     return null;
-  }, [capability.strategy, isActive, status, error, t]);
+  }, [capability.strategy, isSelected, status, error, t]);
 
   const playDisabled =
     capability.strategy === 'unsupported' || capability.strategy === 'download_only';
@@ -145,10 +146,45 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     capability.extension
   );
 
+  // Compact: play button only (or tiny status for unplayable)
+  if (!isSelected) {
+    return (
+      <div
+        ref={rootRef}
+        className="remote-audio-player remote-audio-player--compact"
+        role="group"
+        aria-label={t('audioPlayer.label', { name: file.fileName })}
+      >
+        <button
+          type="button"
+          className="remote-audio-player__play"
+          onClick={handlePlayPause}
+          disabled={playDisabled}
+          aria-label={t('audioPlayer.play')}
+        >
+          <Play size={18} />
+        </button>
+        {playDisabled && statusMessage && (
+          <span className="remote-audio-player__compact-hint">
+            {statusMessage}
+            {capability.strategy === 'download_only' && onDownload && (
+              <>
+                {' '}
+                <button type="button" className="remote-audio-player__link" onClick={onDownload}>
+                  {t('download')}
+                </button>
+              </>
+            )}
+          </span>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       ref={rootRef}
-      className={`remote-audio-player ${isActive ? 'remote-audio-player--active' : ''}`}
+      className="remote-audio-player remote-audio-player--expanded remote-audio-player--active"
       tabIndex={0}
       onKeyDown={handleKeyDown}
       role="group"
@@ -172,13 +208,13 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
             min={0}
             max={displayDuration || 0}
             step={0.01}
-            value={isActive ? currentTime : 0}
-            disabled={!isActive || displayDuration <= 0}
+            value={currentTime}
+            disabled={displayDuration <= 0}
             onChange={(e) => seek(Number(e.target.value))}
             aria-label={t('audioPlayer.seek')}
           />
           <div className="remote-audio-player__time">
-            <span>{formatTime(isActive ? currentTime : 0)}</span>
+            <span>{formatTime(currentTime)}</span>
             <span>/</span>
             <span>{formatTime(displayDuration)}</span>
           </div>
@@ -212,19 +248,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
 
       <div className="remote-audio-player__meta">
         <span className="remote-audio-player__fidelity">{fidelityLabel}</span>
-        {statusMessage && (
-          <span className="remote-audio-player__status">
-            {statusMessage}
-            {capability.strategy === 'download_only' && onDownload && (
-              <>
-                {' '}
-                <button type="button" className="remote-audio-player__link" onClick={onDownload}>
-                  {t('download')}
-                </button>
-              </>
-            )}
-          </span>
-        )}
+        {statusMessage && <span className="remote-audio-player__status">{statusMessage}</span>}
       </div>
     </div>
   );

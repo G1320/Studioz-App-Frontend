@@ -101,8 +101,10 @@
 
   "audioPlayer": {
     "label": "נגן אודיו עבור {{name}}",
+    "stickyLabel": "מתנגן כעת {{name}}",
     "play": "נגן",
     "pause": "השהה",
+    "stop": "עצור ניגון",
     "seek": "דפדוף",
     "volume": "עוצמה",
     "mute": "השתק",

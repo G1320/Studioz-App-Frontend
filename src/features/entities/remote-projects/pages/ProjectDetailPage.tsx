@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Pencil, Plus, X } from 'lucide-react';
 import { Button } from '@shared/components';
+import { StickyRemoteAudioBar } from '@shared/components/audio';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '@core/contexts';
 import { useSocket } from '@core/contexts/SocketContext';
@@ -16,6 +17,7 @@ import {
   useCancelProjectMutation,
   useUpdateProjectMutation
 } from '@shared/hooks';
+import { hiFiAudioEngine } from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
@@ -27,6 +29,12 @@ export const ProjectDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('remoteProjects');
   const { user } = useUserContext();
+
+  useEffect(() => {
+    return () => {
+      hiFiAudioEngine.stop();
+    };
+  }, []);
 
   const {
     project,
@@ -541,6 +549,7 @@ export const ProjectDetailPage: React.FC = () => {
           </div>
         </div>
       )}
+      <StickyRemoteAudioBar />
     </div>
   );
 };

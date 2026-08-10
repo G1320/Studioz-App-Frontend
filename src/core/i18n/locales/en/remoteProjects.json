@@ -101,8 +101,10 @@
 
   "audioPlayer": {
     "label": "Audio player for {{name}}",
+    "stickyLabel": "Now playing {{name}}",
     "play": "Play",
     "pause": "Pause",
+    "stop": "Stop playback",
     "seek": "Seek",
     "volume": "Volume",
     "mute": "Mute",

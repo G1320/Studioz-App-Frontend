@@ -62,22 +62,13 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
         <Link
           to={`/${currLang}/dashboard`}
           className="navbar-link"
-          aria-label={t('profile:buttons.dashboard', 'Dashboard')}
+          aria-label={t('navigation.dashboard')}
           aria-current={isCurrentPage(`/${currLang}/dashboard`) ? 'page' : undefined}
           onClick={() => scrollToTop()}
         >
-          {t('profile:buttons.dashboard', 'Dashboard')}
+          {t('navigation.dashboard')}
         </Link>
       )}
-      <Link
-        to={`/${currLang}/studio/create`}
-        className="navbar-link"
-        aria-label={t('navigation.list_studio')}
-        aria-current={isCurrentPage(`/${currLang}/studio/create`) ? 'page' : undefined}
-        onClick={() => scrollToTop()}
-      >
-        {t('navigation.list_studio_short', 'List Studio')}
-      </Link>
       <a
         href={`/${currLang}#how-it-works`}
         className="navbar-link"

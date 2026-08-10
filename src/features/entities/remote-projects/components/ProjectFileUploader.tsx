@@ -339,8 +339,22 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
           </div>
           <ul className="project-file-uploader__file-list">
           {files.map((file: ProjectFile) => (
-            <li key={file._id} className="project-file-uploader__file-item project-file-uploader__file-item--with-player">
+            <li
+              key={file._id}
+              className={`project-file-uploader__file-item${
+                isPlayableAudioExtension(file.fileName)
+                  ? ' project-file-uploader__file-item--with-player'
+                  : ''
+              }`}
+            >
               <div className="project-file-uploader__file-header">
+                {isPlayableAudioExtension(file.fileName) && (
+                  <RemoteAudioPlayer
+                    projectId={projectId}
+                    file={file}
+                    onDownload={() => handleDownloadFile(file)}
+                  />
+                )}
                 <div className="project-file-uploader__file-info">
                   <span className="project-file-uploader__file-name">{file.fileName}</span>
                   <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
@@ -363,13 +377,6 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                   )}
                 </div>
               </div>
-              {isPlayableAudioExtension(file.fileName) && (
-                <RemoteAudioPlayer
-                  projectId={projectId}
-                  file={file}
-                  onDownload={() => handleDownloadFile(file)}
-                />
-              )}
             </li>
           ))}
           </ul>
