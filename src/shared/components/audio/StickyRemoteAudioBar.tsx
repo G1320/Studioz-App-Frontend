@@ -75,15 +75,6 @@ export const StickyRemoteAudioBar: FC = () => {
           {isPlaying ? <Pause size={18} /> : <Play size={18} />}
         </button>
 
-        <div className="sticky-remote-audio-bar__meta">
-          <span className="sticky-remote-audio-bar__title" title={active.fileName}>
-            {active.fileName}
-          </span>
-          {statusLabel && (
-            <span className="sticky-remote-audio-bar__status">{statusLabel}</span>
-          )}
-        </div>
-
         <div className="sticky-remote-audio-bar__transport">
           <input
             type="range"
@@ -104,6 +95,14 @@ export const StickyRemoteAudioBar: FC = () => {
           </div>
         </div>
 
+        <div className="sticky-remote-audio-bar__meta">
+          <span className="sticky-remote-audio-bar__title" title={active.fileName}>
+            {active.fileName}
+          </span>
+          {statusLabel && (
+            <span className="sticky-remote-audio-bar__status">{statusLabel}</span>
+          )}
+        </div>
         <button
           type="button"
           className="sticky-remote-audio-bar__close"
