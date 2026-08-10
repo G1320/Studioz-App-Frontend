@@ -87,12 +87,13 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     [projectId, file._id, file.fileName, file.mimeType, file.fileSize]
   );
 
+  const engineDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+  const metaDuration = meta?.durationMs ? meta.durationMs / 1000 : 0;
+  // Prefer the media element's duration once known; fall back to header meta.
+  // If playback has already passed a stale meta estimate, grow the scrubber with currentTime.
   const displayDuration =
-    isSelected && duration > 0
-      ? duration
-      : meta?.durationMs
-        ? meta.durationMs / 1000
-        : 0;
+    engineDuration || (metaDuration > 0 ? Math.max(metaDuration, currentTime) : currentTime);
+  const scrubberMax = Math.max(displayDuration, 0.01);
 
   const handlePlayPause = useCallback(() => {
     if (capability.strategy === 'download_only' || capability.strategy === 'unsupported') {
@@ -201,24 +202,17 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           {isPlaying ? <Pause size={18} /> : <Play size={18} />}
         </button>
 
-        <div className="remote-audio-player__transport">
-          <input
-            type="range"
-            className="remote-audio-player__scrubber"
-            min={0}
-            max={displayDuration || 0}
-            step={0.01}
-            value={currentTime}
-            disabled={displayDuration <= 0}
-            onChange={(e) => seek(Number(e.target.value))}
-            aria-label={t('audioPlayer.seek')}
-          />
-          <div className="remote-audio-player__time">
-            <span>{formatTime(currentTime)}</span>
-            <span>/</span>
-            <span>{formatTime(displayDuration)}</span>
-          </div>
-        </div>
+        <input
+          type="range"
+          className="remote-audio-player__range remote-audio-player__scrubber"
+          min={0}
+          max={scrubberMax}
+          step={0.01}
+          value={Math.min(currentTime, scrubberMax)}
+          disabled={scrubberMax <= 0}
+          onChange={(e) => seek(Number(e.target.value))}
+          aria-label={t('audioPlayer.seek')}
+        />
 
         <div className="remote-audio-player__volume">
           <button
@@ -231,7 +225,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           </button>
           <input
             type="range"
-            className="remote-audio-player__volume-slider"
+            className="remote-audio-player__range remote-audio-player__volume-slider"
             min={0}
             max={1}
             step={0.01}
@@ -246,7 +240,12 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
         </div>
       </div>
 
-      <div className="remote-audio-player__meta">
+      <div className="remote-audio-player__footer">
+        <div className="remote-audio-player__time">
+          <span>{formatTime(currentTime)}</span>
+          <span>/</span>
+          <span>{formatTime(displayDuration)}</span>
+        </div>
         <span className="remote-audio-player__fidelity">{fidelityLabel}</span>
         {statusMessage && <span className="remote-audio-player__status">{statusMessage}</span>}
       </div>
