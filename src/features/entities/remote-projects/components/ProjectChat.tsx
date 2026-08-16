@@ -99,7 +99,8 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     if (!file || !fileId || typeof msg.offsetSeconds !== 'number') return;
     void hiFiAudioEngine.playAt(
       {
-        projectId,
+        library: 'project',
+        containerId: projectId,
         fileId,
         fileName: file.fileName,
         mimeType: file.mimeType,

@@ -28,8 +28,9 @@ export const StickyRemoteAudioBar: FC = () => {
   const { active, status, currentTime, duration, togglePlayPause, seek, stop } =
     useHiFiAudioEngine();
   const cueComment = useAudioCueComment();
+  const showCues = active?.library === 'project';
   const { messages } = useProjectMessages({
-    projectId: active?.projectId || '',
+    projectId: showCues ? active?.containerId || '' : ''
   });
 
   const visible = !!active && VISIBLE_STATUSES.has(status);
@@ -93,7 +94,7 @@ export const StickyRemoteAudioBar: FC = () => {
               onChange={(e) => seek(Number(e.target.value))}
               aria-label={t('audioPlayer.seek')}
             />
-            {active && (
+            {showCues && active && (
               <ScrubberCueMarkers
                 fileId={active.fileId}
                 duration={scrubberMax}
@@ -116,7 +117,7 @@ export const StickyRemoteAudioBar: FC = () => {
             <span className="sticky-remote-audio-bar__status">{statusLabel}</span>
           )}
         </div>
-        {cueComment && (
+        {showCues && cueComment && (
           <button
             type="button"
             className="sticky-remote-audio-bar__comment"

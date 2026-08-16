@@ -26,5 +26,6 @@ export * from './billing-service';
 export * from './studio-coupon-service';
 export * from './email-preferences-service';
 export * from './remote-project-service';
+export * from './studio-file-service';
 // booking-analytics-service and reschedule-service types/functions are already exported
 // from merchant-service and reservation-service respectively. Import directly if needed.

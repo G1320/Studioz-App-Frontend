@@ -14,11 +14,14 @@ import {
   HeadphonesIcon
 } from '@shared/components/icons';
 
+import { StudioPortfolioFiles } from './StudioPortfolioFiles';
 import '../styles/_studio-portfolio-view.scss';
 
 interface StudioPortfolioViewProps {
+  studioId?: string;
   portfolio?: PortfolioItem[];
   socialLinks?: SocialLinks;
+  canManageFiles?: boolean;
 }
 
 type FilterType = 'all' | 'audio' | 'video' | 'album';
@@ -59,8 +62,10 @@ const SocialButton: React.FC<{
 );
 
 export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
+  studioId,
   portfolio = [],
-  socialLinks
+  socialLinks,
+  canManageFiles = false
 }) => {
   const { t, i18n } = useTranslation('forms');
   const [filter, setFilter] = useState<FilterType>('all');
@@ -101,12 +106,15 @@ export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
     }
   };
 
-  if (portfolio.length === 0 && !hasSocialLinks) {
+  if (portfolio.length === 0 && !hasSocialLinks && !studioId) {
     return null;
   }
 
   return (
     <div className="studio-portfolio-view" dir={i18n.dir()}>
+      {studioId && (
+        <StudioPortfolioFiles studioId={studioId} canManage={canManageFiles} />
+      )}
       {/* Header Section */}
       {portfolio.length > 0 && (
         <>

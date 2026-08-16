@@ -27,26 +27,30 @@ export const ScrubberCueMarkers: FC<ScrubberCueMarkersProps> = ({
   if (cues.length === 0) return null;
 
   return (
-    <div className="remote-audio-player__markers" aria-hidden={false}>
+    <div className="remote-audio-player__markers">
       {cues.map((msg) => {
         const offset = msg.offsetSeconds ?? 0;
+        const timeLabel = formatPlaybackTime(offset);
         const pct = Math.max(0, Math.min(100, (offset / duration) * 100));
-        const preview = msg.message.length > 80 ? `${msg.message.slice(0, 80)}…` : msg.message;
         return (
           <button
             key={msg._id}
             type="button"
             className="remote-audio-player__marker"
             style={{ insetInlineStart: `${pct}%` }}
-            title={`${formatPlaybackTime(offset)} — ${preview}`}
-            aria-label={t('audioPlayer.cueMarker', { time: formatPlaybackTime(offset) })}
+            aria-label={t('audioPlayer.cueMarker', { time: timeLabel })}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               hiFiAudioEngine.seek(offset);
               cueContext?.highlightMessage(msg._id);
             }}
-          />
+          >
+            <span className="remote-audio-player__marker-bubble" role="tooltip">
+              <span className="remote-audio-player__marker-time">{timeLabel}</span>
+              <span className="remote-audio-player__marker-text">{msg.message}</span>
+            </span>
+          </button>
         );
       })}
     </div>

@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, SteppedForm, FieldType, FormStep, PortfolioStep } from '@shared/components';
+import { StudioPortfolioFiles } from '@features/entities/studios/components/StudioPortfolioFiles';
 import type { CancellationPolicy } from '@shared/components';
 import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { studioEditSchema, studioStepSchemasEdit } from '@shared/validation/schemas';
@@ -423,12 +424,15 @@ export const EditStudioForm = () => {
         fieldNames: ['portfolio', 'socialLinks'],
         icon: WorkIcon,
         customContent: (
-          <PortfolioStep
-            portfolio={portfolio}
-            onPortfolioChange={setPortfolio}
-            socialLinks={socialLinks}
-            onSocialLinksChange={setSocialLinks}
-          />
+          <>
+            {studioId && <StudioPortfolioFiles studioId={studioId} canManage />}
+            <PortfolioStep
+              portfolio={portfolio}
+              onPortfolioChange={setPortfolio}
+              socialLinks={socialLinks}
+              onSocialLinksChange={setSocialLinks}
+            />
+          </>
         )
       },
       {

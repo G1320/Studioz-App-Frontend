@@ -350,7 +350,8 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
               <div className="project-file-uploader__file-header">
                 {isPlayableAudioExtension(file.fileName) && (
                   <RemoteAudioPlayer
-                    projectId={projectId}
+                    library="project"
+                    containerId={projectId}
                     file={file}
                     onDownload={() => handleDownloadFile(file)}
                   />

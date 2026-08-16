@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useRef, type FC, type KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MessageSquarePlus, Pause, Play, Volume2, VolumeX } from 'lucide-react';
-import { ProjectFile } from 'src/types';
 import {
   rangeFillStyle,
   resolvePlaybackCapability,
@@ -14,10 +13,19 @@ import { useProjectMessages } from '@shared/hooks';
 import { ScrubberCueMarkers } from './ScrubberCueMarkers';
 import './styles/_remote-audio-player.scss';
 
+interface PlayableRemoteFile {
+  _id: string;
+  fileName: string;
+  mimeType: string;
+  fileSize: number;
+}
+
 interface RemoteAudioPlayerProps {
-  projectId: string;
-  file: ProjectFile;
+  library: 'project' | 'studio';
+  containerId: string;
+  file: PlayableRemoteFile;
   onDownload?: () => void;
+  enableCues?: boolean;
 }
 
 function formatFidelity(
@@ -41,9 +49,11 @@ function formatFidelity(
 }
 
 export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
-  projectId,
+  library,
+  containerId,
   file,
-  onDownload
+  onDownload,
+  enableCues = library === 'project'
 }) => {
   const { t } = useTranslation('remoteProjects');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -67,24 +77,25 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   } = useHiFiAudioEngine();
 
   // Selected = this file owns the engine (playing or paused) — keep full transport visible
-  const isSelected = active?.fileId === file._id && active?.projectId === projectId;
+  const isSelected = active?.fileId === file._id && active?.containerId === containerId && active?.library === library;
   const isPlaying = isSelected && status === 'playing';
   const isBusy =
     isSelected && (status === 'loading_url' || status === 'decoding' || status === 'buffering');
 
-  const { data: meta } = useAudioMeta(projectId, file._id, file.fileName, isSelected);
-  const { messages } = useProjectMessages({ projectId });
+  const { data: meta } = useAudioMeta(library, containerId, file._id, file.fileName, isSelected);
+  const { messages } = useProjectMessages({ projectId: enableCues ? containerId : '' });
   const cueComment = useAudioCueComment();
 
   const track = useMemo(
     () => ({
-      projectId,
+      library,
+      containerId,
       fileId: file._id,
       fileName: file.fileName,
       mimeType: file.mimeType,
       fileSize: file.fileSize
     }),
-    [projectId, file._id, file.fileName, file.mimeType, file.fileSize]
+    [library, containerId, file._id, file.fileName, file.mimeType, file.fileSize]
   );
 
   const engineDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
@@ -215,7 +226,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
             onChange={(e) => seek(Number(e.target.value))}
             aria-label={t('audioPlayer.seek')}
           />
-          <ScrubberCueMarkers fileId={file._id} duration={scrubberMax} messages={messages} />
+          {enableCues && <ScrubberCueMarkers fileId={file._id} duration={scrubberMax} messages={messages} />}
         </div>
 
         <div className="remote-audio-player__volume">
@@ -253,7 +264,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
         </div>
         <span className="remote-audio-player__fidelity">{fidelityLabel}</span>
         {statusMessage && <span className="remote-audio-player__status">{statusMessage}</span>}
-        {cueComment && (
+        {enableCues && cueComment && (
           <button
             type="button"
             className="remote-audio-player__comment"

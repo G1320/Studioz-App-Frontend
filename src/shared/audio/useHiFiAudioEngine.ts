@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { getDownloadUrl } from '@shared/services';
+import { getDownloadUrl, getStudioFileDownloadUrl } from '@shared/services';
 import { resolvePlaybackCapability, type PlaybackStrategy } from './audioCapability';
 import { decodeRemoteAudioToWavBlob } from './wasmAudioDecode';
 
@@ -13,12 +13,31 @@ export type HiFiEngineStatus =
   | 'buffering'
   | 'error';
 
+export type HiFiAudioLibrary = 'project' | 'studio';
+
 export interface HiFiTrackIdentity {
-  projectId: string;
+  library: HiFiAudioLibrary;
+  containerId: string;
   fileId: string;
   fileName: string;
   mimeType: string;
   fileSize: number;
+}
+
+async function fetchTrackDownloadUrl(track: HiFiTrackIdentity) {
+  if (track.library === 'studio') {
+    return getStudioFileDownloadUrl(track.containerId, track.fileId);
+  }
+  return getDownloadUrl(track.containerId, track.fileId);
+}
+
+function isSameTrack(a: HiFiTrackIdentity | null, b: HiFiTrackIdentity): boolean {
+  return (
+    !!a &&
+    a.library === b.library &&
+    a.containerId === b.containerId &&
+    a.fileId === b.fileId
+  );
 }
 
 interface HiFiEngineSnapshot {
@@ -144,7 +163,7 @@ class HiFiAudioEngine {
       return;
     }
     try {
-      const { downloadUrl, expiresIn } = await getDownloadUrl(track.projectId, track.fileId);
+      const { downloadUrl, expiresIn } = await fetchTrackDownloadUrl(track);
       const audio = this.ensureAudio();
       const wasPlaying = !audio.paused;
       const t = audio.currentTime;
@@ -187,7 +206,7 @@ class HiFiAudioEngine {
     }
 
     try {
-      const { downloadUrl, expiresIn } = await getDownloadUrl(track.projectId, track.fileId);
+      const { downloadUrl, expiresIn } = await fetchTrackDownloadUrl(track);
       if (generation !== this.loadGeneration) return;
 
       const audio = this.ensureAudio();
@@ -237,9 +256,7 @@ class HiFiAudioEngine {
   }
 
   async playAt(track: HiFiTrackIdentity, startTime: number): Promise<void> {
-    const isSame =
-      this.snapshot.active?.fileId === track.fileId &&
-      this.snapshot.active?.projectId === track.projectId;
+    const isSame = isSameTrack(this.snapshot.active, track);
 
     if (!isSame || this.snapshot.status === 'idle' || this.snapshot.status === 'error') {
       await this.loadAndPlay(track, startTime);
@@ -254,9 +271,7 @@ class HiFiAudioEngine {
   }
 
   async togglePlayPause(track: HiFiTrackIdentity): Promise<void> {
-    const isSame =
-      this.snapshot.active?.fileId === track.fileId &&
-      this.snapshot.active?.projectId === track.projectId;
+    const isSame = isSameTrack(this.snapshot.active, track);
 
     if (!isSame || this.snapshot.status === 'idle' || this.snapshot.status === 'error') {
       await this.loadAndPlay(track);
@@ -318,8 +333,12 @@ class HiFiAudioEngine {
     });
   }
 
-  isActiveFile(projectId: string, fileId: string): boolean {
-    return this.snapshot.active?.projectId === projectId && this.snapshot.active?.fileId === fileId;
+  isActiveFile(library: HiFiAudioLibrary, containerId: string, fileId: string): boolean {
+    return (
+      this.snapshot.active?.library === library &&
+      this.snapshot.active?.containerId === containerId &&
+      this.snapshot.active?.fileId === fileId
+    );
   }
 }
 
@@ -343,7 +362,7 @@ export function useHiFiAudioEngine() {
     setVolume: (volume: number) => hiFiAudioEngine.setVolume(volume),
     setMuted: (muted: boolean) => hiFiAudioEngine.setMuted(muted),
     stop: () => hiFiAudioEngine.stop(),
-    isActiveFile: (projectId: string, fileId: string) =>
-      hiFiAudioEngine.isActiveFile(projectId, fileId)
+    isActiveFile: (library: HiFiAudioLibrary, containerId: string, fileId: string) =>
+      hiFiAudioEngine.isActiveFile(library, containerId, fileId)
   };
 }

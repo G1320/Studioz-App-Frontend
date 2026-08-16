@@ -475,12 +475,20 @@ export const CreateStudioForm = () => {
         fieldNames: ['portfolio', 'socialLinks'],
         icon: WorkIcon,
         customContent: (
-          <PortfolioStep
-            portfolio={portfolio}
-            onPortfolioChange={setPortfolio}
-            socialLinks={socialLinks}
-            onSocialLinksChange={setSocialLinks}
-          />
+          <>
+            <p className="portfolio-step__upload-hint">
+              {t('form.portfolio.uploadAfterCreate', {
+                defaultValue:
+                  'After you create the studio, you can upload audio files to play on your public portfolio.'
+              })}
+            </p>
+            <PortfolioStep
+              portfolio={portfolio}
+              onPortfolioChange={setPortfolio}
+              socialLinks={socialLinks}
+              onSocialLinksChange={setSocialLinks}
+            />
+          </>
         )
       },
       {

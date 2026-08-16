@@ -85,6 +85,12 @@
     flex-wrap: wrap;
     gap: ds.$space-4;
   }
+
+  &__listen {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$space-6;
+  }
 }
 
 // Filter Chip

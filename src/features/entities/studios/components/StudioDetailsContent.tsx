@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { StudioOverviewView } from './StudioOverviewView';
 import { StudioInfoView } from './StudioInfoView';
 import { StudioPortfolioView } from './StudioPortfolioView';
+import { useStudioFiles } from '@shared/hooks';
 
 import { GridViewIcon, ListIcon, WorkIcon } from '@shared/components/icons';
 
@@ -21,9 +22,10 @@ const VALID_VIEWS: ContentView[] = ['overview', 'info', 'portfolio'];
 
 interface StudioDetailsContentProps {
   studio?: Studio;
+  isOwner?: boolean;
 }
 
-export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ studio }) => {
+export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ studio, isOwner = false }) => {
   const { t } = useTranslation('common');
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -48,12 +50,14 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
     }, { replace: true });
   }, [setSearchParams]);
 
+  const { files: portfolioFiles } = useStudioFiles(studio?._id || '');
+
   // Check if studio has portfolio content to show the tab
   const hasPortfolio = useMemo(() => {
     const hasItems = studio?.portfolio && studio.portfolio.length > 0;
     const hasLinks = studio?.socialLinks && Object.values(studio.socialLinks).some((link) => link?.trim());
-    return hasItems || hasLinks;
-  }, [studio?.portfolio, studio?.socialLinks]);
+    return hasItems || hasLinks || portfolioFiles.length > 0 || isOwner;
+  }, [studio?.portfolio, studio?.socialLinks, portfolioFiles.length, isOwner]);
 
   return (
     <div className="studio-details__content">
@@ -120,9 +124,11 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
               exit="exit"
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              <StudioPortfolioView 
-                portfolio={studio?.portfolio} 
-                socialLinks={studio?.socialLinks} 
+              <StudioPortfolioView
+                studioId={studio?._id}
+                portfolio={studio?.portfolio}
+                socialLinks={studio?.socialLinks}
+                canManageFiles={isOwner}
               />
             </motion.div>
           )}

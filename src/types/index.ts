@@ -32,3 +32,4 @@ export type {
   MessageFileCue,
   MessagesResponse,
 } from './remoteProject';
+export type { StudioFile } from './studioFile';

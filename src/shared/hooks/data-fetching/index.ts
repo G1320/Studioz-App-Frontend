@@ -21,3 +21,4 @@ export * from './useRemoteProject';
 export * from './useRemoteProjects';
 export * from './useProjectFiles';
 export * from './useProjectMessages';
+export * from './useStudioFiles';

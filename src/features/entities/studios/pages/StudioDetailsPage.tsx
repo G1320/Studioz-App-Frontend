@@ -5,6 +5,7 @@ import { ContinueToCheckoutButton } from '@features/entities/orders/components/C
 import { ItemCard } from '@features/entities/items/components/ItemCard';
 import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
+import { StickyRemoteAudioBar } from '@shared/components/audio';
 import { StudioSchema } from '@shared/components/seo';
 import { trackEvent } from '@shared/utils/analytics';
 
@@ -93,6 +94,7 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
         />
       )}
       {!selectedItemId && <ContinueToCheckoutButton cart={cart} />}
+      <StickyRemoteAudioBar />
     </section>
   );
 };

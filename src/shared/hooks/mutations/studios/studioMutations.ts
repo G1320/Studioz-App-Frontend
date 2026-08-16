@@ -1,7 +1,15 @@
 import { useLanguageNavigate, useMutationHandler } from '@shared/hooks';
-import { createStudio, updateStudio, toggleStudioActive, toggleItemActive } from '@shared/services';
-import { Studio, Item } from 'src/types/index';
+import {
+  createStudio,
+  updateStudio,
+  toggleStudioActive,
+  toggleItemActive,
+  uploadStudioPortfolioFile,
+  deleteStudioFile
+} from '@shared/services';
+import { Studio, Item, StudioFile } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 
 type CreateStudioVariables = {
   userId: string;
@@ -60,5 +68,37 @@ export const useToggleItemActiveMutation = () => {
     mutationFn: ({ studioId, itemId, active }) => toggleItemActive(studioId, itemId, active),
     successMessage: t('toasts.success.itemStatusUpdated'),
     invalidateQueries: [{ queryKey: 'studios' }, { queryKey: 'items' }]
+  });
+};
+
+export const useUploadStudioFileMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<
+    StudioFile,
+    { studioId: string; file: File; onProgress?: (progress: number) => void }
+  >({
+    mutationFn: ({ studioId, file, onProgress }) =>
+      uploadStudioPortfolioFile(studioId, file, onProgress),
+    successMessage: t('toasts.success.fileUploaded', 'File uploaded'),
+    invalidateQueries: [{ queryKey: 'studioFiles' }],
+    onSuccess: (_data, { studioId }) => {
+      queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });
+    }
+  });
+};
+
+export const useDeleteStudioFileMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<void, { studioId: string; fileId: string }>({
+    mutationFn: ({ studioId, fileId }) => deleteStudioFile(studioId, fileId),
+    successMessage: t('toasts.success.fileDeleted', 'File deleted'),
+    invalidateQueries: [{ queryKey: 'studioFiles' }],
+    onSuccess: (_data, { studioId }) => {
+      queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });
+    }
   });
 };

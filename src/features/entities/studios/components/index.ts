@@ -11,6 +11,7 @@ export * from './StudioOverviewView';
 export * from './StudioInfoView';
 export * from './StudioInfoModal';
 export * from './StudioPortfolioView';
+export * from './StudioPortfolioFiles';
 export * from './SidebarFilters';
 export * from './StudioManager';
 export * from './StudioBlockTimeSlotModal';
