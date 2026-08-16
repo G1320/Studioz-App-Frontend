@@ -23,6 +23,7 @@ export const registerStudioFile = async (
     fileSize: number;
     mimeType: string;
     storageKey: string;
+    role?: StudioFile['role'];
   }
 ): Promise<StudioFile> => {
   return httpService.post(`${endpoint}/${studioId}/files`, data);
@@ -48,6 +49,14 @@ export const getStudioFileAudioMeta = async (
 
 export const deleteStudioFile = async (studioId: string, fileId: string): Promise<void> => {
   await httpService.delete(`${endpoint}/${studioId}/files/${fileId}`);
+};
+
+export const updateStudioFile = async (
+  studioId: string,
+  fileId: string,
+  data: { role?: StudioFile['role'] | '' }
+): Promise<StudioFile> => {
+  return httpService.patch(`${endpoint}/${studioId}/files/${fileId}`, data);
 };
 
 const uploadToR2 = (url: string, file: File, onProgress?: (progress: number) => void): Promise<void> => {
@@ -81,7 +90,8 @@ const uploadToR2 = (url: string, file: File, onProgress?: (progress: number) => 
 export const uploadStudioPortfolioFile = async (
   studioId: string,
   file: File,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
+  role?: StudioFile['role']
 ): Promise<StudioFile> => {
   const uploadUrlResponse = await getStudioFileUploadUrl(studioId, {
     fileName: file.name,
@@ -96,6 +106,7 @@ export const uploadStudioPortfolioFile = async (
     fileName: file.name,
     fileSize: file.size,
     mimeType: file.type || 'application/octet-stream',
-    storageKey: uploadUrlResponse.storageKey
+    storageKey: uploadUrlResponse.storageKey,
+    role
   });
 };

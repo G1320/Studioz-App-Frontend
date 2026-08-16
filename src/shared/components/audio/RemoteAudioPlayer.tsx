@@ -26,6 +26,7 @@ interface RemoteAudioPlayerProps {
   file: PlayableRemoteFile;
   onDownload?: () => void;
   enableCues?: boolean;
+  layout?: 'full' | 'compact';
 }
 
 function formatFidelity(
@@ -53,7 +54,8 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   containerId,
   file,
   onDownload,
-  enableCues = library === 'project'
+  enableCues = library === 'project',
+  layout = 'full'
 }) => {
   const { t } = useTranslation('remoteProjects');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -158,8 +160,8 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     capability.extension
   );
 
-  // Compact: play button only (or tiny status for unplayable)
-  if (!isSelected) {
+  // Compact: play/pause only — used on portfolio tiles (sticky bar owns transport)
+  if (!isSelected || layout === 'compact') {
     return (
       <div
         ref={rootRef}
@@ -171,10 +173,10 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           type="button"
           className="remote-audio-player__play"
           onClick={handlePlayPause}
-          disabled={playDisabled}
-          aria-label={t('audioPlayer.play')}
+          disabled={playDisabled || (isSelected && isBusy)}
+          aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          <Play size={18} />
+          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
         </button>
         {playDisabled && statusMessage && (
           <span className="remote-audio-player__compact-hint">

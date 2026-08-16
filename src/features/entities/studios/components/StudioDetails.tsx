@@ -42,7 +42,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
         onAddNewService={handleAddNewService}
       />
 
-      <StudioDetailsContent studio={studio} isOwner={Boolean(user?._id && studio?.createdBy === user._id)} />
+      <StudioDetailsContent studio={studio} />
     </article>
   );
 };

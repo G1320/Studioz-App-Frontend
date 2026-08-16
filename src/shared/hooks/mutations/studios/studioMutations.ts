@@ -5,7 +5,8 @@ import {
   toggleStudioActive,
   toggleItemActive,
   uploadStudioPortfolioFile,
-  deleteStudioFile
+  deleteStudioFile,
+  updateStudioFile
 } from '@shared/services';
 import { Studio, Item, StudioFile } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
@@ -77,10 +78,15 @@ export const useUploadStudioFileMutation = () => {
 
   return useMutationHandler<
     StudioFile,
-    { studioId: string; file: File; onProgress?: (progress: number) => void }
+    {
+      studioId: string;
+      file: File;
+      role?: StudioFile['role'];
+      onProgress?: (progress: number) => void;
+    }
   >({
-    mutationFn: ({ studioId, file, onProgress }) =>
-      uploadStudioPortfolioFile(studioId, file, onProgress),
+    mutationFn: ({ studioId, file, role, onProgress }) =>
+      uploadStudioPortfolioFile(studioId, file, onProgress, role),
     successMessage: t('toasts.success.fileUploaded', 'File uploaded'),
     invalidateQueries: [{ queryKey: 'studioFiles' }],
     onSuccess: (_data, { studioId }) => {
@@ -96,6 +102,21 @@ export const useDeleteStudioFileMutation = () => {
   return useMutationHandler<void, { studioId: string; fileId: string }>({
     mutationFn: ({ studioId, fileId }) => deleteStudioFile(studioId, fileId),
     successMessage: t('toasts.success.fileDeleted', 'File deleted'),
+    invalidateQueries: [{ queryKey: 'studioFiles' }],
+    onSuccess: (_data, { studioId }) => {
+      queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });
+    }
+  });
+};
+
+export const useUpdateStudioFileMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutationHandler<
+    StudioFile,
+    { studioId: string; fileId: string; role?: StudioFile['role'] | '' }
+  >({
+    mutationFn: ({ studioId, fileId, role }) => updateStudioFile(studioId, fileId, { role }),
     invalidateQueries: [{ queryKey: 'studioFiles' }],
     onSuccess: (_data, { studioId }) => {
       queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });

@@ -1,17 +1,22 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@shared/components';
 import { RemoteAudioPlayer } from '@shared/components/audio';
+import { MusicNoteIcon } from '@shared/components/icons';
 import {
   useStudioFiles,
   useUploadStudioFileMutation,
-  useDeleteStudioFileMutation
+  useDeleteStudioFileMutation,
+  useUpdateStudioFileMutation
 } from '@shared/hooks';
-import { formatFileSize } from '@shared/services';
+import { useHiFiAudioEngine } from '@shared/audio';
 import {
   STUDIO_PORTFOLIO_ACCEPTED_FILE_TYPES,
   STUDIO_PORTFOLIO_MAX_FILE_SIZE_MB,
-  STUDIO_PORTFOLIO_MAX_FILES
+  STUDIO_PORTFOLIO_MAX_FILES,
+  STUDIO_PORTFOLIO_ROLES,
+  type StudioPortfolioRole
 } from '@shared/constants/studioPortfolioFileLimits';
 import { isPlayableAudioExtension } from '@shared/constants/remoteProjectFileLimits';
 import { StudioFile } from 'src/types';
@@ -30,6 +35,12 @@ interface UploadProgress {
   error?: string;
 }
 
+type RoleFilter = 'all' | StudioPortfolioRole;
+
+function displayTrackTitle(fileName: string): string {
+  return fileName.replace(/\.[^.]+$/, '').replace(/[_]+/g, ' ');
+}
+
 export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
   studioId,
   canManage = false
@@ -38,12 +49,42 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploads, setUploads] = useState<UploadProgress[]>([]);
+  const [uploadRole, setUploadRole] = useState<StudioPortfolioRole | ''>('mixed');
+  const [roleFilter, setRoleFilter] = useState<RoleFilter>('all');
 
   const { files, isLoading, refetch } = useStudioFiles(studioId);
   const uploadMutation = useUploadStudioFileMutation();
   const deleteMutation = useDeleteStudioFileMutation();
+  const updateMutation = useUpdateStudioFileMutation();
+  const { active, status } = useHiFiAudioEngine();
 
   const acceptedTypes = [...STUDIO_PORTFOLIO_ACCEPTED_FILE_TYPES];
+
+  const roleLabel = (role?: string) => {
+    if (!role) return t('form.portfolio.roles.uncategorized', { defaultValue: 'Uncategorized' });
+    return t(`form.portfolio.roles.${role}`, { defaultValue: role });
+  };
+
+  const filteredFiles = useMemo(() => {
+    if (roleFilter === 'all') return files;
+    return files.filter((file) => file.role === roleFilter);
+  }, [files, roleFilter]);
+
+  const roleCounts = useMemo(() => {
+    const counts: Record<RoleFilter, number> = {
+      all: files.length,
+      mixed: 0,
+      mastered: 0,
+      recorded: 0,
+      produced: 0
+    };
+    files.forEach((file) => {
+      if (file.role && file.role in counts) {
+        counts[file.role] += 1;
+      }
+    });
+    return counts;
+  }, [files]);
 
   const validateFile = (file: File): string | null => {
     const extension = '.' + file.name.split('.').pop()?.toLowerCase();
@@ -70,6 +111,7 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
       await uploadMutation.mutateAsync({
         studioId,
         file,
+        role: uploadRole || undefined,
         onProgress: (progress) => {
           setUploads((prev) => prev.map((u) => (u.fileId === tempId ? { ...u, progress } : u)));
         }
@@ -133,7 +175,7 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
       const { files: dropped } = e.dataTransfer;
       if (dropped.length > 0) void handleFiles(dropped);
     },
-    [canManage, files.length]
+    [canManage, files.length, uploadRole]
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,19 +206,61 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
 
   return (
     <section className="studio-portfolio-view__listen">
-      <div className="studio-portfolio-view__title-section">
-        <h2 className="studio-portfolio-view__title">
-          {t('form.portfolio.listenHere', { defaultValue: 'Listen here' })}
-        </h2>
-        <p className="studio-portfolio-view__subtitle">
-          {t('form.portfolio.listenDesc', {
-            defaultValue: 'Original mixes and masters from this studio, played in the browser.'
-          })}
-        </p>
+      <div className="studio-portfolio-view__header">
+        <div className="studio-portfolio-view__title-section">
+          <h2 className="studio-portfolio-view__title">
+            {t('form.portfolio.listenHere', { defaultValue: 'Listen here' })}
+          </h2>
+          <p className="studio-portfolio-view__subtitle">
+            {t('form.portfolio.listenDesc', {
+              defaultValue: 'Original mixes and masters from this studio, played in the browser.'
+            })}
+          </p>
+        </div>
+        {files.length > 0 && (
+          <div className="studio-portfolio-view__filters">
+            <button
+              type="button"
+              className={`portfolio-filter-chip ${roleFilter === 'all' ? 'portfolio-filter-chip--active' : ''}`}
+              onClick={() => setRoleFilter('all')}
+            >
+              {t('form.portfolio.filterAll', { defaultValue: 'All' })}
+              <span className="portfolio-filter-chip__count">{roleCounts.all}</span>
+            </button>
+            {STUDIO_PORTFOLIO_ROLES.map((role) =>
+              roleCounts[role] > 0 || canManage ? (
+                <button
+                  key={role}
+                  type="button"
+                  className={`portfolio-filter-chip ${roleFilter === role ? 'portfolio-filter-chip--active' : ''}`}
+                  onClick={() => setRoleFilter(role)}
+                >
+                  {roleLabel(role)}
+                  {roleCounts[role] > 0 && (
+                    <span className="portfolio-filter-chip__count">{roleCounts[role]}</span>
+                  )}
+                </button>
+              ) : null
+            )}
+          </div>
+        )}
       </div>
 
-      <div className="project-file-uploader">
-        {canManage && (
+      {canManage && (
+        <div className="project-file-uploader">
+          <label className="portfolio-track-tile__upload-role">
+            <span>{t('form.portfolio.uploadRole', { defaultValue: 'Tag new uploads as' })}</span>
+            <select
+              value={uploadRole}
+              onChange={(e) => setUploadRole((e.target.value || '') as StudioPortfolioRole | '')}
+            >
+              {STUDIO_PORTFOLIO_ROLES.map((role) => (
+                <option key={role} value={role}>
+                  {roleLabel(role)}
+                </option>
+              ))}
+            </select>
+          </label>
           <div
             className={`project-file-uploader__dropzone ${isDragging ? 'project-file-uploader__dropzone--dragging' : ''}`}
             onDragOver={handleDragOver}
@@ -209,89 +293,131 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
               </p>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {uploads.length > 0 && (
-          <div className="project-file-uploader__progress-list">
-            {uploads.map((upload) => (
-              <div key={upload.fileId} className="project-file-uploader__progress-item">
-                <span className="project-file-uploader__progress-name">{upload.fileName}</span>
-                {upload.status === 'uploading' && (
-                  <div className="project-file-uploader__progress-bar">
-                    <div
-                      className="project-file-uploader__progress-fill"
-                      style={{ width: `${upload.progress}%` }}
-                    />
-                  </div>
-                )}
-                {upload.status === 'complete' && (
-                  <span className="project-file-uploader__progress-status project-file-uploader__progress-status--complete">
-                    {t('form.portfolio.uploadComplete', { defaultValue: 'Uploaded' })}
-                  </span>
-                )}
-                {upload.status === 'error' && (
-                  <span className="project-file-uploader__progress-status project-file-uploader__progress-status--error">
-                    {upload.error}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {isLoading ? (
-          <div className="project-file-uploader__loading">
-            {t('form.portfolio.loadingTracks', { defaultValue: 'Loading tracks…' })}
-          </div>
-        ) : files.length > 0 ? (
-          <ul className="project-file-uploader__file-list">
-            {files.map((file: StudioFile) => (
-              <li
-                key={file._id}
-                className={`project-file-uploader__file-item${
-                  isPlayableAudioExtension(file.fileName)
-                    ? ' project-file-uploader__file-item--with-player'
-                    : ''
-                }`}
-              >
-                <div className="project-file-uploader__file-header">
-                  {isPlayableAudioExtension(file.fileName) && (
-                    <RemoteAudioPlayer
-                      library="studio"
-                      containerId={studioId}
-                      file={file}
-                      enableCues={false}
-                    />
-                  )}
-                  <div className="project-file-uploader__file-info">
-                    <span className="project-file-uploader__file-name">{file.fileName}</span>
-                    <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
-                  </div>
-                  {canManage && (
-                    <div className="project-file-uploader__file-actions">
-                      <Button
-                        className="button--danger button--small"
-                        onClick={() => handleDeleteFile(file._id)}
-                        disabled={deleteMutation.isPending}
-                      >
-                        {t('form.portfolio.removeTrack', { defaultValue: 'Remove' })}
-                      </Button>
-                    </div>
-                  )}
+      {uploads.length > 0 && (
+        <div className="project-file-uploader__progress-list">
+          {uploads.map((upload) => (
+            <div key={upload.fileId} className="project-file-uploader__progress-item">
+              <span className="project-file-uploader__progress-name">{upload.fileName}</span>
+              {upload.status === 'uploading' && (
+                <div className="project-file-uploader__progress-bar">
+                  <div
+                    className="project-file-uploader__progress-fill"
+                    style={{ width: `${upload.progress}%` }}
+                  />
                 </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          canManage && (
-            <p className="project-file-uploader__empty">
-              {t('form.portfolio.noTracks', {
-                defaultValue: 'No hosted tracks yet. Upload audio to play it on your public portfolio.'
-              })}
-            </p>
-          )
-        )}
-      </div>
+              )}
+              {upload.status === 'complete' && (
+                <span className="project-file-uploader__progress-status project-file-uploader__progress-status--complete">
+                  {t('form.portfolio.uploadComplete', { defaultValue: 'Uploaded' })}
+                </span>
+              )}
+              {upload.status === 'error' && (
+                <span className="project-file-uploader__progress-status project-file-uploader__progress-status--error">
+                  {upload.error}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {isLoading ? (
+        <div className="project-file-uploader__loading">
+          {t('form.portfolio.loadingTracks', { defaultValue: 'Loading tracks…' })}
+        </div>
+      ) : filteredFiles.length > 0 ? (
+        <div className="studio-portfolio-view__grid">
+          <AnimatePresence mode="popLayout">
+            {filteredFiles.map((file: StudioFile) => {
+              const isActive =
+                active?.library === 'studio' &&
+                active.containerId === studioId &&
+                active.fileId === file._id &&
+                (status === 'playing' || status === 'paused' || status === 'buffering');
+              return (
+                <motion.article
+                  key={file._id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className={`portfolio-card portfolio-track-tile${
+                    isActive ? ' portfolio-track-tile--active' : ''
+                  }`}
+                >
+                  <div className="portfolio-card__image-wrapper">
+                    <div className="portfolio-card__image-placeholder">
+                      <MusicNoteIcon />
+                    </div>
+                    <div className="portfolio-card__overlay" />
+                    <div className="portfolio-card__type portfolio-card__type--audio">
+                      <span>{roleLabel(file.role)}</span>
+                    </div>
+                    {isPlayableAudioExtension(file.fileName) && (
+                      <div className="portfolio-track-tile__play">
+                        <RemoteAudioPlayer
+                          library="studio"
+                          containerId={studioId}
+                          file={file}
+                          enableCues={false}
+                          layout="compact"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="portfolio-card__meta">
+                    <h3 className="portfolio-card__title" title={file.fileName}>
+                      {displayTrackTitle(file.fileName)}
+                    </h3>
+                    {canManage && (
+                      <div className="portfolio-track-tile__manage">
+                        <select
+                          aria-label={t('form.portfolio.yourRole', { defaultValue: 'Your Role' })}
+                          value={file.role || ''}
+                          onChange={(e) =>
+                            updateMutation.mutate({
+                              studioId,
+                              fileId: file._id,
+                              role: (e.target.value || '') as StudioPortfolioRole | ''
+                            })
+                          }
+                        >
+                          <option value="">
+                            {t('form.portfolio.roles.uncategorized', { defaultValue: 'Uncategorized' })}
+                          </option>
+                          {STUDIO_PORTFOLIO_ROLES.map((role) => (
+                            <option key={role} value={role}>
+                              {roleLabel(role)}
+                            </option>
+                          ))}
+                        </select>
+                        <Button
+                          className="button--danger button--small"
+                          onClick={() => handleDeleteFile(file._id)}
+                          disabled={deleteMutation.isPending}
+                        >
+                          {t('form.portfolio.removeTrack', { defaultValue: 'Remove' })}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+      ) : (
+        canManage && (
+          <p className="project-file-uploader__empty">
+            {t('form.portfolio.noTracks', {
+              defaultValue: 'No hosted tracks yet. Upload audio to play it on your public portfolio.'
+            })}
+          </p>
+        )
+      )}
     </section>
   );
 };

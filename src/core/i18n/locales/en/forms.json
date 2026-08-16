@@ -624,7 +624,15 @@
       "noTracks": "No hosted tracks yet. Upload audio to play it on your public portfolio.",
       "uploadComplete": "Uploaded",
       "loadingTracks": "Loading tracks…",
-      "uploadAfterCreate": "After you create the studio, you can upload audio files to play on your public portfolio."
+      "uploadAfterCreate": "After you create the studio, you can upload audio files to play on your public portfolio.",
+      "uploadRole": "Tag new uploads as",
+      "roles": {
+        "mixed": "Mixed",
+        "mastered": "Mastered",
+        "recorded": "Recorded",
+        "produced": "Produced",
+        "uncategorized": "Uncategorized"
+      }
     },
     "proTip": "Pro Tip",
     "editingLanguage": "Editing Language",

@@ -93,6 +93,80 @@
   }
 }
 
+.portfolio-track-tile {
+  cursor: default;
+
+  &--active {
+    .portfolio-card__image-wrapper {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 24px var(--color-brand-glow);
+    }
+
+    .portfolio-card__title {
+      color: var(--color-brand);
+    }
+  }
+
+  .portfolio-card__type {
+    opacity: 1;
+  }
+
+  &__play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+    .remote-audio-player--compact {
+      margin: 0;
+    }
+
+    .remote-audio-player__play {
+      width: 3.5rem;
+      height: 3.5rem;
+      box-shadow: 0 0 30px var(--color-brand-glow);
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  &__manage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  &__manage select,
+  &__upload-role select {
+    appearance: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    font-size: 0.8125rem;
+    font-family: inherit;
+  }
+
+  &__upload-role {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
 // Filter Chip
 .portfolio-filter-chip {
   display: flex;

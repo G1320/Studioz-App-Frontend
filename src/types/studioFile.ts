@@ -1,3 +1,5 @@
+import type { StudioPortfolioRole } from '@shared/constants/studioPortfolioFileLimits';
+
 export interface StudioFile {
   _id: string;
   studioId: string;
@@ -6,6 +8,7 @@ export interface StudioFile {
   fileSize: number;
   mimeType: string;
   storageKey: string;
+  role?: StudioPortfolioRole;
   createdAt?: string;
   updatedAt?: string;
 }

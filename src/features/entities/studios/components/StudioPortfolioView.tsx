@@ -21,7 +21,6 @@ interface StudioPortfolioViewProps {
   studioId?: string;
   portfolio?: PortfolioItem[];
   socialLinks?: SocialLinks;
-  canManageFiles?: boolean;
 }
 
 type FilterType = 'all' | 'audio' | 'video' | 'album';
@@ -64,8 +63,7 @@ const SocialButton: React.FC<{
 export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
   studioId,
   portfolio = [],
-  socialLinks,
-  canManageFiles = false
+  socialLinks
 }) => {
   const { t, i18n } = useTranslation('forms');
   const [filter, setFilter] = useState<FilterType>('all');
@@ -112,9 +110,7 @@ export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
 
   return (
     <div className="studio-portfolio-view" dir={i18n.dir()}>
-      {studioId && (
-        <StudioPortfolioFiles studioId={studioId} canManage={canManageFiles} />
-      )}
+      {studioId && <StudioPortfolioFiles studioId={studioId} />}
       {/* Header Section */}
       {portfolio.length > 0 && (
         <>

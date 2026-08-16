@@ -22,10 +22,9 @@ const VALID_VIEWS: ContentView[] = ['overview', 'info', 'portfolio'];
 
 interface StudioDetailsContentProps {
   studio?: Studio;
-  isOwner?: boolean;
 }
 
-export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ studio, isOwner = false }) => {
+export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ studio }) => {
   const { t } = useTranslation('common');
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -56,8 +55,8 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
   const hasPortfolio = useMemo(() => {
     const hasItems = studio?.portfolio && studio.portfolio.length > 0;
     const hasLinks = studio?.socialLinks && Object.values(studio.socialLinks).some((link) => link?.trim());
-    return hasItems || hasLinks || portfolioFiles.length > 0 || isOwner;
-  }, [studio?.portfolio, studio?.socialLinks, portfolioFiles.length, isOwner]);
+    return hasItems || hasLinks || portfolioFiles.length > 0;
+  }, [studio?.portfolio, studio?.socialLinks, portfolioFiles.length]);
 
   return (
     <div className="studio-details__content">
@@ -128,7 +127,6 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
                 studioId={studio?._id}
                 portfolio={studio?.portfolio}
                 socialLinks={studio?.socialLinks}
-                canManageFiles={isOwner}
               />
             </motion.div>
           )}
