@@ -105,20 +105,22 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
 
         {/* Mobile-only reservations for non-logged-in users */}
         {!user && (
-          <button
-            className="menu-dropdown__item menu-dropdown__item--mobile-only"
-            onClick={() => handleNavigate('/reservations')}
-          >
-            <EventIcon className="menu-dropdown__icon" />
-            <span>{t('profile.buttons.reservations')}</span>
-          </button>
-          <button
-            className="menu-dropdown__item menu-dropdown__item--mobile-only"
-            onClick={() => handleNavigate('/projects')}
-          >
-            <WorkIcon className="menu-dropdown__icon" />
-            <span>{t('common:navigation.myProjects')}</span>
-          </button>
+          <>
+            <button
+              className="menu-dropdown__item menu-dropdown__item--mobile-only"
+              onClick={() => handleNavigate('/reservations')}
+            >
+              <EventIcon className="menu-dropdown__icon" />
+              <span>{t('profile.buttons.reservations')}</span>
+            </button>
+            <button
+              className="menu-dropdown__item menu-dropdown__item--mobile-only"
+              onClick={() => handleNavigate('/projects')}
+            >
+              <WorkIcon className="menu-dropdown__icon" />
+              <span>{t('common:navigation.myProjects')}</span>
+            </button>
+          </>
         )}
 
         {user && (

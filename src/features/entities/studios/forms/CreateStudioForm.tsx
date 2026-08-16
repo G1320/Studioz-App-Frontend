@@ -475,7 +475,7 @@ export const CreateStudioForm = () => {
         fieldNames: ['portfolio', 'socialLinks'],
         icon: WorkIcon,
         customContent: (
-          <>
+          <div className="portfolio-step-layout">
             <p className="portfolio-step__upload-hint">
               {t('form.portfolio.uploadAfterCreate', {
                 defaultValue:
@@ -488,7 +488,7 @@ export const CreateStudioForm = () => {
               socialLinks={socialLinks}
               onSocialLinksChange={setSocialLinks}
             />
-          </>
+          </div>
         )
       },
       {

@@ -424,7 +424,7 @@ export const EditStudioForm = () => {
         fieldNames: ['portfolio', 'socialLinks'],
         icon: WorkIcon,
         customContent: (
-          <>
+          <div className="portfolio-step-layout">
             {studioId && <StudioPortfolioFiles studioId={studioId} canManage />}
             <PortfolioStep
               portfolio={portfolio}
@@ -432,7 +432,7 @@ export const EditStudioForm = () => {
               socialLinks={socialLinks}
               onSocialLinksChange={setSocialLinks}
             />
-          </>
+          </div>
         )
       },
       {

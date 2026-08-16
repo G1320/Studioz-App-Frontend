@@ -89,7 +89,12 @@
   &__listen {
     display: flex;
     flex-direction: column;
-    gap: ds.$space-6;
+    gap: ds.$space-8;
+    padding-bottom: 0.5rem;
+
+    .studio-portfolio-view__grid {
+      row-gap: 2.5rem;
+    }
   }
 }
 
