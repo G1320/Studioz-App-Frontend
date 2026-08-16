@@ -219,10 +219,17 @@ export const useSendMessageMutation = () => {
 
   return useMutationHandler<
     ProjectMessage,
-    { projectId: string; senderId: string; message: string; attachmentIds?: string[] }
+    {
+      projectId: string;
+      senderId: string;
+      message: string;
+      attachmentIds?: string[];
+      fileId?: string;
+      offsetSeconds?: number;
+    }
   >({
-    mutationFn: ({ projectId, senderId, message, attachmentIds }) =>
-      sendMessage(projectId, senderId, message, attachmentIds),
+    mutationFn: ({ projectId, senderId, message, attachmentIds, fileId, offsetSeconds }) =>
+      sendMessage(projectId, senderId, message, { attachmentIds, fileId, offsetSeconds }),
     // No success message for messages - feels more natural
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {

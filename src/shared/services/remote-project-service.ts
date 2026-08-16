@@ -311,13 +311,15 @@ export const sendMessage = async (
   projectId: string,
   senderId: string,
   message: string,
-  attachmentIds?: string[]
+  options?: { attachmentIds?: string[]; fileId?: string; offsetSeconds?: number }
 ): Promise<ProjectMessage> => {
   try {
     return await httpService.post(`${endpoint}/${projectId}/messages`, {
       senderId,
       message,
-      attachmentIds
+      attachmentIds: options?.attachmentIds,
+      fileId: options?.fileId,
+      offsetSeconds: options?.offsetSeconds
     });
   } catch (error) {
     console.error(`Error sending message for project ${projectId}:`, error);

@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useMemo, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pause, Play, X } from 'lucide-react';
-import { rangeFillStyle, useHiFiAudioEngine } from '@shared/audio';
+import { MessageSquarePlus, Pause, Play, X } from 'lucide-react';
+import {
+  formatPlaybackTime,
+  rangeFillStyle,
+  useAudioCueComment,
+  useHiFiAudioEngine
+} from '@shared/audio';
+import { useProjectMessages } from '@shared/hooks';
+import { ScrubberCueMarkers } from './ScrubberCueMarkers';
 import './styles/_remote-audio-player.scss';
-
-function formatTime(seconds: number): string {
-  if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
 
 const VISIBLE_STATUSES = new Set([
   'loading_url',
@@ -27,6 +27,10 @@ export const StickyRemoteAudioBar: FC = () => {
   const { t } = useTranslation('remoteProjects');
   const { active, status, currentTime, duration, togglePlayPause, seek, stop } =
     useHiFiAudioEngine();
+  const cueComment = useAudioCueComment();
+  const { messages } = useProjectMessages({
+    projectId: active?.projectId || '',
+  });
 
   const visible = !!active && VISIBLE_STATUSES.has(status);
   const isPlaying = status === 'playing';
@@ -76,22 +80,31 @@ export const StickyRemoteAudioBar: FC = () => {
         </button>
 
         <div className="sticky-remote-audio-bar__transport">
-          <input
-            type="range"
-            className="remote-audio-player__range sticky-remote-audio-bar__scrubber"
-            min={0}
-            max={scrubberMax}
-            step={0.01}
-            value={scrubberValue}
-            disabled={scrubberMax <= 0}
-            style={rangeFillStyle(scrubberValue, scrubberMax)}
-            onChange={(e) => seek(Number(e.target.value))}
-            aria-label={t('audioPlayer.seek')}
-          />
+          <div className="remote-audio-player__scrubber-wrap">
+            <input
+              type="range"
+              className="remote-audio-player__range sticky-remote-audio-bar__scrubber"
+              min={0}
+              max={scrubberMax}
+              step={0.01}
+              value={scrubberValue}
+              disabled={scrubberMax <= 0}
+              style={rangeFillStyle(scrubberValue, scrubberMax)}
+              onChange={(e) => seek(Number(e.target.value))}
+              aria-label={t('audioPlayer.seek')}
+            />
+            {active && (
+              <ScrubberCueMarkers
+                fileId={active.fileId}
+                duration={scrubberMax}
+                messages={messages}
+              />
+            )}
+          </div>
           <div className="sticky-remote-audio-bar__time">
-            <span>{formatTime(currentTime)}</span>
+            <span>{formatPlaybackTime(currentTime)}</span>
             <span>/</span>
-            <span>{formatTime(duration > 0 ? duration : scrubberMax)}</span>
+            <span>{formatPlaybackTime(duration > 0 ? duration : scrubberMax)}</span>
           </div>
         </div>
 
@@ -103,6 +116,21 @@ export const StickyRemoteAudioBar: FC = () => {
             <span className="sticky-remote-audio-bar__status">{statusLabel}</span>
           )}
         </div>
+        {cueComment && (
+          <button
+            type="button"
+            className="sticky-remote-audio-bar__comment"
+            onClick={() =>
+              cueComment.beginCueComment({
+                ...active,
+                offsetSeconds: currentTime
+              })
+            }
+            aria-label={t('audioPlayer.commentAtTime', { time: formatPlaybackTime(currentTime) })}
+          >
+            <MessageSquarePlus size={16} />
+          </button>
+        )}
         <button
           type="button"
           className="sticky-remote-audio-bar__close"

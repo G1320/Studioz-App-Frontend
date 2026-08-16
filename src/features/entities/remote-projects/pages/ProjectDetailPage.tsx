@@ -17,7 +17,7 @@ import {
   useCancelProjectMutation,
   useUpdateProjectMutation
 } from '@shared/hooks';
-import { hiFiAudioEngine } from '@shared/audio';
+import { hiFiAudioEngine, AudioCueCommentProvider } from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
@@ -236,6 +236,7 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   return (
+    <AudioCueCommentProvider>
     <div className="project-detail">
       <div className="project-detail__header">
         <button className="project-detail__back" onClick={() => navigate(-1)} aria-label={t('common.goBack')}>
@@ -551,6 +552,7 @@ export const ProjectDetailPage: React.FC = () => {
       )}
       <StickyRemoteAudioBar />
     </div>
+    </AudioCueCommentProvider>
   );
 };
 

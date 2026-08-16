@@ -144,8 +144,69 @@
     color: var(--text-secondary);
   }
 
-  &__message--own &__message-read {
-    text-align: right;
+  &__message--highlighted {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 4px;
+    border-radius: 0.75rem;
+  }
+
+  &__cue {
+    display: inline-flex;
+    max-width: 100%;
+    margin-bottom: 0.35rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 9999px;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: var(--color-brand);
+    }
+  }
+
+  &__message--own &__cue {
+    background: rgba(0, 0, 0, 0.12);
+    border-color: transparent;
+    color: #111;
+  }
+
+  &__pending-cue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 0;
+    background: var(--bg-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  &__pending-cue-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 0.35rem;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-primary);
+    }
   }
 
   // Input Form

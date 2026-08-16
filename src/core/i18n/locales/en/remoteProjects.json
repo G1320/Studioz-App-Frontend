@@ -114,7 +114,12 @@
     "buffering": "Buffering…",
     "error": "Playback failed. Try downloading the file.",
     "unsupported": "This format cannot be played in the browser.",
-    "downloadToPlay": "File is too large to decode in-browser. Download for bit-perfect playback."
+    "downloadToPlay": "File is too large to decode in-browser. Download for bit-perfect playback.",
+    "commentAt": "Comment {{time}}",
+    "commentAtTime": "Comment at {{time}}",
+    "commentingAt": "Comment at {{time}} · {{file}}",
+    "typeCueComment": "Write a comment at this time…",
+    "cueMarker": "Comment at {{time}}"
   },
 
   "messages": "Messages",

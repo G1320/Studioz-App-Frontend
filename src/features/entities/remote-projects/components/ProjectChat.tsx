@@ -1,7 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { X } from 'lucide-react';
 import { useProjectMessages, useSendMessageMutation, useMarkMessagesReadMutation } from '@shared/hooks';
 import { useSocket } from '@core/contexts/SocketContext';
+import {
+  formatPlaybackTime,
+  getMessageFileCue,
+  getMessageFileId,
+  hiFiAudioEngine,
+  isTimedComment,
+  useAudioCueComment
+} from '@shared/audio';
 import { ProjectMessage } from 'src/types/index';
 import './styles/_project-chat.scss';
 
@@ -21,6 +30,7 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   const { t } = useTranslation('remoteProjects');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [newMessage, setNewMessage] = useState('');
+  const cueComment = useAudioCueComment();
 
   const {
     messages,
@@ -50,7 +60,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     };
   }, [socket, projectId, refetchMessages]);
 
-  // Scroll chat container to bottom when messages change (without affecting page scroll)
   useEffect(() => {
     const el = messagesEndRef.current;
     if (el?.parentElement) {
@@ -58,7 +67,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     }
   }, [messages]);
 
-  // Mark messages as read when component mounts or new messages arrive
   useEffect(() => {
     if (messages.length > 0) {
       const unreadMessages = messages.filter(
@@ -85,6 +93,22 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     return msg.senderRole === 'customer' ? t('customer') : t('vendor');
   };
 
+  const handleJumpToCue = (msg: ProjectMessage) => {
+    const file = getMessageFileCue(msg.fileId);
+    const fileId = getMessageFileId(msg.fileId);
+    if (!file || !fileId || typeof msg.offsetSeconds !== 'number') return;
+    void hiFiAudioEngine.playAt(
+      {
+        projectId,
+        fileId,
+        fileName: file.fileName,
+        mimeType: file.mimeType,
+        fileSize: file.fileSize
+      },
+      msg.offsetSeconds
+    );
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -94,9 +118,12 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
       await sendMessageMutation.mutateAsync({
         projectId,
         senderId: currentUserId,
-        message: newMessage.trim()
+        message: newMessage.trim(),
+        fileId: cueComment?.pendingCue?.fileId,
+        offsetSeconds: cueComment?.pendingCue?.offsetSeconds
       });
       setNewMessage('');
+      cueComment?.clearPendingCue();
       refetch();
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -133,14 +160,29 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
           messages.map((msg: ProjectMessage) => (
             <div
               key={msg._id}
+              id={`project-message-${msg._id}`}
               className={`project-chat__message ${
                 isOwnMessage(msg) ? 'project-chat__message--own' : 'project-chat__message--other'
+              } ${
+                cueComment?.highlightedMessageId === msg._id ? 'project-chat__message--highlighted' : ''
               }`}
             >
               <div className="project-chat__message-header">
                 <span className="project-chat__message-sender">{getSenderName(msg)}</span>
                 <span className="project-chat__message-time">{formatTime(msg.createdAt)}</span>
               </div>
+              {isTimedComment(msg) && (
+                <button
+                  type="button"
+                  className="project-chat__cue"
+                  onClick={() => handleJumpToCue(msg)}
+                >
+                  {formatPlaybackTime(msg.offsetSeconds ?? 0)}
+                  {getMessageFileCue(msg.fileId)?.fileName
+                    ? ` · ${getMessageFileCue(msg.fileId)?.fileName}`
+                    : ''}
+                </button>
+              )}
               <div className="project-chat__message-content">{msg.message}</div>
               {msg.readAt && isOwnMessage(msg) && <span className="project-chat__message-read">{t('read')}</span>}
             </div>
@@ -149,12 +191,34 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
+      {cueComment?.pendingCue && (
+        <div className="project-chat__pending-cue">
+          <span>
+            {t('audioPlayer.commentingAt', {
+              time: formatPlaybackTime(cueComment.pendingCue.offsetSeconds),
+              file: cueComment.pendingCue.fileName
+            })}
+          </span>
+          <button
+            type="button"
+            className="project-chat__pending-cue-clear"
+            onClick={() => cueComment.clearPendingCue()}
+            aria-label={t('common.cancel')}
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
       <form className="project-chat__input-form" onSubmit={handleSendMessage}>
         <textarea
+          ref={cueComment ? cueComment.composerRef : undefined}
           className="project-chat__input"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder={t('typeMessage')}
+          placeholder={
+            cueComment?.pendingCue ? t('audioPlayer.typeCueComment') : t('typeMessage')
+          }
           disabled={disabled || sendMessageMutation.isPending}
           rows={1}
           onKeyDown={(e) => {

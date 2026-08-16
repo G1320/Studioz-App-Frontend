@@ -109,6 +109,13 @@ export interface ProjectFile {
 
 export type SenderRole = 'customer' | 'vendor';
 
+export interface MessageFileCue {
+  _id: string;
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+}
+
 export interface ProjectMessage {
   _id: string;
   projectId: string;
@@ -117,6 +124,9 @@ export interface ProjectMessage {
 
   message: string;
   attachmentIds?: (string | ProjectFile)[];
+
+  fileId?: string | MessageFileCue;
+  offsetSeconds?: number;
 
   readAt?: string;
   createdAt?: string;

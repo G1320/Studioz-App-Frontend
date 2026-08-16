@@ -159,7 +159,7 @@ class HiFiAudioEngine {
     }
   }
 
-  async loadAndPlay(track: HiFiTrackIdentity): Promise<void> {
+  async loadAndPlay(track: HiFiTrackIdentity, startTime = 0): Promise<void> {
     const generation = ++this.loadGeneration;
     const capability = resolvePlaybackCapability(track.fileName, track.mimeType, track.fileSize);
 
@@ -196,7 +196,7 @@ class HiFiAudioEngine {
         audio.src = downloadUrl;
         this.scheduleUrlRefresh(track, expiresIn);
         this.patch({ status: 'ready', strategy: 'native' });
-        await audio.play();
+        await this.playFrom(audio, startTime);
         return;
       }
 
@@ -213,11 +213,43 @@ class HiFiAudioEngine {
       this.objectUrl = URL.createObjectURL(wavBlob);
       audio.src = this.objectUrl;
       this.patch({ status: 'ready', strategy: 'wasm' });
-      await audio.play();
+      await this.playFrom(audio, startTime);
     } catch (err) {
       if (generation !== this.loadGeneration) return;
       const message = err instanceof Error ? err.message : 'Playback failed';
       this.patch({ status: 'error', error: message });
+    }
+  }
+
+  private async playFrom(audio: HTMLAudioElement, startTime: number): Promise<void> {
+    if (startTime > 0) {
+      const seekWhenReady = () => {
+        this.seek(startTime);
+        audio.removeEventListener('loadedmetadata', seekWhenReady);
+      };
+      if (audio.readyState >= 1) {
+        this.seek(startTime);
+      } else {
+        audio.addEventListener('loadedmetadata', seekWhenReady);
+      }
+    }
+    await audio.play();
+  }
+
+  async playAt(track: HiFiTrackIdentity, startTime: number): Promise<void> {
+    const isSame =
+      this.snapshot.active?.fileId === track.fileId &&
+      this.snapshot.active?.projectId === track.projectId;
+
+    if (!isSame || this.snapshot.status === 'idle' || this.snapshot.status === 'error') {
+      await this.loadAndPlay(track, startTime);
+      return;
+    }
+
+    this.seek(startTime);
+    const audio = this.ensureAudio();
+    if (audio.paused) {
+      await audio.play();
     }
   }
 
@@ -302,7 +334,10 @@ export function useHiFiAudioEngine() {
 
   return {
     ...snapshot,
-    loadAndPlay: (track: HiFiTrackIdentity) => hiFiAudioEngine.loadAndPlay(track),
+    loadAndPlay: (track: HiFiTrackIdentity, startTime = 0) =>
+      hiFiAudioEngine.loadAndPlay(track, startTime),
+    playAt: (track: HiFiTrackIdentity, startTime: number) =>
+      hiFiAudioEngine.playAt(track, startTime),
     togglePlayPause: (track: HiFiTrackIdentity) => hiFiAudioEngine.togglePlayPause(track),
     seek: (time: number) => hiFiAudioEngine.seek(time),
     setVolume: (volume: number) => hiFiAudioEngine.setVolume(volume),

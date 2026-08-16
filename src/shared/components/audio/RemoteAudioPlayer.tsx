@@ -1,26 +1,23 @@
 import { useCallback, useMemo, useRef, type FC, type KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import { MessageSquarePlus, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { ProjectFile } from 'src/types';
 import {
   rangeFillStyle,
   resolvePlaybackCapability,
   useAudioMeta,
+  useAudioCueComment,
   useHiFiAudioEngine
 } from '@shared/audio';
+import { formatPlaybackTime } from '@shared/audio/formatPlaybackTime';
+import { useProjectMessages } from '@shared/hooks';
+import { ScrubberCueMarkers } from './ScrubberCueMarkers';
 import './styles/_remote-audio-player.scss';
 
 interface RemoteAudioPlayerProps {
   projectId: string;
   file: ProjectFile;
   onDownload?: () => void;
-}
-
-function formatTime(seconds: number): string {
-  if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
 function formatFidelity(
@@ -76,6 +73,8 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     isSelected && (status === 'loading_url' || status === 'decoding' || status === 'buffering');
 
   const { data: meta } = useAudioMeta(projectId, file._id, file.fileName, isSelected);
+  const { messages } = useProjectMessages({ projectId });
+  const cueComment = useAudioCueComment();
 
   const track = useMemo(
     () => ({
@@ -203,18 +202,21 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           {isPlaying ? <Pause size={18} /> : <Play size={18} />}
         </button>
 
-        <input
-          type="range"
-          className="remote-audio-player__range remote-audio-player__scrubber"
-          min={0}
-          max={scrubberMax}
-          step={0.01}
-          value={Math.min(currentTime, scrubberMax)}
-          disabled={scrubberMax <= 0}
-          style={rangeFillStyle(Math.min(currentTime, scrubberMax), scrubberMax)}
-          onChange={(e) => seek(Number(e.target.value))}
-          aria-label={t('audioPlayer.seek')}
-        />
+        <div className="remote-audio-player__scrubber-wrap">
+          <input
+            type="range"
+            className="remote-audio-player__range remote-audio-player__scrubber"
+            min={0}
+            max={scrubberMax}
+            step={0.01}
+            value={Math.min(currentTime, scrubberMax)}
+            disabled={scrubberMax <= 0}
+            style={rangeFillStyle(Math.min(currentTime, scrubberMax), scrubberMax)}
+            onChange={(e) => seek(Number(e.target.value))}
+            aria-label={t('audioPlayer.seek')}
+          />
+          <ScrubberCueMarkers fileId={file._id} duration={scrubberMax} messages={messages} />
+        </div>
 
         <div className="remote-audio-player__volume">
           <button
@@ -245,12 +247,28 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
 
       <div className="remote-audio-player__footer">
         <div className="remote-audio-player__time">
-          <span>{formatTime(currentTime)}</span>
+          <span>{formatPlaybackTime(currentTime)}</span>
           <span>/</span>
-          <span>{formatTime(displayDuration)}</span>
+          <span>{formatPlaybackTime(displayDuration)}</span>
         </div>
         <span className="remote-audio-player__fidelity">{fidelityLabel}</span>
         {statusMessage && <span className="remote-audio-player__status">{statusMessage}</span>}
+        {cueComment && (
+          <button
+            type="button"
+            className="remote-audio-player__comment"
+            onClick={() =>
+              cueComment.beginCueComment({
+                ...track,
+                offsetSeconds: currentTime
+              })
+            }
+            aria-label={t('audioPlayer.commentAtTime', { time: formatPlaybackTime(currentTime) })}
+          >
+            <MessageSquarePlus size={14} />
+            {t('audioPlayer.commentAt', { time: formatPlaybackTime(currentTime) })}
+          </button>
+        )}
       </div>
     </div>
   );

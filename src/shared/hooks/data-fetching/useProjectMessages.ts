@@ -11,7 +11,7 @@ interface UseProjectMessagesParams {
 export const useProjectMessages = ({
   projectId,
   page = 1,
-  limit = 50,
+  limit = 100,
   since,
 }: UseProjectMessagesParams) => {
   const { data, isLoading, error, refetch, isFetching } = useQuery({

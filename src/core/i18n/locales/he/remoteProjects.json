@@ -114,7 +114,12 @@
     "buffering": "מאגר…",
     "error": "הניגון נכשל. נסה להוריד את הקובץ.",
     "unsupported": "לא ניתן לנגן פורמט זה בדפדפן.",
-    "downloadToPlay": "הקובץ גדול מדי לפענוח בדפדפן. הורד להאזנה באיכות מקור."
+    "downloadToPlay": "הקובץ גדול מדי לפענוח בדפדפן. הורד להאזנה באיכות מקור.",
+    "commentAt": "הערה {{time}}",
+    "commentAtTime": "הוסף הערה ב-{{time}}",
+    "commentingAt": "הערה ב-{{time}} · {{file}}",
+    "typeCueComment": "כתוב הערה בנקודת הזמן…",
+    "cueMarker": "הערה ב-{{time}}"
   },
 
   "messages": "הודעות",
