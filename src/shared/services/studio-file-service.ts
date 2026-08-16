@@ -54,9 +54,24 @@ export const deleteStudioFile = async (studioId: string, fileId: string): Promis
 export const updateStudioFile = async (
   studioId: string,
   fileId: string,
-  data: { role?: StudioFile['role'] | '' }
+  data: { role?: StudioFile['role'] | ''; coverStorageKey?: string }
 ): Promise<StudioFile> => {
   return httpService.patch(`${endpoint}/${studioId}/files/${fileId}`, data);
+};
+
+export const getStudioCoverUploadUrl = async (
+  studioId: string,
+  fileId: string,
+  data: { fileName: string; fileSize: number; mimeType: string }
+): Promise<UploadUrlResponse> => {
+  return httpService.post(`${endpoint}/${studioId}/files/${fileId}/cover/upload-url`, data);
+};
+
+export const extractStudioFileCover = async (
+  studioId: string,
+  fileId: string
+): Promise<StudioFile> => {
+  return httpService.post(`${endpoint}/${studioId}/files/${fileId}/extract-cover`);
 };
 
 const uploadToR2 = (url: string, file: File, onProgress?: (progress: number) => void): Promise<void> => {
@@ -109,4 +124,18 @@ export const uploadStudioPortfolioFile = async (
     storageKey: uploadUrlResponse.storageKey,
     role
   });
+};
+
+export const uploadStudioPortfolioCover = async (
+  studioId: string,
+  fileId: string,
+  file: File
+): Promise<StudioFile> => {
+  const { uploadUrl, storageKey } = await getStudioCoverUploadUrl(studioId, fileId, {
+    fileName: file.name,
+    fileSize: file.size,
+    mimeType: file.type || 'image/jpeg'
+  });
+  await uploadToR2(uploadUrl, file);
+  return updateStudioFile(studioId, fileId, { coverStorageKey: storageKey });
 };

@@ -13,6 +13,7 @@ import {
   FavoriteIcon,
   PersonOutlineIcon,
   EventIcon,
+  WorkIcon,
   PlayCircleIcon,
   LanguageIcon,
   ChevronRightIcon,
@@ -78,6 +79,10 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <EventIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.reservations')}</span>
             </button>
+            <button className="menu-dropdown__item" onClick={() => handleNavigate('/projects')}>
+              <WorkIcon className="menu-dropdown__icon" />
+              <span>{t('common:navigation.myProjects')}</span>
+            </button>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
@@ -106,6 +111,13 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           >
             <EventIcon className="menu-dropdown__icon" />
             <span>{t('profile.buttons.reservations')}</span>
+          </button>
+          <button
+            className="menu-dropdown__item menu-dropdown__item--mobile-only"
+            onClick={() => handleNavigate('/projects')}
+          >
+            <WorkIcon className="menu-dropdown__icon" />
+            <span>{t('common:navigation.myProjects')}</span>
           </button>
         )}
 

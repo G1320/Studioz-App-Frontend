@@ -17,3 +17,7 @@ export const STUDIO_PORTFOLIO_ACCEPTED_FILE_TYPES = [
 export const STUDIO_PORTFOLIO_ROLES = ['mixed', 'mastered', 'recorded', 'produced'] as const;
 
 export type StudioPortfolioRole = (typeof STUDIO_PORTFOLIO_ROLES)[number];
+
+export const STUDIO_PORTFOLIO_COVER_MAX_FILE_SIZE_MB = 8;
+
+export const STUDIO_PORTFOLIO_COVER_TYPES = ['.jpg', '.jpeg', '.png', '.webp'] as const;

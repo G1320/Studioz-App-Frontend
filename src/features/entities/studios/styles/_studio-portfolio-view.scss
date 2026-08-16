@@ -143,6 +143,20 @@
     margin-top: 0.5rem;
   }
 
+  &__cover-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
   &__manage select,
   &__upload-role select {
     appearance: none;

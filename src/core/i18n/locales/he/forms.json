@@ -629,6 +629,11 @@
       "uploadComplete": "הועלה",
       "loadingTracks": "טוען רצועות…",
       "uploadAfterCreate": "אחרי יצירת הסטודיו תוכלו להעלות קבצי אודיו שיתנגנו בפורטפוליו הציבורי.",
+      "uploadCover": "עטיפה",
+      "coverFromFile": "מהקובץ",
+      "coverFromFileSuccess": "העטיפה נשלפה מקובץ האודיו",
+      "invalidCoverType": "השתמשו בעטיפה בפורמט JPG, PNG או WebP.",
+      "coverTooLarge": "העטיפה גדולה מדי (מקסימום {{size}}MB).",
       "uploadRole": "תייגו העלאות חדשות כ",
       "roles": {
         "mixed": "מיקס",

@@ -6,7 +6,9 @@ import {
   toggleItemActive,
   uploadStudioPortfolioFile,
   deleteStudioFile,
-  updateStudioFile
+  updateStudioFile,
+  uploadStudioPortfolioCover,
+  extractStudioFileCover
 } from '@shared/services';
 import { Studio, Item, StudioFile } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
@@ -117,6 +119,37 @@ export const useUpdateStudioFileMutation = () => {
     { studioId: string; fileId: string; role?: StudioFile['role'] | '' }
   >({
     mutationFn: ({ studioId, fileId, role }) => updateStudioFile(studioId, fileId, { role }),
+    invalidateQueries: [{ queryKey: 'studioFiles' }],
+    onSuccess: (_data, { studioId }) => {
+      queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });
+    }
+  });
+};
+
+export const useUploadStudioCoverMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<StudioFile, { studioId: string; fileId: string; file: File }>({
+    mutationFn: ({ studioId, fileId, file }) =>
+      uploadStudioPortfolioCover(studioId, fileId, file),
+    successMessage: t('toasts.success.imageUploaded', { defaultValue: 'Cover uploaded' }),
+    invalidateQueries: [{ queryKey: 'studioFiles' }],
+    onSuccess: (_data, { studioId }) => {
+      queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });
+    }
+  });
+};
+
+export const useExtractStudioCoverMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('forms');
+
+  return useMutationHandler<StudioFile, { studioId: string; fileId: string }>({
+    mutationFn: ({ studioId, fileId }) => extractStudioFileCover(studioId, fileId),
+    successMessage: t('form.portfolio.coverFromFileSuccess', {
+      defaultValue: 'Cover pulled from the audio file'
+    }),
     invalidateQueries: [{ queryKey: 'studioFiles' }],
     onSuccess: (_data, { studioId }) => {
       queryClient.invalidateQueries({ queryKey: ['studioFiles', studioId] });

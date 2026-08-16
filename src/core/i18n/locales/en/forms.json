@@ -625,6 +625,11 @@
       "uploadComplete": "Uploaded",
       "loadingTracks": "Loading tracks…",
       "uploadAfterCreate": "After you create the studio, you can upload audio files to play on your public portfolio.",
+      "uploadCover": "Cover",
+      "coverFromFile": "From file",
+      "coverFromFileSuccess": "Cover pulled from the audio file",
+      "invalidCoverType": "Use a JPG, PNG, or WebP cover.",
+      "coverTooLarge": "Cover is too large (max {{size}}MB).",
       "uploadRole": "Tag new uploads as",
       "roles": {
         "mixed": "Mixed",

@@ -8,7 +8,9 @@ import {
   useStudioFiles,
   useUploadStudioFileMutation,
   useDeleteStudioFileMutation,
-  useUpdateStudioFileMutation
+  useUpdateStudioFileMutation,
+  useUploadStudioCoverMutation,
+  useExtractStudioCoverMutation
 } from '@shared/hooks';
 import { useHiFiAudioEngine } from '@shared/audio';
 import {
@@ -16,6 +18,8 @@ import {
   STUDIO_PORTFOLIO_MAX_FILE_SIZE_MB,
   STUDIO_PORTFOLIO_MAX_FILES,
   STUDIO_PORTFOLIO_ROLES,
+  STUDIO_PORTFOLIO_COVER_TYPES,
+  STUDIO_PORTFOLIO_COVER_MAX_FILE_SIZE_MB,
   type StudioPortfolioRole
 } from '@shared/constants/studioPortfolioFileLimits';
 import { isPlayableAudioExtension } from '@shared/constants/remoteProjectFileLimits';
@@ -56,6 +60,8 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
   const uploadMutation = useUploadStudioFileMutation();
   const deleteMutation = useDeleteStudioFileMutation();
   const updateMutation = useUpdateStudioFileMutation();
+  const coverMutation = useUploadStudioCoverMutation();
+  const extractCoverMutation = useExtractStudioCoverMutation();
   const { active, status } = useHiFiAudioEngine();
 
   const acceptedTypes = [...STUDIO_PORTFOLIO_ACCEPTED_FILE_TYPES];
@@ -197,6 +203,29 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
       refetch();
     } catch (error) {
       console.error('Failed to delete portfolio file:', error);
+    }
+  };
+
+  const handleCoverUpload = async (fileId: string, image: File) => {
+    const ext = '.' + image.name.split('.').pop()?.toLowerCase();
+    if (!(STUDIO_PORTFOLIO_COVER_TYPES as readonly string[]).includes(ext)) {
+      alert(t('form.portfolio.invalidCoverType', { defaultValue: 'Use a JPG, PNG, or WebP cover.' }));
+      return;
+    }
+    if (image.size > STUDIO_PORTFOLIO_COVER_MAX_FILE_SIZE_MB * 1024 * 1024) {
+      alert(
+        t('form.portfolio.coverTooLarge', {
+          size: STUDIO_PORTFOLIO_COVER_MAX_FILE_SIZE_MB,
+          defaultValue: `Cover is too large (max ${STUDIO_PORTFOLIO_COVER_MAX_FILE_SIZE_MB}MB).`
+        })
+      );
+      return;
+    }
+    try {
+      await coverMutation.mutateAsync({ studioId, fileId, file: image });
+      refetch();
+    } catch (error) {
+      console.error('Failed to upload cover:', error);
     }
   };
 
@@ -349,9 +378,17 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
                   }`}
                 >
                   <div className="portfolio-card__image-wrapper">
-                    <div className="portfolio-card__image-placeholder">
-                      <MusicNoteIcon />
-                    </div>
+                    {file.coverUrl ? (
+                      <img
+                        src={file.coverUrl}
+                        alt={displayTrackTitle(file.fileName)}
+                        className="portfolio-card__image"
+                      />
+                    ) : (
+                      <div className="portfolio-card__image-placeholder">
+                        <MusicNoteIcon />
+                      </div>
+                    )}
                     <div className="portfolio-card__overlay" />
                     <div className="portfolio-card__type portfolio-card__type--audio">
                       <span>{roleLabel(file.role)}</span>
@@ -394,6 +431,28 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
                             </option>
                           ))}
                         </select>
+                        <label className="portfolio-track-tile__cover-btn">
+                          {t('form.portfolio.uploadCover', { defaultValue: 'Cover' })}
+                          <input
+                            type="file"
+                            accept={STUDIO_PORTFOLIO_COVER_TYPES.join(',')}
+                            hidden
+                            onChange={(e) => {
+                              const image = e.target.files?.[0];
+                              e.target.value = '';
+                              if (image) void handleCoverUpload(file._id, image);
+                            }}
+                          />
+                        </label>
+                        <Button
+                          className="button--secondary button--small"
+                          onClick={() =>
+                            extractCoverMutation.mutate({ studioId, fileId: file._id })
+                          }
+                          disabled={extractCoverMutation.isPending}
+                        >
+                          {t('form.portfolio.coverFromFile', { defaultValue: 'From file' })}
+                        </Button>
                         <Button
                           className="button--danger button--small"
                           onClick={() => handleDeleteFile(file._id)}

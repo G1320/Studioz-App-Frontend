@@ -3,7 +3,7 @@
 
 .a11y-trigger {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   inset-inline-end: 1.5rem;
   z-index: 9998;
   width: 48px;
@@ -20,7 +20,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, bottom 0.3s ease;
 
   @media (max-width: 768px) {
-    bottom: 5rem;
+    inset-inline-end: 0.75rem;
   }
 
   &:hover {
@@ -279,16 +279,23 @@
     inset-inline-end: 0.75rem;
     width: calc(100vw - 1.5rem);
     max-width: 360px;
-    bottom: 8.5rem;
+    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
-// Move trigger up when cookie banner is showing
-.cookie-banner--visible ~ .a11y-trigger,
-.cookie-banner ~ .a11y-trigger {
-  bottom: 6rem;
+// Sit above the cookie banner only while it is on screen
+body:has(.cookie-banner--visible) .a11y-trigger {
+  bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
 
   @media (max-width: 768px) {
-    bottom: 9.5rem;
+    bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+body:has(.cookie-banner--visible) .a11y-popover {
+  bottom: calc(10rem + env(safe-area-inset-bottom, 0px));
+
+  @media (max-width: 768px) {
+    bottom: calc(15rem + env(safe-area-inset-bottom, 0px));
   }
 }
