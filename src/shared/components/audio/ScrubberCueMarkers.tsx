@@ -37,7 +37,7 @@ export const ScrubberCueMarkers: FC<ScrubberCueMarkersProps> = ({
             key={msg._id}
             type="button"
             className="remote-audio-player__marker"
-            style={{ insetInlineStart: `${pct}%` }}
+            style={{ left: `${pct}%` }}
             aria-label={t('audioPlayer.cueMarker', { time: timeLabel })}
             onClick={(e) => {
               e.preventDefault();
