@@ -176,7 +176,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           disabled={playDisabled || (isSelected && isBusy)}
           aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
         </button>
         {playDisabled && statusMessage && (
           <span className="remote-audio-player__compact-hint">
@@ -212,7 +212,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           disabled={playDisabled || isBusy}
           aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
         </button>
 
         <div className="remote-audio-player__scrubber-wrap">

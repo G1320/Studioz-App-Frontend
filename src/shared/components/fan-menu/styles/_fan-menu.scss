@@ -76,12 +76,13 @@
 
   &__label {
     position: absolute;
-    top: 100%; // Position below the button
+    left: 50%;
+    top: 50%;
     white-space: nowrap;
     font-size: 0.75rem;
     color: var(--text-primary);
     background: vars.$dark-bg-15-55;
-    padding: 0.375rem 0.625rem; // Increased padding for better spacing
+    padding: 0.375rem 0.625rem;
     border-radius: 6px;
     backdrop-filter: blur(10px);
     opacity: 0;
@@ -89,9 +90,9 @@
     transition:
       opacity 0.2s ease,
       transform 0.2s ease;
-    transform: translateY(0.5rem); // Start further down
-    margin-top: 0.25rem; // Additional spacing from button
-    z-index: 1003; // Highest z-index for labels
+    // Sit outside the fan, along the same vector as the button
+    transform: translate(-50%, -50%) translate(calc(var(--x, 0px) * 0.95), calc(var(--y, 0px) * 0.95));
+    z-index: 1003;
   }
 
   // Fan menu open state
@@ -110,7 +111,7 @@
 
     .fan-menu__button-wrapper:hover .fan-menu__label {
       opacity: 1;
-      transform: translateY(0.25rem); // Final position with proper spacing
+      transform: translate(-50%, -50%) translate(calc(var(--x, 0px) * 1.15), calc(var(--y, 0px) * 1.15));
     }
   }
 

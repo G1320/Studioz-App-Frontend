@@ -77,7 +77,7 @@ export const StickyRemoteAudioBar: FC = () => {
           disabled={isBusy && !isPlaying}
           aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
         </button>
 
         <div className="sticky-remote-audio-bar__transport">
