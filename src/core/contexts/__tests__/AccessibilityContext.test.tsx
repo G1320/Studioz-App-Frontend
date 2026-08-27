@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { AccessibilityProvider, useAccessibility } from '../AccessibilityContext';
 
@@ -7,6 +7,21 @@ describe('AccessibilityContext', () => {
     localStorage.clear();
     // Clean up classes from previous tests
     document.documentElement.className = '';
+    // Stable OS prefs in jsdom — don't seed highContrast from media
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      configurable: true,
+      value: vi.fn().mockImplementation((query: string) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn()
+      }))
+    });
   });
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (

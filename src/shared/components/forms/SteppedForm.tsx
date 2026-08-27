@@ -565,7 +565,7 @@ export const SteppedForm = ({
       {/* Main Content Container */}
       <div className="stepped-form__content">
         {/* Form Content */}
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
+        <AnimatePresence mode="sync" custom={direction} initial={false}>
           <motion.div
             key={currentStepIndex}
             custom={direction}

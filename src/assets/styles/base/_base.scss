@@ -15,6 +15,7 @@
   color: var(--text-primary);
   background: var(--bg-primary);
   font-synthesis: none;
+  font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -257,15 +258,64 @@ body,
   }
 }
 
-// Respect system preference for reduced motion (WCAG 2.3.3)
+// Soft reduced motion — keep short opacity/color feedback; drop vestibular motion (Apple §14)
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    // Allow color/opacity comprehension cues; block transform/filter motion
+    transition-property: color, background-color, border-color, opacity, box-shadow, outline, outline-offset !important;
+  }
+
+  @keyframes none {
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+// Solidify frosted chrome when OS asks for reduced transparency (Apple §14)
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --header-bg: #fafaf9;
+    --backdrop-blur: none;
+  }
+
+  [data-theme='dark'] {
+    --header-bg: #0a0e14;
+  }
+
+  .app-header,
+  .sticky-remote-audio-bar,
+  .toast,
+  .fan-menu__label,
+  .popup-base,
+  .cart-aside {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --header-bg: #ffffff;
+    --border-primary: rgba(0, 0, 0, 0.35);
+    --card-border: rgba(0, 0, 0, 0.35);
+  }
+
+  [data-theme='dark'] {
+    --header-bg: #000000;
+    --border-primary: rgba(255, 255, 255, 0.45);
+    --card-border: rgba(255, 255, 255, 0.45);
+  }
+
+  .app-header,
+  .sticky-remote-audio-bar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-color: var(--border-primary) !important;
   }
 }
 

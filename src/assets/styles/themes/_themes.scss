@@ -97,7 +97,7 @@
   --scrollbar-thumb-hover: #a8a29e;
 
   // Component-specific - clearer surfaces and borders
-  --header-bg: rgba(250, 250, 249, 0.97);
+  --header-bg: rgba(250, 250, 249, 0.72);
   --footer-bg: #f2f2f0;
   --card-bg: #ffffff;
   --card-border: rgba(0, 0, 0, 0.09);
@@ -224,7 +224,7 @@
   --scrollbar-thumb-hover: #3a424e;
 
   // Component-specific
-  --header-bg: rgba(10, 14, 20, 0.96);
+  --header-bg: rgba(10, 14, 20, 0.72);
   --footer-bg: #0a0e14;
   --card-bg: #13171d;
   --card-border: rgba(200, 205, 212, 0.1);
@@ -265,6 +265,25 @@
 // ===================
 // THEME TRANSITIONS
 // ===================
-// Theme switches are instant for better performance.
-// Non-composited transitions (color, background-color, border-color) on the root
-// element force full-page repaints and hurt FCP/LCP on every page load.
+// Opt-in only while ThemeContext adds `.theme-transitioning` for a short handoff.
+// Avoids full-page transition cost on every load (Apple §14 — ease dark↔light).
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color 240ms ease,
+    color 240ms ease,
+    border-color 240ms ease,
+    fill 240ms ease,
+    stroke 240ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
+}

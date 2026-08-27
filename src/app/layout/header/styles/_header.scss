@@ -60,11 +60,24 @@ header.app-header {
   z-index: 1400; // Above MUI Modal (1300) to keep header visible
   padding: 0 1rem;
 
-  // Studioz style guide: themed header with blur
+  // Studioz style guide: translucent material + scroll-edge (Apple §12)
   background: var(--header-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-primary);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: none;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border-primary) 65%, transparent);
+
+  // Soft scroll-edge fade instead of a hard divider
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -12px;
+    height: 12px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--header-bg) 55%, transparent), transparent);
+  }
 
   text-align: center;
   place-items: center;

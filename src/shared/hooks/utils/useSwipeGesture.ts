@@ -30,7 +30,7 @@ export interface SwipeConfig {
    */
   axis?: 'x' | 'y';
   /**
-   * Maximum distance the element can be dragged before snapping back
+   * Soft bound used for rubber-banding beyond the interactive range
    */
   maxDistance?: number;
 }
@@ -55,22 +55,14 @@ export interface UseSwipeGestureReturn {
   reset: () => void;
 }
 
+/** Apple §9 — progressive resistance past a soft boundary */
+function rubberband(overshoot: number, dimension: number, constant = 0.55): number {
+  if (dimension <= 0) return 0;
+  return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
+}
+
 /**
- * Custom hook for handling swipe gestures with spring animations
- *
- * @example
- * ```tsx
- * const { springProps, bind, reset } = useSwipeGesture({
- *   direction: 'down',
- *   onSwipe: () => closeModal(),
- *   threshold: 100,
- *   axis: 'y'
- * });
- *
- * <animated.div {...springProps} {...bind()}>
- *   Content
- * </animated.div>
- * ```
+ * Custom hook for swipe gestures with 1:1 tracking, rubber-banding, and velocity handoff (Apple §§2–5, 9)
  */
 export const useSwipeGesture = (config: SwipeConfig): UseSwipeGestureReturn => {
   const {
@@ -85,82 +77,105 @@ export const useSwipeGesture = (config: SwipeConfig): UseSwipeGestureReturn => {
 
   const isSwipeTriggered = useRef(false);
 
+  // Critically damped default (Apple §4)
   const [{ x, y }, api] = useSpring(() => ({
     x: 0,
     y: 0,
-    config: { tension: 300, friction: 30 }
+    config: { tension: 280, friction: 32, clamp: true }
   }));
 
   const reset = useCallback(() => {
     isSwipeTriggered.current = false;
-    api.start({ x: 0, y: 0, immediate: false });
+    api.start({ x: 0, y: 0, immediate: false, config: { tension: 280, friction: 32, clamp: true } });
   }, [api]);
 
   const bind = useDrag(
-    ({ movement: [mx, my], velocity: [vx, vy], active, cancel }) => {
+    ({ movement: [mx, my], velocity: [vx, vy], direction: [dx, dy], active }) => {
       if (!enabled) {
-        cancel();
         return;
       }
 
-      // Restrict to axis if specified
-      const movementX = axis === 'y' ? 0 : mx;
-      const movementY = axis === 'x' ? 0 : my;
+      let movementX = axis === 'y' ? 0 : mx;
+      let movementY = axis === 'x' ? 0 : my;
       const velocityX = axis === 'y' ? 0 : vx;
       const velocityY = axis === 'x' ? 0 : vy;
 
-      // Determine swipe direction based on movement
+      // Rubber-band past maxDistance instead of hard-cancel (Apple §9)
+      if (Math.abs(movementX) > maxDistance) {
+        const sign = Math.sign(movementX);
+        movementX = sign * (maxDistance + rubberband(Math.abs(movementX) - maxDistance, maxDistance));
+      }
+      if (Math.abs(movementY) > maxDistance) {
+        const sign = Math.sign(movementY);
+        movementY = sign * (maxDistance + rubberband(Math.abs(movementY) - maxDistance, maxDistance));
+      }
+
       const isHorizontal = Math.abs(movementX) > Math.abs(movementY);
       const swipeDir = isHorizontal ? (movementX > 0 ? 'right' : 'left') : movementY > 0 ? 'down' : 'up';
 
-      // Check if movement exceeds max distance
-      const distance = isHorizontal ? Math.abs(movementX) : Math.abs(movementY);
-      if (distance > maxDistance) {
-        cancel();
-        return;
-      }
-
-      // Update position during drag
+      // 1:1 tracking while dragging
       api.start({
         x: movementX,
         y: movementY,
         immediate: active
       });
 
-      // Check if swipe threshold is met
       if (!active && !isSwipeTriggered.current) {
+        const distance = isHorizontal ? Math.abs(mx) : Math.abs(my);
         const velocity = isHorizontal ? Math.abs(velocityX) : Math.abs(velocityY);
+        // Velocity sign decides commit vs reverse (Apple quick ref)
+        const velocitySign = isHorizontal ? Math.sign(dx || mx) : Math.sign(dy || my);
+        const towardDismiss =
+          (direction === 'left' && velocitySign < 0) ||
+          (direction === 'right' && velocitySign > 0) ||
+          (direction === 'up' && velocitySign < 0) ||
+          (direction === 'down' && velocitySign > 0);
+
         const meetsThreshold = distance >= threshold;
-        const meetsVelocity = velocity >= velocityThreshold;
+        const meetsVelocity = velocity >= velocityThreshold && towardDismiss;
         const correctDirection = swipeDir === direction;
 
         if (correctDirection && (meetsThreshold || meetsVelocity)) {
           isSwipeTriggered.current = true;
           onSwipe();
-          // Animate out in the swipe direction
           const finalX = direction === 'left' ? -window.innerWidth : direction === 'right' ? window.innerWidth : 0;
           const finalY = direction === 'up' ? -window.innerHeight : direction === 'down' ? window.innerHeight : 0;
+          // Velocity handoff into the dismiss spring (Apple §5)
           api.start({
             x: finalX,
             y: finalY,
             immediate: false,
+            config: {
+              tension: 220,
+              friction: 28,
+              // use-gesture velocity is px/ms; react-spring expects similar units
+              velocity: isHorizontal ? velocityX : velocityY,
+              clamp: false
+            },
             onRest: reset
           });
         } else {
-          // Snap back to original position
-          reset();
+          // Snap back with residual velocity so reverse isn't a brick wall
+          api.start({
+            x: 0,
+            y: 0,
+            immediate: false,
+            config: {
+              tension: 280,
+              friction: 32,
+              velocity: isHorizontal ? velocityX : velocityY,
+              clamp: true
+            }
+          });
+          isSwipeTriggered.current = false;
         }
       }
     },
     {
       axis: axis === 'x' ? 'x' : axis === 'y' ? 'y' : undefined,
       filterTaps: true,
-      bounds:
-        axis === 'x'
-          ? { left: -maxDistance, right: maxDistance }
-          : axis === 'y'
-            ? { top: -maxDistance, bottom: maxDistance }
-            : undefined
+      // No hard bounds — rubberband in the handler instead
+      from: () => [x.get(), y.get()]
     }
   );
 

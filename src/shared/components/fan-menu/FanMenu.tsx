@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { SettingsIcon } from '@shared/components/icons';
 import { Button } from '@shared/components';
 import './styles/_fan-menu.scss';
@@ -15,24 +16,25 @@ interface FanMenuProps {
   className?: string;
 }
 
+/** Critically damped spring — no bounce unless momentum (Apple §4) */
+const FAN_SPRING = { type: 'spring' as const, bounce: 0, duration: 0.35 };
+
 export const FanMenu: React.FC<FanMenuProps> = ({ buttons, className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
   const [isRTL, setIsRTL] = useState(() => {
     return document.documentElement.dir === 'rtl' || document.documentElement.getAttribute('dir') === 'rtl';
   });
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Watch for direction changes
   useEffect(() => {
     const checkDirection = () => {
       const rtl = document.documentElement.dir === 'rtl' || document.documentElement.getAttribute('dir') === 'rtl';
       setIsRTL(rtl);
     };
 
-    // Check on mount
     checkDirection();
 
-    // Watch for attribute changes
     const observer = new MutationObserver(checkDirection);
     observer.observe(document.documentElement, {
       attributes: true,
@@ -42,26 +44,21 @@ export const FanMenu: React.FC<FanMenuProps> = ({ buttons, className = '' }) => 
     return () => observer.disconnect();
   }, []);
 
-  // Calculate button positions for fan layout
   const buttonPositions = useMemo(() => {
-    const spread = 90; // degrees (reduced from 120 for tighter spread)
-    const radius = 72; // pixels (4.5rem)
-
-    // For RTL (Hebrew): Open to the right - start from negative angle and go to positive
-    // For LTR (English): Open to the left - flip 180 degrees, start from positive angle and go to negative
-    const startAngle = isRTL ? -45 : 225; // degrees (135 = 180 - 45, flips the direction)
-    const angleDirection = isRTL ? 1 : -1; // RTL goes positive (right), LTR goes negative (left)
+    const spread = 90;
+    const radius = 72;
+    const startAngle = isRTL ? -45 : 225;
+    const angleDirection = isRTL ? 1 : -1;
 
     return buttons.map((_, index) => {
       const angle = startAngle + (spread / Math.max(1, buttons.length - 1)) * index * angleDirection;
       const angleRad = (angle * Math.PI) / 180;
       const x = Math.cos(angleRad) * radius;
       const y = Math.sin(angleRad) * radius;
-      return { x, y, delay: index * 0.05 };
+      return { x, y };
     });
   }, [buttons.length, isRTL]);
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -91,23 +88,37 @@ export const FanMenu: React.FC<FanMenuProps> = ({ buttons, className = '' }) => 
         aria-label="Open menu"
         aria-expanded={isOpen}
       >
-        <SettingsIcon className={`fan-menu__icon ${isOpen ? 'fan-menu__icon--rotated' : ''}`} />
+        <motion.span
+          className="fan-menu__icon-wrap"
+          animate={{ rotate: isOpen ? 90 : 0 }}
+          transition={reduceMotion ? { duration: 0 } : FAN_SPRING}
+        >
+          <SettingsIcon className="fan-menu__icon" />
+        </motion.span>
       </Button>
       <div className="fan-menu__buttons">
         {buttons.map((button, index) => {
           const position = buttonPositions[index];
           return (
-            <div
+            <motion.div
               key={index}
               className="fan-menu__button-wrapper"
               style={
                 {
-                  '--index': index,
-                  '--total': buttons.length,
                   '--x': `${position.x}px`,
-                  '--y': `${position.y}px`,
-                  '--delay': `${position.delay}s`
+                  '--y': `${position.y}px`
                 } as React.CSSProperties
+              }
+              initial={false}
+              animate={
+                isOpen
+                  ? { opacity: 1, x: position.x, y: position.y, scale: 1, pointerEvents: 'auto' }
+                  : { opacity: 0, x: 0, y: 0, scale: 0.4, pointerEvents: 'none' }
+              }
+              transition={
+                reduceMotion
+                  ? { duration: 0.15 }
+                  : { ...FAN_SPRING, delay: isOpen ? index * 0.03 : 0 }
               }
             >
               <Button
@@ -118,7 +129,7 @@ export const FanMenu: React.FC<FanMenuProps> = ({ buttons, className = '' }) => 
                 {button.icon}
               </Button>
               {button.label && <span className="fan-menu__label">{button.label}</span>}
-            </div>
+            </motion.div>
           );
         })}
       </div>

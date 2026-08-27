@@ -672,7 +672,7 @@ export const VendorOnboardingForm = () => {
         </div>
 
         {/* Step Form Content */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync" initial={false}>
           <motion.div
             key={currentStep}
             initial={{ opacity: 0, x: -20 }}

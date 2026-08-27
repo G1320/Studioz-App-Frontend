@@ -16,7 +16,10 @@ button {
   background-color: var(--border-primary);
   white-space: nowrap;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition:
+    border-color 0.25s ease,
+    transform 100ms ease-out,
+    opacity 0.15s ease;
   outline: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -24,6 +27,11 @@ button {
 
   &:hover {
     border-color: var(--color-brand);
+  }
+
+  // Apple §1 — feedback on press, not only on click
+  &:active:not(:disabled) {
+    transform: scale(0.97);
   }
 
   &:focus:not(:focus-visible) {
@@ -60,8 +68,12 @@ button:is(.add-to-cart-button) {
   color: var(--btn-primary-text) !important;
   background-color: var(--color-brand);
   transition:
-    transform 0.2s ease,
+    transform 100ms ease-out,
     box-shadow 0.2s ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
 
   .button-loading-spinner {
     width: 20px;

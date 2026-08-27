@@ -72,6 +72,26 @@ const BOOL_CLASS_MAP: Record<string, string> = {
 // Helpers
 // ---------------------------------------------------------------------------
 
+function matchesMedia(query: string): boolean {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false;
+  }
+  try {
+    return window.matchMedia(query).matches;
+  } catch {
+    return false;
+  }
+}
+
+/** Seed from OS prefs only when the user has never saved a11y settings (Apple §14). */
+function seedFromOsPrefs(base: AccessibilitySettings): AccessibilitySettings {
+  return {
+    ...base,
+    // Prefer OS contrast; keep stopAnimations off so MotionConfig + soft CSS handle reduced motion
+    highContrast: base.highContrast || matchesMedia('(prefers-contrast: more)')
+  };
+}
+
 function loadSettings(): AccessibilitySettings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -82,7 +102,7 @@ function loadSettings(): AccessibilitySettings {
   } catch {
     // Corrupted or unavailable storage – fall back to defaults
   }
-  return { ...DEFAULT_SETTINGS };
+  return seedFromOsPrefs({ ...DEFAULT_SETTINGS });
 }
 
 function persistSettings(settings: AccessibilitySettings): void {
@@ -112,6 +132,13 @@ function applyClasses(settings: AccessibilitySettings): void {
   }
 }
 
+function applyOsMediaClasses(): void {
+  const root = document.documentElement;
+  root.classList.toggle('a11y-os-reduced-transparency', matchesMedia('(prefers-reduced-transparency: reduce)'));
+  root.classList.toggle('a11y-os-high-contrast', matchesMedia('(prefers-contrast: more)'));
+  root.classList.toggle('a11y-os-reduced-motion', matchesMedia('(prefers-reduced-motion: reduce)'));
+}
+
 // ---------------------------------------------------------------------------
 // Context
 // ---------------------------------------------------------------------------
@@ -136,6 +163,19 @@ export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({
     persistSettings(settings);
   }, [settings]);
 
+  // Keep OS media classes in sync (independent of widget toggles)
+  useEffect(() => {
+    applyOsMediaClasses();
+    const queries = [
+      window.matchMedia('(prefers-reduced-transparency: reduce)'),
+      window.matchMedia('(prefers-contrast: more)'),
+      window.matchMedia('(prefers-reduced-motion: reduce)')
+    ];
+    const onChange = () => applyOsMediaClasses();
+    queries.forEach((q) => q.addEventListener('change', onChange));
+    return () => queries.forEach((q) => q.removeEventListener('change', onChange));
+  }, []);
+
   const updateSetting = useCallback(
     <K extends keyof AccessibilitySettings>(
       key: K,
@@ -147,7 +187,7 @@ export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({
   );
 
   const resetAll = useCallback(() => {
-    setSettings({ ...DEFAULT_SETTINGS });
+    setSettings(seedFromOsPrefs({ ...DEFAULT_SETTINGS }));
   }, []);
 
   const togglePopover = useCallback(() => {

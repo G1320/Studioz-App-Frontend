@@ -11,9 +11,9 @@ import { useStudioFiles } from '@shared/hooks';
 import { GridViewIcon, ListIcon, WorkIcon } from '@shared/components/icons';
 
 const viewVariants = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 12 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -10 }
+  exit: { opacity: 0, y: 12 }
 };
 
 type ContentView = 'overview' | 'info' | 'portfolio';
@@ -89,7 +89,7 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
 
       {/* Content Views */}
       <div className="view-content">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync" initial={false}>
           {activeView === 'overview' && (
             <motion.div
               key="overview"

@@ -290,7 +290,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       )}
 
       {/* Tab Content with transition */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync" initial={false}>
         {activeTab === 'studios' && isStudioOwner && (
           <motion.div key="studios" {...viewTransition}>
             <StudioManager studios={userStudios} />

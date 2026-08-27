@@ -316,15 +316,31 @@ html.a11y-high-contrast .pricing-card--featured {
 }
 
 // ===================
-// Stop Animations
+// Stop Animations (widget hard-stop — still allow brief opacity cues)
 // ===================
 html.a11y-stop-animations *,
 html.a11y-stop-animations *::before,
 html.a11y-stop-animations *::after {
-  animation-duration: 0s !important;
+  animation-duration: 0.01ms !important;
   animation-delay: 0s !important;
-  transition-duration: 0s !important;
+  animation-iteration-count: 1 !important;
   scroll-behavior: auto !important;
+  transition-property: opacity, color, background-color, border-color !important;
+  transition-duration: 120ms !important;
+}
+
+// OS reduced-transparency companion class (seeded by AccessibilityContext)
+html.a11y-os-reduced-transparency {
+  .app-header,
+  .sticky-remote-audio-bar,
+  .toast,
+  .fan-menu__label,
+  .popup-base,
+  .cart-aside {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: var(--bg-elevated);
+  }
 }
 
 // ===================
@@ -340,18 +356,34 @@ html.a11y-highlight-links a {
 // Text Spacing
 // ===================
 html.a11y-text-spacing {
-  letter-spacing: 0.12em;
-  word-spacing: 0.16em;
+  // Body/UI text only — leave display headings' tracking intact (Apple §15)
+  p,
+  li,
+  span,
+  a,
+  label,
+  input,
+  textarea,
+  button,
+  td,
+  th,
+  .owners-section-subtitle,
+  .owners-hero__description {
+    letter-spacing: 0.12em;
+    word-spacing: 0.16em;
+  }
 
   p,
   li,
   span,
   a,
-  td,
-  th,
   label,
-  div {
-    line-height: 1.8 !important;
+  input,
+  textarea,
+  button,
+  td,
+  th {
+    line-height: 1.8;
   }
 }
 

@@ -130,7 +130,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
   }, [studios, user?._id]);
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync" initial={false}>
       <Suspense fallback={<div className="page-loader"><div className="page-loader__spinner" /></div>}>
         <Routes location={location}>
           <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />

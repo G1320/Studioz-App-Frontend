@@ -56,15 +56,27 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
     return theme === 'system' ? systemTheme : theme;
   }, [theme, systemTheme]);
 
-  // Apply theme to document
+  // Apply theme to document with a short eased handoff (Apple §14 — avoid abrupt brightness jumps)
   useEffect(() => {
     const root = document.documentElement;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      root.classList.add('theme-transitioning');
+    }
     root.setAttribute('data-theme', resolvedTheme);
 
     // Also update meta theme-color for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', resolvedTheme === 'dark' ? '#000000' : '#ffffff');
+    }
+
+    if (!prefersReducedMotion) {
+      const timeout = window.setTimeout(() => {
+        root.classList.remove('theme-transitioning');
+      }, 280);
+      return () => window.clearTimeout(timeout);
     }
   }, [resolvedTheme]);
 

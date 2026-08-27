@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
+import { MotionConfig } from 'framer-motion';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
@@ -125,47 +126,49 @@ import App from './app/App.js';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark">
-      <AccessibilityProvider>
-        <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
-          <Router>
-            <CookieConsentProvider>
-              <PostHogProvider>
-                <LocationPermissionProvider>
-                  <UserProvider>
-                    <OfflineCartProvider>
-                      <SocketProvider>
-                        <NotificationProvider>
-                          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-                            <Auth0Provider
-                              domain={domain}
-                              clientId={clientId}
-                              authorizationParams={{
-                                redirect_uri: window.location.origin,
-                                audience: 'https://items-app-backend.onrender.com',
-                                scope: 'openid profile email'
-                              }}
-                            >
-                              <ModalProvider>
-                                <ReservationModalProvider>
-                                  <SearchProvider>
-                                    <App />
-                                  </SearchProvider>
-                                </ReservationModalProvider>
-                              </ModalProvider>
-                            </Auth0Provider>
-                          </LocalizationProvider>
-                        </NotificationProvider>
-                      </SocketProvider>
-                    </OfflineCartProvider>
-                  </UserProvider>
-                </LocationPermissionProvider>
-              </PostHogProvider>
-            </CookieConsentProvider>
-          </Router>
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-        </PersistQueryClientProvider>
-      </AccessibilityProvider>
-    </ThemeProvider>
+    <MotionConfig reducedMotion="user">
+      <ThemeProvider defaultTheme="dark">
+        <AccessibilityProvider>
+          <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+            <Router>
+              <CookieConsentProvider>
+                <PostHogProvider>
+                  <LocationPermissionProvider>
+                    <UserProvider>
+                      <OfflineCartProvider>
+                        <SocketProvider>
+                          <NotificationProvider>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
+                              <Auth0Provider
+                                domain={domain}
+                                clientId={clientId}
+                                authorizationParams={{
+                                  redirect_uri: window.location.origin,
+                                  audience: 'https://items-app-backend.onrender.com',
+                                  scope: 'openid profile email'
+                                }}
+                              >
+                                <ModalProvider>
+                                  <ReservationModalProvider>
+                                    <SearchProvider>
+                                      <App />
+                                    </SearchProvider>
+                                  </ReservationModalProvider>
+                                </ModalProvider>
+                              </Auth0Provider>
+                            </LocalizationProvider>
+                          </NotificationProvider>
+                        </SocketProvider>
+                      </OfflineCartProvider>
+                    </UserProvider>
+                  </LocationPermissionProvider>
+                </PostHogProvider>
+              </CookieConsentProvider>
+            </Router>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          </PersistQueryClientProvider>
+        </AccessibilityProvider>
+      </ThemeProvider>
+    </MotionConfig>
   </React.StrictMode>
 );

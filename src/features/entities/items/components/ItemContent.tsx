@@ -178,7 +178,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   if (isRemoteProject) {
     return (
       <>
-        <AnimatePresence mode="wait" initial={false} custom={isRTL}>
+        <AnimatePresence mode="sync" initial={false} custom={isRTL}>
           {showProject ? (
             <motion.div
               key="project-card"
@@ -271,7 +271,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   // Render in-studio booking flow
   return (
     <>
-      <AnimatePresence mode="wait" initial={false} custom={isRTL}>
+      <AnimatePresence mode="sync" initial={false} custom={isRTL}>
         {showReservation ? (
           <motion.div
             key="reservation-card"

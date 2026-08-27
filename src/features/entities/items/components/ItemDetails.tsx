@@ -675,7 +675,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       )}
 
       {/* Animated content area - swaps between ItemContent and OrderSummary */}
-      <AnimatePresence mode="wait" initial={false} custom={direction}>
+      <AnimatePresence mode="sync" initial={false} custom={direction}>
         {/* Booking Payment Step */}
         {showPaymentStep && pendingBookingItem ? (
           <motion.div
