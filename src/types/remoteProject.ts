@@ -43,6 +43,7 @@ export interface RemoteProject {
     name?: string;
     email?: string;
   };
+  collaborators?: ProjectCollaborator[];
 
   // Project Details
   title: string;
@@ -107,7 +108,63 @@ export interface ProjectFile {
   updatedAt?: string;
 }
 
-export type SenderRole = 'customer' | 'vendor';
+export type ProjectSide = 'customer' | 'vendor';
+
+export type ProjectCollaboratorStatus = 'active' | 'removed';
+
+export interface ProjectCollaborator {
+  userId:
+    | string
+    | {
+        _id: string;
+        name?: string;
+        email?: string;
+        imgUrl?: string;
+      };
+  side: ProjectSide;
+  invitedBy:
+    | string
+    | {
+        _id: string;
+        name?: string;
+        email?: string;
+      };
+  joinedAt?: string;
+  status: ProjectCollaboratorStatus;
+}
+
+export type ProjectInviteStatus = 'pending' | 'accepted' | 'revoked' | 'expired';
+
+export interface ProjectInvite {
+  _id: string;
+  projectId?: string | { _id: string; title?: string; status?: string; studioName?: { en?: string; he?: string } };
+  email: string;
+  side: ProjectSide;
+  invitedBy?: string | { _id: string; name?: string; email?: string };
+  status: ProjectInviteStatus;
+  expiresAt?: string;
+  createdAt?: string;
+}
+
+export interface ProjectAccess {
+  side: ProjectSide;
+  isPrimary: boolean;
+  isCollaborator: boolean;
+  senderRole: SenderRole;
+  canInvite: boolean;
+  canPay: boolean;
+  canCustomerWorkflow: boolean;
+  canVendorWorkflow: boolean;
+  canUpdateMetadata: boolean;
+  canChat: boolean;
+  canFiles: boolean;
+}
+
+export type SenderRole =
+  | 'customer'
+  | 'vendor'
+  | 'customer_collaborator'
+  | 'vendor_collaborator';
 
 export interface MessageFileCue {
   _id: string;
@@ -165,6 +222,7 @@ export interface ProjectDetailResponse {
     deliverable: number;
     revision: number;
   };
+  access?: ProjectAccess;
 }
 
 export interface UploadUrlResponse {
@@ -203,4 +261,9 @@ export interface MessagesResponse {
     total: number;
     totalPages: number;
   };
+}
+
+export interface CollaboratorsResponse {
+  collaborators: ProjectCollaborator[];
+  pendingInvites: ProjectInvite[];
 }

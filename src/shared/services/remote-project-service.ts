@@ -309,13 +309,11 @@ export const getMessages = async (
 
 export const sendMessage = async (
   projectId: string,
-  senderId: string,
   message: string,
   options?: { attachmentIds?: string[]; fileId?: string; offsetSeconds?: number }
 ): Promise<ProjectMessage> => {
   try {
     return await httpService.post(`${endpoint}/${projectId}/messages`, {
-      senderId,
       message,
       attachmentIds: options?.attachmentIds,
       fileId: options?.fileId,
@@ -329,18 +327,60 @@ export const sendMessage = async (
 
 export const markMessagesAsRead = async (
   projectId: string,
-  userId: string,
   messageIds?: string[]
 ): Promise<{ markedAsRead: number }> => {
   try {
     return await httpService.patch(`${endpoint}/${projectId}/messages/read`, {
-      userId,
       messageIds
     });
   } catch (error) {
     console.error(`Error marking messages as read for project ${projectId}:`, error);
     throw error;
   }
+};
+
+// ============================================================
+// COLLABORATORS
+// ============================================================
+
+export const inviteCollaborator = async (
+  projectId: string,
+  email: string
+): Promise<{ invite: import('src/types').ProjectInvite }> => {
+  return httpService.post(`${endpoint}/${projectId}/collaborators/invite`, { email });
+};
+
+export const getCollaborators = async (
+  projectId: string
+): Promise<import('src/types').CollaboratorsResponse> => {
+  return httpService.get(`${endpoint}/${projectId}/collaborators`);
+};
+
+export const removeCollaborator = async (projectId: string, userId: string): Promise<{ removed: boolean }> => {
+  return httpService.delete(`${endpoint}/${projectId}/collaborators/${userId}`);
+};
+
+export const revokeCollaboratorInvite = async (
+  projectId: string,
+  inviteId: string
+): Promise<{ revoked: boolean }> => {
+  return httpService.post(`${endpoint}/${projectId}/collaborators/invites/${inviteId}/revoke`);
+};
+
+export const getInviteByToken = async (
+  token: string
+): Promise<{ invite: import('src/types').ProjectInvite & { project?: { _id: string; title?: string } } }> => {
+  return httpService.get(`${endpoint}/invites/${token}`);
+};
+
+export const acceptInviteByToken = async (
+  token: string
+): Promise<{ projectId: string; alreadyMember?: boolean }> => {
+  return httpService.post(`${endpoint}/invites/${token}/accept`);
+};
+
+export const getPendingInvites = async () => {
+  return httpService.get(`${endpoint}/invites/pending`);
 };
 
 // ============================================================

@@ -130,6 +130,36 @@
   "customer": "לקוח",
   "vendor": "אולפן",
 
+  "collaborators": {
+    "title": "משתפי פעולה",
+    "hint": "הזמינו שותפים באימייל. הם יוכלו לשוחח, לשתף קבצים ולבצע פעולות תהליך — בלי גישה לתשלומים.",
+    "empty": "אין משתפי פעולה עדיין.",
+    "invite": "שלח הזמנה",
+    "emailPlaceholder": "colleague@email.com",
+    "inviteFailed": "שליחת ההזמנה נכשלה",
+    "pending": "ממתין",
+    "revoke": "בטל הזמנה",
+    "remove": "הסר",
+    "leave": "עזוב",
+    "badge": "משתף פעולה",
+    "customerCollaborator": "משתף פעולה מצד הלקוח",
+    "vendorCollaborator": "משתף פעולה מצד האולפן",
+    "side": {
+      "customer": "צד הלקוח",
+      "vendor": "צד האולפן"
+    },
+    "acceptTitle": "הזמנה לפרויקט",
+    "acceptBody": "{{inviter}} הזמין/ה אותך להצטרף ל־{{project}} בצד ה{{side}}.",
+    "sentTo": "ההזמנה נשלחה אל {{email}}",
+    "emailMismatchHint": "יש להתחבר עם אותו אימייל כדי לאשר.",
+    "accept": "קבלת הזמנה",
+    "loginToAccept": "התחבר/י כדי לאשר",
+    "acceptFailed": "אישור ההזמנה נכשל",
+    "inviteNotFound": "ההזמנה לא נמצאה או שפגה",
+    "aProject": "פרויקט",
+    "someone": "מישהו"
+  },
+
   "requestProject": "בקשת פרויקט",
   "projectTitle": "שם הפרויקט",
   "titlePlaceholder": "לדוגמה: מיקס ומאסטרינג - שם השיר",

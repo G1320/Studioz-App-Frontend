@@ -1,0 +1,75 @@
+.project-collaborators {
+  margin-top: 1.5rem;
+  text-align: start;
+
+  &__title {
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+  }
+
+  &__hint {
+    margin: 0 0 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-primary);
+
+    &--pending {
+      opacity: 0.85;
+    }
+  }
+
+  &__name {
+    font-weight: 600;
+  }
+
+  &__meta {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  &__empty,
+  &__loading {
+    color: var(--text-secondary);
+    padding: 0.5rem 0;
+  }
+
+  &__invite {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+
+    input {
+      flex: 1;
+      min-width: 12rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+  }
+
+  &__error {
+    color: var(--color-error, #c0392b);
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+  }
+}

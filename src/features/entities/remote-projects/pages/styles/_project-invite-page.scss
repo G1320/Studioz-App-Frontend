@@ -1,0 +1,26 @@
+.project-invite-page {
+  max-width: 32rem;
+  margin: 3rem auto;
+  padding: 1.5rem;
+  text-align: start;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  &__email {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  &__error {
+    color: var(--color-error, #c0392b);
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+}

@@ -21,6 +21,7 @@ import { hiFiAudioEngine, AudioCueCommentProvider } from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
+import { ProjectCollaborators } from '../components/ProjectCollaborators';
 import { RemoteProject } from 'src/types/index';
 import './styles/_project-detail-page.scss';
 
@@ -39,6 +40,7 @@ export const ProjectDetailPage: React.FC = () => {
   const {
     project,
     fileCounts,
+    access,
     isLoading,
     refetch
   } = useRemoteProject(projectId || '');
@@ -104,9 +106,13 @@ export const ProjectDetailPage: React.FC = () => {
     );
   }
 
-  const isVendor = user?._id === getVendorId(project);
-  const isCustomer = user?._id === getCustomerId(project);
-  const userRole: 'customer' | 'vendor' = isVendor ? 'vendor' : 'customer';
+  const isVendor = access?.side === 'vendor' || user?._id === getVendorId(project);
+  const isCustomer = access?.side === 'customer' || user?._id === getCustomerId(project);
+  const canVendorWorkflow = access?.canVendorWorkflow ?? isVendor;
+  const canCustomerWorkflow = access?.canCustomerWorkflow ?? isCustomer;
+  const canPay = access?.canPay ?? isCustomer;
+  const canUpdateMetadata = access?.canUpdateMetadata ?? isVendor;
+  const userRole = access?.side || (isVendor ? 'vendor' : 'customer');
 
   function getVendorId(proj: RemoteProject): string {
     return typeof proj.vendorId === 'string' ? proj.vendorId : proj.vendorId._id;
@@ -210,18 +216,23 @@ export const ProjectDetailPage: React.FC = () => {
     }
   };
 
-  const canCancel = project.status === 'accepted';
-  const canAcceptDecline = isVendor && project.status === 'requested';
-  const canStart = isVendor && project.status === 'accepted';
-  const canDeliver = isVendor && ['in_progress', 'revision_requested'].includes(project.status);
+  const canCancel =
+    project.status === 'accepted' && (canCustomerWorkflow || canVendorWorkflow);
+  const canAcceptDecline = canVendorWorkflow && project.status === 'requested';
+  const canStart = canVendorWorkflow && project.status === 'accepted';
+  const canDeliver = canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
   const hasFreeRevisions = project.revisionsUsed < project.revisionsIncluded;
   const isPaidRevision = !hasFreeRevisions && (project.revisionPrice ?? 0) > 0;
   const canRequestRevision =
-    isCustomer && project.status === 'delivered' && (hasFreeRevisions || isPaidRevision);
-  const canComplete = isCustomer && project.status === 'delivered';
-  const canUploadSource = isCustomer && ['requested', 'accepted', 'in_progress'].includes(project.status);
-  const canUploadDeliverable = isVendor && ['in_progress', 'revision_requested'].includes(project.status);
-  const canEdit = isVendor && !['completed', 'cancelled', 'declined'].includes(project.status);
+    canCustomerWorkflow &&
+    project.status === 'delivered' &&
+    (hasFreeRevisions || (isPaidRevision && canPay));
+  const canComplete = canPay && project.status === 'delivered';
+  const canUploadSource =
+    canCustomerWorkflow && ['requested', 'accepted', 'in_progress'].includes(project.status);
+  const canUploadDeliverable =
+    canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
+  const canEdit = canUpdateMetadata && !['completed', 'cancelled', 'declined'].includes(project.status);
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;
@@ -395,6 +406,16 @@ export const ProjectDetailPage: React.FC = () => {
                 currentUserId={user._id}
                 currentUserRole={userRole}
                 disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
+              />
+            </section>
+          )}
+
+          {user && (
+            <section className="project-detail__section">
+              <ProjectCollaborators
+                projectId={projectId}
+                access={access}
+                currentUserId={user._id}
               />
             </section>
           )}

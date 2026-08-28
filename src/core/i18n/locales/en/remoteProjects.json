@@ -130,6 +130,36 @@
   "customer": "Customer",
   "vendor": "Studio",
 
+  "collaborators": {
+    "title": "Collaborators",
+    "hint": "Invite teammates by email. They can chat, share files, and run workflow actions — not payments.",
+    "empty": "No collaborators yet.",
+    "invite": "Send invite",
+    "emailPlaceholder": "colleague@email.com",
+    "inviteFailed": "Could not send invite",
+    "pending": "Pending",
+    "revoke": "Revoke",
+    "remove": "Remove",
+    "leave": "Leave",
+    "badge": "collaborator",
+    "customerCollaborator": "Customer collaborator",
+    "vendorCollaborator": "Studio collaborator",
+    "side": {
+      "customer": "Customer side",
+      "vendor": "Studio side"
+    },
+    "acceptTitle": "Project invitation",
+    "acceptBody": "{{inviter}} invited you to join {{project}} on the {{side}}.",
+    "sentTo": "Invitation sent to {{email}}",
+    "emailMismatchHint": "Sign in with that email to accept.",
+    "accept": "Accept invitation",
+    "loginToAccept": "Log in to accept",
+    "acceptFailed": "Could not accept invitation",
+    "inviteNotFound": "Invitation not found or expired",
+    "aProject": "a project",
+    "someone": "Someone"
+  },
+
   "requestProject": "Request Project",
   "projectTitle": "Project Title",
   "titlePlaceholder": "e.g., Mix and Master - My Song Name",

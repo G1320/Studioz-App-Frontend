@@ -64,6 +64,9 @@ const MetaCampaignDetailPage = lazyWithRetry(() => import('@features/entities/me
 const MetaCreateCampaignPage = lazyWithRetry(() => import('@features/entities/meta-campaigns/pages/CreateCampaignPage'));
 const ProjectsListPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectsListPage'));
 const ProjectDetailPage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectDetailPage'));
+const ProjectInviteAcceptPage = lazyWithRetry(
+  () => import('@features/entities/remote-projects/pages/ProjectInviteAcceptPage')
+);
 
 interface AnimatedRoutesProps {
   studios: Studio[];
@@ -397,6 +400,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <ProjectsListPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/projects/invites/:token"
+            element={
+              <AnimatedRoute>
+                <ProjectInviteAcceptPage />
               </AnimatedRoute>
             }
           />

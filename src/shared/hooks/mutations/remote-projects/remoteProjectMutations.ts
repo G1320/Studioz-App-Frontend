@@ -221,15 +221,14 @@ export const useSendMessageMutation = () => {
     ProjectMessage,
     {
       projectId: string;
-      senderId: string;
       message: string;
       attachmentIds?: string[];
       fileId?: string;
       offsetSeconds?: number;
     }
   >({
-    mutationFn: ({ projectId, senderId, message, attachmentIds, fileId, offsetSeconds }) =>
-      sendMessage(projectId, senderId, message, { attachmentIds, fileId, offsetSeconds }),
+    mutationFn: ({ projectId, message, attachmentIds, fileId, offsetSeconds }) =>
+      sendMessage(projectId, message, { attachmentIds, fileId, offsetSeconds }),
     // No success message for messages - feels more natural
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {
@@ -243,10 +242,9 @@ export const useMarkMessagesReadMutation = () => {
 
   return useMutationHandler<
     { markedAsRead: number },
-    { projectId: string; userId: string; messageIds?: string[] }
+    { projectId: string; messageIds?: string[] }
   >({
-    mutationFn: ({ projectId, userId, messageIds }) =>
-      markMessagesAsRead(projectId, userId, messageIds),
+    mutationFn: ({ projectId, messageIds }) => markMessagesAsRead(projectId, messageIds),
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });

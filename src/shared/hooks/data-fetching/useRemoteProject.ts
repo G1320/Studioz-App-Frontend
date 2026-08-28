@@ -18,6 +18,7 @@ export const useRemoteProject = (projectId: string) => {
   return {
     project: data?.project,
     fileCounts: data?.fileCounts,
+    access: data?.access,
     isLoading,
     error,
     refetch,

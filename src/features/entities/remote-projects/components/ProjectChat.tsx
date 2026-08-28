@@ -11,13 +11,13 @@ import {
   isTimedComment,
   useAudioCueComment
 } from '@shared/audio';
-import { ProjectMessage } from 'src/types/index';
+import { ProjectMessage, SenderRole } from 'src/types/index';
 import './styles/_project-chat.scss';
 
 interface ProjectChatProps {
   projectId: string;
   currentUserId: string;
-  currentUserRole: 'customer' | 'vendor';
+  currentUserRole: SenderRole | 'customer' | 'vendor';
   disabled?: boolean;
 }
 
@@ -75,7 +75,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
       if (unreadMessages.length > 0) {
         markReadMutation.mutate({
           projectId,
-          userId: currentUserId,
           messageIds: unreadMessages.map((m: ProjectMessage) => m._id)
         });
       }
@@ -88,8 +87,14 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
 
   const getSenderName = (msg: ProjectMessage): string => {
     if (typeof msg.senderId === 'object' && msg.senderId.name) {
-      return msg.senderId.name;
+      const base = msg.senderId.name;
+      if (msg.senderRole === 'customer_collaborator' || msg.senderRole === 'vendor_collaborator') {
+        return `${base} (${t('collaborators.badge')})`;
+      }
+      return base;
     }
+    if (msg.senderRole === 'customer_collaborator') return t('collaborators.customerCollaborator');
+    if (msg.senderRole === 'vendor_collaborator') return t('collaborators.vendorCollaborator');
     return msg.senderRole === 'customer' ? t('customer') : t('vendor');
   };
 
@@ -118,7 +123,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     try {
       await sendMessageMutation.mutateAsync({
         projectId,
-        senderId: currentUserId,
         message: newMessage.trim(),
         fileId: cueComment?.pendingCue?.fileId,
         offsetSeconds: cueComment?.pendingCue?.offsetSeconds
