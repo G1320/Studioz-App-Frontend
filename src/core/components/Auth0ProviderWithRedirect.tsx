@@ -1,8 +1,7 @@
 import { Auth0Provider, AppState } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
 import i18n from '@core/i18n/config';
 import {
-  PENDING_PROJECT_INVITE_TOKEN_KEY,
+  getPendingProjectInviteToken,
   isSafeInternalPath,
   peekAuthReturnTo,
   setAuthReturnTo
@@ -13,31 +12,26 @@ const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 function resolvePostLoginPath(appState?: AppState): string | null {
   if (isSafeInternalPath(appState?.returnTo)) {
-    return appState.returnTo;
+    return appState.returnTo as string;
   }
 
   const stored = peekAuthReturnTo();
   if (stored) return stored;
 
-  try {
-    const inviteToken = sessionStorage.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY);
-    if (inviteToken) {
-      return `/${i18n.language}/projects/invites/${inviteToken}`;
-    }
-  } catch {
-    /* sessionStorage may be unavailable */
+  const inviteToken = getPendingProjectInviteToken();
+  if (inviteToken) {
+    return `/${i18n.language}/projects/invites/${inviteToken}`;
   }
 
   return null;
 }
 
 /**
- * Auth0Provider that returns users to the page they logged in from
- * (invite links, item pages, etc.) instead of leaving them on `/`.
+ * Auth0Provider that returns users to the page they logged in from.
+ * Uses a full navigation (location.replace) because React Router navigate()
+ * during Auth0's redirect callback is unreliable and often leaves users on `/`.
  */
 export function Auth0ProviderWithRedirect({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-
   return (
     <Auth0Provider
       domain={domain}
@@ -51,9 +45,13 @@ export function Auth0ProviderWithRedirect({ children }: { children: React.ReactN
         const dest = resolvePostLoginPath(appState);
         if (dest) {
           setAuthReturnTo(dest);
-          navigate(dest, { replace: true });
-          return;
+          const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+          if (dest !== current && dest !== window.location.pathname) {
+            window.location.replace(dest);
+            return;
+          }
         }
+        // Strip Auth0 ?code=&state= when staying put
         window.history.replaceState({}, document.title, window.location.pathname);
       }}
     >

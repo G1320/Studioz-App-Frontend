@@ -2,6 +2,16 @@ const AUTH_RETURN_TO_KEY = 'authReturnTo';
 export const PENDING_PROJECT_INVITE_TOKEN_KEY = 'pendingProjectInviteToken';
 const PENDING_INVITE_NAVIGATED_KEY = 'pendingProjectInviteNavigated';
 
+function storage(): Storage | null {
+  try {
+    // localStorage survives Auth0 full-page redirects more reliably than sessionStorage
+    // when www / apex hosts or browser privacy modes are involved.
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 /** Only same-origin relative paths (block open redirects). */
 export function isSafeInternalPath(path: unknown): path is string {
   return typeof path === 'string' && path.startsWith('/') && !path.startsWith('//');
@@ -9,24 +19,39 @@ export function isSafeInternalPath(path: unknown): path is string {
 
 /** Persist where to go after Auth0 redirect/login completes. */
 export function setAuthReturnTo(path: string): void {
-  if (isSafeInternalPath(path)) {
-    sessionStorage.setItem(AUTH_RETURN_TO_KEY, path);
+  const store = storage();
+  if (store && isSafeInternalPath(path)) {
+    store.setItem(AUTH_RETURN_TO_KEY, path);
   }
 }
 
 /** Read return path without consuming (Auth0 callback may navigate first). */
 export function peekAuthReturnTo(): string | null {
   try {
-    const stored = sessionStorage.getItem(AUTH_RETURN_TO_KEY);
+    const stored = storage()?.getItem(AUTH_RETURN_TO_KEY);
     return isSafeInternalPath(stored) ? stored : null;
   } catch {
     return null;
   }
 }
 
+export function setPendingProjectInviteToken(token: string): void {
+  storage()?.setItem(PENDING_PROJECT_INVITE_TOKEN_KEY, token);
+}
+
+export function getPendingProjectInviteToken(): string | null {
+  try {
+    return storage()?.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export function clearPendingProjectInvite(): void {
-  sessionStorage.removeItem(PENDING_PROJECT_INVITE_TOKEN_KEY);
-  sessionStorage.removeItem(PENDING_INVITE_NAVIGATED_KEY);
+  const store = storage();
+  store?.removeItem(PENDING_PROJECT_INVITE_TOKEN_KEY);
+  store?.removeItem(PENDING_INVITE_NAVIGATED_KEY);
+  store?.removeItem(AUTH_RETURN_TO_KEY);
 }
 
 /**
@@ -34,19 +59,22 @@ export function clearPendingProjectInvite(): void {
  * Invite token itself is cleared only after accept succeeds.
  */
 export function consumePostAuthReturnTo(lang: string): string | null {
-  const stored = sessionStorage.getItem(AUTH_RETURN_TO_KEY);
-  sessionStorage.removeItem(AUTH_RETURN_TO_KEY);
+  const store = storage();
+  if (!store) return null;
+
+  const stored = store.getItem(AUTH_RETURN_TO_KEY);
+  store.removeItem(AUTH_RETURN_TO_KEY);
   if (isSafeInternalPath(stored)) {
     return stored;
   }
 
-  const inviteToken = sessionStorage.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY);
+  const inviteToken = store.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY);
   if (!inviteToken) return null;
 
   // Avoid repeat navigations while the invite token stays until accept
-  if (sessionStorage.getItem(PENDING_INVITE_NAVIGATED_KEY) === inviteToken) {
+  if (store.getItem(PENDING_INVITE_NAVIGATED_KEY) === inviteToken) {
     return null;
   }
-  sessionStorage.setItem(PENDING_INVITE_NAVIGATED_KEY, inviteToken);
+  store.setItem(PENDING_INVITE_NAVIGATED_KEY, inviteToken);
   return `/${lang}/projects/invites/${inviteToken}`;
 }

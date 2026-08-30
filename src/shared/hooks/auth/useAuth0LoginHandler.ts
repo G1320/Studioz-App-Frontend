@@ -9,6 +9,7 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import i18n from '@core/i18n/config';
 import {
   consumePostAuthReturnTo,
+  getPendingProjectInviteToken,
   isSafeInternalPath,
   setAuthReturnTo
 } from '@shared/utils/authReturnTo';
@@ -135,12 +136,8 @@ export const useAuth0LoginHandler = () => {
         }
 
         // Invite accept still pending — do not send to profile/home
-        try {
-          if (sessionStorage.getItem('pendingProjectInviteToken')) {
-            return;
-          }
-        } catch {
-          /* ignore */
+        if (getPendingProjectInviteToken()) {
+          return;
         }
 
         // Only send to profile/dashboard when logging in from home / unknown entry

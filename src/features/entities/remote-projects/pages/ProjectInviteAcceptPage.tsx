@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@shared/components';
 import { useUserContext } from '@core/contexts';
 import { acceptInviteByToken, getInviteByToken } from '@shared/services';
 import {
-  PENDING_PROJECT_INVITE_TOKEN_KEY,
   clearPendingProjectInvite,
-  setAuthReturnTo
+  setAuthReturnTo,
+  setPendingProjectInviteToken
 } from '@shared/utils/authReturnTo';
 import './styles/_project-invite-page.scss';
 
@@ -16,7 +17,8 @@ export const ProjectInviteAcceptPage: React.FC = () => {
   const { token } = useParams<{ token: string }>();
   const { t, i18n } = useTranslation('remoteProjects');
   const navigate = useNavigate();
-  const { isAuthenticated, loginWithRedirect, isLoading: authLoading } = useAuth0();
+  const queryClient = useQueryClient();
+  const { isAuthenticated, loginWithPopup, loginWithRedirect, isLoading: authLoading } = useAuth0();
   const { user } = useUserContext();
   const [invite, setInvite] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -47,15 +49,28 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     };
   }, [token, t]);
 
-  const handleAccept = async () => {
+  const ensureLoggedIn = async () => {
     if (!token) return;
-    if (!isAuthenticated) {
-      const returnTo = `/${i18n.language}/projects/invites/${token}`;
-      sessionStorage.setItem(PENDING_PROJECT_INVITE_TOKEN_KEY, token);
-      setAuthReturnTo(returnTo);
+    const returnTo = `/${i18n.language}/projects/invites/${token}`;
+    setPendingProjectInviteToken(token);
+    setAuthReturnTo(returnTo);
+
+    // Prefer popup so we never leave this page (avoids Auth0 → `/` round-trip).
+    try {
+      await loginWithPopup();
+      return;
+    } catch {
+      // Popup blocked / in-app browser — fall back to redirect
       await loginWithRedirect({
         appState: { returnTo }
       });
+    }
+  };
+
+  const handleAccept = async () => {
+    if (!token) return;
+    if (!isAuthenticated) {
+      await ensureLoggedIn();
       return;
     }
     setAccepting(true);
@@ -63,6 +78,7 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     try {
       const res = await acceptInviteByToken(token);
       clearPendingProjectInvite();
+      await queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
       navigate(`/${i18n.language}/projects/${res.projectId}`);
     } catch (err: unknown) {
       setError(
@@ -74,11 +90,27 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     }
   };
 
-  // After Auth0 redirect back to this page, finish accept once Studioz session exists.
+  // After login (popup or redirect), finish accept once Studioz session exists.
   useEffect(() => {
     if (autoAcceptStarted.current || loading || authLoading || accepting) return;
-    if (!token || !isAuthenticated || !user?._id || !invite || invite.status !== 'pending') return;
-    if (sessionStorage.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY) !== token) return;
+    if (!token || !isAuthenticated || !user?._id || !invite) return;
+
+    const projectId =
+      typeof invite.project === 'object' && invite.project?._id
+        ? invite.project._id
+        : typeof invite.projectId === 'string'
+          ? invite.projectId
+          : null;
+
+    // Already accepted (e.g. prior attempt) — go to the project
+    if (invite.status === 'accepted' && projectId) {
+      autoAcceptStarted.current = true;
+      clearPendingProjectInvite();
+      navigate(`/${i18n.language}/projects/${projectId}`);
+      return;
+    }
+
+    if (invite.status !== 'pending') return;
     if (user.email && invite.email && user.email.toLowerCase() !== invite.email.toLowerCase()) {
       return;
     }
@@ -149,7 +181,7 @@ export const ProjectInviteAcceptPage: React.FC = () => {
           <Button
             className="button--primary"
             onClick={handleAccept}
-            disabled={accepting || invite?.status !== 'pending'}
+            disabled={accepting || (invite?.status !== 'pending' && invite?.status !== 'accepted')}
           >
             {accepting
               ? t('common.sending')
