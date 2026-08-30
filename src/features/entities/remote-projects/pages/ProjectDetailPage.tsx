@@ -118,7 +118,6 @@ export const ProjectDetailPage: React.FC = () => {
   const isPrimaryVendor = sameUser(user?._id, getVendorId(project));
   const isPrimaryCustomer = sameUser(user?._id, getCustomerId(project));
   const isVendor = access?.side === 'vendor' || isPrimaryVendor;
-  const isCustomer = access?.side === 'customer' || isPrimaryCustomer;
   const canVendorWorkflow = access?.canVendorWorkflow ?? isPrimaryVendor;
   const canCustomerWorkflow = access?.canCustomerWorkflow ?? isPrimaryCustomer;
   const canPay = access?.canPay ?? isPrimaryCustomer;
