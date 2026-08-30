@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@shared/components';
 import { useUserContext } from '@core/contexts';
 import { acceptInviteByToken, getInviteByToken } from '@shared/services';
+import {
+  PENDING_PROJECT_INVITE_TOKEN_KEY,
+  clearPendingProjectInvite,
+  setAuthReturnTo
+} from '@shared/utils/authReturnTo';
 import './styles/_project-invite-page.scss';
 
 export const ProjectInviteAcceptPage: React.FC = () => {
@@ -17,6 +22,7 @@ export const ProjectInviteAcceptPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [accepting, setAccepting] = useState(false);
+  const autoAcceptStarted = useRef(false);
 
   useEffect(() => {
     if (!token) return;
@@ -44,9 +50,11 @@ export const ProjectInviteAcceptPage: React.FC = () => {
   const handleAccept = async () => {
     if (!token) return;
     if (!isAuthenticated) {
-      sessionStorage.setItem('pendingProjectInviteToken', token);
+      const returnTo = `/${i18n.language}/projects/invites/${token}`;
+      sessionStorage.setItem(PENDING_PROJECT_INVITE_TOKEN_KEY, token);
+      setAuthReturnTo(returnTo);
       await loginWithRedirect({
-        appState: { returnTo: `/${i18n.language}/projects/invites/${token}` }
+        appState: { returnTo }
       });
       return;
     }
@@ -54,7 +62,7 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     setError(null);
     try {
       const res = await acceptInviteByToken(token);
-      sessionStorage.removeItem('pendingProjectInviteToken');
+      clearPendingProjectInvite();
       navigate(`/${i18n.language}/projects/${res.projectId}`);
     } catch (err: unknown) {
       setError(
@@ -65,6 +73,19 @@ export const ProjectInviteAcceptPage: React.FC = () => {
       setAccepting(false);
     }
   };
+
+  // After Auth0 redirect back to this page, finish accept automatically.
+  useEffect(() => {
+    if (autoAcceptStarted.current || loading || authLoading || accepting) return;
+    if (!token || !isAuthenticated || !invite || invite.status !== 'pending') return;
+    if (sessionStorage.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY) !== token) return;
+    if (user?.email && invite.email && user.email.toLowerCase() !== invite.email.toLowerCase()) {
+      return;
+    }
+    autoAcceptStarted.current = true;
+    void handleAccept();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once when invite + auth are ready
+  }, [token, isAuthenticated, invite, user?.email, loading, authLoading, accepting]);
 
   if (loading || authLoading) {
     return <div className="project-invite-page">{t('common.loading')}</div>;

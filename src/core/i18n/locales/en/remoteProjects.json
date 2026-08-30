@@ -132,7 +132,7 @@
 
   "collaborators": {
     "title": "Collaborators",
-    "hint": "Invite teammates by email. They can chat, share files, and run workflow actions — not payments.",
+    "hint": "Invite teammates by email. They can chat, share files, and run workflow actions.",
     "empty": "No collaborators yet.",
     "invite": "Send invite",
     "emailPlaceholder": "colleague@email.com",

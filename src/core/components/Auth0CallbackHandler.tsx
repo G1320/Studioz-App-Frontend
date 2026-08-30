@@ -6,6 +6,11 @@ import { useUserContext, useOfflineCartContext } from '@core/contexts';
 import { useErrorHandling } from '@shared/hooks';
 import { User } from 'src/types/index';
 import i18n from '@core/i18n/config';
+import {
+  consumePostAuthReturnTo,
+  isSafeInternalPath,
+  setAuthReturnTo
+} from '@shared/utils/authReturnTo';
 
 /**
  * Global component to handle Auth0 authentication callbacks
@@ -21,6 +26,15 @@ export const Auth0CallbackHandler = () => {
   const processedSubRef = useRef<string | null>(null);
   const [isProcessingCallback, setIsProcessingCallback] = useState(false);
 
+  const finishWithReturnTo = () => {
+    const dest = consumePostAuthReturnTo(i18n.language);
+    if (dest) {
+      navigate(dest, { replace: true });
+      return true;
+    }
+    return false;
+  };
+
   // Handle redirect callback first
   useEffect(() => {
     const processRedirectCallback = async () => {
@@ -29,13 +43,16 @@ export const Auth0CallbackHandler = () => {
       const hasState = searchParams.has('state');
 
       // If we have callback parameters, handle the redirect callback
-      if ((hasCode && hasState) && !isProcessingCallback && handleRedirectCallback) {
+      if (hasCode && hasState && !isProcessingCallback && handleRedirectCallback) {
         setIsProcessingCallback(true);
         try {
           const result = await handleRedirectCallback();
-          // Clear the URL parameters after processing
-          const newUrl = window.location.pathname;
-          window.history.replaceState({}, document.title, newUrl);
+          const returnTo = result?.appState?.returnTo;
+          if (isSafeInternalPath(returnTo)) {
+            setAuthReturnTo(returnTo);
+          }
+          // Drop Auth0 query params; stay on path until user sync decides destination
+          window.history.replaceState({}, document.title, window.location.pathname);
           console.log('Auth0 redirect callback processed successfully', result);
         } catch (error) {
           console.error('Error processing Auth0 redirect callback:', error);
@@ -59,7 +76,7 @@ export const Auth0CallbackHandler = () => {
       // Also check if we haven't already processed this user (avoid duplicate processing)
       if (isAuthenticated && user && !isLoading) {
         const { name = '', sub, nickname: username = '', picture, email = '', email_verified = false } = user;
-        
+
         if (!sub) {
           console.error('Auth0 user sub is undefined');
           return;
@@ -74,30 +91,31 @@ export const Auth0CallbackHandler = () => {
         if (currentUser?.sub === sub) {
           processedSubRef.current = sub;
           setIsProcessingCallback(false);
+          finishWithReturnTo();
           return;
         }
 
         try {
           let loggedInUser: User;
-          
+
           // Check if the user already exists in the DB
           const dbUser = await getUserBySub(sub);
-          
+
           if (!dbUser) {
             // Register a new user if not found in the DB
-            loggedInUser = await register({ 
-              name, 
-              sub, 
-              picture, 
-              username, 
-              email, 
-              email_verified 
+            loggedInUser = await register({
+              name,
+              sub,
+              picture,
+              username,
+              email,
+              email_verified
             });
           } else {
             // Login the existing user
             loggedInUser = await login({ sub });
           }
-          
+
           setLocalUser(loggedInUser);
           setUserContext(loggedInUser);
           processedSubRef.current = sub;
@@ -107,6 +125,10 @@ export const Auth0CallbackHandler = () => {
           if (offlineCart.items?.length > 0) {
             setOfflineCartContext({ items: [] });
             setLocalOfflineCart({ items: [] });
+          }
+
+          if (finishWithReturnTo()) {
+            return;
           }
 
           // If we're on the root path (likely after email verification redirect), navigate to profile
@@ -122,23 +144,36 @@ export const Auth0CallbackHandler = () => {
     };
 
     handleAuth0Callback();
-  }, [isAuthenticated, user, isLoading, isProcessingCallback, currentUser, setUserContext, offlineCart, setOfflineCartContext, handleError, navigate]);
+  }, [
+    isAuthenticated,
+    user,
+    isLoading,
+    isProcessingCallback,
+    currentUser,
+    setUserContext,
+    offlineCart,
+    setOfflineCartContext,
+    handleError,
+    navigate
+  ]);
 
   // Show loading state while processing callback
   if (isLoading || isProcessingCallback) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        width: '100vw',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        backgroundColor: '#fff',
-        zIndex: 9999
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          backgroundColor: '#fff',
+          zIndex: 9999
+        }}
+      >
         <div>Loading...</div>
       </div>
     );
@@ -147,4 +182,3 @@ export const Auth0CallbackHandler = () => {
   // This component doesn't render anything when not loading
   return null;
 };
-

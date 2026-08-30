@@ -1,10 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@shared/services';
 import { useUserContext, useOfflineCartContext } from '@core/contexts';
 import { useErrorHandling } from '@shared/hooks';
 import { User } from 'src/types/index';
 import { useLanguageNavigate } from '@shared/hooks/utils';
+import i18n from '@core/i18n/config';
+import {
+  consumePostAuthReturnTo,
+  isSafeInternalPath,
+  setAuthReturnTo
+} from '@shared/utils/authReturnTo';
+
+function currentAppPath(): string {
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+}
+
+function isHomePath(path: string): boolean {
+  const pathname = path.split(/[?#]/)[0] || '/';
+  return pathname === '/' || pathname === `/${i18n.language}` || pathname === `/${i18n.language}/`;
+}
 
 /**
  * Hook to handle Auth0 login flow and update user context
@@ -13,9 +29,10 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
  * @returns Object containing loginWithPopup function and loading state
  */
 export const useAuth0LoginHandler = () => {
-  const { user: auth0User, loginWithPopup, isAuthenticated } = useAuth0();
+  const { user: auth0User, loginWithPopup: auth0LoginWithPopup, isAuthenticated } = useAuth0();
   const { setUser: setUserContext, user: currentUser } = useUserContext();
   const langNavigate = useLanguageNavigate();
+  const navigate = useNavigate();
   const { offlineCart, setOfflineCartContext } = useOfflineCartContext();
   const handleError = useErrorHandling();
   const processedSubRef = useRef<string | null>(null);
@@ -27,6 +44,31 @@ export const useAuth0LoginHandler = () => {
   const auth0Picture = auth0User?.picture;
   const auth0Email = auth0User?.email;
   const auth0EmailVerified = auth0User?.email_verified;
+
+  const navigateAfterAuth = () => {
+    const dest = consumePostAuthReturnTo(i18n.language);
+    if (dest) {
+      // Already on that page (popup login) — no navigation needed
+      if (dest === currentAppPath() || dest === window.location.pathname) {
+        return true;
+      }
+      navigate(dest, { replace: true });
+      return true;
+    }
+    return false;
+  };
+
+  /** Remember current page so post-login does not dump users on home/profile. */
+  const loginWithPopup = useCallback(
+    async (...args: Parameters<typeof auth0LoginWithPopup>) => {
+      const path = currentAppPath();
+      if (isSafeInternalPath(path.split(/[?#]/)[0] || path)) {
+        setAuthReturnTo(path);
+      }
+      return auth0LoginWithPopup(...args);
+    },
+    [auth0LoginWithPopup]
+  );
 
   useEffect(() => {
     const handleUserLogin = async () => {
@@ -51,14 +93,16 @@ export const useAuth0LoginHandler = () => {
         return;
       }
 
-      // Skip if we've already processed this sub
+      // Skip if we've already processed this sub (still honor a pending returnTo once)
       if (processedSubRef.current === sub) {
+        navigateAfterAuth();
         return;
       }
 
       // Skip if this user is already logged in locally with the same sub
       if (currentUser?.sub === sub) {
         processedSubRef.current = sub;
+        navigateAfterAuth();
         return;
       }
 
@@ -86,8 +130,15 @@ export const useAuth0LoginHandler = () => {
           setLocalOfflineCart({ items: [] });
         }
 
-        const hasStudios = Boolean(loggedInUser.studios?.length);
-        langNavigate(hasStudios ? '/dashboard' : '/profile');
+        if (navigateAfterAuth()) {
+          return;
+        }
+
+        // Only send to profile/dashboard when logging in from home / unknown entry
+        if (isHomePath(window.location.pathname)) {
+          const hasStudios = Boolean(loggedInUser.studios?.length);
+          langNavigate(hasStudios ? '/dashboard' : '/profile');
+        }
       } catch (error) {
         handleError(error);
         // Reset processed ref on error so we can retry
@@ -110,6 +161,7 @@ export const useAuth0LoginHandler = () => {
     handleError,
     offlineCart?.items?.length,
     langNavigate,
+    navigate,
     setOfflineCartContext,
     setUserContext
   ]);

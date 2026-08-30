@@ -27,6 +27,7 @@ import {
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
 import { AccessibilityProvider } from '@core/contexts';
 import { isInAppBrowser } from '@shared/utils/botDetection';
+import { isSafeInternalPath, setAuthReturnTo } from '@shared/utils/authReturnTo';
 import './core/i18n/config';
 
 // Mark network-error rejections as handled to avoid unhandled rejection noise (e.g. offline, CORS)
@@ -146,6 +147,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                   redirect_uri: window.location.origin,
                                   audience: 'https://items-app-backend.onrender.com',
                                   scope: 'openid profile email'
+                                }}
+                                onRedirectCallback={(appState) => {
+                                  if (isSafeInternalPath(appState?.returnTo)) {
+                                    setAuthReturnTo(appState.returnTo);
+                                  }
+                                  // Strip Auth0 ?code=&state=; post-login hooks read authReturnTo
+                                  window.history.replaceState({}, document.title, window.location.pathname);
                                 }}
                               >
                                 <ModalProvider>
