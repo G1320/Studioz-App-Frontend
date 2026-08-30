@@ -106,14 +106,6 @@ export const ProjectDetailPage: React.FC = () => {
     );
   }
 
-  const isVendor = access?.side === 'vendor' || user?._id === getVendorId(project);
-  const isCustomer = access?.side === 'customer' || user?._id === getCustomerId(project);
-  const canVendorWorkflow = access?.canVendorWorkflow ?? isVendor;
-  const canCustomerWorkflow = access?.canCustomerWorkflow ?? isCustomer;
-  const canPay = access?.canPay ?? isCustomer;
-  const canUpdateMetadata = access?.canUpdateMetadata ?? isVendor;
-  const userRole = access?.side || (isVendor ? 'vendor' : 'customer');
-
   function getVendorId(proj: RemoteProject): string {
     return typeof proj.vendorId === 'string' ? proj.vendorId : proj.vendorId._id;
   }
@@ -121,6 +113,28 @@ export const ProjectDetailPage: React.FC = () => {
   function getCustomerId(proj: RemoteProject): string {
     return typeof proj.customerId === 'string' ? proj.customerId : proj.customerId._id;
   }
+
+  const sameUser = (a?: string, b?: string) => Boolean(a && b && String(a) === String(b));
+  const isPrimaryVendor = sameUser(user?._id, getVendorId(project));
+  const isPrimaryCustomer = sameUser(user?._id, getCustomerId(project));
+  const isVendor = access?.side === 'vendor' || isPrimaryVendor;
+  const isCustomer = access?.side === 'customer' || isPrimaryCustomer;
+  const canVendorWorkflow = access?.canVendorWorkflow ?? isPrimaryVendor;
+  const canCustomerWorkflow = access?.canCustomerWorkflow ?? isPrimaryCustomer;
+  const canPay = access?.canPay ?? isPrimaryCustomer;
+  const canUpdateMetadata = access?.canUpdateMetadata ?? isPrimaryVendor;
+  // Primary parties can invite. Collaborators cannot.
+  // Prefer API flags; fall back to local primary ID match. Never hide invite for unknowns.
+  const canInvite =
+    access?.isCollaborator === true
+      ? false
+      : access?.canInvite === true ||
+        access?.isPrimary === true ||
+        isPrimaryVendor ||
+        isPrimaryCustomer ||
+        access == null ||
+        access?.isCollaborator === false;
+  const userRole = access?.side || (isVendor ? 'vendor' : 'customer');
 
   const handleAccept = async () => {
     try {
@@ -415,6 +429,7 @@ export const ProjectDetailPage: React.FC = () => {
               <ProjectCollaborators
                 projectId={projectId}
                 access={access}
+                canInvite={canInvite}
                 currentUserId={user._id}
               />
             </section>

@@ -14,6 +14,8 @@ import './styles/_project-collaborators.scss';
 interface ProjectCollaboratorsProps {
   projectId: string;
   access?: ProjectAccess;
+  /** When true, show invite form (primary customer/vendor). */
+  canInvite?: boolean;
   currentUserId?: string;
 }
 
@@ -29,6 +31,7 @@ function userIdOf(user: ProjectCollaborator['userId']): string {
 export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
   projectId,
   access,
+  canInvite = false,
   currentUserId
 }) => {
   const { t } = useTranslation('remoteProjects');
@@ -80,11 +83,35 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
 
   const collaborators = data?.collaborators || [];
   const pending = data?.pendingInvites || [];
+  const canManageSide = (side: string) =>
+    (canInvite || access?.canInvite === true || access?.isPrimary === true) &&
+    (!access?.side || access.side === side);
 
   return (
     <section className="project-collaborators">
       <h3 className="project-collaborators__title">{t('collaborators.title')}</h3>
       <p className="project-collaborators__hint">{t('collaborators.hint')}</p>
+
+      <form className="project-collaborators__invite" onSubmit={handleInvite}>
+        <label className="project-collaborators__invite-label" htmlFor="project-collab-email">
+          {t('collaborators.invite')}
+        </label>
+        <div className="project-collaborators__invite-row">
+          <input
+            id="project-collab-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={t('collaborators.emailPlaceholder')}
+            autoComplete="email"
+            required
+          />
+          <Button type="submit" className="button--primary" disabled={inviteMutation.isPending || !email.trim()}>
+            {inviteMutation.isPending ? t('common.sending') : t('collaborators.invite')}
+          </Button>
+        </div>
+        {error ? <p className="project-collaborators__error">{error}</p> : null}
+      </form>
 
       {isLoading ? (
         <div className="project-collaborators__loading">{t('common.loading')}</div>
@@ -99,8 +126,7 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                   {typeof c.userId === 'object' && c.userId.email ? ` · ${c.userId.email}` : ''}
                 </div>
               </div>
-              {(access?.canInvite && access.side === c.side) ||
-              currentUserId === userIdOf(c.userId) ? (
+              {canManageSide(c.side) || currentUserId === userIdOf(c.userId) ? (
                 <Button
                   className="button--secondary button--sm"
                   onClick={() => removeMutation.mutate(userIdOf(c.userId))}
@@ -121,7 +147,7 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                   {t('collaborators.pending')} · {t(`collaborators.side.${invite.side}`)}
                 </div>
               </div>
-              {access?.canInvite && access.side === invite.side ? (
+              {canManageSide(invite.side) ? (
                 <Button
                   className="button--secondary button--sm"
                   onClick={() => revokeMutation.mutate(invite._id)}
@@ -137,22 +163,6 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
           ) : null}
         </ul>
       )}
-
-      {access?.canInvite ? (
-        <form className="project-collaborators__invite" onSubmit={handleInvite}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t('collaborators.emailPlaceholder')}
-            required
-          />
-          <Button type="submit" disabled={inviteMutation.isPending || !email.trim()}>
-            {t('collaborators.invite')}
-          </Button>
-        </form>
-      ) : null}
-      {error ? <p className="project-collaborators__error">{error}</p> : null}
     </section>
   );
 };
