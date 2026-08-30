@@ -134,6 +134,15 @@ export const useAuth0LoginHandler = () => {
           return;
         }
 
+        // Invite accept still pending — do not send to profile/home
+        try {
+          if (sessionStorage.getItem('pendingProjectInviteToken')) {
+            return;
+          }
+        } catch {
+          /* ignore */
+        }
+
         // Only send to profile/dashboard when logging in from home / unknown entry
         if (isHomePath(window.location.pathname)) {
           const hasStudios = Boolean(loggedInUser.studios?.length);

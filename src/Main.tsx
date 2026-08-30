@@ -6,7 +6,6 @@ import { MotionConfig } from 'framer-motion';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Auth0Provider } from '@auth0/auth0-react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import i18n from './core/i18n/config';
@@ -27,7 +26,7 @@ import {
 import { ThemeProvider } from '@shared/contexts/ThemeContext';
 import { AccessibilityProvider } from '@core/contexts';
 import { isInAppBrowser } from '@shared/utils/botDetection';
-import { isSafeInternalPath, setAuthReturnTo } from '@shared/utils/authReturnTo';
+import { Auth0ProviderWithRedirect } from '@core/components/Auth0ProviderWithRedirect';
 import './core/i18n/config';
 
 // Mark network-error rejections as handled to avoid unhandled rejection noise (e.g. offline, CORS)
@@ -120,9 +119,6 @@ if (import.meta.env.VITE_NODE_ENV === 'production') {
   });
 }
 
-const domain = import.meta.env.VITE_AUTH0_DOMAIN;
-const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
-
 import App from './app/App.js';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -140,22 +136,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                         <SocketProvider>
                           <NotificationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-                              <Auth0Provider
-                                domain={domain}
-                                clientId={clientId}
-                                authorizationParams={{
-                                  redirect_uri: window.location.origin,
-                                  audience: 'https://items-app-backend.onrender.com',
-                                  scope: 'openid profile email'
-                                }}
-                                onRedirectCallback={(appState) => {
-                                  if (isSafeInternalPath(appState?.returnTo)) {
-                                    setAuthReturnTo(appState.returnTo);
-                                  }
-                                  // Strip Auth0 ?code=&state=; post-login hooks read authReturnTo
-                                  window.history.replaceState({}, document.title, window.location.pathname);
-                                }}
-                              >
+                              <Auth0ProviderWithRedirect>
                                 <ModalProvider>
                                   <ReservationModalProvider>
                                     <SearchProvider>
@@ -163,7 +144,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                     </SearchProvider>
                                   </ReservationModalProvider>
                                 </ModalProvider>
-                              </Auth0Provider>
+                              </Auth0ProviderWithRedirect>
                             </LocalizationProvider>
                           </NotificationProvider>
                         </SocketProvider>

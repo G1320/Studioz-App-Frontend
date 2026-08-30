@@ -14,6 +14,16 @@ export function setAuthReturnTo(path: string): void {
   }
 }
 
+/** Read return path without consuming (Auth0 callback may navigate first). */
+export function peekAuthReturnTo(): string | null {
+  try {
+    const stored = sessionStorage.getItem(AUTH_RETURN_TO_KEY);
+    return isSafeInternalPath(stored) ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
 export function clearPendingProjectInvite(): void {
   sessionStorage.removeItem(PENDING_PROJECT_INVITE_TOKEN_KEY);
   sessionStorage.removeItem(PENDING_INVITE_NAVIGATED_KEY);

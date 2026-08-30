@@ -74,28 +74,43 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     }
   };
 
-  // After Auth0 redirect back to this page, finish accept automatically.
+  // After Auth0 redirect back to this page, finish accept once Studioz session exists.
   useEffect(() => {
     if (autoAcceptStarted.current || loading || authLoading || accepting) return;
-    if (!token || !isAuthenticated || !invite || invite.status !== 'pending') return;
+    if (!token || !isAuthenticated || !user?._id || !invite || invite.status !== 'pending') return;
     if (sessionStorage.getItem(PENDING_PROJECT_INVITE_TOKEN_KEY) !== token) return;
-    if (user?.email && invite.email && user.email.toLowerCase() !== invite.email.toLowerCase()) {
+    if (user.email && invite.email && user.email.toLowerCase() !== invite.email.toLowerCase()) {
       return;
     }
     autoAcceptStarted.current = true;
     void handleAccept();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once when invite + auth are ready
-  }, [token, isAuthenticated, invite, user?.email, loading, authLoading, accepting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once when invite + Studioz user are ready
+  }, [token, isAuthenticated, invite, user?._id, user?.email, loading, authLoading, accepting]);
 
   if (loading || authLoading) {
-    return <div className="project-invite-page">{t('common.loading')}</div>;
+    return (
+      <div className="project-invite-page project-invite-page--status">
+        <div className="project-invite-page__panel" aria-busy="true">
+          <div className="project-invite-page__spinner" />
+          <p className="project-invite-page__status-text">{t('common.loading')}</p>
+        </div>
+      </div>
+    );
   }
 
   if (error && !invite) {
     return (
-      <div className="project-invite-page">
-        <p className="project-invite-page__error">{error}</p>
-        <Button onClick={() => navigate(`/${i18n.language}/projects`)}>{t('myProjects')}</Button>
+      <div className="project-invite-page project-invite-page--status">
+        <div className="project-invite-page__panel">
+          <p className="project-invite-page__kicker">{t('collaborators.acceptTitle')}</p>
+          <h1 className="project-invite-page__title">{t('collaborators.inviteNotFound')}</h1>
+          <p className="project-invite-page__error">{error}</p>
+          <div className="project-invite-page__actions">
+            <Button className="button--primary" onClick={() => navigate(`/${i18n.language}/projects`)}>
+              {t('myProjects')}
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -103,33 +118,49 @@ export const ProjectInviteAcceptPage: React.FC = () => {
   const projectTitle = invite?.project?.title || t('collaborators.aProject');
   const inviterName =
     typeof invite?.invitedBy === 'object' ? invite.invitedBy?.name : t('collaborators.someone');
+  const emailMismatch =
+    Boolean(user?.email && invite?.email && user.email.toLowerCase() !== invite.email.toLowerCase());
 
   return (
     <div className="project-invite-page">
-      <h1>{t('collaborators.acceptTitle')}</h1>
-      <p>
-        {t('collaborators.acceptBody', {
-          inviter: inviterName,
-          project: projectTitle,
-          side: t(`collaborators.side.${invite?.side || 'customer'}`)
-        })}
-      </p>
-      {invite?.email ? (
-        <p className="project-invite-page__email">
-          {t('collaborators.sentTo', { email: invite.email })}
-          {user?.email && user.email.toLowerCase() !== invite.email.toLowerCase()
-            ? ` ${t('collaborators.emailMismatchHint')}`
-            : ''}
+      <div className="project-invite-page__glow" aria-hidden="true" />
+      <div className="project-invite-page__panel">
+        <p className="project-invite-page__kicker">{t('collaborators.acceptTitle')}</p>
+        <h1 className="project-invite-page__title">{projectTitle}</h1>
+        <p className="project-invite-page__body">
+          {t('collaborators.acceptBody', { inviter: inviterName })}
         </p>
-      ) : null}
-      {error ? <p className="project-invite-page__error">{error}</p> : null}
-      <div className="project-invite-page__actions">
-        <Button onClick={handleAccept} disabled={accepting || invite?.status !== 'pending'}>
-          {isAuthenticated ? t('collaborators.accept') : t('collaborators.loginToAccept')}
-        </Button>
-        <Button className="button--secondary" onClick={() => navigate(`/${i18n.language}/projects`)}>
-          {t('common.cancel', { defaultValue: 'Cancel' })}
-        </Button>
+
+        {invite?.email ? (
+          <div className="project-invite-page__meta">
+            <span className="project-invite-page__meta-label">{t('collaborators.sentToLabel')}</span>
+            <span className="project-invite-page__meta-value" dir="ltr">
+              {invite.email}
+            </span>
+            {emailMismatch ? (
+              <p className="project-invite-page__hint">{t('collaborators.emailMismatchHint')}</p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {error ? <p className="project-invite-page__error">{error}</p> : null}
+
+        <div className="project-invite-page__actions">
+          <Button
+            className="button--primary"
+            onClick={handleAccept}
+            disabled={accepting || invite?.status !== 'pending'}
+          >
+            {accepting
+              ? t('common.sending')
+              : isAuthenticated
+                ? t('collaborators.accept')
+                : t('collaborators.loginToAccept')}
+          </Button>
+          <Button className="button--secondary" onClick={() => navigate(`/${i18n.language}/projects`)}>
+            {t('common.cancel', { defaultValue: 'Cancel' })}
+          </Button>
+        </div>
       </div>
     </div>
   );

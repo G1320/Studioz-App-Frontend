@@ -149,8 +149,9 @@
       "vendor": "צד האולפן"
     },
     "acceptTitle": "הזמנה לפרויקט",
-    "acceptBody": "{{inviter}} הזמין/ה אותך להצטרף ל־{{project}} בצד ה{{side}}.",
+    "acceptBody": "{{inviter}} הזמין/ה אותך להצטרף.",
     "sentTo": "ההזמנה נשלחה אל {{email}}",
+    "sentToLabel": "נשלח אל",
     "emailMismatchHint": "יש להתחבר עם אותו אימייל כדי לאשר.",
     "accept": "קבלת הזמנה",
     "loginToAccept": "התחבר/י כדי לאשר",

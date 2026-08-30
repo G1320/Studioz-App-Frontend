@@ -149,8 +149,9 @@
       "vendor": "Studio side"
     },
     "acceptTitle": "Project invitation",
-    "acceptBody": "{{inviter}} invited you to join {{project}} on the {{side}}.",
+    "acceptBody": "{{inviter}} invited you to join.",
     "sentTo": "Invitation sent to {{email}}",
+    "sentToLabel": "Sent to",
     "emailMismatchHint": "Sign in with that email to accept.",
     "accept": "Accept invitation",
     "loginToAccept": "Log in to accept",
