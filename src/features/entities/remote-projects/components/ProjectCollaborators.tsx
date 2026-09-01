@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Loader2, LogOut, MailX, UserMinus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@shared/components';
@@ -83,35 +84,39 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
 
   const collaborators = data?.collaborators || [];
   const pending = data?.pendingInvites || [];
+  // Only primary customer/vendor may invite — collaborators get 403 from the API.
+  const showInviteForm =
+    canInvite === true || access?.canInvite === true || access?.isPrimary === true;
   const canManageSide = (side: string) =>
-    (canInvite || access?.canInvite === true || access?.isPrimary === true) &&
-    (!access?.side || access.side === side);
+    showInviteForm && (!access?.side || access.side === side);
 
   return (
     <section className="project-collaborators">
       <h3 className="project-collaborators__title">{t('collaborators.title')}</h3>
       <p className="project-collaborators__hint">{t('collaborators.hint')}</p>
 
-      <form className="project-collaborators__invite" onSubmit={handleInvite}>
-        <label className="project-collaborators__invite-label" htmlFor="project-collab-email">
-          {t('collaborators.invite')}
-        </label>
-        <div className="project-collaborators__invite-row">
-          <input
-            id="project-collab-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t('collaborators.emailPlaceholder')}
-            autoComplete="email"
-            required
-          />
-          <Button type="submit" className="button--primary" disabled={inviteMutation.isPending || !email.trim()}>
-            {inviteMutation.isPending ? t('common.sending') : t('collaborators.invite')}
-          </Button>
-        </div>
-        {error ? <p className="project-collaborators__error">{error}</p> : null}
-      </form>
+      {showInviteForm ? (
+        <form className="project-collaborators__invite" onSubmit={handleInvite}>
+          <label className="project-collaborators__invite-label" htmlFor="project-collab-email">
+            {t('collaborators.invite')}
+          </label>
+          <div className="project-collaborators__invite-row">
+            <input
+              id="project-collab-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t('collaborators.emailPlaceholder')}
+              autoComplete="email"
+              required
+            />
+            <Button type="submit" className="button--primary" disabled={inviteMutation.isPending || !email.trim()}>
+              {inviteMutation.isPending ? t('common.sending') : t('collaborators.invite')}
+            </Button>
+          </div>
+          {error ? <p className="project-collaborators__error">{error}</p> : null}
+        </form>
+      ) : null}
 
       {isLoading ? (
         <div className="project-collaborators__loading">{t('common.loading')}</div>
@@ -127,15 +132,27 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                 </div>
               </div>
               {canManageSide(c.side) || currentUserId === userIdOf(c.userId) ? (
-                <Button
-                  className="button--secondary button--sm"
-                  onClick={() => removeMutation.mutate(userIdOf(c.userId))}
-                  disabled={removeMutation.isPending}
-                >
-                  {currentUserId === userIdOf(c.userId)
-                    ? t('collaborators.leave')
-                    : t('collaborators.remove')}
-                </Button>
+                <div className="project-collaborators__item-actions">
+                  <button
+                    type="button"
+                    className="project-icon-action project-icon-action--danger"
+                    onClick={() => removeMutation.mutate(userIdOf(c.userId))}
+                    disabled={removeMutation.isPending}
+                    aria-label={
+                      currentUserId === userIdOf(c.userId)
+                        ? t('collaborators.leave')
+                        : t('collaborators.remove')
+                    }
+                  >
+                    {removeMutation.isPending ? (
+                      <Loader2 className="project-icon-action__spin" aria-hidden />
+                    ) : currentUserId === userIdOf(c.userId) ? (
+                      <LogOut aria-hidden />
+                    ) : (
+                      <UserMinus aria-hidden />
+                    )}
+                  </button>
+                </div>
               ) : null}
             </li>
           ))}
@@ -148,13 +165,21 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                 </div>
               </div>
               {canManageSide(invite.side) ? (
-                <Button
-                  className="button--secondary button--sm"
-                  onClick={() => revokeMutation.mutate(invite._id)}
-                  disabled={revokeMutation.isPending}
-                >
-                  {t('collaborators.revoke')}
-                </Button>
+                <div className="project-collaborators__item-actions">
+                  <button
+                    type="button"
+                    className="project-icon-action project-icon-action--neutral"
+                    onClick={() => revokeMutation.mutate(invite._id)}
+                    disabled={revokeMutation.isPending}
+                    aria-label={t('collaborators.revoke')}
+                  >
+                    {revokeMutation.isPending ? (
+                      <Loader2 className="project-icon-action__spin" aria-hidden />
+                    ) : (
+                      <MailX aria-hidden />
+                    )}
+                  </button>
+                </div>
               ) : null}
             </li>
           ))}

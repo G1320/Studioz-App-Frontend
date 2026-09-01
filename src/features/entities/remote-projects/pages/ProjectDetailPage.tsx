@@ -122,17 +122,13 @@ export const ProjectDetailPage: React.FC = () => {
   const canCustomerWorkflow = access?.canCustomerWorkflow ?? isPrimaryCustomer;
   const canPay = access?.canPay ?? isPrimaryCustomer;
   const canUpdateMetadata = access?.canUpdateMetadata ?? isPrimaryVendor;
-  // Primary parties can invite. Collaborators cannot.
-  // Prefer API flags; fall back to local primary ID match. Never hide invite for unknowns.
+  // Primary customer/vendor only. Collaborators cannot invite (API returns 403).
   const canInvite =
-    access?.isCollaborator === true
-      ? false
-      : access?.canInvite === true ||
-        access?.isPrimary === true ||
-        isPrimaryVendor ||
-        isPrimaryCustomer ||
-        access == null ||
-        access?.isCollaborator === false;
+    access?.isCollaborator !== true &&
+    (access?.canInvite === true ||
+      access?.isPrimary === true ||
+      isPrimaryVendor ||
+      isPrimaryCustomer);
   const userRole = access?.side || (isVendor ? 'vendor' : 'customer');
 
   const handleAccept = async () => {

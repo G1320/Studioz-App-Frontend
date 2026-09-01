@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Button } from '@shared/components';
+import { Download, Loader2, Trash2 } from 'lucide-react';
 import { RemoteAudioPlayer } from '@shared/components/audio';
 import { useTranslation } from 'react-i18next';
 import { useUploadFileMutation, useDeleteFileMutation } from '@shared/hooks';
@@ -319,22 +319,34 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
           <div className="project-file-uploader__toolbar">
             <span className="project-file-uploader__toolbar-label">{t('bulkActionsLabel')}</span>
             <div className="project-file-uploader__toolbar-actions">
-              <Button
-                className="button--secondary button--small"
+              <button
+                type="button"
+                className="project-icon-action project-icon-action--download"
                 onClick={handleDownloadAll}
                 disabled={isDownloadingAll}
+                aria-label={isDownloadingAll ? t('common.processing') : t('downloadAll')}
               >
-                {isDownloadingAll ? t('common.processing') : t('downloadAll')}
-              </Button>
-              {!disabled && (
-                <Button
-                  className="button--danger button--small"
+                {isDownloadingAll ? (
+                  <Loader2 className="project-icon-action__spin" aria-hidden />
+                ) : (
+                  <Download aria-hidden />
+                )}
+              </button>
+              {!disabled ? (
+                <button
+                  type="button"
+                  className="project-icon-action project-icon-action--danger"
                   onClick={handleDeleteAll}
                   disabled={isDeletingAll || deleteMutation.isPending}
+                  aria-label={isDeletingAll ? t('common.processing') : t('deleteAll')}
                 >
-                  {isDeletingAll ? t('common.processing') : t('deleteAll')}
-                </Button>
-              )}
+                  {isDeletingAll ? (
+                    <Loader2 className="project-icon-action__spin" aria-hidden />
+                  ) : (
+                    <Trash2 aria-hidden />
+                  )}
+                </button>
+              ) : null}
             </div>
           </div>
           <ul className="project-file-uploader__file-list">
@@ -361,21 +373,25 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                   <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
                 </div>
                 <div className="project-file-uploader__file-actions">
-                  <Button
-                    className="button--secondary button--small"
+                  <button
+                    type="button"
+                    className="project-icon-action project-icon-action--download"
                     onClick={() => handleDownloadFile(file)}
+                    aria-label={t('download')}
                   >
-                    {t('download')}
-                  </Button>
-                  {!disabled && (
-                    <Button
-                      className="button--danger button--small"
+                    <Download aria-hidden />
+                  </button>
+                  {!disabled ? (
+                    <button
+                      type="button"
+                      className="project-icon-action project-icon-action--danger"
                       onClick={() => handleDeleteFile(file._id)}
                       disabled={deleteMutation.isPending}
+                      aria-label={t('delete')}
                     >
-                      {t('delete')}
-                    </Button>
-                  )}
+                      <Trash2 aria-hidden />
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </li>

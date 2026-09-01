@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { X } from 'lucide-react';
 import { Item } from 'src/types/index';
 import { EditNoteIcon, DescriptionIcon, LinkIcon, OfferIcon, ScheduleIcon, SyncIcon } from '@shared/components/icons';
 import './styles/_project-request-form.scss';
@@ -133,7 +134,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
                   onClick={() => handleRemoveReferenceLink(index)}
                   aria-label={t('removeLink')}
                 >
-                  ×
+                  <X size={14} aria-hidden />
                 </button>
               )}
             </div>

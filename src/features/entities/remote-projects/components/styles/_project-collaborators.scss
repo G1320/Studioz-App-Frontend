@@ -1,3 +1,5 @@
+@use './project-icon-actions';
+
 .project-collaborators {
   margin-top: 1.5rem;
   text-align: start;
@@ -74,6 +76,12 @@
   &__meta {
     font-size: 0.8rem;
     color: var(--text-secondary);
+  }
+
+  &__item-actions {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
   }
 
   &__empty,
