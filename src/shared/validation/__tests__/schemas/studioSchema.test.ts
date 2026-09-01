@@ -50,6 +50,15 @@ describe('studioStep1Schema', () => {
     expect(() => studioStep1Schema.parse(validData)).not.toThrow();
   });
 
+  it('should validate step 1 data with English only (Hebrew optional)', () => {
+    const validData = {
+      name: { en: 'Test Studio' },
+      description: { en: 'Description' }
+    };
+
+    expect(() => studioStep1Schema.parse(validData)).not.toThrow();
+  });
+
   it('should reject missing name', () => {
     const invalidData = {
       subtitle: { en: 'Subtitle', he: 'כותרת משנה' }

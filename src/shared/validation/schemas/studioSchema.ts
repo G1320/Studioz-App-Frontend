@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import {
-  translationSchema,
   hebrewTextSchema,
+  optionalHebrewTextSchema,
   englishTextSchema,
   urlSchema,
   phoneSchema,
@@ -25,15 +25,18 @@ import {
 
 /**
  * Studio name schema
- * Requires both English and Hebrew names, 3-50 characters each
+ * Requires English name; Hebrew is optional (for US / English-only listings)
  */
-export const studioNameSchema = translationSchema({
+export const studioNameSchema = z.object({
   en: englishTextSchema('name')
     .min(STUDIO_NAME_MIN, `Name must be at least ${STUDIO_NAME_MIN} characters`)
     .max(STUDIO_NAME_MAX, `Name must be at most ${STUDIO_NAME_MAX} characters`),
-  he: hebrewTextSchema('name')
-    .min(STUDIO_NAME_MIN, `השם חייב להיות לפחות ${STUDIO_NAME_MIN} תווים`)
-    .max(STUDIO_NAME_MAX, `השם חייב להיות לכל היותר ${STUDIO_NAME_MAX} תווים`)
+  he: optionalHebrewTextSchema('name', {
+    min: STUDIO_NAME_MIN,
+    max: STUDIO_NAME_MAX,
+    minMessage: `השם חייב להיות לפחות ${STUDIO_NAME_MIN} תווים`,
+    maxMessage: `השם חייב להיות לכל היותר ${STUDIO_NAME_MAX} תווים`
+  })
 });
 
 /**

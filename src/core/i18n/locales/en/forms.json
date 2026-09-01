@@ -14,10 +14,12 @@
   "form": {
     "AddItemTitle": "Add new Item",
     "AddStudioTitle": "Add new Studio",
+    "optionalLanguage": "(optional)",
     "name": {
       "en": "Name (English)",
       "he": "Name (Hebrew)",
-      "helperText": "This is the main name that will appear in search results."
+      "helperText": "This is the main name that will appear in search results.",
+      "helperTextOptional": "Optional — helps customers who browse in Hebrew find your listing."
     },
     "subtitle": {
       "en": "Subtitle (English)",
@@ -48,7 +50,8 @@
       "helperText": "Choose the music genres you specialize in."
     },
     "languageToggle": {
-      "label": "Select language for editing"
+      "label": "Add translations (optional)",
+      "helperText": "English is required. Additional languages are optional but help you reach more customers."
     },
     "studioAvailability": {
       "label": "Business Hours",
@@ -647,7 +650,7 @@
     "switchToHebrew": "Switch to Hebrew to see errors",
     "switchLanguageHint": "Switch to {{language}} to view and fix errors",
     "proTips": {
-      "basicInfo": "Studios with detailed descriptions in both English and Hebrew get <strong>2x more bookings</strong>. Don't forget to switch languages and fill out both!"
+      "basicInfo": "English is all you need to get started. Adding Hebrew or other translations can help you reach <strong>2x more bookings</strong> in bilingual markets."
     },
     "buttons": {
       "next": "Next",

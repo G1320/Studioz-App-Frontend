@@ -409,7 +409,7 @@ export const CreateStudioForm = () => {
           <ProTip dangerouslySetInnerHTML>
             {t('form.proTips.basicInfo', {
               defaultValue:
-                "Studios with detailed descriptions in both English and Hebrew get <strong>2x more bookings</strong>. Don't forget to switch languages and fill out both!"
+                'English is all you need to get started. Adding Hebrew or other translations can help you reach <strong>2x more bookings</strong> in bilingual markets.'
             })}
           </ProTip>
         )
@@ -547,10 +547,10 @@ export const CreateStudioForm = () => {
     },
     {
       name: 'name.he',
-      label: `${t('form.name.he')} 🇮🇱`,
+      label: `${t('form.name.he')} ${t('form.optionalLanguage')} 🇮🇱`,
       type: 'text' as FieldType,
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
-      helperText: t('form.name.helperText'),
+      helperText: t('form.name.helperTextOptional'),
       maxLength: STUDIO_NAME_MAX,
       showCharCounter: true
     },
@@ -567,12 +567,12 @@ export const CreateStudioForm = () => {
     },
     {
       name: 'description.he',
-      label: `${t('form.description.he')} 🇮🇱`,
+      label: `${t('form.description.he')} ${t('form.optionalLanguage')} 🇮🇱`,
       type: 'textarea' as FieldType,
       placeholder: t('form.description.placeholderHe', {
         defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
       }),
-      helperText: t('form.description.helperText'),
+      helperText: t('form.name.helperTextOptional'),
       maxLength: STUDIO_DESCRIPTION_MAX,
       showCharCounter: true
     },

@@ -42,6 +42,27 @@ export function hebrewTextSchema(fieldName?: string): z.ZodString {
 }
 
 /**
+ * Optional Hebrew text schema — treats empty strings as undefined so English-only
+ * submissions pass validation when Hebrew fields are left blank in the form.
+ */
+export function optionalHebrewTextSchema(
+  fieldName?: string,
+  extensions?: { min?: number; max?: number; minMessage?: string; maxMessage?: string }
+): z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, unknown> {
+  let schema = hebrewTextSchema(fieldName);
+  if (extensions?.min !== undefined) {
+    schema = schema.min(extensions.min, extensions.minMessage ?? `Must be at least ${extensions.min} characters`);
+  }
+  if (extensions?.max !== undefined) {
+    schema = schema.max(extensions.max, extensions.maxMessage ?? `Must be at most ${extensions.max} characters`);
+  }
+  return z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : val),
+    schema.optional()
+  );
+}
+
+/**
  * English text schema factory with validation
  * Validates that text contains at least one English character (allows numbers and special chars)
  *
@@ -144,10 +165,16 @@ export function optionalTranslationSchema<T extends z.ZodTypeAny>(schemas: {
     he: z.ZodOptional<T>;
   }>
 > {
+  const emptyToUndefined = (schema: T) =>
+    z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : val),
+      schema.optional()
+    );
+
   return z
     .object({
-      en: schemas.en.optional(),
-      he: schemas.he.optional()
+      en: emptyToUndefined(schemas.en),
+      he: emptyToUndefined(schemas.he)
     })
     .optional();
 }

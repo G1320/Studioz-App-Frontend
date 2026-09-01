@@ -984,10 +984,10 @@ export const CreateItemForm = () => {
     },
     {
       name: 'name.he',
-      label: `${t('form.name.he')} 🇮🇱`,
+      label: `${t('form.name.he')} ${t('form.optionalLanguage')} 🇮🇱`,
       type: 'text' as FieldType,
       placeholder: t('form.name.placeholderHe', { defaultValue: 'לדוגמה: גן הצלילים' }),
-      helperText: t('form.name.helperText'),
+      helperText: t('form.name.helperTextOptional'),
       maxLength: ITEM_NAME_MAX,
       showCharCounter: true
     },
@@ -1004,12 +1004,12 @@ export const CreateItemForm = () => {
     },
     {
       name: 'description.he',
-      label: `${t('form.description.he')} 🇮🇱`,
+      label: `${t('form.description.he')} ${t('form.optionalLanguage')} 🇮🇱`,
       type: 'textarea' as FieldType,
       placeholder: t('form.description.placeholderHe', {
         defaultValue: 'תארו את האווירה, הציוד ומה שמייחד את הסטודיו שלכם...'
       }),
-      helperText: t('form.description.helperText'),
+      helperText: t('form.name.helperTextOptional'),
       maxLength: ITEM_DESCRIPTION_MAX,
       showCharCounter: true
     },

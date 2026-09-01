@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  hebrewTextSchema,
+  optionalHebrewTextSchema,
   englishTextSchema,
   urlSchema,
   positiveNumberSchema,
@@ -24,10 +24,12 @@ export const itemNameSchema = z.object({
   en: englishTextSchema('name')
     .min(ITEM_NAME_MIN, `Name must be at least ${ITEM_NAME_MIN} characters`)
     .max(ITEM_NAME_MAX, `Name must be at most ${ITEM_NAME_MAX} characters`),
-  he: hebrewTextSchema('name')
-    .min(ITEM_NAME_MIN, `השם חייב להיות לפחות ${ITEM_NAME_MIN} תווים`)
-    .max(ITEM_NAME_MAX, `השם חייב להיות לכל היותר ${ITEM_NAME_MAX} תווים`)
-    .optional()
+  he: optionalHebrewTextSchema('name', {
+    min: ITEM_NAME_MIN,
+    max: ITEM_NAME_MAX,
+    minMessage: `השם חייב להיות לפחות ${ITEM_NAME_MIN} תווים`,
+    maxMessage: `השם חייב להיות לכל היותר ${ITEM_NAME_MAX} תווים`
+  })
 });
 
 /**
@@ -38,7 +40,10 @@ export const itemDescriptionSchema = z.object({
   en: englishTextSchema('description')
     .min(1, 'Please enter a description in English')
     .max(ITEM_DESCRIPTION_MAX, `Description must be at most ${ITEM_DESCRIPTION_MAX} characters`),
-  he: hebrewTextSchema('description').max(ITEM_DESCRIPTION_MAX, `תיאור חייב להיות לכל היותר ${ITEM_DESCRIPTION_MAX} תווים`).optional()
+  he: optionalHebrewTextSchema('description', {
+    max: ITEM_DESCRIPTION_MAX,
+    maxMessage: `תיאור חייב להיות לכל היותר ${ITEM_DESCRIPTION_MAX} תווים`
+  })
 });
 
 /**

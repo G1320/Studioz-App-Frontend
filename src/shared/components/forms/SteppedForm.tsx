@@ -312,9 +312,8 @@ export const SteppedForm = ({
     const form = document.getElementById(`${formId}-step-${currentStepIndex}`) as HTMLFormElement;
     const latestFormData = form ? { ...formDataForValidation, ...collectFormData(form) } : formDataForValidation;
 
-    // For language-toggle steps, merge with saved formData to ensure both languages are available
-    // This is needed because filterStepFields only shows fields for the selected language,
-    // but validation requires all fields (e.g., both name.en and name.he)
+    // For language-toggle steps, merge with saved formData so values from the
+    // other language tab are still available (Hebrew fields are optional).
     const dataForValidation = currentStep.languageToggle ? { ...formData, ...latestFormData } : latestFormData;
 
     // Validate with latest data if schema exists
@@ -601,24 +600,23 @@ export const SteppedForm = ({
             </StepContent>
           </motion.div>
         </AnimatePresence>
-      </div>
 
-      {/* Fixed Bottom Navigation */}
-      <StepNavigation
-        isFirstStep={isFirstStep}
-        isLastStep={isLastStep}
-        allowBackNavigation={allowBackNavigation}
-        hasCustomContent={!!currentStep.customContent}
-        formId={formId}
-        currentStepIndex={currentStepIndex}
-        prevBtnText={prevBtnText}
-        nextBtnText={nextBtnText}
-        submitBtnText={submitBtnText}
-        autoSaveLabel={t('form.autoSaved', 'Auto-saved')}
-        onPrevious={handlePrevious}
-        onNext={handleNext}
-        onSubmit={() => handleSubmit({})}
-      />
+        <StepNavigation
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          allowBackNavigation={allowBackNavigation}
+          hasCustomContent={!!currentStep.customContent}
+          formId={formId}
+          currentStepIndex={currentStepIndex}
+          prevBtnText={prevBtnText}
+          nextBtnText={nextBtnText}
+          submitBtnText={submitBtnText}
+          autoSaveLabel={t('form.autoSaved', 'Auto-saved')}
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          onSubmit={() => handleSubmit({})}
+        />
+      </div>
     </div>
   );
 };
