@@ -48,7 +48,7 @@ export function hebrewTextSchema(fieldName?: string): z.ZodString {
 export function optionalHebrewTextSchema(
   fieldName?: string,
   extensions?: { min?: number; max?: number; minMessage?: string; maxMessage?: string }
-): z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, unknown> {
+) {
   let schema = hebrewTextSchema(fieldName);
   if (extensions?.min !== undefined) {
     schema = schema.min(extensions.min, extensions.minMessage ?? `Must be at least ${extensions.min} characters`);
@@ -159,12 +159,7 @@ export function translationSchema<T extends z.ZodTypeAny>(schemas: {
 export function optionalTranslationSchema<T extends z.ZodTypeAny>(schemas: {
   en: T;
   he: T;
-}): z.ZodOptional<
-  z.ZodObject<{
-    en: z.ZodOptional<T>;
-    he: z.ZodOptional<T>;
-  }>
-> {
+}) {
   const emptyToUndefined = (schema: T) =>
     z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : val),
