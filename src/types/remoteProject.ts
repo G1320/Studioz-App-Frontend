@@ -15,6 +15,12 @@ export type RemoteProjectPaymentStatus =
   | 'fully_paid'
   | 'refunded';
 
+export interface ProjectDownloadLock {
+  enabled: boolean;
+  releasedAt?: string;
+  releasedBy?: string | { _id: string; name?: string };
+}
+
 export interface RemoteProject {
   _id: string;
 
@@ -78,6 +84,9 @@ export interface RemoteProject {
   // Payment
   paymentStatus?: RemoteProjectPaymentStatus;
 
+  // Deliverable download lock (vendor-controlled)
+  downloadLock?: ProjectDownloadLock;
+
   // Customer Info
   customerName?: string;
   customerEmail?: string;
@@ -104,8 +113,24 @@ export interface ProjectFile {
   description?: string;
   revisionNumber?: number;
 
+  waveformStatus?: WaveformStatus;
+
   createdAt?: string;
   updatedAt?: string;
+}
+
+export type WaveformStatus = 'pending' | 'processing' | 'ready' | 'failed' | 'unsupported';
+
+export interface WaveformResponse {
+  fileId: string;
+  status: WaveformStatus;
+  /** Normalized 0–255 peaks, present when status === 'ready'. */
+  peaks?: number[];
+  durationMs?: number | null;
+  sampleRate?: number | null;
+  channels?: number | null;
+  version?: number;
+  reason?: string;
 }
 
 export type ProjectSide = 'customer' | 'vendor';
@@ -158,6 +183,9 @@ export interface ProjectAccess {
   canUpdateMetadata: boolean;
   canChat: boolean;
   canFiles: boolean;
+  /** False for customer-side users while the vendor's deliverable lock is active. */
+  canDownloadDeliverables?: boolean;
+  canManageDownloadLock?: boolean;
 }
 
 export type SenderRole =
@@ -184,6 +212,12 @@ export interface ProjectMessage {
 
   fileId?: string | MessageFileCue;
   offsetSeconds?: number;
+
+  /** Parent comment when this is a threaded reply. */
+  parentId?: string;
+  /** Set when a track comment was marked resolved. */
+  resolvedAt?: string;
+  resolvedBy?: string | { _id: string; name?: string };
 
   readAt?: string;
   createdAt?: string;
@@ -223,6 +257,13 @@ export interface ProjectDetailResponse {
     revision: number;
   };
   access?: ProjectAccess;
+  /** Whether the vendor's deliverable lock is currently in force. */
+  deliverablesLocked?: boolean;
+}
+
+export interface DownloadLockResponse {
+  downloadLock: ProjectDownloadLock;
+  deliverablesLocked: boolean;
 }
 
 export interface UploadUrlResponse {
@@ -238,6 +279,9 @@ export interface DownloadUrlResponse {
   fileSize: number;
   mimeType: string;
   expiresIn: number;
+  /** True when this URL was issued as a restricted stream (downloads locked). */
+  locked?: boolean;
+  intent?: 'download' | 'stream';
 }
 
 export interface AudioMetaResponse {

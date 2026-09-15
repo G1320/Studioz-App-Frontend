@@ -564,6 +564,12 @@
     padding: vars.$spacing-large;
     border-radius: 16px;
     border: 1px solid var(--border-secondary);
+
+    &--compact {
+      margin-top: vars.$spacing-medium;
+      padding: vars.$spacing-medium;
+      border-radius: 12px;
+    }
   }
 
   &__toggle-header {

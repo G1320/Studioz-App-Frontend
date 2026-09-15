@@ -13,6 +13,9 @@ import {
   deleteFile,
   sendMessage,
   markMessagesAsRead,
+  setMessageResolved,
+  setDownloadLock,
+  releaseDownloads,
 } from '@shared/services';
 import type { UpdateProjectData } from '@shared/services/remote-project-service';
 import {
@@ -21,6 +24,7 @@ import {
   ProjectMessage,
   CreateProjectRequest,
   ProjectFileType,
+  DownloadLockResponse,
 } from 'src/types/index';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -168,6 +172,41 @@ export const useCancelProjectMutation = () => {
 };
 
 // ============================================================
+// DELIVERABLE DOWNLOAD LOCK
+// ============================================================
+
+export const useSetDownloadLockMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<DownloadLockResponse, { projectId: string; enabled: boolean }>({
+    mutationFn: ({ projectId, enabled }) => setDownloadLock(projectId, enabled),
+    successMessage: (_data, { enabled }) =>
+      enabled
+        ? t('toasts.success.downloadsLocked', 'Downloads locked until approval')
+        : t('toasts.success.downloadsUnlocked', 'Downloads unlocked'),
+    invalidateQueries: [{ queryKey: 'remoteProject' }],
+    onSuccess: (_data, { projectId }) => {
+      queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
+    },
+  });
+};
+
+export const useReleaseDownloadsMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<DownloadLockResponse, string>({
+    mutationFn: (projectId) => releaseDownloads(projectId),
+    successMessage: t('toasts.success.downloadsReleased', 'Downloads released to the customer'),
+    invalidateQueries: [{ queryKey: 'remoteProject' }],
+    onSuccess: (_data, projectId) => {
+      queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
+    },
+  });
+};
+
+// ============================================================
 // FILE MUTATIONS
 // ============================================================
 
@@ -225,11 +264,27 @@ export const useSendMessageMutation = () => {
       attachmentIds?: string[];
       fileId?: string;
       offsetSeconds?: number;
+      parentId?: string;
     }
   >({
-    mutationFn: ({ projectId, message, attachmentIds, fileId, offsetSeconds }) =>
-      sendMessage(projectId, message, { attachmentIds, fileId, offsetSeconds }),
+    mutationFn: ({ projectId, message, attachmentIds, fileId, offsetSeconds, parentId }) =>
+      sendMessage(projectId, message, { attachmentIds, fileId, offsetSeconds, parentId }),
     // No success message for messages - feels more natural
+    invalidateQueries: [{ queryKey: 'projectMessages' }],
+    onSuccess: (_data, { projectId }) => {
+      queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });
+    },
+  });
+};
+
+export const useResolveMessageMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutationHandler<
+    { _id: string; resolvedAt: string | null },
+    { projectId: string; messageId: string; resolved: boolean }
+  >({
+    mutationFn: ({ projectId, messageId, resolved }) => setMessageResolved(projectId, messageId, resolved),
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });

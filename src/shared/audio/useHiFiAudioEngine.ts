@@ -28,7 +28,8 @@ async function fetchTrackDownloadUrl(track: HiFiTrackIdentity) {
   if (track.library === 'studio') {
     return getStudioFileDownloadUrl(track.containerId, track.fileId);
   }
-  return getDownloadUrl(track.containerId, track.fileId);
+  // Streaming intent: allowed even while deliverable downloads are locked.
+  return getDownloadUrl(track.containerId, track.fileId, 'stream');
 }
 
 function isSameTrack(a: HiFiTrackIdentity | null, b: HiFiTrackIdentity): boolean {

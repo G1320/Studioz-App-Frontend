@@ -12,18 +12,25 @@
     border: none;
   }
 
-  &--expanded {
+  &--expanded,
+  &--waveform {
     width: 100%;
     flex: 1 1 100%;
     order: 10;
     margin-top: 0.5rem;
     padding: 0.625rem 0.75rem;
     background: var(--bg-primary);
-    border: 1px solid rgba(255, 209, 102, 0.45);
+    border: 1px solid var(--border-primary);
     border-radius: 0.5rem;
+    transition: border-color 0.15s ease;
   }
 
-  &--active:focus-visible {
+  &--active {
+    border-color: rgba(255, 209, 102, 0.45);
+  }
+
+  &--active:focus-visible,
+  &--waveform:focus-visible {
     box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.35);
   }
 
@@ -33,6 +40,58 @@
     gap: 0.75rem;
     min-width: 0;
     height: 2.25rem;
+  }
+
+  &--waveform &__row {
+    height: auto;
+    min-height: 2.75rem;
+  }
+
+  &__waveform {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__footer-actions {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-inline-start: auto;
+  }
+
+  &__thread-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.4rem;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover,
+    &--open {
+      color: var(--text-primary);
+      border-color: var(--color-brand);
+    }
+
+    &--open {
+      background: rgba(255, 209, 102, 0.08);
+    }
+  }
+
+  &__thread-open {
+    padding: 0 0.3rem;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: #000;
+    font-size: 0.6rem;
+    font-weight: 700;
   }
 
   &__play {
@@ -175,22 +234,28 @@
   &__marker {
     pointer-events: auto;
     position: absolute;
-    top: 50%;
+    top: 2px;
     width: 10px;
     height: 10px;
     margin-left: -5px;
-    transform: translateY(-50%);
     padding: 0;
     border: 1.5px solid var(--bg-primary);
     border-radius: 9999px;
     background: var(--text-primary);
     cursor: pointer;
     z-index: 2;
+    transition: transform 0.12s ease, background 0.12s ease;
+
+    &--resolved {
+      background: var(--text-secondary);
+      opacity: 0.55;
+    }
 
     &:hover,
     &:focus-visible {
       background: var(--color-brand);
-      transform: translateY(-50%) scale(1.25);
+      transform: scale(1.25);
+      opacity: 1;
       z-index: 4;
     }
 
@@ -204,8 +269,9 @@
   &__marker-bubble {
     position: absolute;
     left: 50%;
-    bottom: calc(100% + 0.5rem);
+    top: calc(100% + 0.4rem);
     z-index: 5;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -220,7 +286,6 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateX(-50%);
     transition: opacity 0.12s ease, visibility 0.12s ease;
     text-align: start;
     white-space: normal;
@@ -442,6 +507,11 @@
     align-items: center;
     gap: 0.5rem;
     height: 2.5rem;
+  }
+
+  &__waveform {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   &__comment {

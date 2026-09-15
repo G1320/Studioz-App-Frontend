@@ -245,6 +245,9 @@
   "currentlyUnavailable": "Currently unavailable",
   "toasts": {
     "success": {
+      "downloadsLocked": "Downloads locked until approval",
+      "downloadsUnlocked": "Downloads unlocked",
+      "downloadsReleased": "Downloads released to the customer",
       "itemUpdated": "Item updated successfully",
       "itemCreated": "Item created successfully",
       "itemDeleted": "Item deleted successfully",

@@ -119,7 +119,60 @@
     "commentAtTime": "הוסף הערה ב-{{time}}",
     "commentingAt": "הערה ב-{{time}} · {{file}}",
     "typeCueComment": "כתוב הערה בנקודת הזמן…",
-    "cueMarker": "הערה ב-{{time}}"
+    "cueMarker": "הערה ב-{{time}}",
+    "analyzing": "מייצר צורת גל…"
+  },
+
+  "trackComments": {
+    "toggle": "הערות על הטראק ({{count}})",
+    "count_one": "הערה אחת",
+    "count_two": "{{count}} הערות",
+    "count_many": "{{count}} הערות",
+    "count_other": "{{count}} הערות",
+    "empty": "הוסף הערה על הטראק",
+    "open_one": "אחת פתוחה",
+    "open_two": "{{count}} פתוחות",
+    "open_many": "{{count}} פתוחות",
+    "open_other": "{{count}} פתוחות",
+    "region": "הערות על {{name}}",
+    "emptyHint": "אין הערות עדיין. לחץ נגן והשתמש ב״הוסף הערה ב-״ כדי להשאיר הערה בכל נקודה בטראק.",
+    "allResolved": "כל ההערות טופלו.",
+    "showResolved_one": "הצג הערה שטופלה",
+    "showResolved_two": "הצג {{count}} שטופלו",
+    "showResolved_many": "הצג {{count}} שטופלו",
+    "showResolved_other": "הצג {{count}} שטופלו",
+    "hideResolved_one": "הסתר הערה שטופלה",
+    "hideResolved_two": "הסתר {{count}} שטופלו",
+    "hideResolved_many": "הסתר {{count}} שטופלו",
+    "hideResolved_other": "הסתר {{count}} שטופלו",
+    "resolved": "טופל",
+    "resolve": "סמן כטופל",
+    "reopen": "פתח מחדש",
+    "reply": "השב",
+    "replyingTo": "משיב ל{{name}}",
+    "replyPlaceholder": "השב ל{{name}}…",
+    "placeholder": "הוסף הערה על הטראק…",
+    "chatHint_one": "הערה אחת על טראק מופיעה תחת הקובץ שלה",
+    "chatHint_two": "{{count}} הערות על טראקים מופיעות תחת הקבצים שלהן",
+    "chatHint_many": "{{count}} הערות על טראקים מופיעות תחת הקבצים שלהן",
+    "chatHint_other": "{{count}} הערות על טראקים מופיעות תחת הקבצים שלהן",
+    "chatHintTitle": "הערות עם חותמת זמן מוצגות בשרשור של כל טראק, לא כאן.",
+    "pendingInThread": "הערה ב-{{time}} · {{file}} — השלם אותה בשרשור הטראק מתחת לנגן."
+  },
+
+  "downloadLock": {
+    "title": "הורדת תוצרים",
+    "hint": "כשההורדה נעולה, הלקוח יכול להאזין ולהעיר על התוצרים אך לא להוריד אותם. הנעילה משתחררת אוטומטית כשהפרויקט מושלם ומשולם.",
+    "toggle": "נעל הורדות עד לאישור / תשלום",
+    "releaseNow": "שחרר הורדות עכשיו",
+    "locked": "ההורדות נעולות עד לאישור הפרויקט ותשלום",
+    "customerBanner": "ההורדות ייפתחו לאחר אישור הפרויקט והתשלום. בינתיים אפשר להאזין ולהעיר.",
+    "status": {
+      "off": "כבוי — הלקוח יכול להוריד בכל עת",
+      "locked": "נעול — הלקוח יכול להאזין בלבד",
+      "released": "שוחרר ידנית — הלקוח יכול להוריד",
+      "autoReleased": "פתוח — הפרויקט הושלם"
+    }
   },
 
   "messages": "הודעות",
@@ -191,6 +244,7 @@
     "goBack": "חזור",
     "processing": "מעבד...",
     "submitting": "שולח...",
-    "sending": "שולח..."
+    "sending": "שולח...",
+    "close": "סגור"
   }
 }

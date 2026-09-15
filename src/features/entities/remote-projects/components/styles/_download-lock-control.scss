@@ -1,0 +1,90 @@
+// Vendor control for the deliverable download lock.
+
+.download-lock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.75rem;
+  background: var(--bg-secondary);
+  transition: border-color 0.2s ease;
+
+  &--active {
+    border-color: rgba(255, 209, 102, 0.45);
+    background: rgba(255, 209, 102, 0.05);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    svg {
+      flex-shrink: 0;
+      color: var(--color-brand);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  &__status {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+
+    input {
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--color-brand);
+      cursor: pointer;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__release {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+}

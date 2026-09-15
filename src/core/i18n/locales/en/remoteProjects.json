@@ -119,7 +119,50 @@
     "commentAtTime": "Comment at {{time}}",
     "commentingAt": "Comment at {{time}} · {{file}}",
     "typeCueComment": "Write a comment at this time…",
-    "cueMarker": "Comment at {{time}}"
+    "cueMarker": "Comment at {{time}}",
+    "analyzing": "Generating waveform…"
+  },
+
+  "trackComments": {
+    "toggle": "Track comments ({{count}})",
+    "count_one": "{{count}} comment",
+    "count_other": "{{count}} comments",
+    "empty": "Comment on this track",
+    "open_one": "{{count}} open",
+    "open_other": "{{count}} open",
+    "region": "Comments on {{name}}",
+    "emptyHint": "No comments yet. Press play and use “Comment at” to drop a note at any point in the track.",
+    "allResolved": "All comments are resolved.",
+    "showResolved_one": "Show {{count}} resolved",
+    "showResolved_other": "Show {{count}} resolved",
+    "hideResolved_one": "Hide {{count}} resolved",
+    "hideResolved_other": "Hide {{count}} resolved",
+    "resolved": "Resolved",
+    "resolve": "Resolve",
+    "reopen": "Reopen",
+    "reply": "Reply",
+    "replyingTo": "Replying to {{name}}",
+    "replyPlaceholder": "Reply to {{name}}…",
+    "placeholder": "Add a comment on this track…",
+    "chatHint_one": "{{count}} track comment lives under its file",
+    "chatHint_other": "{{count}} track comments live under their files",
+    "chatHintTitle": "Time-coded comments are shown in each track's thread, not here.",
+    "pendingInThread": "Comment at {{time}} · {{file}} — finish it in the track's thread below the player."
+  },
+
+  "downloadLock": {
+    "title": "Deliverable downloads",
+    "hint": "While locked, the customer can stream and comment on deliverables but cannot download them. The lock lifts automatically when the project is completed and paid.",
+    "toggle": "Lock downloads until approval / payment",
+    "releaseNow": "Release downloads now",
+    "locked": "Downloads are locked until the project is approved and paid",
+    "customerBanner": "Downloads unlock once the project is approved and paid. You can stream and comment in the meantime.",
+    "status": {
+      "off": "Off — customer can download anytime",
+      "locked": "Locked — customer can stream only",
+      "released": "Released manually — customer can download",
+      "autoReleased": "Unlocked — project completed"
+    }
   },
 
   "messages": "Messages",
@@ -191,6 +234,7 @@
     "goBack": "Go Back",
     "processing": "Processing...",
     "submitting": "Submitting...",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "close": "Close"
   }
 }

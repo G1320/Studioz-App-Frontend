@@ -1,16 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { useProjectMessages, useSendMessageMutation, useMarkMessagesReadMutation } from '@shared/hooks';
 import { useSocket } from '@core/contexts/SocketContext';
-import {
-  formatPlaybackTime,
-  getMessageFileCue,
-  getMessageFileId,
-  hiFiAudioEngine,
-  isTimedComment,
-  useAudioCueComment
-} from '@shared/audio';
+import { formatPlaybackTime, isTrackComment, useAudioCueComment } from '@shared/audio';
 import { ProjectMessage, SenderRole } from 'src/types/index';
 import './styles/_project-chat.scss';
 
@@ -33,13 +26,16 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   const cueComment = useAudioCueComment();
 
   const {
-    messages,
+    messages: allMessages,
     isLoading,
     refetch
   } = useProjectMessages({ projectId });
+  // Track-bound comments are shown in each file's thread; the chat stays general.
+  const messages = useMemo(() => allMessages.filter((m) => !isTrackComment(m)), [allMessages]);
+  const trackCommentCount = allMessages.length - messages.length;
   const socket = useSocket();
   const sendMessageMutation = useSendMessageMutation();
-  const markReadMutation = useMarkMessagesReadMutation();
+  const { mutate: markMessagesRead } = useMarkMessagesReadMutation();
 
   const refetchMessages = useCallback(() => {
     void refetch();
@@ -68,18 +64,18 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   }, [messages]);
 
   useEffect(() => {
-    if (messages.length > 0) {
-      const unreadMessages = messages.filter(
+    if (allMessages.length > 0) {
+      const unreadMessages = allMessages.filter(
         (msg: ProjectMessage) => !msg.readAt && getSenderId(msg.senderId) !== currentUserId
       );
       if (unreadMessages.length > 0) {
-        markReadMutation.mutate({
+        markMessagesRead({
           projectId,
           messageIds: unreadMessages.map((m: ProjectMessage) => m._id)
         });
       }
     }
-  }, [messages, currentUserId, projectId]);
+  }, [allMessages, currentUserId, projectId, markMessagesRead]);
 
   const getSenderId = (sender: string | { _id: string }): string => {
     return typeof sender === 'string' ? sender : sender._id;
@@ -98,23 +94,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     return msg.senderRole === 'customer' ? t('customer') : t('vendor');
   };
 
-  const handleJumpToCue = (msg: ProjectMessage) => {
-    const file = getMessageFileCue(msg.fileId);
-    const fileId = getMessageFileId(msg.fileId);
-    if (!file || !fileId || typeof msg.offsetSeconds !== 'number') return;
-    void hiFiAudioEngine.playAt(
-      {
-        library: 'project',
-        containerId: projectId,
-        fileId,
-        fileName: file.fileName,
-        mimeType: file.mimeType,
-        fileSize: file.fileSize
-      },
-      msg.offsetSeconds
-    );
-  };
-
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -123,12 +102,9 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     try {
       await sendMessageMutation.mutateAsync({
         projectId,
-        message: newMessage.trim(),
-        fileId: cueComment?.pendingCue?.fileId,
-        offsetSeconds: cueComment?.pendingCue?.offsetSeconds
+        message: newMessage.trim()
       });
       setNewMessage('');
-      cueComment?.clearPendingCue();
       refetch();
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -154,6 +130,12 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     <div className="project-chat">
       <div className="project-chat__header">
         <h3 className="project-chat__title">{t('messages')}</h3>
+        {trackCommentCount > 0 && (
+          <span className="project-chat__track-hint" title={t('trackComments.chatHintTitle')}>
+            <MessageSquare size={12} aria-hidden />
+            {t('trackComments.chatHint', { count: trackCommentCount })}
+          </span>
+        )}
       </div>
 
       <div className="project-chat__messages">
@@ -176,18 +158,6 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
                 <span className="project-chat__message-sender">{getSenderName(msg)}</span>
                 <span className="project-chat__message-time">{formatTime(msg.createdAt)}</span>
               </div>
-              {isTimedComment(msg) && (
-                <button
-                  type="button"
-                  className="project-chat__cue"
-                  onClick={() => handleJumpToCue(msg)}
-                >
-                  {formatPlaybackTime(msg.offsetSeconds ?? 0)}
-                  {getMessageFileCue(msg.fileId)?.fileName
-                    ? ` · ${getMessageFileCue(msg.fileId)?.fileName}`
-                    : ''}
-                </button>
-              )}
               <div className="project-chat__message-content">{msg.message}</div>
               {msg.readAt && isOwnMessage(msg) && <span className="project-chat__message-read">{t('read')}</span>}
             </div>
@@ -199,31 +169,20 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
       {cueComment?.pendingCue && (
         <div className="project-chat__pending-cue">
           <span>
-            {t('audioPlayer.commentingAt', {
+            {t('trackComments.pendingInThread', {
               time: formatPlaybackTime(cueComment.pendingCue.offsetSeconds),
               file: cueComment.pendingCue.fileName
             })}
           </span>
-          <button
-            type="button"
-            className="project-chat__pending-cue-clear"
-            onClick={() => cueComment.clearPendingCue()}
-            aria-label={t('common.cancel')}
-          >
-            <X size={14} />
-          </button>
         </div>
       )}
 
       <form className="project-chat__input-form" onSubmit={handleSendMessage}>
         <textarea
-          ref={cueComment ? cueComment.composerRef : undefined}
           className="project-chat__input"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder={
-            cueComment?.pendingCue ? t('audioPlayer.typeCueComment') : t('typeMessage')
-          }
+          placeholder={t('typeMessage')}
           disabled={disabled || sendMessageMutation.isPending}
           rows={1}
           onKeyDown={(e) => {

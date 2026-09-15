@@ -9,8 +9,10 @@ import {
   ProjectDetailResponse,
   UploadUrlResponse,
   DownloadUrlResponse,
+  DownloadLockResponse,
   AudioMetaResponse,
-  MessagesResponse
+  MessagesResponse,
+  WaveformResponse
 } from 'src/types';
 
 const endpoint = '/remote-projects';
@@ -127,6 +129,28 @@ export const completeProject = async (projectId: string): Promise<RemoteProject>
   }
 };
 
+// ============================================================
+// DELIVERABLE DOWNLOAD LOCK (vendor)
+// ============================================================
+
+export const setDownloadLock = async (projectId: string, enabled: boolean): Promise<DownloadLockResponse> => {
+  try {
+    return await httpService.patch(`${endpoint}/${projectId}/download-lock`, { enabled });
+  } catch (error) {
+    console.error(`Error updating download lock for project ${projectId}:`, error);
+    throw error;
+  }
+};
+
+export const releaseDownloads = async (projectId: string): Promise<DownloadLockResponse> => {
+  try {
+    return await httpService.post(`${endpoint}/${projectId}/download-lock/release`);
+  } catch (error) {
+    console.error(`Error releasing downloads for project ${projectId}:`, error);
+    throw error;
+  }
+};
+
 export const cancelProject = async (
   projectId: string,
   reason?: string,
@@ -193,11 +217,30 @@ export const getProjectFiles = async (projectId: string, type?: ProjectFileType)
   }
 };
 
-export const getDownloadUrl = async (projectId: string, fileId: string): Promise<DownloadUrlResponse> => {
+export type DownloadIntent = 'download' | 'stream';
+
+/**
+ * Signed URL for a project file. `stream` is always allowed for participants;
+ * `download` is refused (403) for customer-side users while deliverables are locked.
+ */
+export const getDownloadUrl = async (
+  projectId: string,
+  fileId: string,
+  intent: DownloadIntent = 'download'
+): Promise<DownloadUrlResponse> => {
   try {
-    return await httpService.get(`${endpoint}/${projectId}/files/${fileId}/download`);
+    return await httpService.get(`${endpoint}/${projectId}/files/${fileId}/download`, { intent });
   } catch (error) {
-    console.error(`Error getting download URL for file ${fileId}:`, error);
+    console.error(`Error getting ${intent} URL for file ${fileId}:`, error);
+    throw error;
+  }
+};
+
+export const getWaveform = async (projectId: string, fileId: string): Promise<WaveformResponse> => {
+  try {
+    return await httpService.get(`${endpoint}/${projectId}/files/${fileId}/waveform`);
+  } catch (error) {
+    console.error(`Error getting waveform for file ${fileId}:`, error);
     throw error;
   }
 };
@@ -297,7 +340,7 @@ const uploadToR2 = (url: string, file: File, onProgress?: (progress: number) => 
 
 export const getMessages = async (
   projectId: string,
-  params?: { page?: number; limit?: number; since?: string }
+  params?: { page?: number; limit?: number; since?: string; fileId?: string }
 ): Promise<MessagesResponse> => {
   try {
     return await httpService.get(`${endpoint}/${projectId}/messages`, params);
@@ -310,17 +353,31 @@ export const getMessages = async (
 export const sendMessage = async (
   projectId: string,
   message: string,
-  options?: { attachmentIds?: string[]; fileId?: string; offsetSeconds?: number }
+  options?: { attachmentIds?: string[]; fileId?: string; offsetSeconds?: number; parentId?: string }
 ): Promise<ProjectMessage> => {
   try {
     return await httpService.post(`${endpoint}/${projectId}/messages`, {
       message,
       attachmentIds: options?.attachmentIds,
       fileId: options?.fileId,
-      offsetSeconds: options?.offsetSeconds
+      offsetSeconds: options?.offsetSeconds,
+      parentId: options?.parentId
     });
   } catch (error) {
     console.error(`Error sending message for project ${projectId}:`, error);
+    throw error;
+  }
+};
+
+export const setMessageResolved = async (
+  projectId: string,
+  messageId: string,
+  resolved: boolean
+): Promise<{ _id: string; resolvedAt: string | null }> => {
+  try {
+    return await httpService.patch(`${endpoint}/${projectId}/messages/${messageId}/resolve`, { resolved });
+  } catch (error) {
+    console.error(`Error updating resolved state for message ${messageId}:`, error);
     throw error;
   }
 };

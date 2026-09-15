@@ -1,0 +1,122 @@
+// Canvas waveform + scrub surface used by the remote project player and sticky bar.
+
+.waveform-scrubber {
+  --waveform-played: var(--color-brand);
+  --waveform-muted: var(--text-secondary);
+
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  // Keep the coordinate space LTR even on Hebrew pages so progress/markers line up.
+  direction: ltr;
+  border-radius: 0.25rem;
+  outline: none;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+
+  &--interactive {
+    cursor: pointer;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.45);
+  }
+
+  &__canvas {
+    display: block;
+    width: 100%;
+  }
+
+  // Zero-size probes: canvas reads their computed `color` to get concrete rgb() values.
+  &__probe {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    &--played {
+      color: var(--waveform-played);
+    }
+
+    &--muted {
+      color: var(--waveform-muted);
+    }
+  }
+
+  &__playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    margin-left: -0.5px;
+    background: var(--color-brand);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+  }
+
+  &--interactive:hover &__playhead,
+  &--interactive:focus-visible &__playhead {
+    opacity: 0.9;
+  }
+
+  &__hover {
+    position: absolute;
+    bottom: calc(100% + 0.25rem);
+    transform: translateX(-50%);
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.3rem;
+    background: var(--bg-elevated, var(--bg-secondary));
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    direction: ltr;
+  }
+
+  // Skeleton shimmer while the server generates peaks
+  &--loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--text-primary) 8%, transparent) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: waveform-shimmer 1.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes waveform-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveform-scrubber--loading::after {
+    animation: none;
+  }
+}

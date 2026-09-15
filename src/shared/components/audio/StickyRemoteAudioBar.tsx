@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { MessageSquarePlus, Pause, Play, X } from 'lucide-react';
 import {
   formatPlaybackTime,
-  rangeFillStyle,
   useAudioCueComment,
-  useHiFiAudioEngine
+  useHiFiAudioEngine,
+  useWaveform
 } from '@shared/audio';
 import { useProjectMessages } from '@shared/hooks';
 import { ScrubberCueMarkers } from './ScrubberCueMarkers';
+import { WaveformScrubber } from './WaveformScrubber';
 import './styles/_remote-audio-player.scss';
 
 const VISIBLE_STATUSES = new Set([
@@ -32,6 +33,13 @@ export const StickyRemoteAudioBar: FC = () => {
   const { messages } = useProjectMessages({
     projectId: showCues ? active?.containerId || '' : ''
   });
+  const waveform = useWaveform(
+    active?.library ?? 'project',
+    active?.containerId ?? '',
+    active?.fileId ?? '',
+    active?.fileName ?? '',
+    !!active
+  );
 
   const visible = !!active && VISIBLE_STATUSES.has(status);
   const isPlaying = status === 'playing';
@@ -60,8 +68,9 @@ export const StickyRemoteAudioBar: FC = () => {
 
   if (!visible || !active) return null;
 
-  const scrubberMax = Math.max(duration || 0, currentTime, 0.01);
-  const scrubberValue = Math.min(currentTime, scrubberMax);
+  const waveformDuration = waveform.durationMs ? waveform.durationMs / 1000 : 0;
+  const scrubberMax = Math.max(duration || 0, waveformDuration, currentTime, 0.01);
+  const progress = Math.min(1, currentTime / scrubberMax);
 
   return (
     <div
@@ -81,27 +90,20 @@ export const StickyRemoteAudioBar: FC = () => {
         </button>
 
         <div className="sticky-remote-audio-bar__transport">
-          <div className="remote-audio-player__scrubber-wrap">
-            <input
-              type="range"
-              className="remote-audio-player__range sticky-remote-audio-bar__scrubber"
-              min={0}
-              max={scrubberMax}
-              step={0.01}
-              value={scrubberValue}
-              disabled={scrubberMax <= 0}
-              style={rangeFillStyle(scrubberValue, scrubberMax)}
-              onChange={(e) => seek(Number(e.target.value))}
-              aria-label={t('audioPlayer.seek')}
-            />
-            {showCues && active && (
-              <ScrubberCueMarkers
-                fileId={active.fileId}
-                duration={scrubberMax}
-                messages={messages}
-              />
+          <WaveformScrubber
+            className="sticky-remote-audio-bar__waveform"
+            peaks={waveform.peaks}
+            loading={waveform.processing}
+            progress={progress}
+            duration={scrubberMax}
+            onSeek={(fraction) => seek(fraction * scrubberMax)}
+            ariaLabel={t('audioPlayer.seek')}
+            height={32}
+          >
+            {showCues && (
+              <ScrubberCueMarkers fileId={active.fileId} duration={scrubberMax} messages={messages} />
             )}
-          </div>
+          </WaveformScrubber>
           <div className="sticky-remote-audio-bar__time">
             <span>{formatPlaybackTime(currentTime)}</span>
             <span>/</span>

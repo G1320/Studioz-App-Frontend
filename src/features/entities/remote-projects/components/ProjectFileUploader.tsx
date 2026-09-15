@@ -1,10 +1,12 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Download, Loader2, Trash2 } from 'lucide-react';
+import { Download, Loader2, Lock, Trash2 } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { RemoteAudioPlayer } from '@shared/components/audio';
 import { useTranslation } from 'react-i18next';
 import { useUploadFileMutation, useDeleteFileMutation } from '@shared/hooks';
 import { useProjectFiles } from '@shared/hooks';
 import { useSocket } from '@core/contexts/SocketContext';
+import { useAudioCueComment, waveformQueryKey } from '@shared/audio';
 import { formatFileSize, getDownloadUrl } from '@shared/services';
 import { ProjectFileType, ProjectFile } from 'src/types/index';
 import {
@@ -13,6 +15,7 @@ import {
   REMOTE_PROJECT_MAX_FILES_PER_PROJECT,
   isPlayableAudioExtension
 } from '@shared/constants/remoteProjectFileLimits';
+import { TrackCommentThread } from './TrackCommentThread';
 import './styles/_project-file-uploader.scss';
 
 interface ProjectFileUploaderProps {
@@ -22,6 +25,12 @@ interface ProjectFileUploaderProps {
   maxFileSize?: number; // in MB
   maxFiles?: number;
   disabled?: boolean;
+  /** Downloads for this file group are locked for the current user (streaming still allowed). */
+  downloadsLocked?: boolean;
+  /** Needed to render per-track comment threads. Threads are hidden when omitted. */
+  currentUserId?: string;
+  canComment?: boolean;
+  canResolve?: boolean;
 }
 
 interface UploadProgress {
@@ -38,7 +47,11 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   acceptedTypes = [...REMOTE_PROJECT_ACCEPTED_FILE_TYPES],
   maxFileSize = REMOTE_PROJECT_MAX_FILE_SIZE_MB,
   maxFiles = REMOTE_PROJECT_MAX_FILES_PER_PROJECT,
-  disabled = false
+  disabled = false,
+  downloadsLocked = false,
+  currentUserId,
+  canComment = false,
+  canResolve = false
 }) => {
   const { t } = useTranslation('remoteProjects');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,6 +64,8 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const uploadMutation = useUploadFileMutation();
   const deleteMutation = useDeleteFileMutation();
   const socket = useSocket();
+  const queryClient = useQueryClient();
+  const cueComment = useAudioCueComment();
 
   useEffect(() => {
     if (!socket) return;
@@ -60,12 +75,21 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
         refetch();
       }
     };
+    const onWaveformReady = (payload: { projectId?: string; fileId?: string }) => {
+      if (payload?.projectId === projectId && payload.fileId) {
+        void queryClient.invalidateQueries({
+          queryKey: waveformQueryKey('project', projectId, payload.fileId)
+        });
+      }
+    };
 
     socket.on('project:files', onProjectFiles);
+    socket.on('project:waveform', onWaveformReady);
     return () => {
       socket.off('project:files', onProjectFiles);
+      socket.off('project:waveform', onWaveformReady);
     };
-  }, [socket, projectId, refetch]);
+  }, [socket, projectId, refetch, queryClient]);
 
   const handleDragOver = useCallback(
     (e: React.DragEvent) => {
@@ -149,20 +173,17 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     }
   };
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragging(false);
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
 
-      if (disabled) return;
+    if (disabled) return;
 
-      const { files } = e.dataTransfer;
-      if (files.length > 0) {
-        handleFiles(files);
-      }
-    },
-    [disabled]
-  );
+    const { files } = e.dataTransfer;
+    if (files.length > 0) {
+      void handleFiles(files);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -206,6 +227,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   };
 
   const handleDownloadFile = async (file: ProjectFile) => {
+    if (downloadsLocked) return;
     try {
       await downloadFileAsBlob(file);
     } catch (error) {
@@ -215,7 +237,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   };
 
   const handleDownloadAll = async () => {
-    if (files.length === 0) return;
+    if (files.length === 0 || downloadsLocked) return;
     setIsDownloadingAll(true);
     try {
       for (let i = 0; i < files.length; i++) {
@@ -254,9 +276,18 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
     revision: t('revisionFiles')
   }[fileType];
 
+  const showThreads = !!currentUserId;
+
   return (
     <div className="project-file-uploader">
       <h3 className="project-file-uploader__title">{fileTypeLabel}</h3>
+
+      {downloadsLocked && files.length > 0 && (
+        <div className="project-file-uploader__locked-banner" role="status">
+          <Lock size={14} aria-hidden />
+          <span>{t('downloadLock.customerBanner')}</span>
+        </div>
+      )}
 
       {/* Drop zone */}
       <div
@@ -323,11 +354,20 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                 type="button"
                 className="project-icon-action project-icon-action--download"
                 onClick={handleDownloadAll}
-                disabled={isDownloadingAll}
-                aria-label={isDownloadingAll ? t('common.processing') : t('downloadAll')}
+                disabled={isDownloadingAll || downloadsLocked}
+                aria-label={
+                  downloadsLocked
+                    ? t('downloadLock.locked')
+                    : isDownloadingAll
+                      ? t('common.processing')
+                      : t('downloadAll')
+                }
+                title={downloadsLocked ? t('downloadLock.locked') : undefined}
               >
                 {isDownloadingAll ? (
                   <Loader2 className="project-icon-action__spin" aria-hidden />
+                ) : downloadsLocked ? (
+                  <Lock aria-hidden />
                 ) : (
                   <Download aria-hidden />
                 )}
@@ -350,24 +390,17 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
             </div>
           </div>
           <ul className="project-file-uploader__file-list">
-          {files.map((file: ProjectFile) => (
+          {files.map((file: ProjectFile) => {
+            const playable = isPlayableAudioExtension(file.fileName);
+            const threadOpen = showThreads && playable && cueComment?.openThreadFileId === file._id;
+            return (
             <li
               key={file._id}
               className={`project-file-uploader__file-item${
-                isPlayableAudioExtension(file.fileName)
-                  ? ' project-file-uploader__file-item--with-player'
-                  : ''
+                playable ? ' project-file-uploader__file-item--with-player' : ''
               }`}
             >
               <div className="project-file-uploader__file-header">
-                {isPlayableAudioExtension(file.fileName) && (
-                  <RemoteAudioPlayer
-                    library="project"
-                    containerId={projectId}
-                    file={file}
-                    onDownload={() => handleDownloadFile(file)}
-                  />
-                )}
                 <div className="project-file-uploader__file-info">
                   <span className="project-file-uploader__file-name">{file.fileName}</span>
                   <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
@@ -377,9 +410,11 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                     type="button"
                     className="project-icon-action project-icon-action--download"
                     onClick={() => handleDownloadFile(file)}
-                    aria-label={t('download')}
+                    disabled={downloadsLocked}
+                    aria-label={downloadsLocked ? t('downloadLock.locked') : t('download')}
+                    title={downloadsLocked ? t('downloadLock.locked') : undefined}
                   >
-                    <Download aria-hidden />
+                    {downloadsLocked ? <Lock aria-hidden /> : <Download aria-hidden />}
                   </button>
                   {!disabled ? (
                     <button
@@ -393,9 +428,28 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
                     </button>
                   ) : null}
                 </div>
+                {playable && (
+                  <RemoteAudioPlayer
+                    library="project"
+                    containerId={projectId}
+                    file={file}
+                    onDownload={downloadsLocked ? undefined : () => handleDownloadFile(file)}
+                    showThreadToggle={showThreads}
+                  />
+                )}
               </div>
+              {threadOpen && currentUserId && (
+                <TrackCommentThread
+                  projectId={projectId}
+                  file={file}
+                  currentUserId={currentUserId}
+                  canComment={canComment}
+                  canResolve={canResolve}
+                />
+              )}
             </li>
-          ))}
+            );
+          })}
           </ul>
         </>
       ) : (

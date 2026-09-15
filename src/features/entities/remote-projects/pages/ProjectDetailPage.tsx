@@ -22,6 +22,7 @@ import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
 import { ProjectCollaborators } from '../components/ProjectCollaborators';
+import { DownloadLockControl } from '../components/DownloadLockControl';
 import { RemoteProject } from 'src/types/index';
 import './styles/_project-detail-page.scss';
 
@@ -41,6 +42,7 @@ export const ProjectDetailPage: React.FC = () => {
     project,
     fileCounts,
     access,
+    deliverablesLocked,
     isLoading,
     refetch
   } = useRemoteProject(projectId || '');
@@ -242,6 +244,14 @@ export const ProjectDetailPage: React.FC = () => {
   const canUploadDeliverable =
     canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
   const canEdit = canUpdateMetadata && !['completed', 'cancelled', 'declined'].includes(project.status);
+  const isClosed = ['completed', 'cancelled', 'declined'].includes(project.status);
+  // Customer-side users lose deliverable downloads while the vendor's lock is active.
+  const deliverableDownloadsLocked = access?.canDownloadDeliverables === false;
+  const canManageDownloadLock = access?.canManageDownloadLock ?? isPrimaryVendor;
+  // Track comments: anyone with access can comment while the project is open;
+  // resolving is a vendor-side review action.
+  const canComment = !isClosed;
+  const canResolve = isVendor && !isClosed;
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;
@@ -336,20 +346,39 @@ export const ProjectDetailPage: React.FC = () => {
               maxFileSize={typeof project.itemId === 'object' ? project.itemId.maxFileSize : undefined}
               maxFiles={typeof project.itemId === 'object' ? project.itemId.maxFilesPerProject : undefined}
               acceptedTypes={typeof project.itemId === 'object' ? project.itemId.acceptedFileTypes : undefined}
+              currentUserId={user?._id}
+              canComment={canComment}
+              canResolve={canResolve}
             />
           </section>
 
           {/* Deliverables (Vendor uploads) */}
           {((fileCounts?.deliverable ?? 0) > 0 || canUploadDeliverable) && (
             <section className="project-detail__section">
-              <ProjectFileUploader projectId={projectId} fileType="deliverable" disabled={!canUploadDeliverable} />
+              <ProjectFileUploader
+                projectId={projectId}
+                fileType="deliverable"
+                disabled={!canUploadDeliverable}
+                downloadsLocked={deliverableDownloadsLocked}
+                currentUserId={user?._id}
+                canComment={canComment}
+                canResolve={canResolve}
+              />
             </section>
           )}
 
           {/* Revision Files */}
           {((fileCounts?.revision ?? 0) > 0 || (canUploadDeliverable && project.revisionsUsed > 0)) && (
             <section className="project-detail__section">
-              <ProjectFileUploader projectId={projectId} fileType="revision" disabled={!canUploadDeliverable} />
+              <ProjectFileUploader
+                projectId={projectId}
+                fileType="revision"
+                disabled={!canUploadDeliverable}
+                downloadsLocked={deliverableDownloadsLocked}
+                currentUserId={user?._id}
+                canComment={canComment}
+                canResolve={canResolve}
+              />
             </section>
           )}
         </div>
@@ -406,6 +435,13 @@ export const ProjectDetailPage: React.FC = () => {
               <p className="project-detail__no-actions">{t('noActions')}</p>
             )}
           </section>
+
+          {/* Deliverable download lock (vendor) */}
+          {canManageDownloadLock && !['requested', 'declined', 'cancelled'].includes(project.status) && (
+            <section className="project-detail__section">
+              <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
+            </section>
+          )}
 
           {/* Chat */}
           {user && (

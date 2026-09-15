@@ -355,7 +355,8 @@ export const itemStep5RemoteSchema = z.object({
     revisionPrice: z.preprocess(
       (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
       z.number().min(0).optional()
-    )
+    ),
+    lockDownloadsUntilPaid: z.boolean().optional()
   }).optional(),
   acceptedFileTypes: z.array(z.string()).optional(),
   maxFileSize: z.preprocess(

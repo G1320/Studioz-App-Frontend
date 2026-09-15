@@ -19,6 +19,7 @@ export const useRemoteProject = (projectId: string) => {
     project: data?.project,
     fileCounts: data?.fileCounts,
     access: data?.access,
+    deliverablesLocked: data?.deliverablesLocked ?? false,
     isLoading,
     error,
     refetch,

@@ -569,7 +569,9 @@
         "deliveryDays": "Delivery Time",
         "days": "days",
         "revisions": "Revisions Included",
-        "revisionPrice": "Extra Revision Price"
+        "revisionPrice": "Extra Revision Price",
+        "lockDownloads": "Lock deliverable downloads until approval",
+        "lockDownloadsDesc": "Customers can stream and comment on deliverables, but can only download once the project is completed and paid — or when you release them."
       },
       "fileSettings": {
         "title": "File Upload Settings",

@@ -1,16 +1,19 @@
 import { useCallback, useMemo, useRef, type FC, type KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MessageSquarePlus, Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import { MessageSquare, MessageSquarePlus, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import {
+  buildTrackThread,
   rangeFillStyle,
   resolvePlaybackCapability,
   useAudioMeta,
   useAudioCueComment,
-  useHiFiAudioEngine
+  useHiFiAudioEngine,
+  useWaveform
 } from '@shared/audio';
 import { formatPlaybackTime } from '@shared/audio/formatPlaybackTime';
 import { useProjectMessages } from '@shared/hooks';
 import { ScrubberCueMarkers } from './ScrubberCueMarkers';
+import { WaveformScrubber } from './WaveformScrubber';
 import './styles/_remote-audio-player.scss';
 
 interface PlayableRemoteFile {
@@ -26,7 +29,13 @@ interface RemoteAudioPlayerProps {
   file: PlayableRemoteFile;
   onDownload?: () => void;
   enableCues?: boolean;
+  /**
+   * `full`: waveform + transport, always visible (remote project file rows).
+   * `compact`: play button only (portfolio tiles; the sticky bar owns transport).
+   */
   layout?: 'full' | 'compact';
+  /** Show the per-track comment thread toggle in the footer. */
+  showThreadToggle?: boolean;
 }
 
 function formatFidelity(
@@ -55,7 +64,8 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   file,
   onDownload,
   enableCues = library === 'project',
-  layout = 'full'
+  layout = 'full',
+  showThreadToggle = library === 'project'
 }) => {
   const { t } = useTranslation('remoteProjects');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -73,20 +83,27 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     muted,
     error,
     togglePlayPause,
+    playAt,
     seek,
     setVolume,
     setMuted
   } = useHiFiAudioEngine();
 
-  // Selected = this file owns the engine (playing or paused) — keep full transport visible
+  // Selected = this file owns the engine (playing or paused)
   const isSelected = active?.fileId === file._id && active?.containerId === containerId && active?.library === library;
   const isPlaying = isSelected && status === 'playing';
   const isBusy =
     isSelected && (status === 'loading_url' || status === 'decoding' || status === 'buffering');
 
   const { data: meta } = useAudioMeta(library, containerId, file._id, file.fileName, isSelected);
+  const waveform = useWaveform(library, containerId, file._id, file.fileName, layout === 'full');
   const { messages } = useProjectMessages({ projectId: enableCues ? containerId : '' });
   const cueComment = useAudioCueComment();
+
+  const thread = useMemo(
+    () => (enableCues ? buildTrackThread(messages, file._id) : null),
+    [enableCues, messages, file._id]
+  );
 
   const track = useMemo(
     () => ({
@@ -100,23 +117,44 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     [library, containerId, file._id, file.fileName, file.mimeType, file.fileSize]
   );
 
-  const engineDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+  const engineDuration = isSelected && Number.isFinite(duration) && duration > 0 ? duration : 0;
   const metaDuration = meta?.durationMs ? meta.durationMs / 1000 : 0;
-  // Prefer the media element's duration once known; fall back to header meta.
-  // If playback has already passed a stale meta estimate, grow the scrubber with currentTime.
+  const waveformDuration = waveform.durationMs ? waveform.durationMs / 1000 : 0;
+  const shownTime = isSelected ? currentTime : 0;
+  // Prefer the media element's duration once known; fall back to server-side estimates.
   const displayDuration =
-    engineDuration || (metaDuration > 0 ? Math.max(metaDuration, currentTime) : currentTime);
+    engineDuration ||
+    (metaDuration > 0 ? Math.max(metaDuration, shownTime) : 0) ||
+    (waveformDuration > 0 ? Math.max(waveformDuration, shownTime) : shownTime);
   const scrubberMax = Math.max(displayDuration, 0.01);
+  const progress = displayDuration > 0 ? Math.min(1, shownTime / displayDuration) : 0;
+
+  const playDisabled =
+    capability.strategy === 'unsupported' || capability.strategy === 'download_only';
 
   const handlePlayPause = useCallback(() => {
-    if (capability.strategy === 'download_only' || capability.strategy === 'unsupported') {
-      return;
-    }
+    if (playDisabled) return;
     void togglePlayPause(track);
-  }, [capability.strategy, togglePlayPause, track]);
+  }, [playDisabled, togglePlayPause, track]);
+
+  const handleSeekFraction = useCallback(
+    (fraction: number) => {
+      if (playDisabled) return;
+      const target = fraction * displayDuration;
+      if (isSelected && status !== 'error') {
+        seek(target);
+        return;
+      }
+      // Not loaded yet: start playback from the clicked position.
+      void playAt(track, displayDuration > 0 ? target : 0);
+    },
+    [playDisabled, displayDuration, isSelected, status, seek, playAt, track]
+  );
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      // Let the waveform slider own arrow keys when it has focus.
+      if (e.target !== e.currentTarget) return;
       if (e.code === 'Space') {
         e.preventDefault();
         handlePlayPause();
@@ -149,9 +187,6 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     return null;
   }, [capability.strategy, isSelected, status, error, t]);
 
-  const playDisabled =
-    capability.strategy === 'unsupported' || capability.strategy === 'download_only';
-
   const fidelityLabel = formatFidelity(
     meta?.codec,
     meta?.sampleRate,
@@ -161,7 +196,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   );
 
   // Compact: play/pause only — used on portfolio tiles (sticky bar owns transport)
-  if (!isSelected || layout === 'compact') {
+  if (layout === 'compact') {
     return (
       <div
         ref={rootRef}
@@ -195,10 +230,16 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     );
   }
 
+  const threadOpen = cueComment?.openThreadFileId === file._id;
+  const commentCount = thread?.total ?? 0;
+  const openCount = thread?.openCount ?? 0;
+
   return (
     <div
       ref={rootRef}
-      className="remote-audio-player remote-audio-player--expanded remote-audio-player--active"
+      className={`remote-audio-player remote-audio-player--waveform${
+        isSelected ? ' remote-audio-player--active' : ''
+      }`}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       role="group"
@@ -215,73 +256,106 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           {isPlaying ? <Pause size={24} /> : <Play size={24} />}
         </button>
 
-        <div className="remote-audio-player__scrubber-wrap">
-          <input
-            type="range"
-            className="remote-audio-player__range remote-audio-player__scrubber"
-            min={0}
-            max={scrubberMax}
-            step={0.01}
-            value={Math.min(currentTime, scrubberMax)}
-            disabled={scrubberMax <= 0}
-            style={rangeFillStyle(Math.min(currentTime, scrubberMax), scrubberMax)}
-            onChange={(e) => seek(Number(e.target.value))}
-            aria-label={t('audioPlayer.seek')}
-          />
-          {enableCues && <ScrubberCueMarkers fileId={file._id} duration={scrubberMax} messages={messages} />}
-        </div>
+        <WaveformScrubber
+          className="remote-audio-player__waveform"
+          peaks={waveform.peaks}
+          loading={waveform.processing}
+          progress={progress}
+          duration={displayDuration}
+          onSeek={playDisabled ? undefined : handleSeekFraction}
+          ariaLabel={t('audioPlayer.seek')}
+          height={44}
+        >
+          {enableCues && (
+            <ScrubberCueMarkers fileId={file._id} duration={scrubberMax} messages={messages} />
+          )}
+        </WaveformScrubber>
 
-        <div className="remote-audio-player__volume">
-          <button
-            type="button"
-            className="remote-audio-player__mute"
-            onClick={() => setMuted(!muted)}
-            aria-label={muted ? t('audioPlayer.unmute') : t('audioPlayer.mute')}
-          >
-            {muted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
-          </button>
-          <input
-            type="range"
-            className="remote-audio-player__range remote-audio-player__volume-slider"
-            min={0}
-            max={1}
-            step={0.01}
-            value={muted ? 0 : volume}
-            style={rangeFillStyle(muted ? 0 : volume, 1)}
-            onChange={(e) => {
-              const v = Number(e.target.value);
-              setVolume(v);
-              if (v > 0 && muted) setMuted(false);
-            }}
-            aria-label={t('audioPlayer.volume')}
-          />
-        </div>
+        {isSelected && (
+          <div className="remote-audio-player__volume">
+            <button
+              type="button"
+              className="remote-audio-player__mute"
+              onClick={() => setMuted(!muted)}
+              aria-label={muted ? t('audioPlayer.unmute') : t('audioPlayer.mute')}
+            >
+              {muted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
+            </button>
+            <input
+              type="range"
+              className="remote-audio-player__range remote-audio-player__volume-slider"
+              min={0}
+              max={1}
+              step={0.01}
+              value={muted ? 0 : volume}
+              style={rangeFillStyle(muted ? 0 : volume, 1)}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                setVolume(v);
+                if (v > 0 && muted) setMuted(false);
+              }}
+              aria-label={t('audioPlayer.volume')}
+            />
+          </div>
+        )}
       </div>
 
       <div className="remote-audio-player__footer">
         <div className="remote-audio-player__time">
-          <span>{formatPlaybackTime(currentTime)}</span>
+          <span>{formatPlaybackTime(shownTime)}</span>
           <span>/</span>
-          <span>{formatPlaybackTime(displayDuration)}</span>
+          <span>{displayDuration > 0 ? formatPlaybackTime(displayDuration) : '--:--'}</span>
         </div>
         <span className="remote-audio-player__fidelity">{fidelityLabel}</span>
+        {waveform.processing && (
+          <span className="remote-audio-player__status">{t('audioPlayer.analyzing')}</span>
+        )}
         {statusMessage && <span className="remote-audio-player__status">{statusMessage}</span>}
-        {enableCues && cueComment && (
-          <button
-            type="button"
-            className="remote-audio-player__comment"
-            onClick={() =>
-              cueComment.beginCueComment({
-                ...track,
-                offsetSeconds: currentTime
-              })
-            }
-            aria-label={t('audioPlayer.commentAtTime', { time: formatPlaybackTime(currentTime) })}
-          >
-            <MessageSquarePlus size={14} />
-            {t('audioPlayer.commentAt', { time: formatPlaybackTime(currentTime) })}
+        {capability.strategy === 'download_only' && onDownload && (
+          <button type="button" className="remote-audio-player__link" onClick={onDownload}>
+            {t('download')}
           </button>
         )}
+
+        <div className="remote-audio-player__footer-actions">
+          {showThreadToggle && cueComment && (
+            <button
+              type="button"
+              className={`remote-audio-player__thread-toggle${
+                threadOpen ? ' remote-audio-player__thread-toggle--open' : ''
+              }`}
+              onClick={() => cueComment.toggleThread(file._id)}
+              aria-expanded={threadOpen}
+              aria-label={t('trackComments.toggle', { count: commentCount })}
+            >
+              <MessageSquare size={14} />
+              <span>
+                {commentCount > 0
+                  ? t('trackComments.count', { count: commentCount })
+                  : t('trackComments.empty')}
+              </span>
+              {openCount > 0 && commentCount !== openCount && (
+                <span className="remote-audio-player__thread-open">{t('trackComments.open', { count: openCount })}</span>
+              )}
+            </button>
+          )}
+          {enableCues && cueComment && isSelected && (
+            <button
+              type="button"
+              className="remote-audio-player__comment"
+              onClick={() =>
+                cueComment.beginCueComment({
+                  ...track,
+                  offsetSeconds: currentTime
+                })
+              }
+              aria-label={t('audioPlayer.commentAtTime', { time: formatPlaybackTime(currentTime) })}
+            >
+              <MessageSquarePlus size={14} />
+              {t('audioPlayer.commentAt', { time: formatPlaybackTime(currentTime) })}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

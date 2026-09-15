@@ -154,6 +154,7 @@ export const EditItemForm = () => {
     estimatedDeliveryDays?: number;
     revisionsIncluded?: number;
     revisionPrice?: number;
+    lockDownloadsUntilPaid?: boolean;
   }>(
     item?.projectPricing || {
       depositPercentage: 50,
@@ -843,6 +844,41 @@ export const EditItemForm = () => {
             </div>
           </div>
 
+          {/* Download lock default */}
+          <div className="remote-settings-step__toggle-section remote-settings-step__toggle-section--compact">
+            <div className="remote-settings-step__toggle-header">
+              <div className="remote-settings-step__toggle-info">
+                <p className="remote-settings-step__toggle-title">
+                  {t('form.remoteSettings.projectPricing.lockDownloads', {
+                    defaultValue: 'Lock deliverable downloads until approval'
+                  })}
+                </p>
+                <p className="remote-settings-step__toggle-description">
+                  {t('form.remoteSettings.projectPricing.lockDownloadsDesc', {
+                    defaultValue:
+                      'Customers can stream and comment on deliverables, but can only download once the project is completed and paid — or when you release them.'
+                  })}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={!!projectPricing.lockDownloadsUntilPaid}
+              className={`remote-settings-step__toggle-btn${
+                projectPricing.lockDownloadsUntilPaid ? ' remote-settings-step__toggle-btn--active' : ''
+              }`}
+              onClick={() =>
+                setProjectPricing((prev) => ({
+                  ...prev,
+                  lockDownloadsUntilPaid: !prev.lockDownloadsUntilPaid
+                }))
+              }
+            >
+              <span className="remote-settings-step__toggle-slider" />
+            </button>
+          </div>
+
         </div>
 
         {/* Info Box */}
@@ -1175,7 +1211,8 @@ export const EditItemForm = () => {
         projectPricing.basePrice ||
         projectPricing.depositPercentage ||
         projectPricing.estimatedDeliveryDays ||
-        projectPricing.revisionsIncluded;
+        projectPricing.revisionsIncluded ||
+        projectPricing.lockDownloadsUntilPaid;
       if (hasProjectPricing) {
         formData.projectPricing = projectPricing;
       }

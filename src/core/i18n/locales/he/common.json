@@ -245,6 +245,9 @@
   "currentlyUnavailable": "לא זמין כרגע",
   "toasts": {
     "success": {
+      "downloadsLocked": "ההורדות ננעלו עד לאישור",
+      "downloadsUnlocked": "ההורדות נפתחו",
+      "downloadsReleased": "ההורדות שוחררו ללקוח",
       "itemUpdated": "הפריט עודכן בהצלחה",
       "itemCreated": "הפריט נוצר בהצלחה",
       "itemDeleted": "הפריט נמחק בהצלחה",

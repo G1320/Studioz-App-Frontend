@@ -37,6 +37,15 @@
     }
   }
 
+  &__track-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--text-secondary);
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+
   // Messages Container
   &__messages {
     flex: 1;
