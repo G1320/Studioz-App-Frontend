@@ -144,6 +144,7 @@
     "replyingTo": "Replying to {{name}}",
     "replyPlaceholder": "Reply to {{name}}…",
     "placeholder": "Add a comment on this track…",
+    "jumpToTime": "Jump to {{time}}",
     "chatHint_one": "{{count}} track comment lives under its file",
     "chatHint_other": "{{count}} track comments live under their files",
     "chatHintTitle": "Time-coded comments are shown in each track's thread, not here.",
@@ -151,12 +152,12 @@
   },
 
   "downloadLock": {
-    "title": "Deliverable downloads",
-    "hint": "While locked, the customer can stream and comment on deliverables but cannot download them. The lock lifts automatically when the project is completed and paid.",
+    "title": "Customer deliverable downloads",
+    "hint": "This controls customer downloads for every deliverable and revision file. Your studio can always download its own files. The lock lifts automatically when the project is completed or fully paid.",
     "toggle": "Lock downloads until approval / payment",
     "releaseNow": "Release downloads now",
-    "locked": "Downloads are locked until the project is approved and paid",
-    "customerBanner": "Downloads unlock once the project is approved and paid. You can stream and comment in the meantime.",
+    "locked": "Customer downloads are locked until the project is approved or paid",
+    "customerBanner": "Downloads unlock once the project is approved or fully paid. You can stream and comment in the meantime.",
     "status": {
       "off": "Off — customer can download anytime",
       "locked": "Locked — customer can stream only",

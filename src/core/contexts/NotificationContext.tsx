@@ -98,6 +98,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
       if (!updated) {
         queryClient.invalidateQueries({ queryKey: ['notifications', userId] });
       }
+      queryClient.invalidateQueries({ queryKey: ['notifications-page', userId] });
 
       queryClient.setQueryData(['notificationCount', userId], (old: { count: number } = { count: 0 }) => {
         return { count: old.count + 1 };

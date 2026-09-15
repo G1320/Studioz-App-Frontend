@@ -169,7 +169,10 @@
     },
     "messages": {
       "reservationBooked": "{{name}} booked {{item}} on {{date}} at {{time}}",
-      "newRemoteProject": "{{customerName}} submitted a project request for {{projectTitle}}"
+      "newRemoteProject": "{{customerName}} submitted a project request for {{projectTitle}}",
+      "projectChatMessage": "{{senderName}}: {{message}}",
+      "projectTrackComment": "{{senderName}} commented on {{fileName}}: {{message}}",
+      "projectCommentReply": "{{senderName}} replied on {{fileName}}: {{message}}"
     },
     "page": {
       "title": "Notifications",
@@ -185,6 +188,11 @@
       "billing": "Billing",
       "system": "System",
       "activity": "Activity"
+    },
+    "filters": {
+      "project_chat": "Project chat",
+      "track_comments": "Track comments",
+      "comment_replies": "Comment replies"
     },
     "prefs": {
       "emailNotifications": "Email notifications",
@@ -217,6 +225,9 @@
       "weekly_summary": "Weekly Summary",
       "customer_message": "New Message",
       "new_remote_project": "New Project Request",
+      "project_chat_message": "New Project Message",
+      "project_track_comment": "New Track Comment",
+      "project_comment_reply": "New Comment Reply",
       "availability_alert": "Availability Alert",
       "system_alert": "System Alert"
     }

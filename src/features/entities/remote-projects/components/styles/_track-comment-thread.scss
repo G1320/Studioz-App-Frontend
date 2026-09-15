@@ -168,11 +168,32 @@
   }
 
   &__body {
+    padding: 0;
+    border: 0;
+    background: transparent;
     color: var(--text-primary);
+    font-family: inherit;
     font-size: 0.8rem;
     line-height: 1.45;
+    text-align: start;
     white-space: pre-wrap;
     word-break: break-word;
+
+    &--jump {
+      cursor: pointer;
+
+      &:hover {
+        color: var(--color-brand-text);
+        text-decoration: underline;
+        text-underline-offset: 0.15rem;
+      }
+
+      &:focus-visible {
+        border-radius: 0.2rem;
+        outline: 2px solid var(--color-brand);
+        outline-offset: 2px;
+      }
+    }
   }
 
   &__message-actions {

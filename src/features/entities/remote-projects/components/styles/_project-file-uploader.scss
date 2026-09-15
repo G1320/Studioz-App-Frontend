@@ -334,7 +334,9 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 0.125rem;
+    text-align: start;
   }
 
   &__file-name {

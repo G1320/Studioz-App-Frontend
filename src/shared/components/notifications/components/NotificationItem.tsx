@@ -51,7 +51,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     }
     // Try to extract from actionUrl if it's a reservation URL
     if (notification.actionUrl?.includes('/reservations/')) {
-      const match = notification.actionUrl.match(/\/reservations\/([^\/]+)/);
+      const match = notification.actionUrl.match(/\/reservations\/([^/]+)/);
       return match ? match[1] : null;
     }
     return null;
@@ -134,6 +134,12 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
         return <EmailIcon style={glow('#60a5fa', '96,165,250')} />;
       case 'new_remote_project':
         return <NotificationIcon style={glow('#a78bfa', '167,139,250')} />;
+      case 'project_chat_message':
+        return <EmailIcon style={glow('#60a5fa', '96,165,250')} />;
+      case 'project_track_comment':
+        return <NotificationIcon style={glow('#ffd166', '255,209,102')} />;
+      case 'project_comment_reply':
+        return <EditIcon style={glow('#a78bfa', '167,139,250')} />;
       case 'availability_alert':
         return <NotificationIcon style={glow('#f59e0b', '245,158,11')} />;
 
@@ -189,6 +195,24 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
         projectTitle:
           projectTitle ||
           t('notifications.fallbacks.remoteProjectTitle', { defaultValue: 'Untitled project' }),
+        defaultValue: notification.message
+      });
+    }
+
+    if (
+      notification.type === 'project_chat_message' ||
+      notification.type === 'project_track_comment' ||
+      notification.type === 'project_comment_reply'
+    ) {
+      const messageKey = {
+        project_chat_message: 'projectChatMessage',
+        project_track_comment: 'projectTrackComment',
+        project_comment_reply: 'projectCommentReply'
+      }[notification.type];
+      return t(`notifications.messages.${messageKey}`, {
+        senderName: notification.data?.senderName || '',
+        fileName: notification.data?.fileName || '',
+        message: notification.data?.messagePreview || notification.message,
         defaultValue: notification.message
       });
     }

@@ -62,6 +62,26 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
     }
   }, [pendingCue]);
 
+  useEffect(() => {
+    const messageId = cueComment?.highlightedMessageId;
+    if (!messageId) return;
+    const target = messages.find((message) => message._id === messageId);
+    if (!target) return;
+    const root = target.parentId
+      ? messages.find((message) => message._id === String(target.parentId))
+      : target;
+    if (root?.resolvedAt && !showResolved) {
+      setShowResolved(true);
+      return;
+    }
+    requestAnimationFrame(() => {
+      document.getElementById(messageDomId(messageId))?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    });
+  }, [cueComment?.highlightedMessageId, messages, showResolved]);
+
   const visibleRoots = showResolved ? thread.roots : thread.roots.filter((r) => !r.resolvedAt);
   const resolvedCount = thread.roots.length - thread.openCount;
 
@@ -89,13 +109,16 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
     e.preventDefault();
     const text = draft.trim();
     if (!text || !canComment || sendMutation.isPending) return;
+    const offsetSeconds = replyTo
+      ? replyTo.offsetSeconds
+      : pendingCue?.offsetSeconds ?? (isActiveTrack ? currentTime : 0);
     try {
       await sendMutation.mutateAsync({
         projectId,
         message: text,
         fileId: file._id,
         parentId: replyTo?._id,
-        offsetSeconds: replyTo ? undefined : pendingCue?.offsetSeconds
+        offsetSeconds
       });
       setDraft('');
       setReplyTo(null);
@@ -151,7 +174,20 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
             </span>
           )}
         </div>
-        <div className="track-thread__body">{msg.message}</div>
+        {isTimedComment(msg) ? (
+          <button
+            type="button"
+            className="track-thread__body track-thread__body--jump"
+            onClick={() => jumpTo(msg)}
+            title={t('trackComments.jumpToTime', {
+              time: formatPlaybackTime(msg.offsetSeconds ?? 0)
+            })}
+          >
+            {msg.message}
+          </button>
+        ) : (
+          <div className="track-thread__body">{msg.message}</div>
+        )}
         {!isReply && (
           <div className="track-thread__message-actions">
             {canComment && (

@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Pencil, Plus, X } from 'lucide-react';
 import { Button } from '@shared/components';
 import { StickyRemoteAudioBar } from '@shared/components/audio';
@@ -17,7 +17,7 @@ import {
   useCancelProjectMutation,
   useUpdateProjectMutation
 } from '@shared/hooks';
-import { hiFiAudioEngine, AudioCueCommentProvider } from '@shared/audio';
+import { hiFiAudioEngine, AudioCueCommentProvider, useAudioCueComment } from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
@@ -25,6 +25,24 @@ import { ProjectCollaborators } from '../components/ProjectCollaborators';
 import { DownloadLockControl } from '../components/DownloadLockControl';
 import { RemoteProject } from 'src/types/index';
 import './styles/_project-detail-page.scss';
+
+const ProjectNotificationDeepLink: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const cueComment = useAudioCueComment();
+  const handledRef = useRef('');
+  const messageId = searchParams.get('messageId');
+  const fileId = searchParams.get('fileId');
+
+  useEffect(() => {
+    if (!messageId || !cueComment) return;
+    const key = `${messageId}:${fileId || ''}`;
+    if (handledRef.current === key) return;
+    handledRef.current = key;
+    cueComment.highlightMessage(messageId, fileId);
+  }, [messageId, fileId, cueComment]);
+
+  return null;
+};
 
 export const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -267,6 +285,7 @@ export const ProjectDetailPage: React.FC = () => {
 
   return (
     <AudioCueCommentProvider>
+    <ProjectNotificationDeepLink />
     <div className="project-detail">
       <div className="project-detail__header">
         <button className="project-detail__back" onClick={() => navigate(-1)} aria-label={t('common.goBack')}>
@@ -310,7 +329,7 @@ export const ProjectDetailPage: React.FC = () => {
               )}
               <div className="project-detail__info-item">
                 <span className="project-detail__info-label">{t('revisions')}</span>
-                <span className="project-detail__info-value">
+                <span className="project-detail__info-value" dir="ltr">
                   {project.revisionsUsed} / {project.revisionsIncluded}
                 </span>
               </div>
@@ -336,6 +355,13 @@ export const ProjectDetailPage: React.FC = () => {
               </div>
             )}
           </section>
+
+          {/* Keep download access visible beside the files it controls. */}
+          {canManageDownloadLock && !isClosed && (
+            <section className="project-detail__section">
+              <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
+            </section>
+          )}
 
           {/* Source Files (Customer uploads) */}
           <section className="project-detail__section">
@@ -435,13 +461,6 @@ export const ProjectDetailPage: React.FC = () => {
               <p className="project-detail__no-actions">{t('noActions')}</p>
             )}
           </section>
-
-          {/* Deliverable download lock (vendor) */}
-          {canManageDownloadLock && !['requested', 'declined', 'cancelled'].includes(project.status) && (
-            <section className="project-detail__section">
-              <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
-            </section>
-          )}
 
           {/* Chat */}
           {user && (

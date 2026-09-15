@@ -1,5 +1,5 @@
 import { httpService } from './http-service';
-import Notification, { NotificationCategory } from '@appTypes/notification';
+import Notification, { NotificationCategory, NotificationType } from '@appTypes/notification';
 
 // ==========================================
 // Notification Preferences Types
@@ -41,6 +41,7 @@ const notificationEndpoint = '/notifications';
 export const getNotifications = async (options?: {
   read?: boolean;
   category?: NotificationCategory;
+  types?: NotificationType[];
   limit?: number;
   offset?: number;
   cursor?: string;
@@ -52,6 +53,9 @@ export const getNotifications = async (options?: {
     }
     if (options?.category) {
       params.append('category', options.category);
+    }
+    if (options?.types?.length) {
+      params.append('type', options.types.join(','));
     }
     if (options?.limit) {
       params.append('limit', options.limit.toString());

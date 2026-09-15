@@ -4,23 +4,54 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useUserContext } from '@core/contexts/UserContext';
 import { useNotificationContext } from '@core/contexts/NotificationContext';
 import { getNotifications } from '@shared/services/notification-service';
-import Notification, { NotificationCategory, NOTIFICATION_CATEGORIES, getNotificationCategory } from '@appTypes/notification';
+import Notification, {
+  NotificationCategory,
+  NotificationType,
+  NOTIFICATION_CATEGORIES
+} from '@appTypes/notification';
 import { NotificationItem } from '@shared/components/notifications/components/NotificationItem';
 import '../styles/notifications-page.scss';
 
 const ITEMS_PER_PAGE = 20;
 
+type NotificationFilter =
+  | 'all'
+  | NotificationCategory
+  | 'project_chat'
+  | 'track_comments'
+  | 'comment_replies';
+
+const PROJECT_MESSAGE_FILTERS: Array<{
+  key: Exclude<NotificationFilter, 'all' | NotificationCategory>;
+  types: NotificationType[];
+}> = [
+  { key: 'project_chat', types: ['project_chat_message'] },
+  { key: 'track_comments', types: ['project_track_comment'] },
+  { key: 'comment_replies', types: ['project_comment_reply'] }
+];
+
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('common');
   const { user } = useUserContext();
   const { markAllAsRead, deleteAllRead } = useNotificationContext();
-  const [activeCategory, setActiveCategory] = useState<NotificationCategory | 'all'>('all');
+  const [activeFilter, setActiveFilter] = useState<NotificationFilter>('all');
   const observerRef = useRef<IntersectionObserver | null>(null);
 
+  const requestFilter = useMemo(() => {
+    const projectFilter = PROJECT_MESSAGE_FILTERS.find(({ key }) => key === activeFilter);
+    if (projectFilter) return { types: projectFilter.types };
+    if (activeFilter !== 'all') return { category: activeFilter as NotificationCategory };
+    return {};
+  }, [activeFilter]);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['notifications-page', user?._id],
+    queryKey: ['notifications-page', user?._id, activeFilter],
     queryFn: ({ pageParam }) =>
-      getNotifications({ limit: ITEMS_PER_PAGE, cursor: pageParam as string | undefined }),
+      getNotifications({
+        ...requestFilter,
+        limit: ITEMS_PER_PAGE,
+        cursor: pageParam as string | undefined
+      }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => {
       if (lastPage.length < ITEMS_PER_PAGE) return undefined;
@@ -30,12 +61,7 @@ const NotificationsPage: React.FC = () => {
     enabled: !!user?._id
   });
 
-  const allNotifications = useMemo(() => data?.pages.flat() ?? [], [data]);
-
-  const notifications = useMemo(() => {
-    if (activeCategory === 'all') return allNotifications;
-    return allNotifications.filter((n) => getNotificationCategory(n) === activeCategory);
-  }, [allNotifications, activeCategory]);
+  const notifications = useMemo(() => data?.pages.flat() ?? [], [data]);
 
   const lastItemRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -85,18 +111,27 @@ const NotificationsPage: React.FC = () => {
 
         <div className="notifications-page__filters">
           <button
-            className={`notifications-page__filter ${activeCategory === 'all' ? 'notifications-page__filter--active' : ''}`}
-            onClick={() => setActiveCategory('all')}
+            className={`notifications-page__filter ${activeFilter === 'all' ? 'notifications-page__filter--active' : ''}`}
+            onClick={() => setActiveFilter('all')}
           >
             {t('notifications.categories.all', 'All')}
           </button>
           {NOTIFICATION_CATEGORIES.map(({ key }) => (
             <button
               key={key}
-              className={`notifications-page__filter ${activeCategory === key ? 'notifications-page__filter--active' : ''}`}
-              onClick={() => setActiveCategory(key)}
+              className={`notifications-page__filter ${activeFilter === key ? 'notifications-page__filter--active' : ''}`}
+              onClick={() => setActiveFilter(key)}
             >
               {t(`notifications.categories.${key}`, key)}
+            </button>
+          ))}
+          {PROJECT_MESSAGE_FILTERS.map(({ key }) => (
+            <button
+              key={key}
+              className={`notifications-page__filter ${activeFilter === key ? 'notifications-page__filter--active' : ''}`}
+              onClick={() => setActiveFilter(key)}
+            >
+              {t(`notifications.filters.${key}`, key)}
             </button>
           ))}
         </div>
@@ -108,7 +143,7 @@ const NotificationsPage: React.FC = () => {
             <div className="notifications-page__empty">
               <span className="notifications-page__empty-icon">🔔</span>
               <p>{t('notifications.page.empty', 'No notifications yet')}</p>
-              {activeCategory !== 'all' && (
+              {activeFilter !== 'all' && (
                 <p className="notifications-page__empty-hint">
                   {t('notifications.page.emptyFilter', 'Try selecting a different category')}
                 </p>

@@ -64,6 +64,17 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   }, [messages]);
 
   useEffect(() => {
+    const messageId = cueComment?.highlightedMessageId;
+    if (!messageId || !messages.some((message) => message._id === messageId)) return;
+    requestAnimationFrame(() => {
+      document.getElementById(`project-message-${messageId}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    });
+  }, [cueComment?.highlightedMessageId, messages]);
+
+  useEffect(() => {
     if (allMessages.length > 0) {
       const unreadMessages = allMessages.filter(
         (msg: ProjectMessage) => !msg.readAt && getSenderId(msg.senderId) !== currentUserId

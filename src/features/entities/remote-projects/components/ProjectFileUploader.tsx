@@ -347,48 +347,50 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
         <div className="project-file-uploader__loading">{t('common.loading')}</div>
       ) : files.length > 0 ? (
         <>
-          <div className="project-file-uploader__toolbar">
-            <span className="project-file-uploader__toolbar-label">{t('bulkActionsLabel')}</span>
-            <div className="project-file-uploader__toolbar-actions">
-              <button
-                type="button"
-                className="project-icon-action project-icon-action--download"
-                onClick={handleDownloadAll}
-                disabled={isDownloadingAll || downloadsLocked}
-                aria-label={
-                  downloadsLocked
-                    ? t('downloadLock.locked')
-                    : isDownloadingAll
-                      ? t('common.processing')
-                      : t('downloadAll')
-                }
-                title={downloadsLocked ? t('downloadLock.locked') : undefined}
-              >
-                {isDownloadingAll ? (
-                  <Loader2 className="project-icon-action__spin" aria-hidden />
-                ) : downloadsLocked ? (
-                  <Lock aria-hidden />
-                ) : (
-                  <Download aria-hidden />
-                )}
-              </button>
-              {!disabled ? (
+          {files.length > 1 && (
+            <div className="project-file-uploader__toolbar">
+              <span className="project-file-uploader__toolbar-label">{t('bulkActionsLabel')}</span>
+              <div className="project-file-uploader__toolbar-actions">
                 <button
                   type="button"
-                  className="project-icon-action project-icon-action--danger"
-                  onClick={handleDeleteAll}
-                  disabled={isDeletingAll || deleteMutation.isPending}
-                  aria-label={isDeletingAll ? t('common.processing') : t('deleteAll')}
+                  className="project-icon-action project-icon-action--download"
+                  onClick={handleDownloadAll}
+                  disabled={isDownloadingAll || downloadsLocked}
+                  aria-label={
+                    downloadsLocked
+                      ? t('downloadLock.locked')
+                      : isDownloadingAll
+                        ? t('common.processing')
+                        : t('downloadAll')
+                  }
+                  title={downloadsLocked ? t('downloadLock.locked') : undefined}
                 >
-                  {isDeletingAll ? (
+                  {isDownloadingAll ? (
                     <Loader2 className="project-icon-action__spin" aria-hidden />
+                  ) : downloadsLocked ? (
+                    <Lock aria-hidden />
                   ) : (
-                    <Trash2 aria-hidden />
+                    <Download aria-hidden />
                   )}
                 </button>
-              ) : null}
+                {!disabled ? (
+                  <button
+                    type="button"
+                    className="project-icon-action project-icon-action--danger"
+                    onClick={handleDeleteAll}
+                    disabled={isDeletingAll || deleteMutation.isPending}
+                    aria-label={isDeletingAll ? t('common.processing') : t('deleteAll')}
+                  >
+                    {isDeletingAll ? (
+                      <Loader2 className="project-icon-action__spin" aria-hidden />
+                    ) : (
+                      <Trash2 aria-hidden />
+                    )}
+                  </button>
+                ) : null}
+              </div>
             </div>
-          </div>
+          )}
           <ul className="project-file-uploader__file-list">
           {files.map((file: ProjectFile) => {
             const playable = isPlayableAudioExtension(file.fileName);
