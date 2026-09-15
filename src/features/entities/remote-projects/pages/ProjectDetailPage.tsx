@@ -267,9 +267,9 @@ export const ProjectDetailPage: React.FC = () => {
   const deliverableDownloadsLocked = access?.canDownloadDeliverables === false;
   const canManageDownloadLock = access?.canManageDownloadLock ?? isPrimaryVendor;
   // Track comments: anyone with access can comment while the project is open;
-  // resolving is a vendor-side review action.
+  // customer-side users decide when their feedback has been addressed.
   const canComment = !isClosed;
-  const canResolve = isVendor && !isClosed;
+  const canResolve = userRole === 'customer' && !isClosed;
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;

@@ -127,6 +127,14 @@
     }
   }
 
+  &__reply-icon {
+    transform-origin: center;
+
+    &:dir(rtl) {
+      transform: scaleX(-1);
+    }
+  }
+
   &__sender {
     font-weight: 700;
     text-transform: uppercase;

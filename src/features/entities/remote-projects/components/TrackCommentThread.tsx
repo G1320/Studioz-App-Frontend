@@ -150,7 +150,7 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
           .join(' ')}
       >
         <div className="track-thread__message-header">
-          {isReply && <CornerDownRight size={12} aria-hidden />}
+          {isReply && <CornerDownRight className="track-thread__reply-icon" size={12} aria-hidden />}
           <span className="track-thread__sender">{senderName(msg)}</span>
           {isTimedComment(msg) && (
             <button type="button" className="track-thread__cue" onClick={() => jumpTo(msg)}>
