@@ -190,9 +190,9 @@
       "activity": "פעילות"
     },
     "filters": {
-      "project_chat": "צ׳אט פרויקט",
-      "track_comments": "הערות על טראקים",
-      "comment_replies": "תגובות להערות"
+      "project_chat": "צ׳אט",
+      "track_comments": "הערות",
+      "comment_replies": "תגובות"
     },
     "prefs": {
       "emailNotifications": "התראות באימייל",

@@ -101,7 +101,12 @@ export const StickyRemoteAudioBar: FC = () => {
             height={32}
           >
             {showCues && (
-              <ScrubberCueMarkers fileId={active.fileId} duration={scrubberMax} messages={messages} />
+              <ScrubberCueMarkers
+                fileId={active.fileId}
+                duration={scrubberMax}
+                messages={messages}
+                onSeekToTime={seek}
+              />
             )}
           </WaveformScrubber>
           <div className="sticky-remote-audio-bar__time">

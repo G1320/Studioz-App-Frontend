@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MessageSquare } from 'lucide-react';
 import { useProjectMessages, useSendMessageMutation, useMarkMessagesReadMutation } from '@shared/hooks';
-import { useSocket } from '@core/contexts/SocketContext';
 import { formatPlaybackTime, isTrackComment, useAudioCueComment } from '@shared/audio';
 import { ProjectMessage, SenderRole } from 'src/types/index';
 import './styles/_project-chat.scss';
@@ -33,28 +32,8 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   // Track-bound comments are shown in each file's thread; the chat stays general.
   const messages = useMemo(() => allMessages.filter((m) => !isTrackComment(m)), [allMessages]);
   const trackCommentCount = allMessages.length - messages.length;
-  const socket = useSocket();
   const sendMessageMutation = useSendMessageMutation();
   const { mutate: markMessagesRead } = useMarkMessagesReadMutation();
-
-  const refetchMessages = useCallback(() => {
-    void refetch();
-  }, [refetch]);
-
-  useEffect(() => {
-    if (!socket) return;
-
-    const onProjectMessage = (payload: { projectId?: string }) => {
-      if (payload?.projectId === projectId) {
-        refetchMessages();
-      }
-    };
-
-    socket.on('project:message', onProjectMessage);
-    return () => {
-      socket.off('project:message', onProjectMessage);
-    };
-  }, [socket, projectId, refetchMessages]);
 
   useEffect(() => {
     const el = messagesEndRef.current;

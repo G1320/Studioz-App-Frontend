@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, type FC, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type FC, type KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MessageSquare, MessageSquarePlus, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import {
@@ -99,6 +99,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   const waveform = useWaveform(library, containerId, file._id, file.fileName, layout === 'full');
   const { messages } = useProjectMessages({ projectId: enableCues ? containerId : '' });
   const cueComment = useAudioCueComment();
+  const [lastMeasuredDuration, setLastMeasuredDuration] = useState(0);
 
   const thread = useMemo(
     () => (enableCues ? buildTrackThread(messages, file._id) : null),
@@ -117,7 +118,17 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
     [library, containerId, file._id, file.fileName, file.mimeType, file.fileSize]
   );
 
-  const engineDuration = isSelected && Number.isFinite(duration) && duration > 0 ? duration : 0;
+  const measuredDuration = isSelected && Number.isFinite(duration) && duration > 0 ? duration : 0;
+  useEffect(() => {
+    if (measuredDuration > 0) {
+      setLastMeasuredDuration(measuredDuration);
+    }
+  }, [measuredDuration]);
+
+  // Preserve the media element's measured duration after the sticky transport is
+  // closed. Otherwise cue positions jump when the engine resets and metadata has
+  // a slightly different duration.
+  const engineDuration = measuredDuration || lastMeasuredDuration;
   const metaDuration = meta?.durationMs ? meta.durationMs / 1000 : 0;
   const waveformDuration = waveform.durationMs ? waveform.durationMs / 1000 : 0;
   const shownTime = isSelected ? currentTime : 0;
@@ -149,6 +160,18 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
       void playAt(track, displayDuration > 0 ? target : 0);
     },
     [playDisabled, displayDuration, isSelected, status, seek, playAt, track]
+  );
+
+  const handleSeekToTime = useCallback(
+    (offsetSeconds: number) => {
+      if (playDisabled) return;
+      if (isSelected && status !== 'error') {
+        seek(offsetSeconds);
+        return;
+      }
+      void playAt(track, offsetSeconds);
+    },
+    [playDisabled, isSelected, status, seek, playAt, track]
   );
 
   const handleKeyDown = useCallback(
@@ -267,7 +290,12 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           height={44}
         >
           {enableCues && (
-            <ScrubberCueMarkers fileId={file._id} duration={scrubberMax} messages={messages} />
+            <ScrubberCueMarkers
+              fileId={file._id}
+              duration={scrubberMax}
+              messages={messages}
+              onSeekToTime={handleSeekToTime}
+            />
           )}
         </WaveformScrubber>
 

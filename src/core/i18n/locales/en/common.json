@@ -190,9 +190,9 @@
       "activity": "Activity"
     },
     "filters": {
-      "project_chat": "Project chat",
-      "track_comments": "Track comments",
-      "comment_replies": "Comment replies"
+      "project_chat": "Chat",
+      "track_comments": "Comments",
+      "comment_replies": "Replies"
     },
     "prefs": {
       "emailNotifications": "Email notifications",

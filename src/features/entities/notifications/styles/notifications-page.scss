@@ -96,6 +96,7 @@
   }
 
   &__filter {
+    flex: 0 0 auto;
     background: var(--bg-surface);
     border: 1px solid var(--border-primary);
     color: var(--text-secondary);

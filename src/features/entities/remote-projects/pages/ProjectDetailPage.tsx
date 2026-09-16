@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Pencil, Plus, X } from 'lucide-react';
 import { Button } from '@shared/components';
 import { StickyRemoteAudioBar } from '@shared/components/audio';
@@ -17,7 +18,12 @@ import {
   useCancelProjectMutation,
   useUpdateProjectMutation
 } from '@shared/hooks';
-import { hiFiAudioEngine, AudioCueCommentProvider, useAudioCueComment } from '@shared/audio';
+import {
+  hiFiAudioEngine,
+  AudioCueCommentProvider,
+  useAudioCueComment,
+  waveformQueryKey
+} from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
@@ -66,6 +72,7 @@ export const ProjectDetailPage: React.FC = () => {
   } = useRemoteProject(projectId || '');
 
   const socket = useSocket();
+  const queryClient = useQueryClient();
 
   const refetchProject = useCallback(() => {
     void refetch();
@@ -74,19 +81,43 @@ export const ProjectDetailPage: React.FC = () => {
   useEffect(() => {
     if (!socket || !projectId) return;
 
-    const onProjectUpdate = (payload: { projectId?: string }) => {
+    const onStatusUpdate = (payload: { projectId?: string }) => {
       if (payload?.projectId === projectId) {
         refetchProject();
+        void queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
+        void queryClient.invalidateQueries({ queryKey: ['projectCollaborators', projectId] });
+      }
+    };
+    const onFilesUpdate = (payload: { projectId?: string }) => {
+      if (payload?.projectId === projectId) {
+        refetchProject();
+        void queryClient.invalidateQueries({ queryKey: ['projectFiles', projectId] });
+      }
+    };
+    const onMessageUpdate = (payload: { projectId?: string }) => {
+      if (payload?.projectId === projectId) {
+        void queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });
+      }
+    };
+    const onWaveformUpdate = (payload: { projectId?: string; fileId?: string }) => {
+      if (payload?.projectId === projectId && payload.fileId) {
+        void queryClient.invalidateQueries({
+          queryKey: waveformQueryKey('project', projectId, payload.fileId)
+        });
       }
     };
 
-    socket.on('project:status', onProjectUpdate);
-    socket.on('project:files', onProjectUpdate);
+    socket.on('project:status', onStatusUpdate);
+    socket.on('project:files', onFilesUpdate);
+    socket.on('project:message', onMessageUpdate);
+    socket.on('project:waveform', onWaveformUpdate);
     return () => {
-      socket.off('project:status', onProjectUpdate);
-      socket.off('project:files', onProjectUpdate);
+      socket.off('project:status', onStatusUpdate);
+      socket.off('project:files', onFilesUpdate);
+      socket.off('project:message', onMessageUpdate);
+      socket.off('project:waveform', onWaveformUpdate);
     };
-  }, [socket, projectId, refetchProject]);
+  }, [socket, projectId, refetchProject, queryClient]);
 
   const acceptMutation = useAcceptProjectMutation();
   const declineMutation = useDeclineProjectMutation();
@@ -266,7 +297,9 @@ export const ProjectDetailPage: React.FC = () => {
   // Customer-side users lose deliverable downloads while the vendor's lock is active.
   const deliverableDownloadsLocked = access?.canDownloadDeliverables === false;
   const canManageDownloadLock =
-    access?.side === 'vendor' || (access == null && isPrimaryVendor);
+    access?.canManageDownloadLock === true ||
+    access?.canUpdateMetadata === true ||
+    isPrimaryVendor;
   const isCustomer = access?.side === 'customer' || isPrimaryCustomer;
   // Track comments: anyone with access can comment while the project is open;
   // customer-side users decide when their feedback has been addressed.

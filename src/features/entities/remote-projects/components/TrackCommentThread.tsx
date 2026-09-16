@@ -4,6 +4,7 @@ import { Check, CornerDownRight, MessageSquare, RotateCcw, X } from 'lucide-reac
 import {
   buildTrackThread,
   formatPlaybackTime,
+  getMessageFileId,
   hiFiAudioEngine,
   isTimedComment,
   messageDomId,
@@ -40,17 +41,24 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
 }) => {
   const { t } = useTranslation('remoteProjects');
   const cueComment = useAudioCueComment();
-  const { messages } = useProjectMessages({ projectId });
+  const { messages, isLoading } = useProjectMessages({ projectId });
   const sendMutation = useSendMessageMutation();
   const resolveMutation = useResolveMessageMutation();
   const { currentTime, active } = useHiFiAudioEngine();
 
   const [draft, setDraft] = useState('');
   const [replyTo, setReplyTo] = useState<ProjectMessage | null>(null);
-  const [showResolved, setShowResolved] = useState(false);
+  // Resolved comments stay in context by default; users may explicitly hide them.
+  const [showResolved, setShowResolved] = useState(true);
   const composerRef = useRef<HTMLTextAreaElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const seenMessagesRef = useRef<{ fileId: string; ids: Set<string> } | null>(null);
 
   const thread = useMemo(() => buildTrackThread(messages, file._id), [messages, file._id]);
+  const trackMessages = useMemo(
+    () => messages.filter((message) => getMessageFileId(message.fileId) === file._id),
+    [messages, file._id]
+  );
   const pendingCue = cueComment?.pendingCue?.fileId === file._id ? cueComment.pendingCue : null;
   const isActiveTrack = active?.fileId === file._id;
 
@@ -81,6 +89,54 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
       });
     });
   }, [cueComment?.highlightedMessageId, messages, showResolved]);
+
+  // Realtime query updates reach every collaborator. Only messages arriving after
+  // this thread's initial load should move its scroll position.
+  useEffect(() => {
+    if (isLoading) return;
+
+    const previous = seenMessagesRef.current;
+    const currentIds = new Set(trackMessages.map((message) => message._id));
+    if (!previous || previous.fileId !== file._id) {
+      seenMessagesRef.current = { fileId: file._id, ids: currentIds };
+      return;
+    }
+
+    const addedMessages = trackMessages.filter((message) => !previous.ids.has(message._id));
+    seenMessagesRef.current = { fileId: file._id, ids: currentIds };
+    const newestMessage = addedMessages.at(-1);
+    if (!newestMessage) return;
+
+    const root = newestMessage.parentId
+      ? messages.find((message) => message._id === String(newestMessage.parentId))
+      : newestMessage;
+    if (root?.resolvedAt && !showResolved) {
+      setShowResolved(true);
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const list = listRef.current;
+        const target = document.getElementById(messageDomId(newestMessage._id));
+        if (!list || !target) return;
+
+        const listRect = list.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const padding = 12;
+        if (targetRect.bottom > listRect.bottom - padding) {
+          list.scrollTo({
+            top: list.scrollTop + targetRect.bottom - listRect.bottom + padding,
+            behavior: 'smooth'
+          });
+        } else if (targetRect.top < listRect.top + padding) {
+          list.scrollTo({
+            top: list.scrollTop + targetRect.top - listRect.top - padding,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  }, [file._id, isLoading, messages, showResolved, trackMessages]);
 
   const visibleRoots = showResolved ? thread.roots : thread.roots.filter((r) => !r.resolvedAt);
   const resolvedCount = thread.roots.length - thread.openCount;
@@ -177,6 +233,7 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
         {isTimedComment(msg) ? (
           <button
             type="button"
+            dir="auto"
             className="track-thread__body track-thread__body--jump"
             onClick={() => jumpTo(msg)}
             title={t('trackComments.jumpToTime', {
@@ -186,7 +243,9 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
             {msg.message}
           </button>
         ) : (
-          <div className="track-thread__body">{msg.message}</div>
+          <div className="track-thread__body" dir="auto">
+            {msg.message}
+          </div>
         )}
         {!isReply && (
           <div className="track-thread__message-actions">
@@ -262,7 +321,7 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
         </button>
       </div>
 
-      <div className="track-thread__list">
+      <div ref={listRef} className="track-thread__list">
         {visibleRoots.length === 0 ? (
           <p className="track-thread__hint">
             {thread.total === 0 ? t('trackComments.emptyHint') : t('trackComments.allResolved')}
@@ -305,6 +364,7 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
           <div className="track-thread__composer-row">
             <textarea
               ref={composerRef}
+          dir="auto"
               className="track-thread__input"
               value={draft}
               onChange={(e) => setDraft(e.target.value)}

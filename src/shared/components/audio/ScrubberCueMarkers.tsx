@@ -2,7 +2,6 @@ import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatPlaybackTime } from '@shared/audio/formatPlaybackTime';
 import { getMessageFileId, getParentId, isTimedComment } from '@shared/audio/messageCue';
-import { hiFiAudioEngine } from '@shared/audio/useHiFiAudioEngine';
 import { useAudioCueComment } from '@shared/audio/AudioCueCommentContext';
 import type { ProjectMessage } from 'src/types';
 
@@ -12,6 +11,8 @@ interface ScrubberCueMarkersProps {
   messages: ProjectMessage[];
   /** Seek the engine when a marker is clicked (default true). */
   seekOnClick?: boolean;
+  /** Opens or seeks the owning track to the cue time. */
+  onSeekToTime?: (offsetSeconds: number) => void;
 }
 
 /**
@@ -22,7 +23,8 @@ export const ScrubberCueMarkers: FC<ScrubberCueMarkersProps> = ({
   fileId,
   duration,
   messages,
-  seekOnClick = true
+  seekOnClick = true,
+  onSeekToTime
 }) => {
   const { t } = useTranslation('remoteProjects');
   const cueContext = useAudioCueComment();
@@ -51,7 +53,7 @@ export const ScrubberCueMarkers: FC<ScrubberCueMarkersProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              if (seekOnClick) hiFiAudioEngine.seek(offset);
+              if (seekOnClick) onSeekToTime?.(offset);
               cueContext?.highlightMessage(msg._id, fileId);
             }}
           >

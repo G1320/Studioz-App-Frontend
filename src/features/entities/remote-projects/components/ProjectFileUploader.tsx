@@ -1,12 +1,10 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Download, Loader2, Lock, Trash2 } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
 import { RemoteAudioPlayer } from '@shared/components/audio';
 import { useTranslation } from 'react-i18next';
 import { useUploadFileMutation, useDeleteFileMutation } from '@shared/hooks';
 import { useProjectFiles } from '@shared/hooks';
-import { useSocket } from '@core/contexts/SocketContext';
-import { useAudioCueComment, waveformQueryKey } from '@shared/audio';
+import { useAudioCueComment } from '@shared/audio';
 import { formatFileSize, getDownloadUrl } from '@shared/services';
 import { ProjectFileType, ProjectFile } from 'src/types/index';
 import {
@@ -63,33 +61,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const { files, isLoading, refetch } = useProjectFiles({ projectId, type: fileType });
   const uploadMutation = useUploadFileMutation();
   const deleteMutation = useDeleteFileMutation();
-  const socket = useSocket();
-  const queryClient = useQueryClient();
   const cueComment = useAudioCueComment();
-
-  useEffect(() => {
-    if (!socket) return;
-
-    const onProjectFiles = (payload: { projectId?: string }) => {
-      if (payload?.projectId === projectId) {
-        refetch();
-      }
-    };
-    const onWaveformReady = (payload: { projectId?: string; fileId?: string }) => {
-      if (payload?.projectId === projectId && payload.fileId) {
-        void queryClient.invalidateQueries({
-          queryKey: waveformQueryKey('project', projectId, payload.fileId)
-        });
-      }
-    };
-
-    socket.on('project:files', onProjectFiles);
-    socket.on('project:waveform', onWaveformReady);
-    return () => {
-      socket.off('project:files', onProjectFiles);
-      socket.off('project:waveform', onWaveformReady);
-    };
-  }, [socket, projectId, refetch, queryClient]);
 
   const handleDragOver = useCallback(
     (e: React.DragEvent) => {
