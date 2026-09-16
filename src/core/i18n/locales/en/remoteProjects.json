@@ -145,8 +145,8 @@
     "replyPlaceholder": "Reply to {{name}}…",
     "placeholder": "Add a comment on this track…",
     "jumpToTime": "Jump to {{time}}",
-    "chatHint_one": "{{count}} track comment lives under its file",
-    "chatHint_other": "{{count}} track comments live under their files",
+    "chatHint_one": "{{count}} track comment",
+    "chatHint_other": "{{count}} track comments",
     "chatHintTitle": "Time-coded comments are shown in each track's thread, not here.",
     "pendingInThread": "Comment at {{time}} · {{file}} — finish it in the track's thread below the player."
   },

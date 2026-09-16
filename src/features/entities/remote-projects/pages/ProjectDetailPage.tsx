@@ -265,11 +265,13 @@ export const ProjectDetailPage: React.FC = () => {
   const isClosed = ['completed', 'cancelled', 'declined'].includes(project.status);
   // Customer-side users lose deliverable downloads while the vendor's lock is active.
   const deliverableDownloadsLocked = access?.canDownloadDeliverables === false;
-  const canManageDownloadLock = access?.canManageDownloadLock ?? isPrimaryVendor;
+  const canManageDownloadLock =
+    access?.side === 'vendor' || (access == null && isPrimaryVendor);
+  const isCustomer = access?.side === 'customer' || isPrimaryCustomer;
   // Track comments: anyone with access can comment while the project is open;
   // customer-side users decide when their feedback has been addressed.
   const canComment = !isClosed;
-  const canResolve = userRole === 'customer' && !isClosed;
+  const canResolve = isCustomer && !isVendor && !isClosed;
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;
@@ -356,13 +358,6 @@ export const ProjectDetailPage: React.FC = () => {
             )}
           </section>
 
-          {/* Keep download access visible beside the files it controls. */}
-          {canManageDownloadLock && !isClosed && (
-            <section className="project-detail__section">
-              <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
-            </section>
-          )}
-
           {/* Source Files (Customer uploads) */}
           <section className="project-detail__section">
             <ProjectFileUploader
@@ -379,8 +374,11 @@ export const ProjectDetailPage: React.FC = () => {
           </section>
 
           {/* Deliverables (Vendor uploads) */}
-          {((fileCounts?.deliverable ?? 0) > 0 || canUploadDeliverable) && (
+          {((fileCounts?.deliverable ?? 0) > 0 || canUploadDeliverable || canManageDownloadLock) && (
             <section className="project-detail__section">
+              {canManageDownloadLock && (
+                <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
+              )}
               <ProjectFileUploader
                 projectId={projectId}
                 fileType="deliverable"
