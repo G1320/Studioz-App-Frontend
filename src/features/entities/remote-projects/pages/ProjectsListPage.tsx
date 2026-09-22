@@ -2,29 +2,34 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft } from 'lucide-react';
+import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft, Images } from 'lucide-react';
 import { useUserContext } from '@core/contexts';
 import { useSocket } from '@core/contexts/SocketContext';
 import { useRemoteProjects } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
-import { EmptyState } from '@shared/components';
+import { EmptyState, ViewModeToggle, type ViewMode } from '@shared/components';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
+import { getProjectDisplayNames, projectMatchesSearch } from '../utils/projectListUtils';
 import { RemoteProject, RemoteProjectStatus } from 'src/types/index';
 import './styles/_projects-list-page.scss';
 
 type FilterStatus = 'all' | RemoteProjectStatus;
+const PROJECTS_VIEW_MODE_KEY = 'projects-view-mode';
 
 export const ProjectsListPage: React.FC = () => {
   const { t, i18n } = useTranslation('remoteProjects');
   const { user } = useUserContext();
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<ViewMode>(() =>
+    typeof window !== 'undefined' && window.localStorage.getItem(PROJECTS_VIEW_MODE_KEY) === 'list' ? 'list' : 'grid'
+  );
 
   const langNavigate = useLanguageNavigate();
 
-  const { projects, isLoading, refetch } = useRemoteProjects({
+  const { projects, isLoading, isFetching, isPlaceholderData, refetch } = useRemoteProjects({
     participantId: user?._id,
-    status: statusFilter === 'all' ? undefined : statusFilter,
+    status: statusFilter === 'all' ? undefined : statusFilter
   });
 
   const socket = useSocket();
@@ -46,48 +51,18 @@ export const ProjectsListPage: React.FC = () => {
     };
   }, [socket, refetchProjects]);
 
-  // Filter projects by status and search query
-  const filteredProjects = projects.filter((project: RemoteProject) => {
-    // Status filter
-    if (statusFilter !== 'all' && project.status !== statusFilter) {
-      return false;
-    }
-    // Search filter
-    if (!searchQuery.trim()) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      project.title.toLowerCase().includes(query) ||
-      getItemName(project).toLowerCase().includes(query) ||
-      getStudioName(project).toLowerCase().includes(query) ||
-      getCustomerName(project).toLowerCase().includes(query)
-    );
-  });
-
-  const getItemName = (project: RemoteProject): string => {
-    if (project.itemName?.en) return i18n.language === 'he' ? project.itemName.he || project.itemName.en : project.itemName.en;
-    if (typeof project.itemId === 'object' && project.itemId.name) {
-      return i18n.language === 'he' ? project.itemId.name.he || project.itemId.name.en : project.itemId.name.en;
-    }
-    return t('remoteService');
+  const nameFallbacks = {
+    item: t('remoteService'),
+    studio: t('studio'),
+    customer: t('customer')
   };
+  const getNames = (project: RemoteProject) => getProjectDisplayNames(project, i18n.language, nameFallbacks);
 
-  const getStudioName = (project: RemoteProject): string => {
-    if (project.studioName?.en) return i18n.language === 'he' ? project.studioName.he || project.studioName.en : project.studioName.en;
-    if (typeof project.studioId === 'object' && project.studioId.name) {
-      return i18n.language === 'he' ? project.studioId.name.he || project.studioId.name.en : project.studioId.name.en;
-    }
-    return t('studio');
-  };
-
-  const getCustomerName = (project: RemoteProject): string => {
-    // First check the direct customerName field
-    if (project.customerName) return project.customerName;
-    // Then check the populated customerId object
-    if (typeof project.customerId === 'object' && project.customerId.name) {
-      return project.customerId.name;
-    }
-    return t('customer');
-  };
+  // Status is filtered by the API. Search applies to the currently loaded status page.
+  const normalizedSearch = searchQuery.trim().toLocaleLowerCase();
+  const filteredProjects = projects.filter((project: RemoteProject) =>
+    projectMatchesSearch(project, normalizedSearch, i18n.language, nameFallbacks)
+  );
 
   const statusOptions: { value: FilterStatus; label: string }[] = [
     { value: 'all', label: t('allStatuses') },
@@ -98,10 +73,23 @@ export const ProjectsListPage: React.FC = () => {
     { value: 'revision_requested', label: t('status.revisionRequested') },
     { value: 'completed', label: t('status.completed') },
     { value: 'cancelled', label: t('status.cancelled') },
-    { value: 'declined', label: t('status.declined') },
+    { value: 'declined', label: t('status.declined') }
   ];
 
-  const hasProjects = user && filteredProjects.length > 0;
+  const hasActiveFilters = statusFilter !== 'all' || Boolean(normalizedSearch);
+  const showFilters = Boolean(user) && (projects.length > 0 || hasActiveFilters);
+  const hasResults = Boolean(user) && filteredProjects.length > 0;
+  const isChangingStatus = isFetching && isPlaceholderData;
+
+  const clearFilters = () => {
+    setStatusFilter('all');
+    setSearchQuery('');
+  };
+
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    window.localStorage.setItem(PROJECTS_VIEW_MODE_KEY, mode);
+  };
 
   return (
     <div className="projects-list">
@@ -121,8 +109,7 @@ export const ProjectsListPage: React.FC = () => {
         )}
       </header>
 
-      {/* Filters - only show when user has projects */}
-      {hasProjects && (
+      {showFilters && (
         <div className="projects-list__filters">
           <div className="projects-list__search">
             <Search />
@@ -136,10 +123,7 @@ export const ProjectsListPage: React.FC = () => {
           </div>
           <div className="projects-list__filter">
             <Filter />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as FilterStatus)}
-            >
+            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as FilterStatus)}>
               {statusOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -147,13 +131,29 @@ export const ProjectsListPage: React.FC = () => {
               ))}
             </select>
           </div>
+          <ViewModeToggle
+            value={viewMode}
+            onChange={handleViewModeChange}
+            label={t('view.label')}
+            gridLabel={t('view.grid')}
+            listLabel={t('view.list')}
+            className="projects-list__view-toggle"
+          />
         </div>
       )}
 
       {/* Content */}
-      {isLoading ? (
+      {isLoading || isChangingStatus ? (
         <div className="projects-list__loading">{t('common.loading')}</div>
-      ) : !hasProjects ? (
+      ) : !hasResults && hasActiveFilters ? (
+        <EmptyState
+          icon="🔎"
+          title={t('noResults')}
+          subtitle={t('noResultsHint')}
+          actionLabel={t('clearFilters')}
+          onAction={clearFilters}
+        />
+      ) : !hasResults ? (
         <EmptyState
           icon="🎵"
           title={t('noProjects')}
@@ -162,58 +162,64 @@ export const ProjectsListPage: React.FC = () => {
           onAction={() => langNavigate('/')}
         />
       ) : (
-        <div className="projects-list__grid">
-          {filteredProjects.map((project: RemoteProject, idx: number) => (
-            <motion.div
-              key={project._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05 }}
-            >
-              <Link
-                to={`/${i18n.language}/projects/${project._id}`}
-                className="projects-list__card"
+        <div className={`projects-list__grid projects-list__grid--${viewMode}`}>
+          {filteredProjects.map((project: RemoteProject, idx: number) => {
+            const names = getNames(project);
+            return (
+              <motion.div
+                key={project._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
               >
-                {/* Card Content */}
-                <div className="projects-list__card-content">
-                  <div className="projects-list__card-header">
-                    <h3 className="projects-list__card-title">{project.title}</h3>
-                    <span className="projects-list__card-price">
-                      ₪{project.price.toLocaleString()}
-                    </span>
+                <Link to={`/${i18n.language}/projects/${project._id}`} className="projects-list__card">
+                  <div className="projects-list__card-artwork">
+                    {project.artworkUrl ? <img src={project.artworkUrl} alt="" /> : <Images aria-hidden="true" />}
                   </div>
-
-                  <ProjectStatusBadge status={project.status} />
-
-                  <div className="projects-list__card-meta">
-                    <div className="projects-list__card-customer">
-                      <User />
-                      <span>{getCustomerName(project)}</span>
+                  {/* Card Content */}
+                  <div className="projects-list__card-content">
+                    <div className="projects-list__card-header">
+                      <h3 className="projects-list__card-title">{project.title}</h3>
+                      <span className="projects-list__card-price">₪{project.price.toLocaleString()}</span>
                     </div>
-                    <div className="projects-list__card-service">
-                      <CheckCircle2 />
-                      <span>{getItemName(project)} • {getStudioName(project)}</span>
-                    </div>
-                    {project.deadline && (
-                      <div className="projects-list__card-deadline">
-                        <Clock />
-                        <span>{t('due')}: {new Date(project.deadline).toLocaleDateString(i18n.language)}</span>
+
+                    <ProjectStatusBadge status={project.status} />
+
+                    <div className="projects-list__card-meta">
+                      <div className="projects-list__card-customer">
+                        <User />
+                        <span>{names.customer}</span>
                       </div>
-                    )}
-                  </div>
+                      <div className="projects-list__card-service">
+                        <CheckCircle2 />
+                        <span>
+                          {names.item} • {names.studio}
+                        </span>
+                      </div>
+                      {project.deadline && (
+                        <div className="projects-list__card-deadline">
+                          <Clock />
+                          <span>
+                            {t('due')}: {new Date(project.deadline).toLocaleDateString(i18n.language)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="projects-list__card-footer">
-                    <span>
-                      {project.createdAt && `${t('createdAt')} ${new Date(project.createdAt).toLocaleDateString(i18n.language)}`}
-                    </span>
-                    <span className="projects-list__card-link">
-                      {t('viewProject')} <ArrowLeft />
-                    </span>
+                    <div className="projects-list__card-footer">
+                      <span>
+                        {project.createdAt &&
+                          `${t('createdAt')} ${new Date(project.createdAt).toLocaleDateString(i18n.language)}`}
+                      </span>
+                      <span className="projects-list__card-link">
+                        {t('viewProject')} <ArrowLeft />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       )}
     </div>

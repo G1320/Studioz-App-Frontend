@@ -303,6 +303,132 @@ header.app-header {
   }
 }
 
+.header-auth-actions,
+.header-desktop-user-menu {
+  display: none;
+}
+
+.header-mobile-menu {
+  display: flex;
+}
+
+.header-user-avatar-button {
+  overflow: hidden;
+  border: 1px solid var(--border-primary) !important;
+  background: var(--bg-secondary) !important;
+}
+
+.header-user-avatar,
+.header-user-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.header-user-avatar {
+  display: block;
+  object-fit: cover;
+}
+
+.header-user-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 901px) {
+  header.app-header {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 2rem;
+    padding-inline: 1.5rem;
+
+    .site-logo {
+      grid-column: 1;
+    }
+
+    .navbar {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: center;
+      margin: 0;
+    }
+
+    .header-options-container {
+      grid-column: 3;
+      grid-row: 1;
+      min-width: 0;
+    }
+  }
+
+  .header-mobile-menu {
+    display: none;
+  }
+
+  .header-auth-actions,
+  .header-desktop-user-menu {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-auth-actions {
+    gap: 0.5rem;
+  }
+
+  .header-login-button,
+  .header-signup-button {
+    min-height: 2.5rem;
+    padding: 0.625rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color 0.18s ease,
+      color 0.18s ease,
+      transform 0.1s ease;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand);
+      outline-offset: 2px;
+    }
+  }
+
+  .header-login-button {
+    background: transparent;
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+  }
+
+  .header-signup-button {
+    padding-inline: 1.25rem;
+    background: var(--text-primary);
+    color: var(--bg-primary);
+
+    &:hover {
+      background: color-mix(in srgb, var(--text-primary) 88%, transparent);
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  header.app-header .navbar {
+    display: none !important;
+  }
+}
+
 @media screen and (max-width: 600px) {
   header {
     .navbar {

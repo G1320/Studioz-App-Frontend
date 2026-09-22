@@ -1,5 +1,5 @@
 import React from 'react';
-import { GenericList } from '@shared/components';
+import { GenericList, type ViewMode } from '@shared/components';
 import { ReservationCard } from './ReservationCard';
 import { EmptyReservationsState } from './EmptyReservationsState';
 import { Reservation, Studio } from 'src/types/index';
@@ -12,6 +12,7 @@ interface ReservationsListProps {
   viewType?: 'incoming' | 'outgoing' | 'all';
   hasFilters?: boolean;
   userStudios?: Studio[];
+  layoutMode?: ViewMode;
 }
 
 export const ReservationsList: React.FC<ReservationsListProps> = ({
@@ -20,7 +21,8 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({
   isStudioOwner = false,
   viewType = 'all',
   hasFilters = false,
-  userStudios = []
+  userStudios = [],
+  layoutMode = 'grid'
 }) => {
   if (isLoading) {
     return (
@@ -33,11 +35,7 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({
   if (reservations.length === 0) {
     return (
       <section className="reservations-list reservations-list--empty">
-        <EmptyReservationsState
-          isStudioOwner={isStudioOwner}
-          viewType={viewType}
-          hasFilters={hasFilters}
-        />
+        <EmptyReservationsState isStudioOwner={isStudioOwner} viewType={viewType} hasFilters={hasFilters} />
       </section>
     );
   }
@@ -51,9 +49,8 @@ export const ReservationsList: React.FC<ReservationsListProps> = ({
       <GenericList
         data={reservations}
         renderItem={renderItem}
-        className="reservations-list__grid"
+        className={`reservations-list__grid reservations-list__grid--${layoutMode}`}
       />
     </section>
   );
 };
-

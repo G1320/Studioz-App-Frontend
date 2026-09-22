@@ -74,6 +74,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : undefined}
     >
+      {project.artworkUrl && (
+        <img
+          src={project.artworkUrl}
+          alt=""
+          className="project-card__artwork"
+        />
+      )}
+
       {/* Summary View */}
       <div className="project-card__summary">
         {/* Status Indicator */}

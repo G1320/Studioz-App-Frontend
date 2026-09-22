@@ -6,6 +6,14 @@
   "allStatuses": "All Statuses",
   "noProjects": "No projects yet",
   "noProjectsHint": "Browse services to find remote mixing, mastering and more",
+  "noResults": "No matching projects",
+  "noResultsHint": "Try a different search or project status",
+  "clearFilters": "Clear filters",
+  "view": {
+    "label": "Project layout",
+    "grid": "Grid view",
+    "list": "List view"
+  },
   "exploreStudios": "Browse Services",
   "loginRequired": "Please log in to view your projects",
   "loadError": "Failed to load projects",
@@ -75,6 +83,18 @@
   "editReferenceLinks": "Reference Links",
   "editReferencePlaceholder": "https://...",
   "saveChanges": "Save Changes",
+
+  "artwork": {
+    "alt": "Project artwork",
+    "empty": "Add artwork for this project",
+    "add": "Add artwork",
+    "replace": "Replace artwork",
+    "remove": "Remove",
+    "uploading": "Uploading… {{progress}}%",
+    "invalidType": "Choose a JPEG, PNG, or WebP image",
+    "tooLarge": "Artwork must be 8MB or smaller",
+    "confirmRemove": "Remove this project artwork?"
+  },
 
   "confirmCancel": "Are you sure you want to cancel this project?",
 

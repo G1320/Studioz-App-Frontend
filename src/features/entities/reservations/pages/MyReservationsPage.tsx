@@ -6,15 +6,34 @@ import { ReservationsList } from '../components/ReservationsList';
 import { ReservationFilters, ReservationTypeToggle, ReservationViewType } from '../components';
 import { hasStoredReservations } from '@shared/utils/reservation-storage';
 import { useReservationFilters } from '../hooks/useReservationFilters';
+import { ViewModeToggle, type ViewMode } from '@shared/components';
 import '../styles/_index.scss';
+
+const RESERVATIONS_VIEW_MODE_KEY = 'reservations-view-mode';
 
 const MyReservationsPage: React.FC = () => {
   const { t } = useTranslation('reservations');
   const { user } = useUserContext();
   const { data: allStudios = [] } = useStudios();
 
-  const { status, setStatus, type, setType, sort, setSort, customerPhone, setCustomerPhone, statusOptions, sortOptions } = useReservationFilters();
+  const {
+    status,
+    setStatus,
+    type,
+    setType,
+    sort,
+    setSort,
+    customerPhone,
+    setCustomerPhone,
+    statusOptions,
+    sortOptions
+  } = useReservationFilters();
   const [viewType, setViewType] = useState<ReservationViewType>('all');
+  const [layoutMode, setLayoutMode] = useState<ViewMode>(() =>
+    typeof window !== 'undefined' && window.localStorage.getItem(RESERVATIONS_VIEW_MODE_KEY) === 'list'
+      ? 'list'
+      : 'grid'
+  );
 
   // Check if user is logged in or has stored reservations
   const hasAccess = user?._id || hasStoredReservations();
@@ -44,43 +63,56 @@ const MyReservationsPage: React.FC = () => {
     if (isStudioOwner) {
       setType(viewType === 'all' ? 'all' : viewType);
     }
-  }, [viewType, isStudioOwner]);
+  }, [viewType, isStudioOwner, setType]);
+
+  const handleLayoutModeChange = (mode: ViewMode) => {
+    setLayoutMode(mode);
+    window.localStorage.setItem(RESERVATIONS_VIEW_MODE_KEY, mode);
+  };
 
   return (
     <div className="my-reservations-page">
       <div className="my-reservations-page__header">
         <h1 className="my-reservations-page__title">{t('myReservations')}</h1>
-        <p className="my-reservations-page__subtitle">
-          {t('reservationsTotal', { count: reservations.length })}
-        </p>
+        <p className="my-reservations-page__subtitle">{t('reservationsTotal', { count: reservations.length })}</p>
       </div>
 
       {/* Controls Container */}
       <div className="my-reservations-page__controls">
-      {/* Studio Owner Toggle */}
-      {isStudioOwner && user?._id && (
-        <ReservationTypeToggle
-          viewType={viewType}
-          onViewTypeChange={setViewType}
-          className="my-reservations-page__toggle"
-        />
-      )}
+        {/* Studio Owner Toggle */}
+        {isStudioOwner && user?._id && (
+          <ReservationTypeToggle
+            viewType={viewType}
+            onViewTypeChange={setViewType}
+            className="my-reservations-page__toggle"
+          />
+        )}
 
-      {/* Filters */}
-      {hasAccess && (
-        <ReservationFilters
-          status={status}
-          onStatusChange={setStatus}
-          sort={sort}
-          onSortChange={setSort}
-          statusOptions={statusOptions}
-          sortOptions={sortOptions}
-          className="my-reservations-page__filters"
-          customerPhone={customerPhone}
-          onCustomerPhoneChange={setCustomerPhone}
-          showCustomerSearch={isStudioOwner}
-        />
-      )}
+        {/* Filters */}
+        {hasAccess && (
+          <ReservationFilters
+            status={status}
+            onStatusChange={setStatus}
+            sort={sort}
+            onSortChange={setSort}
+            statusOptions={statusOptions}
+            sortOptions={sortOptions}
+            className="my-reservations-page__filters"
+            customerPhone={customerPhone}
+            onCustomerPhoneChange={setCustomerPhone}
+            showCustomerSearch={isStudioOwner}
+          />
+        )}
+        {hasAccess && (
+          <ViewModeToggle
+            value={layoutMode}
+            onChange={handleLayoutModeChange}
+            label={t('view.label')}
+            gridLabel={t('view.grid')}
+            listLabel={t('view.list')}
+            className="my-reservations-page__view-toggle"
+          />
+        )}
       </div>
 
       <ReservationsList
@@ -90,6 +122,7 @@ const MyReservationsPage: React.FC = () => {
         viewType={viewType}
         hasFilters={status !== 'all' || type !== 'all' || !!customerPhone}
         userStudios={userStudios}
+        layoutMode={layoutMode}
       />
     </div>
   );

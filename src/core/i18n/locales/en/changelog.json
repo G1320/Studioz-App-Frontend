@@ -2,12 +2,34 @@
   "title": "System Updates",
   "subtitle": "All new features, improvements, and fixes",
   "months": {
+    "sep2026": "September 2026",
     "feb2026": "February 2026",
     "jan2026": "January 2026",
     "dec2025": "December 2025",
     "nov2025": "November 2025"
   },
   "releases": {
+    "sep2026": {
+      "projectWorkspace": {
+        "date": "September 22, 2026",
+        "title": "Project Workspace Improvements",
+        "description": "Faster ways to recognize, find, and organize your work",
+        "changes": {
+          "artwork": "Customers and studios can add private artwork to each project",
+          "filters": "Project search and status filters now remain available when no results match",
+          "layouts": "Projects and reservations now support persistent grid and list views"
+        }
+      },
+      "dashboardNavigation": {
+        "date": "September 22, 2026",
+        "title": "Dashboard Activity & Navigation",
+        "description": "Important work is easier to reach across the app",
+        "changes": {
+          "projectActivity": "Remote projects now appear alongside reservations in dashboard activity",
+          "desktopHeader": "A new role-aware desktop header provides direct access to primary destinations"
+        }
+      }
+    },
     "feb2026": {
       "statsPolish": {
         "date": "February 24, 2026",

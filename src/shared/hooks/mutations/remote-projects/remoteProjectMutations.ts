@@ -2,6 +2,8 @@ import { useMutationHandler } from '@shared/hooks';
 import {
   createProject,
   updateProject,
+  uploadProjectArtwork,
+  setProjectArtwork,
   acceptProject,
   declineProject,
   startProject,
@@ -15,7 +17,7 @@ import {
   markMessagesAsRead,
   setMessageResolved,
   setDownloadLock,
-  releaseDownloads,
+  releaseDownloads
 } from '@shared/services';
 import type { UpdateProjectData } from '@shared/services/remote-project-service';
 import {
@@ -24,7 +26,7 @@ import {
   ProjectMessage,
   CreateProjectRequest,
   ProjectFileType,
-  DownloadLockResponse,
+  DownloadLockResponse
 } from 'src/types/index';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +45,7 @@ export const useCreateProjectMutation = () => {
     invalidateQueries: [{ queryKey: 'remoteProjects' }],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -58,7 +60,37 @@ export const useUpdateProjectMutation = () => {
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
+  });
+};
+
+export const useUploadProjectArtworkMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<RemoteProject, { projectId: string; file: File; onProgress?: (progress: number) => void }>({
+    mutationFn: ({ projectId, file, onProgress }) => uploadProjectArtwork(projectId, file, onProgress),
+    successMessage: t('toasts.success.imageUploaded', { defaultValue: 'Project artwork updated' }),
+    invalidateQueries: [{ queryKey: 'remoteProjects' }],
+    onSuccess: (_data, { projectId }) => {
+      queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
+      queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
+    }
+  });
+};
+
+export const useRemoveProjectArtworkMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<RemoteProject, string>({
+    mutationFn: (projectId) => setProjectArtwork(projectId, null),
+    successMessage: t('toasts.success.projectUpdated', 'Project updated'),
+    invalidateQueries: [{ queryKey: 'remoteProjects' }],
+    onSuccess: (_data, projectId) => {
+      queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
+      queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
+    }
   });
 };
 
@@ -73,7 +105,7 @@ export const useAcceptProjectMutation = () => {
     onSuccess: (_data, projectId) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -88,7 +120,7 @@ export const useDeclineProjectMutation = () => {
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -103,7 +135,7 @@ export const useStartProjectMutation = () => {
     onSuccess: (_data, projectId) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -118,7 +150,7 @@ export const useDeliverProjectMutation = () => {
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -133,7 +165,7 @@ export const useRequestRevisionMutation = () => {
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -148,7 +180,7 @@ export const useCompleteProjectMutation = () => {
     onSuccess: (_data, projectId) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -156,18 +188,14 @@ export const useCancelProjectMutation = () => {
   const queryClient = useQueryClient();
   const { t } = useTranslation('common');
 
-  return useMutationHandler<
-    RemoteProject,
-    { projectId: string; reason?: string; cancelledBy?: string }
-  >({
-    mutationFn: ({ projectId, reason, cancelledBy }) =>
-      cancelProject(projectId, reason, cancelledBy),
+  return useMutationHandler<RemoteProject, { projectId: string; reason?: string; cancelledBy?: string }>({
+    mutationFn: ({ projectId, reason, cancelledBy }) => cancelProject(projectId, reason, cancelledBy),
     successMessage: t('toasts.success.projectCancelled', 'Project cancelled'),
     invalidateQueries: [{ queryKey: 'remoteProjects' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
-    },
+    }
   });
 };
 
@@ -188,7 +216,7 @@ export const useSetDownloadLockMutation = () => {
     invalidateQueries: [{ queryKey: 'remoteProject' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
-    },
+    }
   });
 };
 
@@ -202,7 +230,7 @@ export const useReleaseDownloadsMutation = () => {
     invalidateQueries: [{ queryKey: 'remoteProject' }],
     onSuccess: (_data, projectId) => {
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
-    },
+    }
   });
 };
 
@@ -230,7 +258,7 @@ export const useUploadFileMutation = () => {
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectFiles', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
-    },
+    }
   });
 };
 
@@ -245,7 +273,7 @@ export const useDeleteFileMutation = () => {
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectFiles', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
-    },
+    }
   });
 };
 
@@ -273,7 +301,7 @@ export const useSendMessageMutation = () => {
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });
-    },
+    }
   });
 };
 
@@ -288,21 +316,18 @@ export const useResolveMessageMutation = () => {
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });
-    },
+    }
   });
 };
 
 export const useMarkMessagesReadMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutationHandler<
-    { markedAsRead: number },
-    { projectId: string; messageIds?: string[] }
-  >({
+  return useMutationHandler<{ markedAsRead: number }, { projectId: string; messageIds?: string[] }>({
     mutationFn: ({ projectId, messageIds }) => markMessagesAsRead(projectId, messageIds),
     invalidateQueries: [{ queryKey: 'projectMessages' }],
     onSuccess: (_data, { projectId }) => {
       queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });
-    },
+    }
   });
 };

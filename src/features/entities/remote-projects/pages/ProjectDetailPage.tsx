@@ -25,6 +25,7 @@ import {
   waveformQueryKey
 } from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
+import { ProjectArtwork } from '../components/ProjectArtwork';
 import { ProjectFileUploader } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
 import { ProjectCollaborators } from '../components/ProjectCollaborators';
@@ -173,6 +174,7 @@ export const ProjectDetailPage: React.FC = () => {
   const canCustomerWorkflow = access?.canCustomerWorkflow ?? isPrimaryCustomer;
   const canPay = access?.canPay ?? isPrimaryCustomer;
   const canUpdateMetadata = access?.canUpdateMetadata ?? isPrimaryVendor;
+  const canUpdateArtwork = access?.canUpdateArtwork ?? Boolean(user);
   // Primary customer/vendor only. Collaborators cannot invite (API returns 403).
   const canInvite =
     access?.isCollaborator !== true &&
@@ -340,6 +342,12 @@ export const ProjectDetailPage: React.FC = () => {
 
       <div className="project-detail__content">
         <div className="project-detail__main">
+          <ProjectArtwork
+            projectId={projectId}
+            artworkUrl={project.artworkUrl}
+            canEdit={canUpdateArtwork}
+          />
+
           {/* Project Info */}
           <section className="project-detail__section">
             <h2 className="project-detail__section-title">{t('projectDetails')}</h2>

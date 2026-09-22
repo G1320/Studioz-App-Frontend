@@ -71,6 +71,28 @@ export const updateProject = async (projectId: string, data: UpdateProjectData):
   }
 };
 
+export const getProjectArtworkUploadUrl = async (projectId: string, file: File): Promise<UploadUrlResponse> => {
+  return httpService.post(`${endpoint}/${projectId}/artwork/upload-url`, {
+    fileName: file.name,
+    fileSize: file.size,
+    mimeType: file.type || 'application/octet-stream'
+  });
+};
+
+export const setProjectArtwork = async (projectId: string, storageKey: string | null): Promise<RemoteProject> => {
+  return httpService.patch(`${endpoint}/${projectId}/artwork`, { storageKey });
+};
+
+export const uploadProjectArtwork = async (
+  projectId: string,
+  file: File,
+  onProgress?: (progress: number) => void
+): Promise<RemoteProject> => {
+  const { uploadUrl, storageKey } = await getProjectArtworkUploadUrl(projectId, file);
+  await uploadToR2(uploadUrl, file, onProgress);
+  return setProjectArtwork(projectId, storageKey);
+};
+
 // ============================================================
 // PROJECT WORKFLOW ACTIONS
 // ============================================================
@@ -407,9 +429,7 @@ export const inviteCollaborator = async (
   return httpService.post(`${endpoint}/${projectId}/collaborators/invite`, { email });
 };
 
-export const getCollaborators = async (
-  projectId: string
-): Promise<import('src/types').CollaboratorsResponse> => {
+export const getCollaborators = async (projectId: string): Promise<import('src/types').CollaboratorsResponse> => {
   return httpService.get(`${endpoint}/${projectId}/collaborators`);
 };
 
@@ -417,10 +437,7 @@ export const removeCollaborator = async (projectId: string, userId: string): Pro
   return httpService.delete(`${endpoint}/${projectId}/collaborators/${userId}`);
 };
 
-export const revokeCollaboratorInvite = async (
-  projectId: string,
-  inviteId: string
-): Promise<{ revoked: boolean }> => {
+export const revokeCollaboratorInvite = async (projectId: string, inviteId: string): Promise<{ revoked: boolean }> => {
   return httpService.post(`${endpoint}/${projectId}/collaborators/invites/${inviteId}/revoke`);
 };
 
@@ -430,9 +447,7 @@ export const getInviteByToken = async (
   return httpService.get(`${endpoint}/invites/${token}`);
 };
 
-export const acceptInviteByToken = async (
-  token: string
-): Promise<{ projectId: string; alreadyMember?: boolean }> => {
+export const acceptInviteByToken = async (token: string): Promise<{ projectId: string; alreadyMember?: boolean }> => {
   return httpService.post(`${endpoint}/invites/${token}/accept`);
 };
 

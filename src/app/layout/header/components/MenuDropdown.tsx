@@ -25,9 +25,10 @@ import './styles/menu-dropdown.scss';
 
 interface MenuDropdownProps {
   user: User | null;
+  triggerVariant?: 'menu' | 'avatar';
 }
 
-export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
+export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant = 'menu' }) => {
   const langNavigate = useLanguageNavigate();
   const anchorNavigate = useAnchorNavigate();
   const { t } = useTranslation(['profile', 'common']);
@@ -36,6 +37,13 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   const { loginWithPopup } = useAuth0LoginHandler();
   const { openFeedback } = useSentryFeedback();
   const { settings: a11ySettings, updateSetting: updateA11ySetting } = useAccessibility();
+  const avatarUrl = user?.picture || user?.avatar;
+  const initials = (user?.name || user?.email || 'U')
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
@@ -50,8 +58,23 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
   return (
     <PopupDropdown
       trigger={
-        <button className="header-menu-button-container header-icon-button" aria-label="Menu">
-          <WavyMenuIcon className="wavy-menu-icon" aria-label="menu icon" />
+        <button
+          className={`header-menu-button-container header-icon-button ${
+            triggerVariant === 'avatar' ? 'header-user-avatar-button' : ''
+          }`}
+          aria-label={triggerVariant === 'avatar' ? t('profile.buttons.profile') : 'Menu'}
+        >
+          {triggerVariant === 'avatar' ? (
+            avatarUrl ? (
+              <img src={avatarUrl} alt="" className="header-user-avatar" />
+            ) : (
+              <span className="header-user-initials" aria-hidden="true">
+                {initials}
+              </span>
+            )
+          ) : (
+            <WavyMenuIcon className="wavy-menu-icon" aria-label="menu icon" />
+          )}
         </button>
       }
       className="menu-dropdown"
@@ -75,28 +98,36 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
               <PersonOutlineIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.profile')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
-              <EventIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.reservations')}</span>
-            </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/projects')}>
-              <WorkIcon className="menu-dropdown__icon" />
-              <span>{t('common:navigation.myProjects')}</span>
-            </button>
+            {triggerVariant === 'menu' && (
+              <>
+                <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
+                  <EventIcon className="menu-dropdown__icon" />
+                  <span>{t('profile.buttons.reservations')}</span>
+                </button>
+                <button className="menu-dropdown__item" onClick={() => handleNavigate('/projects')}>
+                  <WorkIcon className="menu-dropdown__icon" />
+                  <span>{t('common:navigation.myProjects')}</span>
+                </button>
+              </>
+            )}
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
               <FavoriteIcon className="menu-dropdown__icon" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
-            <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
-              <DashboardIcon className="menu-dropdown__icon" />
-              <span>{t('profile.buttons.dashboard')}</span>
-            </button>
+            {triggerVariant === 'menu' && (
+              <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
+                <DashboardIcon className="menu-dropdown__icon" />
+                <span>{t('profile.buttons.dashboard')}</span>
+              </button>
+            )}
           </>
         )}
 
         {/* List studio - available to all, mobile-only for non-logged-in */}
         <button
-          className={`menu-dropdown__item ${!user ? 'menu-dropdown__item--mobile-only' : ''}`}
+          className={`menu-dropdown__item ${
+            !user ? 'menu-dropdown__item--mobile-only' : ''
+          } ${triggerVariant === 'avatar' ? 'menu-dropdown__item--mobile-only' : ''}`}
           onClick={() => handleNavigate('/studio/create')}
         >
           <AddBusinessIcon className="menu-dropdown__icon" />
@@ -142,10 +173,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user }) => {
           <ThemeToggle variant="dropdown" size="sm" />
         </div>
         {a11ySettings.widgetHidden && (
-          <button
-            className="menu-dropdown__item"
-            onClick={() => updateA11ySetting('widgetHidden', false)}
-          >
+          <button className="menu-dropdown__item" onClick={() => updateA11ySetting('widgetHidden', false)}>
             <VisibilityIcon className="menu-dropdown__icon" />
             <span>{t('common:accessibility.showWidget')}</span>
           </button>

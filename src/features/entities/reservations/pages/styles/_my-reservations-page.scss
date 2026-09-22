@@ -58,6 +58,10 @@
     margin-bottom: 0; // Override default margin, controlled by controls gap
   }
 
+  &__view-toggle {
+    align-self: flex-end;
+  }
+
   &__show-more-button {
     margin-top: vars.$spacing-medium;
     padding: vars.$spacing-small vars.$spacing-medium;

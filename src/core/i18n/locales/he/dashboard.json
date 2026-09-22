@@ -63,8 +63,10 @@
     "tomorrow": "מחר",
     "hours": " שע'",
     "bookedAt": "הזמין {{item}}",
+    "project": "פרויקט: {{title}}",
     "anonymousClient": "אנונימי",
-    "viewAll": "צפה בכל ההיסטוריה"
+    "viewReservations": "צפה בהזמנות",
+    "viewProjects": "צפה בפרויקטים"
   },
   "manualBooking": {
     "title": "הזמנה חדשה",

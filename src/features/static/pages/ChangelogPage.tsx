@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ChevronDownIcon,
-  AutoAwesomeIcon,
-  BoltIcon,
-  BugIcon,
-  LightbulbIcon,
-  SendIcon
-} from '@shared/components/icons';
+import { ChevronDownIcon, AutoAwesomeIcon, BoltIcon, BugIcon, LightbulbIcon, SendIcon } from '@shared/components/icons';
 import { useSentryFeedback } from '@shared/hooks/utils';
 import './_changelog.scss';
 
@@ -38,6 +31,40 @@ interface MonthGroup {
 
 const CHANGELOG_DATA: MonthGroup[] = [
   {
+    monthKey: 'months.sep2026',
+    releases: [
+      {
+        version: 'sep-project-workspace',
+        dateKey: 'releases.sep2026.projectWorkspace.date',
+        titleKey: 'releases.sep2026.projectWorkspace.title',
+        descriptionKey: 'releases.sep2026.projectWorkspace.description',
+        changes: [
+          { id: 'sep-p1', type: 'feature', descriptionKey: 'releases.sep2026.projectWorkspace.changes.artwork' },
+          { id: 'sep-p2', type: 'improvement', descriptionKey: 'releases.sep2026.projectWorkspace.changes.filters' },
+          { id: 'sep-p3', type: 'feature', descriptionKey: 'releases.sep2026.projectWorkspace.changes.layouts' }
+        ]
+      },
+      {
+        version: 'sep-dashboard-navigation',
+        dateKey: 'releases.sep2026.dashboardNavigation.date',
+        titleKey: 'releases.sep2026.dashboardNavigation.title',
+        descriptionKey: 'releases.sep2026.dashboardNavigation.description',
+        changes: [
+          {
+            id: 'sep-d1',
+            type: 'feature',
+            descriptionKey: 'releases.sep2026.dashboardNavigation.changes.projectActivity'
+          },
+          {
+            id: 'sep-d2',
+            type: 'improvement',
+            descriptionKey: 'releases.sep2026.dashboardNavigation.changes.desktopHeader'
+          }
+        ]
+      }
+    ]
+  },
+  {
     monthKey: 'months.feb2026',
     releases: [
       {
@@ -49,8 +76,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
           { id: 'sp1', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.studioChart' },
           { id: 'sp2', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.readableNumbers' },
           { id: 'sp3', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.accessibility' },
-          { id: 'sp4', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.customerModal' },
-        ],
+          { id: 'sp4', type: 'improvement', descriptionKey: 'releases.feb2026.statsPolish.changes.customerModal' }
+        ]
       },
       {
         version: 'feb-accessibility',
@@ -59,8 +86,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         descriptionKey: 'releases.feb2026.accessibility.description',
         changes: [
           { id: 'a11y1', type: 'feature', descriptionKey: 'releases.feb2026.accessibility.changes.toolbar' },
-          { id: 'a11y2', type: 'feature', descriptionKey: 'releases.feb2026.accessibility.changes.saved' },
-        ],
+          { id: 'a11y2', type: 'feature', descriptionKey: 'releases.feb2026.accessibility.changes.saved' }
+        ]
       },
       {
         version: 'feb-remote-projects',
@@ -71,10 +98,10 @@ const CHANGELOG_DATA: MonthGroup[] = [
           { id: 'rp1', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.workflow' },
           { id: 'rp2', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.chat' },
           { id: 'rp3', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.uploads' },
-          { id: 'rp4', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.payments' },
-        ],
-      },
-    ],
+          { id: 'rp4', type: 'feature', descriptionKey: 'releases.feb2026.remoteProjects.changes.payments' }
+        ]
+      }
+    ]
   },
   {
     monthKey: 'months.jan2026',
@@ -89,8 +116,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
           { id: '0b', type: 'feature', descriptionKey: 'releases.jan2026.theme.changes.lightMode' },
           { id: '0c', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.notifications' },
           { id: '0d', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.search' },
-          { id: '0e', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.smooth' },
-        ],
+          { id: '0e', type: 'improvement', descriptionKey: 'releases.jan2026.theme.changes.smooth' }
+        ]
       },
       {
         version: 'jan-dashboard-analytics',
@@ -100,8 +127,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '1', type: 'feature', descriptionKey: 'releases.jan2026.dashboard.changes.stats' },
           { id: '2', type: 'feature', descriptionKey: 'releases.jan2026.dashboard.changes.activity' },
-          { id: '3', type: 'improvement', descriptionKey: 'releases.jan2026.dashboard.changes.realtime' },
-        ],
+          { id: '3', type: 'improvement', descriptionKey: 'releases.jan2026.dashboard.changes.realtime' }
+        ]
       },
       {
         version: 'jan-payments',
@@ -111,8 +138,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '4', type: 'feature', descriptionKey: 'releases.jan2026.payments.changes.savedCards' },
           { id: '5', type: 'feature', descriptionKey: 'releases.jan2026.payments.changes.coupons' },
-          { id: '6', type: 'improvement', descriptionKey: 'releases.jan2026.payments.changes.flow' },
-        ],
+          { id: '6', type: 'improvement', descriptionKey: 'releases.jan2026.payments.changes.flow' }
+        ]
       },
       {
         version: 'jan-booking',
@@ -123,8 +150,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
           { id: '7', type: 'feature', descriptionKey: 'releases.jan2026.booking.changes.howItWorks' },
           { id: '8', type: 'feature', descriptionKey: 'releases.jan2026.booking.changes.calendar' },
           { id: '9', type: 'improvement', descriptionKey: 'releases.jan2026.booking.changes.availability' },
-          { id: '10', type: 'fix', descriptionKey: 'releases.jan2026.booking.changes.timeFix' },
-        ],
+          { id: '10', type: 'fix', descriptionKey: 'releases.jan2026.booking.changes.timeFix' }
+        ]
       },
       {
         version: 'jan-studio-management',
@@ -134,8 +161,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '11', type: 'feature', descriptionKey: 'releases.jan2026.studioMgmt.changes.portfolio' },
           { id: '12', type: 'feature', descriptionKey: 'releases.jan2026.studioMgmt.changes.equipment' },
-          { id: '13', type: 'improvement', descriptionKey: 'releases.jan2026.studioMgmt.changes.forms' },
-        ],
+          { id: '13', type: 'improvement', descriptionKey: 'releases.jan2026.studioMgmt.changes.forms' }
+        ]
       },
       {
         version: 'jan-reservations',
@@ -145,10 +172,10 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '14', type: 'feature', descriptionKey: 'releases.jan2026.reservations.changes.edit' },
           { id: '15', type: 'feature', descriptionKey: 'releases.jan2026.reservations.changes.search' },
-          { id: '16', type: 'improvement', descriptionKey: 'releases.jan2026.reservations.changes.status' },
-        ],
-      },
-    ],
+          { id: '16', type: 'improvement', descriptionKey: 'releases.jan2026.reservations.changes.status' }
+        ]
+      }
+    ]
   },
   {
     monthKey: 'months.dec2025',
@@ -161,8 +188,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '17', type: 'feature', descriptionKey: 'releases.dec2025.onboarding.changes.steps' },
           { id: '18', type: 'feature', descriptionKey: 'releases.dec2025.onboarding.changes.validation' },
-          { id: '19', type: 'improvement', descriptionKey: 'releases.dec2025.onboarding.changes.guidance' },
-        ],
+          { id: '19', type: 'improvement', descriptionKey: 'releases.dec2025.onboarding.changes.guidance' }
+        ]
       },
       {
         version: 'dec-landing',
@@ -172,8 +199,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '20', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.citySelect' },
           { id: '21', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.categories' },
-          { id: '22', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.forOwners' },
-        ],
+          { id: '22', type: 'feature', descriptionKey: 'releases.dec2025.landing.changes.forOwners' }
+        ]
       },
       {
         version: 'dec-forms',
@@ -183,8 +210,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '23', type: 'feature', descriptionKey: 'releases.dec2025.forms.changes.stepped' },
           { id: '24', type: 'feature', descriptionKey: 'releases.dec2025.forms.changes.policies' },
-          { id: '25', type: 'improvement', descriptionKey: 'releases.dec2025.forms.changes.dualLang' },
-        ],
+          { id: '25', type: 'improvement', descriptionKey: 'releases.dec2025.forms.changes.dualLang' }
+        ]
       },
       {
         version: 'dec-discovery',
@@ -194,10 +221,10 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '26', type: 'feature', descriptionKey: 'releases.dec2025.discovery.changes.filters' },
           { id: '27', type: 'improvement', descriptionKey: 'releases.dec2025.discovery.changes.cards' },
-          { id: '28', type: 'improvement', descriptionKey: 'releases.dec2025.discovery.changes.sharing' },
-        ],
-      },
-    ],
+          { id: '28', type: 'improvement', descriptionKey: 'releases.dec2025.discovery.changes.sharing' }
+        ]
+      }
+    ]
   },
   {
     monthKey: 'months.nov2025',
@@ -209,8 +236,8 @@ const CHANGELOG_DATA: MonthGroup[] = [
         descriptionKey: 'releases.nov2025.support.description',
         changes: [
           { id: '29', type: 'feature', descriptionKey: 'releases.nov2025.support.changes.chat' },
-          { id: '30', type: 'feature', descriptionKey: 'releases.nov2025.support.changes.notifications' },
-        ],
+          { id: '30', type: 'feature', descriptionKey: 'releases.nov2025.support.changes.notifications' }
+        ]
       },
       {
         version: 'nov-booking-settings',
@@ -220,11 +247,11 @@ const CHANGELOG_DATA: MonthGroup[] = [
         changes: [
           { id: '31', type: 'feature', descriptionKey: 'releases.nov2025.bookingSettings.changes.instantBook' },
           { id: '32', type: 'feature', descriptionKey: 'releases.nov2025.bookingSettings.changes.addons' },
-          { id: '33', type: 'improvement', descriptionKey: 'releases.nov2025.bookingSettings.changes.pricing' },
-        ],
-      },
-    ],
-  },
+          { id: '33', type: 'improvement', descriptionKey: 'releases.nov2025.bookingSettings.changes.pricing' }
+        ]
+      }
+    ]
+  }
 ];
 
 // --- Components ---
@@ -233,29 +260,19 @@ function TypeBadge({ type }: { type: ChangeType }) {
   const icons = {
     feature: <AutoAwesomeIcon className="changelog__badge-icon" />,
     improvement: <BoltIcon className="changelog__badge-icon" />,
-    fix: <BugIcon className="changelog__badge-icon" />,
+    fix: <BugIcon className="changelog__badge-icon" />
   };
 
-  return (
-    <span className={`changelog__badge changelog__badge--${type}`}>
-      {icons[type]}
-    </span>
-  );
+  return <span className={`changelog__badge changelog__badge--${type}`}>{icons[type]}</span>;
 }
 
 export const ChangelogPage: React.FC = () => {
   const { t } = useTranslation('changelog');
   const { openFeedback } = useSentryFeedback();
-  const [expandedReleases, setExpandedReleases] = useState<string[]>([
-    CHANGELOG_DATA[0]?.releases[0]?.version || ''
-  ]);
+  const [expandedReleases, setExpandedReleases] = useState<string[]>([CHANGELOG_DATA[0]?.releases[0]?.version || '']);
 
   const toggleRelease = (version: string) => {
-    setExpandedReleases(prev =>
-      prev.includes(version)
-        ? prev.filter(v => v !== version)
-        : [...prev, version]
-    );
+    setExpandedReleases((prev) => (prev.includes(version) ? prev.filter((v) => v !== version) : [...prev, version]));
   };
 
   return (
@@ -263,12 +280,8 @@ export const ChangelogPage: React.FC = () => {
       <div className="changelog__container">
         {/* Header */}
         <header className="changelog__header">
-          <h1 className="changelog__title">
-            {t('title', 'עדכוני מערכת')}
-          </h1>
-          <p className="changelog__subtitle">
-            {t('subtitle', 'כל הפיצ׳רים החדשים, השיפורים והתיקונים')}
-          </p>
+          <h1 className="changelog__title">{t('title', 'עדכוני מערכת')}</h1>
+          <p className="changelog__subtitle">{t('subtitle', 'כל הפיצ׳רים החדשים, השיפורים והתיקונים')}</p>
         </header>
 
         {/* Releases List */}
@@ -277,10 +290,7 @@ export const ChangelogPage: React.FC = () => {
             <div key={group.monthKey} className="changelog__month-group">
               <h2 className="changelog__month-title">{t(group.monthKey)}</h2>
               {group.releases.map((release) => (
-                <article
-                  key={release.version}
-                  className="changelog__release"
-                >
+                <article key={release.version} className="changelog__release">
                   {/* Release Header */}
                   <div
                     className="changelog__release-header"
@@ -296,15 +306,9 @@ export const ChangelogPage: React.FC = () => {
                     aria-expanded={expandedReleases.includes(release.version)}
                   >
                     <div className="changelog__release-content">
-                      <span className="changelog__release-date">
-                        {t(release.dateKey)}
-                      </span>
-                      <h3 className="changelog__release-title">
-                        {t(release.titleKey)}
-                      </h3>
-                      <p className="changelog__release-description">
-                        {t(release.descriptionKey)}
-                      </p>
+                      <span className="changelog__release-date">{t(release.dateKey)}</span>
+                      <h3 className="changelog__release-title">{t(release.titleKey)}</h3>
+                      <p className="changelog__release-description">{t(release.descriptionKey)}</p>
                     </div>
 
                     <button
@@ -324,9 +328,7 @@ export const ChangelogPage: React.FC = () => {
                         {release.changes.map((change) => (
                           <li key={change.id} className="changelog__change-item">
                             <TypeBadge type={change.type} />
-                            <span className="changelog__change-text">
-                              {t(change.descriptionKey)}
-                            </span>
+                            <span className="changelog__change-text">{t(change.descriptionKey)}</span>
                           </li>
                         ))}
                       </ul>
@@ -350,11 +352,7 @@ export const ChangelogPage: React.FC = () => {
             </p>
           </div>
 
-          <button
-            onClick={openFeedback}
-            className="changelog__suggestion-trigger"
-            type="button"
-          >
+          <button onClick={openFeedback} className="changelog__suggestion-trigger" type="button">
             <span>{t('suggestion.placeholder', 'שתפו רעיון חדש...')}</span>
             <SendIcon className="changelog__suggestion-trigger-icon" />
           </button>

@@ -63,8 +63,10 @@
     "tomorrow": "Tomorrow",
     "hours": "h",
     "bookedAt": "Booked {{item}}",
+    "project": "Project: {{title}}",
     "anonymousClient": "Anonymous",
-    "viewAll": "View Full History"
+    "viewReservations": "View Reservations",
+    "viewProjects": "View Projects"
   },
   "manualBooking": {
     "title": "New Reservation",

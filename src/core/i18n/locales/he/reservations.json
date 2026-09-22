@@ -12,6 +12,11 @@
   "noReservationsSubtitle": "ההזמנות שלך יופיעו כאן לאחר שתזמין סשן",
   "reservationsCount": "{{count}} הזמנות",
   "reservationsTotal": "סה\"כ הזמנות: {{count}}",
+  "view": {
+    "label": "פריסת הזמנות",
+    "grid": "תצוגת רשת",
+    "list": "תצוגת רשימה"
+  },
   "date": "תאריך",
   "time": "שעה",
   "duration": "משך",

@@ -3,17 +3,18 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { HeaderNavbar } from '@features/navigation';
 import { Cart, User } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
-import { SearchIcon, LocationIcon } from '@shared/components/icons';
+import { LocationIcon } from '@shared/components/icons';
 import { BackButton } from '@shared/components';
 import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useCities } from '@shared/hooks/utils/cities';
+import { useAuth0LoginHandler } from '@shared/hooks';
 import { featureFlags } from '@core/config/featureFlags';
 import { MenuDropdown } from './MenuDropdown';
 
 // Lazy-load NotificationBell — only needed for logged-in users
 const LazyNotificationBell = lazy(() =>
-  import('@shared/components/notifications/components/NotificationBell').then(m => ({
+  import('@shared/components/notifications/components/NotificationBell').then((m) => ({
     default: m.NotificationBell
   }))
 );
@@ -35,6 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
   const location = useLocation();
   const { userLocation } = useLocationPermission();
   const { getDisplayByCityName } = useCities();
+  const { loginWithPopup } = useAuth0LoginHandler();
   const [currentCity, setCurrentCity] = useState<string | null>(null);
   const currLang = i18n.language || 'en';
   const showBackButton = shouldShowBackButton(location.pathname);
@@ -74,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
       </div>
       <header className="app-header">
         {featureFlags.headerBackButton && (
-        <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
+          <BackButton className={`header-back-button ${showBackButton ? 'header-back-button--visible' : ''}`} />
         )}
 
         <div className={`site-logo ${featureFlags.headerBackButton && showBackButton ? 'logo--mobile-shifted' : ''}`}>
@@ -93,26 +95,46 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           </span>
         )}
         <div className="header-options-container">
-          {featureFlags.headerSearchIcon && (
-            <Link
-              to={`${currLang}/search`}
-              className="header-search-button-container header-icon-button"
-              aria-label="Go to search page"
-              onClick={() => scrollToTop()}
-            >
-              <SearchIcon aria-label="Search icon" />
-            </Link>
-          )}
           {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
           {user && featureFlags.notifications && (
             <Suspense fallback={null}>
               <LazyNotificationBell />
             </Suspense>
           )}
-          <MenuDropdown user={user || null} />
+          {!user && (
+            <div className="header-auth-actions">
+              <button type="button" className="header-login-button" onClick={() => void loginWithPopup()}>
+                {t('buttons.log_in')}
+              </button>
+              <button
+                type="button"
+                className="header-signup-button"
+                onClick={() =>
+                  void loginWithPopup({
+                    authorizationParams: { screen_hint: 'signup' }
+                  })
+                }
+              >
+                {t('buttons.sign_up')}
+              </button>
+            </div>
+          )}
+          {user && (
+            <div className="header-desktop-user-menu">
+              <MenuDropdown user={user} triggerVariant="avatar" />
+            </div>
+          )}
+          <div className="header-mobile-menu">
+            <MenuDropdown user={user || null} />
+          </div>
         </div>
         <HeaderNavbar user={user} />
-        <Link to={`/${currLang}`} className="header-logo-text" aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
+        <Link
+          to={`/${currLang}`}
+          className="header-logo-text"
+          aria-label={t('navigation.home')}
+          onClick={() => scrollToTop()}
+        >
           Studioz
         </Link>
       </header>

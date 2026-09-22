@@ -33,3 +33,4 @@ export * from './route-guards';
 export * from './icons';
 export * from './ui/ThemeToggle';
 export * from './video-player';
+export * from './view-mode-toggle';

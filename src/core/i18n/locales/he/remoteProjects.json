@@ -6,6 +6,14 @@
   "allStatuses": "כל הסטטוסים",
   "noProjects": "אין פרויקטים עדיין",
   "noProjectsHint": "גלה שירותים מרחוק כמו מיקס, מאסטרינג ועוד",
+  "noResults": "לא נמצאו פרויקטים תואמים",
+  "noResultsHint": "נסה חיפוש או סטטוס פרויקט אחר",
+  "clearFilters": "נקה מסננים",
+  "view": {
+    "label": "פריסת פרויקטים",
+    "grid": "תצוגת רשת",
+    "list": "תצוגת רשימה"
+  },
   "exploreStudios": "גלה שירותים",
   "loginRequired": "יש להתחבר כדי לצפות בפרויקטים",
   "loadError": "שגיאה בטעינת הפרויקטים",
@@ -75,6 +83,18 @@
   "editReferenceLinks": "קישורים לייחוס",
   "editReferencePlaceholder": "https://...",
   "saveChanges": "שמור שינויים",
+
+  "artwork": {
+    "alt": "תמונת הפרויקט",
+    "empty": "הוסף תמונה לפרויקט",
+    "add": "הוסף תמונה",
+    "replace": "החלף תמונה",
+    "remove": "הסר",
+    "uploading": "מעלה… {{progress}}%",
+    "invalidType": "יש לבחור תמונת JPEG, PNG או WebP",
+    "tooLarge": "גודל התמונה חייב להיות עד 8MB",
+    "confirmRemove": "להסיר את תמונת הפרויקט?"
+  },
 
   "confirmCancel": "האם אתה בטוח שברצונך לבטל את הפרויקט?",
 

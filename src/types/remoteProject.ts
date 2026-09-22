@@ -8,12 +8,7 @@ export type RemoteProjectStatus =
   | 'cancelled'
   | 'declined';
 
-export type RemoteProjectPaymentStatus =
-  | 'pending'
-  | 'card_saved'
-  | 'deposit_paid'
-  | 'fully_paid'
-  | 'refunded';
+export type RemoteProjectPaymentStatus = 'pending' | 'card_saved' | 'deposit_paid' | 'fully_paid' | 'refunded';
 
 export interface ProjectDownloadLock {
   enabled: boolean;
@@ -25,36 +20,45 @@ export interface RemoteProject {
   _id: string;
 
   // References
-  itemId: string | {
-    _id: string;
-    name?: { en: string; he?: string };
-    imgUrl?: string;
-    acceptedFileTypes?: string[];
-    maxFileSize?: number;
-    maxFilesPerProject?: number;
-  };
-  studioId: string | {
-    _id: string;
-    name?: { en: string; he?: string };
-    imgUrl?: string;
-  };
-  customerId: string | {
-    _id: string;
-    name?: string;
-    email?: string;
-    phone?: string;
-  };
-  vendorId: string | {
-    _id: string;
-    name?: string;
-    email?: string;
-  };
+  itemId:
+    | string
+    | {
+        _id: string;
+        name?: { en: string; he?: string };
+        imgUrl?: string;
+        acceptedFileTypes?: string[];
+        maxFileSize?: number;
+        maxFilesPerProject?: number;
+      };
+  studioId:
+    | string
+    | {
+        _id: string;
+        name?: { en: string; he?: string };
+        imgUrl?: string;
+      };
+  customerId:
+    | string
+    | {
+        _id: string;
+        name?: string;
+        email?: string;
+        phone?: string;
+      };
+  vendorId:
+    | string
+    | {
+        _id: string;
+        name?: string;
+        email?: string;
+      };
   collaborators?: ProjectCollaborator[];
 
   // Project Details
   title: string;
   brief: string;
   referenceLinks?: string[];
+  artworkUrl?: string;
 
   // Item snapshot
   itemName?: { en: string; he?: string };
@@ -181,6 +185,7 @@ export interface ProjectAccess {
   canCustomerWorkflow: boolean;
   canVendorWorkflow: boolean;
   canUpdateMetadata: boolean;
+  canUpdateArtwork: boolean;
   canChat: boolean;
   canFiles: boolean;
   /** False for customer-side users while the vendor's deliverable lock is active. */
@@ -188,11 +193,7 @@ export interface ProjectAccess {
   canManageDownloadLock?: boolean;
 }
 
-export type SenderRole =
-  | 'customer'
-  | 'vendor'
-  | 'customer_collaborator'
-  | 'vendor_collaborator';
+export type SenderRole = 'customer' | 'vendor' | 'customer_collaborator' | 'vendor_collaborator';
 
 export interface MessageFileCue {
   _id: string;

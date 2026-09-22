@@ -15,12 +15,12 @@ interface UseRemoteProjectsParams {
 export const useRemoteProjects = (params: UseRemoteProjectsParams = {}) => {
   const { customerId, vendorId, participantId, studioId, status, page = 1, limit = 20 } = params;
 
-  const { data, isLoading, error, refetch, isFetching } = useQuery({
+  const { data, isLoading, error, refetch, isFetching, isPlaceholderData } = useQuery({
     queryKey: ['remoteProjects', { customerId, vendorId, participantId, studioId, status, page, limit }],
     staleTime: 2 * 60 * 1000, // 2 minutes
     queryFn: () => getProjects({ customerId, vendorId, participantId, studioId, status, page, limit }),
     placeholderData: keepPreviousData,
-    enabled: !!(participantId || customerId || vendorId || studioId),
+    enabled: !!(participantId || customerId || vendorId || studioId)
   });
 
   return {
@@ -28,7 +28,8 @@ export const useRemoteProjects = (params: UseRemoteProjectsParams = {}) => {
     pagination: data?.pagination,
     isLoading,
     isFetching,
+    isPlaceholderData,
     error,
-    refetch,
+    refetch
   };
 };

@@ -217,6 +217,14 @@
     }
   }
 
+  &__view-toggle {
+    flex-shrink: 0;
+
+    @media (max-width: 639px) {
+      align-self: flex-end;
+    }
+  }
+
   // Loading & Error States
   &__loading,
   &__error {
@@ -294,6 +302,37 @@
     > div {
       height: 100%;
     }
+
+    &--list {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+
+      .projects-list__card {
+        flex-direction: row;
+        min-height: 190px;
+      }
+
+      .projects-list__card-artwork {
+        width: clamp(180px, 25%, 280px);
+        aspect-ratio: auto;
+        flex-shrink: 0;
+        border-bottom: 0;
+        border-inline-end: 1px solid var(--border-primary);
+      }
+
+      @media (max-width: 639px) {
+        .projects-list__card {
+          flex-direction: column;
+        }
+
+        .projects-list__card-artwork {
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          border-inline-end: 0;
+          border-bottom: 1px solid var(--border-primary);
+        }
+      }
+    }
   }
 
   // Project Card
@@ -322,6 +361,30 @@
 
     &:active {
       transform: scale(0.99);
+    }
+  }
+
+  &__card-artwork {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-primary));
+    color: var(--text-tertiary);
+    border-bottom: 1px solid var(--border-primary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
     }
   }
 

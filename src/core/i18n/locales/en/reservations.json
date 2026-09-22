@@ -12,6 +12,11 @@
   "noReservationsSubtitle": "Your reservations will appear here once you book a session",
   "reservationsCount": "{{count}} reservation",
   "reservationsTotal": "Total reservations: {{count}}",
+  "view": {
+    "label": "Reservation layout",
+    "grid": "Grid view",
+    "list": "List view"
+  },
   "date": "Date",
   "time": "Time",
   "duration": "Duration",
