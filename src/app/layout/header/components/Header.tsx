@@ -9,8 +9,10 @@ import { scrollToTop } from '@shared/utility-components/ScrollToTop';
 import { useLocationPermission } from '@core/contexts/LocationPermissionContext';
 import { useCities } from '@shared/hooks/utils/cities';
 import { useAuth0LoginHandler } from '@shared/hooks';
+import { useLanguageSwitcher } from '@shared/hooks/utils';
 import { featureFlags } from '@core/config/featureFlags';
 import { MenuDropdown } from './MenuDropdown';
+import { ThemeToggle } from '@shared/components';
 
 // Lazy-load NotificationBell — only needed for logged-in users
 const LazyNotificationBell = lazy(() =>
@@ -37,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
   const { userLocation } = useLocationPermission();
   const { getDisplayByCityName } = useCities();
   const { loginWithPopup } = useAuth0LoginHandler();
+  const { currentLanguage, changeLanguage } = useLanguageSwitcher();
   const [currentCity, setCurrentCity] = useState<string | null>(null);
   const currLang = i18n.language || 'en';
   const showBackButton = shouldShowBackButton(location.pathname);
@@ -101,6 +104,17 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
               <LazyNotificationBell />
             </Suspense>
           )}
+          <div className="header-desktop-preferences">
+            <ThemeToggle size="sm" />
+            <button
+              type="button"
+              className="header-language-button"
+              onClick={() => changeLanguage(currentLanguage === 'he' ? 'en' : 'he')}
+              aria-label={currentLanguage === 'he' ? t('navigation.switchToEnglish') : t('navigation.switchToHebrew')}
+            >
+              {currentLanguage === 'he' ? 'EN' : 'עברית'}
+            </button>
+          </div>
           {!user && (
             <div className="header-auth-actions">
               <button type="button" className="header-login-button" onClick={() => void loginWithPopup()}>

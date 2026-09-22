@@ -32,10 +32,12 @@
 
   &__artwork {
     display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    width: min(11rem, calc(100% - 2.5rem));
+    aspect-ratio: 1;
     object-fit: cover;
-    border-bottom: 1px solid var(--border-primary);
+    margin: 1.25rem auto 0;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.75rem;
   }
 
   // ========================================

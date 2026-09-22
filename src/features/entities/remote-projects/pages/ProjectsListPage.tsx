@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft, Images } from 'lucide-react';
+import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft, ArrowRight, Images } from 'lucide-react';
 import { useUserContext } from '@core/contexts';
 import { useSocket } from '@core/contexts/SocketContext';
 import { useRemoteProjects } from '@shared/hooks';
@@ -57,6 +57,7 @@ export const ProjectsListPage: React.FC = () => {
     customer: t('customer')
   };
   const getNames = (project: RemoteProject) => getProjectDisplayNames(project, i18n.language, nameFallbacks);
+  const ViewProjectArrow = i18n.dir() === 'rtl' ? ArrowLeft : ArrowRight;
 
   // Status is filtered by the API. Search applies to the currently loaded status page.
   const normalizedSearch = searchQuery.trim().toLocaleLowerCase();
@@ -212,7 +213,7 @@ export const ProjectsListPage: React.FC = () => {
                           `${t('createdAt')} ${new Date(project.createdAt).toLocaleDateString(i18n.language)}`}
                       </span>
                       <span className="projects-list__card-link">
-                        {t('viewProject')} <ArrowLeft />
+                        {t('viewProject')} <ViewProjectArrow />
                       </span>
                     </div>
                   </div>

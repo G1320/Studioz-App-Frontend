@@ -65,6 +65,12 @@ export const ProjectArtwork: React.FC<ProjectArtworkProps> = ({ projectId, artwo
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected: (rejections) => {
+      const isTooLarge = rejections.some((rejection) =>
+        rejection.errors.some((error) => error.code === 'file-too-large')
+      );
+      toast.error(t(isTooLarge ? 'artwork.tooLarge' : 'artwork.invalidType'));
+    },
     accept: {
       'image/jpeg': ['.jpg', '.jpeg'],
       'image/png': ['.png'],
@@ -110,35 +116,44 @@ export const ProjectArtwork: React.FC<ProjectArtworkProps> = ({ projectId, artwo
             <span>{t('artwork.uploading', { progress })}</span>
           </div>
         )}
+        {canEdit && isDragActive && (
+          <div className="project-artwork__drop-overlay">
+            <ImagePlus aria-hidden="true" />
+            <span>{t('artwork.dropNow')}</span>
+          </div>
+        )}
       </div>
 
       {canEdit && (
-        <div className="project-artwork__actions">
-          <label className={`project-artwork__button${isPending ? ' project-artwork__button--disabled' : ''}`}>
-            <ImagePlus aria-hidden="true" />
-            {displayUrl ? t('artwork.replace') : t('artwork.add')}
-            <input
-              type="file"
-              accept=".jpg,.jpeg,.png,.webp"
-              disabled={isPending}
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                if (file) void onDrop([file]);
-                event.target.value = '';
-              }}
-            />
-          </label>
-          {displayUrl && (
-            <button
-              type="button"
-              className="project-artwork__button project-artwork__button--danger"
-              onClick={handleRemove}
-              disabled={isPending}
-            >
-              <Trash2 aria-hidden="true" />
-              {t('artwork.remove')}
-            </button>
-          )}
+        <div className="project-artwork__controls">
+          <div className="project-artwork__actions">
+            <label className={`project-artwork__button${isPending ? ' project-artwork__button--disabled' : ''}`}>
+              <ImagePlus aria-hidden="true" />
+              {displayUrl ? t('artwork.replace') : t('artwork.add')}
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.webp"
+                disabled={isPending}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void onDrop([file]);
+                  event.target.value = '';
+                }}
+              />
+            </label>
+            {displayUrl && (
+              <button
+                type="button"
+                className="project-artwork__button project-artwork__button--danger"
+                onClick={handleRemove}
+                disabled={isPending}
+              >
+                <Trash2 aria-hidden="true" />
+                {t('artwork.remove')}
+              </button>
+            )}
+          </div>
+          <span className="project-artwork__drop-hint">{t('artwork.dropHint')}</span>
         </div>
       )}
     </section>

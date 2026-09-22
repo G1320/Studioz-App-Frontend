@@ -34,6 +34,25 @@ const CHANGELOG_DATA: MonthGroup[] = [
     monthKey: 'months.sep2026',
     releases: [
       {
+        version: 'sep-audio-review',
+        dateKey: 'releases.sep2026.audioReview.date',
+        titleKey: 'releases.sep2026.audioReview.title',
+        descriptionKey: 'releases.sep2026.audioReview.description',
+        changes: [
+          { id: 'sep-a1', type: 'feature', descriptionKey: 'releases.sep2026.audioReview.changes.review' },
+          {
+            id: 'sep-a2',
+            type: 'feature',
+            descriptionKey: 'releases.sep2026.audioReview.changes.notifications'
+          },
+          {
+            id: 'sep-a3',
+            type: 'improvement',
+            descriptionKey: 'releases.sep2026.audioReview.changes.resolution'
+          }
+        ]
+      },
+      {
         version: 'sep-project-workspace',
         dateKey: 'releases.sep2026.projectWorkspace.date',
         titleKey: 'releases.sep2026.projectWorkspace.title',
@@ -59,6 +78,212 @@ const CHANGELOG_DATA: MonthGroup[] = [
             id: 'sep-d2',
             type: 'improvement',
             descriptionKey: 'releases.sep2026.dashboardNavigation.changes.desktopHeader'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    monthKey: 'months.aug2026',
+    releases: [
+      {
+        version: 'aug-project-collaboration',
+        dateKey: 'releases.aug2026.collaboration.date',
+        titleKey: 'releases.aug2026.collaboration.title',
+        descriptionKey: 'releases.aug2026.collaboration.description',
+        changes: [
+          {
+            id: 'aug-c1',
+            type: 'feature',
+            descriptionKey: 'releases.aug2026.collaboration.changes.invites'
+          },
+          {
+            id: 'aug-c2',
+            type: 'feature',
+            descriptionKey: 'releases.aug2026.collaboration.changes.permissions'
+          },
+          {
+            id: 'aug-c3',
+            type: 'improvement',
+            descriptionKey: 'releases.aug2026.collaboration.changes.loginReturn'
+          }
+        ]
+      },
+      {
+        version: 'aug-audio-portfolio',
+        dateKey: 'releases.aug2026.audioPortfolio.date',
+        titleKey: 'releases.aug2026.audioPortfolio.title',
+        descriptionKey: 'releases.aug2026.audioPortfolio.description',
+        changes: [
+          {
+            id: 'aug-p1',
+            type: 'feature',
+            descriptionKey: 'releases.aug2026.audioPortfolio.changes.player'
+          },
+          {
+            id: 'aug-p2',
+            type: 'feature',
+            descriptionKey: 'releases.aug2026.audioPortfolio.changes.comments'
+          },
+          {
+            id: 'aug-p3',
+            type: 'feature',
+            descriptionKey: 'releases.aug2026.audioPortfolio.changes.portfolio'
+          },
+          {
+            id: 'aug-p4',
+            type: 'improvement',
+            descriptionKey: 'releases.aug2026.audioPortfolio.changes.covers'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    monthKey: 'months.jun2026',
+    releases: [
+      {
+        version: 'jun-accessibility-compliance',
+        dateKey: 'releases.jun2026.compliance.date',
+        titleKey: 'releases.jun2026.compliance.title',
+        descriptionKey: 'releases.jun2026.compliance.description',
+        changes: [
+          {
+            id: 'jun-c1',
+            type: 'feature',
+            descriptionKey: 'releases.jun2026.compliance.changes.statement'
+          },
+          {
+            id: 'jun-c2',
+            type: 'improvement',
+            descriptionKey: 'releases.jun2026.compliance.changes.legal'
+          },
+          {
+            id: 'jun-c3',
+            type: 'fix',
+            descriptionKey: 'releases.jun2026.compliance.changes.loginLayout'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    monthKey: 'months.may2026',
+    releases: [
+      {
+        version: 'may-payments-bookings',
+        dateKey: 'releases.may2026.paymentsBookings.date',
+        titleKey: 'releases.may2026.paymentsBookings.title',
+        descriptionKey: 'releases.may2026.paymentsBookings.description',
+        changes: [
+          {
+            id: 'may-p1',
+            type: 'feature',
+            descriptionKey: 'releases.may2026.paymentsBookings.changes.multiCard'
+          },
+          {
+            id: 'may-p2',
+            type: 'feature',
+            descriptionKey: 'releases.may2026.paymentsBookings.changes.defaultCard'
+          },
+          {
+            id: 'may-p3',
+            type: 'improvement',
+            descriptionKey: 'releases.may2026.paymentsBookings.changes.cancellationPolicy'
+          },
+          {
+            id: 'may-p4',
+            type: 'fix',
+            descriptionKey: 'releases.may2026.paymentsBookings.changes.calendar'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    monthKey: 'months.apr2026',
+    releases: [
+      {
+        version: 'apr-remote-project-workflow',
+        dateKey: 'releases.apr2026.remoteWorkflow.date',
+        titleKey: 'releases.apr2026.remoteWorkflow.title',
+        descriptionKey: 'releases.apr2026.remoteWorkflow.description',
+        changes: [
+          {
+            id: 'apr-r1',
+            type: 'feature',
+            descriptionKey: 'releases.apr2026.remoteWorkflow.changes.realtime'
+          },
+          {
+            id: 'apr-r2',
+            type: 'feature',
+            descriptionKey: 'releases.apr2026.remoteWorkflow.changes.payments'
+          },
+          {
+            id: 'apr-r3',
+            type: 'feature',
+            descriptionKey: 'releases.apr2026.remoteWorkflow.changes.paidRevisions'
+          },
+          {
+            id: 'apr-r4',
+            type: 'feature',
+            descriptionKey: 'releases.apr2026.remoteWorkflow.changes.notifications'
+          },
+          {
+            id: 'apr-r5',
+            type: 'improvement',
+            descriptionKey: 'releases.apr2026.remoteWorkflow.changes.editing'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    monthKey: 'months.mar2026',
+    releases: [
+      {
+        version: 'mar-business-operations',
+        dateKey: 'releases.mar2026.businessOps.date',
+        titleKey: 'releases.mar2026.businessOps.title',
+        descriptionKey: 'releases.mar2026.businessOps.description',
+        changes: [
+          {
+            id: 'mar-b1',
+            type: 'feature',
+            descriptionKey: 'releases.mar2026.businessOps.changes.billing'
+          },
+          {
+            id: 'mar-b2',
+            type: 'feature',
+            descriptionKey: 'releases.mar2026.businessOps.changes.calendar'
+          },
+          {
+            id: 'mar-b3',
+            type: 'improvement',
+            descriptionKey: 'releases.mar2026.businessOps.changes.notifications'
+          }
+        ]
+      },
+      {
+        version: 'mar-trust-support',
+        dateKey: 'releases.mar2026.trustSupport.date',
+        titleKey: 'releases.mar2026.trustSupport.title',
+        descriptionKey: 'releases.mar2026.trustSupport.description',
+        changes: [
+          {
+            id: 'mar-t1',
+            type: 'feature',
+            descriptionKey: 'releases.mar2026.trustSupport.changes.status'
+          },
+          {
+            id: 'mar-t2',
+            type: 'feature',
+            descriptionKey: 'releases.mar2026.trustSupport.changes.infoPages'
+          },
+          {
+            id: 'mar-t3',
+            type: 'improvement',
+            descriptionKey: 'releases.mar2026.trustSupport.changes.localization'
           }
         ]
       }

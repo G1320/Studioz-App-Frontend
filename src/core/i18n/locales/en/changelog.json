@@ -3,6 +3,11 @@
   "subtitle": "All new features, improvements, and fixes",
   "months": {
     "sep2026": "September 2026",
+    "aug2026": "August 2026",
+    "jun2026": "June 2026",
+    "may2026": "May 2026",
+    "apr2026": "April 2026",
+    "mar2026": "March 2026",
     "feb2026": "February 2026",
     "jan2026": "January 2026",
     "dec2025": "December 2025",
@@ -10,6 +15,16 @@
   },
   "releases": {
     "sep2026": {
+      "audioReview": {
+        "date": "September 15–16, 2026",
+        "title": "Collaborative Audio Review",
+        "description": "A clearer feedback loop for every project track",
+        "changes": {
+          "review": "Review project audio with waveform-backed, time-coded discussion threads",
+          "notifications": "Project participants receive notifications for new discussions and replies",
+          "resolution": "Customers can resolve and reopen feedback while updates sync in real time"
+        }
+      },
       "projectWorkspace": {
         "date": "September 22, 2026",
         "title": "Project Workspace Improvements",
@@ -27,6 +42,90 @@
         "changes": {
           "projectActivity": "Remote projects now appear alongside reservations in dashboard activity",
           "desktopHeader": "A new role-aware desktop header provides direct access to primary destinations"
+        }
+      }
+    },
+    "aug2026": {
+      "collaboration": {
+        "date": "August 28–30, 2026",
+        "title": "Project Collaborators",
+        "description": "Bring teammates and clients into the same project workspace",
+        "changes": {
+          "invites": "Invite collaborators by email with a dedicated acceptance flow",
+          "permissions": "Collaborators can securely access project chat, files, and relevant workflow actions",
+          "loginReturn": "Minor fixes and improvements to invitation and sign-in flows"
+        }
+      },
+      "audioPortfolio": {
+        "date": "August 10–16, 2026",
+        "title": "Hi-Fi Playback & Studio Portfolios",
+        "description": "Better ways to present and review professional audio",
+        "changes": {
+          "player": "High-fidelity in-page playback for remote project files",
+          "comments": "Add comments at exact moments in a track and continue the discussion in project chat",
+          "portfolio": "Studio portfolio tracks now play directly from visual exhibit tiles",
+          "covers": "Portfolio tracks support uploaded or embedded cover artwork"
+        }
+      }
+    },
+    "jun2026": {
+      "compliance": {
+        "date": "June 15–16, 2026",
+        "title": "Accessibility & Legal Clarity",
+        "description": "Improved access to important platform information",
+        "changes": {
+          "statement": "Added a dedicated accessibility statement",
+          "legal": "Updated legal and compliance information for Israeli users",
+          "loginLayout": "Minor fixes and improvements across account and studio setup screens"
+        }
+      }
+    },
+    "may2026": {
+      "paymentsBookings": {
+        "date": "May 18–31, 2026",
+        "title": "Payment Methods & Booking Clarity",
+        "description": "More control over payments and clearer booking terms",
+        "changes": {
+          "multiCard": "Save and manage multiple payment cards",
+          "defaultCard": "Choose which saved card is used by default",
+          "cancellationPolicy": "Cancellation policy details now appear in the order summary",
+          "calendar": "Minor fixes and improvements to connected calendars and booking screens"
+        }
+      }
+    },
+    "apr2026": {
+      "remoteWorkflow": {
+        "date": "April 12–14, 2026",
+        "title": "Remote Project Workflow Upgrade",
+        "description": "Projects became faster, more connected, and payment-ready",
+        "changes": {
+          "realtime": "Project status, chat, and file changes update in real time",
+          "payments": "Integrated deposits and final payments into the project workflow",
+          "paidRevisions": "Customers can request and pay for revisions after included revisions are used",
+          "notifications": "Added dedicated project notifications for customers and studios",
+          "editing": "Studios can update project titles and reference links"
+        }
+      }
+    },
+    "mar2026": {
+      "businessOps": {
+        "date": "March 3–8, 2026",
+        "title": "Business Operations",
+        "description": "New tools for managing schedules, fees, and communication",
+        "changes": {
+          "billing": "Added billing history, platform fee tracking, and tiered fee visibility",
+          "calendar": "Expanded Google Calendar integration and synchronization",
+          "notifications": "Minor fixes and improvements to notifications and connected services"
+        }
+      },
+      "trustSupport": {
+        "date": "March 7–15, 2026",
+        "title": "Status, Help & Company Information",
+        "description": "More transparency and easier access to answers",
+        "changes": {
+          "status": "Added a public system status page with outage information",
+          "infoPages": "Added About, FAQ, and Studio Owner FAQ pages",
+          "localization": "Minor fixes and improvements across localized customer-facing pages"
         }
       }
     },

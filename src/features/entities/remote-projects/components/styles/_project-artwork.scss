@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: min(100%, 20rem);
 
   &--dragging &__visual {
     border-color: var(--color-brand);
@@ -10,7 +11,7 @@
   &__visual {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1;
     overflow: hidden;
     border: 1px solid var(--border-primary);
     border-radius: 1rem;
@@ -49,6 +50,33 @@
     background: rgba(0, 0, 0, 0.65);
     color: #fff;
     font-weight: 600;
+  }
+
+  &__drop-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    background: color-mix(in srgb, var(--color-brand) 18%, rgba(0, 0, 0, 0.72));
+    color: #fff;
+    font-weight: 700;
+    pointer-events: none;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   &__actions {
@@ -99,5 +127,10 @@
       border-color: var(--border-primary);
       color: var(--text-primary);
     }
+  }
+
+  &__drop-hint {
+    color: var(--text-tertiary);
+    font-size: 0.8125rem;
   }
 }

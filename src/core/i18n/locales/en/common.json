@@ -43,7 +43,9 @@
     "security": "Security",
     "pricing": "Pricing",
     "about": "About",
-    "changelog": "Changelog"
+    "changelog": "Changelog",
+    "switchToEnglish": "Switch to English",
+    "switchToHebrew": "Switch to Hebrew"
   },
   "days": {
     "sunday": "Sunday",

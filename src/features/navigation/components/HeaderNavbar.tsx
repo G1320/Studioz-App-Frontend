@@ -80,14 +80,6 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
       ) : (
         <>
           <Link
-            to={`/${currLang}/features`}
-            className="navbar-link"
-            aria-current={isCurrentPage(`/${currLang}/features`) ? 'page' : undefined}
-            onClick={() => scrollToTop()}
-          >
-            {t('navigation.features')}
-          </Link>
-          <Link
             to={`/${currLang}/security`}
             className="navbar-link"
             aria-current={isCurrentPage(`/${currLang}/security`) ? 'page' : undefined}

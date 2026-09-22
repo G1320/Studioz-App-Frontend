@@ -304,7 +304,8 @@ header.app-header {
 }
 
 .header-auth-actions,
-.header-desktop-user-menu {
+.header-desktop-user-menu,
+.header-desktop-preferences {
   display: none;
 }
 
@@ -368,9 +369,44 @@ header.app-header {
   }
 
   .header-auth-actions,
-  .header-desktop-user-menu {
+  .header-desktop-user-menu,
+  .header-desktop-preferences {
     display: flex;
     align-items: center;
+  }
+
+  .header-desktop-preferences {
+    gap: 0.375rem;
+    padding-inline-end: 0.25rem;
+  }
+
+  .header-language-button {
+    min-width: 2.5rem;
+    height: 2rem;
+    padding-inline: 0.5rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease,
+      border-color 0.18s ease;
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand);
+      outline-offset: 2px;
+    }
   }
 
   .header-auth-actions {

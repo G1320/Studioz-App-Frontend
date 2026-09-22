@@ -43,7 +43,9 @@
     "security": "אבטחה",
     "pricing": "מחירים",
     "about": "אודות",
-    "changelog": "עדכונים"
+    "changelog": "עדכונים",
+    "switchToEnglish": "מעבר לאנגלית",
+    "switchToHebrew": "מעבר לעברית"
   },
   "days": {
     "sunday": "ראשון",

@@ -90,6 +90,8 @@
     "add": "Add artwork",
     "replace": "Replace artwork",
     "remove": "Remove",
+    "dropHint": "Or drop an image onto the artwork",
+    "dropNow": "Drop to upload",
     "uploading": "Uploading… {{progress}}%",
     "invalidType": "Choose a JPEG, PNG, or WebP image",
     "tooLarge": "Artwork must be 8MB or smaller",
