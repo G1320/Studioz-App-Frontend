@@ -99,6 +99,14 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
             {t('navigation.about')}
           </Link>
           <Link
+            to={`/${currLang}/owner-faq`}
+            className="navbar-link"
+            aria-current={isCurrentPage(`/${currLang}/owner-faq`) ? 'page' : undefined}
+            onClick={() => scrollToTop()}
+          >
+            {t('navigation.studioFaq')}
+          </Link>
+          <Link
             to={`/${currLang}/changelog`}
             className="navbar-link"
             aria-current={isCurrentPage(`/${currLang}/changelog`) ? 'page' : undefined}

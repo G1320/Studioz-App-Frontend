@@ -342,7 +342,9 @@ header.app-header {
 
 @media screen and (min-width: 901px) {
   header.app-header {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    // Equal side columns keep navigation centered in the viewport even when
+    // the controls are wider than the logo.
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: 2rem;
     padding-inline: 1.5rem;
 
