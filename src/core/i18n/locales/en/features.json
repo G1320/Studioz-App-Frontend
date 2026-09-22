@@ -3,6 +3,27 @@
     "title": "Product Features",
     "description": "Studioz platform features: smart calendar, insights, service setup, payments, studio pages, availability control, and remote projects. Explanations and images for each feature."
   },
+  "hero": {
+    "eyebrow": "Built for independent studios",
+    "title": "Everything your studio needs.",
+    "titleAccent": "One beautiful workspace.",
+    "description": "Bookings, payments, clients, projects, and insights—thoughtfully connected so you can spend less time managing and more time creating.",
+    "primaryCta": "Explore the platform",
+    "secondaryCta": "Studio owner FAQ",
+    "floatingNote": "Your schedule, always in sync"
+  },
+  "grid": {
+    "eyebrow": "One connected platform",
+    "title": "Powerful where it matters. Effortless everywhere else.",
+    "description": "Every tool shares the same context, so your calendar, cash flow, client work, and studio presence always stay in step.",
+    "details": "See how it works"
+  },
+  "closing": {
+    "eyebrow": "Ready when you are",
+    "title": "Turn your studio into a business that runs beautifully.",
+    "description": "Create your studio, shape your services, and start building a smoother experience for you and your clients.",
+    "cta": "List your studio"
+  },
   "list": [
     {
       "id": "calendar",
