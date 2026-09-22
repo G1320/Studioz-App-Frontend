@@ -461,6 +461,40 @@ header.app-header {
   }
 }
 
+@media screen and (min-width: 901px) and (max-width: 1150px) {
+  header.app-header {
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    padding-inline: 1rem;
+
+    .navbar {
+      gap: clamp(0.75rem, 1.4vw, 1rem);
+
+      .navbar-link {
+        font-size: 0.875rem;
+      }
+    }
+
+    .header-options-container,
+    .header-auth-actions,
+    .header-desktop-preferences {
+      gap: 0.25rem;
+    }
+
+    .header-desktop-preferences {
+      padding-inline-end: 0;
+    }
+
+    .header-login-button,
+    .header-signup-button {
+      padding-inline: 0.75rem;
+    }
+
+    .header-signup-button {
+      padding-inline: 1rem;
+    }
+  }
+}
+
 @media screen and (max-width: 900px) {
   header.app-header .navbar {
     display: none !important;
