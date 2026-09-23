@@ -1941,15 +1941,13 @@
   gap: 0.4rem;
   font-size: 0.7rem;
   color: var(--text-muted);
-  // Lock LTR so Low sits on the light end and High on the saturated end in RTL pages
-  direction: ltr;
 
   &__ramp {
     width: 4rem;
     height: 0.35rem;
     border-radius: 9999px;
     background: linear-gradient(
-      to right,
+      to inline-end,
       color-mix(in srgb, var(--color-brand) 12%, transparent),
       var(--color-brand)
     );

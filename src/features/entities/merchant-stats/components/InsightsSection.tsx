@@ -140,7 +140,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, for
       <div className="ms-panel insights-heatmap">
         <div className="ms-panel__header">
           <h3>{t('insights.heatmapTitle', 'הכנסות לפי שעה')}</h3>
-          <div className="heatmap-legend" dir="ltr" aria-hidden="true">
+          <div className="heatmap-legend" aria-hidden="true">
             <span>{t('insights.heatmapLow', 'נמוך')}</span>
             <span className="heatmap-legend__ramp" />
             <span>{t('insights.heatmapHigh', 'גבוה')}</span>
