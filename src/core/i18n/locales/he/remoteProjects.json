@@ -1,5 +1,5 @@
 {
-  "myProjects": "הפרויקטים שלי",
+  "myProjects": "פרוייקטים",
   "subtitle": "נהל את שיתופי הפעולה והעבודות המרוחקות שלך",
   "newProject": "פרויקט חדש",
   "searchProjects": "חיפוש פרויקטים...",
@@ -116,7 +116,10 @@
   "deliverables": "קבצים למסירה",
   "revisionFiles": "קבצי תיקון",
   "noFiles": "לא הועלו קבצים עדיין",
+  "fileCount": "{{count}} קבצים",
   "fileCount_one": "קובץ אחד",
+  "fileCount_two": "שני קבצים",
+  "fileCount_many": "{{count}} קבצים",
   "fileCount_other": "{{count}} קבצים",
   "addFiles": "הוסף קבצים",
   "dropAnywhereHint": "גררו קבצים לכל מקום בעמוד, או השתמשו ב־+ לבחירה",

@@ -117,19 +117,26 @@
 
   &__filters {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
 
     @media (min-width: 640px) {
-      flex-direction: row;
-      align-items: center;
+      flex-wrap: nowrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
     }
   }
 
   &__search {
     position: relative;
-    flex: 1;
+    flex: 1 1 100%;
+    min-width: 0;
+
+    @media (min-width: 640px) {
+      flex: 1 1 auto;
+    }
 
     svg {
       position: absolute;
@@ -169,8 +176,14 @@
 
   &__filter {
     position: relative;
-    min-width: 160px;
+    min-width: 0;
+    flex: 1 1 calc(50% - 0.25rem);
     flex-shrink: 0;
+
+    @media (min-width: 640px) {
+      min-width: 160px;
+      flex: 0 0 auto;
+    }
 
     &--sort {
       min-width: 0;
@@ -216,7 +229,11 @@
     align-items: center;
     gap: 0.375rem;
     min-width: 0;
-    flex: 0 1 260px;
+    flex: 1 1 calc(50% - 0.25rem);
+
+    @media (min-width: 640px) {
+      flex: 0 1 260px;
+    }
   }
 
   &__direction {
@@ -266,9 +283,10 @@
 
   &__view-toggle {
     flex-shrink: 0;
+    margin-inline-start: auto;
 
     @media (max-width: 639px) {
-      align-self: flex-end;
+      align-self: center;
     }
   }
 

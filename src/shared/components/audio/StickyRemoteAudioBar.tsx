@@ -48,8 +48,10 @@ export const StickyRemoteAudioBar: FC = () => {
   useEffect(() => {
     if (!visible) return;
     const previous = document.body.style.paddingBottom;
-    document.body.style.paddingBottom = '5.5rem';
+    document.body.classList.add('has-sticky-audio-bar');
+    document.body.style.paddingBottom = 'calc(6.25rem + env(safe-area-inset-bottom, 0px))';
     return () => {
+      document.body.classList.remove('has-sticky-audio-bar');
       document.body.style.paddingBottom = previous;
     };
   }, [visible]);

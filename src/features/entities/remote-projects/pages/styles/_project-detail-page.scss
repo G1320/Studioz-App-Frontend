@@ -16,6 +16,10 @@
     padding: 1.5rem;
   }
 
+  body.has-sticky-audio-bar & {
+    padding-bottom: calc(1rem + 0.5rem);
+  }
+
   // Demo Banner
   &__demo-banner {
     display: flex;

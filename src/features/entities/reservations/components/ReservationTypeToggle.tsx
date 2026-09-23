@@ -18,29 +18,27 @@ export const ReservationTypeToggle: React.FC<ReservationTypeToggleProps> = ({
   const { t } = useTranslation('reservations');
 
   return (
-    <div className={`reservation-type-toggle ${className}`}>
-      {/* Type buttons group */}
-      <div className="reservation-type-toggle__type-group">
+    <div className={`reservation-type-toggle ${className}`} role="group" aria-label={t('toggle.all')}>
       <button
-          className={`reservation-type-toggle__button ${viewType === 'outgoing' ? 'active' : ''}`}
-          onClick={() => onViewTypeChange('outgoing')}
-      >
-          {t('toggle.myBookings')}
-      </button>
-      <button
-        className={`reservation-type-toggle__button ${viewType === 'incoming' ? 'active' : ''}`}
-        onClick={() => onViewTypeChange('incoming')}
-      >
-        {t('toggle.studioReservations')}
-      </button>
-      </div>
-
-      {/* All button */}
-      <button
+        type="button"
         className={`reservation-type-toggle__button reservation-type-toggle__button--all ${viewType === 'all' ? 'active' : ''}`}
         onClick={() => onViewTypeChange('all')}
       >
         {t('toggle.all')}
+      </button>
+      <button
+        type="button"
+        className={`reservation-type-toggle__button ${viewType === 'outgoing' ? 'active' : ''}`}
+        onClick={() => onViewTypeChange('outgoing')}
+      >
+        {t('toggle.myBookings')}
+      </button>
+      <button
+        type="button"
+        className={`reservation-type-toggle__button ${viewType === 'incoming' ? 'active' : ''}`}
+        onClick={() => onViewTypeChange('incoming')}
+      >
+        {t('toggle.studioReservations')}
       </button>
     </div>
   );

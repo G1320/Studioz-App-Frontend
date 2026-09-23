@@ -1,5 +1,5 @@
 {
-  "myProjects": "My Projects",
+  "myProjects": "Projects",
   "subtitle": "Manage your remote studio collaborations and deliverables",
   "newProject": "Start New Project",
   "searchProjects": "Search projects...",
@@ -116,6 +116,7 @@
   "deliverables": "Deliverables",
   "revisionFiles": "Revision Files",
   "noFiles": "No files uploaded yet",
+  "fileCount": "{{count}} files",
   "fileCount_one": "{{count}} file",
   "fileCount_other": "{{count}} files",
   "addFiles": "Add files",

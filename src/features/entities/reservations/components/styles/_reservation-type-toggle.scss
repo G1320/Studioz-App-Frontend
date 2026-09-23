@@ -1,36 +1,33 @@
 @use 'utilities/variables' as vars;
 
-// Full-width type tabs — lighter chrome to match projects toolbar
+// Full-width type tabs — one row on all breakpoints
 
 .reservation-type-toggle {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.375rem;
   width: 100%;
-  flex-wrap: wrap;
-
-  &__type-group {
-    display: flex;
-    flex: 1;
-    min-width: 0;
-    gap: 0.375rem;
-  }
 
   &__button {
     flex: 1;
     min-width: 0;
-    padding: 0.5rem 0.875rem;
+    padding: 0.4375rem 0.5rem;
     background: var(--bg-surface);
     color: var(--text-muted);
     border: 1px solid var(--border-secondary);
     border-radius: 0.5rem;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media (min-width: 480px) {
+      padding: 0.5rem 0.875rem;
+      font-size: 0.8125rem;
+    }
 
     &:hover:not(.active) {
       color: var(--text-secondary);
@@ -45,6 +42,7 @@
 
     &--all {
       flex: 0 0 auto;
+      min-width: 3.25rem;
       font-weight: 600;
 
       &.active {
@@ -52,19 +50,6 @@
         color: var(--btn-primary-text);
         border-color: var(--color-brand);
       }
-    }
-  }
-
-  @media (max-width: 640px) {
-    flex-direction: column;
-    align-items: stretch;
-
-    &__type-group {
-      width: 100%;
-    }
-
-    &__button--all {
-      width: 100%;
     }
   }
 }

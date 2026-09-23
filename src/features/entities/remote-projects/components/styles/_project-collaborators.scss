@@ -54,10 +54,10 @@
     height: 1.875rem;
     flex-shrink: 0;
     margin-inline-start: 0.25rem;
-    border: 1.5px dashed color-mix(in srgb, var(--color-brand) 65%, transparent);
+    border: 1.5px dashed color-mix(in srgb, var(--text-primary) 28%, transparent);
     border-radius: 9999px;
-    background: color-mix(in srgb, var(--color-brand) 14%, transparent);
-    color: var(--color-brand);
+    background: transparent;
+    color: var(--text-secondary);
     cursor: pointer;
     transition:
       background 0.15s ease,
@@ -73,15 +73,15 @@
 
     &:hover,
     &:focus-visible {
-      background: color-mix(in srgb, var(--color-brand) 24%, transparent);
-      border-color: var(--color-brand);
+      background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 45%, transparent);
       border-style: solid;
-      color: var(--color-brand);
+      color: var(--text-primary);
       outline: none;
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 2px var(--bg-surface, var(--bg-secondary)), 0 0 0 4px var(--color-brand);
+      box-shadow: 0 0 0 2px var(--bg-surface, var(--bg-secondary)), 0 0 0 4px color-mix(in srgb, var(--text-primary) 35%, transparent);
     }
 
     &:active {

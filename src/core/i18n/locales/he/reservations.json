@@ -1,5 +1,5 @@
 {
-  "myReservations": "ההזמנות שלי",
+  "myReservations": "הזמנות",
   "reservationDetails": "פרטי הזמנה",
   "accessYourReservations": "גש להזמנות שלך",
   "enterPhoneToView": "הכנס את מספר הטלפון שלך כדי לצפות בהזמנות שלך",
@@ -82,8 +82,8 @@
   },
   "toggle": {
     "all": "הכל",
-    "myBookings": " הזמנות יוצאות",
-    "studioReservations": "הזמנות נכנסות"
+    "myBookings": "יוצאות",
+    "studioReservations": "נכנסות"
   },
   "cancelReservation": "בטל הזמנה",
   "cancelling": "מבטל...",

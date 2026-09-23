@@ -497,6 +497,13 @@ export const ProjectDetailPage: React.FC = () => {
                   </div>
                 </div>
 
+                {project.brief && (
+                  <div className="project-detail__brief-block">
+                    <h3 className="project-detail__brief-label">{t('brief')}</h3>
+                    <p className="project-detail__brief">{project.brief}</p>
+                  </div>
+                )}
+
                 {user && (
                   <ProjectCollaborators
                     projectId={projectId}
@@ -504,13 +511,6 @@ export const ProjectDetailPage: React.FC = () => {
                     canInvite={canInvite}
                     currentUserId={user._id}
                   />
-                )}
-
-                {project.brief && (
-                  <div className="project-detail__brief-block">
-                    <h3 className="project-detail__brief-label">{t('brief')}</h3>
-                    <p className="project-detail__brief">{project.brief}</p>
-                  </div>
                 )}
 
                 {project.referenceLinks && project.referenceLinks.length > 0 && (

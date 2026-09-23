@@ -5,10 +5,10 @@
       "title": "Actions"
     },
     "buttons": {
-      "profile": "My Profile",
+      "profile": "Profile",
       "studios": "Studios",
       "dashboard": "Dashboard",
-      "reservations": "My reservations",
+      "reservations": "Reservations",
       "wishlists": "Wishlists",
       "howItWorks": "How It Works",
       "editProfile": "Edit Profile",

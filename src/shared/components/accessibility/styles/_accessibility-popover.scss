@@ -23,6 +23,10 @@
     inset-inline-end: 0.75rem;
   }
 
+  body.has-sticky-audio-bar & {
+    bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
   &:hover {
     transform: scale(1.08);
     box-shadow: var(--shadow-glow);
@@ -283,12 +287,29 @@
   }
 }
 
+// Sit above the sticky audio transport
+body.has-sticky-audio-bar .a11y-popover {
+  bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+
+  @media (max-width: 768px) {
+    bottom: calc(11.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 // Sit above the cookie banner only while it is on screen
 body:has(.cookie-banner--visible) .a11y-trigger {
   bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
 
   @media (max-width: 768px) {
     bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+body:has(.cookie-banner--visible).has-sticky-audio-bar .a11y-trigger {
+  bottom: calc(12rem + env(safe-area-inset-bottom, 0px));
+
+  @media (max-width: 768px) {
+    bottom: calc(16rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

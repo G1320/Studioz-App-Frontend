@@ -5,11 +5,11 @@
       "title": "פעולות"
     },
     "buttons": {
-      "profile": "הפרופיל שלי",
+      "profile": "פרופיל",
       "studios": "אולפנים",
       "dashboard": "דשבורד",
-      "reservations": "ההזמנות שלי",
-      "wishlists": "הרשימות שלי",
+      "reservations": "הזמנות",
+      "wishlists": "רשימות",
       "howItWorks": "איך זה עובד",
       "editProfile": "ערוך פרופיל",
       "cancel": "ביטול",
