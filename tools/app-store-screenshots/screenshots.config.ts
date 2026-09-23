@@ -438,7 +438,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'feature',
     actions: [
-      { type: 'click', selector: '.stats-sub-tabs__tab:nth-child(2)' },
+      { type: 'click', selector: '.view-tabs__tab:nth-child(2)' },
       { type: 'scroll', selector: '.studio-comparison-chart' }
     ],
     deviceTransform: { scale: 0.72, y: 100, rotation: -0.5, shadow: true },
@@ -463,7 +463,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'minimal',
     actions: [
-      { type: 'click', selector: '.stats-sub-tabs__tab:nth-child(4)' },
+      { type: 'click', selector: '.view-tabs__tab:nth-child(4)' },
       { type: 'scroll', selector: '.projections-chart' }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
@@ -488,7 +488,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'feature',
     actions: [
-      { type: 'click', selector: '.stats-sub-tabs__tab:nth-child(5)' },
+      { type: 'click', selector: '.view-tabs__tab:nth-child(5)' },
       { type: 'scroll', selector: '.insights-heatmap' }
     ],
     deviceTransform: { scale: 0.72, y: 100, rotation: 0.5, shadow: true },
