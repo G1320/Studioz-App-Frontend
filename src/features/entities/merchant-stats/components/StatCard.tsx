@@ -7,6 +7,8 @@ interface StatCardProps {
   trend: string;
   isPositive: boolean;
   icon?: React.ReactNode;
+  /** Quiet secondary line under the label (units / context). */
+  hint?: string;
   /** Secondary metrics sit quieter in the hierarchy (e.g. forecast). */
   variant?: 'primary' | 'secondary';
   /** Hide trend when the value is not period-comparable (e.g. projection). */
@@ -19,6 +21,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   trend,
   isPositive,
   icon,
+  hint,
   variant = 'primary',
   showTrend = true
 }) => {
@@ -27,7 +30,10 @@ export const StatCard: React.FC<StatCardProps> = ({
   return (
     <article className={`stat-card ${variant === 'secondary' ? 'stat-card--secondary' : ''}`}>
       <div className="stat-card__top">
-        <h3 className="stat-card__label">{title}</h3>
+        <div className="stat-card__heading">
+          <h3 className="stat-card__label">{title}</h3>
+          {hint ? <p className="stat-card__hint">{hint}</p> : null}
+        </div>
         {icon ? <span className="stat-card__icon">{icon}</span> : null}
       </div>
       <p className="stat-card__value">{value}</p>

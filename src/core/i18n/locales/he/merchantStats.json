@@ -21,11 +21,18 @@
   },
   "metrics": {
     "totalRevenue": "סה״כ הכנסות",
+    "totalRevenueHint": "ברוטו לפני עמלות",
+    "revenueNet": "הכנסה נטו",
+    "revenueNetHint": "אחרי עמלות הפלטפורמה",
     "totalBookings": "סה״כ הזמנות",
     "avgPerBooking": "ממוצע להזמנה",
     "newClients": "לקוחות חדשים",
+    "conversionRate": "המרה",
+    "conversionRateHint": "פניות שהפכו להזמנה",
+    "cancellationRate": "ביטולים",
+    "cancellationRateHint": "מתוך הזמנות בתקופה",
     "projectedMonthly": "תחזית חודש",
-    "projectedMonthlyHint": "מבוסס על הזמנות מאושרות ומגמה"
+    "projectedMonthlyHint": "הזמנות מאושרות + מגמה"
   },
   "revenueChart": {
     "title": "מגמת הכנסות",
@@ -70,14 +77,16 @@
     "sat": "ש"
   },
   "quickStats": {
-    "occupancy": "תפוסת אולפן",
-    "aboveAverage": "גבוה מהרגיל",
+    "occupancy": "תפוסה",
+    "aboveAverage": "מעל הממוצע",
     "noStudios": "אין נכסים פעילים",
     "roomA": "חדר א׳",
     "roomB": "חדר ב׳",
-    "avgSession": "זמן ממוצע לסשן",
+    "avgSession": "סשן ממוצע",
     "avgSessionHint": "ממוצע משך ההזמנות בתקופה שנבחרה",
-    "hours": "שעות",
+    "hours": "שע׳",
+    "confirmedUpcoming": "הזמנות קרובות",
+    "byStudio": "לפי אולפן",
     "recording": "הקלטה",
     "mixing": "מיקס"
   },

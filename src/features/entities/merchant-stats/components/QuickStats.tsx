@@ -5,30 +5,56 @@ interface QuickStatsProps {
   occupancy?: number;
   studios?: { name: string; occupancy: number }[];
   avgSessionTime?: number;
+  confirmedUpcoming?: number;
+  formatCurrency?: (amount: number) => string;
 }
 
 export const QuickStats: React.FC<QuickStatsProps> = ({
   occupancy = 0,
   studios = [],
-  avgSessionTime = 0
+  avgSessionTime = 0,
+  confirmedUpcoming = 0,
+  formatCurrency
 }) => {
   const { t } = useTranslation('merchantStats');
-  const displayStudios = studios.slice(0, 3);
+  const displayStudios = studios.slice(0, 4);
 
   return (
     <div className="quick-stats quick-stats--side">
-      <div className="quick-stat-card">
-        <div className="quick-stat-card__header">
-          <h3>{t('quickStats.occupancy', 'תפוסת אולפן')}</h3>
-          <div className="value-row">
-            <span className="value">{occupancy}%</span>
-            {occupancy > 50 && (
-              <span className="badge">{t('quickStats.aboveAverage', 'גבוה מהרגיל')}</span>
-            )}
+      <div className="quick-stat-card quick-stat-card--ops">
+        <div className="quick-stat-card__kpi-row">
+          <div className="quick-stat-card__kpi">
+            <span className="quick-stat-card__kpi-label">{t('quickStats.occupancy', 'Studio Occupancy')}</span>
+            <span className="quick-stat-card__kpi-value">
+              {occupancy}%
+              {occupancy > 50 && (
+                <span className="quick-stat-card__kpi-badge">{t('quickStats.aboveAverage', 'Above avg')}</span>
+              )}
+            </span>
           </div>
+          <div className="quick-stat-card__kpi">
+            <span className="quick-stat-card__kpi-label">{t('quickStats.avgSession', 'Avg Session')}</span>
+            <span className="quick-stat-card__kpi-value">
+              {avgSessionTime}
+              <span className="quick-stat-card__kpi-unit">{t('quickStats.hours', 'hrs')}</span>
+            </span>
+          </div>
+          {formatCurrency && (
+            <div className="quick-stat-card__kpi">
+              <span className="quick-stat-card__kpi-label">
+                {t('quickStats.confirmedUpcoming', 'Pipeline')}
+              </span>
+              <span className="quick-stat-card__kpi-value quick-stat-card__kpi-value--sm">
+                {formatCurrency(confirmedUpcoming)}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="quick-stat-card__progress">
+          <div className="quick-stat-card__progress-label">
+            {t('quickStats.byStudio', 'By studio')}
+          </div>
           {displayStudios.length > 0 ? (
             displayStudios.map((studio) => (
               <div key={studio.name} className="progress-row">
@@ -42,22 +68,9 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
               </div>
             ))
           ) : (
-            <p className="quick-stat-card__empty">{t('quickStats.noStudios', 'אין נכסים פעילים')}</p>
+            <p className="quick-stat-card__empty">{t('quickStats.noStudios', 'No active properties')}</p>
           )}
         </div>
-      </div>
-
-      <div className="quick-stat-card quick-stat-card--compact">
-        <div className="quick-stat-card__header">
-          <h3>{t('quickStats.avgSession', 'זמן ממוצע לסשן')}</h3>
-          <div className="value-row">
-            <span className="value">{avgSessionTime}</span>
-            <span className="unit">{t('quickStats.hours', 'שעות')}</span>
-          </div>
-        </div>
-        <p className="quick-stat-card__hint">
-          {t('quickStats.avgSessionHint', 'ממוצע משך ההזמנות בתקופה שנבחרה')}
-        </p>
       </div>
     </div>
   );

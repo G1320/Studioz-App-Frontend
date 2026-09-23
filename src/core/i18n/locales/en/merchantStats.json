@@ -21,11 +21,18 @@
   },
   "metrics": {
     "totalRevenue": "Total Revenue",
+    "totalRevenueHint": "Gross before fees",
+    "revenueNet": "Net Revenue",
+    "revenueNetHint": "After platform fees",
     "totalBookings": "Total Bookings",
     "avgPerBooking": "Avg per Booking",
     "newClients": "New Clients",
+    "conversionRate": "Conversion",
+    "conversionRateHint": "Inquiries that booked",
+    "cancellationRate": "Cancellations",
+    "cancellationRateHint": "Of bookings in period",
     "projectedMonthly": "Projected (Month)",
-    "projectedMonthlyHint": "Based on confirmed bookings and trend"
+    "projectedMonthlyHint": "Confirmed bookings + trend"
   },
   "revenueChart": {
     "title": "Revenue Trend",
@@ -70,14 +77,16 @@
     "sat": "S"
   },
   "quickStats": {
-    "occupancy": "Studio Occupancy",
-    "aboveAverage": "Above Average",
+    "occupancy": "Occupancy",
+    "aboveAverage": "Above avg",
     "noStudios": "No active properties",
     "roomA": "Room A",
     "roomB": "Room B",
-    "avgSession": "Avg Session Time",
+    "avgSession": "Avg Session",
     "avgSessionHint": "Average booking duration for the selected period",
-    "hours": "hours",
+    "hours": "hrs",
+    "confirmedUpcoming": "Pipeline",
+    "byStudio": "By studio",
     "recording": "Recording",
     "mixing": "Mixing"
   },
