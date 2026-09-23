@@ -251,7 +251,7 @@ export const ProjectFileUploader: React.FC<ProjectFileUploaderProps> = ({
   const showThreads = !!currentUserId;
 
   return (
-    <div className="project-file-uploader">
+    <div className={`project-file-uploader project-file-uploader--${fileType}`}>
       <h3 className="project-file-uploader__title">{fileTypeLabel}</h3>
 
       {downloadsLocked && files.length > 0 && (

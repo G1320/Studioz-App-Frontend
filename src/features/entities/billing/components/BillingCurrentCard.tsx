@@ -22,14 +22,17 @@ export const BillingCurrentCard: React.FC<BillingCurrentCardProps> = ({
   count,
   feeTier,
   nextTier,
-  tiers,
+  tiers
 }) => {
-  const { t } = useTranslation('billing');
+  const { t, i18n } = useTranslation('billing');
 
   const formatPeriod = (p: string) => {
     const [year, month] = p.split('-');
-    const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
-    return `${months[parseInt(month) - 1]} ${year}`;
+    const date = new Date(Number(year), Number(month) - 1, 1);
+    return new Intl.DateTimeFormat(i18n.language === 'he' ? 'he-IL' : 'en-US', {
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
   };
 
   return (
@@ -40,9 +43,7 @@ export const BillingCurrentCard: React.FC<BillingCurrentCardProps> = ({
           <h3 className="billing__current-title">
             {t('current.title', 'תקופה נוכחית')} — {formatPeriod(period)}
           </h3>
-          <span className="billing__current-badge">
-            {t('current.pendingBadge', 'ממתין לחיוב בסוף החודש')}
-          </span>
+          <span className="billing__current-badge">{t('current.pendingBadge', 'ממתין לחיוב בסוף החודש')}</span>
         </div>
       </div>
 
@@ -71,11 +72,12 @@ export const BillingCurrentCard: React.FC<BillingCurrentCardProps> = ({
           <h4 className="billing__tier-breakdown-title">{t('current.tierBreakdown', 'פירוט מדרגות')}</h4>
           <div className="billing__tier-breakdown-list">
             {feeTier.breakdown.map((item) => (
-              <div key={item.tierIndex} className={`billing__tier-row ${item.tierIndex === feeTier.tierIndex ? 'billing__tier-row--active' : ''}`}>
+              <div
+                key={item.tierIndex}
+                className={`billing__tier-row ${item.tierIndex === feeTier.tierIndex ? 'billing__tier-row--active' : ''}`}
+              >
                 <span className="billing__tier-rate">{item.label}</span>
-                <span className="billing__tier-band">
-                  ₪{item.amountInBand.toLocaleString()}
-                </span>
+                <span className="billing__tier-band">₪{item.amountInBand.toLocaleString()}</span>
                 <span className="billing__tier-fee">₪{item.feeAmount.toFixed(2)}</span>
               </div>
             ))}
@@ -108,7 +110,7 @@ export const BillingCurrentCard: React.FC<BillingCurrentCardProps> = ({
           <span className="billing__nudge-text">
             {t('current.nudge', 'עוד ₪{{amount}} עד עמלה של {{rate}} — המשך כך!', {
               amount: nextTier.amountToGo.toLocaleString(),
-              rate: nextTier.nextLabel,
+              rate: nextTier.nextLabel
             })}
           </span>
           <div className="billing__nudge-bar">

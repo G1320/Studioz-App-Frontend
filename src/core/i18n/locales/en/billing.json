@@ -1,0 +1,44 @@
+{
+  "loading": "Loading billing data...",
+  "title": "Platform fees",
+  "subtitle": "A monthly summary of fees for transactions processed through the platform",
+  "current": {
+    "title": "Current period",
+    "pendingBadge": "Charged at the end of the month",
+    "transactions": "Total transactions",
+    "effectiveFee": "Effective fee",
+    "count": "Transactions",
+    "tierBreakdown": "Tier breakdown",
+    "tierUpTo": "Up to ₪{{amount}}",
+    "tierAbove": "Above",
+    "nudge": "₪{{amount}} until the {{rate}} fee tier — keep going!"
+  },
+  "history": {
+    "empty": "No billing history yet",
+    "title": "Billing history",
+    "period": "Period",
+    "transactions": "Transactions",
+    "transactionTotal": "Transaction total",
+    "fee": "Fee",
+    "status": "Status",
+    "invoice": "Invoice",
+    "tieredTooltip": "Tiered fee",
+    "viewInvoice": "View"
+  },
+  "status": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "processing": "Processing",
+    "failed": "Failed"
+  },
+  "modal": {
+    "title": "Fee details",
+    "close": "Close",
+    "empty": "No fees to display",
+    "date": "Date",
+    "type": "Type",
+    "amount": "Transaction amount",
+    "fee": "Fee",
+    "status": "Status"
+  }
+}

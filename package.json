@@ -7,6 +7,7 @@
     "start": "vite",
     "build": "tsc && vite build && node scripts/generate-sitemap.js && node scripts/prerender.js",
     "build:no-prerender": "tsc && vite build && node scripts/generate-sitemap.js",
+    "build:screenshots": "tsc && vite build",
     "build:sitemap": "node scripts/generate-sitemap.js",
     "prerender": "node scripts/prerender.js",
     "images:responsive": "node scripts/generate-responsive-images.js",
@@ -17,7 +18,13 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "test:performance": "k6 run tests/performance/test.js"
+    "test:performance": "k6 run tests/performance/test.js",
+    "screenshots:build-tool": "tsc -p tools/app-store-screenshots/tsconfig.json",
+    "screenshots": "npm run screenshots:build-tool && node .cache/app-store-screenshots/src/index.js generate",
+    "screenshots:preview": "npm run screenshots:build-tool && node .cache/app-store-screenshots/src/index.js generate --preview",
+    "screenshots:optimize": "npm run screenshots:build-tool && node .cache/app-store-screenshots/src/export/optimize-existing.js",
+    "screenshots:validate": "npm run screenshots:build-tool && node .cache/app-store-screenshots/src/index.js validate",
+    "screenshots:test": "vitest run --config tools/app-store-screenshots/vitest.config.ts"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
@@ -98,6 +105,8 @@
     "zod": "^4.2.1"
   },
   "devDependencies": {
+    "@fontsource/dm-sans": "^5.2.6",
+    "@fontsource/noto-sans-hebrew": "^5.2.8",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",

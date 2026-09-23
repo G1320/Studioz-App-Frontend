@@ -142,6 +142,7 @@
     "commentingAt": "Comment at {{time}} · {{file}}",
     "typeCueComment": "Write a comment at this time…",
     "cueMarker": "Comment at {{time}}",
+    "cueMarkerNamed": "Comment by {{name}} at {{time}}",
     "analyzing": "Generating waveform…"
   },
 

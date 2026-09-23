@@ -142,6 +142,7 @@
     "commentingAt": "הערה ב-{{time}} · {{file}}",
     "typeCueComment": "כתוב הערה בנקודת הזמן…",
     "cueMarker": "הערה ב-{{time}}",
+    "cueMarkerNamed": "הערה של {{name}} ב-{{time}}",
     "analyzing": "מייצר צורת גל…"
   },
 
@@ -218,11 +219,11 @@
     "remove": "הסר",
     "leave": "עזוב",
     "badge": "משתף פעולה",
-    "customerCollaborator": "משתף פעולה מצד הלקוח",
-    "vendorCollaborator": "משתף פעולה מצד האולפן",
+    "customerCollaborator": "משתף פעולה — לקוח",
+    "vendorCollaborator": "משתף פעולה — אולפן",
     "side": {
-      "customer": "צד הלקוח",
-      "vendor": "צד האולפן"
+      "customer": "לקוח",
+      "vendor": "אולפן"
     },
     "acceptTitle": "הזמנה לפרויקט",
     "acceptBody": "{{inviter}} הזמין/ה אותך להצטרף.",

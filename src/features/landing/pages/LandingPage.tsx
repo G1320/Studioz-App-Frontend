@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useCategories, useCities } from '@shared/hooks/utils';
 import { cities } from '@core/config/cities/cities';
 import { StudioCard } from '@features/entities/studios/components/StudioCard';
+import { useTheme } from '@shared/contexts/ThemeContext';
 import { Studio } from 'src/types/index';
 import {
   getSubcategoryIcon,
@@ -40,6 +41,7 @@ interface LandingPageProps {
  */
 const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
   const { t, i18n } = useTranslation('landing');
+  const { resolvedTheme } = useTheme();
   const navigate = useNavigate();
   const { getMusicSubCategories, getEnglishByDisplay } = useCategories();
   const { getOptions: getCityOptions, getEnglishByDisplay: getCityEnglishByDisplay } = useCities();
@@ -48,6 +50,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isCityOpen, setIsCityOpen] = useState(false);
+  const landingAssetLocale = i18n.language === 'he' ? 'he' : 'en-US';
+  const bookingPreviewSrc = `/images/landing-generated/${landingAssetLocale}/${resolvedTheme}/landing-booking-flow.webp`;
 
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const cityDropdownRef = useRef<HTMLDivElement>(null);
@@ -419,12 +423,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ studios }) => {
             >
               <div className="landing-booking-preview__image-container">
                 <picture>
-                  <source srcSet="/images/optimized/Landing-Booking-Visual-2.webp" type="image/webp" />
                   <img
-                    src="/images/Landing-Booking-Visual-2.png"
-                    alt="Booking Process Preview"
+                    src={bookingPreviewSrc}
+                    alt={t('booking_process.title')}
                     className="landing-booking-preview__image"
                     loading="lazy"
+                    width={1320}
+                    height={825}
                   />
                 </picture>
               </div>

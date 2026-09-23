@@ -1,0 +1,44 @@
+{
+  "loading": "טוען נתוני חיוב...",
+  "title": "עמלות פלטפורמה",
+  "subtitle": "סיכום העמלות החודשיות על עסקאות דרך הפלטפורמה",
+  "current": {
+    "title": "תקופה נוכחית",
+    "pendingBadge": "ממתין לחיוב בסוף החודש",
+    "transactions": "סך העסקאות",
+    "effectiveFee": "עמלה אפקטיבית",
+    "count": "מספר עסקאות",
+    "tierBreakdown": "פירוט מדרגות",
+    "tierUpTo": "עד ₪{{amount}}",
+    "tierAbove": "מעל",
+    "nudge": "עוד ₪{{amount}} עד עמלה של {{rate}} — המשיכו כך!"
+  },
+  "history": {
+    "empty": "אין היסטוריית חיובים עדיין",
+    "title": "היסטוריית חיובים",
+    "period": "תקופה",
+    "transactions": "עסקאות",
+    "transactionTotal": "סך העסקאות",
+    "fee": "עמלה",
+    "status": "סטטוס",
+    "invoice": "חשבונית",
+    "tieredTooltip": "עמלה מדורגת",
+    "viewInvoice": "צפייה"
+  },
+  "status": {
+    "paid": "שולם",
+    "pending": "ממתין",
+    "processing": "בעיבוד",
+    "failed": "נכשל"
+  },
+  "modal": {
+    "title": "פירוט עמלות",
+    "close": "סגירה",
+    "empty": "אין עמלות לתצוגה",
+    "date": "תאריך",
+    "type": "סוג",
+    "amount": "סכום עסקה",
+    "fee": "עמלה",
+    "status": "סטטוס"
+  }
+}

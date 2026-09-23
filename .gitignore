@@ -15,6 +15,7 @@ dist-ssr
 .claude
 .cursor
 *.md
+!tools/app-store-screenshots/README.md
 
 # Editor directories and files
 .vscode/*
@@ -31,6 +32,8 @@ dist-ssr
 
 .nx/cache
 .nx/workspace-data
+.cache/
+tools/app-store-screenshots/output/
 vite.config.*.timestamp*
 # Large video files
 public/videos/*.mp4

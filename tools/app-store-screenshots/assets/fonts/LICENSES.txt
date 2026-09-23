@@ -1,0 +1,15 @@
+Studioz Screenshot Generator — Font Notices
+
+DM Sans
+Source package: @fontsource/dm-sans
+License: SIL Open Font License 1.1
+Project: https://github.com/googlefonts/dm-fonts
+
+Noto Sans Hebrew
+Source package: @fontsource/noto-sans-hebrew
+License: SIL Open Font License 1.1
+Project: https://github.com/notofonts/hebrew
+
+The generator embeds WOFF2 files from the pinned npm packages at render time.
+Full license texts are included by each package in node_modules and are available
+from https://openfontlicense.org/open-font-license-official-text/.

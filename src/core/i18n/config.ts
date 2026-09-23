@@ -42,6 +42,7 @@ import status from './locales/en/status.json';
 import about from './locales/en/about.json';
 import faq from './locales/en/faq.json';
 import ownerFaq from './locales/en/ownerFaq.json';
+import billing from './locales/en/billing.json';
 
 import discoverPageHe from './locales/he/discoverPage.json';
 import commonHe from './locales/he/common.json';
@@ -83,6 +84,7 @@ import statusHe from './locales/he/status.json';
 import aboutHe from './locales/he/about.json';
 import faqHe from './locales/he/faq.json';
 import ownerFaqHe from './locales/he/ownerFaq.json';
+import billingHe from './locales/he/billing.json';
 
 i18n
   .use(LanguageDetector)
@@ -129,7 +131,8 @@ i18n
         status,
         about,
         faq,
-        ownerFaq
+        ownerFaq,
+        billing
       },
       he: {
         discoverPage: discoverPageHe,
@@ -171,7 +174,8 @@ i18n
         status: statusHe,
         about: aboutHe,
         faq: faqHe,
-        ownerFaq: ownerFaqHe
+        ownerFaq: ownerFaqHe,
+        billing: billingHe
       }
     },
     fallbackLng: 'he',

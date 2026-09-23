@@ -85,7 +85,10 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         <div className={`site-logo ${featureFlags.headerBackButton && showBackButton ? 'logo--mobile-shifted' : ''}`}>
           <Link className="logo" to={`/${currLang}`} aria-label={t('navigation.home')} onClick={() => scrollToTop()}>
             {featureFlags.faviconLogo ? (
-              <img src="/android-chrome-192x192.png" alt="Studioz" className="logo-image" width={40} height={40} />
+              <>
+                <img src="/android-chrome-192x192.png" alt="" className="logo-image" width={40} height={40} />
+                <span className="logo-wordmark">Studioz</span>
+              </>
             ) : (
               'Studioz'
             )}
@@ -143,14 +146,6 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           </div>
         </div>
         <HeaderNavbar user={user} />
-        <Link
-          to={`/${currLang}`}
-          className="header-logo-text"
-          aria-label={t('navigation.home')}
-          onClick={() => scrollToTop()}
-        >
-          Studioz
-        </Link>
       </header>
     </>
   );

@@ -15,6 +15,7 @@
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
+  overflow: visible;
 
   &--interactive {
     cursor: pointer;
@@ -86,6 +87,7 @@
     pointer-events: none;
     z-index: 3;
     direction: ltr;
+    overflow: visible;
   }
 
   // Skeleton shimmer while the server generates peaks

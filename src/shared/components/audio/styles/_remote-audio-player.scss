@@ -234,29 +234,64 @@
   &__marker {
     pointer-events: auto;
     position: absolute;
-    top: 2px;
-    width: 10px;
-    height: 10px;
-    margin-left: -5px;
+    top: -2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin: 0;
     padding: 0;
-    border: 1.5px solid var(--bg-primary);
-    border-radius: 9999px;
-    background: var(--text-primary);
+    border: 1.5px solid color-mix(in srgb, var(--bg-primary) 85%, transparent);
+    border-radius: 0.4rem;
+    background: linear-gradient(
+      145deg,
+      hsl(var(--marker-hue, 280) 78% 62%) 0%,
+      hsl(calc(var(--marker-hue, 280) + 28) 72% 42%) 100%
+    );
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     cursor: pointer;
     z-index: 2;
-    transition: transform 0.12s ease, background 0.12s ease;
+    transform: translateX(-50%);
+    transition:
+      transform 0.12s ease,
+      filter 0.12s ease,
+      opacity 0.12s ease;
+
+    // Speech-bubble tail pointing at the cue time on the waveform
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: calc(100% - 1px);
+      width: 0;
+      height: 0;
+      margin-left: -4px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid hsl(calc(var(--marker-hue, 280) + 20) 72% 44%);
+      pointer-events: none;
+    }
 
     &--resolved {
-      background: var(--text-secondary);
+      filter: grayscale(0.85);
       opacity: 0.55;
     }
 
     &:hover,
     &:focus-visible {
-      background: var(--color-brand);
-      transform: scale(1.25);
+      transform: translateX(-50%) scale(1.12);
       opacity: 1;
+      filter: none;
       z-index: 4;
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--bg-primary),
+        0 0 0 4px hsl(var(--marker-hue, 280) 78% 58%);
     }
 
     &:hover .remote-audio-player__marker-bubble,
@@ -266,15 +301,24 @@
     }
   }
 
+  &__marker-initial {
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    user-select: none;
+  }
+
   &__marker-bubble {
     position: absolute;
     left: 50%;
-    top: calc(100% + 0.4rem);
+    bottom: calc(100% + 0.55rem);
     z-index: 5;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.25rem;
     min-width: 8.5rem;
     max-width: 16rem;
     padding: 0.45rem 0.6rem;
@@ -291,7 +335,25 @@
     white-space: normal;
   }
 
+  &__marker-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__marker-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
   &__marker-time {
+    flex-shrink: 0;
     font-size: 0.65rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;

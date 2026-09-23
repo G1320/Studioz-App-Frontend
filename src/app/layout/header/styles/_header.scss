@@ -106,14 +106,17 @@ header.app-header {
   .logo {
     padding: 0;
     margin: 0;
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
     // Font styles for text logo (when faviconLogo is false)
     font-family: inherit;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: inherit;
-    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1;
+    height: 100%;
 
     .logo-image {
       height: 2.5rem; // Larger for taller header
@@ -121,10 +124,24 @@ header.app-header {
       object-fit: contain;
       display: block;
       line-height: 0;
+      flex-shrink: 0;
 
       @media screen and (max-width: 768px) {
-        height: 2.25rem;
-        width: 2.25rem;
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+
+    .logo-wordmark {
+      display: none;
+      font-size: 1.375rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1;
+
+      @media screen and (max-width: 600px) {
+        display: block;
       }
     }
   }
@@ -160,9 +177,11 @@ header.app-header {
   .header-options-container {
     display: flex;
     align-items: center;
+    align-self: center;
     gap: 0.5rem; // Increased gap for larger buttons
     grid-column: 6 / span 2;
     justify-self: end;
+    height: 100%;
     // Prevent CLS by reserving minimum space
     min-height: 2.5rem;
     min-width: 5rem;
@@ -176,6 +195,7 @@ header.app-header {
   .notification-bell__button {
     @include mixins.header-icon-button;
     align-self: center;
+    margin: 0;
   }
 
   .cart {
@@ -235,6 +255,10 @@ header.app-header {
   }
 
   .site-logo {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    height: 100%;
     line-height: 0;
     grid-column: 1;
     grid-row: 1;
@@ -311,6 +335,8 @@ header.app-header {
 
 .header-mobile-menu {
   display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .header-user-avatar-button {
@@ -513,26 +539,5 @@ header.app-header {
     .cart {
       grid-column: 6;
     }
-
-    .header-logo-text {
-      display: block;
-      grid-column: 2;
-      grid-row: 1;
-      align-self: center;
-      font-size: ds.$font-2xl;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      text-decoration: none;
-
-      &:hover {
-        color: var(--color-brand);
-      }
-    }
   }
-}
-
-.header-logo-text {
-  display: none;
-  text-decoration: none;
 }

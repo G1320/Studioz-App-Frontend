@@ -15,7 +15,7 @@ const StatusBadge: React.FC<{ status: BillingCycle['status'] }> = ({ status }) =
     paid: { className: 'billing__status--paid', label: t('status.paid', 'שולם'), Icon: CheckCircleIcon },
     pending: { className: 'billing__status--pending', label: t('status.pending', 'ממתין'), Icon: ScheduleIcon },
     processing: { className: 'billing__status--pending', label: t('status.processing', 'בעיבוד'), Icon: ScheduleIcon },
-    failed: { className: 'billing__status--failed', label: t('status.failed', 'נכשל'), Icon: ErrorIcon },
+    failed: { className: 'billing__status--failed', label: t('status.failed', 'נכשל'), Icon: ErrorIcon }
   };
 
   const { className, label, Icon } = config[status] || config.pending;
@@ -28,14 +28,17 @@ const StatusBadge: React.FC<{ status: BillingCycle['status'] }> = ({ status }) =
   );
 };
 
-const formatPeriod = (period: string) => {
+const formatPeriod = (period: string, language: string) => {
   const [year, month] = period.split('-');
-  const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
-  return `${months[parseInt(month) - 1]} ${year}`;
+  const date = new Date(Number(year), Number(month) - 1, 1);
+  return new Intl.DateTimeFormat(language === 'he' ? 'he-IL' : 'en-US', {
+    month: 'long',
+    year: 'numeric'
+  }).format(date);
 };
 
 export const BillingHistoryTable: React.FC<BillingHistoryTableProps> = ({ cycles, onCycleClick }) => {
-  const { t } = useTranslation('billing');
+  const { t, i18n } = useTranslation('billing');
 
   if (cycles.length === 0) {
     return (
@@ -62,12 +65,8 @@ export const BillingHistoryTable: React.FC<BillingHistoryTableProps> = ({ cycles
           </thead>
           <tbody>
             {cycles.map((cycle) => (
-              <tr
-                key={cycle._id}
-                className="billing__table-row"
-                onClick={() => onCycleClick(cycle._id)}
-              >
-                <td className="billing__cell--period">{formatPeriod(cycle.period)}</td>
+              <tr key={cycle._id} className="billing__table-row" onClick={() => onCycleClick(cycle._id)}>
+                <td className="billing__cell--period">{formatPeriod(cycle.period, i18n.language)}</td>
                 <td>{cycle.feeCount}</td>
                 <td>₪{cycle.totalTransactionAmount.toLocaleString()}</td>
                 <td className="billing__cell--fee">
@@ -78,7 +77,9 @@ export const BillingHistoryTable: React.FC<BillingHistoryTableProps> = ({ cycles
                     </span>
                   )}
                 </td>
-                <td><StatusBadge status={cycle.status} /></td>
+                <td>
+                  <StatusBadge status={cycle.status} />
+                </td>
                 <td>
                   {cycle.invoiceDocumentUrl ? (
                     <a
