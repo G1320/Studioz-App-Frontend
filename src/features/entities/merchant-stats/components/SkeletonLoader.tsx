@@ -29,20 +29,23 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 
 export const StatCardSkeleton: React.FC = () => (
   <div className="stat-card stat-card--skeleton">
-    <div className="stat-card__icon skeleton-loader__box" style={{ width: 24, height: 24 }} />
-    <div className="stat-card__content">
-      <div className="skeleton-loader__line" style={{ height: 12, width: '60%', marginBottom: 8 }} />
-      <div className="skeleton-loader__line" style={{ height: 24, width: '80%' }} />
+    <div className="stat-card__top">
+      <div className="skeleton-loader__line" style={{ height: 10, width: '45%' }} />
     </div>
+    <div className="skeleton-loader__line" style={{ height: 28, width: '70%', marginTop: 10 }} />
+    <div className="skeleton-loader__line" style={{ height: 12, width: '30%', marginTop: 10 }} />
   </div>
 );
 
+const CHART_BAR_HEIGHTS = [42, 58, 36, 72, 48, 64, 40, 78, 52, 60, 44, 68];
+
 export const ChartSkeleton: React.FC = () => (
   <div className="revenue-chart revenue-chart--skeleton">
-    <div className="skeleton-loader__line" style={{ height: 24, width: 200, marginBottom: 16 }} />
+    <div className="skeleton-loader__line" style={{ height: 18, width: 160, marginBottom: 8 }} />
+    <div className="skeleton-loader__line" style={{ height: 12, width: 120, marginBottom: 24 }} />
     <div className="chart-skeleton-bars">
-      {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="chart-skeleton-bar" style={{ height: `${30 + Math.random() * 60}%` }} />
+      {CHART_BAR_HEIGHTS.map((height, i) => (
+        <div key={i} className="chart-skeleton-bar" style={{ height: `${height}%` }} />
       ))}
     </div>
   </div>

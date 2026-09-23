@@ -24,11 +24,13 @@
     "totalBookings": "סה״כ הזמנות",
     "avgPerBooking": "ממוצע להזמנה",
     "newClients": "לקוחות חדשים",
-    "projectedMonthly": "תחזית חודש"
+    "projectedMonthly": "תחזית חודש",
+    "projectedMonthlyHint": "מבוסס על הזמנות מאושרות ומגמה"
   },
   "revenueChart": {
     "title": "מגמת הכנסות",
-    "subtitle": "הכנסות ברוטו לפני עמלות"
+    "subtitle": "הכנסות ברוטו לפני עמלות",
+    "revenue": "הכנסה"
   },
   "period": {
     "daily": "יומי",
@@ -74,6 +76,7 @@
     "roomA": "חדר א׳",
     "roomB": "חדר ב׳",
     "avgSession": "זמן ממוצע לסשן",
+    "avgSessionHint": "ממוצע משך ההזמנות בתקופה שנבחרה",
     "hours": "שעות",
     "recording": "הקלטה",
     "mixing": "מיקס"

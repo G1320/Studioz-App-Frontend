@@ -24,7 +24,8 @@
     "totalBookings": "Total Bookings",
     "avgPerBooking": "Avg per Booking",
     "newClients": "New Clients",
-    "projectedMonthly": "Projected (Month)"
+    "projectedMonthly": "Projected (Month)",
+    "projectedMonthlyHint": "Based on confirmed bookings and trend"
   },
   "revenueChart": {
     "title": "Revenue Trend",
@@ -75,6 +76,7 @@
     "roomA": "Room A",
     "roomB": "Room B",
     "avgSession": "Avg Session Time",
+    "avgSessionHint": "Average booking duration for the selected period",
     "hours": "hours",
     "recording": "Recording",
     "mixing": "Mixing"

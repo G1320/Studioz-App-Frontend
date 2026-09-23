@@ -1,18 +1,11 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import {
-  MoneyIcon,
-  BarChartIcon,
-  TrendingUpIcon,
-  PeopleOutlineIcon,
-  CalendarIcon
-} from '@shared/components/icons';
 import { useMerchantStats, useProjections } from '@shared/hooks';
 import { StatCard } from './StatCard';
 import { RevenueChart, type ChartPeriod } from './RevenueChart';
 import { ClientRow } from './ClientRow';
 import { QuickStats } from './QuickStats';
+import { StatCardSkeleton, ChartSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
 
 interface OverviewSectionProps {
@@ -27,7 +20,6 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
   onClientClick
 }) => {
   const { t } = useTranslation('merchantStats');
-  const navigate = useNavigate();
   const [period, setPeriod] = useState<ChartPeriod>('monthly');
 
   const { data: stats, isLoading } = useMerchantStats({
@@ -43,14 +35,30 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
 
   const projectedMonthly = projections?.projectedMonthly?.[0] ?? 0;
 
-  const handleViewAllClients = useCallback(() => {
-    navigate('/dashboard/reservations');
-  }, [navigate]);
+  const openCustomers = useCallback(() => {
+    onClientClick?.('__all__');
+  }, [onClientClick]);
 
   if (isLoading) {
     return (
       <div className="merchant-stats__section merchant-stats__section--overview">
-        <div className="merchant-stats__loader">{t('loading', 'טוען נתונים...')}</div>
+        <div className="merchant-stats__metrics">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <StatCardSkeleton key={i} />
+          ))}
+        </div>
+        <div className="merchant-stats__content">
+          <div className="merchant-stats__main">
+            <ChartSkeleton />
+          </div>
+          <div className="merchant-stats__sidebar">
+            <div className="clients-card clients-card--skeleton">
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -63,36 +71,37 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
           value={formatCurrency(stats?.totalRevenue ?? 0)}
           trend={stats?.trends?.totalRevenue ?? '0%'}
           isPositive={stats?.isPositive?.totalRevenue ?? true}
-          icon={<MoneyIcon />}
         />
         <StatCard
           title={t('metrics.totalBookings', 'סה״כ הזמנות')}
           value={String(stats?.totalBookings ?? 0)}
           trend={stats?.trends?.totalBookings ?? '0%'}
           isPositive={stats?.isPositive?.totalBookings ?? true}
-          icon={<BarChartIcon />}
         />
         <StatCard
           title={t('metrics.avgPerBooking', 'ממוצע להזמנה')}
-          value={`₪${stats?.avgPerBooking ?? 0}`}
+          value={formatCurrency(stats?.avgPerBooking ?? 0)}
           trend={stats?.trends?.avgPerBooking ?? '0%'}
           isPositive={stats?.isPositive?.avgPerBooking ?? true}
-          icon={<TrendingUpIcon />}
         />
         <StatCard
           title={t('metrics.newClients', 'לקוחות חדשים')}
           value={String(stats?.newClients ?? 0)}
           trend={stats?.trends?.newClients ?? '0%'}
           isPositive={stats?.isPositive?.newClients ?? true}
-          icon={<PeopleOutlineIcon />}
         />
-        <StatCard
-          title={t('metrics.projectedMonthly', 'תחזית חודש')}
-          value={formatCurrency(projectedMonthly)}
-          trend="—"
-          isPositive={true}
-          icon={<CalendarIcon />}
-        />
+      </div>
+
+      <div className="merchant-stats__forecast-strip">
+        <div className="merchant-stats__forecast-strip-copy">
+          <span className="merchant-stats__forecast-strip-label">
+            {t('metrics.projectedMonthly', 'תחזית חודש')}
+          </span>
+          <span className="merchant-stats__forecast-strip-hint">
+            {t('metrics.projectedMonthlyHint', 'מבוסס על הזמנות מאושרות ומגמה')}
+          </span>
+        </div>
+        <span className="merchant-stats__forecast-strip-value">{formatCurrency(projectedMonthly)}</span>
       </div>
 
       <div className="merchant-stats__content">
@@ -105,11 +114,11 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
           />
         </div>
 
-        <div className="merchant-stats__sidebar">
+        <aside className="merchant-stats__sidebar">
           <div className="clients-card">
             <div className="clients-card__header">
               <h2>{t('clients.title', 'לקוחות מובילים')}</h2>
-              <button type="button" className="view-all" onClick={handleViewAllClients}>
+              <button type="button" className="view-all" onClick={openCustomers}>
                 {t('clients.viewAll', 'הצג הכל')}
               </button>
             </div>
@@ -130,7 +139,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
               )}
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   );

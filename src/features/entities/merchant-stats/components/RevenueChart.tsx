@@ -18,17 +18,39 @@ interface RevenueChartProps {
   data?: number[];
 }
 
+const formatAxisValue = (v: number) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`);
+
+const ChartTooltip = ({
+  active,
+  payload,
+  label,
+  revenueLabel
+}: {
+  active?: boolean;
+  payload?: { value?: number }[];
+  label?: string;
+  revenueLabel: string;
+}) => {
+  if (!active || !payload?.length) return null;
+  const value = Number(payload[0]?.value ?? 0);
+  return (
+    <div className="revenue-chart__tooltip">
+      <span className="revenue-chart__tooltip-label">{label}</span>
+      <span className="revenue-chart__tooltip-value">
+        {revenueLabel}: ₪{value.toLocaleString()}
+      </span>
+    </div>
+  );
+};
+
 export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChange, data: externalData }) => {
   const { t } = useTranslation('merchantStats');
 
   const chartData = useMemo(() => {
-    const values = externalData ?? (period === 'monthly'
-      ? Array(12).fill(0)
-      : period === 'weekly'
-        ? Array(7).fill(0)
-        : Array(24).fill(0));
+    const values =
+      externalData ??
+      (period === 'monthly' ? Array(12).fill(0) : period === 'weekly' ? Array(7).fill(0) : Array(24).fill(0));
 
-    // Monthly: backend sends [11 months ago, ..., current month]. Label each point with actual month + short year.
     const monthLabels: Record<number, string> = {
       0: t('months.jan', 'ינו׳'),
       1: t('months.feb', 'פבר׳'),
@@ -79,11 +101,13 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
           <p>{t('revenueChart.subtitle', 'הכנסות ברוטו לפני עמלות')}</p>
         </div>
 
-        <div className="revenue-chart__toggle">
+        <div className="revenue-chart__toggle" role="tablist" aria-label={t('revenueChart.title', 'מגמת הכנסות')}>
           {(['daily', 'weekly', 'monthly'] as const).map((p) => (
             <button
               key={p}
               type="button"
+              role="tab"
+              aria-selected={period === p}
               onClick={() => onPeriodChange(p)}
               className={`revenue-chart__toggle-btn ${period === p ? 'revenue-chart__toggle-btn--active' : ''}`}
             >
@@ -98,40 +122,44 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
       </div>
 
       <div className="revenue-chart__recharts">
-        <ResponsiveContainer width="100%" height={280}>
-          <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: period === 'monthly' ? 52 : 24 }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 4, bottom: period === 'monthly' ? 40 : 8 }}>
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-brand)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="var(--color-brand)" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--color-brand)" stopOpacity={0.18} />
+                <stop offset="100%" stopColor="var(--color-brand)" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} />
+            <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
-              stroke="var(--border-secondary)"
+              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              stroke="transparent"
               tickLine={false}
+              axisLine={false}
               interval={period === 'monthly' ? 1 : 0}
-              angle={period === 'monthly' ? -35 : 0}
+              angle={period === 'monthly' ? -30 : 0}
               textAnchor={period === 'monthly' ? 'end' : 'middle'}
+              height={period === 'monthly' ? 48 : 28}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
-              stroke="var(--border-secondary)"
+              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              stroke="transparent"
               tickLine={false}
-              tickMargin={20}
-              width={68}
-              tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
+              axisLine={false}
+              width={56}
+              tickFormatter={formatAxisValue}
             />
             <Tooltip
-              contentStyle={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-secondary)',
-                borderRadius: '8px'
-              }}
-              labelStyle={{ color: 'var(--text-primary)' }}
-              formatter={(value: number | undefined) => [`₪${Number(value ?? 0).toLocaleString()}`, t('revenueChart.revenue', 'הכנסה')]}
+              content={(props) => (
+                <ChartTooltip
+                  active={props.active}
+                  payload={props.payload as { value?: number }[] | undefined}
+                  label={props.label as string | undefined}
+                  revenueLabel={t('revenueChart.revenue', 'הכנסה')}
+                />
+              )}
+              cursor={{ stroke: 'var(--border-hover)', strokeWidth: 1 }}
             />
             <Area
               type="monotone"
@@ -139,6 +167,7 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
               stroke="var(--color-brand)"
               strokeWidth={2}
               fill="url(#revenueGradient)"
+              activeDot={{ r: 4, strokeWidth: 0 }}
             />
           </AreaChart>
         </ResponsiveContainer>

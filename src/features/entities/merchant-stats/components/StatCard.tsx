@@ -6,21 +6,43 @@ interface StatCardProps {
   value: string;
   trend: string;
   isPositive: boolean;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
+  /** Secondary metrics sit quieter in the hierarchy (e.g. forecast). */
+  variant?: 'primary' | 'secondary';
+  /** Hide trend when the value is not period-comparable (e.g. projection). */
+  showTrend?: boolean;
 }
 
-export const StatCard: React.FC<StatCardProps> = ({ title, value, trend, isPositive, icon }) => {
+export const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  trend,
+  isPositive,
+  icon,
+  variant = 'primary',
+  showTrend = true
+}) => {
+  const hasTrend = showTrend && trend !== '—' && trend !== '0%' && trend !== '0';
+
   return (
-    <div className="stat-card">
-      <div className="stat-card__icon">{icon}</div>
-      <div className="stat-card__content">
-        <h3>{title}</h3>
-        <p className="value">{value}</p>
+    <article className={`stat-card ${variant === 'secondary' ? 'stat-card--secondary' : ''}`}>
+      <div className="stat-card__top">
+        <h3 className="stat-card__label">{title}</h3>
+        {icon ? <span className="stat-card__icon">{icon}</span> : null}
       </div>
-      <div className={`stat-card__trend ${isPositive ? 'stat-card__trend--positive' : 'stat-card__trend--negative'}`}>
-        <span dir="ltr">{trend}</span>
-        {isPositive ? <ArrowUpIcon fontSize="small" /> : <ArrowDownIcon fontSize="small" />}
-      </div>
-    </div>
+      <p className="stat-card__value">{value}</p>
+      {hasTrend ? (
+        <div
+          className={`stat-card__trend ${isPositive ? 'stat-card__trend--positive' : 'stat-card__trend--negative'}`}
+        >
+          {isPositive ? <ArrowUpIcon fontSize="small" /> : <ArrowDownIcon fontSize="small" />}
+          <span dir="ltr">{trend}</span>
+        </div>
+      ) : (
+        <div className="stat-card__trend stat-card__trend--neutral">
+          <span>{showTrend ? trend : '\u00A0'}</span>
+        </div>
+      )}
+    </article>
   );
 };
