@@ -46,7 +46,7 @@
     "title": "My Studios",
     "empty": "You haven't created any studios yet. Get started by creating your first studio!",
     "createStudio": "Create Studio",
-    "addStudio": "Add Studio"
+    "addStudio": "Add New Studio"
   },
   "calendar": {
     "studioOwnerTitle": "Studio Calendar",

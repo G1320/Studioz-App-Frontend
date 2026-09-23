@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { WishlistCard } from './WishlistCard';
-import { GenericList, GenericMultiDropdownEntryCard, GenericMuiDropdown, Button } from '@shared/components';
+import { GenericList, GenericMultiDropdownEntryCard, GenericMuiDropdown, Button, PageHeader } from '@shared/components';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
 import { Wishlist } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
-import { AddIcon, FavoriteBorderIcon } from '@shared/components/icons';
+import { AddIcon, FavoriteBorderIcon, FavoriteIcon } from '@shared/components/icons';
 
 interface WishlistListProps {
   isDropdown?: boolean;
@@ -43,21 +43,14 @@ export const WishlistList: React.FC<WishlistListProps> = ({ isDropdown = false, 
 
   return (
     <section className="wishlists">
-      <div className="wishlists-header">
-        <h1 className="wishlists-title">{t('wishlists.my_wishlists')}</h1>
-        <p className="wishlists-subtitle">
-          {hasWishlists
-            ? `${wishlists.length} ${wishlists.length === 1 ? t('wishlists.wishlist') : t('wishlists.wishlists')} ${t('wishlists.saved')}`
-            : t('wishlists.create_and_organize')}
-        </p>
-      </div>
-
-      {hasWishlists && (
-        <Link to={`/${i18n.language}/create-wishlist`} className="create-wishlist-button">
-          <AddIcon />
-          <span>{t('wishlists.create_new')}</span>
-        </Link>
-      )}
+      <PageHeader icon={<FavoriteIcon />} title={t('wishlists.my_wishlists')}>
+        {hasWishlists ? (
+          <Link to={`/${i18n.language}/create-wishlist`} className="page-header__cta">
+            <AddIcon />
+            <span>{t('wishlists.create_new')}</span>
+          </Link>
+        ) : null}
+      </PageHeader>
 
       {isDropdown ? (
         <GenericMuiDropdown

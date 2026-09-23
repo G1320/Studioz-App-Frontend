@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ViewTabs } from '@shared/components';
 
 export type StatsSubTab = 'overview' | 'studios' | 'customers' | 'projections' | 'insights';
 
@@ -8,29 +9,21 @@ interface StatsSubTabsProps {
   onTabChange: (tab: StatsSubTab) => void;
 }
 
-const TABS: { key: StatsSubTab; labelKey: string }[] = [
-  { key: 'overview', labelKey: 'tabs.overview' },
-  { key: 'studios', labelKey: 'tabs.studios' },
-  { key: 'customers', labelKey: 'tabs.customers' },
-  { key: 'projections', labelKey: 'tabs.projections' },
-  { key: 'insights', labelKey: 'tabs.insights' }
+const TAB_DEFS: { key: StatsSubTab; labelKey: string; fallback: string }[] = [
+  { key: 'overview', labelKey: 'tabs.overview', fallback: 'סקירה' },
+  { key: 'studios', labelKey: 'tabs.studios', fallback: 'אולפנים' },
+  { key: 'customers', labelKey: 'tabs.customers', fallback: 'לקוחות' },
+  { key: 'projections', labelKey: 'tabs.projections', fallback: 'תחזית' },
+  { key: 'insights', labelKey: 'tabs.insights', fallback: 'תובנות' }
 ];
 
 export const StatsSubTabs: React.FC<StatsSubTabsProps> = ({ activeTab, onTabChange }) => {
   const { t } = useTranslation('merchantStats');
 
-  return (
-    <div className="stats-sub-tabs">
-      {TABS.map((tab) => (
-        <button
-          key={tab.key}
-          type="button"
-          className={`stats-sub-tabs__tab ${activeTab === tab.key ? 'stats-sub-tabs__tab--active' : ''}`}
-          onClick={() => onTabChange(tab.key)}
-        >
-          {t(tab.labelKey, tab.key === 'overview' ? 'סקירה' : tab.key === 'studios' ? 'אולפנים' : tab.key === 'customers' ? 'לקוחות' : tab.key === 'projections' ? 'תחזית' : 'תובנות')}
-        </button>
-      ))}
-    </div>
+  const tabs = useMemo(
+    () => TAB_DEFS.map((tab) => ({ key: tab.key, label: t(tab.labelKey, tab.fallback) })),
+    [t]
   );
+
+  return <ViewTabs tabs={tabs} activeTab={activeTab} onTabChange={onTabChange} />;
 };

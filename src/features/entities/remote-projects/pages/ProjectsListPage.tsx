@@ -7,7 +7,8 @@ import { useUserContext } from '@core/contexts';
 import { useSocket } from '@core/contexts/SocketContext';
 import { useRemoteProjects } from '@shared/hooks';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
-import { EmptyState, ViewModeToggle, type ViewMode } from '@shared/components';
+import { EmptyState, ViewModeToggle, PageHeader, type ViewMode } from '@shared/components';
+import { WorkIcon } from '@shared/components/icons';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { getProjectDisplayNames, projectMatchesSearch } from '../utils/projectListUtils';
 import { RemoteProject, RemoteProjectStatus } from 'src/types/index';
@@ -94,21 +95,14 @@ export const ProjectsListPage: React.FC = () => {
 
   return (
     <div className="projects-list">
-      {/* Header */}
-      <header className="projects-list__header">
-        <div className="projects-list__header-content">
-          <h1 className="projects-list__title">{t('myProjects')}</h1>
-          <p className="projects-list__subtitle">{t('subtitle')}</p>
-        </div>
-        {user && (
-          <div className="projects-list__header-actions">
-            <button className="projects-list__new-button" onClick={() => langNavigate('/search')}>
-              <Plus />
-              {t('newProject')}
-            </button>
-          </div>
-        )}
-      </header>
+      <PageHeader icon={<WorkIcon />} title={t('myProjects')}>
+        {user ? (
+          <button type="button" className="page-header__cta" onClick={() => langNavigate('/search')}>
+            <Plus size={16} />
+            {t('newProject')}
+          </button>
+        ) : null}
+      </PageHeader>
 
       {showFilters && (
         <div className="projects-list__filters">

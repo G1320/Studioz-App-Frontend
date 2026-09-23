@@ -4,7 +4,6 @@
 
 // ==========================================
 // MY RESERVATIONS PAGE - Studioz Design System
-// Theme: Light/Dark Mode Compatible
 // ==========================================
 
 .my-reservations-page {
@@ -14,52 +13,32 @@
   margin-block-start: 0.5rem;
   box-sizing: border-box;
   overflow-x: hidden;
+  padding-inline: 0;
 
-  &__header {
-    margin-bottom: vars.$spacing-xl;
-    text-align: center;
+  &__toolbar {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
-    align-items: center;
-  }
-
-  &__title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    color: var(--text-primary);
-    margin: 0;
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  &__subtitle {
-    font-size: 1.125rem;
-    color: var(--text-muted);
-    max-width: 36rem;
-    margin: 0;
-  }
-
-  // Controls container - wraps toggle and filters
-  &__controls {
-    max-width: 900px;
-    margin: 0 auto vars.$spacing-xl;
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-medium;
+    gap: 0.75rem;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
   &__toggle {
-    margin-bottom: 0; // Override default margin, controlled by controls gap
+    width: 100%;
+    margin: 0;
   }
 
   &__filters {
-    margin-bottom: 0; // Override default margin, controlled by controls gap
+    width: 100%;
+    margin: 0;
   }
 
   &__view-toggle {
-    align-self: flex-end;
+    flex-shrink: 0;
+
+    @media (max-width: 639px) {
+      align-self: flex-end;
+    }
   }
 
   &__show-more-button {
@@ -82,14 +61,6 @@
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-xl vars.$spacing-medium;
-
-    &__title {
-      font-size: vars.$font-size-2xl;
-    }
-
-    &__subtitle {
-      font-size: vars.$font-size-sm-md;
-    }
+    padding: vars.$spacing-medium;
   }
 }

@@ -18,14 +18,12 @@ export const ClientRow: React.FC<ClientRowProps> = ({ name, totalSpent, lastVisi
     <div className="client-row" onClick={onClick}>
       <div className="client-row__avatar">{avatarUrl ? <img src={avatarUrl} alt={name} /> : <PersonOutlineIcon />}</div>
       <div className="client-row__content">
-        <div className="client-row__header">
-          <h4 className="client-row__name">{name}</h4>
-          <p className="client-row__spent">₪{totalSpent.toLocaleString()}</p>
-        </div>
-        <p className="client-row__visit" dir="rtl">
+        <h4 className="client-row__name">{name}</h4>
+        <p className="client-row__visit">
           {t('clients.lastVisit', 'ביקור אחרון')}: {lastVisit}
         </p>
       </div>
+      <p className="client-row__spent">₪{totalSpent.toLocaleString()}</p>
     </div>
   );
 };

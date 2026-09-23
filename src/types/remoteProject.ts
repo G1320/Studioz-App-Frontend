@@ -149,6 +149,8 @@ export interface ProjectCollaborator {
         name?: string;
         email?: string;
         imgUrl?: string;
+        picture?: string;
+        avatar?: string;
       };
   side: ProjectSide;
   invitedBy:

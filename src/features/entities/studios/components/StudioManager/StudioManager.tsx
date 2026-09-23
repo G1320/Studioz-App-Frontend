@@ -400,7 +400,6 @@ const StudioCard: React.FC<StudioCardProps> = ({
 // --- Main Component ---
 export const StudioManager: React.FC<StudioManagerProps> = ({ 
   studios,
-  onAddStudio,
   onEditStudio,
   onAddItem
 }) => {
@@ -475,14 +474,6 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
     return `₪${amount.toLocaleString()}`;
   }, [merchantStats?.totalRevenue, user?.isAdmin]);
 
-  const handleAddStudio = () => {
-    if (onAddStudio) {
-      onAddStudio();
-    } else {
-      langNavigate('/studio/create');
-    }
-  };
-
   const handleEditStudio = (studioId: string) => {
     if (onEditStudio) {
       onEditStudio(studioId);
@@ -502,21 +493,6 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
   return (
     <div className="studio-manager">
       <div className="studio-manager__container">
-        
-        {/* Header */}
-        <div className="studio-manager__header">
-          <div className="studio-manager__title-row">
-            <BusinessIcon className="studio-manager__title-icon" />
-            <h1 className="studio-manager__title">{t('assetManagement', 'Asset Management')}</h1>
-          </div>
-          
-          <div className="studio-manager__header-actions">
-            <button className="studio-manager__add-btn" onClick={handleAddStudio}>
-              <AddIcon />
-              <span>{t('addNewStudio', 'Add New Studio')}</span>
-            </button>
-          </div>
-        </div>
 
         {/* Filters & Controls */}
         <div className="studio-manager__filters">

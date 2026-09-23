@@ -70,7 +70,11 @@
       "bookingDesc": "תאריך ביקור (חדש קודם)",
       "bookingAsc": "תאריך ביקור (ישן קודם)",
       "createdDesc": "תאריך הזמנה (חדש קודם)",
-      "createdAsc": "תאריך הזמנה (ישן קודם)"
+      "createdAsc": "תאריך הזמנה (ישן קודם)",
+      "byCreated": "תאריך הזמנה",
+      "byBooking": "תאריך ביקור",
+      "ascending": "סדר עולה",
+      "descending": "סדר יורד"
     },
     "customerSearchLabel": "חיפוש",
     "customerSearchPlaceholder": "שם או טלפון...",

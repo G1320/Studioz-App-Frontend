@@ -442,19 +442,14 @@ const MerchantDocumentsPage: React.FC = () => {
 
   return (
     <div className="merchant-documents">
-      {/* Header */}
+      {/* Header actions */}
       <div className="merchant-documents__header">
-        <div className="merchant-documents__title-row">
-          <FileText size={28} className="merchant-documents__icon" />
-          <h1 className="merchant-documents__title">{t('title')}</h1>
-        </div>
-
         <div className="merchant-documents__actions">
           <button
             className="merchant-documents__btn merchant-documents__btn--secondary"
             onClick={handleExportMonthlyReport}
           >
-            <Download size={18} />
+            <Download size={14} />
             {t('actions.exportReport')}
           </button>
           <button
@@ -470,7 +465,7 @@ const MerchantDocumentsPage: React.FC = () => {
       <div className="merchant-documents__stats">
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--primary">
-            <FileCheck size={20} />
+            <FileCheck size={16} />
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">₪{stats.totalRevenue.toLocaleString()}</div>
@@ -480,7 +475,7 @@ const MerchantDocumentsPage: React.FC = () => {
 
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--warning">
-            <FileClock size={20} />
+            <FileClock size={16} />
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">₪{stats.pendingAmount.toLocaleString()}</div>
@@ -490,7 +485,7 @@ const MerchantDocumentsPage: React.FC = () => {
 
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--danger">
-            <AlertCircle size={20} />
+            <AlertCircle size={16} />
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">₪{stats.overdueAmount.toLocaleString()}</div>
@@ -500,7 +495,7 @@ const MerchantDocumentsPage: React.FC = () => {
 
         <div className="stat-card">
           <div className="stat-card__icon stat-card__icon--neutral">
-            <FileText size={20} />
+            <FileText size={16} />
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">{stats.totalDocs}</div>
@@ -514,7 +509,7 @@ const MerchantDocumentsPage: React.FC = () => {
         <div className="merchant-documents__filters-grid">
           {/* Search */}
           <div className="filter-input">
-            <Search className="filter-input__icon" size={18} />
+            <Search className="filter-input__icon" size={14} />
             <input
               type="text"
               placeholder={t('filters.search')}

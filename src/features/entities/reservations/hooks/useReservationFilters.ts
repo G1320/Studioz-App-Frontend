@@ -33,12 +33,10 @@ export const useReservationFilters = () => {
     []
   );
 
-  const sortOptions: ReservationFilterOption<ReservationSortOption>[] = useMemo(
+  const sortFieldOptions: ReservationFilterOption<'created' | 'booking'>[] = useMemo(
     () => [
-      { labelKey: 'filters.sort.createdDesc', value: 'created-desc' },
-      { labelKey: 'filters.sort.createdAsc', value: 'created-asc' },
-      { labelKey: 'filters.sort.bookingDesc', value: 'booking-desc' },
-      { labelKey: 'filters.sort.bookingAsc', value: 'booking-asc' }
+      { labelKey: 'filters.sort.byCreated', value: 'created' },
+      { labelKey: 'filters.sort.byBooking', value: 'booking' }
     ],
     []
   );
@@ -53,6 +51,6 @@ export const useReservationFilters = () => {
     customerPhone,
     setCustomerPhone,
     statusOptions,
-    sortOptions
+    sortFieldOptions
   };
 };

@@ -34,3 +34,5 @@ export * from './icons';
 export * from './ui/ThemeToggle';
 export * from './video-player';
 export * from './view-mode-toggle';
+export * from './view-tabs';
+export * from './page-header';

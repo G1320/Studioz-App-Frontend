@@ -10,6 +10,8 @@ import Notification, {
   NOTIFICATION_CATEGORIES
 } from '@appTypes/notification';
 import { NotificationItem } from '@shared/components/notifications/components/NotificationItem';
+import { PageHeader } from '@shared/components';
+import { NotificationsIcon } from '@shared/components/icons';
 import '../styles/notifications-page.scss';
 
 const ITEMS_PER_PAGE = 20;
@@ -87,27 +89,30 @@ const NotificationsPage: React.FC = () => {
   return (
     <div className="notifications-page">
       <div className="notifications-page__container">
-        <header className="notifications-page__header">
-          <div className="notifications-page__header-left">
-            <h1 className="notifications-page__title">{t('notifications.page.title', 'Notifications')}</h1>
-            {unreadCount > 0 && <span className="notifications-page__badge">{unreadCount}</span>}
-          </div>
-          <div className="notifications-page__header-actions">
-            {unreadCount > 0 && (
-              <button className="notifications-page__action-btn" onClick={markAllAsRead}>
-                {t('notifications.markAllRead', 'Mark all as read')}
-              </button>
-            )}
-            {readCount > 0 && (
-              <button
-                className="notifications-page__action-btn notifications-page__action-btn--danger"
-                onClick={deleteAllRead}
-              >
-                {t('notifications.deleteRead', 'Clear read')}
-              </button>
-            )}
-          </div>
-        </header>
+        <PageHeader
+          icon={<NotificationsIcon />}
+          title={t('notifications.page.title', 'Notifications')}
+          meta={
+            unreadCount > 0 ? (
+              <span className="notifications-page__badge">{unreadCount}</span>
+            ) : null
+          }
+        >
+          {unreadCount > 0 ? (
+            <button type="button" className="page-header__ghost-btn" onClick={markAllAsRead}>
+              {t('notifications.markAllRead', 'Mark all as read')}
+            </button>
+          ) : null}
+          {readCount > 0 ? (
+            <button
+              type="button"
+              className="page-header__ghost-btn page-header__ghost-btn--danger"
+              onClick={deleteAllRead}
+            >
+              {t('notifications.deleteRead', 'Clear read')}
+            </button>
+          ) : null}
+        </PageHeader>
 
         <div className="notifications-page__filters">
           <button

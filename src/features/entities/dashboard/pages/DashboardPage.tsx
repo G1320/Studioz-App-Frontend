@@ -6,11 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import { User, Studio } from 'src/types/index';
 import { useReservations, useLanguageNavigate } from '@shared/hooks';
-import { GenericCarousel } from '@shared/components';
+import { ViewTabs, PageHeader } from '@shared/components';
 import { DashboardCalendar, RecentActivity, QuickActions, ManualBookingModal } from '../components';
 import { StudioManager, StudioBlockModal } from '@features/entities/studios';
 import { QuickChargeModal } from '@features/entities/merchant-documents';
-import { BusinessIcon, ArrowForwardIcon } from '@shared/components/icons';
+import { BusinessIcon, ArrowForwardIcon, DashboardIcon, AddIcon } from '@shared/components/icons';
 
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
 import BillingPage from '@features/entities/billing/pages/BillingPage';
@@ -26,7 +26,6 @@ const viewTransition = {
 type DashboardTab = 'overview' | 'activity' | 'studios' | 'documents' | 'billing';
 
 const VALID_TABS: DashboardTab[] = ['overview', 'activity', 'studios', 'documents', 'billing'];
-const DASHBOARD_TAB_ORDER: DashboardTab[] = ['studios', 'activity', 'overview', 'documents', 'billing'];
 
 interface DashboardPageProps {
   user: User | null;
@@ -182,8 +181,21 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 
   return (
     <div className="dashboard-page">
-      {/* Dashboard Title */}
-      <h1 className="dashboard-page__title">{t('title', 'Dashboard')}</h1>
+      <PageHeader
+        icon={<DashboardIcon />}
+        title={t('title', 'Dashboard')}
+      >
+        {isStudioOwner ? (
+          <button
+            type="button"
+            className="page-header__cta"
+            onClick={() => langNavigate('/studio/create')}
+          >
+            <AddIcon />
+            <span>{t('myStudios.addStudio', 'Add Studio')}</span>
+          </button>
+        ) : null}
+      </PageHeader>
 
       {/* Empty State for subscribers without studios */}
       {showEmptyState && (
@@ -267,28 +279,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Tab Navigation for Studio Owners */}
       {isStudioOwner && (
         <div className="dashboard-page__views">
-          <GenericCarousel
-            data={[
+          <ViewTabs
+            tabs={[
               { key: 'studios', label: t('tabs.manageStudios', 'Manage Studios') },
               { key: 'activity', label: t('tabs.activity', 'Activity') },
               { key: 'overview', label: t('tabs.overview', 'Calendar') },
               { key: 'documents', label: t('tabs.documents', 'Documents') },
               { key: 'billing', label: t('tabs.billing', 'Billing') }
             ]}
-            className="dashboard-tabs-carousel"
-            autoWidth
-            hideHeader
-            spaceBetween={8}
-            selectedIndex={DASHBOARD_TAB_ORDER.indexOf(activeTab)}
-            renderItem={(tab) => (
-              <button 
-                key={tab.key}
-                className={`dashboard-tab ${activeTab === tab.key ? 'dashboard-tab--active' : ''}`}
-                onClick={() => setActiveTab(tab.key as DashboardTab)}
-              >
-                {tab.label}
-              </button>
-            )}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            aria-label={t('tabs.label', 'Dashboard views')}
           />
         </div>
       )}

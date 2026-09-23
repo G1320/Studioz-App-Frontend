@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { BarChartIcon } from '@shared/components/icons';
+import { PageHeader } from '@shared/components';
 import { useUserContext } from '@core/contexts';
 import { useStudios } from '@shared/hooks';
 import {
@@ -73,17 +74,10 @@ const MerchantStatsPage: React.FC = () => {
 
   return (
     <div className="merchant-stats">
-      <header className="merchant-stats__header">
-        <div className="merchant-stats__title-row">
-          <BarChartIcon className="merchant-stats__title-icon" />
-          <h1 className="merchant-stats__title">{t('header.title', 'סטטיסטיקות')}</h1>
-        </div>
-
-        <div className="merchant-stats__controls">
-          <DateRangePicker value={dateRange} onChange={handleDateRangeChange} />
-          <ExportDropdown data={exportData} studioName={studioName} />
-        </div>
-      </header>
+      <PageHeader icon={<BarChartIcon />} title={t('header.title', 'סטטיסטיקות')}>
+        <DateRangePicker value={dateRange} onChange={handleDateRangeChange} />
+        <ExportDropdown data={exportData} studioName={studioName} />
+      </PageHeader>
 
       <StatsSubTabs activeTab={activeSubTab} onTabChange={setActiveSubTab} />
 

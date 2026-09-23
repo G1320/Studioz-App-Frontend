@@ -37,6 +37,10 @@
     color: inherit;
     transition: opacity 0.15s ease;
 
+    &:active:not(:disabled) {
+      transform: none;
+    }
+
     &:hover {
       .quick-actions__title {
         color: var(--color-brand);
@@ -73,7 +77,9 @@
     width: 14px;
     height: 14px;
     color: var(--text-muted);
-    transition: transform 0.2s ease, color 0.15s ease;
+    transition:
+      transform 0.2s ease,
+      color 0.15s ease;
 
     svg {
       width: 100%;
@@ -124,7 +130,10 @@
     font-size: vars.$font-size-xs;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
     white-space: nowrap;
     width: 100%;
     overflow: hidden;

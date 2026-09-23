@@ -6,7 +6,8 @@ import { ReservationsList } from '../components/ReservationsList';
 import { ReservationFilters, ReservationTypeToggle, ReservationViewType } from '../components';
 import { hasStoredReservations } from '@shared/utils/reservation-storage';
 import { useReservationFilters } from '../hooks/useReservationFilters';
-import { ViewModeToggle, type ViewMode } from '@shared/components';
+import { ViewModeToggle, PageHeader, type ViewMode } from '@shared/components';
+import { EventIcon } from '@shared/components/icons';
 import '../styles/_index.scss';
 
 const RESERVATIONS_VIEW_MODE_KEY = 'reservations-view-mode';
@@ -26,7 +27,7 @@ const MyReservationsPage: React.FC = () => {
     customerPhone,
     setCustomerPhone,
     statusOptions,
-    sortOptions
+    sortFieldOptions
   } = useReservationFilters();
   const [viewType, setViewType] = useState<ReservationViewType>('all');
   const [layoutMode, setLayoutMode] = useState<ViewMode>(() =>
@@ -72,14 +73,9 @@ const MyReservationsPage: React.FC = () => {
 
   return (
     <div className="my-reservations-page">
-      <div className="my-reservations-page__header">
-        <h1 className="my-reservations-page__title">{t('myReservations')}</h1>
-        <p className="my-reservations-page__subtitle">{t('reservationsTotal', { count: reservations.length })}</p>
-      </div>
+      <PageHeader icon={<EventIcon />} title={t('myReservations')} />
 
-      {/* Controls Container */}
-      <div className="my-reservations-page__controls">
-        {/* Studio Owner Toggle */}
+      <div className="my-reservations-page__toolbar">
         {isStudioOwner && user?._id && (
           <ReservationTypeToggle
             viewType={viewType}
@@ -88,7 +84,6 @@ const MyReservationsPage: React.FC = () => {
           />
         )}
 
-        {/* Filters */}
         {hasAccess && (
           <ReservationFilters
             status={status}
@@ -96,21 +91,21 @@ const MyReservationsPage: React.FC = () => {
             sort={sort}
             onSortChange={setSort}
             statusOptions={statusOptions}
-            sortOptions={sortOptions}
+            sortFieldOptions={sortFieldOptions}
             className="my-reservations-page__filters"
             customerPhone={customerPhone}
             onCustomerPhoneChange={setCustomerPhone}
             showCustomerSearch={isStudioOwner}
-          />
-        )}
-        {hasAccess && (
-          <ViewModeToggle
-            value={layoutMode}
-            onChange={handleLayoutModeChange}
-            label={t('view.label')}
-            gridLabel={t('view.grid')}
-            listLabel={t('view.list')}
-            className="my-reservations-page__view-toggle"
+            trailing={
+              <ViewModeToggle
+                value={layoutMode}
+                onChange={handleLayoutModeChange}
+                label={t('view.label')}
+                gridLabel={t('view.grid')}
+                listLabel={t('view.list')}
+                className="my-reservations-page__view-toggle"
+              />
+            }
           />
         )}
       </div>

@@ -20,36 +20,7 @@
   color: var(--text-muted);
 }
 
-// ===== HEADER =====
-.billing__header {
-  margin-bottom: 2rem;
-}
-
-.billing__title-row {
-  display: flex;
-  align-items: center;
-  gap: vars.$spacing-small;
-  margin-bottom: 0.25rem;
-}
-
-.billing__title {
-  font-size: vars.$font-size-xl;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.billing__title-icon {
-  color: var(--color-brand);
-  width: 24px;
-  height: 24px;
-}
-
-.billing__subtitle {
-  color: var(--text-muted);
-  font-size: ds.$font-md;
-  margin: 0;
-}
+// ===== HEADER (uses shared PageHeader) =====
 
 // ===== CURRENT PERIOD CARD =====
 .billing__current-card {

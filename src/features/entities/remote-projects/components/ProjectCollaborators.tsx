@@ -25,6 +25,25 @@ function userLabel(user: ProjectCollaborator['userId']): string {
   return user.name || user.email || user._id;
 }
 
+function userTooltip(user: ProjectCollaborator['userId']): string {
+  if (typeof user === 'string') return user;
+  return user.name?.trim() || user.email || user._id;
+}
+
+function userAvatarUrl(user: ProjectCollaborator['userId']): string | undefined {
+  if (typeof user === 'string') return undefined;
+  return user.picture || user.avatar || user.imgUrl || undefined;
+}
+
+function userInitials(user: ProjectCollaborator['userId']): string {
+  if (typeof user === 'string') return '?';
+  const source = user.name?.trim() || user.email?.trim() || '';
+  if (!source) return '?';
+  const parts = source.split(/[\s@._-]+/).filter(Boolean);
+  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  return source.slice(0, 2).toUpperCase();
+}
+
 function userIdOf(user: ProjectCollaborator['userId']): string {
   return typeof user === 'string' ? user : user._id;
 }
@@ -94,9 +113,10 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
   const showInvite =
     canInvite === true || access?.canInvite === true || access?.isPrimary === true;
   const canManageSide = (side: string) => showInvite && (!access?.side || access.side === side);
-
-  const names = collaborators.map((c) => userLabel(c.userId));
   const pendingCount = pending.length;
+  const maxVisibleAvatars = 5;
+  const visibleCollaborators = collaborators.slice(0, maxVisibleAvatars);
+  const overflowCount = Math.max(0, collaborators.length - maxVisibleAvatars);
 
   return (
     <div className="project-collaborators project-collaborators--inline">
@@ -106,35 +126,61 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
         {isLoading ? (
           <span className="project-collaborators__loading-inline">{t('common.loading')}</span>
         ) : (
-          <div className="project-collaborators__names">
-            {names.length > 0 ? (
-              names.map((name) => (
-                <span key={name} className="project-collaborators__chip" title={name}>
-                  {name}
-                </span>
-              ))
+          <div className="project-collaborators__avatars">
+            {visibleCollaborators.length > 0 ? (
+              visibleCollaborators.map((c) => {
+                const tip = userTooltip(c.userId);
+                const avatarUrl = userAvatarUrl(c.userId);
+                return (
+                  <span
+                    key={userIdOf(c.userId)}
+                    className="project-collaborators__avatar"
+                    title={tip}
+                    aria-label={tip}
+                  >
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="" />
+                    ) : (
+                      <span className="project-collaborators__avatar-initials" aria-hidden>
+                        {userInitials(c.userId)}
+                      </span>
+                    )}
+                  </span>
+                );
+              })
             ) : (
               <span className="project-collaborators__empty-inline">{t('collaborators.empty')}</span>
             )}
-            {pendingCount > 0 && (
-              <span className="project-collaborators__chip project-collaborators__chip--pending">
-                {t('collaborators.pendingCount', { count: pendingCount })}
+            {overflowCount > 0 && (
+              <span
+                className="project-collaborators__avatar project-collaborators__avatar--more"
+                title={t('collaborators.moreCount', { count: overflowCount, defaultValue: `+${overflowCount}` })}
+              >
+                +{overflowCount}
               </span>
             )}
+            {pendingCount > 0 && (
+              <span
+                className="project-collaborators__avatar project-collaborators__avatar--pending"
+                title={t('collaborators.pendingCount', { count: pendingCount })}
+                aria-label={t('collaborators.pendingCount', { count: pendingCount })}
+              >
+                {pendingCount}
+              </span>
+            )}
+            <button
+              type="button"
+              className="project-collaborators__add"
+              onClick={() => setModalOpen(true)}
+              aria-label={
+                showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')
+              }
+              title={showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')}
+            >
+              <Plus aria-hidden />
+            </button>
           </div>
         )}
-
-        <button
-          type="button"
-          className="project-collaborators__add"
-          onClick={() => setModalOpen(true)}
-          aria-label={
-            showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')
-          }
-          title={showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')}
-        >
-          <Plus aria-hidden />
-        </button>
       </div>
 
       {modalOpen && (

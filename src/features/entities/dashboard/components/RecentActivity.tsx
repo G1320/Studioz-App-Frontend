@@ -10,7 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import 'dayjs/locale/he';
-import { ClockIcon, CalendarTodayIcon, ScheduleIcon } from '@shared/components/icons';
+import { CalendarTodayIcon, ScheduleIcon } from '@shared/components/icons';
 import '../styles/_recent-activity.scss';
 
 dayjs.extend(relativeTime);
@@ -158,12 +158,6 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
   if (reservationsLoading || projectsLoading) {
     return (
       <div className="recent-activity">
-        <div className="recent-activity__header">
-          <h2 className="recent-activity__title">
-            <ClockIcon className="recent-activity__title-icon" />
-            {t('recentActivity.title')}
-          </h2>
-        </div>
         <div className="recent-activity__container">
           <div className="recent-activity__loading">{t('recentActivity.loading')}</div>
         </div>
@@ -174,12 +168,6 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
   if (recentActivities.length === 0) {
     return (
       <div className="recent-activity">
-        <div className="recent-activity__header">
-          <h2 className="recent-activity__title">
-            <ClockIcon className="recent-activity__title-icon" />
-            {t('recentActivity.title')}
-          </h2>
-        </div>
         <div className="recent-activity__container">
           <div className="recent-activity__empty">{t('recentActivity.empty')}</div>
         </div>
@@ -189,13 +177,6 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
 
   return (
     <div className="recent-activity">
-      <div className="recent-activity__header">
-        <h2 className="recent-activity__title">
-          <ClockIcon className="recent-activity__title-icon" />
-          {t('recentActivity.title')}
-        </h2>
-      </div>
-
       <div className="recent-activity__container">
         <div className="recent-activity__list">
           {recentActivities.map((activity, index) => {

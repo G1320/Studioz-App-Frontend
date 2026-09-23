@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CreditCardIcon } from '@shared/components/icons';
 import { useBillingHistory, useCurrentFees } from '@shared/hooks';
 import { BillingCurrentCard } from '../components/BillingCurrentCard';
 import { BillingHistoryTable } from '../components/BillingHistoryTable';
@@ -34,16 +33,6 @@ const BillingPage: React.FC = () => {
 
   return (
     <div className="billing">
-      <header className="billing__header">
-        <div className="billing__title-row">
-          <CreditCardIcon className="billing__title-icon" />
-          <h1 className="billing__title">{t('title', 'עמלות פלטפורמה')}</h1>
-        </div>
-        <p className="billing__subtitle">
-          {t('subtitle', 'סיכום העמלות החודשיות על עסקאות דרך הפלטפורמה')}
-        </p>
-      </header>
-
       {currentFees && (
         <BillingCurrentCard
           period={currentFees.period}

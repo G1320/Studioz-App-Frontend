@@ -1,0 +1,45 @@
+// Underline tab strip — shared by dashboard + merchant stats
+
+.view-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  padding: 0;
+  border-bottom: 1px solid var(--border-secondary);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__tab {
+    flex-shrink: 0;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    margin-bottom: -1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      color: var(--text-primary);
+      background: transparent;
+    }
+
+    &--active {
+      background: transparent;
+      color: var(--text-primary);
+      border-bottom-color: var(--color-brand);
+      border-color: transparent transparent var(--color-brand);
+    }
+  }
+}

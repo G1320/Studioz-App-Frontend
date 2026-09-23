@@ -69,7 +69,6 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
     const { t } = useTranslation('remoteProjects');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploads, setUploads] = useState<UploadProgress[]>([]);
-    const [isDeletingAll, setIsDeletingAll] = useState(false);
     const [isDownloadingAll, setIsDownloadingAll] = useState(false);
 
     const { files, isLoading, refetch } = useProjectFiles({ projectId, type: fileType });
@@ -227,22 +226,6 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
       }
     };
 
-    const handleDeleteAll = async () => {
-      if (files.length === 0) return;
-      if (!confirm(t('confirmDeleteAll', { count: files.length }))) return;
-      setIsDeletingAll(true);
-      try {
-        for (const file of files) {
-          await deleteMutation.mutateAsync({ projectId, fileId: file._id });
-        }
-        refetch();
-      } catch (error) {
-        console.error('Failed to delete files:', error);
-      } finally {
-        setIsDeletingAll(false);
-      }
-    };
-
     const fileTypeLabel = {
       source: t('sourceFiles'),
       deliverable: t('deliverables'),
@@ -263,46 +246,28 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
 
           <div className="project-file-uploader__header-actions">
             {files.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  className="project-icon-action project-icon-action--round project-icon-action--download"
-                  onClick={handleDownloadAll}
-                  disabled={isDownloadingAll || downloadsLocked}
-                  aria-label={
-                    downloadsLocked
-                      ? t('downloadLock.locked')
-                      : isDownloadingAll
-                        ? t('common.processing')
-                        : t('downloadAll')
-                  }
-                  title={downloadsLocked ? t('downloadLock.locked') : t('downloadAll')}
-                >
-                  {isDownloadingAll ? (
-                    <Loader2 className="project-icon-action__spin" aria-hidden />
-                  ) : downloadsLocked ? (
-                    <Lock aria-hidden />
-                  ) : (
-                    <Download aria-hidden />
-                  )}
-                </button>
-                {!disabled && (
-                  <button
-                    type="button"
-                    className="project-icon-action project-icon-action--round project-icon-action--danger"
-                    onClick={handleDeleteAll}
-                    disabled={isDeletingAll || deleteMutation.isPending}
-                    aria-label={isDeletingAll ? t('common.processing') : t('deleteAll')}
-                    title={t('deleteAll')}
-                  >
-                    {isDeletingAll ? (
-                      <Loader2 className="project-icon-action__spin" aria-hidden />
-                    ) : (
-                      <Trash2 aria-hidden />
-                    )}
-                  </button>
+              <button
+                type="button"
+                className="project-icon-action project-icon-action--round project-icon-action--download"
+                onClick={handleDownloadAll}
+                disabled={isDownloadingAll || downloadsLocked}
+                aria-label={
+                  downloadsLocked
+                    ? t('downloadLock.locked')
+                    : isDownloadingAll
+                      ? t('common.processing')
+                      : t('downloadAll')
+                }
+                title={downloadsLocked ? t('downloadLock.locked') : t('downloadAll')}
+              >
+                {isDownloadingAll ? (
+                  <Loader2 className="project-icon-action__spin" aria-hidden />
+                ) : downloadsLocked ? (
+                  <Lock aria-hidden />
+                ) : (
+                  <Download aria-hidden />
                 )}
-              </>
+              </button>
             )}
 
             {!disabled && (
