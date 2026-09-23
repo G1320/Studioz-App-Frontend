@@ -1,8 +1,21 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Search, Filter, Plus, Clock, CheckCircle2, User, ArrowLeft, ArrowRight, Images } from 'lucide-react';
+import {
+  Search,
+  Filter,
+  Plus,
+  Clock,
+  CheckCircle2,
+  User,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  ArrowDown,
+  Calendar,
+  Images
+} from 'lucide-react';
 import { useUserContext } from '@core/contexts';
 import { useSocket } from '@core/contexts/SocketContext';
 import { useRemoteProjects } from '@shared/hooks';
@@ -15,13 +28,26 @@ import { RemoteProject, RemoteProjectStatus } from 'src/types/index';
 import './styles/_projects-list-page.scss';
 
 type FilterStatus = 'all' | RemoteProjectStatus;
+type SortField = 'created' | 'deadline';
+type SortDirection = 'asc' | 'desc';
 const PROJECTS_VIEW_MODE_KEY = 'projects-view-mode';
+const DEFAULT_SORT_FIELD: SortField = 'created';
+const DEFAULT_SORT_DIRECTION: SortDirection = 'desc';
+
+function projectSortTime(project: RemoteProject, field: SortField): number | null {
+  const raw = field === 'deadline' ? project.deadline : project.createdAt;
+  if (!raw) return null;
+  const time = new Date(raw).getTime();
+  return Number.isNaN(time) ? null : time;
+}
 
 export const ProjectsListPage: React.FC = () => {
   const { t, i18n } = useTranslation('remoteProjects');
   const { user } = useUserContext();
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortField, setSortField] = useState<SortField>(DEFAULT_SORT_FIELD);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(DEFAULT_SORT_DIRECTION);
   const [viewMode, setViewMode] = useState<ViewMode>(() =>
     typeof window !== 'undefined' && window.localStorage.getItem(PROJECTS_VIEW_MODE_KEY) === 'list' ? 'list' : 'grid'
   );
@@ -52,19 +78,33 @@ export const ProjectsListPage: React.FC = () => {
     };
   }, [socket, refetchProjects]);
 
-  const nameFallbacks = {
-    item: t('remoteService'),
-    studio: t('studio'),
-    customer: t('customer')
-  };
+  const nameFallbacks = useMemo(
+    () => ({
+      item: t('remoteService'),
+      studio: t('studio'),
+      customer: t('customer')
+    }),
+    [t]
+  );
   const getNames = (project: RemoteProject) => getProjectDisplayNames(project, i18n.language, nameFallbacks);
   const ViewProjectArrow = i18n.dir() === 'rtl' ? ArrowLeft : ArrowRight;
 
   // Status is filtered by the API. Search applies to the currently loaded status page.
   const normalizedSearch = searchQuery.trim().toLocaleLowerCase();
-  const filteredProjects = projects.filter((project: RemoteProject) =>
-    projectMatchesSearch(project, normalizedSearch, i18n.language, nameFallbacks)
-  );
+  const filteredProjects = useMemo(() => {
+    const matched = projects.filter((project: RemoteProject) =>
+      projectMatchesSearch(project, normalizedSearch, i18n.language, nameFallbacks)
+    );
+
+    return [...matched].sort((a, b) => {
+      const aTime = projectSortTime(a, sortField);
+      const bTime = projectSortTime(b, sortField);
+      if (aTime == null && bTime == null) return 0;
+      if (aTime == null) return 1;
+      if (bTime == null) return -1;
+      return sortDirection === 'desc' ? bTime - aTime : aTime - bTime;
+    });
+  }, [projects, normalizedSearch, i18n.language, nameFallbacks, sortField, sortDirection]);
 
   const statusOptions: { value: FilterStatus; label: string }[] = [
     { value: 'all', label: t('allStatuses') },
@@ -78,6 +118,13 @@ export const ProjectsListPage: React.FC = () => {
     { value: 'declined', label: t('status.declined') }
   ];
 
+  const sortFieldOptions: { value: SortField; label: string }[] = [
+    { value: 'created', label: t('sort.byCreated') },
+    { value: 'deadline', label: t('sort.byDeadline') }
+  ];
+  const sortDescLabel = sortField === 'deadline' ? t('sort.latestFirst') : t('sort.newestFirst');
+  const sortAscLabel = sortField === 'deadline' ? t('sort.earliestFirst') : t('sort.oldestFirst');
+
   const hasActiveFilters = statusFilter !== 'all' || Boolean(normalizedSearch);
   const showFilters = Boolean(user) && (projects.length > 0 || hasActiveFilters);
   const hasResults = Boolean(user) && filteredProjects.length > 0;
@@ -86,6 +133,8 @@ export const ProjectsListPage: React.FC = () => {
   const clearFilters = () => {
     setStatusFilter('all');
     setSearchQuery('');
+    setSortField(DEFAULT_SORT_FIELD);
+    setSortDirection(DEFAULT_SORT_DIRECTION);
   };
 
   const handleViewModeChange = (mode: ViewMode) => {
@@ -115,6 +164,44 @@ export const ProjectsListPage: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+          </div>
+          <div className="projects-list__sort">
+            <div className="projects-list__filter projects-list__filter--sort">
+              <Calendar />
+              <select
+                value={sortField}
+                onChange={(e) => setSortField(e.target.value as SortField)}
+                aria-label={t('sort.label')}
+              >
+                {sortFieldOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="projects-list__direction" role="group" aria-label={t('sort.label')}>
+              <button
+                type="button"
+                className={`projects-list__direction-btn${sortDirection === 'desc' ? ' projects-list__direction-btn--active' : ''}`}
+                onClick={() => setSortDirection('desc')}
+                aria-label={sortDescLabel}
+                aria-pressed={sortDirection === 'desc'}
+                title={sortDescLabel}
+              >
+                <ArrowDown />
+              </button>
+              <button
+                type="button"
+                className={`projects-list__direction-btn${sortDirection === 'asc' ? ' projects-list__direction-btn--active' : ''}`}
+                onClick={() => setSortDirection('asc')}
+                aria-label={sortAscLabel}
+                aria-pressed={sortDirection === 'asc'}
+                title={sortAscLabel}
+              >
+                <ArrowUp />
+              </button>
+            </div>
           </div>
           <div className="projects-list__filter">
             <Filter />

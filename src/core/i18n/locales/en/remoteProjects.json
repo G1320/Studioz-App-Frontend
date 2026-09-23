@@ -9,6 +9,15 @@
   "noResults": "No matching projects",
   "noResultsHint": "Try a different search or project status",
   "clearFilters": "Clear filters",
+  "sort": {
+    "label": "Sort by",
+    "byCreated": "Date created",
+    "byDeadline": "Deadline",
+    "newestFirst": "Newest first",
+    "oldestFirst": "Oldest first",
+    "earliestFirst": "Earliest first",
+    "latestFirst": "Latest first"
+  },
   "view": {
     "label": "Project layout",
     "grid": "Grid view",
@@ -199,7 +208,7 @@
   },
 
   "messages": "Messages",
-  "projectChat": "Project chat",
+  "projectChat": "Chat",
   "collapseProjectChat": "Collapse project chat",
   "expandProjectChat": "Open project chat",
   "noMessages": "No messages yet. Start the conversation!",

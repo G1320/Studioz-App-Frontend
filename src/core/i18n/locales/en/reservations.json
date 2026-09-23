@@ -83,8 +83,8 @@
       "createdAsc": "Booking created (oldest first)",
       "byCreated": "Booking created",
       "byBooking": "Visit date",
-      "ascending": "Ascending",
-      "descending": "Descending"
+      "ascending": "Oldest first",
+      "descending": "Newest first"
     },
     "customerSearchLabel": "Search",
     "customerSearchPlaceholder": "Name or phone...",

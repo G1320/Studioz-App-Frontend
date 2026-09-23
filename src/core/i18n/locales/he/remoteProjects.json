@@ -9,6 +9,15 @@
   "noResults": "לא נמצאו פרויקטים תואמים",
   "noResultsHint": "נסה חיפוש או סטטוס פרויקט אחר",
   "clearFilters": "נקה מסננים",
+  "sort": {
+    "label": "מיון לפי",
+    "byCreated": "תאריך יצירה",
+    "byDeadline": "תאריך יעד",
+    "newestFirst": "חדש קודם",
+    "oldestFirst": "ישן קודם",
+    "earliestFirst": "מוקדם קודם",
+    "latestFirst": "מאוחר קודם"
+  },
   "view": {
     "label": "פריסת פרויקטים",
     "grid": "תצוגת רשת",
@@ -209,7 +218,7 @@
   },
 
   "messages": "הודעות",
-  "projectChat": "צ׳אט הפרויקט",
+  "projectChat": "צ׳אט",
   "collapseProjectChat": "סגירת צ׳אט הפרויקט",
   "expandProjectChat": "פתיחת צ׳אט הפרויקט",
   "noMessages": "אין הודעות עדיין. התחל את השיחה!",

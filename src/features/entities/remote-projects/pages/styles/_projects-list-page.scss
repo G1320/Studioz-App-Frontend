@@ -170,6 +170,12 @@
   &__filter {
     position: relative;
     min-width: 160px;
+    flex-shrink: 0;
+
+    &--sort {
+      min-width: 0;
+      flex: 1;
+    }
 
     svg {
       position: absolute;
@@ -201,6 +207,59 @@
       &:focus {
         outline: none;
         border-color: var(--color-brand);
+      }
+    }
+  }
+
+  &__sort {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    flex: 0 1 260px;
+  }
+
+  &__direction {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem;
+    border: 1px solid var(--border-secondary, var(--border-primary));
+    border-radius: 0.5rem;
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+  }
+
+  &__direction-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.375rem;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+
+    svg {
+      width: 0.9375rem;
+      height: 0.9375rem;
+    }
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    &--active {
+      color: #000;
+      background: var(--color-brand);
+
+      &:hover {
+        color: #000;
+        background: var(--color-brand);
       }
     }
   }

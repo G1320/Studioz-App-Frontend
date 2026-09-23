@@ -73,8 +73,8 @@
       "createdAsc": "תאריך הזמנה (ישן קודם)",
       "byCreated": "תאריך הזמנה",
       "byBooking": "תאריך ביקור",
-      "ascending": "סדר עולה",
-      "descending": "סדר יורד"
+      "ascending": "ישן קודם",
+      "descending": "חדש קודם"
     },
     "customerSearchLabel": "חיפוש",
     "customerSearchPlaceholder": "שם או טלפון...",
