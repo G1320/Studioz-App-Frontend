@@ -43,6 +43,53 @@ const ChartTooltip = ({
   );
 };
 
+const YAxisTick = ({
+  x,
+  y,
+  payload
+}: {
+  x?: number;
+  y?: number;
+  payload?: { value?: number };
+}) => (
+  <text
+    x={(x ?? 0) - 10}
+    y={y}
+    dy={4}
+    textAnchor="end"
+    fill="var(--text-muted)"
+    fontSize={11}
+  >
+    {formatAxisValue(Number(payload?.value ?? 0))}
+  </text>
+);
+
+const XAxisTick = ({
+  x,
+  y,
+  payload,
+  angled
+}: {
+  x?: number;
+  y?: number;
+  payload?: { value?: string };
+  angled?: boolean;
+}) => {
+  if (!payload?.value) return null;
+  return (
+    <text
+      x={x}
+      y={(y ?? 0) + (angled ? 6 : 12)}
+      textAnchor={angled ? 'end' : 'middle'}
+      fill="var(--text-muted)"
+      fontSize={11}
+      transform={angled ? `rotate(-35, ${x}, ${y})` : undefined}
+    >
+      {payload.value}
+    </text>
+  );
+};
+
 export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChange, data: externalData }) => {
   const { t } = useTranslation('merchantStats');
 
@@ -93,6 +140,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
     }));
   }, [period, externalData, t]);
 
+  const angledX = period === 'monthly';
+
   return (
     <div className="revenue-chart">
       <div className="revenue-chart__header">
@@ -121,11 +170,11 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
         </div>
       </div>
 
-      <div className="revenue-chart__recharts">
-        <ResponsiveContainer width="100%" height={300}>
+      <div className="revenue-chart__recharts ms-chart-plot" dir="ltr">
+        <ResponsiveContainer width="100%" height={angledX ? 320 : 280}>
           <AreaChart
             data={chartData}
-            margin={{ top: 8, right: 8, left: 12, bottom: period === 'monthly' ? 40 : 8 }}
+            margin={{ top: 12, right: 8, left: 52, bottom: angledX ? 52 : 20 }}
           >
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
@@ -136,24 +185,20 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
             <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              tick={<XAxisTick angled={angledX} />}
               stroke="transparent"
               tickLine={false}
               axisLine={false}
-              interval={period === 'monthly' ? 1 : 0}
-              angle={period === 'monthly' ? -30 : 0}
-              textAnchor={period === 'monthly' ? 'end' : 'middle'}
-              height={period === 'monthly' ? 48 : 28}
+              interval={angledX ? 1 : 0}
+              height={angledX ? 56 : 24}
             />
             <YAxis
               orientation="left"
-              tick={{ fontSize: 11, fill: 'var(--text-muted)', direction: 'ltr' }}
+              width={1}
+              tick={<YAxisTick />}
               stroke="transparent"
               tickLine={false}
               axisLine={false}
-              tickMargin={10}
-              width={64}
-              tickFormatter={formatAxisValue}
             />
             <Tooltip
               content={(props) => (

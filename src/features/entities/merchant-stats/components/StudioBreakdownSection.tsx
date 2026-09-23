@@ -128,50 +128,48 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
           <div className="ms-panel__header">
             <h3>{t('studios.comparison', 'השוואת אולפנים')}</h3>
           </div>
-          <div className="studio-comparison-chart__chart" dir="ltr">
-            <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 52)}>
-              <BarChart
-                data={chartData}
-                layout="vertical"
-                margin={{ top: 4, right: 20, bottom: 4, left: 4 }}
-                barCategoryGap="28%"
-              >
-                <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" horizontal={false} />
-                <XAxis
-                  type="number"
-                  tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
-                />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  width={168}
-                  interval={0}
-                  tickMargin={10}
-                  tick={{ fontSize: 12, fill: 'var(--text-secondary)', textAnchor: 'end' }}
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(value: string) =>
-                    value.length > 22 ? `${value.slice(0, 20)}…` : value
-                  }
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-secondary)',
-                    borderRadius: '6px',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.08)'
-                  }}
-                  formatter={(value: number | undefined) => [
-                    formatCurrency(value ?? 0),
-                    t('revenueChart.revenue', 'הכנסה')
-                  ]}
-                />
-                <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 3, 3, 0]} barSize={16} />
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="studio-comparison-chart__body" dir="ltr">
+            <ul className="studio-comparison-chart__labels" style={{ height: Math.max(180, chartData.length * 48) }}>
+              {chartData.map((item) => (
+                <li key={item.name} className="studio-comparison-chart__label" title={item.name}>
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+            <div className="studio-comparison-chart__chart">
+              <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 48 + 40)}>
+                <BarChart
+                  data={chartData}
+                  layout="vertical"
+                  margin={{ top: 8, right: 12, bottom: 8, left: 0 }}
+                  barCategoryGap="32%"
+                >
+                  <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" horizontal={false} />
+                  <XAxis
+                    type="number"
+                    tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
+                  />
+                  <YAxis type="category" dataKey="name" width={0} tick={false} axisLine={false} tickLine={false} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-secondary)',
+                      borderRadius: '6px',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.08)'
+                    }}
+                    labelStyle={{ color: 'var(--text-primary)' }}
+                    formatter={(value: number | undefined) => [
+                      formatCurrency(value ?? 0),
+                      t('revenueChart.revenue', 'הכנסה')
+                    ]}
+                  />
+                  <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 3, 3, 0]} barSize={14} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       )}

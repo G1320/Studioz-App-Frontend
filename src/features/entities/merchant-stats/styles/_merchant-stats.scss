@@ -530,9 +530,21 @@
   &__subtitle {
     margin: 0.25rem 0 0;
     font-size: ds.$font-sm;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     line-height: 1.4;
   }
+}
+
+.projections-chart__plot {
+  width: 100%;
+  min-width: 0;
+}
+
+.ms-chart-plot {
+  direction: ltr;
+  unicode-bidi: isolate;
+  width: 100%;
+  min-width: 0;
 }
 
 // ===== QUICK STATS ROW =====
@@ -1447,20 +1459,43 @@
 .studio-comparison-chart {
   margin-bottom: 0;
 
+  &__body {
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  &__labels {
+    list-style: none;
+    margin: 8px 0 40px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-width: 0;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    min-height: 2rem;
+    padding-inline-end: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 550;
+    line-height: 1.25;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__chart {
     width: 100%;
     min-width: 0;
-
-    // Keep Recharts LTR so category labels sit in a dedicated gutter, not on the bars
-    .recharts-cartesian-axis-tick-value {
-      direction: ltr;
-      unicode-bidi: plaintext;
-    }
   }
 
-  &__wrap,
-  &__labels,
-  &__label {
+  &__wrap {
     display: none;
   }
 }
