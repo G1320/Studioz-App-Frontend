@@ -33,14 +33,18 @@ const SHOWCASES = [
   },
   {
     key: 'projects',
-    desktop: 'desktop-project-workspace',
+    desktop: undefined,
     mobile: 'cross-device-project-review-mobile'
   },
-  { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined }
+  {
+    key: 'presence',
+    desktop: 'desktop-studio-portfolio',
+    mobile: 'mobile-studio-portfolio'
+  }
 ] as const;
 
 interface ProductVisualProps {
-  desktopSrc: string;
+  desktopSrc?: string;
   mobileSrc?: string;
   alt: string;
   eager?: boolean;
@@ -48,18 +52,32 @@ interface ProductVisualProps {
 }
 
 function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false }: ProductVisualProps) {
+  const mobileOnly = Boolean(mobileSrc && !desktopSrc);
+
   return (
     <div
-      className={`preview-landing__product-visual ${mobileSrc ? 'preview-landing__product-visual--dual' : ''} ${
+      className={[
+        'preview-landing__product-visual',
+        desktopSrc && mobileSrc ? 'preview-landing__product-visual--dual' : '',
+        mobileOnly ? 'preview-landing__product-visual--mobile-only' : '',
         hero ? 'preview-landing__product-visual--hero' : ''
-      }`}
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      <div className="preview-landing__shot preview-landing__shot--desktop">
-        <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
-      </div>
+      {desktopSrc ? (
+        <div className="preview-landing__shot preview-landing__shot--desktop">
+          <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+        </div>
+      ) : null}
       {mobileSrc ? (
         <div className="preview-landing__shot preview-landing__shot--mobile">
-          <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+          <img
+            src={mobileSrc}
+            alt={desktopSrc ? '' : alt}
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+          />
         </div>
       ) : null}
     </div>
@@ -210,7 +228,7 @@ export default function PreviewLandingPage() {
                   </div>
                   <div className="preview-landing__showcase-visual">
                     <ProductVisual
-                      desktopSrc={captureUrl(desktop)}
+                      desktopSrc={desktop ? captureUrl(desktop) : undefined}
                       mobileSrc={mobile ? captureUrl(mobile) : undefined}
                       alt={t(`showcase.${key}.imageAlt`)}
                       eager={index === 0}
