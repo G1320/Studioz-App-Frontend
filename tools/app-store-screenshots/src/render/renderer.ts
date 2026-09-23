@@ -215,7 +215,7 @@ body{font-family:"Studioz Body",sans-serif;background:${backgroundCss(definition
 .screen{position:relative;width:100%;height:100%;overflow:hidden;border-radius:inherit;background:#0b0e12;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .screen-viewport{position:absolute;z-index:1;top:var(--chrome-height);right:0;bottom:0;left:0;overflow:hidden;background:#0b0e12}
 .screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(definition.crop?.objectPosition || 'center top')};filter:${screenFilter}}
-.island{position:absolute;z-index:4;top:2.3%;left:50%;width:30%;height:3.8%;transform:translateX(-50%);border-radius:999px;background:#020203;box-shadow:inset 0 -1px 2px rgba(255,255,255,.08)}
+.island{position:absolute;z-index:4;top:1.1%;left:50%;width:28%;height:2.35%;transform:translateX(-50%);border-radius:999px;background:#020203;box-shadow:inset 0 -1px 2px rgba(255,255,255,.08)}
 .desktop-bar{position:absolute;z-index:4;top:0;left:0;right:0;height:5.2%;display:flex;align-items:center;gap:1.2%;padding:0 1.5%;direction:ltr;background:rgba(22,24,28,.96);border-bottom:1px solid rgba(255,255,255,.08)}
 .desktop-bar i{display:block;width:1.15%;aspect-ratio:1;border-radius:50%;background:#ff675f}.desktop-bar i:nth-child(2){background:#ffbd44}.desktop-bar i:nth-child(3){background:#2acb55}
 .template-dual .device-slot.slot-1{left:42%}.template-dual .device-slot.slot-2{left:58%}
@@ -266,7 +266,7 @@ export function getDeviceChromeMetrics(device: DeviceId): {
   frameRatio: number;
 } {
   const spec = DEVICE_SPECS[device];
-  const chromeHeight = spec.family === 'desktop' ? 52 : spec.family === 'tablet' ? 34 : 68;
+  const chromeHeight = spec.family === 'desktop' ? 52 : spec.family === 'tablet' ? 34 : 44;
   const framedHeight = spec.viewport.height + chromeHeight;
   return {
     chromeHeight,

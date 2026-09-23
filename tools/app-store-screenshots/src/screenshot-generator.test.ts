@@ -78,7 +78,7 @@ describe('device and layout specifications', () => {
   );
 
   it('reserves frame space so device chrome cannot cover application navigation', () => {
-    expect(getDeviceChromeMetrics('iphone-6.9').chromeHeightPercent).toBeGreaterThan(6.1);
+    expect(getDeviceChromeMetrics('iphone-6.9').chromeHeightPercent).toBeGreaterThan(4.2);
     expect(getDeviceChromeMetrics('desktop-1440').chromeHeightPercent).toBeGreaterThan(5.2);
     expect(getDeviceChromeMetrics('ipad-13').chromeHeight).toBeGreaterThan(0);
   });

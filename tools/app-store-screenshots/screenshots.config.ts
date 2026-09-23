@@ -628,7 +628,7 @@ const scenes: ScreenshotScene[] = [
     actions: [{ type: 'click', selector: '.quick-actions__header' }],
     primaryActions: [
       { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', selector: '.revenue-chart', offsetY: -96 }
+      { type: 'scroll', selector: '.revenue-chart', offsetY: -24 }
     ],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },
