@@ -513,8 +513,12 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    // Keep Actions + source files + chat in frame for every locale/theme.
-    actions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
+    // Source files + open track thread + collaborators in frame for every locale/theme.
+    actions: [
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: -72 },
+      { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
+      { type: 'scroll', selector: '.project-file-uploader--source .track-thread', offsetY: -220 }
+    ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -592,9 +596,13 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    // Desktop: same Actions + source files scene as desktop-project-workspace.
+    // Desktop: same open-thread workspace as desktop-project-workspace.
     // Mobile: open a track thread so the dual still shows cross-device review.
-    primaryActions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
+    primaryActions: [
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: -72 },
+      { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
+      { type: 'scroll', selector: '.project-file-uploader--source .track-thread', offsetY: -220 }
+    ],
     secondaryActions: [
       { type: 'scroll', selector: '.project-file-uploader--source' },
       { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
