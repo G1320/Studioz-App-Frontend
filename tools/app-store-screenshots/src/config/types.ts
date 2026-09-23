@@ -80,6 +80,7 @@ export interface CaptureScenario {
   viewport?: Dimensions;
   actions?: NavigationAction[];
   fullPage?: boolean;
+  publish?: PublishedAsset;
 }
 
 interface ScreenshotBase {

@@ -1,6 +1,7 @@
 .features-page:not(.features-page--detail) {
   --features-accent: #ffc85a;
   --features-ink: color-mix(in srgb, var(--text-primary) 94%, transparent);
+  --features-display: 'Heebo', 'DM Sans', system-ui, sans-serif;
   padding: 0;
   overflow: clip;
   background: var(--bg-primary);
@@ -71,7 +72,7 @@
   .features-page__section-header h2,
   .features-page__showcase-copy h3,
   .features-page__closing h2 {
-    font-family: var(--owners-font-display, 'Syne', system-ui, sans-serif);
+    font-family: var(--features-display);
     font-optical-sizing: auto;
     text-wrap: balance;
   }
@@ -156,19 +157,6 @@
     position: relative;
     width: min(100%, 1180px);
     margin: clamp(3.5rem, 7vw, 6rem) auto 0;
-
-    img {
-      position: relative;
-      z-index: 1;
-      display: block;
-      width: 100%;
-      height: auto;
-      border: 1px solid color-mix(in srgb, var(--border-primary) 76%, white 12%);
-      border-radius: clamp(1rem, 2vw, 1.75rem);
-      box-shadow:
-        0 3rem 8rem rgb(0 0 0 / 30%),
-        0 0 0 1px rgb(255 255 255 / 4%) inset;
-    }
   }
 
   .features-page__hero-glow {
@@ -178,6 +166,111 @@
     background: color-mix(in srgb, var(--features-accent) 28%, #469dff 12%);
     filter: blur(90px);
     opacity: 0.28;
+  }
+
+  .features-page__product-visual {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-block: 1rem;
+  }
+
+  .features-page__desktop-frame {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--border-primary) 76%, white 10%);
+    border-radius: clamp(0.8rem, 1.5vw, 1.25rem);
+    background: #11151b;
+    box-shadow: 0 2rem 5rem rgb(0 0 0 / 25%);
+
+    > img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: top center;
+    }
+  }
+
+  .features-page__desktop-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    height: clamp(1.75rem, 3vw, 2.5rem);
+    padding-inline: 0.9rem;
+    border-bottom: 1px solid rgb(255 255 255 / 7%);
+    background: #171b21;
+
+    span {
+      width: 0.48rem;
+      height: 0.48rem;
+      border-radius: 50%;
+      background: #ff6259;
+    }
+
+    span:nth-child(2) {
+      background: #ffc04a;
+    }
+
+    span:nth-child(3) {
+      background: #39c65a;
+    }
+  }
+
+  .features-page__product-visual--dual {
+    padding-inline-end: clamp(2rem, 8vw, 6rem);
+    padding-block-end: clamp(2rem, 6vw, 5rem);
+
+    .features-page__desktop-frame {
+      width: 94%;
+    }
+  }
+
+  .features-page__phone-frame {
+    position: absolute;
+    z-index: 2;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    width: clamp(7rem, 23%, 15rem);
+    padding: 7% 2% 2%;
+    overflow: hidden;
+    border: clamp(0.28rem, 0.5vw, 0.48rem) solid #1c2026;
+    border-radius: clamp(1.1rem, 2.8vw, 2.4rem);
+    background: #090b0e;
+    box-shadow: 0 2rem 4rem rgb(0 0 0 / 38%);
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: clamp(0.65rem, 1.8vw, 1.5rem);
+    }
+  }
+
+  .features-page__phone-island {
+    position: absolute;
+    z-index: 3;
+    inset-block-start: 2%;
+    inset-inline-start: 50%;
+    width: 34%;
+    height: 3.4%;
+    border-radius: 999px;
+    background: #020304;
+    transform: translateX(-50%);
+
+    [dir='rtl'] & {
+      transform: translateX(50%);
+    }
+  }
+
+  .features-page__product-visual--hero {
+    .features-page__desktop-frame {
+      box-shadow:
+        0 3rem 8rem rgb(0 0 0 / 30%),
+        0 0 0 1px rgb(255 255 255 / 4%) inset;
+    }
   }
 
   .features-page__trust-row {
@@ -339,16 +432,6 @@
       content: '';
     }
 
-    img {
-      position: relative;
-      display: block;
-      width: 100%;
-      height: auto;
-      border: 1px solid var(--border-primary);
-      border-radius: clamp(1rem, 1.8vw, 1.5rem);
-      background: var(--bg-secondary);
-      box-shadow: 0 2rem 5rem rgb(0 0 0 / 22%);
-    }
   }
 
   .features-page__capabilities {
@@ -392,7 +475,7 @@
 
     h3 {
       margin: 0;
-      font-family: var(--owners-font-display, 'Syne', system-ui, sans-serif);
+      font-family: var(--features-display);
       font-size: 1.45rem;
       letter-spacing: -0.03em;
     }

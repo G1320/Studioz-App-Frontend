@@ -10,7 +10,6 @@ import {
   Clock3,
   CreditCard,
   Headphones,
-  ShieldCheck,
   SlidersHorizontal,
   Sparkles,
   Store,
@@ -34,10 +33,43 @@ const FEATURE_ICONS = {
 
 const FEATURE_SCREENSHOTS: Partial<Record<FeatureId, string>> = {
   calendar: 'desktop-reservations',
-  insights: 'cross-device-analytics',
+  insights: 'cross-device-analytics-desktop',
   studio_pages: 'desktop-studio-portfolio',
-  remote: 'cross-device-project-review'
+  remote: 'cross-device-project-review-desktop'
 };
+
+interface ProductVisualProps {
+  desktopSrc: string;
+  mobileSrc?: string;
+  alt: string;
+  eager?: boolean;
+  hero?: boolean;
+}
+
+function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false }: ProductVisualProps) {
+  return (
+    <div
+      className={`features-page__product-visual ${mobileSrc ? 'features-page__product-visual--dual' : ''} ${
+        hero ? 'features-page__product-visual--hero' : ''
+      }`}
+    >
+      <div className="features-page__desktop-frame">
+        <div className="features-page__desktop-chrome" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+        <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+      </div>
+      {mobileSrc && (
+        <div className="features-page__phone-frame">
+          <span className="features-page__phone-island" aria-hidden="true" />
+          <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function FeaturesPage() {
   const { t, i18n } = useTranslation('features');
@@ -45,8 +77,8 @@ export default function FeaturesPage() {
   const { lang } = useParams<{ lang?: string }>();
   const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
   const assetLocale = currentLang === 'he' ? 'he' : 'en-US';
-  const screenshotUrl = useCallback(
-    (scene: string) => `/images/features-generated/${assetLocale}/${resolvedTheme}/${scene}.webp`,
+  const captureUrl = useCallback(
+    (capture: string) => `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp`,
     [assetLocale, resolvedTheme]
   );
 
@@ -59,9 +91,9 @@ export default function FeaturesPage() {
     if (!Array.isArray(list)) return [];
     return list.map((item) => {
       const scene = FEATURE_SCREENSHOTS[item.id as FeatureId];
-      return { ...item, images: scene ? [screenshotUrl(scene)] : [] };
+      return { ...item, images: scene ? [captureUrl(scene)] : [] };
     });
-  }, [list, screenshotUrl]);
+  }, [list, captureUrl]);
 
   const jsonLd = useMemo(() => {
     const itemListElement = features.map((feature, index) => ({
@@ -87,10 +119,20 @@ export default function FeaturesPage() {
   }, [features, currentLang, t]);
 
   const showcases = [
-    { key: 'operations', scene: 'desktop-reservations', icon: CalendarDays },
-    { key: 'analytics', scene: 'cross-device-analytics', icon: BarChart3 },
-    { key: 'projects', scene: 'cross-device-project-review', icon: Workflow },
-    { key: 'presence', scene: 'desktop-studio-portfolio', icon: Store }
+    { key: 'operations', desktop: 'desktop-reservations', mobile: undefined, icon: CalendarDays },
+    {
+      key: 'analytics',
+      desktop: 'cross-device-analytics-desktop',
+      mobile: 'cross-device-analytics-mobile',
+      icon: BarChart3
+    },
+    {
+      key: 'projects',
+      desktop: 'cross-device-project-review-desktop',
+      mobile: 'cross-device-project-review-mobile',
+      icon: Workflow
+    },
+    { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined, icon: Store }
   ] as const;
 
   return (
@@ -106,10 +148,6 @@ export default function FeaturesPage() {
         <section className="features-page__hero">
           <div className="features-page__container">
             <div className="features-page__hero-copy">
-              <span className="features-page__eyebrow">
-                <ShieldCheck aria-hidden="true" />
-                {t('hero.eyebrow')}
-              </span>
               <h1 className="features-page__title">
                 {t('hero.title')}
                 <span>{t('hero.titleAccent')}</span>
@@ -129,13 +167,12 @@ export default function FeaturesPage() {
 
             <div className="features-page__hero-visual">
               <div className="features-page__hero-glow" />
-              <img
-                src={screenshotUrl('cross-device-analytics')}
+              <ProductVisual
+                desktopSrc={captureUrl('cross-device-analytics-desktop')}
+                mobileSrc={captureUrl('cross-device-analytics-mobile')}
                 alt={t('showcase.analytics.imageAlt')}
-                decoding="async"
-                fetchPriority="high"
-                width={1600}
-                height={1000}
+                eager
+                hero
               />
             </div>
 
@@ -159,7 +196,7 @@ export default function FeaturesPage() {
             </header>
 
             <div className="features-page__showcase-list">
-              {showcases.map(({ key, scene, icon: Icon }, index) => {
+              {showcases.map(({ key, desktop, mobile, icon: Icon }, index) => {
                 const points = t(`showcase.${key}.points`, { returnObjects: true }) as string[];
                 return (
                   <article
@@ -184,13 +221,11 @@ export default function FeaturesPage() {
                       </ul>
                     </div>
                     <div className="features-page__showcase-visual">
-                      <img
-                        src={screenshotUrl(scene)}
+                      <ProductVisual
+                        desktopSrc={captureUrl(desktop)}
+                        mobileSrc={mobile ? captureUrl(mobile) : undefined}
                         alt={t(`showcase.${key}.imageAlt`)}
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        decoding="async"
-                        width={1600}
-                        height={1000}
+                        eager={index === 0}
                       />
                     </div>
                   </article>

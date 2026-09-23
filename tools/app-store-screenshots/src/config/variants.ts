@@ -54,6 +54,7 @@ export interface ScreenshotScene {
   actions?: NavigationAction[];
   presentation?: Partial<Record<ThemeId, ThemePresentation>>;
   publish?: ScenePublishConfig;
+  capturePublish?: ScenePublishConfig;
 }
 
 export interface ExpandedScenes {
@@ -89,7 +90,14 @@ export function expandScenes(scenes: ScreenshotScene[]): ExpandedScenes {
               theme,
               locale,
               viewportDevice: scene.device,
-              actions: scene.actions
+              actions: scene.actions,
+              publish: scene.capturePublish
+                ? {
+                    path: `${scene.capturePublish.directory}/${locale}/${theme}/${scene.id}-desktop.webp`,
+                    dimensions: scene.capturePublish.dimensions,
+                    quality: scene.capturePublish.quality
+                  }
+                : undefined
             },
             {
               id: secondarySource,
@@ -100,7 +108,13 @@ export function expandScenes(scenes: ScreenshotScene[]): ExpandedScenes {
               theme,
               locale,
               viewportDevice: scene.secondaryDevice,
-              actions: scene.actions
+              actions: scene.actions,
+              publish: scene.capturePublish
+                ? {
+                    path: `${scene.capturePublish.directory}/${locale}/${theme}/${scene.id}-mobile.webp`,
+                    quality: scene.capturePublish.quality
+                  }
+                : undefined
             }
           );
           screenshots.push({
@@ -143,7 +157,14 @@ export function expandScenes(scenes: ScreenshotScene[]): ExpandedScenes {
           theme,
           locale,
           viewportDevice: scene.device,
-          actions: scene.actions
+          actions: scene.actions,
+          publish: scene.capturePublish
+            ? {
+                path: `${scene.capturePublish.directory}/${locale}/${theme}/${scene.id}.webp`,
+                dimensions: scene.capturePublish.dimensions,
+                quality: scene.capturePublish.quality
+              }
+            : undefined
         });
 
         screenshots.push({

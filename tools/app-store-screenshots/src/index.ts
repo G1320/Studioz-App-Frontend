@@ -23,7 +23,7 @@ import {
   resetRawOutput,
   resetRenderedOutput
 } from './export/paths.js';
-import { publishRenderedAsset } from './export/publish.js';
+import { publishAsset, publishRenderedAsset } from './export/publish.js';
 import { validateConfig, validateRawCapture, validateRenderedOutputs } from './validation/validate.js';
 
 async function main(): Promise<void> {
@@ -72,6 +72,17 @@ async function main(): Promise<void> {
     } else {
       console.log('Skipping capture; using existing raw screenshots.');
       for (const scenario of scenarios) await validateRawCapture(scenario);
+    }
+
+    if (!options.preview) {
+      const publishedCaptures = scenarios.filter((scenario) => scenario.publish);
+      if (publishedCaptures.length > 0) {
+        console.log('\nPublishing raw product captures...');
+        for (const scenario of publishedCaptures) {
+          const publishedPath = await publishAsset(scenario.publish!, rawCapturePath(scenario));
+          console.log(`✓ ${relative(process.cwd(), publishedPath)}`);
+        }
+      }
     }
 
     if (!hasActiveFilters(options.filters)) await resetRenderedOutput(options.preview);

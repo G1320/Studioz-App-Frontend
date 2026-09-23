@@ -1,29 +1,32 @@
 import { resolve, sep } from 'node:path';
 import sharp from 'sharp';
-import type { ScreenshotDefinition } from '../config/types.js';
+import type { PublishedAsset, ScreenshotDefinition } from '../config/types.js';
 import { ensureParent } from './paths.js';
 
 export async function publishRenderedAsset(definition: ScreenshotDefinition, sourcePath: string): Promise<string | null> {
   if (!definition.publish) return null;
+  return publishAsset(definition.publish, sourcePath);
+}
 
-  const outputPath = resolve(process.cwd(), definition.publish.path);
+export async function publishAsset(asset: PublishedAsset, sourcePath: string): Promise<string> {
+  const outputPath = resolve(process.cwd(), asset.path);
   const publicRoot = `${resolve(process.cwd(), 'public')}${sep}`;
   if (!outputPath.startsWith(publicRoot)) {
-    throw new Error(`Published screenshot path must stay inside public/: ${definition.publish.path}`);
+    throw new Error(`Published screenshot path must stay inside public/: ${asset.path}`);
   }
 
   await ensureParent(outputPath);
 
   let image = sharp(sourcePath);
-  if (definition.publish.dimensions) {
-    image = image.resize(definition.publish.dimensions.width, definition.publish.dimensions.height, {
+  if (asset.dimensions) {
+    image = image.resize(asset.dimensions.width, asset.dimensions.height, {
       fit: 'cover',
       position: 'centre'
     });
   }
 
   await image
-    .webp({ quality: definition.publish.quality ?? 88, effort: 6 })
+    .webp({ quality: asset.quality ?? 88, effort: 6 })
     .toFile(outputPath);
 
   return outputPath;
