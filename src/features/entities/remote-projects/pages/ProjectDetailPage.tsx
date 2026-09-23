@@ -402,6 +402,15 @@ export const ProjectDetailPage: React.FC = () => {
             </div>
           </section>
 
+          {user && (
+            <ProjectChat
+              projectId={projectId}
+              currentUserId={user._id}
+              currentUserRole={userRole}
+              disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
+            />
+          )}
+
           {/* Source Files (Customer uploads) */}
           <section className="project-detail__section">
             <ProjectFileUploader
@@ -503,15 +512,6 @@ export const ProjectDetailPage: React.FC = () => {
               <p className="project-detail__no-actions">{t('noActions')}</p>
             )}
           </section>
-
-          {user && (
-            <ProjectChat
-              projectId={projectId}
-              currentUserId={user._id}
-              currentUserRole={userRole}
-              disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
-            />
-          )}
 
           {user && (
             <ProjectCollaborators

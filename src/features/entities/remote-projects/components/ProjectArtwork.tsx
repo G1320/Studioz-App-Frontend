@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ImagePlus, Images, Trash2 } from 'lucide-react';
+import { ImagePlus, Images, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -78,9 +78,7 @@ export const ProjectArtwork: React.FC<ProjectArtworkProps> = ({ projectId, artwo
     },
     maxFiles: 1,
     maxSize: MAX_ARTWORK_SIZE,
-    disabled: !canEdit || uploadMutation.isPending || removeMutation.isPending,
-    noClick: true,
-    noKeyboard: true
+    disabled: !canEdit || uploadMutation.isPending || removeMutation.isPending
   });
 
   const handleRemove = async () => {
@@ -100,9 +98,12 @@ export const ProjectArtwork: React.FC<ProjectArtworkProps> = ({ projectId, artwo
   const isPending = uploadMutation.isPending || removeMutation.isPending;
 
   return (
-    <section className={`project-artwork${isDragActive ? ' project-artwork--dragging' : ''}`} {...getRootProps()}>
-      <input {...getInputProps()} />
-      <div className="project-artwork__visual">
+    <section className={`project-artwork${isDragActive ? ' project-artwork--dragging' : ''}`}>
+      <div
+        className={`project-artwork__visual${canEdit ? ' project-artwork__visual--editable' : ''}`}
+        {...getRootProps()}
+      >
+        <input {...getInputProps()} />
         {displayUrl ? (
           <img src={displayUrl} alt={t('artwork.alt')} className="project-artwork__image" />
         ) : (
@@ -110,6 +111,31 @@ export const ProjectArtwork: React.FC<ProjectArtworkProps> = ({ projectId, artwo
             <Images aria-hidden="true" />
             <span>{t('artwork.empty')}</span>
           </div>
+        )}
+        {canEdit && !isPending && (
+          <div
+            className={`project-artwork__interaction${
+              displayUrl ? '' : ' project-artwork__interaction--visible'
+            }`}
+            aria-hidden="true"
+          >
+            <ImagePlus />
+            <span>{t(displayUrl ? 'artwork.replaceHint' : 'artwork.dropHint')}</span>
+          </div>
+        )}
+        {canEdit && displayUrl && !isPending && (
+          <button
+            type="button"
+            className="project-artwork__remove"
+            aria-label={t('artwork.remove')}
+            title={t('artwork.remove')}
+            onClick={(event) => {
+              event.stopPropagation();
+              void handleRemove();
+            }}
+          >
+            <X aria-hidden="true" />
+          </button>
         )}
         {uploadMutation.isPending && (
           <div className="project-artwork__progress" role="status">
@@ -123,39 +149,6 @@ export const ProjectArtwork: React.FC<ProjectArtworkProps> = ({ projectId, artwo
           </div>
         )}
       </div>
-
-      {canEdit && (
-        <div className="project-artwork__controls">
-          <div className="project-artwork__actions">
-            <label className={`project-artwork__button${isPending ? ' project-artwork__button--disabled' : ''}`}>
-              <ImagePlus aria-hidden="true" />
-              {displayUrl ? t('artwork.replace') : t('artwork.add')}
-              <input
-                type="file"
-                accept=".jpg,.jpeg,.png,.webp"
-                disabled={isPending}
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) void onDrop([file]);
-                  event.target.value = '';
-                }}
-              />
-            </label>
-            {displayUrl && (
-              <button
-                type="button"
-                className="project-artwork__button project-artwork__button--danger"
-                onClick={handleRemove}
-                disabled={isPending}
-              >
-                <Trash2 aria-hidden="true" />
-                {t('artwork.remove')}
-              </button>
-            )}
-          </div>
-          <span className="project-artwork__drop-hint">{t('artwork.dropHint')}</span>
-        </div>
-      )}
     </section>
   );
 };

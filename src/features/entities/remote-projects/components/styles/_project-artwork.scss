@@ -16,6 +16,23 @@
     border: 1px solid var(--border-secondary, var(--border-primary));
     border-radius: 0.5rem;
     background: var(--bg-surface, var(--bg-secondary));
+
+    &--editable {
+      cursor: pointer;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand);
+      outline-offset: 2px;
+    }
+
+    &:hover,
+    &:focus-within {
+      .project-artwork__interaction,
+      .project-artwork__remove {
+        opacity: 1;
+      }
+    }
   }
 
   &__image {
@@ -43,6 +60,7 @@
 
   &__progress {
     position: absolute;
+    z-index: 4;
     inset: 0;
     display: flex;
     align-items: center;
@@ -55,6 +73,7 @@
 
   &__drop-overlay {
     position: absolute;
+    z-index: 3;
     inset: 0;
     display: flex;
     flex-direction: column;
@@ -73,66 +92,68 @@
     }
   }
 
-  &__controls {
+  &__interaction {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  &__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  &__button {
-    display: inline-flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-    padding: 0.4rem 0.625rem;
-    border: 1px solid var(--border-secondary, var(--border-primary));
-    border-radius: 0.375rem;
-    background: var(--bg-surface, var(--bg-secondary));
-    color: var(--text-primary);
-    font: inherit;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(4, 7, 12, 0.68);
+    color: #fff;
     font-size: 0.75rem;
-    cursor: pointer;
+    font-weight: 650;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
 
-    &:hover:not(:disabled) {
-      border-color: var(--color-brand);
-      color: var(--color-brand);
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
     }
 
-    input {
-      display: none;
+    &--visible {
+      background: color-mix(in srgb, var(--bg-surface, var(--bg-secondary)) 82%, rgba(0, 0, 0, 0.55));
+      color: var(--text-primary);
+      opacity: 1;
+    }
+  }
+
+  &__remove {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: 0.5rem;
+    inset-inline-end: 0.5rem;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid rgb(255 255 255 / 18%);
+    border-radius: 50%;
+    background: rgb(5 7 10 / 82%);
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition:
+      opacity 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-error, #ef4444);
+      color: #fff;
+      opacity: 1;
     }
 
     svg {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 1rem;
+      height: 1rem;
     }
-
-    &--danger {
-      color: var(--color-error, #ef4444);
-    }
-
-    &--disabled,
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.55;
-    }
-
-    &--disabled:hover {
-      border-color: var(--border-secondary, var(--border-primary));
-      color: var(--text-primary);
-    }
-  }
-
-  &__drop-hint {
-    color: var(--text-muted, var(--text-tertiary));
-    font-size: 0.75rem;
   }
 }

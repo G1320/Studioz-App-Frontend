@@ -513,13 +513,13 @@ const scenes: ScreenshotScene[] = [
     id: 'desktop-project-workspace',
     order: 23,
     path: '/projects/project-demo',
-    readySelector: '.project-file-uploader--source',
+    readySelector: '.project-chat',
     fixture: 'projects',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    actions: [{ type: 'scroll', selector: '.project-file-uploader--source' }],
+    actions: [{ type: 'scroll', selector: '.project-chat' }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     copy: {
       'en-US': {
