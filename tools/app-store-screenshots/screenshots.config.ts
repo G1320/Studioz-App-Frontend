@@ -232,7 +232,7 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'feature',
-    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:last-child' }],
+    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:first-child' }],
     deviceTransform: { scale: 0.79, x: 90, y: 510, rotation: -1, shadow: true },
     copy: {
       'en-US': {
@@ -541,7 +541,7 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'minimal',
-    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:last-child' }],
+    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:first-child' }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -657,7 +657,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:last-child' }],
+    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:first-child' }],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },
     copy: {

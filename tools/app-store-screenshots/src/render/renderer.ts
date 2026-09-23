@@ -266,7 +266,7 @@ export function getDeviceChromeMetrics(device: DeviceId): {
   frameRatio: number;
 } {
   const spec = DEVICE_SPECS[device];
-  const chromeHeight = spec.family === 'desktop' ? 52 : spec.family === 'tablet' ? 34 : 44;
+  const chromeHeight = spec.family === 'desktop' ? 52 : spec.family === 'tablet' ? 34 : 0;
   const framedHeight = spec.viewport.height + chromeHeight;
   return {
     chromeHeight,

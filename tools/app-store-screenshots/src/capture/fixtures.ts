@@ -156,7 +156,7 @@ const customerUser = {
   studios: []
 };
 
-const reservations = [
+const reservationSeed = [
   {
     _id: 'reservation-1',
     studioId: STUDIO_ID,
@@ -286,6 +286,108 @@ const reservations = [
     createdAt: '2026-09-23T06:50:00.000Z'
   }
 ];
+
+const additionalReservationSeed = [
+  {
+    customerId: 'customer-nine',
+    customerName: 'Amit Rosen',
+    bookingDate: '05/10/2026',
+    startHour: 9,
+    duration: 3,
+    status: 'confirmed',
+    createdAt: '2026-09-23T08:10:00.000Z'
+  },
+  {
+    customerId: 'customer-ten',
+    customerName: 'Maya Azulay',
+    bookingDate: '06/10/2026',
+    startHour: 13,
+    duration: 2,
+    status: 'pending',
+    createdAt: '2026-09-23T09:20:00.000Z'
+  },
+  {
+    customerId: 'customer-eleven',
+    customerName: 'Omer Katz',
+    bookingDate: '07/10/2026',
+    startHour: 17,
+    duration: 4,
+    status: 'confirmed',
+    createdAt: '2026-09-23T10:35:00.000Z'
+  },
+  {
+    customerId: 'customer-twelve',
+    customerName: 'Tal Shahar',
+    bookingDate: '08/10/2026',
+    startHour: 10,
+    duration: 2,
+    status: 'pending',
+    createdAt: '2026-09-23T11:05:00.000Z'
+  },
+  {
+    customerId: 'customer-thirteen',
+    customerName: 'Gal Naveh',
+    bookingDate: '09/10/2026',
+    startHour: 15,
+    duration: 3,
+    status: 'confirmed',
+    createdAt: '2026-09-23T12:15:00.000Z'
+  },
+  {
+    customerId: 'customer-fourteen',
+    customerName: 'Niv Cohen',
+    bookingDate: '11/10/2026',
+    startHour: 11,
+    duration: 3,
+    status: 'confirmed',
+    createdAt: '2026-09-23T13:40:00.000Z'
+  },
+  {
+    customerId: 'customer-fifteen',
+    customerName: 'Dana Peled',
+    bookingDate: '12/10/2026',
+    startHour: 18,
+    duration: 2,
+    status: 'cancelled',
+    createdAt: '2026-09-23T14:25:00.000Z'
+  },
+  {
+    customerId: 'customer-sixteen',
+    customerName: 'Yoni Amir',
+    bookingDate: '13/10/2026',
+    startHour: 14,
+    duration: 4,
+    status: 'pending',
+    createdAt: '2026-09-23T15:10:00.000Z'
+  }
+];
+
+const reservations = [
+  ...reservationSeed,
+  ...additionalReservationSeed.map((reservation, index) => ({
+    _id: `reservation-${index + 9}`,
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: reservation.customerId,
+    customerName: reservation.customerName,
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: reservation.bookingDate,
+    timeSlots: Array.from(
+      { length: reservation.duration },
+      (_, slot) => `${String(reservation.startHour + slot).padStart(2, '0')}:00`
+    ),
+    startTime: `${String(reservation.startHour).padStart(2, '0')}:00`,
+    endTime: `${String(reservation.startHour + reservation.duration).padStart(2, '0')}:00`,
+    price: reservation.duration * 320,
+    status: reservation.status,
+    createdAt: reservation.createdAt
+  }))
+].map((reservation) => ({
+  ...reservation,
+  itemPrice: 320,
+  totalPrice: reservation.price
+}));
 
 const merchantDocuments = [
   {
@@ -490,6 +592,25 @@ const projectMessages = [
   }
 ];
 
+const hebrewProjectMessageText: Record<string, string> = {
+  'message-general-1': 'הכיוון מרגיש מצוין. אפשר לתת לפזמון קצת יותר רוחב?',
+  'message-general-2': 'בהחלט — הרחבתי את ערוץ הסינת׳ והשארתי את השירה במרכז.',
+  'message-general-3': 'ניקיתי גם את התדרים הנמוכים לפני מעבר הלימיטר הסופי.',
+  'message-track-1': 'אפשר להכניס כאן את הדיליי של השירה פעימה אחת מאוחר יותר?',
+  'message-track-reply-1': 'בוצע — עכשיו הוא מתחיל אחרי המשפט הראשון.',
+  'message-track-2': 'אהבתי את המעבר הזה. הכניסה יושבת עכשיו בדיוק.',
+  'message-track-3': 'אפשר לתת לשירה האחרונה לנשום לפני שהאאוטרו מתחיל?',
+  'message-track-reply-2': 'כן — פתחתי שם מרווח וריככתי את המעבר לאאוטרו.'
+};
+
+function getLocalizedProjectMessages(locale: CaptureScenario['locale']) {
+  if (locale !== 'he') return projectMessages;
+  return projectMessages.map((message) => ({
+    ...message,
+    message: hebrewProjectMessageText[message._id] ?? message.message
+  }));
+}
+
 export function getUserFixture(auth: AuthState): Record<string, unknown> | null {
   if (auth === 'vendor') return vendorUser;
   if (auth === 'customer') return customerUser;
@@ -620,9 +741,10 @@ export function resolveFixtureRequest(
     });
   }
   if (method === 'GET' && path.includes('/messages')) {
+    const localizedMessages = getLocalizedProjectMessages(scenario.locale);
     return json({
-      messages: projectMessages,
-      pagination: { page: 1, limit: 300, total: projectMessages.length, pages: 1 }
+      messages: localizedMessages,
+      pagination: { page: 1, limit: 300, total: localizedMessages.length, pages: 1 }
     });
   }
   if (method === 'GET' && path.startsWith('/notifications/unread-count')) return json({ count: 2 });

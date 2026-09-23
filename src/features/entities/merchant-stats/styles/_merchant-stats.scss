@@ -132,15 +132,11 @@
 
 .merchant-stats__metrics {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-
-  @media (min-width: 520px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 .merchant-stats__forecast-strip {
@@ -189,7 +185,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-md;
-  padding: 1rem 1.125rem;
+  padding: 0.875rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -197,6 +193,10 @@
   min-width: 0;
   overflow: hidden;
   transition: border-color 0.15s ease;
+
+  @media (min-width: 520px) {
+    padding: 1rem 1.125rem;
+  }
 
   &:hover {
     border-color: var(--border-hover);
@@ -242,12 +242,16 @@
 
 .stat-card__value {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 650;
   color: var(--text-primary);
   letter-spacing: -0.03em;
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
+
+  @media (min-width: 520px) {
+    font-size: 1.5rem;
+  }
 }
 
 .stat-card__trend {
@@ -1247,12 +1251,6 @@
 }
 
 .merchant-stats__section--overview {
-  .merchant-stats__metrics {
-    @media (min-width: 520px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
   .merchant-stats__sidebar,
   .clients-card {
     height: 100%;

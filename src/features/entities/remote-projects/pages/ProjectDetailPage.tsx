@@ -342,61 +342,64 @@ export const ProjectDetailPage: React.FC = () => {
 
       <div className="project-detail__content">
         <div className="project-detail__main">
-          <ProjectArtwork
-            projectId={projectId}
-            artworkUrl={project.artworkUrl}
-            canEdit={canUpdateArtwork}
-          />
+          <section className="project-detail__section project-detail__hero">
+            <ProjectArtwork
+              projectId={projectId}
+              artworkUrl={project.artworkUrl}
+              canEdit={canUpdateArtwork}
+            />
 
-          {/* Project Info */}
-          <section className="project-detail__section">
-            <h2 className="project-detail__section-title">{t('projectDetails')}</h2>
-            <div className="project-detail__info-grid">
-              <div className="project-detail__info-item">
-                <span className="project-detail__info-label">{t('service')}</span>
-                <span className="project-detail__info-value">{getItemName()}</span>
-              </div>
-              <div className="project-detail__info-item">
-                <span className="project-detail__info-label">{t('studio')}</span>
-                <span className="project-detail__info-value">{getStudioName()}</span>
-              </div>
-              <div className="project-detail__info-item">
-                <span className="project-detail__info-label">{t('price')}</span>
-                <span className="project-detail__info-value">{project.price.toLocaleString()} ILS</span>
-              </div>
-              {project.deadline && (
+            <div className="project-detail__hero-body">
+              <h2 className="project-detail__section-title">{t('projectDetails')}</h2>
+              <div className="project-detail__info-grid">
                 <div className="project-detail__info-item">
-                  <span className="project-detail__info-label">{t('deadline')}</span>
-                  <span className="project-detail__info-value">{new Date(project.deadline).toLocaleDateString()}</span>
+                  <span className="project-detail__info-label">{t('service')}</span>
+                  <span className="project-detail__info-value">{getItemName()}</span>
+                </div>
+                <div className="project-detail__info-item">
+                  <span className="project-detail__info-label">{t('studio')}</span>
+                  <span className="project-detail__info-value">{getStudioName()}</span>
+                </div>
+                <div className="project-detail__info-item">
+                  <span className="project-detail__info-label">{t('price')}</span>
+                  <span className="project-detail__info-value">{project.price.toLocaleString()} ILS</span>
+                </div>
+                {project.deadline && (
+                  <div className="project-detail__info-item">
+                    <span className="project-detail__info-label">{t('deadline')}</span>
+                    <span className="project-detail__info-value">{new Date(project.deadline).toLocaleDateString()}</span>
+                  </div>
+                )}
+                <div className="project-detail__info-item">
+                  <span className="project-detail__info-label">{t('revisions')}</span>
+                  <span className="project-detail__info-value" dir="ltr">
+                    {project.revisionsUsed} / {project.revisionsIncluded}
+                  </span>
+                </div>
+              </div>
+
+              {project.brief && (
+                <div className="project-detail__brief-block">
+                  <h3 className="project-detail__brief-label">{t('brief')}</h3>
+                  <p className="project-detail__brief">{project.brief}</p>
                 </div>
               )}
-              <div className="project-detail__info-item">
-                <span className="project-detail__info-label">{t('revisions')}</span>
-                <span className="project-detail__info-value" dir="ltr">
-                  {project.revisionsUsed} / {project.revisionsIncluded}
-                </span>
-              </div>
-            </div>
-          </section>
 
-          {/* Brief */}
-          <section className="project-detail__section">
-            <h2 className="project-detail__section-title">{t('brief')}</h2>
-            <p className="project-detail__brief">{project.brief}</p>
-            {project.referenceLinks && project.referenceLinks.length > 0 && (
-              <div className="project-detail__references">
-                <h3 className="project-detail__references-title">{t('referenceLinks')}</h3>
-                <ul className="project-detail__references-list">
-                  {project.referenceLinks.map((link, index) => (
-                    <li key={index}>
-                      <a className="project-detail__reference-link" href={link} target="_blank" rel="noopener noreferrer">
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              {project.referenceLinks && project.referenceLinks.length > 0 && (
+                <div className="project-detail__references">
+                  <h3 className="project-detail__references-title">{t('referenceLinks')}</h3>
+                  <ul className="project-detail__references-list">
+                    {project.referenceLinks.map((link, index) => (
+                      <li key={index}>
+                        <a className="project-detail__reference-link" href={link} target="_blank" rel="noopener noreferrer">
+                          {link}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </section>
 
           {/* Source Files (Customer uploads) */}
@@ -501,27 +504,22 @@ export const ProjectDetailPage: React.FC = () => {
             )}
           </section>
 
-          {/* Chat */}
           {user && (
-            <section className="project-detail__section">
-              <ProjectChat
-                projectId={projectId}
-                currentUserId={user._id}
-                currentUserRole={userRole}
-                disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
-              />
-            </section>
+            <ProjectChat
+              projectId={projectId}
+              currentUserId={user._id}
+              currentUserRole={userRole}
+              disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
+            />
           )}
 
           {user && (
-            <section className="project-detail__section">
-              <ProjectCollaborators
-                projectId={projectId}
-                access={access}
-                canInvite={canInvite}
-                currentUserId={user._id}
-              />
-            </section>
+            <ProjectCollaborators
+              projectId={projectId}
+              access={access}
+              canInvite={canInvite}
+              currentUserId={user._id}
+            />
           )}
         </div>
       </div>

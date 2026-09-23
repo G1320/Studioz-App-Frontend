@@ -213,8 +213,7 @@
     width: auto;
     aspect-ratio: 440 / 956;
     box-sizing: border-box;
-    padding: clamp(1.3rem, 3.2vw, 2.4rem) clamp(0.22rem, 0.45vw, 0.45rem)
-      clamp(0.22rem, 0.45vw, 0.45rem);
+    padding: clamp(0.22rem, 0.45vw, 0.45rem);
     overflow: hidden;
     border: clamp(0.28rem, 0.5vw, 0.48rem) solid #1c2026;
     border-radius: clamp(1.1rem, 2.8vw, 2.4rem);

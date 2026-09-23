@@ -77,8 +77,9 @@ describe('device and layout specifications', () => {
     }
   );
 
-  it('reserves frame space so device chrome cannot cover application navigation', () => {
-    expect(getDeviceChromeMetrics('iphone-6.9').chromeHeightPercent).toBeGreaterThan(4.2);
+  it('uses edge-to-edge phone screens while reserving desktop chrome', () => {
+    expect(getDeviceChromeMetrics('iphone-6.9').chromeHeight).toBe(0);
+    expect(getDeviceChromeMetrics('iphone-6.9').frameRatio).toBeCloseTo(440 / 956);
     expect(getDeviceChromeMetrics('desktop-1440').chromeHeightPercent).toBeGreaterThan(5.2);
     expect(getDeviceChromeMetrics('ipad-13').chromeHeight).toBeGreaterThan(0);
   });

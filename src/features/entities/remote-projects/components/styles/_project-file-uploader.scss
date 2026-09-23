@@ -4,37 +4,36 @@
 @use './project-icon-actions';
 
 .project-file-uploader {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   max-width: 100%;
   min-width: 0;
   overflow-x: hidden;
 
   &__title {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: 0.9375rem;
+    font-weight: 650;
     color: var(--text-primary);
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.75rem 0;
   }
 
   // Dropzone
   &__dropzone {
     position: relative;
-    border: 2px dashed var(--border-primary);
-    border-radius: 1rem;
-    padding: 2.5rem 2rem;
+    border: 1px dashed var(--border-secondary, var(--border-primary));
+    border-radius: 0.5rem;
+    padding: 1.25rem 1rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.15s ease, background 0.15s ease;
 
     &:hover:not(&--disabled) {
-      border-color: rgba(255, 209, 102, 0.5);
-      background: rgba(255, 209, 102, 0.02);
+      border-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
+      background: color-mix(in srgb, var(--color-brand) 4%, transparent);
     }
 
     &--dragging {
       border-color: var(--color-brand);
-      background: rgba(255, 209, 102, 0.05);
-      transform: scale(0.99);
+      background: color-mix(in srgb, var(--color-brand) 8%, transparent);
     }
 
     &--disabled {
@@ -42,7 +41,7 @@
       opacity: 0.5;
 
       &:hover {
-        border-color: var(--border-primary);
+        border-color: var(--border-secondary, var(--border-primary));
         background: transparent;
       }
     }
@@ -53,7 +52,7 @@
     inset: 0;
     opacity: 0;
     cursor: pointer;
-    pointer-events: none; /* Only dropzone receives clicks; one programmatic .click() = one dialog open */
+    pointer-events: none;
 
     &:disabled {
       cursor: not-allowed;
@@ -68,17 +67,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    margin: 0 auto 1rem;
-    background: var(--bg-secondary);
+    width: 2.25rem;
+    height: 2.25rem;
+    margin: 0 auto 0.625rem;
+    background: var(--bg-primary);
     border-radius: 9999px;
     color: var(--text-secondary);
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 
     svg {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.125rem;
+      height: 1.125rem;
     }
   }
 
@@ -88,14 +87,14 @@
   }
 
   &__dropzone-text {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.875rem;
+    font-weight: 650;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
   }
 
   &__dropzone-hint {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
   }
 
