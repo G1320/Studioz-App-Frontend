@@ -59,7 +59,10 @@
     background: transparent;
     color: var(--text-primary);
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
 
     svg {
       width: 1.05rem;
@@ -259,7 +262,8 @@
   }
 
   &__player {
-    padding: 0 0.5rem 0.5rem 2.4rem;
+    padding-block: 0 0.5rem;
+    padding-inline: 2.4rem 0.5rem;
     min-width: 0;
   }
 
@@ -300,7 +304,7 @@
     }
 
     &__player {
-      padding-inline-start: 0.5rem;
+      padding-inline: 0.5rem;
     }
   }
 }

@@ -110,7 +110,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
         if (onDownloadReport) {
           onDownloadReport();
         } else {
-          langNavigate('/dashboard?tab=stats');
+          langNavigate('/stats');
         }
         break;
     }

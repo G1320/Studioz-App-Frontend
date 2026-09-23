@@ -414,13 +414,8 @@ export const ProjectDetailPage: React.FC = () => {
   };
 
   const isFullyPaid = project.finalPaid || project.paymentStatus === 'fully_paid';
-  const isDepositPaid =
-    !isFullyPaid && (project.depositPaid || project.paymentStatus === 'deposit_paid');
-  const paidAmount = isFullyPaid
-    ? project.price
-    : isDepositPaid
-      ? project.depositAmount ?? 0
-      : 0;
+  const isDepositPaid = !isFullyPaid && (project.depositPaid || project.paymentStatus === 'deposit_paid');
+  const paidAmount = isFullyPaid ? project.price : isDepositPaid ? (project.depositAmount ?? 0) : 0;
   const paymentStatusLabel = isFullyPaid
     ? t('paymentStatus.fullyPaid')
     : isDepositPaid
@@ -467,9 +462,7 @@ export const ProjectDetailPage: React.FC = () => {
                   </div>
                   <div className="project-detail__info-item">
                     <span className="project-detail__info-label">{t('price')}</span>
-                    <span className="project-detail__info-value">
-                      ₪{project.price.toLocaleString()}
-                    </span>
+                    <span className="project-detail__info-value">₪{project.price.toLocaleString()}</span>
                   </div>
                   <div className="project-detail__info-item">
                     <span className="project-detail__info-label">{t('amountPaid')}</span>
@@ -539,6 +532,65 @@ export const ProjectDetailPage: React.FC = () => {
                     </ul>
                   </div>
                 )}
+
+                <div className="project-detail__actions">
+                  <h2 className="project-detail__section-title">{t('actions')}</h2>
+                  <div className="project-detail__actions-row">
+                    {canAcceptDecline && (
+                      <div className="project-detail__action-group">
+                        <Button className="button--primary" onClick={handleAccept} disabled={acceptMutation.isPending}>
+                          {acceptMutation.isPending ? t('common.processing') : t('accept')}
+                        </Button>
+                        <Button className="button--secondary" onClick={() => setShowDeclineModal(true)}>
+                          {t('decline')}
+                        </Button>
+                      </div>
+                    )}
+
+                    {canStart && (
+                      <Button className="button--primary" onClick={handleStart} disabled={startMutation.isPending}>
+                        {startMutation.isPending ? t('common.processing') : t('startWorking')}
+                      </Button>
+                    )}
+
+                    {canDeliver && (
+                      <Button className="button--primary" onClick={() => setShowDeliveryModal(true)}>
+                        {t('deliver')}
+                      </Button>
+                    )}
+
+                    {canRequestRevision && (
+                      <Button className="button--secondary" onClick={() => setShowRevisionModal(true)}>
+                        {isPaidRevision
+                          ? t('requestPaidRevision', { price: project.revisionPrice })
+                          : t('requestRevision')}
+                      </Button>
+                    )}
+
+                    {canComplete && (
+                      <Button
+                        className="button--primary"
+                        onClick={handleComplete}
+                        disabled={completeMutation.isPending}
+                      >
+                        {completeMutation.isPending ? t('common.processing') : t('markComplete')}
+                      </Button>
+                    )}
+
+                    {canCancel && (
+                      <Button className="button--danger" onClick={handleCancel} disabled={cancelMutation.isPending}>
+                        {t('cancel')}
+                      </Button>
+                    )}
+
+                    {!canAcceptDecline &&
+                      !canStart &&
+                      !canDeliver &&
+                      !canRequestRevision &&
+                      !canComplete &&
+                      !canCancel && <p className="project-detail__no-actions">{t('noActions')}</p>}
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -615,58 +667,6 @@ export const ProjectDetailPage: React.FC = () => {
                 />
               </section>
             )}
-          </div>
-
-          <div className="project-detail__sidebar">
-            {/* Actions */}
-            <section className="project-detail__section project-detail__actions">
-              <h2 className="project-detail__section-title">{t('actions')}</h2>
-
-              {canAcceptDecline && (
-                <div className="project-detail__action-group">
-                  <Button className="button--primary" onClick={handleAccept} disabled={acceptMutation.isPending}>
-                    {acceptMutation.isPending ? t('common.processing') : t('accept')}
-                  </Button>
-                  <Button className="button--secondary" onClick={() => setShowDeclineModal(true)}>
-                    {t('decline')}
-                  </Button>
-                </div>
-              )}
-
-              {canStart && (
-                <Button className="button--primary" onClick={handleStart} disabled={startMutation.isPending}>
-                  {startMutation.isPending ? t('common.processing') : t('startWorking')}
-                </Button>
-              )}
-
-              {canDeliver && (
-                <Button className="button--primary" onClick={() => setShowDeliveryModal(true)}>
-                  {t('deliver')}
-                </Button>
-              )}
-
-              {canRequestRevision && (
-                <Button className="button--secondary" onClick={() => setShowRevisionModal(true)}>
-                  {isPaidRevision ? t('requestPaidRevision', { price: project.revisionPrice }) : t('requestRevision')}
-                </Button>
-              )}
-
-              {canComplete && (
-                <Button className="button--primary" onClick={handleComplete} disabled={completeMutation.isPending}>
-                  {completeMutation.isPending ? t('common.processing') : t('markComplete')}
-                </Button>
-              )}
-
-              {canCancel && (
-                <Button className="button--danger" onClick={handleCancel} disabled={cancelMutation.isPending}>
-                  {t('cancel')}
-                </Button>
-              )}
-
-              {!canAcceptDecline && !canStart && !canDeliver && !canRequestRevision && !canComplete && !canCancel && (
-                <p className="project-detail__no-actions">{t('noActions')}</p>
-              )}
-            </section>
           </div>
         </div>
 

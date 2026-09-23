@@ -112,17 +112,14 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'dashboard-statistics',
     order: 6,
-    path: '/dashboard?tab=stats',
+    path: '/stats',
     readySelector: '.merchant-stats',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', x: 0, y: 0 }
-    ],
+    actions: [{ type: 'scroll', x: 0, y: 0 }],
     deviceTransform: { scale: 0.8, y: 500, shadow: true },
     copy: {
       'en-US': {
@@ -411,17 +408,14 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'stats-revenue-trend',
     order: 19,
-    path: '/dashboard?tab=stats',
+    path: '/stats',
     readySelector: '.revenue-chart',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    actions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', selector: '.revenue-chart' }
-    ],
+    actions: [{ type: 'scroll', selector: '.revenue-chart' }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     copy: {
       'en-US': {
@@ -437,14 +431,13 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'stats-studio-comparison',
     order: 20,
-    path: '/dashboard?tab=stats',
+    path: '/stats',
     readySelector: '.merchant-stats',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'feature',
     actions: [
-      { type: 'click', selector: '.quick-actions__header' },
       { type: 'click', selector: '.stats-sub-tabs__tab:nth-child(2)' },
       { type: 'scroll', selector: '.studio-comparison-chart' }
     ],
@@ -463,14 +456,13 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'stats-projections',
     order: 21,
-    path: '/dashboard?tab=stats',
+    path: '/stats',
     readySelector: '.merchant-stats',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'minimal',
     actions: [
-      { type: 'click', selector: '.quick-actions__header' },
       { type: 'click', selector: '.stats-sub-tabs__tab:nth-child(4)' },
       { type: 'scroll', selector: '.projections-chart' }
     ],
@@ -489,14 +481,13 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'stats-insights',
     order: 22,
-    path: '/dashboard?tab=stats',
+    path: '/stats',
     readySelector: '.merchant-stats',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'feature',
     actions: [
-      { type: 'click', selector: '.quick-actions__header' },
       { type: 'click', selector: '.stats-sub-tabs__tab:nth-child(5)' },
       { type: 'scroll', selector: '.insights-heatmap' }
     ],
@@ -621,18 +612,14 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'cross-device-analytics',
     order: 27,
-    path: '/dashboard?tab=stats',
+    path: '/stats',
     readySelector: '.revenue-chart',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    actions: [{ type: 'click', selector: '.quick-actions__header' }],
-    primaryActions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', selector: '.revenue-chart', offsetY: -24 }
-    ],
+    primaryActions: [{ type: 'scroll', selector: '.revenue-chart', offsetY: -24 }],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },
     capturePublish: {

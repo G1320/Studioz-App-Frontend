@@ -24,6 +24,7 @@ const EditStudioPage = lazyWithRetry(() => import('@features/entities/studios/pa
 const OrderSuccessPage = lazyWithRetry(() => import('@features/entities/orders/pages/OrderSuccessPage'));
 const StudioCalendarPage = lazyWithRetry(() => import('@features/entities/bookings/calender/pages/CalenderPage'));
 const DashboardPage = lazyWithRetry(() => import('@features/entities/dashboard/pages/DashboardPage'));
+const MerchantStatsPage = lazyWithRetry(() => import('@features/entities/merchant-stats/pages/MerchantStatsPage'));
 const SumitSubscriptionPage = lazyWithRetry(() => import('@features/entities/subscriptions/pages/SumitSubscriptionPage'));
 const MySubscriptionPage = lazyWithRetry(() => import('@features/entities/subscriptions/pages/MySubscriptionPage'));
 const VendorOnboardingPage = lazyWithRetry(() => import('@features/vendor-onboarding/sumit/pages/VendorOnboardingPage'));
@@ -308,6 +309,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <DashboardPage user={user || null} studios={studios} />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/stats"
+            element={
+              <AnimatedRoute>
+                <MerchantStatsPage />
               </AnimatedRoute>
             }
           />

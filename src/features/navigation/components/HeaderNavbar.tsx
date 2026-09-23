@@ -52,6 +52,16 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
           >
             {t('navigation.myProjects')}
           </Link>
+          {isStudioOwner && (
+            <Link
+              to={`/${currLang}/stats`}
+              className="navbar-link"
+              aria-current={isCurrentPage(`/${currLang}/stats`) ? 'page' : undefined}
+              onClick={() => scrollToTop()}
+            >
+              {t('navigation.stats')}
+            </Link>
+          )}
           {!isStudioOwner && (
             <Link
               to={`/${currLang}/wishlists`}

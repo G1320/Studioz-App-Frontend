@@ -46,7 +46,7 @@ export class WebCaptureAdapter implements CaptureAdapter {
       });
 
       await page.goto(`${baseUrl}${scenario.route}`, { waitUntil: 'domcontentloaded', timeout: 30_000 });
-      await page.addStyleTag({ content: deterministicCaptureCss() });
+      await page.addStyleTag({ content: deterministicCaptureCss(device.family !== 'desktop') });
       await page.waitForSelector(scenario.readySelector, { visible: true, timeout: 20_000 });
 
       const actions = scenario.actions || [];
@@ -153,28 +153,17 @@ async function seedBrowserState(page: Page, scenario: CaptureScenario): Promise<
 
       const fixedTime = new Date(seed.fixedTime).valueOf();
       const OriginalDate = Date;
-            class ScreenshotDate extends OriginalDate {
-              constructor(
-                ...args:
-                  | []
-                  | [string | number | Date]
-                  | [number, number, number?, number?, number?, number?, number?]
-              ) {
-                if (args.length === 0) {
-                  super(fixedTime);
-                } else if (args.length === 1) {
-                  super(args[0]);
-                } else {
-                  super(
-                    args[0],
-                    args[1],
-                    args[2] ?? 1,
-                    args[3] ?? 0,
-                    args[4] ?? 0,
-                    args[5] ?? 0,
-                    args[6] ?? 0
-                  );
-                }
+      class ScreenshotDate extends OriginalDate {
+        constructor(
+          ...args: [] | [string | number | Date] | [number, number, number?, number?, number?, number?, number?]
+        ) {
+          if (args.length === 0) {
+            super(fixedTime);
+          } else if (args.length === 1) {
+            super(args[0]);
+          } else {
+            super(args[0], args[1], args[2] ?? 1, args[3] ?? 0, args[4] ?? 0, args[5] ?? 0, args[6] ?? 0);
+          }
         }
         static override now() {
           return fixedTime;
@@ -309,13 +298,13 @@ async function waitForStableUi(page: Page, selector: string): Promise<void> {
           return;
         }
         await new Promise<void>((resolve) => {
-              const timeout = window.setTimeout(resolve, 2000);
-              const finish = () => {
-                window.clearTimeout(timeout);
-                resolve();
-              };
-              image.addEventListener('load', finish, { once: true });
-              image.addEventListener('error', finish, { once: true });
+          const timeout = window.setTimeout(resolve, 2000);
+          const finish = () => {
+            window.clearTimeout(timeout);
+            resolve();
+          };
+          image.addEventListener('load', finish, { once: true });
+          image.addEventListener('error', finish, { once: true });
         });
       })
     );
@@ -347,7 +336,7 @@ async function waitForStableUi(page: Page, selector: string): Promise<void> {
   }, selector);
 }
 
-function deterministicCaptureCss(): string {
+function deterministicCaptureCss(hideAppHeader: boolean): string {
   return `
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
@@ -362,6 +351,18 @@ function deterministicCaptureCss(): string {
     #main-footer, footer.desktop-footer,
     .accessibility-widget, .accessibility-popover, .a11y-trigger, .a11y-popover, [data-testid="cookie-consent-banner"] {
       display: none !important;
+    }
+    ${
+      hideAppHeader
+        ? `
+    header.app-header, .skip-links-container {
+      display: none !important;
+    }
+    main, body:has(.landing-page) main {
+      padding-top: max(3rem, env(safe-area-inset-top, 0px)) !important;
+    }
+    `
+        : ''
     }
   `;
 }

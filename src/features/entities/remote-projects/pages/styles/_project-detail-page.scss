@@ -1,7 +1,7 @@
 // Remote Project Detail Page — denser enterprise workspace
 
 .project-detail {
-  max-width: 1280px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   padding: 1rem;
@@ -188,20 +188,15 @@
 
   // Main Content Layout
   &__content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+    display: block;
     min-width: 0;
-
-    @media (min-width: 1024px) {
-      grid-template-columns: minmax(0, 1fr) 320px;
-    }
   }
 
   &__main {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
     min-width: 0;
   }
 
@@ -216,7 +211,7 @@
 
     @media (min-width: 1180px) {
       &--with-chat {
-        grid-template-columns: minmax(0, 1fr) minmax(17.5rem, 32%);
+        grid-template-columns: minmax(0, 1fr) clamp(15rem, 24%, 19rem);
         align-items: start;
 
         > .project-chat {
@@ -228,16 +223,33 @@
       }
 
       &--with-chat.project-detail__workspace--chat-collapsed {
-        grid-template-columns: minmax(0, 1fr) 3rem;
+        grid-template-columns: minmax(0, 1fr) 2.125rem;
+        column-gap: 0.35rem;
 
         > .project-chat {
+          min-height: 2.125rem;
           height: auto;
+          border: 0;
+          border-radius: 9999px;
+          background: transparent;
+          overflow: visible;
         }
 
         .project-chat__collapsed-toggle {
           position: relative;
           justify-content: center;
-          padding-inline: 0.65rem;
+          width: 2.125rem;
+          min-height: 2.125rem;
+          height: 2.125rem;
+          padding: 0;
+          border: 1px solid color-mix(in srgb, var(--text-primary) 16%, transparent);
+          border-radius: 9999px;
+          background: transparent;
+
+          &:hover {
+            background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+            border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
+          }
         }
 
         .project-chat__collapsed-label,
@@ -247,8 +259,8 @@
 
         .project-chat__unread-count {
           position: absolute;
-          inset-block-start: 0.2rem;
-          inset-inline-end: 0.15rem;
+          inset-block-start: -0.35rem;
+          inset-inline-end: -0.25rem;
           min-width: 1rem;
           height: 1rem;
           padding-inline: 0.2rem;
@@ -678,7 +690,26 @@
   &__actions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.625rem;
+    margin-top: 0.125rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--border-secondary, var(--border-primary));
+
+    .project-detail__section-title {
+      margin-bottom: 0;
+    }
+  }
+
+  &__actions-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+
+    > button,
+    .project-detail__action-group > button {
+      min-width: 7.5rem;
+    }
   }
 
   &__action-primary {
@@ -745,8 +776,9 @@
 
   &__action-group {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.625rem;
   }
 
   &__no-actions {

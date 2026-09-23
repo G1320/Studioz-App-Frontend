@@ -14,6 +14,7 @@ import {
   PersonOutlineIcon,
   EventIcon,
   WorkIcon,
+  BarChartIcon,
   PlayCircleIcon,
   LanguageIcon,
   ChevronRightIcon,
@@ -44,6 +45,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
     .join('')
     .slice(0, 2)
     .toUpperCase();
+  const isStudioOwner = user?.role === 'vendor' || user?.role === 'admin' || Boolean(user?.studios?.length);
 
   const handleNavigate = (path: string) => {
     langNavigate(path);
@@ -118,6 +120,12 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
               <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
                 <DashboardIcon className="menu-dropdown__icon" />
                 <span>{t('profile.buttons.dashboard')}</span>
+              </button>
+            )}
+            {triggerVariant === 'menu' && isStudioOwner && (
+              <button className="menu-dropdown__item" onClick={() => handleNavigate('/stats')}>
+                <BarChartIcon className="menu-dropdown__icon" />
+                <span>{t('common:navigation.stats')}</span>
               </button>
             )}
           </>

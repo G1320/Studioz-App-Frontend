@@ -37,9 +37,10 @@
   }
 
   &__chip {
-    display: inline-flex;
-    align-items: center;
-    max-width: 10rem;
+    display: block;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: min(12rem, 100%);
     padding: 0.2rem 0.55rem;
     border-radius: 9999px;
     background: color-mix(in srgb, var(--text-primary) 6%, transparent);
@@ -74,7 +75,9 @@
     background: transparent;
     color: var(--text-primary);
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease;
 
     svg {
       width: 0.95rem;
@@ -204,6 +207,10 @@
     padding: 0.65rem 0;
     border-bottom: 1px solid var(--border-secondary, var(--border-primary));
 
+    > div:first-child {
+      min-width: 0;
+    }
+
     &:last-child {
       border-bottom: 0;
       padding-bottom: 0;
@@ -218,12 +225,18 @@
     font-weight: 650;
     font-size: 0.875rem;
     color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__meta {
     font-size: 0.75rem;
     color: var(--text-secondary);
     margin-top: 0.1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__item-actions {

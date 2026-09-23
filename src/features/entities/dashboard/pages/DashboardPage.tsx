@@ -1,7 +1,7 @@
 import '../styles/_index.scss';
 import React, { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import { User, Studio } from 'src/types/index';
@@ -12,7 +12,6 @@ import { StudioManager, StudioBlockModal } from '@features/entities/studios';
 import { QuickChargeModal } from '@features/entities/merchant-documents';
 import { BusinessIcon, ArrowForwardIcon } from '@shared/components/icons';
 
-import MerchantStatsPage from '@features/entities/merchant-stats/pages/MerchantStatsPage';
 import MerchantDocumentsPage from '@features/entities/merchant-documents/pages/MerchantDocumentsPage';
 import BillingPage from '@features/entities/billing/pages/BillingPage';
 
@@ -24,9 +23,10 @@ const viewTransition = {
   transition: { duration: 0.2, ease: 'easeOut' }
 };
 
-type DashboardTab = 'overview' | 'activity' | 'studios' | 'stats' | 'documents' | 'billing';
+type DashboardTab = 'overview' | 'activity' | 'studios' | 'documents' | 'billing';
 
-const VALID_TABS: DashboardTab[] = ['overview', 'activity', 'studios', 'stats', 'documents', 'billing'];
+const VALID_TABS: DashboardTab[] = ['overview', 'activity', 'studios', 'documents', 'billing'];
+const DASHBOARD_TAB_ORDER: DashboardTab[] = ['studios', 'activity', 'overview', 'documents', 'billing'];
 
 interface DashboardPageProps {
   user: User | null;
@@ -175,6 +175,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   const hasPaymentSetup = Boolean(user?.sumitCompanyId);
   const showGoLiveChecklist = isStudioOwner && (!hasPaymentSetup || !hasActiveStudio || !hasActiveService);
 
+  // Legacy tab deep-link — stats now lives at /stats
+  if (searchParams.get('tab') === 'stats') {
+    return <Navigate to={`/${i18n.language}/stats`} replace />;
+  }
+
   return (
     <div className="dashboard-page">
       {/* Dashboard Title */}
@@ -267,7 +272,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               { key: 'studios', label: t('tabs.manageStudios', 'Manage Studios') },
               { key: 'activity', label: t('tabs.activity', 'Activity') },
               { key: 'overview', label: t('tabs.overview', 'Calendar') },
-              { key: 'stats', label: t('tabs.stats', 'Statistics') },
               { key: 'documents', label: t('tabs.documents', 'Documents') },
               { key: 'billing', label: t('tabs.billing', 'Billing') }
             ]}
@@ -275,7 +279,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             autoWidth
             hideHeader
             spaceBetween={8}
-            selectedIndex={['studios', 'activity', 'overview', 'stats', 'documents', 'billing'].indexOf(activeTab)}
+            selectedIndex={DASHBOARD_TAB_ORDER.indexOf(activeTab)}
             renderItem={(tab) => (
               <button 
                 key={tab.key}
@@ -319,12 +323,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               isStudioOwner={isStudioOwner}
               onNewReservation={() => handleNewReservation()}
             />
-          </motion.div>
-        )}
-
-        {activeTab === 'stats' && isStudioOwner && (
-          <motion.div key="stats" {...viewTransition}>
-            <MerchantStatsPage />
           </motion.div>
         )}
 
