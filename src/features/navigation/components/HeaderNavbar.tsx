@@ -27,28 +27,14 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
       {user ? (
         <>
           {isStudioOwner && (
-            <>
-              <Link
-                to={`/${currLang}/dashboard?tab=activity`}
-                className="navbar-link"
-                aria-current={
-                  isCurrentPage(`/${currLang}/dashboard`) && location.search.includes('tab=activity')
-                    ? 'page'
-                    : undefined
-                }
-                onClick={() => scrollToTop()}
-              >
-                {t('navigation.dashboard')}
-              </Link>
-              <Link
-                to={`/${currLang}/dashboard`}
-                className="navbar-link"
-                aria-current={isCurrentPage(`/${currLang}/dashboard`) && !location.search ? 'page' : undefined}
-                onClick={() => scrollToTop()}
-              >
-                {t('navigation.manageAssets')}
-              </Link>
-            </>
+            <Link
+              to={`/${currLang}/dashboard`}
+              className="navbar-link"
+              aria-current={isCurrentPage(`/${currLang}/dashboard`) ? 'page' : undefined}
+              onClick={() => scrollToTop()}
+            >
+              {t('navigation.dashboard')}
+            </Link>
           )}
           <Link
             to={`/${currLang}/reservations`}

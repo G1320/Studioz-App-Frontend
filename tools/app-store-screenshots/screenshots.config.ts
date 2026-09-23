@@ -370,7 +370,10 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'minimal',
-    actions: [{ type: 'scroll', selector: '.project-chat' }],
+    actions: [
+      { type: 'click', selector: '.project-chat__collapsed-toggle' },
+      { type: 'scroll', selector: '.project-chat', offsetY: -72 }
+    ],
     deviceTransform: { scale: 0.8, x: 80, y: 500, rotation: -1, shadow: true },
     copy: {
       'en-US': {

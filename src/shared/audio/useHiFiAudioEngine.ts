@@ -22,6 +22,10 @@ export interface HiFiTrackIdentity {
   fileName: string;
   mimeType: string;
   fileSize: number;
+  /** Optional cover / project artwork for the sticky transport. */
+  artworkUrl?: string;
+  /** Optional secondary label (e.g. project title) shown above the track name. */
+  contextLabel?: string;
 }
 
 async function fetchTrackDownloadUrl(track: HiFiTrackIdentity) {

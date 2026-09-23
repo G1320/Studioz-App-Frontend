@@ -26,10 +26,12 @@
   "revisions_other": "נותרו {{count}} תיקונים",
   "revisionsUsed": "תיקונים שנוצלו",
   "payment": "תשלום",
+  "amountPaid": "שולם",
   "paymentStatus": {
     "pending": "ממתין",
     "depositPaid": "מקדמה שולמה",
-    "fullyPaid": "שולם במלואו"
+    "fullyPaid": "שולם במלואו",
+    "refunded": "הוחזר"
   },
 
   "status": {
@@ -105,6 +107,12 @@
   "deliverables": "קבצים למסירה",
   "revisionFiles": "קבצי תיקון",
   "noFiles": "לא הועלו קבצים עדיין",
+  "fileCount_one": "קובץ אחד",
+  "fileCount_other": "{{count}} קבצים",
+  "addFiles": "הוסף קבצים",
+  "dropAnywhereHint": "גררו קבצים לכל מקום בעמוד, או השתמשו ב־+ לבחירה",
+  "dropToUploadType": "שחררו כדי להעלות אל {{type}}",
+  "chooseUploadTarget": "בחרו לאן להעלות",
   "dragOrClick": "גרור קבצים לכאן או לחץ לבחירה",
   "dropHere": "שחרר קבצים כאן",
   "acceptedFormats": "פורמטים מקובלים",
@@ -201,6 +209,9 @@
   },
 
   "messages": "הודעות",
+  "projectChat": "צ׳אט הפרויקט",
+  "collapseProjectChat": "סגירת צ׳אט הפרויקט",
+  "expandProjectChat": "פתיחת צ׳אט הפרויקט",
   "noMessages": "אין הודעות עדיין. התחל את השיחה!",
   "typeMessage": "כתוב הודעה...",
   "send": "שלח",
@@ -219,6 +230,10 @@
     "revoke": "בטל הזמנה",
     "remove": "הסר",
     "leave": "עזוב",
+    "view": "הצג משתפי פעולה",
+    "manageOrInvite": "הזמן או נהל משתפי פעולה",
+    "pendingCount_one": "הזמנה ממתינה",
+    "pendingCount_other": "{{count}} הזמנות ממתינות",
     "badge": "משתף פעולה",
     "customerCollaborator": "משתף פעולה — לקוח",
     "vendorCollaborator": "משתף פעולה — אולפן",

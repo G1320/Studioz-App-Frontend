@@ -1,5 +1,4 @@
-// Project File Uploader - Following Studioz Remote Projects Style Guide
-// Handles file selection with drag-drop and upload progress
+// Project File Uploader — Samply-inspired tracklist
 
 @use './project-icon-actions';
 
@@ -9,106 +8,96 @@
   min-width: 0;
   overflow-x: hidden;
 
-  &__title {
-    font-size: 0.9375rem;
-    font-weight: 650;
-    color: var(--text-primary);
-    margin: 0 0 0.75rem 0;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    position: relative;
   }
 
-  // Dropzone
-  &__dropzone {
-    position: relative;
-    border: 1px dashed var(--border-secondary, var(--border-primary));
-    border-radius: 0.5rem;
-    padding: 1.25rem 1rem;
-    text-align: center;
+  &__heading {
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__title {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  &__count {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.75rem;
+    color: var(--text-muted, var(--text-secondary));
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  &__add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.125rem;
+    height: 2.125rem;
+    border: 1px solid color-mix(in srgb, var(--text-primary) 18%, transparent);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--text-primary);
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
-    &:hover:not(&--disabled) {
-      border-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
-      background: color-mix(in srgb, var(--color-brand) 4%, transparent);
+    svg {
+      width: 1.05rem;
+      height: 1.05rem;
     }
 
-    &--dragging {
-      border-color: var(--color-brand);
-      background: color-mix(in srgb, var(--color-brand) 8%, transparent);
-    }
-
-    &--disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-
-      &:hover {
-        border-color: var(--border-secondary, var(--border-primary));
-        background: transparent;
-      }
+    &:hover {
+      background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
     }
   }
 
   &__input {
     position: absolute;
-    inset: 0;
+    width: 1px;
+    height: 1px;
     opacity: 0;
-    cursor: pointer;
-    pointer-events: none;
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-  }
-
-  &__dropzone-content {
     pointer-events: none;
   }
 
-  &__dropzone-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    margin: 0 auto 0.625rem;
-    background: var(--bg-primary);
-    border-radius: 9999px;
-    color: var(--text-secondary);
-    transition: all 0.15s ease;
-
-    svg {
-      width: 1.125rem;
-      height: 1.125rem;
-    }
-  }
-
-  &__dropzone--dragging &__dropzone-icon {
-    background: var(--color-brand);
-    color: #000;
-  }
-
-  &__dropzone-text {
-    font-size: 0.875rem;
-    font-weight: 650;
-    color: var(--text-primary);
-    margin-bottom: 0.2rem;
-  }
-
-  &__dropzone-hint {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
+  &__empty-hint {
+    margin: 0;
+    padding: 1rem 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted, var(--text-secondary));
+    line-height: 1.45;
   }
 
   &__locked-banner {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 1rem;
-    padding: 0.6rem 0.875rem;
-    border: 1px solid rgba(255, 209, 102, 0.35);
-    border-radius: 0.75rem;
-    background: rgba(255, 209, 102, 0.06);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--color-brand) 8%, transparent);
     color: var(--text-primary);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 
     svg {
       flex-shrink: 0;
@@ -116,48 +105,38 @@
     }
   }
 
-  // Progress List (uploading files)
   &__progress-list {
-    margin-top: 1rem;
+    margin-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.35rem;
   }
 
   &__progress-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.875rem 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
-  }
-
-  &__progress-icon {
-    color: var(--color-brand);
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
+    gap: 0.75rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
   }
 
   &__progress-name {
     flex: 1;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--text-primary);
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   &__progress-bar {
-    width: 100px;
-    height: 4px;
-    background: var(--border-primary);
-    border-radius: 2px;
+    width: 5.5rem;
+    height: 3px;
+    background: color-mix(in srgb, var(--text-primary) 12%, transparent);
+    border-radius: 9999px;
     overflow: hidden;
   }
 
@@ -165,7 +144,6 @@
     height: 100%;
     background: var(--color-brand);
     transition: width 0.2s ease;
-    border-radius: 2px;
   }
 
   &__progress-status {
@@ -181,204 +159,148 @@
     }
   }
 
-  &__progress-cancel {
-    padding: 0.25rem;
-    background: transparent;
-    border: none;
-    border-radius: 0.25rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
-    }
-
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-
-  // Loading & Empty States
   &__loading {
-    padding: 2rem;
+    padding: 1.5rem 0.5rem;
     text-align: center;
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 
-  &__empty {
-    padding: 2rem;
-    text-align: center;
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
-    margin-top: 1rem;
-    font-size: 0.875rem;
-  }
-
-  // Toolbar (Download All / Delete All) — above list, with label so purpose is clear
-  &__toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    padding-inline: 0.5rem;
-    min-width: 0;
-    max-width: 100%;
-  }
-
-  &__toolbar-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-
-  &__toolbar-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  // File List (uploaded files)
   &__file-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
   }
 
   &__file-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.875rem 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
-    gap: 0.75rem;
     min-width: 0;
-    transition: all 0.2s ease;
+    border-radius: 0.5rem;
+    transition: background 0.15s ease;
 
-    &:hover {
-      border-color: rgba(255, 209, 102, 0.3);
+    &:hover,
+    &--active {
+      background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+
+      .project-file-uploader__file-actions {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .project-file-uploader__file-index {
+        color: var(--text-secondary);
+      }
     }
 
     &--with-player {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    &--deliverable {
-      background: rgba(255, 209, 102, 0.05);
-      border-color: rgba(255, 209, 102, 0.2);
-
-      &:hover {
-        border-color: var(--color-brand);
-      }
+      padding-bottom: 0.35rem;
     }
   }
 
-  &__file-header {
-    display: flex;
-    flex-wrap: wrap;
+  &__file-row {
+    display: grid;
+    grid-template-columns: 1.75rem minmax(0, 1fr) auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    min-width: 0;
-    width: 100%;
+    gap: 0.65rem;
+    min-height: 2.75rem;
+    padding: 0.35rem 0.5rem;
   }
 
-  &__file-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-primary);
-    border-radius: 0.5rem;
-    color: var(--color-brand);
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-  }
-
-  &__file-item:hover &__file-icon {
-    background: var(--color-brand);
-    border-color: var(--color-brand);
-    color: #000;
-  }
-
-  &__file-item--deliverable &__file-icon {
-    background: var(--color-brand);
-    border-color: var(--color-brand);
-    color: #000;
+  &__file-index {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted, var(--text-tertiary));
+    text-align: center;
   }
 
   &__file-info {
-    flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.125rem;
-    text-align: start;
   }
 
   &__file-name {
-    font-size: 0.875rem;
-    font-weight: 500;
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 550;
     color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    letter-spacing: -0.01em;
   }
 
-  &__file-item--deliverable &__file-name {
-    color: var(--color-brand);
-    font-weight: 700;
+  &__file-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-shrink: 0;
+    color: var(--text-muted, var(--text-secondary));
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__file-version {
+    font-weight: 600;
+    color: var(--text-secondary);
   }
 
   &__file-size {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: inherit;
   }
 
   &__file-actions {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.25rem;
     flex-shrink: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
   }
 
-  // On very narrow screens, stack file info and actions so buttons are not clipped (RTL/LTR)
-  @media (max-width: 380px) {
-    &__file-item:not(&__file-item--with-player) {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.75rem;
+  &__player {
+    padding: 0 0.5rem 0.5rem 2.4rem;
+    min-width: 0;
+  }
+
+  @media (hover: none) {
+    &__file-actions {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  @media (max-width: 520px) {
+    &__file-row {
+      grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+      grid-template-areas:
+        'index info actions'
+        'index meta actions';
+      row-gap: 0.15rem;
     }
 
-    &__file-header {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.75rem;
+    &__file-index {
+      grid-area: index;
+      align-self: start;
+      padding-top: 0.2rem;
+    }
+
+    &__file-info {
+      grid-area: info;
+    }
+
+    &__file-meta {
+      grid-area: meta;
     }
 
     &__file-actions {
-      justify-content: flex-end;
+      grid-area: actions;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    &__player {
+      padding-inline-start: 0.5rem;
     }
   }
 }

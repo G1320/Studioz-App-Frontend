@@ -487,15 +487,43 @@
   overflow: visible;
 
   &__inner {
-    max-width: 960px;
+    max-width: 1100px;
     margin-inline: auto;
     display: flex;
     align-items: center;
     gap: 0.75rem;
     min-width: 0;
-    min-height: 2.5rem;
+    min-height: 3rem;
     height: auto;
     overflow: visible;
+  }
+
+  &__now-playing {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex: 0 1 14rem;
+    min-width: 0;
+  }
+
+  &__artwork {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    border-radius: 0.4rem;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--text-primary) 8%, var(--bg-secondary));
+    color: var(--text-muted, var(--text-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
   }
 
   &__play {
@@ -516,8 +544,8 @@
     }
 
     svg {
-      width: 1.35rem;
-      height: 1.35rem;
+      width: 1.25rem;
+      height: 1.25rem;
       flex-shrink: 0;
     }
 
@@ -527,18 +555,18 @@
     }
 
     @media (max-width: 768px) {
-      width: 2.75rem;
-      height: 2.75rem;
+      width: 2.65rem;
+      height: 2.65rem;
 
       svg {
-        width: 1.65rem;
-        height: 1.65rem;
+        width: 1.45rem;
+        height: 1.45rem;
       }
     }
   }
 
   &__meta {
-    flex: 0 1 10rem;
+    flex: 1;
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -546,14 +574,27 @@
     gap: 0.1rem;
   }
 
+  &__context {
+    font-size: 0.625rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted, var(--text-secondary));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
   &__title {
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 0.875rem;
+    font-weight: 650;
     color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
   &__status {
@@ -584,14 +625,14 @@
     height: 2rem;
     flex-shrink: 0;
     border: none;
-    border-radius: 0.4rem;
+    border-radius: 9999px;
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
 
     &:hover {
       color: var(--color-brand);
-      background: var(--bg-secondary);
+      background: color-mix(in srgb, var(--text-primary) 8%, transparent);
     }
   }
 
@@ -612,6 +653,34 @@
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
     line-height: 1;
+    min-width: 2.25rem;
+
+    &--current {
+      justify-content: flex-end;
+    }
+
+    &--total {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &__now-playing {
+      flex: 0 1 7.5rem;
+    }
+
+    &__artwork {
+      width: 2.35rem;
+      height: 2.35rem;
+    }
+
+    &__context {
+      display: none;
+    }
+
+    &__time--total {
+      display: none;
+    }
   }
 
   &__close {

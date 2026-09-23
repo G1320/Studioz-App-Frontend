@@ -23,6 +23,8 @@ interface TrackCommentThreadProps {
   canComment: boolean;
   /** Whether the current user may resolve / reopen comments. */
   canResolve: boolean;
+  artworkUrl?: string;
+  contextLabel?: string;
 }
 
 const senderId = (sender: ProjectMessage['senderId']): string =>
@@ -37,7 +39,9 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
   file,
   currentUserId,
   canComment,
-  canResolve
+  canResolve,
+  artworkUrl,
+  contextLabel
 }) => {
   const { t } = useTranslation('remoteProjects');
   const cueComment = useAudioCueComment();
@@ -155,7 +159,9 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
         fileId: file._id,
         fileName: file.fileName,
         mimeType: file.mimeType,
-        fileSize: file.fileSize
+        fileSize: file.fileSize,
+        artworkUrl,
+        contextLabel
       },
       msg.offsetSeconds
     );
@@ -390,6 +396,8 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
                     fileName: file.fileName,
                     mimeType: file.mimeType,
                     fileSize: file.fileSize,
+                    artworkUrl,
+                    contextLabel,
                     offsetSeconds: currentTime
                   })
                 }

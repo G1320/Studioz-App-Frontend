@@ -18,20 +18,22 @@ import {
   useCancelProjectMutation,
   useUpdateProjectMutation
 } from '@shared/hooks';
-import {
-  hiFiAudioEngine,
-  AudioCueCommentProvider,
-  useAudioCueComment,
-  waveformQueryKey
-} from '@shared/audio';
+import { hiFiAudioEngine, AudioCueCommentProvider, useAudioCueComment, waveformQueryKey } from '@shared/audio';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
 import { ProjectArtwork } from '../components/ProjectArtwork';
-import { ProjectFileUploader } from '../components/ProjectFileUploader';
+import { ProjectFileUploader, type ProjectFileUploaderHandle } from '../components/ProjectFileUploader';
 import { ProjectChat } from '../components/ProjectChat';
 import { ProjectCollaborators } from '../components/ProjectCollaborators';
 import { DownloadLockControl } from '../components/DownloadLockControl';
-import { RemoteProject } from 'src/types/index';
+import { RemoteProject, ProjectFileType } from 'src/types/index';
 import './styles/_project-detail-page.scss';
+
+const getInitialChatCollapsedState = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const layout = window.matchMedia('(max-width: 767px)').matches ? 'compact' : 'desktop';
+  const stored = window.localStorage.getItem(`project-chat-collapsed:${layout}`);
+  return stored === null ? layout === 'compact' : stored === 'true';
+};
 
 const ProjectNotificationDeepLink: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -56,6 +58,7 @@ export const ProjectDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('remoteProjects');
   const { user } = useUserContext();
+  const [isChatCollapsed, setIsChatCollapsed] = useState(getInitialChatCollapsedState);
 
   useEffect(() => {
     return () => {
@@ -63,14 +66,12 @@ export const ProjectDetailPage: React.FC = () => {
     };
   }, []);
 
-  const {
-    project,
-    fileCounts,
-    access,
-    deliverablesLocked,
-    isLoading,
-    refetch
-  } = useRemoteProject(projectId || '');
+  useEffect(() => {
+    const layout = window.matchMedia('(max-width: 767px)').matches ? 'compact' : 'desktop';
+    window.localStorage.setItem(`project-chat-collapsed:${layout}`, String(isChatCollapsed));
+  }, [isChatCollapsed]);
+
+  const { project, fileCounts, access, deliverablesLocked, isLoading, refetch } = useRemoteProject(projectId || '');
 
   const socket = useSocket();
   const queryClient = useQueryClient();
@@ -138,6 +139,75 @@ export const ProjectDetailPage: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editReferenceLinks, setEditReferenceLinks] = useState<string[]>([]);
+  const [isFileDragActive, setIsFileDragActive] = useState(false);
+  const dragDepthRef = useRef(0);
+  const sourceUploaderRef = useRef<ProjectFileUploaderHandle>(null);
+  const deliverableUploaderRef = useRef<ProjectFileUploaderHandle>(null);
+  const revisionUploaderRef = useRef<ProjectFileUploaderHandle>(null);
+  const uploadEnabledRef = useRef({
+    source: false,
+    deliverable: false,
+    revision: false
+  });
+
+  useEffect(() => {
+    const hasFilePayload = (e: DragEvent) => Array.from(e.dataTransfer?.types ?? []).includes('Files');
+
+    const anyUploadEnabled = () => {
+      const e = uploadEnabledRef.current;
+      return e.source || e.deliverable || e.revision;
+    };
+
+    const onDragEnter = (e: DragEvent) => {
+      if (!hasFilePayload(e) || !anyUploadEnabled()) return;
+      e.preventDefault();
+      dragDepthRef.current += 1;
+      setIsFileDragActive(true);
+    };
+
+    const onDragLeave = (e: DragEvent) => {
+      if (!hasFilePayload(e)) return;
+      dragDepthRef.current = Math.max(0, dragDepthRef.current - 1);
+      if (dragDepthRef.current === 0) setIsFileDragActive(false);
+    };
+
+    const onDragOver = (e: DragEvent) => {
+      if (!hasFilePayload(e) || !anyUploadEnabled()) return;
+      e.preventDefault();
+      e.dataTransfer!.dropEffect = 'copy';
+    };
+
+    const onDrop = (e: DragEvent) => {
+      if (!hasFilePayload(e)) return;
+      e.preventDefault();
+      dragDepthRef.current = 0;
+      setIsFileDragActive(false);
+
+      const enabled = uploadEnabledRef.current;
+      const active = [
+        enabled.source && sourceUploaderRef.current,
+        enabled.deliverable && deliverableUploaderRef.current,
+        enabled.revision && revisionUploaderRef.current
+      ].filter(Boolean) as ProjectFileUploaderHandle[];
+
+      // Multi-target drops are handled by overlay zone handlers.
+      if (active.length !== 1) return;
+      if (e.dataTransfer?.files?.length) {
+        active[0].acceptFiles(e.dataTransfer.files);
+      }
+    };
+
+    window.addEventListener('dragenter', onDragEnter);
+    window.addEventListener('dragleave', onDragLeave);
+    window.addEventListener('dragover', onDragOver);
+    window.addEventListener('drop', onDrop);
+    return () => {
+      window.removeEventListener('dragenter', onDragEnter);
+      window.removeEventListener('dragleave', onDragLeave);
+      window.removeEventListener('dragover', onDragOver);
+      window.removeEventListener('drop', onDrop);
+    };
+  }, []);
 
   if (!projectId) {
     return <div className="project-detail__error">{t('projectNotFound')}</div>;
@@ -178,10 +248,7 @@ export const ProjectDetailPage: React.FC = () => {
   // Primary customer/vendor only. Collaborators cannot invite (API returns 403).
   const canInvite =
     access?.isCollaborator !== true &&
-    (access?.canInvite === true ||
-      access?.isPrimary === true ||
-      isPrimaryVendor ||
-      isPrimaryCustomer);
+    (access?.canInvite === true || access?.isPrimary === true || isPrimaryVendor || isPrimaryCustomer);
   const userRole = access?.side || (isVendor ? 'vendor' : 'customer');
 
   const handleAccept = async () => {
@@ -278,30 +345,56 @@ export const ProjectDetailPage: React.FC = () => {
     }
   };
 
-  const canCancel =
-    project.status === 'accepted' && (canCustomerWorkflow || canVendorWorkflow);
+  const canCancel = project.status === 'accepted' && (canCustomerWorkflow || canVendorWorkflow);
   const canAcceptDecline = canVendorWorkflow && project.status === 'requested';
   const canStart = canVendorWorkflow && project.status === 'accepted';
   const canDeliver = canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
   const hasFreeRevisions = project.revisionsUsed < project.revisionsIncluded;
   const isPaidRevision = !hasFreeRevisions && (project.revisionPrice ?? 0) > 0;
   const canRequestRevision =
-    canCustomerWorkflow &&
-    project.status === 'delivered' &&
-    (hasFreeRevisions || (isPaidRevision && canPay));
+    canCustomerWorkflow && project.status === 'delivered' && (hasFreeRevisions || (isPaidRevision && canPay));
   const canComplete = canPay && project.status === 'delivered';
-  const canUploadSource =
-    canCustomerWorkflow && ['requested', 'accepted', 'in_progress'].includes(project.status);
-  const canUploadDeliverable =
-    canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
+  const canUploadSource = canCustomerWorkflow && ['requested', 'accepted', 'in_progress'].includes(project.status);
+  const canUploadDeliverable = canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
+  const canUploadRevision = canUploadDeliverable && project.revisionsUsed > 0;
+  uploadEnabledRef.current = {
+    source: canUploadSource,
+    deliverable: canUploadDeliverable,
+    revision: canUploadRevision
+  };
+
+  const dropTargets: {
+    type: ProjectFileType;
+    label: string;
+    ref: React.RefObject<ProjectFileUploaderHandle | null>;
+  }[] = [];
+  if (canUploadSource) {
+    dropTargets.push({ type: 'source', label: t('sourceFiles'), ref: sourceUploaderRef });
+  }
+  if (canUploadDeliverable) {
+    dropTargets.push({ type: 'deliverable', label: t('deliverables'), ref: deliverableUploaderRef });
+  }
+  if (canUploadRevision) {
+    dropTargets.push({ type: 'revision', label: t('revisionFiles'), ref: revisionUploaderRef });
+  }
+
+  const handleOverlayDrop = (type: ProjectFileType, e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepthRef.current = 0;
+    setIsFileDragActive(false);
+    const target = dropTargets.find((item) => item.type === type)?.ref.current;
+    if (target && e.dataTransfer.files.length > 0) {
+      target.acceptFiles(e.dataTransfer.files);
+    }
+  };
+
   const canEdit = canUpdateMetadata && !['completed', 'cancelled', 'declined'].includes(project.status);
   const isClosed = ['completed', 'cancelled', 'declined'].includes(project.status);
   // Customer-side users lose deliverable downloads while the vendor's lock is active.
   const deliverableDownloadsLocked = access?.canDownloadDeliverables === false;
   const canManageDownloadLock =
-    access?.canManageDownloadLock === true ||
-    access?.canUpdateMetadata === true ||
-    isPrimaryVendor;
+    access?.canManageDownloadLock === true || access?.canUpdateMetadata === true || isPrimaryVendor;
   const isCustomer = access?.side === 'customer' || isPrimaryCustomer;
   // Track comments: anyone with access can comment while the project is open;
   // customer-side users decide when their feedback has been addressed.
@@ -320,361 +413,458 @@ export const ProjectDetailPage: React.FC = () => {
     return t('studio');
   };
 
+  const isFullyPaid = project.finalPaid || project.paymentStatus === 'fully_paid';
+  const isDepositPaid =
+    !isFullyPaid && (project.depositPaid || project.paymentStatus === 'deposit_paid');
+  const paidAmount = isFullyPaid
+    ? project.price
+    : isDepositPaid
+      ? project.depositAmount ?? 0
+      : 0;
+  const paymentStatusLabel = isFullyPaid
+    ? t('paymentStatus.fullyPaid')
+    : isDepositPaid
+      ? t('paymentStatus.depositPaid')
+      : project.paymentStatus === 'refunded'
+        ? t('paymentStatus.refunded')
+        : t('paymentStatus.pending');
+
   return (
     <AudioCueCommentProvider>
-    <ProjectNotificationDeepLink />
-    <div className="project-detail">
-      <div className="project-detail__header">
-        <button className="project-detail__back" onClick={() => navigate(-1)} aria-label={t('common.goBack')}>
-          <ArrowLeft size={18} />
-          <span>{t('common.back')}</span>
-        </button>
-        <div className="project-detail__header-content">
-          <h1 className="project-detail__title">{project.title}</h1>
-          {canEdit && (
-            <button className="project-detail__edit-button" onClick={openEditModal} aria-label={t('editProject')}>
-              <Pencil size={16} />
-            </button>
-          )}
-          <ProjectStatusBadge status={project.status} />
+      <ProjectNotificationDeepLink />
+      <div className="project-detail">
+        <div className="project-detail__header">
+          <button className="project-detail__back" onClick={() => navigate(-1)} aria-label={t('common.goBack')}>
+            <ArrowLeft size={18} />
+            <span>{t('common.back')}</span>
+          </button>
+          <div className="project-detail__header-content">
+            <h1 className="project-detail__title">{project.title}</h1>
+            {canEdit && (
+              <button className="project-detail__edit-button" onClick={openEditModal} aria-label={t('editProject')}>
+                <Pencil size={16} />
+              </button>
+            )}
+            <ProjectStatusBadge status={project.status} />
+          </div>
         </div>
-      </div>
 
-      <div className="project-detail__content">
-        <div className="project-detail__main">
-          <section className="project-detail__section project-detail__hero">
-            <ProjectArtwork
-              projectId={projectId}
-              artworkUrl={project.artworkUrl}
-              canEdit={canUpdateArtwork}
-            />
+        <div className="project-detail__content">
+          <div className="project-detail__main">
+            <section className="project-detail__section project-detail__hero">
+              <ProjectArtwork projectId={projectId} artworkUrl={project.artworkUrl} canEdit={canUpdateArtwork} />
 
-            <div className="project-detail__hero-body">
-              <h2 className="project-detail__section-title">{t('projectDetails')}</h2>
-              <div className="project-detail__info-grid">
-                <div className="project-detail__info-item">
-                  <span className="project-detail__info-label">{t('service')}</span>
-                  <span className="project-detail__info-value">{getItemName()}</span>
-                </div>
-                <div className="project-detail__info-item">
-                  <span className="project-detail__info-label">{t('studio')}</span>
-                  <span className="project-detail__info-value">{getStudioName()}</span>
-                </div>
-                <div className="project-detail__info-item">
-                  <span className="project-detail__info-label">{t('price')}</span>
-                  <span className="project-detail__info-value">{project.price.toLocaleString()} ILS</span>
-                </div>
-                {project.deadline && (
+              <div className="project-detail__hero-body">
+                <h2 className="project-detail__section-title">{t('projectDetails')}</h2>
+                <div className="project-detail__info-grid">
                   <div className="project-detail__info-item">
-                    <span className="project-detail__info-label">{t('deadline')}</span>
-                    <span className="project-detail__info-value">{new Date(project.deadline).toLocaleDateString()}</span>
+                    <span className="project-detail__info-label">{t('service')}</span>
+                    <span className="project-detail__info-value">{getItemName()}</span>
+                  </div>
+                  <div className="project-detail__info-item">
+                    <span className="project-detail__info-label">{t('studio')}</span>
+                    <span className="project-detail__info-value">{getStudioName()}</span>
+                  </div>
+                  <div className="project-detail__info-item">
+                    <span className="project-detail__info-label">{t('price')}</span>
+                    <span className="project-detail__info-value">
+                      ₪{project.price.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="project-detail__info-item">
+                    <span className="project-detail__info-label">{t('amountPaid')}</span>
+                    <span className="project-detail__info-value" dir="ltr">
+                      ₪{paidAmount.toLocaleString()}
+                    </span>
+                    <span
+                      className={`project-detail__info-status${
+                        isFullyPaid
+                          ? ' project-detail__info-status--paid'
+                          : isDepositPaid
+                            ? ' project-detail__info-status--deposit'
+                            : ''
+                      }`}
+                    >
+                      {paymentStatusLabel}
+                    </span>
+                  </div>
+                  {project.deadline && (
+                    <div className="project-detail__info-item">
+                      <span className="project-detail__info-label">{t('deadline')}</span>
+                      <span className="project-detail__info-value">
+                        {new Date(project.deadline).toLocaleDateString()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="project-detail__info-item">
+                    <span className="project-detail__info-label">{t('revisions')}</span>
+                    <span className="project-detail__info-value" dir="ltr">
+                      {project.revisionsUsed} / {project.revisionsIncluded}
+                    </span>
+                  </div>
+                </div>
+
+                {user && (
+                  <ProjectCollaborators
+                    projectId={projectId}
+                    access={access}
+                    canInvite={canInvite}
+                    currentUserId={user._id}
+                  />
+                )}
+
+                {project.brief && (
+                  <div className="project-detail__brief-block">
+                    <h3 className="project-detail__brief-label">{t('brief')}</h3>
+                    <p className="project-detail__brief">{project.brief}</p>
                   </div>
                 )}
-                <div className="project-detail__info-item">
-                  <span className="project-detail__info-label">{t('revisions')}</span>
-                  <span className="project-detail__info-value" dir="ltr">
-                    {project.revisionsUsed} / {project.revisionsIncluded}
-                  </span>
-                </div>
+
+                {project.referenceLinks && project.referenceLinks.length > 0 && (
+                  <div className="project-detail__references">
+                    <h3 className="project-detail__references-title">{t('referenceLinks')}</h3>
+                    <ul className="project-detail__references-list">
+                      {project.referenceLinks.map((link, index) => (
+                        <li key={index}>
+                          <a
+                            className="project-detail__reference-link"
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {link}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
+            </section>
 
-              {project.brief && (
-                <div className="project-detail__brief-block">
-                  <h3 className="project-detail__brief-label">{t('brief')}</h3>
-                  <p className="project-detail__brief">{project.brief}</p>
-                </div>
-              )}
+            <div
+              className={`project-detail__workspace${user ? ' project-detail__workspace--with-chat' : ''}${
+                isChatCollapsed ? ' project-detail__workspace--chat-collapsed' : ''
+              }`}
+            >
+              {/* Source Files (Customer uploads) */}
+              <section className="project-detail__section project-detail__section--tracks">
+                <ProjectFileUploader
+                  ref={sourceUploaderRef}
+                  projectId={projectId}
+                  fileType="source"
+                  disabled={!canUploadSource}
+                  maxFileSize={typeof project.itemId === 'object' ? project.itemId.maxFileSize : undefined}
+                  maxFiles={typeof project.itemId === 'object' ? project.itemId.maxFilesPerProject : undefined}
+                  acceptedTypes={typeof project.itemId === 'object' ? project.itemId.acceptedFileTypes : undefined}
+                  currentUserId={user?._id}
+                  canComment={canComment}
+                  canResolve={canResolve}
+                  artworkUrl={project.artworkUrl}
+                  contextLabel={project.title}
+                />
+              </section>
 
-              {project.referenceLinks && project.referenceLinks.length > 0 && (
-                <div className="project-detail__references">
-                  <h3 className="project-detail__references-title">{t('referenceLinks')}</h3>
-                  <ul className="project-detail__references-list">
-                    {project.referenceLinks.map((link, index) => (
-                      <li key={index}>
-                        <a className="project-detail__reference-link" href={link} target="_blank" rel="noopener noreferrer">
-                          {link}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {user && (
+                <ProjectChat
+                  projectId={projectId}
+                  currentUserId={user._id}
+                  currentUserRole={userRole}
+                  disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
+                  collapsed={isChatCollapsed}
+                  onToggleCollapsed={() => setIsChatCollapsed((current) => !current)}
+                />
               )}
             </div>
-          </section>
 
-          {user && (
-            <ProjectChat
-              projectId={projectId}
-              currentUserId={user._id}
-              currentUserRole={userRole}
-              disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
-            />
-          )}
+            {/* Deliverables (Vendor uploads) */}
+            {((fileCounts?.deliverable ?? 0) > 0 || canUploadDeliverable || canManageDownloadLock) && (
+              <section className="project-detail__section project-detail__section--tracks">
+                {canManageDownloadLock && (
+                  <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
+                )}
+                <ProjectFileUploader
+                  ref={deliverableUploaderRef}
+                  projectId={projectId}
+                  fileType="deliverable"
+                  disabled={!canUploadDeliverable}
+                  downloadsLocked={deliverableDownloadsLocked}
+                  currentUserId={user?._id}
+                  canComment={canComment}
+                  canResolve={canResolve}
+                  artworkUrl={project.artworkUrl}
+                  contextLabel={project.title}
+                />
+              </section>
+            )}
 
-          {/* Source Files (Customer uploads) */}
-          <section className="project-detail__section">
-            <ProjectFileUploader
-              projectId={projectId}
-              fileType="source"
-              disabled={!canUploadSource}
-              maxFileSize={typeof project.itemId === 'object' ? project.itemId.maxFileSize : undefined}
-              maxFiles={typeof project.itemId === 'object' ? project.itemId.maxFilesPerProject : undefined}
-              acceptedTypes={typeof project.itemId === 'object' ? project.itemId.acceptedFileTypes : undefined}
-              currentUserId={user?._id}
-              canComment={canComment}
-              canResolve={canResolve}
-            />
-          </section>
+            {/* Revision Files */}
+            {((fileCounts?.revision ?? 0) > 0 || canUploadRevision) && (
+              <section className="project-detail__section project-detail__section--tracks">
+                <ProjectFileUploader
+                  ref={revisionUploaderRef}
+                  projectId={projectId}
+                  fileType="revision"
+                  disabled={!canUploadDeliverable}
+                  downloadsLocked={deliverableDownloadsLocked}
+                  currentUserId={user?._id}
+                  canComment={canComment}
+                  canResolve={canResolve}
+                  artworkUrl={project.artworkUrl}
+                  contextLabel={project.title}
+                />
+              </section>
+            )}
+          </div>
 
-          {/* Deliverables (Vendor uploads) */}
-          {((fileCounts?.deliverable ?? 0) > 0 || canUploadDeliverable || canManageDownloadLock) && (
-            <section className="project-detail__section">
-              {canManageDownloadLock && (
-                <DownloadLockControl project={project} deliverablesLocked={deliverablesLocked} />
+          <div className="project-detail__sidebar">
+            {/* Actions */}
+            <section className="project-detail__section project-detail__actions">
+              <h2 className="project-detail__section-title">{t('actions')}</h2>
+
+              {canAcceptDecline && (
+                <div className="project-detail__action-group">
+                  <Button className="button--primary" onClick={handleAccept} disabled={acceptMutation.isPending}>
+                    {acceptMutation.isPending ? t('common.processing') : t('accept')}
+                  </Button>
+                  <Button className="button--secondary" onClick={() => setShowDeclineModal(true)}>
+                    {t('decline')}
+                  </Button>
+                </div>
               )}
-              <ProjectFileUploader
-                projectId={projectId}
-                fileType="deliverable"
-                disabled={!canUploadDeliverable}
-                downloadsLocked={deliverableDownloadsLocked}
-                currentUserId={user?._id}
-                canComment={canComment}
-                canResolve={canResolve}
-              />
-            </section>
-          )}
 
-          {/* Revision Files */}
-          {((fileCounts?.revision ?? 0) > 0 || (canUploadDeliverable && project.revisionsUsed > 0)) && (
-            <section className="project-detail__section">
-              <ProjectFileUploader
-                projectId={projectId}
-                fileType="revision"
-                disabled={!canUploadDeliverable}
-                downloadsLocked={deliverableDownloadsLocked}
-                currentUserId={user?._id}
-                canComment={canComment}
-                canResolve={canResolve}
-              />
+              {canStart && (
+                <Button className="button--primary" onClick={handleStart} disabled={startMutation.isPending}>
+                  {startMutation.isPending ? t('common.processing') : t('startWorking')}
+                </Button>
+              )}
+
+              {canDeliver && (
+                <Button className="button--primary" onClick={() => setShowDeliveryModal(true)}>
+                  {t('deliver')}
+                </Button>
+              )}
+
+              {canRequestRevision && (
+                <Button className="button--secondary" onClick={() => setShowRevisionModal(true)}>
+                  {isPaidRevision ? t('requestPaidRevision', { price: project.revisionPrice }) : t('requestRevision')}
+                </Button>
+              )}
+
+              {canComplete && (
+                <Button className="button--primary" onClick={handleComplete} disabled={completeMutation.isPending}>
+                  {completeMutation.isPending ? t('common.processing') : t('markComplete')}
+                </Button>
+              )}
+
+              {canCancel && (
+                <Button className="button--danger" onClick={handleCancel} disabled={cancelMutation.isPending}>
+                  {t('cancel')}
+                </Button>
+              )}
+
+              {!canAcceptDecline && !canStart && !canDeliver && !canRequestRevision && !canComplete && !canCancel && (
+                <p className="project-detail__no-actions">{t('noActions')}</p>
+              )}
             </section>
-          )}
+          </div>
         </div>
 
-        <div className="project-detail__sidebar">
-          {/* Actions */}
-          <section className="project-detail__section project-detail__actions">
-            <h2 className="project-detail__section-title">{t('actions')}</h2>
-
-            {canAcceptDecline && (
-              <div className="project-detail__action-group">
-                <Button className="button--primary" onClick={handleAccept} disabled={acceptMutation.isPending}>
-                  {acceptMutation.isPending ? t('common.processing') : t('accept')}
+        {/* Decline Modal */}
+        {showDeclineModal && (
+          <div className="project-detail__modal-overlay" onClick={() => setShowDeclineModal(false)}>
+            <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
+              <h3>{t('declineProject')}</h3>
+              <textarea
+                value={declineReason}
+                onChange={(e) => setDeclineReason(e.target.value)}
+                placeholder={t('declineReasonPlaceholder')}
+                rows={4}
+              />
+              <div className="project-detail__modal-actions">
+                <Button className="button--secondary" onClick={() => setShowDeclineModal(false)}>
+                  {t('common.cancel')}
                 </Button>
-                <Button className="button--secondary" onClick={() => setShowDeclineModal(true)}>
-                  {t('decline')}
+                <Button className="button--danger" onClick={handleDecline} disabled={declineMutation.isPending}>
+                  {declineMutation.isPending ? t('common.processing') : t('confirmDecline')}
                 </Button>
               </div>
-            )}
+            </div>
+          </div>
+        )}
 
-            {canStart && (
-              <Button className="button--primary" onClick={handleStart} disabled={startMutation.isPending}>
-                {startMutation.isPending ? t('common.processing') : t('startWorking')}
-              </Button>
-            )}
+        {/* Delivery Modal */}
+        {showDeliveryModal && (
+          <div className="project-detail__modal-overlay" onClick={() => setShowDeliveryModal(false)}>
+            <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
+              <h3>{t('deliverProject')}</h3>
+              <p className="project-detail__modal-hint">{t('deliveryHint')}</p>
+              <textarea
+                value={deliveryNotes}
+                onChange={(e) => setDeliveryNotes(e.target.value)}
+                placeholder={t('deliveryNotesPlaceholder')}
+                rows={4}
+              />
+              <div className="project-detail__modal-actions">
+                <Button className="button--secondary" onClick={() => setShowDeliveryModal(false)}>
+                  {t('common.cancel')}
+                </Button>
+                <Button className="button--primary" onClick={handleDeliver} disabled={deliverMutation.isPending}>
+                  {deliverMutation.isPending ? t('common.processing') : t('confirmDelivery')}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
 
-            {canDeliver && (
-              <Button className="button--primary" onClick={() => setShowDeliveryModal(true)}>
-                {t('deliver')}
-              </Button>
-            )}
-
-            {canRequestRevision && (
-              <Button className="button--secondary" onClick={() => setShowRevisionModal(true)}>
+        {/* Revision Modal */}
+        {showRevisionModal && (
+          <div className="project-detail__modal-overlay" onClick={() => setShowRevisionModal(false)}>
+            <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
+              <h3>
+                {isPaidRevision ? t('requestPaidRevision', { price: project.revisionPrice }) : t('requestRevision')}
+              </h3>
+              <p className="project-detail__modal-hint">
                 {isPaidRevision
-                  ? t('requestPaidRevision', { price: project.revisionPrice })
-                  : t('requestRevision')}
-              </Button>
-            )}
-
-            {canComplete && (
-              <Button className="button--primary" onClick={handleComplete} disabled={completeMutation.isPending}>
-                {completeMutation.isPending ? t('common.processing') : t('markComplete')}
-              </Button>
-            )}
-
-            {canCancel && (
-              <Button className="button--danger" onClick={handleCancel} disabled={cancelMutation.isPending}>
-                {t('cancel')}
-              </Button>
-            )}
-
-            {!canAcceptDecline && !canStart && !canDeliver && !canRequestRevision && !canComplete && !canCancel && (
-              <p className="project-detail__no-actions">{t('noActions')}</p>
-            )}
-          </section>
-
-          {user && (
-            <ProjectCollaborators
-              projectId={projectId}
-              access={access}
-              canInvite={canInvite}
-              currentUserId={user._id}
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Decline Modal */}
-      {showDeclineModal && (
-        <div className="project-detail__modal-overlay" onClick={() => setShowDeclineModal(false)}>
-          <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
-            <h3>{t('declineProject')}</h3>
-            <textarea
-              value={declineReason}
-              onChange={(e) => setDeclineReason(e.target.value)}
-              placeholder={t('declineReasonPlaceholder')}
-              rows={4}
-            />
-            <div className="project-detail__modal-actions">
-              <Button className="button--secondary" onClick={() => setShowDeclineModal(false)}>
-                {t('common.cancel')}
-              </Button>
-              <Button className="button--danger" onClick={handleDecline} disabled={declineMutation.isPending}>
-                {declineMutation.isPending ? t('common.processing') : t('confirmDecline')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delivery Modal */}
-      {showDeliveryModal && (
-        <div className="project-detail__modal-overlay" onClick={() => setShowDeliveryModal(false)}>
-          <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
-            <h3>{t('deliverProject')}</h3>
-            <p className="project-detail__modal-hint">{t('deliveryHint')}</p>
-            <textarea
-              value={deliveryNotes}
-              onChange={(e) => setDeliveryNotes(e.target.value)}
-              placeholder={t('deliveryNotesPlaceholder')}
-              rows={4}
-            />
-            <div className="project-detail__modal-actions">
-              <Button className="button--secondary" onClick={() => setShowDeliveryModal(false)}>
-                {t('common.cancel')}
-              </Button>
-              <Button className="button--primary" onClick={handleDeliver} disabled={deliverMutation.isPending}>
-                {deliverMutation.isPending ? t('common.processing') : t('confirmDelivery')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Revision Modal */}
-      {showRevisionModal && (
-        <div className="project-detail__modal-overlay" onClick={() => setShowRevisionModal(false)}>
-          <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
-            <h3>{isPaidRevision ? t('requestPaidRevision', { price: project.revisionPrice }) : t('requestRevision')}</h3>
-            <p className="project-detail__modal-hint">
-              {isPaidRevision
-                ? t('paidRevisionHint', { price: project.revisionPrice })
-                : t('revisionHint', { count: project.revisionsIncluded - project.revisionsUsed })}
-            </p>
-            <textarea
-              value={revisionFeedback}
-              onChange={(e) => setRevisionFeedback(e.target.value)}
-              placeholder={t('revisionFeedbackPlaceholder')}
-              rows={4}
-              required
-            />
-            <div className="project-detail__modal-actions">
-              <Button className="button--secondary" onClick={() => setShowRevisionModal(false)}>
-                {t('common.cancel')}
-              </Button>
-              <Button
-                className="button--primary"
-                onClick={handleRequestRevision}
-                disabled={!revisionFeedback.trim() || revisionMutation.isPending}
-              >
-                {revisionMutation.isPending ? t('common.processing') : t('submitRevision')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Project Modal */}
-      {showEditModal && (
-        <div className="project-detail__modal-overlay" onClick={() => setShowEditModal(false)}>
-          <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
-            <h3>{t('editProject')}</h3>
-
-            <label className="project-detail__edit-label">{t('editProjectTitle')}</label>
-            <input
-              className="project-detail__edit-input"
-              type="text"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              placeholder={t('editTitlePlaceholder')}
-            />
-
-            <label className="project-detail__edit-label">{t('editReferenceLinks')}</label>
-            <div className="project-detail__edit-links">
-              {editReferenceLinks.map((link, idx) => (
-                <div key={idx} className="project-detail__edit-link-row">
-                  <input
-                    className="project-detail__edit-input"
-                    type="url"
-                    value={link}
-                    onChange={(e) => {
-                      const updated = [...editReferenceLinks];
-                      updated[idx] = e.target.value;
-                      setEditReferenceLinks(updated);
-                    }}
-                    placeholder={t('editReferencePlaceholder')}
-                  />
-                  {editReferenceLinks.length > 1 && (
-                    <button
-                      type="button"
-                      className="project-detail__edit-link-remove"
-                      onClick={() => setEditReferenceLinks(editReferenceLinks.filter((_, i) => i !== idx))}
-                      aria-label={t('removeLink')}
-                    >
-                      <X size={14} />
-                    </button>
-                  )}
-                </div>
-              ))}
-              {editReferenceLinks.length < 5 && (
-                <button
-                  type="button"
-                  className="project-detail__edit-add-link"
-                  onClick={() => setEditReferenceLinks([...editReferenceLinks, ''])}
+                  ? t('paidRevisionHint', { price: project.revisionPrice })
+                  : t('revisionHint', { count: project.revisionsIncluded - project.revisionsUsed })}
+              </p>
+              <textarea
+                value={revisionFeedback}
+                onChange={(e) => setRevisionFeedback(e.target.value)}
+                placeholder={t('revisionFeedbackPlaceholder')}
+                rows={4}
+                required
+              />
+              <div className="project-detail__modal-actions">
+                <Button className="button--secondary" onClick={() => setShowRevisionModal(false)}>
+                  {t('common.cancel')}
+                </Button>
+                <Button
+                  className="button--primary"
+                  onClick={handleRequestRevision}
+                  disabled={!revisionFeedback.trim() || revisionMutation.isPending}
                 >
-                  <Plus size={14} />
-                  {t('addLink')}
-                </button>
-              )}
-            </div>
-
-            <div className="project-detail__modal-actions">
-              <Button className="button--secondary" onClick={() => setShowEditModal(false)}>
-                {t('common.cancel')}
-              </Button>
-              <Button
-                className="button--primary"
-                onClick={handleSaveEdit}
-                disabled={!editTitle.trim() || updateMutation.isPending}
-              >
-                {updateMutation.isPending ? t('common.processing') : t('saveChanges')}
-              </Button>
+                  {revisionMutation.isPending ? t('common.processing') : t('submitRevision')}
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <StickyRemoteAudioBar />
-    </div>
+        )}
+
+        {/* Edit Project Modal */}
+        {showEditModal && (
+          <div className="project-detail__modal-overlay" onClick={() => setShowEditModal(false)}>
+            <div className="project-detail__modal" onClick={(e) => e.stopPropagation()}>
+              <h3>{t('editProject')}</h3>
+
+              <label className="project-detail__edit-label">{t('editProjectTitle')}</label>
+              <input
+                className="project-detail__edit-input"
+                type="text"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                placeholder={t('editTitlePlaceholder')}
+              />
+
+              <label className="project-detail__edit-label">{t('editReferenceLinks')}</label>
+              <div className="project-detail__edit-links">
+                {editReferenceLinks.map((link, idx) => (
+                  <div key={idx} className="project-detail__edit-link-row">
+                    <input
+                      className="project-detail__edit-input"
+                      type="url"
+                      value={link}
+                      onChange={(e) => {
+                        const updated = [...editReferenceLinks];
+                        updated[idx] = e.target.value;
+                        setEditReferenceLinks(updated);
+                      }}
+                      placeholder={t('editReferencePlaceholder')}
+                    />
+                    {editReferenceLinks.length > 1 && (
+                      <button
+                        type="button"
+                        className="project-detail__edit-link-remove"
+                        onClick={() => setEditReferenceLinks(editReferenceLinks.filter((_, i) => i !== idx))}
+                        aria-label={t('removeLink')}
+                      >
+                        <X size={14} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {editReferenceLinks.length < 5 && (
+                  <button
+                    type="button"
+                    className="project-detail__edit-add-link"
+                    onClick={() => setEditReferenceLinks([...editReferenceLinks, ''])}
+                  >
+                    <Plus size={14} />
+                    {t('addLink')}
+                  </button>
+                )}
+              </div>
+
+              <div className="project-detail__modal-actions">
+                <Button className="button--secondary" onClick={() => setShowEditModal(false)}>
+                  {t('common.cancel')}
+                </Button>
+                <Button
+                  className="button--primary"
+                  onClick={handleSaveEdit}
+                  disabled={!editTitle.trim() || updateMutation.isPending}
+                >
+                  {updateMutation.isPending ? t('common.processing') : t('saveChanges')}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+        {isFileDragActive && dropTargets.length > 0 && (
+          <div
+            className={`project-detail__drop-overlay${
+              dropTargets.length === 1 ? ' project-detail__drop-overlay--single' : ''
+            }`}
+            aria-hidden="true"
+          >
+            {dropTargets.length === 1 ? (
+              <div
+                className="project-detail__drop-zone project-detail__drop-zone--full"
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onDrop={(e) => handleOverlayDrop(dropTargets[0].type, e)}
+              >
+                <p className="project-detail__drop-zone-title">
+                  {t('dropToUploadType', { type: dropTargets[0].label })}
+                </p>
+              </div>
+            ) : (
+              <div className="project-detail__drop-chooser">
+                <p className="project-detail__drop-chooser-label">{t('chooseUploadTarget')}</p>
+                <div className="project-detail__drop-zones">
+                  {dropTargets.map((target) => (
+                    <div
+                      key={target.type}
+                      className="project-detail__drop-zone"
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onDrop={(e) => handleOverlayDrop(target.type, e)}
+                    >
+                      <span>{target.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        <StickyRemoteAudioBar />
+      </div>
     </AudioCueCommentProvider>
   );
 };

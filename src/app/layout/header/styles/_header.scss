@@ -198,6 +198,23 @@ header.app-header {
     margin: 0;
   }
 
+  // Match language + theme preference controls (bright icon, transparent surface)
+  .notification-bell__button {
+    background: transparent;
+    color: var(--text-primary);
+
+    &:hover:not(:disabled) {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
+    }
+
+    svg,
+    .notification-bell__icon {
+      color: inherit;
+    }
+  }
+
   .cart {
     display: flex;
     max-width: 180px;
@@ -415,7 +432,7 @@ header.app-header {
     border: 1px solid var(--border-primary);
     border-radius: 0.5rem;
     background: transparent;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font: inherit;
     font-size: 0.75rem;
     font-weight: 700;

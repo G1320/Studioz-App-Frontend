@@ -36,6 +36,10 @@ interface RemoteAudioPlayerProps {
   layout?: 'full' | 'compact';
   /** Show the per-track comment thread toggle in the footer. */
   showThreadToggle?: boolean;
+  /** Cover / project artwork shown in the sticky bottom player. */
+  artworkUrl?: string;
+  /** Secondary label in the sticky player (e.g. project title). */
+  contextLabel?: string;
 }
 
 function formatFidelity(
@@ -65,7 +69,9 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   onDownload,
   enableCues = library === 'project',
   layout = 'full',
-  showThreadToggle = library === 'project'
+  showThreadToggle = library === 'project',
+  artworkUrl,
+  contextLabel
 }) => {
   const { t } = useTranslation('remoteProjects');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -113,9 +119,11 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
       fileId: file._id,
       fileName: file.fileName,
       mimeType: file.mimeType,
-      fileSize: file.fileSize
+      fileSize: file.fileSize,
+      artworkUrl,
+      contextLabel
     }),
-    [library, containerId, file._id, file.fileName, file.mimeType, file.fileSize]
+    [library, containerId, file._id, file.fileName, file.mimeType, file.fileSize, artworkUrl, contextLabel]
   );
 
   const measuredDuration = isSelected && Number.isFinite(duration) && duration > 0 ? duration : 0;

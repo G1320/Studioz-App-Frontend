@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MessageSquarePlus, Pause, Play, X } from 'lucide-react';
+import { Images, MessageSquarePlus, Pause, Play, X } from 'lucide-react';
 import {
   formatPlaybackTime,
   useAudioCueComment,
@@ -71,6 +71,7 @@ export const StickyRemoteAudioBar: FC = () => {
   const waveformDuration = waveform.durationMs ? waveform.durationMs / 1000 : 0;
   const scrubberMax = Math.max(duration || 0, waveformDuration, currentTime, 0.01);
   const progress = Math.min(1, currentTime / scrubberMax);
+  const trackTitle = active.fileName.replace(/\.[^/.]+$/, '') || active.fileName;
 
   return (
     <div
@@ -79,6 +80,29 @@ export const StickyRemoteAudioBar: FC = () => {
       aria-label={t('audioPlayer.stickyLabel', { name: active.fileName })}
     >
       <div className="sticky-remote-audio-bar__inner">
+        <div className="sticky-remote-audio-bar__now-playing">
+          <div className="sticky-remote-audio-bar__artwork" aria-hidden="true">
+            {active.artworkUrl ? (
+              <img src={active.artworkUrl} alt="" />
+            ) : (
+              <Images size={18} />
+            )}
+          </div>
+          <div className="sticky-remote-audio-bar__meta">
+            {active.contextLabel && (
+              <span className="sticky-remote-audio-bar__context" title={active.contextLabel}>
+                {active.contextLabel}
+              </span>
+            )}
+            <span className="sticky-remote-audio-bar__title" title={active.fileName}>
+              {trackTitle}
+            </span>
+            {statusLabel && (
+              <span className="sticky-remote-audio-bar__status">{statusLabel}</span>
+            )}
+          </div>
+        </div>
+
         <button
           type="button"
           className="sticky-remote-audio-bar__play"
@@ -86,10 +110,13 @@ export const StickyRemoteAudioBar: FC = () => {
           disabled={isBusy && !isPlaying}
           aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+          {isPlaying ? <Pause size={22} /> : <Play size={22} />}
         </button>
 
         <div className="sticky-remote-audio-bar__transport">
+          <span className="sticky-remote-audio-bar__time sticky-remote-audio-bar__time--current">
+            {formatPlaybackTime(currentTime)}
+          </span>
           <WaveformScrubber
             className="sticky-remote-audio-bar__waveform"
             peaks={waveform.peaks}
@@ -109,21 +136,11 @@ export const StickyRemoteAudioBar: FC = () => {
               />
             )}
           </WaveformScrubber>
-          <div className="sticky-remote-audio-bar__time">
-            <span>{formatPlaybackTime(currentTime)}</span>
-            <span>/</span>
-            <span>{formatPlaybackTime(duration > 0 ? duration : scrubberMax)}</span>
-          </div>
+          <span className="sticky-remote-audio-bar__time sticky-remote-audio-bar__time--total">
+            {formatPlaybackTime(duration > 0 ? duration : scrubberMax)}
+          </span>
         </div>
 
-        <div className="sticky-remote-audio-bar__meta">
-          <span className="sticky-remote-audio-bar__title" title={active.fileName}>
-            {active.fileName}
-          </span>
-          {statusLabel && (
-            <span className="sticky-remote-audio-bar__status">{statusLabel}</span>
-          )}
-        </div>
         {showCues && cueComment && (
           <button
             type="button"

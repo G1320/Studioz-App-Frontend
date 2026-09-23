@@ -26,10 +26,12 @@
   "revisions_other": "{{count}} revisions left",
   "revisionsUsed": "Revisions Used",
   "payment": "Payment",
+  "amountPaid": "Paid",
   "paymentStatus": {
     "pending": "Pending",
     "depositPaid": "Deposit Paid",
-    "fullyPaid": "Fully Paid"
+    "fullyPaid": "Fully Paid",
+    "refunded": "Refunded"
   },
 
   "status": {
@@ -105,6 +107,12 @@
   "deliverables": "Deliverables",
   "revisionFiles": "Revision Files",
   "noFiles": "No files uploaded yet",
+  "fileCount_one": "{{count}} file",
+  "fileCount_other": "{{count}} files",
+  "addFiles": "Add files",
+  "dropAnywhereHint": "Drop files anywhere on this page, or use + to browse",
+  "dropToUploadType": "Drop to upload to {{type}}",
+  "chooseUploadTarget": "Choose where to upload",
   "dragOrClick": "Drag files here or click to browse",
   "dropHere": "Drop files here",
   "acceptedFormats": "Accepted formats",
@@ -191,6 +199,9 @@
   },
 
   "messages": "Messages",
+  "projectChat": "Project chat",
+  "collapseProjectChat": "Collapse project chat",
+  "expandProjectChat": "Open project chat",
   "noMessages": "No messages yet. Start the conversation!",
   "typeMessage": "Type your message...",
   "send": "Send",
@@ -209,6 +220,10 @@
     "revoke": "Revoke",
     "remove": "Remove",
     "leave": "Leave",
+    "view": "View collaborators",
+    "manageOrInvite": "Invite or manage collaborators",
+    "pendingCount_one": "{{count}} pending",
+    "pendingCount_other": "{{count}} pending",
     "badge": "collaborator",
     "customerCollaborator": "Customer collaborator",
     "vendorCollaborator": "Studio collaborator",

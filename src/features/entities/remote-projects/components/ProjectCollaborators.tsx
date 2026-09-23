@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Loader2, LogOut, MailX, UserMinus } from 'lucide-react';
+import { Loader2, LogOut, MailX, Plus, UserMinus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@shared/components';
@@ -15,7 +15,7 @@ import './styles/_project-collaborators.scss';
 interface ProjectCollaboratorsProps {
   projectId: string;
   access?: ProjectAccess;
-  /** When true, show invite form (primary customer/vendor). */
+  /** When true, show invite affordance (primary customer/vendor). */
   canInvite?: boolean;
   currentUserId?: string;
 }
@@ -39,6 +39,7 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
   const queryClient = useQueryClient();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['projectCollaborators', projectId],
@@ -82,112 +83,187 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
     inviteMutation.mutate(email.trim());
   };
 
+  const closeModal = () => {
+    setModalOpen(false);
+    setError(null);
+    setEmail('');
+  };
+
   const collaborators = data?.collaborators || [];
   const pending = data?.pendingInvites || [];
-  // Only primary customer/vendor may invite — collaborators get 403 from the API.
-  const showInviteForm =
+  const showInvite =
     canInvite === true || access?.canInvite === true || access?.isPrimary === true;
-  const canManageSide = (side: string) =>
-    showInviteForm && (!access?.side || access.side === side);
+  const canManageSide = (side: string) => showInvite && (!access?.side || access.side === side);
+
+  const names = collaborators.map((c) => userLabel(c.userId));
+  const pendingCount = pending.length;
 
   return (
-    <section className="project-collaborators">
-      <h3 className="project-collaborators__title">{t('collaborators.title')}</h3>
-      <p className="project-collaborators__hint">{t('collaborators.hint')}</p>
+    <div className="project-collaborators project-collaborators--inline">
+      <div className="project-collaborators__strip">
+        <span className="project-collaborators__label">{t('collaborators.title')}</span>
 
-      {showInviteForm ? (
-        <form className="project-collaborators__invite" onSubmit={handleInvite}>
-          <label className="project-collaborators__invite-label" htmlFor="project-collab-email">
-            {t('collaborators.invite')}
-          </label>
-          <div className="project-collaborators__invite-row">
-            <input
-              id="project-collab-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t('collaborators.emailPlaceholder')}
-              autoComplete="email"
-              required
-            />
-            <Button type="submit" className="button--primary" disabled={inviteMutation.isPending || !email.trim()}>
-              {inviteMutation.isPending ? t('common.sending') : t('collaborators.invite')}
-            </Button>
+        {isLoading ? (
+          <span className="project-collaborators__loading-inline">{t('common.loading')}</span>
+        ) : (
+          <div className="project-collaborators__names">
+            {names.length > 0 ? (
+              names.map((name) => (
+                <span key={name} className="project-collaborators__chip" title={name}>
+                  {name}
+                </span>
+              ))
+            ) : (
+              <span className="project-collaborators__empty-inline">{t('collaborators.empty')}</span>
+            )}
+            {pendingCount > 0 && (
+              <span className="project-collaborators__chip project-collaborators__chip--pending">
+                {t('collaborators.pendingCount', { count: pendingCount })}
+              </span>
+            )}
           </div>
-          {error ? <p className="project-collaborators__error">{error}</p> : null}
-        </form>
-      ) : null}
+        )}
 
-      {isLoading ? (
-        <div className="project-collaborators__loading">{t('common.loading')}</div>
-      ) : (
-        <ul className="project-collaborators__list">
-          {collaborators.map((c: ProjectCollaborator) => (
-            <li key={userIdOf(c.userId)} className="project-collaborators__item">
-              <div>
-                <div className="project-collaborators__name">{userLabel(c.userId)}</div>
-                <div className="project-collaborators__meta">
-                  {t(`collaborators.side.${c.side}`)}
-                  {typeof c.userId === 'object' && c.userId.email ? ` · ${c.userId.email}` : ''}
-                </div>
-              </div>
-              {canManageSide(c.side) || currentUserId === userIdOf(c.userId) ? (
-                <div className="project-collaborators__item-actions">
-                  <button
-                    type="button"
-                    className="project-icon-action project-icon-action--danger"
-                    onClick={() => removeMutation.mutate(userIdOf(c.userId))}
-                    disabled={removeMutation.isPending}
-                    aria-label={
-                      currentUserId === userIdOf(c.userId)
-                        ? t('collaborators.leave')
-                        : t('collaborators.remove')
-                    }
+        <button
+          type="button"
+          className="project-collaborators__add"
+          onClick={() => setModalOpen(true)}
+          aria-label={
+            showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')
+          }
+          title={showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')}
+        >
+          <Plus aria-hidden />
+        </button>
+      </div>
+
+      {modalOpen && (
+        <div className="project-collaborators__modal-overlay" onClick={closeModal} role="presentation">
+          <div
+            className="project-collaborators__modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-collab-modal-title"
+          >
+            <div className="project-collaborators__modal-header">
+              <h3 id="project-collab-modal-title">{t('collaborators.title')}</h3>
+              <button
+                type="button"
+                className="project-collaborators__modal-close"
+                onClick={closeModal}
+                aria-label={t('common.close', 'Close')}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <p className="project-collaborators__hint">{t('collaborators.hint')}</p>
+
+            {showInvite ? (
+              <form className="project-collaborators__invite" onSubmit={handleInvite}>
+                <label className="project-collaborators__invite-label" htmlFor="project-collab-email">
+                  {t('collaborators.invite')}
+                </label>
+                <div className="project-collaborators__invite-row">
+                  <input
+                    id="project-collab-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={t('collaborators.emailPlaceholder')}
+                    autoComplete="email"
+                    required
+                    autoFocus
+                  />
+                  <Button
+                    type="submit"
+                    className="button--primary"
+                    disabled={inviteMutation.isPending || !email.trim()}
                   >
-                    {removeMutation.isPending ? (
-                      <Loader2 className="project-icon-action__spin" aria-hidden />
-                    ) : currentUserId === userIdOf(c.userId) ? (
-                      <LogOut aria-hidden />
-                    ) : (
-                      <UserMinus aria-hidden />
-                    )}
-                  </button>
+                    {inviteMutation.isPending ? t('common.sending') : t('collaborators.invite')}
+                  </Button>
                 </div>
-              ) : null}
-            </li>
-          ))}
-          {pending.map((invite: ProjectInvite) => (
-            <li key={invite._id} className="project-collaborators__item project-collaborators__item--pending">
-              <div>
-                <div className="project-collaborators__name">{invite.email}</div>
-                <div className="project-collaborators__meta">
-                  {t('collaborators.pending')} · {t(`collaborators.side.${invite.side}`)}
-                </div>
-              </div>
-              {canManageSide(invite.side) ? (
-                <div className="project-collaborators__item-actions">
-                  <button
-                    type="button"
-                    className="project-icon-action project-icon-action--neutral"
-                    onClick={() => revokeMutation.mutate(invite._id)}
-                    disabled={revokeMutation.isPending}
-                    aria-label={t('collaborators.revoke')}
+                {error ? <p className="project-collaborators__error">{error}</p> : null}
+              </form>
+            ) : null}
+
+            {isLoading ? (
+              <div className="project-collaborators__loading">{t('common.loading')}</div>
+            ) : (
+              <ul className="project-collaborators__list">
+                {collaborators.map((c: ProjectCollaborator) => (
+                  <li key={userIdOf(c.userId)} className="project-collaborators__item">
+                    <div>
+                      <div className="project-collaborators__name">{userLabel(c.userId)}</div>
+                      <div className="project-collaborators__meta">
+                        {t(`collaborators.side.${c.side}`)}
+                        {typeof c.userId === 'object' && c.userId.email ? ` · ${c.userId.email}` : ''}
+                      </div>
+                    </div>
+                    {canManageSide(c.side) || currentUserId === userIdOf(c.userId) ? (
+                      <div className="project-collaborators__item-actions">
+                        <button
+                          type="button"
+                          className="project-icon-action project-icon-action--round project-icon-action--danger"
+                          onClick={() => removeMutation.mutate(userIdOf(c.userId))}
+                          disabled={removeMutation.isPending}
+                          aria-label={
+                            currentUserId === userIdOf(c.userId)
+                              ? t('collaborators.leave')
+                              : t('collaborators.remove')
+                          }
+                        >
+                          {removeMutation.isPending ? (
+                            <Loader2 className="project-icon-action__spin" aria-hidden />
+                          ) : currentUserId === userIdOf(c.userId) ? (
+                            <LogOut aria-hidden />
+                          ) : (
+                            <UserMinus aria-hidden />
+                          )}
+                        </button>
+                      </div>
+                    ) : null}
+                  </li>
+                ))}
+                {pending.map((invite: ProjectInvite) => (
+                  <li
+                    key={invite._id}
+                    className="project-collaborators__item project-collaborators__item--pending"
                   >
-                    {revokeMutation.isPending ? (
-                      <Loader2 className="project-icon-action__spin" aria-hidden />
-                    ) : (
-                      <MailX aria-hidden />
-                    )}
-                  </button>
-                </div>
-              ) : null}
-            </li>
-          ))}
-          {collaborators.length === 0 && pending.length === 0 ? (
-            <li className="project-collaborators__empty">{t('collaborators.empty')}</li>
-          ) : null}
-        </ul>
+                    <div>
+                      <div className="project-collaborators__name">{invite.email}</div>
+                      <div className="project-collaborators__meta">
+                        {t('collaborators.pending')} · {t(`collaborators.side.${invite.side}`)}
+                      </div>
+                    </div>
+                    {canManageSide(invite.side) ? (
+                      <div className="project-collaborators__item-actions">
+                        <button
+                          type="button"
+                          className="project-icon-action project-icon-action--round project-icon-action--neutral"
+                          onClick={() => revokeMutation.mutate(invite._id)}
+                          disabled={revokeMutation.isPending}
+                          aria-label={t('collaborators.revoke')}
+                        >
+                          {revokeMutation.isPending ? (
+                            <Loader2 className="project-icon-action__spin" aria-hidden />
+                          ) : (
+                            <MailX aria-hidden />
+                          )}
+                        </button>
+                      </div>
+                    ) : null}
+                  </li>
+                ))}
+                {collaborators.length === 0 && pending.length === 0 ? (
+                  <li className="project-collaborators__empty">{t('collaborators.empty')}</li>
+                ) : null}
+              </ul>
+            )}
+          </div>
+        </div>
       )}
-    </section>
+    </div>
   );
 };

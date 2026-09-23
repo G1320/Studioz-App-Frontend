@@ -460,6 +460,48 @@ const projectFiles = [
     createdAt: '2026-09-18T12:24:00.000Z'
   },
   {
+    _id: 'source-drums',
+    projectId: 'project-demo',
+    uploadedBy: {
+      _id: 'collaborator-customer-1',
+      name: 'Noa Shaham',
+      email: 'noa@example.test'
+    },
+    type: 'source',
+    fileName: 'Drums — Edited Multitrack.wav',
+    fileSize: 142_870_528,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/drums-edited.wav',
+    description: 'Edited live drums with room and close microphones',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T12:31:00.000Z'
+  },
+  {
+    _id: 'source-synths',
+    projectId: 'project-demo',
+    uploadedBy: customerUser,
+    type: 'source',
+    fileName: 'Synths — Printed Stems.wav',
+    fileSize: 98_304_000,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/synth-stems.wav',
+    description: 'Printed hardware synth stems at 48 kHz / 24-bit',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T12:36:00.000Z'
+  },
+  {
+    _id: 'source-guitars',
+    projectId: 'project-demo',
+    uploadedBy: customerUser,
+    type: 'source',
+    fileName: 'Guitars — Double Tracks.wav',
+    fileSize: 76_414_976,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/guitar-doubles.wav',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T12:41:00.000Z'
+  },
+  {
     _id: 'deliverable-mix-v3',
     projectId: 'project-demo',
     uploadedBy: vendorUser,
@@ -485,6 +527,48 @@ const projectFiles = [
     createdAt: '2026-09-21T17:16:00.000Z'
   },
   {
+    _id: 'deliverable-mix-v4',
+    projectId: 'project-demo',
+    uploadedBy: {
+      _id: 'collaborator-vendor-1',
+      name: 'Amir Halevi',
+      email: 'amir@northlinesound.example'
+    },
+    type: 'deliverable',
+    fileName: 'Midnight Drive — Mix V4.wav',
+    fileSize: 94_781_440,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/mix-v4.wav',
+    description: 'Updated vocal automation and wider chorus',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-22T09:18:00.000Z'
+  },
+  {
+    _id: 'deliverable-instrumental',
+    projectId: 'project-demo',
+    uploadedBy: vendorUser,
+    type: 'deliverable',
+    fileName: 'Midnight Drive — Instrumental.wav',
+    fileSize: 91_226_112,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/instrumental.wav',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-22T09:20:00.000Z'
+  },
+  {
+    _id: 'revision-v1',
+    projectId: 'project-demo',
+    uploadedBy: vendorUser,
+    type: 'revision',
+    fileName: 'Midnight Drive — Revision 1.wav',
+    fileSize: 87_982_080,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/revision-1.wav',
+    revisionNumber: 1,
+    waveformStatus: 'ready',
+    createdAt: '2026-09-19T16:10:00.000Z'
+  },
+  {
     _id: 'revision-v2',
     projectId: 'project-demo',
     uploadedBy: vendorUser,
@@ -496,6 +580,23 @@ const projectFiles = [
     revisionNumber: 2,
     waveformStatus: 'ready',
     createdAt: '2026-09-20T15:40:00.000Z'
+  },
+  {
+    _id: 'revision-v3',
+    projectId: 'project-demo',
+    uploadedBy: {
+      _id: 'collaborator-vendor-2',
+      name: 'Eitan Mizrahi',
+      email: 'eitan@example.test'
+    },
+    type: 'revision',
+    fileName: 'Midnight Drive — Revision 3.wav',
+    fileSize: 90_566_656,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/revision-3.wav',
+    revisionNumber: 3,
+    waveformStatus: 'ready',
+    createdAt: '2026-09-21T11:05:00.000Z'
   }
 ];
 
@@ -530,6 +631,32 @@ const projectMessages = [
     message: 'I also cleaned the low end before the final limiter pass.',
     readAt: '2026-09-22T08:10:00.000Z',
     createdAt: '2026-09-22T08:04:00.000Z'
+  },
+  {
+    _id: 'message-general-4',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-customer-1',
+      name: 'Noa Shaham',
+      email: 'noa@example.test'
+    },
+    senderRole: 'customer_collaborator',
+    message: 'The new chorus balance translates beautifully on smaller speakers.',
+    readAt: '2026-09-22T08:35:00.000Z',
+    createdAt: '2026-09-22T08:26:00.000Z'
+  },
+  {
+    _id: 'message-general-5',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-vendor-2',
+      name: 'Eitan Mizrahi',
+      email: 'eitan@example.test'
+    },
+    senderRole: 'vendor_collaborator',
+    message: 'I printed the final synth stems and added them to the source files.',
+    readAt: '2026-09-22T09:05:00.000Z',
+    createdAt: '2026-09-22T08:51:00.000Z'
   },
   {
     _id: 'message-track-1',
@@ -589,6 +716,90 @@ const projectMessages = [
     offsetSeconds: 135.5,
     readAt: '2026-09-22T09:35:00.000Z',
     createdAt: '2026-09-22T09:22:00.000Z'
+  },
+  {
+    _id: 'message-vocal-1',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-customer-1',
+      name: 'Noa Shaham',
+      email: 'noa@example.test'
+    },
+    senderRole: 'customer_collaborator',
+    message: 'There is a small breath here that we can keep — it makes the take feel intimate.',
+    fileId: 'source-vocal',
+    offsetSeconds: 31.8,
+    readAt: '2026-09-22T10:15:00.000Z',
+    createdAt: '2026-09-22T10:02:00.000Z'
+  },
+  {
+    _id: 'message-drums-1',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-customer-2',
+      name: 'Shira Ben-Ami',
+      email: 'shira@example.test'
+    },
+    senderRole: 'customer_collaborator',
+    message: 'Could the snare be slightly tighter through this pre-chorus?',
+    fileId: 'source-drums',
+    offsetSeconds: 63.4,
+    readAt: '2026-09-22T10:42:00.000Z',
+    createdAt: '2026-09-22T10:28:00.000Z'
+  },
+  {
+    _id: 'message-drums-reply-1',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-vendor-1',
+      name: 'Amir Halevi',
+      email: 'amir@northlinesound.example'
+    },
+    senderRole: 'vendor_collaborator',
+    message: 'Yes — I shortened the room tail and tightened the parallel bus.',
+    fileId: 'source-drums',
+    parentId: 'message-drums-1',
+    offsetSeconds: 63.4,
+    readAt: '2026-09-22T11:04:00.000Z',
+    createdAt: '2026-09-22T10:51:00.000Z'
+  },
+  {
+    _id: 'message-synths-1',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-vendor-2',
+      name: 'Eitan Mizrahi',
+      email: 'eitan@example.test'
+    },
+    senderRole: 'vendor_collaborator',
+    message: 'I automated the upper pad here so the lead has more space.',
+    fileId: 'source-synths',
+    offsetSeconds: 106.7,
+    readAt: '2026-09-22T11:35:00.000Z',
+    createdAt: '2026-09-22T11:18:00.000Z'
+  },
+  {
+    _id: 'message-guitars-1',
+    projectId: 'project-demo',
+    senderId: customerUser,
+    senderRole: 'customer',
+    message: 'The double track on the right could come forward just a touch here.',
+    fileId: 'source-guitars',
+    offsetSeconds: 78.1,
+    readAt: '2026-09-22T12:18:00.000Z',
+    createdAt: '2026-09-22T12:03:00.000Z'
+  },
+  {
+    _id: 'message-guitars-reply-1',
+    projectId: 'project-demo',
+    senderId: vendorUser,
+    senderRole: 'vendor',
+    message: 'Adjusted. It now matches the left side without narrowing the image.',
+    fileId: 'source-guitars',
+    parentId: 'message-guitars-1',
+    offsetSeconds: 78.1,
+    readAt: '2026-09-22T12:42:00.000Z',
+    createdAt: '2026-09-22T12:29:00.000Z'
   }
 ];
 
@@ -596,11 +807,19 @@ const hebrewProjectMessageText: Record<string, string> = {
   'message-general-1': 'הכיוון מרגיש מצוין. אפשר לתת לפזמון קצת יותר רוחב?',
   'message-general-2': 'בהחלט — הרחבתי את ערוץ הסינת׳ והשארתי את השירה במרכז.',
   'message-general-3': 'ניקיתי גם את התדרים הנמוכים לפני מעבר הלימיטר הסופי.',
+  'message-general-4': 'האיזון החדש בפזמון נשמע נהדר גם ברמקולים קטנים.',
+  'message-general-5': 'הדפסתי את ערוצי הסינת׳ הסופיים והוספתי אותם לקובצי המקור.',
   'message-track-1': 'אפשר להכניס כאן את הדיליי של השירה פעימה אחת מאוחר יותר?',
   'message-track-reply-1': 'בוצע — עכשיו הוא מתחיל אחרי המשפט הראשון.',
   'message-track-2': 'אהבתי את המעבר הזה. הכניסה יושבת עכשיו בדיוק.',
   'message-track-3': 'אפשר לתת לשירה האחרונה לנשום לפני שהאאוטרו מתחיל?',
-  'message-track-reply-2': 'כן — פתחתי שם מרווח וריככתי את המעבר לאאוטרו.'
+  'message-track-reply-2': 'כן — פתחתי שם מרווח וריככתי את המעבר לאאוטרו.',
+  'message-vocal-1': 'יש כאן נשימה קטנה שכדאי להשאיר — היא נותנת לטייק תחושה אינטימית.',
+  'message-drums-1': 'אפשר להדק מעט את הסנר לאורך הפרה־פזמון הזה?',
+  'message-drums-reply-1': 'כן — קיצרתי את זנב החדר והידקתי את ערוץ הקומפרסיה המקביל.',
+  'message-synths-1': 'עשיתי כאן אוטומציה לפד העליון כדי לפנות יותר מקום לליד.',
+  'message-guitars-1': 'אפשר להעלות כאן מעט את הדאבל בצד ימין?',
+  'message-guitars-reply-1': 'סודר. עכשיו הוא מאוזן מול צד שמאל בלי לצמצם את תמונת הסטריאו.'
 };
 
 function getLocalizedProjectMessages(locale: CaptureScenario['locale']) {
@@ -663,7 +882,7 @@ export function resolveFixtureRequest(
   if (method === 'GET' && path === '/remote-projects/project-demo') {
     return json({
       project: projects[0],
-      fileCounts: { source: 2, deliverable: 2, revision: 1 },
+      fileCounts: { source: 5, deliverable: 4, revision: 3 },
       access: {
         side: 'vendor',
         isPrimary: true,
@@ -689,12 +908,26 @@ export function resolveFixtureRequest(
     return json({ files: type ? projectFiles.filter((file) => file.type === type) : projectFiles });
   }
   if (method === 'GET' && /^\/remote-projects\/project-demo\/files\/[^/]+\/waveform$/.test(path)) {
-    const fileId = path.split('/')[4];
+    const fileId = path.split('/')[4] ?? 'unknown-file';
+    const waveformSeed = [...fileId].reduce((hash, character) => (hash * 31 + character.charCodeAt(0)) >>> 0, 0);
+    const phase = ((waveformSeed % 360) * Math.PI) / 180;
+    const primaryFrequency = 0.07 + (waveformSeed % 11) * 0.003;
+    const secondaryFrequency = 0.17 + (waveformSeed % 7) * 0.004;
     return json({
       fileId,
       status: 'ready',
-      peaks: Array.from({ length: 160 }, (_, index) => 40 + ((index * 47 + index * index * 7) % 205)),
-      durationMs: 214_000,
+      peaks: Array.from({ length: 160 }, (_, index) =>
+        Math.min(
+          245,
+          Math.round(
+            32 +
+              79 * Math.abs(Math.sin(index * primaryFrequency + phase)) +
+              71 * Math.abs(Math.sin(index * secondaryFrequency + phase / 2)) +
+              ((index * 31 + waveformSeed) % 43)
+          )
+        )
+      ),
+      durationMs: 180_000 + (waveformSeed % 90_000),
       sampleRate: 48_000,
       channels: 2,
       version: 1
@@ -723,6 +956,28 @@ export function resolveFixtureRequest(
           side: 'customer',
           invitedBy: customerUser,
           joinedAt: '2026-09-19T11:15:00.000Z',
+          status: 'active'
+        },
+        {
+          userId: {
+            _id: 'collaborator-vendor-2',
+            name: 'Eitan Mizrahi',
+            email: 'eitan@example.test'
+          },
+          side: 'vendor',
+          invitedBy: vendorUser,
+          joinedAt: '2026-09-20T08:45:00.000Z',
+          status: 'active'
+        },
+        {
+          userId: {
+            _id: 'collaborator-customer-2',
+            name: 'Shira Ben-Ami',
+            email: 'shira@example.test'
+          },
+          side: 'customer',
+          invitedBy: customerUser,
+          joinedAt: '2026-09-20T13:20:00.000Z',
           status: 'active'
         }
       ],

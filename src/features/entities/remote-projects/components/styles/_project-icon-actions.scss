@@ -46,6 +46,24 @@
     background: var(--bg-hover);
     color: var(--text-primary);
   }
+
+  &--round {
+    width: 2.125rem;
+    height: 2.125rem;
+    border-radius: 9999px;
+    border-color: color-mix(in srgb, var(--text-primary) 16%, transparent);
+    background: transparent;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
+    }
+  }
 }
 
 .project-icon-action__spin {
