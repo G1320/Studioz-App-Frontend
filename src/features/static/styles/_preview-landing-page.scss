@@ -179,28 +179,43 @@
     width: min(26%, 10.75rem);
     border-radius: 1.15rem;
     box-shadow: 0 1.1rem 2.25rem rgb(0 0 0 / 32%);
+    // Samply-style soft crop: keep the feature in focus, fade the rest away.
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
 
     > img {
-      aspect-ratio: 9 / 19;
+      aspect-ratio: 9 / 17;
+      object-fit: cover;
+      object-position: top center;
     }
   }
 
   &__product-visual--hero &__shot--mobile {
     width: min(24%, 11rem);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 74%, transparent 100%);
   }
 
   &__product-visual--mobile-only {
     display: flex;
     justify-content: center;
-    padding-block: 0.5rem;
+    padding-block: 0.25rem 1.25rem;
 
     .preview-landing__shot--mobile {
       position: relative;
       inset: auto;
-      width: min(72%, 17.5rem);
+      width: min(70%, 16.5rem);
+      max-height: 30rem;
       margin: 0;
       bottom: auto;
+      border: 0;
       box-shadow: 0 1.4rem 2.75rem rgb(0 0 0 / 28%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+
+      > img {
+        aspect-ratio: 9 / 15;
+      }
     }
   }
 
@@ -231,36 +246,6 @@
       visibility: visible;
       pointer-events: auto;
       position: relative;
-    }
-  }
-
-  &__hero-dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.55rem;
-    margin-top: 1.25rem;
-  }
-
-  &__hero-dot {
-    width: 0.45rem;
-    height: 0.45rem;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--text-secondary) 45%, transparent);
-    cursor: pointer;
-    transition:
-      width 0.25s ease,
-      background 0.25s ease;
-
-    &.is-active {
-      width: 1.35rem;
-      background: var(--pl-accent);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--pl-accent);
-      outline-offset: 3px;
     }
   }
 

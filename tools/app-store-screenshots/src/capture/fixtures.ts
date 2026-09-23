@@ -99,41 +99,169 @@ const studio = {
       price: 320,
       categories: ['Recording Studio'],
       subCategories: ['Recording']
+    },
+    {
+      idx: 1,
+      itemId: 'item-mixing',
+      studioId: STUDIO_ID,
+      name: { en: 'Mixing Session', he: 'סשן מיקס' },
+      active: true,
+      price: 280,
+      categories: ['Recording Studio'],
+      subCategories: ['Mixing']
+    },
+    {
+      idx: 2,
+      itemId: 'item-mastering',
+      studioId: STUDIO_ID,
+      name: { en: 'Mastering', he: 'מאסטרינג' },
+      active: true,
+      price: 450,
+      categories: ['Recording Studio'],
+      subCategories: ['Mixing']
+    },
+    {
+      idx: 3,
+      itemId: 'item-podcast',
+      studioId: STUDIO_ID,
+      name: { en: 'Podcast Production', he: 'הפקת פודקאסט' },
+      active: true,
+      price: 260,
+      categories: ['Podcast Studio'],
+      subCategories: ['Podcast']
+    },
+    {
+      idx: 4,
+      itemId: 'item-remote-mix',
+      studioId: STUDIO_ID,
+      name: { en: 'Remote Mix Project', he: 'פרויקט מיקס מרחוק' },
+      active: true,
+      price: 1800,
+      categories: ['Recording Studio'],
+      subCategories: ['Mixing']
     }
   ]
 };
 
-const item = {
+const availabilitySlots = [
+  { date: '22/09/2026', times: ['10:00', '11:00', '12:00', '14:00', '15:00', '16:00'] },
+  { date: '23/09/2026', times: ['09:00', '10:00', '13:00', '14:00', '17:00'] }
+];
+
+function buildItem(partial: {
+  _id: string;
+  name: { en: string; he: string };
+  description: { en: string; he: string };
+  categories: string[];
+  subCategories: string[];
+  genres: string[];
+  price: number;
+  pricePer: 'hour' | 'project';
+  instantBook: boolean;
+  minimumBookingDuration: { value: number; unit: 'hours' };
+  imageUrl?: string;
+}) {
+  return {
+    studio: STUDIO_ID,
+    studioId: STUDIO_ID,
+    studioName: studio.name,
+    address: studio.address,
+    city: studio.city,
+    inStock: true,
+    studioImgUrl: studio.coverImage,
+    createdBy: VENDOR_ID,
+    createdAt: '2026-01-15T09:00:00.000Z',
+    preparationTime: { value: 15, unit: 'minutes' },
+    active: true,
+    availability: availabilitySlots,
+    imageUrl: partial.imageUrl ?? studio.coverImage,
+    ...partial
+  };
+}
+
+const item = buildItem({
   _id: ITEM_ID,
-  studio: STUDIO_ID,
-  studioId: STUDIO_ID,
   name: { en: 'Recording Session', he: 'סשן הקלטה' },
   description: {
     en: 'A focused recording session with an experienced engineer, premium microphones and a comfortable live room.',
     he: 'סשן הקלטה ממוקד עם טכנאי מנוסה, מיקרופונים איכותיים וחדר הקלטה נוח.'
   },
-  studioName: studio.name,
-  address: studio.address,
-  city: studio.city,
   categories: ['Recording Studio'],
   subCategories: ['Recording'],
   genres: ['Pop', 'Indie', 'Hip Hop'],
   price: 320,
   pricePer: 'hour',
-  imageUrl: studio.coverImage,
-  inStock: true,
-  studioImgUrl: studio.coverImage,
-  createdBy: VENDOR_ID,
-  createdAt: '2026-01-15T09:00:00.000Z',
   instantBook: true,
-  minimumBookingDuration: { value: 2, unit: 'hours' },
-  preparationTime: { value: 15, unit: 'minutes' },
-  active: true,
-  availability: [
-    { date: '22/09/2026', times: ['10:00', '11:00', '12:00', '14:00', '15:00', '16:00'] },
-    { date: '23/09/2026', times: ['09:00', '10:00', '13:00', '14:00', '17:00'] }
-  ]
-};
+  minimumBookingDuration: { value: 2, unit: 'hours' }
+});
+
+const items = [
+  item,
+  buildItem({
+    _id: 'item-mixing',
+    name: { en: 'Mixing Session', he: 'סשן מיקס' },
+    description: {
+      en: 'Hands-on mixing time in the control room with reference monitoring and recall-ready sessions.',
+      he: 'זמן מיקס בחדר הבקרה עם מוניטורינג מדויק וסשנים מוכנים לריקול.'
+    },
+    categories: ['Recording Studio'],
+    subCategories: ['Mixing'],
+    genres: ['Pop', 'Electronic', 'Indie'],
+    price: 280,
+    pricePer: 'hour',
+    instantBook: true,
+    minimumBookingDuration: { value: 3, unit: 'hours' },
+    imageUrl: '/images/screenshots/tempo-studios-console.webp'
+  }),
+  buildItem({
+    _id: 'item-mastering',
+    name: { en: 'Mastering', he: 'מאסטרינג' },
+    description: {
+      en: 'Final polish for singles and EPs with loudness-ready delivery for streaming platforms.',
+      he: 'גימור סופי לסינגלים ול־EP עם מסירה מוכנה לסטרים.'
+    },
+    categories: ['Recording Studio'],
+    subCategories: ['Mixing'],
+    genres: ['Pop', 'Hip Hop', 'Electronic'],
+    price: 450,
+    pricePer: 'hour',
+    instantBook: false,
+    minimumBookingDuration: { value: 2, unit: 'hours' },
+    imageUrl: '/images/screenshots/tempo-studios-console.webp'
+  }),
+  buildItem({
+    _id: 'item-podcast',
+    name: { en: 'Podcast Production', he: 'הפקת פודקאסט' },
+    description: {
+      en: 'Multi-guest podcast capture with isolated mics, clean routing and same-day rough edits.',
+      he: 'הקלטת פודקאסט למספר אורחים עם מיקרופונים מבודדים ועריכה גסה באותו יום.'
+    },
+    categories: ['Podcast Studio'],
+    subCategories: ['Podcast'],
+    genres: ['Talk', 'Interview'],
+    price: 260,
+    pricePer: 'hour',
+    instantBook: true,
+    minimumBookingDuration: { value: 2, unit: 'hours' },
+    imageUrl: '/images/screenshots/tempo-studios-vocal-setup.webp'
+  }),
+  buildItem({
+    _id: 'item-remote-mix',
+    name: { en: 'Remote Mix Project', he: 'פרויקט מיקס מרחוק' },
+    description: {
+      en: 'Send stems, get timed feedback and revisions in a connected remote project workspace.',
+      he: 'שולחים סטמים, מקבלים פידבק מתוזמן ותיקונים בסביבת פרויקט מרוחקת.'
+    },
+    categories: ['Recording Studio'],
+    subCategories: ['Mixing'],
+    genres: ['Pop', 'Indie', 'Electronic'],
+    price: 1800,
+    pricePer: 'project',
+    instantBook: false,
+    minimumBookingDuration: { value: 1, unit: 'hours' },
+    imageUrl: '/images/screenshots/tempo-studios-live-room.webp'
+  })
+];
 
 const vendorUser = {
   _id: VENDOR_ID,
@@ -858,8 +986,11 @@ export function resolveFixtureRequest(
   if (method === 'GET' && path === `/studios/${STUDIO_ID}`) {
     return json({ currStudio: studio, prevStudio: null, nextStudio: null, vendorCredentials: null });
   }
-  if (method === 'GET' && path === '/items') return json([item]);
-  if (method === 'GET' && path === `/items/${ITEM_ID}`) return json(item);
+  if (method === 'GET' && path === '/items') return json(items);
+  if (method === 'GET' && path.startsWith('/items/')) {
+    const itemId = path.split('/')[2];
+    return json(items.find((entry) => entry._id === itemId) ?? null);
+  }
   if (method === 'GET' && path === '/reservations') {
     return json({
       reservations,

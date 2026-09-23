@@ -41,12 +41,12 @@ const HERO_SLIDES = [
 /** Feature sections: mobile-first, specific surfaces. */
 const SHOWCASES = [
   { key: 'operations', mobile: 'mobile-reservations' },
-  { key: 'analytics', mobile: 'cross-device-analytics-mobile' },
+  { key: 'analytics', mobile: 'mobile-analytics-revenue' },
   { key: 'projects', mobile: 'cross-device-project-review-mobile' },
-  { key: 'presence', mobile: 'mobile-studio-portfolio' }
+  { key: 'presence', mobile: 'mobile-studio-services' }
 ] as const;
 
-const HERO_ROTATE_MS = 5000;
+const HERO_ROTATE_MS = 6000;
 
 interface ProductVisualProps {
   desktopSrc?: string;
@@ -138,20 +138,6 @@ function HeroCarousel({ captureUrl, altFor, reduceMotion }: HeroCarouselProps) {
             </div>
           );
         })}
-      </div>
-
-      <div className="preview-landing__hero-dots" role="tablist" aria-label="Product previews">
-        {HERO_SLIDES.map((slide, slideIndex) => (
-          <button
-            key={slide.key}
-            type="button"
-            role="tab"
-            aria-selected={slideIndex === index}
-            aria-label={altFor(slide.key)}
-            className={`preview-landing__hero-dot${slideIndex === index ? ' is-active' : ''}`}
-            onClick={() => setIndex(slideIndex)}
-          />
-        ))}
       </div>
     </div>
   );

@@ -770,6 +770,58 @@ const scenes: ScreenshotScene[] = [
     }
   },
   {
+    id: 'mobile-studio-services',
+    order: 34,
+    path: '/studio/studio-demo?view=overview',
+    readySelector: '.generic-carousel',
+    fixture: 'studio',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    actions: [{ type: 'scroll', selector: '.generic-carousel', offsetY: -24 }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Services that book',
+        subtitle: 'Clear offers clients can browse and reserve.'
+      },
+      he: {
+        title: 'שירותים שאפשר להזמין',
+        subtitle: 'הצעות ברורות שלקוחות גולשים ומזמינים.'
+      }
+    }
+  },
+  {
+    id: 'mobile-analytics-revenue',
+    order: 35,
+    path: '/stats',
+    readySelector: '.revenue-chart',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    actions: [{ type: 'scroll', selector: '.revenue-chart', offsetY: -32 }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Revenue at a glance',
+        subtitle: 'The trend that helps you decide next.'
+      },
+      he: {
+        title: 'הכנסות במבט אחד',
+        subtitle: 'המגמה שעוזרת להחליט מה הלאה.'
+      }
+    }
+  },
+  {
     id: 'landing-booking-flow',
     order: 30,
     path: '/studio/studio-demo?item=item-demo',
