@@ -25,7 +25,7 @@ export function PageHeader({
         <h1 className="page-header__title">{title}</h1>
         {meta ? <span className="page-header__meta">{meta}</span> : null}
       </div>
-      {children ? <div className="page-header__controls">{children}</div> : null}
+      <div className="page-header__controls">{children}</div>
     </Tag>
   );
 }

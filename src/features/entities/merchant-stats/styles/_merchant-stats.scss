@@ -20,11 +20,14 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 1rem;
+  padding: 0.3125rem 0.75rem;
+  min-height: 2rem;
+  height: 2rem;
+  box-sizing: border-box;
   background: var(--bg-surface);
   border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-md;
-  font-size: ds.$font-md;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--text-primary);
   cursor: pointer;
@@ -48,7 +51,14 @@
 }
 
 .merchant-stats__export-btn {
-  padding: 0.625rem;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--bg-surface);
   color: var(--text-primary);
   border: 1px solid var(--border-secondary);
@@ -62,8 +72,8 @@
   }
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1rem;
+    height: 1rem;
   }
 }
 
@@ -882,17 +892,23 @@
   position: relative;
 
   &__trigger {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
+    gap: 0.375rem;
+    padding: 0 0.75rem;
+    height: 2rem;
+    min-height: 2rem;
+    max-height: 2rem;
+    box-sizing: border-box;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-secondary);
     border-radius: ds.$radius-md;
     color: var(--text-primary);
-    font-size: ds.$font-md;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.15s ease;
 
     &:hover {
       border-color: var(--border-hover);
@@ -1085,17 +1101,22 @@
   position: relative;
 
   &__trigger {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+    max-height: 2rem;
+    padding: 0;
+    box-sizing: border-box;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-secondary);
     border-radius: ds.$radius-md;
     color: var(--text-primary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.15s ease, color 0.15s ease;
 
     &:hover {
       border-color: var(--border-hover);
@@ -1108,8 +1129,8 @@
     }
 
     svg {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1rem;
+      height: 1rem;
     }
   }
 
