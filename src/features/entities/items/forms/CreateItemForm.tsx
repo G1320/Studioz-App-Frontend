@@ -1122,7 +1122,7 @@ export const CreateItemForm = () => {
   ];
 
   return (
-    <section>
+    <section aria-label={t('form.AddItemTitle')}>
       <section className="form-wrapper create-item-form-wrapper">
         <SteppedForm
           className="create-item-form"

@@ -197,7 +197,8 @@
     box-sizing: border-box;
     padding-block: 1rem;
     padding-inline-start: 0;
-    padding-inline-end: clamp(6.5rem, 24%, 15rem);
+    // Keep the phone in the end gutter so desktop columns (e.g. Top Clients) stay visible.
+    padding-inline-end: clamp(7.75rem, 30%, 13.5rem);
 
     .features-page__desktop-frame {
       width: 100%;
@@ -208,9 +209,11 @@
     position: absolute;
     z-index: 2;
     inset-inline-end: 0;
-    inset-block: 1rem;
+    inset-block-end: 1rem;
+    inset-block-start: auto;
     display: flex;
-    width: auto;
+    width: min(26%, 11.25rem);
+    height: auto;
     aspect-ratio: 440 / 956;
     box-sizing: border-box;
     padding: clamp(0.22rem, 0.45vw, 0.45rem);

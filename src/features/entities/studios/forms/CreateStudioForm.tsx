@@ -810,9 +810,7 @@ export const CreateStudioForm = () => {
   }
 
   return (
-    <section>
-      <h1>{t('form.AddStudioTitle')}</h1>
-
+    <section aria-label={t('form.AddStudioTitle')}>
       <section className="form-wrapper create-studio-form-wrapper">
         <SteppedForm
           className="create-studio-form"

@@ -34,7 +34,7 @@ const FEATURE_SCREENSHOTS: Partial<Record<FeatureId, string>> = {
   calendar: 'desktop-reservations',
   insights: 'cross-device-analytics-desktop',
   studio_pages: 'desktop-studio-portfolio',
-  remote: 'cross-device-project-review-desktop'
+  remote: 'desktop-project-workspace'
 };
 
 interface ProductVisualProps {
@@ -126,7 +126,7 @@ export default function FeaturesPage() {
     },
     {
       key: 'projects',
-      desktop: 'cross-device-project-review-desktop',
+      desktop: 'desktop-project-workspace',
       mobile: 'cross-device-project-review-mobile'
     },
     { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined }

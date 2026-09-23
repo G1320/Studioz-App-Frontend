@@ -14,6 +14,8 @@
   "form": {
     "AddItemTitle": "הוסף שירות חדש",
     "AddStudioTitle": "הוסף סטודיו חדש",
+    "EditItemTitle": "עריכת שירות",
+    "EditStudioTitle": "עריכת סטודיו",
     "optionalLanguage": "(אופציונלי)",
     "name": {
       "en": "שם באנגלית",

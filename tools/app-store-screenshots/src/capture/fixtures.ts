@@ -981,18 +981,7 @@ export function resolveFixtureRequest(
           status: 'active'
         }
       ],
-      pendingInvites: [
-        {
-          _id: 'invite-demo-1',
-          projectId: 'project-demo',
-          email: 'ron@northlinesound.example',
-          side: 'vendor',
-          invitedBy: vendorUser,
-          status: 'pending',
-          expiresAt: '2026-09-29T10:00:00.000Z',
-          createdAt: '2026-09-22T10:00:00.000Z'
-        }
-      ]
+      pendingInvites: []
     });
   }
   if (method === 'GET' && path.includes('/messages')) {

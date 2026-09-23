@@ -507,22 +507,26 @@ const scenes: ScreenshotScene[] = [
     id: 'desktop-project-workspace',
     order: 23,
     path: '/projects/project-demo',
-    readySelector: '.project-chat',
+    readySelector: '.project-collaborators',
     fixture: 'projects',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    actions: [{ type: 'scroll', selector: '.project-chat' }],
+    actions: [{ type: 'scroll', selector: '.project-collaborators' }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
     copy: {
       'en-US': {
         title: 'Production, all in one place',
-        subtitle: 'Tracks, feedback, deliverables and collaborators stay connected.'
+        subtitle: 'Tracks, feedback, deliverables, payments and collaborators stay connected.'
       },
       he: {
         title: 'ההפקה במקום אחד',
-        subtitle: 'טראקים, משוב, תוצרים ושותפים נשארים מחוברים.'
+        subtitle: 'טראקים, משוב, מסירות, תשלומים ושותפים נשארים מחוברים.'
       }
     }
   },
@@ -558,7 +562,7 @@ const scenes: ScreenshotScene[] = [
     path: '/studio/studio-demo?view=overview',
     readySelector: '.studio-details-page .studio-details__header',
     fixture: 'studio',
-    auth: 'customer',
+    auth: 'vendor',
     device: 'desktop-1440',
     template: 'feature',
     deviceTransform: { scale: 0.72, y: 100, rotation: -0.5, shadow: true },
@@ -581,13 +585,16 @@ const scenes: ScreenshotScene[] = [
     id: 'cross-device-project-review',
     order: 26,
     path: '/projects/project-demo',
-    readySelector: '.project-file-uploader--source',
+    readySelector: '.project-collaborators',
     fixture: 'projects',
     auth: 'vendor',
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    actions: [
+    // Desktop: current project workspace (collaborator avatars + source files).
+    // Mobile: open a track thread so the dual still shows cross-device review.
+    primaryActions: [{ type: 'scroll', selector: '.project-detail__header' }],
+    secondaryActions: [
       { type: 'scroll', selector: '.project-file-uploader--source' },
       { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
       { type: 'scroll', selector: '.project-file-uploader--source .track-thread' }
@@ -667,7 +674,7 @@ const scenes: ScreenshotScene[] = [
     path: '/studio/studio-demo?view=portfolio',
     readySelector: '.studio-portfolio-view__grid',
     fixture: 'studio',
-    auth: 'customer',
+    auth: 'vendor',
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',

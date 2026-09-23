@@ -1258,7 +1258,7 @@ export const EditItemForm = () => {
   }
 
   return (
-    <section>
+    <section aria-label={t('form.EditItemTitle')}>
       <section className="form-wrapper edit-item-form-wrapper">
         <SteppedForm
           className="edit-item-form"

@@ -113,7 +113,6 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
   const showInvite =
     canInvite === true || access?.canInvite === true || access?.isPrimary === true;
   const canManageSide = (side: string) => showInvite && (!access?.side || access.side === side);
-  const pendingCount = pending.length;
   const maxVisibleAvatars = 5;
   const visibleCollaborators = collaborators.slice(0, maxVisibleAvatars);
   const overflowCount = Math.max(0, collaborators.length - maxVisibleAvatars);
@@ -157,15 +156,6 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                 title={t('collaborators.moreCount', { count: overflowCount, defaultValue: `+${overflowCount}` })}
               >
                 +{overflowCount}
-              </span>
-            )}
-            {pendingCount > 0 && (
-              <span
-                className="project-collaborators__avatar project-collaborators__avatar--pending"
-                title={t('collaborators.pendingCount', { count: pendingCount })}
-                aria-label={t('collaborators.pendingCount', { count: pendingCount })}
-              >
-                {pendingCount}
               </span>
             )}
             <button

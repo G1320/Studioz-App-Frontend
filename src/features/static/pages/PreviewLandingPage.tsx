@@ -33,7 +33,7 @@ const SHOWCASES = [
   },
   {
     key: 'projects',
-    desktop: 'cross-device-project-review-desktop',
+    desktop: 'desktop-project-workspace',
     mobile: 'cross-device-project-review-mobile'
   },
   { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined }
@@ -54,17 +54,11 @@ function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false
         hero ? 'preview-landing__product-visual--hero' : ''
       }`}
     >
-      <div className="preview-landing__desktop-frame">
-        <div className="preview-landing__desktop-chrome" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
+      <div className="preview-landing__shot preview-landing__shot--desktop">
         <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
       </div>
       {mobileSrc ? (
-        <div className="preview-landing__phone-frame">
-          <span className="preview-landing__phone-island" aria-hidden="true" />
+        <div className="preview-landing__shot preview-landing__shot--mobile">
           <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
         </div>
       ) : null}
@@ -141,8 +135,6 @@ export default function PreviewLandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="preview-landing__brand">{t('brand')}</p>
-              <p className="preview-landing__eyebrow">{t('hero.eyebrow')}</p>
               <h1 className="preview-landing__title">
                 {t('hero.title')}
                 <span>{t('hero.titleAccent')}</span>
@@ -167,7 +159,6 @@ export default function PreviewLandingPage() {
             >
               <ProductVisual
                 desktopSrc={captureUrl('desktop-project-workspace')}
-                mobileSrc={captureUrl('cross-device-project-review-mobile')}
                 alt={t('showcase.projects.imageAlt')}
                 eager
                 hero
@@ -179,7 +170,6 @@ export default function PreviewLandingPage() {
         <section className="preview-landing__pillars" aria-labelledby="preview-pillars-title">
           <div className="preview-landing__container">
             <motion.header className="preview-landing__section-header" {...fadeUp}>
-              <p className="preview-landing__eyebrow">{t('pillars.eyebrow')}</p>
               <h2 id="preview-pillars-title">{t('pillars.title')}</h2>
             </motion.header>
 
@@ -203,7 +193,6 @@ export default function PreviewLandingPage() {
         <section id="platform" className="preview-landing__platform">
           <div className="preview-landing__container">
             <motion.header className="preview-landing__section-header" {...fadeUp}>
-              <p className="preview-landing__eyebrow">{t('platform.eyebrow')}</p>
               <h2>{t('platform.title')}</h2>
               <p className="preview-landing__section-lead">{t('platform.description')}</p>
             </motion.header>
@@ -216,7 +205,6 @@ export default function PreviewLandingPage() {
                   {...fadeUp}
                 >
                   <div className="preview-landing__showcase-copy">
-                    <p className="preview-landing__eyebrow">{t(`showcase.${key}.eyebrow`)}</p>
                     <h3>{t(`showcase.${key}.title`)}</h3>
                     <p>{t(`showcase.${key}.description`)}</p>
                   </div>
@@ -234,17 +222,12 @@ export default function PreviewLandingPage() {
           </div>
         </section>
 
-        <section className="preview-landing__proof" aria-labelledby="preview-proof-title">
+        <section className="preview-landing__proof">
           <div className="preview-landing__container">
-            <motion.header className="preview-landing__section-header" {...fadeUp}>
-              <p className="preview-landing__eyebrow" id="preview-proof-title">
-                {t('proof.eyebrow')}
-              </p>
-            </motion.header>
             <div className="preview-landing__proof-grid">
               {(Array.isArray(proofItems) ? proofItems : []).map((item) => (
                 <motion.blockquote key={item.role} className="preview-landing__proof-item" {...fadeUp}>
-                  <p>“{item.quote}”</p>
+                  <p>{item.quote}</p>
                   <footer>{item.role}</footer>
                 </motion.blockquote>
               ))}
@@ -255,7 +238,6 @@ export default function PreviewLandingPage() {
         <section className="preview-landing__closing">
           <div className="preview-landing__container">
             <motion.div className="preview-landing__closing-inner" {...fadeUp}>
-              <p className="preview-landing__eyebrow">{t('closing.eyebrow')}</p>
               <h2>{t('closing.title')}</h2>
               <p>{t('closing.description')}</p>
               <div className="preview-landing__hero-actions">

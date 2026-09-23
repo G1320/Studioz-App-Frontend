@@ -1,20 +1,8 @@
-@use 'utilities/variables' as vars;
-@use 'utilities/mixins' as mixins;
 @use '../../../../shared/components/forms/styles' as forms;
 
 .edit-item-page {
   max-width: 1000px;
   width: 100%;
-
-  > section {
-    > h1 {
-      font-size: vars.$font-size-2xl;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 vars.$spacing-xl;
-      text-align: center;
-    }
-  }
 }
 
 // Scope the form wrapper and form to prevent styles from affecting nested forms

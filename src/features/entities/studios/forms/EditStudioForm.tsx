@@ -808,7 +808,7 @@ export const EditStudioForm = () => {
   }
 
   return (
-    <section>
+    <section aria-label={t('form.EditStudioTitle')}>
       <section className="form-wrapper edit-studio-form-wrapper">
         <SteppedForm
           className="edit-studio-form"

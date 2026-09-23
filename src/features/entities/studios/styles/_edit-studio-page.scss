@@ -1,7 +1,5 @@
 @use 'utilities/variables' as vars;
-@use 'utilities/mixins' as mixins;
 @use '../../../../shared/components/forms/styles' as forms;
-@use '../../../../shared/components/forms/styles/design-system' as ds;
 
 .edit-studio-page {
   min-height: 100vh;
@@ -9,16 +7,6 @@
   max-width: 1000px;
   background: var(--bg-primary);
   padding: 0;
-
-  > section {
-    > h1 {
-      font-size: vars.$font-size-2xl;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 vars.$spacing-xl;
-      text-align: center;
-    }
-  }
 }
 
 .edit-studio-form-wrapper {

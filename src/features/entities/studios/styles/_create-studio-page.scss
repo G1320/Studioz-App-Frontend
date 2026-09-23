@@ -13,16 +13,6 @@
   max-width: 1000px;
   background: var(--bg-primary);
   padding: 0 ds.$space-4 ds.$space-8;
-
-  > section {
-    > h1 {
-      font-size: vars.$font-size-2xl;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 vars.$spacing-xl;
-      text-align: center;
-    }
-  }
 }
 
 .create-studio-login-gate {
