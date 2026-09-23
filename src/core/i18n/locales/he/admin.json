@@ -2,13 +2,13 @@
   "nav": {
     "overview": "סקירה",
     "users": "משתמשים",
-    "studios": "סטודיוס",
+    "studios": "אולפנים",
     "services": "שירותים",
     "metaCampaigns": "קמפיינים מטא"
   },
   "metrics": {
     "totalUsers": "סה״כ משתמשים",
-    "activeStudios": "סטודיוס פעילים",
+    "activeStudios": "אולפנים פעילים",
     "activeServices": "שירותים פעילים",
     "monthlyRevenue": "הכנסות חודשיות"
   },
@@ -22,7 +22,7 @@
       "description": "ניהול חשבונות משתמשים, תפקידים והרשאות."
     },
     "studios": {
-      "title": "ניהול סטודיוס",
+      "title": "ניהול אולפנים",
       "description": "פיקוח על רישומי סטודיו, אימותים ואיכות."
     },
     "services": {
@@ -40,7 +40,7 @@
   "table": {
     "user": "משתמש",
     "role": "תפקיד",
-    "studios": "סטודיוס",
+    "studios": "אולפנים",
     "services": "שירותים",
     "status": "סטטוס",
     "actions": "פעולות",

@@ -6,8 +6,8 @@ main {
   max-width: 1540px;
   margin: 0 auto;
   padding: 0 1rem 0.5rem;
-  // Flush under fixed header — no extra breathing room above page headers
-  padding-top: 3.5rem;
+  // Fixed header clearance — small breathing room above page headers
+  padding-top: 3.75rem;
   justify-items: center;
   box-sizing: border-box;
   width: 100%;
@@ -15,7 +15,7 @@ main {
   min-height: 100vh;
 
   @media screen and (min-width: 768px) {
-    padding-top: 5rem;
+    padding-top: 5.25rem; // 5rem header + 0.25rem
   }
 }
 
@@ -32,16 +32,16 @@ body:has(.landing-page) main {
 }
 
 body:has(.project-detail) main {
-  padding-top: 3.5rem;
+  padding-top: 3.75rem;
 
   @media screen and (min-width: 768px) {
-    padding-top: 5rem;
+    padding-top: 5.25rem;
   }
 }
 
 @media screen and (max-width: 650px) {
   main {
-    padding-top: 3.5rem;
+    padding-top: 3.75rem;
     padding-block-end: 3.5rem;
   }
 
@@ -50,6 +50,6 @@ body:has(.project-detail) main {
   }
 
   body:has(.project-detail) main {
-    padding-top: 3.5rem;
+    padding-top: 3.75rem;
   }
 }
