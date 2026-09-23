@@ -174,6 +174,8 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
                 />
                 <Legend
                   verticalAlign="bottom"
+                  iconType="circle"
+                  iconSize={8}
                   formatter={(_value, entry) => {
                     const payload = entry.payload as { name?: string; value?: number } | undefined;
                     return `${payload?.name ?? ''}: ${payload?.value ?? 0}`;

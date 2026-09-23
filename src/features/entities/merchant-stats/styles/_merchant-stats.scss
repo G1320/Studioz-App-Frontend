@@ -110,21 +110,35 @@
 }
 
 // ===== METRICS GRID =====
+.merchant-stats__top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: stretch;
+
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, 1.55fr) minmax(240px, 0.9fr);
+  }
+}
+
+.merchant-stats__top-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
 .merchant-stats__metrics {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -133,7 +147,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   padding: 0.875rem 1.125rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-secondary);
@@ -280,6 +294,10 @@
   flex-direction: column;
   gap: 1rem;
   min-width: 0;
+
+  &--full {
+    width: 100%;
+  }
 }
 
 .merchant-stats__sidebar {
@@ -633,6 +651,13 @@
   border-radius: ds.$radius-md;
   padding: 1.125rem;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  &--top {
+    max-height: none;
+  }
 
   &--skeleton {
     display: flex;
@@ -676,6 +701,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .client-row {
@@ -1188,8 +1216,8 @@
 }
 
 .merchant-stats__section--overview .merchant-stats__metrics {
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1422,9 +1450,14 @@
   &__chart {
     width: 100%;
     min-width: 0;
+
+    // Keep Recharts LTR so category labels sit in a dedicated gutter, not on the bars
+    .recharts-cartesian-axis-tick-value {
+      direction: ltr;
+      unicode-bidi: plaintext;
+    }
   }
 
-  // Legacy label column removed — YAxis labels handle names
   &__wrap,
   &__labels,
   &__label {
@@ -1582,9 +1615,13 @@
   }
 
   .recharts-legend-item {
-    .recharts-legend-icon {
-      margin-inline-end: 0.5rem;
-    }
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .recharts-legend-icon {
+    margin-inline-end: 0;
   }
 }
 
@@ -1824,12 +1861,18 @@
   gap: 0.4rem;
   font-size: 0.7rem;
   color: var(--text-muted);
+  // Lock LTR so Low sits on the light end and High on the saturated end in RTL pages
+  direction: ltr;
 
   &__ramp {
     width: 4rem;
     height: 0.35rem;
     border-radius: 9999px;
-    background: linear-gradient(to right, rgba(var(--color-brand-rgb, 201, 162, 39), 0.15), var(--color-brand));
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-brand) 12%, transparent),
+      var(--color-brand)
+    );
   }
 }
 

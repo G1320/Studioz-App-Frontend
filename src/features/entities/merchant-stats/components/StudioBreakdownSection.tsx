@@ -128,13 +128,13 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
           <div className="ms-panel__header">
             <h3>{t('studios.comparison', 'השוואת אולפנים')}</h3>
           </div>
-          <div className="studio-comparison-chart__chart">
-            <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 48)}>
+          <div className="studio-comparison-chart__chart" dir="ltr">
+            <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 52)}>
               <BarChart
                 data={chartData}
                 layout="vertical"
-                margin={{ top: 4, right: 16, bottom: 4, left: 8 }}
-                barCategoryGap={12}
+                margin={{ top: 4, right: 20, bottom: 4, left: 4 }}
+                barCategoryGap="28%"
               >
                 <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" horizontal={false} />
                 <XAxis
@@ -147,10 +147,15 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
                 <YAxis
                   type="category"
                   dataKey="name"
-                  width={120}
-                  tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                  width={168}
+                  interval={0}
+                  tickMargin={10}
+                  tick={{ fontSize: 12, fill: 'var(--text-secondary)', textAnchor: 'end' }}
                   axisLine={false}
                   tickLine={false}
+                  tickFormatter={(value: string) =>
+                    value.length > 22 ? `${value.slice(0, 20)}…` : value
+                  }
                 />
                 <Tooltip
                   contentStyle={{
@@ -164,7 +169,7 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
                     t('revenueChart.revenue', 'הכנסה')
                   ]}
                 />
-                <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 3, 3, 0]} barSize={18} />
+                <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 3, 3, 0]} barSize={16} />
               </BarChart>
             </ResponsiveContainer>
           </div>

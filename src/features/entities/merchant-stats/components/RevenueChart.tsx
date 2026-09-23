@@ -123,7 +123,10 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
 
       <div className="revenue-chart__recharts">
         <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 4, bottom: period === 'monthly' ? 40 : 8 }}>
+          <AreaChart
+            data={chartData}
+            margin={{ top: 8, right: 8, left: 12, bottom: period === 'monthly' ? 40 : 8 }}
+          >
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--color-brand)" stopOpacity={0.18} />
@@ -143,11 +146,13 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
               height={period === 'monthly' ? 48 : 28}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              orientation="left"
+              tick={{ fontSize: 11, fill: 'var(--text-muted)', direction: 'ltr' }}
               stroke="transparent"
               tickLine={false}
               axisLine={false}
-              width={56}
+              tickMargin={10}
+              width={64}
               tickFormatter={formatAxisValue}
             />
             <Tooltip
