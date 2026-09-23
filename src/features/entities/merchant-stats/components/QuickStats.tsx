@@ -16,7 +16,7 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
   const displayStudios = studios.slice(0, 3);
 
   return (
-    <div className="quick-stats">
+    <div className="quick-stats quick-stats--side">
       <div className="quick-stat-card">
         <div className="quick-stat-card__header">
           <h3>{t('quickStats.occupancy', 'תפוסת אולפן')}</h3>

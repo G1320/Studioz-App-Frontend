@@ -547,14 +547,34 @@
   min-width: 0;
 }
 
-// ===== QUICK STATS ROW =====
+// ===== QUICK STATS (beside KPIs) =====
 .quick-stats {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
+  min-width: 0;
+  min-height: 0;
 
-  @media (min-width: 768px) {
-    grid-template-columns: 1.35fr 1fr;
+  &--side {
+    height: 100%;
+    align-content: stretch;
+
+    @media (min-width: 640px) and (max-width: 959px) {
+      grid-template-columns: 1.35fr 1fr;
+    }
+
+    @media (min-width: 960px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+    }
+
+    .quick-stat-card {
+      height: 100%;
+    }
+
+    .quick-stat-card--compact {
+      height: auto;
+    }
   }
 }
 
@@ -666,10 +686,6 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
-
-  &--top {
-    max-height: none;
-  }
 
   &--skeleton {
     display: flex;
@@ -1649,10 +1665,18 @@
     margin: 0 0 0.75rem;
   }
 
+  .recharts-default-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+  }
+
   .recharts-legend-item {
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
     gap: 0.35rem;
+    margin: 0 !important;
   }
 
   .recharts-legend-icon {

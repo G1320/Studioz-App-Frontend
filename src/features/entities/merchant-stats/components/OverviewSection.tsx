@@ -51,13 +51,23 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
               ))}
             </div>
           </div>
-          <div className="clients-card clients-card--skeleton">
-            <StatCardSkeleton />
+          <div className="quick-stats quick-stats--side">
             <StatCardSkeleton />
             <StatCardSkeleton />
           </div>
         </div>
-        <ChartSkeleton />
+        <div className="merchant-stats__content">
+          <div className="merchant-stats__main">
+            <ChartSkeleton />
+          </div>
+          <div className="merchant-stats__sidebar">
+            <div className="clients-card clients-card--skeleton">
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -106,39 +116,44 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
           </div>
         </div>
 
-        <aside className="clients-card clients-card--top">
-          <div className="clients-card__header">
-            <h2>{t('clients.title', 'לקוחות מובילים')}</h2>
-            <button type="button" className="view-all" onClick={openCustomers}>
-              {t('clients.viewAll', 'הצג הכל')}
-            </button>
-          </div>
-          <div className="clients-list">
-            {topClients.map((client) => (
-              <ClientRow
-                key={client.id}
-                name={client.name}
-                role={`${client.bookingsCount} ${t('clients.bookings', 'הזמנות')}`}
-                totalSpent={client.totalSpent}
-                lastVisit={client.lastVisit}
-                avatarUrl={client.avatarUrl}
-                onClick={() => onClientClick?.(client.id)}
-              />
-            ))}
-            {topClients.length === 0 && (
-              <div className="clients-list__empty">{t('clients.noClients', 'אין לקוחות עדיין')}</div>
-            )}
-          </div>
-        </aside>
-      </div>
-
-      <div className="merchant-stats__main merchant-stats__main--full">
-        <RevenueChart period={period} onPeriodChange={setPeriod} data={chartData} />
         <QuickStats
           avgSessionTime={stats?.quickStats?.avgSessionTime ?? 0}
           occupancy={stats?.quickStats?.occupancy ?? 0}
           studios={stats?.quickStats?.studios ?? []}
         />
+      </div>
+
+      <div className="merchant-stats__content">
+        <div className="merchant-stats__main">
+          <RevenueChart period={period} onPeriodChange={setPeriod} data={chartData} />
+        </div>
+
+        <aside className="merchant-stats__sidebar">
+          <div className="clients-card">
+            <div className="clients-card__header">
+              <h2>{t('clients.title', 'לקוחות מובילים')}</h2>
+              <button type="button" className="view-all" onClick={openCustomers}>
+                {t('clients.viewAll', 'הצג הכל')}
+              </button>
+            </div>
+            <div className="clients-list">
+              {topClients.map((client) => (
+                <ClientRow
+                  key={client.id}
+                  name={client.name}
+                  role={`${client.bookingsCount} ${t('clients.bookings', 'הזמנות')}`}
+                  totalSpent={client.totalSpent}
+                  lastVisit={client.lastVisit}
+                  avatarUrl={client.avatarUrl}
+                  onClick={() => onClientClick?.(client.id)}
+                />
+              ))}
+              {topClients.length === 0 && (
+                <div className="clients-list__empty">{t('clients.noClients', 'אין לקוחות עדיין')}</div>
+              )}
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );
