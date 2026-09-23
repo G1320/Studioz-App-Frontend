@@ -12,8 +12,7 @@ import {
   Headphones,
   SlidersHorizontal,
   Sparkles,
-  Store,
-  Workflow
+  Store
 } from 'lucide-react';
 import { useTheme } from '@shared/contexts/ThemeContext';
 import { BASE_URL, toAbsoluteImageUrl } from '../featuresConfig';
@@ -119,20 +118,18 @@ export default function FeaturesPage() {
   }, [features, currentLang, t]);
 
   const showcases = [
-    { key: 'operations', desktop: 'desktop-reservations', mobile: undefined, icon: CalendarDays },
+    { key: 'operations', desktop: 'desktop-reservations', mobile: undefined },
     {
       key: 'analytics',
       desktop: 'cross-device-analytics-desktop',
-      mobile: 'cross-device-analytics-mobile',
-      icon: BarChart3
+      mobile: 'cross-device-analytics-mobile'
     },
     {
       key: 'projects',
       desktop: 'cross-device-project-review-desktop',
-      mobile: 'cross-device-project-review-mobile',
-      icon: Workflow
+      mobile: 'cross-device-project-review-mobile'
     },
-    { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined, icon: Store }
+    { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined }
   ] as const;
 
   return (
@@ -189,14 +186,13 @@ export default function FeaturesPage() {
 
         <section id="platform" className="features-page__platform">
           <div className="features-page__container">
-            <header className="features-page__section-header">
-              <span className="features-page__section-kicker">{t('showcase.eyebrow')}</span>
+            <header className="features-page__section-header features-page__section-header--center">
               <h2>{t('showcase.title')}</h2>
               <p>{t('showcase.description')}</p>
             </header>
 
             <div className="features-page__showcase-list">
-              {showcases.map(({ key, desktop, mobile, icon: Icon }, index) => {
+              {showcases.map(({ key, desktop, mobile }, index) => {
                 const points = t(`showcase.${key}.points`, { returnObjects: true }) as string[];
                 return (
                   <article
@@ -204,10 +200,6 @@ export default function FeaturesPage() {
                     key={key}
                   >
                     <div className="features-page__showcase-copy">
-                      <span className="features-page__showcase-icon">
-                        <Icon aria-hidden="true" />
-                      </span>
-                      <span className="features-page__section-kicker">{t(`showcase.${key}.eyebrow`)}</span>
                       <h3>{t(`showcase.${key}.title`)}</h3>
                       <p>{t(`showcase.${key}.description`)}</p>
                       <ul>
@@ -238,13 +230,12 @@ export default function FeaturesPage() {
         <section id="feature-grid" className="features-page__capabilities">
           <div className="features-page__container">
             <header className="features-page__section-header features-page__section-header--center">
-              <span className="features-page__section-kicker">{t('grid.eyebrow')}</span>
               <h2>{t('grid.title')}</h2>
               <p>{t('grid.description')}</p>
             </header>
 
             <div className="features-page__capability-grid">
-              {features.map((feature) => {
+              {features.filter((feature) => feature.id !== 'studio_pages').map((feature) => {
                 const Icon = FEATURE_ICONS[feature.id as FeatureId] ?? Sparkles;
                 return (
                   <Link
@@ -268,7 +259,6 @@ export default function FeaturesPage() {
 
             <aside className="features-page__closing">
               <div>
-                <span className="features-page__section-kicker">{t('closing.eyebrow')}</span>
                 <h2>{t('closing.title')}</h2>
                 <p>{t('closing.description')}</p>
               </div>

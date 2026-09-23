@@ -52,6 +52,8 @@ export interface ScreenshotScene {
   screenTreatment?: Partial<Record<ThemeId, ScreenTreatment>>;
   crop?: ScreenshotCrop;
   actions?: NavigationAction[];
+  primaryActions?: NavigationAction[];
+  secondaryActions?: NavigationAction[];
   presentation?: Partial<Record<ThemeId, ThemePresentation>>;
   publish?: ScenePublishConfig;
   capturePublish?: ScenePublishConfig;
@@ -90,7 +92,7 @@ export function expandScenes(scenes: ScreenshotScene[]): ExpandedScenes {
               theme,
               locale,
               viewportDevice: scene.device,
-              actions: scene.actions,
+              actions: scene.primaryActions ?? scene.actions,
               publish: scene.capturePublish
                 ? {
                     path: `${scene.capturePublish.directory}/${locale}/${theme}/${scene.id}-desktop.webp`,
@@ -108,7 +110,7 @@ export function expandScenes(scenes: ScreenshotScene[]): ExpandedScenes {
               theme,
               locale,
               viewportDevice: scene.secondaryDevice,
-              actions: scene.actions,
+              actions: scene.secondaryActions ?? scene.actions,
               publish: scene.capturePublish
                 ? {
                     path: `${scene.capturePublish.directory}/${locale}/${theme}/${scene.id}-mobile.webp`,

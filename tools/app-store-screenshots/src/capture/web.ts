@@ -279,7 +279,14 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
   }
   if (action.selector) {
     await page.waitForSelector(action.selector, { visible: true });
-    await page.$eval(action.selector, (element) => element.scrollIntoView({ block: 'start', inline: 'nearest' }));
+    await page.$eval(
+      action.selector,
+      (element, offsetY) => {
+        element.scrollIntoView({ block: 'start', inline: 'nearest' });
+        if (offsetY) window.scrollBy(0, offsetY);
+      },
+      action.offsetY ?? 0
+    );
   } else {
     await page.evaluate(({ x, y }) => window.scrollTo({ left: x || 0, top: y || 0, behavior: 'instant' }), {
       x: action.x,

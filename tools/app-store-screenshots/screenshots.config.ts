@@ -119,7 +119,10 @@ const scenes: ScreenshotScene[] = [
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', x: 0, y: 0 }
+    ],
     deviceTransform: { scale: 0.8, y: 500, shadow: true },
     copy: {
       'en-US': {
@@ -344,7 +347,7 @@ const scenes: ScreenshotScene[] = [
     actions: [
       { type: 'scroll', selector: '.project-file-uploader--source' },
       { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
-      { type: 'scroll', selector: '.project-file-uploader--source .track-thread' }
+      { type: 'scroll', selector: '.project-file-uploader--source .track-thread', offsetY: -96 }
     ],
     deviceTransform: { scale: 0.78, x: 100, y: 500, rotation: 1, shadow: true },
     copy: {
@@ -558,8 +561,8 @@ const scenes: ScreenshotScene[] = [
   {
     id: 'desktop-studio-portfolio',
     order: 25,
-    path: '/studio/studio-demo?view=portfolio',
-    readySelector: '.studio-portfolio-view__grid',
+    path: '/studio/studio-demo?view=overview',
+    readySelector: '.studio-details-page .studio-details__header',
     fixture: 'studio',
     auth: 'customer',
     device: 'desktop-1440',
@@ -571,12 +574,12 @@ const scenes: ScreenshotScene[] = [
     },
     copy: {
       'en-US': {
-        title: 'Showcase your work',
-        subtitle: 'Turn selected releases into a portfolio clients can explore.'
+        title: 'Showcase your studio',
+        subtitle: 'Present your rooms, equipment and services with clarity.'
       },
       he: {
-        title: 'מציגים עבודות',
-        subtitle: 'הופכים יצירות נבחרות לפורטפוליו שלקוחות יכולים לגלות.'
+        title: 'מציגים את הסטודיו',
+        subtitle: 'מציגים חללים, ציוד ושירותים בצורה ברורה ומרשימה.'
       }
     }
   },
@@ -622,9 +625,10 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    actions: [
+    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    primaryActions: [
       { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', selector: '.revenue-chart' }
+      { type: 'scroll', selector: '.revenue-chart', offsetY: -96 }
     ],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },

@@ -102,11 +102,6 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         )}
         <div className="header-options-container">
           {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
-          {user && featureFlags.notifications && (
-            <Suspense fallback={null}>
-              <LazyNotificationBell />
-            </Suspense>
-          )}
           <div className="header-desktop-preferences">
             <ThemeToggle size="sm" />
             <button
@@ -118,6 +113,11 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
               {currentLanguage === 'he' ? 'EN' : 'עברית'}
             </button>
           </div>
+          {user && featureFlags.notifications && (
+            <Suspense fallback={null}>
+              <LazyNotificationBell />
+            </Suspense>
+          )}
           {!user && (
             <div className="header-auth-actions">
               <button type="button" className="header-login-button" onClick={() => void loginWithPopup()}>

@@ -188,6 +188,102 @@ const reservations = [
     price: 960,
     status: 'pending',
     createdAt: '2026-09-21T08:15:00.000Z'
+  },
+  {
+    _id: 'reservation-3',
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: 'customer-three',
+    customerName: 'Yael Cohen',
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: '27/09/2026',
+    timeSlots: ['09:00', '10:00'],
+    startTime: '09:00',
+    endTime: '11:00',
+    price: 640,
+    status: 'confirmed',
+    createdAt: '2026-09-21T13:40:00.000Z'
+  },
+  {
+    _id: 'reservation-4',
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: 'customer-four',
+    customerName: 'David Levi',
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: '28/09/2026',
+    timeSlots: ['12:00', '13:00', '14:00', '15:00'],
+    startTime: '12:00',
+    endTime: '16:00',
+    price: 1280,
+    status: 'pending',
+    createdAt: '2026-09-22T07:25:00.000Z'
+  },
+  {
+    _id: 'reservation-5',
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: 'customer-five',
+    customerName: 'Shira Ben-David',
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: '29/09/2026',
+    timeSlots: ['18:00', '19:00', '20:00'],
+    startTime: '18:00',
+    endTime: '21:00',
+    price: 960,
+    status: 'confirmed',
+    createdAt: '2026-09-22T09:10:00.000Z'
+  },
+  {
+    _id: 'reservation-6',
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: 'customer-six',
+    customerName: 'Eitan Mizrahi',
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: '01/10/2026',
+    timeSlots: ['10:00', '11:00', '12:00'],
+    startTime: '10:00',
+    endTime: '13:00',
+    price: 960,
+    status: 'confirmed',
+    createdAt: '2026-09-22T12:05:00.000Z'
+  },
+  {
+    _id: 'reservation-7',
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: 'customer-seven',
+    customerName: 'Lior Shalev',
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: '02/10/2026',
+    timeSlots: ['14:00', '15:00'],
+    startTime: '14:00',
+    endTime: '16:00',
+    price: 640,
+    status: 'cancelled',
+    createdAt: '2026-09-22T15:30:00.000Z'
+  },
+  {
+    _id: 'reservation-8',
+    studioId: STUDIO_ID,
+    itemId: ITEM_ID,
+    customerId: 'customer-eight',
+    customerName: 'Roni Barak',
+    studioName: studio.name,
+    itemName: item.name,
+    bookingDate: '04/10/2026',
+    timeSlots: ['16:00', '17:00', '18:00'],
+    startTime: '16:00',
+    endTime: '19:00',
+    price: 960,
+    status: 'pending',
+    createdAt: '2026-09-23T06:50:00.000Z'
   }
 ];
 
@@ -368,6 +464,29 @@ const projectMessages = [
     resolvedBy: customerUser,
     readAt: '2026-09-22T07:50:00.000Z',
     createdAt: '2026-09-21T16:30:00.000Z'
+  },
+  {
+    _id: 'message-track-3',
+    projectId: 'project-demo',
+    senderId: customerUser,
+    senderRole: 'customer',
+    message: 'Can we let the final vocal breathe before the outro begins?',
+    fileId: 'source-midnight-drive',
+    offsetSeconds: 135.5,
+    readAt: '2026-09-22T09:15:00.000Z',
+    createdAt: '2026-09-22T08:42:00.000Z'
+  },
+  {
+    _id: 'message-track-reply-2',
+    projectId: 'project-demo',
+    senderId: vendorUser,
+    senderRole: 'vendor',
+    message: 'Yes — I opened that gap and softened the transition into the outro.',
+    fileId: 'source-midnight-drive',
+    parentId: 'message-track-3',
+    offsetSeconds: 135.5,
+    readAt: '2026-09-22T09:35:00.000Z',
+    createdAt: '2026-09-22T09:22:00.000Z'
   }
 ];
 

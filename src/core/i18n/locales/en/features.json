@@ -61,13 +61,13 @@
     "presence": {
       "eyebrow": "Your digital presence",
       "title": "Turn great work into a studio page that earns trust.",
-      "description": "Present your rooms, services, and selected releases with the same level of polish clients expect from your studio.",
+      "description": "Present your rooms, equipment, and services with the same level of polish clients expect from your studio.",
       "points": [
-        "Showcase releases with artwork and credits",
+        "Showcase rooms and equipment with rich imagery",
         "Connect services directly to booking",
         "Deliver a premium experience in every theme and language"
       ],
-      "imageAlt": "Studioz studio portfolio workspace"
+      "imageAlt": "Tempo Studios profile on Studioz"
     }
   },
   "grid": {

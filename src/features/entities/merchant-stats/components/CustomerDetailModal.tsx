@@ -48,6 +48,54 @@ const STATUS_TO_KEY: Record<string, string> = {
   'no show': 'customerDetail.statusNoShow'
 };
 
+const formatAxisValue = (v: number) => (v >= 1000 ? `₪${(v / 1000).toFixed(1).replace(/\.0$/, '')}k` : `₪${v}`);
+
+const MoneyYTick = ({
+  x,
+  y,
+  payload
+}: {
+  x?: number;
+  y?: number;
+  payload?: { value?: number };
+}) => (
+  <text
+    x={(x ?? 0) - 10}
+    y={y}
+    dy={4}
+    textAnchor="end"
+    fill="var(--text-muted)"
+    fontSize={11}
+  >
+    {formatAxisValue(Number(payload?.value ?? 0))}
+  </text>
+);
+
+const MonthXTick = ({
+  x,
+  y,
+  payload
+}: {
+  x?: number;
+  y?: number;
+  payload?: { value?: string };
+}) => {
+  if (!payload?.value) return null;
+  return (
+    <text
+      x={x}
+      y={(y ?? 0) + 4}
+      dy={10}
+      textAnchor="end"
+      fill="var(--text-muted)"
+      fontSize={10}
+      transform={`rotate(-30, ${x}, ${(y ?? 0) + 4})`}
+    >
+      {payload.value}
+    </text>
+  );
+};
+
 export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
   open,
   onClose,
@@ -126,22 +174,41 @@ export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
             {chartData.length > 0 && (
               <section className="customer-detail-modal__section">
                 <h3>{t('customerDetail.spendingTrend', 'מגמת הוצאות')}</h3>
-                <ResponsiveContainer width="100%" height={220}>
-                  <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} />
-                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
-                    <YAxis tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} tickFormatter={(v) => formatCurrency(v)} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'var(--bg-surface)',
-                        border: '1px solid var(--border-secondary)',
-                        borderRadius: '8px'
-                      }}
-                      formatter={(value: number | undefined) => [formatCurrency(value ?? 0), t('revenueChart.revenue', 'הכנסה')]}
-                    />
-                    <Line type="monotone" dataKey="value" stroke="var(--color-brand)" strokeWidth={2} dot={{ r: 3 }} />
-                  </LineChart>
-                </ResponsiveContainer>
+                <div className="customer-detail-modal__chart ms-chart-plot" dir="ltr">
+                  <ResponsiveContainer width="100%" height={240}>
+                    <LineChart data={chartData} margin={{ top: 12, right: 12, left: 52, bottom: 40 }}>
+                      <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
+                      <XAxis
+                        dataKey="name"
+                        height={48}
+                        interval={0}
+                        tick={<MonthXTick />}
+                        axisLine={false}
+                        tickLine={false}
+                      />
+                      <YAxis width={1} tick={<MoneyYTick />} axisLine={false} tickLine={false} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'var(--bg-surface)',
+                          border: '1px solid var(--border-secondary)',
+                          borderRadius: '8px'
+                        }}
+                        formatter={(value: number | undefined) => [
+                          formatCurrency(value ?? 0),
+                          t('revenueChart.revenue', 'הכנסה')
+                        ]}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="value"
+                        stroke="var(--color-brand)"
+                        strokeWidth={2}
+                        dot={{ r: 3 }}
+                        activeDot={{ r: 4, strokeWidth: 0 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
               </section>
             )}
 
