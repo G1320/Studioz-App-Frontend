@@ -195,12 +195,19 @@
 
 .stat-card__value {
   margin: 0;
+  margin-inline-end: auto;
+  width: fit-content;
+  max-width: 100%;
   font-size: 1.125rem;
   font-weight: 650;
   color: var(--text-primary);
   letter-spacing: -0.03em;
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
+  text-align: start;
+  // Keep currency + digits LTR, but pin the block to the card's start edge (LTR/RTL).
+  direction: ltr;
+  unicode-bidi: isolate;
 
   @media (min-width: 720px) {
     font-size: 1.25rem;

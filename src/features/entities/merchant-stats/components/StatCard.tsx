@@ -36,7 +36,9 @@ export const StatCard: React.FC<StatCardProps> = ({
         </div>
         {icon ? <span className="stat-card__icon">{icon}</span> : null}
       </div>
-      <p className="stat-card__value">{value}</p>
+      <p className="stat-card__value" dir="ltr">
+        {value}
+      </p>
       {hasTrend ? (
         <div
           className={`stat-card__trend ${isPositive ? 'stat-card__trend--positive' : 'stat-card__trend--negative'}`}
