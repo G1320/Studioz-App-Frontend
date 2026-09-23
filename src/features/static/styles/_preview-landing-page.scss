@@ -176,25 +176,20 @@
     z-index: 2;
     inset-inline-end: 0;
     bottom: clamp(-0.35rem, -0.5vw, 0rem);
-    width: min(28%, 11.75rem);
-    border-radius: 1.15rem 1.15rem 0.85rem 0.85rem;
+    width: min(26%, 10.75rem);
+    border-radius: 1.15rem;
     box-shadow: 0 1.1rem 2.25rem rgb(0 0 0 / 32%);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
 
     > img {
-      aspect-ratio: 9 / 15;
-      object-fit: cover;
-      object-position: top center;
+      aspect-ratio: 9 / 19;
     }
   }
 
   &__product-visual--hero &__shot--mobile {
-    width: min(26%, 12rem);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 76%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 76%, transparent 100%);
+    width: min(24%, 11rem);
   }
 
+  // Feedback showcase: taller phone cropped short with a soft bottom fade.
   &__product-visual--mobile-only {
     display: flex;
     justify-content: center;
@@ -216,6 +211,8 @@
       > img {
         aspect-ratio: 9 / 13;
         max-height: 26rem;
+        object-fit: cover;
+        object-position: top center;
       }
     }
   }
@@ -231,7 +228,7 @@
     &__shot--mobile {
       position: relative;
       inset: auto;
-      width: min(58%, 14.5rem);
+      width: min(56%, 14rem);
       margin-inline: auto;
       bottom: auto;
     }
