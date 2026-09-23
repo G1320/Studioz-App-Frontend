@@ -5,6 +5,7 @@ import { useCustomerAnalytics, useCustomerDetail } from '@shared/hooks';
 import { SearchIcon } from '@shared/components/icons';
 import { ChurnBadge } from './ChurnBadge';
 import { CustomerDetailModal } from './CustomerDetailModal';
+import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
 import type { CustomerAnalyticsRow } from '@shared/services';
 
@@ -36,10 +37,10 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
     search: search || undefined
   });
 
-  const { data: customerDetail, isLoading: detailLoading } = useCustomerDetail(
-    selectedCustomerId,
-    { startDate: dateRange.startDate, endDate: dateRange.endDate }
-  );
+  const { data: customerDetail, isLoading: detailLoading } = useCustomerDetail(selectedCustomerId, {
+    startDate: dateRange.startDate,
+    endDate: dateRange.endDate
+  });
 
   const handleRowClick = useCallback((row: CustomerAnalyticsRow) => {
     setSelectedCustomerId(row.customerId);
@@ -54,13 +55,19 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
   const newCount = customers.length - repeatCount;
   const pieData = [
     { name: t('customers.repeat', 'חוזרים'), value: repeatCount, color: 'var(--color-brand)' },
-    { name: t('customers.new', 'חדשים'), value: newCount, color: 'var(--color-secondary, #6b7280)' }
+    { name: t('customers.new', 'חדשים'), value: newCount, color: 'var(--text-muted)' }
   ];
 
   if (isLoading) {
     return (
       <div className="merchant-stats__section merchant-stats__section--customers">
-        <div className="merchant-stats__loader">{t('loading', 'טוען נתונים...')}</div>
+        <div className="customers-section__controls">
+          <StatCardSkeleton />
+        </div>
+        <div className="customers-section__layout">
+          <ChartSkeleton />
+          <StatCardSkeleton />
+        </div>
       </div>
     );
   }
@@ -69,7 +76,7 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
     <div className="merchant-stats__section merchant-stats__section--customers">
       <div className="customers-section__controls">
         <div className="customers-section__search">
-          <SearchIcon style={{ width: 20, height: 20, color: 'var(--text-muted)' }} />
+          <SearchIcon style={{ width: 16, height: 16, color: 'var(--text-muted)' }} />
           <input
             type="search"
             placeholder={t('customers.searchPlaceholder', 'חיפוש לפי שם...')}
@@ -95,7 +102,7 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
       </div>
 
       <div className="customers-section__layout">
-        <div className="customers-section__table-wrap">
+        <div className="ms-panel customers-section__table-wrap">
           <table className="customers-table">
             <thead>
               <tr>
@@ -108,16 +115,12 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
             </thead>
             <tbody>
               {customers.map((row) => (
-                <tr
-                  key={row.customerId}
-                  onClick={() => handleRowClick(row)}
-                  className="customers-table__row"
-                >
+                <tr key={row.customerId} onClick={() => handleRowClick(row)} className="customers-table__row">
                   <td>
                     <span className="customers-table__name">{row.customerName}</span>
                   </td>
-                  <td>{formatCurrency(row.lifetimeValue)}</td>
-                  <td>{row.bookingCount}</td>
+                  <td className="customers-table__num">{formatCurrency(row.lifetimeValue)}</td>
+                  <td className="customers-table__num">{row.bookingCount}</td>
                   <td>{row.lastVisit}</td>
                   <td>
                     <ChurnBadge risk={row.churnRisk} />
@@ -128,52 +131,56 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
           </table>
           {pages > 1 && (
             <div className="customers-section__pagination">
-              <button
-                type="button"
-                disabled={page <= 1}
-                onClick={() => setPage((p) => p - 1)}
-              >
+              <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
                 {t('pagination.prev', 'הקודם')}
               </button>
               <span>
                 {t('pagination.page', 'עמוד')} {page} / {pages}
               </span>
-              <button
-                type="button"
-                disabled={page >= pages}
-                onClick={() => setPage((p) => p + 1)}
-              >
+              <button type="button" disabled={page >= pages} onClick={() => setPage((p) => p + 1)}>
                 {t('pagination.next', 'הבא')}
               </button>
             </div>
           )}
         </div>
 
-        {pieData.length > 0 && (
-          <div className="customers-section__charts">
-            <div className="customers-section__pie">
-              <h4>{t('customers.repeatVsNew', 'חוזרים vs חדשים')}</h4>
-              <ResponsiveContainer width="100%" height={200}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={70}
-                    stroke="var(--bg-surface, #fff)"
-                    strokeWidth={2}
-                  >
-                    {pieData.map((entry) => (
-                      <Cell key={entry.name} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value, _name, props) => [value ?? 0, (props as { payload?: { name: string } })?.payload?.name ?? '']} />
-                  <Legend formatter={(_: string, entry: { payload?: { name?: string; value?: number } }) => `${entry.payload?.name ?? ''}: ${entry.payload?.value ?? 0}` as string} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+        {pieData.some((d) => d.value > 0) && (
+          <div className="ms-panel customers-section__pie">
+            <h4>{t('customers.repeatVsNew', 'חוזרים vs חדשים')}</h4>
+            <ResponsiveContainer width="100%" height={220}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={48}
+                  outerRadius={72}
+                  stroke="var(--bg-surface)"
+                  strokeWidth={2}
+                  paddingAngle={2}
+                >
+                  {pieData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-secondary)',
+                    borderRadius: '6px'
+                  }}
+                />
+                <Legend
+                  verticalAlign="bottom"
+                  formatter={(_value, entry) => {
+                    const payload = entry.payload as { name?: string; value?: number } | undefined;
+                    return `${payload?.name ?? ''}: ${payload?.value ?? 0}`;
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         )}
       </div>

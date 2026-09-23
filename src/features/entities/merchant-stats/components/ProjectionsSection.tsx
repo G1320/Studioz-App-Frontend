@@ -12,7 +12,7 @@ import {
   Legend
 } from 'recharts';
 import { useProjections } from '@shared/hooks';
-import { CalendarIcon, TrendingUpIcon } from '@shared/components/icons';
+import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
 
 interface ProjectionsSectionProps {
@@ -21,8 +21,18 @@ interface ProjectionsSectionProps {
 }
 
 const MONTH_KEYS = [
-  'months.jan', 'months.feb', 'months.mar', 'months.apr', 'months.may', 'months.jun',
-  'months.jul', 'months.aug', 'months.sep', 'months.oct', 'months.nov', 'months.dec'
+  'months.jan',
+  'months.feb',
+  'months.mar',
+  'months.apr',
+  'months.may',
+  'months.jun',
+  'months.jul',
+  'months.aug',
+  'months.sep',
+  'months.oct',
+  'months.nov',
+  'months.dec'
 ];
 
 export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCurrency }) => {
@@ -63,7 +73,12 @@ export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCu
   if (isLoading) {
     return (
       <div className="merchant-stats__section merchant-stats__section--projections">
-        <div className="merchant-stats__loader">{t('loading', 'טוען נתונים...')}</div>
+        <div className="projections-cards">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <StatCardSkeleton key={i} />
+          ))}
+        </div>
+        <ChartSkeleton />
       </div>
     );
   }
@@ -75,88 +90,88 @@ export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCu
   return (
     <div className="merchant-stats__section merchant-stats__section--projections">
       <div className="projections-cards">
-        <div className="projection-card">
-          <CalendarIcon style={{ width: 24, height: 24, color: 'var(--color-brand)' }} />
-          <div>
-            <h4>{t('projections.confirmedUpcoming', 'אישור הזמנות עתידיות')}</h4>
-            <p className="projection-card__value">{formatCurrency(confirmedUpcoming)}</p>
-          </div>
-        </div>
-        <div className="projection-card">
-          <TrendingUpIcon style={{ width: 24, height: 24, color: 'var(--color-brand)' }} />
-          <div>
-            <h4>{t('projections.next30Days', 'תחזית 30 יום')}</h4>
-            <p className="projection-card__value">{formatCurrency(projectedMonthly[0] ?? 0)}</p>
-          </div>
-        </div>
-        <div className="projection-card">
-          <TrendingUpIcon style={{ width: 24, height: 24, color: 'var(--color-brand)' }} />
-          <div>
-            <h4>{t('projections.next60Days', 'תחזית 60 יום')}</h4>
-            <p className="projection-card__value">{formatCurrency(projectedMonthly[1] ?? 0)}</p>
-          </div>
-        </div>
-        <div className="projection-card">
-          <TrendingUpIcon style={{ width: 24, height: 24, color: 'var(--color-brand)' }} />
-          <div>
-            <h4>{t('projections.next90Days', 'תחזית 90 יום')}</h4>
-            <p className="projection-card__value">{formatCurrency(projectedMonthly[2] ?? 0)}</p>
-          </div>
-        </div>
+        <article className="projection-card">
+          <h4>{t('projections.confirmedUpcoming', 'אישור הזמנות עתידיות')}</h4>
+          <p className="projection-card__value">{formatCurrency(confirmedUpcoming)}</p>
+        </article>
+        <article className="projection-card">
+          <h4>{t('projections.next30Days', 'תחזית 30 יום')}</h4>
+          <p className="projection-card__value">{formatCurrency(projectedMonthly[0] ?? 0)}</p>
+        </article>
+        <article className="projection-card">
+          <h4>{t('projections.next60Days', 'תחזית 60 יום')}</h4>
+          <p className="projection-card__value">{formatCurrency(projectedMonthly[1] ?? 0)}</p>
+        </article>
+        <article className="projection-card">
+          <h4>{t('projections.next90Days', 'תחזית 90 יום')}</h4>
+          <p className="projection-card__value">{formatCurrency(projectedMonthly[2] ?? 0)}</p>
+        </article>
       </div>
 
       <div className="projections-confidence">
-        {t('projections.confidence', 'רמת ביטחון')}:{' '}
+        <span className="projections-confidence__label">{t('projections.confidence', 'רמת ביטחון')}</span>
         <span className={`projections-confidence__badge projections-confidence__badge--${confidence}`}>
           {t(`projections.confidenceLevel.${confidence}`, confidence)}
         </span>
       </div>
 
       {chartData.length > 0 && (
-        <div className="projections-chart">
-          <h3>{t('projections.chartTitle', 'הכנסות בפועל ותחזית')}</h3>
-          <p className="projections-chart__subtitle">
-            {t('projections.chartSubtitle', 'הקו המקווקו מציג הערכת הכנסות ל־3 החודשים הבאים לפי מגמת החודשים האחרונים')}
-          </p>
+        <div className="ms-panel projections-chart">
+          <div className="ms-panel__header">
+            <div>
+              <h3>{t('projections.chartTitle', 'הכנסות בפועל ותחזית')}</h3>
+              <p className="ms-panel__subtitle">
+                {t(
+                  'projections.chartSubtitle',
+                  'הקו המקווקו מציג הערכת הכנסות ל־3 החודשים הבאים לפי מגמת החודשים האחרונים'
+                )}
+              </p>
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={320}>
-            <ComposedChart data={chartData} margin={{ top: 20, right: 20, left: 10, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} />
+            <ComposedChart data={chartData} margin={{ top: 12, right: 12, left: 4, bottom: 8 }}>
+              <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
               <XAxis
                 dataKey="name"
-                tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
-                stroke="var(--border-secondary)"
+                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                axisLine={false}
+                tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
-              tickMargin={20}
-              width={68}
+                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                axisLine={false}
+                tickLine={false}
+                width={56}
                 tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'var(--bg-surface)',
                   border: '1px solid var(--border-secondary)',
-                  borderRadius: '8px'
+                  borderRadius: '6px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.08)'
                 }}
                 formatter={(value: number | undefined, name: string | undefined) => [
                   formatCurrency(value ?? 0),
                   name === 'actual' ? t('projections.actual', 'פועל') : t('projections.projected', 'תחזית')
                 ]}
               />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: 12, color: 'var(--text-secondary)' }} />
               <Area
                 type="monotone"
                 dataKey="actual"
                 fill="var(--color-brand)"
-                fillOpacity={0.3}
+                fillOpacity={0.12}
                 stroke="var(--color-brand)"
+                strokeWidth={2}
                 name={t('projections.actual', 'פועל')}
               />
               <Line
                 type="monotone"
                 dataKey="projected"
-                stroke="var(--color-info)"
-                strokeDasharray="5 5"
+                stroke="var(--text-secondary)"
+                strokeDasharray="4 4"
+                strokeWidth={1.75}
                 dot={false}
                 connectNulls={false}
                 name={t('projections.projected', 'תחזית')}

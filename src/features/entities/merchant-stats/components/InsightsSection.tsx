@@ -10,6 +10,7 @@ import {
   CartesianGrid
 } from 'recharts';
 import { useRevenueBreakdown, useCancellationStats, usePopularTimeSlots } from '@shared/hooks';
+import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
 
 interface InsightsSectionProps {
@@ -19,10 +20,7 @@ interface InsightsSectionProps {
 
 const DAY_KEYS = ['days.sun', 'days.mon', 'days.tue', 'days.wed', 'days.thu', 'days.fri', 'days.sat'];
 
-export const InsightsSection: React.FC<InsightsSectionProps> = ({
-  dateRange,
-  formatCurrency
-}) => {
+export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, formatCurrency }) => {
   const { t } = useTranslation('merchantStats');
 
   const { data: breakdown, isLoading: breakdownLoading } = useRevenueBreakdown({
@@ -58,7 +56,8 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
   }, [cancellation?.cancellationsByDay, t]);
 
   const heatmapData = useMemo(() => {
-    const byTime = breakdown?.byTimeOfDay ?? Array.from({ length: 24 }, (_, h) => ({ hour: h, revenue: 0, bookings: 0 }));
+    const byTime =
+      breakdown?.byTimeOfDay ?? Array.from({ length: 24 }, (_, h) => ({ hour: h, revenue: 0, bookings: 0 }));
     const maxRev = Math.max(...byTime.map((x) => x.revenue), 1);
     return byTime.map((x) => ({
       hour: x.hour,
@@ -70,7 +69,11 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
   if (isLoading) {
     return (
       <div className="merchant-stats__section merchant-stats__section--insights">
-        <div className="merchant-stats__loader">{t('loading', 'טוען נתונים...')}</div>
+        <div className="insights-cards">
+          <StatCardSkeleton />
+          <StatCardSkeleton />
+        </div>
+        <ChartSkeleton />
       </div>
     );
   }
@@ -85,32 +88,42 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
   return (
     <div className="merchant-stats__section merchant-stats__section--insights">
       <div className="insights-cards">
-        <div className="insight-card">
+        <article className="insight-card">
           <h4>{t('insights.cancellationRate', 'שיעור ביטולים')}</h4>
           <p className="insight-card__value">{cancellation?.cancellationRate ?? 0}%</p>
-          <p className="insight-card__sub">{t('insights.trend', 'מגמה')}: {cancellation?.trend ?? '0%'}</p>
-        </div>
-        <div className="insight-card">
+          <p className="insight-card__sub">
+            {t('insights.trend', 'מגמה')}: {cancellation?.trend ?? '0%'}
+          </p>
+        </article>
+        <article className="insight-card">
           <h4>{t('insights.couponImpact', 'השפעת קופונים')}</h4>
           <p className="insight-card__value">{formatCurrency(couponImpact.totalDiscounts)}</p>
           <p className="insight-card__sub">
-            {couponImpact.bookingsWithCoupon} {t('insights.bookingsWithCoupon', 'הזמנות עם קופון')} · {couponImpact.avgDiscountPercent}% {t('insights.avgDiscount', 'ממוצע הנחה')}
+            {couponImpact.bookingsWithCoupon} {t('insights.bookingsWithCoupon', 'הזמנות עם קופון')} ·{' '}
+            {couponImpact.avgDiscountPercent}% {t('insights.avgDiscount', 'ממוצע הנחה')}
           </p>
-        </div>
+        </article>
       </div>
 
-      <div className="insights-heatmap">
-        <h3>{t('insights.heatmapTitle', 'הכנסות לפי שעה')}</h3>
+      <div className="ms-panel insights-heatmap">
+        <div className="ms-panel__header">
+          <h3>{t('insights.heatmapTitle', 'הכנסות לפי שעה')}</h3>
+          <div className="heatmap-legend" aria-hidden="true">
+            <span>{t('insights.heatmapLow', 'נמוך')}</span>
+            <span className="heatmap-legend__ramp" />
+            <span>{t('insights.heatmapHigh', 'גבוה')}</span>
+          </div>
+        </div>
         <div className="heatmap-grid">
           {heatmapData.map((cell) => (
             <div
               key={cell.hour}
               className="heatmap-cell"
               style={{
-                backgroundColor: `var(--color-brand)`,
-                opacity: 0.1 + cell.intensity * 0.9
+                backgroundColor: 'var(--color-brand)',
+                opacity: 0.08 + cell.intensity * 0.85
               }}
-              title={`${cell.hour}:00 - ${formatCurrency(cell.revenue)}`}
+              title={`${cell.hour}:00 — ${formatCurrency(cell.revenue)}`}
             >
               <span className="heatmap-cell__label">{cell.hour}</span>
             </div>
@@ -119,63 +132,66 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
       </div>
 
       <div className="insights-charts-row">
-        <div className="insights-day-chart">
+        <div className="ms-panel insights-day-chart">
           <h4>{t('insights.revenueByDay', 'הכנסות לפי יום')}</h4>
           <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={byDayData} margin={{ top: 10, right: 10, left: 36, bottom: 60 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} />
+            <BarChart data={byDayData} margin={{ top: 8, right: 8, left: 4, bottom: 8 }}>
+              <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
               <XAxis
                 dataKey="name"
-                tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
-                angle={-45}
-                textAnchor="end"
-                height={50}
+                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                axisLine={false}
+                tickLine={false}
               />
               <YAxis
-                width={32}
-                tickMargin={10}
-                tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                width={48}
+                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                axisLine={false}
+                tickLine={false}
                 tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'var(--bg-surface)',
                   border: '1px solid var(--border-secondary)',
-                  borderRadius: '8px'
+                  borderRadius: '6px'
                 }}
-                formatter={(value: number | undefined) => [formatCurrency(value ?? 0), t('revenueChart.revenue', 'הכנסה')]}
+                formatter={(value: number | undefined) => [
+                  formatCurrency(value ?? 0),
+                  t('revenueChart.revenue', 'הכנסה')
+                ]}
               />
-              <Bar dataKey="revenue" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="revenue" fill="var(--color-brand)" radius={[3, 3, 0, 0]} maxBarSize={36} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="insights-cancellations">
+        <div className="ms-panel insights-cancellations">
           <h4>{t('insights.cancellationsByDay', 'ביטולים לפי יום')}</h4>
           <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={cancellationsByDayData} margin={{ top: 10, right: 10, left: 36, bottom: 60 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} />
+            <BarChart data={cancellationsByDayData} margin={{ top: 8, right: 8, left: 4, bottom: 8 }}>
+              <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
               <XAxis
                 dataKey="name"
-                tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
-                angle={-45}
-                textAnchor="end"
-                height={50}
+                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                axisLine={false}
+                tickLine={false}
               />
               <YAxis
                 width={32}
-                tickMargin={10}
                 allowDecimals={false}
-                tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                axisLine={false}
+                tickLine={false}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'var(--bg-surface)',
                   border: '1px solid var(--border-secondary)',
-                  borderRadius: '8px'
+                  borderRadius: '6px'
                 }}
                 formatter={(value: number | undefined) => [value ?? 0, t('insights.cancellations', 'ביטולים')]}
               />
-              <Bar dataKey="count" fill="var(--text-muted)" radius={[4, 4, 0, 0]} name={t('insights.cancellations', 'ביטולים')} />
+              <Bar dataKey="count" fill="var(--text-muted)" radius={[3, 3, 0, 0]} maxBarSize={36} />
             </BarChart>
           </ResponsiveContainer>
         </div>

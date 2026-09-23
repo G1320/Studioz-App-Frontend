@@ -162,6 +162,8 @@
     "bookingsWithCoupon": "bookings with coupon",
     "avgDiscount": "avg discount",
     "heatmapTitle": "Revenue by Hour",
+    "heatmapLow": "Low",
+    "heatmapHigh": "High",
     "revenueByDay": "Revenue by Day",
     "cancellations": "Cancellations",
     "cancellationsByDay": "Cancellations by Day"

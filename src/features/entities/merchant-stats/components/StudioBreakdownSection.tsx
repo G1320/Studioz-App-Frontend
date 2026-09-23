@@ -10,6 +10,7 @@ import {
   CartesianGrid
 } from 'recharts';
 import { useStudioAnalytics } from '@shared/hooks';
+import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
 
 interface StudioBreakdownSectionProps {
@@ -42,7 +43,12 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
   if (isLoading) {
     return (
       <div className="merchant-stats__section merchant-stats__section--studios">
-        <div className="merchant-stats__loader">{t('loading', 'טוען נתונים...')}</div>
+        <div className="studio-cards-grid">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <StatCardSkeleton key={i} />
+          ))}
+        </div>
+        <ChartSkeleton />
       </div>
     );
   }
@@ -50,95 +56,117 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
   return (
     <div className="merchant-stats__section merchant-stats__section--studios">
       <div className="studio-cards-grid">
-        {studios.map((studio) => (
-          <div
-            key={studio.studioId}
-            className={`studio-card ${expandedStudioId === studio.studioId ? 'studio-card--expanded' : ''}`}
-          >
-            <button
-              type="button"
-              className="studio-card__header"
-              onClick={() =>
-                setExpandedStudioId(expandedStudioId === studio.studioId ? null : studio.studioId)
-              }
-            >
-              <h3 className="studio-card__name">{studio.studioName}</h3>
-              <span className="studio-card__revenue">{formatCurrency(studio.revenue)}</span>
-              <span className="studio-card__trend">{studio.growthTrend}</span>
-            </button>
-            <div className="studio-card__body">
-              <div className="studio-card__meta">
-                <span>{t('studios.bookings', 'הזמנות')}: {studio.bookingCount}</span>
-                <span>{t('studios.avgBooking', 'ממוצע')}: {formatCurrency(studio.avgBookingValue)}</span>
-                <span>{t('studios.occupancy', 'תפוסה')}: {studio.occupancy}%</span>
-              </div>
-              {expandedStudioId === studio.studioId && (
-                <div className="studio-card__detail">
-                  <div className="studio-card__top-items">
-                    <h4>{t('studios.topItems', 'פריטים מובילים')}</h4>
-                    <ul>
-                      {studio.topItems.map((item) => (
-                        <li key={item.itemId}>
-                          {item.name || item.itemId}: {item.bookings} {t('studios.bookings', 'הזמנות')}, {formatCurrency(item.revenue)}
-                        </li>
-                      ))}
-                    </ul>
+        {studios.map((studio) => {
+          const expanded = expandedStudioId === studio.studioId;
+          return (
+            <div key={studio.studioId} className={`studio-card ${expanded ? 'studio-card--expanded' : ''}`}>
+              <button
+                type="button"
+                className="studio-card__header"
+                aria-expanded={expanded}
+                onClick={() => setExpandedStudioId(expanded ? null : studio.studioId)}
+              >
+                <div className="studio-card__title-block">
+                  <h3 className="studio-card__name">{studio.studioName}</h3>
+                  <span className="studio-card__trend">{studio.growthTrend}</span>
+                </div>
+                <span className="studio-card__revenue">{formatCurrency(studio.revenue)}</span>
+              </button>
+              <div className="studio-card__body">
+                <div className="studio-card__meta">
+                  <div className="studio-card__meta-item">
+                    <span className="studio-card__meta-label">{t('studios.bookings', 'הזמנות')}</span>
+                    <span className="studio-card__meta-value">{studio.bookingCount}</span>
                   </div>
-                  <div className="studio-card__top-customers">
-                    <h4>{t('studios.topCustomers', 'לקוחות מובילים')}</h4>
-                    <ul>
-                      {studio.topCustomers.map((c) => (
-                        <li key={c.id}>
-                          {c.name}: {formatCurrency(c.totalSpent)}, {c.bookingsCount} {t('studios.bookings', 'הזמנות')}
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="studio-card__meta-item">
+                    <span className="studio-card__meta-label">{t('studios.avgBooking', 'ממוצע')}</span>
+                    <span className="studio-card__meta-value">{formatCurrency(studio.avgBookingValue)}</span>
+                  </div>
+                  <div className="studio-card__meta-item">
+                    <span className="studio-card__meta-label">{t('studios.occupancy', 'תפוסה')}</span>
+                    <span className="studio-card__meta-value">{studio.occupancy}%</span>
                   </div>
                 </div>
-              )}
+                {expanded && (
+                  <div className="studio-card__detail">
+                    <div className="studio-card__top-items">
+                      <h4>{t('studios.topItems', 'פריטים מובילים')}</h4>
+                      <ul>
+                        {studio.topItems.map((item) => (
+                          <li key={item.itemId}>
+                            <span>{item.name || item.itemId}</span>
+                            <span>
+                              {item.bookings} · {formatCurrency(item.revenue)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="studio-card__top-customers">
+                      <h4>{t('studios.topCustomers', 'לקוחות מובילים')}</h4>
+                      <ul>
+                        {studio.topCustomers.map((c) => (
+                          <li key={c.id}>
+                            <span>{c.name}</span>
+                            <span>
+                              {formatCurrency(c.totalSpent)} · {c.bookingsCount}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {chartData.length > 0 && (
-        <div className="studio-comparison-chart">
-          <h3>{t('studios.comparison', 'השוואת אולפנים')}</h3>
-          <div className="studio-comparison-chart__wrap">
-            <div className="studio-comparison-chart__labels" aria-hidden="true">
-              {chartData.map((item) => (
-                <div key={item.name} className="studio-comparison-chart__label">
-                  {item.name}
-                </div>
-              ))}
-            </div>
-            <div className="studio-comparison-chart__chart">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                  data={chartData}
-                  layout="vertical"
-                  margin={{ top: 12, right: 16, bottom: 12, left: 0 }}
-                  barCategoryGap={14}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-secondary)" opacity={0.5} horizontal={false} />
-                  <XAxis
-                    type="number"
-                    tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
-                    tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
-                  />
-                  <YAxis type="category" dataKey="name" width={0} tick={false} axisLine={false} tickLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-secondary)',
-                      borderRadius: '8px'
-                    }}
-                    formatter={(value: number | undefined) => [formatCurrency(value ?? 0), t('revenueChart.revenue', 'הכנסה')]}
-                  />
-                  <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 4, 4, 0]} barSize={28} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+        <div className="ms-panel studio-comparison-chart">
+          <div className="ms-panel__header">
+            <h3>{t('studios.comparison', 'השוואת אולפנים')}</h3>
+          </div>
+          <div className="studio-comparison-chart__chart">
+            <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 48)}>
+              <BarChart
+                data={chartData}
+                layout="vertical"
+                margin={{ top: 4, right: 16, bottom: 4, left: 8 }}
+                barCategoryGap={12}
+              >
+                <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" horizontal={false} />
+                <XAxis
+                  type="number"
+                  tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
+                />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  width={120}
+                  tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-secondary)',
+                    borderRadius: '6px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.08)'
+                  }}
+                  formatter={(value: number | undefined) => [
+                    formatCurrency(value ?? 0),
+                    t('revenueChart.revenue', 'הכנסה')
+                  ]}
+                />
+                <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 3, 3, 0]} barSize={18} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       )}

@@ -162,6 +162,8 @@
     "bookingsWithCoupon": "הזמנות עם קופון",
     "avgDiscount": "ממוצע הנחה",
     "heatmapTitle": "הכנסות לפי שעה",
+    "heatmapLow": "נמוך",
+    "heatmapHigh": "גבוה",
     "revenueByDay": "הכנסות לפי יום",
     "cancellations": "ביטולים",
     "cancellationsByDay": "ביטולים לפי יום"

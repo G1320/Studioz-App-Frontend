@@ -47,7 +47,7 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
         </div>
       </div>
 
-      <div className="quick-stat-card">
+      <div className="quick-stat-card quick-stat-card--compact">
         <div className="quick-stat-card__header">
           <h3>{t('quickStats.avgSession', 'זמן ממוצע לסשן')}</h3>
           <div className="value-row">
