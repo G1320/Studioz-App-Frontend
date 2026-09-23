@@ -507,13 +507,14 @@ const scenes: ScreenshotScene[] = [
     id: 'desktop-project-workspace',
     order: 23,
     path: '/projects/project-demo',
-    readySelector: '.project-collaborators',
+    readySelector: '.project-file-uploader--source',
     fixture: 'projects',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    actions: [{ type: 'scroll', selector: '.project-collaborators' }],
+    // Keep Actions + source files + chat in frame for every locale/theme.
+    actions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -591,9 +592,9 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    // Desktop: current project workspace (collaborator avatars + source files).
+    // Desktop: same Actions + source files scene as desktop-project-workspace.
     // Mobile: open a track thread so the dual still shows cross-device review.
-    primaryActions: [{ type: 'scroll', selector: '.project-detail__header' }],
+    primaryActions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
     secondaryActions: [
       { type: 'scroll', selector: '.project-file-uploader--source' },
       { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
