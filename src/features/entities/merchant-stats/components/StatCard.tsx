@@ -32,7 +32,8 @@ export const StatCard: React.FC<StatCardProps> = ({
       <div className="stat-card__top">
         <div className="stat-card__heading">
           <h3 className="stat-card__label">{title}</h3>
-          {hint ? <p className="stat-card__hint">{hint}</p> : null}
+          {/* Always render the hint row so values share one baseline across the grid. */}
+          <p className={`stat-card__hint${hint ? '' : ' stat-card__hint--empty'}`}>{hint || '\u00A0'}</p>
         </div>
         {icon ? <span className="stat-card__icon">{icon}</span> : null}
       </div>

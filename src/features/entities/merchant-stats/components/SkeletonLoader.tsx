@@ -30,10 +30,13 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
 export const StatCardSkeleton: React.FC = () => (
   <div className="stat-card stat-card--skeleton">
     <div className="stat-card__top">
-      <div className="skeleton-loader__line" style={{ height: 10, width: '45%' }} />
+      <div className="stat-card__heading">
+        <div className="skeleton-loader__line" style={{ height: 10, width: '55%' }} />
+        <div className="skeleton-loader__line" style={{ height: 8, width: '40%' }} />
+      </div>
     </div>
-    <div className="skeleton-loader__line" style={{ height: 28, width: '70%', marginTop: 10 }} />
-    <div className="skeleton-loader__line" style={{ height: 12, width: '30%', marginTop: 10 }} />
+    <div className="skeleton-loader__line" style={{ height: 22, width: '45%' }} />
+    <div className="skeleton-loader__line" style={{ height: 10, width: '28%' }} />
   </div>
 );
 
