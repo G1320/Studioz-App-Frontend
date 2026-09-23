@@ -42,6 +42,7 @@ const SecurityPage = lazyWithRetry(() => import('@features/static/pages/Security
 const StatusPage = lazyWithRetry(() => import('@features/static/pages/StatusPage'));
 const FeaturesPage = lazyWithRetry(() => import('@features/static/pages/FeaturesPage'));
 const FeatureDetailPage = lazyWithRetry(() => import('@features/static/pages/FeatureDetailPage'));
+const PreviewLandingPage = lazyWithRetry(() => import('@features/static/pages/PreviewLandingPage'));
 const AboutPage = lazyWithRetry(() => import('@features/static/pages/AboutPage'));
 const FaqPage = lazyWithRetry(() => import('@features/static/pages/FaqPage'));
 const OwnerFaqPage = lazyWithRetry(() => import('@features/static/pages/OwnerFaqPage'));
@@ -490,6 +491,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <FeaturesPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/preview/landing"
+            element={
+              <AnimatedRoute>
+                <PreviewLandingPage />
               </AnimatedRoute>
             }
           />

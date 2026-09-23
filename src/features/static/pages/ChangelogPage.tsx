@@ -34,6 +34,39 @@ const CHANGELOG_DATA: MonthGroup[] = [
     monthKey: 'months.sep2026',
     releases: [
       {
+        version: 'sep-owner-shell',
+        dateKey: 'releases.sep2026.ownerShell.date',
+        titleKey: 'releases.sep2026.ownerShell.title',
+        descriptionKey: 'releases.sep2026.ownerShell.description',
+        changes: [
+          {
+            id: 'sep-o1',
+            type: 'improvement',
+            descriptionKey: 'releases.sep2026.ownerShell.changes.pageHeaders'
+          },
+          {
+            id: 'sep-o2',
+            type: 'feature',
+            descriptionKey: 'releases.sep2026.ownerShell.changes.statsPage'
+          },
+          {
+            id: 'sep-o3',
+            type: 'improvement',
+            descriptionKey: 'releases.sep2026.ownerShell.changes.listControls'
+          },
+          {
+            id: 'sep-o4',
+            type: 'improvement',
+            descriptionKey: 'releases.sep2026.ownerShell.changes.projectChrome'
+          },
+          {
+            id: 'sep-o5',
+            type: 'improvement',
+            descriptionKey: 'releases.sep2026.ownerShell.changes.features'
+          }
+        ]
+      },
+      {
         version: 'sep-audio-review',
         dateKey: 'releases.sep2026.audioReview.date',
         titleKey: 'releases.sep2026.audioReview.title',

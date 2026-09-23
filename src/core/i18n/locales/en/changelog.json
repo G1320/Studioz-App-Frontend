@@ -15,6 +15,18 @@
   },
   "releases": {
     "sep2026": {
+      "ownerShell": {
+        "date": "September 22–23, 2026",
+        "title": "Owner Workspace Polish",
+        "description": "A denser, clearer day-to-day experience for studio owners",
+        "changes": {
+          "pageHeaders": "Shared compact page headers across dashboard, stats, projects, and reservations",
+          "statsPage": "Dedicated stats page with clearer charts and improved RTL layouts",
+          "listControls": "Clearer newest/oldest sort controls on projects and reservations",
+          "projectChrome": "Tighter project workspace density, collaborator avatars, and sticky player spacing",
+          "features": "Refreshed product features page with updated screenshots"
+        }
+      },
       "audioReview": {
         "date": "September 15–16, 2026",
         "title": "Collaborative Audio Review",

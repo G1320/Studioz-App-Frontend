@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "title": "Studioz Preview",
+    "description": "Private preview of the Studioz owner landing experience."
+  },
+  "brand": "Studioz",
+  "hero": {
+    "eyebrow": "The operating system for modern studios",
+    "title": "Your studio deserves infrastructure that matches the work.",
+    "titleAccent": "Book. Deliver. Grow.",
+    "description": "One professional workspace for bookings, remote projects, payments, and insights—built for independent studios that take their craft seriously.",
+    "primaryCta": "Get started",
+    "secondaryCta": "See the platform"
+  },
+  "pillars": {
+    "eyebrow": "Capabilities",
+    "title": "Highly capable. Effortlessly clear.",
+    "items": [
+      {
+        "id": "bookings",
+        "title": "Run every booking",
+        "description": "Reservations, clients, and status in one operational view."
+      },
+      {
+        "id": "remote",
+        "title": "Deliver remote work",
+        "description": "Files, time-coded feedback, and approvals attached to the project."
+      },
+      {
+        "id": "insights",
+        "title": "See what matters",
+        "description": "Revenue and utilization insights ready when you need to decide."
+      },
+      {
+        "id": "presence",
+        "title": "Earn trust online",
+        "description": "A polished studio presence that converts browsers into clients."
+      }
+    ]
+  },
+  "platform": {
+    "eyebrow": "Platform",
+    "title": "Everything your studio needs—connected.",
+    "description": "Operations, delivery, intelligence, and presence share the same context so your team never rebuilds the same work twice."
+  },
+  "showcase": {
+    "operations": {
+      "eyebrow": "Operations",
+      "title": "A clear command center for every booking.",
+      "description": "Keep the pipeline visible—search, filter, and act without juggling tabs.",
+      "imageAlt": "Studioz reservations workspace"
+    },
+    "analytics": {
+      "eyebrow": "Intelligence",
+      "title": "Performance you can act on.",
+      "description": "Track revenue, bookings, and trends across desktop and mobile.",
+      "imageAlt": "Studioz analytics on desktop and mobile"
+    },
+    "projects": {
+      "eyebrow": "Client delivery",
+      "title": "Feedback that stays with the work.",
+      "description": "Waveforms, revisions, collaborators, and chat in one project workspace.",
+      "imageAlt": "Studioz project review workspace"
+    },
+    "presence": {
+      "eyebrow": "Presence",
+      "title": "A studio page that looks as good as your rooms.",
+      "description": "Present services, equipment, and portfolio with the polish clients expect.",
+      "imageAlt": "Studioz studio portfolio page"
+    }
+  },
+  "proof": {
+    "eyebrow": "Built for professionals",
+    "items": [
+      {
+        "quote": "One place for the schedule, the clients, and the remote work—without duct-taping five tools together.",
+        "role": "Independent studio owners"
+      },
+      {
+        "quote": "Hebrew and English, light and dark, desktop and mobile—same product, no compromises.",
+        "role": "Bilingual by design"
+      },
+      {
+        "quote": "Designed to feel quiet and precise—so the work stays front and center.",
+        "role": "Enterprise-grade polish"
+      }
+    ]
+  },
+  "closing": {
+    "eyebrow": "Ready when you are",
+    "title": "Begin with Studioz.",
+    "description": "List your studio, connect payments, and start running bookings and projects from one workspace.",
+    "primaryCta": "Create your studio",
+    "secondaryCta": "Explore features"
+  }
+}

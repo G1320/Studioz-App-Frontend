@@ -33,6 +33,7 @@ import merchantDocs from './locales/en/merchantDocs.json';
 import security from './locales/en/security.json';
 import remoteProjects from './locales/en/remoteProjects.json';
 import features from './locales/en/features.json';
+import landingPreview from './locales/en/landingPreview.json';
 import privacyPolicy from './locales/en/privacyPolicy.json';
 import accessibility from './locales/en/accessibility.json';
 import accessibilityStatement from './locales/en/accessibilityStatement.json';
@@ -75,6 +76,7 @@ import merchantDocsHe from './locales/he/merchantDocs.json';
 import securityHe from './locales/he/security.json';
 import remoteProjectsHe from './locales/he/remoteProjects.json';
 import featuresHe from './locales/he/features.json';
+import landingPreviewHe from './locales/he/landingPreview.json';
 import privacyPolicyHe from './locales/he/privacyPolicy.json';
 import accessibilityHe from './locales/he/accessibility.json';
 import accessibilityStatementHe from './locales/he/accessibilityStatement.json';
@@ -123,6 +125,7 @@ i18n
         security,
         remoteProjects,
         features,
+        landingPreview,
         privacyPolicy,
         accessibility,
         accessibilityStatement,
@@ -166,6 +169,7 @@ i18n
         security: securityHe,
         remoteProjects: remoteProjectsHe,
         features: featuresHe,
+        landingPreview: landingPreviewHe,
         privacyPolicy: privacyPolicyHe,
         accessibility: accessibilityHe,
         accessibilityStatement: accessibilityStatementHe,
