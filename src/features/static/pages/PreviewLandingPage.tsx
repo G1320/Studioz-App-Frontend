@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -24,23 +24,32 @@ const PILLAR_ICONS = {
 
 type PillarId = keyof typeof PILLAR_ICONS;
 
-const SHOWCASES = [
-  { key: 'operations', desktop: 'desktop-reservations', mobile: undefined },
-  {
-    key: 'analytics',
-    desktop: 'cross-device-analytics-desktop',
-    mobile: 'cross-device-analytics-mobile'
-  },
+/** Hero cycles workspace → portfolio. */
+const HERO_SLIDES = [
   {
     key: 'projects',
     desktop: 'desktop-project-workspace',
-    mobile: 'cross-device-project-review-mobile'
+    mobile: 'mobile-project-workspace'
   },
-  { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined }
+  {
+    key: 'presence',
+    desktop: 'desktop-studio-portfolio',
+    mobile: 'mobile-studio-portfolio'
+  }
 ] as const;
 
+/** Feature sections: mobile-first, specific surfaces. */
+const SHOWCASES = [
+  { key: 'operations', mobile: 'mobile-reservations' },
+  { key: 'analytics', mobile: 'cross-device-analytics-mobile' },
+  { key: 'projects', mobile: 'cross-device-project-review-mobile' },
+  { key: 'presence', mobile: 'mobile-studio-portfolio' }
+] as const;
+
+const HERO_ROTATE_MS = 5000;
+
 interface ProductVisualProps {
-  desktopSrc: string;
+  desktopSrc?: string;
   mobileSrc?: string;
   alt: string;
   eager?: boolean;
@@ -48,20 +57,102 @@ interface ProductVisualProps {
 }
 
 function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false }: ProductVisualProps) {
+  const mobileOnly = Boolean(mobileSrc && !desktopSrc);
+
   return (
     <div
-      className={`preview-landing__product-visual ${mobileSrc ? 'preview-landing__product-visual--dual' : ''} ${
+      className={[
+        'preview-landing__product-visual',
+        desktopSrc && mobileSrc ? 'preview-landing__product-visual--dual' : '',
+        mobileOnly ? 'preview-landing__product-visual--mobile-only' : '',
         hero ? 'preview-landing__product-visual--hero' : ''
-      }`}
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      <div className="preview-landing__shot preview-landing__shot--desktop">
-        <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
-      </div>
-      {mobileSrc ? (
-        <div className="preview-landing__shot preview-landing__shot--mobile">
-          <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+      {desktopSrc ? (
+        <div className="preview-landing__shot preview-landing__shot--desktop">
+          <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
         </div>
       ) : null}
+      {mobileSrc ? (
+        <div className="preview-landing__shot preview-landing__shot--mobile">
+          <img
+            src={mobileSrc}
+            alt={desktopSrc ? '' : alt}
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+interface HeroCarouselProps {
+  captureUrl: (id: string) => string;
+  altFor: (key: string) => string;
+  reduceMotion: boolean | null;
+}
+
+function HeroCarousel({ captureUrl, altFor, reduceMotion }: HeroCarouselProps) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (reduceMotion || paused) return;
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % HERO_SLIDES.length);
+    }, HERO_ROTATE_MS);
+    return () => window.clearInterval(timer);
+  }, [paused, reduceMotion]);
+
+  return (
+    <div
+      className="preview-landing__hero-carousel"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setPaused(false);
+        }
+      }}
+    >
+      <div className="preview-landing__hero-slides" aria-live="polite">
+        {HERO_SLIDES.map((slide, slideIndex) => {
+          const active = slideIndex === index;
+          return (
+            <div
+              key={slide.key}
+              className={`preview-landing__hero-slide${active ? ' is-active' : ''}`}
+              aria-hidden={!active}
+            >
+              <ProductVisual
+                desktopSrc={captureUrl(slide.desktop)}
+                mobileSrc={captureUrl(slide.mobile)}
+                alt={altFor(slide.key)}
+                eager={slideIndex === 0}
+                hero
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="preview-landing__hero-dots" role="tablist" aria-label="Product previews">
+        {HERO_SLIDES.map((slide, slideIndex) => (
+          <button
+            key={slide.key}
+            type="button"
+            role="tab"
+            aria-selected={slideIndex === index}
+            aria-label={altFor(slide.key)}
+            className={`preview-landing__hero-dot${slideIndex === index ? ' is-active' : ''}`}
+            onClick={() => setIndex(slideIndex)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -157,11 +248,10 @@ export default function PreviewLandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProductVisual
-                desktopSrc={captureUrl('desktop-project-workspace')}
-                alt={t('showcase.projects.imageAlt')}
-                eager
-                hero
+              <HeroCarousel
+                captureUrl={captureUrl}
+                altFor={(key) => t(`showcase.${key}.imageAlt`)}
+                reduceMotion={reduceMotion}
               />
             </motion.div>
           </div>
@@ -198,7 +288,7 @@ export default function PreviewLandingPage() {
             </motion.header>
 
             <div className="preview-landing__showcase-list">
-              {SHOWCASES.map(({ key, desktop, mobile }, index) => (
+              {SHOWCASES.map(({ key, mobile }, index) => (
                 <motion.article
                   key={key}
                   className={`preview-landing__showcase ${index % 2 ? 'preview-landing__showcase--reverse' : ''}`}
@@ -210,8 +300,7 @@ export default function PreviewLandingPage() {
                   </div>
                   <div className="preview-landing__showcase-visual">
                     <ProductVisual
-                      desktopSrc={captureUrl(desktop)}
-                      mobileSrc={mobile ? captureUrl(mobile) : undefined}
+                      mobileSrc={captureUrl(mobile)}
                       alt={t(`showcase.${key}.imageAlt`)}
                       eager={index === 0}
                     />

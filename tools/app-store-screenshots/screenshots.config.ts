@@ -693,6 +693,83 @@ const scenes: ScreenshotScene[] = [
     }
   },
   {
+    id: 'mobile-reservations',
+    order: 31,
+    path: '/reservations',
+    readySelector: '.reservations-list__grid',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:first-child' }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Bookings on the go',
+        subtitle: 'The same reservation workflow in your pocket.'
+      },
+      he: {
+        title: 'הזמנות בדרך',
+        subtitle: 'אותו תהליך הזמנות גם מהנייד.'
+      }
+    }
+  },
+  {
+    id: 'mobile-studio-portfolio',
+    order: 32,
+    path: '/studio/studio-demo?view=overview',
+    readySelector: '.studio-details-page .studio-details__header',
+    fixture: 'studio',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Your studio page, mobile',
+        subtitle: 'A polished presence clients can browse anywhere.'
+      },
+      he: {
+        title: 'עמוד האולפן בנייד',
+        subtitle: 'נוכחות מקצועית שהלקוחות גולשים בה מכל מקום.'
+      }
+    }
+  },
+  {
+    id: 'mobile-project-workspace',
+    order: 33,
+    path: '/projects/project-demo',
+    readySelector: '.project-file-uploader--source',
+    fixture: 'projects',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    actions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -48 }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Projects in your pocket',
+        subtitle: 'Tracks, feedback and chat wherever you are.'
+      },
+      he: {
+        title: 'פרויקטים בכיס',
+        subtitle: 'טראקים, פידבק וצ׳אט מכל מקום.'
+      }
+    }
+  },
+  {
     id: 'landing-booking-flow',
     order: 30,
     path: '/studio/studio-demo?item=item-demo',
