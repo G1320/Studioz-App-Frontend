@@ -175,7 +175,7 @@
     position: absolute;
     z-index: 2;
     inset-inline-end: 0;
-    bottom: clamp(-0.35rem, -0.5vw, 0);
+    bottom: clamp(-0.35rem, -0.5vw, 0rem);
     width: min(26%, 10.75rem);
     border-radius: 1.15rem;
     box-shadow: 0 1.1rem 2.25rem rgb(0 0 0 / 32%);
