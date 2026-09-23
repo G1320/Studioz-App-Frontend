@@ -12,6 +12,64 @@
     "secondaryCta": "Studio owner FAQ",
     "floatingNote": "Your schedule, always in sync"
   },
+  "proof": {
+    "label": "Platform capabilities",
+    "items": [
+      "One source of truth",
+      "Built for desktop and mobile",
+      "English and Hebrew",
+      "Light and dark mode"
+    ]
+  },
+  "showcase": {
+    "eyebrow": "The operating system for modern studios",
+    "title": "Run every part of the business from one connected platform.",
+    "description": "Studioz brings operations, financial intelligence, client delivery, and your public presence together without forcing your team into a patchwork of tools.",
+    "operations": {
+      "eyebrow": "Operations",
+      "title": "A clear command center for every booking.",
+      "description": "Keep the team aligned with one operational view of reservations, clients, services, and status.",
+      "points": [
+        "Search and filter the complete reservation pipeline",
+        "Keep customer, service, and payment context together",
+        "Move confidently between desktop and mobile"
+      ],
+      "imageAlt": "Studioz reservation management workspace"
+    },
+    "analytics": {
+      "eyebrow": "Business intelligence",
+      "title": "See performance clearly. Act before trends become problems.",
+      "description": "Turn daily studio activity into decision-ready revenue and utilization insights across every screen.",
+      "points": [
+        "Track revenue and booking performance over time",
+        "Compare studios, services, and operating periods",
+        "Keep the same live view on desktop and mobile"
+      ],
+      "imageAlt": "Studioz analytics on desktop and mobile"
+    },
+    "projects": {
+      "eyebrow": "Client delivery",
+      "title": "Feedback, files, and approvals stay attached to the work.",
+      "description": "Give clients a professional review experience while your team keeps every version and conversation organized.",
+      "points": [
+        "Collect precise time-coded comments",
+        "Manage source files, revisions, and deliverables",
+        "Keep collaborators and project chat in one workspace"
+      ],
+      "imageAlt": "Studioz project review on desktop and mobile"
+    },
+    "presence": {
+      "eyebrow": "Your digital presence",
+      "title": "Turn great work into a studio page that earns trust.",
+      "description": "Present your rooms, services, and selected releases with the same level of polish clients expect from your studio.",
+      "points": [
+        "Showcase releases with artwork and credits",
+        "Connect services directly to booking",
+        "Deliver a premium experience in every theme and language"
+      ],
+      "imageAlt": "Studioz studio portfolio workspace"
+    }
+  },
   "grid": {
     "eyebrow": "One connected platform",
     "title": "Powerful where it matters. Effortless everywhere else.",

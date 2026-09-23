@@ -122,6 +122,13 @@ export function expandScenes(scenes: ScreenshotScene[]): ExpandedScenes {
             secondaryDeviceTransform: scene.secondaryDeviceTransform,
             screenTreatment: scene.screenTreatment?.[theme] || defaultScreenTreatment(theme),
             crop: scene.crop,
+            publish: scene.publish
+              ? {
+                  path: `${scene.publish.directory}/${locale}/${theme}/${scene.id}.webp`,
+                  dimensions: scene.publish.dimensions,
+                  quality: scene.publish.quality
+                }
+              : undefined,
             outputFilename: `${String(scene.order).padStart(2, '0')}-${scene.id}.png`
           });
           continue;

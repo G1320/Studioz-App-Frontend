@@ -540,6 +540,11 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     actions: [{ type: 'click', selector: '.my-reservations-page__view-toggle .view-mode-toggle__button:last-child' }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    publish: {
+      directory: 'public/images/features-generated',
+      dimensions: { width: 1600, height: 1000 },
+      quality: 88
+    },
     copy: {
       'en-US': {
         title: 'Every booking, one clear view',
@@ -561,6 +566,11 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'feature',
     deviceTransform: { scale: 0.72, y: 100, rotation: -0.5, shadow: true },
+    publish: {
+      directory: 'public/images/features-generated',
+      dimensions: { width: 1600, height: 1000 },
+      quality: 88
+    },
     copy: {
       'en-US': {
         title: 'Showcase your work',
@@ -589,6 +599,11 @@ const scenes: ScreenshotScene[] = [
     ],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },
+    publish: {
+      directory: 'public/images/features-generated',
+      dimensions: { width: 1600, height: 1000 },
+      quality: 88
+    },
     copy: {
       'en-US': {
         title: 'Review from any screen',
@@ -616,6 +631,11 @@ const scenes: ScreenshotScene[] = [
     ],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },
+    publish: {
+      directory: 'public/images/features-generated',
+      dimensions: { width: 1600, height: 1000 },
+      quality: 88
+    },
     copy: {
       'en-US': {
         title: 'Your business, anywhere',

@@ -1,25 +1,23 @@
-/**
- * Features List Page – All product features with links to each feature page.
- * Path: /:lang/features
- * Consumable by Holo via JSON-LD and semantic HTML.
- */
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
 import {
-  ArrowDown,
   ArrowUpRight,
   BarChart3,
   CalendarDays,
+  Check,
   Clock3,
   CreditCard,
   Headphones,
+  ShieldCheck,
   SlidersHorizontal,
   Sparkles,
-  Store
+  Store,
+  Workflow
 } from 'lucide-react';
-import { BASE_URL, FEATURE_IMAGES, toAbsoluteImageUrl } from '../featuresConfig';
+import { useTheme } from '@shared/contexts/ThemeContext';
+import { BASE_URL, toAbsoluteImageUrl } from '../featuresConfig';
 import type { FeatureId } from '../featuresConfig';
 import '../styles/_features-page.scss';
 import '../styles/_features-page-showcase.scss';
@@ -34,10 +32,23 @@ const FEATURE_ICONS = {
   remote: Headphones
 } satisfies Record<FeatureId, typeof Sparkles>;
 
+const FEATURE_SCREENSHOTS: Partial<Record<FeatureId, string>> = {
+  calendar: 'desktop-reservations',
+  insights: 'cross-device-analytics',
+  studio_pages: 'desktop-studio-portfolio',
+  remote: 'cross-device-project-review'
+};
+
 export default function FeaturesPage() {
   const { t, i18n } = useTranslation('features');
+  const { resolvedTheme } = useTheme();
   const { lang } = useParams<{ lang?: string }>();
   const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
+  const assetLocale = currentLang === 'he' ? 'he' : 'en-US';
+  const screenshotUrl = useCallback(
+    (scene: string) => `/images/features-generated/${assetLocale}/${resolvedTheme}/${scene}.webp`,
+    [assetLocale, resolvedTheme]
+  );
 
   const list = t('list', { returnObjects: true }) as Array<{
     id: string;
@@ -46,22 +57,22 @@ export default function FeaturesPage() {
   }>;
   const features = useMemo(() => {
     if (!Array.isArray(list)) return [];
-    return list.map((item) => ({
-      ...item,
-      images: FEATURE_IMAGES[item.id as FeatureId] ?? []
-    }));
-  }, [list]);
+    return list.map((item) => {
+      const scene = FEATURE_SCREENSHOTS[item.id as FeatureId];
+      return { ...item, images: scene ? [screenshotUrl(scene)] : [] };
+    });
+  }, [list, screenshotUrl]);
 
   const jsonLd = useMemo(() => {
-    const itemListElement = features.map((f, index) => ({
+    const itemListElement = features.map((feature, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       item: {
         '@type': 'Thing',
-        '@id': `${BASE_URL}/${currentLang}/features/${f.id}`,
-        name: f.title,
-        description: f.description,
-        image: f.images.map(toAbsoluteImageUrl)
+        '@id': `${BASE_URL}/${currentLang}/features/${feature.id}`,
+        name: feature.title,
+        description: feature.description,
+        image: feature.images.map(toAbsoluteImageUrl)
       }
     }));
 
@@ -75,7 +86,12 @@ export default function FeaturesPage() {
     };
   }, [features, currentLang, t]);
 
-  const heroFeature = features[0];
+  const showcases = [
+    { key: 'operations', scene: 'desktop-reservations', icon: CalendarDays },
+    { key: 'analytics', scene: 'cross-device-analytics', icon: BarChart3 },
+    { key: 'projects', scene: 'cross-device-project-review', icon: Workflow },
+    { key: 'presence', scene: 'desktop-studio-portfolio', icon: Store }
+  ] as const;
 
   return (
     <>
@@ -88,22 +104,21 @@ export default function FeaturesPage() {
 
       <main className="features-page" dir={currentLang === 'he' ? 'rtl' : 'ltr'}>
         <section className="features-page__hero">
-          <div className="features-page__ambient features-page__ambient--one" />
-          <div className="features-page__ambient features-page__ambient--two" />
           <div className="features-page__container">
             <div className="features-page__hero-copy">
               <span className="features-page__eyebrow">
-                <Sparkles aria-hidden="true" />
+                <ShieldCheck aria-hidden="true" />
                 {t('hero.eyebrow')}
               </span>
               <h1 className="features-page__title">
-                {t('hero.title')} <span>{t('hero.titleAccent')}</span>
+                {t('hero.title')}
+                <span>{t('hero.titleAccent')}</span>
               </h1>
               <p className="features-page__lead">{t('hero.description')}</p>
               <div className="features-page__hero-actions">
-                <a className="features-page__primary-action" href="#feature-grid">
+                <a className="features-page__primary-action" href="#platform">
                   {t('hero.primaryCta')}
-                  <ArrowDown aria-hidden="true" />
+                  <ArrowUpRight aria-hidden="true" />
                 </a>
                 <Link className="features-page__secondary-action" to={`/${currentLang}/owner-faq`}>
                   {t('hero.secondaryCta')}
@@ -112,69 +127,106 @@ export default function FeaturesPage() {
               </div>
             </div>
 
-            {heroFeature?.images[0] && (
-              <div className="features-page__product-stage">
-                <div className="features-page__browser">
-                  <div className="features-page__browser-bar" aria-hidden="true">
-                    <span />
-                    <span />
-                    <span />
-                    <div />
-                  </div>
-                  <img src={heroFeature.images[0]} alt={heroFeature.title} decoding="async" fetchPriority="high" />
-                </div>
-                <div className="features-page__floating-note">
-                  <CalendarDays aria-hidden="true" />
-                  <span>{t('hero.floatingNote')}</span>
-                </div>
-              </div>
-            )}
+            <div className="features-page__hero-visual">
+              <div className="features-page__hero-glow" />
+              <img
+                src={screenshotUrl('cross-device-analytics')}
+                alt={t('showcase.analytics.imageAlt')}
+                decoding="async"
+                fetchPriority="high"
+                width={1600}
+                height={1000}
+              />
+            </div>
+
+            <div className="features-page__trust-row" aria-label={t('proof.label')}>
+              {(t('proof.items', { returnObjects: true }) as string[]).map((item) => (
+                <span key={item}>
+                  <Check aria-hidden="true" />
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section id="feature-grid" className="features-page__showcase">
+        <section id="platform" className="features-page__platform">
           <div className="features-page__container">
             <header className="features-page__section-header">
+              <span className="features-page__section-kicker">{t('showcase.eyebrow')}</span>
+              <h2>{t('showcase.title')}</h2>
+              <p>{t('showcase.description')}</p>
+            </header>
+
+            <div className="features-page__showcase-list">
+              {showcases.map(({ key, scene, icon: Icon }, index) => {
+                const points = t(`showcase.${key}.points`, { returnObjects: true }) as string[];
+                return (
+                  <article
+                    className={`features-page__showcase-row ${index % 2 ? 'features-page__showcase-row--reverse' : ''}`}
+                    key={key}
+                  >
+                    <div className="features-page__showcase-copy">
+                      <span className="features-page__showcase-icon">
+                        <Icon aria-hidden="true" />
+                      </span>
+                      <span className="features-page__section-kicker">{t(`showcase.${key}.eyebrow`)}</span>
+                      <h3>{t(`showcase.${key}.title`)}</h3>
+                      <p>{t(`showcase.${key}.description`)}</p>
+                      <ul>
+                        {Array.isArray(points) &&
+                          points.map((point) => (
+                            <li key={point}>
+                              <Check aria-hidden="true" />
+                              {point}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                    <div className="features-page__showcase-visual">
+                      <img
+                        src={screenshotUrl(scene)}
+                        alt={t(`showcase.${key}.imageAlt`)}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        decoding="async"
+                        width={1600}
+                        height={1000}
+                      />
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section id="feature-grid" className="features-page__capabilities">
+          <div className="features-page__container">
+            <header className="features-page__section-header features-page__section-header--center">
               <span className="features-page__section-kicker">{t('grid.eyebrow')}</span>
               <h2>{t('grid.title')}</h2>
               <p>{t('grid.description')}</p>
             </header>
 
-            <div className="features-page__grid">
-              {features.map((feature, index) => {
+            <div className="features-page__capability-grid">
+              {features.map((feature) => {
                 const Icon = FEATURE_ICONS[feature.id as FeatureId] ?? Sparkles;
-                const image = feature.images[0];
-
                 return (
-                  <article
+                  <Link
                     key={feature.id}
-                    id={feature.id}
-                    className={`features-page__card features-page__card--${feature.id}`}
+                    to={`/${currentLang}/features/${feature.id}`}
+                    className="features-page__capability"
                   >
-                    <Link to={`/${currentLang}/features/${feature.id}`} className="features-page__card-link">
-                      <div className="features-page__card-content">
-                        <span className="features-page__card-icon">
-                          <Icon aria-hidden="true" />
-                        </span>
-                        <div>
-                          <h3 className="features-page__card-title">{feature.title}</h3>
-                          <p className="features-page__card-description">{feature.description}</p>
-                        </div>
-                        <span className="features-page__card-cta">
-                          {t('grid.details')}
-                          <ArrowUpRight aria-hidden="true" />
-                        </span>
-                      </div>
-                      {image && (
-                        <div className="features-page__card-visual">
-                          <div className="features-page__card-screen">
-                            <span className="features-page__card-screen-glow" />
-                            <img src={image} alt="" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
-                          </div>
-                        </div>
-                      )}
-                    </Link>
-                  </article>
+                    <span className="features-page__capability-icon">
+                      <Icon aria-hidden="true" />
+                    </span>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                    <span className="features-page__capability-link">
+                      {t('grid.details')}
+                      <ArrowUpRight aria-hidden="true" />
+                    </span>
+                  </Link>
                 );
               })}
             </div>
