@@ -268,33 +268,35 @@ export const ProjectsListPage: React.FC = () => {
 
                     <ProjectStatusBadge status={project.status} />
 
-                    <div className="projects-list__card-meta">
-                      <div className="projects-list__card-customer">
-                        <User />
-                        <span>{names.customer}</span>
-                      </div>
-                      <div className="projects-list__card-service">
-                        <CheckCircle2 />
-                        <span>
-                          {names.item} • {names.studio}
-                        </span>
-                      </div>
-                      {project.deadline && (
-                        <div className="projects-list__card-deadline">
-                          <Clock />
+                    <div className="projects-list__card-meta-row">
+                      <div className="projects-list__card-meta">
+                        <div className="projects-list__card-customer">
+                          <User />
+                          <span>{names.customer}</span>
+                        </div>
+                        <div className="projects-list__card-service">
+                          <CheckCircle2 />
                           <span>
-                            {t('due')}: {new Date(project.deadline).toLocaleDateString(i18n.language)}
+                            {names.item} • {names.studio}
                           </span>
                         </div>
-                      )}
-                    </div>
+                        {project.deadline && (
+                          <div className="projects-list__card-deadline">
+                            <Clock />
+                            <span>
+                              {t('due')}: {new Date(project.deadline).toLocaleDateString(i18n.language)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
 
-                    <ProjectCollaboratorAvatars
-                      collaborators={project.collaborators}
-                      maxVisible={4}
-                      hideWhenEmpty
-                      className="projects-list__card-collaborators"
-                    />
+                      <ProjectCollaboratorAvatars
+                        collaborators={project.collaborators}
+                        maxVisible={4}
+                        hideWhenEmpty
+                        className="projects-list__card-collaborators"
+                      />
+                    </div>
 
                     <div className="projects-list__card-footer">
                       <span>

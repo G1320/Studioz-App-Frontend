@@ -15,13 +15,34 @@ export function collaboratorAvatarUrl(user: ProjectCollaborator['userId']): stri
   return user.picture || user.avatar || user.imgUrl || undefined;
 }
 
-export function collaboratorInitials(user: ProjectCollaborator['userId']): string {
-  if (typeof user === 'string') return '?';
-  const source = user.name?.trim() || user.email?.trim() || '';
-  if (!source) return '?';
-  const parts = source.split(/[\s@._-]+/).filter(Boolean);
+function initialsFromName(name: string): string {
+  const parts = name.split(/[\s._-]+/).filter(Boolean);
   if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  return source.slice(0, 2).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
+/** Avatar image → name initials → email local-part. */
+export type CollaboratorFace =
+  | { kind: 'image'; src: string }
+  | { kind: 'initials'; text: string }
+  | { kind: 'email'; text: string };
+
+export function collaboratorFace(user: ProjectCollaborator['userId']): CollaboratorFace | null {
+  const image = collaboratorAvatarUrl(user);
+  if (image) return { kind: 'image', src: image };
+
+  if (typeof user === 'string') return null;
+
+  const name = user.name?.trim();
+  if (name) return { kind: 'initials', text: initialsFromName(name) };
+
+  const email = user.email?.trim();
+  if (email) {
+    const local = email.split('@')[0]?.trim() || email;
+    return { kind: 'email', text: local };
+  }
+
+  return null;
 }
 
 export function collaboratorUserId(user: ProjectCollaborator['userId']): string {
@@ -29,5 +50,8 @@ export function collaboratorUserId(user: ProjectCollaborator['userId']): string 
 }
 
 export function activeCollaborators(collaborators?: ProjectCollaborator[]): ProjectCollaborator[] {
-  return (collaborators ?? []).filter((collaborator) => collaborator.status === 'active');
+  return (collaborators ?? []).filter((collaborator) => {
+    if (collaborator.status !== 'active') return false;
+    return collaboratorFace(collaborator.userId) != null;
+  });
 }

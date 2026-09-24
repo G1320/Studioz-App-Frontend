@@ -145,6 +145,21 @@
     line-height: 1;
   }
 
+  &__avatar-email {
+    display: block;
+    max-width: 100%;
+    padding: 0 0.15rem;
+    font-size: 0.5rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+
   &__chip {
     display: none;
   }

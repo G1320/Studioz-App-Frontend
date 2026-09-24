@@ -540,11 +540,20 @@
     font-variant-numeric: tabular-nums;
   }
 
+  &__card-meta-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.15rem;
+  }
+
   &__card-meta {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    margin-top: 0.15rem;
+    min-width: 0;
+    flex: 1 1 auto;
   }
 
   &__card-customer,
@@ -581,8 +590,9 @@
   }
 
   &__card-collaborators {
-    margin-top: 0.65rem;
     flex: 0 0 auto;
+    justify-content: flex-end;
+    max-width: 45%;
   }
 
   &__card-footer {

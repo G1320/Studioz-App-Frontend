@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { ProjectCollaborator } from 'src/types';
 import {
   activeCollaborators,
-  collaboratorAvatarUrl,
-  collaboratorInitials,
+  collaboratorFace,
   collaboratorUserId,
   collaboratorUserTooltip
 } from '../utils/collaboratorUser';
@@ -37,7 +36,8 @@ export function ProjectCollaboratorAvatars({
     <div className={`project-collaborators__avatars ${className}`.trim()}>
       {visible.map((collaborator) => {
         const tip = collaboratorUserTooltip(collaborator.userId);
-        const avatarUrl = collaboratorAvatarUrl(collaborator.userId);
+        const face = collaboratorFace(collaborator.userId);
+        if (!face) return null;
         return (
           <span
             key={collaboratorUserId(collaborator.userId)}
@@ -45,11 +45,18 @@ export function ProjectCollaboratorAvatars({
             title={tip}
             aria-label={tip}
           >
-            {avatarUrl ? (
-              <img src={avatarUrl} alt="" />
+            {face.kind === 'image' ? (
+              <img src={face.src} alt="" />
             ) : (
-              <span className="project-collaborators__avatar-initials" aria-hidden>
-                {collaboratorInitials(collaborator.userId)}
+              <span
+                className={
+                  face.kind === 'email'
+                    ? 'project-collaborators__avatar-email'
+                    : 'project-collaborators__avatar-initials'
+                }
+                aria-hidden
+              >
+                {face.text}
               </span>
             )}
           </span>
