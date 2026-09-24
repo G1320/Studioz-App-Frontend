@@ -238,6 +238,204 @@ const scenes: ScreenshotScene[] = [
     }
   },
   {
+    id: 'desktop-studio-manager',
+    order: 40,
+    path: '/dashboard?tab=studios',
+    readySelector: '.studio-manager',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', y: 120 }
+    ],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Spaces and services, managed',
+        subtitle: 'Toggle availability, edit services and keep every room in view.'
+      },
+      he: {
+        title: 'חללים ושירותים בניהול אחד',
+        subtitle: 'מפעילים זמינות, עורכים שירותים ורואים כל חלל במבט אחד.'
+      }
+    }
+  },
+  {
+    id: 'mobile-studio-manager',
+    order: 41,
+    path: '/dashboard?tab=studios',
+    readySelector: '.studio-manager',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Manage on the go',
+        subtitle: 'Studios, services and availability from your phone.'
+      },
+      he: {
+        title: 'ניהול מהנייד',
+        subtitle: 'סטודיואים, שירותים וזמינות מהטלפון.'
+      }
+    }
+  },
+  {
+    id: 'desktop-stats',
+    order: 42,
+    path: '/stats',
+    readySelector: '.merchant-stats',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [{ type: 'scroll', y: 80 }],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Performance at a glance',
+        subtitle: 'Revenue, bookings and trends without leaving the dashboard.'
+      },
+      he: {
+        title: 'ביצועים במבט אחד',
+        subtitle: 'הכנסות, הזמנות ומגמות בלי לצאת מהלוח.'
+      }
+    }
+  },
+  {
+    id: 'desktop-documents',
+    order: 43,
+    path: '/dashboard?tab=documents',
+    readySelector: '.merchant-documents',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', y: 100 }
+    ],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Invoices in one place',
+        subtitle: 'Filter, review and track payment status without the paperwork.'
+      },
+      he: {
+        title: 'חשבוניות במקום אחד',
+        subtitle: 'מסננים, בודקים ועוקבים אחרי סטטוס תשלום בלי ניירת.'
+      }
+    }
+  },
+  {
+    id: 'mobile-documents',
+    order: 44,
+    path: '/dashboard?tab=documents',
+    readySelector: '.merchant-documents',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Documents on mobile',
+        subtitle: 'Invoices and payment status in your pocket.'
+      },
+      he: {
+        title: 'מסמכים בנייד',
+        subtitle: 'חשבוניות וסטטוס תשלום בכיס.'
+      }
+    }
+  },
+  {
+    id: 'desktop-billing',
+    order: 45,
+    path: '/dashboard?tab=billing',
+    readySelector: '.billing',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', y: 80 }
+    ],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Clear platform billing',
+        subtitle: 'Current period, history and fees without the guesswork.'
+      },
+      he: {
+        title: 'חיוב פלטפורמה ברור',
+        subtitle: 'תקופה נוכחית, היסטוריה ועמלות בלי ניחושים.'
+      }
+    }
+  },
+  {
+    id: 'mobile-billing',
+    order: 46,
+    path: '/dashboard?tab=billing',
+    readySelector: '.billing',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Billing on the go',
+        subtitle: 'Fees and history from your phone.'
+      },
+      he: {
+        title: 'חיובים בנייד',
+        subtitle: 'עמלות והיסטוריה מהטלפון.'
+      }
+    }
+  },
+  {
     id: 'projects-list',
     order: 9,
     path: '/projects',

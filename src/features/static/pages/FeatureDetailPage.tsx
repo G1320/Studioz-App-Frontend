@@ -8,20 +8,26 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link, Navigate } from 'react-router-dom';
+import { useTheme } from '@shared/contexts/ThemeContext';
 import {
   BASE_URL,
-  FEATURE_IMAGES,
+  FEATURE_SHOTS,
+  featureCaptureUrl,
   toAbsoluteImageUrl,
   isFeatureId,
+  type CaptureLocale,
   type FeatureId
 } from '../featuresConfig';
 import '../styles/_features-page.scss';
 
 export default function FeatureDetailPage() {
   const { t, i18n } = useTranslation('features');
+  const { resolvedTheme } = useTheme();
   const { lang, featureId } = useParams<{ lang?: string; featureId?: string }>();
 
   const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
+  const assetLocale: CaptureLocale = currentLang === 'he' ? 'he' : 'en-US';
+
   const list = t('list', { returnObjects: true }) as Array<{
     id: string;
     title: string;
@@ -33,9 +39,10 @@ export default function FeatureDetailPage() {
     if (!Array.isArray(list)) return null;
     const item = list.find((x) => x.id === featureId);
     if (!item) return null;
-    const images = FEATURE_IMAGES[featureId as FeatureId] ?? [];
+    const shots = FEATURE_SHOTS[featureId as FeatureId] ?? [];
+    const images = shots.map((shot) => featureCaptureUrl(shot, assetLocale, resolvedTheme));
     return { ...item, images };
-  }, [featureId, list]);
+  }, [featureId, list, assetLocale, resolvedTheme]);
 
   const jsonLd = useMemo(() => {
     if (!feature) return null;
@@ -101,7 +108,7 @@ export default function FeatureDetailPage() {
               >
                 {feature.images.map((src, i) => (
                   <motion.div
-                    key={i}
+                    key={src}
                     className="features-page__detail-image-wrap"
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}

@@ -559,206 +559,137 @@ const additionalReservationSeed: Array<{
     status: 'pending',
     createdAt: '2026-09-23T15:10:00.000Z'
   },
-  // Busy late-September week for calendar screenshots (today = 24/09/2026)
+  // Month-spread calendar fixtures (today = 22/09/2026):
+  // lighter than the late-month pile-up; ~1 booking on selected days across September.
   {
     customerId: 'customer-seventeen',
     customerName: 'Alex Rivera',
-    bookingDate: '24/09/2026',
-    startHour: 14,
+    bookingDate: '02/09/2026',
+    startHour: 10,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
-    createdAt: '2026-09-23T16:00:00.000Z'
+    createdAt: '2026-08-28T16:00:00.000Z'
   },
   {
     customerId: 'customer-eighteen',
     customerName: 'Mia Ben-Ami',
-    bookingDate: '24/09/2026',
-    startHour: 17,
+    bookingDate: '05/09/2026',
+    startHour: 14,
     duration: 3,
     status: 'confirmed',
     itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
-    createdAt: '2026-09-23T16:20:00.000Z'
+    createdAt: '2026-08-30T16:20:00.000Z'
   },
   {
     customerId: 'customer-nineteen',
     customerName: 'Ron Hadad',
-    bookingDate: '24/09/2026',
-    startHour: 21,
+    bookingDate: '08/09/2026',
+    startHour: 11,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
-    createdAt: '2026-09-23T16:40:00.000Z'
+    createdAt: '2026-09-01T16:40:00.000Z'
   },
   {
     customerId: 'customer-twenty',
     customerName: 'Sara Klein',
-    bookingDate: '22/09/2026',
+    bookingDate: '11/09/2026',
     startHour: 10,
     duration: 3,
     status: 'confirmed',
     itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
-    createdAt: '2026-09-20T09:00:00.000Z'
+    createdAt: '2026-09-03T09:00:00.000Z'
   },
   {
     customerId: 'customer-twentyone',
     customerName: 'Idan Bar',
-    bookingDate: '22/09/2026',
+    bookingDate: '14/09/2026',
     startHour: 15,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Mastering', he: 'מאסטרינג' },
-    createdAt: '2026-09-20T10:00:00.000Z'
+    createdAt: '2026-09-04T10:00:00.000Z'
   },
   {
     customerId: 'customer-twentytwo',
     customerName: 'Hila Mor',
-    bookingDate: '23/09/2026',
+    bookingDate: '16/09/2026',
     startHour: 11,
-    duration: 4,
+    duration: 3,
     status: 'confirmed',
     itemName: { en: 'Live Band Tracking', he: 'הקלטת הרכב' },
-    createdAt: '2026-09-21T08:00:00.000Z'
+    createdAt: '2026-09-06T08:00:00.000Z'
   },
   {
     customerId: 'customer-twentythree',
     customerName: 'Tom Avraham',
-    bookingDate: '23/09/2026',
-    startHour: 18,
+    bookingDate: '18/09/2026',
+    startHour: 16,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
-    createdAt: '2026-09-21T09:00:00.000Z'
+    createdAt: '2026-09-07T09:00:00.000Z'
   },
   {
     customerId: 'customer-twentyfour',
     customerName: 'Lina Weiss',
-    bookingDate: '25/09/2026',
-    startHour: 9,
+    bookingDate: '21/09/2026',
+    startHour: 10,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
-    createdAt: '2026-09-22T11:00:00.000Z'
+    createdAt: '2026-09-10T11:00:00.000Z'
   },
   {
     customerId: 'customer-twentyfive',
     customerName: 'Ori Segal',
-    bookingDate: '25/09/2026',
-    startHour: 12,
+    bookingDate: '22/09/2026',
+    startHour: 14,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
-    createdAt: '2026-09-22T12:00:00.000Z'
+    createdAt: '2026-09-11T12:00:00.000Z'
   },
   {
     customerId: 'customer-twentysix',
     customerName: 'Neta Carmel',
-    bookingDate: '26/09/2026',
-    startHour: 10,
-    duration: 3,
+    bookingDate: '23/09/2026',
+    startHour: 11,
+    duration: 2,
     status: 'confirmed',
     itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
-    createdAt: '2026-09-22T14:00:00.000Z'
+    createdAt: '2026-09-13T14:00:00.000Z'
   },
   {
     customerId: 'customer-twentyseven',
     customerName: 'Yoav Dahan',
     bookingDate: '26/09/2026',
-    startHour: 16,
+    startHour: 15,
     duration: 3,
     status: 'confirmed',
     itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
-    createdAt: '2026-09-22T15:00:00.000Z'
+    createdAt: '2026-09-14T15:00:00.000Z'
   },
   {
     customerId: 'customer-twentyeight',
     customerName: 'Eden Levy',
-    bookingDate: '27/09/2026',
-    startHour: 13,
+    bookingDate: '30/09/2026',
+    startHour: 10,
     duration: 2,
     status: 'confirmed',
     itemName: { en: 'Mastering', he: 'מאסטרינג' },
-    createdAt: '2026-09-23T08:00:00.000Z'
+    createdAt: '2026-09-18T08:00:00.000Z'
   },
   {
     customerId: 'customer-twentynine',
     customerName: 'Barak Tzur',
-    bookingDate: '27/09/2026',
-    startHour: 16,
-    duration: 3,
-    status: 'confirmed',
-    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
-    createdAt: '2026-09-23T09:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirty',
-    customerName: 'Rotem Ashkenazi',
-    bookingDate: '29/09/2026',
-    startHour: 10,
-    duration: 2,
-    status: 'confirmed',
-    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
-    createdAt: '2026-09-23T11:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirtyone',
-    customerName: 'Yuval Peretz',
-    bookingDate: '29/09/2026',
-    startHour: 14,
-    duration: 3,
-    status: 'confirmed',
-    itemName: { en: 'Live Band Tracking', he: 'הקלטת הרכב' },
-    createdAt: '2026-09-23T12:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirtytwo',
-    customerName: 'Adi Manor',
-    bookingDate: '30/09/2026',
-    startHour: 11,
-    duration: 4,
-    status: 'confirmed',
-    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
-    createdAt: '2026-09-23T13:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirtythree',
-    customerName: 'Keren Biton',
-    bookingDate: '30/09/2026',
-    startHour: 17,
-    duration: 2,
-    status: 'confirmed',
-    itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
-    createdAt: '2026-09-23T14:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirtyfour',
-    customerName: 'Itai Golan',
-    bookingDate: '01/10/2026',
-    startHour: 15,
-    duration: 2,
-    status: 'confirmed',
-    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
-    createdAt: '2026-09-23T15:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirtyfive',
-    customerName: 'Shani Regev',
-    bookingDate: '02/10/2026',
-    startHour: 10,
-    duration: 3,
-    status: 'confirmed',
-    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
-    createdAt: '2026-09-23T16:00:00.000Z'
-  },
-  {
-    customerId: 'customer-thirtysix',
-    customerName: 'Omri Paz',
     bookingDate: '03/10/2026',
-    startHour: 12,
-    duration: 3,
+    startHour: 14,
+    duration: 2,
     status: 'confirmed',
-    itemName: { en: 'Mastering', he: 'מאסטרינג' },
-    createdAt: '2026-09-23T17:00:00.000Z'
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
+    createdAt: '2026-09-19T09:00:00.000Z'
   }
 ];
 

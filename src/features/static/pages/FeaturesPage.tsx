@@ -15,8 +15,14 @@ import {
   Store
 } from 'lucide-react';
 import { useTheme } from '@shared/contexts/ThemeContext';
-import { BASE_URL, toAbsoluteImageUrl } from '../featuresConfig';
-import type { FeatureId } from '../featuresConfig';
+import {
+  BASE_URL,
+  FEATURE_SHOTS,
+  featureCaptureUrl,
+  toAbsoluteImageUrl,
+  type CaptureLocale,
+  type FeatureId
+} from '../featuresConfig';
 import '../styles/_features-page.scss';
 import '../styles/_features-page-showcase.scss';
 
@@ -30,12 +36,17 @@ const FEATURE_ICONS = {
   remote: Headphones
 } satisfies Record<FeatureId, typeof Sparkles>;
 
-const FEATURE_SCREENSHOTS: Partial<Record<FeatureId, string>> = {
-  calendar: 'desktop-calendar',
-  insights: 'cross-device-analytics-desktop',
-  studio_pages: 'desktop-studio-portfolio',
-  remote: 'desktop-project-workspace'
-};
+/**
+ * Showcase rows for /features — intentionally different assets from PreviewLandingPage:
+ * landing uses reservations/projects rotation, cross-device analytics, project-review mobile, portfolio.
+ */
+const SHOWCASES = [
+  { key: 'calendar', desktop: 'desktop-calendar', mobile: 'mobile-calendar' },
+  { key: 'studios', desktop: 'desktop-studio-manager', mobile: 'mobile-studio-manager' },
+  { key: 'insights', desktop: 'desktop-stats', mobile: 'mobile-analytics-revenue' },
+  { key: 'delivery', desktop: 'desktop-project-workspace', mobile: 'mobile-project-workspace' },
+  { key: 'money', desktop: 'desktop-billing', mobile: 'mobile-billing' }
+] as const;
 
 interface ProductVisualProps {
   desktopSrc: string;
@@ -75,9 +86,9 @@ export default function FeaturesPage() {
   const { resolvedTheme } = useTheme();
   const { lang } = useParams<{ lang?: string }>();
   const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
-  const assetLocale = currentLang === 'he' ? 'he' : 'en-US';
+  const assetLocale: CaptureLocale = currentLang === 'he' ? 'he' : 'en-US';
   const captureUrl = useCallback(
-    (capture: string) => `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp`,
+    (capture: string) => featureCaptureUrl(capture, assetLocale, resolvedTheme),
     [assetLocale, resolvedTheme]
   );
 
@@ -89,8 +100,11 @@ export default function FeaturesPage() {
   const features = useMemo(() => {
     if (!Array.isArray(list)) return [];
     return list.map((item) => {
-      const scene = FEATURE_SCREENSHOTS[item.id as FeatureId];
-      return { ...item, images: scene ? [captureUrl(scene)] : [] };
+      const shots = FEATURE_SHOTS[item.id as FeatureId] ?? [];
+      return {
+        ...item,
+        images: shots.slice(0, 1).map((shot) => captureUrl(shot))
+      };
     });
   }, [list, captureUrl]);
 
@@ -116,21 +130,6 @@ export default function FeaturesPage() {
       itemListElement
     };
   }, [features, currentLang, t]);
-
-  const showcases = [
-    { key: 'operations', desktop: 'desktop-calendar', mobile: 'mobile-calendar' },
-    {
-      key: 'analytics',
-      desktop: 'cross-device-analytics-desktop',
-      mobile: 'cross-device-analytics-mobile'
-    },
-    {
-      key: 'projects',
-      desktop: 'desktop-project-workspace',
-      mobile: 'cross-device-project-review-mobile'
-    },
-    { key: 'presence', desktop: 'desktop-studio-portfolio', mobile: undefined }
-  ] as const;
 
   return (
     <>
@@ -165,9 +164,9 @@ export default function FeaturesPage() {
             <div className="features-page__hero-visual">
               <div className="features-page__hero-glow" />
               <ProductVisual
-                desktopSrc={captureUrl('cross-device-analytics-desktop')}
-                mobileSrc={captureUrl('cross-device-analytics-mobile')}
-                alt={t('showcase.analytics.imageAlt')}
+                desktopSrc={captureUrl('desktop-calendar')}
+                mobileSrc={captureUrl('mobile-calendar')}
+                alt={t('showcase.calendar.imageAlt')}
                 eager
                 hero
               />
@@ -192,37 +191,25 @@ export default function FeaturesPage() {
             </header>
 
             <div className="features-page__showcase-list">
-              {showcases.map(({ key, desktop, mobile }, index) => {
-                const points = t(`showcase.${key}.points`, { returnObjects: true }) as string[];
-                return (
-                  <article
-                    className={`features-page__showcase-row ${index % 2 ? 'features-page__showcase-row--reverse' : ''}`}
-                    key={key}
-                  >
-                    <div className="features-page__showcase-copy">
-                      <h3>{t(`showcase.${key}.title`)}</h3>
-                      <p>{t(`showcase.${key}.description`)}</p>
-                      <ul>
-                        {Array.isArray(points) &&
-                          points.map((point) => (
-                            <li key={point}>
-                              <Check aria-hidden="true" />
-                              {point}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                    <div className="features-page__showcase-visual">
-                      <ProductVisual
-                        desktopSrc={captureUrl(desktop)}
-                        mobileSrc={mobile ? captureUrl(mobile) : undefined}
-                        alt={t(`showcase.${key}.imageAlt`)}
-                        eager={index === 0}
-                      />
-                    </div>
-                  </article>
-                );
-              })}
+              {SHOWCASES.map(({ key, desktop, mobile }, index) => (
+                <article
+                  className={`features-page__showcase-row ${index % 2 ? 'features-page__showcase-row--reverse' : ''}`}
+                  key={key}
+                >
+                  <div className="features-page__showcase-copy">
+                    <h3>{t(`showcase.${key}.title`)}</h3>
+                    <p>{t(`showcase.${key}.description`)}</p>
+                  </div>
+                  <div className="features-page__showcase-visual">
+                    <ProductVisual
+                      desktopSrc={captureUrl(desktop)}
+                      mobileSrc={captureUrl(mobile)}
+                      alt={t(`showcase.${key}.imageAlt`)}
+                      eager={index === 0}
+                    />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -235,7 +222,7 @@ export default function FeaturesPage() {
             </header>
 
             <div className="features-page__capability-grid">
-              {features.filter((feature) => feature.id !== 'studio_pages').map((feature) => {
+              {features.map((feature) => {
                 const Icon = FEATURE_ICONS[feature.id as FeatureId] ?? Sparkles;
                 return (
                   <Link

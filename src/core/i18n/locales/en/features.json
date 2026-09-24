@@ -1,122 +1,98 @@
 {
   "meta": {
     "title": "Product Features",
-    "description": "Studioz platform features: smart calendar, insights, service setup, payments, studio pages, availability control, and remote projects. Explanations and images for each feature."
+    "description": "Studioz features: calendar, studio management, insights, invoices, billing, and remote project delivery—short explanations with product screenshots."
   },
   "hero": {
-    "eyebrow": "Built for independent studios",
-    "title": "Everything your studio needs.",
-    "titleAccent": "One beautiful workspace.",
-    "description": "Bookings, payments, clients, projects, and insights—thoughtfully connected so you can spend less time managing and more time creating.",
-    "primaryCta": "Explore the platform",
-    "secondaryCta": "Studio owner FAQ",
-    "floatingNote": "Your schedule, always in sync"
+    "title": "Everything your studio needs",
+    "titleAccent": "in one workspace.",
+    "description": "Schedule, services, money, and delivery—connected so the team stays in sync.",
+    "primaryCta": "Explore features",
+    "secondaryCta": "Owner FAQ"
   },
   "proof": {
-    "label": "Platform capabilities",
+    "label": "Built in",
     "items": [
-      "One source of truth",
-      "Built for desktop and mobile",
-      "English and Hebrew",
-      "Light and dark mode"
+      "Desktop and mobile",
+      "Hebrew and English",
+      "Light and dark",
+      "One source of truth"
     ]
   },
   "showcase": {
-    "eyebrow": "The operating system for modern studios",
-    "title": "Run every part of the business from one connected platform.",
-    "description": "Studioz brings operations, financial intelligence, client delivery, and your public presence together without forcing your team into a patchwork of tools.",
-    "operations": {
-      "eyebrow": "Operations",
-      "title": "A clear command center for every booking.",
-      "description": "Keep the team aligned with one operational view of reservations, clients, services, and status.",
-      "points": [
-        "Search and filter the complete reservation pipeline",
-        "Keep customer, service, and payment context together",
-        "Move confidently between desktop and mobile"
-      ],
-      "imageAlt": "Studioz reservation management workspace"
+    "title": "The tools you run every day.",
+    "description": "Each surface is dense, quiet, and tied to the same studio context.",
+    "calendar": {
+      "title": "Your week, clear at a glance.",
+      "description": "Confirmed sessions and open slots in one calendar—month, week, day, or list.",
+      "imageAlt": "Studioz studio calendar on desktop and mobile"
     },
-    "analytics": {
-      "eyebrow": "Business intelligence",
-      "title": "See performance clearly. Act before trends become problems.",
-      "description": "Turn daily studio activity into decision-ready revenue and utilization insights across every screen.",
-      "points": [
-        "Track revenue and booking performance over time",
-        "Compare studios, services, and operating periods",
-        "Keep the same live view on desktop and mobile"
-      ],
-      "imageAlt": "Studioz analytics on desktop and mobile"
+    "studios": {
+      "title": "Spaces and services under control.",
+      "description": "Toggle availability, edit services, and keep every room in one manager.",
+      "imageAlt": "Studioz studio manager on desktop and mobile"
     },
-    "projects": {
-      "eyebrow": "Client delivery",
-      "title": "Feedback, files, and approvals stay attached to the work.",
-      "description": "Give clients a professional review experience while your team keeps every version and conversation organized.",
-      "points": [
-        "Collect precise time-coded comments",
-        "Manage source files, revisions, and deliverables",
-        "Keep collaborators and project chat in one workspace"
-      ],
-      "imageAlt": "Studioz project review on desktop and mobile"
+    "insights": {
+      "title": "Numbers you can act on.",
+      "description": "Revenue, bookings, and trends without leaving the dashboard.",
+      "imageAlt": "Studioz statistics dashboard"
     },
-    "presence": {
-      "eyebrow": "Your digital presence",
-      "title": "Turn great work into a studio page that earns trust.",
-      "description": "Present your rooms, equipment, and services with the same level of polish clients expect from your studio.",
-      "points": [
-        "Showcase rooms and equipment with rich imagery",
-        "Connect services directly to booking",
-        "Deliver a premium experience in every theme and language"
-      ],
-      "imageAlt": "Tempo Studios profile on Studioz"
+    "delivery": {
+      "title": "Remote work stays with the project.",
+      "description": "Tracks, timed feedback, files, and chat attached to the delivery.",
+      "imageAlt": "Studioz remote project workspace"
+    },
+    "money": {
+      "title": "Invoices and fees, organized.",
+      "description": "Platform billing and invoices in the same owner workspace.",
+      "imageAlt": "Studioz billing and invoices"
     }
   },
   "grid": {
-    "eyebrow": "One connected platform",
-    "title": "Powerful where it matters. Effortless everywhere else.",
-    "description": "Every tool shares the same context, so your calendar, cash flow, client work, and studio presence always stay in step.",
-    "details": "See how it works"
+    "title": "Every capability, same context.",
+    "description": "Dive into any feature—each one shares the studio, clients, and money picture.",
+    "details": "Learn more"
   },
   "closing": {
-    "eyebrow": "Ready when you are",
-    "title": "Turn your studio into a business that runs beautifully.",
-    "description": "Create your studio, shape your services, and start building a smoother experience for you and your clients.",
+    "title": "Ready to run the studio from one place.",
+    "description": "Create your studio, set services, and start booking.",
     "cta": "List your studio"
   },
   "list": [
     {
       "id": "calendar",
-      "title": "Smart Calendar & Sync",
-      "description": "Full sync with Google Calendar and real-time booking system. Prevent double bookings and manage your studio hours with a click. Every new booking appears in your calendar automatically."
+      "title": "Smart calendar",
+      "description": "Month, week, day, and list views with confirmed bookings in sync."
     },
     {
       "id": "insights",
-      "title": "Insights & Data",
-      "description": "Track revenue, active hours, and growth metrics at a glance. Make data-driven decisions to increase your profitability with clear dashboards and reports."
+      "title": "Insights",
+      "description": "Revenue, utilization, and trends ready when you need to decide."
     },
     {
       "id": "services",
-      "title": "Service Setup",
-      "description": "Customize every detail of your recording or podcast packages. Set flexible pricing, add-ons, and booking terms easily. Define multiple services per studio."
+      "title": "Service setup",
+      "description": "Packages, pricing, and add-ons per studio—editable anytime."
     },
     {
       "id": "payments",
-      "title": "Payments & Billing",
-      "description": "Accept payments securely, auto-generate invoices, and manage cash flow. All in one place—deposits, final payments, and reporting by period."
+      "title": "Payments & billing",
+      "description": "Invoices, receipts, and platform fees without the paperwork."
     },
     {
       "id": "studio_pages",
-      "title": "Studio Pages That Convert",
-      "description": "We don't just display your studio—we sell it. Custom pages that work perfectly in dark and light mode. Premium, ad-free experience for your clients."
+      "title": "Studio management",
+      "description": "Rooms, services, and availability toggles in one manager."
     },
     {
       "id": "availability",
-      "title": "Availability Control",
-      "description": "Set advanced availability rules, buffer times, and gaps between sessions. The system ensures no double bookings and your day runs exactly as planned. Instant or manual approval."
+      "title": "Availability control",
+      "description": "Block time, set rules, and keep the calendar honest."
     },
     {
       "id": "remote",
-      "title": "Remote Projects",
-      "description": "Offer mixing, mastering, and post-production to artists nationwide. Asynchronous workflow, project-based pricing, integrated chat, and secure payments. Your studio doesn't need to be open for you to earn."
+      "title": "Remote projects",
+      "description": "Mixing and mastering with files, feedback, and chat in one workspace."
     }
   ]
 }
