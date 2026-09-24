@@ -32,14 +32,19 @@ const SHOWCASES = [
     desktops: ['desktop-reservations', 'desktop-projects'] as const
   },
   {
-    key: 'analytics',
-    desktop: 'cross-device-analytics-desktop',
-    mobile: 'cross-device-analytics-mobile'
+    key: 'calendar',
+    desktop: 'desktop-calendar',
+    mobile: 'mobile-calendar'
   },
   {
     key: 'projects',
     desktop: undefined,
     mobile: 'cross-device-project-review-mobile'
+  },
+  {
+    key: 'analytics',
+    desktop: 'cross-device-analytics-desktop',
+    mobile: 'cross-device-analytics-mobile'
   },
   {
     key: 'presence',

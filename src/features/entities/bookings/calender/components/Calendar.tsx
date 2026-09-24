@@ -20,12 +20,32 @@ interface CalendarEvent {
   start: Dayjs;
   end: Dayjs;
   type: 'booking' | 'maintenance' | 'blocked';
+  status?: Reservation['status'];
   studioName?: string;
   customerName?: string;
   reservation?: Reservation;
 }
 
 const MONTH_EVENT_LIMIT = 4;
+const CALENDAR_VISIBLE_STATUSES = new Set<Reservation['status']>(['confirmed', 'pending']);
+
+function eventCardVisualClass(event: CalendarEvent): string {
+  if (event.type === 'maintenance' || event.type === 'blocked') {
+    return 'studioz-calendar__event-card--maintenance';
+  }
+  if (event.status === 'pending') {
+    return 'studioz-calendar__event-card--pending';
+  }
+  return 'studioz-calendar__event-card--booking';
+}
+
+function eventAccentClass(event: CalendarEvent, kind: 'bar' | 'dot'): string {
+  const prefix =
+    kind === 'bar' ? 'studioz-calendar__event-bar' : 'studioz-calendar__list-event-dot';
+  if (event.type === 'maintenance' || event.type === 'blocked') return `${prefix}--maintenance`;
+  if (event.status === 'pending') return `${prefix}--pending`;
+  return `${prefix}--booking`;
+}
 
 interface CalendarProps {
   title?: string;
@@ -70,18 +90,13 @@ function EventCard({
   onClick?: () => void;
 }) {
   const isMonth = view === 'month';
+  const visual = eventCardVisualClass(event);
 
   if (isMonth) {
     const label = event.customerName || event.title;
     return (
       <div
-        className={cn(
-          'studioz-calendar__event-card',
-          'studioz-calendar__event-card--month',
-          event.type === 'maintenance'
-            ? 'studioz-calendar__event-card--maintenance'
-            : 'studioz-calendar__event-card--booking'
-        )}
+        className={cn('studioz-calendar__event-card', 'studioz-calendar__event-card--month', visual)}
         onClick={onClick}
       >
         <span className="studioz-calendar__event-time-label">{event.start.format('HH:mm')}</span>
@@ -92,23 +107,8 @@ function EventCard({
 
   // Week/Day view style
   return (
-    <div
-      className={cn(
-        'studioz-calendar__event-card studioz-calendar__event-card--week',
-        event.type === 'maintenance'
-          ? 'studioz-calendar__event-card--maintenance'
-          : 'studioz-calendar__event-card--booking'
-      )}
-      onClick={onClick}
-    >
-      <div
-        className={cn(
-          'studioz-calendar__event-bar',
-          event.type === 'maintenance'
-            ? 'studioz-calendar__event-bar--maintenance'
-            : 'studioz-calendar__event-bar--booking'
-        )}
-      />
+    <div className={cn('studioz-calendar__event-card studioz-calendar__event-card--week', visual)} onClick={onClick}>
+      <div className={cn('studioz-calendar__event-bar', eventAccentClass(event, 'bar'))} />
       <div className="studioz-calendar__event-content">
         <div className="studioz-calendar__event-title">{event.customerName || event.title}</div>
         <div className="studioz-calendar__event-time">
@@ -409,9 +409,7 @@ function ListView({
                   <div
                     className={cn(
                       'studioz-calendar__list-event-dot',
-                      e.type === 'maintenance'
-                        ? 'studioz-calendar__list-event-dot--maintenance'
-                        : 'studioz-calendar__list-event-dot--booking'
+                      eventAccentClass(e, 'dot')
                     )}
                   />
                 </div>
@@ -459,10 +457,10 @@ export const Calendar: React.FC<CalendarProps> = ({
   const [view, setView] = useState<ViewType>('month');
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
-  // Convert reservations to calendar events
+  // Convert reservations to calendar events (confirmed + pending; hide cancelled/etc.)
   const events: CalendarEvent[] = useMemo(() => {
     return studioReservations
-      .filter((reservation) => reservation.status === 'confirmed')
+      .filter((reservation) => CALENDAR_VISIBLE_STATUSES.has(reservation.status))
       .map((reservation) => {
         const baseDate = reservation.bookingDate.split('/').reverse().join('-');
         const startTime = reservation.timeSlots[0];
@@ -480,6 +478,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           start: dayjs(`${baseDate}T${startTime}`),
           end: dayjs(`${baseDate}T${finalEndTime}`),
           type: 'booking' as const,
+          status: reservation.status,
           studioName: reservation.studioName?.en || reservation.studioName?.he,
           customerName: reservation.customerName,
           reservation

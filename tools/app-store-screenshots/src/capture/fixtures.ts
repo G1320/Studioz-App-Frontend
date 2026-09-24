@@ -572,6 +572,26 @@ const additionalReservationSeed: Array<{
     createdAt: '2026-08-28T16:00:00.000Z'
   },
   {
+    customerId: 'customer-pending-sep',
+    customerName: 'Noa Farhi',
+    bookingDate: '19/09/2026',
+    startHour: 13,
+    duration: 2,
+    status: 'pending',
+    itemName: { en: 'Studio Rental', he: 'השכרת אולפן' },
+    createdAt: '2026-09-17T11:00:00.000Z'
+  },
+  {
+    customerId: 'customer-pending-sep-2',
+    customerName: 'Dan Peretz',
+    bookingDate: '24/09/2026',
+    startHour: 14,
+    duration: 2,
+    status: 'pending',
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
+    createdAt: '2026-09-20T14:30:00.000Z'
+  },
+  {
     customerId: 'customer-eighteen',
     customerName: 'Mia Ben-Ami',
     bookingDate: '05/09/2026',

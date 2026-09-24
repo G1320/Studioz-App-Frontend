@@ -376,13 +376,32 @@
         border: none;
         border-inline-start: 2px solid var(--color-brand);
         color: var(--text-primary);
+
+        .studioz-calendar__event-time-label {
+          color: color-mix(in srgb, var(--color-brand) 72%, var(--text-primary));
+        }
       }
 
-      &.studioz-calendar__event-card--maintenance {
-        background: color-mix(in srgb, var(--color-warning-text) 14%, var(--bg-surface));
+      &.studioz-calendar__event-card--pending {
+        background: color-mix(in srgb, var(--color-warning-text) 12%, var(--bg-surface));
         border: none;
         border-inline-start: 2px solid var(--color-warning-text);
         color: var(--text-primary);
+
+        .studioz-calendar__event-time-label {
+          color: color-mix(in srgb, var(--color-warning-text) 78%, var(--text-primary));
+        }
+      }
+
+      &.studioz-calendar__event-card--maintenance {
+        background: color-mix(in srgb, var(--color-info-text, var(--text-muted)) 12%, var(--bg-surface));
+        border: none;
+        border-inline-start: 2px solid var(--color-info-text, var(--text-muted));
+        color: var(--text-primary);
+
+        .studioz-calendar__event-time-label {
+          color: var(--text-secondary);
+        }
       }
     }
 
@@ -411,9 +430,15 @@
         color: var(--text-primary);
       }
 
-      &.studioz-calendar__event-card--maintenance {
-        background: color-mix(in srgb, var(--color-warning-text) 14%, var(--bg-surface));
+      &.studioz-calendar__event-card--pending {
+        background: color-mix(in srgb, var(--color-warning-text) 12%, var(--bg-surface));
         border-inline-start-color: var(--color-warning-text);
+        color: var(--text-primary);
+      }
+
+      &.studioz-calendar__event-card--maintenance {
+        background: color-mix(in srgb, var(--color-info-text, var(--text-muted)) 12%, var(--bg-surface));
+        border-inline-start-color: var(--color-info-text, var(--text-muted));
         color: var(--text-primary);
       }
 
@@ -428,6 +453,12 @@
       color: var(--text-primary);
     }
 
+    &--pending {
+      background: color-mix(in srgb, var(--color-warning-text) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-warning-text) 28%, transparent);
+      color: var(--text-primary);
+    }
+
     &--maintenance {
       background: var(--color-warning-bg);
       border: 1px solid var(--color-warning-border);
@@ -437,12 +468,13 @@
 
   &__event-time-label {
     flex-shrink: 0;
-    font-size: 0.5625rem;
+    font-size: 0.625rem;
     font-weight: 650;
     font-family: 'DM Mono', monospace;
     font-variant-numeric: tabular-nums;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     direction: ltr;
+    letter-spacing: -0.02em;
   }
 
   &__event-dot {
@@ -455,8 +487,12 @@
       background: var(--color-brand);
     }
 
-    &--maintenance {
+    &--pending {
       background: var(--color-warning-text);
+    }
+
+    &--maintenance {
+      background: var(--color-info-text, var(--text-muted));
     }
   }
 
@@ -483,8 +519,12 @@
       background: var(--color-brand);
     }
 
-    &--maintenance {
+    &--pending {
       background: var(--color-warning-text);
+    }
+
+    &--maintenance {
+      background: var(--color-info-text, var(--text-muted));
     }
   }
 
@@ -860,8 +900,12 @@
       background: var(--color-brand);
     }
 
-    &--maintenance {
+    &--pending {
       background: var(--color-warning-text);
+    }
+
+    &--maintenance {
+      background: var(--color-info-text, var(--text-muted));
     }
   }
 

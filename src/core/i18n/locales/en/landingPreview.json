@@ -40,6 +40,11 @@
     "description": "Operations, delivery, intelligence, and presence. Share the same picture so everyone stays in the loop."
   },
   "showcase": {
+    "calendar": {
+      "title": "Your week, clear at a glance.",
+      "description": "Confirmed sessions and open slots all in one place",
+      "imageAlt": "Studioz studio calendar on desktop and mobile"
+    },
     "operations": {
       "title": "Keep the pipeline visible.",
       "description": "Search, filter, and act without juggling tabs.",

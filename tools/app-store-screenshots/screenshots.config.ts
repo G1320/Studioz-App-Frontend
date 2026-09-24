@@ -80,7 +80,8 @@ const scenes: ScreenshotScene[] = [
     textAlign: 'center',
     actions: [
       { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', y: 160 }
+      // Nudge past the collapsed Quick Actions bar so it isn't cropped at the top edge.
+      { type: 'scroll', y: 188 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
