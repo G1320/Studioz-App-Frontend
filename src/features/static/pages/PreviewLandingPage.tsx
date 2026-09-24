@@ -24,7 +24,7 @@ const PILLAR_ICONS = {
 
 type PillarId = keyof typeof PILLAR_ICONS;
 
-const OPS_ROTATE_MS = 5000;
+const OPS_ROTATE_MS = 6000;
 
 const SHOWCASES = [
   {
@@ -51,6 +51,9 @@ const SHOWCASES = [
     mobile: 'mobile-studio-portfolio'
   }
 ] as const;
+
+/** First two ops surfaces share a row — same visual weight, both desktop rotations. */
+const PAIRED_SHOWCASE_COUNT = 2;
 
 interface ProductVisualProps {
   desktopSrc?: string;
@@ -282,7 +285,39 @@ export default function PreviewLandingPage() {
             </motion.header>
 
             <div className="preview-landing__showcase-list">
-              {SHOWCASES.map((showcase, index) => {
+              <div className="preview-landing__showcase-pair">
+                {SHOWCASES.slice(0, PAIRED_SHOWCASE_COUNT).map((showcase, index) => {
+                  const desktops =
+                    'desktops' in showcase
+                      ? showcase.desktops.map((id) => captureUrl(id))
+                      : undefined;
+                  const desktop =
+                    'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
+
+                  return (
+                    <motion.article
+                      key={showcase.key}
+                      className="preview-landing__showcase preview-landing__showcase--paired"
+                      {...fadeUp}
+                    >
+                      <div className="preview-landing__showcase-copy">
+                        <h3>{t(`showcase.${showcase.key}.title`)}</h3>
+                        <p>{t(`showcase.${showcase.key}.description`)}</p>
+                      </div>
+                      <div className="preview-landing__showcase-visual">
+                        <ProductVisual
+                          desktopSrc={desktop}
+                          desktopSrcs={desktops}
+                          alt={t(`showcase.${showcase.key}.imageAlt`)}
+                          eager={index === 0}
+                        />
+                      </div>
+                    </motion.article>
+                  );
+                })}
+              </div>
+
+              {SHOWCASES.slice(PAIRED_SHOWCASE_COUNT).map((showcase, index) => {
                 const desktop =
                   'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
                 const desktops =
@@ -308,7 +343,6 @@ export default function PreviewLandingPage() {
                         desktopSrcs={desktops}
                         mobileSrc={mobile}
                         alt={t(`showcase.${showcase.key}.imageAlt`)}
-                        eager={index === 0}
                       />
                     </div>
                   </motion.article>

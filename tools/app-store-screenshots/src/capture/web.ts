@@ -271,8 +271,17 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
     await page.$eval(
       action.selector,
       (element, offsetY) => {
+        document.documentElement.style.transform = '';
         element.scrollIntoView({ block: 'start', inline: 'nearest' });
         if (offsetY) window.scrollBy(0, offsetY);
+        // When the page already fits the viewport, scrollIntoView is a no-op.
+        // Shift visually so the target sits flush at the top (avoids empty bands).
+        const topPad = typeof offsetY === 'number' ? offsetY : 0;
+        const rect = element.getBoundingClientRect();
+        const delta = rect.top - topPad;
+        if (Math.abs(delta) > 1) {
+          document.documentElement.style.transform = `translate(0px, ${-delta}px)`;
+        }
       },
       action.offsetY ?? 0
     );

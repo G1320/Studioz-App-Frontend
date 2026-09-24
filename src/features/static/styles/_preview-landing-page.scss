@@ -357,6 +357,19 @@
     gap: clamp(3.5rem, 8vw, 6rem);
   }
 
+  // Operations + calendar: equal-weight pair on desktop
+  &__showcase-pair {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.75rem, 6vw, 4rem);
+
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.25rem, 2vw, 1.75rem);
+      align-items: stretch;
+    }
+  }
+
   &__showcase {
     display: grid;
     grid-template-columns: 1fr;
@@ -366,6 +379,49 @@
     @media (min-width: 900px) {
       grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
       gap: clamp(2rem, 4vw, 3.5rem);
+    }
+  }
+
+  &__showcase--paired {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-width: 0;
+    height: 100%;
+
+    .preview-landing__showcase-copy {
+      max-width: none;
+
+      h3 {
+        margin-top: 0;
+        font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+      }
+
+      > p:last-child {
+        margin-top: 0.45rem;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+      }
+    }
+
+    .preview-landing__showcase-visual {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .preview-landing__product-visual--dual,
+    .preview-landing__product-visual {
+      max-width: none;
+      height: 100%;
+    }
+
+    .preview-landing__shot--desktop,
+    .preview-landing__shot--rotating {
+      border-radius: 10px;
+    }
+
+    .preview-landing__shot--rotating > img {
+      aspect-ratio: 4 / 3;
     }
   }
 

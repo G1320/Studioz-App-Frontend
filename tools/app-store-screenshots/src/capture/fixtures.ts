@@ -661,6 +661,7 @@ const additionalReservationSeed: Array<{
     itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
     createdAt: '2026-09-10T11:00:00.000Z'
   },
+  // Light agenda for list-view calendar shots (today = 22/09/2026) — ~2 rows so height matches month.
   {
     customerId: 'customer-twentyfive',
     customerName: 'Ori Segal',
@@ -671,27 +672,6 @@ const additionalReservationSeed: Array<{
     itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
     createdAt: '2026-09-11T12:00:00.000Z'
   },
-  // Dense “today” agenda for list-view calendar marketing shots (clock = 22/09/2026).
-  {
-    customerId: 'customer-today-am',
-    customerName: 'Maya Azulay',
-    bookingDate: '22/09/2026',
-    startHour: 9,
-    duration: 2,
-    status: 'confirmed',
-    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
-    createdAt: '2026-09-18T08:00:00.000Z'
-  },
-  {
-    customerId: 'customer-today-mid',
-    customerName: 'Eitan Mizrahi',
-    bookingDate: '22/09/2026',
-    startHour: 11,
-    duration: 2,
-    status: 'confirmed',
-    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
-    createdAt: '2026-09-19T09:30:00.000Z'
-  },
   {
     customerId: 'customer-today-pending',
     customerName: 'Noa Farhi',
@@ -701,16 +681,6 @@ const additionalReservationSeed: Array<{
     status: 'pending',
     itemName: { en: 'Studio Rental', he: 'השכרת אולפן' },
     createdAt: '2026-09-21T15:00:00.000Z'
-  },
-  {
-    customerId: 'customer-today-eve',
-    customerName: 'Lior Shalev',
-    bookingDate: '22/09/2026',
-    startHour: 18,
-    duration: 3,
-    status: 'confirmed',
-    itemName: { en: 'Live Band Tracking', he: 'הקלטת הרכב' },
-    createdAt: '2026-09-20T11:00:00.000Z'
   },
   {
     customerId: 'customer-twentysix',

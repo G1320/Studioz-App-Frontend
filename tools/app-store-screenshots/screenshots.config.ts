@@ -80,8 +80,8 @@ const scenes: ScreenshotScene[] = [
     textAlign: 'center',
     actions: [
       { type: 'click', selector: '.quick-actions__header' },
-      // Nudge past the collapsed Quick Actions bar so it isn't cropped at the top edge.
-      { type: 'scroll', y: 188 }
+      // Scroll the calendar chrome flush to the top — avoid absolute y/transform gaps.
+      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -111,8 +111,8 @@ const scenes: ScreenshotScene[] = [
     textAlign: 'center',
     actions: [
       { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', y: 188 },
-      { type: 'click', selector: '.studioz-calendar__view-tabs .studioz-calendar__view-tab:nth-child(4)' }
+      { type: 'click', selector: '.studioz-calendar__view-tabs .studioz-calendar__view-tab:nth-child(4)' },
+      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
