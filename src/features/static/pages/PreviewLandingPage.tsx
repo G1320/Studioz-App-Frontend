@@ -66,21 +66,40 @@ function ProductVisual({
   hero = false
 }: ProductVisualProps) {
   const reduceMotion = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
   const desktopSources = desktopSrcs?.length ? desktopSrcs : desktopSrc ? [desktopSrc] : [];
   const rotating = desktopSources.length > 1;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [fullyInView, setFullyInView] = useState(false);
   const mobileOnly = Boolean(mobileSrc && desktopSources.length === 0);
 
   useEffect(() => {
-    if (reduceMotion || !rotating) return;
+    if (!rotating || reduceMotion) return;
+    const node = rootRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFullyInView(Boolean(entry?.isIntersecting && entry.intersectionRatio >= 1));
+      },
+      { threshold: 1 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [rotating, reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion || !rotating || !fullyInView) return;
     const id = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % desktopSources.length);
     }, OPS_ROTATE_MS);
     return () => window.clearInterval(id);
-  }, [reduceMotion, rotating, desktopSources.length]);
+  }, [reduceMotion, rotating, fullyInView, desktopSources.length]);
 
   return (
     <div
+      ref={rootRef}
       className={[
         'preview-landing__product-visual',
         desktopSrc && mobileSrc && !rotating ? 'preview-landing__product-visual--dual' : '',
