@@ -11,8 +11,15 @@ export function collaboratorUserTooltip(user: ProjectCollaborator['userId']): st
 }
 
 export function collaboratorAvatarUrl(user: ProjectCollaborator['userId']): string | undefined {
-  if (typeof user === 'string') return undefined;
-  return user.picture || user.avatar || user.imgUrl || undefined;
+  if (typeof user === 'string' || user == null) return undefined;
+  const record = user as {
+    picture?: string;
+    avatar?: string;
+    imgUrl?: string;
+    toObject?: () => { picture?: string; avatar?: string; imgUrl?: string };
+  };
+  const plain = typeof record.toObject === 'function' ? record.toObject() : record;
+  return plain.picture || plain.avatar || plain.imgUrl || undefined;
 }
 
 function initialsFromName(name: string): string {
@@ -31,12 +38,20 @@ export function collaboratorFace(user: ProjectCollaborator['userId']): Collabora
   const image = collaboratorAvatarUrl(user);
   if (image) return { kind: 'image', src: image };
 
-  if (typeof user === 'string') return null;
+  if (typeof user === 'string' || user == null) return null;
 
-  const name = user.name?.trim();
+  // Populated user docs from the API (and occasional mongoose leftovers).
+  const record = user as {
+    name?: string;
+    email?: string;
+    _id?: string;
+    toObject?: () => { name?: string; email?: string };
+  };
+  const plain = typeof record.toObject === 'function' ? record.toObject() : record;
+  const name = plain.name?.trim();
   if (name) return { kind: 'initials', text: initialsFromName(name) };
 
-  const email = user.email?.trim();
+  const email = plain.email?.trim();
   if (email) {
     const local = email.split('@')[0]?.trim() || email;
     return { kind: 'email', text: local };
@@ -51,7 +66,8 @@ export function collaboratorUserId(user: ProjectCollaborator['userId']): string 
 
 export function activeCollaborators(collaborators?: ProjectCollaborator[]): ProjectCollaborator[] {
   return (collaborators ?? []).filter((collaborator) => {
-    if (collaborator.status !== 'active') return false;
+    // Missing status means active (older documents / partial payloads).
+    if (collaborator.status === 'removed') return false;
     return collaboratorFace(collaborator.userId) != null;
   });
 }
