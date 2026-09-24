@@ -343,10 +343,12 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
                     playable ? ' project-file-uploader__file-item--with-player' : ''
                   }${threadOpen ? ' project-file-uploader__file-item--active' : ''}`}
                 >
-                  <div className="project-file-uploader__file-row">
+                  {!playable ? (
                     <span className="project-file-uploader__file-index" aria-hidden="true">
                       {index + 1}
                     </span>
+                  ) : null}
+                  <div className="project-file-uploader__file-row">
                     <div className="project-file-uploader__file-info">
                       <span className="project-file-uploader__file-name" title={file.fileName}>
                         {displayName}
@@ -384,16 +386,21 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
                     </div>
                   </div>
                   {playable && (
-                    <div className="project-file-uploader__player">
-                      <RemoteAudioPlayer
-                        library="project"
-                        containerId={projectId}
-                        file={file}
-                        onDownload={downloadsLocked ? undefined : () => handleDownloadFile(file)}
-                        showThreadToggle={showThreads}
-                        artworkUrl={artworkUrl}
-                        contextLabel={contextLabel}
-                      />
+                    <div className="project-file-uploader__track">
+                      <span className="project-file-uploader__file-index" aria-hidden="true">
+                        {index + 1}
+                      </span>
+                      <div className="project-file-uploader__player">
+                        <RemoteAudioPlayer
+                          library="project"
+                          containerId={projectId}
+                          file={file}
+                          onDownload={downloadsLocked ? undefined : () => handleDownloadFile(file)}
+                          showThreadToggle={showThreads}
+                          artworkUrl={artworkUrl}
+                          contextLabel={contextLabel}
+                        />
+                      </div>
                     </div>
                   )}
                   {threadOpen && currentUserId && (

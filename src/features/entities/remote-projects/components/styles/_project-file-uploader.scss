@@ -178,6 +178,10 @@
   }
 
   &__file-item {
+    display: grid;
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+    column-gap: 0.65rem;
+    align-items: center;
     min-width: 0;
     border-radius: 0.5rem;
     transition: background 0.15s ease;
@@ -197,24 +201,49 @@
     }
 
     &--with-player {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
       padding-bottom: 0.35rem;
+
+      .project-file-uploader__file-row {
+        // Line up the title with the waveform (index + gap).
+        padding-inline-start: calc(1.75rem + 0.65rem);
+      }
     }
   }
 
   &__file-row {
     display: grid;
-    grid-template-columns: 1.75rem minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     align-items: center;
     gap: 0.65rem;
     min-height: 2.75rem;
+    min-width: 0;
     padding: 0.35rem 0.5rem;
+
+    .project-file-uploader__file-item:not(.project-file-uploader__file-item--with-player) & {
+      padding-inline-start: 0;
+    }
   }
 
   &__file-index {
+    flex: 0 0 1.75rem;
+    width: 1.75rem;
     font-size: 0.8125rem;
     font-variant-numeric: tabular-nums;
     color: var(--text-muted, var(--text-tertiary));
     text-align: center;
+    line-height: 1;
+  }
+
+  &__track {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+    padding-inline-end: 0.5rem;
+    margin-bottom: 0.35rem;
   }
 
   &__file-info {
@@ -262,9 +291,9 @@
   }
 
   &__player {
-    padding-block: 0 0.5rem;
-    padding-inline: 2.4rem 0.5rem;
+    flex: 1 1 auto;
     min-width: 0;
+    padding: 0;
   }
 
   @media (hover: none) {
@@ -275,18 +304,25 @@
   }
 
   @media (max-width: 520px) {
-    &__file-row {
-      grid-template-columns: 1.5rem minmax(0, 1fr) auto;
-      grid-template-areas:
-        'index info actions'
-        'index meta actions';
-      row-gap: 0.15rem;
+    &__file-item {
+      grid-template-columns: 1.5rem minmax(0, 1fr);
     }
 
     &__file-index {
-      grid-area: index;
-      align-self: start;
-      padding-top: 0.2rem;
+      flex-basis: 1.5rem;
+      width: 1.5rem;
+    }
+
+    &__track {
+      gap: 0.5rem;
+    }
+
+    &__file-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'info actions'
+        'meta actions';
+      row-gap: 0.15rem;
     }
 
     &__file-info {
@@ -301,10 +337,6 @@
       grid-area: actions;
       opacity: 1;
       pointer-events: auto;
-    }
-
-    &__player {
-      padding-inline: 0.5rem;
     }
   }
 }

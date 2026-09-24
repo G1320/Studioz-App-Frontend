@@ -239,19 +239,25 @@
       &--with-chat.project-detail__workspace--chat-collapsed {
         grid-template-columns: minmax(0, 1fr) 2.125rem;
         column-gap: 0.35rem;
+        align-items: start;
 
         > .project-chat {
           min-height: 2.125rem;
           height: auto;
+          // Match the source-files header row (title + download/add).
+          margin-block-start: 0;
           border: 0;
           border-radius: 9999px;
           background: transparent;
           overflow: visible;
+          position: sticky;
+          top: 5rem;
         }
 
         .project-chat__collapsed-toggle {
           position: relative;
           justify-content: center;
+          align-self: start;
           width: 2.125rem;
           min-height: 2.125rem;
           height: 2.125rem;
@@ -355,7 +361,8 @@
     &--tracks {
       background: transparent;
       border-color: transparent;
-      padding-inline: 0.25rem;
+      // Keep header actions (download / add) level with the collapsed chat toggle.
+      padding: 0 0.25rem;
 
       @media (min-width: 640px) {
         padding-inline: 0.35rem;

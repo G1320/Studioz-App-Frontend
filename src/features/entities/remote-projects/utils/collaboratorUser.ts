@@ -28,6 +28,29 @@ function initialsFromName(name: string): string {
   return name.slice(0, 2).toUpperCase();
 }
 
+/** Deterministic Auth0-style chip colors for initials / email fallbacks. */
+const AVATAR_TONES = [
+  { bg: '#7C3AED', fg: '#FFFFFF' },
+  { bg: '#2563EB', fg: '#FFFFFF' },
+  { bg: '#DB2777', fg: '#FFFFFF' },
+  { bg: '#059669', fg: '#FFFFFF' },
+  { bg: '#D97706', fg: '#FFFFFF' },
+  { bg: '#0891B2', fg: '#FFFFFF' },
+  { bg: '#4F46E5', fg: '#FFFFFF' },
+  { bg: '#DC2626', fg: '#FFFFFF' },
+  { bg: '#0F766E', fg: '#FFFFFF' },
+  { bg: '#C026D3', fg: '#FFFFFF' }
+] as const;
+
+export function collaboratorAvatarTone(seed: string): { background: string; color: string } {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  const tone = AVATAR_TONES[hash % AVATAR_TONES.length];
+  return { background: tone.bg, color: tone.fg };
+}
+
 /** Avatar image → name initials → email local-part. */
 export type CollaboratorFace =
   | { kind: 'image'; src: string }

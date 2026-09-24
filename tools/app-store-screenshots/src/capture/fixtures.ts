@@ -272,7 +272,7 @@ const vendorUser = {
   studios: [STUDIO_ID],
   subscriptionStatus: 'ACTIVE',
   sumitCompanyId: 'demo-company',
-  picture: ''
+  picture: 'https://randomuser.me/api/portraits/women/44.jpg'
 };
 
 const customerUser = {
@@ -281,8 +281,48 @@ const customerUser = {
   name: 'Daniel Levi',
   email: 'daniel@example.test',
   role: 'customer',
-  studios: []
+  studios: [],
+  picture: 'https://randomuser.me/api/portraits/men/32.jpg'
 };
+
+const collabAmir = {
+  _id: 'collaborator-vendor-1',
+  name: 'Amir Halevi',
+  email: 'amir@northlinesound.example',
+  picture: 'https://randomuser.me/api/portraits/men/86.jpg'
+};
+const collabNoa = {
+  _id: 'collaborator-customer-1',
+  name: 'Noa Shaham',
+  email: 'noa@example.test',
+  picture: 'https://randomuser.me/api/portraits/women/68.jpg'
+};
+const collabEitan = {
+  _id: 'collaborator-vendor-2',
+  name: 'Eitan Mizrahi',
+  email: 'eitan@example.test',
+  picture: 'https://randomuser.me/api/portraits/men/22.jpg'
+};
+const collabShira = {
+  _id: 'collaborator-customer-2',
+  name: 'Shira Ben-Ami',
+  email: 'shira@example.test',
+  picture: 'https://randomuser.me/api/portraits/women/12.jpg'
+};
+
+function activeCollab(
+  userId: { _id: string; name: string; email: string; picture?: string },
+  side: 'vendor' | 'customer',
+  joinedAt: string
+) {
+  return {
+    userId,
+    side,
+    invitedBy: side === 'vendor' ? vendorUser : customerUser,
+    joinedAt,
+    status: 'active' as const
+  };
+}
 
 const reservationSeed = [
   {
@@ -536,51 +576,10 @@ const merchantDocuments = [
 ];
 
 const projectCollaboratorsDemo = [
-  {
-    userId: {
-      _id: 'collaborator-vendor-1',
-      name: 'Amir Halevi',
-      email: 'amir@northlinesound.example',
-      picture: ''
-    },
-    side: 'vendor' as const,
-    invitedBy: vendorUser,
-    joinedAt: '2026-09-19T09:30:00.000Z',
-    status: 'active' as const
-  },
-  {
-    userId: {
-      _id: 'collaborator-customer-1',
-      name: 'Noa Shaham',
-      email: 'noa@example.test'
-    },
-    side: 'customer' as const,
-    invitedBy: customerUser,
-    joinedAt: '2026-09-19T11:15:00.000Z',
-    status: 'active' as const
-  },
-  {
-    userId: {
-      _id: 'collaborator-vendor-2',
-      name: 'Eitan Mizrahi',
-      email: 'eitan@example.test'
-    },
-    side: 'vendor' as const,
-    invitedBy: vendorUser,
-    joinedAt: '2026-09-20T08:45:00.000Z',
-    status: 'active' as const
-  },
-  {
-    userId: {
-      _id: 'collaborator-customer-2',
-      name: 'Shira Ben-Ami',
-      email: 'shira@example.test'
-    },
-    side: 'customer' as const,
-    invitedBy: customerUser,
-    joinedAt: '2026-09-20T13:20:00.000Z',
-    status: 'active' as const
-  }
+  activeCollab(collabAmir, 'vendor', '2026-09-19T09:30:00.000Z'),
+  activeCollab(collabNoa, 'customer', '2026-09-19T11:15:00.000Z'),
+  activeCollab(collabEitan, 'vendor', '2026-09-20T08:45:00.000Z'),
+  activeCollab(collabShira, 'customer', '2026-09-20T13:20:00.000Z')
 ];
 
 const remoteMixItem = items.find((entry) => entry._id === 'item-remote-mix') ?? item;
@@ -636,20 +635,12 @@ const additionalProjects = [
     status: 'in_progress',
     artworkUrl: '/images/screenshots/northline-track-neon-tides.webp',
     collaborators: [
-      {
-        userId: { _id: 'collaborator-vendor-1', name: 'Amir Halevi', email: 'amir@northlinesound.example' },
-        side: 'vendor',
-        invitedBy: vendorUser,
-        joinedAt: '2026-09-20T10:00:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test' },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-20T10:05:00.000Z',
-        status: 'active'
-      }
+      activeCollab(collabAmir, 'vendor', '2026-09-20T10:00:00.000Z'),
+      activeCollab(
+        { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test', picture: 'https://randomuser.me/api/portraits/women/65.jpg' },
+        'customer',
+        '2026-09-20T10:05:00.000Z'
+      )
     ],
     createdAt: '2026-09-19T09:00:00.000Z',
     updatedAt: '2026-09-22T12:00:00.000Z'
@@ -676,27 +667,13 @@ const additionalProjects = [
     status: 'revision_requested',
     artworkUrl: '/images/screenshots/northline-track-paper-planes.webp',
     collaborators: [
-      {
-        userId: { _id: 'collaborator-vendor-2', name: 'Eitan Mizrahi', email: 'eitan@example.test' },
-        side: 'vendor',
-        invitedBy: vendorUser,
-        joinedAt: '2026-09-18T14:00:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: { _id: 'collaborator-customer-1', name: 'Noa Shaham', email: 'noa@example.test' },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-18T14:10:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: { _id: 'customer-noa', name: 'Noa Shapira', email: 'noa.s@example.test' },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-18T14:12:00.000Z',
-        status: 'active'
-      }
+      activeCollab(collabEitan, 'vendor', '2026-09-18T14:00:00.000Z'),
+      activeCollab(collabNoa, 'customer', '2026-09-18T14:10:00.000Z'),
+      activeCollab(
+        { _id: 'customer-noa', name: 'Noa Shapira', email: 'noa.s@example.test', picture: 'https://randomuser.me/api/portraits/women/33.jpg' },
+        'customer',
+        '2026-09-18T14:12:00.000Z'
+      )
     ],
     createdAt: '2026-09-15T11:00:00.000Z',
     updatedAt: '2026-09-22T16:30:00.000Z'
@@ -723,20 +700,13 @@ const additionalProjects = [
     status: 'delivered',
     artworkUrl: '/images/screenshots/northline-track-after-hours.webp',
     collaborators: [
-      {
-        userId: vendorUser,
-        side: 'vendor',
-        invitedBy: vendorUser,
-        joinedAt: '2026-09-10T09:00:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: { _id: 'customer-eitan', name: 'Eitan Mizrahi', email: 'eitan.client@example.test' },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-10T09:05:00.000Z',
-        status: 'active'
-      }
+      activeCollab(vendorUser, 'vendor', '2026-09-10T09:00:00.000Z'),
+      activeCollab(
+        { _id: 'customer-eitan', name: 'Eitan Mizrahi', email: 'eitan.client@example.test', picture: 'https://randomuser.me/api/portraits/men/75.jpg' },
+        'customer',
+        '2026-09-10T09:05:00.000Z'
+      ),
+      activeCollab(collabAmir, 'vendor', '2026-09-10T09:10:00.000Z')
     ],
     createdAt: '2026-09-08T10:00:00.000Z',
     updatedAt: '2026-09-21T18:00:00.000Z'
@@ -763,20 +733,13 @@ const additionalProjects = [
     status: 'accepted',
     artworkUrl: '/images/screenshots/tempo-studios-live-room.webp',
     collaborators: [
-      {
-        userId: { _id: 'collaborator-vendor-1', name: 'Amir Halevi', email: 'amir@northlinesound.example' },
-        side: 'vendor',
-        invitedBy: vendorUser,
-        joinedAt: '2026-09-21T08:00:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: { _id: 'collaborator-customer-2', name: 'Shira Ben-Ami', email: 'shira@example.test' },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-21T08:15:00.000Z',
-        status: 'active'
-      }
+      activeCollab(collabAmir, 'vendor', '2026-09-21T08:00:00.000Z'),
+      activeCollab(collabShira, 'customer', '2026-09-21T08:15:00.000Z'),
+      activeCollab(
+        { _id: 'customer-shira', name: 'Shira Ben-David', email: 'shira.bd@example.test', picture: 'https://randomuser.me/api/portraits/women/90.jpg' },
+        'customer',
+        '2026-09-21T08:20:00.000Z'
+      )
     ],
     createdAt: '2026-09-21T08:00:00.000Z',
     updatedAt: '2026-09-22T09:00:00.000Z'
@@ -803,13 +766,13 @@ const additionalProjects = [
     status: 'completed',
     artworkUrl: '/images/screenshots/tempo-studios-podcast-room.webp',
     collaborators: [
-      {
-        userId: { _id: 'customer-ron', name: 'Ron Adler', email: 'ron@example.test' },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-12T11:00:00.000Z',
-        status: 'active'
-      }
+      activeCollab(
+        { _id: 'customer-ron', name: 'Ron Adler', email: 'ron@example.test', picture: 'https://randomuser.me/api/portraits/men/41.jpg' },
+        'customer',
+        '2026-09-12T11:00:00.000Z'
+      ),
+      activeCollab(collabEitan, 'vendor', '2026-09-12T11:10:00.000Z'),
+      activeCollab(vendorUser, 'vendor', '2026-09-12T11:15:00.000Z')
     ],
     createdAt: '2026-09-12T10:00:00.000Z',
     updatedAt: '2026-09-18T17:00:00.000Z'
@@ -835,7 +798,15 @@ const additionalProjects = [
     paymentStatus: 'unpaid',
     status: 'requested',
     artworkUrl: '/images/screenshots/tempo-studios-console.webp',
-    collaborators: [],
+    collaborators: [
+      activeCollab(collabAmir, 'vendor', '2026-09-22T15:05:00.000Z'),
+      activeCollab(
+        { _id: 'customer-lia', name: 'Lia North', email: 'lia@example.test', picture: 'https://randomuser.me/api/portraits/women/21.jpg' },
+        'customer',
+        '2026-09-22T15:10:00.000Z'
+      ),
+      activeCollab(collabNoa, 'customer', '2026-09-22T15:15:00.000Z')
+    ],
     createdAt: '2026-09-22T15:00:00.000Z',
     updatedAt: '2026-09-22T15:00:00.000Z'
   }
