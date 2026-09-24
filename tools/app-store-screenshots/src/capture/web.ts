@@ -246,6 +246,10 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
     await page.click(action.selector);
     return;
   }
+  if (action.type === 'style') {
+    await page.addStyleTag({ content: action.css });
+    return;
+  }
   if (action.type === 'fill') {
     await page.waitForSelector(action.selector, { visible: true });
     await page.$eval(

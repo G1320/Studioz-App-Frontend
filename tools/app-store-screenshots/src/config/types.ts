@@ -66,7 +66,8 @@ export type NavigationAction =
   | { type: 'click'; selector: string }
   | { type: 'fill'; selector: string; value: string }
   | { type: 'press'; key: string }
-  | { type: 'scroll'; selector?: string; x?: number; y?: number; offsetY?: number };
+  | { type: 'scroll'; selector?: string; x?: number; y?: number; offsetY?: number }
+  | { type: 'style'; css: string };
 
 export interface CaptureScenario {
   id: string;

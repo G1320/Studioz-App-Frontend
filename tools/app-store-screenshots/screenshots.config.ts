@@ -80,8 +80,17 @@ const scenes: ScreenshotScene[] = [
     textAlign: 'center',
     actions: [
       { type: 'click', selector: '.quick-actions__header' },
-      // Scroll the calendar chrome flush to the top — avoid absolute y/transform gaps.
-      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
+      // Fill the viewport under the control bar so flush framing isn't mostly empty.
+      {
+        type: 'style',
+        css: `
+          .studioz-calendar__day-cell { min-height: 7.5rem !important; }
+          .studioz-calendar__content { min-height: calc(100vh - 5.5rem) !important; }
+          .studioz-calendar__month-view { min-height: inherit !important; }
+        `
+      },
+      // Keep app chrome in frame; taller month cells fill the rest.
+      { type: 'scroll', selector: '.dashboard-calendar', offsetY: 0 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -112,7 +121,24 @@ const scenes: ScreenshotScene[] = [
     actions: [
       { type: 'click', selector: '.quick-actions__header' },
       { type: 'click', selector: '.studioz-calendar__view-tabs .studioz-calendar__view-tab:nth-child(4)' },
-      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
+      {
+        type: 'style',
+        css: `
+          .studioz-calendar { zoom: 1.28; }
+          .studioz-calendar__list-view {
+            padding: 1.15rem 1.35rem !important;
+          }
+          .studioz-calendar__list-header {
+            margin-bottom: 0.85rem !important;
+            padding-bottom: 0.65rem !important;
+          }
+          .studioz-calendar__list-title { font-size: 1.15rem !important; }
+          .studioz-calendar__list-events { gap: 0.75rem !important; }
+          .studioz-calendar__list-event { padding: 1rem 1.1rem !important; }
+          .studioz-calendar__list-event-start { font-size: 1.2rem !important; }
+        `
+      },
+      { type: 'scroll', selector: '.dashboard-calendar', offsetY: 0 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
