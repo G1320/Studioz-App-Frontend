@@ -661,7 +661,18 @@ const additionalReservationSeed: Array<{
     itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
     createdAt: '2026-09-10T11:00:00.000Z'
   },
-  // Light agenda for list-view calendar shots (today = 22/09/2026) — ~2 rows so height matches month.
+  // Today’s agenda for list-view shots (clock = 22/09/2026):
+  // start from the existing Ori booking, then add two more — including one pending.
+  {
+    customerId: 'customer-today-am',
+    customerName: 'Maya Azulay',
+    bookingDate: '22/09/2026',
+    startHour: 9,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
+    createdAt: '2026-09-18T08:00:00.000Z'
+  },
   {
     customerId: 'customer-twentyfive',
     customerName: 'Ori Segal',

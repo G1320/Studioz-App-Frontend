@@ -124,18 +124,14 @@ const scenes: ScreenshotScene[] = [
       {
         type: 'style',
         css: `
-          .studioz-calendar { zoom: 1.28; }
+          .studioz-calendar__day-cell { min-height: 7.5rem !important; }
+          .studioz-calendar__content { min-height: calc(100vh - 5.5rem) !important; }
           .studioz-calendar__list-view {
-            padding: 1.15rem 1.35rem !important;
+            min-height: inherit !important;
+            padding: 1rem 1.25rem !important;
           }
-          .studioz-calendar__list-header {
-            margin-bottom: 0.85rem !important;
-            padding-bottom: 0.65rem !important;
-          }
-          .studioz-calendar__list-title { font-size: 1.15rem !important; }
-          .studioz-calendar__list-events { gap: 0.75rem !important; }
-          .studioz-calendar__list-event { padding: 1rem 1.1rem !important; }
-          .studioz-calendar__list-event-start { font-size: 1.2rem !important; }
+          .studioz-calendar__list-events { gap: 0.55rem !important; }
+          .studioz-calendar__list-event { padding: 0.75rem 0.9rem !important; }
         `
       },
       { type: 'scroll', selector: '.dashboard-calendar', offsetY: 0 }

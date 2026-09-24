@@ -33,8 +33,7 @@ const SHOWCASES = [
   },
   {
     key: 'calendar',
-    // Month only — day-list agenda is too short to fill a 16:10 marketing frame.
-    desktops: ['desktop-calendar'] as const
+    desktops: ['desktop-calendar', 'desktop-calendar-list'] as const
   },
   {
     key: 'projects',
