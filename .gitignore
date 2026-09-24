@@ -40,3 +40,6 @@ public/videos/*.mp4
 
 # Remotion rendered outputs (build artifacts)
 remotion-ads/out/
+
+# Local screenshot verification scratch
+tmp/
