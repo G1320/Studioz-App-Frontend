@@ -12,6 +12,16 @@ import {
 import { useRevenueBreakdown, useCancellationStats, usePopularTimeSlots } from '@shared/hooks';
 import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
+import {
+  MoneyYTick,
+  CountYTick,
+  axisTickProps,
+  cartesianGridProps,
+  chartTheme,
+  makeMoneyTooltipContent,
+  MsChartTooltip,
+  type MsTooltipContentProps
+} from './chartKit';
 
 interface InsightsSectionProps {
   dateRange: DateRange;
@@ -19,38 +29,6 @@ interface InsightsSectionProps {
 }
 
 const DAY_KEYS = ['days.sun', 'days.mon', 'days.tue', 'days.wed', 'days.thu', 'days.fri', 'days.sat'];
-
-const MoneyYTick = ({
-  x,
-  y,
-  payload
-}: {
-  x?: number;
-  y?: number;
-  payload?: { value?: number };
-}) => {
-  const v = Number(payload?.value ?? 0);
-  const label = v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`;
-  return (
-    <text x={(x ?? 0) - 10} y={y} dy={4} textAnchor="end" fill="var(--text-muted)" fontSize={11}>
-      {label}
-    </text>
-  );
-};
-
-const CountYTick = ({
-  x,
-  y,
-  payload
-}: {
-  x?: number;
-  y?: number;
-  payload?: { value?: number };
-}) => (
-  <text x={(x ?? 0) - 10} y={y} dy={4} textAnchor="end" fill="var(--text-muted)" fontSize={11}>
-    {payload?.value ?? 0}
-  </text>
-);
 
 export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, formatCurrency }) => {
   const { t } = useTranslation('merchantStats');
@@ -69,6 +47,34 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, for
   });
 
   const isLoading = breakdownLoading || cancelLoading || slotsLoading;
+  const revenueLabel = t('revenueChart.revenue', 'הכנסה');
+  const cancellationsLabel = t('insights.cancellations', 'ביטולים');
+
+  const RevenueTooltip = useMemo(
+    () => makeMoneyTooltipContent(revenueLabel, formatCurrency, chartTheme.primary),
+    [revenueLabel, formatCurrency]
+  );
+
+  const CountTooltip = useMemo(
+    () =>
+      function CountTooltipContent({ active, payload, label }: MsTooltipContentProps) {
+        if (!active || payload?.[0]?.value == null) return null;
+        return (
+          <MsChartTooltip
+            active
+            label={label != null ? String(label) : undefined}
+            rows={[
+              {
+                label: cancellationsLabel,
+                value: String(payload[0].value),
+                color: chartTheme.muted
+              }
+            ]}
+          />
+        );
+      },
+    [cancellationsLabel]
+  );
 
   const byDayData = useMemo(() => {
     const byDay = breakdown?.byDayOfWeek ?? [];
@@ -152,7 +158,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, for
               key={cell.hour}
               className="heatmap-cell"
               style={{
-                backgroundColor: 'var(--color-brand)',
+                backgroundColor: chartTheme.primary,
                 opacity: 0.08 + cell.intensity * 0.85
               }}
               title={`${cell.hour}:00 — ${formatCurrency(cell.revenue)}`}
@@ -167,28 +173,13 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, for
         <div className="ms-panel insights-day-chart">
           <h4>{t('insights.revenueByDay', 'הכנסות לפי יום')}</h4>
           <div className="ms-chart-plot" dir="ltr">
-            <ResponsiveContainer width="100%" height={240}>
-              <BarChart data={byDayData} margin={{ top: 8, right: 12, left: 52, bottom: 8 }}>
-                <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                  axisLine={false}
-                  tickLine={false}
-                />
+            <ResponsiveContainer width="100%" height={chartTheme.heights.md}>
+              <BarChart data={byDayData} margin={{ ...chartTheme.margins.bar, left: 4 }}>
+                <CartesianGrid {...cartesianGridProps} />
+                <XAxis dataKey="name" tick={axisTickProps} axisLine={false} tickLine={false} />
                 <YAxis width={1} tick={<MoneyYTick />} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-secondary)',
-                    borderRadius: '6px'
-                  }}
-                  formatter={(value: number | undefined) => [
-                    formatCurrency(value ?? 0),
-                    t('revenueChart.revenue', 'הכנסה')
-                  ]}
-                />
-                <Bar dataKey="revenue" fill="var(--color-brand)" radius={[3, 3, 0, 0]} maxBarSize={36} />
+                <Tooltip content={RevenueTooltip} cursor={{ fill: 'var(--bg-hover)', opacity: 0.5 }} />
+                <Bar dataKey="revenue" fill={chartTheme.primary} radius={[3, 3, 0, 0]} maxBarSize={32} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -196,25 +187,13 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ dateRange, for
         <div className="ms-panel insights-cancellations">
           <h4>{t('insights.cancellationsByDay', 'ביטולים לפי יום')}</h4>
           <div className="ms-chart-plot" dir="ltr">
-            <ResponsiveContainer width="100%" height={240}>
-              <BarChart data={cancellationsByDayData} margin={{ top: 8, right: 12, left: 36, bottom: 8 }}>
-                <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                  axisLine={false}
-                  tickLine={false}
-                />
+            <ResponsiveContainer width="100%" height={chartTheme.heights.md}>
+              <BarChart data={cancellationsByDayData} margin={{ ...chartTheme.margins.bar, left: 4 }}>
+                <CartesianGrid {...cartesianGridProps} />
+                <XAxis dataKey="name" tick={axisTickProps} axisLine={false} tickLine={false} />
                 <YAxis width={1} allowDecimals={false} tick={<CountYTick />} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-secondary)',
-                    borderRadius: '6px'
-                  }}
-                  formatter={(value: number | undefined) => [value ?? 0, t('insights.cancellations', 'ביטולים')]}
-                />
-                <Bar dataKey="count" fill="var(--text-muted)" radius={[3, 3, 0, 0]} maxBarSize={36} />
+                <Tooltip content={CountTooltip} cursor={{ fill: 'var(--bg-hover)', opacity: 0.5 }} />
+                <Bar dataKey="count" fill={chartTheme.muted} radius={[3, 3, 0, 0]} maxBarSize={32} />
               </BarChart>
             </ResponsiveContainer>
           </div>

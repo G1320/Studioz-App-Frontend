@@ -44,34 +44,25 @@
 // ==========================================
 .info-page__hero {
   position: relative;
-  padding: 7rem vars.$spacing-medium 3rem;
+  padding: 5.5rem vars.$spacing-medium 2.25rem;
   text-align: center;
   overflow: hidden;
 
   @media (min-width: 768px) {
-    padding: 9rem vars.$spacing-large 4rem;
+    padding: 6.5rem vars.$spacing-large 2.75rem;
   }
 }
 
 .info-page__hero-glow {
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.06);
-  border-radius: 50%;
-  filter: blur(100px);
-  pointer-events: none;
+  display: none;
 }
 
 .info-page__hero-title {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 750;
+  line-height: 1.15;
   letter-spacing: -0.03em;
-  margin-bottom: vars.$spacing-large;
+  margin-bottom: 0.875rem;
   color: var(--text-primary);
 }
 

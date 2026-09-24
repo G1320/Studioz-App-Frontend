@@ -199,29 +199,46 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* Empty State for subscribers without studios */}
       {showEmptyState && (
-        <motion.div 
+        <motion.div
           className="dashboard-empty-state"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          <div className="dashboard-empty-state__icon">
+          <div className="dashboard-empty-state__icon" aria-hidden="true">
             <BusinessIcon />
           </div>
-          <h2 className="dashboard-empty-state__title">
-            {t('emptyState.title', 'ברוכים הבאים! 🎉')}
-          </h2>
-          <p className="dashboard-empty-state__description">
-            {t('emptyState.description', 'המינוי שלך פעיל. הגיע הזמן ליצור את האולפן הראשון שלך ולהתחיל לקבל הזמנות.')}
-          </p>
-          <button 
-            className="dashboard-empty-state__cta"
-            onClick={() => langNavigate('/studio/create')}
-          >
-            <BusinessIcon />
-            {t('emptyState.createStudio', 'צור את האולפן שלך')}
-            <ArrowForwardIcon />
-          </button>
+          <div className="dashboard-empty-state__copy">
+            <h2 className="dashboard-empty-state__title">
+              {t('emptyState.title')}
+            </h2>
+            <p className="dashboard-empty-state__description">
+              {t('emptyState.description')}
+            </p>
+          </div>
+          <ol className="dashboard-empty-state__steps">
+            <li>{t('emptyState.hints.profile')}</li>
+            <li>{t('emptyState.hints.services')}</li>
+            <li>{t('emptyState.hints.bookings')}</li>
+          </ol>
+          <div className="dashboard-empty-state__actions">
+            <button
+              type="button"
+              className="dashboard-empty-state__cta"
+              onClick={() => langNavigate('/studio/create')}
+            >
+              <BusinessIcon />
+              {t('emptyState.createStudio')}
+              <ArrowForwardIcon />
+            </button>
+            <button
+              type="button"
+              className="dashboard-empty-state__secondary"
+              onClick={() => langNavigate('/owner-faq')}
+            >
+              {t('emptyState.secondaryCta')}
+            </button>
+          </div>
         </motion.div>
       )}
 
@@ -245,12 +262,21 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       {showGoLiveChecklist && (
         <div className="dashboard-page__setup-banner">
           <p className="dashboard-page__setup-banner-text">
-            {t('setupBanner.goLiveTitle', 'Complete setup before going live:')}
+            {t('setupBanner.goLiveTitle')}
           </p>
           <ul className="dashboard-page__setup-checklist">
-            <li>{hasActiveStudio ? '✅' : '⬜'} {t('setupBanner.checklist.studio', 'Have at least one active studio')}</li>
-            <li>{hasActiveService ? '✅' : '⬜'} {t('setupBanner.checklist.service', 'Have at least one active service')}</li>
-            <li>{hasPaymentSetup ? '✅' : '⬜'} {t('setupBanner.checklist.payment', 'Complete payment setup')}</li>
+            <li className={hasActiveStudio ? 'is-done' : undefined}>
+              <span className="dashboard-page__setup-check" aria-hidden="true" />
+              {t('setupBanner.checklist.studio')}
+            </li>
+            <li className={hasActiveService ? 'is-done' : undefined}>
+              <span className="dashboard-page__setup-check" aria-hidden="true" />
+              {t('setupBanner.checklist.service')}
+            </li>
+            <li className={hasPaymentSetup ? 'is-done' : undefined}>
+              <span className="dashboard-page__setup-check" aria-hidden="true" />
+              {t('setupBanner.checklist.payment')}
+            </li>
           </ul>
           {!hasPaymentSetup && (
             <button
@@ -258,7 +284,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               className="dashboard-page__setup-banner-cta"
               onClick={() => langNavigate('/onboarding')}
             >
-              {t('setupBanner.cta', 'Complete payment setup')}
+              {t('setupBanner.cta')}
               <ArrowForwardIcon />
             </button>
           )}

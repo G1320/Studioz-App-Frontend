@@ -1,5 +1,6 @@
 import { ItemCard } from './ItemCard';
 import { EmptyState, GenericList } from '@shared/components';
+import { MusicNoteIcon } from '@shared/components/icons';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { getLocalUser } from '@shared/services';
 import { useWishlists } from '@shared/hooks';
@@ -48,13 +49,14 @@ export const ItemsList: React.FC<ItemListProps> = ({ items = [], className = '',
     return (
       <section className={`${containerClassName} items--empty`.trim()}>
         <EmptyState
-          icon="🎵"
+          icon={<MusicNoteIcon />}
           title={hasFilters ? t('emptyStates.noMatchingFilters') : t('emptyStates.noServices')}
           subtitle={
             hasFilters ? t('emptyStates.tryDifferentFilters') : t('emptyStates.discoverServices')
           }
           actionLabel={t('emptyStates.browseServices')}
           onAction={() => langNavigate('/services')}
+          hideAction={hasFilters}
         />
       </section>
     );

@@ -383,122 +383,65 @@
   }
 }
 
-.revenue-chart__tooltip {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.5rem 0.75rem;
+// ===== SHARED CHART TOOLTIP (Recharts content) =====
+.ms-chart-tooltip {
+  min-width: 7.5rem;
+  max-width: 16rem;
+  padding: 0.5rem 0.65rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-secondary);
-  border-radius: ds.$radius-sm;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-.revenue-chart__tooltip-label {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.revenue-chart__tooltip-value {
-  font-size: ds.$font-sm;
-  font-weight: 600;
-  color: var(--text-primary);
-  font-variant-numeric: tabular-nums;
-}
-
-// ===== CHART CONTAINER =====
-.chart-container {
-  width: 100%;
-  height: 16rem;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding-top: 2rem;
-  position: relative;
-}
-
-.chart-grid {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border-radius: ds.$radius-md;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  text-align: start;
   pointer-events: none;
-  opacity: 0.2;
 
-  .grid-line {
-    width: 100%;
-    height: 1px;
-    border-top: 1px dashed var(--border-hover);
-  }
-}
-
-.chart-bar-wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  flex: 1;
-  position: relative;
-
-  &:hover .chart-tooltip {
-    opacity: 1;
+  &__label {
+    margin-bottom: 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.3;
   }
 
-  &:hover .chart-bar {
-    opacity: 1;
-    box-shadow: 0 0 15px var(--color-brand-glow);
+  &__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
-}
 
-.chart-bar-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-  align-items: center;
-}
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+  }
 
-.chart-tooltip {
-  position: absolute;
-  top: -2.5rem;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  font-size: ds.$font-sm;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid var(--border-hover);
-  pointer-events: none;
-  z-index: 10;
-  white-space: nowrap;
-}
+  &__swatch {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
 
-.chart-bar {
-  width: 100%;
-  max-width: 40px;
-  background: var(--color-brand);
-  border-radius: 2px 2px 0 0;
-  opacity: 0.8;
-  transition: all 0.3s ease;
-}
+  &__name {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-.chart-label {
-  margin-top: 0.5rem;
-  font-size: 0.625rem;
-  color: var(--text-muted);
-  text-align: center;
-  font-weight: 500;
-  height: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-
-  @media (min-width: 640px) {
-    font-size: ds.$font-sm;
+  &__value {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 }
 
@@ -515,7 +458,7 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.875rem;
     text-align: start;
 
     h3,
@@ -548,6 +491,14 @@
   unicode-bidi: isolate;
   width: 100%;
   min-width: 0;
+
+  .recharts-cartesian-axis-tick-value {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .recharts-tooltip-wrapper {
+    outline: none;
+  }
 }
 
 // ===== QUICK STATS (beside KPIs) =====
@@ -964,9 +915,12 @@
 // ===== CLIENTS LIST EMPTY =====
 .clients-list__empty {
   text-align: center;
-  padding: ds.$space-8 ds.$space-4;
-  color: var(--text-muted);
-  font-size: ds.$font-md;
+  padding: 1.25rem 1rem;
+  color: var(--text-secondary);
+  font-size: ds.$font-sm;
+  border: 1px dashed var(--border-primary);
+  border-radius: ds.$radius-md;
+  background: var(--bg-elevated);
 }
 
 // ===== EMPTY STATE =====
@@ -975,15 +929,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 40vh;
+  gap: 0.5rem;
+  min-height: 0;
+  padding: 1.75rem 1.25rem;
   text-align: center;
   color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: ds.$radius-md;
+  background: var(--bg-surface);
 
   svg {
-    width: 3rem;
-    height: 3rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-brand);
+    margin-bottom: 0.25rem;
   }
 
   h3 {
@@ -1112,14 +1071,14 @@
 
   .revenue-chart__recharts {
     flex: 1;
-    min-height: 280px;
+    min-height: 240px;
   }
 }
 
 // ===== REVENUE CHART RECHARTS WRAPPER =====
 .revenue-chart__recharts {
   width: 100%;
-  min-height: 300px;
+  min-height: 240px;
 }
 
 // ===== SKELETON LOADER =====
@@ -1344,14 +1303,14 @@
 
   &__body {
     display: grid;
-    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
-    gap: 0.75rem;
+    grid-template-columns: minmax(100px, 160px) minmax(0, 1fr);
+    gap: 0.5rem;
     align-items: start;
   }
 
   &__labels {
     list-style: none;
-    margin: 8px 0 40px;
+    margin: 4px 0 28px;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -1362,9 +1321,9 @@
   &__label {
     display: flex;
     align-items: center;
-    min-height: 2rem;
+    min-height: 1.75rem;
     padding-inline-end: 0.25rem;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 550;
     line-height: 1.25;
     color: var(--text-primary);
@@ -1525,11 +1484,12 @@
 
 .customers-section__pie {
   h4 {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 650;
     letter-spacing: -0.01em;
     color: var(--text-primary);
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.5rem;
+    text-align: start;
   }
 
   .recharts-default-legend {
@@ -1841,11 +1801,12 @@
 .insights-day-chart,
 .insights-cancellations {
   h4 {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 650;
     letter-spacing: -0.01em;
     color: var(--text-primary);
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.625rem;
+    text-align: start;
   }
 }
 

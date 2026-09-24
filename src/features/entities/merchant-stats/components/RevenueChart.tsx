@@ -9,6 +9,13 @@ import {
   ResponsiveContainer,
   CartesianGrid
 } from 'recharts';
+import {
+  MoneyYTick,
+  axisTickProps,
+  cartesianGridProps,
+  chartTheme,
+  makeMoneyTooltipContent
+} from './chartKit';
 
 export type ChartPeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -18,33 +25,13 @@ interface RevenueChartProps {
   data?: number[];
 }
 
-const formatAxisValue = (v: number) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`);
-
-const ChartTooltip = ({
-  active,
-  payload,
-  label,
-  revenueLabel
-}: {
-  active?: boolean;
-  payload?: { value?: number }[];
-  label?: string;
-  revenueLabel: string;
-}) => {
-  if (!active || !payload?.length) return null;
-  const value = Number(payload[0]?.value ?? 0);
-  return (
-    <div className="revenue-chart__tooltip">
-      <span className="revenue-chart__tooltip-label">{label}</span>
-      <span className="revenue-chart__tooltip-value">
-        {revenueLabel}: ₪{value.toLocaleString()}
-      </span>
-    </div>
-  );
-};
-
 export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChange, data: externalData }) => {
   const { t } = useTranslation('merchantStats');
+  const revenueLabel = t('revenueChart.revenue', 'הכנסה');
+  const TooltipContent = useMemo(
+    () => makeMoneyTooltipContent(revenueLabel),
+    [revenueLabel]
+  );
 
   const chartData = useMemo(() => {
     const values =
@@ -121,58 +108,53 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period, onPeriodChan
         </div>
       </div>
 
-      <div className="revenue-chart__recharts">
-        <ResponsiveContainer width="100%" height={300}>
+      <div className="revenue-chart__recharts ms-chart-plot" dir="ltr">
+        <ResponsiveContainer width="100%" height={chartTheme.heights.lg}>
           <AreaChart
             data={chartData}
-            margin={{ top: 8, right: 8, left: 12, bottom: period === 'monthly' ? 40 : 8 }}
+            margin={{
+              ...chartTheme.margins.area,
+              bottom: period === 'monthly' ? 28 : 4,
+              left: 4
+            }}
           >
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--color-brand)" stopOpacity={0.18} />
-                <stop offset="100%" stopColor="var(--color-brand)" stopOpacity={0} />
+                <stop offset="0%" stopColor={chartTheme.primary} stopOpacity={0.2} />
+                <stop offset="100%" stopColor={chartTheme.primary} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
+            <CartesianGrid {...cartesianGridProps} />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+              tick={axisTickProps}
               stroke="transparent"
               tickLine={false}
               axisLine={false}
               interval={period === 'monthly' ? 1 : 0}
               angle={period === 'monthly' ? -30 : 0}
               textAnchor={period === 'monthly' ? 'end' : 'middle'}
-              height={period === 'monthly' ? 48 : 28}
+              height={period === 'monthly' ? 40 : 24}
             />
             <YAxis
               orientation="left"
-              tick={{ fontSize: 11, fill: 'var(--text-muted)', direction: 'ltr' }}
+              width={1}
+              tick={<MoneyYTick />}
               stroke="transparent"
               tickLine={false}
               axisLine={false}
-              tickMargin={10}
-              width={64}
-              tickFormatter={formatAxisValue}
             />
             <Tooltip
-              content={(props) => (
-                <ChartTooltip
-                  active={props.active}
-                  payload={props.payload as { value?: number }[] | undefined}
-                  label={props.label as string | undefined}
-                  revenueLabel={t('revenueChart.revenue', 'הכנסה')}
-                />
-              )}
-              cursor={{ stroke: 'var(--border-hover)', strokeWidth: 1 }}
+              content={TooltipContent}
+              cursor={{ stroke: chartTheme.cursor, strokeWidth: 1, strokeDasharray: '4 4' }}
             />
             <Area
               type="monotone"
               dataKey="value"
-              stroke="var(--color-brand)"
+              stroke={chartTheme.primary}
               strokeWidth={2}
               fill="url(#revenueGradient)"
-              activeDot={{ r: 4, strokeWidth: 0 }}
+              activeDot={{ r: 3.5, strokeWidth: 0, fill: chartTheme.primary }}
             />
           </AreaChart>
         </ResponsiveContainer>

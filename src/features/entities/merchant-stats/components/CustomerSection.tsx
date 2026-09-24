@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useCustomerAnalytics, useCustomerDetail } from '@shared/hooks';
@@ -8,6 +8,7 @@ import { CustomerDetailModal } from './CustomerDetailModal';
 import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
 import type { CustomerAnalyticsRow } from '@shared/services';
+import { MsChartTooltip, chartTheme, type MsTooltipContentProps } from './chartKit';
 
 interface CustomerSectionProps {
   dateRange: DateRange;
@@ -54,9 +55,30 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
   const repeatCount = customers.filter((c) => c.bookingCount > 1).length;
   const newCount = customers.length - repeatCount;
   const pieData = [
-    { name: t('customers.repeat', 'חוזרים'), value: repeatCount, color: 'var(--color-brand)' },
-    { name: t('customers.new', 'חדשים'), value: newCount, color: 'var(--text-muted)' }
+    { name: t('customers.repeat', 'חוזרים'), value: repeatCount, color: chartTheme.primary },
+    { name: t('customers.new', 'חדשים'), value: newCount, color: chartTheme.muted }
   ];
+
+  const PieTooltip = useMemo(
+    () =>
+      function PieTooltipContent({ active, payload }: MsTooltipContentProps) {
+        const entry = payload?.[0];
+        if (!active || entry?.value == null) return null;
+        return (
+          <MsChartTooltip
+            active
+            rows={[
+              {
+                label: entry.name ?? '',
+                value: String(entry.value),
+                color: entry.payload?.color ?? entry.color ?? chartTheme.primary
+              }
+            ]}
+          />
+        );
+      },
+    []
+  );
 
   if (isLoading) {
     return (
@@ -147,42 +169,38 @@ export const CustomerSection: React.FC<CustomerSectionProps> = ({ dateRange, for
         {pieData.some((d) => d.value > 0) && (
           <div className="ms-panel customers-section__pie">
             <h4>{t('customers.repeatVsNew', 'חוזרים vs חדשים')}</h4>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={48}
-                  outerRadius={72}
-                  stroke="var(--bg-surface)"
-                  strokeWidth={2}
-                  paddingAngle={2}
-                >
-                  {pieData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-secondary)',
-                    borderRadius: '6px'
-                  }}
-                />
-                <Legend
-                  verticalAlign="bottom"
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(_value, entry) => {
-                    const payload = entry.payload as { name?: string; value?: number } | undefined;
-                    return `${payload?.name ?? ''}: ${payload?.value ?? 0}`;
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="ms-chart-plot" dir="ltr">
+              <ResponsiveContainer width="100%" height={chartTheme.heights.sm}>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={44}
+                    outerRadius={68}
+                    stroke="var(--bg-surface)"
+                    strokeWidth={2}
+                    paddingAngle={2}
+                  >
+                    {pieData.map((entry) => (
+                      <Cell key={entry.name} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={PieTooltip} />
+                  <Legend
+                    verticalAlign="bottom"
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(_value, entry) => {
+                      const payload = entry.payload as { name?: string; value?: number } | undefined;
+                      return `${payload?.name ?? ''}: ${payload?.value ?? 0}`;
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         )}
       </div>

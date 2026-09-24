@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { Studio } from 'src/types/index';
 import { StudioCard } from '@features/entities/studios';
+import { EmptyState } from '@shared/components';
+import { BusinessIcon } from '@shared/components/icons';
 
 interface MyStudiosProps {
   studios: Studio[];
@@ -16,15 +18,12 @@ export const MyStudios: React.FC<MyStudiosProps> = ({ studios }) => {
     return (
       <div className="dashboard-my-studios">
         <h2 className="dashboard-section-title">{t('myStudios.title')}</h2>
-        <div className="empty-state">
-          <p>{t('myStudios.empty')}</p>
-          <button
-            className="primary-button"
-            onClick={() => langNavigate('/studio/create')}
-          >
-            {t('myStudios.createStudio')}
-          </button>
-        </div>
+        <EmptyState
+          icon={<BusinessIcon />}
+          title={t('myStudios.empty')}
+          actionLabel={t('myStudios.createStudio')}
+          onAction={() => langNavigate('/studio/create')}
+        />
       </div>
     );
   }
@@ -48,4 +47,3 @@ export const MyStudios: React.FC<MyStudiosProps> = ({ studios }) => {
     </div>
   );
 };
-

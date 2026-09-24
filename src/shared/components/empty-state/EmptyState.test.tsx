@@ -22,15 +22,16 @@ describe('EmptyState Component', () => {
   });
 
   it('renders default icon when not provided', () => {
-    render(<EmptyState title="Empty" />);
+    const { container } = render(<EmptyState title="Empty" />);
 
-    expect(screen.getByText('📅')).toBeInTheDocument();
+    expect(container.querySelector('.empty-state__icon')).toBeInTheDocument();
+    expect(container.querySelector('.empty-state__icon svg')).toBeInTheDocument();
   });
 
   it('renders custom icon when provided', () => {
-    render(<EmptyState title="Empty" icon="🎵" />);
+    render(<EmptyState title="Empty" icon={<span data-testid="custom-icon">♪</span>} />);
 
-    expect(screen.getByText('🎵')).toBeInTheDocument();
+    expect(screen.getByTestId('custom-icon')).toBeInTheDocument();
   });
 
   it('renders action button when actionLabel and onAction are provided', () => {
@@ -85,7 +86,7 @@ describe('EmptyState Component', () => {
   it('applies custom className', () => {
     render(<EmptyState title="Empty" className="custom-empty" />);
 
-    const container = screen.getByRole('heading').parentElement;
+    const container = screen.getByRole('status');
     expect(container).toHaveClass('custom-empty');
   });
 
@@ -99,5 +100,17 @@ describe('EmptyState Component', () => {
     );
 
     expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Add New Item');
+  });
+
+  it('renders hints when provided', () => {
+    render(
+      <EmptyState
+        title="Empty"
+        hints={[{ label: 'Step one' }, { label: 'Step two' }]}
+      />
+    );
+
+    expect(screen.getByText('Step one')).toBeInTheDocument();
+    expect(screen.getByText('Step two')).toBeInTheDocument();
   });
 });

@@ -146,7 +146,9 @@ const NotificationsPage: React.FC = () => {
             <div className="notifications-page__empty">{t('common.loading', 'Loading...')}</div>
           ) : notifications.length === 0 ? (
             <div className="notifications-page__empty">
-              <span className="notifications-page__empty-icon">🔔</span>
+              <span className="notifications-page__empty-icon" aria-hidden="true">
+                <NotificationsIcon />
+              </span>
               <p>{t('notifications.page.empty', 'No notifications yet')}</p>
               {activeFilter !== 'all' && (
                 <p className="notifications-page__empty-hint">

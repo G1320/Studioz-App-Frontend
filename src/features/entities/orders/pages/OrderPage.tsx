@@ -7,6 +7,9 @@ import { PaymeCheckout } from '@shared/components/checkout';
 import { PayMeCartItem } from '@shared/services/payme-service';
 import { useTranslation } from 'react-i18next';
 import { featureFlags } from '@core/config/featureFlags';
+import { EmptyState } from '@shared/components';
+import { ShoppingCartIcon } from '@shared/components/icons';
+import { useLanguageNavigate } from '@shared/hooks/utils';
 
 interface OrderPageProps {
   studios: Studio[];
@@ -17,6 +20,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
   const { studioId } = useParams();
   const { user } = useUserContext();
   const { t, i18n } = useTranslation('orders');
+  const langNavigate = useLanguageNavigate();
 
   // Redirect if checkout is disabled
   if (!featureFlags.checkout) {
@@ -59,9 +63,13 @@ const OrderPage: React.FC<OrderPageProps> = ({ cart, studios }) => {
             />
           </>
         ) : (
-          <div className="order-page__empty">
-            <p>{t('empty', 'Your cart is empty')}</p>
-          </div>
+          <EmptyState
+            icon={<ShoppingCartIcon />}
+            title={t('empty', 'Your cart is empty')}
+            subtitle={t('emptyHint', 'Browse studios and add a session to check out.')}
+            actionLabel={t('browseStudios', 'Browse studios')}
+            onAction={() => langNavigate('/')}
+          />
         )}
       </div>
     </section>

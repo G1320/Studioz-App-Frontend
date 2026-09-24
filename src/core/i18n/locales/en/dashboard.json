@@ -4,9 +4,25 @@
   "guest": "Guest",
   "studioOwnerSubtitle": "Manage your studios and bookings",
   "emptyState": {
-    "title": "Welcome! 🎉",
-    "description": "Your subscription is active. It's time to create your first studio and start receiving bookings.",
-    "createStudio": "Create Your Studio"
+    "title": "Set up your first studio",
+    "description": "List a space, add services, and start taking bookings from one workspace.",
+    "createStudio": "Create studio",
+    "secondaryCta": "Owner FAQ",
+    "hints": {
+      "profile": "Add studio details and photos",
+      "services": "Define services and pricing",
+      "bookings": "Publish and accept bookings"
+    }
+  },
+  "setupBanner": {
+    "text": "Complete your payment setup to start receiving bookings.",
+    "cta": "Complete payment setup",
+    "goLiveTitle": "Complete setup before going live:",
+    "checklist": {
+      "studio": "Have at least one active studio",
+      "service": "Have at least one active service",
+      "payment": "Complete payment setup"
+    }
   },
   "tabs": {
     "overview": "Calendar",
@@ -15,10 +31,6 @@
     "stats": "Statistics",
     "documents": "Documents",
     "billing": "Billing"
-  },
-  "setupBanner": {
-    "text": "Complete your payment setup to start receiving bookings.",
-    "cta": "Complete payment setup"
   },
   "quickActions": {
     "title": "Quick Actions",

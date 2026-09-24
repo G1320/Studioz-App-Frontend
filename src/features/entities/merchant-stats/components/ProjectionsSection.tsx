@@ -14,6 +14,13 @@ import {
 import { useProjections } from '@shared/hooks';
 import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
+import {
+  MoneyYTick,
+  axisTickProps,
+  cartesianGridProps,
+  chartTheme,
+  makeMultiSeriesTooltipContent
+} from './chartKit';
 
 interface ProjectionsSectionProps {
   dateRange: DateRange;
@@ -35,27 +42,20 @@ const MONTH_KEYS = [
   'months.dec'
 ];
 
-const MoneyYTick = ({
-  x,
-  y,
-  payload
-}: {
-  x?: number;
-  y?: number;
-  payload?: { value?: number };
-}) => {
-  const v = Number(payload?.value ?? 0);
-  const label = v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`;
-  return (
-    <text x={(x ?? 0) - 10} y={y} dy={4} textAnchor="end" fill="var(--text-muted)" fontSize={11}>
-      {label}
-    </text>
-  );
-};
-
 export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCurrency }) => {
   const { t } = useTranslation('merchantStats');
   const { data, isLoading } = useProjections();
+
+  const actualLabel = t('projections.actual', 'פועל');
+  const projectedLabel = t('projections.projected', 'תחזית');
+  const TooltipContent = useMemo(
+    () =>
+      makeMultiSeriesTooltipContent(formatCurrency, {
+        actual: { label: actualLabel, color: chartTheme.primary },
+        projected: { label: projectedLabel, color: chartTheme.secondary }
+      }),
+    [formatCurrency, actualLabel, projectedLabel]
+  );
 
   const chartData = useMemo(() => {
     if (!data) return [];
@@ -147,53 +147,38 @@ export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({ formatCu
             </div>
           </div>
           <div className="projections-chart__plot ms-chart-plot" dir="ltr">
-            <ResponsiveContainer width="100%" height={320}>
-              <ComposedChart data={chartData} margin={{ top: 12, right: 16, left: 56, bottom: 8 }}>
-                <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  orientation="left"
-                  width={1}
-                  tick={<MoneyYTick />}
-                  axisLine={false}
-                  tickLine={false}
-                />
+            <ResponsiveContainer width="100%" height={chartTheme.heights.lg}>
+              <ComposedChart data={chartData} margin={{ ...chartTheme.margins.composed, left: 4, bottom: 4 }}>
+                <CartesianGrid {...cartesianGridProps} />
+                <XAxis dataKey="name" tick={axisTickProps} axisLine={false} tickLine={false} />
+                <YAxis orientation="left" width={1} tick={<MoneyYTick />} axisLine={false} tickLine={false} />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-secondary)',
-                    borderRadius: '6px',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.08)'
-                  }}
-                  formatter={(value: number | undefined, name: string | undefined) => [
-                    formatCurrency(value ?? 0),
-                    name === 'actual' ? t('projections.actual', 'פועל') : t('projections.projected', 'תחזית')
-                  ]}
+                  content={TooltipContent}
+                  cursor={{ stroke: chartTheme.cursor, strokeWidth: 1, strokeDasharray: '4 4' }}
                 />
-                <Legend wrapperStyle={{ fontSize: 12, color: 'var(--text-secondary)' }} />
+                <Legend
+                  wrapperStyle={{ fontSize: 12, color: 'var(--text-secondary)', paddingTop: 8 }}
+                  iconType="plainline"
+                  iconSize={12}
+                />
                 <Area
                   type="monotone"
                   dataKey="actual"
-                  fill="var(--color-brand)"
-                  fillOpacity={0.12}
-                  stroke="var(--color-brand)"
+                  fill={chartTheme.primary}
+                  fillOpacity={0.14}
+                  stroke={chartTheme.primary}
                   strokeWidth={2}
-                  name={t('projections.actual', 'פועל')}
+                  name={actualLabel}
                 />
                 <Line
                   type="monotone"
                   dataKey="projected"
-                  stroke="var(--text-secondary)"
-                  strokeDasharray="4 4"
+                  stroke={chartTheme.secondary}
+                  strokeDasharray="5 4"
                   strokeWidth={1.75}
                   dot={false}
                   connectNulls={false}
-                  name={t('projections.projected', 'תחזית')}
+                  name={projectedLabel}
                 />
               </ComposedChart>
             </ResponsiveContainer>

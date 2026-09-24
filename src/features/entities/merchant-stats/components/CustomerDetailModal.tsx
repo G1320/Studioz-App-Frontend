@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   LineChart,
@@ -11,6 +11,13 @@ import {
 } from 'recharts';
 import { CloseIcon } from '@shared/components/icons';
 import type { CustomerDetailResponse } from '@shared/services';
+import {
+  MoneyYTick,
+  MonthXTick,
+  cartesianGridProps,
+  chartTheme,
+  makeMoneyTooltipContent
+} from './chartKit';
 
 interface CustomerDetailModalProps {
   open: boolean;
@@ -48,54 +55,6 @@ const STATUS_TO_KEY: Record<string, string> = {
   'no show': 'customerDetail.statusNoShow'
 };
 
-const formatAxisValue = (v: number) => (v >= 1000 ? `₪${(v / 1000).toFixed(1).replace(/\.0$/, '')}k` : `₪${v}`);
-
-const MoneyYTick = ({
-  x,
-  y,
-  payload
-}: {
-  x?: number;
-  y?: number;
-  payload?: { value?: number };
-}) => (
-  <text
-    x={(x ?? 0) - 10}
-    y={y}
-    dy={4}
-    textAnchor="end"
-    fill="var(--text-muted)"
-    fontSize={11}
-  >
-    {formatAxisValue(Number(payload?.value ?? 0))}
-  </text>
-);
-
-const MonthXTick = ({
-  x,
-  y,
-  payload
-}: {
-  x?: number;
-  y?: number;
-  payload?: { value?: string };
-}) => {
-  if (!payload?.value) return null;
-  return (
-    <text
-      x={x}
-      y={(y ?? 0) + 4}
-      dy={10}
-      textAnchor="end"
-      fill="var(--text-muted)"
-      fontSize={10}
-      transform={`rotate(-30, ${x}, ${(y ?? 0) + 4})`}
-    >
-      {payload.value}
-    </text>
-  );
-};
-
 export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
   open,
   onClose,
@@ -105,6 +64,11 @@ export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
   formatCurrency
 }) => {
   const { t } = useTranslation('merchantStats');
+  const revenueLabel = t('revenueChart.revenue', 'הכנסה');
+  const TooltipContent = useMemo(
+    () => makeMoneyTooltipContent(revenueLabel, formatCurrency, chartTheme.primary),
+    [revenueLabel, formatCurrency]
+  );
 
   const translateStatus = (status: string) => {
     const key = STATUS_TO_KEY[status.toLowerCase().trim()];
@@ -119,17 +83,15 @@ export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
 
   if (!open) return null;
 
-  const chartData = data?.spendingTrend?.map((value, i) => ({
-    name: t(MONTH_KEYS[i], String(i + 1)),
-    value
-  })) ?? [];
+  const chartData =
+    data?.spendingTrend?.map((value, i) => ({
+      name: t(MONTH_KEYS[i], String(i + 1)),
+      value
+    })) ?? [];
 
   return (
     <div className="customer-detail-modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div
-        className="customer-detail-modal"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="customer-detail-modal" onClick={(e) => e.stopPropagation()}>
         <div className="customer-detail-modal__header">
           <h2>{customerName}</h2>
           <button type="button" className="customer-detail-modal__close" onClick={onClose} aria-label={t('close', 'סגור')}>
@@ -175,35 +137,25 @@ export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
               <section className="customer-detail-modal__section">
                 <h3>{t('customerDetail.spendingTrend', 'מגמת הוצאות')}</h3>
                 <div className="customer-detail-modal__chart ms-chart-plot" dir="ltr">
-                  <ResponsiveContainer width="100%" height={240}>
-                    <LineChart data={chartData} margin={{ top: 12, right: 12, left: 52, bottom: 40 }}>
-                      <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" vertical={false} />
+                  <ResponsiveContainer width="100%" height={chartTheme.heights.md}>
+                    <LineChart data={chartData} margin={{ ...chartTheme.margins.area, left: 4, bottom: 28 }}>
+                      <CartesianGrid {...cartesianGridProps} />
                       <XAxis
                         dataKey="name"
-                        height={48}
+                        height={40}
                         interval={0}
                         tick={<MonthXTick />}
                         axisLine={false}
                         tickLine={false}
                       />
                       <YAxis width={1} tick={<MoneyYTick />} axisLine={false} tickLine={false} />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'var(--bg-surface)',
-                          border: '1px solid var(--border-secondary)',
-                          borderRadius: '8px'
-                        }}
-                        formatter={(value: number | undefined) => [
-                          formatCurrency(value ?? 0),
-                          t('revenueChart.revenue', 'הכנסה')
-                        ]}
-                      />
+                      <Tooltip content={TooltipContent} />
                       <Line
                         type="monotone"
                         dataKey="value"
-                        stroke="var(--color-brand)"
+                        stroke={chartTheme.primary}
                         strokeWidth={2}
-                        dot={{ r: 3 }}
+                        dot={{ r: 2.5, strokeWidth: 0, fill: chartTheme.primary }}
                         activeDot={{ r: 4, strokeWidth: 0 }}
                       />
                     </LineChart>
@@ -217,11 +169,15 @@ export const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
                 <h3>{t('customerDetail.preferences', 'העדפות')}</h3>
                 <p>
                   {data.preferredTimeSlots?.length > 0 && (
-                    <span>{t('customerDetail.preferredSlots', 'שעות')}: {data.preferredTimeSlots.join(', ')}</span>
+                    <span>
+                      {t('customerDetail.preferredSlots', 'שעות')}: {data.preferredTimeSlots.join(', ')}
+                    </span>
                   )}
                   {data.preferredTimeSlots?.length > 0 && data.preferredDays?.length > 0 && ' · '}
                   {data.preferredDays?.length > 0 && (
-                    <span>{t('customerDetail.preferredDays', 'ימים')}: {translateDayNames(data.preferredDays).join(', ')}</span>
+                    <span>
+                      {t('customerDetail.preferredDays', 'ימים')}: {translateDayNames(data.preferredDays).join(', ')}
+                    </span>
                   )}
                 </p>
               </section>

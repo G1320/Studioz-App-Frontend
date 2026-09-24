@@ -12,6 +12,12 @@ import {
 import { useStudioAnalytics } from '@shared/hooks';
 import { ChartSkeleton, StatCardSkeleton } from './SkeletonLoader';
 import type { DateRange } from './DateRangePicker';
+import {
+  formatMoneyAxis,
+  axisTickProps,
+  chartTheme,
+  makeMoneyTooltipContent
+} from './chartKit';
 
 interface StudioBreakdownSectionProps {
   dateRange: DateRange;
@@ -28,6 +34,11 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
     endDate: dateRange.endDate
   });
   const [expandedStudioId, setExpandedStudioId] = useState<string | null>(null);
+  const revenueLabel = t('revenueChart.revenue', 'הכנסה');
+  const TooltipContent = useMemo(
+    () => makeMoneyTooltipContent(revenueLabel, formatCurrency, chartTheme.primary),
+    [revenueLabel, formatCurrency]
+  );
 
   const studios = data?.studios ?? [];
   const chartData = useMemo(
@@ -129,44 +140,32 @@ export const StudioBreakdownSection: React.FC<StudioBreakdownSectionProps> = ({
             <h3>{t('studios.comparison', 'השוואת אולפנים')}</h3>
           </div>
           <div className="studio-comparison-chart__body" dir="ltr">
-            <ul className="studio-comparison-chart__labels" style={{ height: Math.max(180, chartData.length * 48) }}>
+            <ul className="studio-comparison-chart__labels" style={{ height: Math.max(160, chartData.length * 40) }}>
               {chartData.map((item) => (
                 <li key={item.name} className="studio-comparison-chart__label" title={item.name}>
                   {item.name}
                 </li>
               ))}
             </ul>
-            <div className="studio-comparison-chart__chart">
-              <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 48 + 40)}>
+            <div className="studio-comparison-chart__chart ms-chart-plot">
+              <ResponsiveContainer width="100%" height={Math.max(200, chartData.length * 40 + 32)}>
                 <BarChart
                   data={chartData}
                   layout="vertical"
-                  margin={{ top: 8, right: 12, bottom: 8, left: 0 }}
-                  barCategoryGap="32%"
+                  margin={{ top: 4, right: 12, bottom: 4, left: 0 }}
+                  barCategoryGap="28%"
                 >
-                  <CartesianGrid stroke="var(--border-secondary)" strokeDasharray="0" horizontal={false} />
+                  <CartesianGrid stroke={chartTheme.grid} strokeDasharray="0" horizontal={false} />
                   <XAxis
                     type="number"
-                    tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                    tick={axisTickProps}
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) => (v >= 1000 ? `₪${(v / 1000).toFixed(0)}k` : `₪${v}`)}
+                    tickFormatter={formatMoneyAxis}
                   />
                   <YAxis type="category" dataKey="name" width={0} tick={false} axisLine={false} tickLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-secondary)',
-                      borderRadius: '6px',
-                      boxShadow: '0 8px 24px rgba(0,0,0,0.08)'
-                    }}
-                    labelStyle={{ color: 'var(--text-primary)' }}
-                    formatter={(value: number | undefined) => [
-                      formatCurrency(value ?? 0),
-                      t('revenueChart.revenue', 'הכנסה')
-                    ]}
-                  />
-                  <Bar dataKey="revenue" fill="var(--color-brand)" radius={[0, 3, 3, 0]} barSize={14} />
+                  <Tooltip content={TooltipContent} cursor={{ fill: 'var(--bg-hover)', opacity: 0.45 }} />
+                  <Bar dataKey="revenue" fill={chartTheme.primary} radius={[0, 3, 3, 0]} barSize={12} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

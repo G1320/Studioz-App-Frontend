@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useUserContext } from '@core/contexts';
 import Item from 'src/types/item';
 import Studio from 'src/types/studio';
-import { GenericCarousel, GenericList } from '@shared/components';
+import { EmptyState, GenericCarousel, GenericList } from '@shared/components';
+import { BusinessIcon } from '@shared/components/icons';
 import { StudioCard } from '@features/entities/studios/components/StudioCard';
 import { useStudioReservations } from '@shared/hooks';
 import { Calendar } from '@features/entities/bookings/calender/components/Calendar';
@@ -46,12 +47,21 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
 
   if (!studios.length) {
     return (
-      <div className="calendar-page-empty-state">
-        <p>{t('emptyState.description', "Your subscription is active. It's time to create your first studio and start receiving bookings.")}</p>
-        <button type="button" className="stepped-form__button stepped-form__button--submit" onClick={() => langNavigate('/studio/create')}>
-          {t('emptyState.createStudio', 'Create Your Studio')}
-        </button>
-      </div>
+      <EmptyState
+        className="calendar-page-empty-state"
+        icon={<BusinessIcon />}
+        title={t('emptyState.title')}
+        subtitle={t('emptyState.description')}
+        hints={[
+          { label: t('emptyState.hints.profile') },
+          { label: t('emptyState.hints.services') },
+          { label: t('emptyState.hints.bookings') }
+        ]}
+        actionLabel={t('emptyState.createStudio')}
+        onAction={() => langNavigate('/studio/create')}
+        secondaryActionLabel={t('emptyState.secondaryCta')}
+        onSecondaryAction={() => langNavigate('/owner-faq')}
+      />
     );
   }
 

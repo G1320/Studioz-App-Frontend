@@ -1,5 +1,6 @@
 import { StudioCard } from './StudioCard';
 import { EmptyState, GenericList } from '@shared/components';
+import { BusinessIcon } from '@shared/components/icons';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { useTranslation } from 'react-i18next';
 import { Studio } from 'src/types/index';
@@ -19,13 +20,14 @@ export const StudiosList: React.FC<StudiosListProps> = ({ studios, title, hasFil
       <section className="studios-list-container studios-list-container--empty">
         {title && <h1 className="studio-list-title">{title}</h1>}
         <EmptyState
-          icon="🎛️"
+          icon={<BusinessIcon />}
           title={hasFilters ? t('emptyStates.noMatchingFilters') : t('emptyStates.noStudios')}
           subtitle={
             hasFilters ? t('emptyStates.tryDifferentFilters') : t('emptyStates.discoverStudios')
           }
           actionLabel={t('emptyStates.returnHome')}
           onAction={() => langNavigate('/')}
+          hideAction={hasFilters}
         />
       </section>
     );

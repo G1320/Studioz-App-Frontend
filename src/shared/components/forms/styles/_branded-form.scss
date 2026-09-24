@@ -8,9 +8,9 @@
 
 @mixin branded-form-base {
   background: transparent;
-  border-radius: vars.$border-radius-large;
+  border-radius: ds.$radius-md;
   border: none;
-  padding: vars.$spacing-xl;
+  padding: 1rem;
   color: var(--text-primary);
   max-width: 100%;
   margin: 0 auto;
@@ -57,11 +57,11 @@
 
     // Section title style (for multiselect groups)
     &--title {
-      font-size: vars.$font-size-xl;
+      font-size: 1.125rem;
       font-weight: 700;
       color: var(--text-primary);
       text-transform: none;
-      letter-spacing: normal;
+      letter-spacing: -0.02em;
       display: flex;
       align-items: center;
       gap: vars.$spacing-xs;
@@ -71,13 +71,13 @@
   .form-input,
   .form-textarea {
     width: 100% !important;
-    padding: vars.$spacing-medium vars.$spacing-large;
+    padding: 0.625rem 0.875rem;
     border: 1px solid var(--border-primary);
-    border-radius: 12px;
+    border-radius: ds.$radius-md;
     background: var(--bg-input);
     color: var(--text-primary);
-    font-size: vars.$font-size-medium;
-    transition: all 0.3s ease;
+    font-size: ds.$font-md;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     text-align: start;
     box-sizing: border-box;
 
@@ -99,9 +99,9 @@
 
   .form-textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 5.5rem;
     font-family: inherit;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   .form-helper-text {
@@ -196,19 +196,19 @@
 @mixin branded-business-hours {
   display: flex;
   flex-direction: column;
-  gap: vars.$spacing-sm-md;
+  gap: 0.5rem;
 
   .day-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: vars.$spacing-large;
-    padding: vars.$spacing-medium vars.$spacing-large;
-    border-radius: 12px;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: ds.$radius-md;
     border: 1px solid var(--border-secondary);
     background: var(--bg-input);
-    transition: all 0.2s ease;
-    min-height: 56px;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+    min-height: 2.75rem;
 
     &:hover {
       border-color: var(--border-primary);
@@ -456,17 +456,17 @@
 
 @mixin branded-multiselect {
   .multiselect-option {
-    .multiselect-checkbox {
-      padding: vars.$spacing-medium;
+      .multiselect-checkbox {
+      padding: 0.625rem 0.75rem;
       width: 100%;
-      border-radius: 12px;
+      border-radius: ds.$radius-md;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
       color: var(--text-secondary) !important;
       background: var(--bg-surface) !important;
       border: 1px solid var(--border-primary) !important;
-      font-size: vars.$font-size-small;
-      font-weight: 700;
+      font-size: ds.$font-sm;
+      font-weight: 650;
 
       &:hover {
         background: var(--bg-hover) !important;
@@ -478,7 +478,7 @@
         background: var(--color-brand) !important;
         color: var(--btn-primary-text) !important;
         border-color: var(--color-brand) !important;
-        box-shadow: 0 0 20px var(--color-brand-glow);
+        box-shadow: none;
       }
 
       .multiselect-label {
@@ -511,7 +511,7 @@
           background: var(--color-brand) !important;
           color: var(--btn-primary-text) !important;
           border-color: var(--color-brand) !important;
-          box-shadow: 0 0 20px var(--color-brand-glow);
+          box-shadow: none;
         }
 
         .multiselect-label {
@@ -611,13 +611,13 @@
 @mixin branded-dropdowns {
   .listbox-button {
     width: 100%;
-    padding: vars.$spacing-medium vars.$spacing-large;
+    padding: 0.625rem 0.875rem;
     border: 1px solid var(--border-primary);
-    border-radius: 12px;
+    border-radius: ds.$radius-md;
     background: var(--bg-input);
     color: var(--text-primary);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 
     &:hover {
       background: var(--bg-hover);
@@ -632,18 +632,18 @@
 
   .listbox-options {
     margin-top: vars.$spacing-xs;
-    padding: vars.$spacing-small;
+    padding: 0.375rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-primary);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px var(--shadow-xl);
+    border-radius: ds.$radius-md;
+    box-shadow: 0 8px 24px var(--shadow-xl);
 
     .listbox-option {
-      padding: vars.$spacing-medium;
+      padding: 0.5rem 0.625rem;
       color: var(--text-primary);
       cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s ease;
+      border-radius: ds.$radius-sm;
+      transition: background-color 0.15s ease;
 
       &.active,
       &.selected {
@@ -684,31 +684,32 @@
 
     &__icon {
       color: var(--color-brand);
-      font-size: 1.5rem !important;
+      font-size: 1.125rem !important;
       flex-shrink: 0;
     }
 
     &__title {
-      font-size: vars.$font-size-xl;
+      font-size: 1.125rem;
       font-weight: 700;
       color: var(--text-primary);
       margin: 0;
-      line-height: 1.2;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
     }
 
     &__step-counter {
-      font-size: vars.$font-size-small;
+      font-size: ds.$font-xs;
       font-weight: 500;
       color: var(--text-secondary);
       background: var(--bg-secondary);
-      padding: vars.$spacing-xs vars.$spacing-medium;
-      border-radius: 999px;
+      padding: 0.125rem 0.5rem;
+      border-radius: ds.$radius-md;
       white-space: nowrap;
-      margin-inline-start: vars.$spacing-small;
+      margin-inline-start: 0.5rem;
     }
 
     &__subtitle {
-      font-size: vars.$font-size-small;
+      font-size: ds.$font-xs;
       color: var(--text-muted);
       margin: 0;
     }
@@ -732,13 +733,13 @@
       align-items: flex-start;
       justify-content: center;
       gap: vars.$spacing-xs;
-      padding: vars.$spacing-sm-md;
-      border-radius: 12px;
+      padding: 0.625rem 0.75rem;
+      border-radius: ds.$radius-md;
       border: 1px solid var(--border-primary);
       background: var(--bg-input);
       color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
       font-family: inherit;
       text-align: start;
 
@@ -775,37 +776,37 @@
   .form-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: vars.$spacing-xl;
-    padding-top: vars.$spacing-large;
+    margin-top: 1rem;
+    padding-top: 0.875rem;
     border-top: 1px solid var(--border-subtle);
     grid-column: 1 !important;
     width: 100%;
 
     .submit-button {
-      padding: vars.$spacing-medium vars.$spacing-xl;
-      font-size: vars.$font-size-medium;
-      font-weight: 700;
+      padding: 0.5rem 1.125rem;
+      font-size: ds.$font-sm;
+      font-weight: 650;
       color: var(--btn-primary-text);
       background: var(--color-brand);
       border: none;
-      border-radius: 999px;
+      border-radius: ds.$radius-md;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 0 20px var(--color-brand-glow);
+      transition: background-color 0.15s ease;
+      box-shadow: none;
 
       &:hover {
         background: var(--color-brand-hover);
-        transform: translateY(-1px);
-        box-shadow: 0 0 30px var(--color-brand-glow);
+        transform: none;
+        box-shadow: none;
       }
 
       &:active {
-        transform: translateY(0);
+        transform: none;
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px var(--color-brand-glow);
+        box-shadow: 0 0 0 2px var(--color-brand-glow);
       }
     }
   }
@@ -814,9 +815,9 @@
 @mixin branded-file-uploader {
   .file-uploader {
     background: var(--bg-input);
-    border: 2px dashed var(--border-primary);
-    border-radius: 16px;
-    transition: all 0.3s ease;
+    border: 1.5px dashed var(--border-primary);
+    border-radius: ds.$radius-md;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 
     &:hover {
       border-color: var(--color-brand);
@@ -855,13 +856,13 @@
     .gallery-images-list {
       background: var(--bg-input);
       border: 1px solid var(--border-primary);
-      border-radius: 12px;
+      border-radius: ds.$radius-md;
 
       .render-item-container {
         background: var(--bg-elevated);
-        border: 2px solid var(--border-primary);
-        border-radius: 12px;
-        transition: all 0.3s ease;
+        border: 1px solid var(--border-primary);
+        border-radius: ds.$radius-md;
+        transition: border-color 0.15s ease;
 
         &:hover {
           border-color: var(--color-brand);

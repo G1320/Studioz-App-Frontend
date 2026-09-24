@@ -5,11 +5,11 @@
 .meta-campaigns-page {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 1rem;
   min-height: 100vh;
 
   &__header {
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
   }
 
   &__title-row {
@@ -19,7 +19,7 @@
   }
 
   &__title {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-primary, #fff);
     margin: 0;
@@ -34,12 +34,12 @@
     display: flex;
     gap: 4px;
     border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
     overflow-x: auto;
   }
 
   &__tab {
-    padding: 10px 20px;
+    padding: 0.5rem 0.875rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-muted, #8b8b9e);
@@ -72,8 +72,8 @@
 .meta-kpi-card {
   background: var(--surface-secondary, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
-  padding: 16px 20px;
+  border-radius: 0.5rem;
+  padding: 0.75rem 0.875rem;
 
   &__title {
     font-size: 0.75rem;
@@ -84,7 +84,7 @@
   }
 
   &__value {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--text-primary, #fff);
     margin: 0;
@@ -104,7 +104,7 @@
 .meta-overview {
   &__loader {
     text-align: center;
-    padding: 60px;
+    padding: 1.5rem;
     color: var(--text-muted, #8b8b9e);
   }
 
@@ -112,13 +112,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
   }
 
   &__content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 1rem;
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
@@ -135,8 +135,8 @@
   &__chart-section, &__active-campaigns {
     background: var(--surface-secondary, rgba(255, 255, 255, 0.04));
     border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 0.5rem;
+    padding: 0.875rem 1rem;
   }
 
   &__campaign-list {
@@ -181,7 +181,7 @@
     font-size: 0.8125rem;
     color: var(--text-muted, #8b8b9e);
     text-align: center;
-    padding: 20px;
+    padding: 0.875rem 1rem;
   }
 }
 
@@ -276,8 +276,8 @@
 .meta-campaign-card {
   background: var(--surface-secondary, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
   cursor: pointer;
   transition: border-color 0.2s, transform 0.15s;
 
@@ -586,12 +586,12 @@
 .meta-detail {
   &__loader, &__error {
     text-align: center;
-    padding: 60px;
+    padding: 1.5rem;
     color: var(--text-muted, #8b8b9e);
   }
 
   &__header {
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
   }
 
   &__title-row {
@@ -603,7 +603,7 @@
   }
 
   &__title {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--text-primary, #fff);
     margin: 0;
@@ -621,7 +621,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
   }
 
   &__insight-card {
@@ -667,7 +667,7 @@
   &__table-wrapper {
     overflow-x: auto;
     border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-    border-radius: 12px;
+    border-radius: 0.5rem;
   }
 }
 
@@ -692,7 +692,7 @@
 
 .meta-tab__loader {
   text-align: center;
-  padding: 60px;
+  padding: 1.5rem;
   color: var(--text-muted, #8b8b9e);
 }
 
@@ -727,8 +727,8 @@
 .meta-audience-card {
   background: var(--surface-secondary, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
 
   &__header {
     display: flex;
@@ -752,7 +752,7 @@
 
   &__details {
     display: flex;
-    gap: 24px;
+    gap: 1rem;
     margin-bottom: 12px;
   }
 
@@ -811,13 +811,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
   }
 
   &__table-wrapper {
     overflow-x: auto;
     border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-    border-radius: 12px;
+    border-radius: 0.5rem;
   }
 }
 
@@ -833,14 +833,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 0.875rem 1rem;
   backdrop-filter: blur(4px);
 }
 
 .meta-modal {
   background: var(--surface-primary, #1a1a2e);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 16px;
+  border-radius: 0.5rem;
   width: 100%;
   max-width: 520px;
   max-height: 90vh;
@@ -864,7 +864,7 @@
   &__close {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     color: var(--text-muted, #8b8b9e);
     cursor: pointer;
     padding: 4px;
@@ -874,7 +874,7 @@
   }
 
   &__body {
-    padding: 24px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -1047,13 +1047,13 @@
 .meta-create-campaign {
   max-width: 800px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 1rem;
 
   &__header {
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.125rem;
       font-weight: 700;
       color: var(--text-primary, #fff);
       margin: 12px 0 0;
@@ -1156,7 +1156,7 @@
 .meta-objective-card {
   background: var(--surface-secondary, rgba(255, 255, 255, 0.04));
   border: 2px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
+  border-radius: 0.5rem;
   padding: 16px;
   cursor: pointer;
   text-align: left;
@@ -1233,7 +1233,7 @@
     background: var(--surface-secondary, rgba(255, 255, 255, 0.04));
     border: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
     border-radius: 10px;
-    padding: 16px 20px;
+    padding: 0.75rem 0.875rem;
     margin-bottom: 12px;
 
     h4 {

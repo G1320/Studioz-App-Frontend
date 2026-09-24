@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@shared/components';
+import { CalendarIcon } from '@shared/components/icons';
 import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 
 interface EmptyReservationsStateProps {
@@ -44,7 +45,7 @@ export const EmptyReservationsState: React.FC<EmptyReservationsStateProps> = ({
 
   return (
     <EmptyState
-      icon="📅"
+      icon={<CalendarIcon />}
       title={getMessage()}
       subtitle={getSubtitle()}
       actionLabel={t('emptyStates.browseStudios')}

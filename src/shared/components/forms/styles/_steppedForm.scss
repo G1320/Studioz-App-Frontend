@@ -12,12 +12,12 @@
   max-width: 1000px;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: vars.$spacing-xl vars.$spacing-medium;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
 
   &__indicators {
-    margin-bottom: vars.$spacing-xl;
+    margin-bottom: 1rem;
     order: 0;
   }
 
@@ -65,10 +65,10 @@
     &::before {
       content: '';
       position: absolute;
-      top: 20px;
+      top: 16px;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 1px;
       background: var(--bg-elevated);
       z-index: 0;
     }
@@ -82,7 +82,7 @@
     position: relative;
     z-index: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, color 0.2s ease;
 
     &.disabled {
       opacity: 0.5;
@@ -97,24 +97,23 @@
   }
 
   &__step-indicator {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--bg-primary);
-    border: 2px solid var(--bg-elevated);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: vars.$spacing-small;
+    border: 1.5px solid var(--bg-elevated);
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 0.375rem;
     position: relative;
     z-index: 2;
 
     // Active step styling
     .stepped-form__step.active & {
       border-color: var(--color-brand);
-      box-shadow: 0 0 20px var(--color-brand-glow);
-      transform: scale(1.1);
+      box-shadow: 0 0 0 1px var(--color-brand);
     }
 
     // Completed step styling
@@ -125,8 +124,8 @@
   }
 
   &__step-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     color: var(--text-muted);
     transition: color 0.3s ease;
 
@@ -155,8 +154,8 @@
   }
 
   &__check-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     color: var(--btn-primary-text);
     stroke-width: 3;
   }
@@ -190,41 +189,26 @@
     display: none; // Hide descriptions for cleaner look
   }
 
-  // Main content container with glassmorphic effect
+  // Main content container
   &__content {
-    // background: rgba(ds.$zinc-900, 0.5);
-    border-radius: 24px;
+    border-radius: ds.$radius-md;
     border: 1px solid var(--border-subtle);
-    padding: vars.$spacing-2xl;
-    min-height: 400px;
+    padding: 1.25rem;
+    min-height: 0;
     position: relative;
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
-
-    // Subtle glow effect in corner
-    &::before {
-      content: '';
-      position: absolute;
-      top: -200px;
-      right: -200px;
-      width: 500px;
-      height: 500px;
-      background: var(--color-brand-subtle);
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-    }
+    background: var(--bg-surface);
   }
 
   // Step header with title and counter
   &__step-header {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-medium;
-    margin-bottom: vars.$spacing-2xl;
-    padding-bottom: vars.$spacing-xl;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.875rem;
     border-bottom: 1px solid var(--border-subtle);
     position: relative;
     z-index: 1;
@@ -239,13 +223,13 @@
   &__step-header-left {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
+    gap: 0.375rem;
   }
 
   &__step-header-right {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-small;
+    gap: 0.375rem;
     position: relative;
 
     .form-language-toggle__hint {
@@ -290,47 +274,48 @@
   }
 
   &__step-header-title {
-    font-size: 1.875rem; // ~30px
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: vars.$spacing-medium;
+    gap: 0.625rem;
     margin: 0;
+    letter-spacing: -0.02em;
   }
 
   &__step-counter {
-    font-size: vars.$font-size-small;
-    font-weight: 400;
+    font-size: ds.$font-xs;
+    font-weight: 500;
     color: var(--text-secondary);
     background: var(--bg-secondary);
-    padding: vars.$spacing-xs vars.$spacing-medium;
-    border-radius: 999px;
+    padding: 0.125rem 0.5rem;
+    border-radius: ds.$radius-md;
     border: 1px solid var(--border-subtle);
   }
 
   &__step-header-description {
-    font-size: vars.$font-size-medium;
+    font-size: ds.$font-sm;
     color: var(--text-secondary);
     margin: 0;
-    margin-top: vars.$spacing-xs;
+    margin-top: 0.25rem;
   }
 
   &__error-message {
     background: var(--color-error-bg);
     border: 1px solid var(--color-error-border);
     color: var(--color-error-light);
-    padding: vars.$spacing-medium;
-    border-radius: 12px;
-    margin-bottom: vars.$spacing-large;
-    font-size: vars.$font-size-sm-md;
+    padding: 0.75rem 0.875rem;
+    border-radius: ds.$radius-md;
+    margin-bottom: 1rem;
+    font-size: ds.$font-sm;
     display: flex;
     align-items: center;
-    gap: vars.$spacing-small;
+    gap: 0.5rem;
 
     &::before {
       content: '⚠';
-      font-size: vars.$font-size-large;
+      font-size: 1rem;
     }
   }
 
@@ -342,7 +327,7 @@
     box-shadow: none;
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-xl;
+    gap: 1rem;
     position: relative;
     z-index: 1;
     width: 100%;
@@ -355,28 +340,28 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: vars.$spacing-small;
+      gap: 0.375rem;
 
       .form-label {
         display: block;
-        font-size: ds.$font-sm;
+        font-size: ds.$font-xs;
         font-weight: 700;
         color: var(--text-secondary);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: vars.$spacing-xs;
+        letter-spacing: 0.04em;
+        margin-bottom: 0;
       }
 
       .form-input,
       .form-textarea {
         width: 100%;
-        padding: vars.$spacing-medium vars.$spacing-large;
+        padding: 0.625rem 0.875rem;
         background: var(--bg-input);
         border: 1px solid var(--border-primary);
-        border-radius: 12px;
+        border-radius: ds.$radius-md;
         color: var(--text-primary);
-        font-size: vars.$font-size-medium;
-        transition: all 0.3s ease;
+        font-size: ds.$font-md;
+        transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
         box-sizing: border-box;
 
         &::placeholder {
@@ -396,15 +381,15 @@
 
       .form-textarea {
         resize: vertical;
-        min-height: 120px;
+        min-height: 5.5rem;
         font-family: inherit;
-        line-height: 1.6;
+        line-height: 1.5;
       }
 
       .form-helper-text {
-        font-size: vars.$font-size-xs;
+        font-size: ds.$font-xs;
         color: var(--text-secondary);
-        margin-top: vars.$spacing-xs;
+        margin-top: 0;
       }
     }
 
@@ -412,7 +397,7 @@
     &#create-studio-step-0 {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
-      gap: vars.$spacing-xl;
+      gap: 1rem;
 
       .form-group {
         grid-column: span 1 !important;
@@ -449,14 +434,14 @@
     &#create-studio-step-3 {
       display: flex !important;
       flex-direction: column !important;
-      gap: vars.$spacing-large;
+      gap: 1rem;
     }
 
     // Location step layout
     &#create-studio-step-4 {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
-      gap: vars.$spacing-xl;
+      gap: 1rem;
 
       .form-group {
         grid-column: span 1 !important;
@@ -534,13 +519,13 @@
     margin-top: vars.$spacing-xs;
   }
 
-  // Navigation buttons - fixed bottom bar
+  // Navigation buttons
   &__navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: vars.$spacing-xl;
-    padding-top: vars.$spacing-large;
+    margin-top: 1rem;
+    padding-top: 0.875rem;
     border-top: 1px solid var(--border-subtle);
     background: var(--bg-primary);
     flex-shrink: 0;
@@ -549,27 +534,27 @@
   &__navigation-right {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-large;
+    gap: 0.75rem;
   }
 
   &__button {
-    padding: vars.$spacing-medium vars.$spacing-xl;
-    font-size: vars.$font-size-medium;
-    font-weight: 700;
-    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-size: ds.$font-sm;
+    font-weight: 650;
+    border-radius: ds.$radius-md;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: vars.$spacing-small;
+    gap: 0.375rem;
 
     &:hover:not(:disabled) {
-      transform: translateY(-1px);
+      transform: none;
     }
 
     &:active:not(:disabled) {
-      transform: translateY(0);
+      transform: none;
     }
 
     &:disabled {
@@ -588,8 +573,8 @@
       }
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 16px;
+        height: 16px;
       }
     }
 
@@ -598,17 +583,17 @@
       background: var(--color-brand);
       color: var(--btn-primary-text);
       border: none;
-      padding: vars.$spacing-medium vars.$spacing-2xl;
-      box-shadow: 0 0 20px var(--color-brand-glow);
+      padding: 0.5rem 1.125rem;
+      box-shadow: none;
 
       &:hover:not(:disabled) {
         background: var(--color-brand-hover);
-        box-shadow: 0 0 30px var(--color-brand-glow);
+        box-shadow: none;
       }
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 16px;
+        height: 16px;
       }
     }
   }
@@ -621,12 +606,12 @@
 
   // Responsive
   @media screen and (max-width: 850px) {
-    padding: vars.$spacing-medium;
+    padding: 0.75rem;
 
     &__indicators {
       order: 2;
       margin-bottom: 0;
-      margin-top: vars.$spacing-xl;
+      margin-top: 1rem;
     }
 
     &__steps {
@@ -639,9 +624,9 @@
 
     &__content {
       order: 1;
-      padding: vars.$spacing-large;
+      padding: 1rem;
       min-height: auto;
-      border-radius: 16px;
+      border-radius: ds.$radius-md;
     }
 
     &__auto-save {
@@ -649,35 +634,35 @@
     }
 
     &__navigation {
-      padding: vars.$spacing-medium;
+      padding: 0.75rem 0 0;
     }
 
     &__navigation-right {
-      gap: vars.$spacing-small;
+      gap: 0.5rem;
     }
 
     &__button {
       &--next,
       &--submit {
-        padding: vars.$spacing-medium vars.$spacing-large;
+        padding: 0.5rem 1rem;
       }
     }
   }
 
   @media screen and (max-width: 480px) {
     &__step-header-title {
-      font-size: vars.$font-size-xl;
+      font-size: 1.125rem;
       flex-wrap: wrap;
     }
 
     &__step-header {
-      gap: vars.$spacing-small;
-      margin-bottom: vars.$spacing-large;
-      padding-bottom: vars.$spacing-medium;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
     }
 
     &__content {
-      padding: vars.$spacing-medium;
+      padding: 0.875rem;
     }
   }
 
@@ -734,21 +719,21 @@
 .policies-step {
   display: flex;
   flex-direction: column;
-  gap: ds.$space-8;
+  gap: 1.25rem;
   text-align: start;
   width: 100%;
 
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
 
   &__title {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: ds.$font-xl;
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
@@ -756,11 +741,11 @@
 
   &__title-icon {
     color: var(--color-brand);
-    font-size: 1.5rem !important;
+    font-size: 1.125rem !important;
   }
 
   &__description {
-    font-size: ds.$font-md;
+    font-size: ds.$font-sm;
     color: var(--text-secondary);
     margin: 0;
   }
@@ -769,7 +754,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: ds.$space-4;
+    gap: 0.75rem;
     width: 100%;
   }
 
@@ -805,13 +790,13 @@
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: ds.$space-4;
-    padding: 1rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.875rem;
     background: var(--bg-input);
     border: 1px solid var(--border-primary);
-    border-radius: ds.$radius-lg;
+    border-radius: ds.$radius-md;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
     text-align: start;
     width: 100%;
 
@@ -822,7 +807,7 @@
     &--selected {
       background: var(--color-brand-subtle);
       border-color: var(--color-brand);
-      box-shadow: 0 0 15px var(--color-brand-glow);
+      box-shadow: none;
     }
 
     // Color variations for hover states
@@ -876,7 +861,7 @@
   }
 
   &__policy-label {
-    font-size: ds.$font-md;
+    font-size: ds.$font-sm;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
@@ -890,9 +875,9 @@
   }
 
   &__policy-description {
-    font-size: ds.$font-sm;
+    font-size: ds.$font-xs;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.45;
     margin: 0;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -908,14 +893,14 @@
     width: 100%;
     background: var(--bg-input);
     border: 1px solid var(--border-primary);
-    border-radius: ds.$radius-lg;
-    padding: 0.75rem 1rem;
+    border-radius: ds.$radius-md;
+    padding: 0.625rem 0.875rem;
     color: var(--text-primary);
-    font-size: ds.$font-md;
+    font-size: ds.$font-sm;
     font-family: inherit;
     resize: none;
-    min-height: 140px;
-    transition: all 0.2s ease;
+    min-height: 6.5rem;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
     box-sizing: border-box;
 
     &::placeholder {

@@ -230,7 +230,7 @@ export const ProjectsListPage: React.FC = () => {
         <div className="projects-list__loading">{t('common.loading')}</div>
       ) : !hasResults && hasActiveFilters ? (
         <EmptyState
-          icon="🔎"
+          icon={<Search size={20} />}
           title={t('noResults')}
           subtitle={t('noResultsHint')}
           actionLabel={t('clearFilters')}
@@ -238,7 +238,7 @@ export const ProjectsListPage: React.FC = () => {
         />
       ) : !hasResults ? (
         <EmptyState
-          icon="🎵"
+          icon={<WorkIcon />}
           title={t('noProjects')}
           subtitle={t('noProjectsHint')}
           actionLabel={t('exploreStudios')}
