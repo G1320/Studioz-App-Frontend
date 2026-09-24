@@ -29,7 +29,7 @@ const OPS_ROTATE_MS = 6000;
 const SHOWCASES = [
   {
     key: 'operations',
-    desktops: ['desktop-calendar', 'desktop-reservations', 'desktop-projects'] as const
+    desktops: ['desktop-reservations', 'desktop-projects'] as const
   },
   {
     key: 'analytics',
