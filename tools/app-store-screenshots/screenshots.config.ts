@@ -362,7 +362,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'scroll', y: 80 }],
+    actions: [{ type: 'scroll', y: 40 }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
