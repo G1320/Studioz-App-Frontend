@@ -100,6 +100,37 @@ const scenes: ScreenshotScene[] = [
     }
   },
   {
+    id: 'desktop-calendar-list',
+    order: 24,
+    path: '/dashboard?tab=overview',
+    readySelector: '.dashboard-calendar',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', y: 188 },
+      { type: 'click', selector: '.studioz-calendar__view-tabs .studioz-calendar__view-tab:nth-child(4)' }
+    ],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Today’s sessions, in order',
+        subtitle: 'A dense agenda of confirmed and pending bookings for the day.'
+      },
+      he: {
+        title: 'הסשנים של היום, לפי סדר',
+        subtitle: 'אג׳נדה צפופה של הזמנות מאושרות וממתינות ליום.'
+      }
+    }
+  },
+  {
     id: 'mobile-calendar',
     order: 30,
     path: '/dashboard?tab=overview',

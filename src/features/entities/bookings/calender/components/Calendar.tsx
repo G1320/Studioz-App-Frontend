@@ -28,6 +28,21 @@ interface CalendarEvent {
 
 const MONTH_EVENT_LIMIT = 4;
 const CALENDAR_VISIBLE_STATUSES = new Set<Reservation['status']>(['confirmed', 'pending']);
+const EVENT_TONE_COUNT = 5;
+
+function hashToneIndex(key: string): number {
+  let hash = 0;
+  for (let i = 0; i < key.length; i += 1) {
+    hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+  }
+  return hash % EVENT_TONE_COUNT;
+}
+
+/** Stable accent bucket — same customer/service stays the same color across the month. */
+function eventToneIndex(event: CalendarEvent): number {
+  const key = `${event.reservation?.itemId ?? ''}:${event.reservation?.customerId ?? event.customerName ?? event.id}`;
+  return hashToneIndex(key);
+}
 
 function eventCardVisualClass(event: CalendarEvent): string {
   if (event.type === 'maintenance' || event.type === 'blocked') {
@@ -36,7 +51,7 @@ function eventCardVisualClass(event: CalendarEvent): string {
   if (event.status === 'pending') {
     return 'studioz-calendar__event-card--pending';
   }
-  return 'studioz-calendar__event-card--booking';
+  return cn('studioz-calendar__event-card--booking', `studioz-calendar__event-card--tone-${eventToneIndex(event)}`);
 }
 
 function eventAccentClass(event: CalendarEvent, kind: 'bar' | 'dot'): string {
@@ -44,7 +59,7 @@ function eventAccentClass(event: CalendarEvent, kind: 'bar' | 'dot'): string {
     kind === 'bar' ? 'studioz-calendar__event-bar' : 'studioz-calendar__list-event-dot';
   if (event.type === 'maintenance' || event.type === 'blocked') return `${prefix}--maintenance`;
   if (event.status === 'pending') return `${prefix}--pending`;
-  return `${prefix}--booking`;
+  return cn(`${prefix}--booking`, `${prefix}--tone-${eventToneIndex(event)}`);
 }
 
 interface CalendarProps {
@@ -386,7 +401,10 @@ function ListView({
   t: (key: string) => string;
   onNewEvent?: () => void;
 }) {
-  const dayEvents = events.filter((e) => e.start.isSame(currentDate, 'day'));
+  const dayEvents = events
+    .filter((e) => e.start.isSame(currentDate, 'day'))
+    .slice()
+    .sort((a, b) => a.start.valueOf() - b.start.valueOf());
 
   return (
     <div className="studioz-calendar__list-view">
@@ -405,7 +423,7 @@ function ListView({
               </div>
               <div className="studioz-calendar__list-event-content">
                 <div className="studioz-calendar__list-event-header">
-                  <h3 className="studioz-calendar__list-event-title">{e.title}</h3>
+                  <h3 className="studioz-calendar__list-event-title">{e.customerName || e.title}</h3>
                   <div
                     className={cn(
                       'studioz-calendar__list-event-dot',
@@ -414,6 +432,9 @@ function ListView({
                   />
                 </div>
                 <div className="studioz-calendar__list-event-meta">
+                  {e.title && e.customerName && (
+                    <span className="studioz-calendar__list-event-tag">{e.title}</span>
+                  )}
                   {e.studioName && (
                     <span className="studioz-calendar__list-event-tag">
                       <LocationIcon sx={{ fontSize: 12 }} /> {e.studioName}

@@ -24,7 +24,7 @@ const PILLAR_ICONS = {
 
 type PillarId = keyof typeof PILLAR_ICONS;
 
-const OPS_ROTATE_MS = 6000;
+const OPS_ROTATE_MS = 5000;
 
 const SHOWCASES = [
   {
@@ -33,8 +33,7 @@ const SHOWCASES = [
   },
   {
     key: 'calendar',
-    desktop: 'desktop-calendar',
-    mobile: 'mobile-calendar'
+    desktops: ['desktop-calendar', 'desktop-calendar-list'] as const
   },
   {
     key: 'projects',
