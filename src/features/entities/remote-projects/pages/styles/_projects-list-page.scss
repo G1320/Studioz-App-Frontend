@@ -540,20 +540,20 @@
     font-variant-numeric: tabular-nums;
   }
 
-  &__card-meta-row {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-top: 0.15rem;
-  }
-
   &__card-meta {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    margin-top: 0.15rem;
     min-width: 0;
-    flex: 1 1 auto;
+  }
+
+  &__card-people {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem;
+    min-width: 0;
   }
 
   &__card-customer,
@@ -565,6 +565,7 @@
     font-size: 0.75rem;
     color: var(--text-secondary);
     line-height: 1.35;
+    min-width: 0;
 
     svg {
       width: 0.8125rem;
@@ -581,6 +582,7 @@
   }
 
   &__card-customer {
+    flex: 1 1 auto;
     font-weight: 600;
     color: var(--text-primary);
 
@@ -592,7 +594,26 @@
   &__card-collaborators {
     flex: 0 0 auto;
     justify-content: flex-end;
-    max-width: 45%;
+
+    &.project-collaborators__avatars {
+      .project-collaborators__avatar {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-inline-start: -0.35rem;
+
+        &:first-child {
+          margin-inline-start: 0;
+        }
+      }
+
+      .project-collaborators__avatar-initials {
+        font-size: 0.5625rem;
+      }
+
+      .project-collaborators__avatar-email {
+        font-size: 0.4375rem;
+      }
+    }
   }
 
   &__card-footer {

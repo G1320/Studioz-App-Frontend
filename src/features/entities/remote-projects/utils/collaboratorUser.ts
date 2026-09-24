@@ -54,7 +54,9 @@ export function collaboratorFace(user: ProjectCollaborator['userId']): Collabora
   const email = plain.email?.trim();
   if (email) {
     const local = email.split('@')[0]?.trim() || email;
-    return { kind: 'email', text: local };
+    // Keep chip text short — full address stays on the tooltip.
+    if (local.length <= 2) return { kind: 'email', text: local.toUpperCase() };
+    return { kind: 'initials', text: local.slice(0, 2).toUpperCase() };
   }
 
   return null;
