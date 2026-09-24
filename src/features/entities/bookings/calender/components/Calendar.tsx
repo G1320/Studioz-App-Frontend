@@ -21,8 +21,11 @@ interface CalendarEvent {
   end: Dayjs;
   type: 'booking' | 'maintenance' | 'blocked';
   studioName?: string;
+  customerName?: string;
   reservation?: Reservation;
 }
+
+const MONTH_EVENT_LIMIT = 4;
 
 interface CalendarProps {
   title?: string;
@@ -67,19 +70,20 @@ function EventCard({
   const isMonth = view === 'month';
 
   if (isMonth) {
+    const label = event.customerName || event.title;
     return (
-      <div className="studioz-calendar__event-card studioz-calendar__event-card--month" onClick={onClick}>
-        <div
-          className={cn(
-            'studioz-calendar__event-dot',
-            event.type === 'maintenance'
-              ? 'studioz-calendar__event-dot--maintenance'
-              : 'studioz-calendar__event-dot--booking'
-          )}
-        />
-        <span className="studioz-calendar__event-text">
-          {event.start.format('HH:mm')} {event.title}
-        </span>
+      <div
+        className={cn(
+          'studioz-calendar__event-card',
+          'studioz-calendar__event-card--month',
+          event.type === 'maintenance'
+            ? 'studioz-calendar__event-card--maintenance'
+            : 'studioz-calendar__event-card--booking'
+        )}
+        onClick={onClick}
+      >
+        <span className="studioz-calendar__event-time-label">{event.start.format('HH:mm')}</span>
+        <span className="studioz-calendar__event-text">{label}</span>
       </div>
     );
   }
@@ -104,7 +108,7 @@ function EventCard({
         )}
       />
       <div className="studioz-calendar__event-content">
-        <div className="studioz-calendar__event-title">{event.title}</div>
+        <div className="studioz-calendar__event-title">{event.customerName || event.title}</div>
         <div className="studioz-calendar__event-time">
           <ClockIcon sx={{ fontSize: 10 }} />
           {event.start.format('HH:mm')} - {event.end.format('HH:mm')}
@@ -164,10 +168,12 @@ function MonthView({
           </div>
 
           <div className="studioz-calendar__day-events">
-            {dayEvents.slice(0, 3).map((e) => (
+            {dayEvents.slice(0, MONTH_EVENT_LIMIT).map((e) => (
               <EventCard key={e.id} event={e} view="month" onClick={() => onEventClick(e)} />
             ))}
-            {dayEvents.length > 3 && <div className="studioz-calendar__more-events">+{dayEvents.length - 3}</div>}
+            {dayEvents.length > MONTH_EVENT_LIMIT && (
+              <div className="studioz-calendar__more-events">+{dayEvents.length - MONTH_EVENT_LIMIT}</div>
+            )}
           </div>
         </div>
       );
@@ -458,15 +464,20 @@ export const Calendar: React.FC<CalendarProps> = ({
 
         return {
           id: reservation._id,
-          title: reservation.itemName?.en || reservation.itemName?.he || 'Booking',
+          title:
+            reservation.itemName?.[lang as 'en' | 'he'] ||
+            reservation.itemName?.en ||
+            reservation.itemName?.he ||
+            'Booking',
           start: dayjs(`${baseDate}T${startTime}`),
           end: dayjs(`${baseDate}T${finalEndTime}`),
           type: 'booking' as const,
           studioName: reservation.studioName?.en || reservation.studioName?.he,
+          customerName: reservation.customerName,
           reservation
         };
       });
-  }, [studioReservations]);
+  }, [studioReservations, lang]);
 
   const handlePrev = useCallback(() => {
     if (view === 'month') setCurrentDate(currentDate.subtract(1, 'month'));
@@ -511,10 +522,12 @@ export const Calendar: React.FC<CalendarProps> = ({
           <div className="studioz-calendar__nav-section">
             <div className="studioz-calendar__title-group">
               <h1 className="studioz-calendar__main-title">{formatHeaderDate()}</h1>
-              <p className="studioz-calendar__subtitle">
-                <CalendarIcon sx={{ fontSize: 16 }} />
-                {title || t('calendar.occupancyManagement')}
-              </p>
+              {title ? (
+                <p className="studioz-calendar__subtitle">
+                  <CalendarIcon sx={{ fontSize: 14 }} />
+                  {title}
+                </p>
+              ) : null}
             </div>
 
             <div className="studioz-calendar__nav-buttons">

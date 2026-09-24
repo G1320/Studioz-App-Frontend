@@ -1,5 +1,6 @@
 @use 'src/assets/styles/utilities/variables' as vars;
 @use 'design-system' as ds;
+@use './date-range-picker';
 
 // ===========================================
 // MERCHANT STATS - Theme-Aware
@@ -86,8 +87,10 @@
   align-items: stretch;
 
   @media (min-width: 960px) {
-    grid-template-columns: minmax(0, 1.85fr) minmax(240px, 0.85fr);
-    gap: 0.875rem;
+    // 4 KPI columns + Quick Stats. Two equal rows so tiles match the side panel.
+    grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(240px, 0.9fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 0.65rem;
   }
 }
 
@@ -96,20 +99,31 @@
   flex-direction: column;
   gap: 0.625rem;
   min-width: 0;
+  min-height: 0;
+
+  @media (min-width: 960px) {
+    // Flatten so StatCards participate in .merchant-stats__top directly.
+    display: contents;
+  }
 }
 
 .merchant-stats__metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: 0.65rem;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  grid-auto-rows: minmax(5.75rem, auto);
 
   &--dense {
-    @media (min-width: 720px) {
+    @media (min-width: 720px) and (max-width: 959px) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0.5rem;
+      gap: 0.65rem;
+    }
+
+    @media (min-width: 960px) {
+      display: contents;
     }
   }
 }
@@ -119,19 +133,28 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-md;
-  padding: 0.65rem 0.75rem;
-  display: grid;
-  grid-template-rows: auto auto auto;
-  justify-items: start;
-  align-content: start;
-  gap: 0.2rem;
+  padding: 0.85rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.35rem;
   min-width: 0;
+  height: 100%;
+  min-height: 5.75rem;
+  box-sizing: border-box;
   overflow: hidden;
   text-align: start;
   transition: border-color 0.15s ease;
 
   @media (min-width: 720px) {
-    padding: 0.7rem 0.85rem;
+    padding: 1rem 1.1rem;
+    min-height: 6.25rem;
+  }
+
+  @media (min-width: 960px) {
+    // Let the 1fr grid rows own height; don't fight with a fixed min-height.
+    min-height: 0;
   }
 
   &:hover {
@@ -143,7 +166,7 @@
   }
 
   &--skeleton {
-    min-height: 4.75rem;
+    min-height: 5.75rem;
   }
 }
 
@@ -153,7 +176,6 @@
   justify-content: space-between;
   gap: 0.35rem;
   width: 100%;
-  justify-self: stretch;
 }
 
 .stat-card__heading {
@@ -161,7 +183,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.1rem;
+  gap: 0.15rem;
 }
 
 .stat-card__label {
@@ -207,19 +229,20 @@
 
 .stat-card__value {
   margin: 0;
-  font-size: 1.125rem;
+  margin-top: auto;
+  font-size: 1.25rem;
   font-weight: 650;
   color: var(--text-primary);
   letter-spacing: -0.03em;
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
   text-align: start;
-  // Keep currency + digits LTR; justify-items:start pins the box to the card start.
+  // Keep currency + digits LTR; start-align pins the box to the card start.
   direction: ltr;
   unicode-bidi: isolate;
 
   @media (min-width: 720px) {
-    font-size: 1.25rem;
+    font-size: 1.375rem;
   }
 }
 
@@ -229,7 +252,7 @@
   gap: 0.15rem;
   font-size: 0.6875rem;
   font-weight: 600;
-  margin-top: 0.05rem;
+  margin-top: 0.1rem;
   min-height: 0.95rem;
 
   &--positive {
@@ -485,6 +508,7 @@
   border: 1px solid var(--border-secondary);
   border-radius: ds.$radius-md;
   padding: 1.125rem 1.25rem;
+  text-align: start; // override global #root { text-align: center }
 
   &__header {
     display: flex;
@@ -492,6 +516,7 @@
     justify-content: space-between;
     gap: 1rem;
     margin-bottom: 1rem;
+    text-align: start;
 
     h3,
     h4 {
@@ -500,6 +525,7 @@
       font-weight: 650;
       letter-spacing: -0.01em;
       color: var(--text-primary);
+      text-align: start;
     }
   }
 
@@ -508,6 +534,7 @@
     font-size: ds.$font-sm;
     color: var(--text-secondary);
     line-height: 1.4;
+    text-align: start;
   }
 }
 
@@ -532,11 +559,12 @@
   min-height: 0;
 
   &--side {
-    height: 100%;
-    align-content: stretch;
-
-    .quick-stat-card {
-      height: 100%;
+    @media (min-width: 960px) {
+      grid-column: 5;
+      grid-row: 1 / span 2;
+      min-height: 0;
+      height: auto;
+      align-self: stretch;
     }
   }
 }
@@ -585,6 +613,15 @@
   text-transform: uppercase;
   color: var(--text-secondary);
   line-height: 1.2;
+  text-align: start;
+}
+
+.quick-stat-card__kpi-hint {
+  margin: 0;
+  font-size: 0.5625rem;
+  font-weight: 450;
+  line-height: 1.25;
+  color: var(--text-muted, var(--text-secondary));
   text-align: start;
 }
 
@@ -963,214 +1000,6 @@
 }
 
 // ===== DATE RANGE PICKER =====
-.date-range-picker {
-  position: relative;
-
-  &__trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0 0.75rem;
-    height: 2rem;
-    min-height: 2rem;
-    max-height: 2rem;
-    box-sizing: border-box;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-secondary);
-    border-radius: ds.$radius-md;
-    color: var(--text-primary);
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1;
-    cursor: pointer;
-    transition: border-color 0.15s ease;
-
-    &:hover {
-      border-color: var(--border-hover);
-    }
-  }
-
-  &__icon {
-    width: 1rem;
-    height: 1rem;
-    color: var(--text-muted);
-  }
-
-  &__label {
-    white-space: nowrap;
-  }
-
-  &__chevron {
-    width: 1rem;
-    height: 1rem;
-    color: var(--text-muted);
-    transition: transform 0.2s ease;
-
-    &--open {
-      transform: rotate(180deg);
-    }
-  }
-
-  &__dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: auto;
-    margin-top: 0.5rem;
-    min-width: 200px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: ds.$radius-md;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    overflow: hidden;
-
-    [dir="rtl"] & {
-      left: auto;
-      right: 0;
-    }
-  }
-
-  &__presets {
-    padding: 0.5rem;
-  }
-
-  &__preset {
-    display: block;
-    width: 100%;
-    padding: 0.625rem 0.75rem;
-    background: transparent;
-    border: none;
-    border-radius: ds.$radius-sm;
-    color: var(--text-primary);
-    font-size: ds.$font-sm;
-    text-align: start;
-    cursor: pointer;
-    transition: background 0.15s ease;
-
-    &:hover {
-      background: var(--bg-hover);
-    }
-
-    &--active {
-      background: var(--bg-hover);
-      color: var(--text-primary);
-    }
-
-    &--custom {
-      color: var(--color-brand);
-      font-weight: 500;
-    }
-  }
-
-  &__divider {
-    height: 1px;
-    background: var(--border-primary);
-    margin: 0.5rem 0;
-  }
-
-  &__calendar {
-    padding: 1rem;
-  }
-
-  &__calendar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-
-  &__nav-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    background: transparent;
-    border: none;
-    border-radius: ds.$radius-sm;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s ease;
-
-    &:hover {
-      background: var(--bg-hover);
-      color: var(--text-primary);
-    }
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-  }
-
-  &__month-label {
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  &__weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.25rem;
-    margin-bottom: 0.5rem;
-  }
-
-  &__weekday {
-    text-align: center;
-    font-size: ds.$font-xs;
-    color: var(--text-muted);
-    padding: 0.25rem;
-  }
-
-  &__days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.25rem;
-  }
-
-  &__day-cell {
-    aspect-ratio: 1;
-  }
-
-  &__day {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    border-radius: ds.$radius-sm;
-    color: var(--text-primary);
-    font-size: ds.$font-sm;
-    cursor: pointer;
-    transition: all 0.15s ease;
-
-    &:hover {
-      background: var(--bg-hover);
-    }
-
-    &--selected {
-      background: var(--color-brand);
-      color: var(--btn-primary-text);
-    }
-
-    &--in-range {
-      background: var(--color-brand-glow);
-    }
-  }
-
-  &__calendar-hint {
-    margin-top: 1rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--border-primary);
-    text-align: center;
-    font-size: ds.$font-xs;
-    color: var(--text-muted);
-  }
-}
-
 // ===== EXPORT DROPDOWN =====
 .export-dropdown {
   position: relative;

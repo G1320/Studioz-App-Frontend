@@ -85,15 +85,9 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
 
   const getSenderName = (msg: ProjectMessage): string => {
     if (typeof msg.senderId === 'object' && msg.senderId.name) {
-      const base = msg.senderId.name;
-      if (msg.senderRole === 'customer_collaborator' || msg.senderRole === 'vendor_collaborator') {
-        return `${base} (${t('collaborators.badge')})`;
-      }
-      return base;
+      return msg.senderId.name;
     }
-    if (msg.senderRole === 'customer_collaborator') return t('collaborators.customerCollaborator');
-    if (msg.senderRole === 'vendor_collaborator') return t('collaborators.vendorCollaborator');
-    return msg.senderRole === 'customer' ? t('customer') : t('vendor');
+    return msg.senderRole?.startsWith('customer') ? t('customer') : t('vendor');
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {

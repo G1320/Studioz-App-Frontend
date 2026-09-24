@@ -145,6 +145,26 @@
     @media (min-width: 768px) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+
+    // Match sibling filter controls (search / selects)
+    .date-range-picker {
+      width: 100%;
+      min-width: 0;
+
+      &__trigger {
+        width: 100%;
+        justify-content: flex-start;
+        background: var(--bg-primary);
+        border-color: var(--border-primary);
+        border-radius: vars.$border-radius-medium;
+        padding: 0.4375rem vars.$spacing-sm-md;
+        font-size: vars.$font-size-xs;
+      }
+
+      &__label {
+        color: var(--text-primary);
+      }
+    }
   }
 
   // Table Container

@@ -25,6 +25,7 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
         <div className="quick-stat-card__kpi-row">
           <div className="quick-stat-card__kpi">
             <span className="quick-stat-card__kpi-label">{t('quickStats.occupancy', 'Studio Occupancy')}</span>
+            <span className="quick-stat-card__kpi-hint">{t('quickStats.occupancyHint', 'Booked ÷ available hours')}</span>
             <span className="quick-stat-card__kpi-value">
               {occupancy}%
               {occupancy > 50 && (
@@ -34,6 +35,7 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
           </div>
           <div className="quick-stat-card__kpi">
             <span className="quick-stat-card__kpi-label">{t('quickStats.avgSession', 'Avg Session')}</span>
+            <span className="quick-stat-card__kpi-hint">{t('quickStats.avgSessionHint', 'Mean booking length')}</span>
             <span className="quick-stat-card__kpi-value">
               {avgSessionTime}
               <span className="quick-stat-card__kpi-unit">{t('quickStats.hours', 'hrs')}</span>
@@ -43,6 +45,9 @@ export const QuickStats: React.FC<QuickStatsProps> = ({
             <div className="quick-stat-card__kpi">
               <span className="quick-stat-card__kpi-label">
                 {t('quickStats.confirmedUpcoming', 'Pipeline')}
+              </span>
+              <span className="quick-stat-card__kpi-hint">
+                {t('quickStats.confirmedUpcomingHint', 'Confirmed upcoming revenue')}
               </span>
               <span className="quick-stat-card__kpi-value quick-stat-card__kpi-value--sm">
                 {formatCurrency(confirmedUpcoming)}

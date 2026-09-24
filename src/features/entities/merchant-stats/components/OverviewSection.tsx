@@ -108,18 +108,21 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
               value={String(stats?.totalBookings ?? 0)}
               trend={stats?.trends?.totalBookings ?? '0%'}
               isPositive={stats?.isPositive?.totalBookings ?? true}
+              hint={t('metrics.totalBookingsHint', 'In selected period')}
             />
             <StatCard
               title={t('metrics.avgPerBooking', 'Avg per Booking')}
               value={formatCurrency(stats?.avgPerBooking ?? 0)}
               trend={stats?.trends?.avgPerBooking ?? '0%'}
               isPositive={stats?.isPositive?.avgPerBooking ?? true}
+              hint={t('metrics.avgPerBookingHint', 'Gross revenue ÷ bookings')}
             />
             <StatCard
               title={t('metrics.newClients', 'New Clients')}
               value={String(stats?.newClients ?? 0)}
               trend={stats?.trends?.newClients ?? '0%'}
               isPositive={stats?.isPositive?.newClients ?? true}
+              hint={t('metrics.newClientsHint', 'First-time bookers')}
             />
             <StatCard
               title={t('metrics.conversionRate', 'Conversion')}

@@ -185,7 +185,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         icon={<DashboardIcon />}
         title={t('title', 'Dashboard')}
       >
-        {isStudioOwner ? (
+        {isStudioOwner && activeTab === 'studios' ? (
           <button
             type="button"
             className="page-header__cta"

@@ -151,9 +151,9 @@
 
   &__product-visual--dual {
     box-sizing: border-box;
-    // Smaller end gutter so the phone slightly overlaps the desktop and the
-    // desktop shot can read larger.
-    padding-inline-end: clamp(4.25rem, 15%, 7rem);
+    // Phone overlaps the desktop end edge; keep this composition at every breakpoint
+    // (Samply-style — never stack full desktop above full phone on mobile).
+    padding-inline-end: clamp(3.25rem, 22%, 7rem);
   }
 
   &__shot {
@@ -208,8 +208,8 @@
     z-index: 2;
     inset-inline-end: 0;
     bottom: clamp(-0.5rem, -0.8vw, -0.15rem);
-    width: min(28%, 11.5rem);
-    border-radius: 1.15rem;
+    width: clamp(5.75rem, 30%, 11.5rem);
+    border-radius: clamp(0.85rem, 2.5vw, 1.15rem);
     box-shadow: 0 1.1rem 2.25rem rgb(0 0 0 / 32%);
 
     > img {
@@ -218,7 +218,7 @@
   }
 
   &__product-visual--hero &__shot--mobile {
-    width: min(24%, 11rem);
+    width: clamp(5.5rem, 26%, 11rem);
   }
 
   // Feedback showcase: taller phone cropped short with a soft bottom fade.
@@ -251,18 +251,14 @@
 
   @media (max-width: 720px) {
     &__product-visual--dual {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding-inline-end: 0;
+      // Slightly more end room so the phone stays readable when scaled down.
+      padding-inline-end: clamp(4.5rem, 28%, 8rem);
+      padding-block-end: 0.35rem;
     }
 
     &__shot--mobile {
-      position: relative;
-      inset: auto;
-      width: min(56%, 14rem);
-      margin-inline: auto;
-      bottom: auto;
+      bottom: clamp(-0.65rem, -1.5vw, -0.25rem);
+      width: clamp(6.25rem, 34%, 10.5rem);
     }
 
     &__product-visual--mobile-only .preview-landing__shot--mobile {

@@ -31,7 +31,7 @@ const FEATURE_ICONS = {
 } satisfies Record<FeatureId, typeof Sparkles>;
 
 const FEATURE_SCREENSHOTS: Partial<Record<FeatureId, string>> = {
-  calendar: 'desktop-reservations',
+  calendar: 'desktop-calendar',
   insights: 'cross-device-analytics-desktop',
   studio_pages: 'desktop-studio-portfolio',
   remote: 'desktop-project-workspace'
@@ -118,7 +118,7 @@ export default function FeaturesPage() {
   }, [features, currentLang, t]);
 
   const showcases = [
-    { key: 'operations', desktop: 'desktop-reservations', mobile: undefined },
+    { key: 'operations', desktop: 'desktop-calendar', mobile: 'mobile-calendar' },
     {
       key: 'analytics',
       desktop: 'cross-device-analytics-desktop',

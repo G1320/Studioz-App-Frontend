@@ -14,9 +14,10 @@
 
   &--expanded,
   &--waveform {
+    display: block;
     width: 100%;
-    flex: 1 1 100%;
-    order: 10;
+    max-width: none;
+    box-sizing: border-box;
     margin-top: 0.5rem;
     padding: 0.625rem 0.75rem;
     background: var(--bg-primary);

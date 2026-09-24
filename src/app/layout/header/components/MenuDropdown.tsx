@@ -35,10 +35,12 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
   const { t } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
+  const [avatarFailed, setAvatarFailed] = useState(false);
   const { loginWithPopup } = useAuth0LoginHandler();
   const { openFeedback } = useSentryFeedback();
   const { settings: a11ySettings, updateSetting: updateA11ySetting } = useAccessibility();
   const avatarUrl = user?.picture || user?.avatar;
+  const showAvatarImage = Boolean(avatarUrl) && !avatarFailed;
   const initials = (user?.name || user?.email || 'U')
     .split(/\s+/)
     .map((part) => part[0])
@@ -67,8 +69,13 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
           aria-label={triggerVariant === 'avatar' ? t('profile.buttons.profile') : 'Menu'}
         >
           {triggerVariant === 'avatar' ? (
-            avatarUrl ? (
-              <img src={avatarUrl} alt="" className="header-user-avatar" />
+            showAvatarImage ? (
+              <img
+                src={avatarUrl}
+                alt=""
+                className="header-user-avatar"
+                onError={() => setAvatarFailed(true)}
+              />
             ) : (
               <span className="header-user-initials" aria-hidden="true">
                 {initials}

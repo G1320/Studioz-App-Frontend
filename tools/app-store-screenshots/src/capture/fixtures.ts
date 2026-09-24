@@ -4,6 +4,22 @@ const STUDIO_ID = 'studio-demo';
 const ITEM_ID = 'item-demo';
 const VENDOR_ID = '6645d783a319b216a0277e85';
 
+/** Local SVG avatars — screenshot capture blocks external hosts like randomuser.me. */
+function fixtureAvatar(seed: string, initials: string): string {
+  const hues = [18, 32, 48, 160, 200, 265, 300, 340];
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  const hue = hues[hash % hues.length];
+  const bg = `hsl(${hue} 42% 32%)`;
+  const fg = `hsl(${hue} 55% 92%)`;
+  const label = initials.slice(0, 2).toUpperCase();
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="64" fill="${bg}"/>
+  <text x="64" y="64" dy="0.36em" text-anchor="middle" font-family="system-ui,sans-serif" font-size="52" font-weight="700" fill="${fg}">${label}</text>
+</svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.replace(/\s+/g, ' ').trim())}`;
+}
+
 const studio = {
   _id: STUDIO_ID,
   name: { en: 'Tempo Studios', he: 'אולפני טמפו' },
@@ -272,7 +288,7 @@ const vendorUser = {
   studios: [STUDIO_ID],
   subscriptionStatus: 'ACTIVE',
   sumitCompanyId: 'demo-company',
-  picture: 'https://randomuser.me/api/portraits/women/44.jpg'
+  picture: fixtureAvatar('maya-cohen', 'MC')
 };
 
 const customerUser = {
@@ -282,32 +298,32 @@ const customerUser = {
   email: 'daniel@example.test',
   role: 'customer',
   studios: [],
-  picture: 'https://randomuser.me/api/portraits/men/32.jpg'
+  picture: fixtureAvatar('daniel-levi', 'DL')
 };
 
 const collabAmir = {
   _id: 'collaborator-vendor-1',
   name: 'Amir Halevi',
   email: 'amir@northlinesound.example',
-  picture: 'https://randomuser.me/api/portraits/men/86.jpg'
+  picture: fixtureAvatar('amir-halevi', 'AH')
 };
 const collabNoa = {
   _id: 'collaborator-customer-1',
   name: 'Noa Shaham',
   email: 'noa@example.test',
-  picture: 'https://randomuser.me/api/portraits/women/68.jpg'
+  picture: fixtureAvatar('noa-shaham', 'NS')
 };
 const collabEitan = {
   _id: 'collaborator-vendor-2',
   name: 'Eitan Mizrahi',
   email: 'eitan@example.test',
-  picture: 'https://randomuser.me/api/portraits/men/22.jpg'
+  picture: fixtureAvatar('eitan-mizrahi', 'EM')
 };
 const collabShira = {
   _id: 'collaborator-customer-2',
   name: 'Shira Ben-Ami',
   email: 'shira@example.test',
-  picture: 'https://randomuser.me/api/portraits/women/12.jpg'
+  picture: fixtureAvatar('shira-ben-ami', 'SB')
 };
 
 function activeCollab(
@@ -348,13 +364,13 @@ const reservationSeed = [
     customerId: 'customer-two',
     customerName: 'Noa Shaham',
     studioName: studio.name,
-    itemName: item.name,
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
     bookingDate: '25/09/2026',
     timeSlots: ['15:00', '16:00', '17:00'],
     startTime: '15:00',
     endTime: '18:00',
     price: 960,
-    status: 'pending',
+    status: 'confirmed',
     createdAt: '2026-09-21T08:15:00.000Z'
   },
   {
@@ -380,13 +396,13 @@ const reservationSeed = [
     customerId: 'customer-four',
     customerName: 'David Levi',
     studioName: studio.name,
-    itemName: item.name,
+    itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
     bookingDate: '28/09/2026',
     timeSlots: ['12:00', '13:00', '14:00', '15:00'],
     startTime: '12:00',
     endTime: '16:00',
     price: 1280,
-    status: 'pending',
+    status: 'confirmed',
     createdAt: '2026-09-22T07:25:00.000Z'
   },
   {
@@ -455,7 +471,16 @@ const reservationSeed = [
   }
 ];
 
-const additionalReservationSeed = [
+const additionalReservationSeed: Array<{
+  customerId: string;
+  customerName: string;
+  bookingDate: string;
+  startHour: number;
+  duration: number;
+  status: string;
+  createdAt: string;
+  itemName?: { en: string; he: string };
+}> = [
   {
     customerId: 'customer-nine',
     customerName: 'Amit Rosen',
@@ -463,6 +488,7 @@ const additionalReservationSeed = [
     startHour: 9,
     duration: 3,
     status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
     createdAt: '2026-09-23T08:10:00.000Z'
   },
   {
@@ -471,7 +497,8 @@ const additionalReservationSeed = [
     bookingDate: '06/10/2026',
     startHour: 13,
     duration: 2,
-    status: 'pending',
+    status: 'confirmed',
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
     createdAt: '2026-09-23T09:20:00.000Z'
   },
   {
@@ -481,6 +508,7 @@ const additionalReservationSeed = [
     startHour: 17,
     duration: 4,
     status: 'confirmed',
+    itemName: { en: 'Live Band Tracking', he: 'הקלטת הרכב' },
     createdAt: '2026-09-23T10:35:00.000Z'
   },
   {
@@ -489,7 +517,8 @@ const additionalReservationSeed = [
     bookingDate: '08/10/2026',
     startHour: 10,
     duration: 2,
-    status: 'pending',
+    status: 'confirmed',
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
     createdAt: '2026-09-23T11:05:00.000Z'
   },
   {
@@ -499,6 +528,7 @@ const additionalReservationSeed = [
     startHour: 15,
     duration: 3,
     status: 'confirmed',
+    itemName: { en: 'Mastering', he: 'מאסטרינג' },
     createdAt: '2026-09-23T12:15:00.000Z'
   },
   {
@@ -508,6 +538,7 @@ const additionalReservationSeed = [
     startHour: 11,
     duration: 3,
     status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
     createdAt: '2026-09-23T13:40:00.000Z'
   },
   {
@@ -527,6 +558,207 @@ const additionalReservationSeed = [
     duration: 4,
     status: 'pending',
     createdAt: '2026-09-23T15:10:00.000Z'
+  },
+  // Busy late-September week for calendar screenshots (today = 24/09/2026)
+  {
+    customerId: 'customer-seventeen',
+    customerName: 'Alex Rivera',
+    bookingDate: '24/09/2026',
+    startHour: 14,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
+    createdAt: '2026-09-23T16:00:00.000Z'
+  },
+  {
+    customerId: 'customer-eighteen',
+    customerName: 'Mia Ben-Ami',
+    bookingDate: '24/09/2026',
+    startHour: 17,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
+    createdAt: '2026-09-23T16:20:00.000Z'
+  },
+  {
+    customerId: 'customer-nineteen',
+    customerName: 'Ron Hadad',
+    bookingDate: '24/09/2026',
+    startHour: 21,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
+    createdAt: '2026-09-23T16:40:00.000Z'
+  },
+  {
+    customerId: 'customer-twenty',
+    customerName: 'Sara Klein',
+    bookingDate: '22/09/2026',
+    startHour: 10,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
+    createdAt: '2026-09-20T09:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentyone',
+    customerName: 'Idan Bar',
+    bookingDate: '22/09/2026',
+    startHour: 15,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Mastering', he: 'מאסטרינג' },
+    createdAt: '2026-09-20T10:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentytwo',
+    customerName: 'Hila Mor',
+    bookingDate: '23/09/2026',
+    startHour: 11,
+    duration: 4,
+    status: 'confirmed',
+    itemName: { en: 'Live Band Tracking', he: 'הקלטת הרכב' },
+    createdAt: '2026-09-21T08:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentythree',
+    customerName: 'Tom Avraham',
+    bookingDate: '23/09/2026',
+    startHour: 18,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
+    createdAt: '2026-09-21T09:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentyfour',
+    customerName: 'Lina Weiss',
+    bookingDate: '25/09/2026',
+    startHour: 9,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
+    createdAt: '2026-09-22T11:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentyfive',
+    customerName: 'Ori Segal',
+    bookingDate: '25/09/2026',
+    startHour: 12,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
+    createdAt: '2026-09-22T12:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentysix',
+    customerName: 'Neta Carmel',
+    bookingDate: '26/09/2026',
+    startHour: 10,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
+    createdAt: '2026-09-22T14:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentyseven',
+    customerName: 'Yoav Dahan',
+    bookingDate: '26/09/2026',
+    startHour: 16,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
+    createdAt: '2026-09-22T15:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentyeight',
+    customerName: 'Eden Levy',
+    bookingDate: '27/09/2026',
+    startHour: 13,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Mastering', he: 'מאסטרינג' },
+    createdAt: '2026-09-23T08:00:00.000Z'
+  },
+  {
+    customerId: 'customer-twentynine',
+    customerName: 'Barak Tzur',
+    bookingDate: '27/09/2026',
+    startHour: 16,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
+    createdAt: '2026-09-23T09:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirty',
+    customerName: 'Rotem Ashkenazi',
+    bookingDate: '29/09/2026',
+    startHour: 10,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
+    createdAt: '2026-09-23T11:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirtyone',
+    customerName: 'Yuval Peretz',
+    bookingDate: '29/09/2026',
+    startHour: 14,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Live Band Tracking', he: 'הקלטת הרכב' },
+    createdAt: '2026-09-23T12:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirtytwo',
+    customerName: 'Adi Manor',
+    bookingDate: '30/09/2026',
+    startHour: 11,
+    duration: 4,
+    status: 'confirmed',
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
+    createdAt: '2026-09-23T13:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirtythree',
+    customerName: 'Keren Biton',
+    bookingDate: '30/09/2026',
+    startHour: 17,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Podcast Recording', he: 'הקלטת פודקאסט' },
+    createdAt: '2026-09-23T14:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirtyfour',
+    customerName: 'Itai Golan',
+    bookingDate: '01/10/2026',
+    startHour: 15,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
+    createdAt: '2026-09-23T15:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirtyfive',
+    customerName: 'Shani Regev',
+    bookingDate: '02/10/2026',
+    startHour: 10,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
+    createdAt: '2026-09-23T16:00:00.000Z'
+  },
+  {
+    customerId: 'customer-thirtysix',
+    customerName: 'Omri Paz',
+    bookingDate: '03/10/2026',
+    startHour: 12,
+    duration: 3,
+    status: 'confirmed',
+    itemName: { en: 'Mastering', he: 'מאסטרינג' },
+    createdAt: '2026-09-23T17:00:00.000Z'
   }
 ];
 
@@ -539,7 +771,7 @@ const reservations = [
     customerId: reservation.customerId,
     customerName: reservation.customerName,
     studioName: studio.name,
-    itemName: item.name,
+    itemName: reservation.itemName || item.name,
     bookingDate: reservation.bookingDate,
     timeSlots: Array.from(
       { length: reservation.duration },
@@ -637,7 +869,7 @@ const additionalProjects = [
     collaborators: [
       activeCollab(collabAmir, 'vendor', '2026-09-20T10:00:00.000Z'),
       activeCollab(
-        { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test', picture: 'https://randomuser.me/api/portraits/women/65.jpg' },
+        { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test', picture: fixtureAvatar('yael-cohen', 'YC') },
         'customer',
         '2026-09-20T10:05:00.000Z'
       )
@@ -670,7 +902,7 @@ const additionalProjects = [
       activeCollab(collabEitan, 'vendor', '2026-09-18T14:00:00.000Z'),
       activeCollab(collabNoa, 'customer', '2026-09-18T14:10:00.000Z'),
       activeCollab(
-        { _id: 'customer-noa', name: 'Noa Shapira', email: 'noa.s@example.test', picture: 'https://randomuser.me/api/portraits/women/33.jpg' },
+        { _id: 'customer-noa', name: 'Noa Shapira', email: 'noa.s@example.test', picture: fixtureAvatar('noa-shapira', 'NS') },
         'customer',
         '2026-09-18T14:12:00.000Z'
       )
@@ -702,7 +934,7 @@ const additionalProjects = [
     collaborators: [
       activeCollab(vendorUser, 'vendor', '2026-09-10T09:00:00.000Z'),
       activeCollab(
-        { _id: 'customer-eitan', name: 'Eitan Mizrahi', email: 'eitan.client@example.test', picture: 'https://randomuser.me/api/portraits/men/75.jpg' },
+        { _id: 'customer-eitan', name: 'Eitan Mizrahi', email: 'eitan.client@example.test', picture: fixtureAvatar('eitan-client', 'EM') },
         'customer',
         '2026-09-10T09:05:00.000Z'
       ),
@@ -736,7 +968,7 @@ const additionalProjects = [
       activeCollab(collabAmir, 'vendor', '2026-09-21T08:00:00.000Z'),
       activeCollab(collabShira, 'customer', '2026-09-21T08:15:00.000Z'),
       activeCollab(
-        { _id: 'customer-shira', name: 'Shira Ben-David', email: 'shira.bd@example.test', picture: 'https://randomuser.me/api/portraits/women/90.jpg' },
+        { _id: 'customer-shira', name: 'Shira Ben-David', email: 'shira.bd@example.test', picture: fixtureAvatar('shira-ben-david', 'SB') },
         'customer',
         '2026-09-21T08:20:00.000Z'
       )
@@ -767,7 +999,7 @@ const additionalProjects = [
     artworkUrl: '/images/screenshots/tempo-studios-podcast-room.webp',
     collaborators: [
       activeCollab(
-        { _id: 'customer-ron', name: 'Ron Adler', email: 'ron@example.test', picture: 'https://randomuser.me/api/portraits/men/41.jpg' },
+        { _id: 'customer-ron', name: 'Ron Adler', email: 'ron@example.test', picture: fixtureAvatar('ron-adler', 'RA') },
         'customer',
         '2026-09-12T11:00:00.000Z'
       ),
@@ -801,7 +1033,7 @@ const additionalProjects = [
     collaborators: [
       activeCollab(collabAmir, 'vendor', '2026-09-22T15:05:00.000Z'),
       activeCollab(
-        { _id: 'customer-lia', name: 'Lia North', email: 'lia@example.test', picture: 'https://randomuser.me/api/portraits/women/21.jpg' },
+        { _id: 'customer-lia', name: 'Lia North', email: 'lia@example.test', picture: fixtureAvatar('lia-north', 'LN') },
         'customer',
         '2026-09-22T15:10:00.000Z'
       ),

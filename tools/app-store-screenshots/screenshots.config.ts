@@ -56,6 +56,7 @@ const scenes: ScreenshotScene[] = [
     template: 'full-bleed',
     textAlign: 'center',
     deviceTransform: { scale: 0.82, y: 560, shadow: true },
+    actions: [{ type: 'scroll', selector: '.dashboard-calendar', offsetY: -8 }],
     copy: {
       'en-US': {
         title: 'Every booking, under control',
@@ -64,6 +65,66 @@ const scenes: ScreenshotScene[] = [
       he: {
         title: 'כל ההזמנות בשליטה',
         subtitle: 'רואים את הלו״ז ומנהלים את זמינות הסטודיו מכל מקום.'
+      }
+    }
+  },
+  {
+    id: 'desktop-calendar',
+    order: 23,
+    path: '/dashboard?tab=overview',
+    readySelector: '.dashboard-calendar .studioz-calendar__month-view',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', y: 160 }
+    ],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Your studio week, at a glance',
+        subtitle: 'Incoming sessions, conflicts and free slots — one dense schedule.'
+      },
+      he: {
+        title: 'שבוע הסטודיו במבט אחד',
+        subtitle: 'סשנים נכנסים, חפיפות וחלונות פנויים — ביומן צפוף וברור.'
+      }
+    }
+  },
+  {
+    id: 'mobile-calendar',
+    order: 30,
+    path: '/dashboard?tab=overview',
+    readySelector: '.dashboard-calendar .studioz-calendar__month-view',
+    fixture: 'vendor-dashboard',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      { type: 'click', selector: '.quick-actions__header' },
+      { type: 'scroll', selector: '.dashboard-calendar', offsetY: -8 }
+    ],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Schedule on the go',
+        subtitle: 'The same dense calendar — bookings and free slots in your pocket.'
+      },
+      he: {
+        title: 'היומן בדרך',
+        subtitle: 'אותו יומן צפוף — הזמנות וחלונות פנויים מהנייד.'
       }
     }
   },

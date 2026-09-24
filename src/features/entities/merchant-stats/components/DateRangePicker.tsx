@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarTodayIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@shared/components/icons';
 import { useDropdownPosition } from '@shared/hooks';
+import '../styles/_date-range-picker.scss';
 
 export interface DateRange {
   startDate: Date;

@@ -277,7 +277,21 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
       action.offsetY ?? 0
     );
   } else {
-    await page.evaluate(({ x, y }) => window.scrollTo({ left: x || 0, top: y || 0, behavior: 'instant' }), {
+    // Absolute scroll. When the page fits the viewport (common for denser
+    // dashboards), window.scrollTo is a no-op — fall back to a visual shift
+    // so capture framing can still move down.
+    await page.evaluate(({ x, y }) => {
+      const left = x || 0;
+      const top = y || 0;
+      const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      document.documentElement.style.transform = '';
+      if (top <= maxY) {
+        window.scrollTo({ left, top, behavior: 'instant' });
+        return;
+      }
+      window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
+      document.documentElement.style.transform = `translate(${-left}px, ${-top}px)`;
+    }, {
       x: action.x,
       y: action.y
     });

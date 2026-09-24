@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar } from '@features/entities/bookings';
-import { CalendarIcon } from '@shared/components/icons';
 import { Studio } from 'src/types/index';
 import Reservation from 'src/types/reservation';
 
@@ -18,7 +17,7 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
   isStudioOwner = false,
   onNewReservation
 }) => {
-  const { t, i18n } = useTranslation('dashboard');
+  const { i18n } = useTranslation('dashboard');
   const [selectedStudioId, setSelectedStudioId] = useState<string>(studios[0]?._id || '');
 
   const getLocalizedName = (name: string | { en?: string; he?: string } | undefined): string => {
@@ -46,11 +45,6 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({
 
   return (
     <div className="dashboard-calendar">
-      <h2 className="dashboard-section-title">
-        <CalendarIcon className="dashboard-section-title__icon" />
-        {isStudioOwner ? t('calendar.studioOwnerTitle') : t('calendar.userTitle')}
-      </h2>
-
       {hasMultipleStudios && (
         <div className="dashboard-calendar__studio-selector">
           {studios.map((studio) => (

@@ -10,7 +10,8 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
-  padding-bottom: vars.$spacing-2xl;
+  padding-bottom: vars.$spacing-medium;
+  text-align: start;
 
   // Container
   &__container {
@@ -18,76 +19,82 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-2xl;
+    gap: vars.$spacing-medium;
     width: 100%;
     box-sizing: border-box;
-    padding: 0 vars.$spacing-medium;
+    padding: 0;
   }
 
   // ==========================================
-  // Control Bar
+  // Control Bar — compact enterprise toolbar
   // ==========================================
   &__control-bar {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-large;
+    gap: vars.$spacing-small;
 
-    @media (min-width: 1200px) {
+    @media (min-width: 960px) {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+      gap: vars.$spacing-medium;
     }
   }
 
   &__nav-section {
     display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-large;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: vars.$spacing-small vars.$spacing-medium;
     width: 100%;
+    min-width: 0;
 
-    @media (min-width: 768px) {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+    @media (min-width: 960px) {
+      width: auto;
+      flex: 1;
     }
   }
 
   &__title-group {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-xs;
+    gap: 0.125rem;
+    min-width: 0;
   }
 
   &__main-title {
-    font-size: vars.$font-size-2xl;
-    font-weight: 900;
-    letter-spacing: -0.025em;
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
     color: var(--text-primary);
     margin: 0;
     text-transform: capitalize;
+    line-height: 1.2;
+    text-align: start;
 
     @media (min-width: 768px) {
-      font-size: vars.$font-size-3xl;
+      font-size: 1.25rem;
     }
   }
 
   &__subtitle {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-small;
-    font-size: vars.$font-size-medium;
+    gap: 0.375rem;
+    font-size: vars.$font-size-small;
     font-weight: 500;
     color: var(--text-muted);
     margin: 0;
+    text-align: start;
   }
 
   &__nav-buttons {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: vars.$spacing-small;
-    background: var(--bg-tertiary);
-    padding: vars.$spacing-xs;
-    border-radius: vars.$border-radius-xl;
+    gap: 2px;
+    background: var(--bg-surface);
+    padding: 2px;
+    border-radius: vars.$border-radius-medium;
     border: 1px solid var(--border-secondary);
   }
 
@@ -95,102 +102,107 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: vars.$border-radius-medium;
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    border-radius: vars.$border-radius-small;
     border: none;
     background: transparent;
-    color: var(--text-tertiary);
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
 
     &:hover {
       background: var(--bg-hover);
+      border-color: transparent;
       color: var(--text-primary);
     }
   }
 
   &__today-btn {
-    padding: vars.$spacing-xs vars.$spacing-large;
-    font-size: vars.$font-size-medium;
-    font-weight: 700;
+    padding: 0 0.625rem;
+    height: 1.75rem;
+    font-size: vars.$font-size-xs;
+    font-weight: 600;
     color: var(--text-secondary);
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-medium;
+    border-radius: vars.$border-radius-small;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
 
     &:hover {
       background: var(--bg-hover);
+      border-color: transparent;
       color: var(--text-primary);
     }
   }
 
   &__actions-section {
     display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-medium;
-
-    @media (min-width: 768px) {
-      flex-direction: row;
-      align-items: center;
-    }
+    flex-wrap: wrap;
+    align-items: center;
+    gap: vars.$spacing-small;
   }
 
   &__view-tabs {
-    display: flex;
-    padding: vars.$spacing-xs;
-    background: var(--bg-tertiary);
-    border-radius: vars.$border-radius-2xl;
+    display: inline-flex;
+    padding: 2px;
+    background: var(--bg-surface);
+    border-radius: vars.$border-radius-medium;
     border: 1px solid var(--border-secondary);
   }
 
   &__view-tab {
-    padding: vars.$spacing-small vars.$spacing-large;
-    font-size: vars.$font-size-medium;
-    font-weight: 500;
+    padding: 0.3125rem 0.625rem;
+    font-size: vars.$font-size-xs;
+    font-weight: 600;
     color: var(--text-muted);
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-xl;
+    border-radius: vars.$border-radius-small;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
     display: flex;
     align-items: center;
-    gap: vars.$spacing-small;
+    gap: 0.25rem;
+    line-height: 1;
 
     &:hover {
       color: var(--text-secondary);
       background: var(--bg-hover);
+      border-color: transparent;
     }
 
     &--active {
       background: var(--bg-hover);
       color: var(--text-primary);
-      box-shadow: var(--shadow-sm);
+      box-shadow: none;
     }
   }
 
   &__add-event-btn {
     @include mixins.button-primary;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-sm-md vars.$spacing-large;
-    font-size: vars.$font-size-medium;
-    border-radius: vars.$border-radius-xl;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    min-height: 1.875rem;
+    font-size: vars.$font-size-xs;
+    font-weight: 600;
+    border-radius: vars.$border-radius-medium;
   }
 
   // ==========================================
   // Main Content Area
   // ==========================================
   &__content {
-    background: var(--bg-tertiary);
-    border-radius: vars.$border-radius-3xl;
-    padding: vars.$spacing-xs;
-    box-shadow: var(--shadow-lg);
+    background: var(--bg-surface);
+    border-radius: vars.$border-radius-large;
+    padding: 0;
+    box-shadow: none;
     overflow: hidden;
     border: 1px solid var(--border-primary);
     width: 100%;
@@ -205,9 +217,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    border-radius: vars.$border-radius-2xl;
+    border-radius: 0;
     overflow: hidden;
-    border: 1px solid var(--border-secondary);
+    border: none;
     width: 100%;
     max-width: 100%;
   }
@@ -215,24 +227,24 @@
   &__weekday-header {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    background: var(--bg-tertiary);
+    background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-secondary);
     width: 100%;
   }
 
   &__weekday-cell {
-    padding: vars.$spacing-medium;
+    padding: 0.5rem 0.375rem;
     text-align: center;
-    font-size: vars.$font-size-small;
-    font-weight: 700;
+    font-size: 0.625rem;
+    font-weight: 650;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     color: var(--text-muted);
   }
 
   &__month-grid {
     flex: 1;
-    background: var(--bg-tertiary);
+    background: var(--bg-surface);
     width: 100%;
     overflow: hidden;
   }
@@ -245,73 +257,83 @@
 
   &__day-cell {
     position: relative;
-    min-height: 120px;
-    padding: vars.$spacing-small;
+    min-height: 5.75rem;
+    padding: 0.3125rem;
     border-bottom: 1px solid var(--border-secondary);
-    border-left: 1px solid var(--border-secondary);
-    background: var(--bg-tertiary);
-    transition: background 0.2s ease;
+    border-inline-start: 1px solid var(--border-secondary);
+    background: var(--bg-surface);
+    transition: background 0.15s ease;
     overflow: hidden;
 
-    [dir='rtl'] & {
-      border-left: none;
-      border-right: 1px solid var(--border-secondary);
+    &:nth-child(7n + 1) {
+      border-inline-start: none;
     }
 
     &:hover {
       background: var(--bg-hover);
     }
 
+    &--today {
+      background: color-mix(in srgb, var(--color-brand) 4%, var(--bg-surface));
+    }
+
     &--other-month {
       background: var(--bg-primary);
-      opacity: 0.6;
+      opacity: 0.55;
 
       .studioz-calendar__day-number {
         color: var(--text-muted);
       }
+    }
+
+    @media (min-width: 1024px) {
+      min-height: 6.5rem;
+      padding: 0.375rem;
     }
   }
 
   &__day-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: vars.$spacing-small;
+    align-items: center;
+    margin-bottom: 0.25rem;
   }
 
   &__day-number {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    font-size: vars.$font-size-medium;
+    width: 1.375rem;
+    height: 1.375rem;
+    font-size: 0.6875rem;
     font-family: 'DM Mono', monospace;
-    color: var(--text-muted);
+    font-weight: 500;
+    color: var(--text-secondary);
     border-radius: 50%;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
 
     &--today {
       background: var(--color-brand);
       color: var(--btn-primary-text);
       font-weight: 700;
-      box-shadow: 0 0 10px var(--color-brand-glow);
+      box-shadow: none;
     }
   }
 
   &__day-events {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-xs;
+    gap: 2px;
     overflow: hidden;
     max-width: 100%;
   }
 
   &__more-events {
-    font-size: 0.625rem;
-    font-weight: 500;
+    font-size: 0.5625rem;
+    font-weight: 600;
     color: var(--text-muted);
-    padding-left: vars.$spacing-small;
+    padding-inline-start: 0.25rem;
+    line-height: 1.2;
     cursor: pointer;
 
     &:hover {
@@ -324,50 +346,67 @@
   // ==========================================
   &__event-card {
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: filter 0.15s ease, background 0.15s ease;
 
     &--month {
       display: flex;
       align-items: center;
-      gap: vars.$spacing-xs;
-      padding: vars.$spacing-xs vars.$spacing-small;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-secondary);
-      border-radius: vars.$border-radius-small;
+      gap: 0.25rem;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.125rem 0.3125rem;
+      border-radius: 3px;
       overflow: hidden;
       max-width: 100%;
       min-width: 0;
+      border: none;
+      border-inline-start: 2px solid transparent;
+      line-height: 1.2;
 
       &:hover {
-        border-color: var(--color-brand);
+        filter: brightness(1.08);
 
         .studioz-calendar__event-text {
-          color: var(--color-brand);
+          color: var(--text-primary);
         }
+      }
+
+      &.studioz-calendar__event-card--booking {
+        background: color-mix(in srgb, var(--color-brand) 18%, var(--bg-surface));
+        border: none;
+        border-inline-start: 2px solid var(--color-brand);
+        color: var(--text-primary);
+      }
+
+      &.studioz-calendar__event-card--maintenance {
+        background: color-mix(in srgb, var(--color-warning-text) 14%, var(--bg-surface));
+        border: none;
+        border-inline-start: 2px solid var(--color-warning-text);
+        color: var(--text-primary);
       }
     }
 
     &--week {
       height: 100%;
       width: 100%;
-      border-radius: vars.$border-radius-medium;
-      padding: vars.$spacing-small;
+      border-radius: vars.$border-radius-small;
+      padding: 0.25rem 0.375rem;
       display: flex;
       flex-direction: column;
-      gap: vars.$spacing-xs;
-      box-shadow: var(--shadow-sm);
+      gap: 0.125rem;
+      box-shadow: none;
       overflow: hidden;
       position: relative;
 
       &:hover {
-        filter: brightness(1.1);
+        filter: brightness(1.08);
       }
     }
 
     &--booking {
-      background: var(--color-brand-bg);
-      border: 1px solid var(--color-brand-border);
-      color: var(--color-brand);
+      background: color-mix(in srgb, var(--color-brand) 14%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-brand) 28%, transparent);
+      color: var(--text-primary);
     }
 
     &--maintenance {
@@ -377,9 +416,19 @@
     }
   }
 
+  &__event-time-label {
+    flex-shrink: 0;
+    font-size: 0.5625rem;
+    font-weight: 650;
+    font-family: 'DM Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+    direction: ltr;
+  }
+
   &__event-dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     flex-shrink: 0;
 
@@ -394,27 +443,22 @@
 
   &__event-text {
     font-size: 0.625rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+    font-weight: 550;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: color 0.2s ease;
-    direction: ltr; // Keep time reading left-to-right so hours show first when truncated
+    transition: color 0.15s ease;
     text-align: start;
+    min-width: 0;
   }
 
   &__event-bar {
     position: absolute;
-    right: 0;
+    inset-inline-start: 0;
     top: 0;
     bottom: 0;
-    width: 4px;
-
-    [dir='ltr'] & {
-      right: auto;
-      left: 0;
-    }
+    width: 3px;
 
     &--booking {
       background: var(--color-brand);
@@ -426,31 +470,26 @@
   }
 
   &__event-content {
-    padding-right: vars.$spacing-small;
-
-    [dir='ltr'] & {
-      padding-right: 0;
-      padding-left: vars.$spacing-small;
-    }
+    padding-inline-start: 0.375rem;
   }
 
   &__event-title {
-    font-size: vars.$font-size-small;
-    font-weight: 700;
+    font-size: 0.6875rem;
+    font-weight: 650;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.3;
+    line-height: 1.25;
   }
 
   &__event-time,
   &__event-location {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-xs;
-    font-size: 0.625rem;
+    gap: 0.25rem;
+    font-size: 0.5625rem;
     opacity: 0.8;
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   // ==========================================
@@ -890,33 +929,34 @@
   // ==========================================
   @media (max-width: 768px) {
     &__container {
-      gap: vars.$spacing-medium;
+      gap: vars.$spacing-small;
     }
 
     &__control-bar {
-      gap: vars.$spacing-medium;
+      gap: vars.$spacing-small;
     }
 
     &__nav-section {
-      gap: vars.$spacing-medium;
+      gap: vars.$spacing-small;
+      width: 100%;
     }
 
     &__main-title {
-      font-size: vars.$font-size-xl;
+      font-size: 1rem;
     }
 
     &__subtitle {
-      font-size: vars.$font-size-small;
+      font-size: vars.$font-size-xs;
     }
 
     &__view-tabs {
       width: 100%;
-      justify-content: center;
+      justify-content: stretch;
     }
 
     &__view-tab {
-      padding: vars.$spacing-xs vars.$spacing-medium;
-      font-size: vars.$font-size-small;
+      padding: 0.375rem 0.5rem;
+      font-size: vars.$font-size-xs;
       white-space: nowrap;
       flex: 1;
       justify-content: center;
@@ -928,27 +968,26 @@
 
     &__add-event-btn {
       width: 100%;
-      padding: vars.$spacing-sm-md vars.$spacing-medium;
-      font-size: vars.$font-size-small;
+      padding: 0.4375rem 0.75rem;
+      font-size: vars.$font-size-xs;
     }
 
     &__nav-buttons {
-      width: 100%;
-      justify-content: center;
+      margin-inline-start: auto;
     }
 
     &__content {
-      border-radius: vars.$border-radius-xl;
+      border-radius: vars.$border-radius-medium;
     }
 
     &__day-cell {
-      min-height: 70px;
-      padding: vars.$spacing-xs;
+      min-height: 4.5rem;
+      padding: 0.25rem;
     }
 
     &__weekday-cell {
-      padding: vars.$spacing-xs;
-      font-size: 0.5625rem;
+      padding: 0.375rem 0.125rem;
+      font-size: 0.5rem;
     }
 
     &__week-header {
@@ -989,7 +1028,7 @@
     &__week-view,
     &__day-view,
     &__list-view {
-      border-radius: vars.$border-radius-large;
+      border-radius: vars.$border-radius-medium;
     }
   }
 
@@ -1003,36 +1042,42 @@
     }
 
     &__nav-btn {
-      width: 36px;
-      height: 36px;
+      width: 1.625rem;
+      height: 1.625rem;
+      min-width: 1.625rem;
+      min-height: 1.625rem;
     }
 
     &__today-btn {
-      padding: vars.$spacing-xs vars.$spacing-medium;
-      font-size: vars.$font-size-small;
+      padding: 0 0.5rem;
+      font-size: 0.5625rem;
     }
 
     &__content {
       padding: 0;
-      border-radius: vars.$border-radius-large;
+      border-radius: vars.$border-radius-medium;
     }
 
     &__day-cell {
-      min-height: 60px;
+      min-height: 3.75rem;
     }
 
     &__event-card--month {
-      padding: 2px vars.$spacing-xs;
+      padding: 1px 0.25rem;
     }
 
     &__event-text {
       font-size: 0.5rem;
     }
 
+    &__event-time-label {
+      font-size: 0.5rem;
+    }
+
     &__day-number {
-      width: 22px;
-      height: 22px;
-      font-size: vars.$font-size-small;
+      width: 1.25rem;
+      height: 1.25rem;
+      font-size: 0.625rem;
     }
 
     &__weekday-cell {
