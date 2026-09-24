@@ -106,6 +106,10 @@
     svg {
       width: 1rem;
       height: 1rem;
+
+      [dir='rtl'] & {
+        transform: scaleX(-1);
+      }
     }
 
     &:hover {
@@ -147,8 +151,9 @@
 
   &__product-visual--dual {
     box-sizing: border-box;
-    // Reserve a gutter for the phone so desktop columns stay readable.
-    padding-inline-end: clamp(6.75rem, 28%, 12rem);
+    // Smaller end gutter so the phone slightly overlaps the desktop and the
+    // desktop shot can read larger.
+    padding-inline-end: clamp(4.25rem, 15%, 7rem);
   }
 
   &__shot {
@@ -202,8 +207,8 @@
     position: absolute;
     z-index: 2;
     inset-inline-end: 0;
-    bottom: clamp(-0.35rem, -0.5vw, 0rem);
-    width: min(26%, 10.75rem);
+    bottom: clamp(-0.5rem, -0.8vw, -0.15rem);
+    width: min(28%, 11.5rem);
     border-radius: 1.15rem;
     box-shadow: 0 1.1rem 2.25rem rgb(0 0 0 / 32%);
 
