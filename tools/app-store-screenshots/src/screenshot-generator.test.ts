@@ -18,7 +18,7 @@ describe('configuration', () => {
   });
 
   it('expands every curated scene into both locales and themes', () => {
-    expect(screenshotConfig.screenshots).toHaveLength(120);
+    expect(screenshotConfig.screenshots).toHaveLength(148);
     const variants = screenshotConfig.screenshots.filter((definition) =>
       definition.id.startsWith('dashboard-calendar-')
     );
@@ -112,7 +112,7 @@ describe('CLI and filenames', () => {
       locale: 'he',
       theme: 'light'
     });
-    expect(filtered).toHaveLength(30);
+    expect(filtered).toHaveLength(37);
     expect(filtered.every((definition) => definition.locale === 'he' && definition.theme === 'light')).toBe(true);
   });
 
@@ -125,7 +125,7 @@ describe('CLI and filenames', () => {
 describe('fixture routing', () => {
   it('includes authenticated vendor captures', () => {
     const authenticated = screenshotConfig.captures.filter((capture) => capture.auth === 'vendor');
-    expect(authenticated).toHaveLength(112);
+    expect(authenticated).toHaveLength(152);
     expect(authenticated.every((capture) => capture.id.includes(capture.theme))).toBe(true);
   });
 

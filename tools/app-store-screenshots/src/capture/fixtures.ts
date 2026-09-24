@@ -535,77 +535,353 @@ const merchantDocuments = [
   }
 ];
 
-const projects = [
+const projectCollaboratorsDemo = [
   {
-    _id: 'project-demo',
-    title: 'Midnight Drive — Final Mix',
-    brief: 'Final mix and mastering for a four-track electronic EP.',
-    customerId: customerUser,
+    userId: {
+      _id: 'collaborator-vendor-1',
+      name: 'Amir Halevi',
+      email: 'amir@northlinesound.example',
+      picture: ''
+    },
+    side: 'vendor' as const,
+    invitedBy: vendorUser,
+    joinedAt: '2026-09-19T09:30:00.000Z',
+    status: 'active' as const
+  },
+  {
+    userId: {
+      _id: 'collaborator-customer-1',
+      name: 'Noa Shaham',
+      email: 'noa@example.test'
+    },
+    side: 'customer' as const,
+    invitedBy: customerUser,
+    joinedAt: '2026-09-19T11:15:00.000Z',
+    status: 'active' as const
+  },
+  {
+    userId: {
+      _id: 'collaborator-vendor-2',
+      name: 'Eitan Mizrahi',
+      email: 'eitan@example.test'
+    },
+    side: 'vendor' as const,
+    invitedBy: vendorUser,
+    joinedAt: '2026-09-20T08:45:00.000Z',
+    status: 'active' as const
+  },
+  {
+    userId: {
+      _id: 'collaborator-customer-2',
+      name: 'Shira Ben-Ami',
+      email: 'shira@example.test'
+    },
+    side: 'customer' as const,
+    invitedBy: customerUser,
+    joinedAt: '2026-09-20T13:20:00.000Z',
+    status: 'active' as const
+  }
+];
+
+const remoteMixItem = items.find((entry) => entry._id === 'item-remote-mix') ?? item;
+const mixingItem = items.find((entry) => entry._id === 'item-mixing') ?? item;
+const masteringItem = items.find((entry) => entry._id === 'item-mastering') ?? item;
+
+const projectDemo = {
+  _id: 'project-demo',
+  title: 'Midnight Drive — Final Mix',
+  brief: 'Final mix and mastering for a four-track electronic EP.',
+  customerId: customerUser,
+  customerName: customerUser.name,
+  vendorId: vendorUser,
+  studioId: studio,
+  itemId: remoteMixItem,
+  itemName: remoteMixItem.name,
+  studioName: studio.name,
+  price: 2800,
+  depositPaid: true,
+  finalPaid: false,
+  estimatedDeliveryDays: 7,
+  deadline: '2026-09-29T18:00:00.000Z',
+  revisionsIncluded: 2,
+  revisionsUsed: 1,
+  paymentStatus: 'deposit_paid',
+  status: 'in_progress',
+  artworkUrl: '/images/screenshots/midnight-drive-artwork.webp',
+  collaborators: projectCollaboratorsDemo,
+  createdAt: '2026-09-18T10:00:00.000Z',
+  updatedAt: '2026-09-22T08:00:00.000Z'
+};
+
+const additionalProjects = [
+  {
+    _id: 'project-neon-tides',
+    title: 'Neon Tides — Vocal Production',
+    brief: 'Lead vocal comp, tuning and FX for a single release.',
+    customerId: { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test' },
+    customerName: 'Yael Cohen',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: remoteMixItem,
+    itemName: remoteMixItem.name,
+    studioName: studio.name,
+    price: 1600,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 5,
+    deadline: '2026-09-26T18:00:00.000Z',
+    revisionsIncluded: 2,
+    revisionsUsed: 0,
+    paymentStatus: 'deposit_paid',
+    status: 'in_progress',
+    artworkUrl: '/images/screenshots/northline-track-neon-tides.webp',
+    collaborators: [
+      {
+        userId: { _id: 'collaborator-vendor-1', name: 'Amir Halevi', email: 'amir@northlinesound.example' },
+        side: 'vendor',
+        invitedBy: vendorUser,
+        joinedAt: '2026-09-20T10:00:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test' },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-20T10:05:00.000Z',
+        status: 'active'
+      }
+    ],
+    createdAt: '2026-09-19T09:00:00.000Z',
+    updatedAt: '2026-09-22T12:00:00.000Z'
+  },
+  {
+    _id: 'project-paper-planes',
+    title: 'Paper Planes — Mix Revisions',
+    brief: 'Second-pass mix notes on drums, bass and stereo image.',
+    customerId: { _id: 'customer-noa', name: 'Noa Shapira', email: 'noa.s@example.test' },
+    customerName: 'Noa Shapira',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: mixingItem,
+    itemName: mixingItem.name,
+    studioName: studio.name,
+    price: 2200,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 4,
+    deadline: '2026-09-24T18:00:00.000Z',
+    revisionsIncluded: 3,
+    revisionsUsed: 2,
+    paymentStatus: 'deposit_paid',
+    status: 'revision_requested',
+    artworkUrl: '/images/screenshots/northline-track-paper-planes.webp',
+    collaborators: [
+      {
+        userId: { _id: 'collaborator-vendor-2', name: 'Eitan Mizrahi', email: 'eitan@example.test' },
+        side: 'vendor',
+        invitedBy: vendorUser,
+        joinedAt: '2026-09-18T14:00:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: { _id: 'collaborator-customer-1', name: 'Noa Shaham', email: 'noa@example.test' },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-18T14:10:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: { _id: 'customer-noa', name: 'Noa Shapira', email: 'noa.s@example.test' },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-18T14:12:00.000Z',
+        status: 'active'
+      }
+    ],
+    createdAt: '2026-09-15T11:00:00.000Z',
+    updatedAt: '2026-09-22T16:30:00.000Z'
+  },
+  {
+    _id: 'project-after-hours',
+    title: 'After Hours — Mastering',
+    brief: 'Album mastering for eight tracks with streaming and vinyl specs.',
+    customerId: { _id: 'customer-eitan', name: 'Eitan Mizrahi', email: 'eitan.client@example.test' },
+    customerName: 'Eitan Mizrahi',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: masteringItem,
+    itemName: masteringItem.name,
+    studioName: studio.name,
+    price: 3600,
+    depositPaid: true,
+    finalPaid: true,
+    estimatedDeliveryDays: 10,
+    deadline: '2026-09-20T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 1,
+    paymentStatus: 'paid',
+    status: 'delivered',
+    artworkUrl: '/images/screenshots/northline-track-after-hours.webp',
+    collaborators: [
+      {
+        userId: vendorUser,
+        side: 'vendor',
+        invitedBy: vendorUser,
+        joinedAt: '2026-09-10T09:00:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: { _id: 'customer-eitan', name: 'Eitan Mizrahi', email: 'eitan.client@example.test' },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-10T09:05:00.000Z',
+        status: 'active'
+      }
+    ],
+    createdAt: '2026-09-08T10:00:00.000Z',
+    updatedAt: '2026-09-21T18:00:00.000Z'
+  },
+  {
+    _id: 'project-live-session',
+    title: 'Live Session — Band Tracking',
+    brief: 'Full-day live tracking for drums, bass and two guitars.',
+    customerId: { _id: 'customer-shira', name: 'Shira Ben-David', email: 'shira.bd@example.test' },
+    customerName: 'Shira Ben-David',
     vendorId: vendorUser,
     studioId: studio,
     itemId: item,
     itemName: item.name,
     studioName: studio.name,
-    price: 2800,
+    price: 4200,
     depositPaid: true,
     finalPaid: false,
-    estimatedDeliveryDays: 7,
-    deadline: '2026-09-29T18:00:00.000Z',
-    revisionsIncluded: 2,
-    revisionsUsed: 1,
+    estimatedDeliveryDays: 3,
+    deadline: '2026-10-02T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 0,
     paymentStatus: 'deposit_paid',
-    status: 'in_progress',
-    artworkUrl: '/images/screenshots/midnight-drive-artwork.webp',
+    status: 'accepted',
+    artworkUrl: '/images/screenshots/tempo-studios-live-room.webp',
     collaborators: [
       {
-        userId: {
-          _id: 'collaborator-vendor-1',
-          name: 'Amir Halevi',
-          email: 'amir@northlinesound.example'
-        },
+        userId: { _id: 'collaborator-vendor-1', name: 'Amir Halevi', email: 'amir@northlinesound.example' },
         side: 'vendor',
         invitedBy: vendorUser,
-        joinedAt: '2026-09-19T09:30:00.000Z',
+        joinedAt: '2026-09-21T08:00:00.000Z',
         status: 'active'
       },
       {
-        userId: {
-          _id: 'collaborator-customer-1',
-          name: 'Noa Shaham',
-          email: 'noa@example.test'
-        },
+        userId: { _id: 'collaborator-customer-2', name: 'Shira Ben-Ami', email: 'shira@example.test' },
         side: 'customer',
         invitedBy: customerUser,
-        joinedAt: '2026-09-19T11:15:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: {
-          _id: 'collaborator-vendor-2',
-          name: 'Eitan Mizrahi',
-          email: 'eitan@example.test'
-        },
-        side: 'vendor',
-        invitedBy: vendorUser,
-        joinedAt: '2026-09-20T08:45:00.000Z',
-        status: 'active'
-      },
-      {
-        userId: {
-          _id: 'collaborator-customer-2',
-          name: 'Shira Ben-Ami',
-          email: 'shira@example.test'
-        },
-        side: 'customer',
-        invitedBy: customerUser,
-        joinedAt: '2026-09-20T13:20:00.000Z',
+        joinedAt: '2026-09-21T08:15:00.000Z',
         status: 'active'
       }
     ],
-    createdAt: '2026-09-18T10:00:00.000Z',
-    updatedAt: '2026-09-22T08:00:00.000Z'
+    createdAt: '2026-09-21T08:00:00.000Z',
+    updatedAt: '2026-09-22T09:00:00.000Z'
+  },
+  {
+    _id: 'project-podcast-edit',
+    title: 'Studio Talk — Episode Edit',
+    brief: 'Edit, clean and bounce a 45-minute podcast episode.',
+    customerId: { _id: 'customer-ron', name: 'Ron Adler', email: 'ron@example.test' },
+    customerName: 'Ron Adler',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: items.find((entry) => entry._id === 'item-podcast') ?? item,
+    itemName: (items.find((entry) => entry._id === 'item-podcast') ?? item).name,
+    studioName: studio.name,
+    price: 900,
+    depositPaid: true,
+    finalPaid: true,
+    estimatedDeliveryDays: 2,
+    deadline: '2026-09-18T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 0,
+    paymentStatus: 'paid',
+    status: 'completed',
+    artworkUrl: '/images/screenshots/tempo-studios-podcast-room.webp',
+    collaborators: [
+      {
+        userId: { _id: 'customer-ron', name: 'Ron Adler', email: 'ron@example.test' },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-12T11:00:00.000Z',
+        status: 'active'
+      }
+    ],
+    createdAt: '2026-09-12T10:00:00.000Z',
+    updatedAt: '2026-09-18T17:00:00.000Z'
+  },
+  {
+    _id: 'project-new-request',
+    title: 'Harbor Lights — Demo Mix',
+    brief: 'First-pass mix from rough stems for a writer session.',
+    customerId: { _id: 'customer-lia', name: 'Lia North', email: 'lia@example.test' },
+    customerName: 'Lia North',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: remoteMixItem,
+    itemName: remoteMixItem.name,
+    studioName: studio.name,
+    price: 1400,
+    depositPaid: false,
+    finalPaid: false,
+    estimatedDeliveryDays: 6,
+    deadline: '2026-10-05T18:00:00.000Z',
+    revisionsIncluded: 2,
+    revisionsUsed: 0,
+    paymentStatus: 'unpaid',
+    status: 'requested',
+    artworkUrl: '/images/screenshots/tempo-studios-console.webp',
+    collaborators: [],
+    createdAt: '2026-09-22T15:00:00.000Z',
+    updatedAt: '2026-09-22T15:00:00.000Z'
   }
 ];
+
+const projects = [projectDemo, ...additionalProjects];
+
+const hebrewProjectListCopy: Record<string, { title: string; brief: string }> = {
+  'project-demo': {
+    title: 'Midnight Drive — מיקס סופי',
+    brief: 'מיקס ומאסטרינג סופיים ל־EP אלקטרוני של ארבעה שירים.'
+  },
+  'project-neon-tides': {
+    title: 'Neon Tides — הפקת ווקאל',
+    brief: 'קומפ, תיקון ו־FX לווקאל מוביל לסינגל.'
+  },
+  'project-paper-planes': {
+    title: 'Paper Planes — תיקוני מיקס',
+    brief: 'סבב שני של הערות על תופים, בס ותמונת סטריאו.'
+  },
+  'project-after-hours': {
+    title: 'After Hours — מאסטרינג',
+    brief: 'מאסטרינג לאלבום של שמונה שירים עם מפרטי סטרימינג וויניל.'
+  },
+  'project-live-session': {
+    title: 'סשן לייב — הקלטת להקה',
+    brief: 'יום הקלטה מלא לתופים, בס ושתי גיטרות.'
+  },
+  'project-podcast-edit': {
+    title: 'Studio Talk — עריכת פרק',
+    brief: 'עריכה, ניקוי וייצוא לפרק פודקאסט של 45 דקות.'
+  },
+  'project-new-request': {
+    title: 'Harbor Lights — מיקס דמו',
+    brief: 'מיקס ראשון מסטמים גולמיים לסשן כתיבה.'
+  }
+};
+
+function getLocalizedProjects(locale: CaptureScenario['locale']) {
+  if (locale !== 'he') return projects;
+  return projects.map((project) => {
+    const copy = hebrewProjectListCopy[project._id];
+    if (!copy) return project;
+    return { ...project, title: copy.title, brief: copy.brief };
+  });
+}
 
 const projectFiles = [
   {
@@ -1051,14 +1327,17 @@ export function resolveFixtureRequest(
     return json({ _id: 'cart-demo', userId: getUserFixture(scenario.auth)?._id ?? 'guest', items: [] });
   }
   if (method === 'GET' && path === '/remote-projects') {
+    const localizedProjects = getLocalizedProjects(scenario.locale);
     return json({
-      projects,
-      pagination: { page: 1, limit: 20, total: projects.length, totalPages: 1 }
+      projects: localizedProjects,
+      pagination: { page: 1, limit: 20, total: localizedProjects.length, totalPages: 1 }
     });
   }
   if (method === 'GET' && path === '/remote-projects/project-demo') {
+    const localizedProjects = getLocalizedProjects(scenario.locale);
+    const project = localizedProjects.find((entry) => entry._id === 'project-demo') ?? localizedProjects[0];
     return json({
-      project: projects[0],
+      project,
       fileCounts: { source: 5, deliverable: 4, revision: 3 },
       access: {
         side: 'vendor',
@@ -1112,52 +1391,7 @@ export function resolveFixtureRequest(
   }
   if (method === 'GET' && path === '/remote-projects/project-demo/collaborators') {
     return json({
-      collaborators: [
-        {
-          userId: {
-            _id: 'collaborator-vendor-1',
-            name: 'Amir Halevi',
-            email: 'amir@northlinesound.example'
-          },
-          side: 'vendor',
-          invitedBy: vendorUser,
-          joinedAt: '2026-09-19T09:30:00.000Z',
-          status: 'active'
-        },
-        {
-          userId: {
-            _id: 'collaborator-customer-1',
-            name: 'Noa Shaham',
-            email: 'noa@example.test'
-          },
-          side: 'customer',
-          invitedBy: customerUser,
-          joinedAt: '2026-09-19T11:15:00.000Z',
-          status: 'active'
-        },
-        {
-          userId: {
-            _id: 'collaborator-vendor-2',
-            name: 'Eitan Mizrahi',
-            email: 'eitan@example.test'
-          },
-          side: 'vendor',
-          invitedBy: vendorUser,
-          joinedAt: '2026-09-20T08:45:00.000Z',
-          status: 'active'
-        },
-        {
-          userId: {
-            _id: 'collaborator-customer-2',
-            name: 'Shira Ben-Ami',
-            email: 'shira@example.test'
-          },
-          side: 'customer',
-          invitedBy: customerUser,
-          joinedAt: '2026-09-20T13:20:00.000Z',
-          status: 'active'
-        }
-      ],
+      collaborators: projectCollaboratorsDemo,
       pendingInvites: []
     });
   }

@@ -558,6 +558,34 @@ const scenes: ScreenshotScene[] = [
     }
   },
   {
+    id: 'desktop-projects',
+    order: 36,
+    path: '/projects',
+    readySelector: '.projects-list__grid',
+    fixture: 'projects',
+    auth: 'vendor',
+    device: 'desktop-1440',
+    template: 'minimal',
+    textAlign: 'center',
+    // Match reservations: keep header + filters + first project row in frame.
+    actions: [{ type: 'scroll', x: 0, y: 0 }],
+    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Every project, one clear view',
+        subtitle: 'Scan deadlines, payments, collaborators and progress together.'
+      },
+      he: {
+        title: 'כל הפרויקטים במסך אחד',
+        subtitle: 'סורקים מועדים, תשלומים, שותפים והתקדמות יחד.'
+      }
+    }
+  },
+  {
     id: 'desktop-studio-portfolio',
     order: 25,
     path: '/studio/studio-demo?view=overview',
@@ -715,6 +743,32 @@ const scenes: ScreenshotScene[] = [
       he: {
         title: 'הזמנות בדרך',
         subtitle: 'אותו תהליך הזמנות גם מהנייד.'
+      }
+    }
+  },
+  {
+    id: 'mobile-projects',
+    order: 37,
+    path: '/projects',
+    readySelector: '.projects-list__grid',
+    fixture: 'projects',
+    auth: 'vendor',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    textAlign: 'center',
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Projects on the go',
+        subtitle: 'Deadlines, collaborators and progress in your pocket.'
+      },
+      he: {
+        title: 'פרויקטים בדרך',
+        subtitle: 'מועדים, שותפים והתקדמות מהנייד.'
       }
     }
   },

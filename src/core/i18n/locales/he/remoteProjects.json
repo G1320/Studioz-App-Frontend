@@ -11,8 +11,8 @@
   "clearFilters": "נקה מסננים",
   "sort": {
     "label": "מיון לפי",
-    "byCreated": "תאריך יצירה",
-    "byDeadline": "תאריך יעד",
+    "byCreated": "נוצר",
+    "byDeadline": "יעד",
     "newestFirst": "חדש קודם",
     "oldestFirst": "ישן קודם",
     "earliestFirst": "מוקדם קודם",

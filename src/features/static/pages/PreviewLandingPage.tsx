@@ -25,7 +25,7 @@ const PILLAR_ICONS = {
 type PillarId = keyof typeof PILLAR_ICONS;
 
 const SHOWCASES = [
-  { key: 'operations', desktop: 'desktop-reservations', mobile: undefined },
+  { key: 'operations', desktop: 'desktop-reservations', mobile: 'mobile-projects' },
   {
     key: 'analytics',
     desktop: 'cross-device-analytics-desktop',

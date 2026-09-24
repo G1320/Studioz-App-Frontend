@@ -11,7 +11,7 @@
   "clearFilters": "Clear filters",
   "sort": {
     "label": "Sort by",
-    "byCreated": "Date created",
+    "byCreated": "Created",
     "byDeadline": "Deadline",
     "newestFirst": "Newest first",
     "oldestFirst": "Oldest first",
