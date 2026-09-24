@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
 import {
-  ArrowUpRight,
+  ArrowRight,
   BarChart3,
   CalendarDays,
   Check,
@@ -153,11 +153,11 @@ export default function FeaturesPage() {
               <div className="features-page__hero-actions">
                 <a className="features-page__primary-action" href="#platform">
                   {t('hero.primaryCta')}
-                  <ArrowUpRight aria-hidden="true" />
+                  <ArrowRight aria-hidden="true" />
                 </a>
                 <Link className="features-page__secondary-action" to={`/${currentLang}/owner-faq`}>
                   {t('hero.secondaryCta')}
-                  <ArrowUpRight aria-hidden="true" />
+                  <ArrowRight aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -250,7 +250,7 @@ export default function FeaturesPage() {
                     <p>{feature.description}</p>
                     <span className="features-page__capability-link">
                       {t('grid.details')}
-                      <ArrowUpRight aria-hidden="true" />
+                      <ArrowRight aria-hidden="true" />
                     </span>
                   </Link>
                 );
@@ -264,7 +264,7 @@ export default function FeaturesPage() {
               </div>
               <Link to={`/${currentLang}/studio/create`} className="features-page__primary-action">
                 {t('closing.cta')}
-                <ArrowUpRight aria-hidden="true" />
+                <ArrowRight aria-hidden="true" />
               </Link>
             </aside>
           </div>

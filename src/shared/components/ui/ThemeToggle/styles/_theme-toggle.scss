@@ -51,24 +51,24 @@
     }
 
     &--sun {
-      // Hidden in dark mode (default)
-      transform: scale(0) rotate(-90deg);
-      opacity: 0;
-
-      [data-theme='light'] & {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    &--moon {
-      // Visible in dark mode (default)
+      // Show in dark mode — action is "switch to light"
       transform: scale(1) rotate(0deg);
       opacity: 1;
 
       [data-theme='light'] & {
         transform: scale(0) rotate(90deg);
         opacity: 0;
+      }
+    }
+
+    &--moon {
+      // Show in light mode — action is "switch to dark"
+      transform: scale(0) rotate(-90deg);
+      opacity: 0;
+
+      [data-theme='light'] & {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
       }
     }
   }

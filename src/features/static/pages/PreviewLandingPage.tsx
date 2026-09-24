@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
-  ArrowUpRight,
+  ArrowRight,
   BarChart3,
   CalendarDays,
   Headphones,
@@ -161,7 +161,7 @@ export default function PreviewLandingPage() {
               <div className="preview-landing__hero-actions">
                 <button type="button" className="preview-landing__cta" onClick={handleGetStarted}>
                   {t('hero.primaryCta')}
-                  <ArrowUpRight aria-hidden="true" />
+                  <ArrowRight aria-hidden="true" />
                 </button>
                 <a className="preview-landing__text-link" href="#platform">
                   {t('hero.secondaryCta')}
@@ -261,7 +261,7 @@ export default function PreviewLandingPage() {
               <div className="preview-landing__hero-actions">
                 <button type="button" className="preview-landing__cta" onClick={handleGetStarted}>
                   {t('closing.primaryCta')}
-                  <ArrowUpRight aria-hidden="true" />
+                  <ArrowRight aria-hidden="true" />
                 </button>
                 <Link className="preview-landing__text-link" to={`/${currentLang}/features`}>
                   {t('closing.secondaryCta')}
