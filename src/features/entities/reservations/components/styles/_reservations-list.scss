@@ -9,16 +9,16 @@
   box-sizing: border-box;
 
   &--loading {
-    min-height: 400px;
+    min-height: 240px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   &__spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border-primary);
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--border-primary);
     border-top-color: var(--color-brand);
     border-radius: 50%;
     animation: reservations-spin 0.8s linear infinite;
@@ -34,7 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 400px;
+    min-height: 240px;
   }
 
   .render-item-container {
@@ -44,7 +44,7 @@
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: vars.$spacing-medium;
+    gap: 0.75rem;
     width: 100%;
     box-sizing: border-box;
 
@@ -65,19 +65,19 @@
     // Mobile: Single column
     @media (min-width: 480px) {
       grid-template-columns: repeat(2, 1fr);
-      gap: vars.$spacing-medium;
+      gap: 0.75rem;
     }
 
     // Tablet: 2 columns
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
-      gap: vars.$spacing-medium;
+      gap: 0.875rem;
     }
 
     // Desktop: 3 columns
     @media (min-width: 1024px) {
       grid-template-columns: repeat(3, 1fr);
-      gap: vars.$spacing-medium;
+      gap: 0.875rem;
     }
 
     &--list {

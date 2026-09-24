@@ -1,7 +1,8 @@
 @use 'utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // ==========================================
-// MANUAL BOOKING MODAL
+// MANUAL BOOKING MODAL — enterprise ops density
 // Modal for studio owners to create reservations manually
 // ==========================================
 
@@ -12,7 +13,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 1.25rem;
     max-width: 100%;
     // Allow clicks to pass through to backdrop
     pointer-events: none;
@@ -23,9 +24,10 @@
     max-width: 640px;
     max-height: 90vh;
     background: var(--bg-secondary);
-    border-radius: vars.$border-radius-large;
+    border-radius: ds.$radius-md;
+    border: 1px solid var(--border-primary);
     overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     // Re-enable clicks on the actual modal content
     pointer-events: auto;
   }
@@ -35,22 +37,23 @@
     flex-direction: column;
     max-height: 85vh;
     overflow-y: auto;
-    padding: vars.$spacing-xl;
+    padding: 1.125rem 1.25rem;
   }
 
   &__header {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-medium;
-    padding-bottom: vars.$spacing-large;
+    gap: 0.75rem;
+    padding-bottom: 0.875rem;
     border-bottom: 1px solid var(--border-primary);
-    margin-bottom: vars.$spacing-large;
+    margin-bottom: 0.875rem;
 
     h2 {
       flex: 1;
       margin: 0;
-      font-size: vars.$font-size-xl;
-      font-weight: 600;
+      font-size: 1.125rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
       color: var(--text-primary);
     }
   }
@@ -59,25 +62,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     background: var(--color-brand);
     color: var(--btn-primary-text);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
   }
 
   &__close {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     border: none;
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     transition: all 0.2s ease;
 
     &:hover {
@@ -96,15 +99,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: vars.$spacing-small;
-    margin-bottom: vars.$spacing-xl;
-    padding: vars.$spacing-medium 0;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
   }
 
   &__step {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-xs;
+    gap: 0.25rem;
     opacity: 0.5;
     transition: opacity 0.2s ease;
 
@@ -126,8 +129,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     font-size: vars.$font-size-small;
     font-weight: 600;
     background: var(--bg-elevated);
@@ -158,22 +161,22 @@
   }
 
   &__step-divider {
-    width: 20px;
+    width: 16px;
     height: 1px;
     background: var(--border-primary);
 
     @media (min-width: 480px) {
-      width: 40px;
+      width: 28px;
     }
   }
 
   // Error
   &__error {
-    padding: vars.$spacing-medium;
-    margin-bottom: vars.$spacing-large;
+    padding: 0.75rem 0.875rem;
+    margin-bottom: 0.875rem;
     background: rgba(var(--color-error-rgb), 0.1);
     border: 1px solid var(--color-error);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
     color: var(--color-error);
     font-size: vars.$font-size-small;
   }
@@ -182,23 +185,23 @@
   &__step-content {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-large;
+    gap: 1rem;
   }
 
   // Sections
   &__section {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-medium;
+    gap: 0.75rem;
 
     h3 {
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      gap: vars.$spacing-small;
+      gap: 0.5rem;
       margin: 0;
-      font-size: vars.$font-size-medium;
-      font-weight: 600;
+      font-size: 0.9375rem;
+      font-weight: 650;
       color: var(--text-primary);
       text-align: start;
 
@@ -211,25 +214,24 @@
   // Studio Grid
   &__studio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: vars.$spacing-medium;
+    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+    gap: 0.75rem;
   }
 
   &__studio-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-medium;
-    border: 2px solid var(--border-primary);
-    border-radius: vars.$border-radius-medium;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
     background: var(--bg-elevated);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
       border-color: var(--border-hover);
-      transform: translateY(-2px);
     }
 
     &.selected {
@@ -239,9 +241,9 @@
   }
 
   &__studio-image {
-    width: 60px;
-    height: 60px;
-    border-radius: vars.$border-radius-small;
+    width: 52px;
+    height: 52px;
+    border-radius: ds.$radius-md;
     object-fit: cover;
   }
 
@@ -255,17 +257,17 @@
   // Toggle Group
   &__toggle-group {
     display: flex;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-xs;
+    gap: 0.375rem;
+    padding: 0.25rem;
     background: var(--bg-secondary);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
   }
 
   &__toggle {
     flex: 1;
-    padding: vars.$spacing-sm-md vars.$spacing-medium;
+    padding: 0.5rem 0.75rem;
     border: none;
-    border-radius: vars.$border-radius-small;
+    border-radius: 0.375rem;
     background: transparent;
     color: var(--text-secondary);
     font-size: vars.$font-size-small;
@@ -280,26 +282,26 @@
     &.active {
       background: var(--bg-elevated);
       color: var(--text-primary);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
   }
 
   // Items List
   &__items-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: vars.$spacing-medium;
-    max-height: 300px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    max-height: 280px;
     overflow-y: auto;
   }
 
   &__item-card {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-medium;
-    padding: vars.$spacing-medium;
-    border: 2px solid var(--border-primary);
-    border-radius: vars.$border-radius-medium;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
     background: var(--bg-elevated);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -316,9 +318,9 @@
   }
 
   &__item-image {
-    width: 48px;
-    height: 48px;
-    border-radius: vars.$border-radius-small;
+    width: 40px;
+    height: 40px;
+    border-radius: ds.$radius-md;
     object-fit: cover;
     flex-shrink: 0;
   }
@@ -326,7 +328,7 @@
   &__item-info {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-xs;
+    gap: 0.125rem;
     min-width: 0;
   }
 
@@ -345,7 +347,7 @@
   }
 
   &__empty {
-    padding: vars.$spacing-large;
+    padding: 1.25rem 1rem;
     text-align: center;
     color: var(--text-muted);
     font-size: vars.$font-size-small;
@@ -355,7 +357,7 @@
   &__field {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-xs;
+    gap: 0.25rem;
 
     label {
       font-size: vars.$font-size-small;
@@ -366,12 +368,12 @@
 
     input,
     textarea {
-      padding: vars.$spacing-sm-md vars.$spacing-medium;
+      padding: 0.5rem 0.75rem;
       border: 1px solid var(--border-primary);
-      border-radius: vars.$border-radius-small;
+      border-radius: ds.$radius-md;
       background: var(--bg-elevated);
       color: var(--text-primary);
-      font-size: vars.$font-size-medium;
+      font-size: vars.$font-size-sm-md;
       text-align: start;
       transition: border-color 0.2s ease;
 
@@ -388,7 +390,7 @@
 
     textarea {
       resize: vertical;
-      min-height: 60px;
+      min-height: 56px;
     }
   }
 
@@ -412,14 +414,15 @@
 
   // Summary
   &__summary {
-    padding: vars.$spacing-large;
+    padding: 0.875rem 1rem;
     background: var(--bg-secondary);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
+    border: 1px solid var(--border-primary);
 
     h3 {
-      margin: 0 0 vars.$spacing-medium;
-      font-size: vars.$font-size-medium;
-      font-weight: 600;
+      margin: 0 0 0.75rem;
+      font-size: 0.9375rem;
+      font-weight: 650;
       color: var(--text-primary);
     }
   }
@@ -428,7 +431,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: vars.$spacing-small 0;
+    padding: 0.375rem 0;
     font-size: vars.$font-size-small;
 
     &:not(:last-child) {
@@ -445,9 +448,9 @@
     }
 
     &--total {
-      margin-top: vars.$spacing-small;
-      padding-top: vars.$spacing-medium;
-      border-top: 2px solid var(--border-primary);
+      margin-top: 0.375rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-primary);
 
       span:first-child {
         font-weight: 600;
@@ -455,7 +458,7 @@
       }
 
       span:last-child {
-        font-size: vars.$font-size-large;
+        font-size: 1.125rem;
         font-weight: 700;
         color: var(--color-brand);
       }
@@ -466,17 +469,17 @@
   &__payment-options {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-medium;
+    gap: 0.75rem;
   }
 
   &__payment-option {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: vars.$spacing-xs;
-    padding: vars.$spacing-large;
-    border: 2px solid var(--border-primary);
-    border-radius: vars.$border-radius-medium;
+    gap: 0.25rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
     background: var(--bg-elevated);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -501,8 +504,8 @@
   }
 
   &__payment-option-title {
-    font-size: vars.$font-size-medium;
-    font-weight: 600;
+    font-size: 0.9375rem;
+    font-weight: 650;
     color: var(--text-primary);
   }
 
@@ -513,17 +516,17 @@
 
   // Payment Form
   &__payment-form {
-    margin-top: vars.$spacing-medium;
-    padding-top: vars.$spacing-large;
+    margin-top: 0.75rem;
+    padding-top: 0.875rem;
     border-top: 1px solid var(--border-primary);
   }
 
   &__back-link {
     display: inline-flex;
     align-items: center;
-    gap: vars.$spacing-xs;
-    margin-top: vars.$spacing-medium;
-    padding: vars.$spacing-small 0;
+    gap: 0.25rem;
+    margin-top: 0.75rem;
+    padding: 0.375rem 0;
     border: none;
     background: transparent;
     color: var(--text-muted);
@@ -545,20 +548,20 @@
   &__actions {
     display: flex;
     justify-content: flex-end;
-    gap: vars.$spacing-medium;
-    padding-top: vars.$spacing-large;
+    gap: 0.75rem;
+    padding-top: 0.875rem;
     border-top: 1px solid var(--border-primary);
-    margin-top: vars.$spacing-large;
+    margin-top: 1rem;
   }
 
   &__btn {
     display: inline-flex;
     align-items: center;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-sm-md vars.$spacing-xl;
+    gap: 0.5rem;
+    padding: 0.5rem 1.125rem;
     border: none;
-    border-radius: vars.$border-radius-medium;
-    font-size: vars.$font-size-medium;
+    border-radius: ds.$radius-md;
+    font-size: vars.$font-size-sm-md;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -594,43 +597,49 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: vars.$spacing-2xl 0;
-    gap: vars.$spacing-medium;
+    padding: 1.5rem 0;
+    gap: 0.75rem;
   }
 
   &__success-icon {
     color: var(--color-success);
     animation: successPop 0.3s ease;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
   }
 
   &__success h3 {
     margin: 0;
-    font-size: vars.$font-size-xl;
-    font-weight: 600;
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
     color: var(--text-primary);
   }
 
   &__success-amount {
     margin: 0;
-    font-size: vars.$font-size-2xl;
+    font-size: 1.375rem;
     font-weight: 700;
     color: var(--color-brand);
   }
 
   &__success-message {
     margin: 0;
-    font-size: vars.$font-size-medium;
+    font-size: vars.$font-size-sm-md;
     color: var(--text-muted);
   }
 
   &__success-link {
     display: inline-flex;
     align-items: center;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-sm-md vars.$spacing-large;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
     background: var(--bg-elevated);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
     color: var(--text-primary);
     font-size: vars.$font-size-small;
     font-weight: 500;
@@ -662,7 +671,7 @@
 @media screen and (max-width: 768px) {
   .manual-booking-modal {
     .modal-wrapper {
-      padding: 1rem;
+      padding: 0.875rem;
     }
 
     .modal-content {
@@ -670,7 +679,7 @@
     }
 
     &__content {
-      padding: vars.$spacing-large;
+      padding: 1rem;
     }
 
     &__studio-grid {
@@ -683,7 +692,7 @@
 
     &__actions {
       flex-direction: column-reverse;
-      
+
       .manual-booking-modal__btn {
         width: 100%;
         justify-content: center;

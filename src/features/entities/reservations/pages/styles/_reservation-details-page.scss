@@ -5,7 +5,7 @@
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: vars.$spacing-3xl vars.$spacing-large;
+  padding: 1.25rem 1rem;
   min-height: 60vh;
   box-sizing: border-box;
   overflow-x: hidden;
@@ -14,13 +14,13 @@
   &__content {
     display: flex;
     flex-direction: column;
-    gap: vars.$spacing-3xl;
+    gap: 1rem;
   }
 
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(12px);
     }
     to {
       opacity: 1;
@@ -29,11 +29,11 @@
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-2xl vars.$spacing-medium;
+    padding: 1rem 0.875rem;
     max-width: 100%;
 
     &__content {
-      gap: vars.$spacing-2xl;
+      gap: 0.875rem;
     }
   }
 }

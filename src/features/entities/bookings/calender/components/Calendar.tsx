@@ -39,6 +39,8 @@ interface CalendarProps {
 const WEEK_DAYS_HE = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
 const WEEK_DAYS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
+/** Keep in sync with `.studioz-calendar__hour-line` height in `_calendar.scss`. */
+const HOUR_HEIGHT_PX = 48;
 
 // --- Utility ---
 function cn(...inputs: (string | boolean | undefined | null)[]) {
@@ -278,7 +280,10 @@ function WeekView({
                     return (
                       <div
                         key={e.id}
-                        style={{ top: `${startHour * 60}px`, height: `${duration * 60}px` }}
+                        style={{
+                          top: `${startHour * HOUR_HEIGHT_PX}px`,
+                          height: `${Math.max(duration * HOUR_HEIGHT_PX, HOUR_HEIGHT_PX * 0.5)}px`
+                        }}
                         className="studioz-calendar__week-event-wrapper"
                       >
                         <EventCard event={e} view="week" onClick={() => onEventClick(e)} />
@@ -351,7 +356,10 @@ function DayView({
                 return (
                   <div
                     key={e.id}
-                    style={{ top: `${startHour * 60}px`, height: `${duration * 60}px` }}
+                    style={{
+                      top: `${startHour * HOUR_HEIGHT_PX}px`,
+                      height: `${Math.max(duration * HOUR_HEIGHT_PX, HOUR_HEIGHT_PX * 0.5)}px`
+                    }}
                     className="studioz-calendar__day-event-wrapper"
                   >
                     <EventCard event={e} view="week" onClick={() => onEventClick(e)} />
@@ -423,7 +431,7 @@ function ListView({
         </div>
       ) : (
         <div className="studioz-calendar__empty-state">
-          <CalendarIcon sx={{ fontSize: 48 }} className="studioz-calendar__empty-icon" />
+          <CalendarIcon sx={{ fontSize: 32 }} className="studioz-calendar__empty-icon" />
           <p className="studioz-calendar__empty-text">{t('calendar.noEvents')}</p>
           <button className="studioz-calendar__empty-action" onClick={onNewEvent}>{t('calendar.addEvent')} +</button>
         </div>

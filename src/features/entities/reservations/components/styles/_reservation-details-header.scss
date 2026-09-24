@@ -1,45 +1,44 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
 
 .reservation-details-header {
-  margin-bottom: vars.$spacing-3xl;
+  margin-bottom: 1rem;
 
   &__back {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 2.25rem;
+    height: 2.25rem;
     padding: 0;
     background: transparent;
     color: var(--text-muted);
     border: none;
-    border-radius: 50%;
+    border-radius: ds.$radius-md;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.15s ease, color 0.15s ease;
 
     svg {
-      font-size: 1.5rem;
+      font-size: 1.125rem;
     }
 
     &:hover {
       background: var(--bg-hover);
       color: var(--text-primary);
-      transform: translateX(-2px);
     }
 
     &:active {
-      transform: translateX(-2px) scale(0.95);
+      transform: scale(0.96);
     }
 
     &:focus {
       outline: 2px solid var(--color-brand);
-      outline-offset: 4px;
+      outline-offset: 2px;
     }
   }
 
   @media (max-width: 768px) {
-    margin-bottom: vars.$spacing-2xl;
+    margin-bottom: 0.75rem;
   }
 }
-

@@ -1,4 +1,5 @@
 @use 'src/assets/styles/utilities/variables' as vars;
+@use 'design-system' as ds;
 
 // Studioz Document Management Styles
 // Following the Studioz Style Guide: Dark mode dominant, high contrast, professional utility
@@ -500,7 +501,7 @@
   }
 
   &__loading {
-    padding: vars.$spacing-xl vars.$spacing-medium;
+    padding: 1.25rem 1rem;
     color: var(--text-muted);
 
     > div {
@@ -508,13 +509,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: vars.$spacing-small;
+      gap: 0.5rem;
     }
   }
 
   &__spinner {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border: 2px solid var(--border-primary);
     border-top-color: var(--color-brand);
     border-radius: 50%;
@@ -595,7 +596,7 @@
   }
 
   &__empty {
-    padding: vars.$spacing-xl vars.$spacing-medium;
+    padding: 1.25rem 1rem;
     text-align: center;
     color: var(--text-muted);
     font-size: vars.$font-size-sm-md;
@@ -793,14 +794,15 @@
     max-height: calc(100dvh - 4rem);
     background: var(--bg-surface);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-large;
+    border-radius: ds.$radius-md;
     overflow: hidden;
     // Re-enable clicks on modal content
     pointer-events: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
     @media (max-width: 768px) {
       max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
-      border-radius: vars.$border-radius-large;
+      border-radius: ds.$radius-md;
     }
   }
 
@@ -821,20 +823,21 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1.5rem;
+    padding: 0.875rem 1.25rem;
     border-bottom: 1px solid var(--border-primary);
     flex-shrink: 0;
 
     h2 {
       flex: 1;
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-size: 1.125rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
       margin: 0;
       text-align: center;
     }
 
     @media (max-width: 768px) {
-      padding: 1rem;
+      padding: 0.875rem 1rem;
     }
   }
 
@@ -842,10 +845,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
     color: var(--color-brand);
     flex-shrink: 0;
   }
@@ -854,12 +857,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     background: transparent;
     flex-shrink: 0;
     border: none;
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.15s ease;
@@ -871,9 +874,9 @@
   }
 
   &__studio-info {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.25rem;
     background: var(--bg-hover);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     color: var(--text-muted);
     flex-shrink: 0;
 
@@ -883,31 +886,31 @@
   }
 
   &__form {
-    padding: 1.5rem;
+    padding: 1rem 1.25rem;
     overflow-y: auto;
     flex: 1;
     min-height: 0; // Important for flex scrolling
 
     @media (max-width: 768px) {
-      padding: 1rem;
+      padding: 0.875rem 1rem;
     }
   }
 
   &__section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 
     h3 {
-      font-size: 0.875rem;
-      font-weight: 600;
+      font-size: 0.8125rem;
+      font-weight: 650;
       color: var(--text-primary);
-      margin: 0 0 1rem 0;
+      margin: 0 0 0.75rem 0;
     }
   }
 
   &__row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
 
     @media (min-width: 480px) {
       grid-template-columns: 1fr 1fr;
@@ -917,7 +920,7 @@
   &__field {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 0.25rem;
 
     label {
       font-size: 0.75rem;
@@ -928,10 +931,10 @@
     input,
     select,
     textarea {
-      padding: 0.625rem 0.75rem;
+      padding: 0.5rem 0.75rem;
       background: var(--bg-primary);
       border: 1px solid var(--border-primary);
-      border-radius: vars.$border-radius-small;
+      border-radius: ds.$radius-md;
       color: var(--text-primary);
       font-size: 0.875rem;
       transition: border-color 0.15s ease;
@@ -948,7 +951,7 @@
 
     textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 64px;
     }
 
     select {
@@ -973,14 +976,14 @@
   &__items {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.625rem;
   }
 
   &__item {
     padding: 0.75rem;
     background: var(--bg-hover);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
 
     // Inputs inside items need contrasting background
     input,
@@ -993,7 +996,7 @@
   &__item-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.625rem;
     align-items: flex-end;
   }
 
@@ -1001,22 +1004,22 @@
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
-    padding: 0.625rem 0;
+    padding: 0.5rem 0;
   }
 
   &__remove-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.15s ease;
-    margin-bottom: 0.375rem;
+    margin-bottom: 0.25rem;
 
     &:hover {
       background: rgba(251, 113, 133, 0.1);
@@ -1030,13 +1033,13 @@
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.625rem;
-    margin-top: 0.75rem;
+    padding: 0.5rem;
+    margin-top: 0.625rem;
     background: transparent;
     border: 1px dashed var(--border-primary);
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     cursor: pointer;
     transition: all 0.15s ease;
 
@@ -1047,16 +1050,16 @@
   }
 
   &__total-section {
-    padding: 1rem 0;
+    padding: 0.875rem 0;
     border-top: 1px solid var(--border-primary);
-    margin-top: 1rem;
+    margin-top: 0.875rem;
   }
 
   &__total {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1rem;
+    font-size: 0.9375rem;
 
     span:first-child {
       color: var(--text-muted);
@@ -1070,27 +1073,27 @@
   }
 
   &__error {
-    padding: 0.75rem 1rem;
-    margin-top: 1rem;
+    padding: 0.625rem 0.875rem;
+    margin-top: 0.875rem;
     background: rgba(251, 113, 133, 0.1);
     border: 1px solid rgba(251, 113, 133, 0.2);
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: #fb7185;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 
   &__actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--border-primary);
   }
 
   &__btn {
     flex: 1;
-    padding: 0.75rem 1.5rem;
-    border-radius: vars.$border-radius-medium;
+    padding: 0.625rem 1.125rem;
+    border-radius: ds.$radius-md;
     font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
@@ -1148,12 +1151,13 @@
     max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
     background: var(--bg-surface);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-large;
+    border-radius: ds.$radius-md;
     overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
     @media (max-width: 768px) {
       max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 6rem);
-      border-radius: vars.$border-radius-large;
+      border-radius: ds.$radius-md;
     }
   }
 
@@ -1171,13 +1175,14 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1.5rem;
+    padding: 0.875rem 1.25rem;
     border-bottom: 1px solid var(--border-primary);
 
     h2 {
       flex: 1;
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-size: 1.125rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
       margin: 0;
       text-align: center;
     }
@@ -1187,10 +1192,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     background: rgba(var(--color-brand-rgb, 247, 192, 65), 0.15);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
     color: var(--color-brand);
     flex-shrink: 0;
   }
@@ -1199,11 +1204,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.15s ease;
@@ -1216,9 +1221,9 @@
   }
 
   &__studio-info {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.25rem;
     background: var(--bg-hover);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     color: var(--text-muted);
     text-align: center;
   }
@@ -1228,7 +1233,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 0.875rem 1.25rem;
     border-bottom: 1px solid var(--border-primary);
     background: var(--bg-hover);
   }
@@ -1236,7 +1241,7 @@
   &__step {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.375rem;
 
     &.active {
       .quick-charge-modal__step-number {
@@ -1265,60 +1270,60 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     background: var(--bg-hover);
     border-radius: 50%;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 700;
     color: var(--text-muted);
     transition: all 0.2s ease;
   }
 
   &__step-label {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--text-muted);
     transition: color 0.2s ease;
   }
 
   &__step-divider {
-    width: 40px;
-    height: 2px;
+    width: 28px;
+    height: 1px;
     background: var(--border-primary);
-    margin: 0 1rem;
+    margin: 0 0.75rem;
   }
 
   &__error {
-    padding: 0.75rem 1rem;
-    margin: 1rem 1.5rem 0;
+    padding: 0.625rem 0.875rem;
+    margin: 0.875rem 1.25rem 0;
     background: rgba(251, 113, 133, 0.1);
     border: 1px solid rgba(251, 113, 133, 0.2);
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: #fb7185;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 
   // Details Form
   &__details-form {
-    padding: 1.5rem;
+    padding: 1rem 1.25rem;
   }
 
   &__section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 
     h3 {
-      font-size: 0.875rem;
-      font-weight: 600;
+      font-size: 0.8125rem;
+      font-weight: 650;
       color: var(--text-primary);
-      margin: 0 0 1rem 0;
+      margin: 0 0 0.75rem 0;
     }
   }
 
   &__row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
 
     @media (min-width: 480px) {
       grid-template-columns: 1fr 1fr;
@@ -1328,7 +1333,7 @@
   &__field {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 0.25rem;
 
     label {
       font-size: 0.75rem;
@@ -1340,10 +1345,10 @@
     input,
     select,
     textarea {
-      padding: 0.625rem 0.75rem;
+      padding: 0.5rem 0.75rem;
       background: var(--bg-primary);
       border: 1px solid var(--border-primary);
-      border-radius: vars.$border-radius-small;
+      border-radius: ds.$radius-md;
       color: var(--text-primary);
       font-size: 0.875rem;
       transition: border-color 0.15s ease;
@@ -1361,7 +1366,7 @@
 
     textarea {
       resize: vertical;
-      min-height: 60px;
+      min-height: 56px;
     }
 
     &--description {
@@ -1382,14 +1387,14 @@
   &__items {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.625rem;
   }
 
   &__item {
     padding: 0.75rem;
     background: var(--bg-hover);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
 
     // Inputs inside items need contrasting background
     input,
@@ -1402,7 +1407,7 @@
   &__item-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.625rem;
     align-items: flex-end;
   }
 
@@ -1410,22 +1415,22 @@
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
-    padding: 0.625rem 0;
+    padding: 0.5rem 0;
   }
 
   &__remove-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.15s ease;
-    margin-bottom: 0.375rem;
+    margin-bottom: 0.25rem;
 
     &:hover {
       background: rgba(251, 113, 133, 0.1);
@@ -1439,13 +1444,13 @@
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.625rem;
-    margin-top: 0.75rem;
+    padding: 0.5rem;
+    margin-top: 0.625rem;
     background: transparent;
     border: 1px dashed var(--border-primary);
-    border-radius: vars.$border-radius-small;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     cursor: pointer;
     transition: all 0.15s ease;
 
@@ -1456,16 +1461,16 @@
   }
 
   &__total-section {
-    padding: 1rem 0;
+    padding: 0.875rem 0;
     border-top: 1px solid var(--border-primary);
-    margin-top: 1rem;
+    margin-top: 0.875rem;
   }
 
   &__total {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1rem;
+    font-size: 0.9375rem;
 
     span:first-child {
       color: var(--text-muted);
@@ -1473,23 +1478,23 @@
   }
 
   &__total-amount {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-brand);
   }
 
   &__actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--border-primary);
   }
 
   &__btn {
     flex: 1;
-    padding: 0.75rem 1.5rem;
-    border-radius: vars.$border-radius-medium;
+    padding: 0.625rem 1.125rem;
+    border-radius: ds.$radius-md;
     font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
@@ -1517,52 +1522,52 @@
 
       &:hover:not(:disabled) {
         background: var(--color-brand-hover);
-        box-shadow: 0 4px 15px rgba(var(--color-brand-rgb, 247, 192, 65), 0.3);
+        box-shadow: none;
       }
     }
   }
 
   // Payment Form Step
   &__payment-form {
-    padding: 1.5rem;
+    padding: 1rem 1.25rem;
   }
 
   &__payment-summary {
     background: var(--bg-hover);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-small;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    border-radius: ds.$radius-md;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1rem;
   }
 
   &__payment-summary-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding: 0.375rem 0;
     font-size: 0.875rem;
     color: var(--text-secondary);
 
     &--total {
       border-top: 1px solid var(--border-primary);
-      padding-top: 0.75rem;
-      margin-top: 0.5rem;
+      padding-top: 0.625rem;
+      margin-top: 0.375rem;
       font-weight: 700;
       color: var(--text-primary);
 
       span:last-child {
         color: var(--color-brand);
-        font-size: 1.125rem;
+        font-size: 1.0625rem;
       }
     }
   }
 
   &__back-btn {
     width: 100%;
-    padding: 0.75rem;
-    margin-top: 1rem;
+    padding: 0.625rem;
+    margin-top: 0.875rem;
     background: transparent;
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
     color: var(--text-muted);
     font-size: 0.875rem;
     cursor: pointer;
@@ -1581,7 +1586,7 @@
 
   // Success Step
   &__success {
-    padding: 3rem 1.5rem;
+    padding: 1.25rem 1rem;
     text-align: center;
   }
 
@@ -1589,42 +1594,48 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
     background: rgba(52, 211, 153, 0.1);
     border-radius: 50%;
     color: #34d399;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &__success h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.375rem;
   }
 
   &__success-amount {
-    font-size: 2rem;
+    font-size: 1.375rem;
     font-weight: 700;
     color: var(--color-brand);
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.375rem;
   }
 
   &__success-message {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     color: var(--text-muted);
-    margin: 0 0 1.5rem;
+    margin: 0 0 1rem;
   }
 
   &__success-link {
     display: inline-block;
-    padding: 0.625rem 1.25rem;
-    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
     background: var(--bg-hover);
     border: 1px solid var(--border-primary);
-    border-radius: vars.$border-radius-medium;
+    border-radius: ds.$radius-md;
     color: var(--text-primary);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     text-decoration: none;
     transition: all 0.15s ease;
 

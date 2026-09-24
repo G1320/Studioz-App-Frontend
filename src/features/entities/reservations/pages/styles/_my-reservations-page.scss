@@ -48,21 +48,21 @@
   }
 
   &__show-more-button {
-    margin-top: vars.$spacing-medium;
-    padding: vars.$spacing-small vars.$spacing-medium;
+    margin-top: 0.75rem;
+    padding: 0.4375rem 0.875rem;
+    min-height: 2.25rem;
     background: transparent;
     color: var(--color-brand);
     border: 1px solid var(--color-brand);
-    border-radius: vars.$border-radius-xl;
-    font-size: vars.$font-size-medium;
-    font-weight: 700;
+    border-radius: ds.$radius-md;
+    font-size: 0.8125rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
 
     &:hover {
       background: var(--color-brand);
       color: var(--btn-primary-text);
-      box-shadow: var(--shadow-glow);
     }
   }
 

@@ -1,12 +1,13 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
 
 .reservation-details-error-state {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: vars.$spacing-3xl vars.$spacing-large;
-  min-height: 60vh;
+  padding: 1.25rem 1rem;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,60 +18,57 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: vars.$spacing-2xl;
+    gap: 1rem;
     text-align: center;
   }
 
   &__message {
-    font-size: vars.$font-size-2xl;
+    font-size: 1.125rem;
     color: var(--text-tertiary);
     margin: 0;
     font-weight: 400;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.01em;
   }
 
   &__back-button {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-small;
-    padding: vars.$spacing-medium vars.$spacing-2xl;
+    gap: 0.5rem;
+    padding: 0.625rem 1.125rem;
     background: transparent;
     color: var(--color-brand);
     border: 1px solid var(--color-brand-border);
-    border-radius: 12px;
-    font-size: vars.$font-size-medium;
+    border-radius: ds.$radius-md;
+    font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    letter-spacing: 0.2px;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 
     &:hover {
       background: var(--color-brand);
       color: var(--btn-primary-text);
       border-color: var(--color-brand);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-glow);
     }
 
     &:active {
-      transform: translateY(0);
+      transform: scale(0.98);
     }
 
     &:focus {
       outline: 2px solid var(--color-brand);
-      outline-offset: 4px;
+      outline-offset: 2px;
     }
   }
 
   &__back-icon {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-2xl vars.$spacing-medium;
+    padding: 1rem 0.875rem;
 
     &__message {
-      font-size: vars.$font-size-xl;
+      font-size: 1.0625rem;
     }
 
     &__back-button {
@@ -79,4 +77,3 @@
     }
   }
 }
-

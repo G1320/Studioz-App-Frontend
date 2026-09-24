@@ -5,8 +5,8 @@
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: vars.$spacing-3xl vars.$spacing-large;
-  min-height: 60vh;
+  padding: 1.25rem 1rem;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,24 +17,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: vars.$spacing-2xl;
+    gap: 1rem;
   }
 
   &__message {
-    font-size: vars.$font-size-large;
+    font-size: 0.9375rem;
     color: var(--text-muted);
     margin: 0;
     text-align: center;
     font-weight: 400;
-    letter-spacing: 0.3px;
   }
 
   @media (max-width: 768px) {
-    padding: vars.$spacing-2xl vars.$spacing-medium;
+    padding: 1rem 0.875rem;
 
     &__message {
-      font-size: vars.$font-size-medium;
+      font-size: 0.875rem;
     }
   }
 }
-
