@@ -580,6 +580,11 @@
     }
   }
 
+  &__card-collaborators {
+    margin-top: 0.65rem;
+    flex: 0 0 auto;
+  }
+
   &__card-footer {
     display: flex;
     align-items: center;

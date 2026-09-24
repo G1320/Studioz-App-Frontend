@@ -556,6 +556,52 @@ const projects = [
     paymentStatus: 'deposit_paid',
     status: 'in_progress',
     artworkUrl: '/images/screenshots/midnight-drive-artwork.webp',
+    collaborators: [
+      {
+        userId: {
+          _id: 'collaborator-vendor-1',
+          name: 'Amir Halevi',
+          email: 'amir@northlinesound.example'
+        },
+        side: 'vendor',
+        invitedBy: vendorUser,
+        joinedAt: '2026-09-19T09:30:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: {
+          _id: 'collaborator-customer-1',
+          name: 'Noa Shaham',
+          email: 'noa@example.test'
+        },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-19T11:15:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: {
+          _id: 'collaborator-vendor-2',
+          name: 'Eitan Mizrahi',
+          email: 'eitan@example.test'
+        },
+        side: 'vendor',
+        invitedBy: vendorUser,
+        joinedAt: '2026-09-20T08:45:00.000Z',
+        status: 'active'
+      },
+      {
+        userId: {
+          _id: 'collaborator-customer-2',
+          name: 'Shira Ben-Ami',
+          email: 'shira@example.test'
+        },
+        side: 'customer',
+        invitedBy: customerUser,
+        joinedAt: '2026-09-20T13:20:00.000Z',
+        status: 'active'
+      }
+    ],
     createdAt: '2026-09-18T10:00:00.000Z',
     updatedAt: '2026-09-22T08:00:00.000Z'
   }

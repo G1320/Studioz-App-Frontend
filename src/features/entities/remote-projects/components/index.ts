@@ -1,3 +1,5 @@
+export { ProjectCollaboratorAvatars } from './ProjectCollaboratorAvatars';
+export { ProjectCollaborators } from './ProjectCollaborators';
 export { ProjectRequestForm } from './ProjectRequestForm';
 export { ProjectFileUploader, type ProjectFileUploaderHandle } from './ProjectFileUploader';
 export { ProjectStatusBadge } from './ProjectStatusBadge';

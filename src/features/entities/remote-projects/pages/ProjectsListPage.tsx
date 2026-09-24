@@ -23,6 +23,7 @@ import { useLanguageNavigate } from '@shared/hooks/utils/useLangNavigation';
 import { EmptyState, ViewModeToggle, PageHeader, type ViewMode } from '@shared/components';
 import { WorkIcon } from '@shared/components/icons';
 import { ProjectStatusBadge } from '../components/ProjectStatusBadge';
+import { ProjectCollaboratorAvatars } from '../components/ProjectCollaboratorAvatars';
 import { getProjectDisplayNames, projectMatchesSearch } from '../utils/projectListUtils';
 import { RemoteProject, RemoteProjectStatus } from 'src/types/index';
 import './styles/_projects-list-page.scss';
@@ -287,6 +288,13 @@ export const ProjectsListPage: React.FC = () => {
                         </div>
                       )}
                     </div>
+
+                    <ProjectCollaboratorAvatars
+                      collaborators={project.collaborators}
+                      maxVisible={4}
+                      hideWhenEmpty
+                      className="projects-list__card-collaborators"
+                    />
 
                     <div className="projects-list__card-footer">
                       <span>

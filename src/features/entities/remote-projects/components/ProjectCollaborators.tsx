@@ -10,6 +10,8 @@ import {
   revokeCollaboratorInvite
 } from '@shared/services';
 import type { ProjectAccess, ProjectCollaborator, ProjectInvite } from 'src/types';
+import { ProjectCollaboratorAvatars } from './ProjectCollaboratorAvatars';
+import { collaboratorUserId, collaboratorUserLabel } from '../utils/collaboratorUser';
 import './styles/_project-collaborators.scss';
 
 interface ProjectCollaboratorsProps {
@@ -18,34 +20,6 @@ interface ProjectCollaboratorsProps {
   /** When true, show invite affordance (primary customer/vendor). */
   canInvite?: boolean;
   currentUserId?: string;
-}
-
-function userLabel(user: ProjectCollaborator['userId']): string {
-  if (typeof user === 'string') return user;
-  return user.name || user.email || user._id;
-}
-
-function userTooltip(user: ProjectCollaborator['userId']): string {
-  if (typeof user === 'string') return user;
-  return user.name?.trim() || user.email || user._id;
-}
-
-function userAvatarUrl(user: ProjectCollaborator['userId']): string | undefined {
-  if (typeof user === 'string') return undefined;
-  return user.picture || user.avatar || user.imgUrl || undefined;
-}
-
-function userInitials(user: ProjectCollaborator['userId']): string {
-  if (typeof user === 'string') return '?';
-  const source = user.name?.trim() || user.email?.trim() || '';
-  if (!source) return '?';
-  const parts = source.split(/[\s@._-]+/).filter(Boolean);
-  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  return source.slice(0, 2).toUpperCase();
-}
-
-function userIdOf(user: ProjectCollaborator['userId']): string {
-  return typeof user === 'string' ? user : user._id;
 }
 
 export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
@@ -113,9 +87,6 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
   const showInvite =
     canInvite === true || access?.canInvite === true || access?.isPrimary === true;
   const canManageSide = (side: string) => showInvite && (!access?.side || access.side === side);
-  const maxVisibleAvatars = 5;
-  const visibleCollaborators = collaborators.slice(0, maxVisibleAvatars);
-  const overflowCount = Math.max(0, collaborators.length - maxVisibleAvatars);
 
   return (
     <div className="project-collaborators project-collaborators--inline">
@@ -125,51 +96,27 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
         {isLoading ? (
           <span className="project-collaborators__loading-inline">{t('common.loading')}</span>
         ) : (
-          <div className="project-collaborators__avatars">
-            {visibleCollaborators.length > 0 ? (
-              visibleCollaborators.map((c) => {
-                const tip = userTooltip(c.userId);
-                const avatarUrl = userAvatarUrl(c.userId);
-                return (
-                  <span
-                    key={userIdOf(c.userId)}
-                    className="project-collaborators__avatar"
-                    title={tip}
-                    aria-label={tip}
-                  >
-                    {avatarUrl ? (
-                      <img src={avatarUrl} alt="" />
-                    ) : (
-                      <span className="project-collaborators__avatar-initials" aria-hidden>
-                        {userInitials(c.userId)}
-                      </span>
-                    )}
-                  </span>
-                );
-              })
-            ) : (
+          <>
+            {collaborators.length === 0 ? (
               <span className="project-collaborators__empty-inline">{t('collaborators.empty')}</span>
-            )}
-            {overflowCount > 0 && (
-              <span
-                className="project-collaborators__avatar project-collaborators__avatar--more"
-                title={t('collaborators.moreCount', { count: overflowCount, defaultValue: `+${overflowCount}` })}
-              >
-                +{overflowCount}
-              </span>
-            )}
-            <button
-              type="button"
-              className="project-collaborators__add"
-              onClick={() => setModalOpen(true)}
-              aria-label={
-                showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')
+            ) : null}
+            <ProjectCollaboratorAvatars
+              collaborators={collaborators}
+              trailing={
+                <button
+                  type="button"
+                  className="project-collaborators__add"
+                  onClick={() => setModalOpen(true)}
+                  aria-label={
+                    showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')
+                  }
+                  title={showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')}
+                >
+                  <Plus aria-hidden />
+                </button>
               }
-              title={showInvite ? t('collaborators.manageOrInvite') : t('collaborators.view')}
-            >
-              <Plus aria-hidden />
-            </button>
-          </div>
+            />
+          </>
         )}
       </div>
 
@@ -229,30 +176,30 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
             ) : (
               <ul className="project-collaborators__list">
                 {collaborators.map((c: ProjectCollaborator) => (
-                  <li key={userIdOf(c.userId)} className="project-collaborators__item">
+                  <li key={collaboratorUserId(c.userId)} className="project-collaborators__item">
                     <div>
-                      <div className="project-collaborators__name">{userLabel(c.userId)}</div>
+                      <div className="project-collaborators__name">{collaboratorUserLabel(c.userId)}</div>
                       <div className="project-collaborators__meta">
                         {t(`collaborators.side.${c.side}`)}
                         {typeof c.userId === 'object' && c.userId.email ? ` · ${c.userId.email}` : ''}
                       </div>
                     </div>
-                    {canManageSide(c.side) || currentUserId === userIdOf(c.userId) ? (
+                    {canManageSide(c.side) || currentUserId === collaboratorUserId(c.userId) ? (
                       <div className="project-collaborators__item-actions">
                         <button
                           type="button"
                           className="project-icon-action project-icon-action--round project-icon-action--danger"
-                          onClick={() => removeMutation.mutate(userIdOf(c.userId))}
+                          onClick={() => removeMutation.mutate(collaboratorUserId(c.userId))}
                           disabled={removeMutation.isPending}
                           aria-label={
-                            currentUserId === userIdOf(c.userId)
+                            currentUserId === collaboratorUserId(c.userId)
                               ? t('collaborators.leave')
                               : t('collaborators.remove')
                           }
                         >
                           {removeMutation.isPending ? (
                             <Loader2 className="project-icon-action__spin" aria-hidden />
-                          ) : currentUserId === userIdOf(c.userId) ? (
+                          ) : currentUserId === collaboratorUserId(c.userId) ? (
                             <LogOut aria-hidden />
                           ) : (
                             <UserMinus aria-hidden />
