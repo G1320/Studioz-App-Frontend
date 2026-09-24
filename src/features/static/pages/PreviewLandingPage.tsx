@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -24,8 +24,13 @@ const PILLAR_ICONS = {
 
 type PillarId = keyof typeof PILLAR_ICONS;
 
+const OPS_ROTATE_MS = 6000;
+
 const SHOWCASES = [
-  { key: 'operations', desktop: 'desktop-reservations', mobile: 'mobile-projects' },
+  {
+    key: 'operations',
+    desktops: ['desktop-reservations', 'desktop-projects'] as const
+  },
   {
     key: 'analytics',
     desktop: 'cross-device-analytics-desktop',
@@ -45,36 +50,74 @@ const SHOWCASES = [
 
 interface ProductVisualProps {
   desktopSrc?: string;
+  desktopSrcs?: string[];
   mobileSrc?: string;
   alt: string;
   eager?: boolean;
   hero?: boolean;
 }
 
-function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false }: ProductVisualProps) {
-  const mobileOnly = Boolean(mobileSrc && !desktopSrc);
+function ProductVisual({
+  desktopSrc,
+  desktopSrcs,
+  mobileSrc,
+  alt,
+  eager = false,
+  hero = false
+}: ProductVisualProps) {
+  const reduceMotion = useReducedMotion();
+  const desktopSources = desktopSrcs?.length ? desktopSrcs : desktopSrc ? [desktopSrc] : [];
+  const rotating = desktopSources.length > 1;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const mobileOnly = Boolean(mobileSrc && desktopSources.length === 0);
+
+  useEffect(() => {
+    if (reduceMotion || !rotating) return;
+    const id = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % desktopSources.length);
+    }, OPS_ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, [reduceMotion, rotating, desktopSources.length]);
 
   return (
     <div
       className={[
         'preview-landing__product-visual',
-        desktopSrc && mobileSrc ? 'preview-landing__product-visual--dual' : '',
+        desktopSrc && mobileSrc && !rotating ? 'preview-landing__product-visual--dual' : '',
         mobileOnly ? 'preview-landing__product-visual--mobile-only' : '',
         hero ? 'preview-landing__product-visual--hero' : ''
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      {desktopSrc ? (
-        <div className="preview-landing__shot preview-landing__shot--desktop">
-          <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+      {desktopSources.length > 0 ? (
+        <div
+          className={[
+            'preview-landing__shot',
+            'preview-landing__shot--desktop',
+            rotating ? 'preview-landing__shot--rotating' : ''
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {desktopSources.map((src, index) => (
+            <img
+              key={src}
+              src={src}
+              alt={index === activeIndex ? alt : ''}
+              aria-hidden={index === activeIndex ? undefined : true}
+              loading={eager || index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              className={index === activeIndex ? 'is-active' : undefined}
+            />
+          ))}
         </div>
       ) : null}
       {mobileSrc ? (
         <div className="preview-landing__shot preview-landing__shot--mobile">
           <img
             src={mobileSrc}
-            alt={desktopSrc ? '' : alt}
+            alt={desktopSources.length > 0 ? '' : alt}
             loading={eager ? 'eager' : 'lazy'}
             decoding="async"
           />
@@ -216,26 +259,38 @@ export default function PreviewLandingPage() {
             </motion.header>
 
             <div className="preview-landing__showcase-list">
-              {SHOWCASES.map(({ key, desktop, mobile }, index) => (
-                <motion.article
-                  key={key}
-                  className={`preview-landing__showcase ${index % 2 ? 'preview-landing__showcase--reverse' : ''}`}
-                  {...fadeUp}
-                >
-                  <div className="preview-landing__showcase-copy">
-                    <h3>{t(`showcase.${key}.title`)}</h3>
-                    <p>{t(`showcase.${key}.description`)}</p>
-                  </div>
-                  <div className="preview-landing__showcase-visual">
-                    <ProductVisual
-                      desktopSrc={desktop ? captureUrl(desktop) : undefined}
-                      mobileSrc={mobile ? captureUrl(mobile) : undefined}
-                      alt={t(`showcase.${key}.imageAlt`)}
-                      eager={index === 0}
-                    />
-                  </div>
-                </motion.article>
-              ))}
+              {SHOWCASES.map((showcase, index) => {
+                const desktop =
+                  'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
+                const desktops =
+                  'desktops' in showcase
+                    ? showcase.desktops.map((id) => captureUrl(id))
+                    : undefined;
+                const mobile =
+                  'mobile' in showcase && showcase.mobile ? captureUrl(showcase.mobile) : undefined;
+
+                return (
+                  <motion.article
+                    key={showcase.key}
+                    className={`preview-landing__showcase ${index % 2 ? 'preview-landing__showcase--reverse' : ''}`}
+                    {...fadeUp}
+                  >
+                    <div className="preview-landing__showcase-copy">
+                      <h3>{t(`showcase.${showcase.key}.title`)}</h3>
+                      <p>{t(`showcase.${showcase.key}.description`)}</p>
+                    </div>
+                    <div className="preview-landing__showcase-visual">
+                      <ProductVisual
+                        desktopSrc={desktop}
+                        desktopSrcs={desktops}
+                        mobileSrc={mobile}
+                        alt={t(`showcase.${showcase.key}.imageAlt`)}
+                        eager={index === 0}
+                      />
+                    </div>
+                  </motion.article>
+                );
+              })}
             </div>
           </div>
         </section>

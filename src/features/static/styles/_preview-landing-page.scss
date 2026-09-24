@@ -171,6 +171,33 @@
     aspect-ratio: 16 / 10;
   }
 
+  &__shot--rotating {
+    position: relative;
+
+    > img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+
+      &:first-child {
+        position: relative;
+        opacity: 0;
+      }
+
+      &:not(:first-child) {
+        position: absolute;
+        inset: 0;
+      }
+
+      &.is-active {
+        opacity: 1;
+      }
+    }
+  }
+
   &__shot--mobile {
     position: absolute;
     z-index: 2;
