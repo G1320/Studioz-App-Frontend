@@ -354,7 +354,7 @@
     font-size: vars.$font-size-small;
     font-weight: 600;
     padding: vars.$spacing-xs vars.$spacing-sm-md;
-    border-radius: 999px;
+    border-radius: vars.$border-radius-medium;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s ease;

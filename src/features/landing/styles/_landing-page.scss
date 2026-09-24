@@ -147,7 +147,7 @@
     @include mixins.button-primary;
     font-size: vars.$font-size-medium;
     padding: vars.$spacing-sm-md vars.$spacing-xl;
-    border-radius: vars.$border-radius-large;
+    border-radius: vars.$border-radius-medium;
     box-shadow: var(--shadow-glow);
     white-space: nowrap;
 
@@ -512,7 +512,7 @@
     padding: 0.75rem 1.5rem;
     font-size: ds.$font-base;
     font-weight: 600;
-    border-radius: 9999px;
+    border-radius: ds.$radius-md;
     text-transform: none;
 
     svg {
@@ -886,7 +886,7 @@
 
   &__btn {
     padding: vars.$spacing-medium vars.$spacing-xl;
-    border-radius: vars.$border-radius-large;
+    border-radius: vars.$border-radius-medium;
     font-size: vars.$font-size-medium;
     font-weight: 700;
     cursor: pointer;

@@ -198,7 +198,7 @@
     background: var(--bg-primary);
     border: 2px solid var(--text-primary);
     padding: 1rem 2rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition:
       background-color 0.25s ease,
@@ -208,7 +208,7 @@
     @media (min-width: 768px) {
       font-size: 1.25rem;
       padding: 1.25rem 2.5rem;
-      border-radius: 1.25rem;
+      border-radius: 0.5rem;
     }
 
     &:hover {

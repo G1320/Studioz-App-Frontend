@@ -1,5 +1,6 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
+@use 'design-system' as ds;
 
 .filters-toolbar {
   width: 100%;
@@ -37,7 +38,7 @@
 
   &__select {
     width: 100%;
-    border-radius: 999px;
+    border-radius: ds.$radius-md;
     padding: 0.4rem 0.9rem 0.4rem 0.65rem;
     background: var(--bg-input);
     border: 1px solid var(--border-primary);

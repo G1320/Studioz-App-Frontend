@@ -33,7 +33,7 @@
   font-weight: 700;
   font-size: vars.$font-size-medium;
   padding: vars.$spacing-medium vars.$spacing-xl;
-  border-radius: vars.$border-radius-3xl;
+  border-radius: vars.$border-radius-medium;
   cursor: pointer;
   transition: all 0.2s;
   border: none;
@@ -312,7 +312,7 @@
   &__cta {
     width: 100%;
     padding: vars.$spacing-medium vars.$spacing-xl;
-    border-radius: vars.$border-radius-3xl;
+    border-radius: vars.$border-radius-medium;
     border: none;
     font-size: vars.$font-size-medium;
     font-weight: 700;

@@ -494,7 +494,7 @@
     .multiselect-option {
       .multiselect-checkbox {
         padding: vars.$spacing-sm-md vars.$spacing-medium;
-        border-radius: 999px;
+        border-radius: vars.$border-radius-medium;
         color: var(--text-secondary) !important;
         background: var(--bg-surface) !important;
         border: 1px solid var(--border-primary) !important;

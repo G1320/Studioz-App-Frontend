@@ -298,7 +298,7 @@
   color: var(--btn-primary-text);
   font-weight: 700;
   font-size: ds.$font-xl;
-  border-radius: 9999px;
+  border-radius: ds.$radius-md;
   border: none;
   cursor: pointer;
   box-shadow: 0 0 30px rgba(var(--color-brand), 0.3);
