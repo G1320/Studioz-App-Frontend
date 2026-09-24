@@ -203,12 +203,21 @@
     &--with-player {
       display: flex;
       flex-direction: column;
+      align-items: stretch;
+      width: 100%;
       gap: 0;
       padding-bottom: 0.35rem;
 
       .project-file-uploader__file-row {
         // Line up the title with the waveform (index + gap).
         padding-inline-start: calc(1.75rem + 0.65rem);
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .project-file-uploader__track {
+        width: 100%;
+        box-sizing: border-box;
       }
     }
   }
