@@ -540,7 +540,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   }, []);
 
   const handleGoToEdit = useCallback(
-    (itemId: string) => (itemId ? langNavigate(`/item/${itemId}/edit`) : null),
+    (itemId: string) => (itemId ? langNavigate(`/item/${itemId}/manage`) : null),
     [langNavigate]
   );
   const handleImageClicked = useCallback(

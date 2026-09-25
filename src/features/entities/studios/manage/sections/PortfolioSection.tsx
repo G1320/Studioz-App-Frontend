@@ -47,6 +47,7 @@ export const PortfolioSection = ({ studio }: PortfolioSectionProps) => {
       isSaving={isSaving}
       onDiscard={handleDiscard}
       onSave={handleSave}
+      wide
     >
       <div className="studio-manage-panel">
         <div className="studio-manage-panel__body studio-manage-panel__body--embed">

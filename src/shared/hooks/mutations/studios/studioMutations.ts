@@ -10,7 +10,7 @@ import {
   uploadStudioPortfolioCover,
   extractStudioFileCover
 } from '@shared/services';
-import { Studio, Item, StudioFile } from 'src/types/index';
+import { Studio, Item, StudioFile, StudioResponse } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -77,11 +77,32 @@ type ToggleItemActiveVariables = {
 
 export const useToggleItemActiveMutation = () => {
   const { t } = useTranslation('common');
+  const queryClient = useQueryClient();
 
   return useMutationHandler<Item, ToggleItemActiveVariables>({
     mutationFn: ({ studioId, itemId, active }) => toggleItemActive(studioId, itemId, active),
     successMessage: t('toasts.success.itemStatusUpdated'),
-    invalidateQueries: [{ queryKey: 'studios' }, { queryKey: 'items' }, { queryKey: 'studio' }]
+    invalidateQueries: [
+      { queryKey: 'studios' },
+      { queryKey: 'items' },
+      { queryKey: 'studio' },
+      { queryKey: 'item' }
+    ],
+    onSuccess: (_data, { studioId, itemId, active }) => {
+      queryClient.setQueriesData<StudioResponse>({ queryKey: ['studio', studioId] }, (prev) => {
+        if (!prev?.currStudio?.items) return prev;
+        return {
+          ...prev,
+          currStudio: {
+            ...prev.currStudio,
+            items: prev.currStudio.items.map((item) => {
+              const id = String(item.itemId || item._id || '');
+              return id === String(itemId) ? { ...item, active } : item;
+            })
+          }
+        };
+      });
+    }
   });
 };
 

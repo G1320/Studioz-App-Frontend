@@ -21,14 +21,24 @@ export const ServicesSection = ({ studio }: ServicesSectionProps) => {
   const itemsMap = useMemo(() => {
     const map = new Map<string, Item>();
     allItems.forEach((item) => {
-      if (item._id) map.set(item._id, item);
+      if (item._id) map.set(String(item._id), item);
     });
     return map;
   }, [allItems]);
 
+  const pricePerLabel = (unit: string) => {
+    const key = `form.pricing.per.${unit}`;
+    const translated = t(key);
+    if (translated !== key) {
+      // Keys are like "/ project" — strip leading slash; cell already has "/ "
+      return translated.replace(/^\s*\/\s*/, '');
+    }
+    return unit;
+  };
+
   const rows = useMemo(() => {
     return (studio.items || []).map((studioItem) => {
-      const itemId = studioItem.itemId || studioItem._id || '';
+      const itemId = String(studioItem.itemId || studioItem._id || '');
       const full = itemsMap.get(itemId);
       const name =
         full?.name?.[lang] ||
@@ -38,19 +48,34 @@ export const ServicesSection = ({ studio }: ServicesSectionProps) => {
         studioItem.subCategories?.[0] ||
         studioItem.categories?.[0] ||
         t('manage.services.untitled', 'Untitled service');
-      const price = full?.price ?? studioItem.price;
-      const pricePer = full?.pricePer || 'hour';
-      const active = (full?.active ?? studioItem.active) !== false;
+
+      const isRemote =
+        full?.serviceDeliveryType === 'remote' ||
+        full?.remoteService === true ||
+        full?.pricePer === 'project' ||
+        full?.pricePer === 'song';
+
+      const price = isRemote
+        ? (full?.projectPricing?.basePrice ?? full?.price ?? studioItem.price)
+        : (full?.price ?? studioItem.price);
+
+      const pricePer = isRemote
+        ? full?.pricePer === 'song'
+          ? 'song'
+          : 'project'
+        : full?.pricePer || 'hour';
+
+      // Prefer embedded studio item status — useItems() can lag behind the toggle PATCH.
+      const active = studioItem.active !== false;
       const category =
         full?.subCategories?.[0] ||
         full?.categories?.[0] ||
         studioItem.subCategories?.[0] ||
         studioItem.categories?.[0] ||
         '—';
-      const delivery =
-        full?.serviceDeliveryType === 'remote' || full?.remoteService
-          ? t('manage.services.remote', 'Remote')
-          : t('manage.services.inStudio', 'In-studio');
+      const delivery = isRemote
+        ? t('manage.services.remote', 'Remote')
+        : t('manage.services.inStudio', 'In-studio');
 
       return { itemId, name, price, pricePer, active, category, delivery };
     });
@@ -115,7 +140,7 @@ export const ServicesSection = ({ studio }: ServicesSectionProps) => {
                       <button
                         type="button"
                         className="studio-manage-table__link"
-                        onClick={() => langNavigate(`/item/${row.itemId}/edit`)}
+                        onClick={() => langNavigate(`/item/${row.itemId}/manage`)}
                       >
                         {row.name}
                       </button>
@@ -136,11 +161,15 @@ export const ServicesSection = ({ studio }: ServicesSectionProps) => {
                             'manage.services.priceHint',
                             'Open the service editor to change pricing'
                           )}
-                          onClick={() => langNavigate(`/item/${row.itemId}/edit?step=pricing`)}
+                          onClick={() =>
+                            langNavigate(`/item/${row.itemId}/manage?section=pricing`)
+                          }
                         >
-                          {row.price != null ? row.price : '—'}
+                          {row.price != null && row.price > 0 ? row.price : '—'}
                         </button>
-                        <span className="studio-manage-table__muted">/ {row.pricePer}</span>
+                        <span className="studio-manage-table__muted">
+                          / {pricePerLabel(row.pricePer)}
+                        </span>
                       </div>
                     </td>
                     <td>
@@ -177,7 +206,7 @@ export const ServicesSection = ({ studio }: ServicesSectionProps) => {
                           type="button"
                           className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--icon studio-manage-btn--compact"
                           title={t('manage.services.edit', 'Edit')}
-                          onClick={() => langNavigate(`/item/${row.itemId}/edit`)}
+                          onClick={() => langNavigate(`/item/${row.itemId}/manage`)}
                         >
                           <EditIcon fontSize="inherit" />
                         </button>

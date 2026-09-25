@@ -128,7 +128,8 @@ const scenes: ScreenshotScene[] = [
           .studioz-calendar__list-event { padding: 0.65rem 0.85rem !important; }
         `
       },
-      { type: 'scroll', y: 72 }
+      // Top of page so dashboard + calendar chrome stay in frame (month view uses y:72).
+      { type: 'scroll', x: 0, y: 0 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {

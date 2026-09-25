@@ -53,6 +53,7 @@ const ServicesPage = lazyWithRetry(() => import('@features/entities/items/pages/
 const CreateItemPage = lazyWithRetry(() => import('@features/entities/items/pages/CreateItemPage'));
 const CreateWishlistPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/CreateWishlistPage'));
 const EditItemPage = lazyWithRetry(() => import('@features/entities/items/pages/EditItemPage'));
+const ItemManagePage = lazyWithRetry(() => import('@features/entities/items/pages/ItemManagePage'));
 const EditWishlistPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/EditWishlistPage'));
 const CartDetailsPage = lazyWithRetry(() => import('@features/entities/cart/pages/CartDetailsPage'));
 const WishlistDetailsPage = lazyWithRetry(() => import('@features/entities/wishlists/pages/WishlistDetailsPage'));
@@ -202,6 +203,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           <Route path="/:lang?/studio/:studioId/edit" element={<EditStudioPage />} />
           <Route path="/:lang?/studio/:studioId/items/create" element={<CreateItemPage />} />
           {/* Item CRUD */}
+          <Route path="/:lang?/item/:itemId/manage" element={<ItemManagePage />} />
           <Route path="/:lang?/item/:itemId/edit" element={<EditItemPage />} />
           <Route
             path="/:lang?/edit-wishlist/:wishlistId"

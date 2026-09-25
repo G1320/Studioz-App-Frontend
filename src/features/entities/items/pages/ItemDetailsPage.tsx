@@ -16,7 +16,7 @@ const ItemDetailsPage = () => {
   const deleteItemMutation = useDeleteItemMutation();
 
   const handleEditBtnClicked = () => {
-    if (itemId) langNavigate(`/item/${itemId}/edit`);
+    if (itemId) langNavigate(`/item/${itemId}/manage`);
   };
 
   const handleDeleteBtnClicked = async () => {

@@ -68,6 +68,27 @@ export const useUpdateItemMutation = (itemId: string, studioId?: string) => {
   });
 };
 
+/** Section saves in the item manage hub — toast + invalidate, stay on page. */
+export const useSaveItemMutation = (itemId: string, studioId?: string) => {
+  const { t } = useTranslation('common');
+
+  const invalidateQueries = useInvalidateQueries<Item>((item) => [
+    { queryKey: 'item', targetId: itemId },
+    { queryKey: 'items' },
+    { queryKey: 'studios' },
+    { queryKey: 'studio', targetId: studioId || item?.studioId }
+  ]);
+
+  return useMutationHandler<Item, Item>({
+    mutationFn: (newItem) => updateItem(itemId, newItem),
+    successMessage: t('toasts.success.itemUpdated'),
+    invalidateQueries: [],
+    onSuccess: (data) => {
+      invalidateQueries(data);
+    }
+  });
+};
+
 export const useAddItemToStudioMutation = (studioId: string) => {
   const { t } = useTranslation('common');
 

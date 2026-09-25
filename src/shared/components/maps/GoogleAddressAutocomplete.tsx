@@ -14,6 +14,7 @@ interface GoogleAddressAutocompleteProps {
   placeholder?: string;
   defaultValue?: string;
   fieldName?: string;
+  className?: string;
   onInputChange?: (value: string) => void;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
@@ -57,6 +58,7 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
   placeholder = 'Enter an address',
   defaultValue = '',
   fieldName = 'address',
+  className = 'form-input',
   onInputChange,
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid
@@ -72,22 +74,22 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
   const handlePlaceChange = async () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-      
+
       // Get English address using geocoding if we have coordinates
       let englishData: EnglishAddressData | undefined;
       if (place.geometry?.location) {
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        const result = await getEnglishAddress(lat, lng);
+        const nextLat = place.geometry.location.lat();
+        const nextLng = place.geometry.location.lng();
+        const result = await getEnglishAddress(nextLat, nextLng);
         if (result) {
           englishData = result;
         }
       }
-      
+
       // Pass both the original place and English data to parent
       // Parent should use englishData.address for storage
       onPlaceSelected(place, englishData);
-      
+
       // Update the input value with the display address (user's language)
       // The stored value will be the English version from englishData
       if (inputRef.current && place.formatted_address) {
@@ -112,18 +114,12 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
   if (!GOOGLE_MAPS_API_KEY) {
     return (
       <input
-        className="form-input"
+        className={className}
         type="text"
         name={fieldName}
         id={fieldName}
         placeholder="Google Maps API key not configured"
         disabled
-        style={{
-          width: '100%',
-          padding: '0.5rem',
-          border: '1px solid #ccc',
-          borderRadius: '4px'
-        }}
       />
     );
   }
@@ -133,7 +129,7 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
       <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChange}>
         <input
           ref={inputRef}
-          className="form-input"
+          className={className}
           type="text"
           name={fieldName}
           id={fieldName}
@@ -142,12 +138,6 @@ export const GoogleAddressAutocomplete: React.FC<GoogleAddressAutocompleteProps>
           onChange={handleInputChange}
           aria-describedby={ariaDescribedBy}
           aria-invalid={ariaInvalid}
-          style={{
-            width: '100%',
-            padding: '0.5rem',
-            border: '1px solid #ccc',
-            borderRadius: '4px'
-          }}
         />
       </Autocomplete>
     </LoadScript>

@@ -254,13 +254,13 @@ const StudioCard: React.FC<StudioCardProps> = ({
               const itemName = fullItem?.name?.[currentLang] || fullItem?.name?.en || fullItem?.name?.he || 
                                item.name?.[currentLang] || item.name?.en || item.name?.he || 
                                item.subCategories?.[0] || item.categories?.[0] || t('service', 'Service');
-              const itemPrice = fullItem?.price ?? item.price;
+              const itemPrice =
+                fullItem?.projectPricing?.basePrice ?? fullItem?.price ?? item.price;
               const itemPricePer = fullItem?.pricePer;
               
               // Detect if this is a remote/project item (not hourly booking)
               const isRemoteItem = fullItem?.remoteService || 
                                    fullItem?.serviceDeliveryType === 'remote' ||
-                                   itemName.toLowerCase().includes('remote') ||
                                    itemPricePer === 'project' || itemPricePer === 'song';
               
               // Get duration info - only relevant for hourly items
@@ -345,7 +345,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                   <div className="studio-card__item-controls">
                     <button 
                       className="studio-card__item-link"
-                      onClick={() => langNavigate(`/item/${itemId}/edit?step=booking-settings`)}
+                      onClick={() => langNavigate(`/item/${itemId}/manage?section=booking`)}
                     >
                       {t('manageAvailability', 'Manage Availability')}
                     </button>
@@ -363,7 +363,7 @@ const StudioCard: React.FC<StudioCardProps> = ({
                       />
                       <button 
                         className="studio-card__item-more"
-                        onClick={() => langNavigate(`/item/${itemId}/edit`)}
+                        onClick={() => langNavigate(`/item/${itemId}/manage`)}
                         title={t('editItem', 'Edit Service')}
                       >
                         <EditIcon />

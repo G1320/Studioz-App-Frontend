@@ -234,8 +234,9 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
   }
 
   return (
-    <section className="studio-portfolio-view__listen">
-      <div className="studio-portfolio-view__header">
+    <section
+      className={`studio-portfolio-view__listen${canManage ? ' studio-portfolio-view__listen--manage' : ''}`}
+    >      <div className="studio-portfolio-view__header">
         <div className="studio-portfolio-view__title-section">
           <h2 className="studio-portfolio-view__title">
             {t('form.portfolio.listenHere', { defaultValue: 'Listen here' })}
@@ -358,7 +359,7 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
           {t('form.portfolio.loadingTracks', { defaultValue: 'Loading tracks…' })}
         </div>
       ) : filteredFiles.length > 0 ? (
-        <div className="studio-portfolio-view__grid">
+        <div className={`studio-portfolio-view__grid${canManage ? ' studio-portfolio-view__grid--manage' : ''}`}>
           <AnimatePresence mode="popLayout">
             {filteredFiles.map((file: StudioFile) => {
               const isActive =

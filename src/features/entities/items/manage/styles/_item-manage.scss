@@ -1,0 +1,54 @@
+.item-manage-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.item-manage-chip {
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: start;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &.is-selected {
+    border-color: var(--color-brand);
+    background: color-mix(in srgb, var(--color-brand) 14%, var(--bg-primary));
+    color: var(--text-primary);
+  }
+}
+
+.item-manage-chips--bubble .item-manage-chip {
+  border-radius: 999px;
+}
+
+.item-manage-delivery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item-manage {
+  .service-type-step__options {
+    margin: 0;
+  }
+
+  .pricing-step,
+  .booking-settings-step,
+  .remote-settings-step {
+    margin: 0;
+  }
+}
