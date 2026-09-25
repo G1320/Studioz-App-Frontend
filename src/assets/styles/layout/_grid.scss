@@ -39,6 +39,28 @@ body:has(.project-detail) main {
   }
 }
 
+// Manage hubs: full-bleed console under the fixed header (no main gutters / footer)
+body:has(.studio-manage-page),
+body:has(.item-manage-page) {
+  main {
+    max-width: none;
+    padding-inline: 0;
+    padding-bottom: 0;
+    padding-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+
+    @media screen and (min-width: 768px) {
+      padding-top: 5rem;
+    }
+  }
+
+  footer.desktop-footer {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 650px) {
   main {
     padding-top: 3.75rem;
@@ -51,5 +73,11 @@ body:has(.project-detail) main {
 
   body:has(.project-detail) main {
     padding-top: 3.75rem;
+  }
+
+  body:has(.studio-manage-page) main,
+  body:has(.item-manage-page) main {
+    padding-top: 3.5rem;
+    padding-block-end: 0;
   }
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { InfoOutlinedIcon, OfferIcon } from '@shared/components/icons';
 import { Item } from 'src/types/index';
 import type { Duration } from 'src/types/item';
 import { SectionChrome } from '@features/entities/studios/manage/sections/SectionChrome';
@@ -104,6 +103,10 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
     savePatch(patch);
   };
 
+  const setProjectField = (key: keyof ProjectPricing, value: number | undefined) => {
+    setProjectPricing((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <SectionChrome
       title={t('manage.item.sections.pricing', 'Pricing')}
@@ -120,64 +123,123 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
       <div className="studio-manage-panel">
         <div className="studio-manage-panel__body">
           {isRemote ? (
-            <div className="remote-settings-step">
-              <div className="remote-settings-step__grid">
-                {(
-                  [
-                    ['basePrice', 'Base Price', '₪', undefined],
-                    ['depositPercentage', 'Deposit Required', undefined, '%'],
-                    ['estimatedDeliveryDays', 'Delivery Time', undefined, 'days'],
-                    ['revisionsIncluded', 'Revisions Included', undefined, undefined],
-                    ['revisionPrice', 'Extra Revision Price', '₪', undefined]
-                  ] as const
-                ).map(([key, label, prefix, suffix]) => (
-                  <div key={key} className="remote-settings-step__field">
-                    <label className="remote-settings-step__label">
-                      {t(`form.remoteSettings.projectPricing.${key === 'depositPercentage' ? 'deposit' : key === 'estimatedDeliveryDays' ? 'deliveryDays' : key === 'revisionsIncluded' ? 'revisions' : key}`, label)}
-                    </label>
-                    <div className="remote-settings-step__input-wrapper">
-                      {prefix && <span className="remote-settings-step__input-prefix">{prefix}</span>}
-                      <input
-                        type="number"
-                        className={`remote-settings-step__input ${
-                          prefix ? 'remote-settings-step__input--with-prefix' : ''
-                        } ${suffix ? 'remote-settings-step__input--with-suffix' : ''}`}
-                        value={(projectPricing as Record<string, number | undefined>)[key] ?? ''}
-                        onChange={(e) =>
-                          setProjectPricing((prev) => ({
-                            ...prev,
-                            [key]: e.target.value ? Number(e.target.value) : undefined
-                          }))
-                        }
-                      />
-                      {suffix && (
-                        <span className="remote-settings-step__input-suffix">
-                          {suffix === 'days'
-                            ? t('form.remoteSettings.projectPricing.days', 'days')
-                            : suffix}
-                        </span>
-                      )}
-                    </div>
+            <>
+              <div className="studio-manage-grid studio-manage-grid--2">
+                <div className="studio-manage-field">
+                  <label className="studio-manage-label" htmlFor="item-price-base">
+                    {t('form.remoteSettings.projectPricing.basePrice', 'Base Price')}
+                  </label>
+                  <div className="studio-manage-price-cell">
+                    <span className="studio-manage-price-cell__currency">₪</span>
+                    <input
+                      id="item-price-base"
+                      type="number"
+                      className="studio-manage-input studio-manage-input--price"
+                      value={projectPricing.basePrice ?? ''}
+                      onChange={(e) =>
+                        setProjectField('basePrice', e.target.value ? Number(e.target.value) : undefined)
+                      }
+                    />
                   </div>
-                ))}
-              </div>
-              <div className="remote-settings-step__toggle-section remote-settings-step__toggle-section--compact">
-                <div className="remote-settings-step__toggle-info">
-                  <p className="remote-settings-step__toggle-title">
-                    {t(
-                      'form.remoteSettings.projectPricing.lockDownloads',
-                      'Lock deliverable downloads until approval'
-                    )}
-                  </p>
                 </div>
+
+                <div className="studio-manage-field">
+                  <label className="studio-manage-label" htmlFor="item-price-deposit">
+                    {t('form.remoteSettings.projectPricing.deposit', 'Deposit Required')}
+                  </label>
+                  <div className="studio-manage-price-cell">
+                    <input
+                      id="item-price-deposit"
+                      type="number"
+                      className="studio-manage-input studio-manage-input--price"
+                      value={projectPricing.depositPercentage ?? ''}
+                      onChange={(e) =>
+                        setProjectField(
+                          'depositPercentage',
+                          e.target.value ? Number(e.target.value) : undefined
+                        )
+                      }
+                    />
+                    <span className="studio-manage-price-cell__currency">%</span>
+                  </div>
+                </div>
+
+                <div className="studio-manage-field">
+                  <label className="studio-manage-label" htmlFor="item-price-delivery">
+                    {t('form.remoteSettings.projectPricing.deliveryDays', 'Delivery Time')}
+                  </label>
+                  <div className="studio-manage-price-cell">
+                    <input
+                      id="item-price-delivery"
+                      type="number"
+                      className="studio-manage-input studio-manage-input--price"
+                      value={projectPricing.estimatedDeliveryDays ?? ''}
+                      onChange={(e) =>
+                        setProjectField(
+                          'estimatedDeliveryDays',
+                          e.target.value ? Number(e.target.value) : undefined
+                        )
+                      }
+                    />
+                    <span className="studio-manage-price-cell__currency">
+                      {t('form.remoteSettings.projectPricing.days', 'days')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="studio-manage-field">
+                  <label className="studio-manage-label" htmlFor="item-price-revisions">
+                    {t('form.remoteSettings.projectPricing.revisions', 'Revisions Included')}
+                  </label>
+                  <input
+                    id="item-price-revisions"
+                    type="number"
+                    className="studio-manage-input"
+                    value={projectPricing.revisionsIncluded ?? ''}
+                    onChange={(e) =>
+                      setProjectField(
+                        'revisionsIncluded',
+                        e.target.value ? Number(e.target.value) : undefined
+                      )
+                    }
+                  />
+                </div>
+
+                <div className="studio-manage-field">
+                  <label className="studio-manage-label" htmlFor="item-price-revision-extra">
+                    {t('form.remoteSettings.projectPricing.revisionPrice', 'Extra Revision Price')}
+                  </label>
+                  <div className="studio-manage-price-cell">
+                    <span className="studio-manage-price-cell__currency">₪</span>
+                    <input
+                      id="item-price-revision-extra"
+                      type="number"
+                      className="studio-manage-input studio-manage-input--price"
+                      value={projectPricing.revisionPrice ?? ''}
+                      onChange={(e) =>
+                        setProjectField(
+                          'revisionPrice',
+                          e.target.value ? Number(e.target.value) : undefined
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="studio-manage-status-control item-manage-inline-toggle">
+                <span className="studio-manage-label studio-manage-label--inline">
+                  {t(
+                    'form.remoteSettings.projectPricing.lockDownloads',
+                    'Lock deliverable downloads until approval'
+                  )}
+                </span>
                 <button
                   type="button"
                   role="switch"
                   aria-checked={!!projectPricing.lockDownloadsUntilPaid}
-                  className={`remote-settings-step__toggle-btn${
-                    projectPricing.lockDownloadsUntilPaid
-                      ? ' remote-settings-step__toggle-btn--active'
-                      : ''
+                  className={`studio-manage-toggle ${
+                    projectPricing.lockDownloadsUntilPaid ? 'is-on' : ''
                   }`}
                   onClick={() =>
                     setProjectPricing((prev) => ({
@@ -186,25 +248,27 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                     }))
                   }
                 >
-                  <span className="remote-settings-step__toggle-slider" />
+                  <span className="studio-manage-toggle__thumb" />
                 </button>
               </div>
-            </div>
+            </>
           ) : (
-            <div className="pricing-step">
-              <div className="pricing-step__field pricing-step__field--full">
-                <label className="pricing-step__label">
+            <>
+              <div className="studio-manage-field">
+                <span className="studio-manage-label">
                   {t('form.pricing.pricePerLabel', 'Price per')}
-                </label>
-                <div className="pricing-step__radio-group">
+                </span>
+                <div className="studio-manage-choice-grid" role="radiogroup">
                   {pricePerOptions.map((option) => (
                     <button
                       key={option.value}
                       type="button"
-                      onClick={() => setPricePer(option.value)}
-                      className={`pricing-step__radio-btn ${
-                        pricePer === option.value ? 'pricing-step__radio-btn--active' : ''
+                      role="radio"
+                      aria-checked={pricePer === option.value}
+                      className={`studio-manage-choice ${
+                        pricePer === option.value ? 'is-selected' : ''
                       }`}
+                      onClick={() => setPricePer(option.value)}
                     >
                       {option.label}
                     </button>
@@ -212,33 +276,35 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                 </div>
               </div>
 
-              <div className="pricing-step__grid">
-                <div className="pricing-step__field">
-                  <label className="pricing-step__label">
+              <div className="studio-manage-grid studio-manage-grid--2">
+                <div className="studio-manage-field">
+                  <label className="studio-manage-label" htmlFor="item-price-amount">
                     {t('form.pricing.priceLabel', 'Price')}
                   </label>
-                  <div className="pricing-step__input-wrapper">
-                    <span className="pricing-step__input-prefix">₪</span>
+                  <div className="studio-manage-price-cell">
+                    <span className="studio-manage-price-cell__currency">₪</span>
                     <input
+                      id="item-price-amount"
                       type="number"
-                      className="pricing-step__input pricing-step__input--with-prefix pricing-step__input--with-suffix"
+                      className="studio-manage-input studio-manage-input--price"
                       value={price ?? ''}
                       onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : undefined)}
                     />
-                    <span className="pricing-step__input-suffix">/ {pricePer}</span>
+                    <span className="studio-manage-price-cell__currency">/ {pricePer}</span>
                   </div>
                 </div>
 
                 {pricePer === 'hour' && (
-                  <div className="pricing-step__field">
-                    <label className="pricing-step__label">
+                  <div className="studio-manage-field">
+                    <label className="studio-manage-label" htmlFor="item-price-min-book">
                       {t('form.pricing.minimumBooking', 'Minimum Booking')}
                     </label>
-                    <div className="pricing-step__input-wrapper">
+                    <div className="studio-manage-price-cell">
                       <input
+                        id="item-price-min-book"
                         type="number"
                         min={1}
-                        className="pricing-step__input pricing-step__input--with-suffix"
+                        className="studio-manage-input studio-manage-input--price"
                         value={minimumBookingDuration.value ?? ''}
                         onChange={(e) =>
                           setMinimumBookingDuration({
@@ -247,7 +313,7 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                           })
                         }
                       />
-                      <span className="pricing-step__input-suffix">
+                      <span className="studio-manage-price-cell__currency">
                         {t('form.pricing.hours', 'hours')}
                       </span>
                     </div>
@@ -256,27 +322,25 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
               </div>
 
               {pricePer === 'hour' && (
-                <div className="pricing-step__block-discounts">
-                  <div className="pricing-step__block-discounts-header">
-                    <OfferIcon className="pricing-step__block-discounts-icon" />
-                    <span className="pricing-step__block-discounts-title">
-                      {t('form.pricing.blockDiscounts.title', 'Block Discounts (Optional)')}
-                    </span>
-                  </div>
-                  <div className="pricing-step__grid">
+                <div className="studio-manage-field">
+                  <span className="studio-manage-label">
+                    {t('form.pricing.blockDiscounts.title', 'Block Discounts (Optional)')}
+                  </span>
+                  <div className="studio-manage-grid studio-manage-grid--2">
                     {(['eightHour', 'twelveHour'] as const).map((key) => (
-                      <div key={key} className="pricing-step__field">
-                        <label className="pricing-step__label">
+                      <div key={key} className="studio-manage-field">
+                        <label className="studio-manage-label" htmlFor={`item-price-${key}`}>
                           {t(
                             `form.pricing.blockDiscounts.${key}`,
                             key === 'eightHour' ? '8 Hour Block Price' : '12 Hour Block Price'
                           )}
                         </label>
-                        <div className="pricing-step__input-wrapper">
-                          <span className="pricing-step__input-prefix">₪</span>
+                        <div className="studio-manage-price-cell">
+                          <span className="studio-manage-price-cell__currency">₪</span>
                           <input
+                            id={`item-price-${key}`}
                             type="number"
-                            className="pricing-step__input pricing-step__input--with-prefix pricing-step__input--with-suffix"
+                            className="studio-manage-input studio-manage-input--price"
                             value={blockDiscounts[key] ?? ''}
                             onChange={(e) =>
                               setBlockDiscounts((prev) => ({
@@ -285,7 +349,7 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                               }))
                             }
                           />
-                          <span className="pricing-step__input-suffix">
+                          <span className="studio-manage-price-cell__currency">
                             {t('form.pricing.blockDiscounts.total', 'total')}
                           </span>
                         </div>
@@ -295,21 +359,13 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                 </div>
               )}
 
-              <div className="pricing-step__info-box">
-                <InfoOutlinedIcon className="pricing-step__info-icon" />
-                <div className="pricing-step__info-content">
-                  <h4 className="pricing-step__info-title">
-                    {t('form.pricing.platformFee.title', 'Platform Fee')}
-                  </h4>
-                  <p className="pricing-step__info-text">
-                    {t(
-                      'form.pricing.platformFee.description',
-                      'Studioz takes a 9% commission on confirmed bookings.'
-                    )}
-                  </p>
-                </div>
-              </div>
-            </div>
+              <p className="studio-manage-hint">
+                {t(
+                  'form.pricing.platformFee.description',
+                  'Studioz takes a 9% commission on confirmed bookings.'
+                )}
+              </p>
+            </>
           )}
         </div>
       </div>

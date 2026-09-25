@@ -90,7 +90,7 @@ export const AddonsSection = ({ item }: AddonsSectionProps) => {
   const hasUnsavedNew = pendingAddOns.some((a) => !a._id);
 
   return (
-    <div className="studio-manage-section">
+    <div className="studio-manage-section studio-manage-section--wide">
       <header className="studio-manage-section__header">
         <div>
           <h2 className="studio-manage-section__title">

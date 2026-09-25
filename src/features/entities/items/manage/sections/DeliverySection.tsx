@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HomeIcon, PublicIcon, InfoOutlinedIcon } from '@shared/components/icons';
 import {
   useMusicCategories,
   isPhotoMainCategory,
@@ -58,6 +57,35 @@ export const DeliverySection = ({ item }: DeliverySectionProps) => {
     savePatch(patch);
   };
 
+  const options = [
+    {
+      id: 'in-studio' as const,
+      title: t('form.serviceType.inStudio.title', 'In-Studio'),
+      description: t(
+        'form.serviceType.inStudio.description',
+        'Clients book time at your studio for recording, rehearsal, or sessions'
+      ),
+      hint: t(
+        'form.serviceType.inStudio.info',
+        'Uses hourly or session pricing. Clients book available calendar slots.'
+      )
+    },
+    {
+      id: 'remote' as const,
+      title: t('form.serviceType.remote.title', 'Remote Project'),
+      description: t(
+        'form.serviceType.remote.description',
+        'Clients upload files and you deliver the finished work online'
+      ),
+      hint: t(
+        'form.serviceType.remote.info',
+        'Uses project-based pricing. Clients submit files and requirements.'
+      )
+    }
+  ];
+
+  const activeHint = options.find((o) => o.id === delivery)?.hint;
+
   return (
     <SectionChrome
       title={t('manage.item.sections.delivery', 'Delivery')}
@@ -69,72 +97,29 @@ export const DeliverySection = ({ item }: DeliverySectionProps) => {
     >
       <div className="studio-manage-panel">
         <div className="studio-manage-panel__body">
-          <div className="service-type-step__options item-manage-delivery">
-            <button
-              type="button"
-              onClick={() => setDelivery('in-studio')}
-              className={`service-type-step__option ${
-                delivery === 'in-studio' ? 'service-type-step__option--active' : ''
-              }`}
-            >
-              <div
-                className={`service-type-step__option-icon ${
-                  delivery === 'in-studio' ? 'service-type-step__option-icon--active' : ''
-                }`}
-              >
-                <HomeIcon />
-              </div>
-              <h4 className="service-type-step__option-title">
-                {t('form.serviceType.inStudio.title', 'In-Studio')}
-              </h4>
-              <p className="service-type-step__option-description">
-                {t(
-                  'form.serviceType.inStudio.description',
-                  'Clients book time at your studio for recording, rehearsal, or sessions'
-                )}
-              </p>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setDelivery('remote')}
-              className={`service-type-step__option ${
-                delivery === 'remote' ? 'service-type-step__option--active' : ''
-              }`}
-            >
-              <div
-                className={`service-type-step__option-icon ${
-                  delivery === 'remote' ? 'service-type-step__option-icon--active' : ''
-                }`}
-              >
-                <PublicIcon />
-              </div>
-              <h4 className="service-type-step__option-title">
-                {t('form.serviceType.remote.title', 'Remote Project')}
-              </h4>
-              <p className="service-type-step__option-description">
-                {t(
-                  'form.serviceType.remote.description',
-                  'Clients upload files and you deliver the finished work online'
-                )}
-              </p>
-            </button>
+          <div className="studio-manage-policy-list" role="radiogroup" aria-label={t('manage.item.sections.delivery', 'Delivery')}>
+            {options.map((option) => {
+              const selected = delivery === option.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  className={`studio-manage-policy ${selected ? 'is-selected' : ''}`}
+                  onClick={() => setDelivery(option.id)}
+                >
+                  <span className={`studio-manage-policy__radio ${selected ? 'is-on' : ''}`} aria-hidden />
+                  <span className="studio-manage-policy__copy">
+                    <span className="studio-manage-policy__title">{option.title}</span>
+                    <span className="studio-manage-policy__desc">{option.description}</span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          <div className="service-type-step__info-box">
-            <InfoOutlinedIcon className="service-type-step__info-icon" />
-            <p className="service-type-step__info-text">
-              {delivery === 'in-studio'
-                ? t(
-                    'form.serviceType.inStudio.info',
-                    'In-studio services use hourly or session-based pricing. Clients book available time slots.'
-                  )
-                : t(
-                    'form.serviceType.remote.info',
-                    'Remote projects use project-based pricing. Clients submit files and requirements.'
-                  )}
-            </p>
-          </div>
+          {activeHint && <p className="studio-manage-hint">{activeHint}</p>}
         </div>
       </div>
     </SectionChrome>

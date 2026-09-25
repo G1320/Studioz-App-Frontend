@@ -31,24 +31,51 @@
   border-radius: 999px;
 }
 
-.item-manage-delivery {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+// Manage hub only — keep create wizard cards untouched
+.item-manage {
+  .studio-manage-panel__body {
+    gap: 10px;
+  }
 
-  @media (max-width: 700px) {
-    grid-template-columns: 1fr;
+  .studio-manage-policy-list {
+    gap: 5px;
+  }
+
+  .studio-manage-policy {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .studio-manage-policy__title {
+    font-size: 12px;
+  }
+
+  .studio-manage-policy__desc {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .studio-manage-choice-grid {
+    gap: 5px;
+  }
+
+  .studio-manage-hint {
+    margin-top: 2px;
+  }
+
+  .studio-manage-price-cell {
+    width: 100%;
+  }
+
+  .studio-manage-input--price {
+    width: 100%;
+    min-width: 0;
+    flex: 1;
   }
 }
 
-.item-manage {
-  .service-type-step__options {
-    margin: 0;
-  }
-
-  .pricing-step,
-  .booking-settings-step,
-  .remote-settings-step {
-    margin: 0;
-  }
+.item-manage-inline-toggle {
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
 }

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useItem } from '@shared/hooks';
 import { ItemManageShell } from '../manage/ItemManageShell';
+import '@features/entities/studios/manage/styles/_studio-manage.scss';
 
 const ItemManagePage = () => {
   const { itemId } = useParams();

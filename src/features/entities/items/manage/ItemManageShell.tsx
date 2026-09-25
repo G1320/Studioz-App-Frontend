@@ -18,7 +18,6 @@ import { PricingSection } from './sections/PricingSection';
 import { BookingSection } from './sections/BookingSection';
 import { AddonsSection } from './sections/AddonsSection';
 import '@features/entities/studios/manage/styles/_studio-manage.scss';
-import '@features/entities/items/forms/_createItemForm.scss';
 import './styles/_item-manage.scss';
 
 interface ItemManageShellProps {
@@ -202,7 +201,13 @@ export const ItemManageShell = ({ item }: ItemManageShellProps) => {
           </div>
         </header>
 
-        <div className="studio-manage__content">{renderSection()}</div>
+        <div
+          className={`studio-manage__content ${
+            activeSection.id === 'addons' ? 'studio-manage__content--wide' : ''
+          }`}
+        >
+          {renderSection()}
+        </div>
       </div>
     </div>
   );
