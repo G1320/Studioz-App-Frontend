@@ -1,6 +1,12 @@
 {
+  "meta": {
+    "title": "סטטוס מערכת | Studioz",
+    "description": "סטטוס תפעולי חי של שירותי פלטפורמת Studioz."
+  },
   "hero": {
+    "kicker": "תפעול",
     "title": "סטטוס מערכת",
+    "subtitle": "מצב חי של שירותי פלטפורמת Studioz.",
     "allOperational": "כל המערכות תקינות",
     "degraded": "ביצועים מופחתים",
     "majorOutage": "תקלה חמורה"

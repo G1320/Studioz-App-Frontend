@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { CheckCircleIcon, ErrorIcon, AlertTriangleIcon } from '@shared/components/icons';
+import '../styles/_enterprise-page.scss';
 import '../styles/_status-page.scss';
 
 const BASE_URL =
@@ -40,11 +41,6 @@ interface StatusData {
   };
   timestamp: string;
 }
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 }
-};
 
 function formatUptime(seconds: number): string {
   const d = Math.floor(seconds / 86400);
@@ -183,7 +179,7 @@ const LatencyBars: React.FC<{
 };
 
 const StatusPage: React.FC = () => {
-  const { t } = useTranslation('status');
+  const { t, i18n } = useTranslation('status');
   const [data, setData] = useState<StatusData | null>(null);
   const [error, setError] = useState(false);
   const [lastFetched, setLastFetched] = useState<Date | null>(null);
@@ -222,11 +218,11 @@ const StatusPage: React.FC = () => {
 
   const overallIcon =
     data?.overall === 'operational' ? (
-      <CheckCircleIcon className="status-hero__icon status-hero__icon--operational" />
+      <CheckCircleIcon className="status-page__chip-icon status-page__chip-icon--operational" />
     ) : data?.overall === 'degraded' ? (
-      <AlertTriangleIcon className="status-hero__icon status-hero__icon--degraded" />
+      <AlertTriangleIcon className="status-page__chip-icon status-page__chip-icon--degraded" />
     ) : (
-      <ErrorIcon className="status-hero__icon status-hero__icon--down" />
+      <ErrorIcon className="status-page__chip-icon status-page__chip-icon--down" />
     );
 
   const overallLabel = data
@@ -243,42 +239,50 @@ const StatusPage: React.FC = () => {
   const hasIncident = data?.services.payments.latestCheck?.status === 'charge_failed';
 
   return (
-    <div className="status-page">
-      <section className="status-hero">
-        <div className="status-hero__background">
-          <div className="status-hero__glow status-hero__glow--primary" />
-        </div>
-        <div className="status-hero__content">
-          <motion.h1 {...fadeInUp} transition={{ delay: 0.1 }} className="status-hero__title">
-            {t('hero.title')}
-          </motion.h1>
-          {data && (
-            <motion.div
-              {...fadeInUp}
-              transition={{ delay: 0.2 }}
-              className={`status-hero__badge status-hero__badge--${data.overall}`}
-            >
-              {overallIcon}
-              <span>{overallLabel}</span>
-            </motion.div>
-          )}
-          {!data && !error && (
-            <div className="status-hero__loading">
-              <div className="status-hero__spinner" />
-            </div>
-          )}
-          {error && !data && (
-            <div className="status-hero__badge status-hero__badge--major_outage">
-              <ErrorIcon className="status-hero__icon status-hero__icon--down" />
-              <span>{t('hero.majorOutage')}</span>
-            </div>
-          )}
-        </div>
-      </section>
+    <div className="enterprise-page status-page" dir={i18n.language === 'he' ? 'rtl' : 'ltr'}>
+      <Helmet>
+        <title>{t('meta.title', 'System Status | Studioz')}</title>
+        <meta
+          name="description"
+          content={t('meta.description', 'Live operational status for Studioz platform services.')}
+        />
+      </Helmet>
 
-      <main className="status-main">
+      <header className="enterprise-page__header">
+        <div className="enterprise-page__container enterprise-page__container--wide">
+          <div className="status-page__header-row">
+            <div>
+              <p className="enterprise-page__kicker">{t('hero.kicker', 'Operations')}</p>
+              <h1 className="enterprise-page__title">{t('hero.title')}</h1>
+              <p className="enterprise-page__subtitle">
+                {t('hero.subtitle', 'Live health of Studioz platform services.')}
+              </p>
+            </div>
+            {data && (
+              <div className={`status-page__chip status-page__chip--${data.overall}`}>
+                {overallIcon}
+                <span>{overallLabel}</span>
+              </div>
+            )}
+            {!data && !error && (
+              <div className="status-page__chip status-page__chip--loading">
+                <div className="status-page__spinner" />
+              </div>
+            )}
+            {error && !data && (
+              <div className="status-page__chip status-page__chip--major_outage">
+                <ErrorIcon className="status-page__chip-icon status-page__chip-icon--down" />
+                <span>{t('hero.majorOutage')}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <main className="enterprise-page__main status-main">
+        <div className="enterprise-page__container enterprise-page__container--wide">
         {hasIncident && data && (
-          <motion.div {...fadeInUp} transition={{ delay: 0.25 }} className="status-incident">
+          <div className="status-incident">
             <ErrorIcon className="status-incident__icon" />
             <div className="status-incident__content">
               <h3 className="status-incident__title">{t('incident.title')}</h3>
@@ -292,13 +296,12 @@ const StatusPage: React.FC = () => {
                 })}
               </p>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {data && (
           <>
-            {/* Server */}
-            <motion.section {...fadeInUp} transition={{ delay: 0.3 }} className="status-service">
+            <section className="status-service">
               <div className="status-service__header">
                 <div className="status-service__name">
                   <StatusDot status={data.services.server.status} />
@@ -322,10 +325,9 @@ const StatusPage: React.FC = () => {
                   <span>{t('bars.today')}</span>
                 </div>
               </div>
-            </motion.section>
+            </section>
 
-            {/* Database */}
-            <motion.section {...fadeInUp} transition={{ delay: 0.35 }} className="status-service">
+            <section className="status-service">
               <div className="status-service__header">
                 <div className="status-service__name">
                   <StatusDot status={data.services.database.status} />
@@ -351,10 +353,9 @@ const StatusPage: React.FC = () => {
                   <span>{t('bars.today')}</span>
                 </div>
               </div>
-            </motion.section>
+            </section>
 
-            {/* Payments */}
-            <motion.section {...fadeInUp} transition={{ delay: 0.4 }} className="status-service">
+            <section className="status-service">
               <div className="status-service__header">
                 <div className="status-service__name">
                   <StatusDot status={data.services.payments.status} />
@@ -376,21 +377,22 @@ const StatusPage: React.FC = () => {
                 </div>
               )}
               {data.paymentHistory.recent.length > 0 && <LatencyBars recent={data.paymentHistory.recent} t={t} />}
-            </motion.section>
+            </section>
           </>
         )}
-      </main>
 
-      <footer className="status-footer">
-        <div className="status-footer__content">
-          {lastFetched && (
-            <span className="status-footer__updated">
-              {t('footer.lastUpdated')} {t('footer.secondsAgo', { count: secondsAgo })}
-            </span>
-          )}
-          <span className="status-footer__auto">{t('footer.autoRefresh')}</span>
+        <footer className="status-footer">
+          <div className="status-footer__content">
+            {lastFetched && (
+              <span className="status-footer__updated">
+                {t('footer.lastUpdated')} {t('footer.secondsAgo', { count: secondsAgo })}
+              </span>
+            )}
+            <span className="status-footer__auto">{t('footer.autoRefresh')}</span>
+          </div>
+        </footer>
         </div>
-      </footer>
+      </main>
     </div>
   );
 };

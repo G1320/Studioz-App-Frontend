@@ -1,150 +1,98 @@
-import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import {
-  ArrowForwardIcon,
-  VisibilityIcon,
-  AutoAwesomeIcon,
-  SpeedIcon,
-  BalanceIcon,
-  SearchIcon,
-  CalendarIcon,
-  MicIcon
-} from '@shared/components/icons';
-import '../styles/_info-pages.scss';
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true }
-};
+import { ArrowForwardIcon } from '@shared/components/icons';
+import '../styles/_enterprise-page.scss';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation('about');
   const isRtl = i18n.language === 'he';
 
-  const values = [
-    { key: 'transparency', icon: <VisibilityIcon /> },
-    { key: 'quality', icon: <AutoAwesomeIcon /> },
-    { key: 'simplicity', icon: <SpeedIcon /> },
-    { key: 'fairness', icon: <BalanceIcon /> }
-  ];
-
+  const values = ['transparency', 'quality', 'simplicity', 'fairness'] as const;
   const steps = [
-    { key: 'step1', icon: <SearchIcon />, number: '01' },
-    { key: 'step2', icon: <CalendarIcon />, number: '02' },
-    { key: 'step3', icon: <MicIcon />, number: '03' }
-  ];
+    { key: 'step1', number: '01' },
+    { key: 'step2', number: '02' },
+    { key: 'step3', number: '03' }
+  ] as const;
 
   return (
-    <div className="info-page" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="enterprise-page" dir={isRtl ? 'rtl' : 'ltr'}>
       <Helmet>
         <title>{t('meta.title')}</title>
         <meta name="description" content={t('meta.description')} />
       </Helmet>
 
-      <section className="info-page__hero">
-        <div className="info-page__hero-glow" />
-        <div className="info-page__container">
-          <motion.h1 className="info-page__hero-title" {...fadeInUp}>
-            {t('hero.title')} <br />
-            <span className="info-page__accent">{t('hero.titleAccent')}</span>
-          </motion.h1>
-          <motion.p className="info-page__hero-subtitle" {...fadeInUp} transition={{ delay: 0.1 }}>
-            {t('hero.subtitle')}
-          </motion.p>
+      <header className="enterprise-page__header">
+        <div className="enterprise-page__container">
+          <p className="enterprise-page__kicker">{t('hero.kicker', 'About')}</p>
+          <h1 className="enterprise-page__title">
+            {t('hero.title')}{' '}
+            <span className="enterprise-page__title-accent">{t('hero.titleAccent')}</span>
+          </h1>
+          <p className="enterprise-page__subtitle">{t('hero.subtitle')}</p>
         </div>
-      </section>
+      </header>
 
-      <main className="info-page__main">
-        {/* Mission */}
-        <section className="info-page__section">
-          <div className="info-page__container">
-            <motion.h2 className="info-page__section-title" {...fadeInUp}>
-              {t('mission.title')}
-            </motion.h2>
-            <motion.p className="info-page__section-description" {...fadeInUp} transition={{ delay: 0.1 }}>
-              {t('mission.description')}
-            </motion.p>
-            <div className="info-page__cards-grid info-page__cards-grid--two">
-              {['point1', 'point2'].map((key, i) => (
-                <motion.div
-                  key={key}
-                  className="info-page__card"
-                  {...fadeInUp}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <h3 className="info-page__card-title">{t(`mission.${key}.title`)}</h3>
-                  <p className="info-page__card-description">{t(`mission.${key}.description`)}</p>
-                </motion.div>
+      <main className="enterprise-page__main">
+        <div className="enterprise-page__container">
+          <section className="enterprise-page__section">
+            <p className="enterprise-page__section-kicker">{t('mission.kicker', 'Mission')}</p>
+            <h2 className="enterprise-page__section-title">{t('mission.title')}</h2>
+            <p className="enterprise-page__section-text">{t('mission.description')}</p>
+            <div className="enterprise-page__panel">
+              <div className="enterprise-page__panel-grid">
+                {(['point1', 'point2'] as const).map((key) => (
+                  <div key={key} className="enterprise-page__cell">
+                    <h3 className="enterprise-page__cell-title">{t(`mission.${key}.title`)}</h3>
+                    <p className="enterprise-page__cell-text">{t(`mission.${key}.description`)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="enterprise-page__section">
+            <p className="enterprise-page__section-kicker">{t('values.kicker', 'Principles')}</p>
+            <h2 className="enterprise-page__section-title">{t('values.title')}</h2>
+            <div className="enterprise-page__panel">
+              <div className="enterprise-page__panel-grid enterprise-page__panel-grid--4">
+                {values.map((key) => (
+                  <div key={key} className="enterprise-page__cell">
+                    <h3 className="enterprise-page__cell-title">{t(`values.${key}.title`)}</h3>
+                    <p className="enterprise-page__cell-text">{t(`values.${key}.description`)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="enterprise-page__section">
+            <p className="enterprise-page__section-kicker">{t('howItWorks.kicker', 'Workflow')}</p>
+            <h2 className="enterprise-page__section-title">{t('howItWorks.title')}</h2>
+            <div className="enterprise-page__steps">
+              {steps.map(({ key, number }) => (
+                <div key={key} className="enterprise-page__step">
+                  <span className="enterprise-page__step-num">{number}</span>
+                  <div>
+                    <h3 className="enterprise-page__step-title">{t(`howItWorks.${key}.title`)}</h3>
+                    <p className="enterprise-page__step-text">{t(`howItWorks.${key}.description`)}</p>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Values */}
-        <section className="info-page__section">
-          <div className="info-page__container">
-            <motion.h2 className="info-page__section-title" {...fadeInUp}>
-              {t('values.title')}
-            </motion.h2>
-            <div className="info-page__cards-grid info-page__cards-grid--four">
-              {values.map(({ key, icon }, i) => (
-                <motion.div
-                  key={key}
-                  className="info-page__value-card"
-                  {...fadeInUp}
-                  transition={{ delay: i * 0.08 }}
-                >
-                  <div className="info-page__value-icon">{icon}</div>
-                  <h3 className="info-page__value-title">{t(`values.${key}.title`)}</h3>
-                  <p className="info-page__value-description">{t(`values.${key}.description`)}</p>
-                </motion.div>
-              ))}
+          <aside className="enterprise-page__cta">
+            <div>
+              <h2 className="enterprise-page__cta-title">{t('contact.title')}</h2>
+              <p className="enterprise-page__cta-text">{t('contact.description')}</p>
             </div>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section className="info-page__section">
-          <div className="info-page__container">
-            <motion.h2 className="info-page__section-title" {...fadeInUp}>
-              {t('howItWorks.title')}
-            </motion.h2>
-            <div className="info-page__steps">
-              {steps.map(({ key, icon, number }, i) => (
-                <motion.div
-                  key={key}
-                  className="info-page__step"
-                  {...fadeInUp}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <div className="info-page__step-number">{number}</div>
-                  <div className="info-page__step-icon">{icon}</div>
-                  <h3 className="info-page__step-title">{t(`howItWorks.${key}.title`)}</h3>
-                  <p className="info-page__step-description">{t(`howItWorks.${key}.description`)}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Contact CTA */}
-      <footer className="info-page__footer">
-        <div className="info-page__container">
-          <div className="info-page__cta-card">
-            <div className="info-page__cta-content">
-              <h2 className="info-page__cta-title">{t('contact.title')}</h2>
-              <p className="info-page__cta-description">{t('contact.description')}</p>
-            </div>
-            <a href={`mailto:${t('contact.email')}`} className="info-page__cta-button">
+            <a href={`mailto:${t('contact.email')}`} className="enterprise-page__cta-button">
               <span>{t('contact.button')}</span>
               <ArrowForwardIcon />
             </a>
-          </div>
+          </aside>
         </div>
-      </footer>
+      </main>
     </div>
   );
 };

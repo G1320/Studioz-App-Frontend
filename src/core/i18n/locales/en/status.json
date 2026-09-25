@@ -1,6 +1,12 @@
 {
+  "meta": {
+    "title": "System Status | Studioz",
+    "description": "Live operational status for Studioz platform services."
+  },
   "hero": {
+    "kicker": "Operations",
     "title": "System Status",
+    "subtitle": "Live health of Studioz platform services.",
     "allOperational": "All Systems Operational",
     "degraded": "Degraded Performance",
     "majorOutage": "Major Outage"

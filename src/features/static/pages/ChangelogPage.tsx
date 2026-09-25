@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDownIcon, AutoAwesomeIcon, BoltIcon, BugIcon, LightbulbIcon, SendIcon } from '@shared/components/icons';
+import { Helmet } from 'react-helmet-async';
+import { ChevronDownIcon, AutoAwesomeIcon, BoltIcon, BugIcon, SendIcon } from '@shared/components/icons';
 import { useSentryFeedback } from '@shared/hooks/utils';
+import '../styles/_enterprise-page.scss';
 import './_changelog.scss';
 
 // --- Types ---
@@ -525,7 +527,7 @@ function TypeBadge({ type }: { type: ChangeType }) {
 }
 
 export const ChangelogPage: React.FC = () => {
-  const { t } = useTranslation('changelog');
+  const { t, i18n } = useTranslation('changelog');
   const { openFeedback } = useSentryFeedback();
   const [expandedReleases, setExpandedReleases] = useState<string[]>([CHANGELOG_DATA[0]?.releases[0]?.version || '']);
 
@@ -534,88 +536,93 @@ export const ChangelogPage: React.FC = () => {
   };
 
   return (
-    <div className="changelog">
-      <div className="changelog__container">
-        {/* Header */}
-        <header className="changelog__header">
-          <h1 className="changelog__title">{t('title', 'עדכוני מערכת')}</h1>
-          <p className="changelog__subtitle">{t('subtitle', 'כל הפיצ׳רים החדשים, השיפורים והתיקונים')}</p>
-        </header>
+    <div className="enterprise-page changelog" dir={i18n.language === 'he' ? 'rtl' : 'ltr'}>
+      <Helmet>
+        <title>{t('meta.title', 'Changelog | Studioz')}</title>
+        <meta
+          name="description"
+          content={t('meta.description', 'Product updates, improvements, and fixes shipping on Studioz.')}
+        />
+      </Helmet>
 
-        {/* Releases List */}
-        <div className="changelog__releases">
-          {CHANGELOG_DATA.map((group) => (
-            <div key={group.monthKey} className="changelog__month-group">
-              <h2 className="changelog__month-title">{t(group.monthKey)}</h2>
-              {group.releases.map((release) => (
-                <article key={release.version} className="changelog__release">
-                  {/* Release Header */}
-                  <div
-                    className="changelog__release-header"
-                    onClick={() => toggleRelease(release.version)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleRelease(release.version);
-                      }
-                    }}
-                    aria-expanded={expandedReleases.includes(release.version)}
-                  >
-                    <div className="changelog__release-content">
-                      <span className="changelog__release-date">{t(release.dateKey)}</span>
-                      <h3 className="changelog__release-title">{t(release.titleKey)}</h3>
-                      <p className="changelog__release-description">{t(release.descriptionKey)}</p>
-                    </div>
-
-                    <button
-                      className={`changelog__expand-btn ${
-                        expandedReleases.includes(release.version) ? 'changelog__expand-btn--expanded' : ''
-                      }`}
-                      aria-label={expandedReleases.includes(release.version) ? 'Collapse' : 'Expand'}
-                    >
-                      <ChevronDownIcon />
-                    </button>
-                  </div>
-
-                  {/* Expanded Details */}
-                  {expandedReleases.includes(release.version) && (
-                    <div className="changelog__changes">
-                      <ul className="changelog__changes-list">
-                        {release.changes.map((change) => (
-                          <li key={change.id} className="changelog__change-item">
-                            <TypeBadge type={change.type} />
-                            <span className="changelog__change-text">{t(change.descriptionKey)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-          ))}
+      <header className="enterprise-page__header">
+        <div className="enterprise-page__container">
+          <p className="enterprise-page__kicker">{t('kicker', 'Product Updates')}</p>
+          <h1 className="enterprise-page__title">
+            {t('title', 'System Updates')}
+          </h1>
+          <p className="enterprise-page__subtitle">
+            {t('subtitle', 'All new features, improvements, and fixes')}
+          </p>
         </div>
+      </header>
 
-        {/* Feature Suggestion Section */}
-        <section className="changelog__suggestion">
-          <div className="changelog__suggestion-header">
-            <h3 className="changelog__suggestion-title">
-              <LightbulbIcon className="changelog__suggestion-icon" />
-              {t('suggestion.title', 'הצעות לפיצ׳רים חדשים')}
-            </h3>
-            <p className="changelog__suggestion-text">
-              {t('suggestion.description', 'האם יש לכם רעיון? אנחנו תמיד שומעים את דעותיכם')}
-            </p>
+      <main className="enterprise-page__main">
+        <div className="enterprise-page__container">
+          <div className="changelog__releases">
+            {CHANGELOG_DATA.map((group) => (
+              <div key={group.monthKey} className="changelog__month-group">
+                <h2 className="changelog__month-title">{t(group.monthKey)}</h2>
+                <div className="changelog__month-list">
+                  {group.releases.map((release) => {
+                    const isOpen = expandedReleases.includes(release.version);
+                    return (
+                      <article
+                        key={release.version}
+                        className={`changelog__release ${isOpen ? 'is-open' : ''}`}
+                      >
+                        <button
+                          type="button"
+                          className="changelog__release-header"
+                          onClick={() => toggleRelease(release.version)}
+                          aria-expanded={isOpen}
+                        >
+                          <div className="changelog__release-content">
+                            <span className="changelog__release-date">{t(release.dateKey)}</span>
+                            <h3 className="changelog__release-title">{t(release.titleKey)}</h3>
+                            <p className="changelog__release-description">{t(release.descriptionKey)}</p>
+                          </div>
+                          <ChevronDownIcon
+                            className={`changelog__expand-icon ${isOpen ? 'is-open' : ''}`}
+                          />
+                        </button>
+
+                        {isOpen && (
+                          <div className="changelog__changes">
+                            <ul className="changelog__changes-list">
+                              {release.changes.map((change) => (
+                                <li key={change.id} className="changelog__change-item">
+                                  <TypeBadge type={change.type} />
+                                  <span className="changelog__change-text">{t(change.descriptionKey)}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
 
-          <button onClick={openFeedback} className="changelog__suggestion-trigger" type="button">
-            <span>{t('suggestion.placeholder', 'שתפו רעיון חדש...')}</span>
-            <SendIcon className="changelog__suggestion-trigger-icon" />
-          </button>
-        </section>
-      </div>
+          <aside className="enterprise-page__cta">
+            <div>
+              <h2 className="enterprise-page__cta-title">
+                {t('suggestion.title', 'Feature suggestions')}
+              </h2>
+              <p className="enterprise-page__cta-text">
+                {t('suggestion.description', 'Have an idea? We always want to hear from you.')}
+              </p>
+            </div>
+            <button type="button" className="enterprise-page__cta-button" onClick={openFeedback}>
+              <span>{t('suggestion.placeholder', 'Share an idea…')}</span>
+              <SendIcon />
+            </button>
+          </aside>
+        </div>
+      </main>
     </div>
   );
 };

@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "title": "Changelog | Studioz",
+    "description": "Product updates, improvements, and fixes shipping on Studioz."
+  },
+  "kicker": "Product Updates",
   "title": "System Updates",
   "subtitle": "All new features, improvements, and fixes",
   "months": {

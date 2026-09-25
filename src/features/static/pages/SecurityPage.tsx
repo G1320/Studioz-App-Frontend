@@ -1,141 +1,16 @@
-/**
- * Studioz Security Page
- *
- * A comprehensive trust and security page for Studioz.
- * Explains PCI compliance through providers, tokenization, and data storage policies.
- */
-
-import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import {
-  LockIcon,
-  FileTextIcon,
-  CheckCircleIcon,
-  CancelIcon,
   ArrowForwardIcon,
-  FingerprintIcon,
-  PublicIcon,
-  StorageIcon
+  CancelIcon,
+  CheckCircleIcon
 } from '@shared/components/icons';
-import '../styles/_security-page.scss';
+import '../styles/_enterprise-page.scss';
 
-/**
- * Animation variants for Framer Motion
- */
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 }
-};
-
-/**
- * Section Header Component
- */
-interface SectionHeaderProps {
-  icon: React.ReactNode;
-  title: string;
-  subtitle: string;
-}
-
-const SectionHeader: React.FC<SectionHeaderProps> = ({ icon, title, subtitle }) => (
-  <div className="security-section-header">
-    <div className="security-section-header__title-row">
-      <div className="security-section-header__icon">{icon}</div>
-      <h2 className="security-section-header__title">{title}</h2>
-    </div>
-    <p className="security-section-header__subtitle">{subtitle}</p>
-  </div>
-);
-
-/**
- * Security Card Component
- */
-interface SecurityCardProps {
-  title: string;
-  description: string;
-  points: string[];
-}
-
-const SecurityCard: React.FC<SecurityCardProps> = ({ title, description, points }) => (
-  <motion.div whileHover={{ y: -5 }} className="security-card">
-    <h3 className="security-card__title">{title}</h3>
-    <p className="security-card__description">{description}</p>
-    <ul className="security-card__points">
-      {points.map((point, i) => (
-        <li key={i} className="security-card__point">
-          <CheckCircleIcon className="security-card__point-icon" />
-          <span>{point}</span>
-        </li>
-      ))}
-    </ul>
-  </motion.div>
-);
-
-/**
- * Feature Highlight Component
- */
-interface FeatureHighlightProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
-
-const FeatureHighlight: React.FC<FeatureHighlightProps> = ({ icon, title, description }) => (
-  <div className="security-feature">
-    <div className="security-feature__icon">{icon}</div>
-    <div className="security-feature__content">
-      <h4 className="security-feature__title">{title}</h4>
-      <p className="security-feature__description">{description}</p>
-    </div>
-  </div>
-);
-
-/**
- * Data Item Component
- */
-interface DataItemProps {
-  text: string;
-  stored: boolean;
-}
-
-const DataItem: React.FC<DataItemProps> = ({ text, stored }) => (
-  <div className={`security-data-item ${stored ? 'security-data-item--stored' : 'security-data-item--not-stored'}`}>
-    <span>{text}</span>
-    {stored ? (
-      <CheckCircleIcon className="security-data-item__icon security-data-item__icon--success" />
-    ) : (
-      <CancelIcon className="security-data-item__icon security-data-item__icon--danger" />
-    )}
-  </div>
-);
-
-/**
- * Main Security Page Component
- */
 const SecurityPage: React.FC = () => {
-  const { t } = useTranslation('security');
+  const { t, i18n } = useTranslation('security');
+  const isRtl = i18n.language === 'he';
 
-  const handleContactSecurity = () => {
-    // Navigate to contact or open email
-    window.location.href = 'mailto:admin@studioz.co.il';
-  };
-
-  // Data we store
-  const storedData = [
-    t('dataMatrix.stored.customerInfo'),
-    t('dataMatrix.stored.lastFourDigits'),
-    t('dataMatrix.stored.paymentRefId'),
-    t('dataMatrix.stored.invoiceRecords')
-  ];
-
-  // Data we never store
-  const neverStoredData = [
-    t('dataMatrix.neverStored.fullCardNumbers'),
-    t('dataMatrix.neverStored.cvv'),
-    t('dataMatrix.neverStored.expirationDates'),
-    t('dataMatrix.neverStored.rawCredentials')
-  ];
-
-  // Payment security points
   const tokenizationPoints = [
     t('payment.tokenization.points.directToGateway'),
     t('payment.tokenization.points.singleUseToken'),
@@ -150,120 +25,157 @@ const SecurityPage: React.FC = () => {
     t('payment.storage.points.securityAudits')
   ];
 
+  const storedData = [
+    t('dataMatrix.stored.customerInfo'),
+    t('dataMatrix.stored.lastFourDigits'),
+    t('dataMatrix.stored.paymentRefId'),
+    t('dataMatrix.stored.invoiceRecords')
+  ];
+
+  const neverStoredData = [
+    t('dataMatrix.neverStored.fullCardNumbers'),
+    t('dataMatrix.neverStored.cvv'),
+    t('dataMatrix.neverStored.expirationDates'),
+    t('dataMatrix.neverStored.rawCredentials')
+  ];
+
+  const invoiceFeatures = [
+    {
+      title: t('invoicing.features.tokenAuth.title'),
+      description: t('invoicing.features.tokenAuth.description')
+    },
+    {
+      title: t('invoicing.features.webhooks.title'),
+      description: t('invoicing.features.webhooks.description')
+    },
+    {
+      title: t('invoicing.features.auditTrail.title'),
+      description: t('invoicing.features.auditTrail.description')
+    }
+  ];
+
   return (
-    <div className="security-page">
-      {/* Hero Section */}
-      <section className="security-hero">
-        <div className="security-hero__background">
-          <div className="security-hero__glow security-hero__glow--primary" />
-          <div className="security-hero__glow security-hero__glow--secondary" />
+    <div className="enterprise-page" dir={isRtl ? 'rtl' : 'ltr'}>
+      <Helmet>
+        <title>{t('meta.title', 'Security | Studioz')}</title>
+        <meta
+          name="description"
+          content={t(
+            'meta.description',
+            'How Studioz protects payments and customer data with tokenization and PCI-compliant processors.'
+          )}
+        />
+      </Helmet>
+
+      <header className="enterprise-page__header">
+        <div className="enterprise-page__container">
+          <p className="enterprise-page__kicker">{t('hero.badge', 'Security & Compliance')}</p>
+          <h1 className="enterprise-page__title">
+            {t('hero.title.line1')}{' '}
+            <span className="enterprise-page__title-accent">{t('hero.title.line2')}</span>
+          </h1>
+          <p className="enterprise-page__subtitle">{t('hero.subtitle')}</p>
         </div>
+      </header>
 
-        <div className="security-hero__content">
-          <motion.h1 {...fadeInUp} transition={{ delay: 0.1 }} className="security-hero__title">
-            {t('hero.title.line1')} <br />
-            <span className="security-hero__title--highlight">{t('hero.title.line2')}</span>
-          </motion.h1>
-
-          <motion.p {...fadeInUp} transition={{ delay: 0.2 }} className="security-hero__subtitle">
-            {t('hero.subtitle')}
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <main className="security-main">
-        {/* Payment Security Section */}
-        <section className="security-section">
-          <SectionHeader icon={<LockIcon />} title={t('payment.title')} subtitle={t('payment.subtitle')} />
-
-          <div className="security-cards-grid">
-            <SecurityCard
-              title={t('payment.tokenization.title')}
-              description={t('payment.tokenization.description')}
-              points={tokenizationPoints}
-            />
-            <SecurityCard
-              title={t('payment.storage.title')}
-              description={t('payment.storage.description')}
-              points={storagePoints}
-            />
-          </div>
-        </section>
-
-        {/* Data Matrix Section */}
-        <section className="security-section">
-          <div className="security-data-matrix">
-            <div className="security-data-matrix__header">
-              <h2 className="security-data-matrix__title">{t('dataMatrix.title')}</h2>
-              <p className="security-data-matrix__subtitle">{t('dataMatrix.subtitle')}</p>
+      <main className="enterprise-page__main">
+        <div className="enterprise-page__container">
+          <section className="enterprise-page__section">
+            <p className="enterprise-page__section-kicker">{t('payment.kicker', 'Payments')}</p>
+            <h2 className="enterprise-page__section-title">{t('payment.title')}</h2>
+            <p className="enterprise-page__section-text">{t('payment.subtitle')}</p>
+            <div className="enterprise-page__panel">
+              <div className="enterprise-page__panel-grid">
+                <div className="enterprise-page__cell">
+                  <h3 className="enterprise-page__cell-title">{t('payment.tokenization.title')}</h3>
+                  <p className="enterprise-page__cell-text">{t('payment.tokenization.description')}</p>
+                  <ul className="enterprise-page__list enterprise-page__list--spaced">
+                    {tokenizationPoints.map((point) => (
+                      <li key={point} className="enterprise-page__list-item">
+                        <CheckCircleIcon className="enterprise-page__list-mark" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="enterprise-page__cell">
+                  <h3 className="enterprise-page__cell-title">{t('payment.storage.title')}</h3>
+                  <p className="enterprise-page__cell-text">{t('payment.storage.description')}</p>
+                  <ul className="enterprise-page__list enterprise-page__list--spaced">
+                    {storagePoints.map((point) => (
+                      <li key={point} className="enterprise-page__list-item">
+                        <CheckCircleIcon className="enterprise-page__list-mark" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
+          </section>
 
-            <div className="security-data-matrix__grid">
-              <div className="security-data-matrix__column">
-                <div className="security-data-matrix__label security-data-matrix__label--success">
+          <section className="enterprise-page__section">
+            <p className="enterprise-page__section-kicker">{t('dataMatrix.kicker', 'Data')}</p>
+            <h2 className="enterprise-page__section-title">{t('dataMatrix.title')}</h2>
+            <p className="enterprise-page__section-text">{t('dataMatrix.subtitle')}</p>
+            <div className="enterprise-page__matrix">
+              <div className="enterprise-page__matrix-col">
+                <p className="enterprise-page__matrix-label enterprise-page__matrix-label--ok">
                   <CheckCircleIcon />
                   <span>{t('dataMatrix.whatWeStore')}</span>
-                </div>
-                <div className="security-data-matrix__items">
+                </p>
+                <ul className="enterprise-page__list">
                   {storedData.map((item) => (
-                    <DataItem key={item} text={item} stored={true} />
+                    <li key={item} className="enterprise-page__list-item">
+                      <CheckCircleIcon className="enterprise-page__list-mark" />
+                      <span>{item}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-
-              <div className="security-data-matrix__column">
-                <div className="security-data-matrix__label security-data-matrix__label--danger">
+              <div className="enterprise-page__matrix-col">
+                <p className="enterprise-page__matrix-label enterprise-page__matrix-label--no">
                   <CancelIcon />
                   <span>{t('dataMatrix.whatWeNeverStore')}</span>
-                </div>
-                <div className="security-data-matrix__items">
+                </p>
+                <ul className="enterprise-page__list">
                   {neverStoredData.map((item) => (
-                    <DataItem key={item} text={item} stored={false} />
+                    <li key={item} className="enterprise-page__list-item">
+                      <CancelIcon className="enterprise-page__list-mark enterprise-page__list-mark--danger" />
+                      <span>{item}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Invoicing Section */}
-        <section className="security-section security-section--narrow">
-          <SectionHeader icon={<FileTextIcon />} title={t('invoicing.title')} subtitle={t('invoicing.subtitle')} />
+          <section className="enterprise-page__section">
+            <p className="enterprise-page__section-kicker">{t('invoicing.kicker', 'Invoicing')}</p>
+            <h2 className="enterprise-page__section-title">{t('invoicing.title')}</h2>
+            <p className="enterprise-page__section-text">{t('invoicing.subtitle')}</p>
+            <div className="enterprise-page__feature-rows">
+              {invoiceFeatures.map((feature) => (
+                <div key={feature.title} className="enterprise-page__feature-row">
+                  <h3 className="enterprise-page__feature-title">{feature.title}</h3>
+                  <p className="enterprise-page__feature-text">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
 
-          <div className="security-features">
-            <FeatureHighlight
-              icon={<FingerprintIcon />}
-              title={t('invoicing.features.tokenAuth.title')}
-              description={t('invoicing.features.tokenAuth.description')}
-            />
-            <FeatureHighlight
-              icon={<PublicIcon />}
-              title={t('invoicing.features.webhooks.title')}
-              description={t('invoicing.features.webhooks.description')}
-            />
-            <FeatureHighlight
-              icon={<StorageIcon />}
-              title={t('invoicing.features.auditTrail.title')}
-              description={t('invoicing.features.auditTrail.description')}
-            />
-          </div>
-        </section>
-      </main>
-
-      {/* CTA Footer */}
-      <footer className="security-footer">
-        <div className="security-footer__card">
-          <div className="security-footer__content">
-            <h2 className="security-footer__title">{t('cta.title')}</h2>
-            <p className="security-footer__subtitle">{t('cta.subtitle')}</p>
-          </div>
-          <button onClick={handleContactSecurity} className="security-footer__button">
-            <span>{t('cta.button')}</span>
-            <ArrowForwardIcon />
-          </button>
+          <aside className="enterprise-page__cta">
+            <div>
+              <h2 className="enterprise-page__cta-title">{t('cta.title')}</h2>
+              <p className="enterprise-page__cta-text">{t('cta.subtitle')}</p>
+            </div>
+            <a href="mailto:admin@studioz.co.il" className="enterprise-page__cta-button">
+              <span>{t('cta.button')}</span>
+              <ArrowForwardIcon />
+            </a>
+          </aside>
         </div>
-      </footer>
+      </main>
     </div>
   );
 };
