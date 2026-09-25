@@ -27,7 +27,7 @@ export const useCreateStudioMutation = () => {
     mutationFn: ({ userId, newStudio }) => createStudio(userId, newStudio),
     successMessage: t('toasts.success.studioCreated'),
     invalidateQueries: [{ queryKey: 'studios' }],
-    onSuccess: (data, _variables) => langNavigate(`/studio/${data._id}`)
+    onSuccess: (data, _variables) => langNavigate(`/studio/${data._id}/manage`)
   });
 };
 
@@ -81,7 +81,7 @@ export const useToggleItemActiveMutation = () => {
   return useMutationHandler<Item, ToggleItemActiveVariables>({
     mutationFn: ({ studioId, itemId, active }) => toggleItemActive(studioId, itemId, active),
     successMessage: t('toasts.success.itemStatusUpdated'),
-    invalidateQueries: [{ queryKey: 'studios' }, { queryKey: 'items' }]
+    invalidateQueries: [{ queryKey: 'studios' }, { queryKey: 'items' }, { queryKey: 'studio' }]
   });
 };
 

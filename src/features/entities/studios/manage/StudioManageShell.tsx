@@ -14,7 +14,11 @@ import {
 import { OverviewSection } from './sections/OverviewSection';
 import { MediaSection } from './sections/MediaSection';
 import { HoursSection } from './sections/HoursSection';
-import { LegacySectionBridge } from './sections/LegacySectionBridge';
+import { LocationSection } from './sections/LocationSection';
+import { AmenitiesSection } from './sections/AmenitiesSection';
+import { PoliciesSection } from './sections/PoliciesSection';
+import { PortfolioSection } from './sections/PortfolioSection';
+import { ServicesSection } from './sections/ServicesSection';
 import './styles/_studio-manage.scss';
 
 interface StudioManageShellProps {
@@ -48,9 +52,6 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
   };
 
   const renderSection = () => {
-    if (!activeSection.ready) {
-      return <LegacySectionBridge studioId={studio._id} section={activeSection} />;
-    }
     switch (activeSection.id) {
       case 'overview':
         return <OverviewSection studio={studio} />;
@@ -58,8 +59,18 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
         return <MediaSection studio={studio} />;
       case 'hours':
         return <HoursSection studio={studio} />;
+      case 'location':
+        return <LocationSection studio={studio} />;
+      case 'amenities':
+        return <AmenitiesSection studio={studio} />;
+      case 'policies':
+        return <PoliciesSection studio={studio} />;
+      case 'portfolio':
+        return <PortfolioSection studio={studio} />;
+      case 'services':
+        return <ServicesSection studio={studio} />;
       default:
-        return <LegacySectionBridge studioId={studio._id} section={activeSection} />;
+        return <OverviewSection studio={studio} />;
     }
   };
 
@@ -110,18 +121,11 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
                     <button
                       key={section.id}
                       type="button"
-                      className={`studio-manage__nav-item ${isCurrent ? 'is-active' : ''} ${
-                        section.ready ? '' : 'is-pending'
-                      }`}
+                      className={`studio-manage__nav-item ${isCurrent ? 'is-active' : ''}`}
                       onClick={() => setSection(section.id)}
                     >
                       <Icon fontSize="inherit" className="studio-manage__nav-icon" />
                       <span>{t(section.labelKey, section.defaultLabel)}</span>
-                      {!section.ready && (
-                        <span className="studio-manage__nav-tag">
-                          {t('manage.nav.soon', 'Soon')}
-                        </span>
-                      )}
                     </button>
                   );
                 })}
@@ -182,7 +186,13 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
           </div>
         </header>
 
-        <div className="studio-manage__content">{renderSection()}</div>
+        <div
+          className={`studio-manage__content ${
+            activeSection.id === 'services' ? 'studio-manage__content--wide' : ''
+          }`}
+        >
+          {renderSection()}
+        </div>
       </div>
     </div>
   );

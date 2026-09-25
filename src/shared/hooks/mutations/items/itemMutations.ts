@@ -20,7 +20,7 @@ export const useCreateItemMutation = (studioId: string) => {
     successMessage: t('toasts.success.itemCreated'),
     invalidateQueries: [{ queryKey: 'items' }, { queryKey: 'studio', targetId: studioId }],
     undoAction: (_variables, data) => deleteItem(data._id),
-    onSuccess: () => languageNavigate(`/studio/${studioId}`)
+    onSuccess: () => languageNavigate(`/studio/${studioId}/manage?section=services`)
   });
 };
 

@@ -73,7 +73,11 @@ export const HoursSection = ({ studio }: HoursSectionProps) => {
       </header>
 
       <div className="studio-manage-panel">
-        <div className="studio-manage-panel__body">
+        <div className="studio-manage-panel__body studio-manage-panel__body--hours">
+          <div className="studio-manage-hours-legend" aria-hidden>
+            <span>{t('manage.hours.dayCol', 'Day')}</span>
+            <span>{t('manage.hours.scheduleCol', 'Schedule')}</span>
+          </div>
           <BusinessHours key={hoursKey} value={availability} onChange={setAvailability} />
         </div>
       </div>

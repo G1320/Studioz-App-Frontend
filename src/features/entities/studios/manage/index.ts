@@ -1,2 +1,10 @@
 export { StudioManageShell } from './StudioManageShell';
 export * from './constants';
+export { OverviewSection } from './sections/OverviewSection';
+export { MediaSection } from './sections/MediaSection';
+export { HoursSection } from './sections/HoursSection';
+export { LocationSection } from './sections/LocationSection';
+export { AmenitiesSection } from './sections/AmenitiesSection';
+export { PoliciesSection } from './sections/PoliciesSection';
+export { PortfolioSection } from './sections/PortfolioSection';
+export { ServicesSection } from './sections/ServicesSection';

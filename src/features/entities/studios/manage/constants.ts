@@ -27,9 +27,7 @@ export interface StudioManageSectionDef {
   labelKey: string;
   defaultLabel: string;
   icon: ComponentType<{ className?: string; fontSize?: 'small' | 'inherit' | 'large' | 'medium' }>;
-  ready: boolean;
   group: StudioManageNavGroup;
-  legacyStep?: string;
 }
 
 export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
@@ -38,7 +36,6 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     labelKey: 'manage.sections.overview',
     defaultLabel: 'Overview',
     icon: InfoOutlinedIcon,
-    ready: true,
     group: 'listing'
   },
   {
@@ -46,61 +43,48 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     labelKey: 'manage.sections.media',
     defaultLabel: 'Media',
     icon: PhotoLibraryIcon,
-    ready: true,
-    group: 'listing',
-    legacyStep: 'files'
+    group: 'listing'
   },
   {
     id: 'hours',
     labelKey: 'manage.sections.hours',
     defaultLabel: 'Hours',
     icon: ScheduleIcon,
-    ready: true,
-    group: 'listing',
-    legacyStep: 'availability'
+    group: 'listing'
   },
   {
     id: 'location',
     labelKey: 'manage.sections.location',
     defaultLabel: 'Location',
     icon: LocationIcon,
-    ready: false,
-    group: 'listing',
-    legacyStep: 'location'
+    group: 'listing'
   },
   {
     id: 'amenities',
     labelKey: 'manage.sections.amenities',
     defaultLabel: 'Amenities & gear',
     icon: WeekendIcon,
-    ready: false,
-    group: 'listing',
-    legacyStep: 'amenities-gear'
+    group: 'listing'
   },
   {
     id: 'policies',
     labelKey: 'manage.sections.policies',
     defaultLabel: 'Policies',
     icon: ShieldIcon,
-    ready: false,
-    group: 'listing',
-    legacyStep: 'policies'
+    group: 'listing'
   },
   {
     id: 'portfolio',
     labelKey: 'manage.sections.portfolio',
     defaultLabel: 'Portfolio',
     icon: WorkIcon,
-    ready: false,
-    group: 'listing',
-    legacyStep: 'portfolio'
+    group: 'listing'
   },
   {
     id: 'services',
     labelKey: 'manage.sections.services',
     defaultLabel: 'Services',
     icon: PackageIcon,
-    ready: false,
     group: 'operations'
   }
 ];

@@ -161,6 +161,7 @@
 .studio-manage__nav-item {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
   width: 100%;
   min-height: 32px;
@@ -174,6 +175,12 @@
   text-align: start;
   cursor: pointer;
   transition: background 0.12s ease, color 0.12s ease;
+
+  > span:not(.studio-manage__nav-tag) {
+    flex: 1;
+    min-width: 0;
+    text-align: start;
+  }
 
   &:hover {
     background: var(--bg-secondary);
@@ -320,6 +327,236 @@
   padding: 14px 16px 28px;
   max-width: 760px;
   width: 100%;
+
+  &--wide {
+    max-width: 1100px;
+  }
+}
+
+.studio-manage-section--wide {
+  max-width: none;
+}
+
+.studio-manage-grid {
+  display: grid;
+  gap: 12px;
+
+  &--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.studio-manage-field--span-2 {
+  grid-column: 1 / -1;
+}
+
+.studio-manage-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.studio-manage-choice {
+  min-height: 36px;
+  padding: 6px 8px;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+  }
+
+  &.is-selected {
+    border-color: var(--color-brand);
+    background: color-mix(in srgb, var(--color-brand) 14%, var(--bg-primary));
+    color: var(--text-primary);
+  }
+}
+
+.studio-manage-policy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.studio-manage-policy {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  text-align: start;
+  cursor: pointer;
+  color: inherit;
+
+  &.is-selected {
+    border-color: var(--color-brand);
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--bg-primary));
+  }
+
+  &__radio {
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-primary);
+    flex-shrink: 0;
+
+    &.is-on {
+      border-color: var(--color-brand);
+      box-shadow: inset 0 0 0 3px var(--color-brand);
+    }
+  }
+
+  &__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  &__desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+}
+
+.studio-manage-panel__body--embed {
+  padding: 10px 12px 12px;
+}
+
+.studio-manage-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px 14px;
+
+  p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+}
+
+.studio-manage-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.studio-manage-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+
+  th,
+  td {
+    padding: 8px 10px;
+    text-align: start;
+    border-bottom: 1px solid var(--border-primary);
+    vertical-align: middle;
+  }
+
+  th {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    white-space: nowrap;
+  }
+
+  tbody tr.is-offline {
+    opacity: 0.7;
+  }
+
+  &__link {
+    border: none;
+    background: transparent;
+    padding: 0;
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: start;
+
+    &:hover {
+      color: var(--color-brand);
+      text-decoration: underline;
+    }
+  }
+
+  &__muted {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  &__badge {
+    display: inline-flex;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+}
+
+.studio-manage-price-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+
+  &__currency {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.studio-manage-input--price {
+  width: 72px;
+  min-height: 28px;
+  padding: 4px 6px;
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .studio-manage-section {
@@ -435,6 +672,24 @@
   flex-direction: column;
   gap: 12px;
   padding: 12px;
+
+  &--hours {
+    gap: 0;
+    padding: 0 12px 8px;
+  }
+}
+
+.studio-manage-hours-legend {
+  display: grid;
+  grid-template-columns: minmax(110px, 140px) minmax(0, 1fr);
+  gap: 12px;
+  padding: 8px 0 4px;
+  border-bottom: 1px solid var(--border-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 .studio-manage-label {
@@ -585,13 +840,238 @@
   }
 }
 
-// Tighten Media / Hours embedded widgets inside hub
-.studio-manage-section {
-  .file-uploader,
-  .business-hours,
-  [class*='business-hours'],
-  [class*='BusinessHours'] {
-    font-size: 13px;
+// Dense enterprise schedule — BusinessHours is unstyled outside stepped forms
+.studio-manage .business-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  margin: 0;
+  text-align: start;
+
+  &.has-error {
+    outline: 1px solid var(--color-warning);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .day-row {
+    display: grid;
+    grid-template-columns: minmax(110px, 140px) minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    min-height: 40px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-primary);
+    text-align: start;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:has(.switch:not(.on)) {
+      opacity: 0.72;
+
+      .hours-container {
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .day-switch-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+
+    span {
+      min-width: 0;
+      margin: 0;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: start;
+      white-space: nowrap;
+    }
+  }
+
+  .switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--border-primary);
+    border-radius: 3px;
+    background: var(--bg-secondary);
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease;
+
+    &.on {
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+
+      &::before {
+        content: '';
+        width: 8px;
+        height: 5px;
+        border-left: 1.5px solid #111;
+        border-bottom: 1.5px solid #111;
+        transform: rotate(-45deg) translateY(-1px);
+      }
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .hours-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: start;
+  }
+
+  .is-24-hours-label {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    margin: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .is-24-hours-checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-primary);
+    border-radius: 3px;
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+
+    &.checked {
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+    }
+
+    .check-icon {
+      font-size: 12px !important;
+      color: #111;
+    }
+  }
+
+  .is-24-hours-text {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .hours {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+
+    > span {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .MuiTextField-root {
+      width: 108px;
+      margin: 0;
+
+      .MuiInputBase-root {
+        height: 30px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-primary);
+        border-radius: 4px;
+        color: var(--text-primary);
+        font-size: 12px;
+
+        fieldset {
+          border: none;
+        }
+
+        .MuiInputBase-input {
+          padding: 4px 8px;
+          text-align: start;
+          font-variant-numeric: tabular-nums;
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--text-primary);
+        }
+
+        .MuiInputAdornment-root .MuiIconButton-root {
+          padding: 2px;
+
+          .MuiSvgIcon-root {
+            font-size: 16px;
+            color: var(--text-muted);
+          }
+        }
+      }
+    }
+  }
+
+  .hours-24-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+
+    span {
+      font-size: 12px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .day-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 10px 0;
+      align-items: stretch;
+    }
+
+    .hours-container {
+      padding-inline-start: 28px;
+    }
   }
 }
 
