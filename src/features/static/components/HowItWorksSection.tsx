@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { SearchIcon, CalendarIcon, CheckCircleIcon } from '@shared/components/icons';
-import { VideoPlayer } from '@shared/components';
+import { useTheme } from '@shared/contexts/ThemeContext';
+import { landingCaptureUrl, type CaptureLocale } from '../featuresConfig';
 import './_how-it-works-section.scss';
 
 /**
@@ -49,35 +50,17 @@ const StepCard: React.FC<StepCardProps> = ({ icon, title, description, stepNumbe
   </motion.div>
 );
 
-// Video embed URL for the how it works demo
-const VIDEO_EMBED_URL = 'https://player.mediadelivery.net/embed/583287/65c4a479-7457-4b84-a0f3-18b2792429b5';
-
-export interface HowItWorksSectionProps {
-  /** When this value changes, the demo video remounts and starts from the beginning (e.g. when user clicks View Demo). */
-  videoRestartKey?: number;
-}
-
 /**
  * How It Works Section Component
- * Embedded section for ForOwnersPage
+ * Embedded section for ForOwnersPage — booking-flow still (no video).
  */
-export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoRestartKey = 0 }) => {
-  const { t } = useTranslation('howItWorks');
-  const [videoInView, setVideoInView] = useState(false);
-  const videoContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = videoContainerRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVideoInView(true);
-      },
-      { rootMargin: '100px', threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+export const HowItWorksSection: React.FC = () => {
+  const { t, i18n } = useTranslation('howItWorks');
+  const { resolvedTheme } = useTheme();
+  const { lang } = useParams<{ lang?: string }>();
+  const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
+  const assetLocale: CaptureLocale = currentLang === 'he' ? 'he' : 'en-US';
+  const bookingShot = landingCaptureUrl('landing-booking-flow', assetLocale, resolvedTheme);
 
   const steps = [
     {
@@ -103,7 +86,6 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoResta
   return (
     <section id="how-it-works" className="how-it-works-section">
       <div className="owners-container">
-        {/* Header */}
         <motion.div
           className="how-it-works-section__header"
           initial={{ opacity: 0, y: 30 }}
@@ -117,8 +99,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoResta
           <p className="how-it-works-section__subtitle">{t('subtitle')}</p>
         </motion.div>
 
-        {/* Video Section — video iframe only mounts when in view to reduce TBT and LCP */}
-        <div className="how-it-works-section__video" ref={videoContainerRef}>
+        <div className="how-it-works-section__video">
           <div className="how-it-works-section__video-glow how-it-works-section__video-glow--primary" />
           <div className="how-it-works-section__video-glow how-it-works-section__video-glow--secondary" />
 
@@ -129,24 +110,18 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({ videoResta
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {videoInView ? (
-              <VideoPlayer
-                key={videoRestartKey}
-                embedUrl={VIDEO_EMBED_URL}
-                showFrameBar={true}
-                placeholderText="Video Coming Soon"
-                aspectRatio="3 / 2"
-                autoPlay={false}
-                muted={true}
-                loop={true}
-              />
-            ) : (
-              <div className="how-it-works-section__video-placeholder" style={{ aspectRatio: '3 / 2' }} aria-hidden />
-            )}
+            <img
+              src={bookingShot}
+              alt={t('title.prefix')}
+              className="how-it-works-section__shot"
+              loading="lazy"
+              decoding="async"
+              width={1200}
+              height={800}
+            />
           </motion.div>
         </div>
 
-        {/* Steps Grid */}
         <motion.div
           className="how-it-works-section__steps-grid"
           variants={staggerContainer}

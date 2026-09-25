@@ -1,6 +1,6 @@
 import '../styles/_for-owners-page.scss';
-import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks/utils';
@@ -25,51 +25,68 @@ import { ScrollDrivenShowcase } from '../components/ScrollDrivenShowcase';
 import { ScheduleControlSection } from '../components/ScheduleControlSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
 import { StudiozOwnersRemoteShowcase } from '../components/StudiozOwnersRemoteShowcase';
-
-/**
- * Hook to lazy load heavy content when visible
- */
-const useLazyLoad = (threshold = 0.1) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold, rootMargin: '100px' }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-};
-
-// Hero animation now handled via CSS for faster initial paint
-// Framer Motion still used for interactive elements (hover effects) below the fold
+import { featureCaptureUrl, type CaptureLocale } from '../featuresConfig';
 
 /**
  * Main Owners Page Component for Studioz
  */
 const ForOwnersPage: React.FC = () => {
-  const { t } = useTranslation('forOwners');
+  const { t, i18n } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
   const location = useLocation();
-  const { isDark } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const { lang } = useParams<{ lang?: string }>();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const hasTrackedViewContent = useRef(false);
 
-  // Lazy load the dashboard video - autoplay when scrolled into view
-  const { ref: videoRef, isVisible: isVideoVisible } = useLazyLoad(0.2);
+  const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
+  const assetLocale: CaptureLocale = currentLang === 'he' ? 'he' : 'en-US';
+  const shot = (capture: string) => featureCaptureUrl(capture, assetLocale, resolvedTheme);
+
+  const showcaseShots = useMemo(() => {
+    const url = (capture: string) => featureCaptureUrl(capture, assetLocale, resolvedTheme);
+    return [
+      {
+        key: 'portfolio',
+        src: url('mobile-studio-portfolio'),
+        alt: 'Studio portfolio'
+      },
+      {
+        key: 'services',
+        src: url('mobile-studio-services'),
+        alt: 'Studio services'
+      }
+    ];
+  }, [assetLocale, resolvedTheme]);
+
+  const insightCards = [
+    {
+      key: 'overview',
+      icon: <BarChartIcon />,
+      capture: 'mobile-analytics-revenue',
+      colorClass: 'owners-insights__card--primary'
+    },
+    {
+      key: 'analytics',
+      icon: <TrendingUpIcon />,
+      capture: 'mobile-calendar',
+      colorClass: 'owners-insights__card--blue'
+    },
+    {
+      key: 'predictions',
+      icon: <DashboardIcon />,
+      capture: 'mobile-projects',
+      colorClass: 'owners-insights__card--emerald'
+    },
+    {
+      key: 'clients',
+      icon: <PeopleIcon />,
+      capture: 'mobile-reservations',
+      colorClass: 'owners-insights__card--purple'
+    }
+  ];
+
+  const dashboardShot = featureCaptureUrl('desktop-stats', assetLocale, resolvedTheme);
 
   // Track landing page view as custom event (not ViewContent — that's for product pages with real prices)
   useEffect(() => {
@@ -103,23 +120,13 @@ const ForOwnersPage: React.FC = () => {
     navigate('/studio/create');
   };
 
-  const [howItWorksVideoKey, setHowItWorksVideoKey] = useState(0);
-
   const scrollToHowItWorks = () => {
     trackCustomEvent('ViewDemo', {
       content_name: 'For Owners View Demo',
       content_category: 'Engagement'
     });
-    setHowItWorksVideoKey((k) => k + 1);
     document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // const stats = [
-  //   { label: t('stats.active_studios'), value: '500+' },
-  //   { label: t('stats.monthly_bookings'), value: '2.5k+' },
-  //   { label: t('stats.owner_earnings'), value: '₪2M+' },
-  //   { label: t('stats.cities'), value: '15+' }
-  // ];
 
   const features = [
     {
@@ -141,14 +148,6 @@ const ForOwnersPage: React.FC = () => {
       colorClass: 'owners-feature--purple'
     }
   ];
-
-  // const studioFeatures = [
-  //   t('studio_preview.feature1'),
-  //   // t('studio_preview.feature2'),
-  //   t('studio_preview.feature3'),
-  //   t('studio_preview.feature4'),
-  //   t('studio_preview.feature5')
-  // ];
 
   return (
     <div className="owners-page">
@@ -201,7 +200,7 @@ const ForOwnersPage: React.FC = () => {
       </section>
 
       {/* How It Works (how to order) — bottom of fold for better flow */}
-      <HowItWorksSection videoRestartKey={howItWorksVideoKey} />
+      <HowItWorksSection />
 
       {/* Schedule Control (קבל הזמנות / רק כשמתאים לך) — second section after How It Works */}
       <ScheduleControlSection />
@@ -264,7 +263,7 @@ const ForOwnersPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Mobile Screenshots — only the ones matching current theme */}
+            {/* Mobile Screenshots — theme + locale aware captures */}
             <motion.div
               className="owners-showcase__images owners-showcase__images--mobile"
               initial={{ opacity: 0, x: 24 }}
@@ -274,85 +273,25 @@ const ForOwnersPage: React.FC = () => {
             >
               <div className="owners-showcase__images-glow" />
               <div className="owners-showcase__images-grid">
-                {isDark ? (
-                  <>
-                    <motion.div
-                      whileHover={{ scale: 1.05, zIndex: 20 }}
-                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Dark.webp')}
-                    >
-                      <img
-                        src="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp"
-                        srcSet="/images/optimized/Studioz-Studio-Details-1-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Dark-630w.webp 630w"
-                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
-                        alt="Studio Details Dark Mode 1"
-                        loading="lazy"
-                        width={315}
-                        height={683}
-                      />
-                      <div className="owners-showcase__image-overlay">
-                        <span>{t('showcase.view_original')}</span>
-                      </div>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ scale: 1.05, zIndex: 20 }}
-                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-2-Dark.webp')}
-                    >
-                      <img
-                        src="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp"
-                        srcSet="/images/optimized/Studioz-Studio-Details-2-Dark-315w.webp 315w, /images/optimized/Studioz-Studio-Details-2-Dark-630w.webp 630w"
-                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
-                        alt="Studio Details Dark Mode 2"
-                        loading="lazy"
-                        width={315}
-                        height={683}
-                      />
-                      <div className="owners-showcase__image-overlay">
-                        <span>{t('showcase.view_original')}</span>
-                      </div>
-                    </motion.div>
-                  </>
-                ) : (
-                  <>
-                    <motion.div
-                      whileHover={{ scale: 1.05, zIndex: 20 }}
-                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Details-1-Light.webp')}
-                    >
-                      <img
-                        src="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp"
-                        srcSet="/images/optimized/Studioz-Studio-Details-1-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Details-1-Light-630w.webp 630w"
-                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
-                        alt="Studio Details Light Mode 1"
-                        loading="lazy"
-                        width={315}
-                        height={683}
-                      />
-                      <div className="owners-showcase__image-overlay">
-                        <span>{t('showcase.view_original')}</span>
-                      </div>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ scale: 1.05, zIndex: 20 }}
-                      className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
-                      onClick={() => setSelectedImage('/images/optimized/Studioz-Studio-Detail-2-Light.webp')}
-                    >
-                      <img
-                        src="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp"
-                        srcSet="/images/optimized/Studioz-Studio-Detail-2-Light-315w.webp 315w, /images/optimized/Studioz-Studio-Detail-2-Light-630w.webp 630w"
-                        sizes="(max-width: 768px) 45vw, (max-width: 1024px) 42vw, 380px"
-                        alt="Studio Details Light Mode 2"
-                        loading="lazy"
-                        width={315}
-                        height={683}
-                      />
-                      <div className="owners-showcase__image-overlay">
-                        <span>{t('showcase.view_original')}</span>
-                      </div>
-                    </motion.div>
-                  </>
-                )}
+                {showcaseShots.map((item) => (
+                  <motion.div
+                    key={item.key}
+                    whileHover={{ scale: 1.05, zIndex: 20 }}
+                    className="owners-showcase__image-wrapper owners-showcase__image-wrapper--mobile"
+                    onClick={() => setSelectedImage(item.src)}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.alt}
+                      loading="lazy"
+                      width={315}
+                      height={683}
+                    />
+                    <div className="owners-showcase__image-overlay">
+                      <span>{t('showcase.view_original')}</span>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -399,8 +338,8 @@ const ForOwnersPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Dashboard Preview (ניהול מרכזי) — after Design section so the two videos aren't back-to-back */}
-      <section className="owners-dashboard" ref={videoRef}>
+      {/* Dashboard Preview — stats still (no video) */}
+      <section className="owners-dashboard">
         <div className="owners-container">
           <div className="owners-dashboard__card">
             <div className="owners-dashboard__browser">
@@ -412,33 +351,15 @@ const ForOwnersPage: React.FC = () => {
                 </div>
               </div>
               <div className="owners-dashboard__browser-content">
-                {isVideoVisible ? (
-                  <iframe
-                    src="https://player.mediadelivery.net/embed/583287/5f666f52-d513-4099-b25e-0bf6cfdc7845?autoplay=false&loop=true&muted=true&preload=true&playsinline=true&controls=true&showSpeed=false&showCaptions=false&showHeatmap=false&showPlaylist=false&showShareButton=false"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                    className="owners-dashboard__video"
-                    title={t('dashboard.title')}
-                  />
-                ) : (
-                  <div className="owners-dashboard__video-skeleton">
-                    <picture>
-                      <source
-                        srcSet="/images/optimized/Dashboard-Desktop-Screenshot-400w.webp 400w, /images/optimized/Dashboard-Desktop-Screenshot-800w.webp 800w"
-                        sizes="(max-width: 768px) 380px, 800px"
-                        type="image/webp"
-                      />
-                      <img
-                        src="/images/optimized/Dashboard-Desktop-Screenshot-400w.webp"
-                        alt=""
-                        className="owners-dashboard__video-thumbnail"
-                        width={1920}
-                        height={1080}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </picture>
-                  </div>
-                )}
+                <img
+                  src={dashboardShot}
+                  alt={t('dashboard.title')}
+                  className="owners-dashboard__shot"
+                  loading="lazy"
+                  decoding="async"
+                  width={1920}
+                  height={1080}
+                />
               </div>
             </div>
             <div className="owners-dashboard__text">
@@ -449,7 +370,7 @@ const ForOwnersPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Dashboard Insights — new section showcasing mobile analytics screenshots */}
+      {/* Dashboard Insights — mobile product captures */}
       <section className="owners-insights">
         <div className="owners-container">
           <div className="owners-insights__header">
@@ -460,71 +381,39 @@ const ForOwnersPage: React.FC = () => {
           </div>
 
           <div className="owners-insights__grid">
-            {[
-              {
-                key: 'overview',
-                icon: <BarChartIcon />,
-                image: '/images/optimized/Dashboard-Overview-Mobile-315w.webp',
-                srcSet: '/images/optimized/Dashboard-Overview-Mobile-315w.webp 315w, /images/optimized/Dashboard-Overview-Mobile-630w.webp 630w',
-                fullImage: '/images/optimized/Dashboard-Overview-Mobile.webp',
-                colorClass: 'owners-insights__card--primary'
-              },
-              {
-                key: 'analytics',
-                icon: <TrendingUpIcon />,
-                image: '/images/optimized/Dashboard-Clients-Mobile-315w.webp',
-                srcSet: '/images/optimized/Dashboard-Clients-Mobile-315w.webp 315w, /images/optimized/Dashboard-Clients-Mobile-630w.webp 630w',
-                fullImage: '/images/optimized/Dashboard-Clients-Mobile.webp',
-                colorClass: 'owners-insights__card--blue'
-              },
-              {
-                key: 'predictions',
-                icon: <DashboardIcon />,
-                image: '/images/optimized/Dashboard-Predictions-Mobile-315w.webp',
-                srcSet: '/images/optimized/Dashboard-Predictions-Mobile-315w.webp 315w, /images/optimized/Dashboard-Predictions-Mobile-630w.webp 630w',
-                fullImage: '/images/optimized/Dashboard-Predictions-Mobile.webp',
-                colorClass: 'owners-insights__card--emerald'
-              },
-              {
-                key: 'clients',
-                icon: <PeopleIcon />,
-                image: '/images/optimized/Dashboard-Analytics-Mobile-315w.webp',
-                srcSet: '/images/optimized/Dashboard-Analytics-Mobile-315w.webp 315w, /images/optimized/Dashboard-Analytics-Mobile-630w.webp 630w',
-                fullImage: '/images/optimized/Dashboard-Analytics-Mobile.webp',
-                colorClass: 'owners-insights__card--purple'
-              }
-            ].map((item, i) => (
-              <motion.div
-                key={item.key}
-                className={`owners-insights__card ${item.colorClass}`}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <div className="owners-insights__card-text">
-                  <div className="owners-insights__card-icon">{item.icon}</div>
-                  <h3>{t(`insights.${item.key}.title`)}</h3>
-                  <p>{t(`insights.${item.key}.description`)}</p>
-                </div>
+            {insightCards.map((item, i) => {
+              const imageSrc = shot(item.capture);
+              return (
                 <motion.div
-                  className="owners-insights__card-image"
-                  whileHover={{ scale: 1.03 }}
-                  onClick={() => setSelectedImage(item.fullImage)}
+                  key={item.key}
+                  className={`owners-insights__card ${item.colorClass}`}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <img
-                    src={item.image}
-                    srcSet={item.srcSet}
-                    sizes="(max-width: 768px) 45vw, 260px"
-                    alt={t(`insights.${item.key}.title`)}
-                    loading="lazy"
-                    decoding="async"
-                    width={315}
-                    height={683}
-                  />
+                  <div className="owners-insights__card-text">
+                    <div className="owners-insights__card-icon">{item.icon}</div>
+                    <h3>{t(`insights.${item.key}.title`)}</h3>
+                    <p>{t(`insights.${item.key}.description`)}</p>
+                  </div>
+                  <motion.div
+                    className="owners-insights__card-image"
+                    whileHover={{ scale: 1.03 }}
+                    onClick={() => setSelectedImage(imageSrc)}
+                  >
+                    <img
+                      src={imageSrc}
+                      alt={t(`insights.${item.key}.title`)}
+                      loading="lazy"
+                      decoding="async"
+                      width={315}
+                      height={683}
+                    />
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
