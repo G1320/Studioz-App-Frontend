@@ -11,6 +11,8 @@
   // This ensures styles don't leak to nested AddOn forms
   .edit-item-form {
     @include forms.branded-form;
+    // SteppedForm owns outer spacing; avoid stacking branded-form padding.
+    padding: 1rem;
   }
 }
 

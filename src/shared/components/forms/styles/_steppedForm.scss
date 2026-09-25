@@ -200,6 +200,22 @@
     width: 100%;
     box-sizing: border-box;
     background: var(--bg-surface);
+    display: flex;
+    flex-direction: column;
+  }
+
+  // Clips horizontal slide; wait-mode means only one panel is in flow at a time
+  &__stage {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  &__panel {
+    width: 100%;
+    will-change: transform, opacity;
   }
 
   // Step header with title and counter
@@ -319,19 +335,21 @@
     }
   }
 
-  // Form styling
+  // Form styling — reset .generic-form chrome so fields share one padding box
   &__form {
-    background: transparent;
-    border: none;
-    padding: 0;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
     gap: 1rem;
     position: relative;
     z-index: 1;
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     box-sizing: border-box;
 
     // New input styling
@@ -341,6 +359,21 @@
       display: flex;
       flex-direction: column;
       gap: 0.375rem;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      grid-column: auto;
+      box-sizing: border-box;
+
+      .form-label,
+      .form-label-row,
+      .form-helper-text {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-inline: 0;
+        padding-inline: 0;
+      }
 
       .form-label {
         display: block;
@@ -354,7 +387,8 @@
 
       .form-input,
       .form-textarea {
-        width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
         padding: 0.625rem 0.875rem;
         background: var(--bg-input);
         border: 1px solid var(--border-primary);
@@ -390,6 +424,8 @@
         font-size: ds.$font-xs;
         color: var(--text-secondary);
         margin-top: 0;
+        margin-bottom: 0;
+        line-height: 1.4;
       }
     }
 
@@ -529,25 +565,34 @@
     border-top: 1px solid var(--border-subtle);
     background: var(--bg-primary);
     flex-shrink: 0;
+    min-height: 2.75rem;
+    box-sizing: border-box;
   }
 
   &__navigation-right {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    min-height: 2.25rem;
   }
 
   &__button {
-    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    min-height: 2.25rem;
+    height: 2.25rem;
+    padding: 0 1rem;
     font-size: ds.$font-sm;
     font-weight: 650;
+    line-height: 1;
     border-radius: ds.$radius-md;
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.375rem;
+    margin: 0;
+    vertical-align: middle;
 
     &:hover:not(:disabled) {
       transform: none;
@@ -567,14 +612,18 @@
       color: var(--text-secondary);
       border: none;
       padding-inline-start: 0;
+      padding-inline-end: 0.5rem;
 
       &:hover:not(:disabled) {
         color: var(--text-primary);
+        background: transparent;
+        border-color: transparent;
       }
 
       svg {
         width: 16px;
         height: 16px;
+        flex-shrink: 0;
       }
     }
 
@@ -583,7 +632,7 @@
       background: var(--color-brand);
       color: var(--btn-primary-text);
       border: none;
-      padding: 0.5rem 1.125rem;
+      padding-inline: 1.125rem;
       box-shadow: none;
 
       &:hover:not(:disabled) {
@@ -594,6 +643,7 @@
       svg {
         width: 16px;
         height: 16px;
+        flex-shrink: 0;
       }
     }
   }
@@ -601,7 +651,11 @@
   // Auto-save indicator
   &__auto-save {
     font-size: vars.$font-size-small;
+    line-height: 1;
     color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    height: 2.25rem;
   }
 
   // Responsive
@@ -644,7 +698,7 @@
     &__button {
       &--next,
       &--submit {
-        padding: 0.5rem 1rem;
+        padding-inline: 1rem;
       }
     }
   }

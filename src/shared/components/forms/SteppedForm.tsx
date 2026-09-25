@@ -481,31 +481,35 @@ export const SteppedForm = ({
   // Check if current language is RTL (Hebrew)
   const isRTL = i18n.language === 'he';
 
-  // Slide animation variants
+  // Slide animation variants — horizontal only (no vertical drift)
   // In RTL mode, reverse the direction for proper animation flow
   const slideVariants = {
     enter: (direction: number) => {
       const effectiveDirection = isRTL ? -direction : direction;
       return {
-        x: effectiveDirection > 0 ? '100%' : '-100%',
+        x: effectiveDirection > 0 ? '40%' : '-40%',
+        y: 0,
         opacity: 0
       };
     },
     center: {
       x: 0,
+      y: 0,
       opacity: 1
     },
     exit: (direction: number) => {
       const effectiveDirection = isRTL ? -direction : direction;
       return {
-        x: effectiveDirection > 0 ? '-100%' : '100%',
+        x: effectiveDirection > 0 ? '-40%' : '40%',
+        y: 0,
         opacity: 0
       };
     }
   };
 
   const slideTransition = {
-    x: { type: 'spring', stiffness: 450, damping: 60 },
+    x: { type: 'tween', ease: [0.32, 0.72, 0, 1], duration: 0.28 },
+    y: { type: 'tween', duration: 0 },
     opacity: { duration: 0.2 }
   };
 
@@ -563,43 +567,45 @@ export const SteppedForm = ({
 
       {/* Main Content Container */}
       <div className="stepped-form__content">
-        {/* Form Content */}
-        <AnimatePresence mode="sync" custom={direction} initial={false}>
-          <motion.div
-            key={currentStepIndex}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={slideTransition}
-            style={{ width: '100%' }}
-          >
-            <StepContent
-              stepId={currentStep.id}
-              formId={formId}
-              currentStepIndex={currentStepIndex}
-              selectedLanguage={selectedLanguage}
-              customContent={currentStep.customContent}
-              fields={fieldsWithValues}
-              isLastStep={isLastStep}
-              validatedSteps={validatedSteps}
-              validationErrors={validationErrors}
-              stepValidationErrors={stepValidation.errors}
-              onSubmit={handleSubmit}
-              onCategoryChange={onCategoryChange}
-              proTip={currentStep.proTip}
-              stepCounter={
-                currentStep.customContent ? { current: currentStepIndex + 1, total: steps.length } : undefined
-              }
-              stepIcon={currentStep.icon}
-              stepTitle={currentStep.customContent ? currentStep.title : undefined}
-              stepSubtitle={currentStep.customContent ? currentStep.description : undefined}
+        {/* Stage clips the slide so enter/exit never stack in document flow */}
+        <div className="stepped-form__stage">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={currentStepIndex}
+              className="stepped-form__panel"
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={slideTransition}
             >
-              {children}
-            </StepContent>
-          </motion.div>
-        </AnimatePresence>
+              <StepContent
+                stepId={currentStep.id}
+                formId={formId}
+                currentStepIndex={currentStepIndex}
+                selectedLanguage={selectedLanguage}
+                customContent={currentStep.customContent}
+                fields={fieldsWithValues}
+                isLastStep={isLastStep}
+                validatedSteps={validatedSteps}
+                validationErrors={validationErrors}
+                stepValidationErrors={stepValidation.errors}
+                onSubmit={handleSubmit}
+                onCategoryChange={onCategoryChange}
+                proTip={currentStep.proTip}
+                stepCounter={
+                  currentStep.customContent ? { current: currentStepIndex + 1, total: steps.length } : undefined
+                }
+                stepIcon={currentStep.icon}
+                stepTitle={currentStep.customContent ? currentStep.title : undefined}
+                stepSubtitle={currentStep.customContent ? currentStep.description : undefined}
+              >
+                {children}
+              </StepContent>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         <StepNavigation
           isFirstStep={isFirstStep}
