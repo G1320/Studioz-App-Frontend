@@ -43,6 +43,17 @@ export const useUpdateStudioMutation = (studioId: string) => {
   });
 };
 
+/** Section saves in the manage hub — toast + invalidate, stay on page. */
+export const useSaveStudioMutation = (studioId: string) => {
+  const { t } = useTranslation('common');
+
+  return useMutationHandler<Studio, Studio>({
+    mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
+    successMessage: t('toasts.success.studioUpdated'),
+    invalidateQueries: [{ queryKey: 'studio', targetId: studioId }, { queryKey: 'studios' }]
+  });
+};
+
 type ToggleStudioActiveVariables = {
   studioId: string;
   active: boolean;
@@ -54,7 +65,7 @@ export const useToggleStudioActiveMutation = () => {
   return useMutationHandler<Studio, ToggleStudioActiveVariables>({
     mutationFn: ({ studioId, active }) => toggleStudioActive(studioId, active),
     successMessage: t('toasts.success.studioStatusUpdated'),
-    invalidateQueries: [{ queryKey: 'studios' }]
+    invalidateQueries: [{ queryKey: 'studios' }, { queryKey: 'studio' }]
   });
 };
 

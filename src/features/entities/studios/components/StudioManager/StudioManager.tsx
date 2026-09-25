@@ -478,7 +478,7 @@ export const StudioManager: React.FC<StudioManagerProps> = ({
     if (onEditStudio) {
       onEditStudio(studioId);
     } else {
-      langNavigate(`/studio/${studioId}/edit`);
+      langNavigate(`/studio/${studioId}/manage`);
     }
   };
 

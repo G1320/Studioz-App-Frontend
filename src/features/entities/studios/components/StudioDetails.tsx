@@ -27,7 +27,7 @@ export const StudioDetails: React.FC<StudioDetailsProps> = ({ studio, user }) =>
     return calculateDistance(userLocation.latitude, userLocation.longitude, studio.lat, studio.lng);
   }, [userLocation, studio?.lat, studio?.lng]);
 
-  const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/studio/${studioId}/edit`) : null);
+  const handleGoToEdit = (studioId: string) => (studioId ? langNavigate(`/studio/${studioId}/manage`) : null);
   const handleAddNewService = (studioId: string) =>
     studioId ? langNavigate(`/studio/${studioId}/items/create`) : null;
 

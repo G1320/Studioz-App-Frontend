@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
@@ -19,7 +19,11 @@ import {
   useGenres,
   useStudio,
   useCategories,
-  useAuth0LoginHandler
+  useAuth0LoginHandler,
+  toEnglishMainCategory,
+  isMusicMainCategory,
+  isPhotoMainCategory,
+  toCurrentMainCategoryLabel
 } from '@shared/hooks';
 import { Item } from 'src/types/index';
 import { CreateAddOnForm, PendingAddOn } from '@features/entities/addOns/forms';
@@ -54,10 +58,10 @@ export const CreateItemForm = () => {
   const queryClient = useQueryClient();
   const createItemMutation = useCreateItemMutation(studioId || '');
   const { data: studioObj } = useStudio(studioId || '');
-  const { t } = useTranslation(['forms', 'common']);
+  const { t, i18n } = useTranslation(['forms', 'common']);
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
-
+  const previousLanguageRef = useRef(i18n.language);
   const studio = studioObj?.currStudio;
 
   const musicCategories = useMusicCategories();
@@ -164,7 +168,7 @@ export const CreateItemForm = () => {
   // Get appropriate subcategories based on service type and main category
   const getSubCategoriesForSelection = useCallback(
     (categories: string[], isRemote: boolean) => {
-      const isMusic = categories.includes(`${musicCategories}`);
+      const isMusic = categories.some((cat) => isMusicMainCategory(cat, musicCategories[0]));
       if (isMusic) {
         return isRemote ? remoteMusicSubCategories : musicSubCategories;
       }
@@ -189,13 +193,27 @@ export const CreateItemForm = () => {
     setSelectedSubCategories([newSubCategories[0]]);
 
     // If switching to remote, photo categories are not available
-    if (type === 'remote' && selectedCategories.includes(`${photoCategories}`)) {
+    if (type === 'remote' && selectedCategories.some((cat) => isPhotoMainCategory(cat, photoCategories[0]))) {
       setSelectedCategories(musicCategories);
       const remoteSubCats = remoteMusicSubCategories;
       setSubCategories(remoteSubCats);
       setSelectedSubCategories([remoteSubCats[0]]);
     }
   };
+
+  // Keep main category labels in sync when the UI language changes
+  useEffect(() => {
+    if (previousLanguageRef.current === i18n.language) return;
+
+    setSelectedCategories((prev) => {
+      previousLanguageRef.current = i18n.language;
+      if (!prev.length) return prev;
+      const updated = prev.map((cat) =>
+        toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+      );
+      return JSON.stringify(updated) === JSON.stringify(prev) ? prev : updated;
+    });
+  }, [i18n.language, musicCategories, photoCategories]);
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedSubCategories(values);
@@ -921,7 +939,7 @@ export const CreateItemForm = () => {
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     formData.createdBy = user?._id || '';
-    formData.categories = selectedCategories;
+    formData.categories = selectedCategories.map(toEnglishMainCategory);
     formData.subCategories = englishSubCategories;
     formData.genres = englishGenres;
     formData.studioName = studio?.name || { en: '', he: '' };

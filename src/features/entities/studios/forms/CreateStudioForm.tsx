@@ -34,7 +34,10 @@ import {
   useStudioFileUpload,
   useFormAutoSaveUncontrolled,
   useControlledStateAutoSave,
-  useAuth0LoginHandler
+  useAuth0LoginHandler,
+  toCurrentMainCategoryLabel,
+  toEnglishMainCategory,
+  isMusicMainCategory
 } from '@shared/hooks';
 import { useUserContext } from '@core/contexts';
 import { Studio } from 'src/types/index';
@@ -164,43 +167,6 @@ export const CreateStudioForm = () => {
       )
   );
 
-  // Get English category values for comparison (language-agnostic)
-  const musicCategoryEnglish = 'Music / Podcast Studio';
-  const photoCategoryEnglish = 'Photo / Video Studio';
-  const musicCategoryHebrew = 'סטודיו מוזיקה / פודקאסט';
-  const photoCategoryHebrew = 'סטודיו צילום / וידאו';
-
-  // Helper to check if category is music (works with both English and Hebrew)
-  const isMusicCategory = (category: string): boolean => {
-    return category === musicCategories[0] || category === musicCategoryEnglish || category === musicCategoryHebrew;
-  };
-
-  // Helper to convert category to current language
-  const convertCategoryToCurrentLanguage = (cat: string): string => {
-    // If it's the English music category, return current language's music category
-    if (cat === musicCategoryEnglish || cat === 'Music / Podcast Studio') {
-      return musicCategories[0];
-    }
-    // If it's the English photo category, return current language's photo category
-    if (cat === photoCategoryEnglish || cat === 'Photo / Video Studio') {
-      return photoCategories[0];
-    }
-    // If it's the Hebrew music category, return current language's music category
-    if (cat === musicCategoryHebrew || cat === 'סטודיו מוזיקה / פודקאסט') {
-      return musicCategories[0];
-    }
-    // If it's the Hebrew photo category, return current language's photo category
-    if (cat === photoCategoryHebrew || cat === 'סטודיו צילום / וידאו') {
-      return photoCategories[0];
-    }
-    // If it's already in current language, keep it
-    if (cat === musicCategories[0] || cat === photoCategories[0]) {
-      return cat;
-    }
-    // Fallback: keep as is
-    return cat;
-  };
-
   // Track previous language to detect actual language changes
   const previousLanguageRef = useRef(i18n.language);
 
@@ -208,12 +174,9 @@ export const CreateStudioForm = () => {
   // Only run once on mount
   useEffect(() => {
     if (savedState?.selectedCategories) {
-      const restoredCategories = savedState.selectedCategories;
-
-      // Convert saved categories to current language
-      const updatedCategories = restoredCategories.map(convertCategoryToCurrentLanguage);
-
-      // Update selectedCategories to current language
+      const updatedCategories = savedState.selectedCategories.map((cat) =>
+        toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+      );
       setSelectedCategories(updatedCategories);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -221,26 +184,24 @@ export const CreateStudioForm = () => {
 
   // Update selectedCategories when i18n language actually changes (for existing selections)
   useEffect(() => {
-    // Only update if language actually changed
     if (previousLanguageRef.current === i18n.language) {
       return;
     }
 
     setSelectedCategories((prevCategories) => {
+      previousLanguageRef.current = i18n.language;
       if (prevCategories.length === 0) {
-        previousLanguageRef.current = i18n.language;
         return prevCategories;
       }
 
-      const updatedCategories = prevCategories.map(convertCategoryToCurrentLanguage);
+      const updatedCategories = prevCategories.map((cat) =>
+        toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+      );
 
-      // Only update if categories actually changed
       if (JSON.stringify(updatedCategories) !== JSON.stringify(prevCategories)) {
-        previousLanguageRef.current = i18n.language;
         return updatedCategories;
       }
 
-      previousLanguageRef.current = i18n.language;
       return prevCategories;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -291,7 +252,9 @@ export const CreateStudioForm = () => {
 
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
-    const newSubCategories = isMusicCategory(values[0]) ? musicSubCategoriesDisplay : photoSubCategories;
+    const newSubCategories = isMusicMainCategory(values[0], musicCategories[0])
+      ? musicSubCategoriesDisplay
+      : photoSubCategories;
     setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
   };
 
@@ -722,7 +685,7 @@ export const CreateStudioForm = () => {
     formData.galleryImages = galleryImages;
     formData.coverAudioFile = galleryAudioFiles[0];
     formData.galleryAudioFiles = galleryAudioFiles;
-    formData.categories = selectedCategories;
+    formData.categories = selectedCategories.map(toEnglishMainCategory);
     formData.subCategories = englishSubCategories;
 
     formData.studioAvailability = {

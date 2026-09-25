@@ -19,7 +19,11 @@ import {
   useAddOns,
   useDeleteAddOnMutation,
   useStudio,
-  useCategories
+  useCategories,
+  toCurrentMainCategoryLabel,
+  toEnglishMainCategory,
+  isMusicMainCategory,
+  isPhotoMainCategory
 } from '@shared/hooks';
 import { createAddOnsBatch, updateAddOn } from '@shared/services';
 import { Item } from 'src/types/index';
@@ -86,11 +90,12 @@ export const EditItemForm = () => {
   const { data: studioData } = useStudio(item?.studioId || '');
   const studio = studioData?.currStudio;
   const { data: existingAddOns = [] } = useAddOns(itemId);
-  const { t } = useTranslation(['forms', 'common']);
+  const { t, i18n } = useTranslation(['forms', 'common']);
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
   const hasPopulatedAddOns = useRef(false);
   const hasSyncedStateFromItem = useRef(false);
+  const previousLanguageRef = useRef(i18n.language);
 
   // Unique formId per item to prevent autoSave data from one item bleeding into another
   const formId = `edit-item-form-${itemId}`;
@@ -125,9 +130,14 @@ export const EditItemForm = () => {
     item?.serviceDeliveryType || 'in-studio'
   );
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    item?.categories && item.categories.length > 0 ? [item.categories[0]] : musicCategories
-  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    if (item?.categories?.length) {
+      return item.categories.map((cat) =>
+        toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+      );
+    }
+    return musicCategories;
+  });
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(item?.subCategories || []);
   const [selectedGenres, setSelectedGenres] = useState<string[]>(item?.genres || []);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
@@ -175,10 +185,16 @@ export const EditItemForm = () => {
     }
   }, [existingAddOns]);
 
+  const localizeMainCategories = useCallback(
+    (categories: string[]) =>
+      categories.map((cat) => toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])),
+    [musicCategories, photoCategories]
+  );
+
   // Get appropriate subcategories based on service type and main category
   const getSubCategoriesForSelection = useCallback(
     (categories: string[], isRemote: boolean) => {
-      const isMusic = categories.includes(`${musicCategories}`);
+      const isMusic = categories.some((cat) => isMusicMainCategory(cat, musicCategories[0]));
       if (isMusic) {
         return isRemote ? remoteMusicSubCategories : musicSubCategories;
       }
@@ -203,7 +219,7 @@ export const EditItemForm = () => {
     setSelectedSubCategories([newSubCategories[0]]);
 
     // If switching to remote, photo categories are not available
-    if (type === 'remote' && selectedCategories.includes(`${photoCategories}`)) {
+    if (type === 'remote' && selectedCategories.some((cat) => isPhotoMainCategory(cat, photoCategories[0]))) {
       setSelectedCategories(musicCategories);
       const remoteSubCats = remoteMusicSubCategories;
       setSubCategories(remoteSubCats);
@@ -236,12 +252,25 @@ export const EditItemForm = () => {
       }
     );
     if (item.categories?.length) {
-      setSelectedCategories(item.categories);
-      setSubCategories(getSubCategoriesForSelection(item.categories, isRemote));
+      const localizedCategories = localizeMainCategories(item.categories);
+      setSelectedCategories(localizedCategories);
+      setSubCategories(getSubCategoriesForSelection(localizedCategories, isRemote));
     }
     if (item.subCategories?.length) setSelectedSubCategories(item.subCategories);
     if (item.genres?.length) setSelectedGenres(item.genres);
-  }, [item, itemId, getSubCategoriesForSelection]);
+  }, [item, itemId, getSubCategoriesForSelection, localizeMainCategories]);
+
+  // Keep main category labels in sync when the UI language changes
+  useEffect(() => {
+    if (previousLanguageRef.current === i18n.language) return;
+
+    setSelectedCategories((prev) => {
+      previousLanguageRef.current = i18n.language;
+      if (!prev.length) return prev;
+      const updated = localizeMainCategories(prev);
+      return JSON.stringify(updated) === JSON.stringify(prev) ? prev : updated;
+    });
+  }, [i18n.language, localizeMainCategories]);
 
   const handleSubCategoryChange = (values: string[]) => {
     setSelectedSubCategories(values);
@@ -1151,12 +1180,12 @@ export const EditItemForm = () => {
   ];
 
   const handleSubmit = async (formData: ItemFormData) => {
-    // Convert subCategories and genres to English values for consistent database storage
+    // Convert categories, subCategories and genres to English values for consistent database storage
     const englishSubCategories = selectedSubCategories.map((subCat) => getEnglishByDisplay(subCat));
     const englishGenres = selectedGenres.map((genre) => getGenreEnglishByDisplay(genre));
 
     formData.imageUrl = imageUrl;
-    formData.categories = selectedCategories;
+    formData.categories = selectedCategories.map(toEnglishMainCategory);
     formData.subCategories = englishSubCategories;
     formData.genres = englishGenres;
     formData.studioId = item?.studioId || '';

@@ -23,13 +23,17 @@ import {
 import {
   useDays,
   useMusicCategories,
+  usePhotoCategories,
   usePhotoSubCategories,
   useStudio,
   useUpdateStudioMutation,
   useCategories,
   useStudioFileUpload,
   useFormAutoSaveUncontrolled,
-  useControlledStateAutoSave
+  useControlledStateAutoSave,
+  toCurrentMainCategoryLabel,
+  toEnglishMainCategory,
+  isMusicMainCategory
 } from '@shared/hooks';
 import { Studio } from 'src/types/index';
 import { DayOfWeek, StudioAvailability, EquipmentCategory, PortfolioItem, SocialLinks } from 'src/types/studio';
@@ -62,15 +66,17 @@ interface StudioFormData {
 export const EditStudioForm = () => {
   const { studioId } = useParams();
   const { data } = useStudio(studioId || '');
-  const { t } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
   const [searchParams] = useSearchParams();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
+  const previousLanguageRef = useRef(i18n.language);
 
   const studio = data?.currStudio;
   const { getMusicSubCategories, getEnglishByDisplay, getDisplayByEnglish } = useCategories();
   const { getEnglishByDisplay: getDayEnglishByDisplay } = useDays();
 
   const musicCategories = useMusicCategories();
+  const photoCategories = usePhotoCategories();
   const photoSubCategories = usePhotoSubCategories();
   const updateStudioMutation = useUpdateStudioMutation(studioId || '');
 
@@ -81,9 +87,14 @@ export const EditStudioForm = () => {
   const initialDisplaySubCategories =
     studio?.subCategories?.map((englishValue) => getDisplayByEnglish(englishValue)) || [];
   const initialDisplayDays = studio?.studioAvailability?.days.map((day) => getDisplayByEnglish(day)) || [];
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories
-  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    if (studio?.categories?.length) {
+      return studio.categories.map((cat) =>
+        toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+      );
+    }
+    return musicCategories;
+  });
   const [selectedDisplaySubCategories, setSelectedDisplaySubCategories] =
     useState<string[]>(initialDisplaySubCategories);
   const [selectedDisplayDays, setSelectedDisplayDays] = useState<string[]>(initialDisplayDays);
@@ -91,6 +102,7 @@ export const EditStudioForm = () => {
   const [closingHour, setClosingHour] = useState<string>(studio?.studioAvailability?.times[0].end || '17:00');
 
   const autoSaveRestoredRef = useRef(false);
+  const hasSyncedCategoriesRef = useRef(false);
 
   const [studioHours, setStudioHours] = useState<Record<string, { start: string; end: string }>>(() => {
     if (studio?.studioAvailability && initialDisplayDays.length > 0) {
@@ -205,8 +217,9 @@ export const EditStudioForm = () => {
     onRestore: (restored) => {
       autoSaveRestoredRef.current = true;
       setSelectedCategories(
-        restored.selectedCategories ||
-          (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories)
+        (restored.selectedCategories || studio?.categories || musicCategories).map((cat: string) =>
+          toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+        )
       );
       setSelectedDisplayDays(restored.selectedDisplayDays || initialDisplayDays);
 
@@ -232,10 +245,12 @@ export const EditStudioForm = () => {
       setClosingHour(restored.closingHour || studio?.studioAvailability?.times[0]?.end || '17:00');
 
       // Restore selectedDisplaySubCategories, but validate against available options
-      const restoredCategories =
+      const restoredCategories = (
         restored.selectedCategories ||
-        (studio?.categories && studio.categories.length > 0 ? [studio.categories[0]] : musicCategories);
-      const newSubCategories = restoredCategories.includes(`${musicCategories}`)
+        studio?.categories ||
+        musicCategories
+      ).map((cat: string) => toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0]));
+      const newSubCategories = restoredCategories.some((cat: string) => isMusicMainCategory(cat, musicCategories[0]))
         ? musicSubCategoriesDisplay
         : photoSubCategories;
       const restoredSubCategories = restored.selectedDisplaySubCategories || initialDisplaySubCategories;
@@ -252,9 +267,34 @@ export const EditStudioForm = () => {
     }
   });
 
+  // Sync categories when studio loads asynchronously (once)
+  useEffect(() => {
+    if (!studio?.categories?.length || hasSyncedCategoriesRef.current || autoSaveRestoredRef.current) return;
+    hasSyncedCategoriesRef.current = true;
+    setSelectedCategories(
+      studio.categories.map((cat) => toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0]))
+    );
+  }, [studio?.categories, musicCategories, photoCategories]);
+
+  // Keep main category labels in sync when the UI language changes
+  useEffect(() => {
+    if (previousLanguageRef.current === i18n.language) return;
+
+    setSelectedCategories((prev) => {
+      previousLanguageRef.current = i18n.language;
+      if (!prev.length) return prev;
+      const updated = prev.map((cat) =>
+        toCurrentMainCategoryLabel(cat, musicCategories[0], photoCategories[0])
+      );
+      return JSON.stringify(updated) === JSON.stringify(prev) ? prev : updated;
+    });
+  }, [i18n.language, musicCategories, photoCategories]);
+
   const handleCategoryChange = (values: string[]) => {
     setSelectedCategories(values);
-    const newSubCategories = values.includes(`${musicCategories}`) ? musicSubCategoriesDisplay : photoSubCategories;
+    const newSubCategories = values.some((cat) => isMusicMainCategory(cat, musicCategories[0]))
+      ? musicSubCategoriesDisplay
+      : photoSubCategories;
     setSelectedDisplaySubCategories(newSubCategories.length > 0 ? [newSubCategories[0]] : []);
   };
 
@@ -661,7 +701,7 @@ export const EditStudioForm = () => {
     // Enrich form data with controlled state
     formData.coverImage = coverImage || studio?.coverImage || '';
     formData.galleryImages = galleryImages.length > 0 ? galleryImages : studio?.galleryImages || [];
-    formData.categories = selectedCategories;
+    formData.categories = selectedCategories.map(toEnglishMainCategory);
     formData.subCategories = englishSubCategories;
     formData.galleryAudioFiles = galleryAudioFiles;
 

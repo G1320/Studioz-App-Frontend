@@ -21,6 +21,7 @@ const OrderPage = lazyWithRetry(() => import('@features/entities/orders/pages/Or
 const SearchPage = lazyWithRetry(() => import('@features/search/pages/SearchPage'));
 const CreateStudioPage = lazyWithRetry(() => import('@features/entities/studios/pages/CreateStudioPage'));
 const EditStudioPage = lazyWithRetry(() => import('@features/entities/studios/pages/EditStudioPage'));
+const StudioManagePage = lazyWithRetry(() => import('@features/entities/studios/pages/StudioManagePage'));
 const OrderSuccessPage = lazyWithRetry(() => import('@features/entities/orders/pages/OrderSuccessPage'));
 const StudioCalendarPage = lazyWithRetry(() => import('@features/entities/bookings/calender/pages/CalenderPage'));
 const DashboardPage = lazyWithRetry(() => import('@features/entities/dashboard/pages/DashboardPage'));
@@ -197,6 +198,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           />
           {/* Studio CRUD - RESTful routes */}
           <Route path="/:lang?/studio/create" element={<CreateStudioPage />} />
+          <Route path="/:lang?/studio/:studioId/manage" element={<StudioManagePage />} />
           <Route path="/:lang?/studio/:studioId/edit" element={<EditStudioPage />} />
           <Route path="/:lang?/studio/:studioId/items/create" element={<CreateItemPage />} />
           {/* Item CRUD */}
