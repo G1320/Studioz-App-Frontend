@@ -15,6 +15,8 @@ import { useTheme } from '@shared/contexts/ThemeContext';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { trackCustomEvent, trackEvent } from '@shared/utils/analytics';
 import { isFeatureEnabled } from '@core/config/featureFlags';
+import { IphoneStatusChrome } from '../components/IphoneStatusChrome';
+import '../components/_iphone-status-chrome.scss';
 import '../styles/_preview-landing-page.scss';
 
 const PILLAR_ICONS = {
@@ -28,51 +30,77 @@ type PillarId = keyof typeof PILLAR_ICONS;
 
 const OPS_ROTATE_MS = 6000;
 
+/**
+ * Visual rhythm (avoid a run of identical duals):
+ * opening pair → phone → overlap dual → wide dual (full row) → closing pair.
+ */
 const SHOWCASES = [
   {
-    key: 'operations',
-    desktops: ['desktop-reservations', 'desktop-projects'] as const
+    key: 'calendar',
+    desktops: ['desktop-calendar', 'desktop-calendar-list'] as const,
+    layout: 'solo'
   },
   {
-    key: 'calendar',
-    desktops: ['desktop-calendar', 'desktop-calendar-list'] as const
+    key: 'operations',
+    desktops: ['desktop-projects', 'desktop-reservations'] as const,
+    layout: 'solo'
   },
   {
     key: 'projects',
-    desktop: undefined,
-    mobile: 'cross-device-project-review-mobile'
+    mobile: 'cross-device-project-review-mobile',
+    layout: 'phone'
   },
   {
     key: 'analytics',
     desktop: 'cross-device-analytics-desktop',
-    mobile: 'cross-device-analytics-mobile'
+    mobile: 'cross-device-analytics-mobile',
+    layout: 'overlap'
   },
   {
     key: 'presence',
     desktop: 'desktop-studio-portfolio',
-    mobile: 'mobile-studio-portfolio'
+    mobile: 'mobile-studio-portfolio',
+    layout: 'wide'
+  },
+  {
+    key: 'studios',
+    desktop: 'desktop-studio-manager',
+    layout: 'solo'
+  },
+  {
+    key: 'money',
+    desktop: 'desktop-documents',
+    layout: 'solo'
   }
 ] as const;
 
-/** First two ops surfaces share a row — same visual weight, both desktop rotations. */
-const PAIRED_SHOWCASE_COUNT = 2;
+type ShowcaseLayout = (typeof SHOWCASES)[number]['layout'];
+
+const OPENING_PAIR = SHOWCASES.slice(0, 2);
+const CLOSING_PAIR = SHOWCASES.slice(-2);
+const MIDDLE_SHOWCASES = SHOWCASES.slice(2, -2);
 
 interface ProductVisualProps {
   desktopSrc?: string;
   desktopSrcs?: string[];
   mobileSrc?: string;
+  layout?: ShowcaseLayout;
   alt: string;
   eager?: boolean;
   hero?: boolean;
+  /** Overlay iPhone status chrome on phone shots. Off for in-app modals that own the top bar. */
+  statusChrome?: boolean;
 }
 
 function ProductVisual({
   desktopSrc,
   desktopSrcs,
   mobileSrc,
+  layout = 'solo',
   alt,
   eager = false,
-  hero = false
+  hero = false,
+  statusChrome = true
 }: ProductVisualProps) {
   const reduceMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -80,7 +108,13 @@ function ProductVisual({
   const rotating = desktopSources.length > 1;
   const [activeIndex, setActiveIndex] = useState(0);
   const [fullyInView, setFullyInView] = useState(false);
-  const mobileOnly = Boolean(mobileSrc && desktopSources.length === 0);
+  const isPhone = layout === 'phone' || Boolean(mobileSrc && desktopSources.length === 0);
+  const isWide = layout === 'wide';
+  const isOverlap =
+    (layout === 'overlap' || layout === 'wide') &&
+    Boolean(mobileSrc) &&
+    desktopSources.length > 0 &&
+    !rotating;
 
   useEffect(() => {
     if (!rotating || reduceMotion) return;
@@ -112,8 +146,9 @@ function ProductVisual({
       ref={rootRef}
       className={[
         'preview-landing__product-visual',
-        desktopSrc && mobileSrc && !rotating ? 'preview-landing__product-visual--dual' : '',
-        mobileOnly ? 'preview-landing__product-visual--mobile-only' : '',
+        isOverlap ? 'preview-landing__product-visual--dual' : '',
+        isPhone ? 'preview-landing__product-visual--mobile-only' : '',
+        isWide ? 'preview-landing__product-visual--wide' : '',
         hero ? 'preview-landing__product-visual--hero' : ''
       ]
         .filter(Boolean)
@@ -142,8 +177,9 @@ function ProductVisual({
           ))}
         </div>
       ) : null}
-      {mobileSrc ? (
+      {mobileSrc && (isOverlap || isPhone) ? (
         <div className="preview-landing__shot preview-landing__shot--mobile">
+          {statusChrome ? <IphoneStatusChrome /> : null}
           <img
             src={mobileSrc}
             alt={desktopSources.length > 0 ? '' : alt}
@@ -152,6 +188,62 @@ function ProductVisual({
           />
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function ShowcasePair({
+  items,
+  captureUrl,
+  t,
+  fadeUp,
+  eagerFirst = false,
+  closing = false
+}: {
+  items: typeof OPENING_PAIR | typeof CLOSING_PAIR;
+  captureUrl: (capture: string) => string;
+  t: (key: string) => string;
+  fadeUp: Record<string, unknown>;
+  eagerFirst?: boolean;
+  closing?: boolean;
+}) {
+  return (
+    <div
+      className={[
+        'preview-landing__showcase-pair',
+        closing ? 'preview-landing__showcase-pair--closing' : ''
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {items.map((showcase, index) => {
+        const desktops =
+          'desktops' in showcase ? showcase.desktops.map((id) => captureUrl(id)) : undefined;
+        const desktop =
+          'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
+
+        return (
+          <motion.article
+            key={showcase.key}
+            className="preview-landing__showcase preview-landing__showcase--paired"
+            {...fadeUp}
+          >
+            <div className="preview-landing__showcase-copy">
+              <h3>{t(`showcase.${showcase.key}.title`)}</h3>
+              <p>{t(`showcase.${showcase.key}.description`)}</p>
+            </div>
+            <div className="preview-landing__showcase-visual">
+              <ProductVisual
+                desktopSrc={desktop}
+                desktopSrcs={desktops}
+                layout={showcase.layout}
+                alt={t(`showcase.${showcase.key}.imageAlt`)}
+                eager={eagerFirst && index === 0}
+              />
+            </div>
+          </motion.article>
+        );
+      })}
     </div>
   );
 }
@@ -311,39 +403,15 @@ export default function PreviewLandingPage() {
             </motion.header>
 
             <div className="preview-landing__showcase-list">
-              <div className="preview-landing__showcase-pair">
-                {SHOWCASES.slice(0, PAIRED_SHOWCASE_COUNT).map((showcase, index) => {
-                  const desktops =
-                    'desktops' in showcase
-                      ? showcase.desktops.map((id) => captureUrl(id))
-                      : undefined;
-                  const desktop =
-                    'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
+              <ShowcasePair
+                items={OPENING_PAIR}
+                captureUrl={captureUrl}
+                t={t}
+                fadeUp={fadeUp}
+                eagerFirst
+              />
 
-                  return (
-                    <motion.article
-                      key={showcase.key}
-                      className="preview-landing__showcase preview-landing__showcase--paired"
-                      {...fadeUp}
-                    >
-                      <div className="preview-landing__showcase-copy">
-                        <h3>{t(`showcase.${showcase.key}.title`)}</h3>
-                        <p>{t(`showcase.${showcase.key}.description`)}</p>
-                      </div>
-                      <div className="preview-landing__showcase-visual">
-                        <ProductVisual
-                          desktopSrc={desktop}
-                          desktopSrcs={desktops}
-                          alt={t(`showcase.${showcase.key}.imageAlt`)}
-                          eager={index === 0}
-                        />
-                      </div>
-                    </motion.article>
-                  );
-                })}
-              </div>
-
-              {SHOWCASES.slice(PAIRED_SHOWCASE_COUNT).map((showcase, index) => {
+              {MIDDLE_SHOWCASES.map((showcase, index) => {
                 const desktop =
                   'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
                 const desktops =
@@ -352,11 +420,20 @@ export default function PreviewLandingPage() {
                     : undefined;
                 const mobile =
                   'mobile' in showcase && showcase.mobile ? captureUrl(showcase.mobile) : undefined;
+                const layout = showcase.layout;
+                const wide = layout === 'wide';
 
                 return (
                   <motion.article
                     key={showcase.key}
-                    className={`preview-landing__showcase ${index % 2 ? 'preview-landing__showcase--reverse' : ''}`}
+                    className={[
+                      'preview-landing__showcase',
+                      wide ? 'preview-landing__showcase--wide' : '',
+                      !wide && index % 2 === 1 ? 'preview-landing__showcase--reverse' : '',
+                      layout === 'phone' ? 'preview-landing__showcase--phone' : ''
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
                     {...fadeUp}
                   >
                     <div className="preview-landing__showcase-copy">
@@ -368,12 +445,16 @@ export default function PreviewLandingPage() {
                         desktopSrc={desktop}
                         desktopSrcs={desktops}
                         mobileSrc={mobile}
+                        layout={layout}
                         alt={t(`showcase.${showcase.key}.imageAlt`)}
+                        statusChrome={layout !== 'phone'}
                       />
                     </div>
                   </motion.article>
                 );
               })}
+
+              <ShowcasePair items={CLOSING_PAIR} captureUrl={captureUrl} t={t} fadeUp={fadeUp} closing />
             </div>
           </div>
         </section>

@@ -212,6 +212,7 @@
     width: clamp(5.75rem, 30%, 11.5rem);
     border-radius: clamp(0.85rem, 2.5vw, 1.15rem);
     box-shadow: 0 1.1rem 2.25rem rgb(0 0 0 / 32%);
+    container-type: inline-size;
 
     > img {
       aspect-ratio: 9 / 19;
@@ -359,7 +360,7 @@
     gap: clamp(3.5rem, 8vw, 6rem);
   }
 
-  // Operations + calendar: equal-weight pair on desktop
+  // Operations + calendar (open) / studios + invoices (close): equal-weight pair on desktop
   &__showcase-pair {
     display: grid;
     grid-template-columns: 1fr;
@@ -370,6 +371,11 @@
       gap: clamp(1.25rem, 2vw, 1.75rem);
       align-items: stretch;
     }
+  }
+
+  &__showcase-pair--closing {
+    padding-top: clamp(0.5rem, 2vw, 1.25rem);
+    border-top: 1px solid color-mix(in srgb, var(--border-secondary) 70%, transparent);
   }
 
   &__showcase {
@@ -439,6 +445,57 @@
     }
   }
 
+  // Portfolio: full-row plane — copy above; optional overlapping phone (wide dual).
+  &__showcase--wide {
+    @media (min-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: clamp(1.25rem, 3vw, 2rem);
+      justify-items: stretch;
+
+      .preview-landing__showcase-copy {
+        max-width: 36rem;
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      .preview-landing__showcase-visual {
+        width: 100%;
+      }
+    }
+  }
+
+  // Feedback phone: copy and visual stack centered, quieter than side-by-side rows.
+  &__showcase--phone {
+    @media (min-width: 900px) {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    }
+  }
+
+  &__product-visual--wide {
+    .preview-landing__shot--desktop > img {
+      // Match desktop capture ratio so Overview tabs aren’t sliced by a 16:9 top-crop.
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  // Wide dual: roomier phone on the full-bleed desktop plane.
+  &__product-visual--wide.preview-landing__product-visual--dual {
+    padding-inline-end: clamp(4rem, 18%, 9rem);
+
+    .preview-landing__shot--mobile {
+      width: clamp(6.5rem, 22%, 13.5rem);
+      bottom: clamp(-0.65rem, -1vw, -0.2rem);
+    }
+
+    @media (max-width: 720px) {
+      padding-inline-end: clamp(4.75rem, 30%, 8.5rem);
+
+      .preview-landing__shot--mobile {
+        width: clamp(6.5rem, 32%, 11rem);
+      }
+    }
+  }
+
   &__showcase-copy {
     max-width: 28rem;
 
@@ -460,7 +517,6 @@
   // ----- Proof -----
   &__proof {
     border-top: 1px solid color-mix(in srgb, var(--border-secondary) 80%, transparent);
-    background: color-mix(in srgb, var(--bg-secondary) 55%, var(--bg-primary));
   }
 
   &__proof-grid {
@@ -504,7 +560,6 @@
   // ----- Pricing (Samply-style three cards) -----
   &__pricing {
     border-top: 1px solid color-mix(in srgb, var(--border-secondary) 80%, transparent);
-    background: color-mix(in srgb, var(--bg-secondary) 35%, var(--bg-primary));
   }
 
   &__pricing-accent {

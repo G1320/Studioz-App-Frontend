@@ -796,19 +796,144 @@ const merchantDocuments = [
   {
     id: 'document-1',
     externalId: 'sumit-document-1',
-    number: 'INV-2026-0918',
+    number: 'INV-2026-0922',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 3200,
+    currency: 'ILS',
+    date: '2026-09-22',
+    dueDate: '2026-10-06',
+    status: 'pending',
+    customerName: 'Yael Cohen',
+    customerEmail: 'yael@example.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0922.pdf'
+  },
+  {
+    id: 'document-2',
+    externalId: 'sumit-document-2',
+    number: 'INV-2026-0920',
     type: 'invoice',
     studioId: STUDIO_ID,
     studioName: 'Tempo Studios',
     amount: 2800,
     currency: 'ILS',
+    date: '2026-09-20',
+    dueDate: '2026-09-30',
+    status: 'paid',
+    customerName: 'Daniel Levi',
+    customerEmail: 'daniel@example.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0920.pdf'
+  },
+  {
+    id: 'document-3',
+    externalId: 'sumit-document-3',
+    number: 'INV-2026-0918',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 1600,
+    currency: 'ILS',
     date: '2026-09-18',
     dueDate: '2026-09-28',
     status: 'paid',
-    customerName: 'Daniel Levi',
-    customerEmail: 'daniel@example.test'
+    customerName: 'Noa Berg',
+    customerEmail: 'noa@example.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0918.pdf'
+  },
+  {
+    id: 'document-4',
+    externalId: 'sumit-document-4',
+    number: 'INV-2026-0915',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 950,
+    currency: 'ILS',
+    date: '2026-09-15',
+    dueDate: '2026-09-25',
+    status: 'pending',
+    customerName: 'Eitan Sharabi',
+    customerEmail: 'eitan@example.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0915.pdf'
+  },
+  {
+    id: 'document-5',
+    externalId: 'sumit-document-5',
+    number: 'INV-2026-0912',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 2100,
+    currency: 'ILS',
+    date: '2026-09-12',
+    dueDate: '2026-09-22',
+    status: 'paid',
+    customerName: 'Shira Alon',
+    customerEmail: 'shira@example.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0912.pdf'
+  },
+  {
+    id: 'document-6',
+    externalId: 'sumit-document-6',
+    number: 'INV-2026-0908',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 720,
+    currency: 'ILS',
+    date: '2026-09-08',
+    dueDate: '2026-09-18',
+    status: 'overdue',
+    customerName: 'Soundcraft Productions',
+    customerEmail: 'ops@soundcraft.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0908.pdf'
+  },
+  {
+    id: 'document-7',
+    externalId: 'sumit-document-7',
+    number: 'INV-2026-0903',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 1450,
+    currency: 'ILS',
+    date: '2026-09-03',
+    dueDate: '2026-09-17',
+    status: 'paid',
+    customerName: 'Amir Hadad',
+    customerEmail: 'amir@example.test',
+    documentUrl: 'https://example.test/invoices/inv-2026-0903.pdf'
+  },
+  {
+    id: 'document-8',
+    externalId: 'sumit-document-8',
+    number: 'INV-2026-0828',
+    type: 'invoice',
+    studioId: STUDIO_ID,
+    studioName: 'Tempo Studios',
+    amount: 500,
+    currency: 'ILS',
+    date: '2026-08-28',
+    dueDate: '2026-09-11',
+    status: 'draft',
+    customerName: 'Tomer Harari',
+    customerEmail: 'tomer@example.test'
   }
 ];
+
+const merchantDocumentsStats = {
+  totalRevenue: merchantDocuments
+    .filter((doc) => doc.status === 'paid')
+    .reduce((sum, doc) => sum + doc.amount, 0),
+  pendingAmount: merchantDocuments
+    .filter((doc) => doc.status === 'pending')
+    .reduce((sum, doc) => sum + doc.amount, 0),
+  overdueAmount: merchantDocuments
+    .filter((doc) => doc.status === 'overdue')
+    .reduce((sum, doc) => sum + doc.amount, 0),
+  totalDocs: merchantDocuments.length
+};
 
 const projectCollaboratorsDemo = [
   activeCollab(collabAmir, 'vendor', '2026-09-19T09:30:00.000Z'),
@@ -1044,6 +1169,263 @@ const additionalProjects = [
     ],
     createdAt: '2026-09-22T15:00:00.000Z',
     updatedAt: '2026-09-22T15:00:00.000Z'
+  },
+  {
+    _id: 'project-silver-lining',
+    title: 'Silver Lining — Vocal Tune',
+    brief: 'Pitch and timing pass on lead and doubles.',
+    customerId: { _id: 'customer-maya', name: 'Maya Sol', email: 'maya.sol@example.test' },
+    customerName: 'Maya Sol',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: remoteMixItem,
+    itemName: remoteMixItem.name,
+    studioName: studio.name,
+    price: 1100,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 3,
+    deadline: '2026-09-28T18:00:00.000Z',
+    revisionsIncluded: 2,
+    revisionsUsed: 1,
+    paymentStatus: 'deposit_paid',
+    status: 'in_progress',
+    artworkUrl: '/images/screenshots/tempo-studios-vocal-setup.webp',
+    collaborators: [
+      activeCollab(collabNoa, 'customer', '2026-09-20T11:00:00.000Z'),
+      activeCollab(
+        { _id: 'customer-maya', name: 'Maya Sol', email: 'maya.sol@example.test', picture: fixtureAvatar('maya-sol', 'MS') },
+        'customer',
+        '2026-09-20T11:05:00.000Z'
+      )
+    ],
+    createdAt: '2026-09-20T11:00:00.000Z',
+    updatedAt: '2026-09-22T10:00:00.000Z'
+  },
+  {
+    _id: 'project-coastline',
+    title: 'Coastline — Stem Prep',
+    brief: 'Organize and label stems for a remote mix handoff.',
+    customerId: { _id: 'customer-omer', name: 'Omer Katz', email: 'omer@example.test' },
+    customerName: 'Omer Katz',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: mixingItem,
+    itemName: mixingItem.name,
+    studioName: studio.name,
+    price: 750,
+    depositPaid: true,
+    finalPaid: true,
+    estimatedDeliveryDays: 2,
+    deadline: '2026-09-21T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 0,
+    paymentStatus: 'paid',
+    status: 'completed',
+    artworkUrl: '/images/screenshots/tempo-studios-real.webp',
+    collaborators: [
+      activeCollab(
+        { _id: 'customer-omer', name: 'Omer Katz', email: 'omer@example.test', picture: fixtureAvatar('omer-katz', 'OK') },
+        'customer',
+        '2026-09-16T09:00:00.000Z'
+      ),
+      activeCollab(collabAmir, 'vendor', '2026-09-16T09:10:00.000Z')
+    ],
+    createdAt: '2026-09-16T09:00:00.000Z',
+    updatedAt: '2026-09-21T16:00:00.000Z'
+  },
+  {
+    _id: 'project-night-bus',
+    title: 'Night Bus — Drum Edit',
+    brief: 'Tighten live drums and align fills across takes.',
+    customerId: { _id: 'customer-tal', name: 'Tal Ben-Ami', email: 'tal@example.test' },
+    customerName: 'Tal Ben-Ami',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: item,
+    itemName: item.name,
+    studioName: studio.name,
+    price: 1850,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 4,
+    deadline: '2026-09-30T18:00:00.000Z',
+    revisionsIncluded: 2,
+    revisionsUsed: 0,
+    paymentStatus: 'deposit_paid',
+    status: 'accepted',
+    artworkUrl: '/images/screenshots/tempo-studios-live-room.webp',
+    collaborators: [
+      activeCollab(collabEitan, 'vendor', '2026-09-19T13:00:00.000Z'),
+      activeCollab(
+        { _id: 'customer-tal', name: 'Tal Ben-Ami', email: 'tal@example.test', picture: fixtureAvatar('tal-ben-ami', 'TB') },
+        'customer',
+        '2026-09-19T13:10:00.000Z'
+      )
+    ],
+    createdAt: '2026-09-19T13:00:00.000Z',
+    updatedAt: '2026-09-22T07:30:00.000Z'
+  },
+  {
+    _id: 'project-glasshouse',
+    title: 'Glasshouse — Mix Polish',
+    brief: 'Final automation and bus polish before master.',
+    customerId: { _id: 'customer-dina', name: 'Dina Weiss', email: 'dina@example.test' },
+    customerName: 'Dina Weiss',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: mixingItem,
+    itemName: mixingItem.name,
+    studioName: studio.name,
+    price: 2400,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 5,
+    deadline: '2026-10-01T18:00:00.000Z',
+    revisionsIncluded: 2,
+    revisionsUsed: 1,
+    paymentStatus: 'deposit_paid',
+    status: 'revision_requested',
+    artworkUrl: '/images/screenshots/northline-track-neon-tides.webp',
+    collaborators: [
+      activeCollab(vendorUser, 'vendor', '2026-09-17T10:00:00.000Z'),
+      activeCollab(
+        { _id: 'customer-dina', name: 'Dina Weiss', email: 'dina@example.test', picture: fixtureAvatar('dina-weiss', 'DW') },
+        'customer',
+        '2026-09-17T10:15:00.000Z'
+      ),
+      activeCollab(collabShira, 'customer', '2026-09-17T10:20:00.000Z')
+    ],
+    createdAt: '2026-09-17T10:00:00.000Z',
+    updatedAt: '2026-09-22T14:00:00.000Z'
+  },
+  {
+    _id: 'project-blue-room',
+    title: 'Blue Room — Podcast Mix',
+    brief: 'Balance hosts and guest, remove room noise.',
+    customerId: { _id: 'customer-avi', name: 'Avi Rosen', email: 'avi@example.test' },
+    customerName: 'Avi Rosen',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: items.find((entry) => entry._id === 'item-podcast') ?? item,
+    itemName: (items.find((entry) => entry._id === 'item-podcast') ?? item).name,
+    studioName: studio.name,
+    price: 650,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 2,
+    deadline: '2026-09-25T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 0,
+    paymentStatus: 'deposit_paid',
+    status: 'in_progress',
+    artworkUrl: '/images/screenshots/tempo-studios-podcast-room.webp',
+    collaborators: [
+      activeCollab(
+        { _id: 'customer-avi', name: 'Avi Rosen', email: 'avi@example.test', picture: fixtureAvatar('avi-rosen', 'AR') },
+        'customer',
+        '2026-09-21T16:00:00.000Z'
+      ),
+      activeCollab(collabAmir, 'vendor', '2026-09-21T16:10:00.000Z')
+    ],
+    createdAt: '2026-09-21T16:00:00.000Z',
+    updatedAt: '2026-09-22T11:00:00.000Z'
+  },
+  {
+    _id: 'project-redline',
+    title: 'Redline — Single Master',
+    brief: 'Streaming master with loudness and stereo checks.',
+    customerId: { _id: 'customer-gal', name: 'Gal Peri', email: 'gal@example.test' },
+    customerName: 'Gal Peri',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: masteringItem,
+    itemName: masteringItem.name,
+    studioName: studio.name,
+    price: 800,
+    depositPaid: true,
+    finalPaid: true,
+    estimatedDeliveryDays: 3,
+    deadline: '2026-09-19T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 1,
+    paymentStatus: 'paid',
+    status: 'delivered',
+    artworkUrl: '/images/screenshots/northline-track-paper-planes.webp',
+    collaborators: [
+      activeCollab(
+        { _id: 'customer-gal', name: 'Gal Peri', email: 'gal@example.test', picture: fixtureAvatar('gal-peri', 'GP') },
+        'customer',
+        '2026-09-14T08:00:00.000Z'
+      ),
+      activeCollab(collabEitan, 'vendor', '2026-09-14T08:15:00.000Z')
+    ],
+    createdAt: '2026-09-14T08:00:00.000Z',
+    updatedAt: '2026-09-19T17:00:00.000Z'
+  },
+  {
+    _id: 'project-low-tide',
+    title: 'Low Tide — Arrangement',
+    brief: 'Structure notes and rough arrangement for EP opener.',
+    customerId: { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test' },
+    customerName: 'Yael Cohen',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: remoteMixItem,
+    itemName: remoteMixItem.name,
+    studioName: studio.name,
+    price: 1950,
+    depositPaid: false,
+    finalPaid: false,
+    estimatedDeliveryDays: 7,
+    deadline: '2026-10-06T18:00:00.000Z',
+    revisionsIncluded: 2,
+    revisionsUsed: 0,
+    paymentStatus: 'unpaid',
+    status: 'requested',
+    artworkUrl: '/images/screenshots/tempo-studios-console.webp',
+    collaborators: [
+      activeCollab(
+        { _id: 'customer-yael', name: 'Yael Cohen', email: 'yael@example.test', picture: fixtureAvatar('yael-cohen', 'YC') },
+        'customer',
+        '2026-09-22T12:00:00.000Z'
+      ),
+      activeCollab(collabNoa, 'customer', '2026-09-22T12:10:00.000Z')
+    ],
+    createdAt: '2026-09-22T12:00:00.000Z',
+    updatedAt: '2026-09-22T12:00:00.000Z'
+  },
+  {
+    _id: 'project-ironwood',
+    title: 'Ironwood — Guitar Overdubs',
+    brief: 'Layer rhythm and lead overdubs for a rock single.',
+    customerId: { _id: 'customer-ido', name: 'Ido Bar', email: 'ido@example.test' },
+    customerName: 'Ido Bar',
+    vendorId: vendorUser,
+    studioId: studio,
+    itemId: item,
+    itemName: item.name,
+    studioName: studio.name,
+    price: 2100,
+    depositPaid: true,
+    finalPaid: false,
+    estimatedDeliveryDays: 4,
+    deadline: '2026-09-27T18:00:00.000Z',
+    revisionsIncluded: 1,
+    revisionsUsed: 0,
+    paymentStatus: 'deposit_paid',
+    status: 'in_progress',
+    artworkUrl: '/images/screenshots/midnight-drive-artwork.webp',
+    collaborators: [
+      activeCollab(collabAmir, 'vendor', '2026-09-18T15:00:00.000Z'),
+      activeCollab(
+        { _id: 'customer-ido', name: 'Ido Bar', email: 'ido@example.test', picture: fixtureAvatar('ido-bar', 'IB') },
+        'customer',
+        '2026-09-18T15:10:00.000Z'
+      )
+    ],
+    createdAt: '2026-09-18T15:00:00.000Z',
+    updatedAt: '2026-09-22T13:00:00.000Z'
   }
 ];
 
@@ -1077,6 +1459,38 @@ const hebrewProjectListCopy: Record<string, { title: string; brief: string }> = 
   'project-new-request': {
     title: 'Harbor Lights — מיקס דמו',
     brief: 'מיקס ראשון מסטמים גולמיים לסשן כתיבה.'
+  },
+  'project-silver-lining': {
+    title: 'Silver Lining — כוונון ווקאל',
+    brief: 'תיקון פיתץ׳ ותזמון לווקאל מוביל וכפילויות.'
+  },
+  'project-coastline': {
+    title: 'Coastline — הכנת סטמים',
+    brief: 'ארגון ותיוג סטמים למסירת מיקס מרחוק.'
+  },
+  'project-night-bus': {
+    title: 'Night Bus — עריכת תופים',
+    brief: 'הידוק תופים חיים ויישור פילים בין טייקים.'
+  },
+  'project-glasshouse': {
+    title: 'Glasshouse — ליטוש מיקס',
+    brief: 'אוטומציה סופית וליטוש באסים לפני מאסטר.'
+  },
+  'project-blue-room': {
+    title: 'Blue Room — מיקס פודקאסט',
+    brief: 'איזון מנחים ואורח, הסרת רעשי חדר.'
+  },
+  'project-redline': {
+    title: 'Redline — מאסטר סינגל',
+    brief: 'מאסטר לסטרמינג עם בדיקות עוצמה וסטריאו.'
+  },
+  'project-low-tide': {
+    title: 'Low Tide — עיבוד',
+    brief: 'הערות מבנה ועיבוד גס לפתיחת EP.'
+  },
+  'project-ironwood': {
+    title: 'Ironwood — אוברדאבים לגיטרה',
+    brief: 'שכבות ריתם וליד לסינגל רוק.'
   }
 };
 
@@ -1613,8 +2027,13 @@ export function resolveFixtureRequest(
   if (method === 'GET' && path === '/merchant/documents') {
     return json({
       documents: merchantDocuments,
-      stats: { totalRevenue: 2800, pendingAmount: 0, overdueAmount: 0, totalDocs: 1 },
-      pagination: { total: 1, page: 1, limit: 50, pages: 1 }
+      stats: merchantDocumentsStats,
+      pagination: {
+        total: merchantDocuments.length,
+        page: 1,
+        limit: 50,
+        pages: 1
+      }
     });
   }
   if (method === 'GET' && path.includes('/saved-cards')) return json([]);

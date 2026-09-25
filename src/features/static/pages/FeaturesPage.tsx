@@ -23,6 +23,8 @@ import {
   type CaptureLocale,
   type FeatureId
 } from '../featuresConfig';
+import { IphoneStatusChrome } from '../components/IphoneStatusChrome';
+import '../components/_iphone-status-chrome.scss';
 import '../styles/_features-page.scss';
 import '../styles/_features-page-showcase.scss';
 
@@ -38,14 +40,12 @@ const FEATURE_ICONS = {
 
 /**
  * Showcase rows for /features — intentionally different assets from PreviewLandingPage:
- * landing uses reservations/projects rotation, cross-device analytics, project-review mobile, portfolio.
+ * landing owns ops/calendar/projects/analytics/presence plus studios + invoices at the bottom.
  */
 const SHOWCASES = [
   { key: 'calendar', desktop: 'desktop-calendar', mobile: 'mobile-calendar' },
-  { key: 'studios', desktop: 'desktop-studio-manager', mobile: 'mobile-studio-manager' },
   { key: 'insights', desktop: 'desktop-stats', mobile: 'mobile-analytics-revenue' },
-  { key: 'delivery', desktop: 'desktop-project-workspace', mobile: 'mobile-project-workspace' },
-  { key: 'money', desktop: 'desktop-billing', mobile: 'mobile-billing' }
+  { key: 'delivery', desktop: 'desktop-project-workspace', mobile: 'mobile-project-workspace' }
 ] as const;
 
 interface ProductVisualProps {
@@ -73,8 +73,10 @@ function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false
       </div>
       {mobileSrc && (
         <div className="features-page__phone-frame">
-          <span className="features-page__phone-island" aria-hidden="true" />
-          <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+          <div className="features-page__phone-screen">
+            <IphoneStatusChrome />
+            <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+          </div>
         </div>
       )}
     </div>

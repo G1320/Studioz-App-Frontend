@@ -381,14 +381,14 @@ const scenes: ScreenshotScene[] = [
     id: 'desktop-documents',
     order: 43,
     path: '/dashboard?tab=documents',
-    readySelector: '.merchant-documents',
+    readySelector: '.documents-table__row',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'scroll', y: 100 }],
-    deviceTransform: { scale: 0.72, y: 100, shadow: true },
+    actions: [{ type: 'scroll', y: 60 }],
+    deviceTransform: { scale: 0.72, y: 80, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
       quality: 88
@@ -408,14 +408,14 @@ const scenes: ScreenshotScene[] = [
     id: 'mobile-documents',
     order: 44,
     path: '/dashboard?tab=documents',
-    readySelector: '.merchant-documents',
+    readySelector: '.documents-table__row',
     fixture: 'vendor-dashboard',
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [],
-    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    actions: [{ type: 'scroll', selector: '.documents-table', offsetY: 72 }],
+    deviceTransform: { scale: 0.82, y: 420, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
       quality: 88
@@ -822,7 +822,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    // Keep Actions + source files + chat in frame for every locale/theme.
+    // SOURCE FILES + tracks + chat. Transform-from-0; -88 matches prior hero framing.
     actions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -903,6 +903,8 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'feature',
+    // Keep full cover; slight nudge so Overview tab isn’t flush-cut. Description may clip.
+    actions: [{ type: 'scroll', y: 90 }],
     deviceTransform: { scale: 0.72, y: 100, rotation: -0.5, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -929,7 +931,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    // Desktop: same Actions + source files scene as desktop-project-workspace.
+    // Desktop: same source-files framing as desktop-project-workspace.
     // Mobile: open a track thread so the dual still shows cross-device review.
     primaryActions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
     secondaryActions: [
@@ -1090,6 +1092,17 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'minimal',
+    // Extra top pad so status-bar chrome has a sliver of dark before the hero image.
+    actions: [
+      {
+        type: 'style',
+        css: `
+          main {
+            padding-top: 4.35rem !important;
+          }
+        `
+      }
+    ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',

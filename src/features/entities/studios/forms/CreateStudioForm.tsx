@@ -759,14 +759,61 @@ export const CreateStudioForm = () => {
   }, [currentStepIndex]);
 
   if (!user?._id) {
+    const setupSteps = [
+      t('form.loginGate.steps.profile', { defaultValue: 'Studio profile & description' }),
+      t('form.loginGate.steps.amenities', { defaultValue: 'Amenities, gear & capacity' }),
+      t('form.loginGate.steps.schedule', { defaultValue: 'Hours, location & contact' }),
+      t('form.loginGate.steps.media', { defaultValue: 'Photos, portfolio & policies' })
+    ];
+
     return (
-      <section className="form-wrapper create-studio-form-wrapper">
-        <div className="create-studio-login-gate" role="status" aria-live="polite">
-          <h2>{t('form.errors.loginRequired', { defaultValue: 'Please log in to create a studio.' })}</h2>
-          <p>{t('form.loginToStart', { defaultValue: 'Log in first to start your studio setup and save progress.' })}</p>
-          <button type="button" className="stepped-form__button stepped-form__button--submit" onClick={() => loginWithPopup()}>
-            {t('buttons.log_in', { defaultValue: 'Log In' })}
+      <section className="create-studio-login-gate" role="status" aria-live="polite">
+        <div className="create-studio-login-gate__intro">
+          <p className="create-studio-login-gate__kicker">
+            {t('form.loginGate.kicker', { defaultValue: 'Studio setup' })}
+          </p>
+          <h1 className="create-studio-login-gate__title">
+            {t('form.loginGate.title', { defaultValue: 'List your studio on Studioz' })}
+          </h1>
+          <p className="create-studio-login-gate__body">
+            {t('form.loginGate.body', {
+              defaultValue:
+                'Create a professional listing your clients can book — rooms, availability, media, and policies in one place.'
+            })}
+          </p>
+          <ol className="create-studio-login-gate__steps">
+            {setupSteps.map((label, index) => (
+              <li key={label} className="create-studio-login-gate__step">
+                <span className="create-studio-login-gate__step-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="create-studio-login-gate__step-label">{label}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="create-studio-login-gate__panel">
+          <h2 className="create-studio-login-gate__panel-title">
+            {t('form.loginGate.panelTitle', { defaultValue: 'Sign in to continue' })}
+          </h2>
+          <p className="create-studio-login-gate__panel-body">
+            {t('form.loginGate.panelBody', {
+              defaultValue: 'Your setup progress saves automatically so you can finish when ready.'
+            })}
+          </p>
+          <button
+            type="button"
+            className="stepped-form__button stepped-form__button--submit create-studio-login-gate__cta"
+            onClick={() => loginWithPopup()}
+          >
+            {t('form.loginGate.cta', { defaultValue: 'Log in to start setup' })}
           </button>
+          <p className="create-studio-login-gate__hint">
+            {t('form.loginGate.hint', {
+              defaultValue: 'New to Studioz? You can create an account in under a minute.'
+            })}
+          </p>
         </div>
       </section>
     );

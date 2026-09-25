@@ -50,6 +50,18 @@ export class WebCaptureAdapter implements CaptureAdapter {
       await page.waitForSelector(scenario.readySelector, { visible: true, timeout: 20_000 });
 
       const actions = scenario.actions || [];
+      // Wait for source-track rows to mount before scrolling — their height
+      // otherwise shifts marketing frames between runs.
+      if (actions.some((action) => action.type === 'scroll' && action.selector?.includes('project-file-uploader'))) {
+        await page.evaluate(async () => {
+          const start = performance.now();
+          while (performance.now() - start < 2500) {
+            const players = document.querySelectorAll('.project-file-uploader--source .remote-audio-player');
+            if (players.length >= 5) break;
+            await new Promise((r) => setTimeout(r, 50));
+          }
+        });
+      }
       for (const action of actions) await runNavigationAction(page, action);
       try {
         await waitForStableUi(page, scenario.readySelector);
@@ -276,9 +288,21 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
       action.selector,
       (element, offsetY) => {
         document.documentElement.style.transform = '';
+        const topPad = typeof offsetY === 'number' ? offsetY : 0;
 
-        // Prefer real window scroll so position:fixed site chrome stays put.
-        const targetTop = window.scrollY + element.getBoundingClientRect().top - (offsetY || 0);
+        // Negative offsets: transform from scrollY=0 for deterministic marketing
+        // frames (avoids waveform/pad height fighting window.scrollY).
+        // Non-negative: real window scroll so position:fixed chrome stays put.
+        if (topPad < 0) {
+          window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
+          const delta = element.getBoundingClientRect().top - topPad;
+          if (Math.abs(delta) > 0.5) {
+            document.documentElement.style.transform = `translate(0px, ${-delta}px)`;
+          }
+          return;
+        }
+
+        const targetTop = window.scrollY + element.getBoundingClientRect().top - topPad;
         const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
         if (targetTop > maxY + 1) {
           let pad = document.getElementById('__screenshot-scroll-pad');
@@ -292,12 +316,10 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
           }
           pad.style.height = `${Math.max(pad.offsetHeight, targetTop - maxY + 48)}px`;
         }
-
         window.scrollTo({ left: 0, top: Math.max(0, targetTop), behavior: 'instant' });
 
-        // If scroll still missed (short page / overflow quirks), visual shift.
         const rect = element.getBoundingClientRect();
-        const delta = rect.top - (offsetY || 0);
+        const delta = rect.top - topPad;
         if (Math.abs(delta) > 1) {
           document.documentElement.style.transform = `translate(0px, ${-delta}px)`;
         }
@@ -409,7 +431,19 @@ function deterministicCaptureCss(hideAppHeader: boolean): string {
     html { color-scheme: light dark; }
     body { cursor: default !important; }
     #main-footer, footer.desktop-footer,
-    .accessibility-widget, .accessibility-popover, .a11y-trigger, .a11y-popover, [data-testid="cookie-consent-banner"] {
+    .accessibility-widget, .accessibility-popover, .a11y-trigger, .a11y-popover, [data-testid="cookie-consent-banner"],
+    .studio-details .fan-menu,
+    .studio-details-options-container,
+    .studio-options-container {
+      display: none !important;
+    }
+    /* Opaque header in captures — backdrop blur smears brand yellow into a halo. */
+    header.app-header {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: var(--bg-primary) !important;
+    }
+    header.app-header::after {
       display: none !important;
     }
     ${

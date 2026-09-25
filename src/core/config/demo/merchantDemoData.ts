@@ -79,138 +79,139 @@ export const DEMO_CLIENTS: DemoClient[] = [
 ];
 
 // Demo documents for merchant documents page (dates in recent window so they appear in default 30-day filter)
+// Screenshot clock is fixed at 2026-09-22 — keep invoice dates within the prior 30 days.
 export const DEMO_DOCUMENTS: DemoDocument[] = [
   {
     id: '1',
-    number: 'INV-2026-001',
+    number: 'INV-2026-0922',
     type: 'invoice',
-    studioName: '1320',
-    amount: 1250,
-    date: '2026-04-10',
-    dueDate: '2026-04-25',
-    status: 'paid',
-    customerName: 'רונן דהן'
+    studioName: 'Tempo Studios',
+    amount: 3200,
+    date: '2026-09-22',
+    dueDate: '2026-10-06',
+    status: 'pending',
+    customerName: 'יעל כהן'
   },
   {
     id: '2',
-    number: 'INV-2026-002',
+    number: 'INV-2026-0920',
     type: 'invoice',
-    studioName: '1320',
-    amount: 840,
-    date: '2026-04-08',
-    dueDate: '2026-04-22',
+    studioName: 'Tempo Studios',
+    amount: 2800,
+    date: '2026-09-20',
+    dueDate: '2026-09-30',
     status: 'paid',
-    customerName: 'שרי גולן'
+    customerName: 'דניאל לוי'
   },
   {
     id: '3',
-    number: 'INV-2026-003',
+    number: 'INV-2026-0918',
     type: 'invoice',
-    studioName: '1320',
-    amount: 2100,
-    date: '2026-04-05',
-    dueDate: '2026-04-20',
+    studioName: 'Tempo Studios',
+    amount: 1600,
+    date: '2026-09-18',
+    dueDate: '2026-09-28',
     status: 'paid',
-    customerName: "להקת 'השכנים'"
+    customerName: 'נועה ברג'
   },
   {
     id: '4',
-    number: 'INV-2026-004',
+    number: 'INV-2026-0915',
     type: 'invoice',
-    studioName: '1320',
-    amount: 450,
-    date: '2026-04-03',
-    dueDate: '2026-04-18',
-    status: 'paid',
-    customerName: 'גיא מרגלית'
+    studioName: 'Tempo Studios',
+    amount: 950,
+    date: '2026-09-15',
+    dueDate: '2026-09-25',
+    status: 'pending',
+    customerName: 'איתן שרעבי'
   },
   {
     id: '5',
-    number: 'INV-2026-005',
+    number: 'INV-2026-0912',
     type: 'invoice',
-    studioName: '1320',
-    amount: 1800,
-    date: '2026-03-28',
-    dueDate: '2026-04-12',
+    studioName: 'Tempo Studios',
+    amount: 2100,
+    date: '2026-09-12',
+    dueDate: '2026-09-22',
     status: 'paid',
-    customerName: 'נועה קירל'
+    customerName: 'שירה אלון'
   },
   {
     id: '6',
-    number: 'REC-2026-012',
+    number: 'REC-2026-0910',
     type: 'receipt',
-    studioName: '1320',
+    studioName: 'Tempo Studios',
     amount: 1200,
-    date: '2026-04-01',
-    dueDate: '2026-04-01',
+    date: '2026-09-10',
+    dueDate: '2026-09-10',
     status: 'paid',
     customerName: 'אביב גפן'
   },
   {
     id: '7',
-    number: 'CTR-2026-001',
-    type: 'contract',
-    studioName: '1320',
-    amount: 0,
-    date: '2026-03-20',
-    dueDate: '2026-03-20',
-    status: 'paid',
-    customerName: 'הפקות בע"מ'
+    number: 'INV-2026-0908',
+    type: 'invoice',
+    studioName: 'Tempo Studios',
+    amount: 720,
+    date: '2026-09-08',
+    dueDate: '2026-09-18',
+    status: 'overdue',
+    customerName: 'הפקות צליל בע״מ'
   },
   {
     id: '8',
-    number: 'INV-2026-006',
+    number: 'INV-2026-0905',
     type: 'invoice',
-    studioName: '1320',
-    amount: 950,
-    date: '2026-04-06',
-    dueDate: '2026-04-21',
+    studioName: 'Tempo Studios',
+    amount: 1450,
+    date: '2026-09-05',
+    dueDate: '2026-09-19',
+    status: 'paid',
+    customerName: 'אמיר חדד'
+  },
+  {
+    id: '9',
+    number: 'INV-2026-0903',
+    type: 'invoice',
+    studioName: 'Tempo Studios',
+    amount: 840,
+    date: '2026-09-03',
+    dueDate: '2026-09-17',
     status: 'paid',
     customerName: 'מיכל אברהם'
   },
   {
-    id: '9',
-    number: 'INV-2026-007',
-    type: 'invoice',
-    studioName: '1320',
-    amount: 1600,
-    date: '2026-04-11',
-    dueDate: '2026-04-26',
-    status: 'pending',
-    customerName: 'אלון שפירא'
-  },
-  {
     id: '10',
-    number: 'INV-2026-008',
+    number: 'INV-2026-0901',
     type: 'invoice',
-    studioName: '1320',
-    amount: 720,
-    date: '2026-04-09',
-    dueDate: '2026-04-24',
-    status: 'pending',
-    customerName: 'רוני בן דוד'
+    studioName: 'Tempo Studios',
+    amount: 1800,
+    date: '2026-09-01',
+    dueDate: '2026-09-15',
+    status: 'paid',
+    customerName: "להקת 'השכנים'"
   },
   {
     id: '11',
-    number: 'INV-2026-009',
+    number: 'INV-2026-0828',
     type: 'invoice',
-    studioName: '1320',
-    amount: 3200,
-    date: '2026-03-15',
-    dueDate: '2026-03-30',
-    status: 'overdue',
-    customerName: 'הפקות צליל בע"מ'
+    studioName: 'Tempo Studios',
+    amount: 500,
+    date: '2026-08-28',
+    dueDate: '2026-09-11',
+    status: 'draft',
+    customerName: 'תומר הראל'
   },
   {
     id: '12',
-    number: 'INV-2026-010',
+    number: 'INV-2026-0825',
     type: 'invoice',
-    studioName: '1320',
-    amount: 500,
-    date: '2026-04-12',
-    dueDate: '2026-04-27',
-    status: 'draft',
-    customerName: 'תומר הראל'
+    studioName: 'Tempo Studios',
+    amount: 1250,
+    date: '2026-08-25',
+    dueDate: '2026-09-08',
+    status: 'paid',
+    customerName: 'רונן דהן'
   }
 ];
 

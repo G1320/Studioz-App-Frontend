@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   Search,
   Filter,
@@ -45,6 +45,7 @@ function projectSortTime(project: RemoteProject, field: SortField): number | nul
 export const ProjectsListPage: React.FC = () => {
   const { t, i18n } = useTranslation('remoteProjects');
   const { user } = useUserContext();
+  const reduceMotion = useReducedMotion();
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>(DEFAULT_SORT_FIELD);
@@ -251,9 +252,11 @@ export const ProjectsListPage: React.FC = () => {
             return (
               <motion.div
                 key={project._id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
+                transition={
+                  reduceMotion ? { duration: 0 } : { delay: Math.min(idx, 8) * 0.04, duration: 0.25 }
+                }
               >
                 <Link to={`/${i18n.language}/projects/${project._id}`} className="projects-list__card">
                   <div className="projects-list__card-artwork">

@@ -44,9 +44,9 @@
 
   &__grid {
     display: grid;
-    // Tiles: 2-up on mobile
+    // Dense tiles: 2-up on mobile, 3-up on desktop
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.625rem;
+    gap: 0.5rem;
     width: 100%;
     box-sizing: border-box;
 
@@ -55,75 +55,48 @@
       min-width: 0;
       max-width: 100%;
       box-sizing: border-box;
-      animation: fadeInUp 0.4s ease-out backwards;
+      animation: fadeInUp 0.28s ease-out backwards;
 
       @for $i from 1 through 10 {
         &:nth-child(#{$i}) {
-          animation-delay: #{$i * 0.05}s;
+          animation-delay: #{$i * 0.03}s;
         }
       }
     }
 
     @media (min-width: 768px) {
-      gap: 0.875rem;
+      gap: 0.625rem;
     }
 
     @media (min-width: 1024px) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
     }
 
-    // Compact tile chrome when 2-up
-    @media (max-width: 767px) {
-      &:not(.reservations-list__grid--list) {
-        .reservation-card__summary {
-          padding: 0.625rem 0.75rem;
-          gap: 0.5rem;
-          flex-direction: column;
-        }
-
-        .reservation-card__status-indicator {
-          width: 1.5rem;
-          height: 1.5rem;
-        }
-
-        .reservation-card__item-name,
-        .reservation-card__price {
-          font-size: 0.8125rem;
-        }
-
-        .reservation-card__subtitle {
-          font-size: 0.6875rem;
-        }
-
-        .reservation-card__summary-meta {
-          gap: 0.375rem;
-          margin-top: 0.25rem;
-        }
-
-        .reservation-card__meta-item {
-          font-size: 0.6875rem;
-        }
-      }
-    }
-
-    // Rows: flat single-column minimalist list
-    &--list {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-
+    // Grid (default): compact enterprise chrome — apply at every breakpoint
+    &:not(.reservations-list__grid--list) {
       .reservation-card {
-        border-radius: ds.$radius-md;
+        border-radius: 0.375rem;
+        box-shadow: none;
+      }
+
+      .reservation-card:hover:not(.reservation-card--expanded) {
+        box-shadow: none;
+      }
+
+      .reservation-card--expanded {
+        box-shadow: none;
       }
 
       .reservation-card__summary {
         align-items: center;
         padding: 0.5625rem 0.75rem;
-        gap: 0.625rem;
+        gap: 0.5rem;
       }
 
       .reservation-card__status-indicator {
-        width: 1.375rem;
-        height: 1.375rem;
+        width: 1.25rem;
+        height: 1.25rem;
       }
 
       .reservation-card__status-dot {
@@ -132,7 +105,7 @@
       }
 
       .reservation-card__summary-content {
-        gap: 0.125rem;
+        gap: 0.0625rem;
       }
 
       .reservation-card__summary-header {
@@ -141,20 +114,142 @@
       }
 
       .reservation-card__item-name {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
+        font-weight: 650;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+      }
+
+      .reservation-card__price {
+        font-size: 0.8125rem;
+        font-weight: 650;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .reservation-card__subtitle {
+        font-size: 0.6875rem;
+        line-height: 1.3;
+      }
+
+      .reservation-card__summary-meta {
+        margin-top: 0.125rem;
+        gap: 0.5rem;
+      }
+
+      .reservation-card__meta-item {
+        font-size: 0.6875rem;
+        gap: 0.25rem;
+      }
+
+      .reservation-card__meta-icon {
+        font-size: 0.75rem !important;
+      }
+
+      .reservation-card__details {
+        padding: 0 0.75rem 0.75rem;
+      }
+
+      .reservation-card__detail-row {
+        padding: 0.5rem 0;
+        font-size: 0.8125rem;
+      }
+
+      .reservation-card__actions {
+        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+      }
+
+      .reservation-card__action-btn {
+        padding: 0.4375rem 0.625rem;
+        min-width: 0;
+        font-size: 0.75rem;
+      }
+    }
+
+    // Extra-tight on narrow 2-up tiles
+    @media (max-width: 767px) {
+      &:not(.reservations-list__grid--list) {
+        .reservation-card__summary {
+          padding: 0.5rem 0.625rem;
+          gap: 0.375rem;
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .reservation-card__status-indicator {
+          width: 1.125rem;
+          height: 1.125rem;
+        }
+
+        .reservation-card__item-name,
+        .reservation-card__price {
+          font-size: 0.75rem;
+        }
+
+        .reservation-card__subtitle {
+          font-size: 0.625rem;
+        }
+
+        .reservation-card__summary-meta {
+          gap: 0.375rem;
+        }
+
+        .reservation-card__meta-item {
+          font-size: 0.625rem;
+        }
+      }
+    }
+
+    // Rows: flat single-column minimalist list
+    &--list {
+      grid-template-columns: 1fr;
+      gap: 0.375rem;
+
+      .reservation-card {
+        border-radius: 0.375rem;
+      }
+
+      .reservation-card__summary {
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+      }
+
+      .reservation-card__status-indicator {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .reservation-card__status-dot {
+        width: 0.375rem;
+        height: 0.375rem;
+      }
+
+      .reservation-card__summary-content {
+        gap: 0.0625rem;
+      }
+
+      .reservation-card__summary-header {
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .reservation-card__item-name {
+        font-size: 0.8125rem;
         font-weight: 650;
       }
 
       .reservation-card__price {
         font-size: 0.8125rem;
+        font-variant-numeric: tabular-nums;
       }
 
       .reservation-card__subtitle {
-        font-size: 0.75rem;
+        font-size: 0.6875rem;
       }
 
       .reservation-card__summary-meta {
-        margin-top: 0.125rem;
+        margin-top: 0.0625rem;
         gap: 0.5rem;
       }
 
@@ -166,13 +261,12 @@
         font-size: 0.75rem !important;
       }
 
-      // Expanded details stay usable but denser
       .reservation-card__details {
         padding: 0 0.75rem 0.75rem;
       }
 
       .reservation-card__actions {
-        padding: 0.625rem 0.75rem;
+        padding: 0.5rem 0.75rem;
         gap: 0.5rem;
       }
 
@@ -188,7 +282,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;

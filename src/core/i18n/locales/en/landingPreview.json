@@ -6,7 +6,7 @@
   "hero": {
     "title": "Everything your studio needs",
     "titleAccent": "is finally connected.",
-    "description": "Tracks, feedback, deliverables, payments, and collaborators stay connected.",
+    "description": "Tracks, feedback, deliverables, payments, and collaborators always stay on track.",
     "primaryCta": "Get started",
     "secondaryCta": "See the platform"
   },
@@ -61,9 +61,19 @@
       "imageAlt": "Studioz project review workspace"
     },
     "presence": {
-      "title": "A studio page that looks as good as your room.",
+      "title": "A studio page that does your room justice.",
       "description": "Present services, equipment, and portfolio with the polish clients expect.",
-      "imageAlt": "Studioz studio portfolio page"
+      "imageAlt": "Studioz studio portfolio on desktop and mobile"
+    },
+    "studios": {
+      "title": "Spaces and services under control.",
+      "description": "Toggle availability, edit services, and keep every room in check.",
+      "imageAlt": "Studioz studio manager"
+    },
+    "money": {
+      "title": "Invoices and fees, organized.",
+      "description": "Platform billing and invoices in the same owner workspace.",
+      "imageAlt": "Studioz invoices workspace"
     }
   },
   "proof": {
