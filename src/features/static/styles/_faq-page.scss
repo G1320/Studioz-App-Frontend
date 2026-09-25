@@ -73,6 +73,30 @@
   color: var(--color-brand);
 }
 
+.faq-page--embedded {
+  min-height: 0;
+  margin-inline: 0;
+  width: 100%;
+  padding-block: 3rem 1rem;
+  border-top: 1px solid var(--border-primary);
+
+  @media (min-width: 768px) {
+    margin-inline: 0;
+    width: 100%;
+    padding-block: 4rem 1.5rem;
+  }
+
+  .faq-page__header {
+    padding: 0 0 1.25rem;
+    background: transparent;
+    border-bottom: none;
+  }
+
+  .faq-page__main {
+    padding-bottom: 0;
+  }
+}
+
 .faq-page__subtitle {
   margin: 0;
   max-width: 36rem;

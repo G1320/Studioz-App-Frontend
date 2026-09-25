@@ -16,8 +16,10 @@ import { useLanguageNavigate } from '@shared/hooks/utils';
 import { trackCustomEvent, trackEvent } from '@shared/utils/analytics';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { IphoneStatusChrome } from '../components/IphoneStatusChrome';
+import { OwnerFaqSection } from '../components/OwnerFaqSection';
 import '../components/_iphone-status-chrome.scss';
 import '../styles/_preview-landing-page.scss';
+import '../styles/_faq-page.scss';
 
 const PILLAR_ICONS = {
   bookings: CalendarDays,
@@ -588,6 +590,8 @@ export default function PreviewLandingPage() {
             </motion.div>
           </div>
         </section>
+
+        <OwnerFaqSection />
       </main>
     </>
   );

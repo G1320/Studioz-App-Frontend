@@ -147,9 +147,14 @@
     "wishlist_empty": "No wishlists available. Create one first.",
     "cart_expired": "Some items in your cart have expired and have been removed.",
     "boundary": {
-      "title": "Oops! Something went wrong",
-      "message": "We encountered an unexpected error. Don't worry, our team has been notified.",
-      "return_home": "Return Home"
+      "kicker": "System status",
+      "title": "This page couldn’t load",
+      "message": "Something went wrong while loading this view. You can try again, or return home and continue from there.",
+      "details_label": "Technical details",
+      "try_again": "Try again",
+      "return_home": "Go to home",
+      "support_prefix": "Need help?",
+      "support_link": "Contact support"
     },
     "not_found": {
       "title": "Page Not Found",

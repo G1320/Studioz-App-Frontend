@@ -234,7 +234,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             <button
               type="button"
               className="dashboard-empty-state__secondary"
-              onClick={() => langNavigate('/owner-faq')}
+              onClick={() => langNavigate('/preview/landing#studio-faq')}
             >
               {t('emptyState.secondaryCta')}
             </button>

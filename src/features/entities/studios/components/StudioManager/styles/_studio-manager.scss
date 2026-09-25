@@ -579,15 +579,24 @@
   .studio-card__item {
     padding: 0.5rem 0.875rem;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    // One shared track list so Manage / Available / toggle / actions align on every row,
+    // even when meta text is shorter (e.g. remote “per project”).
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) 2.25rem 2rem 2rem;
     align-items: center;
-    column-gap: 0.75rem;
+    column-gap: 0.5rem;
     border-bottom: 1px solid var(--border-primary);
     transition: background 0.2s ease;
     cursor: default;
     max-width: 100%;
     overflow: hidden;
     box-sizing: border-box;
+
+    @media (min-width: 640px) {
+      // info | Manage Availability | divider | AVAILABLE | toggle | edit | open
+      grid-template-columns: minmax(0, 1fr) 9rem auto 6.5rem 2.25rem 2rem 2rem;
+      column-gap: 0.75rem;
+    }
 
     @media (min-width: 768px) {
       padding: 0.625rem 1rem;
@@ -613,6 +622,7 @@
     align-items: flex-start;
     gap: 0.625rem;
     min-width: 0;
+    overflow: hidden;
   }
 
   .studio-card__item-icon {
@@ -706,17 +716,10 @@
     }
   }
 
-  .studio-card__item-controls {
-    display: grid;
-    // Fixed tracks so Manage Availability / Available line up across rows.
-    grid-template-columns: 9rem auto max-content;
-    align-items: center;
-    column-gap: 0.75rem;
-    justify-self: end;
-
-    @media (max-width: 639px) {
-      grid-template-columns: max-content;
-    }
+  // Flatten wrappers into the row grid so every action column shares the same tracks.
+  .studio-card__item-controls,
+  .studio-card__item-toggle-group {
+    display: contents;
   }
 
   .studio-card__item-link {
@@ -730,10 +733,12 @@
     text-decoration-color: transparent;
     transition: all 0.2s ease;
     width: 100%;
+    min-width: 0;
     text-align: end;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    justify-self: stretch;
 
     @media (min-width: 640px) {
       display: block;
@@ -749,24 +754,10 @@
     @include mixins.divider-vertical;
     display: none;
     height: 28px;
+    justify-self: center;
 
     @media (min-width: 640px) {
       display: block;
-    }
-  }
-
-  .studio-card__item-toggle-group {
-    display: grid;
-    grid-template-columns: 6.5rem auto auto auto;
-    align-items: center;
-    column-gap: vars.$spacing-xs;
-
-    @media (min-width: 768px) {
-      column-gap: vars.$spacing-sm-md;
-    }
-
-    @media (max-width: 639px) {
-      grid-template-columns: auto auto auto;
     }
   }
 
@@ -780,6 +771,8 @@
     text-align: end;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
+    justify-self: stretch;
 
     @media (min-width: 640px) {
       display: block;
@@ -790,11 +783,16 @@
     @include mixins.button-icon;
     padding: vars.$spacing-xs;
     border-radius: ds.$radius-md;
+    justify-self: center;
 
     svg {
       width: 16px;
       height: 16px;
     }
+  }
+
+  .studio-card__item .toggle {
+    justify-self: center;
   }
 
   .studio-card__add-item {

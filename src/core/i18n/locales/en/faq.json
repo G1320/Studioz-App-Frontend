@@ -75,7 +75,7 @@
     },
     "issue_with_booking": {
       "q": "What if there's an issue with my booking?",
-      "a": "Contact us at admin@studioz.co.il and we'll help resolve it. We're committed to making sure every booking goes smoothly for both creators and studio owners."
+      "a": "Contact us at info@studioz.online and we'll help resolve it. We're committed to making sure every booking goes smoothly for both creators and studio owners."
     }
   },
   "cta": {
@@ -85,6 +85,6 @@
   },
   "contact": {
     "prefix": "Still need help?",
-    "email": "admin@studioz.co.il"
+    "email": "info@studioz.online"
   }
 }

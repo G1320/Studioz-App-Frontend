@@ -506,19 +506,10 @@
       "loginRequired": "Please log in to create a studio."
     },
     "loginGate": {
-      "kicker": "Studio setup",
-      "title": "List your studio on Studioz",
-      "body": "Create a professional listing your clients can book — rooms, availability, media, and policies in one place.",
       "panelTitle": "Sign in to continue",
       "panelBody": "Your setup progress saves automatically so you can finish when ready.",
       "cta": "Log in to start setup",
-      "hint": "New to Studioz? You can create an account in under a minute.",
-      "steps": {
-        "profile": "Studio profile & description",
-        "amenities": "Amenities, gear & capacity",
-        "schedule": "Hours, location & contact",
-        "media": "Photos, portfolio & policies"
-      }
+      "hint": "New to Studioz? You can create an account in under a minute."
     },
     "loginToStart": "Log in first to start your studio setup and save progress.",
     "itemLimitInfo": "You have {{count}} service{{count, plural, one {} other {s}}} remaining on your free plan. Upgrade to create unlimited services.",

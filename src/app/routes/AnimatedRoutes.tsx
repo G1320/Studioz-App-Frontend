@@ -46,7 +46,7 @@ const FeatureDetailPage = lazyWithRetry(() => import('@features/static/pages/Fea
 const PreviewLandingPage = lazyWithRetry(() => import('@features/static/pages/PreviewLandingPage'));
 const AboutPage = lazyWithRetry(() => import('@features/static/pages/AboutPage'));
 const FaqPage = lazyWithRetry(() => import('@features/static/pages/FaqPage'));
-const OwnerFaqPage = lazyWithRetry(() => import('@features/static/pages/OwnerFaqPage'));
+// OwnerFaqPage content is now embedded in PreviewLandingPage as #studio-faq
 const ServicesPage = lazyWithRetry(() => import('@features/entities/items/pages/ServicesPage'));
 // Studios page not yet public — route redirects to homepage
 // const StudiosPage = lazyWithRetry(() => import('@features/entities/studios/pages/StudiosPage'));
@@ -537,13 +537,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
+          {/* Redirect old owner-faq page to preview landing with anchor */}
           <Route
             path="/:lang?/owner-faq"
-            element={
-              <AnimatedRoute>
-                <OwnerFaqPage />
-              </AnimatedRoute>
-            }
+            element={<Navigate to={`/${i18n.language}/preview/landing#studio-faq`} replace />}
           />
           <Route
             path="/:lang?/changelog"

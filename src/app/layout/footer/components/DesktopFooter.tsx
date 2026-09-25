@@ -82,7 +82,18 @@ export const DesktopFooter = () => {
                 </a>
               </li>
               <li>
-                <a href={`${langPrefix}/owner-faq`} onClick={(e) => handleClick(e, '/owner-faq')}>
+                <a
+                  href={`${langPrefix}/preview/landing#studio-faq`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const isPreviewLanding = location.pathname.includes('/preview/landing');
+                    if (isPreviewLanding) {
+                      document.getElementById('studio-faq')?.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      langNavigate('/preview/landing#studio-faq');
+                    }
+                  }}
+                >
                   {t('footer.owner_faq')}
                 </a>
               </li>

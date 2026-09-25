@@ -156,7 +156,7 @@ export default function FeaturesPage() {
                   {t('hero.primaryCta')}
                   <ArrowRight aria-hidden="true" />
                 </a>
-                <Link className="features-page__secondary-action" to={`/${currentLang}/owner-faq`}>
+                <Link className="features-page__secondary-action" to={`/${currentLang}/preview/landing#studio-faq`}>
                   {t('hero.secondaryCta')}
                   <ArrowRight aria-hidden="true" />
                 </Link>

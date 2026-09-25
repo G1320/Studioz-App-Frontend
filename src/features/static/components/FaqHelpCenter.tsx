@@ -20,6 +20,11 @@ export interface FaqHelpCenterProps {
   alternateLabelKey?: string;
   ctaHref?: string;
   showCta?: boolean;
+  /** Render as an in-page section (no document title / full-page chrome). */
+  embedded?: boolean;
+  sectionId?: string;
+  /** Search + category filters. Defaults off when embedded. */
+  showSearch?: boolean;
 }
 
 export const FaqHelpCenter = ({
@@ -29,11 +34,15 @@ export const FaqHelpCenter = ({
   alternateHref,
   alternateLabelKey = 'switch.link',
   ctaHref,
-  showCta = false
+  showCta = false,
+  embedded = false,
+  sectionId,
+  showSearch
 }: FaqHelpCenterProps) => {
   const { t, i18n } = useTranslation(namespace);
   const isRtl = i18n.language === 'he';
   const navigate = useLanguageNavigate();
+  const searchEnabled = showSearch ?? !embedded;
 
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -74,23 +83,29 @@ export const FaqHelpCenter = ({
   }, [filtered, categoryIds]);
 
   const resultCount = filtered.length;
+  const TitleTag = embedded ? 'h2' : 'h1';
+  const GroupTitleTag = embedded ? 'h3' : 'h2';
+  const rootClassName = `faq-page${embedded ? ' faq-page--embedded' : ''}`;
+  const rootDir = isRtl ? 'rtl' : 'ltr';
 
-  return (
-    <div className="faq-page" dir={isRtl ? 'rtl' : 'ltr'}>
-      <Helmet>
-        <title>{t('meta.title')}</title>
-        <meta name="description" content={t('meta.description')} />
-      </Helmet>
+  const headerAndBody = (
+    <>
+      {!embedded && (
+        <Helmet>
+          <title>{t('meta.title')}</title>
+          <meta name="description" content={t('meta.description')} />
+        </Helmet>
+      )}
 
       <header className="faq-page__header">
         <div className="faq-page__container">
           <div className="faq-page__header-row">
             <div className="faq-page__intro">
               <p className="faq-page__kicker">{t('hero.kicker', 'Help Center')}</p>
-              <h1 className="faq-page__title">
+              <TitleTag className="faq-page__title">
                 {t('hero.title')}{' '}
                 <span className="faq-page__title-accent">{t('hero.titleAccent')}</span>
-              </h1>
+              </TitleTag>
               <p className="faq-page__subtitle">{t('hero.subtitle')}</p>
             </div>
 
@@ -105,63 +120,67 @@ export const FaqHelpCenter = ({
             )}
           </div>
 
-          <div className="faq-page__toolbar">
-            <label className="faq-page__search">
-              <SearchIcon className="faq-page__search-icon" aria-hidden />
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t('search.placeholder', 'Search questions…')}
-                aria-label={t('search.placeholder', 'Search questions…')}
-              />
-              {query && (
+          {searchEnabled && (
+            <>
+              <div className="faq-page__toolbar">
+                <label className="faq-page__search">
+                  <SearchIcon className="faq-page__search-icon" aria-hidden />
+                  <input
+                    type="search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder={t('search.placeholder', 'Search questions…')}
+                    aria-label={t('search.placeholder', 'Search questions…')}
+                  />
+                  {query && (
+                    <button
+                      type="button"
+                      className="faq-page__search-clear"
+                      onClick={() => setQuery('')}
+                      aria-label={t('search.clear', 'Clear search')}
+                    >
+                      <ClearIcon fontSize="inherit" />
+                    </button>
+                  )}
+                </label>
+
+                <div className="faq-page__meta" aria-live="polite">
+                  {t('search.results', {
+                    count: resultCount,
+                    defaultValue: '{{count}} results'
+                  })}
+                </div>
+              </div>
+
+              <div className="faq-page__filters" role="tablist" aria-label={t('categories.label', 'Topics')}>
                 <button
                   type="button"
-                  className="faq-page__search-clear"
-                  onClick={() => setQuery('')}
-                  aria-label={t('search.clear', 'Clear search')}
+                  role="tab"
+                  aria-selected={activeCategory === 'all'}
+                  className={`faq-page__filter ${activeCategory === 'all' ? 'is-active' : ''}`}
+                  onClick={() => setActiveCategory('all')}
                 >
-                  <ClearIcon fontSize="inherit" />
+                  {t('categories.all', 'All')}
                 </button>
-              )}
-            </label>
-
-            <div className="faq-page__meta" aria-live="polite">
-              {t('search.results', {
-                count: resultCount,
-                defaultValue: '{{count}} results'
-              })}
-            </div>
-          </div>
-
-          <div className="faq-page__filters" role="tablist" aria-label={t('categories.label', 'Topics')}>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeCategory === 'all'}
-              className={`faq-page__filter ${activeCategory === 'all' ? 'is-active' : ''}`}
-              onClick={() => setActiveCategory('all')}
-            >
-              {t('categories.all', 'All')}
-            </button>
-            {categoryIds.map((id) => (
-              <button
-                key={id}
-                type="button"
-                role="tab"
-                aria-selected={activeCategory === id}
-                className={`faq-page__filter ${activeCategory === id ? 'is-active' : ''}`}
-                onClick={() => setActiveCategory(id)}
-              >
-                {t(`categories.${id}`)}
-              </button>
-            ))}
-          </div>
+                {categoryIds.map((id) => (
+                  <button
+                    key={id}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCategory === id}
+                    className={`faq-page__filter ${activeCategory === id ? 'is-active' : ''}`}
+                    onClick={() => setActiveCategory(id)}
+                  >
+                    {t(`categories.${id}`)}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </header>
 
-      <main className="faq-page__main">
+      <div className="faq-page__main">
         <div className="faq-page__container">
           {resultCount === 0 ? (
             <div className="faq-page__empty">
@@ -188,7 +207,9 @@ export const FaqHelpCenter = ({
               {grouped.map((group) => (
                 <section key={group.id} className="faq-page__group">
                   {(activeCategory === 'all' || grouped.length > 1) && (
-                    <h2 className="faq-page__group-title">{t(`categories.${group.id}`)}</h2>
+                    <GroupTitleTag className="faq-page__group-title">
+                      {t(`categories.${group.id}`)}
+                    </GroupTitleTag>
                   )}
                   <div className="faq-page__list">
                     {group.items.map((entry) => {
@@ -251,10 +272,26 @@ export const FaqHelpCenter = ({
 
           <p className="faq-page__contact">
             {t('contact.prefix', 'Still need help?')}{' '}
-            <a href="mailto:admin@studioz.co.il">{t('contact.email', 'admin@studioz.co.il')}</a>
+            <a href={`mailto:${t('contact.email', 'info@studioz.online')}`}>
+              {t('contact.email', 'info@studioz.online')}
+            </a>
           </p>
         </div>
-      </main>
+      </div>
+    </>
+  );
+
+  if (embedded) {
+    return (
+      <section id={sectionId} className={rootClassName} dir={rootDir}>
+        {headerAndBody}
+      </section>
+    );
+  }
+
+  return (
+    <div className={rootClassName} dir={rootDir}>
+      {headerAndBody}
     </div>
   );
 };

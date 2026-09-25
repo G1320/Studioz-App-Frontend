@@ -1,4 +1,4 @@
-import { FaqHelpCenter, type FaqEntry } from '../components/FaqHelpCenter';
+import { FaqHelpCenter, type FaqEntry } from './FaqHelpCenter';
 
 const CATEGORIES = ['getting_started', 'fees', 'management', 'growth'] as const;
 
@@ -17,7 +17,8 @@ const ENTRIES: readonly FaqEntry[] = [
   { id: 'support', category: 'growth' }
 ];
 
-const OwnerFaqPage = () => (
+/** Studio FAQ block for the preview landing page (`#studio-faq`). */
+export const OwnerFaqSection = () => (
   <FaqHelpCenter
     namespace="ownerFaq"
     entries={ENTRIES}
@@ -25,7 +26,7 @@ const OwnerFaqPage = () => (
     alternateHref="/faq"
     ctaHref="/studio/create"
     showCta
+    embedded
+    sectionId="studio-faq"
   />
 );
-
-export default OwnerFaqPage;

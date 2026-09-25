@@ -759,44 +759,12 @@ export const CreateStudioForm = () => {
   }, [currentStepIndex]);
 
   if (!user?._id) {
-    const setupSteps = [
-      t('form.loginGate.steps.profile', { defaultValue: 'Studio profile & description' }),
-      t('form.loginGate.steps.amenities', { defaultValue: 'Amenities, gear & capacity' }),
-      t('form.loginGate.steps.schedule', { defaultValue: 'Hours, location & contact' }),
-      t('form.loginGate.steps.media', { defaultValue: 'Photos, portfolio & policies' })
-    ];
-
     return (
       <section className="create-studio-login-gate" role="status" aria-live="polite">
-        <div className="create-studio-login-gate__intro">
-          <p className="create-studio-login-gate__kicker">
-            {t('form.loginGate.kicker', { defaultValue: 'Studio setup' })}
-          </p>
-          <h1 className="create-studio-login-gate__title">
-            {t('form.loginGate.title', { defaultValue: 'List your studio on Studioz' })}
-          </h1>
-          <p className="create-studio-login-gate__body">
-            {t('form.loginGate.body', {
-              defaultValue:
-                'Create a professional listing your clients can book — rooms, availability, media, and policies in one place.'
-            })}
-          </p>
-          <ol className="create-studio-login-gate__steps">
-            {setupSteps.map((label, index) => (
-              <li key={label} className="create-studio-login-gate__step">
-                <span className="create-studio-login-gate__step-index" aria-hidden="true">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <span className="create-studio-login-gate__step-label">{label}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-
         <div className="create-studio-login-gate__panel">
-          <h2 className="create-studio-login-gate__panel-title">
+          <h1 className="create-studio-login-gate__panel-title">
             {t('form.loginGate.panelTitle', { defaultValue: 'Sign in to continue' })}
-          </h2>
+          </h1>
           <p className="create-studio-login-gate__panel-body">
             {t('form.loginGate.panelBody', {
               defaultValue: 'Your setup progress saves automatically so you can finish when ready.'
