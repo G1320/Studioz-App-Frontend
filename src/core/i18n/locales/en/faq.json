@@ -4,11 +4,25 @@
     "description": "Frequently asked questions about booking studios on Studioz. Learn about payments, cancellations, and how the platform works."
   },
   "hero": {
+    "kicker": "Help Center",
     "title": "Frequently Asked",
     "titleAccent": "Questions",
-    "subtitle": "Everything you need to know about finding and booking studios on Studioz."
+    "subtitle": "Clear answers about discovering studios, booking sessions, and paying securely on Studioz."
+  },
+  "switch": {
+    "link": "Studio owner FAQ"
+  },
+  "search": {
+    "placeholder": "Search questions…",
+    "clear": "Clear search",
+    "results": "{{count}} results",
+    "emptyTitle": "No matching questions",
+    "emptyDescription": "Try a different keyword, or reset filters to browse all topics.",
+    "reset": "Reset filters"
   },
   "categories": {
+    "label": "Topics",
+    "all": "All",
     "general": "General",
     "booking": "Booking",
     "payments": "Payments",
@@ -63,5 +77,14 @@
       "q": "What if there's an issue with my booking?",
       "a": "Contact us at admin@studioz.co.il and we'll help resolve it. We're committed to making sure every booking goes smoothly for both creators and studio owners."
     }
+  },
+  "cta": {
+    "title": "Looking for a studio?",
+    "description": "Browse available spaces and book your next session in minutes.",
+    "button": "Browse studios"
+  },
+  "contact": {
+    "prefix": "Still need help?",
+    "email": "admin@studioz.co.il"
   }
 }

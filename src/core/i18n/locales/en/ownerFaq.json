@@ -4,11 +4,25 @@
     "description": "Frequently asked questions for studio owners on Studioz. Learn about listing your studio, fees, payments, and managing your business."
   },
   "hero": {
-    "title": "For Studio",
-    "titleAccent": "Owners",
-    "subtitle": "Answers to the most common questions about listing and managing your studio on Studioz."
+    "kicker": "Owner Help Center",
+    "title": "Studio Owner",
+    "titleAccent": "FAQ",
+    "subtitle": "Operational answers for listing, fees, calendar control, and growing your studio on Studioz."
+  },
+  "switch": {
+    "link": "Customer FAQ"
+  },
+  "search": {
+    "placeholder": "Search owner questions…",
+    "clear": "Clear search",
+    "results": "{{count}} results",
+    "emptyTitle": "No matching questions",
+    "emptyDescription": "Try a different keyword, or reset filters to browse all topics.",
+    "reset": "Reset filters"
   },
   "categories": {
+    "label": "Topics",
+    "all": "All",
     "getting_started": "Getting Started",
     "fees": "Fees & Payments",
     "management": "Management",
@@ -68,5 +82,9 @@
     "title": "Ready to get started?",
     "description": "List your studio for free and start receiving bookings today.",
     "button": "List Your Studio"
+  },
+  "contact": {
+    "prefix": "Still need help?",
+    "email": "admin@studioz.co.il"
   }
 }
