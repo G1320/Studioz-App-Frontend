@@ -2,14 +2,12 @@ import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguageNavigate } from '@shared/hooks';
-import {
-  ArrowBackIcon,
-  ExternalLinkIcon
-} from '@shared/components/icons';
+import { ArrowBackIcon, ExternalLinkIcon } from '@shared/components/icons';
 import { Studio } from 'src/types/index';
 import {
   DEFAULT_STUDIO_MANAGE_SECTION,
   parseStudioManageSection,
+  STUDIO_MANAGE_NAV_GROUPS,
   STUDIO_MANAGE_SECTIONS,
   StudioManageSectionId
 } from './constants';
@@ -39,6 +37,7 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
   }, [studio.name, i18n.language]);
 
   const isActive = studio.active !== false;
+  const shortId = studio._id?.slice(-6)?.toUpperCase() || '';
 
   const setSection = (id: StudioManageSectionId) => {
     setSearchParams(
@@ -70,38 +69,63 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
         <div className="studio-manage__sidebar-head">
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--icon"
+            className="studio-manage__back"
             onClick={() => langNavigate('/dashboard')}
           >
-            <ArrowBackIcon fontSize="small" />
-            <span>{t('buttons.back', { ns: 'common', defaultValue: 'Back' })}</span>
+            <ArrowBackIcon fontSize="inherit" />
+            <span>{t('common:buttons.back', 'Dashboard')}</span>
           </button>
-          <p className="studio-manage__studio-name" title={displayName}>
-            {displayName}
-          </p>
-          <span className={`studio-manage-status-pill ${isActive ? 'is-active' : 'is-offline'}`}>
-            {isActive
-              ? t('manage.overview.active', 'Active')
-              : t('manage.overview.offline', 'Offline')}
-          </span>
+
+          <div className="studio-manage__entity">
+            <span className="studio-manage__entity-kicker">
+              {t('manage.entityKicker', 'Studio listing')}
+            </span>
+            <p className="studio-manage__studio-name" title={displayName}>
+              {displayName}
+            </p>
+            <div className="studio-manage__entity-meta">
+              <span className={`studio-manage-status-pill ${isActive ? 'is-active' : 'is-offline'}`}>
+                {isActive
+                  ? t('manage.overview.active', 'Active')
+                  : t('manage.overview.offline', 'Offline')}
+              </span>
+              {shortId && <span className="studio-manage__entity-id">ID · {shortId}</span>}
+            </div>
+          </div>
         </div>
 
         <nav className="studio-manage__nav">
-          {STUDIO_MANAGE_SECTIONS.map((section) => {
-            const Icon = section.icon;
-            const isCurrent = section.id === activeSection.id;
+          {STUDIO_MANAGE_NAV_GROUPS.map((group) => {
+            const items = STUDIO_MANAGE_SECTIONS.filter((s) => s.group === group.id);
+            if (!items.length) return null;
             return (
-              <button
-                key={section.id}
-                type="button"
-                className={`studio-manage__nav-item ${isCurrent ? 'is-active' : ''} ${
-                  section.ready ? '' : 'is-pending'
-                }`}
-                onClick={() => setSection(section.id)}
-              >
-                <Icon fontSize="small" />
-                <span>{t(section.labelKey, section.defaultLabel)}</span>
-              </button>
+              <div key={group.id} className="studio-manage__nav-group">
+                <p className="studio-manage__nav-label">
+                  {t(group.labelKey, group.defaultLabel)}
+                </p>
+                {items.map((section) => {
+                  const Icon = section.icon;
+                  const isCurrent = section.id === activeSection.id;
+                  return (
+                    <button
+                      key={section.id}
+                      type="button"
+                      className={`studio-manage__nav-item ${isCurrent ? 'is-active' : ''} ${
+                        section.ready ? '' : 'is-pending'
+                      }`}
+                      onClick={() => setSection(section.id)}
+                    >
+                      <Icon fontSize="inherit" className="studio-manage__nav-icon" />
+                      <span>{t(section.labelKey, section.defaultLabel)}</span>
+                      {!section.ready && (
+                        <span className="studio-manage__nav-tag">
+                          {t('manage.nav.soon', 'Soon')}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             );
           })}
         </nav>
@@ -126,20 +150,33 @@ export const StudioManageShell = ({ studio }: StudioManageShellProps) => {
           >
             <span className="studio-manage__hamburger" aria-hidden />
           </button>
-          <div className="studio-manage__topbar-title">
-            <span className="studio-manage__topbar-name">{displayName}</span>
-            <span className="studio-manage__topbar-section">
+
+          <nav className="studio-manage__crumb" aria-label="Breadcrumb">
+            <button type="button" onClick={() => langNavigate('/dashboard')}>
+              {t('manage.crumb.dashboard', 'Dashboard')}
+            </button>
+            <span className="studio-manage__crumb-sep" aria-hidden>
+              /
+            </span>
+            <span className="studio-manage__crumb-current" title={displayName}>
+              {displayName}
+            </span>
+            <span className="studio-manage__crumb-sep" aria-hidden>
+              /
+            </span>
+            <span className="studio-manage__crumb-section">
               {t(activeSection.labelKey, activeSection.defaultLabel)}
             </span>
-          </div>
+          </nav>
+
           <div className="studio-manage__topbar-actions">
             <a
-              className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--icon"
+              className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--compact"
               href={`/${i18n.language || 'en'}/studio/${studio._id}`}
               target="_blank"
               rel="noreferrer"
             >
-              <ExternalLinkIcon fontSize="small" />
+              <ExternalLinkIcon fontSize="inherit" />
               <span>{t('manage.preview', 'Preview')}</span>
             </a>
           </div>

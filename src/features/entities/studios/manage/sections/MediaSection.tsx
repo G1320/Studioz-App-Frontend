@@ -66,13 +66,13 @@ export const MediaSection = ({ studio }: MediaSectionProps) => {
             {t('manage.sections.media', 'Media')}
           </h2>
           <p className="studio-manage-section__subtitle">
-            {t('manage.media.subtitle', 'Photos and audio that appear on your public listing.')}
+            {t('manage.media.subtitle', 'Public gallery and cover image.')}
           </p>
         </div>
         <div className="studio-manage-section__actions">
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--ghost"
+            className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--compact"
             onClick={handleDiscard}
             disabled={!isDirty || isSaving}
           >
@@ -80,7 +80,7 @@ export const MediaSection = ({ studio }: MediaSectionProps) => {
           </button>
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--primary"
+            className="studio-manage-btn studio-manage-btn--primary studio-manage-btn--compact"
             onClick={handleSave}
             disabled={!isDirty || isSaving}
           >
@@ -91,21 +91,25 @@ export const MediaSection = ({ studio }: MediaSectionProps) => {
         </div>
       </header>
 
-      <FileUploader
-        fileType="image"
-        onFileUpload={async (files, type) => {
-          await handleFileUpload(files, type);
-        }}
-        galleryFiles={galleryImages}
-        isCoverShown={true}
-        onRemoveImage={handleRemoveImage}
-        onReorderImages={(files) => {
-          setGalleryImages(files);
-          if (files.length && !files.includes(coverImage)) {
-            setCoverImage(files[0]);
-          }
-        }}
-      />
+      <div className="studio-manage-panel">
+        <div className="studio-manage-panel__body">
+          <FileUploader
+            fileType="image"
+            onFileUpload={async (files, type) => {
+              await handleFileUpload(files, type);
+            }}
+            galleryFiles={galleryImages}
+            isCoverShown={true}
+            onRemoveImage={handleRemoveImage}
+            onReorderImages={(files) => {
+              setGalleryImages(files);
+              if (files.length && !files.includes(coverImage)) {
+                setCoverImage(files[0]);
+              }
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };

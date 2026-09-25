@@ -20,14 +20,15 @@ export type StudioManageSectionId =
   | 'portfolio'
   | 'services';
 
+export type StudioManageNavGroup = 'listing' | 'operations';
+
 export interface StudioManageSectionDef {
   id: StudioManageSectionId;
   labelKey: string;
   defaultLabel: string;
   icon: ComponentType<{ className?: string; fontSize?: 'small' | 'inherit' | 'large' | 'medium' }>;
-  /** Implemented in hub vs legacy edit fallback */
   ready: boolean;
-  /** SteppedForm step id for legacy deep-link */
+  group: StudioManageNavGroup;
   legacyStep?: string;
 }
 
@@ -37,7 +38,8 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     labelKey: 'manage.sections.overview',
     defaultLabel: 'Overview',
     icon: InfoOutlinedIcon,
-    ready: true
+    ready: true,
+    group: 'listing'
   },
   {
     id: 'media',
@@ -45,6 +47,7 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     defaultLabel: 'Media',
     icon: PhotoLibraryIcon,
     ready: true,
+    group: 'listing',
     legacyStep: 'files'
   },
   {
@@ -53,6 +56,7 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     defaultLabel: 'Hours',
     icon: ScheduleIcon,
     ready: true,
+    group: 'listing',
     legacyStep: 'availability'
   },
   {
@@ -61,6 +65,7 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     defaultLabel: 'Location',
     icon: LocationIcon,
     ready: false,
+    group: 'listing',
     legacyStep: 'location'
   },
   {
@@ -69,6 +74,7 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     defaultLabel: 'Amenities & gear',
     icon: WeekendIcon,
     ready: false,
+    group: 'listing',
     legacyStep: 'amenities-gear'
   },
   {
@@ -77,6 +83,7 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     defaultLabel: 'Policies',
     icon: ShieldIcon,
     ready: false,
+    group: 'listing',
     legacyStep: 'policies'
   },
   {
@@ -85,6 +92,7 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     defaultLabel: 'Portfolio',
     icon: WorkIcon,
     ready: false,
+    group: 'listing',
     legacyStep: 'portfolio'
   },
   {
@@ -92,8 +100,18 @@ export const STUDIO_MANAGE_SECTIONS: StudioManageSectionDef[] = [
     labelKey: 'manage.sections.services',
     defaultLabel: 'Services',
     icon: PackageIcon,
-    ready: false
+    ready: false,
+    group: 'operations'
   }
+];
+
+export const STUDIO_MANAGE_NAV_GROUPS: {
+  id: StudioManageNavGroup;
+  labelKey: string;
+  defaultLabel: string;
+}[] = [
+  { id: 'listing', labelKey: 'manage.nav.listing', defaultLabel: 'Listing' },
+  { id: 'operations', labelKey: 'manage.nav.operations', defaultLabel: 'Operations' }
 ];
 
 export const DEFAULT_STUDIO_MANAGE_SECTION: StudioManageSectionId = 'overview';

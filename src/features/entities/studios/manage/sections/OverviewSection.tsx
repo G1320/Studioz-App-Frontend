@@ -53,13 +53,13 @@ export const OverviewSection = ({ studio }: OverviewSectionProps) => {
             {t('manage.sections.overview', 'Overview')}
           </h2>
           <p className="studio-manage-section__subtitle">
-            {t('manage.overview.subtitle', 'Name, description, and listing visibility.')}
+            {t('manage.overview.subtitle', 'Identity and visibility for this listing.')}
           </p>
         </div>
         <div className="studio-manage-section__actions">
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--ghost"
+            className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--compact"
             onClick={handleDiscard}
             disabled={!isDirty || isSaving}
           >
@@ -67,7 +67,7 @@ export const OverviewSection = ({ studio }: OverviewSectionProps) => {
           </button>
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--primary"
+            className="studio-manage-btn studio-manage-btn--primary studio-manage-btn--compact"
             onClick={handleSave}
             disabled={!isDirty || isSaving || !name.en.trim()}
           >
@@ -78,77 +78,86 @@ export const OverviewSection = ({ studio }: OverviewSectionProps) => {
         </div>
       </header>
 
-      <div className="studio-manage-field-row studio-manage-field-row--status">
-        <div>
-          <label className="studio-manage-label">
-            {t('manage.overview.status', 'Listing status')}
-          </label>
-          <p className="studio-manage-hint">
-            {isActive
-              ? t('manage.overview.statusActiveHint', 'Visible and bookable on Studioz.')
-              : t('manage.overview.statusOfflineHint', 'Hidden from search. Existing bookings stay.')}
-          </p>
+      <div className="studio-manage-panel">
+        <div className="studio-manage-panel__row">
+          <div className="studio-manage-panel__row-copy">
+            <span className="studio-manage-label">
+              {t('manage.overview.status', 'Listing status')}
+            </span>
+            <p className="studio-manage-hint">
+              {isActive
+                ? t('manage.overview.statusActiveHint', 'Visible and bookable.')
+                : t('manage.overview.statusOfflineHint', 'Hidden from search.')}
+            </p>
+          </div>
+          <div className="studio-manage-status-control">
+            <span className={`studio-manage-status-pill ${isActive ? 'is-active' : 'is-offline'}`}>
+              {isActive
+                ? t('manage.overview.active', 'Active')
+                : t('manage.overview.offline', 'Offline')}
+            </span>
+            <button
+              type="button"
+              className={`studio-manage-toggle ${isActive ? 'is-on' : ''}`}
+              aria-pressed={isActive}
+              disabled={toggleActive.isPending}
+              onClick={() =>
+                toggleActive.mutate({ studioId: studio._id, active: !isActive })
+              }
+            >
+              <span className="studio-manage-toggle__thumb" />
+            </button>
+          </div>
         </div>
-        <div className="studio-manage-status-control">
-          <span className={`studio-manage-status-pill ${isActive ? 'is-active' : 'is-offline'}`}>
-            {isActive
-              ? t('manage.overview.active', 'Active')
-              : t('manage.overview.offline', 'Offline')}
+
+        <div className="studio-manage-panel__toolbar">
+          <span className="studio-manage-label studio-manage-label--inline">
+            {t('manage.overview.copyLang', 'Copy language')}
           </span>
-          <button
-            type="button"
-            className={`studio-manage-toggle ${isActive ? 'is-on' : ''}`}
-            aria-pressed={isActive}
-            disabled={toggleActive.isPending}
-            onClick={() =>
-              toggleActive.mutate({ studioId: studio._id, active: !isActive })
-            }
-          >
-            <span className="studio-manage-toggle__thumb" />
-          </button>
+          <div className="studio-manage-lang-toggle" role="group" aria-label="Edit language">
+            {(['en', 'he'] as const).map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                className={`studio-manage-lang-toggle__btn ${editLang === lang ? 'is-active' : ''}`}
+                onClick={() => setEditLang(lang)}
+              >
+                {lang === 'en' ? 'EN' : 'HE'}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="studio-manage-lang-toggle" role="group" aria-label="Edit language">
-        {(['en', 'he'] as const).map((lang) => (
-          <button
-            key={lang}
-            type="button"
-            className={`studio-manage-lang-toggle__btn ${editLang === lang ? 'is-active' : ''}`}
-            onClick={() => setEditLang(lang)}
-          >
-            {lang === 'en' ? 'English' : 'עברית'}
-          </button>
-        ))}
-      </div>
+        <div className="studio-manage-panel__body">
+          <div className="studio-manage-field">
+            <label className="studio-manage-label" htmlFor="studio-manage-name">
+              {editLang === 'en' ? t('form.name.en') : t('form.name.he')}
+            </label>
+            <input
+              id="studio-manage-name"
+              className="studio-manage-input"
+              value={name[editLang] || ''}
+              maxLength={STUDIO_NAME_MAX}
+              onChange={(e) => setName((prev) => ({ ...prev, [editLang]: e.target.value }))}
+            />
+          </div>
 
-      <div className="studio-manage-field">
-        <label className="studio-manage-label" htmlFor="studio-manage-name">
-          {editLang === 'en' ? t('form.name.en') : t('form.name.he')}
-        </label>
-        <input
-          id="studio-manage-name"
-          className="studio-manage-input"
-          value={name[editLang] || ''}
-          maxLength={STUDIO_NAME_MAX}
-          onChange={(e) => setName((prev) => ({ ...prev, [editLang]: e.target.value }))}
-        />
-      </div>
-
-      <div className="studio-manage-field">
-        <label className="studio-manage-label" htmlFor="studio-manage-description">
-          {editLang === 'en' ? t('form.description.en') : t('form.description.he')}
-        </label>
-        <textarea
-          id="studio-manage-description"
-          className="studio-manage-textarea"
-          rows={6}
-          maxLength={STUDIO_DESCRIPTION_MAX}
-          value={description[editLang] || ''}
-          onChange={(e) =>
-            setDescription((prev) => ({ ...prev, [editLang]: e.target.value }))
-          }
-        />
+          <div className="studio-manage-field">
+            <label className="studio-manage-label" htmlFor="studio-manage-description">
+              {editLang === 'en' ? t('form.description.en') : t('form.description.he')}
+            </label>
+            <textarea
+              id="studio-manage-description"
+              className="studio-manage-textarea"
+              rows={5}
+              maxLength={STUDIO_DESCRIPTION_MAX}
+              value={description[editLang] || ''}
+              onChange={(e) =>
+                setDescription((prev) => ({ ...prev, [editLang]: e.target.value }))
+              }
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -47,13 +47,13 @@ export const HoursSection = ({ studio }: HoursSectionProps) => {
             {t('manage.sections.hours', 'Hours')}
           </h2>
           <p className="studio-manage-section__subtitle">
-            {t('manage.hours.subtitle', 'Weekly schedule customers can book against.')}
+            {t('manage.hours.subtitle', 'Weekly bookable schedule.')}
           </p>
         </div>
         <div className="studio-manage-section__actions">
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--ghost"
+            className="studio-manage-btn studio-manage-btn--ghost studio-manage-btn--compact"
             onClick={handleDiscard}
             disabled={!isDirty || isSaving}
           >
@@ -61,7 +61,7 @@ export const HoursSection = ({ studio }: HoursSectionProps) => {
           </button>
           <button
             type="button"
-            className="studio-manage-btn studio-manage-btn--primary"
+            className="studio-manage-btn studio-manage-btn--primary studio-manage-btn--compact"
             onClick={handleSave}
             disabled={!isDirty || isSaving}
           >
@@ -72,7 +72,11 @@ export const HoursSection = ({ studio }: HoursSectionProps) => {
         </div>
       </header>
 
-      <BusinessHours key={hoursKey} value={availability} onChange={setAvailability} />
+      <div className="studio-manage-panel">
+        <div className="studio-manage-panel__body">
+          <BusinessHours key={hoursKey} value={availability} onChange={setAvailability} />
+        </div>
+      </div>
     </div>
   );
 };

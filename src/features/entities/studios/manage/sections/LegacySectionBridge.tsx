@@ -30,16 +30,20 @@ export const LegacySectionBridge = ({ studioId, section }: LegacySectionProps) =
           <p className="studio-manage-section__subtitle">
             {t(
               'manage.bridge.subtitle',
-              'This section is moving into the new editor next. Use the classic editor for now.'
+              'Not in the hub yet — open the classic editor for this section.'
             )}
           </p>
         </div>
+        <button
+          type="button"
+          className="studio-manage-btn studio-manage-btn--primary studio-manage-btn--compact"
+          onClick={openLegacy}
+        >
+          {section.id === 'services'
+            ? t('manage.bridge.openDashboard', 'Studio Manager')
+            : t('manage.bridge.openClassic', 'Classic editor')}
+        </button>
       </header>
-      <button type="button" className="studio-manage-btn studio-manage-btn--primary" onClick={openLegacy}>
-        {section.id === 'services'
-          ? t('manage.bridge.openDashboard', 'Open Studio Manager')
-          : t('manage.bridge.openClassic', 'Open classic editor')}
-      </button>
     </div>
   );
 };
