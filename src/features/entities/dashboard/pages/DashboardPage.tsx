@@ -291,17 +291,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
       )}
 
-      {/* Quick Actions for Studio Owners */}
-      {isStudioOwner && (
-        <QuickActions 
-          studios={userStudios}
-          onQuickCharge={handleQuickCharge}
-          onNewReservation={handleNewReservation}
-          onBlockTime={handleBlockTime}
-          onDownloadReport={handleDownloadReport}
-        />
-      )}
-
       {/* Tab Navigation for Studio Owners */}
       {isStudioOwner && (
         <div className="dashboard-page__views">
@@ -318,6 +307,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             aria-label={t('tabs.label', 'Dashboard views')}
           />
         </div>
+      )}
+
+      {/* Quick Actions — My Studio view only */}
+      {isStudioOwner && activeTab === 'studios' && (
+        <QuickActions 
+          studios={userStudios}
+          onQuickCharge={handleQuickCharge}
+          onNewReservation={handleNewReservation}
+          onBlockTime={handleBlockTime}
+          onDownloadReport={handleDownloadReport}
+        />
       )}
 
       {/* Tab Content with transition */}

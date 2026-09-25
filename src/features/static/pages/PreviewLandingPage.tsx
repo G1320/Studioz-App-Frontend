@@ -87,9 +87,10 @@ function ProductVisual({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setFullyInView(Boolean(entry?.isIntersecting && entry.intersectionRatio >= 1));
+        // Paired showcase tiles rarely hit ratio === 1; rotate once mostly visible.
+        setFullyInView(Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.45));
       },
-      { threshold: 1 }
+      { threshold: [0, 0.25, 0.45, 0.75, 1] }
     );
 
     observer.observe(node);

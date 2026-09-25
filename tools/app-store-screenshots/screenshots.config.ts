@@ -56,7 +56,7 @@ const scenes: ScreenshotScene[] = [
     template: 'full-bleed',
     textAlign: 'center',
     deviceTransform: { scale: 0.82, y: 560, shadow: true },
-    actions: [{ type: 'scroll', selector: '.dashboard-calendar', offsetY: -8 }],
+    actions: [{ type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -8 }],
     copy: {
       'en-US': {
         title: 'Every booking, under control',
@@ -79,7 +79,6 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     textAlign: 'center',
     actions: [
-      { type: 'click', selector: '.quick-actions__header' },
       // Fill the viewport under the control bar so flush framing isn't mostly empty.
       {
         type: 'style',
@@ -89,8 +88,8 @@ const scenes: ScreenshotScene[] = [
           .studioz-calendar__month-view { min-height: inherit !important; }
         `
       },
-      // Keep app chrome in frame; taller month cells fill the rest.
-      { type: 'scroll', selector: '.dashboard-calendar', offsetY: 0 }
+      // Flush calendar chrome to the top of the frame.
+      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -119,7 +118,6 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     textAlign: 'center',
     actions: [
-      { type: 'click', selector: '.quick-actions__header' },
       { type: 'click', selector: '.studioz-calendar__view-tabs .studioz-calendar__view-tab:nth-child(4)' },
       {
         type: 'style',
@@ -134,7 +132,7 @@ const scenes: ScreenshotScene[] = [
           .studioz-calendar__list-event { padding: 0.75rem 0.9rem !important; }
         `
       },
-      { type: 'scroll', selector: '.dashboard-calendar', offsetY: 0 }
+      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -163,8 +161,7 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     textAlign: 'center',
     actions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', selector: '.dashboard-calendar', offsetY: -8 }
+      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -8 }
     ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
@@ -301,10 +298,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'minimal',
     textAlign: 'center',
-    actions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', y: 120 }
-    ],
+    actions: [{ type: 'scroll', y: 80 }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -331,7 +325,7 @@ const scenes: ScreenshotScene[] = [
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    actions: [],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -385,10 +379,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'minimal',
     textAlign: 'center',
-    actions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', y: 100 }
-    ],
+    actions: [{ type: 'scroll', y: 100 }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -415,7 +406,7 @@ const scenes: ScreenshotScene[] = [
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    actions: [],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -442,10 +433,7 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'minimal',
     textAlign: 'center',
-    actions: [
-      { type: 'click', selector: '.quick-actions__header' },
-      { type: 'scroll', y: 80 }
-    ],
+    actions: [{ type: 'scroll', y: 80 }],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -472,7 +460,7 @@ const scenes: ScreenshotScene[] = [
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'click', selector: '.quick-actions__header' }],
+    actions: [],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
