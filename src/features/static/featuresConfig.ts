@@ -38,14 +38,6 @@ export function featureCaptureUrl(
   return `/images/features-generated/${locale}/${theme}/${capture}.webp`;
 }
 
-export function landingCaptureUrl(
-  capture: string,
-  locale: CaptureLocale,
-  theme: string
-): string {
-  return `/images/landing-generated/${locale}/${theme}/${capture}.webp`;
-}
-
 export function toAbsoluteImageUrl(url: string): string {
   if (url.startsWith('http')) return url;
   return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;

@@ -3,15 +3,12 @@
  * Feature showcase carousel using Swiper (fade effect, autoplay, pagination).
  * Touch/swipe and animations are handled by Swiper for reliable behavior on all devices.
  */
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import { Calendar, CreditCard, BarChart3, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { useTheme } from '@shared/contexts/ThemeContext';
-import { featureCaptureUrl, type CaptureLocale } from '../featuresConfig';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
@@ -19,23 +16,27 @@ import './_scroll-driven-showcase.scss';
 
 const AUTOPLAY_DELAY = 6000;
 
-interface FeatureDef {
+interface Feature {
   id: string;
   titleKey: string;
   descriptionKey: string;
   icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   color: string;
-  capture: string;
+  image: string;
+  srcSet?: string;
+  sizes?: string;
 }
 
-const FEATURE_DEFS: FeatureDef[] = [
+const FEATURES: Feature[] = [
   {
     id: 'calendar',
     titleKey: 'showcase.calendar.title',
     descriptionKey: 'showcase.calendar.description',
     icon: Calendar,
     color: '#f7c041',
-    capture: 'mobile-calendar'
+    image: '/images/optimized/Studioz-Dashboard-Calendar-400w.webp',
+    srcSet: '/images/optimized/Studioz-Dashboard-Calendar-400w.webp 400w, /images/optimized/Studioz-Dashboard-Calendar-800w.webp 800w',
+    sizes: '(max-width: 768px) 200px, 400px'
   },
   {
     id: 'stats',
@@ -43,7 +44,9 @@ const FEATURE_DEFS: FeatureDef[] = [
     descriptionKey: 'showcase.stats.description',
     icon: BarChart3,
     color: '#0ea5e9',
-    capture: 'mobile-analytics-revenue'
+    image: '/images/optimized/Dashboard-Overview-Mobile-315w.webp',
+    srcSet: '/images/optimized/Dashboard-Overview-Mobile-315w.webp 315w, /images/optimized/Dashboard-Overview-Mobile-630w.webp 630w',
+    sizes: '(max-width: 768px) 200px, 400px'
   },
   {
     id: 'service',
@@ -51,7 +54,9 @@ const FEATURE_DEFS: FeatureDef[] = [
     descriptionKey: 'showcase.service.description',
     icon: Sparkles,
     color: '#10b981',
-    capture: 'mobile-studio-services'
+    image: '/images/optimized/Studioz-Studio-Details-Order-1-Light-400w.webp',
+    srcSet: '/images/optimized/Studioz-Studio-Details-Order-1-Light-400w.webp 400w, /images/optimized/Studioz-Studio-Details-Order-1-Light-800w.webp 800w',
+    sizes: '(max-width: 768px) 200px, 400px'
   },
   {
     id: 'payments',
@@ -59,7 +64,7 @@ const FEATURE_DEFS: FeatureDef[] = [
     descriptionKey: 'showcase.payments.description',
     icon: CreditCard,
     color: '#6366f1',
-    capture: 'mobile-billing'
+    image: 'https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/3a367b33-67cb-40f8-95ff-6e999870beae/1769012592283-95784a84/Studioz-Service-Detail-PaymentStep-Saved-Cards.PNG'
   }
 ];
 
@@ -67,8 +72,6 @@ const PROGRESS_TICK_MS = 50;
 
 export const ScrollDrivenShowcase: React.FC = () => {
   const { t, i18n } = useTranslation('forOwners');
-  const { resolvedTheme } = useTheme();
-  const { lang } = useParams<{ lang?: string }>();
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [inView, setInView] = useState(false);
@@ -78,21 +81,9 @@ export const ScrollDrivenShowcase: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const slideStartTimeRef = useRef(Date.now());
 
-  const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
-  const assetLocale: CaptureLocale = currentLang === 'he' ? 'he' : 'en-US';
-
-  const features = useMemo(
-    () =>
-      FEATURE_DEFS.map((def) => ({
-        ...def,
-        image: featureCaptureUrl(def.capture, assetLocale, resolvedTheme)
-      })),
-    [assetLocale, resolvedTheme]
-  );
-
   const contentHover = textHover || phoneHover;
 
-  const activeFeature = features[activeIndex];
+  const activeFeature = FEATURES[activeIndex];
   const Icon = activeFeature.icon;
   const isRTL = i18n.dir() === 'rtl';
 
@@ -178,7 +169,7 @@ export const ScrollDrivenShowcase: React.FC = () => {
 
             {/* Custom pill navigation - click calls swiper.slideTo */}
             <div className="feature-showcase__progress-bars">
-              {features.map((feature, idx) => (
+              {FEATURES.map((feature, idx) => (
                 <button
                   key={feature.id}
                   type="button"
@@ -235,10 +226,12 @@ export const ScrollDrivenShowcase: React.FC = () => {
                   autoplay={false}
                   pagination={false}
                 >
-                  {features.map((feature) => (
-                    <SwiperSlide key={`${feature.id}-${feature.image}`}>
+                  {FEATURES.map((feature) => (
+                    <SwiperSlide key={feature.id}>
                       <img
                         src={feature.image}
+                        srcSet={feature.srcSet}
+                        sizes={feature.sizes}
                         alt={t(feature.titleKey)}
                         className="feature-showcase__phone-image"
                         loading="lazy"

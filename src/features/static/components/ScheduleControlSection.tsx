@@ -1,20 +1,17 @@
 /**
  * ScheduleControlSection
  * A high-impact section showcasing the platform's advanced availability controls.
- * Features a desktop mockup with locale + theme aware calendar capture.
+ * Features a desktop mockup with Hebrew RTL support and light mode aesthetic.
  */
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useLanguageNavigate } from '@shared/hooks';
-import { useTheme } from '@shared/contexts/ThemeContext';
 import { trackEvent } from '@shared/utils/analytics';
-import { featureCaptureUrl, type CaptureLocale } from '../featuresConfig';
 import './_schedule-control-section.scss';
 
 interface FeatureItemProps {
@@ -45,13 +42,8 @@ function FeatureItem({ icon, title, description, delay = 0 }: FeatureItemProps) 
 }
 
 export const ScheduleControlSection: React.FC = () => {
-  const { t, i18n } = useTranslation('forOwners');
+  const { t } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
-  const { resolvedTheme } = useTheme();
-  const { lang } = useParams<{ lang?: string }>();
-  const currentLang = (lang || i18n.language) === 'en' ? 'en' : 'he';
-  const assetLocale: CaptureLocale = currentLang === 'he' ? 'he' : 'en-US';
-  const calendarShot = featureCaptureUrl('desktop-calendar', assetLocale, resolvedTheme);
 
   const handleCTA = () => {
     // Track Lead event when user clicks CTA
@@ -157,8 +149,10 @@ export const ScheduleControlSection: React.FC = () => {
                   {/* Content Area */}
                   <div className="schedule-control__browser-content">
                     <img 
-                      src={calendarShot}
-                      alt="Studio calendar and availability"
+                      src="/images/optimized/Studio-Availability-Controls-desktop-1-V3-634w.webp"
+                      srcSet="/images/optimized/Studio-Availability-Controls-desktop-1-V3-634w.webp 634w, /images/optimized/Studio-Availability-Controls-desktop-1-V3-1268w.webp 1268w"
+                      sizes="(max-width: 768px) 100vw, 634px"
+                      alt="Studio Availability Control Interface"
                       loading="lazy"
                       width={634}
                       height={355}
