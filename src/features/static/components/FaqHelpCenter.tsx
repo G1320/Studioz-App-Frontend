@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { ClearIcon, ExpandMoreIcon, SearchIcon } from '@shared/components/icons';
 import { useLanguageNavigate } from '@shared/hooks/utils';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import '../styles/_faq-page.scss';
 
 export interface FaqEntry {
@@ -38,6 +39,15 @@ export const FaqHelpCenter = ({
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [openId, setOpenId] = useState<string | null>(entries[0]?.id ?? null);
 
+  const progressiveFees = isFeatureEnabled('progressivePlatformFees');
+
+  const answerFor = (entryId: string) => {
+    if (entryId === 'how_fees_work' && progressiveFees) {
+      return t(`questions.${entryId}.aProgressive`);
+    }
+    return t(`questions.${entryId}.a`);
+  };
+
   const normalizedQuery = query.trim().toLowerCase();
 
   const filtered = useMemo(() => {
@@ -45,10 +55,11 @@ export const FaqHelpCenter = ({
       if (activeCategory !== 'all' && entry.category !== activeCategory) return false;
       if (!normalizedQuery) return true;
       const q = t(`questions.${entry.id}.q`, '').toLowerCase();
-      const a = t(`questions.${entry.id}.a`, '').toLowerCase();
+      const a = answerFor(entry.id).toLowerCase();
       return q.includes(normalizedQuery) || a.includes(normalizedQuery);
     });
-  }, [entries, activeCategory, normalizedQuery, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- answerFor depends on progressiveFees + t
+  }, [entries, activeCategory, normalizedQuery, t, progressiveFees]);
 
   const grouped = useMemo(() => {
     const byCategory = new Map<string, FaqEntry[]>();
@@ -209,7 +220,7 @@ export const FaqHelpCenter = ({
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.2, ease: 'easeInOut' }}
                               >
-                                <p className="faq-page__answer">{t(`questions.${entry.id}.a`)}</p>
+                                <p className="faq-page__answer">{answerFor(entry.id)}</p>
                               </motion.div>
                             )}
                           </AnimatePresence>

@@ -297,8 +297,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           <ViewTabs
             tabs={[
               { key: 'studios', label: t('tabs.manageStudios', 'Manage Studios') },
-              { key: 'activity', label: t('tabs.activity', 'Activity') },
               { key: 'overview', label: t('tabs.overview', 'Calendar') },
+              { key: 'activity', label: t('tabs.activity', 'Activity') },
               { key: 'documents', label: t('tabs.documents', 'Documents') },
               { key: 'billing', label: t('tabs.billing', 'Billing') }
             ]}

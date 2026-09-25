@@ -2,7 +2,9 @@
  * Ad8_PricingTiers_V4
  * Theme: Pricing — Free forever + progressive fee tiers
  * Duration: 240 frames (8s) at 30fps, 1080x1920
- */
+ 
+ * NOTE: Shows progressive 9/7/5 creatives. Product default is flat 9% — see remotion-ads/src/config/featureFlags.ts (progressivePlatformFees).
+*/
 import React from "react";
 import {
   AbsoluteFill,

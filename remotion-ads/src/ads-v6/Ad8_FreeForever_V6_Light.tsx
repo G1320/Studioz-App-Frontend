@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { isProgressivePlatformFeesEnabled } from "../config/featureFlags";
 import {
   COLORS,
   FONT,
@@ -110,12 +111,20 @@ const SceneFees: React.FC = () => {
       <PremiumBackground />
       <SafeZone style={{ alignItems: "center", justifyContent: "center", gap: s(18) }}>
         <Subheadline delay={5} size={22}>
-          עמלות פרוגרסיביות — אנחנו מרוויחים רק כשאתה מרוויח
+          {isProgressivePlatformFeesEnabled()
+            ? "עמלות פרוגרסיביות — אנחנו מרוויחים רק כשאתה מרוויח"
+            : "עמלה קבועה 9% — אנחנו מרוויחים רק כשאתה מרוויח"}
         </Subheadline>
         <div style={{ display: "flex", flexDirection: "column", gap: s(14), width: "100%", marginTop: s(12) }}>
-          <FeeTierCard rate="9%" label="בהתחלה" range="₪0 – ₪15,000" color={COLORS.accent} delay={12} />
-          <FeeTierCard rate="7%" label="בצמיחה" range="₪15,001 – ₪40,000" color={COLORS.blue} delay={22} />
-          <FeeTierCard rate="5%" label="בשיא" range="₪40,001+" color={COLORS.green} delay={32} />
+          {isProgressivePlatformFeesEnabled() ? (
+            <>
+              <FeeTierCard rate="9%" label="בהתחלה" range="₪0 – ₪15,000" color={COLORS.accent} delay={12} />
+              <FeeTierCard rate="7%" label="בצמיחה" range="₪15,001 – ₪40,000" color={COLORS.blue} delay={22} />
+              <FeeTierCard rate="5%" label="בשיא" range="₪40,001+" color={COLORS.green} delay={32} />
+            </>
+          ) : (
+            <FeeTierCard rate="9%" label="עמלה קבועה" range="על כל ההזמנות" color={COLORS.accent} delay={12} />
+          )}
         </div>
       </SafeZone>
     </AbsoluteFill>

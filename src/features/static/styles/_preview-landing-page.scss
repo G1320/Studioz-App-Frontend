@@ -25,7 +25,8 @@
   &__section-header h2,
   &__showcase-copy h3,
   &__closing-inner h2,
-  &__pillar h3 {
+  &__pillar h3,
+  &__price-card-value {
     font-family: var(--pl-display);
     font-optical-sizing: auto;
     text-wrap: balance;
@@ -296,6 +297,7 @@
   &__pillars,
   &__platform,
   &__proof,
+  &__pricing,
   &__closing {
     padding: clamp(4rem, 9vw, 7rem) 0;
   }
@@ -497,6 +499,210 @@
       font-weight: 600;
       letter-spacing: 0.02em;
     }
+  }
+
+  // ----- Pricing (Samply-style three cards) -----
+  &__pricing {
+    border-top: 1px solid color-mix(in srgb, var(--border-secondary) 80%, transparent);
+    background: color-mix(in srgb, var(--bg-secondary) 35%, var(--bg-primary));
+  }
+
+  &__pricing-accent {
+    color: var(--pl-accent);
+  }
+
+  &__pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+    margin-top: clamp(2rem, 4vw, 3rem);
+
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.15rem;
+    }
+  }
+
+  &__price-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+    padding: 1.75rem 1.5rem 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--border-secondary) 85%, transparent);
+    border-radius: 1rem;
+    background: var(--bg-primary);
+    // Override global #root { text-align: center }
+    text-align: start;
+  }
+
+  &__price-card--featured {
+    border-color: color-mix(in srgb, var(--pl-accent) 55%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pl-accent) 18%, transparent);
+
+    @media (min-width: 900px) {
+      padding-top: 2.15rem;
+    }
+  }
+
+  &__price-card-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.3rem 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--pl-accent) 70%, transparent);
+    border-radius: 999px;
+    background: var(--bg-primary);
+    color: var(--pl-accent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__price-card-name {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__price-card-name--accent {
+    color: var(--pl-accent);
+  }
+
+  &__price-card-amount {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    margin-top: 0.85rem;
+  }
+
+  &__price-card-value {
+    color: var(--pl-ink);
+    font-family: var(--pl-display);
+    font-size: clamp(2.15rem, 3.5vw, 2.65rem);
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  &__price-card-value--contact {
+    font-size: clamp(1.75rem, 3vw, 2.15rem);
+  }
+
+  &__price-card-period {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  &__price-card-note {
+    margin: 0.45rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  &__price-card-desc {
+    margin: 0.85rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  &__price-card-includes {
+    margin: 1.25rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__price-card-features {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+    flex: 1;
+    width: 100%;
+    text-align: start;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 0.65rem;
+      width: 100%;
+      color: var(--pl-ink);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-align: start;
+    }
+
+    svg {
+      flex-shrink: 0;
+      width: 1.05rem;
+      height: 1.05rem;
+      margin-top: 0.12rem;
+      color: var(--pl-accent);
+      stroke-width: 2.5;
+    }
+  }
+
+  &__price-card-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.85rem;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: 0.55rem;
+    border: none;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: transform 160ms ease, opacity 160ms ease, background 160ms ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      opacity: 0.94;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--pl-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  &__price-card-cta--ghost {
+    background: color-mix(in srgb, var(--bg-secondary) 80%, var(--bg-primary));
+    color: var(--pl-ink);
+  }
+
+  &__price-card-cta--solid {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+  }
+
+  &__price-card-footnote {
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    text-align: center;
   }
 
   // ----- Closing -----

@@ -2,7 +2,9 @@
  * Ad8 — Pricing Tiers V3
  * Three pricing cards with gold highlight on recommended plan
  * 240 frames / 8s @ 30fps
- */
+ 
+ * NOTE: Shows progressive 9/7/5 creatives. Product default is flat 9% — see remotion-ads/src/config/featureFlags.ts (progressivePlatformFees).
+*/
 import React from "react";
 import {
   AbsoluteFill,

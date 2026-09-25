@@ -25,6 +25,7 @@ import {
   spring,
   staticFile,
 } from "remotion";
+import { isProgressivePlatformFeesEnabled } from "../config/featureFlags";
 import {
   Calendar,
   BarChart3,
@@ -558,9 +559,13 @@ const ScenePricing: React.FC = () => {
           }}
         >
           {[
-            { rate: "9%", label: "בהתחלה", color: COLORS.accent },
-            { rate: "7%", label: "בצמיחה", color: COLORS.blue },
-            { rate: "5%", label: "בשיא", color: COLORS.green },
+            ...(isProgressivePlatformFeesEnabled()
+              ? [
+                  { rate: "9%", label: "בהתחלה", color: COLORS.accent },
+                  { rate: "7%", label: "בצמיחה", color: COLORS.blue },
+                  { rate: "5%", label: "בשיא", color: COLORS.green },
+                ]
+              : [{ rate: "9%", label: "עמלה קבועה", color: COLORS.accent }]),
           ].map((t, i) => (
             <GlassCard key={i} delay={55 + i * 8} style={{ flex: 1, textAlign: "center", padding: `${s(16)}px ${s(12)}px` }}>
               <div style={{ fontFamily: FONT, fontSize: s(32), fontWeight: 900, color: t.color, letterSpacing: "-0.02em" }}>{t.rate}</div>

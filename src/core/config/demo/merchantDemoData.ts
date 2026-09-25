@@ -238,14 +238,10 @@ export const DEMO_BILLING_HISTORY: BillingCycle[] = [
     vendorId: 'demo-vendor',
     period: '2026-03',
     totalTransactionAmount: 22400,
-    totalFeeAmount: 1868,
+    totalFeeAmount: 2016,
     feeCount: 18,
-    feePercentage: 0.083,
-    feeModel: 'tiered',
-    tierBreakdown: [
-      { tierIndex: 0, label: '9%', rate: 0.09, amountInBand: 15000, feeAmount: 1350 },
-      { tierIndex: 1, label: '7%', rate: 0.07, amountInBand: 7400, feeAmount: 518 },
-    ],
+    feePercentage: 0.09,
+    feeModel: 'flat',
     status: 'paid',
     chargedAt: '2026-04-01T08:00:00.000Z',
     retryCount: 0,
@@ -257,14 +253,10 @@ export const DEMO_BILLING_HISTORY: BillingCycle[] = [
     vendorId: 'demo-vendor',
     period: '2026-02',
     totalTransactionAmount: 18300,
-    totalFeeAmount: 1581,
+    totalFeeAmount: 1647,
     feeCount: 14,
-    feePercentage: 0.086,
-    feeModel: 'tiered',
-    tierBreakdown: [
-      { tierIndex: 0, label: '9%', rate: 0.09, amountInBand: 15000, feeAmount: 1350 },
-      { tierIndex: 1, label: '7%', rate: 0.07, amountInBand: 3300, feeAmount: 231 },
-    ],
+    feePercentage: 0.09,
+    feeModel: 'flat',
     status: 'paid',
     chargedAt: '2026-03-01T08:00:00.000Z',
     retryCount: 0,
@@ -279,10 +271,7 @@ export const DEMO_BILLING_HISTORY: BillingCycle[] = [
     totalFeeAmount: 1116,
     feeCount: 11,
     feePercentage: 0.09,
-    feeModel: 'tiered',
-    tierBreakdown: [
-      { tierIndex: 0, label: '9%', rate: 0.09, amountInBand: 12400, feeAmount: 1116 },
-    ],
+    feeModel: 'flat',
     status: 'paid',
     chargedAt: '2026-02-01T08:00:00.000Z',
     retryCount: 0,
@@ -294,15 +283,10 @@ export const DEMO_BILLING_HISTORY: BillingCycle[] = [
     vendorId: 'demo-vendor',
     period: '2025-12',
     totalTransactionAmount: 45000,
-    totalFeeAmount: 3350,
+    totalFeeAmount: 4050,
     feeCount: 16,
-    feePercentage: 0.074,
-    feeModel: 'tiered',
-    tierBreakdown: [
-      { tierIndex: 0, label: '9%', rate: 0.09, amountInBand: 15000, feeAmount: 1350 },
-      { tierIndex: 1, label: '7%', rate: 0.07, amountInBand: 25000, feeAmount: 1750 },
-      { tierIndex: 2, label: '5%', rate: 0.05, amountInBand: 5000, feeAmount: 250 },
-    ],
+    feePercentage: 0.09,
+    feeModel: 'flat',
     status: 'paid',
     chargedAt: '2026-01-01T08:00:00.000Z',
     retryCount: 0,
@@ -317,10 +301,7 @@ export const DEMO_BILLING_HISTORY: BillingCycle[] = [
     totalFeeAmount: 882,
     feeCount: 10,
     feePercentage: 0.09,
-    feeModel: 'tiered',
-    tierBreakdown: [
-      { tierIndex: 0, label: '9%', rate: 0.09, amountInBand: 9800, feeAmount: 882 },
-    ],
+    feeModel: 'flat',
     status: 'paid',
     chargedAt: '2025-12-01T08:00:00.000Z',
     retryCount: 0,
@@ -335,25 +316,5 @@ export const DEMO_CURRENT_FEES: CurrentFeesResponse = {
   totalFeeAmount: 625.5,
   totalTransactionAmount: 6950,
   count: 8,
-  fees: [],
-  feeTier: {
-    tierIndex: 0,
-    tierLabel: '9%',
-    effectiveRate: 0.09,
-    breakdown: [
-      { tierIndex: 0, label: '9%', rate: 0.09, amountInBand: 6950, feeAmount: 625.5 },
-    ]
-  },
-  nextTier: {
-    thresholdAmount: 15000,
-    currentAmount: 6950,
-    amountToGo: 8050,
-    nextRate: 0.07,
-    nextLabel: '7%'
-  },
-  tiers: [
-    { maxAmount: 15000, rate: 0.09, label: '9%' },
-    { maxAmount: 40000, rate: 0.07, label: '7%' },
-    { maxAmount: null, rate: 0.05, label: '5%' }
-  ]
+  fees: []
 };

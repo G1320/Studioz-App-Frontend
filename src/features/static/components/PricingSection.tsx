@@ -1,12 +1,13 @@
 /**
  * Pricing Section Component for Studioz
- * Free-forever model with progressive tiered platform fees.
+ * Free-forever model with flat 9% platform fee (progressive tiers behind feature flag).
  */
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircleIcon } from '@shared/components/icons';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import { trackEvent } from '@shared/utils/analytics';
 import '../styles/_pricing-section.scss';
 
@@ -18,6 +19,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
   const { t, i18n } = useTranslation('forOwners');
   const navigate = useNavigate();
   const isRtl = i18n.language === 'he';
+  const progressiveFees = isFeatureEnabled('progressivePlatformFees');
 
   const features = [
     t('pricing.freeForever.features.unlimitedListings'),
@@ -108,7 +110,9 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ className = '' }
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          {t('pricing.freeForever.comparison')}
+          {progressiveFees
+            ? t('pricing.freeForever.comparisonProgressive')
+            : t('pricing.freeForever.comparison')}
         </motion.p>
       </div>
     </section>

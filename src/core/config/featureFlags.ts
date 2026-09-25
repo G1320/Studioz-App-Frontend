@@ -19,6 +19,11 @@ export interface FeatureFlags {
   discoverPage: boolean;
   mobileFooterNavigation: boolean;
   subscriptionsPage: boolean;
+  /**
+   * Progressive platform fees (9% → 7% → 5% at ₪15K / ₪40K).
+   * When false (default), flat 9% applies everywhere.
+   */
+  progressivePlatformFees: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -41,7 +46,8 @@ export const featureFlags: FeatureFlags = {
   studioInfoModal: false,
   discoverPage: false,
   mobileFooterNavigation: false,
-  subscriptionsPage: false
+  subscriptionsPage: false,
+  progressivePlatformFees: false
 };
 
 /**

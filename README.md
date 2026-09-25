@@ -169,6 +169,7 @@ Manual chunks are configured for optimal loading:
 - **Vite**: `vite.config.js` with React plugin and optimizations
 - **PostCSS**: Configured for SCSS processing
 - **Feature Flags**: Centralized in `src/core/config/featureFlags.ts`
+  - `progressivePlatformFees` (default `false`) — when off, platform fee is a flat **9%**; when on, marginal **9% / 7% / 5%** at ₪15K / ₪40K. Backend mirror: `PROGRESSIVE_PLATFORM_FEES=true`.
 
 ## 📝 Author
 

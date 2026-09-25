@@ -195,7 +195,8 @@
     "freeForever": {
       "title": "Studioz is free.",
       "titleAccent": "Forever.",
-      "subtitle": "0% upfront. We only earn when you earn — starting at 9%, dropping to 5% as you grow.",
+      "subtitle": "0% upfront. We only earn when you earn — a flat 9% on confirmed bookings.",
+      "subtitleProgressive": "0% upfront. We only earn when you earn — starting at 9%, dropping to 5% as you grow.",
       "tagline": "We only make money when you make money.",
       "badge": "Free Plan",
       "period": "/month",
@@ -210,7 +211,8 @@
         "support": "Standard support"
       },
       "cta": "Get Started",
-      "comparison": "Traditional platforms charge ₪49–99/month. We charge nothing. Just 9% on your first ₪15K, 7% up to ₪40K, and 5% above that."
+      "comparison": "Traditional platforms charge ₪49–99/month. We charge nothing — just a flat 9% when you get paid.",
+      "comparisonProgressive": "Traditional platforms charge ₪49–99/month. We charge nothing. Just 9% on your first ₪15K, 7% up to ₪40K, and 5% above that."
     },
     "feeTiers": {
       "title": "How our",

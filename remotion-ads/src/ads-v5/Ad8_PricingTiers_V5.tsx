@@ -1,6 +1,6 @@
 /**
  * Ad8_PricingTiers_V5
- * Theme: Free forever + progressive fee tiers (9% → 7% → 5%)
+ * Theme: Free forever + platform fee (flat 9%, or progressive tiers when flag on)
  * Duration: 240 frames (8s) at 30fps, 1080x1920
  */
 import React from "react";
@@ -13,6 +13,7 @@ import {
   spring,
 } from "remotion";
 import { Check } from "lucide-react";
+import { isProgressivePlatformFeesEnabled } from "../config/featureFlags";
 import {
   GOLD,
   DARK_BG,
@@ -190,31 +191,18 @@ const ScenePricing: React.FC = () => {
           opacity: subtitleEnter,
         }}
       >
-        {"עמלות פרוגרסיביות"}
+        {isProgressivePlatformFeesEnabled() ? "עמלות פרוגרסיביות" : "עמלה קבועה — 9%"}
       </div>
 
-      <FeeTierCard
-        rate="9%"
-        range="₪0 – ₪15,000"
-        label="בהתחלה"
-        delay={8}
-      />
-
-      <FeeTierCard
-        rate="7%"
-        range="₪15,001 – ₪40,000"
-        label="בצמיחה"
-        delay={16}
-        accentColor={ACCENT_BLUE}
-      />
-
-      <FeeTierCard
-        rate="5%"
-        range="₪40,001+"
-        label="בשיא"
-        delay={24}
-        highlight
-      />
+      {isProgressivePlatformFeesEnabled() ? (
+        <>
+          <FeeTierCard rate="9%" range="₪0 – ₪15,000" label="בהתחלה" delay={8} />
+          <FeeTierCard rate="7%" range="₪15,001 – ₪40,000" label="בצמיחה" delay={16} accentColor={ACCENT_BLUE} />
+          <FeeTierCard rate="5%" range="₪40,001+" label="בשיא" delay={24} highlight />
+        </>
+      ) : (
+        <FeeTierCard rate="9%" range="על כל ההזמנות" label="עמלה קבועה" delay={8} highlight />
+      )}
     </div>
   </AbsoluteFill>
   );

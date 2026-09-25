@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -7,12 +7,14 @@ import {
   ArrowRight,
   BarChart3,
   CalendarDays,
+  Check,
   Headphones,
   Store
 } from 'lucide-react';
 import { useTheme } from '@shared/contexts/ThemeContext';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { trackCustomEvent, trackEvent } from '@shared/utils/analytics';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import '../styles/_preview-landing-page.scss';
 
 const PILLAR_ICONS = {
@@ -178,12 +180,20 @@ export default function PreviewLandingPage() {
     });
   }, []);
 
-  const handleGetStarted = () => {
+  const handleGetStarted = (source = 'Preview Landing CTA') => {
     trackEvent('Lead', {
-      content_name: 'Preview Landing CTA',
+      content_name: source,
       content_category: 'Conversion'
     });
     navigate('/studio/create');
+  };
+
+  const handleEnterpriseContact = () => {
+    trackEvent('Lead', {
+      content_name: 'Preview Landing Enterprise CTA',
+      content_category: 'Conversion'
+    });
+    window.location.href = 'mailto:info@studioz.online?subject=Studioz%20Enterprise';
   };
 
   const pillars = t('pillars.items', { returnObjects: true }) as Array<{
@@ -196,6 +206,17 @@ export default function PreviewLandingPage() {
     quote: string;
     role: string;
   }>;
+
+  const freeFeaturesRaw = t('pricing.plans.free.features', { returnObjects: true });
+  const freeFeatures = useMemo(() => {
+    const list = Array.isArray(freeFeaturesRaw) ? [...(freeFeaturesRaw as string[])] : [];
+    if (isFeatureEnabled('progressivePlatformFees') && list.length >= 4) {
+      list[3] = t('pricing.plans.free.featurePlatformFeeProgressive');
+    }
+    return list;
+  }, [freeFeaturesRaw, t]);
+  const proFeatures = t('pricing.plans.pro.features', { returnObjects: true });
+  const enterpriseFeatures = t('pricing.plans.enterprise.features', { returnObjects: true });
 
   const fadeUp = reduceMotion
     ? { initial: false, animate: false }
@@ -229,7 +250,11 @@ export default function PreviewLandingPage() {
               </h1>
               <p className="preview-landing__lead">{t('hero.description')}</p>
               <div className="preview-landing__hero-actions">
-                <button type="button" className="preview-landing__cta" onClick={handleGetStarted}>
+                <button
+                  type="button"
+                  className="preview-landing__cta"
+                  onClick={() => handleGetStarted()}
+                >
                   {t('hero.primaryCta')}
                   <ArrowRight aria-hidden="true" />
                 </button>
@@ -366,13 +391,112 @@ export default function PreviewLandingPage() {
           </div>
         </section>
 
+        <section id="pricing" className="preview-landing__pricing" aria-labelledby="preview-pricing-title">
+          <div className="preview-landing__container">
+            <motion.header className="preview-landing__section-header" {...fadeUp}>
+              <h2 id="preview-pricing-title">
+                {t('pricing.title')}{' '}
+                <span className="preview-landing__pricing-accent">{t('pricing.titleAccent')}</span>
+              </h2>
+              <p className="preview-landing__section-lead">{t('pricing.description')}</p>
+            </motion.header>
+
+            <div className="preview-landing__pricing-grid">
+              <motion.article className="preview-landing__price-card" {...fadeUp}>
+                <p className="preview-landing__price-card-name">{t('pricing.plans.free.name')}</p>
+                <div className="preview-landing__price-card-amount">
+                  <span className="preview-landing__price-card-value">{t('pricing.plans.free.price')}</span>
+                  <span className="preview-landing__price-card-period">{t('pricing.plans.free.period')}</span>
+                </div>
+                <p className="preview-landing__price-card-desc">{t('pricing.plans.free.description')}</p>
+                <ul className="preview-landing__price-card-features">
+                  {freeFeatures.map((feature: string) => (
+                    <li key={feature}>
+                      <Check aria-hidden="true" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  className="preview-landing__price-card-cta preview-landing__price-card-cta--ghost"
+                  onClick={() => handleGetStarted('Preview Landing Pricing Free')}
+                >
+                  {t('pricing.plans.free.cta')}
+                </button>
+              </motion.article>
+
+              <motion.article
+                className="preview-landing__price-card preview-landing__price-card--featured"
+                {...fadeUp}
+              >
+                <span className="preview-landing__price-card-badge">{t('pricing.plans.pro.badge')}</span>
+                <p className="preview-landing__price-card-name preview-landing__price-card-name--accent">
+                  {t('pricing.plans.pro.name')}
+                </p>
+                <div className="preview-landing__price-card-amount">
+                  <span className="preview-landing__price-card-value">{t('pricing.plans.pro.price')}</span>
+                  <span className="preview-landing__price-card-period">{t('pricing.plans.pro.period')}</span>
+                </div>
+                <p className="preview-landing__price-card-note">{t('pricing.plans.pro.note')}</p>
+                <p className="preview-landing__price-card-desc">{t('pricing.plans.pro.description')}</p>
+                <p className="preview-landing__price-card-includes">{t('pricing.plans.pro.includesLabel')}</p>
+                <ul className="preview-landing__price-card-features">
+                  {(Array.isArray(proFeatures) ? proFeatures : []).map((feature: string) => (
+                    <li key={feature}>
+                      <Check aria-hidden="true" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  className="preview-landing__price-card-cta preview-landing__price-card-cta--solid"
+                  onClick={() => handleGetStarted('Preview Landing Pricing Pro')}
+                >
+                  {t('pricing.plans.pro.cta')}
+                </button>
+              </motion.article>
+
+              <motion.article className="preview-landing__price-card" {...fadeUp}>
+                <p className="preview-landing__price-card-name">{t('pricing.plans.enterprise.name')}</p>
+                <div className="preview-landing__price-card-amount">
+                  <span className="preview-landing__price-card-value preview-landing__price-card-value--contact">
+                    {t('pricing.plans.enterprise.price')}
+                  </span>
+                </div>
+                <p className="preview-landing__price-card-desc">{t('pricing.plans.enterprise.description')}</p>
+                <ul className="preview-landing__price-card-features">
+                  {(Array.isArray(enterpriseFeatures) ? enterpriseFeatures : []).map((feature: string) => (
+                    <li key={feature}>
+                      <Check aria-hidden="true" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  className="preview-landing__price-card-cta preview-landing__price-card-cta--ghost"
+                  onClick={handleEnterpriseContact}
+                >
+                  {t('pricing.plans.enterprise.cta')}
+                </button>
+              </motion.article>
+            </div>
+          </div>
+        </section>
+
         <section className="preview-landing__closing">
           <div className="preview-landing__container">
             <motion.div className="preview-landing__closing-inner" {...fadeUp}>
               <h2>{t('closing.title')}</h2>
               <p>{t('closing.description')}</p>
               <div className="preview-landing__hero-actions">
-                <button type="button" className="preview-landing__cta" onClick={handleGetStarted}>
+                <button
+                  type="button"
+                  className="preview-landing__cta"
+                  onClick={() => handleGetStarted('Preview Landing Closing CTA')}
+                >
                   {t('closing.primaryCta')}
                   <ArrowRight aria-hidden="true" />
                 </button>

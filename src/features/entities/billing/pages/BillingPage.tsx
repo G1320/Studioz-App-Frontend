@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBillingHistory, useCurrentFees } from '@shared/hooks';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import { BillingCurrentCard } from '../components/BillingCurrentCard';
 import { BillingHistoryTable } from '../components/BillingHistoryTable';
 import { BillingCycleModal } from '../components/BillingCycleModal';
@@ -10,6 +11,7 @@ const BillingPage: React.FC = () => {
   const { t } = useTranslation('billing');
   const { data: history = [], isLoading: historyLoading } = useBillingHistory();
   const { data: currentFees, isLoading: currentLoading } = useCurrentFees();
+  const progressiveFees = isFeatureEnabled('progressivePlatformFees');
 
   const [selectedCycleId, setSelectedCycleId] = useState<string | null>(null);
 
@@ -40,9 +42,9 @@ const BillingPage: React.FC = () => {
           totalFeeAmount={currentFees.totalFeeAmount}
           totalTransactionAmount={currentFees.totalTransactionAmount}
           count={currentFees.count}
-          feeTier={currentFees.feeTier}
-          nextTier={currentFees.nextTier}
-          tiers={currentFees.tiers}
+          feeTier={progressiveFees ? currentFees.feeTier : undefined}
+          nextTier={progressiveFees ? currentFees.nextTier : undefined}
+          tiers={progressiveFees ? currentFees.tiers : undefined}
         />
       )}
 

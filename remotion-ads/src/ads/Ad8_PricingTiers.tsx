@@ -1,3 +1,6 @@
+/**
+ * NOTE: Shows progressive 9/7/5 creatives. Product default is flat 9% — see remotion-ads/src/config/featureFlags.ts (progressivePlatformFees).
+ */
 import React from "react";
 import {
   AbsoluteFill,

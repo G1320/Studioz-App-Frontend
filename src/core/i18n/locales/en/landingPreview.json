@@ -82,6 +82,56 @@
       }
     ]
   },
+  "pricing": {
+    "title": "Simple pricing.",
+    "titleAccent": "Start free. Scale when ready.",
+    "description": "Studio Free uses a flat 9% platform fee on bookings. Upgrade anytime for unlimited capacity and priority support.",
+    "plans": {
+      "free": {
+        "name": "Studio Free",
+        "price": "₪0",
+        "period": "/ forever",
+        "description": "For engineers & studios getting started.",
+        "features": [
+          "Public bookable studio pages",
+          "Scheduling, calendar sync & payments",
+          "Remote projects & collaboration",
+          "Flat 9% platform fee on earnings",
+          "Standard support"
+        ],
+        "featurePlatformFeeProgressive": "Pay as you earn — 9% → 7% → 5%",
+        "cta": "Start free"
+      },
+      "pro": {
+        "badge": "Most popular",
+        "name": "Studio Pro",
+        "price": "$10",
+        "period": "/ mo",
+        "note": "Billed annually · Cancel anytime",
+        "description": "For studios looking to grow.",
+        "includesLabel": "Everything in Studio Free, plus",
+        "features": [
+          "Unlimited storage",
+          "Unlimited projects",
+          "Unlimited bookings",
+          "Unlimited studios",
+          "Priority support"
+        ],
+        "cta": "Get started"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Contact us",
+        "description": "Schedule a call to speak with us.",
+        "features": [
+          "Advanced admin & multi-studio control",
+          "Dedicated support",
+          "Custom integrations & onboarding"
+        ],
+        "cta": "Talk to sales"
+      }
+    }
+  },
   "closing": {
     "title": "Begin with Studioz.",
     "description": "List your studio, collect payments, and start running bookings and projects from one workspace.",

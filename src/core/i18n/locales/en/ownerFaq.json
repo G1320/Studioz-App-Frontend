@@ -39,7 +39,8 @@
     },
     "how_fees_work": {
       "q": "How do fees work?",
-      "a": "We use a progressive commission model that rewards growth. The rate starts at 9% on your first earnings and decreases as your monthly revenue grows. The more you earn, the lower your effective rate. There are no hidden fees or monthly charges."
+      "a": "Studioz takes a flat 9% commission on confirmed bookings. There are no monthly fees, setup costs, or hidden charges — we only earn when you get paid.",
+      "aProgressive": "We use a progressive commission model that rewards growth. The rate starts at 9% on your first earnings and decreases as your monthly revenue grows (9% → 7% → 5%). The more you earn, the lower your effective rate. There are no hidden fees or monthly charges."
     },
     "when_get_paid": {
       "q": "When do I get paid?",
