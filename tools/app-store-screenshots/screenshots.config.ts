@@ -79,7 +79,7 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     textAlign: 'center',
     actions: [
-      // Taller day cells fill the frame; keep dashboard header/tabs in view.
+      // Taller day cells fill the frame; keep site header + dashboard tabs in view.
       {
         type: 'style',
         css: `
@@ -88,7 +88,8 @@ const scenes: ScreenshotScene[] = [
           .studioz-calendar__month-view { min-height: inherit !important; }
         `
       },
-      { type: 'scroll', y: 72 }
+      // Scroll past Dashboard page title; pin tabs under fixed site header (~64px).
+      { type: 'scroll', selector: '.dashboard-page__views', offsetY: 80 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -121,15 +122,17 @@ const scenes: ScreenshotScene[] = [
       {
         type: 'style',
         css: `
+          .studioz-calendar__content { min-height: calc(100vh - 8rem) !important; }
           .studioz-calendar__list-view {
+            min-height: inherit !important;
             padding: 0.85rem 1.15rem !important;
           }
           .studioz-calendar__list-events { gap: 0.45rem !important; }
           .studioz-calendar__list-event { padding: 0.65rem 0.85rem !important; }
         `
       },
-      // Match month calendar framing.
-      { type: 'scroll', y: 72 }
+      // Same framing as month: tabs under fixed site header (5rem), Dashboard title scrolled away.
+      { type: 'scroll', selector: '.dashboard-page__views', offsetY: 80 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {

@@ -276,13 +276,28 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
       action.selector,
       (element, offsetY) => {
         document.documentElement.style.transform = '';
-        element.scrollIntoView({ block: 'start', inline: 'nearest' });
-        if (offsetY) window.scrollBy(0, offsetY);
-        // When the page already fits the viewport, scrollIntoView is a no-op.
-        // Shift visually so the target sits flush at the top (avoids empty bands).
-        const topPad = typeof offsetY === 'number' ? offsetY : 0;
+
+        // Prefer real window scroll so position:fixed site chrome stays put.
+        const targetTop = window.scrollY + element.getBoundingClientRect().top - (offsetY || 0);
+        const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        if (targetTop > maxY + 1) {
+          let pad = document.getElementById('__screenshot-scroll-pad');
+          if (!pad) {
+            pad = document.createElement('div');
+            pad.id = '__screenshot-scroll-pad';
+            pad.setAttribute('aria-hidden', 'true');
+            pad.style.cssText =
+              'width:1px;pointer-events:none;visibility:hidden;flex:none;';
+            document.body.appendChild(pad);
+          }
+          pad.style.height = `${Math.max(pad.offsetHeight, targetTop - maxY + 48)}px`;
+        }
+
+        window.scrollTo({ left: 0, top: Math.max(0, targetTop), behavior: 'instant' });
+
+        // If scroll still missed (short page / overflow quirks), visual shift.
         const rect = element.getBoundingClientRect();
-        const delta = rect.top - topPad;
+        const delta = rect.top - (offsetY || 0);
         if (Math.abs(delta) > 1) {
           document.documentElement.style.transform = `translate(0px, ${-delta}px)`;
         }
@@ -290,20 +305,38 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
       action.offsetY ?? 0
     );
   } else {
-    // Absolute scroll. When the page fits the viewport (common for denser
-    // dashboards), window.scrollTo is a no-op — fall back to a visual shift
-    // so capture framing can still move down.
+    // Absolute scroll. Prefer real window scroll so position:fixed chrome
+    // (site header) stays put — matching tall pages like month calendar.
+    // Pad the document when needed so short pages (e.g. calendar list) can
+    // scroll the same amount instead of using a transform that shifts the header.
     await page.evaluate(({ x, y }) => {
       const left = x || 0;
       const top = y || 0;
-      const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       document.documentElement.style.transform = '';
-      if (top <= maxY) {
-        window.scrollTo({ left, top, behavior: 'instant' });
-        return;
+
+      if (top > 0 || left > 0) {
+        let pad = document.getElementById('__screenshot-scroll-pad');
+        if (!pad) {
+          pad = document.createElement('div');
+          pad.id = '__screenshot-scroll-pad';
+          pad.setAttribute('aria-hidden', 'true');
+          pad.style.cssText =
+            'width:1px;pointer-events:none;visibility:hidden;flex:none;';
+          document.body.appendChild(pad);
+        }
+        // Guarantee enough document height for the requested scroll offset.
+        const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const shortfall = Math.max(0, top - maxY);
+        pad.style.height = `${Math.max(pad.offsetHeight, shortfall + top + 24)}px`;
       }
-      window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
-      document.documentElement.style.transform = `translate(${-left}px, ${-top}px)`;
+
+      window.scrollTo({ left, top, behavior: 'instant' });
+
+      // Last resort if scroll still didn't land.
+      if (Math.abs(window.scrollY - top) > 1 || Math.abs(window.scrollX - left) > 1) {
+        window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
+        document.documentElement.style.transform = `translate(${-left}px, ${-top}px)`;
+      }
     }, {
       x: action.x,
       y: action.y
