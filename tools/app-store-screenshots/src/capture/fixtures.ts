@@ -662,7 +662,7 @@ const additionalReservationSeed: Array<{
     createdAt: '2026-09-10T11:00:00.000Z'
   },
   // Today’s agenda for list-view shots (clock = 22/09/2026):
-  // start from the existing Ori booking, then add two more — including one pending.
+  // dense day — Ori plus several more, including one pending.
   {
     customerId: 'customer-today-am',
     customerName: 'Maya Azulay',
@@ -672,6 +672,16 @@ const additionalReservationSeed: Array<{
     status: 'confirmed',
     itemName: { en: 'Vocal Take', he: 'טייק ווקאלי' },
     createdAt: '2026-09-18T08:00:00.000Z'
+  },
+  {
+    customerId: 'customer-today-mid',
+    customerName: 'Eyal Mizrahi',
+    bookingDate: '22/09/2026',
+    startHour: 11,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Mixing Session', he: 'סשן מיקס' },
+    createdAt: '2026-09-19T09:30:00.000Z'
   },
   {
     customerId: 'customer-twentyfive',
@@ -692,6 +702,26 @@ const additionalReservationSeed: Array<{
     status: 'pending',
     itemName: { en: 'Studio Rental', he: 'השכרת אולפן' },
     createdAt: '2026-09-21T15:00:00.000Z'
+  },
+  {
+    customerId: 'customer-today-eve',
+    customerName: 'Tal Ben-David',
+    bookingDate: '22/09/2026',
+    startHour: 18,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Mastering', he: 'מאסטרינג' },
+    createdAt: '2026-09-20T16:00:00.000Z'
+  },
+  {
+    customerId: 'customer-today-late',
+    customerName: 'Rotem Avraham',
+    bookingDate: '22/09/2026',
+    startHour: 20,
+    duration: 2,
+    status: 'confirmed',
+    itemName: { en: 'Recording Session', he: 'סשן הקלטה' },
+    createdAt: '2026-09-21T10:00:00.000Z'
   },
   {
     customerId: 'customer-twentysix',

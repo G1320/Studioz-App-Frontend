@@ -56,7 +56,7 @@ const scenes: ScreenshotScene[] = [
     template: 'full-bleed',
     textAlign: 'center',
     deviceTransform: { scale: 0.82, y: 560, shadow: true },
-    actions: [{ type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -8 }],
+    actions: [{ type: 'scroll', y: 72 }],
     copy: {
       'en-US': {
         title: 'Every booking, under control',
@@ -79,17 +79,16 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     textAlign: 'center',
     actions: [
-      // Fill the viewport under the control bar so flush framing isn't mostly empty.
+      // Taller day cells fill the frame; keep dashboard header/tabs in view.
       {
         type: 'style',
         css: `
-          .studioz-calendar__day-cell { min-height: 7.5rem !important; }
-          .studioz-calendar__content { min-height: calc(100vh - 5.5rem) !important; }
+          .studioz-calendar__day-cell { min-height: 8.25rem !important; }
+          .studioz-calendar__content { min-height: calc(100vh - 8rem) !important; }
           .studioz-calendar__month-view { min-height: inherit !important; }
         `
       },
-      // Flush calendar chrome to the top of the frame.
-      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
+      { type: 'scroll', y: 72 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -122,17 +121,14 @@ const scenes: ScreenshotScene[] = [
       {
         type: 'style',
         css: `
-          .studioz-calendar__day-cell { min-height: 7.5rem !important; }
-          .studioz-calendar__content { min-height: calc(100vh - 5.5rem) !important; }
           .studioz-calendar__list-view {
-            min-height: inherit !important;
-            padding: 1rem 1.25rem !important;
+            padding: 0.85rem 1.15rem !important;
           }
-          .studioz-calendar__list-events { gap: 0.55rem !important; }
-          .studioz-calendar__list-event { padding: 0.75rem 0.9rem !important; }
+          .studioz-calendar__list-events { gap: 0.45rem !important; }
+          .studioz-calendar__list-event { padding: 0.65rem 0.85rem !important; }
         `
       },
-      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -6 }
+      { type: 'scroll', y: 72 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -161,7 +157,15 @@ const scenes: ScreenshotScene[] = [
     template: 'minimal',
     textAlign: 'center',
     actions: [
-      { type: 'scroll', selector: '.studioz-calendar__control-bar', offsetY: -8 }
+      {
+        type: 'style',
+        css: `
+          .studioz-calendar__day-cell { min-height: 5.25rem !important; }
+          .studioz-calendar__content { min-height: calc(100vh - 10rem) !important; }
+          .studioz-calendar__month-view { min-height: inherit !important; }
+        `
+      },
+      { type: 'scroll', y: 96 }
     ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
