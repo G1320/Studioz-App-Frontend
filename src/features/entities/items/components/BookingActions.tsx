@@ -10,6 +10,8 @@ interface BookingActionsProps {
   currentReservationId: string | null;
   isPhoneVerified: boolean;
   isBooked: boolean;
+  /** Require a valid future bookable datetime before Continue */
+  hasValidDate?: boolean;
   cart?: Cart;
   onBookNow: () => void;
   addOnsTotal?: number;
@@ -24,6 +26,7 @@ export const BookingActions = React.memo(
     currentReservationId,
     isPhoneVerified,
     isBooked,
+    hasValidDate = true,
     cart,
     onBookNow,
     addOnsTotal = 0,
@@ -42,7 +45,7 @@ export const BookingActions = React.memo(
         <Button
           className="add-to-cart-button book-now-button"
           onClick={onBookNow}
-          disabled={isLoading}
+          disabled={isLoading || !hasValidDate}
         >
           {isLoading ? (
             <span className="button-loading-spinner" />

@@ -16,6 +16,8 @@ interface ReservationDetailsFormProps {
   disabled?: boolean;
   onPhoneVerified: () => void;
   hideComment?: boolean;
+  /** When true (auth user or already verified), hide OTP UI */
+  isPhoneVerified?: boolean;
 }
 
 export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
@@ -28,7 +30,8 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
   isRTL,
   disabled,
   onPhoneVerified,
-  hideComment = false
+  hideComment = false,
+  isPhoneVerified = false
 }) => {
   const [verificationCode, setVerificationCode] = useState('');
   const [codeSent, setCodeSent] = useState(false);
@@ -113,7 +116,7 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
         </div>
       )}
 
-      {!localStorage.getItem('isPhoneVerified') && !codeSent && (
+      {!isPhoneVerified && !localStorage.getItem('isPhoneVerified') && !codeSent && (
         <button
           type="button"
           className="verification-button"
@@ -128,13 +131,13 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
         </button>
       )}
 
-      {verificationError && !codeSent && (
+      {verificationError && !codeSent && !isPhoneVerified && (
         <p className="field-error" role="alert">
           {verificationError}
         </p>
       )}
 
-      {codeSent && !localStorage.getItem('isPhoneVerified') && (
+      {codeSent && !isPhoneVerified && !localStorage.getItem('isPhoneVerified') && (
         <div className="input-container full-width">
           <input
             type="text"

@@ -165,6 +165,15 @@ export const ItemContent: React.FC<ItemContentProps> = ({
     return getMaximumHours(startSlot, selectedDayjs, availabilityContext);
   }, [availabilityContext, selectedDate]);
 
+  const hasValidDate = useMemo(() => {
+    if (!selectedDate) return false;
+    if (dayjs(selectedDate).isBefore(dayjs(), 'minute')) return false;
+    if (maxHours !== undefined && maxHours > 0 && maxHours < minHours) return false;
+    if (selectedQuantity < minHours) return false;
+    if (maxHours !== undefined && maxHours > 0 && selectedQuantity > maxHours) return false;
+    return true;
+  }, [selectedDate, maxHours, minHours, selectedQuantity]);
+
   // Get dynamic quantity label based on pricePer, include minimum if > 1
   const quantityLabel = useMemo(() => {
     const pricePer = item?.pricePer || 'hour';
@@ -227,6 +236,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
                   onCommentChange={onCommentChange}
                   isRTL={isRTL}
                   onPhoneVerified={onPhoneVerified}
+                  isPhoneVerified={isPhoneVerified}
                   hideComment
                 />
               </div>
@@ -336,6 +346,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
                 onCommentChange={onCommentChange}
                 isRTL={isRTL}
                 onPhoneVerified={onPhoneVerified}
+                isPhoneVerified={isPhoneVerified}
               />
             </div>
           </motion.div>
@@ -348,6 +359,7 @@ export const ItemContent: React.FC<ItemContentProps> = ({
         currentReservationId={currentReservationId}
         isPhoneVerified={isPhoneVerified}
         isBooked={isBooked}
+        hasValidDate={hasValidDate}
         cart={cart}
         onBookNow={onBookNow}
         addOnsTotal={addOnsTotal}

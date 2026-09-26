@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useTranslation } from 'react-i18next';
 import { LogoutIcon } from '@shared/components/icons';
+import { clearGuestBookingFormStorage } from '@shared/utils/reservation-storage';
 
 interface LogoutButtonProps {
   className?: string;
@@ -12,12 +13,13 @@ export const LogoutButton = ({ className = '', 'aria-label': ariaLabel }: Logout
   const { t } = useTranslation('common');
 
   const handleLogout = () => {
+    clearGuestBookingFormStorage();
+    localStorage.removeItem('user');
     logout({
       logoutParams: {
         returnTo: window.location.origin
       }
     });
-    localStorage.removeItem('user');
   };
 
   return (

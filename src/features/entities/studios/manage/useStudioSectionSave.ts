@@ -28,6 +28,18 @@ export function useStudioSectionSave(studio: Studio | undefined, studioId: strin
       clean.galleryAudioFiles = (clean.galleryAudioFiles as string[]).filter((u) => !!u?.trim());
     }
 
+    // Hours patch: never send nested Mongo _ids
+    if (clean.studioAvailability && typeof clean.studioAvailability === 'object') {
+      const avail = clean.studioAvailability as {
+        days?: string[];
+        times?: Array<{ start?: string; end?: string; _id?: string }>;
+      };
+      clean.studioAvailability = {
+        days: avail.days,
+        times: (avail.times || []).map(({ start, end }) => ({ start, end }))
+      };
+    }
+
     if (Object.keys(clean).length === 0) return;
     saveMutation.mutate(clean as Partial<Studio>);
   };

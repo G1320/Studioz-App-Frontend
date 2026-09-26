@@ -26,6 +26,9 @@ export interface OrderSummaryProps {
   bookingTime?: string;
   items?: OrderItem[];
   totalAmount?: number;
+  /** When set, total row is labeled as a deposit due now (vs full project price in line items) */
+  depositAmount?: number;
+  depositPercentage?: number;
   savedCards?: SavedCard[];
   cancellationPolicy?: 'flexible' | 'moderate' | 'strict';
   /**
@@ -51,6 +54,8 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   bookingTime = '',
   items = [],
   totalAmount = 0,
+  depositAmount,
+  depositPercentage,
   savedCards = [],
   cancellationPolicy,
   onPaymentSubmit,
@@ -61,6 +66,20 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 }) => {
   const { t, i18n } = useTranslation('orders');
   const isRTL = i18n.language === 'he';
+
+  const lineItemTotal = items
+    .filter((item) => item.isPrice)
+    .reduce((sum, item) => sum + (Number(item.value) || 0), 0);
+  const isDepositPayment =
+    typeof depositAmount === 'number' &&
+    depositAmount > 0 &&
+    lineItemTotal > depositAmount;
+
+  const totalLabel = isDepositPayment
+    ? depositPercentage
+      ? t('depositDueNow', { percent: depositPercentage })
+      : t('depositDueNowPlain', { defaultValue: 'Deposit due now' })
+    : t('totalToPay', 'סה״כ לתשלום');
 
   const [paymentMethod, setPaymentMethod] = useState<'saved' | 'new'>('saved');
   const [selectedCardId, setSelectedCardId] = useState<string>(
@@ -185,7 +204,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 
                 {/* Total */}
                 <div className="order-summary__total-row">
-                  <span className="order-summary__total-label">{t('totalToPay', 'סה״כ לתשלום')}</span>
+                  <span className="order-summary__total-label">{totalLabel}</span>
                   <span className="order-summary__total-value">
                     {currency}
                     {totalAmount}

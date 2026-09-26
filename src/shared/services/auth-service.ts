@@ -1,6 +1,7 @@
 import { httpService } from '@shared/services';
 import Cookies from 'js-cookie';
 import { sanitizeUserObject } from '@shared/utils';
+import { clearGuestBookingFormStorage } from '@shared/utils/reservation-storage';
 import { LoginCredentials, AuthResponse, User } from 'src/types/index';
 import { sendWelcomeEmail } from '@shared/services';
 
@@ -56,11 +57,13 @@ export const refreshAccessToken = async (): Promise<{ accessToken: string }> => 
 export const logout = async (): Promise<void> => {
   try {
     await httpService.post<void>(`${authEndpoint}/logout`);
+  } catch (error: unknown) {
+    console.error('Logout failed', error);
+    // Still clear local session so the UI cannot keep a stale guest booking form
+  } finally {
+    clearGuestBookingFormStorage();
     localStorage.removeItem('user');
     Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
-  } catch (error: unknown) {
-    console.error('Logout failed', error);
-    throw error;
   }
 };

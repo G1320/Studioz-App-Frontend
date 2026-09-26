@@ -34,7 +34,7 @@ const ItemManagePage = () => {
   }
 
   if (ownershipReady && !user?._id) {
-    return <Navigate to={`/${lang}/dashboard`} replace />;
+    return <Navigate to={`/${lang}/profile`} replace />;
   }
 
   const showShell = Boolean(item && isOwner);

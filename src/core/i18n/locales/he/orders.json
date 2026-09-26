@@ -8,6 +8,8 @@
   "time": "שעה",
   "priceBreakdown": "פירוט תשלום",
   "totalToPay": "סה״כ לתשלום",
+  "depositDueNow": "מקדמה לתשלום עכשיו ({{percent}}%)",
+  "depositDueNowPlain": "מקדמה לתשלום עכשיו",
   "paymentMethod": "אמצעי תשלום",
   "addPaymentMethod": "הוסף אמצעי תשלום",
   "securePayment": "תשלום מאובטח",

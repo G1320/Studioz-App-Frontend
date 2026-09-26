@@ -79,11 +79,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     return studios.filter((studio) => studio.createdBy === user._id);
   }, [studios, user?._id]);
 
-  // Helper to get localized studio name
+  // Helper to get localized studio name — prefer UI language, then EN, then HE
   const getLocalizedName = useCallback((name: string | { en?: string; he?: string } | undefined): string => {
     if (!name) return '';
     if (typeof name === 'string') return name;
-    return name[i18n.language as 'en' | 'he'] || name.he || name.en || '';
+    const lang = i18n.language === 'he' ? 'he' : 'en';
+    return name[lang] || name.en || name.he || '';
   }, [i18n.language]);
 
   // Get the studio being blocked (for the modal)
@@ -177,6 +178,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   // Legacy tab deep-link — stats now lives at /stats
   if (searchParams.get('tab') === 'stats') {
     return <Navigate to={`/${i18n.language}/stats`} replace />;
+  }
+
+  if (!user) {
+    return <Navigate to={`/${i18n.language}/profile`} replace />;
   }
 
   return (

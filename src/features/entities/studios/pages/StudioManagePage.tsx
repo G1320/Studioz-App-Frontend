@@ -30,9 +30,9 @@ const StudioManagePage = () => {
     return <Navigate to={`/${lang}/dashboard`} replace />;
   }
 
-  // Not signed in after load → login still leaves manage URL; send to dashboard
+  // Not signed in → profile (login), not a blank dashboard shell
   if (!isLoading && studio && !user?._id) {
-    return <Navigate to={`/${lang}/dashboard`} replace />;
+    return <Navigate to={`/${lang}/profile`} replace />;
   }
 
   // Keep shell mounted when we still have studio data (stale-while-revalidate).

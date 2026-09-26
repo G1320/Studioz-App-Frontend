@@ -57,7 +57,8 @@ export const ProjectsListPage: React.FC = () => {
   const langNavigate = useLanguageNavigate();
 
   const { projects, isLoading, isFetching, isPlaceholderData, refetch } = useRemoteProjects({
-    participantId: user?._id,
+    mine: Boolean(user?._id),
+    enabled: Boolean(user?._id),
     status: statusFilter === 'all' ? undefined : statusFilter
   });
 

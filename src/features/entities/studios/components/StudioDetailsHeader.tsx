@@ -32,11 +32,25 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
   const hasLocation = studio?.lat !== undefined && studio?.lng !== undefined;
   const showInfoModal = isFeatureEnabled('studioInfoModal');
 
-  // Convert city name to translation key and get translated value
+  // Convert city name to translation key and get translated value.
+  // If the stored city is Hebrew and we're on EN, reverse-lookup the EN label.
   const getCityTranslation = (city?: string) => {
     if (!city) return '';
     const cityKey = city.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/_+$/, '');
-    return tCities(cityKey, { defaultValue: city });
+    const fromKey = tCities(cityKey, { defaultValue: '' });
+    if (fromKey) return fromKey;
+
+    const hasHebrew = /[\u0590-\u05FF]/.test(city);
+    if (currentLang === 'en' && hasHebrew) {
+      const heBundle = i18n.getResourceBundle('he', 'cities') as Record<string, string> | undefined;
+      const enBundle = i18n.getResourceBundle('en', 'cities') as Record<string, string> | undefined;
+      if (heBundle && enBundle) {
+        const matchKey = Object.keys(heBundle).find((key) => heBundle[key] === city);
+        if (matchKey && enBundle[matchKey]) return enBundle[matchKey];
+      }
+    }
+
+    return city;
   };
 
   return (
@@ -45,7 +59,7 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
         entity={studio}
         galleryImages={studio?.galleryImages}
         isGalleryImagesShown={true}
-        title={studio?.name?.[currentLang] || studio?.name?.en}
+        title={studio?.name?.[currentLang] || studio?.name?.en || studio?.name?.he || ''}
         subTitle={getCityTranslation(studio?.city)}
         coverPriority={true}
       />

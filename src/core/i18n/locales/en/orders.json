@@ -8,6 +8,8 @@
   "time": "Time",
   "priceBreakdown": "Payment Breakdown",
   "totalToPay": "Total to Pay",
+  "depositDueNow": "Deposit due now ({{percent}}%)",
+  "depositDueNowPlain": "Deposit due now",
   "paymentMethod": "Payment Method",
   "addPaymentMethod": "Add Payment Method",
   "securePayment": "Secure Payment",

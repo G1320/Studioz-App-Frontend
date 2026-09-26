@@ -56,3 +56,26 @@ export const hasStoredReservations = (): boolean => {
   return getStoredReservationIds().length > 0;
 };
 
+/**
+ * Clear guest booking / project form fields persisted for the public modal.
+ * Call on logout and session change so auth → public doesn't leak QA/test data.
+ */
+export const clearGuestBookingFormStorage = (): void => {
+  const keysToRemove: string[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key) continue;
+    if (
+      key === 'customerName' ||
+      key === 'customerPhone' ||
+      key === 'isPhoneVerified' ||
+      key.startsWith('project_form_') ||
+      key.startsWith('reservation_') ||
+      key.startsWith('project_')
+    ) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach((key) => localStorage.removeItem(key));
+};
+

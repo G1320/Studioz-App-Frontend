@@ -36,12 +36,25 @@ export const getStudioById = async (studioId: string): Promise<StudioResponse> =
 
 export const updateStudio = async (studioId: string, updatedData: Studio): Promise<Studio> => {
   try {
-    return await httpService.put(`${studioEndpoint}/${studioId}`, updatedData);
+    const payload = sanitizeStudioWritePayload(updatedData);
+    return await httpService.put(`${studioEndpoint}/${studioId}`, payload);
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
+
+/** Strip Mongo subdoc _ids so GET→PUT echoes never fail Joi on studioAvailability._id */
+function sanitizeStudioWritePayload(data: Studio): Studio {
+  const payload = { ...data } as Studio & { studioAvailability?: { days?: string[]; times?: Array<{ start: string; end: string; _id?: string }> } };
+  if (payload.studioAvailability) {
+    payload.studioAvailability = {
+      days: payload.studioAvailability.days,
+      times: (payload.studioAvailability.times || []).map(({ start, end }) => ({ start, end }))
+    };
+  }
+  return payload;
+}
 
 /** Partial studio update for manage-hub section saves (bypasses create Joi). */
 export const patchStudio = async (

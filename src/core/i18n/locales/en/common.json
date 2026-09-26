@@ -359,6 +359,7 @@
   "studioDetails": {
     "overview": "Overview",
     "infoSpecs": "Info & Specs",
+    "infoSpecsShort": "Info",
     "portfolio": "Portfolio",
     "amenities": "Amenities & Features",
     "equipment": "Studio Gear",

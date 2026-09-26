@@ -35,9 +35,14 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
   const { t: tProjects } = useTranslation('remoteProjects');
   const { user } = useUserContext();
   const navigate = useNavigate();
-  const { data: reservations = [], isLoading: reservationsLoading } = useReservations();
-  const { projects, isLoading: projectsLoading } = useRemoteProjects({
-    participantId: user?._id,
+  const { data: reservations = [], isLoading: reservationsLoading, error: reservationsError } = useReservations();
+  const {
+    projects,
+    isLoading: projectsLoading,
+    isError: projectsError
+  } = useRemoteProjects({
+    mine: Boolean(user?._id),
+    enabled: Boolean(user?._id),
     limit: Math.max(limit * 4, 20)
   });
   const { openReservationModal } = useReservationModal();
@@ -155,7 +160,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
     navigate(`/${i18n.language}/projects/${activity.project._id}`);
   };
 
-  if (reservationsLoading || projectsLoading) {
+  if ((reservationsLoading || projectsLoading) && !reservationsError && !projectsError) {
     return (
       <div className="recent-activity">
         <div className="recent-activity__container">

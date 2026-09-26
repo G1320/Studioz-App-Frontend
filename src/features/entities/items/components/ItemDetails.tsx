@@ -1,5 +1,5 @@
 import '../styles/_index.scss';
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ItemHeader } from './ItemHeader';
 import { ItemCard } from './ItemCard';
@@ -24,12 +24,25 @@ import {
 import { useModal, useUserContext } from '@core/contexts';
 import { User, Wishlist, AddOn, Item, CartItem } from 'src/types/index';
 import { splitDateTime } from '@shared/utils';
+import { clearGuestBookingFormStorage } from '@shared/utils/reservation-storage';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 import { useAddOns } from '@shared/hooks';
 import { useTranslation } from 'react-i18next';
 import { getMinimumHours, getMaximumHours, AvailabilityContext } from '@shared/utils/availabilityUtils';
+import { normalizeIsraeliPhone } from '@shared/validation/schemas/base';
+import { updateUser, setLocalUser } from '@shared/services/user-service';
 import i18n from '@core/i18n/config';
+
+function phonesMatch(a?: string | null, b?: string | null): boolean {
+  if (!a || !b) return false;
+  return normalizeIsraeliPhone(a) === normalizeIsraeliPhone(b);
+}
+
+/** Skip OTP only when account has a saved phone and the form uses that same number */
+function hasSavedVerifiedPhone(user: User | null | undefined, formPhone: string): boolean {
+  return Boolean(user?.phone && phonesMatch(user.phone, formPhone || user.phone));
+}
 
 interface ItemDetailsProps {
   itemId: string;
@@ -37,7 +50,7 @@ interface ItemDetailsProps {
 }
 
 export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   const { loginWithPopup } = useAuth0LoginHandler();
   const { data: item } = useItem(itemId);
   const { data: data } = useStudio(item?.studioId || '');
@@ -51,7 +64,16 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const langNavigate = useLanguageNavigate();
   const prefetchItem = usePrefetchItem(item?._id || '');
 
-  const [customerPhone, setCustomerPhone] = useState(() => localStorage.getItem('customerPhone') || '');
+  const [customerPhone, setCustomerPhone] = useState(() => {
+    const stored = localStorage.getItem('customerPhone') || '';
+    if (stored) return stored;
+    try {
+      const parsed = JSON.parse(localStorage.getItem('user') || 'null');
+      return parsed?.phone || '';
+    } catch {
+      return '';
+    }
+  });
   const [customerName, setCustomerName] = useState(() => localStorage.getItem('customerName') || '');
   const [comment, setComment] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -62,7 +84,16 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   const [currentProjectId, setCurrentProjectId] = useState<string | null>(() => {
     return localStorage.getItem(`project_${itemId}`) || null;
   });
-  const [isPhoneVerified, setIsPhoneVerified] = useState(() => localStorage.getItem('isPhoneVerified') === 'true');
+  const [isPhoneVerified, setIsPhoneVerified] = useState(() => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem('user') || 'null') as User | null;
+      const formPhone = localStorage.getItem('customerPhone') || parsed?.phone || '';
+      if (hasSavedVerifiedPhone(parsed, formPhone)) return true;
+    } catch {
+      /* ignore */
+    }
+    return localStorage.getItem('isPhoneVerified') === 'true';
+  });
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
 
   // Project form state (for remote services) — persisted to survive auth remounts
@@ -173,6 +204,56 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     };
   }, [itemId]);
 
+  // Prefill from profile; skip OTP only when form phone matches a saved account phone
+  useEffect(() => {
+    if (!user?._id) return;
+
+    if (user.name && !customerName) {
+      setCustomerName(user.name);
+      localStorage.setItem('customerName', user.name);
+    }
+
+    if (user.phone) {
+      if (!customerPhone) {
+        setCustomerPhone(user.phone);
+        localStorage.setItem('customerPhone', user.phone);
+      }
+      setIsPhoneVerified(phonesMatch(customerPhone || user.phone, user.phone));
+    }
+  }, [user?._id, user?.phone, user?.name, customerPhone, customerName]);
+
+  // Session transitions: login requires saved phone to skip OTP; logout clears guest form
+  const prevUserIdRef = useRef(user?._id);
+  useEffect(() => {
+    const prevUserId = prevUserIdRef.current;
+    const nextUserId = user?._id;
+
+    // Just logged in — don't inherit guest localStorage verify unless account has matching phone
+    if (!prevUserId && nextUserId) {
+      if (hasSavedVerifiedPhone(user, customerPhone || user?.phone || '')) {
+        setIsPhoneVerified(true);
+      } else {
+        setIsPhoneVerified(false);
+        localStorage.removeItem('isPhoneVerified');
+      }
+    }
+
+    // Just logged out
+    if (prevUserId && !nextUserId) {
+      clearGuestBookingFormStorage();
+      setCustomerName('');
+      setCustomerPhone('');
+      setIsPhoneVerified(false);
+      setProjectTitle('');
+      setProjectBrief('');
+      setProjectReferenceLinks(['']);
+      setCurrentReservationId(null);
+      setCurrentProjectId(null);
+    }
+
+    prevUserIdRef.current = nextUserId;
+  }, [user, user?._id, customerPhone]);
+
   // Sync project ID when switching items
   useEffect(() => {
     const storedProjectId = localStorage.getItem(`project_${itemId}`);
@@ -182,23 +263,26 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
   // Clamp quantity to valid range when maxHours changes (e.g., after selecting a time)
   // Don't reset on date change - handleDateChange already sets to minHours
   useEffect(() => {
-    if (selectedDate && minHours && maxHours !== undefined && maxHours > 0) {
+    if (!selectedDate || !minHours) return;
+    if (maxHours !== undefined && maxHours > 0 && maxHours < minHours) {
+      // Selection cannot satisfy minimum duration — clear it
+      setSelectedDate(null);
+      setSelectedQuantity(minHours);
+      return;
+    }
+    if (maxHours !== undefined && maxHours > 0) {
       setSelectedQuantity((prev) => {
-        // Ensure quantity is at least minHours
         if (prev < minHours) return minHours;
-        // Ensure quantity doesn't exceed maxHours (only if maxHours is valid)
         if (prev > maxHours) return maxHours;
         return prev;
       });
     }
-  }, [maxHours]); // Only run when maxHours changes, not on every date change
+  }, [maxHours, minHours, selectedDate]);
 
   const handleDateChange = useCallback(
     (newDate: Date | null) => {
       setSelectedDate(newDate);
-      // Reset quantity to minimum when date changes
       if (newDate) {
-        // Use memoized minHours which is guaranteed to be at least 1
         setSelectedQuantity(minHours);
       }
     },
@@ -252,18 +336,31 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     (value: string) => {
       if (value !== customerPhone) {
         localStorage.removeItem('isPhoneVerified');
-        setIsPhoneVerified(false);
+        // Stay verified only if the new number matches the account's saved phone
+        setIsPhoneVerified(hasSavedVerifiedPhone(user, value));
       }
       localStorage.setItem('customerPhone', value);
       setCustomerPhone(value);
     },
-    [customerPhone]
+    [customerPhone, user]
   );
 
   const handlePhoneVerified = useCallback(() => {
     localStorage.setItem('isPhoneVerified', 'true');
     setIsPhoneVerified(true);
-  }, []);
+
+    // Persist verified phone on the account so future bookings can skip OTP for that number
+    if (user?._id && customerPhone) {
+      void updateUser(user._id, { phone: customerPhone })
+        .then((updated) => {
+          setUser(updated);
+          setLocalUser(updated);
+        })
+        .catch((err) => {
+          console.warn('Failed to save verified phone to profile', err);
+        });
+    }
+  }, [user?._id, customerPhone, setUser]);
 
   const handleCancelReservation = useCallback(() => {
     localStorage.removeItem(`reservation_${itemId}`);
@@ -408,8 +505,18 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
     const confirmedDate = selectedDate?.toString() || null;
     const hours = selectedQuantity;
 
+    if (!selectedDate || dayjs(selectedDate).isBefore(dayjs(), 'minute')) {
+      toast.error(t('toasts.error.selectDateTime'));
+      return null;
+    }
+
     // Validate minimum hours
     if (hours < minHours) {
+      toast.error(t('toasts.error.minimumHoursRequired', { min: minHours }));
+      return null;
+    }
+
+    if (maxHours !== undefined && maxHours > 0 && hours > maxHours) {
       toast.error(t('toasts.error.minimumHoursRequired', { min: minHours }));
       return null;
     }
@@ -461,7 +568,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
       customerPhone,
       comment
     };
-  }, [selectedDate, selectedQuantity, studio, item, customerName, customerPhone, comment, addOnsTotal, t, minHours]);
+  }, [selectedDate, selectedQuantity, studio, item, customerName, customerPhone, comment, addOnsTotal, t, minHours, maxHours]);
 
   // Execute the actual booking mutation
   const executeBooking = useCallback(
@@ -735,6 +842,8 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({ itemId }) => {
               bookingTime=""
               items={projectOrderItems}
               totalAmount={pendingProjectData.depositAmount || pendingProjectData.price}
+              depositAmount={pendingProjectData.depositAmount}
+              depositPercentage={item?.projectPricing?.depositPercentage}
               savedCards={savedCards}
               cancellationPolicy={studio?.cancellationPolicy?.type}
               onPaymentSubmit={handleProjectPaymentSubmit}

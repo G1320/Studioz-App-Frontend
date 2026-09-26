@@ -184,14 +184,20 @@ export const MuiDateTimePicker = ({
         return;
       }
 
-      // Keyboard entry can bypass disablePast / shouldDisable* — reject here
+      // Keyboard entry can bypass disablePast / shouldDisable* — reject and clear
       if (newValue.isBefore(minDate, 'day') || newValue.isBefore(dayjs(), 'minute')) {
+        setInternalValue(null);
+        onChange(null);
         return;
       }
       if (shouldDisableDate(newValue)) {
+        setInternalValue(null);
+        onChange(null);
         return;
       }
       if (shouldDisableTime(newValue, 'hours')) {
+        setInternalValue(null);
+        onChange(null);
         return;
       }
 
@@ -202,6 +208,8 @@ export const MuiDateTimePicker = ({
           const slots = getAvailableSlotsForDate(newValue, availabilityContext);
           const slotStr = newValue.format('HH:00');
           if (getMaxConsecutiveHours(slotStr, slots) < minHours) {
+            setInternalValue(null);
+            onChange(null);
             return;
           }
         }

@@ -74,7 +74,12 @@ export const StudioDetailsContent: React.FC<StudioDetailsContentProps> = ({ stud
           className={`view-toggle__btn ${activeView === 'info' ? 'view-toggle__btn--active' : ''}`}
         >
           <ListIcon className="view-toggle__icon" />
-          {t('studioDetails.infoSpecs', { defaultValue: 'Info & Specs' })}
+          <span className="view-toggle__label view-toggle__label--full">
+            {t('studioDetails.infoSpecs', { defaultValue: 'Info & Specs' })}
+          </span>
+          <span className="view-toggle__label view-toggle__label--short">
+            {t('studioDetails.infoSpecsShort', { defaultValue: 'Info' })}
+          </span>
         </button>
         {hasPortfolio && (
           <button
