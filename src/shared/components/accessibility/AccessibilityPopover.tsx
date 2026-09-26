@@ -31,7 +31,7 @@ const AccessibilityIcon = () => (
 const POPOVER_ID = 'a11y-popover-panel';
 
 const AccessibilityPopover: React.FC = () => {
-  const { t } = useTranslation('accessibility');
+  const { t, i18n } = useTranslation('accessibility');
   const {
     settings,
     updateSetting,
@@ -236,7 +236,7 @@ const AccessibilityPopover: React.FC = () => {
           {/* Footer */}
           <div className="a11y-popover__footer">
             <Link
-              to="../accessibility-statement"
+              to={`/${i18n.language || 'en'}/accessibility-statement`}
               className="a11y-popover__statement-link"
               onClick={() => {
                 closePopover();

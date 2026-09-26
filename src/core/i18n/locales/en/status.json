@@ -51,5 +51,10 @@
     "lastUpdated": "Last updated",
     "secondsAgo": "{{count}}s ago",
     "autoRefresh": "Auto-refreshes every 60s"
+  },
+  "empty": {
+    "loading": "Loading live status…",
+    "unavailable": "Status data is temporarily unavailable.",
+    "retry": "Retry"
   }
 }

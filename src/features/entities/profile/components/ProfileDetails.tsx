@@ -46,6 +46,36 @@ interface EditableUserData {
   phone: string;
 }
 
+/** Auth0 often sets `name` to the email — treat that as missing for display/edit. */
+const isEmailLikeName = (value?: string | null, email?: string | null) => {
+  const trimmed = value?.trim();
+  if (!trimmed) return true;
+  if (email && trimmed.toLowerCase() === email.trim().toLowerCase()) return true;
+  return trimmed.includes('@');
+};
+
+const splitDisplayName = (name?: string | null, email?: string | null) => {
+  if (isEmailLikeName(name, email)) {
+    return { firstName: '', lastName: '' };
+  }
+  const parts = name!.trim().split(/\s+/);
+  return {
+    firstName: parts[0] || '',
+    lastName: parts.slice(1).join(' ') || ''
+  };
+};
+
+const resolveProfileDisplayName = (
+  user: User | null | undefined,
+  guestLabel: string
+): string => {
+  if (!user) return guestLabel;
+  const composed = [user.firstName, user.lastName].filter(Boolean).join(' ').trim();
+  if (composed) return composed;
+  if (!isEmailLikeName(user.name, user.email)) return user.name!.trim();
+  return guestLabel;
+};
+
 // Section Title Component
 const SectionTitle: React.FC<{
   icon: React.ElementType;
@@ -103,19 +133,23 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [editData, setEditData] = useState<EditableUserData>({
-    firstName: user?.firstName || user?.name?.split(' ')[0] || '',
-    lastName: user?.lastName || user?.name?.split(' ').slice(1).join(' ') || '',
-    email: user?.email || '',
-    phone: user?.phone || ''
+  const [editData, setEditData] = useState<EditableUserData>(() => {
+    const fromName = splitDisplayName(user?.name, user?.email);
+    return {
+      firstName: user?.firstName || fromName.firstName,
+      lastName: user?.lastName || fromName.lastName,
+      email: user?.email || '',
+      phone: user?.phone || ''
+    };
   });
 
   // Reset edit data when user changes
   useEffect(() => {
     if (user) {
+      const fromName = splitDisplayName(user.name, user.email);
       setEditData({
-        firstName: user.firstName || user.name?.split(' ')[0] || '',
-        lastName: user.lastName || user.name?.split(' ').slice(1).join(' ') || '',
+        firstName: user.firstName || fromName.firstName,
+        lastName: user.lastName || fromName.lastName,
         email: user.email || '',
         phone: user.phone || ''
       });
@@ -170,9 +204,10 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
   };
 
   const cancelEdit = () => {
+    const fromName = splitDisplayName(user?.name, user?.email);
     setEditData({
-      firstName: user?.firstName || user?.name?.split(' ')[0] || '',
-      lastName: user?.lastName || user?.name?.split(' ').slice(1).join(' ') || '',
+      firstName: user?.firstName || fromName.firstName,
+      lastName: user?.lastName || fromName.lastName,
       email: user?.email || '',
       phone: user?.phone || ''
     });
@@ -270,12 +305,16 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({ user }) => {
           {/* Info */}
           <div className="profile-header-info">
             <h1 className="profile-header-info__name">
-              {user?.name || t('profile.guestUser', 'Guest')}
+              <span className="profile-header-info__name-text">
+                {resolveProfileDisplayName(user, t('profile.guestUser', 'Guest'))}
+              </span>
               <span className="profile-header-info__role">{getUserRole()}</span>
             </h1>
             <p className="profile-header-info__meta">
               <LocationIcon className="profile-header-info__icon" />
-              {user?.email || t('profile.email.notAvailable', 'No email')}
+              <span className="profile-header-info__email">
+                {user?.email || t('profile.email.notAvailable', 'No email')}
+              </span>
             </p>
           </div>
 

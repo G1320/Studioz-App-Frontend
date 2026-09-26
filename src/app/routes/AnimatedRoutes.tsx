@@ -459,18 +459,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             }
           />
           <Route
+            path="/:lang?/accessibility"
+            element={<Navigate to={`/${i18n.language}/accessibility-statement`} replace />}
+          />
+          <Route
             path="/:lang?/security"
             element={
               <AnimatedRoute>
                 <SecurityPage />
-              </AnimatedRoute>
-            }
-          />
-          <Route
-            path="/:lang?/status"
-            element={
-              <AnimatedRoute>
-                <StatusPage />
               </AnimatedRoute>
             }
           />
@@ -549,6 +545,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
                 <ChangelogPage />
               </AnimatedRoute>
             }
+          />
+          <Route
+            path="/:lang?/whats-new"
+            element={<Navigate to={`/${i18n.language}/changelog`} replace />}
           />
           {/* Catch-all route for 404 */}
           <Route

@@ -381,6 +381,47 @@ const StatusPage: React.FC = () => {
           </>
         )}
 
+        {!data && (
+          <div className="status-empty" role="status" aria-live="polite">
+            <p className="status-empty__message">
+              {error ? t('empty.unavailable') : t('empty.loading')}
+            </p>
+            {error && (
+              <button type="button" className="status-empty__retry" onClick={() => fetchStatus()}>
+                {t('empty.retry')}
+              </button>
+            )}
+            {(['server', 'database', 'payments'] as const).map((key) => (
+              <section key={key} className="status-service status-service--placeholder">
+                <div className="status-service__header">
+                  <div className="status-service__name">
+                    <StatusDot status={error ? 'down' : 'none'} />
+                    <h2>{t(`services.${key}.name`)}</h2>
+                  </div>
+                  <div className="status-service__meta">
+                    <span
+                      className={`status-service__label status-service__label--${error ? 'down' : 'degraded'}`}
+                    >
+                      {error ? statusLabel('down') : t('empty.loading')}
+                    </span>
+                  </div>
+                </div>
+                <div className="uptime-bars uptime-bars--flat">
+                  <div className="uptime-bars__row">
+                    {Array.from({ length: 90 }).map((_, i) => (
+                      <div key={i} className="uptime-bars__bar uptime-bars__bar--none" />
+                    ))}
+                  </div>
+                  <div className="uptime-bars__labels">
+                    <span>{t('bars.daysAgo', { count: 90 })}</span>
+                    <span>{t('bars.today')}</span>
+                  </div>
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
+
         <footer className="status-footer">
           <div className="status-footer__content">
             {lastFetched && (

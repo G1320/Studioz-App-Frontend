@@ -196,9 +196,11 @@
     border-radius: ds.$radius-md;
     border: 1px solid var(--border-subtle);
     padding: 0;
-    min-height: 0;
+    // Avoid overflow:hidden + motion transform (iOS blanks content on scroll).
+    min-height: auto;
     position: relative;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
     width: 100%;
     box-sizing: border-box;
     background: var(--bg-surface);
@@ -206,13 +208,14 @@
     flex-direction: column;
   }
 
-  // Clips horizontal slide; shared inline padding with the footer
+  // Clips horizontal slide only; keep y visible so mobile scroll doesn't blank the pane
   &__stage {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
     flex: 1 1 auto;
-    min-height: 0;
+    min-height: auto;
     padding: 1.25rem 1.25rem 0;
     box-sizing: border-box;
   }

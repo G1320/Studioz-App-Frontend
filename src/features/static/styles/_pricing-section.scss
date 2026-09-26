@@ -12,13 +12,14 @@
   color: var(--text-primary);
   transition: background-color 0.5s ease;
   overflow-x: hidden;
-  scroll-margin-top: 80px;
+  scroll-margin-top: 5.5rem;
   content-visibility: auto;
   contain-intrinsic-size: auto 800px;
   position: relative;
 
   @media (min-width: 768px) {
     padding: 6rem 0;
+    scroll-margin-top: 6.5rem;
   }
 
   [data-theme='light'] & {

@@ -253,14 +253,15 @@
 
   @media (max-width: 720px) {
     &__product-visual--dual {
-      // Slightly more end room so the phone stays readable when scaled down.
+      // End room for phone + bottom padding so overhang never covers the next section's copy.
       padding-inline-end: clamp(4.5rem, 28%, 8rem);
-      padding-block-end: 0.35rem;
+      padding-block-end: clamp(2.75rem, 18vw, 4.5rem);
     }
 
     &__shot--mobile {
-      bottom: clamp(-0.65rem, -1.5vw, -0.25rem);
-      width: clamp(6.25rem, 34%, 10.5rem);
+      // Keep phone inside the padded visual — no negative overhang into following subheads.
+      bottom: 0;
+      width: clamp(5.5rem, 30%, 9.5rem);
     }
 
     &__product-visual--mobile-only .preview-landing__shot--mobile {
@@ -278,6 +279,11 @@
     max-width: 40rem;
     margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
     text-align: center;
+    scroll-margin-top: 5.5rem;
+
+    @media (min-width: 768px) {
+      scroll-margin-top: 6.5rem;
+    }
 
     h2 {
       margin: 0;
@@ -489,9 +495,11 @@
 
     @media (max-width: 720px) {
       padding-inline-end: clamp(4.75rem, 30%, 8.5rem);
+      padding-block-end: clamp(2.75rem, 18vw, 4.5rem);
 
       .preview-landing__shot--mobile {
-        width: clamp(6.5rem, 32%, 11rem);
+        bottom: 0;
+        width: clamp(5.75rem, 30%, 9.75rem);
       }
     }
   }
@@ -560,6 +568,11 @@
   // ----- Pricing (Samply-style three cards) -----
   &__pricing {
     border-top: 1px solid color-mix(in srgb, var(--border-secondary) 80%, transparent);
+    scroll-margin-top: 5.5rem;
+
+    @media (min-width: 768px) {
+      scroll-margin-top: 6.5rem;
+    }
   }
 
   &__pricing-accent {
