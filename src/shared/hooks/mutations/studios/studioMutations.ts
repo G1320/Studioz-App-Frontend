@@ -2,6 +2,7 @@ import { useLanguageNavigate, useMutationHandler } from '@shared/hooks';
 import {
   createStudio,
   updateStudio,
+  patchStudio,
   toggleStudioActive,
   toggleItemActive,
   uploadStudioPortfolioFile,
@@ -43,12 +44,12 @@ export const useUpdateStudioMutation = (studioId: string) => {
   });
 };
 
-/** Section saves in the manage hub — toast + invalidate, stay on page. */
+/** Section saves in the manage hub — PATCH only changed fields, stay on page. */
 export const useSaveStudioMutation = (studioId: string) => {
   const { t } = useTranslation('common');
 
-  return useMutationHandler<Studio, Studio>({
-    mutationFn: (updatedStudio) => updateStudio(studioId, updatedStudio),
+  return useMutationHandler<Studio, Partial<Studio>>({
+    mutationFn: (patch) => patchStudio(studioId, patch),
     successMessage: t('toasts.success.studioUpdated'),
     invalidateQueries: [{ queryKey: 'studio', targetId: studioId }, { queryKey: 'studios' }]
   });

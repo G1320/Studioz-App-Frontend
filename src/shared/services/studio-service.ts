@@ -43,6 +43,19 @@ export const updateStudio = async (studioId: string, updatedData: Studio): Promi
   }
 };
 
+/** Partial studio update for manage-hub section saves (bypasses create Joi). */
+export const patchStudio = async (
+  studioId: string,
+  patch: Partial<Studio>
+): Promise<Studio> => {
+  try {
+    return await httpService.patch(`${studioEndpoint}/${studioId}`, patch);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export const deleteStudio = async (studioId: string): Promise<Studio> => {
   try {
     return await httpService.delete(`${studioEndpoint}/${studioId}`);

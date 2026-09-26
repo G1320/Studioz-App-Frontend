@@ -3,35 +3,33 @@ import { useSaveStudioMutation } from '@shared/hooks/mutations/studios/studioMut
 
 type SavePatch = Partial<Studio>;
 
-/** GET-hydrated fields that Joi `validateStudio` rejects (unknown keys → 400). */
-const STRIP_KEYS = [
-  'languageToggle',
-  'houseRules',
-  'active',
-  'createdBy',
-  'averageRating',
-  'reviewCount',
-  'totalBookings',
-  '__v',
-  'items', // GET items are enriched; omit so findByIdAndUpdate keeps existing
-  'sellerId',
-  'updatedAt'
-] as const;
-
 /**
- * Merge a section patch onto the current studio and PUT a clean document.
- * Strips server-only / enriched fields so validation accepts the payload.
+ * Section saves send **only the patch** via PATCH — never a full GET→PUT echo.
+ * Full PUT still runs create-oriented Joi and rejects empty optional strings,
+ * null numbers, description slashes, enriched items, etc.
  */
 export function useStudioSectionSave(studio: Studio | undefined, studioId: string) {
   const saveMutation = useSaveStudioMutation(studioId);
 
   const savePatch = (patch: SavePatch) => {
     if (!studio?._id) return;
-    const merged = { ...studio, ...patch } as Record<string, unknown>;
-    for (const key of STRIP_KEYS) {
-      delete merged[key];
+
+    const clean: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(patch)) {
+      if (value === undefined) continue;
+      clean[key] = value;
     }
-    saveMutation.mutate(merged as unknown as Studio);
+
+    // Omit empty optional media strings (PATCH handler also nulls these)
+    if (clean.coverAudioFile === '') {
+      delete clean.coverAudioFile;
+    }
+    if (Array.isArray(clean.galleryAudioFiles)) {
+      clean.galleryAudioFiles = (clean.galleryAudioFiles as string[]).filter((u) => !!u?.trim());
+    }
+
+    if (Object.keys(clean).length === 0) return;
+    saveMutation.mutate(clean as Partial<Studio>);
   };
 
   return {

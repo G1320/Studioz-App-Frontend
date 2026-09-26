@@ -50,12 +50,16 @@ export const MediaSection = ({ studio }: MediaSectionProps) => {
 
   const handleSave = () => {
     const nextCover = coverImage || galleryImages[0] || '';
-    savePatch({
+    const patch: Partial<Studio> = {
       galleryImages,
       coverImage: nextCover,
-      galleryAudioFiles,
-      coverAudioFile: galleryAudioFiles[0] || studio.coverAudioFile || ''
-    });
+      galleryAudioFiles: galleryAudioFiles.filter((u) => !!u?.trim())
+    };
+    const nextAudio = galleryAudioFiles.find((u) => !!u?.trim()) || studio.coverAudioFile;
+    if (nextAudio) {
+      patch.coverAudioFile = nextAudio;
+    }
+    savePatch(patch);
   };
 
   return (

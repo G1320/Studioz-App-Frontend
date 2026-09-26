@@ -9,11 +9,11 @@ import { z } from 'zod';
  */
 export const REGEX_PATTERNS = {
   /** Hebrew text pattern - allows Hebrew characters, numbers, spaces, and common punctuation */
-  HEBREW: /^[\u0590-\u05FF0-9\s.,;:!?'"()@#$%&*_+=-]+$/,
+  HEBREW: /^[\u0590-\u05FF0-9\s.,;:!?'"()@#$%&*_+=/\-–—]+$/,
   /** Check if text contains at least one Hebrew character */
   HAS_HEBREW: /[\u0590-\u05FF]/,
   /** English text pattern - allows English letters, numbers, spaces, and common punctuation */
-  ENGLISH: /^[a-zA-Z0-9\s.,;:!?'"()@#$%&*_+=-]+$/,
+  ENGLISH: /^[a-zA-Z0-9\s.,;:!?'"()@#$%&*_+=/\-–—]+$/,
   /** Check if text contains at least one English letter */
   HAS_ENGLISH: /[a-zA-Z]/,
   /** URL pattern */
