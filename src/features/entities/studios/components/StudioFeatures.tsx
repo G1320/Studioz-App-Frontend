@@ -59,7 +59,7 @@ export const StudioFeatures: React.FC<StudioFeaturesProps> = ({
             <AccessibleIcon aria-label="Wheelchair accessible icon" />
             <span
               id="accessible"
-              aria-label={`Wheelchair accessible at ${studio?.name.en}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
+              aria-label={`Wheelchair accessible at ${studio?.name?.en || 'studio'}: ${studio?.isWheelchairAccessible ? 'Yes' : 'No'}`}
             >
               {studio?.isWheelchairAccessible ? <CheckIcon /> : <CloseIcon />}
             </span>

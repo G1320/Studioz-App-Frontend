@@ -34,7 +34,9 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
 
   useEffect(() => {
     if (studioObj && currStudio && items) {
-      const filtered = items.filter((item) => currStudio.items.some((studioItem) => studioItem.itemId === item._id));
+      const filtered = items.filter((item) =>
+        (currStudio.items || []).some((studioItem) => studioItem.itemId === item._id)
+      );
       setFilteredItems(filtered);
     }
   }, [studioObj, currStudio, items]);

@@ -67,10 +67,13 @@ export const ServicesSection = ({ studio }: ServicesSectionProps) => {
 
       // Prefer embedded studio item status — useItems() can lag behind the toggle PATCH.
       const active = studioItem.active !== false;
+      const specialties =
+        full?.subCategories?.filter(Boolean) ||
+        studioItem.subCategories?.filter(Boolean) ||
+        [];
       const category =
-        full?.subCategories?.[0] ||
+        (specialties.length > 0 ? specialties.join(', ') : null) ||
         full?.categories?.[0] ||
-        studioItem.subCategories?.[0] ||
         studioItem.categories?.[0] ||
         '—';
       const delivery = isRemote

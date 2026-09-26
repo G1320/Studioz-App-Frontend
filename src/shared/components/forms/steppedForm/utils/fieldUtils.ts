@@ -77,8 +77,11 @@ export const prepareFieldsWithValues = (
       };
     }
 
+    // Controlled fields (value + onChange from parent): prefer live React state over
+    // formData so parent resets (e.g. specialty clear on category change) stay in sync.
     const savedValue = getNestedValue(formData, field.name);
-    const fieldValue = savedValue !== undefined ? savedValue : field.value;
+    const isControlled = field.value !== undefined && typeof field.onChange === 'function';
+    const fieldValue = isControlled ? field.value : savedValue !== undefined ? savedValue : field.value;
 
     return {
       ...field,

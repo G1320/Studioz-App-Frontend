@@ -78,7 +78,8 @@ export const CreateItemForm = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(musicCategories);
   const [subCategories, setSubCategories] = useState<string[]>(musicSubCategories);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([musicSubCategories[0]]);
+  // Empty default — do not pre-select Music Production; user must pick specialty
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [pricePer, setPricePer] = useState<string>('hour'); // Store English value
   const [price, setPrice] = useState<number | undefined>();
@@ -182,7 +183,7 @@ export const CreateItemForm = () => {
     setSelectedCategories(values);
     const newSubCategories = getSubCategoriesForSelection(values, serviceDeliveryType === 'remote');
     setSubCategories(newSubCategories);
-    setSelectedSubCategories([newSubCategories[0]]);
+    setSelectedSubCategories([]);
   };
 
   const handleServiceDeliveryTypeChange = (type: 'in-studio' | 'remote') => {
@@ -190,14 +191,14 @@ export const CreateItemForm = () => {
     // Update subcategories based on new service type
     const newSubCategories = getSubCategoriesForSelection(selectedCategories, type === 'remote');
     setSubCategories(newSubCategories);
-    setSelectedSubCategories([newSubCategories[0]]);
+    setSelectedSubCategories([]);
 
     // If switching to remote, photo categories are not available
     if (type === 'remote' && selectedCategories.some((cat) => isPhotoMainCategory(cat, photoCategories[0]))) {
       setSelectedCategories(musicCategories);
       const remoteSubCats = remoteMusicSubCategories;
       setSubCategories(remoteSubCats);
-      setSelectedSubCategories([remoteSubCats[0]]);
+      setSelectedSubCategories([]);
     }
   };
 
@@ -1092,7 +1093,7 @@ export const CreateItemForm = () => {
     },
     {
       name: 'subCategories',
-      label: '',
+      label: t('form.subCategories.label', { defaultValue: 'Specialty' }),
       type: 'multiSelect' as FieldType,
       options: subCategories,
       value: selectedSubCategories,
@@ -1100,7 +1101,11 @@ export const CreateItemForm = () => {
       initialVisibleCount: 12,
       showAllLabel: t('form.subCategories.showAll', 'Show All'),
       showLessLabel: t('form.subCategories.showLess', 'Show Less'),
-      className: 'subcategories-plain'
+      className: 'subcategories-plain',
+      required: true,
+      helperText: t('form.subCategories.helperText', {
+        defaultValue: 'Pick the specialty that best describes this service.'
+      })
     },
     {
       name: 'genresHeader',

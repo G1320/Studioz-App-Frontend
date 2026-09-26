@@ -23,6 +23,12 @@ function isHomePath(path: string): boolean {
   return pathname === '/' || pathname === `/${i18n.language}` || pathname === `/${i18n.language}/`;
 }
 
+/** Module-level lock so Header + MenuDropdown don't double-register the same Auth0 sub. */
+const syncBySub = new Map<string, Promise<User>>();
+const completedSubs = new Set<string>();
+const failedSubsUntil = new Map<string, number>();
+const toastedFailureSubs = new Set<string>();
+
 /**
  * Hook to handle Auth0 login flow and update user context
  * Automatically processes login when user becomes authenticated
@@ -73,7 +79,7 @@ export const useAuth0LoginHandler = () => {
 
   useEffect(() => {
     const handleUserLogin = async () => {
-      // Prevent concurrent processing
+      // Prevent concurrent processing in this hook instance
       if (isProcessingRef.current) {
         return;
       }
@@ -95,7 +101,8 @@ export const useAuth0LoginHandler = () => {
       }
 
       // Skip if we've already processed this sub (still honor a pending returnTo once)
-      if (processedSubRef.current === sub) {
+      if (processedSubRef.current === sub || completedSubs.has(sub)) {
+        processedSubRef.current = sub;
         navigateAfterAuth();
         return;
       }
@@ -103,29 +110,43 @@ export const useAuth0LoginHandler = () => {
       // Skip if this user is already logged in locally with the same sub
       if (currentUser?.sub === sub) {
         processedSubRef.current = sub;
+        completedSubs.add(sub);
         navigateAfterAuth();
         return;
       }
 
-      // Mark as processing to prevent concurrent calls
+      // Back off after recent failure (e.g. 429) — avoid hammering /auth/login
+      const retryAfter = failedSubsUntil.get(sub);
+      if (retryAfter && Date.now() < retryAfter) {
+        return;
+      }
+
       isProcessingRef.current = true;
 
       try {
-        let loggedInUser: User;
-        // Check if the user already exists in the DB
-        const dbUser = await getUserBySub(sub);
-        if (!dbUser) {
-          // Register a new user if not found in the DB
-          loggedInUser = await register({ name, sub, picture, username, email, email_verified });
-        } else {
-          // Login the existing user
-          loggedInUser = await login({ sub });
+        let inFlight = syncBySub.get(sub);
+        if (!inFlight) {
+          inFlight = (async () => {
+            const dbUser = await getUserBySub(sub);
+            if (!dbUser) {
+              return register({ name, sub, picture, username, email, email_verified });
+            }
+            return login({ sub });
+          })().finally(() => {
+            syncBySub.delete(sub);
+          });
+          syncBySub.set(sub, inFlight);
         }
+
+        const loggedInUser = await inFlight;
+
         setLocalUser(loggedInUser);
         setUserContext(loggedInUser);
         processedSubRef.current = sub;
+        completedSubs.add(sub);
+        failedSubsUntil.delete(sub);
+        toastedFailureSubs.delete(sub);
 
-        // If there are items in the offline cart, add them to the user's cart
         if (offlineCart.items?.length > 0) {
           setOfflineCartContext({ items: [] });
           setLocalOfflineCart({ items: [] });
@@ -135,20 +156,25 @@ export const useAuth0LoginHandler = () => {
           return;
         }
 
-        // Invite accept still pending — do not send to profile/home
         if (getPendingProjectInviteToken()) {
           return;
         }
 
-        // Only send to profile/dashboard when logging in from home / unknown entry
         if (isHomePath(window.location.pathname)) {
           const hasStudios = Boolean(loggedInUser.studios?.length);
           langNavigate(hasStudios ? '/dashboard' : '/profile');
         }
-      } catch (error) {
-        handleError(error);
-        // Reset processed ref on error so we can retry
+      } catch (error: unknown) {
+        const status = (error as { response?: { status?: number } })?.response?.status;
+        // Another mount may have already succeeded — don't toast a stale failure
+        if (!completedSubs.has(sub) && currentUser?.sub !== sub && !toastedFailureSubs.has(sub)) {
+          toastedFailureSubs.add(sub);
+          handleError(error);
+        }
         processedSubRef.current = null;
+        if (status === 429 || (typeof status === 'number' && status >= 500)) {
+          failedSubsUntil.set(sub, Date.now() + 60_000);
+        }
       } finally {
         isProcessingRef.current = false;
       }

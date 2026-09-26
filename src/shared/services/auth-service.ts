@@ -12,7 +12,10 @@ export const register = async (userData: Partial<User>): Promise<User> => {
     if (user && accessToken) {
       localStorage.setItem('user', JSON.stringify(sanitizeUserObject(user)));
       Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
-      await sendWelcomeEmail(user?.email || '', user?.name || '');
+      // Never fail signup if welcome email bounces (common for disposable addresses)
+      void sendWelcomeEmail(user?.email || '', user?.name || '').catch((emailError) => {
+        console.warn('Welcome email failed after registration', emailError);
+      });
     }
 
     return user;
