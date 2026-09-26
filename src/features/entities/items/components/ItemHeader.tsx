@@ -1,5 +1,6 @@
 import { GenericImage, SkeletonLoader } from '@shared/components';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Item, Studio, User } from 'src/types/index';
 import { CloseIcon, ArrowBackIcon } from '@shared/components/icons';
 
@@ -13,32 +14,38 @@ interface ItemHeaderProps {
   showBackButton?: boolean;
 }
 
-export const ItemHeader = React.memo(({ item, studio, onImageClick, onClose, showBackButton = false }: ItemHeaderProps) => {
-  if (!item) return null;
+export const ItemHeader = React.memo(
+  ({ item, studio, onImageClick, onClose, showBackButton = false }: ItemHeaderProps) => {
+    const { t, i18n } = useTranslation('common');
+    if (!item) return null;
 
-  // Use galleryImages[0] as cover image
-  const coverImage = studio?.galleryImages?.[0];
+    const coverImage = studio?.galleryImages?.[0];
+    const lang = i18n.language === 'he' ? 'he' : 'en';
+    const studioName = studio?.name?.[lang] || studio?.name?.en || studio?.name?.he || '';
 
-  // Always render the image container to reserve space, even if studio data hasn't loaded yet
-  return (
-    <div className="image-container cover-image">
-      {/* Close/Back button inside image */}
-      <button className="close-button" onClick={onClose} aria-label={showBackButton ? 'Go back' : 'Close'}>
-        {showBackButton ? <ArrowBackIcon /> : <CloseIcon />}
-      </button>
-      
-      {!coverImage && <SkeletonLoader />}
-      {coverImage && (
-        <GenericImage
-          className="cover-image"
-          src={coverImage}
-          alt={studio?.name?.en ? `${studio.name.en} cover image` : 'Studio cover image'}
-          onClick={onImageClick}
-          loading="eager"
-        />
-      )}
-    </div>
-  );
-});
+    return (
+      <div className="image-container cover-image">
+        <button
+          className="close-button"
+          onClick={onClose}
+          aria-label={showBackButton ? t('a11y.goBack') : t('a11y.close')}
+        >
+          {showBackButton ? <ArrowBackIcon /> : <CloseIcon />}
+        </button>
+
+        {!coverImage && <SkeletonLoader />}
+        {coverImage && (
+          <GenericImage
+            className="cover-image"
+            src={coverImage}
+            alt={studioName}
+            onClick={onImageClick}
+            loading="eager"
+          />
+        )}
+      </div>
+    );
+  }
+);
 
 ItemHeader.displayName = 'ItemHeader';

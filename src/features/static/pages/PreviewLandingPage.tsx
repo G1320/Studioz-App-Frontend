@@ -287,8 +287,6 @@ export default function PreviewLandingPage() {
       content_name: 'Preview Landing Enterprise CTA',
       content_category: 'Conversion'
     });
-    // Use same-tab mailto (window.open mailto often leaves a blank tab)
-    window.location.assign('mailto:info@studioz.online?subject=Studioz%20Enterprise');
   };
 
   const pillars = t('pillars.items', { returnObjects: true }) as Array<{
@@ -330,7 +328,7 @@ export default function PreviewLandingPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <main className="preview-landing" dir={currentLang === 'he' ? 'rtl' : 'ltr'}>
+      <div className="preview-landing" dir={currentLang === 'he' ? 'rtl' : 'ltr'}>
         <section className="preview-landing__hero">
           <div className="preview-landing__container">
             <motion.div
@@ -558,13 +556,13 @@ export default function PreviewLandingPage() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  type="button"
+                <a
+                  href="mailto:info@studioz.online?subject=Studioz%20Enterprise"
                   className="preview-landing__price-card-cta preview-landing__price-card-cta--ghost"
                   onClick={handleEnterpriseContact}
                 >
                   {t('pricing.plans.enterprise.cta')}
-                </button>
+                </a>
               </motion.article>
             </div>
           </div>
@@ -593,7 +591,7 @@ export default function PreviewLandingPage() {
         </section>
 
         <OwnerFaqSection />
-      </main>
+      </div>
     </>
   );
 }

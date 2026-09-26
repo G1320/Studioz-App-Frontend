@@ -359,10 +359,12 @@
 
   &__wrapper {
     position: relative;
+    min-width: 0;
   }
 
   &__input {
     width: 100%;
+    min-width: 0;
     background: var(--bg-input);
     border: 1px solid var(--border-primary);
     border-radius: ds.$radius-md;
@@ -372,6 +374,10 @@
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     outline: none;
     box-sizing: border-box;
+    // Long emails (disabled fields) must scroll, not clip mid-address
+    overflow-x: auto;
+    text-overflow: clip;
+    white-space: nowrap;
 
     &::placeholder {
       color: var(--text-muted);

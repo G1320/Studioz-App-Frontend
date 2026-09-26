@@ -80,35 +80,51 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
       {/* Project Details */}
       <div className="project-form__fields">
         <div className="input-container full-width">
-          <EditNoteIcon className="input-icon" />
-          <input
-            type="text"
-            className="project-input has-icon"
-            placeholder={t('titlePlaceholder')}
-            value={title}
-            onChange={(e) => onTitleChange(e.target.value)}
-            required
-            maxLength={100}
-          />
+          <label className="project-form__field-label" htmlFor="project-request-title">
+            {t('projectTitle')}
+          </label>
+          <div className="project-form__field-control">
+            <EditNoteIcon className="input-icon" aria-hidden />
+            <input
+              id="project-request-title"
+              type="text"
+              className="project-input has-icon"
+              placeholder={t('titlePlaceholder')}
+              value={title}
+              onChange={(e) => onTitleChange(e.target.value)}
+              required
+              maxLength={100}
+              aria-required="true"
+            />
+          </div>
         </div>
 
         <div className="input-container full-width">
-          <DescriptionIcon className="input-icon" />
-          <textarea
-            className="project-input has-icon"
-            placeholder={t('briefPlaceholder')}
-            value={brief}
-            onChange={(e) => onBriefChange(e.target.value)}
-            required
-            maxLength={2000}
-          />
-          <span className="project-form__char-count">{brief.length}/2000</span>
+          <label className="project-form__field-label" htmlFor="project-request-brief">
+            {t('projectBrief')}
+          </label>
+          <div className="project-form__field-control">
+            <DescriptionIcon className="input-icon" aria-hidden />
+            <textarea
+              id="project-request-brief"
+              className="project-input has-icon"
+              placeholder={t('briefPlaceholder')}
+              value={brief}
+              onChange={(e) => onBriefChange(e.target.value)}
+              required
+              maxLength={2000}
+              aria-required="true"
+            />
+            <span className="project-form__char-count">{brief.length}/2000</span>
+          </div>
         </div>
 
         {/* Reference Links */}
         <div className="project-form__links-section">
           <div className="project-form__links-header">
-            <span className="project-form__links-label">{t('referenceLinks')}</span>
+            <span className="project-form__links-label" id="project-reference-links-label">
+              {t('referenceLinks')}
+            </span>
             {referenceLinks.length < 5 && (
               <button type="button" className="project-form__add-link" onClick={handleAddReferenceLink}>
                 + {t('addLink')}
@@ -118,7 +134,7 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
           <p className="project-form__hint">{t('referenceLinksHint')}</p>
           {referenceLinks.map((link, index) => (
             <div key={index} className="input-container full-width project-form__link-row">
-              <LinkIcon className="input-icon" />
+              <LinkIcon className="input-icon" aria-hidden />
               <input
                 type="url"
                 className="project-input has-icon"
@@ -126,6 +142,8 @@ export const ProjectRequestForm: React.FC<ProjectRequestFormProps> = ({
                 onChange={(e) => handleReferenceLinkChange(index, e.target.value)}
                 placeholder="https://spotify.com/track/..."
                 dir="ltr"
+                aria-labelledby="project-reference-links-label"
+                aria-label={`${t('referenceLinks')} ${index + 1}`}
               />
               {referenceLinks.length > 1 && (
                 <button

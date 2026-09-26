@@ -20,18 +20,18 @@ export const AddRemoveButton: React.FC<AddRemoveButtonProps> = ({
   ariaLabel,
   className = ''
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
 
   const getDefaultTitle = () => {
-    if (variant === 'add') return t('common.add', 'Add');
-    if (variant === 'remove') return t('common.remove', 'Remove');
-    return t('common.selected', 'Selected');
+    if (variant === 'add') return t('a11y.add');
+    if (variant === 'remove') return t('a11y.remove');
+    return t('a11y.selected');
   };
 
   const getDefaultAriaLabel = () => {
-    if (variant === 'add') return t('common.add', 'Add');
-    if (variant === 'remove') return t('common.remove', 'Remove');
-    return t('common.selected', 'Selected');
+    if (variant === 'add') return t('a11y.add');
+    if (variant === 'remove') return t('a11y.remove');
+    return t('a11y.selected');
   };
 
   const renderIcon = () => {

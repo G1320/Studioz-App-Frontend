@@ -85,7 +85,11 @@ export const StudioDetailsHeader: React.FC<StudioDetailsHeaderProps> = ({
             <button
               onClick={() => setIsMapModalOpen(true)}
               className="studio-info-modal-button"
-              aria-label={`View ${studio?.name?.[currentLang] || studio?.name?.en || 'studio'} information and map`}
+              aria-label={
+                currentLang === 'he'
+                  ? `מידע ומפה על ${studio?.name?.he || studio?.name?.en || 'הסטודיו'}`
+                  : `View ${studio?.name?.en || studio?.name?.he || 'studio'} information and map`
+              }
             >
               <InfoOutlinedIcon aria-hidden="true" />
             </button>

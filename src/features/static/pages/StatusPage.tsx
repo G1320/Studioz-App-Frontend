@@ -279,7 +279,7 @@ const StatusPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="enterprise-page__main status-main">
+      <div className="enterprise-page__main status-main">
         <div className="enterprise-page__container enterprise-page__container--wide">
         {hasIncident && data && (
           <div className="status-incident">
@@ -433,7 +433,7 @@ const StatusPage: React.FC = () => {
           </div>
         </footer>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

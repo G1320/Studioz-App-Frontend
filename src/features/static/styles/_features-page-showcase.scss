@@ -1,5 +1,6 @@
 .features-page:not(.features-page--detail) {
   --features-accent: #ffc85a;
+  --features-accent-text: var(--color-brand-text, #8f6b00);
   --features-ink: color-mix(in srgb, var(--text-primary) 94%, transparent);
   --features-display: 'Heebo', 'DM Sans', system-ui, sans-serif;
   padding: 0;
@@ -61,7 +62,7 @@
 
     span {
       display: block;
-      color: var(--features-accent);
+      color: var(--features-accent-text);
     }
   }
 

@@ -109,7 +109,7 @@
     align-items: center;
     font-size: vars.$font-size-sm-md;
     font-weight: 600;
-    color: var(--color-brand);
+    color: var(--color-brand-text, var(--color-brand));
     text-decoration: none;
     transition:
       color 0.2s ease,

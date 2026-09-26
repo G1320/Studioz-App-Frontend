@@ -142,7 +142,7 @@ export default function FeaturesPage() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <main className="features-page" dir={currentLang === 'he' ? 'rtl' : 'ltr'}>
+      <div className="features-page" dir={currentLang === 'he' ? 'rtl' : 'ltr'}>
         <section className="features-page__hero">
           <div className="features-page__container">
             <div className="features-page__hero-copy">
@@ -258,7 +258,7 @@ export default function FeaturesPage() {
             </aside>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

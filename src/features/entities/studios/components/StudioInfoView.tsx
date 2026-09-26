@@ -125,9 +125,13 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
       }));
   }, [studio?.equipment, tEquipment]);
 
-  // Parse house rules
+  // Parse house rules — prefer current lang, fall back only if empty
   const houseRules = useMemo(() => {
-    const rulesText = studio?.cancellationPolicy?.houseRules?.[currentLang] || '';
+    const otherLang = currentLang === 'he' ? 'en' : 'he';
+    const rulesText =
+      studio?.cancellationPolicy?.houseRules?.[currentLang]?.trim() ||
+      studio?.cancellationPolicy?.houseRules?.[otherLang]?.trim() ||
+      '';
     if (!rulesText) return [];
     return rulesText
       .split('\n')

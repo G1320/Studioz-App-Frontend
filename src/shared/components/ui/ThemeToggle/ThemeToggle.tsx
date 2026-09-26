@@ -28,8 +28,10 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
         type="button"
         onClick={toggleTheme}
         className={`theme-toggle theme-toggle--${size} ${className}`}
-        aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-        title={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        aria-label={
+          resolvedTheme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')
+        }
+        title={resolvedTheme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
       >
         <span className="theme-toggle__icon theme-toggle__icon--sun">
           <SunIcon size={iconSize} />

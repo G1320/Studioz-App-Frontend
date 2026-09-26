@@ -60,7 +60,7 @@
 }
 
 .enterprise-page__title-accent {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .enterprise-page__subtitle {

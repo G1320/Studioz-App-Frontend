@@ -74,6 +74,7 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
 
   return (
     <Helmet>
+      <html lang={currentLang} dir={currentLang === 'he' ? 'rtl' : 'ltr'} />
       {/* Basic SEO */}
       <title>{pageTitle}</title>
       <meta name="description" content={metaDescription} />

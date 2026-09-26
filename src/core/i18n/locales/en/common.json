@@ -25,7 +25,9 @@
   "theme": {
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
   },
   "navigation": {
     "logo": "Studioz",
@@ -51,7 +53,13 @@
     "studioFaq": "Studio FAQ",
     "changelog": "Changelog",
     "switchToEnglish": "Switch to English",
-    "switchToHebrew": "Switch to Hebrew"
+    "switchToHebrew": "Switch to Hebrew",
+    "skipToContent": "Skip to Content",
+    "skipToNavigation": "Skip to Navigation",
+    "skipToFooter": "Skip to Footer",
+    "mainNavigation": "Main Navigation",
+    "menu": "Menu",
+    "menuIcon": "Menu icon"
   },
   "days": {
     "sunday": "Sunday",
@@ -345,6 +353,9 @@
       "noSearchResults": "No results found for \"{{term}}\"",
       "searchFailed": "Error occurred while searching: {{message}}",
       "genericError": "An error occurred",
+      "loginFailed": "Sign-in failed. Please try again.",
+      "loginCancelled": "Sign-in was cancelled.",
+      "pastDateNotAllowed": "Please choose a future date and time.",
       "invalidImageType": "Please upload a valid image file (PNG, JPEG, or WebP)",
       "imageSizeTooLarge": "Image size must be less than 5MB",
       "imageUploadFailed": "Failed to upload image. Please try again.",
@@ -394,5 +405,18 @@
   },
   "accessibility": {
     "showWidget": "Show accessibility button"
+  },
+  "a11y": {
+    "notifications": "Notifications",
+    "notificationsUnread": "Notifications ({{count}} unread)",
+    "unreadCount": "{{count}} unread notifications",
+    "unreadAnnouncement_one": "{{count}} unread notification",
+    "unreadAnnouncement_other": "{{count}} unread notifications",
+    "close": "Close",
+    "goBack": "Go back",
+    "add": "Add",
+    "remove": "Remove",
+    "selected": "Selected",
+    "openMenu": "Open menu"
   }
 }

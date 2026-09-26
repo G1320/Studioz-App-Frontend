@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { setLocalUser, setLocalOfflineCart, getUserBySub, register, login } from '@shared/services';
 import { useUserContext, useOfflineCartContext } from '@core/contexts';
 import { useErrorHandling } from '@shared/hooks';
@@ -28,6 +29,14 @@ const syncBySub = new Map<string, Promise<User>>();
 const completedSubs = new Set<string>();
 const failedSubsUntil = new Map<string, number>();
 const toastedFailureSubs = new Set<string>();
+
+/** Call on logout so the next login re-syncs instead of skipping via completedSubs. */
+export function resetAuth0LoginSyncState(): void {
+  syncBySub.clear();
+  completedSubs.clear();
+  failedSubsUntil.clear();
+  toastedFailureSubs.clear();
+}
 
 /**
  * Hook to handle Auth0 login flow and update user context
@@ -72,7 +81,34 @@ export const useAuth0LoginHandler = () => {
       if (isSafeInternalPath(path.split(/[?#]/)[0] || path)) {
         setAuthReturnTo(path);
       }
-      return auth0LoginWithPopup(...args);
+      const [options, config] = args;
+      const uiLocales = i18n.language?.startsWith('he') ? 'he' : 'en';
+      try {
+        return await auth0LoginWithPopup(
+          {
+            ...options,
+            authorizationParams: {
+              ui_locales: uiLocales,
+              ...options?.authorizationParams
+            }
+          },
+          // Auth0 default popup timeout is 60s; slow Universal Login hits blank /authorize/resume
+          { timeoutInSeconds: 180, ...config }
+        );
+      } catch (error: unknown) {
+        const err = error as { error?: string; message?: string; error_description?: string };
+        const msg = `${err?.error || ''} ${err?.message || ''} ${err?.error_description || ''}`.toLowerCase();
+        const cancelled =
+          msg.includes('cancelled') ||
+          msg.includes('closed') ||
+          msg.includes('popup closed') ||
+          err?.error === 'cancelled';
+        if (cancelled) {
+          return undefined;
+        }
+        toast.error(i18n.t('common:toasts.error.loginFailed', 'Sign-in failed. Please try again.'));
+        throw error;
+      }
     },
     [auth0LoginWithPopup]
   );

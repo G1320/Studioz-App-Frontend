@@ -56,13 +56,17 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     setAuthReturnTo(returnTo);
 
     // Prefer popup so we never leave this page (avoids Auth0 → `/` round-trip).
+    const uiLocales = i18n.language?.startsWith('he') ? 'he' : 'en';
     try {
-      await loginWithPopup();
+      await loginWithPopup({
+        authorizationParams: { ui_locales: uiLocales }
+      });
       return;
     } catch {
       // Popup blocked / in-app browser — fall back to redirect
       await loginWithRedirect({
-        appState: { returnTo }
+        appState: { returnTo },
+        authorizationParams: { ui_locales: uiLocales }
       });
     }
   };

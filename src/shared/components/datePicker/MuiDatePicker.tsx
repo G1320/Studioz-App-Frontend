@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { DateTimePicker, TimeView } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { toast } from 'sonner';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import { ArrowBackIosNewIcon, ArrowForwardIosIcon } from '@shared/components/icons';
@@ -40,8 +41,9 @@ export const MuiDateTimePicker = ({
   studio,
   label: labelProp
 }: MuiDateTimePickerProps) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation('common');
   const isRTL = i18n.language === 'he';
+  const rejectToastAt = useRef(0);
 
   useEffect(() => {
     dayjs.locale(i18n.language);
@@ -51,6 +53,16 @@ export const MuiDateTimePicker = ({
   );
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const announceReject = useCallback(
+    (message: string) => {
+      const now = Date.now();
+      if (now - rejectToastAt.current < 1200) return;
+      rejectToastAt.current = now;
+      toast.error(message);
+    },
+    []
+  );
 
   // Create availability context for advanced calculations
   const availabilityContext = useMemo<AvailabilityContext | null>(() => {
@@ -188,16 +200,19 @@ export const MuiDateTimePicker = ({
       if (newValue.isBefore(minDate, 'day') || newValue.isBefore(dayjs(), 'minute')) {
         setInternalValue(null);
         onChange(null);
+        announceReject(t('toasts.error.pastDateNotAllowed'));
         return;
       }
       if (shouldDisableDate(newValue)) {
         setInternalValue(null);
         onChange(null);
+        announceReject(t('toasts.error.pastDateNotAllowed'));
         return;
       }
       if (shouldDisableTime(newValue, 'hours')) {
         setInternalValue(null);
         onChange(null);
+        announceReject(t('toasts.error.selectDateTime'));
         return;
       }
 
@@ -210,6 +225,7 @@ export const MuiDateTimePicker = ({
           if (getMaxConsecutiveHours(slotStr, slots) < minHours) {
             setInternalValue(null);
             onChange(null);
+            announceReject(t('toasts.error.minimumHoursRequired', { min: minHours }));
             return;
           }
         }
@@ -218,7 +234,7 @@ export const MuiDateTimePicker = ({
       setInternalValue(newValue);
       onChange(newValue.toDate());
     },
-    [onChange, minDate, shouldDisableDate, shouldDisableTime, availabilityContext]
+    [onChange, minDate, shouldDisableDate, shouldDisableTime, availabilityContext, announceReject, t]
   );
 
   const defaultLabel = isRTL ? 'בחר תאריך ושעה' : 'Select date and time';
@@ -233,6 +249,7 @@ export const MuiDateTimePicker = ({
         format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
         views={['year', 'month', 'day', 'hours']}
         minDate={minDate}
+        minDateTime={minDate.startOf('day').isBefore(dayjs()) ? dayjs() : minDate.startOf('day')}
         disablePast
         shouldDisableDate={shouldDisableDate}
         shouldDisableTime={shouldDisableTime}

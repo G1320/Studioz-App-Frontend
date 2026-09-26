@@ -170,12 +170,18 @@
 // Desktop picker layout
 .MuiPickersLayout-root {
   background-color: var(--bg-surface) !important;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 16px;
+  max-height: min(90dvh, 640px);
 
   .MuiPickersLayout-contentWrapper {
     background-color: var(--bg-surface);
-    overflow: hidden;
+    overflow: visible;
+    min-height: 0;
+  }
+
+  @media (max-width: 480px) {
+    max-height: min(85dvh, 560px);
   }
 }
 
@@ -346,11 +352,16 @@
 .MuiDigitalClock-root {
   background-color: var(--bg-tertiary) !important;
   border-inline-start: 1px solid var(--border-secondary);
+  // Keep list scrollable inside the picker viewport (esp. mobile)
+  max-height: min(280px, 40vh);
+  overflow: hidden;
 
   .MuiDigitalClock-list {
     background-color: var(--bg-tertiary) !important;
     padding-top: 0;
+    max-height: min(280px, 40vh) !important;
     overflow-y: auto !important; // Ensure scrolling works
+    overscroll-behavior: contain;
     
     // Enable flexbox for reordering hours to start from 06:00
     display: flex !important;
@@ -387,12 +398,21 @@
     }
   }
 
+  @media (max-width: 480px) {
+    max-height: min(220px, 36vh);
+
+    .MuiDigitalClock-list {
+      max-height: min(220px, 36vh) !important;
+    }
+  }
+
   .MuiDigitalClock-item {
     color: var(--text-secondary) !important;
     transition: all 0.2s ease;
     padding: 2px 4px;
     margin: 2px 4px;
     border-radius: 8px;
+    flex-shrink: 0;
 
     &:hover {
       background-color: var(--bg-hover) !important;

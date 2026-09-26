@@ -101,9 +101,13 @@ export const MuiPopupDateTimePicker = forwardRef<MuiPopupDateTimePickerRef, MuiP
           return;
         }
         if (newValue.isBefore(dayjs(), 'minute') || shouldDisableDate(newValue)) {
+          setInternalValue(null);
+          onChange(null);
           return;
         }
         if (shouldDisableTime(newValue, 'hours')) {
+          setInternalValue(null);
+          onChange(null);
           return;
         }
         setInternalValue(newValue);

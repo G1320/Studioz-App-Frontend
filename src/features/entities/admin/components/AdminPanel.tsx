@@ -1827,7 +1827,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="admin-main">
+      <div className="admin-main">
         {/* Mobile Header & Navigation */}
         <div className="admin-mobile-header">
           <div className="admin-mobile-header__title">
@@ -2038,7 +2038,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user, studios }) => {
             <PaymentCanaryView />
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 };

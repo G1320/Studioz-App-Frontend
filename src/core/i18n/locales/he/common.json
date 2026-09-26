@@ -25,7 +25,9 @@
   "theme": {
     "light": "בהיר",
     "dark": "כהה",
-    "system": "מערכת"
+    "system": "מערכת",
+    "switchToLight": "עבור למצב בהיר",
+    "switchToDark": "עבור למצב כהה"
   },
   "navigation": {
     "logo": "סטודיוז",
@@ -51,7 +53,13 @@
     "studioFaq": "שאלות נפוצות",
     "changelog": "עדכונים",
     "switchToEnglish": "מעבר לאנגלית",
-    "switchToHebrew": "מעבר לעברית"
+    "switchToHebrew": "מעבר לעברית",
+    "skipToContent": "דלג לתוכן",
+    "skipToNavigation": "דלג לניווט",
+    "skipToFooter": "דלג לפוטר",
+    "mainNavigation": "ניווט ראשי",
+    "menu": "תפריט",
+    "menuIcon": "סמל תפריט"
   },
   "days": {
     "sunday": "ראשון",
@@ -350,7 +358,10 @@
       "imageUploadFailed": "העלאת התמונה נכשלה. אנא נסה שוב.",
       "verificationFailed": "האימות נכשל. אנא בדוק את הקוד ונסה שוב.",
       "rateLimitExceeded": "יותר מדי ניסיונות. אנא המתן מספר דקות ונסה שוב.",
-      "minimumHoursRequired": "נדרשות לפחות {{min}} שעות להזמנה זו"
+      "minimumHoursRequired": "נדרשות לפחות {{min}} שעות להזמנה זו",
+      "loginFailed": "ההתחברות נכשלה. נסו שוב.",
+      "loginCancelled": "ההתחברות בוטלה.",
+      "pastDateNotAllowed": "נא לבחור תאריך ושעה בעתיד."
     },
     "info": {
       "appUpdated": "עודכן לגרסה האחרונה"
@@ -394,5 +405,18 @@
   },
   "accessibility": {
     "showWidget": "הצג כפתור נגישות"
+  },
+  "a11y": {
+    "notifications": "התראות",
+    "notificationsUnread": "התראות ({{count}} שלא נקראו)",
+    "unreadCount": "{{count}} התראות שלא נקראו",
+    "unreadAnnouncement_one": "התראה אחת שלא נקראה",
+    "unreadAnnouncement_other": "{{count}} התראות שלא נקראו",
+    "close": "סגור",
+    "goBack": "חזור",
+    "add": "הוסף",
+    "remove": "הסר",
+    "selected": "נבחר",
+    "openMenu": "פתח תפריט"
   }
 }

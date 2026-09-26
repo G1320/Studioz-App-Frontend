@@ -676,7 +676,7 @@ export const VendorOnboardingForm = () => {
   if (!user?._id) {
     return (
       <div className="vendor-onboarding" dir={dir}>
-        <main className="vendor-onboarding__main">
+        <div className="vendor-onboarding__main">
           <div className="form-card">
             <div className="step-content">
               <div className="step-content__header">
@@ -695,15 +695,14 @@ export const VendorOnboardingForm = () => {
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="vendor-onboarding" dir={dir}>
-      {/* Main */}
-      <main className="vendor-onboarding__main">
+      <div className="vendor-onboarding__main">
         {/* Progress Bar */}
         <div className="progress-bar">
           <div className="progress-bar__steps">
@@ -796,7 +795,7 @@ export const VendorOnboardingForm = () => {
             )}
           </button>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

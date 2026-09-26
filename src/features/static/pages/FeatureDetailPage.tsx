@@ -78,12 +78,12 @@ export default function FeatureDetailPage() {
         )}
       </Helmet>
 
-      <main
+      <div
         className="features-page features-page--detail"
         dir={currentLang === 'he' ? 'rtl' : 'ltr'}
       >
         <div className="features-page__container">
-          <nav className="features-page__breadcrumb" aria-label="Breadcrumb">
+          <nav className="features-page__breadcrumb" aria-label={currentLang === 'he' ? 'פירורי לחם' : 'Breadcrumb'}>
             <Link to={backHref} className="features-page__breadcrumb-link">
               {backLabel}
             </Link>
@@ -104,7 +104,7 @@ export default function FeatureDetailPage() {
             {feature.images.length > 0 && (
               <section
                 className="features-page__detail-gallery"
-                aria-label="Feature images"
+                aria-label={currentLang === 'he' ? 'תמונות התכונה' : 'Feature images'}
               >
                 {feature.images.map((src, i) => (
                   <motion.div
@@ -127,7 +127,7 @@ export default function FeatureDetailPage() {
             )}
           </article>
         </div>
-      </main>
+      </div>
     </>
   );
 }

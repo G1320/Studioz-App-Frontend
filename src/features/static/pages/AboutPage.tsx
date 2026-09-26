@@ -32,7 +32,7 @@ const AboutPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="enterprise-page__main">
+      <div className="enterprise-page__main">
         <div className="enterprise-page__container">
           <section className="enterprise-page__section">
             <p className="enterprise-page__section-kicker">{t('mission.kicker', 'Mission')}</p>
@@ -92,7 +92,7 @@ const AboutPage: React.FC = () => {
             </a>
           </aside>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

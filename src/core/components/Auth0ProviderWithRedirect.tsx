@@ -39,7 +39,8 @@ export function Auth0ProviderWithRedirect({ children }: { children: React.ReactN
       authorizationParams={{
         redirect_uri: window.location.origin,
         audience: 'https://items-app-backend.onrender.com',
-        scope: 'openid profile email'
+        scope: 'openid profile email',
+        ui_locales: i18n.language?.startsWith('he') ? 'he' : 'en'
       }}
       onRedirectCallback={(appState) => {
         const dest = resolvePostLoginPath(appState);

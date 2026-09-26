@@ -81,7 +81,7 @@ header.app-header {
 
   text-align: center;
   place-items: center;
-  contain: layout style;
+  // Avoid layout containment — it clips trailing controls at narrow widths
   will-change: transform;
 
   // Larger header on desktop
@@ -549,16 +549,54 @@ header.app-header {
 }
 
 @media screen and (max-width: 600px) {
-  header {
+  header.app-header {
+    gap: 0.25rem;
+    padding-inline: 0.75rem;
+    grid-template-columns: max-content 1fr auto;
+
     .navbar {
       display: none !important;
     }
+
     .header-search-button-container {
       display: none;
     }
 
+    .header-options-container {
+      grid-column: 3;
+      gap: 0.25rem;
+      min-width: 0;
+    }
+
     .cart {
-      grid-column: 6;
+      grid-column: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  header.app-header {
+    .logo-wordmark {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 390px) {
+  header.app-header {
+    padding-inline: 0.5rem;
+
+    .header-options-container {
+      gap: 0.125rem;
+    }
+
+    .header-icon-button,
+    .header-menu-button-container,
+    .notification-bell__button {
+      // Slightly tighter hit targets so trailing controls stay in-frame
+      width: 2.25rem;
+      height: 2.25rem;
+      min-width: 2.25rem;
     }
   }
 }

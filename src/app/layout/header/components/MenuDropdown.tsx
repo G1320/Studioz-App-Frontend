@@ -66,7 +66,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
           className={`header-menu-button-container header-icon-button ${
             triggerVariant === 'avatar' ? 'header-user-avatar-button' : ''
           }`}
-          aria-label={triggerVariant === 'avatar' ? t('profile.buttons.profile') : 'Menu'}
+          aria-label={triggerVariant === 'avatar' ? t('profile.buttons.profile') : t('common:navigation.menu')}
         >
           {triggerVariant === 'avatar' ? (
             showAvatarImage ? (
@@ -82,7 +82,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
               </span>
             )
           ) : (
-            <WavyMenuIcon className="wavy-menu-icon" aria-label="menu icon" />
+            <WavyMenuIcon className="wavy-menu-icon" aria-hidden="true" />
           )}
         </button>
       }
@@ -172,7 +172,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
 
         {user && (
           <div className="menu-dropdown__item menu-dropdown__item--logout">
-            <LogoutButton aria-label="Logout" className="menu-dropdown__logout-button" />
+            <LogoutButton aria-label={t('profile.buttons.logout')} className="menu-dropdown__logout-button" />
           </div>
         )}
 

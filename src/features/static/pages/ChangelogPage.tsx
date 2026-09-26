@@ -557,7 +557,7 @@ export const ChangelogPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="enterprise-page__main">
+      <div className="enterprise-page__main">
         <div className="enterprise-page__container">
           <div className="changelog__releases">
             {CHANGELOG_DATA.map((group) => (
@@ -622,7 +622,7 @@ export const ChangelogPage: React.FC = () => {
             </button>
           </aside>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

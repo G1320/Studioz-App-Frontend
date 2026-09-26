@@ -87,6 +87,9 @@
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
 
     .input-icon {
       position: absolute;
@@ -114,6 +117,46 @@
     }
 
     // For textarea, position icon at top
+    &:has(textarea) .input-icon {
+      top: vars.$spacing-medium;
+      transform: none;
+    }
+  }
+
+  &__field-label {
+    display: block;
+    font-size: vars.$font-size-small;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: start;
+  }
+
+  &__field-control {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+
+    .input-icon {
+      position: absolute;
+      left: vars.$spacing-medium;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+      z-index: 1;
+
+      [dir='rtl'] & {
+        left: auto;
+        right: vars.$spacing-medium;
+      }
+    }
+
+    &:focus-within .input-icon {
+      color: var(--color-brand);
+    }
+
     &:has(textarea) .input-icon {
       top: vars.$spacing-medium;
       transform: none;

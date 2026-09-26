@@ -7,6 +7,7 @@ import { useModal, useUserContext } from '@core/contexts';
 import { useStudio, useWishlists } from '@shared/hooks';
 import { StickyRemoteAudioBar } from '@shared/components/audio';
 import { StudioSchema } from '@shared/components/seo';
+import { KeyboardActivatable } from '@shared/utility-components/KeyboardActivatable';
 import { trackEvent } from '@shared/utils/analytics';
 
 import { useEffect, useState, useRef } from 'react';
@@ -88,11 +89,21 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
               currStudio?.name?.[i18n.language === 'he' ? 'he' : 'en'] || currStudio?.name?.en
             ))()}
           data={filteredItems}
-          renderItem={(item) => (
-            <div onClick={() => handleItemClick(item)} key={item._id}>
-              <ItemCard item={item} wishlists={wishlists} showDistanceBadge={false} studioActive={currStudio?.active} />
-            </div>
-          )}
+          renderItem={(item) => {
+            const lang = i18n.language === 'he' ? 'he' : 'en';
+            const label =
+              item.name?.[lang] || item.name?.en || item.name?.he || (lang === 'he' ? 'פתח שירות' : 'View service');
+            return (
+              <KeyboardActivatable key={item._id} onActivate={() => handleItemClick(item)} ariaLabel={label}>
+                <ItemCard
+                  item={item}
+                  wishlists={wishlists}
+                  showDistanceBadge={false}
+                  studioActive={currStudio?.active}
+                />
+              </KeyboardActivatable>
+            );
+          }}
         />
       )}
       {!selectedItemId && <ContinueToCheckoutButton cart={cart} />}
