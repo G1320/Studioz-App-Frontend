@@ -3,6 +3,7 @@ import { DateTimePicker, TimeView } from '@mui/x-date-pickers';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { useTranslation } from 'react-i18next';
 import { DayOfWeek, StudioAvailability } from 'src/types/studio';
 
 dayjs.extend(customParseFormat);
@@ -25,6 +26,8 @@ export interface MuiPopupDateTimePickerRef {
 
 export const MuiPopupDateTimePicker = forwardRef<MuiPopupDateTimePickerRef, MuiPopupDateTimePickerProps>(
   ({ label, value, onChange, onAccept, onClose, availability = [], studioAvailability, open }, ref) => {
+    const { i18n } = useTranslation();
+    const isRTL = i18n.language === 'he';
     const pickerRef = useRef<any>(null);
     const [internalValue, setInternalValue] = useState<Dayjs | null>(
       value ? dayjs(value) : dayjs().add(1, 'day').hour(13).minute(0)
@@ -92,8 +95,19 @@ export const MuiPopupDateTimePicker = forwardRef<MuiPopupDateTimePickerRef, MuiP
 
     const handleChange = useCallback(
       (newValue: Dayjs | null) => {
+        if (!newValue || !newValue.isValid()) {
+          setInternalValue(newValue);
+          onChange(null);
+          return;
+        }
+        if (newValue.isBefore(dayjs(), 'minute') || shouldDisableDate(newValue)) {
+          return;
+        }
+        if (shouldDisableTime(newValue, 'hours')) {
+          return;
+        }
         setInternalValue(newValue);
-        onChange(newValue ? newValue.toDate() : null);
+        onChange(newValue.toDate());
       },
       [onChange]
     );
@@ -115,9 +129,10 @@ export const MuiPopupDateTimePicker = forwardRef<MuiPopupDateTimePickerRef, MuiP
           label={label}
           value={internalValue}
           onChange={handleChange}
-          format="DD/MM/YYYY HH:mm"
+          format={isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm'}
           views={['year', 'month', 'day', 'hours']}
           disablePast
+          minDate={dayjs()}
           shouldDisableDate={shouldDisableDate}
           shouldDisableTime={shouldDisableTime}
           closeOnSelect={false}
@@ -139,7 +154,11 @@ export const MuiPopupDateTimePicker = forwardRef<MuiPopupDateTimePickerRef, MuiP
               type="number"
               label="Hours"
               value={hours}
-              onChange={(e) => setHours(Number(e.target.value))}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                if (!Number.isFinite(next)) return;
+                setHours(Math.min(12, Math.max(1, Math.floor(next))));
+              }}
               slotProps={{
                 htmlInput: {
                   min: 1,

@@ -178,10 +178,39 @@ export const MuiDateTimePicker = ({
 
   const handleChange = useCallback(
     (newValue: Dayjs | null) => {
+      if (!newValue || !newValue.isValid()) {
+        setInternalValue(newValue);
+        onChange(null);
+        return;
+      }
+
+      // Keyboard entry can bypass disablePast / shouldDisable* — reject here
+      if (newValue.isBefore(minDate, 'day') || newValue.isBefore(dayjs(), 'minute')) {
+        return;
+      }
+      if (shouldDisableDate(newValue)) {
+        return;
+      }
+      if (shouldDisableTime(newValue, 'hours')) {
+        return;
+      }
+
+      // Min duration: selected start must fit consecutive available slots
+      if (availabilityContext) {
+        const minHours = getMinimumHours(availabilityContext.item);
+        if (minHours > 1) {
+          const slots = getAvailableSlotsForDate(newValue, availabilityContext);
+          const slotStr = newValue.format('HH:00');
+          if (getMaxConsecutiveHours(slotStr, slots) < minHours) {
+            return;
+          }
+        }
+      }
+
       setInternalValue(newValue);
-      onChange(newValue ? newValue.toDate() : null);
+      onChange(newValue.toDate());
     },
-    [onChange]
+    [onChange, minDate, shouldDisableDate, shouldDisableTime, availabilityContext]
   );
 
   const defaultLabel = isRTL ? 'בחר תאריך ושעה' : 'Select date and time';

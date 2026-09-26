@@ -81,7 +81,8 @@
     "sendEmail": "שליחה במייל",
     "cancel": "ביטול מסמך",
     "exportReport": "ייצוא דוח חודשי",
-    "newInvoice": "חשבונית חדשה"
+    "newInvoice": "חשבונית חדשה",
+    "quickCharge": "סליקה מהירה"
   },
   "dropdown": {
     "viewDocument": "צפייה במסמך",

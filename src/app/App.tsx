@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useMemo, ReactNode, lazy, Suspense } from 'react';
 import { useOfflineCartContext, useUserContext } from '@core/contexts';
 import { useItems, useStudios, useCart, useBrevoChat } from '@shared/hooks';
+import { useSyncLanguageFromPath } from '@shared/hooks/utils';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { initialOptions } from '@core/config';
 import { HelmetProvider } from 'react-helmet-async';
@@ -39,6 +40,7 @@ const PayPalWrapper = ({ children }: { children: ReactNode }) => {
 
 function App() {
   const location = useLocation();
+  useSyncLanguageFromPath();
 
   const { user } = useUserContext();
   const { offlineCart } = useOfflineCartContext();

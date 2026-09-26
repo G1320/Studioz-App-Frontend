@@ -34,6 +34,12 @@ html {
   scroll-behavior: auto; // Use 'auto' instead of 'smooth' to prevent unwanted scrolling
   // Always reserve space for scrollbar to prevent layout shift when content height changes
   scrollbar-gutter: stable;
+  // Anchor / in-page scroll targets clear the fixed header
+  scroll-padding-top: 3.75rem;
+
+  @media screen and (min-width: 768px) {
+    scroll-padding-top: 5.25rem;
+  }
 }
 
 body {

@@ -1,13 +1,27 @@
 @use 'utilities/variables' as vars;
 @use 'utilities/mixins' as mixins;
 
+:root {
+  --a11y-fab-size: 48px;
+  --a11y-fab-edge: 1.5rem;
+  --a11y-fab-gap: 0.75rem;
+  --a11y-fab-clearance: calc(
+    var(--a11y-fab-size) + var(--a11y-fab-edge) + var(--a11y-fab-gap) + env(safe-area-inset-bottom, 0px)
+  );
+  --a11y-fab-inline-clearance: calc(var(--a11y-fab-size) + var(--a11y-fab-edge) + var(--a11y-fab-gap));
+
+  @media (max-width: 768px) {
+    --a11y-fab-edge: 0.75rem;
+  }
+}
+
 .a11y-trigger {
   position: fixed;
-  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-  inset-inline-end: 1.5rem;
+  bottom: calc(var(--a11y-fab-edge) + env(safe-area-inset-bottom, 0px));
+  inset-inline-end: var(--a11y-fab-edge);
   z-index: 9998;
-  width: 48px;
-  height: 48px;
+  width: var(--a11y-fab-size);
+  height: var(--a11y-fab-size);
   border-radius: 50%;
   border: none;
   background-color: var(--color-brand);
@@ -18,10 +32,6 @@
   cursor: pointer;
   box-shadow: var(--shadow-lg);
   transition: transform 0.2s ease, box-shadow 0.2s ease, bottom 0.3s ease;
-
-  @media (max-width: 768px) {
-    inset-inline-end: 0.75rem;
-  }
 
   body.has-sticky-audio-bar & {
     bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));

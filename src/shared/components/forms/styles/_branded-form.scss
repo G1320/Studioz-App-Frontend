@@ -725,6 +725,9 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: vars.$spacing-sm-md;
+      // Keep last tiles clear of the fixed a11y FAB
+      padding-inline-end: max(0px, calc(var(--a11y-fab-inline-clearance, 4.5rem) - 1rem));
+      padding-bottom: max(0.5rem, calc(var(--a11y-fab-clearance, 4.5rem) - 3rem));
     }
 
     &__item {

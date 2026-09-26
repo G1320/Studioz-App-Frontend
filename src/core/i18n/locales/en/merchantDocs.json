@@ -81,7 +81,8 @@
     "sendEmail": "Send via Email",
     "cancel": "Cancel Document",
     "exportReport": "Export Monthly Report",
-    "newInvoice": "New Invoice"
+    "newInvoice": "New Invoice",
+    "quickCharge": "Quick Charge"
   },
   "dropdown": {
     "viewDocument": "View Document",

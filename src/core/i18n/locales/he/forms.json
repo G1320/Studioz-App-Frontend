@@ -777,56 +777,147 @@
       }
     },
     "vendorOnboarding": {
-      "title": "הרשמת ספק",
-      "subtitle": "השלם את פרטי העסק שלך כדי להתחיל למכור ב-Studioz",
-      "companyDetails": {
-        "title": "פרטי חברה",
-        "name": {
-          "label": "שם החברה",
-          "placeholder": "הכנס את שם החברה"
+      "steps": {
+        "business": "פרטי עסק",
+        "contact": "איש קשר",
+        "bank": "חשבון בנק",
+        "card": "כרטיס אשראי"
+      },
+      "entityTypes": {
+        "exempt_dealer": "עוסק פטור",
+        "authorized_dealer": "עוסק מורשה",
+        "company": "חברה בע״מ",
+        "npo": "עמותה / מלכ״ר"
+      },
+      "banks": {
+        "12": "בנק הפועלים (12)",
+        "10": "בנק לאומי (10)",
+        "11": "בנק דיסקונט (11)",
+        "31": "הבנק הבינלאומי (31)",
+        "20": "בנק מזרחי טפחות (20)",
+        "09": "בנק הדואר (09)",
+        "46": "בנק מסד (46)",
+        "04": "בנק יהב (04)"
+      },
+      "business": {
+        "title": "פרטי העסק",
+        "subtitle": "הזן את פרטי העסק כפי שהם מופיעים ברשויות המס",
+        "entityType": "סוג התאגדות",
+        "businessName": {
+          "label": "שם העסק (רשמי) *",
+          "placeholder": "השם המלא כפי שמופיע בתעודת העוסק"
         },
-        "email": {
-          "label": "דוא\"ל עסקי",
-          "placeholder": "הכנס דוא\"ל עסקי"
+        "businessId": {
+          "label": "מספר עוסק (ח.פ / ת.ז) *",
+          "placeholder": "9 ספרות"
         },
-        "phone": {
-          "label": "טלפון עסקי",
-          "placeholder": "הכנס טלפון עסקי"
+        "city": {
+          "label": "עיר"
         },
         "address": {
-          "label": "כתובת העסק",
-          "placeholder": "הכנס את כתובת העסק"
-        },
-        "corporateNumber": {
-          "label": "ח.פ / עוסק מורשה",
-          "placeholder": "הכנס מספר ח.פ / עוסק מורשה"
+          "label": "כתובת *",
+          "placeholder": "רחוב ומספר"
         },
         "website": {
-          "label": "אתר אינטרנט",
-          "placeholder": "הכנס כתובת אתר (לא חובה)"
+          "label": "אתר אינטרנט (אופציונלי)",
+          "placeholder": "https://example.com"
         }
       },
-      "bankDetails": {
-        "title": "פרטי חשבון בנק",
-        "bankCode": {
-          "label": "קוד בנק",
-          "placeholder": "הכנס קוד בנק"
+      "contact": {
+        "title": "מורשה חתימה / איש קשר",
+        "subtitle": "פרטי האדם המוסמך לחתום בשם העסק",
+        "fullName": {
+          "label": "שם מלא *"
         },
-        "branchCode": {
-          "label": "קוד סניף",
-          "placeholder": "הכנס קוד סניף"
+        "phone": {
+          "label": "טלפון נייד *",
+          "placeholder": "050-0000000"
+        },
+        "email": {
+          "label": "כתובת אימייל *"
+        }
+      },
+      "bank": {
+        "title": "פרטי חשבון בנק",
+        "subtitle": "חשבון הבנק אליו יועברו כספי הסליקה",
+        "notice": "שים לב: חשבון הבנק חייב להיות על שם העסק או בעל העסק כפי שהוזן בשלב הראשון.",
+        "bankName": {
+          "label": "שם הבנק *",
+          "placeholder": "בחר בנק..."
+        },
+        "branchNumber": {
+          "label": "מספר סניף *"
         },
         "accountNumber": {
-          "label": "מספר חשבון",
-          "placeholder": "הכנס מספר חשבון"
+          "label": "מספר חשבון *"
         }
       },
-      "submit": "השלם הרשמה",
-      "footer": {
-        "terms": "בהרשמה אתה מסכים לתנאי השימוש ומדיניות הפרטיות של Studioz"
+      "card": {
+        "title": "כרטיס אשראי לעמלת פלטפורמה",
+        "narrative": "אנחנו מרוויחים רק כשאתה מרוויח.",
+        "description": "Studioz בחינם לתמיד. אנחנו גובים עמלה קטנה (9%) רק כשאתה מרוויח מסשנים שאושרו. הכרטיס ישמש לחיוב חודשי של עמלת הפלטפורמה.",
+        "notice": "פרטי הכרטיס נשמרים בצורה מאובטחת ולא יגבו כעת.",
+        "cardNumber": {
+          "label": "מספר כרטיס אשראי *",
+          "placeholder": "XXXX XXXX XXXX XXXX"
+        },
+        "expMonth": {
+          "label": "חודש *",
+          "placeholder": "בחר"
+        },
+        "expYear": {
+          "label": "שנה *",
+          "placeholder": "בחר"
+        },
+        "cvv": {
+          "label": "CVV *",
+          "placeholder": "XXX"
+        },
+        "citizenId": {
+          "label": "ת.ז. / ח.פ. (9 ספרות) *",
+          "placeholder": "9 ספרות"
+        }
       },
-      "success": "הרשמת הספק הושלמה בהצלחה",
-      "error": "אירעה שגיאה בהרשמת הספק"
+      "validation": {
+        "businessNameRequired": "שם העסק הוא שדה חובה",
+        "businessIdRequired": "מספר עוסק הוא שדה חובה",
+        "businessIdInvalid": "מספר עוסק חייב להכיל 9 ספרות",
+        "addressRequired": "כתובת היא שדה חובה",
+        "contactNameRequired": "שם מלא הוא שדה חובה",
+        "phoneRequired": "טלפון הוא שדה חובה",
+        "phoneInvalid": "מספר טלפון לא תקין",
+        "emailRequired": "אימייל הוא שדה חובה",
+        "emailInvalid": "כתובת אימייל לא תקינה",
+        "bankRequired": "יש לבחור בנק",
+        "branchRequired": "מספר סניף הוא שדה חובה",
+        "branchInvalid": "מספר סניף לא תקין",
+        "accountRequired": "מספר חשבון הוא שדה חובה",
+        "accountInvalid": "מספר חשבון לא תקין"
+      },
+      "errors": {
+        "loginRequired": "יש להתחבר לחשבון כדי להמשיך",
+        "cardRequired": "נא למלא את פרטי כרטיס האשראי",
+        "cardSaveFailed": "החשבון נוצר בהצלחה אך שמירת כרטיס האשראי נכשלה. תוכל להוסיף כרטיס מהפרופיל.",
+        "generic": "אירעה שגיאה. אנא נסה שוב."
+      },
+      "nav": {
+        "back": "חזור",
+        "backAria": "חזור לשלב הקודם",
+        "continue": "המשך לשלב הבא",
+        "finish": "סיים ושלח",
+        "submitting": "שולח...",
+        "savingCard": "שומר כרטיס..."
+      },
+      "loginGate": {
+        "title": "יש להתחבר לחשבון כדי להמשיך",
+        "subtitle": "התחבר כדי להשלים את חיבור הסליקה והגדרת התשלומים שלך.",
+        "button": "התחברות / הרשמה"
+      },
+      "successScreen": {
+        "title": "הפרטים נשלחו לבדיקה!",
+        "body": "במהלך הימים הקרובים תתבקש לוודא את פרטי העסק מול ספק הסליקה שלנו, Upay פיננסים לאחר אישור הפרטים ואישור החשבון תוכל לקבל תשלומים בפלטפורמה, התהליך לרוב לוקח כ 2 ימים עסקים",
+        "backToProfile": "חזור לפרופיל"
+      }
     },
     "studioDetails": {
       "amenities": "מתקנים ותכונות",

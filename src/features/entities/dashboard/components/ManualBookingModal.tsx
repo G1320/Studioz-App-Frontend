@@ -25,6 +25,7 @@ import { useUserContext } from '@core/contexts';
 import { Studio, CartItem } from 'src/types/index';
 import { toast } from 'sonner';
 import { getMinimumHours } from '@shared/utils/availabilityUtils';
+import { isValidIsraeliPhone } from '@shared/validation/schemas/base';
 import '../styles/_manual-booking-modal.scss';
 
 interface ManualBookingModalProps {
@@ -236,16 +237,21 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
     if (serviceType === 'existing') {
       return !!selectedItemId;
     } else {
-      return customService.description.trim().length > 0 && customService.price >= 0;
+      return customService.description.trim().length > 0 && customService.price > 0;
     }
   }, [selectedStudioId, serviceType, selectedItemId, customService]);
 
   const canProceedFromSchedule = useMemo(() => {
-    return !!selectedDate;
+    if (!selectedDate) return false;
+    return dayjs(selectedDate).isAfter(dayjs().subtract(1, 'minute'));
   }, [selectedDate]);
 
   const canProceedFromCustomer = useMemo(() => {
-    return customerData.name.trim().length > 0 && customerData.email.trim().length > 0;
+    const nameOk = customerData.name.trim().length > 0;
+    const emailOk = customerData.email.trim().length > 0;
+    const phone = customerData.phone?.trim() || '';
+    const phoneOk = !phone || isValidIsraeliPhone(phone);
+    return nameOk && emailOk && phoneOk;
   }, [customerData]);
 
   // Navigation
@@ -434,7 +440,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
             className="manual-booking-modal__close"
             onClick={handleClose}
             disabled={isSubmitting}
-            aria-label={t('common:close', 'Close')}
+            aria-label={t('common:buttons.close', 'Close')}
           >
             <X size={20} />
           </button>
@@ -569,7 +575,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
                   <label>{t('dashboard:manualBooking.servicePrice', 'מחיר כולל')} (₪)</label>
                   <input
                     type="number"
-                    min="0"
+                    min="0.01"
                     step="1"
                     value={customService.price}
                     onChange={(e) => handleCustomServiceChange('price', e.target.value)}
@@ -586,7 +592,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
                 className="manual-booking-modal__btn manual-booking-modal__btn--secondary"
                 onClick={handleClose}
               >
-                {t('common:cancel', 'ביטול')}
+                {t('common:buttons.cancel', 'Cancel')}
               </button>
               <button
                 type="button"
@@ -594,7 +600,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
                 onClick={handleNext}
                 disabled={!canProceedFromService}
               >
-                {t('common:next', 'הבא')}
+                {t('common:buttons.next', 'Next')}
                 {!isRTL && <ChevronRight size={16} />}
                 {isRTL && <ChevronLeft size={16} />}
               </button>
@@ -646,7 +652,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
               >
                 {isRTL && <ChevronRight size={16} />}
                 {!isRTL && <ChevronLeft size={16} />}
-                {t('common:back', 'חזור')}
+                {t('common:buttons.back', 'Back')}
               </button>
               <button
                 type="button"
@@ -654,7 +660,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
                 onClick={handleNext}
                 disabled={!canProceedFromSchedule}
               >
-                {t('common:next', 'הבא')}
+                {t('common:buttons.next', 'Next')}
                 {!isRTL && <ChevronRight size={16} />}
                 {isRTL && <ChevronLeft size={16} />}
               </button>
@@ -721,7 +727,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
               >
                 {isRTL && <ChevronRight size={16} />}
                 {!isRTL && <ChevronLeft size={16} />}
-                {t('common:back', 'חזור')}
+                {t('common:buttons.back', 'Back')}
               </button>
               <button
                 type="button"
@@ -729,7 +735,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
                 onClick={handleNext}
                 disabled={!canProceedFromCustomer}
               >
-                {t('common:next', 'הבא')}
+                {t('common:buttons.next', 'Next')}
                 {!isRTL && <ChevronRight size={16} />}
                 {isRTL && <ChevronLeft size={16} />}
               </button>
@@ -759,7 +765,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
               </div>
               <div className="manual-booking-modal__summary-row">
                 <span>{t('dashboard:manualBooking.duration', 'משך')}:</span>
-                <span>{selectedHours} {t('common:hours', 'שעות')}</span>
+                <span>{selectedHours} {t('common:hoursShort', 'hours')}</span>
               </div>
               <div className="manual-booking-modal__summary-row">
                 <span>{t('dashboard:manualBooking.customer', 'לקוח')}:</span>
@@ -834,7 +840,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
                 >
                   {isRTL && <ChevronRight size={16} />}
                   {!isRTL && <ChevronLeft size={16} />}
-                  {t('common:back', 'חזור')}
+                  {t('common:buttons.back', 'Back')}
                 </button>
                 <button
                   type="button"
@@ -859,7 +865,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
               >
                 {isRTL && <ChevronRight size={16} />}
                 {!isRTL && <ChevronLeft size={16} />}
-                {t('common:back', 'חזור')}
+                {t('common:buttons.back', 'Back')}
               </button>
             )}
           </div>

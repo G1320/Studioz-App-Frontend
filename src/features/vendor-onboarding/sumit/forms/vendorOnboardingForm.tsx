@@ -25,30 +25,30 @@ import { logFormDataConsent } from '@shared/services/cookie-consent-service';
 import { useTranslation } from 'react-i18next';
 import './styles/_vendor-onboarding-form.scss';
 
-const STEPS = [
-  { id: 1, title: 'פרטי עסק', icon: BusinessIcon },
-  { id: 2, title: 'איש קשר', icon: PersonIcon },
-  { id: 3, title: 'חשבון בנק', icon: BankIcon },
-  { id: 4, title: 'כרטיס אשראי', icon: CreditCardIcon }
+const STEP_IDS = [
+  { id: 1, titleKey: 'business' as const, defaultTitle: 'Business details', icon: BusinessIcon },
+  { id: 2, titleKey: 'contact' as const, defaultTitle: 'Contact person', icon: PersonIcon },
+  { id: 3, titleKey: 'bank' as const, defaultTitle: 'Bank account', icon: BankIcon },
+  { id: 4, titleKey: 'card' as const, defaultTitle: 'Credit card', icon: CreditCardIcon }
 ];
 
 const ENTITY_TYPES = [
-  { id: 'exempt_dealer', label: 'עוסק פטור' },
-  { id: 'authorized_dealer', label: 'עוסק מורשה' },
-  { id: 'company', label: 'חברה בע״מ' },
-  { id: 'npo', label: 'עמותה / מלכ״ר' }
-];
+  { id: 'exempt_dealer', defaultLabel: 'Exempt dealer' },
+  { id: 'authorized_dealer', defaultLabel: 'Authorized dealer' },
+  { id: 'company', defaultLabel: 'Ltd. company' },
+  { id: 'npo', defaultLabel: 'NPO / Non-profit' }
+] as const;
 
 const BANKS = [
-  { id: '12', label: 'בנק הפועלים (12)' },
-  { id: '10', label: 'בנק לאומי (10)' },
-  { id: '11', label: 'בנק דיסקונט (11)' },
-  { id: '31', label: 'הבנק הבינלאומי (31)' },
-  { id: '20', label: 'בנק מזרחי טפחות (20)' },
-  { id: '09', label: 'בנק הדואר (09)' },
-  { id: '46', label: 'בנק מסד (46)' },
-  { id: '04', label: 'בנק יהב (04)' }
-];
+  { id: '12', defaultLabel: 'Bank Hapoalim (12)' },
+  { id: '10', defaultLabel: 'Bank Leumi (10)' },
+  { id: '11', defaultLabel: 'Bank Discount (11)' },
+  { id: '31', defaultLabel: 'First International Bank (31)' },
+  { id: '20', defaultLabel: 'Bank Mizrahi-Tefahot (20)' },
+  { id: '09', defaultLabel: 'Postal Bank (09)' },
+  { id: '46', defaultLabel: 'Bank Massad (46)' },
+  { id: '04', defaultLabel: 'Bank Yahav (04)' }
+] as const;
 
 interface FormData {
   // Step 1 - Business
@@ -74,8 +74,9 @@ export const VendorOnboardingForm = () => {
   const { user } = useUserContext();
   const { loginWithPopup } = useAuth0LoginHandler();
   const langNavigate = useLanguageNavigate();
-  const { t: tForms } = useTranslation('forms');
+  const { t, i18n } = useTranslation('forms');
   const createVendorMutation = useCreateVendorMutation(user?._id || '');
+  const dir = i18n.language === 'he' ? 'rtl' : 'ltr';
 
   const [currentStep, setCurrentStep] = useState(1);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -115,15 +116,15 @@ export const VendorOnboardingForm = () => {
     const errors: Partial<Record<keyof FormData, string>> = {};
 
     if (!formData.businessName.trim()) {
-      errors.businessName = 'שם העסק הוא שדה חובה';
+      errors.businessName = t('form.vendorOnboarding.validation.businessNameRequired', 'Business name is required');
     }
     if (!formData.businessId.trim()) {
-      errors.businessId = 'מספר עוסק הוא שדה חובה';
+      errors.businessId = t('form.vendorOnboarding.validation.businessIdRequired', 'Business ID is required');
     } else if (!/^\d{9}$/.test(formData.businessId.trim())) {
-      errors.businessId = 'מספר עוסק חייב להכיל 9 ספרות';
+      errors.businessId = t('form.vendorOnboarding.validation.businessIdInvalid', 'Business ID must be 9 digits');
     }
     if (!formData.businessAddress.trim()) {
-      errors.businessAddress = 'כתובת היא שדה חובה';
+      errors.businessAddress = t('form.vendorOnboarding.validation.addressRequired', 'Address is required');
     }
 
     setValidationErrors(errors);
@@ -134,17 +135,17 @@ export const VendorOnboardingForm = () => {
     const errors: Partial<Record<keyof FormData, string>> = {};
 
     if (!formData.contactName.trim()) {
-      errors.contactName = 'שם מלא הוא שדה חובה';
+      errors.contactName = t('form.vendorOnboarding.validation.contactNameRequired', 'Full name is required');
     }
     if (!formData.contactPhone.trim()) {
-      errors.contactPhone = 'טלפון הוא שדה חובה';
+      errors.contactPhone = t('form.vendorOnboarding.validation.phoneRequired', 'Phone is required');
     } else if (!/^0\d{8,9}$/.test(formData.contactPhone.replace(/-/g, ''))) {
-      errors.contactPhone = 'מספר טלפון לא תקין';
+      errors.contactPhone = t('form.vendorOnboarding.validation.phoneInvalid', 'Invalid phone number');
     }
     if (!formData.contactEmail.trim()) {
-      errors.contactEmail = 'אימייל הוא שדה חובה';
+      errors.contactEmail = t('form.vendorOnboarding.validation.emailRequired', 'Email is required');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail)) {
-      errors.contactEmail = 'כתובת אימייל לא תקינה';
+      errors.contactEmail = t('form.vendorOnboarding.validation.emailInvalid', 'Invalid email address');
     }
 
     setValidationErrors(errors);
@@ -155,17 +156,17 @@ export const VendorOnboardingForm = () => {
     const errors: Partial<Record<keyof FormData, string>> = {};
 
     if (!formData.bankCode) {
-      errors.bankCode = 'יש לבחור בנק';
+      errors.bankCode = t('form.vendorOnboarding.validation.bankRequired', 'Please select a bank');
     }
     if (!formData.branchNumber.trim()) {
-      errors.branchNumber = 'מספר סניף הוא שדה חובה';
+      errors.branchNumber = t('form.vendorOnboarding.validation.branchRequired', 'Branch number is required');
     } else if (!/^\d{1,3}$/.test(formData.branchNumber)) {
-      errors.branchNumber = 'מספר סניף לא תקין';
+      errors.branchNumber = t('form.vendorOnboarding.validation.branchInvalid', 'Invalid branch number');
     }
     if (!formData.accountNumber.trim()) {
-      errors.accountNumber = 'מספר חשבון הוא שדה חובה';
+      errors.accountNumber = t('form.vendorOnboarding.validation.accountRequired', 'Account number is required');
     } else if (!/^\d{4,12}$/.test(formData.accountNumber)) {
-      errors.accountNumber = 'מספר חשבון לא תקין';
+      errors.accountNumber = t('form.vendorOnboarding.validation.accountInvalid', 'Invalid account number');
     }
 
     setValidationErrors(errors);
@@ -196,7 +197,7 @@ export const VendorOnboardingForm = () => {
 
   const handleNext = async () => {
     if (!user?._id) {
-      setError('יש להתחבר לחשבון כדי להמשיך');
+      setError(t('form.vendorOnboarding.errors.loginRequired', 'Please sign in to continue'));
       loginWithPopup();
       return;
     }
@@ -210,19 +211,19 @@ export const VendorOnboardingForm = () => {
       return;
     }
 
-    if (currentStep < STEPS.length) {
+    if (currentStep < STEP_IDS.length) {
       setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handleSubmitWithCard = async () => {
     if (!canSubmit || !user?._id) {
-      setError('יש להתחבר לחשבון כדי להמשיך');
+      setError(t('form.vendorOnboarding.errors.loginRequired', 'Please sign in to continue'));
       return;
     }
 
     if (!dataConsent) {
-      setConsentError(tForms('consent.required'));
+      setConsentError(t('consent.required'));
       return;
     }
 
@@ -231,7 +232,7 @@ export const VendorOnboardingForm = () => {
 
     const form = cardFormRef.current || (document.getElementById('vendor-onboarding-card-form') as HTMLFormElement);
     if (!form) {
-      setError('נא למלא את פרטי כרטיס האשראי');
+      setError(t('form.vendorOnboarding.errors.cardRequired', 'Please fill in your credit card details'));
       return;
     }
 
@@ -262,13 +263,20 @@ export const VendorOnboardingForm = () => {
 
       const saveCardResponse = await saveVendorCard(singleUseToken);
       if (!saveCardResponse.success) {
-        setError('החשבון נוצר בהצלחה אך שמירת כרטיס האשראי נכשלה. תוכל להוסיף כרטיס מהפרופיל.');
+        setError(
+          t(
+            'form.vendorOnboarding.errors.cardSaveFailed',
+            'Account created successfully but saving the credit card failed. You can add a card from your profile.'
+          )
+        );
       }
       setIsCompleted(true);
     } catch (err: unknown) {
       const errWithResponse = err as { response?: { data?: { message?: string } }; message?: string };
       const errorMessage =
-        errWithResponse?.response?.data?.message || errWithResponse?.message || 'אירעה שגיאה. אנא נסה שוב.';
+        errWithResponse?.response?.data?.message ||
+        errWithResponse?.message ||
+        t('form.vendorOnboarding.errors.generic', 'Something went wrong. Please try again.');
       setError(errorMessage);
       console.error('Vendor onboarding error:', err);
     } finally {
@@ -290,13 +298,18 @@ export const VendorOnboardingForm = () => {
         return (
           <div className="step-content">
             <div className="step-content__header">
-              <h2>פרטי העסק</h2>
-              <p>הזן את פרטי העסק כפי שהם מופיעים ברשויות המס</p>
+              <h2>{t('form.vendorOnboarding.business.title', 'Business details')}</h2>
+              <p>
+                {t(
+                  'form.vendorOnboarding.business.subtitle',
+                  'Enter your business details as they appear with the tax authorities'
+                )}
+              </p>
             </div>
 
             <div className="step-content__fields">
               <div className="field">
-                <label>סוג התאגדות</label>
+                <label>{t('form.vendorOnboarding.business.entityType', 'Entity type')}</label>
                 <div className="entity-type-grid">
                   {ENTITY_TYPES.map((type) => (
                     <button
@@ -305,30 +318,37 @@ export const VendorOnboardingForm = () => {
                       onClick={() => updateField('entityType', type.id)}
                       className={`entity-type-btn ${formData.entityType === type.id ? 'active' : ''}`}
                     >
-                      {type.label}
+                      {t(`form.vendorOnboarding.entityTypes.${type.id}`, type.defaultLabel)}
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className={`field ${validationErrors.businessName ? 'field--error' : ''}`}>
-                <label>שם העסק (רשמי) *</label>
+                <label>
+                  {t('form.vendorOnboarding.business.businessName.label', 'Business name (official) *')}
+                </label>
                 <input
                   type="text"
                   value={formData.businessName}
                   onChange={(e) => updateField('businessName', e.target.value)}
-                  placeholder="השם המלא כפי שמופיע בתעודת העוסק"
+                  placeholder={t(
+                    'form.vendorOnboarding.business.businessName.placeholder',
+                    'Full name as it appears on the dealer certificate'
+                  )}
                 />
                 {validationErrors.businessName && <span className="field__error">{validationErrors.businessName}</span>}
               </div>
 
               <div className={`field ${validationErrors.businessId ? 'field--error' : ''}`}>
-                <label>מספר עוסק (ח.פ / ת.ז) *</label>
+                <label>
+                  {t('form.vendorOnboarding.business.businessId.label', 'Business ID (Corp. / ID) *')}
+                </label>
                 <input
                   type="text"
                   value={formData.businessId}
                   onChange={(e) => updateField('businessId', e.target.value)}
-                  placeholder="9 ספרות"
+                  placeholder={t('form.vendorOnboarding.business.businessId.placeholder', '9 digits')}
                   maxLength={9}
                 />
                 {validationErrors.businessId && <span className="field__error">{validationErrors.businessId}</span>}
@@ -336,7 +356,7 @@ export const VendorOnboardingForm = () => {
 
               <div className="field-row">
                 <div className="field">
-                  <label>עיר</label>
+                  <label>{t('form.vendorOnboarding.business.city.label', 'City')}</label>
                   <input
                     type="text"
                     value={formData.businessCity}
@@ -344,12 +364,12 @@ export const VendorOnboardingForm = () => {
                   />
                 </div>
                 <div className={`field ${validationErrors.businessAddress ? 'field--error' : ''}`}>
-                  <label>כתובת *</label>
+                  <label>{t('form.vendorOnboarding.business.address.label', 'Address *')}</label>
                   <input
                     type="text"
                     value={formData.businessAddress}
                     onChange={(e) => updateField('businessAddress', e.target.value)}
-                    placeholder="רחוב ומספר"
+                    placeholder={t('form.vendorOnboarding.business.address.placeholder', 'Street and number')}
                   />
                   {validationErrors.businessAddress && (
                     <span className="field__error">{validationErrors.businessAddress}</span>
@@ -358,12 +378,12 @@ export const VendorOnboardingForm = () => {
               </div>
 
               <div className="field">
-                <label>אתר אינטרנט (אופציונלי)</label>
+                <label>{t('form.vendorOnboarding.business.website.label', 'Website (optional)')}</label>
                 <input
                   type="url"
                   value={formData.website}
                   onChange={(e) => updateField('website', e.target.value)}
-                  placeholder="https://example.com"
+                  placeholder={t('form.vendorOnboarding.business.website.placeholder', 'https://example.com')}
                   dir="ltr"
                 />
               </div>
@@ -375,13 +395,22 @@ export const VendorOnboardingForm = () => {
         return (
           <div className="step-content">
             <div className="step-content__header">
-              <h2>מורשה חתימה / איש קשר</h2>
-              <p>פרטי האדם המוסמך לחתום בשם העסק</p>
+              <h2>
+                {t('form.vendorOnboarding.contact.title', 'Authorized signatory / Contact person')}
+              </h2>
+              <p>
+                {t(
+                  'form.vendorOnboarding.contact.subtitle',
+                  'Details of the person authorized to sign on behalf of the business'
+                )}
+              </p>
             </div>
 
             <div className="step-content__fields">
               <div className={`field ${validationErrors.contactName ? 'field--error' : ''}`}>
-                <label htmlFor="vendor-contact-name">שם מלא *</label>
+                <label htmlFor="vendor-contact-name">
+                  {t('form.vendorOnboarding.contact.fullName.label', 'Full name *')}
+                </label>
                 <input
                   id="vendor-contact-name"
                   type="text"
@@ -398,14 +427,16 @@ export const VendorOnboardingForm = () => {
               </div>
 
               <div className={`field ${validationErrors.contactPhone ? 'field--error' : ''}`}>
-                <label htmlFor="vendor-contact-phone">טלפון נייד *</label>
+                <label htmlFor="vendor-contact-phone">
+                  {t('form.vendorOnboarding.contact.phone.label', 'Mobile phone *')}
+                </label>
                 <input
                   id="vendor-contact-phone"
                   type="tel"
                   value={formData.contactPhone}
                   onChange={(e) => updateField('contactPhone', e.target.value)}
                   dir="ltr"
-                  placeholder="050-0000000"
+                  placeholder={t('form.vendorOnboarding.contact.phone.placeholder', '050-0000000')}
                   aria-invalid={validationErrors.contactPhone ? true : undefined}
                   aria-describedby={validationErrors.contactPhone ? 'vendor-contact-phone-error' : undefined}
                 />
@@ -417,7 +448,9 @@ export const VendorOnboardingForm = () => {
               </div>
 
               <div className={`field ${validationErrors.contactEmail ? 'field--error' : ''}`}>
-                <label htmlFor="vendor-contact-email">כתובת אימייל *</label>
+                <label htmlFor="vendor-contact-email">
+                  {t('form.vendorOnboarding.contact.email.label', 'Email address *')}
+                </label>
                 <input
                   id="vendor-contact-email"
                   type="email"
@@ -441,23 +474,35 @@ export const VendorOnboardingForm = () => {
         return (
           <div className="step-content">
             <div className="step-content__header">
-              <h2>פרטי חשבון בנק</h2>
-              <p>חשבון הבנק אליו יועברו כספי הסליקה</p>
+              <h2>{t('form.vendorOnboarding.bank.title', 'Bank account details')}</h2>
+              <p>
+                {t(
+                  'form.vendorOnboarding.bank.subtitle',
+                  'The bank account where settlement funds will be transferred'
+                )}
+              </p>
             </div>
 
             <div className="step-content__notice">
               <InfoOutlinedIcon className="notice-icon" />
-              <p>שים לב: חשבון הבנק חייב להיות על שם העסק או בעל העסק כפי שהוזן בשלב הראשון.</p>
+              <p>
+                {t(
+                  'form.vendorOnboarding.bank.notice',
+                  'Note: The bank account must be in the name of the business or business owner as entered in the first step.'
+                )}
+              </p>
             </div>
 
             <div className="step-content__fields">
               <div className={`field ${validationErrors.bankCode ? 'field--error' : ''}`}>
-                <label>שם הבנק *</label>
+                <label>{t('form.vendorOnboarding.bank.bankName.label', 'Bank name *')}</label>
                 <select value={formData.bankCode} onChange={(e) => updateField('bankCode', e.target.value)}>
-                  <option value="">בחר בנק...</option>
+                  <option value="">
+                    {t('form.vendorOnboarding.bank.bankName.placeholder', 'Select a bank...')}
+                  </option>
                   {BANKS.map((bank) => (
                     <option key={bank.id} value={bank.id}>
-                      {bank.label}
+                      {t(`form.vendorOnboarding.banks.${bank.id}`, bank.defaultLabel)}
                     </option>
                   ))}
                 </select>
@@ -466,7 +511,7 @@ export const VendorOnboardingForm = () => {
 
               <div className="field-row field-row--bank">
                 <div className={`field ${validationErrors.branchNumber ? 'field--error' : ''}`}>
-                  <label>מספר סניף *</label>
+                  <label>{t('form.vendorOnboarding.bank.branchNumber.label', 'Branch number *')}</label>
                   <input
                     type="text"
                     value={formData.branchNumber}
@@ -478,7 +523,7 @@ export const VendorOnboardingForm = () => {
                   )}
                 </div>
                 <div className={`field field--wide ${validationErrors.accountNumber ? 'field--error' : ''}`}>
-                  <label>מספר חשבון *</label>
+                  <label>{t('form.vendorOnboarding.bank.accountNumber.label', 'Account number *')}</label>
                   <input
                     type="text"
                     value={formData.accountNumber}
@@ -497,16 +542,25 @@ export const VendorOnboardingForm = () => {
         return (
           <div className="step-content">
             <div className="step-content__header">
-              <h2>כרטיס אשראי לעמלת פלטפורמה</h2>
-              <p className="step-content__narrative">אנחנו מרוויחים רק כשאתה מרוויח.</p>
+              <h2>{t('form.vendorOnboarding.card.title', 'Credit card for platform fee')}</h2>
+              <p className="step-content__narrative">
+                {t('form.vendorOnboarding.card.narrative', 'We only earn when you earn.')}
+              </p>
               <p>
-                Studioz בחינם לתמיד. אנחנו גובים עמלה קטנה (9%) רק כשאתה מרוויח מסשנים שאושרו.
-                הכרטיס ישמש לחיוב חודשי של עמלת הפלטפורמה.
+                {t(
+                  'form.vendorOnboarding.card.description',
+                  'Studioz is free forever. We charge a small fee (9%) only when you earn from approved sessions. The card will be used for monthly billing of the platform fee.'
+                )}
               </p>
             </div>
             <div className="step-content__notice">
               <InfoOutlinedIcon className="notice-icon" />
-              <p>פרטי הכרטיס נשמרים בצורה מאובטחת ולא יגבו כעת.</p>
+              <p>
+                {t(
+                  'form.vendorOnboarding.card.notice',
+                  'Card details are stored securely and will not be charged now.'
+                )}
+              </p>
             </div>
             <ConsentCheckbox
               name="vendor-onboarding-data-consent"
@@ -524,21 +578,21 @@ export const VendorOnboardingForm = () => {
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="field">
-                <label>מספר כרטיס אשראי *</label>
+                <label>{t('form.vendorOnboarding.card.cardNumber.label', 'Credit card number *')}</label>
                 <input
                   type="text"
                   name="CreditCardNumber"
                   data-og="cardnumber"
                   required
-                  placeholder="XXXX XXXX XXXX XXXX"
+                  placeholder={t('form.vendorOnboarding.card.cardNumber.placeholder', 'XXXX XXXX XXXX XXXX')}
                   dir="ltr"
                 />
               </div>
               <div className="field-row field-row--card">
                 <div className="field">
-                  <label>חודש *</label>
+                  <label>{t('form.vendorOnboarding.card.expMonth.label', 'Month *')}</label>
                   <select name="ExpMonth" data-og="expirationmonth" required>
-                    <option value="">בחר</option>
+                    <option value="">{t('form.vendorOnboarding.card.expMonth.placeholder', 'Select')}</option>
                     {[...Array(12)].map((_, i) => (
                       <option key={i + 1} value={(i + 1).toString().padStart(2, '0')}>
                         {(i + 1).toString().padStart(2, '0')}
@@ -547,9 +601,9 @@ export const VendorOnboardingForm = () => {
                   </select>
                 </div>
                 <div className="field">
-                  <label>שנה *</label>
+                  <label>{t('form.vendorOnboarding.card.expYear.label', 'Year *')}</label>
                   <select name="ExpYear" data-og="expirationyear" required>
-                    <option value="">בחר</option>
+                    <option value="">{t('form.vendorOnboarding.card.expYear.placeholder', 'Select')}</option>
                     {[...Array(10)].map((_, i) => {
                       const year = (new Date().getFullYear() + i).toString();
                       return (
@@ -561,20 +615,22 @@ export const VendorOnboardingForm = () => {
                   </select>
                 </div>
                 <div className="field">
-                  <label>CVV *</label>
+                  <label>{t('form.vendorOnboarding.card.cvv.label', 'CVV *')}</label>
                   <input
                     type="text"
                     name="CVV"
                     data-og="cvv"
                     maxLength={4}
                     required
-                    placeholder="XXX"
+                    placeholder={t('form.vendorOnboarding.card.cvv.placeholder', 'XXX')}
                     dir="ltr"
                   />
                 </div>
               </div>
               <div className="field">
-                <label>ת.ז. / ח.פ. (9 ספרות) *</label>
+                <label>
+                  {t('form.vendorOnboarding.card.citizenId.label', 'ID / Corp. number (9 digits) *')}
+                </label>
                 <input
                   type="text"
                   name="citizen-id"
@@ -582,7 +638,7 @@ export const VendorOnboardingForm = () => {
                   inputMode="numeric"
                   maxLength={9}
                   required
-                  placeholder="9 ספרות"
+                  placeholder={t('form.vendorOnboarding.card.citizenId.placeholder', '9 digits')}
                   dir="ltr"
                 />
               </div>
@@ -597,18 +653,20 @@ export const VendorOnboardingForm = () => {
 
   if (isCompleted) {
     return (
-      <div className="vendor-onboarding vendor-onboarding--completed" dir="rtl">
+      <div className="vendor-onboarding vendor-onboarding--completed" dir={dir}>
         <div className="completion-card">
           <div className="completion-card__icon">
             <AutoAwesomeIcon />
           </div>
-          <h1>הפרטים נשלחו לבדיקה!</h1>
+          <h1>{t('form.vendorOnboarding.successScreen.title', 'Details submitted for review!')}</h1>
           <p>
-            במהלך הימים הקרובים תתבקש לוודא את פרטי העסק מול ספק הסליקה שלנו, Upay פיננסים לאחר אישור הפרטים ואישור
-            החשבון תוכל לקבל תשלומים בפלטפורמה, התהליך לרוב לוקח כ 2 ימים עסקים
+            {t(
+              'form.vendorOnboarding.successScreen.body',
+              'In the coming days you will be asked to verify your business details with our payment provider, Upay Finance. After the details and account are approved, you will be able to receive payments on the platform. The process usually takes about 2 business days.'
+            )}
           </p>
           <button type="button" onClick={() => langNavigate('/profile')} className="completion-card__button">
-            חזור לפרופיל
+            {t('form.vendorOnboarding.successScreen.backToProfile', 'Back to profile')}
           </button>
         </div>
       </div>
@@ -617,17 +675,22 @@ export const VendorOnboardingForm = () => {
 
   if (!user?._id) {
     return (
-      <div className="vendor-onboarding" dir="rtl">
+      <div className="vendor-onboarding" dir={dir}>
         <main className="vendor-onboarding__main">
           <div className="form-card">
             <div className="step-content">
               <div className="step-content__header">
-                <h2>יש להתחבר לחשבון כדי להמשיך</h2>
-                <p>התחבר כדי להשלים את חיבור הסליקה והגדרת התשלומים שלך.</p>
+                <h2>{t('form.vendorOnboarding.loginGate.title', 'Please sign in to continue')}</h2>
+                <p>
+                  {t(
+                    'form.vendorOnboarding.loginGate.subtitle',
+                    'Sign in to complete payment connection and set up your payouts.'
+                  )}
+                </p>
               </div>
               <div className="navigation-actions">
                 <button type="button" onClick={() => loginWithPopup()} className="nav-btn nav-btn--next">
-                  התחברות / הרשמה
+                  {t('form.vendorOnboarding.loginGate.button', 'Sign in / Sign up')}
                 </button>
               </div>
             </div>
@@ -638,13 +701,13 @@ export const VendorOnboardingForm = () => {
   }
 
   return (
-    <div className="vendor-onboarding" dir="rtl">
+    <div className="vendor-onboarding" dir={dir}>
       {/* Main */}
       <main className="vendor-onboarding__main">
         {/* Progress Bar */}
         <div className="progress-bar">
           <div className="progress-bar__steps">
-            {STEPS.map((step) => {
+            {STEP_IDS.map((step) => {
               const isActive = step.id === currentStep;
               const isPast = step.id < currentStep;
               const Icon = step.icon;
@@ -655,7 +718,7 @@ export const VendorOnboardingForm = () => {
                     {isPast ? <CheckIcon /> : <Icon />}
                   </div>
                   <span className={`progress-step__label ${isActive ? 'active' : ''} ${isPast ? 'completed' : ''}`}>
-                    {step.title}
+                    {t(`form.vendorOnboarding.steps.${step.titleKey}`, step.defaultTitle)}
                   </span>
                 </div>
               );
@@ -665,7 +728,7 @@ export const VendorOnboardingForm = () => {
             <div className="progress-bar__line">
               <div
                 className="progress-bar__line-fill"
-                style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
+                style={{ width: `${((currentStep - 1) / (STEP_IDS.length - 1)) * 100}%` }}
               />
             </div>
           </div>
@@ -700,10 +763,10 @@ export const VendorOnboardingForm = () => {
             onClick={handleBack}
             disabled={currentStep === 1 || createVendorMutation.isPending}
             className={`nav-btn nav-btn--back ${currentStep === 1 ? 'disabled' : ''}`}
-            aria-label="חזור לשלב הקודם"
+            aria-label={t('form.vendorOnboarding.nav.backAria', 'Go to previous step')}
           >
             <ArrowBackIcon aria-hidden="true" />
-            <span>חזור</span>
+            <span>{t('form.vendorOnboarding.nav.back', 'Back')}</span>
           </button>
 
           <button
@@ -715,12 +778,20 @@ export const VendorOnboardingForm = () => {
             {createVendorMutation.isPending || isSubmittingCard ? (
               <>
                 <CircularProgress size={20} color="inherit" />
-                <span>{currentStep === 4 ? 'שומר כרטיס...' : 'שולח...'}</span>
+                <span>
+                  {currentStep === 4
+                    ? t('form.vendorOnboarding.nav.savingCard', 'Saving card...')
+                    : t('form.vendorOnboarding.nav.submitting', 'Submitting...')}
+                </span>
               </>
             ) : (
               <>
-                <span>{currentStep === STEPS.length ? 'סיים ושלח' : 'המשך לשלב הבא'}</span>
-                {currentStep !== STEPS.length && <ChevronRightIcon />}
+                <span>
+                  {currentStep === STEP_IDS.length
+                    ? t('form.vendorOnboarding.nav.finish', 'Finish and submit')
+                    : t('form.vendorOnboarding.nav.continue', 'Continue to next step')}
+                </span>
+                {currentStep !== STEP_IDS.length && <ChevronRightIcon />}
               </>
             )}
           </button>

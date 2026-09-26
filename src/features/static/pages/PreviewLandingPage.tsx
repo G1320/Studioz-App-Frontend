@@ -287,7 +287,8 @@ export default function PreviewLandingPage() {
       content_name: 'Preview Landing Enterprise CTA',
       content_category: 'Conversion'
     });
-    window.location.href = 'mailto:info@studioz.online?subject=Studioz%20Enterprise';
+    // Use same-tab mailto (window.open mailto often leaves a blank tab)
+    window.location.assign('mailto:info@studioz.online?subject=Studioz%20Enterprise');
   };
 
   const pillars = t('pillars.items', { returnObjects: true }) as Array<{

@@ -90,6 +90,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
       anchor="bottom-right"
       minWidth="200px"
       maxWidth="300px"
+      lockScroll
     >
       <div className="menu-dropdown__content">
         {/* Login - only for non-logged-in users */}

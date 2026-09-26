@@ -131,8 +131,9 @@ export const ItemContent: React.FC<ItemContentProps> = ({
   paymentEnabled = false,
   // Auth gate for guests
   isLoggedIn = true,
-  onLoginClick
+  onLoginClick: _onLoginClick
 }) => {
+  void _onLoginClick;
   const { i18n, t } = useTranslation('common');
   const { t: tProject } = useTranslation('remoteProjects');
   const isRTL = i18n.language === 'he';
@@ -236,32 +237,31 @@ export const ItemContent: React.FC<ItemContentProps> = ({
         {/* Submit Button for Projects - only show after phone verification (same as BookingActions) */}
         {!showProject && isPhoneVerified && (
           <div className="project-actions">
-            {!isLoggedIn && onLoginClick ? (
-              <button
-                type="button"
-                className="project-actions__submit"
-                onClick={onLoginClick}
-              >
-                {t('common:buttons.loginSignup', 'Log In / Sign Up')}
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="project-actions__submit"
-                onClick={onSubmitProject}
-                disabled={!projectTitle.trim() || !projectBrief.trim() || isProjectLoading}
-              >
-                {isProjectLoading ? (
-                  <span className="button-loading-spinner" />
-                ) : (
-                  <>
-                    {paymentEnabled ? t('buttons.continue_to_payment', 'Continue to Payment') : tProject('submitRequest')}
-                    {projectPrice > 0 && <span> (₪{projectPrice.toLocaleString()})</span>}
-                  </>
-                )}
-              </button>
+            <button
+              type="button"
+              className="project-actions__submit"
+              onClick={onSubmitProject}
+              disabled={!projectTitle.trim() || !projectBrief.trim() || isProjectLoading}
+            >
+              {isProjectLoading ? (
+                <span className="button-loading-spinner" />
+              ) : (
+                <>
+                  {paymentEnabled ? t('buttons.continue_to_payment', 'Continue to Payment') : tProject('submitRequest')}
+                  {projectPrice > 0 && <span> (₪{projectPrice.toLocaleString()})</span>}
+                </>
+              )}
+            </button>
+            {!paymentEnabled && (
+              <p className="project-actions__note">
+                {isLoggedIn
+                  ? tProject('submitNote')
+                  : tProject(
+                      'submitNoteGuest',
+                      'We’ll email you updates about this request. Create an account anytime to track it in one place.'
+                    )}
+              </p>
             )}
-            {isLoggedIn && !paymentEnabled && <p className="project-actions__note">{tProject('submitNote')}</p>}
           </div>
         )}
       </>

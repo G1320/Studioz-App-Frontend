@@ -773,56 +773,147 @@
       }
     },
     "vendorOnboarding": {
-      "title": "Vendor Registration",
-      "subtitle": "Complete your business details to start selling on Studioz",
-      "companyDetails": {
-        "title": "Company Details",
-        "name": {
-          "label": "Company Name",
-          "placeholder": "Enter your company name"
+      "steps": {
+        "business": "Business details",
+        "contact": "Contact person",
+        "bank": "Bank account",
+        "card": "Credit card"
+      },
+      "entityTypes": {
+        "exempt_dealer": "Exempt dealer",
+        "authorized_dealer": "Authorized dealer",
+        "company": "Ltd. company",
+        "npo": "NPO / Non-profit"
+      },
+      "banks": {
+        "12": "Bank Hapoalim (12)",
+        "10": "Bank Leumi (10)",
+        "11": "Bank Discount (11)",
+        "31": "First International Bank (31)",
+        "20": "Bank Mizrahi-Tefahot (20)",
+        "09": "Postal Bank (09)",
+        "46": "Bank Massad (46)",
+        "04": "Bank Yahav (04)"
+      },
+      "business": {
+        "title": "Business details",
+        "subtitle": "Enter your business details as they appear with the tax authorities",
+        "entityType": "Entity type",
+        "businessName": {
+          "label": "Business name (official) *",
+          "placeholder": "Full name as it appears on the dealer certificate"
         },
-        "email": {
-          "label": "Business Email",
-          "placeholder": "Enter your business email"
+        "businessId": {
+          "label": "Business ID (Corp. / ID) *",
+          "placeholder": "9 digits"
         },
-        "phone": {
-          "label": "Business Phone",
-          "placeholder": "Enter your business phone"
+        "city": {
+          "label": "City"
         },
         "address": {
-          "label": "Business Address",
-          "placeholder": "Enter your business address"
-        },
-        "corporateNumber": {
-          "label": "Corporate Number",
-          "placeholder": "Enter your corporate/business number"
+          "label": "Address *",
+          "placeholder": "Street and number"
         },
         "website": {
-          "label": "Website",
-          "placeholder": "Enter your website (optional)"
+          "label": "Website (optional)",
+          "placeholder": "https://example.com"
         }
       },
-      "bankDetails": {
-        "title": "Bank Account Details",
-        "bankCode": {
-          "label": "Bank Code",
-          "placeholder": "Enter bank code"
+      "contact": {
+        "title": "Authorized signatory / Contact person",
+        "subtitle": "Details of the person authorized to sign on behalf of the business",
+        "fullName": {
+          "label": "Full name *"
         },
-        "branchCode": {
-          "label": "Branch Code",
-          "placeholder": "Enter branch code"
+        "phone": {
+          "label": "Mobile phone *",
+          "placeholder": "050-0000000"
+        },
+        "email": {
+          "label": "Email address *"
+        }
+      },
+      "bank": {
+        "title": "Bank account details",
+        "subtitle": "The bank account where settlement funds will be transferred",
+        "notice": "Note: The bank account must be in the name of the business or business owner as entered in the first step.",
+        "bankName": {
+          "label": "Bank name *",
+          "placeholder": "Select a bank..."
+        },
+        "branchNumber": {
+          "label": "Branch number *"
         },
         "accountNumber": {
-          "label": "Account Number",
-          "placeholder": "Enter account number"
+          "label": "Account number *"
         }
       },
-      "submit": "Complete Registration",
-      "footer": {
-        "terms": "By registering, you agree to Studioz's Terms of Service and Privacy Policy"
+      "card": {
+        "title": "Credit card for platform fee",
+        "narrative": "We only earn when you earn.",
+        "description": "Studioz is free forever. We charge a small fee (9%) only when you earn from approved sessions. The card will be used for monthly billing of the platform fee.",
+        "notice": "Card details are stored securely and will not be charged now.",
+        "cardNumber": {
+          "label": "Credit card number *",
+          "placeholder": "XXXX XXXX XXXX XXXX"
+        },
+        "expMonth": {
+          "label": "Month *",
+          "placeholder": "Select"
+        },
+        "expYear": {
+          "label": "Year *",
+          "placeholder": "Select"
+        },
+        "cvv": {
+          "label": "CVV *",
+          "placeholder": "XXX"
+        },
+        "citizenId": {
+          "label": "ID / Corp. number (9 digits) *",
+          "placeholder": "9 digits"
+        }
       },
-      "success": "Vendor registration completed successfully",
-      "error": "Failed to complete vendor registration"
+      "validation": {
+        "businessNameRequired": "Business name is required",
+        "businessIdRequired": "Business ID is required",
+        "businessIdInvalid": "Business ID must be 9 digits",
+        "addressRequired": "Address is required",
+        "contactNameRequired": "Full name is required",
+        "phoneRequired": "Phone is required",
+        "phoneInvalid": "Invalid phone number",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email address",
+        "bankRequired": "Please select a bank",
+        "branchRequired": "Branch number is required",
+        "branchInvalid": "Invalid branch number",
+        "accountRequired": "Account number is required",
+        "accountInvalid": "Invalid account number"
+      },
+      "errors": {
+        "loginRequired": "Please sign in to continue",
+        "cardRequired": "Please fill in your credit card details",
+        "cardSaveFailed": "Account created successfully but saving the credit card failed. You can add a card from your profile.",
+        "generic": "Something went wrong. Please try again."
+      },
+      "nav": {
+        "back": "Back",
+        "backAria": "Go to previous step",
+        "continue": "Continue to next step",
+        "finish": "Finish and submit",
+        "submitting": "Submitting...",
+        "savingCard": "Saving card..."
+      },
+      "loginGate": {
+        "title": "Please sign in to continue",
+        "subtitle": "Sign in to complete payment connection and set up your payouts.",
+        "button": "Sign in / Sign up"
+      },
+      "successScreen": {
+        "title": "Details submitted for review!",
+        "body": "In the coming days you will be asked to verify your business details with our payment provider, Upay Finance. After the details and account are approved, you will be able to receive payments on the platform. The process usually takes about 2 business days.",
+        "backToProfile": "Back to profile"
+      }
     },
     "studioDetails": {
       "amenities": "Amenities & Features",

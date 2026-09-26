@@ -468,6 +468,10 @@ header.app-header {
     font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition:
       background-color 0.18s ease,
       color 0.18s ease,

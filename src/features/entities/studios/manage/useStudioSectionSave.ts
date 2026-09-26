@@ -3,22 +3,35 @@ import { useSaveStudioMutation } from '@shared/hooks/mutations/studios/studioMut
 
 type SavePatch = Partial<Studio>;
 
+/** GET-hydrated fields that Joi `validateStudio` rejects (unknown keys → 400). */
+const STRIP_KEYS = [
+  'languageToggle',
+  'houseRules',
+  'active',
+  'createdBy',
+  'averageRating',
+  'reviewCount',
+  'totalBookings',
+  '__v',
+  'items', // GET items are enriched; omit so findByIdAndUpdate keeps existing
+  'sellerId',
+  'updatedAt'
+] as const;
+
 /**
- * Merge a section patch onto the current studio and PUT.
- * Always send a full document so backend PUT doesn't wipe fields.
+ * Merge a section patch onto the current studio and PUT a clean document.
+ * Strips server-only / enriched fields so validation accepts the payload.
  */
 export function useStudioSectionSave(studio: Studio | undefined, studioId: string) {
   const saveMutation = useSaveStudioMutation(studioId);
 
   const savePatch = (patch: SavePatch) => {
     if (!studio?._id) return;
-    const { languageToggle: _lt, houseRules: _hr, ...rest } = {
-      ...studio,
-      ...patch
-    } as Studio & { languageToggle?: unknown; houseRules?: unknown };
-    void _lt;
-    void _hr;
-    saveMutation.mutate(rest as Studio);
+    const merged = { ...studio, ...patch } as Record<string, unknown>;
+    for (const key of STRIP_KEYS) {
+      delete merged[key];
+    }
+    saveMutation.mutate(merged as unknown as Studio);
   };
 
   return {

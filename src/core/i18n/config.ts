@@ -182,8 +182,9 @@ i18n
         billing: billingHe
       }
     },
-    fallbackLng: 'he',
+    fallbackLng: 'en',
     supportedLngs: ['en', 'he'],
+    nonExplicitSupportedLngs: true,
     detection: {
       order: ['path'], // Only detect from URL path, ignore browser language
       lookupFromPathIndex: 0,

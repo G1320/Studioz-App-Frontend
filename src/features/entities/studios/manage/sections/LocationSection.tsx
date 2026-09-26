@@ -1,7 +1,9 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { LazyGoogleAddressAutocomplete } from '@shared/components';
 import { Studio } from 'src/types/index';
+import { isValidIsraeliPhone } from '@shared/validation/schemas/base';
 import { useStudioSectionSave } from '../useStudioSectionSave';
 import { SectionChrome } from './SectionChrome';
 
@@ -103,12 +105,17 @@ export const LocationSection = ({ studio }: LocationSectionProps) => {
   };
 
   const handleSave = () => {
+    const trimmedPhone = phone.trim();
+    if (trimmedPhone && !isValidIsraeliPhone(trimmedPhone)) {
+      toast.error(t('form.phone.invalid', 'Enter a valid phone number (e.g. 050-1234567)'));
+      return;
+    }
     savePatch({
       address: address.trim(),
       city: city.trim(),
       lat,
       lng,
-      phone: phone.trim(),
+      phone: trimmedPhone,
       website: website.trim(),
       maxOccupancy: maxOccupancy ? parseInt(maxOccupancy, 10) || undefined : undefined,
       size: size ? parseFloat(size) || undefined : undefined,

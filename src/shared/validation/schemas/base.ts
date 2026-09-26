@@ -18,11 +18,32 @@ export const REGEX_PATTERNS = {
   HAS_ENGLISH: /[a-zA-Z]/,
   /** URL pattern */
   URL: /^https?:\/\/.+/,
-  /** Phone number pattern (flexible - allows various formats) */
+  /** Phone number pattern (digits, spaces, dashes, plus, parens) */
   PHONE: /^[\d\s\-\+\(\)]+$/,
+  /** Israeli mobile/landline after normalizing to leading 0 (9–10 digits) */
+  PHONE_IL: /^0\d{8,9}$/,
   /** Email pattern */
   EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 };
+
+/**
+ * Normalize a phone to Israeli local form (0XXXXXXXXX) for validation.
+ * Strips non-digits; converts 972… to 0…
+ */
+export function normalizeIsraeliPhone(value: string): string {
+  const digits = value.replace(/\D/g, '');
+  if (digits.startsWith('972')) return `0${digits.slice(3)}`;
+  if (digits.startsWith('00972')) return `0${digits.slice(5)}`;
+  return digits;
+}
+
+/**
+ * True when value is a plausible Israeli phone (rejects "123", etc.).
+ */
+export function isValidIsraeliPhone(value: string): boolean {
+  const normalized = normalizeIsraeliPhone(value.trim());
+  return REGEX_PATTERNS.PHONE_IL.test(normalized);
+}
 
 /**
  * Hebrew text schema factory with validation
@@ -107,14 +128,28 @@ export const urlSchema = z
   });
 
 /**
- * Phone number schema
+ * Phone number schema — Israeli numbers only (rejects short junk like "123").
  */
 export const phoneSchema = z
   .string()
   .min(1, 'Phone number is required')
   .refine((val) => REGEX_PATTERNS.PHONE.test(val), {
     message: 'Invalid phone number format'
+  })
+  .refine((val) => isValidIsraeliPhone(val), {
+    message: 'Enter a valid phone number (e.g. 050-1234567)'
   });
+
+/** Optional phone — empty allowed; non-empty must be valid IL number */
+export const optionalPhoneSchema = z.preprocess(
+  (val) => (val === '' || val === undefined || val === null ? undefined : val),
+  z
+    .string()
+    .refine((val) => isValidIsraeliPhone(val), {
+      message: 'Enter a valid phone number (e.g. 050-1234567)'
+    })
+    .optional()
+);
 
 /**
  * Email schema

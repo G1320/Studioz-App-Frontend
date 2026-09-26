@@ -60,7 +60,7 @@ export interface AvailabilityContext {
 export interface DateAvailabilityResult {
   isBookable: boolean;
   availableSlots: string[];
-  reason?: 'closed' | 'advance_booking' | 'no_slots' | 'min_duration' | 'disabled';
+  reason?: 'closed' | 'advance_booking' | 'no_slots' | 'min_duration' | 'disabled' | 'past';
 }
 
 /**
@@ -249,6 +249,11 @@ export function isDateBookable(date: Dayjs, context: AvailabilityContext): DateA
   }
   if (studio && studio.active === false) {
     return { isBookable: false, availableSlots: [], reason: 'disabled' };
+  }
+
+  // 0b. Past calendar days are not bookable
+  if (date.isBefore(dayjs(), 'day')) {
+    return { isBookable: false, availableSlots: [], reason: 'past' };
   }
 
   // 1. Check studio operating days

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { Item } from 'src/types/index';
 import type { Duration } from 'src/types/item';
 import { SectionChrome } from '@features/entities/studios/manage/sections/SectionChrome';
@@ -88,7 +89,27 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
 
   const handleSave = () => {
     if (isRemote) {
-      savePatch({ projectPricing, pricePer: 'project', price: projectPricing.basePrice ?? price });
+      const base = projectPricing.basePrice;
+      if (base == null || !(base > 0)) {
+        toast.error(t('form.pricing.invalidPrice', 'Price must be greater than zero'));
+        return;
+      }
+      if (projectPricing.revisionPrice != null && projectPricing.revisionPrice < 0) {
+        toast.error(t('form.pricing.invalidPrice', 'Price must be greater than zero'));
+        return;
+      }
+      savePatch({ projectPricing, pricePer: 'project', price: base });
+      return;
+    }
+    if (price == null || !(price > 0)) {
+      toast.error(t('form.pricing.invalidPrice', 'Price must be greater than zero'));
+      return;
+    }
+    if (
+      (blockDiscounts.eightHour != null && blockDiscounts.eightHour < 0) ||
+      (blockDiscounts.twelveHour != null && blockDiscounts.twelveHour < 0)
+    ) {
+      toast.error(t('form.pricing.invalidPrice', 'Price must be greater than zero'));
       return;
     }
     const patch: Partial<Item> = {
@@ -134,6 +155,8 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                     <input
                       id="item-price-base"
                       type="number"
+                      min={0.01}
+                      step="0.01"
                       className="studio-manage-input studio-manage-input--price"
                       value={projectPricing.basePrice ?? ''}
                       onChange={(e) =>
@@ -286,6 +309,8 @@ export const PricingSection = ({ item }: PricingSectionProps) => {
                     <input
                       id="item-price-amount"
                       type="number"
+                      min={0.01}
+                      step="0.01"
                       className="studio-manage-input studio-manage-input--price"
                       value={price ?? ''}
                       onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : undefined)}

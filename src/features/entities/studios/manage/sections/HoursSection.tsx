@@ -25,7 +25,7 @@ export const HoursSection = ({ studio }: HoursSectionProps) => {
   useEffect(() => {
     setAvailability(studio.studioAvailability || emptyAvailability);
     setHoursKey((k) => k + 1);
-  }, [studio._id]);
+  }, [studio._id, JSON.stringify(studio.studioAvailability)]);
 
   const baseline = studio.studioAvailability || emptyAvailability;
   const isDirty = JSON.stringify(availability) !== JSON.stringify(baseline);

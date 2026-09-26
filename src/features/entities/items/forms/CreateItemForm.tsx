@@ -266,8 +266,18 @@ export const CreateItemForm = () => {
                   type="number"
                   name="price"
                   placeholder="0.00"
+                  min={0.01}
+                  step="0.01"
                   value={price ?? ''}
-                  onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : undefined)}
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    if (raw === '') {
+                      setPrice(undefined);
+                      return;
+                    }
+                    const next = Number(raw);
+                    setPrice(Number.isFinite(next) ? next : undefined);
+                  }}
                   className="pricing-step__input pricing-step__input--with-prefix pricing-step__input--with-suffix"
                 />
                 <span className="pricing-step__input-suffix">
@@ -951,6 +961,12 @@ export const CreateItemForm = () => {
     // pricePer is already in English ('hour', 'session', etc.)
     formData.pricePer = pricePer;
     // Use the state value for price
+    if (serviceDeliveryType !== 'remote') {
+      if (price == null || !(price > 0)) {
+        toast.error(t('form.pricing.invalidPrice', { defaultValue: 'Price must be greater than zero' }));
+        return;
+      }
+    }
     formData.price = price;
     // Add block discounts if set
     if (blockDiscounts.eightHour || blockDiscounts.twelveHour) {
@@ -977,6 +993,10 @@ export const CreateItemForm = () => {
     formData.serviceDeliveryType = serviceDeliveryType;
 
     if (serviceDeliveryType === 'remote') {
+      if (projectPricing.basePrice == null || !(projectPricing.basePrice > 0)) {
+        toast.error(t('form.pricing.invalidPrice', { defaultValue: 'Price must be greater than zero' }));
+        return;
+      }
       // Only include projectPricing if it has values
       const hasProjectPricing =
         projectPricing.basePrice ||
@@ -987,6 +1007,7 @@ export const CreateItemForm = () => {
       if (hasProjectPricing) {
         formData.projectPricing = projectPricing;
       }
+      formData.price = projectPricing.basePrice;
       formData.acceptedFileTypes = [...REMOTE_PROJECT_ACCEPTED_FILE_TYPES];
       formData.maxFileSize = REMOTE_PROJECT_MAX_FILE_SIZE_MB;
       formData.maxFilesPerProject = REMOTE_PROJECT_MAX_FILES_PER_PROJECT;

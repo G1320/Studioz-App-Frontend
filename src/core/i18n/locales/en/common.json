@@ -8,10 +8,13 @@
     "cancel": "Cancel",
     "save": "Save",
     "undo": "Undo",
+    "next": "Next",
+    "back": "Back",
+    "close": "Close",
     "sign_out": "Sign Out",
     "sign_up": "Sign Up",
-    "log_in": "Login",
-    "loginSignup": "Login / Signup",
+    "log_in": "Log in",
+    "loginSignup": "Log in / Sign up",
     "log_out": "Logout",
     "cart": "Cart",
     "see_all": "See All",
@@ -112,6 +115,7 @@
     }
   },
   "hours": "Duration (hours)",
+  "hoursShort": "hours",
   "min": "min.",
   "quantity_labels": {
     "hour": "Hours",

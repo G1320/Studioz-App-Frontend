@@ -456,7 +456,7 @@ const MerchantDocumentsPage: React.FC = () => {
             className="merchant-documents__btn merchant-documents__btn--accent"
             onClick={() => setIsQuickChargeOpen(true)}
           >
-            {t('actions.quickCharge', 'סליקה מהירה')}
+            {t('actions.quickCharge', 'Quick Charge')}
           </button>
         </div>
       </div>

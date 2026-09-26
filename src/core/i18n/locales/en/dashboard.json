@@ -16,12 +16,15 @@
   },
   "setupBanner": {
     "text": "Complete your payment setup to start receiving bookings.",
-    "cta": "Complete payment setup",
-    "goLiveTitle": "Complete setup before going live:",
+    "cta": "Set up payments",
+    "goLiveTitle": "Before you go live",
+    "goLiveSubtitle": "Studios can’t accept paid bookings until payment setup is complete.",
+    "goLiveSubtitleReady": "Finish the remaining steps to publish and take bookings.",
+    "progress": "{{done}} of {{total}} complete",
     "checklist": {
-      "studio": "Have at least one active studio",
-      "service": "Have at least one active service",
-      "payment": "Complete payment setup"
+      "studio": "At least one active studio",
+      "service": "At least one active service",
+      "payment": "Payment setup"
     }
   },
   "tabs": {

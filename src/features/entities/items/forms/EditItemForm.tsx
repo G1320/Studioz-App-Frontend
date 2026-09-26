@@ -394,8 +394,18 @@ export const EditItemForm = () => {
                   type="number"
                   name="price"
                   placeholder="0.00"
+                  min={0.01}
+                  step="0.01"
                   value={price ?? ''}
-                  onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : undefined)}
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    if (raw === '') {
+                      setPrice(undefined);
+                      return;
+                    }
+                    const next = Number(raw);
+                    setPrice(Number.isFinite(next) ? next : undefined);
+                  }}
                   className="pricing-step__input pricing-step__input--with-prefix pricing-step__input--with-suffix"
                 />
                 <span className="pricing-step__input-suffix">

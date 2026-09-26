@@ -20,7 +20,13 @@ export const usePhoneVerification = ({ onVerificationSuccess, onVerificationFail
 
     try {
       const response = await sendOTP(phoneNumber);
-      return response.success;
+      if (!response?.success) {
+        const msg = response?.message || t('toasts.error.sendCodeFailed', 'Failed to send verification code');
+        setError(msg);
+        toast.error(msg);
+        return false;
+      }
+      return true;
     } catch (err: any) {
       // Handle rate limiting (429)
       if (err.response?.status === 429) {
@@ -28,9 +34,10 @@ export const usePhoneVerification = ({ onVerificationSuccess, onVerificationFail
         setError(t('toasts.error.rateLimitExceeded'));
         return false;
       }
-      
-      const errorMessage = err.response?.data?.error || 'Failed to send verification code';
+
+      const errorMessage = err.response?.data?.error || t('toasts.error.sendCodeFailed', 'Failed to send verification code');
       setError(errorMessage);
+      toast.error(errorMessage);
       return false;
     } finally {
       setIsLoading(false);

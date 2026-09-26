@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { PersonIcon, PhoneIcon, NotesIcon } from '@shared/components/icons';
+import { isValidIsraeliPhone } from '@shared/validation/schemas/base';
 
 interface ReservationDetailsFormProps {
   customerName: string;
@@ -36,7 +37,8 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
   const {
     sendVerificationCode,
     verifyCode,
-    isLoading: isVerifying
+    isLoading: isVerifying,
+    error: verificationError
   } = usePhoneVerification({
     onVerificationSuccess: () => {
       onPhoneVerified();
@@ -48,8 +50,12 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
       toast.error(t('form.customerDetails.phone.error'));
       return;
     }
+    if (!isValidIsraeliPhone(customerPhone)) {
+      toast.error(t('form.customerDetails.phone.invalid', 'Enter a valid phone number'));
+      return;
+    }
     const success = await sendVerificationCode(customerPhone);
-    if (success) {
+    if (success === true) {
       setCodeSent(true);
     }
   };
@@ -120,6 +126,12 @@ export const ReservationDetailsForm: React.FC<ReservationDetailsFormProps> = ({
               ? t('form.verification.buttons.sent')
               : t('form.verification.buttons.verify')}{' '}
         </button>
+      )}
+
+      {verificationError && !codeSent && (
+        <p className="field-error" role="alert">
+          {verificationError}
+        </p>
       )}
 
       {codeSent && !localStorage.getItem('isPhoneVerified') && (

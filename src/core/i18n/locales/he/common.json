@@ -8,6 +8,9 @@
     "cancel": "בטל",
     "save": "שמור",
     "undo": "בטל פעולה",
+    "next": "הבא",
+    "back": "חזור",
+    "close": "סגור",
     "sign_out": "התנתק",
     "sign_up": "הרשם",
     "log_in": "התחבר",
@@ -112,6 +115,7 @@
     }
   },
   "hours": "משך (שעות)",
+  "hoursShort": "שעות",
   "min": "מינ׳",
   "quantity_labels": {
     "hour": "שעות",

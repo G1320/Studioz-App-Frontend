@@ -1,5 +1,5 @@
-import React, { createContext, ReactNode, useContext } from 'react';
-import { useDropdown } from '@shared/hooks/utils';
+import React, { createContext, ReactNode, useContext, useEffect } from 'react';
+import { useDropdown, useBodyScrollLock } from '@shared/hooks/utils';
 import './styles/popup-dropdown.scss';
 
 // Context so any child can close the dropdown (e.g. NotificationItem on click)
@@ -17,6 +17,8 @@ interface PopupDropdownProps {
   minWidth?: string;
   maxWidth?: string;
   width?: string;
+  /** Lock page scroll while open (menu, notifications). Default false for small selects. */
+  lockScroll?: boolean;
 }
 
 /**
@@ -31,10 +33,29 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
   anchor,
   minWidth = '200px',
   maxWidth = '400px',
-  width = 'max-content'
+  width = 'max-content',
+  lockScroll = false
 }) => {
   const { isOpen, setIsOpen, toggle, dropdownRef, buttonRef, containerRef } = useDropdown();
   const close = () => setIsOpen(false);
+
+  useBodyScrollLock(lockScroll && isOpen);
+
+  // Escape closes + basic focus restore to trigger
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsOpen(false);
+        buttonRef.current?.focus?.();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, setIsOpen, buttonRef]);
 
   // Type assertions for refs
   const divDropdownRef = dropdownRef as React.RefObject<HTMLDivElement>;
@@ -42,8 +63,8 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
   const btnRef = buttonRef as React.RefObject<HTMLElement>;
 
   // Determine anchor class - use anchor prop if provided, otherwise fall back to align
-  const anchorClass = anchor 
-    ? `popup-dropdown--anchor-${anchor}` 
+  const anchorClass = anchor
+    ? `popup-dropdown--anchor-${anchor}`
     : `popup-dropdown--${align}`;
 
   // Clone trigger element to attach ref, onClick, and aria attributes
@@ -104,4 +125,3 @@ export const PopupDropdown: React.FC<PopupDropdownProps> = ({
     </div>
   );
 };
-

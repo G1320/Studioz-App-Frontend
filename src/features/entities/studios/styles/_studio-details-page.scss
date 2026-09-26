@@ -13,10 +13,31 @@
       }
     }
   }
+
   .item-card {
-    min-height: 8rem;
+    height: auto;
+    min-height: 10rem;
     footer {
       display: none;
+    }
+  }
+
+  // Let the service strip scroll horizontally without clipping cards or selecting text
+  .generic-carousel {
+    max-width: 100%;
+    touch-action: pan-x;
+    user-select: none;
+    -webkit-user-select: none;
+
+    .swiper {
+      overflow: visible;
+    }
+
+    .swiper-slide {
+      height: auto;
+      overflow: visible;
+      user-select: none;
+      -webkit-user-select: none;
     }
   }
 }

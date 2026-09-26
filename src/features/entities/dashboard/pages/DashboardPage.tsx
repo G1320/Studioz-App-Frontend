@@ -242,53 +242,60 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
         </motion.div>
       )}
 
-      {/* Sumit setup required banner — studios but no payment setup */}
-      {isStudioOwner && user && !user.sumitCompanyId && (
-        <div className="dashboard-page__setup-banner">
-          <p className="dashboard-page__setup-banner-text">
-            {t('setupBanner.text', 'Complete your payment setup to start receiving bookings.')}
-          </p>
-          <button
-            type="button"
-            className="dashboard-page__setup-banner-cta"
-            onClick={() => langNavigate('/onboarding')}
-          >
-            {t('setupBanner.cta', 'Complete payment setup')}
-            <ArrowForwardIcon />
-          </button>
-        </div>
-      )}
-
+      {/* Launch readiness — single enterprise panel (no duplicate payment CTAs) */}
       {showGoLiveChecklist && (
-        <div className="dashboard-page__setup-banner">
-          <p className="dashboard-page__setup-banner-text">
-            {t('setupBanner.goLiveTitle')}
-          </p>
+        <section className="dashboard-page__setup" aria-labelledby="dashboard-setup-title">
+          <header className="dashboard-page__setup-header">
+            <div className="dashboard-page__setup-heading">
+              <h2 id="dashboard-setup-title" className="dashboard-page__setup-title">
+                {t('setupBanner.goLiveTitle', 'Before you go live')}
+              </h2>
+              <p className="dashboard-page__setup-subtitle">
+                {hasPaymentSetup
+                  ? t('setupBanner.goLiveSubtitleReady', 'Finish the remaining steps to publish and take bookings.')
+                  : t(
+                      'setupBanner.goLiveSubtitle',
+                      'Studios can’t accept paid bookings until payment setup is complete.'
+                    )}
+              </p>
+            </div>
+            <p className="dashboard-page__setup-progress" aria-live="polite">
+              {t('setupBanner.progress', {
+                done: [hasActiveStudio, hasActiveService, hasPaymentSetup].filter(Boolean).length,
+                total: 3,
+                defaultValue: '{{done}} of {{total}} complete'
+              })}
+            </p>
+          </header>
+
           <ul className="dashboard-page__setup-checklist">
             <li className={hasActiveStudio ? 'is-done' : undefined}>
               <span className="dashboard-page__setup-check" aria-hidden="true" />
-              {t('setupBanner.checklist.studio')}
+              <span>{t('setupBanner.checklist.studio')}</span>
             </li>
             <li className={hasActiveService ? 'is-done' : undefined}>
               <span className="dashboard-page__setup-check" aria-hidden="true" />
-              {t('setupBanner.checklist.service')}
+              <span>{t('setupBanner.checklist.service')}</span>
             </li>
             <li className={hasPaymentSetup ? 'is-done' : undefined}>
               <span className="dashboard-page__setup-check" aria-hidden="true" />
-              {t('setupBanner.checklist.payment')}
+              <span>{t('setupBanner.checklist.payment')}</span>
             </li>
           </ul>
+
           {!hasPaymentSetup && (
-            <button
-              type="button"
-              className="dashboard-page__setup-banner-cta"
-              onClick={() => langNavigate('/onboarding')}
-            >
-              {t('setupBanner.cta')}
-              <ArrowForwardIcon />
-            </button>
+            <div className="dashboard-page__setup-actions">
+              <button
+                type="button"
+                className="dashboard-page__setup-cta"
+                onClick={() => langNavigate('/onboarding')}
+              >
+                {t('setupBanner.cta', 'Set up payments')}
+                <ArrowForwardIcon />
+              </button>
+            </div>
           )}
-        </div>
+        </section>
       )}
 
       {/* Tab Navigation for Studio Owners */}

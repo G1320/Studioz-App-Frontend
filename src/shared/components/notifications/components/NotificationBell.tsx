@@ -38,6 +38,7 @@ export const NotificationBell: React.FC = () => {
         anchor="bottom-right"
         minWidth="320px"
         maxWidth="420px"
+        lockScroll
       >
         <NotificationList />
       </PopupDropdown>

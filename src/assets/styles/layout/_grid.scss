@@ -5,17 +5,22 @@ main {
   gap: 0;
   max-width: 1540px;
   margin: 0 auto;
-  padding: 0 1rem 0.5rem;
+  padding-inline: 1rem;
   // Fixed header clearance — small breathing room above page headers
   padding-top: 3.75rem;
+  // Extra bottom space so last headings/rows can scroll clear of the fixed header
+  padding-bottom: 4.25rem;
   justify-items: center;
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
   min-height: 100vh;
+  scroll-margin-top: 3.75rem;
 
   @media screen and (min-width: 768px) {
     padding-top: 5.25rem; // 5rem header + 0.25rem
+    padding-bottom: 5.75rem;
+    scroll-margin-top: 5.25rem;
   }
 }
 
@@ -64,7 +69,7 @@ body:has(.item-manage-page) {
 @media screen and (max-width: 650px) {
   main {
     padding-top: 3.75rem;
-    padding-block-end: 3.5rem;
+    padding-block-end: 4.25rem;
   }
 
   body:has(.landing-page) main {
