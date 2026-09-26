@@ -326,6 +326,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             }
           />
           <Route
+            path="/:lang?/statistics"
+            element={<Navigate to={`/${i18n.language}/stats`} replace />}
+          />
+          <Route
             path="/:lang?/profile"
             element={
               <AnimatedRoute>

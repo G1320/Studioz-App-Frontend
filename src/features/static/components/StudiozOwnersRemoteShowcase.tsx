@@ -98,7 +98,9 @@ export const StudiozOwnersRemoteShowcase: React.FC = () => {
               transition={{ delay: 0.1, ease: 'easeOut' }}
             >
               <h2 className="remote-showcase__title">
-                {t('remoteShowcase.title_line1')} <br />
+                {t('remoteShowcase.title_line1')}
+                <br />
+                {' '}
                 <span className="remote-showcase__title-accent">{t('remoteShowcase.title_accent')}</span>
               </h2>
               <p className="remote-showcase__description">{t('remoteShowcase.description')}</p>

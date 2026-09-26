@@ -72,7 +72,8 @@
     "amount": "Amount",
     "status": "Status",
     "actions": "Actions",
-    "noResults": "No documents match your search"
+    "noResults": "No documents match your search",
+    "emptyHint": "Invoices and receipts will show up here once you charge a client."
   },
   "actions": {
     "download": "Download",

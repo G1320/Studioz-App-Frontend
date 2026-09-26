@@ -25,6 +25,8 @@
   "notAvailable": "Not Available",
   "viewStudio": "View Studio",
   "editStudio": "Edit Studio Details",
+  "editItem": "Edit Service",
+  "viewItem": "View Service",
   "calendar": "Calendar",
   "settings": "Settings",
   "itemsAndServices": "Items & Services",

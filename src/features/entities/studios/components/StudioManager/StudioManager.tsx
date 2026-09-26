@@ -364,14 +364,14 @@ const StudioCard: React.FC<StudioCardProps> = ({
                       <button 
                         className="studio-card__item-more"
                         onClick={() => langNavigate(`/item/${itemId}/manage`)}
-                        title={t('editItem', 'Edit Service')}
+                        title={t('editItem')}
                       >
                         <EditIcon />
                       </button>
                       <button 
                         className="studio-card__item-more"
                         onClick={() => window.open(`/studio/${studio._id}?item=${itemId}`, '_blank')}
-                        title={t('viewItem', 'View Service')}
+                        title={t('viewItem')}
                       >
                         <ExternalLinkIcon />
                       </button>

@@ -61,10 +61,12 @@ const useLazyLoad = (threshold = 0.1) => {
  * Main Owners Page Component for Studioz
  */
 const ForOwnersPage: React.FC = () => {
-  const { t } = useTranslation('forOwners');
+  const { t, i18n } = useTranslation('forOwners');
   const navigate = useLanguageNavigate();
   const location = useLocation();
   const { isDark } = useTheme();
+  const liveStudioLang = i18n.language?.startsWith('he') ? 'he' : 'en';
+  const liveStudioHref = `https://www.studioz.co.il/${liveStudioLang}/studio/6962554983fef09cc9b4f7db`;
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const hasTrackedViewContent = useRef(false);
 
@@ -221,6 +223,7 @@ const ForOwnersPage: React.FC = () => {
               <h2 className="owners-showcase__title">
                 {t('showcase.title_part1')} <span className="owners-hero__accent">{t('showcase.title_accent')}</span>
                 <br />
+                {' '}
                 {t('showcase.title_part2')}
               </h2>
               <p className="owners-showcase__description">{t('showcase.description')}</p>
@@ -248,7 +251,7 @@ const ForOwnersPage: React.FC = () => {
               </div>
 
               <a
-                href="https://www.studioz.co.il/he/studio/6962554983fef09cc9b4f7db"
+                href={liveStudioHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="owners-showcase__live-link"

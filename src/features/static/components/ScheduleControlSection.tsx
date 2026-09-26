@@ -86,7 +86,9 @@ export const ScheduleControlSection: React.FC = () => {
               transition={{ duration: 0.6 }}
             >
               <h2 className="schedule-control__title">
-                {t('schedule_control.title_line1', 'קבל הזמנות')}<br />
+                {t('schedule_control.title_line1', 'קבל הזמנות')}
+                <br />
+                {' '}
                 <span className="schedule-control__title-accent">
                   {t('schedule_control.title_line2', 'רק כשמתאים לך')}
                 </span>

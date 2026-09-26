@@ -12,11 +12,16 @@ interface AmenitiesSectionProps {
 
 function equipmentToRecord(equipment?: EquipmentCategory[] | string[]): CategorizedEquipment {
   if (!equipment?.length) return {};
-  if (typeof equipment[0] === 'string') {
+  const first = equipment[0] as unknown;
+  if (typeof first === 'string') {
     return { other: (equipment as string[]).join('\n') };
   }
   return (equipment as EquipmentCategory[]).reduce((acc, cat) => {
-    acc[cat.category] = cat.items;
+    if (!cat || typeof cat !== 'object') return acc;
+    const category = String(cat.category || '').trim();
+    const items = typeof cat.items === 'string' ? cat.items : '';
+    if (!category) return acc;
+    acc[category] = items;
     return acc;
   }, {} as CategorizedEquipment);
 }

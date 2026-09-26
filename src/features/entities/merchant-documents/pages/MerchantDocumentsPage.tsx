@@ -638,7 +638,7 @@ const MerchantDocumentsPage: React.FC = () => {
                     <div className="documents-table__empty-inner">
                       <p className="documents-table__empty-title">{t('table.noResults')}</p>
                       <p className="documents-table__empty-hint">
-                        {t('table.emptyHint', 'Invoices and receipts will show up here once you charge a client.')}
+                        {t('table.emptyHint')}
                       </p>
                     </div>
                   </td>

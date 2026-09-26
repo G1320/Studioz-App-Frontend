@@ -4,25 +4,25 @@ import { FieldError } from '../types';
 
 /**
  * Default i18n key mapping for Zod error codes
- * Maps Zod error codes to translation keys in forms.json
+ * Maps Zod error codes to translation keys in forms.json (under form.validation)
  */
 export const ZOD_ERROR_I18N_MAP: Record<string, string> = {
-  invalid_type: 'validation.errors.invalidType',
-  invalid_literal: 'validation.errors.invalidLiteral',
-  unrecognized_keys: 'validation.errors.unrecognizedKeys',
-  invalid_union: 'validation.errors.invalidUnion',
-  invalid_union_discriminator: 'validation.errors.invalidUnionDiscriminator',
-  invalid_enum_value: 'validation.errors.invalidEnumValue',
-  invalid_arguments: 'validation.errors.invalidArguments',
-  invalid_return_type: 'validation.errors.invalidReturnType',
-  invalid_date: 'validation.errors.invalidDate',
-  custom: 'validation.errors.custom',
-  invalid_string: 'validation.errors.invalidString',
-  too_small: 'validation.errors.tooSmall',
-  too_big: 'validation.errors.tooBig',
-  invalid_intersection_types: 'validation.errors.invalidIntersectionTypes',
-  not_multiple_of: 'validation.errors.notMultipleOf',
-  not_finite: 'validation.errors.notFinite'
+  invalid_type: 'form.validation.errors.invalidType',
+  invalid_literal: 'form.validation.errors.invalidLiteral',
+  unrecognized_keys: 'form.validation.errors.unrecognizedKeys',
+  invalid_union: 'form.validation.errors.invalidUnion',
+  invalid_union_discriminator: 'form.validation.errors.invalidUnionDiscriminator',
+  invalid_enum_value: 'form.validation.errors.invalidEnumValue',
+  invalid_arguments: 'form.validation.errors.invalidArguments',
+  invalid_return_type: 'form.validation.errors.invalidReturnType',
+  invalid_date: 'form.validation.errors.invalidDate',
+  custom: 'form.validation.errors.custom',
+  invalid_string: 'form.validation.errors.invalidString',
+  too_small: 'form.validation.errors.tooSmall',
+  too_big: 'form.validation.errors.tooBig',
+  invalid_intersection_types: 'form.validation.errors.invalidIntersectionTypes',
+  not_multiple_of: 'form.validation.errors.notMultipleOf',
+  not_finite: 'form.validation.errors.notFinite'
 };
 
 /**
@@ -32,7 +32,7 @@ export const ZOD_ERROR_I18N_MAP: Record<string, string> = {
  * @returns The i18n translation key
  */
 export function getI18nKeyForZodCode(code: string): string {
-  return ZOD_ERROR_I18N_MAP[code] || 'validation.errors.generic';
+  return ZOD_ERROR_I18N_MAP[code] || 'form.validation.errors.generic';
 }
 
 /**
@@ -48,18 +48,18 @@ export function formatZodIssueWithI18n(
   t: (key: string, options?: any) => string,
   fieldName?: string
 ): string {
-  // Try field-specific error message first (e.g., validation.fields.name.he.invalidType)
+  // Try field-specific error message first (e.g., form.validation.fields.name.he.invalidType)
   if (fieldName) {
-    const fieldSpecificKey = `validation.fields.${fieldName}.${issue.code}`;
+    const fieldSpecificKey = `form.validation.fields.${fieldName}.${issue.code}`;
     const fieldSpecificMessage = t(fieldSpecificKey, { defaultValue: '' });
     if (fieldSpecificMessage && fieldSpecificMessage !== fieldSpecificKey) {
       return interpolateMessage(fieldSpecificMessage, issue);
     }
   }
 
-  // Try generic field error (e.g., validation.fields.name.he.error)
+  // Try generic field error (e.g., form.validation.fields.name.he.error)
   if (fieldName) {
-    const genericFieldKey = `validation.fields.${fieldName}.error`;
+    const genericFieldKey = `form.validation.fields.${fieldName}.error`;
     const genericFieldMessage = t(genericFieldKey, { defaultValue: '' });
     if (genericFieldMessage && genericFieldMessage !== genericFieldKey) {
       return interpolateMessage(genericFieldMessage, issue);
@@ -68,9 +68,10 @@ export function formatZodIssueWithI18n(
 
   // Handle invalid_enum_value errors for days field with a nicer message
   if ((issue.code as string) === 'invalid_enum_value' && fieldName) {
-    // Handle days field specifically
     if (fieldName === 'studioAvailability.days' || fieldName === 'days' || fieldName.includes('days')) {
-      return 'Please select at least one day when your studio is open';
+      return t('form.validation.fields.studioAvailability.days.error', {
+        defaultValue: 'Please select at least one day when your studio is open'
+      });
     }
   }
 
@@ -81,42 +82,53 @@ export function formatZodIssueWithI18n(
     if (parts.length === 2) {
       const [field, lang] = parts;
       if (lang === 'en' || lang === 'he') {
+        const langKey = `form.validation.fields.${field}.${lang}.error`;
+        const langMessage = t(langKey, { defaultValue: '' });
+        if (langMessage && langMessage !== langKey) {
+          return langMessage;
+        }
         const langName = lang === 'en' ? 'English' : 'Hebrew';
         return `Please enter the ${field} in ${langName}`;
       }
     }
 
-    // Handle common required fields with nicer messages
+    // Handle common required fields with nicer messages (already tried field keys above)
     if (fieldName === 'address') {
-      return 'Address is required';
+      return t('form.validation.fields.address.error', { defaultValue: 'Address is required' });
     }
     if (fieldName === 'phone') {
-      return 'Phone number is required';
+      return t('form.validation.fields.phone.error', { defaultValue: 'Phone number is required' });
     }
-    if (fieldName === 'coverImage') {
-      return 'At least one image is required';
-    }
-    if (fieldName === 'galleryImages') {
-      return 'At least one image is required';
+    if (fieldName === 'coverImage' || fieldName === 'galleryImages') {
+      return t('form.validation.fields.galleryImages.too_small', {
+        defaultValue: t('form.validation.fields.coverImage.error', {
+          defaultValue: 'At least one image is required'
+        })
+      });
     }
     if (fieldName === 'maxOccupancy') {
-      if (issue.code === 'invalid_type') {
-        const invalidTypeIssue = issue as { received?: string };
-        if (invalidTypeIssue.received === 'string') {
-          return 'Max occupancy must be a number';
-        }
+      const invalidTypeIssue = issue as { received?: string };
+      if (invalidTypeIssue.received === 'string') {
+        return t('form.validation.fields.maxOccupancy.too_small', {
+          defaultValue: 'Max occupancy must be a number'
+        });
       }
-      return 'Max occupancy is required';
+      return t('form.validation.fields.maxOccupancy.error', {
+        defaultValue: 'Max occupancy is required'
+      });
     }
     if (fieldName === 'isSmokingAllowed' || fieldName === 'isWheelchairAccessible') {
-      if (issue.code === 'invalid_type') {
-        const invalidTypeIssue = issue as { received?: string };
-        if (invalidTypeIssue.received === 'string') {
-          return 'This field must be a valid selection';
-        }
-      }
-      return 'This field is required';
+      return t(`form.validation.fields.${fieldName}.error`, {
+        defaultValue: 'This field is required'
+      });
     }
+  }
+
+  // Image array too_small should never fall through to English Zod defaults
+  if (issue.code === 'too_small' && (fieldName === 'galleryImages' || fieldName === 'coverImage')) {
+    return t('form.validation.fields.galleryImages.too_small', {
+      defaultValue: 'At least one image is required'
+    });
   }
 
   // Use Zod error code mapping
@@ -198,7 +210,7 @@ export function useZodI18n() {
  */
 export function formatFieldErrorWithI18n(fieldError: FieldError, t: (key: string, options?: any) => string): string {
   // Try to get field-specific error
-  const fieldSpecificKey = `validation.fields.${fieldError.path}.error`;
+  const fieldSpecificKey = `form.validation.fields.${fieldError.path}.error`;
   const fieldSpecificMessage = t(fieldSpecificKey, { defaultValue: '' });
 
   if (fieldSpecificMessage) {

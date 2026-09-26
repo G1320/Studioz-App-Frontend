@@ -4,13 +4,15 @@ import { StudioResponse } from 'src/types/index';
 
 export const useStudio = (studioId: string) => {
   const queryClient = useQueryClient();
-  const { data, isLoading, error, refetch } = useQuery<StudioResponse>({
+  const { data, isLoading, error, refetch, isFetching } = useQuery<StudioResponse>({
     queryKey: ['studio', studioId],
     staleTime: 5 * 60 * 1000,
     queryFn: () => getStudioById(studioId),
     placeholderData: keepPreviousData,
-    initialData: () => queryClient.getQueryData<StudioResponse>(['studio', studioId])
+    initialData: () => queryClient.getQueryData<StudioResponse>(['studio', studioId]),
+    // Refetch failures (e.g. 429) must not clear the manage UI
+    throwOnError: false
   });
 
-  return { data, isLoading, error, refetch };
+  return { data, isLoading, error, refetch, isFetching };
 };

@@ -47,11 +47,30 @@ export const useUpdateStudioMutation = (studioId: string) => {
 /** Section saves in the manage hub — PATCH only changed fields, stay on page. */
 export const useSaveStudioMutation = (studioId: string) => {
   const { t } = useTranslation('common');
+  const queryClient = useQueryClient();
 
   return useMutationHandler<Studio, Partial<Studio>>({
     mutationFn: (patch) => patchStudio(studioId, patch),
     successMessage: t('toasts.success.studioUpdated'),
-    invalidateQueries: [{ queryKey: 'studio', targetId: studioId }, { queryKey: 'studios' }]
+    // Avoid invalidating ['studio'] (forces GET that 429s and blanks manage UI).
+    // Patch response is authoritative for the open studio.
+    invalidateQueries: [{ queryKey: 'studios' }],
+    onSuccess: (updated) => {
+      queryClient.setQueryData<StudioResponse>(['studio', studioId], (prev) => {
+        if (!prev) {
+          return {
+            currStudio: updated,
+            prevStudio: null,
+            nextStudio: null,
+            vendorCredentials: null
+          } as StudioResponse;
+        }
+        return {
+          ...prev,
+          currStudio: { ...prev.currStudio, ...updated, _id: updated._id || prev.currStudio._id }
+        };
+      });
+    }
   });
 };
 

@@ -17,11 +17,14 @@ const ItemManagePage = () => {
 
   const titleName = item?.name?.en || item?.name?.he || t('manage.item.untitled', 'Service');
 
-  const ownerId = studio?.createdBy
-    ? String(studio.createdBy)
-    : item?.createdBy || item?.sellerId
-      ? String(item.createdBy || item.sellerId)
-      : '';
+  const ownerId =
+    typeof studio?.createdBy === 'object' && studio?.createdBy && '_id' in (studio.createdBy as object)
+      ? String((studio.createdBy as { _id: string })._id)
+      : studio?.createdBy
+        ? String(studio.createdBy)
+        : item?.createdBy || item?.sellerId
+          ? String(item.createdBy || item.sellerId)
+          : '';
   const isOwner = Boolean(user?._id && ownerId && user._id === ownerId);
   const lang = (i18n.language || 'en').split('-')[0];
   const ownershipReady = !isLoading && !studioLoading && !!item && (!studioId || !!studio);
@@ -34,6 +37,9 @@ const ItemManagePage = () => {
     return <Navigate to={`/${lang}/dashboard`} replace />;
   }
 
+  const showShell = Boolean(item && isOwner);
+  const showFatalError = Boolean(error && !item);
+
   return (
     <section className="item-manage-page">
       <Helmet>
@@ -42,19 +48,19 @@ const ItemManagePage = () => {
         </title>
       </Helmet>
 
-      {(isLoading || (studioId && studioLoading)) && (
+      {(isLoading || (studioId && studioLoading)) && !item && (
         <div className="studio-manage-page__loading">
           {t('manage.item.loading', 'Loading service…')}
         </div>
       )}
 
-      {!!error && (
+      {showFatalError && (
         <div className="studio-manage-page__error">
           {t('manage.item.loadError', 'Could not load this service.')}
         </div>
       )}
 
-      {!isLoading && !error && item && isOwner && <ItemManageShell item={item} />}
+      {showShell && <ItemManageShell item={item!} />}
 
       {!isLoading && !error && !item && (
         <div className="studio-manage-page__error">
