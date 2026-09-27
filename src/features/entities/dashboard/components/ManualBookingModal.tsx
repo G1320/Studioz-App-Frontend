@@ -5,7 +5,7 @@
  * Features:
  * - Select existing service OR create custom service
  * - Availability-aware date/time selection for existing services
- * - Customer details (no phone verification required)
+ * - Customer details (phone required, email optional)
  * - Optional payment integration (Book Only vs Book & Charge)
  * - Creates reservation and blocks time slot
  */
@@ -248,10 +248,11 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
 
   const canProceedFromCustomer = useMemo(() => {
     const nameOk = customerData.name.trim().length > 0;
-    const emailOk = customerData.email.trim().length > 0;
     const phone = customerData.phone?.trim() || '';
-    const phoneOk = !phone || isValidIsraeliPhone(phone);
-    return nameOk && emailOk && phoneOk;
+    const phoneOk = phone.length > 0 && isValidIsraeliPhone(phone);
+    const email = customerData.email.trim();
+    const emailOk = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return nameOk && phoneOk && emailOk;
   }, [customerData]);
 
   // Navigation
@@ -376,8 +377,8 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
         singleUseToken,
         customerInfo: {
           name: customerData.name,
-          email: customerData.email,
-          phone: customerData.phone || undefined
+          email: customerData.email.trim() || undefined,
+          phone: customerData.phone
         },
         items: [{
           description: serviceType === 'custom' 
@@ -688,7 +689,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
               </div>
 
               <div className="manual-booking-modal__field">
-                <label>{t('dashboard:manualBooking.customerEmail', 'אימייל')} *</label>
+                <label>{t('dashboard:manualBooking.customerEmail', 'אימייל')}</label>
                 <input
                   type="email"
                   value={customerData.email}
@@ -698,12 +699,13 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
               </div>
 
               <div className="manual-booking-modal__field">
-                <label>{t('dashboard:manualBooking.customerPhone', 'טלפון')}</label>
+                <label>{t('dashboard:manualBooking.customerPhone', 'טלפון')} *</label>
                 <input
                   type="tel"
                   value={customerData.phone}
                   onChange={(e) => handleCustomerChange('phone', e.target.value)}
                   placeholder="050-0000000"
+                  required
                 />
               </div>
 

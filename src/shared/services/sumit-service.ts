@@ -536,8 +536,8 @@ export const sumitService = {
     singleUseToken: string;
     customerInfo: {
       name: string;
-      email: string;
-      phone?: string;
+      email?: string;
+      phone: string;
     };
     items: Array<{
       description: string;
