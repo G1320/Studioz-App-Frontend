@@ -11,6 +11,7 @@ import { sumitService } from '@shared/services';
 import { SumitPaymentForm } from '@shared/components';
 import { prepareFormData } from '@features/entities/payments/sumit/utils';
 import { useUserContext } from '@core/contexts';
+import { isValidIsraeliPhone } from '@shared/validation/schemas/base';
 
 interface LineItem {
   description: string;
@@ -110,8 +111,14 @@ export const QuickChargeModal: React.FC<QuickChargeModalProps> = ({
       setError(t('quickCharge.errors.nameRequired', 'Customer name is required'));
       return false;
     }
-    if (!formData.customerEmail.trim()) {
-      setError(t('quickCharge.errors.emailRequired', 'Customer email is required'));
+    const phone = formData.customerPhone.trim();
+    if (!phone || !isValidIsraeliPhone(phone)) {
+      setError(t('quickCharge.errors.phoneRequired', 'A valid Israeli phone number is required'));
+      return false;
+    }
+    const email = formData.customerEmail.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError(t('quickCharge.errors.emailInvalid', 'Enter a valid email address'));
       return false;
     }
     if (!formData.items.some(item => item.description.trim() && item.price > 0)) {
@@ -149,8 +156,8 @@ export const QuickChargeModal: React.FC<QuickChargeModalProps> = ({
         singleUseToken,
         customerInfo: {
           name: formData.customerName,
-          email: formData.customerEmail,
-          phone: formData.customerPhone || undefined
+          email: formData.customerEmail.trim() || undefined,
+          phone: formData.customerPhone.trim()
         },
         items: formData.items.filter(item => item.description.trim() && item.price > 0),
         description: formData.items[0]?.description || 'Quick Charge',
@@ -248,7 +255,7 @@ export const QuickChargeModal: React.FC<QuickChargeModalProps> = ({
                   />
                 </div>
                 <div className="quick-charge-modal__field">
-                  <label htmlFor="qc-customerEmail">{t('quickCharge.customerEmail', 'אימייל')} *</label>
+                  <label htmlFor="qc-customerEmail">{t('quickCharge.customerEmail', 'אימייל')}</label>
                   <input
                     id="qc-customerEmail"
                     type="email"
@@ -260,13 +267,14 @@ export const QuickChargeModal: React.FC<QuickChargeModalProps> = ({
               </div>
               <div className="quick-charge-modal__row">
                 <div className="quick-charge-modal__field">
-                  <label htmlFor="qc-customerPhone">{t('quickCharge.customerPhone', 'טלפון')}</label>
+                  <label htmlFor="qc-customerPhone">{t('quickCharge.customerPhone', 'טלפון')} *</label>
                   <input
                     id="qc-customerPhone"
                     type="tel"
                     value={formData.customerPhone}
                     onChange={(e) => handleInputChange('customerPhone', e.target.value)}
                     placeholder="050-0000000"
+                    required
                   />
                 </div>
               </div>
