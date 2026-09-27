@@ -1,7 +1,8 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
   BarChart3,
@@ -57,8 +58,30 @@ interface ProductVisualProps {
 }
 
 function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false }: ProductVisualProps) {
+  const reduceMotion = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const isDual = Boolean(mobileSrc);
+  const [mobileParallax, setMobileParallax] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    const mq = window.matchMedia('(max-width: 680px)');
+    const sync = () => setMobileParallax(mq.matches && !reduceMotion && isDual);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, [reduceMotion, isDual]);
+
+  const { scrollYProgress } = useScroll({
+    target: rootRef,
+    offset: ['start end', 'end start'],
+    layoutEffect: false
+  });
+  const phoneY = useTransform(scrollYProgress, [0, 0.45, 1], [48, 8, -40]);
+
   return (
     <div
+      ref={rootRef}
       className={`features-page__product-visual ${mobileSrc ? 'features-page__product-visual--dual' : ''} ${
         hero ? 'features-page__product-visual--hero' : ''
       }`}
@@ -71,14 +94,22 @@ function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false
         </div>
         <img src={desktopSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
       </div>
-      {mobileSrc && (
-        <div className="features-page__phone-frame">
-          <div className="features-page__phone-screen">
-            <IphoneStatusChrome />
-            <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+      {mobileSrc &&
+        (mobileParallax ? (
+          <motion.div className="features-page__phone-frame" style={{ y: phoneY }}>
+            <div className="features-page__phone-screen">
+              <IphoneStatusChrome />
+              <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+            </div>
+          </motion.div>
+        ) : (
+          <div className="features-page__phone-frame">
+            <div className="features-page__phone-screen">
+              <IphoneStatusChrome />
+              <img src={mobileSrc} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+            </div>
           </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 }

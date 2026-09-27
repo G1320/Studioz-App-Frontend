@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
   BarChart3,
@@ -110,6 +110,7 @@ function ProductVisual({
   const rotating = desktopSources.length > 1;
   const [activeIndex, setActiveIndex] = useState(0);
   const [fullyInView, setFullyInView] = useState(false);
+  const [mobileParallax, setMobileParallax] = useState(false);
   const isPhone = layout === 'phone' || Boolean(mobileSrc && desktopSources.length === 0);
   const isWide = layout === 'wide';
   const isOverlap =
@@ -117,6 +118,23 @@ function ProductVisual({
     Boolean(mobileSrc) &&
     desktopSources.length > 0 &&
     !rotating;
+
+  // Parallax + Samply mobile composition only — desktop keeps the original dual layout.
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    const mq = window.matchMedia('(max-width: 720px)');
+    const sync = () => setMobileParallax(mq.matches && !reduceMotion && isOverlap);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, [reduceMotion, isOverlap]);
+
+  const { scrollYProgress } = useScroll({
+    target: rootRef,
+    offset: ['start end', 'end start'],
+    layoutEffect: false
+  });
+  const phoneY = useTransform(scrollYProgress, [0, 0.45, 1], [48, 8, -40]);
 
   useEffect(() => {
     if (!rotating || reduceMotion) return;
@@ -180,15 +198,30 @@ function ProductVisual({
         </div>
       ) : null}
       {mobileSrc && (isOverlap || isPhone) ? (
-        <div className="preview-landing__shot preview-landing__shot--mobile">
-          {statusChrome ? <IphoneStatusChrome /> : null}
-          <img
-            src={mobileSrc}
-            alt={desktopSources.length > 0 ? '' : alt}
-            loading={eager ? 'eager' : 'lazy'}
-            decoding="async"
-          />
-        </div>
+        isOverlap && mobileParallax ? (
+          <motion.div
+            className="preview-landing__shot preview-landing__shot--mobile"
+            style={{ y: phoneY }}
+          >
+            {statusChrome ? <IphoneStatusChrome /> : null}
+            <img
+              src={mobileSrc}
+              alt=""
+              loading={eager ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </motion.div>
+        ) : (
+          <div className="preview-landing__shot preview-landing__shot--mobile">
+            {statusChrome ? <IphoneStatusChrome /> : null}
+            <img
+              src={mobileSrc}
+              alt={desktopSources.length > 0 ? '' : alt}
+              loading={eager ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </div>
+        )
       ) : null}
     </div>
   );

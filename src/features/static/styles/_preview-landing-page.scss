@@ -252,16 +252,20 @@
   }
 
   @media (max-width: 720px) {
+    // Samply-like mobile dual: wider desktop plane, larger phone hanging off the end edge.
     &__product-visual--dual {
-      // End room for phone + bottom padding so overhang never covers the next section's copy.
-      padding-inline-end: clamp(4.5rem, 28%, 8rem);
-      padding-block-end: clamp(2.75rem, 18vw, 4.5rem);
+      padding-inline-end: clamp(3.25rem, 20vw, 5.75rem);
+      // Room for phone overhang + scroll parallax travel.
+      padding-block-end: clamp(4.75rem, 30vw, 7.5rem);
     }
 
     &__shot--mobile {
-      // Keep phone inside the padded visual — no negative overhang into following subheads.
-      bottom: 0;
-      width: clamp(5.5rem, 30%, 9.5rem);
+      inset-inline-end: clamp(-0.35rem, -1.2vw, 0rem);
+      // Drop the phone so it straddles the desktop bottom edge (Samply).
+      bottom: clamp(-3.75rem, -18vw, -2.5rem);
+      width: clamp(7.25rem, 36vw, 10.25rem);
+      box-shadow: 0 1.35rem 2.75rem rgb(0 0 0 / 38%);
+      will-change: transform;
     }
 
     &__product-visual--mobile-only .preview-landing__shot--mobile {
@@ -271,6 +275,12 @@
       > img {
         max-height: 24rem;
       }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__shot--mobile {
+      will-change: auto;
     }
   }
 
@@ -494,12 +504,13 @@
     }
 
     @media (max-width: 720px) {
-      padding-inline-end: clamp(4.75rem, 30%, 8.5rem);
-      padding-block-end: clamp(2.75rem, 18vw, 4.5rem);
+      padding-inline-end: clamp(3.5rem, 22vw, 6rem);
+      padding-block-end: clamp(4.75rem, 30vw, 7.5rem);
 
       .preview-landing__shot--mobile {
-        bottom: 0;
-        width: clamp(5.75rem, 30%, 9.75rem);
+        inset-inline-end: clamp(-0.35rem, -1.2vw, 0rem);
+        bottom: clamp(-3.75rem, -18vw, -2.5rem);
+        width: clamp(7.5rem, 36vw, 10.5rem);
       }
     }
   }

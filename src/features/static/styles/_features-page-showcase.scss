@@ -555,6 +555,18 @@
       padding-top: 7rem;
     }
 
+    .features-page__product-visual--dual {
+      padding-inline-end: clamp(3.5rem, 22vw, 6.5rem);
+      padding-block-end: clamp(4.5rem, 28vw, 7rem);
+    }
+
+    .features-page__phone-frame {
+      inset-inline-end: clamp(-0.25rem, -1vw, 0rem);
+      inset-block-end: clamp(-2.75rem, -14vw, -1.75rem);
+      width: min(36%, 10.25rem);
+      will-change: transform;
+    }
+
     .features-page__title {
       max-width: 100%;
       font-size: clamp(2.4rem, 11.2vw, 3.6rem);
