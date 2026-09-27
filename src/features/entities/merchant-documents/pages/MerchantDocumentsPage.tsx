@@ -461,47 +461,67 @@ const MerchantDocumentsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Stats Overview */}
+      {/* Stats Overview — dense enterprise KPIs (label-first, icon top-right) */}
       <div className="merchant-documents__stats">
-        <div className="stat-card">
-          <div className="stat-card__icon stat-card__icon--primary">
-            <FileCheck size={16} />
+        <article className="merchant-documents__stat">
+          <div className="merchant-documents__stat-top">
+            <div className="merchant-documents__stat-heading">
+              <h3 className="merchant-documents__stat-label">{t('stats.totalRevenue')}</h3>
+              <p className="merchant-documents__stat-hint">{t('stats.totalRevenueHint')}</p>
+            </div>
+            <span className="merchant-documents__stat-icon merchant-documents__stat-icon--primary" aria-hidden>
+              <FileCheck size={14} />
+            </span>
           </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">₪{stats.totalRevenue.toLocaleString()}</div>
-            <div className="stat-card__label">{t('stats.totalRevenue')}</div>
-          </div>
-        </div>
+          <p className="merchant-documents__stat-value" dir="ltr">
+            ₪{stats.totalRevenue.toLocaleString()}
+          </p>
+        </article>
 
-        <div className="stat-card">
-          <div className="stat-card__icon stat-card__icon--warning">
-            <FileClock size={16} />
+        <article className="merchant-documents__stat">
+          <div className="merchant-documents__stat-top">
+            <div className="merchant-documents__stat-heading">
+              <h3 className="merchant-documents__stat-label">{t('stats.pendingAmount')}</h3>
+              <p className="merchant-documents__stat-hint merchant-documents__stat-hint--empty">{'\u00A0'}</p>
+            </div>
+            <span className="merchant-documents__stat-icon merchant-documents__stat-icon--warning" aria-hidden>
+              <FileClock size={14} />
+            </span>
           </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">₪{stats.pendingAmount.toLocaleString()}</div>
-            <div className="stat-card__label">{t('stats.pendingAmount')}</div>
-          </div>
-        </div>
+          <p className="merchant-documents__stat-value" dir="ltr">
+            ₪{stats.pendingAmount.toLocaleString()}
+          </p>
+        </article>
 
-        <div className="stat-card">
-          <div className="stat-card__icon stat-card__icon--danger">
-            <AlertCircle size={16} />
+        <article className="merchant-documents__stat">
+          <div className="merchant-documents__stat-top">
+            <div className="merchant-documents__stat-heading">
+              <h3 className="merchant-documents__stat-label">{t('stats.overdueAmount')}</h3>
+              <p className="merchant-documents__stat-hint merchant-documents__stat-hint--empty">{'\u00A0'}</p>
+            </div>
+            <span className="merchant-documents__stat-icon merchant-documents__stat-icon--danger" aria-hidden>
+              <AlertCircle size={14} />
+            </span>
           </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">₪{stats.overdueAmount.toLocaleString()}</div>
-            <div className="stat-card__label">{t('stats.overdueAmount')}</div>
-          </div>
-        </div>
+          <p className="merchant-documents__stat-value" dir="ltr">
+            ₪{stats.overdueAmount.toLocaleString()}
+          </p>
+        </article>
 
-        <div className="stat-card">
-          <div className="stat-card__icon stat-card__icon--neutral">
-            <FileText size={16} />
+        <article className="merchant-documents__stat">
+          <div className="merchant-documents__stat-top">
+            <div className="merchant-documents__stat-heading">
+              <h3 className="merchant-documents__stat-label">{t('stats.totalDocs')}</h3>
+              <p className="merchant-documents__stat-hint merchant-documents__stat-hint--empty">{'\u00A0'}</p>
+            </div>
+            <span className="merchant-documents__stat-icon merchant-documents__stat-icon--neutral" aria-hidden>
+              <FileText size={14} />
+            </span>
           </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">{stats.totalDocs}</div>
-            <div className="stat-card__label">{t('stats.totalDocs')}</div>
-          </div>
-        </div>
+          <p className="merchant-documents__stat-value" dir="ltr">
+            {stats.totalDocs}
+          </p>
+        </article>
       </div>
 
       {/* Filters Bar */}

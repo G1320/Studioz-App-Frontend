@@ -45,10 +45,11 @@
   "title": "Document Management",
   "subtitle": "Manage your studio invoices, receipts, and contracts in one place.",
   "stats": {
-    "totalRevenue": "Total Revenue (Month)",
-    "pendingAmount": "Pending Payment",
+    "totalRevenue": "Revenue",
+    "totalRevenueHint": "This month",
+    "pendingAmount": "Pending",
     "overdueAmount": "Overdue",
-    "totalDocs": "Documents Issued"
+    "totalDocs": "Documents"
   },
   "status": {
     "all": "All Statuses",

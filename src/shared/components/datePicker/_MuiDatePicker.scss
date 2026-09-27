@@ -220,7 +220,7 @@
     }
 
     &.Mui-disabled {
-      color: var(--text-disabled) !important;
+      color: var(--text-muted) !important;
     }
   }
 }
@@ -281,18 +281,17 @@
     }
   }
 
-  // Disabled / outside current month
+  // Disabled / outside current month — readable but quieter than selectable days
   &.MuiPickersDay-dayOutsideMonth,
   &.Mui-disabled {
-    color: var(--text-disabled) !important;
+    color: var(--text-tertiary) !important;
     background-color: transparent !important;
-    opacity: 0.4;
+    opacity: 0.85;
     cursor: not-allowed;
-    
-    // Better distinction in light mode
+
     [data-theme='light'] & {
       color: #a8a8a8 !important;
-      opacity: 0.5;
+      opacity: 0.55;
       text-decoration: line-through;
       text-decoration-color: rgba(0, 0, 0, 0.2);
     }

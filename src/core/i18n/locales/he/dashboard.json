@@ -81,7 +81,26 @@
     "project": "פרויקט: {{title}}",
     "anonymousClient": "אנונימי",
     "viewReservations": "צפה בהזמנות",
-    "viewProjects": "צפה בפרויקטים"
+    "viewProjects": "צפה בפרויקטים",
+    "columns": {
+      "client": "לקוח",
+      "detail": "פרטים",
+      "when": "מתי",
+      "status": "סטטוס",
+      "amount": "סכום"
+    },
+    "type": {
+      "booking": "הזמנה",
+      "project": "פרויקט"
+    },
+    "reservationStatus": {
+      "pending": "ממתין",
+      "confirmed": "מאושר",
+      "expired": "פג תוקף",
+      "cancelled": "בוטל",
+      "rejected": "נדחה",
+      "payment_failed": "תשלום נכשל"
+    }
   },
   "manualBooking": {
     "title": "הזמנה חדשה",

@@ -81,7 +81,26 @@
     "project": "Project: {{title}}",
     "anonymousClient": "Anonymous",
     "viewReservations": "View Reservations",
-    "viewProjects": "View Projects"
+    "viewProjects": "View Projects",
+    "columns": {
+      "client": "Client",
+      "detail": "Detail",
+      "when": "When",
+      "status": "Status",
+      "amount": "Amount"
+    },
+    "type": {
+      "booking": "Booking",
+      "project": "Project"
+    },
+    "reservationStatus": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "expired": "Expired",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected",
+      "payment_failed": "Payment failed"
+    }
   },
   "manualBooking": {
     "title": "New Reservation",

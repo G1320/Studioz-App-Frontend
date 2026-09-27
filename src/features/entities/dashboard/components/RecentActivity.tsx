@@ -10,7 +10,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import 'dayjs/locale/he';
-import { CalendarTodayIcon, ScheduleIcon } from '@shared/components/icons';
 import '../styles/_recent-activity.scss';
 
 dayjs.extend(relativeTime);
@@ -47,7 +46,6 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
   });
   const { openReservationModal } = useReservationModal();
 
-  // Set dayjs locale
   dayjs.locale(i18n.language);
 
   const recentActivities = useMemo<RecentActivityItem[]>(() => {
@@ -115,7 +113,6 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
   };
 
   const formatDuration = (reservation: Reservation) => {
-    // Use timeSlots length for accurate hours (each slot = 1 hour)
     const hours = reservation.timeSlots?.length || reservation.quantity || 1;
     return `${hours}${t('recentActivity.hours')}`;
   };
@@ -125,11 +122,10 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
     return reservation.studioName?.en || '';
   };
 
-  const getActivityMessage = (reservation: Reservation) => {
+  const getActivityDetail = (reservation: Reservation) => {
     const itemName =
       i18n.language === 'he' && reservation.itemName?.he ? reservation.itemName.he : reservation.itemName?.en || '';
-
-    return t('recentActivity.bookedAt', { item: itemName });
+    return itemName;
   };
 
   const getProjectStudioName = (project: RemoteProject) => {
@@ -150,6 +146,13 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
       declined: 'declined'
     };
     return tProjects(`status.${keys[status]}`);
+  };
+
+  const getReservationStatusLabel = (status: string) => {
+    const normalized = (status || 'pending').toLowerCase();
+    return t(`recentActivity.reservationStatus.${normalized}`, {
+      defaultValue: normalized.replace(/_/g, ' ')
+    });
   };
 
   const handleActivityClick = (activity: RecentActivityItem) => {
@@ -183,78 +186,110 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
   return (
     <div className="recent-activity">
       <div className="recent-activity__container">
-        <div className="recent-activity__list">
-          {recentActivities.map((activity, index) => {
-            const isReservation = activity.kind === 'reservation';
-            const entity = isReservation ? activity.reservation : activity.project;
-            const customerName = isReservation
-              ? activity.reservation.customerName
-              : activity.project.customerName ||
-                (typeof activity.project.customerId === 'object' ? activity.project.customerId.name : undefined);
-            const amount = isReservation ? activity.reservation.totalPrice || 0 : activity.project.price;
-            const studioName = isReservation
-              ? getStudioName(activity.reservation)
-              : getProjectStudioName(activity.project);
+        <div className="recent-activity__table" role="table" aria-label={t('recentActivity.title')}>
+          <div className="recent-activity__head" role="row">
+            <span className="recent-activity__col recent-activity__col--client" role="columnheader">
+              {t('recentActivity.columns.client')}
+            </span>
+            <span className="recent-activity__col recent-activity__col--detail" role="columnheader">
+              {t('recentActivity.columns.detail')}
+            </span>
+            <span className="recent-activity__col recent-activity__col--when" role="columnheader">
+              {t('recentActivity.columns.when')}
+            </span>
+            <span className="recent-activity__col recent-activity__col--status" role="columnheader">
+              {t('recentActivity.columns.status')}
+            </span>
+            <span className="recent-activity__col recent-activity__col--amount" role="columnheader">
+              {t('recentActivity.columns.amount')}
+            </span>
+          </div>
 
-            return (
-              <div
-                key={`${activity.kind}-${entity._id}`}
-                className={`recent-activity__item ${index === recentActivities.length - 1 ? 'recent-activity__item--last' : ''}`}
-                onClick={() => handleActivityClick(activity)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    handleActivityClick(activity);
-                  }
-                }}
-              >
-                {index < recentActivities.length - 1 && <div className="recent-activity__timeline-line" />}
+          <div className="recent-activity__list" role="rowgroup">
+            {recentActivities.map((activity) => {
+              const isReservation = activity.kind === 'reservation';
+              const entity = isReservation ? activity.reservation : activity.project;
+              const customerName = isReservation
+                ? activity.reservation.customerName
+                : activity.project.customerName ||
+                  (typeof activity.project.customerId === 'object' ? activity.project.customerId.name : undefined);
+              const amount = isReservation ? activity.reservation.totalPrice || 0 : activity.project.price;
+              const studioName = isReservation
+                ? getStudioName(activity.reservation)
+                : getProjectStudioName(activity.project);
+              const detail = isReservation
+                ? getActivityDetail(activity.reservation)
+                : activity.project.title;
+              const when = isReservation
+                ? formatDate(activity.reservation)
+                : dayjs(activity.timestamp).fromNow();
+              const statusLabel = isReservation
+                ? `${getReservationStatusLabel(activity.reservation.status)}${
+                    activity.reservation.timeSlots?.length ? ` · ${formatDuration(activity.reservation)}` : ''
+                  }`
+                : getProjectStatusLabel(activity.project.status);
 
-                <div className="recent-activity__status-indicator">
-                  <div className={`recent-activity__status-dot ${getStatusClass(entity.status)}`} />
-                </div>
+              return (
+                <div
+                  key={`${activity.kind}-${entity._id}`}
+                  className="recent-activity__item"
+                  onClick={() => handleActivityClick(activity)}
+                  role="row"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      handleActivityClick(activity);
+                    }
+                  }}
+                >
+                  <div className="recent-activity__col recent-activity__col--client" role="cell">
+                    <span className={`recent-activity__status-dot ${getStatusClass(entity.status)}`} aria-hidden />
+                    <div className="recent-activity__client-block">
+                      <span className="recent-activity__client-name">
+                        {customerName || t('recentActivity.anonymousClient')}
+                      </span>
+                      <span
+                        className={`recent-activity__type recent-activity__type--${activity.kind === 'reservation' ? 'booking' : 'project'}`}
+                      >
+                        {isReservation ? t('recentActivity.type.booking') : t('recentActivity.type.project')}
+                      </span>
+                    </div>
+                  </div>
 
-                <div className="recent-activity__content">
-                  <div className="recent-activity__content-header">
-                    <h4 className="recent-activity__client-name">
-                      {customerName || t('recentActivity.anonymousClient')}
-                    </h4>
+                  <div className="recent-activity__col recent-activity__col--detail" role="cell">
+                    <span className="recent-activity__detail">{detail || '—'}</span>
+                    {studioName && <span className="recent-activity__studio">{studioName}</span>}
+                  </div>
+
+                  <div className="recent-activity__col recent-activity__col--when" role="cell">
+                    <span className="recent-activity__when">{when}</span>
+                  </div>
+
+                  <div className="recent-activity__col recent-activity__col--status" role="cell">
+                    <span className={`recent-activity__status-label ${getStatusClass(entity.status)}`}>
+                      {statusLabel}
+                    </span>
+                  </div>
+
+                  <div className="recent-activity__col recent-activity__col--amount" role="cell">
                     <span className="recent-activity__amount">₪{amount.toLocaleString()}</span>
                   </div>
-
-                  {studioName && <span className="recent-activity__studio-name">{studioName}</span>}
-
-                  <p className="recent-activity__description">
-                    {isReservation
-                      ? getActivityMessage(activity.reservation)
-                      : t('recentActivity.project', { title: activity.project.title })}
-                  </p>
-
-                  <div className="recent-activity__meta">
-                    <span className="recent-activity__meta-item">
-                      <CalendarTodayIcon className="recent-activity__meta-icon" />
-                      {isReservation ? formatDate(activity.reservation) : dayjs(activity.timestamp).fromNow()}
-                    </span>
-                    <span className="recent-activity__meta-item">
-                      <ScheduleIcon className="recent-activity__meta-icon" />
-                      {isReservation
-                        ? formatDuration(activity.reservation)
-                        : getProjectStatusLabel(activity.project.status)}
-                    </span>
-                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         <div className="recent-activity__view-actions">
-          <button className="recent-activity__view-all" onClick={() => navigate('/reservations')}>
+          <button type="button" className="recent-activity__view-all" onClick={() => navigate('/reservations')}>
             {t('recentActivity.viewReservations')}
           </button>
-          <button className="recent-activity__view-all" onClick={() => navigate(`/${i18n.language}/projects`)}>
+          <button
+            type="button"
+            className="recent-activity__view-all"
+            onClick={() => navigate(`/${i18n.language}/projects`)}
+          >
             {t('recentActivity.viewProjects')}
           </button>
         </div>

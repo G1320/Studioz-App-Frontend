@@ -45,10 +45,11 @@
   "title": "ניהול מסמכים",
   "subtitle": "נהל את החשבוניות, הקבלות והחוזים של האולפנים שלך במקום אחד.",
   "stats": {
-    "totalRevenue": "סה\"כ הכנסות (חודש)",
-    "pendingAmount": "ממתין לתשלום",
+    "totalRevenue": "הכנסות",
+    "totalRevenueHint": "החודש",
+    "pendingAmount": "ממתין",
     "overdueAmount": "באיחור",
-    "totalDocs": "מסמכים שהופקו"
+    "totalDocs": "מסמכים"
   },
   "status": {
     "all": "כל הסטטוסים",

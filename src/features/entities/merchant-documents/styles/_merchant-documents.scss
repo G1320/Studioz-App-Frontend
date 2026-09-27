@@ -110,19 +110,135 @@
     }
   }
 
-  // Stats Grid
+  // Stats Grid — dense enterprise KPI strip (matches merchant-stats StatCard)
   &__stats {
     display: grid;
     grid-template-columns: 1fr;
-    gap: vars.$spacing-small;
+    gap: 0.65rem;
     margin-bottom: vars.$spacing-medium;
+    align-items: stretch;
 
-    @media (min-width: 640px) {
-      grid-template-columns: repeat(2, 1fr);
+    @media (min-width: 560px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(4, 1fr);
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  &__stat {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-secondary);
+    border-radius: ds.$radius-md;
+    padding: 0.75rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.35rem;
+    min-width: 0;
+    min-height: 5.25rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: start;
+    transition: border-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--border-hover);
+    }
+  }
+
+  &__stat-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  &__stat-heading {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+
+  &__stat-label {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.25;
+    text-align: start;
+  }
+
+  &__stat-hint {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.625rem;
+    font-weight: 500;
+    line-height: 1.25;
+    min-height: calc(0.625rem * 1.25);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: start;
+
+    &--empty {
+      visibility: hidden;
+    }
+  }
+
+  &__stat-icon {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &--primary {
+      color: var(--color-brand);
+    }
+
+    &--warning {
+      color: #fbbf24;
+    }
+
+    &--danger {
+      color: #fb7185;
+    }
+
+    &--neutral {
+      color: var(--text-muted);
+    }
+  }
+
+  &__stat-value {
+    margin: 0;
+    margin-top: auto;
+    font-size: 1.25rem;
+    font-weight: 650;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+    text-align: start;
+    direction: ltr;
+    unicode-bidi: isolate;
+
+    @media (min-width: 720px) {
+      font-size: 1.375rem;
     }
   }
 
@@ -206,73 +322,6 @@
       color: var(--color-brand);
       border-color: rgba(247, 192, 65, 0.3);
     }
-  }
-}
-
-// Stat Card
-.stat-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-primary);
-  padding: vars.$spacing-sm-md vars.$spacing-medium;
-  border-radius: vars.$border-radius-large;
-  display: flex;
-  align-items: center;
-  gap: vars.$spacing-sm-md;
-  min-height: 0;
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    border-radius: vars.$border-radius-medium;
-    background: var(--bg-hover);
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    &--primary {
-      color: var(--color-brand);
-    }
-
-    &--warning {
-      color: #fbbf24; // amber-400
-    }
-
-    &--danger {
-      color: #fb7185; // rose-400
-    }
-
-    &--neutral {
-      color: var(--text-muted);
-    }
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 0;
-    gap: 1px;
-  }
-
-  &__value {
-    font-size: 1.125rem;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-  }
-
-  &__label {
-    font-size: vars.$font-size-xs;
-    color: var(--text-muted);
-    font-weight: 500;
-    margin-top: 0;
-    line-height: 1.3;
   }
 }
 

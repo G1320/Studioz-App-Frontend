@@ -397,10 +397,10 @@
     "week": "Week",
     "day": "Day",
     "list": "List",
-    "newEvent": "New Event",
+    "newEvent": "New Reservation",
     "agenda": "Agenda",
     "noEvents": "No events for this day",
-    "addEvent": "Add new event",
+    "addEvent": "Add new reservation",
     "minutes": "min"
   },
   "accessibility": {

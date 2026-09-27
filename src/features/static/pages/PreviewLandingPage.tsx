@@ -568,6 +568,8 @@ export default function PreviewLandingPage() {
           </div>
         </section>
 
+        <OwnerFaqSection />
+
         <section className="preview-landing__closing">
           <div className="preview-landing__container">
             <motion.div className="preview-landing__closing-inner" {...fadeUp}>
@@ -589,8 +591,6 @@ export default function PreviewLandingPage() {
             </motion.div>
           </div>
         </section>
-
-        <OwnerFaqSection />
       </div>
     </>
   );
