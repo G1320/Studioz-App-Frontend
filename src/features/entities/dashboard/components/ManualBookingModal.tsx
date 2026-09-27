@@ -321,6 +321,7 @@ export const ManualBookingModal: React.FC<ManualBookingModalProps> = ({
       total: totalPrice,
       customerName: customerData.name,
       customerPhone: customerData.phone,
+      customerEmail: customerData.email.trim() || undefined,
       comment: customerData.notes,
       // Mark as manual booking by studio owner
       customerId: user?._id
