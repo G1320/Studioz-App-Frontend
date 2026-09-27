@@ -18,7 +18,7 @@ export const ProjectStatusBadge: React.FC<ProjectStatusBadgeProps> = ({
     { label: string; variant: string }
   > = {
     requested: {
-      label: t('status.requested', 'Pending Review'),
+      label: t('status.requested', 'Pending'),
       variant: 'warning',
     },
     accepted: {
@@ -26,7 +26,7 @@ export const ProjectStatusBadge: React.FC<ProjectStatusBadgeProps> = ({
       variant: 'info',
     },
     in_progress: {
-      label: t('status.inProgress', 'In Progress'),
+      label: t('status.inProgress', 'Active'),
       variant: 'info',
     },
     delivered: {
@@ -34,11 +34,11 @@ export const ProjectStatusBadge: React.FC<ProjectStatusBadgeProps> = ({
       variant: 'success',
     },
     revision_requested: {
-      label: t('status.revisionRequested', 'Revision Requested'),
+      label: t('status.revisionRequested', 'Revision'),
       variant: 'warning',
     },
     completed: {
-      label: t('status.completed', 'Completed'),
+      label: t('status.completed', 'Done'),
       variant: 'success',
     },
     cancelled: {

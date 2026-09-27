@@ -77,7 +77,7 @@ function ProductVisual({ desktopSrc, mobileSrc, alt, eager = false, hero = false
     offset: ['start end', 'end start'],
     layoutEffect: false
   });
-  const phoneY = useTransform(scrollYProgress, [0, 0.45, 1], [48, 8, -40]);
+  const phoneY = useTransform(scrollYProgress, [0, 0.5, 1], [12, 0, -12]);
 
   return (
     <div

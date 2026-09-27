@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   Search,
-  Filter,
   Plus,
   Clock,
   CheckCircle2,
@@ -14,7 +13,8 @@ import {
   ArrowUp,
   ArrowDown,
   Calendar,
-  Images
+  Images,
+  X
 } from 'lucide-react';
 import { useUserContext } from '@core/contexts';
 import { useSocket } from '@core/contexts/SocketContext';
@@ -109,16 +109,12 @@ export const ProjectsListPage: React.FC = () => {
     });
   }, [projects, normalizedSearch, i18n.language, nameFallbacks, sortField, sortDirection]);
 
-  const statusOptions: { value: FilterStatus; label: string }[] = [
-    { value: 'all', label: t('allStatuses') },
-    { value: 'requested', label: t('status.requested') },
-    { value: 'accepted', label: t('status.accepted') },
-    { value: 'in_progress', label: t('status.inProgress') },
-    { value: 'delivered', label: t('status.delivered') },
-    { value: 'revision_requested', label: t('status.revisionRequested') },
-    { value: 'completed', label: t('status.completed') },
-    { value: 'cancelled', label: t('status.cancelled') },
-    { value: 'declined', label: t('status.declined') }
+  const statusChipOptions: { value: FilterStatus; label: string }[] = [
+    { value: 'all', label: t('filter.all', 'All') },
+    { value: 'in_progress', label: t('status.inProgress', 'Active') },
+    { value: 'delivered', label: t('status.delivered', 'Delivered') },
+    { value: 'completed', label: t('status.completed', 'Done') },
+    { value: 'revision_requested', label: t('status.revisionRequested', 'Revision') }
   ];
 
   const sortFieldOptions: { value: SortField; label: string }[] = [
@@ -157,73 +153,100 @@ export const ProjectsListPage: React.FC = () => {
       </PageHeader>
 
       {showFilters && (
-        <div className="projects-list__filters">
-          <div className="projects-list__search">
-            <Search />
-            <input
-              type="text"
-              className="projects-list__search-input"
-              placeholder={t('searchProjects')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+        <div className="projects-list__toolbar">
+          <div
+            className="projects-list__status-toggle"
+            role="group"
+            aria-label={t('filter.statusLabel', 'Project status')}
+          >
+            {statusChipOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                className={[
+                  'projects-list__status-chip',
+                  option.value === 'all' ? 'projects-list__status-chip--all' : '',
+                  statusFilter === option.value ? 'is-active' : ''
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                aria-pressed={statusFilter === option.value}
+                onClick={() => setStatusFilter(option.value)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="projects-list__filters">
+            <div className="projects-list__search">
+              <Search className="projects-list__search-icon" aria-hidden />
+              <input
+                type="text"
+                className="projects-list__search-input"
+                placeholder={t('searchProjects')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label={t('searchProjects')}
+              />
+              {searchQuery.trim() ? (
+                <button
+                  type="button"
+                  className="projects-list__clear-btn"
+                  onClick={() => setSearchQuery('')}
+                  aria-label={t('clearFilters')}
+                >
+                  <X size={16} />
+                </button>
+              ) : null}
+            </div>
+            <div className="projects-list__sort">
+              <div className="projects-list__filter projects-list__filter--sort">
+                <Calendar aria-hidden />
+                <select
+                  value={sortField}
+                  onChange={(e) => setSortField(e.target.value as SortField)}
+                  aria-label={t('sort.label')}
+                >
+                  {sortFieldOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="projects-list__direction" role="group" aria-label={t('sort.label')}>
+                <button
+                  type="button"
+                  className={`projects-list__direction-btn${sortDirection === 'desc' ? ' projects-list__direction-btn--active' : ''}`}
+                  onClick={() => setSortDirection('desc')}
+                  aria-label={sortDescLabel}
+                  aria-pressed={sortDirection === 'desc'}
+                  title={sortDescLabel}
+                >
+                  <ArrowDown />
+                </button>
+                <button
+                  type="button"
+                  className={`projects-list__direction-btn${sortDirection === 'asc' ? ' projects-list__direction-btn--active' : ''}`}
+                  onClick={() => setSortDirection('asc')}
+                  aria-label={sortAscLabel}
+                  aria-pressed={sortDirection === 'asc'}
+                  title={sortAscLabel}
+                >
+                  <ArrowUp />
+                </button>
+              </div>
+            </div>
+            <ViewModeToggle
+              value={viewMode}
+              onChange={handleViewModeChange}
+              label={t('view.label')}
+              gridLabel={t('view.grid')}
+              listLabel={t('view.list')}
+              className="projects-list__view-toggle"
             />
           </div>
-          <div className="projects-list__sort">
-            <div className="projects-list__filter projects-list__filter--sort">
-              <Calendar />
-              <select
-                value={sortField}
-                onChange={(e) => setSortField(e.target.value as SortField)}
-                aria-label={t('sort.label')}
-              >
-                {sortFieldOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="projects-list__direction" role="group" aria-label={t('sort.label')}>
-              <button
-                type="button"
-                className={`projects-list__direction-btn${sortDirection === 'desc' ? ' projects-list__direction-btn--active' : ''}`}
-                onClick={() => setSortDirection('desc')}
-                aria-label={sortDescLabel}
-                aria-pressed={sortDirection === 'desc'}
-                title={sortDescLabel}
-              >
-                <ArrowDown />
-              </button>
-              <button
-                type="button"
-                className={`projects-list__direction-btn${sortDirection === 'asc' ? ' projects-list__direction-btn--active' : ''}`}
-                onClick={() => setSortDirection('asc')}
-                aria-label={sortAscLabel}
-                aria-pressed={sortDirection === 'asc'}
-                title={sortAscLabel}
-              >
-                <ArrowUp />
-              </button>
-            </div>
-          </div>
-          <div className="projects-list__filter">
-            <Filter />
-            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as FilterStatus)}>
-              {statusOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <ViewModeToggle
-            value={viewMode}
-            onChange={handleViewModeChange}
-            label={t('view.label')}
-            gridLabel={t('view.grid')}
-            listLabel={t('view.list')}
-            className="projects-list__view-toggle"
-          />
         </div>
       )}
 
@@ -270,10 +293,9 @@ export const ProjectsListPage: React.FC = () => {
                       <span className="projects-list__card-price">₪{project.price.toLocaleString()}</span>
                     </div>
 
-                    <ProjectStatusBadge status={project.status} />
-
                     <div className="projects-list__card-meta">
                       <div className="projects-list__card-people">
+                        <ProjectStatusBadge status={project.status} />
                         <div className="projects-list__card-customer">
                           <User />
                           <span>{names.customer}</span>

@@ -17,6 +17,7 @@ import { trackCustomEvent, trackEvent } from '@shared/utils/analytics';
 import { isFeatureEnabled } from '@core/config/featureFlags';
 import { IphoneStatusChrome } from '../components/IphoneStatusChrome';
 import { OwnerFaqSection } from '../components/OwnerFaqSection';
+import { PreviewMobileCarousel } from '../components/PreviewMobileCarousel';
 import '../components/_iphone-status-chrome.scss';
 import '../styles/_preview-landing-page.scss';
 import '../styles/_faq-page.scss';
@@ -134,7 +135,7 @@ function ProductVisual({
     offset: ['start end', 'end start'],
     layoutEffect: false
   });
-  const phoneY = useTransform(scrollYProgress, [0, 0.45, 1], [48, 8, -40]);
+  const phoneY = useTransform(scrollYProgress, [0, 0.5, 1], [12, 0, -12]);
 
   useEffect(() => {
     if (!rotating || reduceMotion) return;
@@ -294,7 +295,8 @@ export default function PreviewLandingPage() {
   const hasTrackedView = useRef(false);
 
   const captureUrl = useCallback(
-    (capture: string) => `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp`,
+    (capture: string) =>
+      `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp?v=20260927q`,
     [assetLocale, resolvedTheme]
   );
 
@@ -428,6 +430,8 @@ export default function PreviewLandingPage() {
             </div>
           </div>
         </section>
+
+        <PreviewMobileCarousel captureUrl={captureUrl} />
 
         <section id="platform" className="preview-landing__platform">
           <div className="preview-landing__container">
@@ -601,8 +605,6 @@ export default function PreviewLandingPage() {
           </div>
         </section>
 
-        <OwnerFaqSection />
-
         <section className="preview-landing__closing">
           <div className="preview-landing__container">
             <motion.div className="preview-landing__closing-inner" {...fadeUp}>
@@ -624,6 +626,8 @@ export default function PreviewLandingPage() {
             </motion.div>
           </div>
         </section>
+
+        <OwnerFaqSection />
       </div>
     </>
   );

@@ -1924,6 +1924,11 @@ export function resolveFixtureRequest(
   const url = new URL(requestUrl);
   const path = url.pathname.replace(/^\/api/, '');
 
+  // App may probe session refresh when a seeded user is present.
+  if (method === 'POST' && path === '/auth/refresh-token') {
+    return json({ accessToken: 'screenshot-access-token' });
+  }
+
   if (method === 'GET' && (path === '/studios' || path === '/studios/')) return json([studio]);
   if (method === 'GET' && path === `/studios/${STUDIO_ID}`) {
     return json({ currStudio: studio, prevStudio: null, nextStudio: null, vendorCredentials: null });

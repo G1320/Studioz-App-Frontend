@@ -83,7 +83,11 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
           >
             {t('navigation.security')}
           </Link>
-          <button type="button" className="navbar-link" onClick={() => anchorNavigate('', 'pricing')}>
+          <button
+            type="button"
+            className="navbar-link"
+            onClick={() => anchorNavigate('/preview/landing', 'pricing')}
+          >
             {t('navigation.pricing')}
           </button>
           <Link

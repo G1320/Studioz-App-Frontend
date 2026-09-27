@@ -14,30 +14,63 @@
     }
   }
 
-  .item-card {
-    height: auto;
-    min-height: 10rem;
-    footer {
-      display: none;
+  .studio-services {
+    width: 100%;
+    max-width: 52rem;
+    margin: 0.5rem auto 1.25rem;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+    // Override global #root { text-align: center }
+    text-align: start;
+
+    @media (min-width: 768px) {
+      margin-top: 1rem;
+      margin-bottom: 1.75rem;
+      padding-inline: 1.25rem;
     }
   }
 
-  // Let the service strip scroll horizontally without clipping cards or selecting text
-  .generic-carousel {
-    max-width: 100%;
-    touch-action: pan-x;
-    user-select: none;
-    -webkit-user-select: none;
+  .studio-services__title {
+    margin: 0 0 0.35rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--border-secondary);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.2;
+    text-align: start;
 
-    .swiper {
-      overflow: visible;
+    @media (min-width: 768px) {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  .studio-services-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .studio-services-list__item {
+    border-bottom: 1px solid var(--border-secondary);
+
+    &:last-child {
+      border-bottom: none;
     }
 
-    .swiper-slide {
-      height: auto;
-      overflow: visible;
-      user-select: none;
-      -webkit-user-select: none;
+    // KeyboardActivatable wraps the card — stretch hit target full width
+    > * {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .item-card--studio-list {
+    @media (min-width: 768px) {
+      padding-block: 1.05rem;
     }
   }
 }

@@ -499,11 +499,11 @@ header.app-header {
 
   .header-signup-button {
     padding-inline: 1.25rem;
-    background: var(--text-primary);
-    color: var(--bg-primary);
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
 
     &:hover {
-      background: color-mix(in srgb, var(--text-primary) 88%, transparent);
+      background: var(--btn-primary-hover);
     }
   }
 }

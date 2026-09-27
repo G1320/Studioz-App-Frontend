@@ -4,6 +4,10 @@
   "newProject": "פרויקט חדש",
   "searchProjects": "חיפוש פרויקטים...",
   "allStatuses": "כל הסטטוסים",
+  "filter": {
+    "all": "הכל",
+    "statusLabel": "סטטוס פרויקט"
+  },
   "noProjects": "אין פרויקטים עדיין",
   "noProjectsHint": "גלה שירותים מרחוק כמו מיקס, מאסטרינג ועוד",
   "noResults": "לא נמצאו פרויקטים תואמים",
@@ -44,11 +48,11 @@
   },
 
   "status": {
-    "requested": "ממתין לאישור",
+    "requested": "ממתין",
     "accepted": "אושר",
     "inProgress": "בעבודה",
     "delivered": "נמסר",
-    "revisionRequested": "נדרש תיקון",
+    "revisionRequested": "תיקון",
     "completed": "הושלם",
     "cancelled": "בוטל",
     "declined": "נדחה"

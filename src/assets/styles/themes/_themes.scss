@@ -17,12 +17,12 @@
   // Brand Colors (same yellow as dark mode) — use --color-brand-text for text on light bg
   --color-brand: #f7c041;
   --color-brand-hover: #e1ac2f;
-  --color-brand-muted: rgba(255, 209, 102, 0.15);
+  --color-brand-muted: rgba(247, 192, 65, 0.15);
   /* Dark enough for WCAG AA on light surfaces (~4.9:1 on white); keep --color-brand bright for fills */
   --color-brand-text: #8f6b00;
-  --color-brand-bg: rgba(255, 209, 102, 0.15);
-  --color-brand-border: rgba(255, 209, 102, 0.3);
-  --color-brand-glow: rgba(255, 209, 102, 0.3);
+  --color-brand-bg: rgba(247, 192, 65, 0.15);
+  --color-brand-border: rgba(247, 192, 65, 0.3);
+  --color-brand-glow: rgba(247, 192, 65, 0.3);
 
   // Background Colors - warm neutrals, clearer separation between levels
   --bg-primary: #fafaf9;
@@ -48,7 +48,7 @@
   // Border Colors - slightly stronger for clearer UI and accessibility
   --border-primary: rgba(0, 0, 0, 0.1);
   --border-secondary: #e5e4e2;
-  --border-focus: #f7c041;
+  --border-focus: var(--color-brand);
   --border-hover: rgba(0, 0, 0, 0.18);
   --border-active: rgba(0, 0, 0, 0.24);
 
@@ -106,10 +106,10 @@
   --tooltip-bg: #1c1917;
   --dropdown-bg: #ffffff;
 
-  // Button variants (Brand CTA styling - centralized here)
-  --btn-primary-bg: #f7c041;
+  // Button variants — always mirror brand so CTAs can't drift
+  --btn-primary-bg: var(--color-brand);
   --btn-primary-text: #000000;
-  --btn-primary-hover: #e1ac2f;
+  --btn-primary-hover: var(--color-brand-hover);
   --btn-secondary-bg: rgba(0, 0, 0, 0.07);
   --btn-secondary-text: #1c1917;
   --btn-secondary-hover: rgba(0, 0, 0, 0.12);
@@ -118,8 +118,8 @@
   // Input fields - clearer borders for accessibility
   --input-bg: #ffffff;
   --input-border: #e0dfdd;
-  --input-border-focus: #f7c041;
-  --input-focus-border: #f7c041;
+  --input-border-focus: var(--color-brand);
+  --input-focus-border: var(--color-brand);
   --input-placeholder: #a8a29e;
 
   // Dividers - slightly stronger for coherence
@@ -142,14 +142,14 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  // Brand Colors
-  --color-brand: #ffd166;
-  --color-brand-hover: #ffe199;
-  --color-brand-muted: rgba(255, 209, 102, 0.15);
-  --color-brand-text: #ffd166;
-  --color-brand-bg: rgba(255, 209, 102, 0.1);
-  --color-brand-border: rgba(255, 209, 102, 0.2);
-  --color-brand-glow: rgba(255, 209, 102, 0.3);
+  // Brand Colors — same gold as light / logo (was #ffd166, too pale/lime on dark)
+  --color-brand: #f7c041;
+  --color-brand-hover: #e1ac2f;
+  --color-brand-muted: rgba(247, 192, 65, 0.15);
+  --color-brand-text: #f7c041;
+  --color-brand-bg: rgba(247, 192, 65, 0.1);
+  --color-brand-border: rgba(247, 192, 65, 0.22);
+  --color-brand-glow: rgba(247, 192, 65, 0.3);
 
   // Background Colors — darker, subtle cool-gray (not as blue as slate)
   --bg-primary: #0a0e14; /* main canvas */
@@ -175,7 +175,7 @@
   // Border Colors — neutral gray, subtle
   --border-primary: rgba(200, 205, 212, 0.12);
   --border-secondary: #1a1f28;
-  --border-focus: #ffd166;
+  --border-focus: var(--color-brand);
   --border-hover: rgba(200, 205, 212, 0.2);
   --border-active: rgba(200, 205, 212, 0.28);
 
@@ -210,7 +210,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.55), 0 8px 10px -6px rgba(0, 0, 0, 0.45);
-  --shadow-glow: 0 0 20px rgba(255, 209, 102, 0.3);
+  --shadow-glow: 0 0 20px rgba(247, 192, 65, 0.3);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-dropdown: 0 10px 40px rgba(0, 0, 0, 0.55);
 
@@ -233,10 +233,10 @@
   --tooltip-bg: #1a1f28;
   --dropdown-bg: #13171d;
 
-  // Button variants
-  --btn-primary-bg: #ffd166;
+  // Button variants — same brand yellow as --color-brand (was pale #ffd166)
+  --btn-primary-bg: var(--color-brand);
   --btn-primary-text: #0a0e14;
-  --btn-primary-hover: #ffe199;
+  --btn-primary-hover: var(--color-brand-hover);
   --btn-secondary-bg: rgba(255, 255, 255, 0.08);
   --btn-secondary-text: #f8fafc;
   --btn-secondary-hover: rgba(255, 255, 255, 0.12);
@@ -245,8 +245,8 @@
   // Input fields
   --input-bg: #13171d;
   --input-border: rgba(200, 205, 212, 0.18);
-  --input-border-focus: #ffd166;
-  --input-focus-border: #ffd166;
+  --input-border-focus: var(--color-brand);
+  --input-focus-border: var(--color-brand);
   --input-placeholder: #5c6470;
 
   // Dividers
@@ -260,7 +260,7 @@
   --color-pink: #f472b6;
 
   // Focus ring
-  --focus-ring: 0 0 0 2px rgba(255, 209, 102, 0.5);
+  --focus-ring: 0 0 0 2px rgba(247, 192, 65, 0.5);
 }
 
 // ===================

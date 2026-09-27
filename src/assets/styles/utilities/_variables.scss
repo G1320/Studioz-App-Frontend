@@ -5,7 +5,7 @@
 // $color-brand: rgb(132, 204, 22);
 // $color-brand: rgb(22, 163, 74);
 // $color-brand: #10b981;
-$color-brand: #ffd166;
+$color-brand: #f7c041;
 
 $color-accent: rgba(88, 132, 201, 0.8);
 $color-light: #ffffff;
@@ -124,21 +124,21 @@ $color-success-4caf50: #4caf50;
 $color-success-45a049: #45a049;
 
 // Rating/Star colors
-$color-rating-yellow: #ffd166;
+$color-rating-yellow: #f7c041;
 $color-text-light-gray: #f1f1f1;
 $color-text-medium-gray: #b3b2b2;
 
-// Brand color opacity variants (Updated to match #ffd166 - 255, 209, 102)
-$brand-opacity-03: rgba(255, 209, 102, 0.03);
-$brand-opacity-05: rgba(255, 209, 102, 0.05);
-$brand-opacity-08: rgba(255, 209, 102, 0.08);
-$brand-opacity-10: rgba(255, 209, 102, 0.1);
-$brand-opacity-12: rgba(255, 209, 102, 0.12);
-$brand-opacity-15: rgba(255, 209, 102, 0.15);
-$brand-opacity-20: rgba(255, 209, 102, 0.2);
-$brand-opacity-30: rgba(255, 209, 102, 0.3);
-$brand-opacity-50: rgba(255, 209, 102, 0.5);
-$brand-opacity-85: rgba(255, 209, 102, 0.85);
+// Brand color opacity variants (match #f7c041 — 247, 192, 65)
+$brand-opacity-03: rgba(247, 192, 65, 0.03);
+$brand-opacity-05: rgba(247, 192, 65, 0.05);
+$brand-opacity-08: rgba(247, 192, 65, 0.08);
+$brand-opacity-10: rgba(247, 192, 65, 0.1);
+$brand-opacity-12: rgba(247, 192, 65, 0.12);
+$brand-opacity-15: rgba(247, 192, 65, 0.15);
+$brand-opacity-20: rgba(247, 192, 65, 0.2);
+$brand-opacity-30: rgba(247, 192, 65, 0.3);
+$brand-opacity-50: rgba(247, 192, 65, 0.5);
+$brand-opacity-85: rgba(247, 192, 65, 0.85);
 
 // Blue color opacity
 $blue-opacity-30-alt: rgba(14, 165, 233, 0.3);

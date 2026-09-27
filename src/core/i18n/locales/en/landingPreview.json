@@ -39,6 +39,58 @@
     "title": "One workspace. Same context.",
     "description": "Operations, delivery, intelligence, and presence. Share the same picture so everyone stays in the loop."
   },
+  "mobileCarousel": {
+    "eyebrow": "On mobile",
+    "title": "Every important view, in your pocket.",
+    "description": "Calendar, booking, projects, and money — the same Studioz workspace on a phone.",
+    "slides": {
+      "calendar": {
+        "title": "Month calendar",
+        "description": "See sessions and free slots without opening a laptop.",
+        "imageAlt": "Studioz mobile month calendar"
+      },
+      "calendarList": {
+        "title": "Day agenda",
+        "description": "A dense list of today’s confirmed and pending bookings.",
+        "imageAlt": "Studioz mobile calendar list view"
+      },
+      "booking": {
+        "title": "Guest booking calendar",
+        "description": "Clients pick a date and time on the studio service page.",
+        "imageAlt": "Studioz mobile booking date picker"
+      },
+      "studio": {
+        "title": "Studio presence",
+        "description": "Portfolio and space details that convert browsers into clients.",
+        "imageAlt": "Studioz mobile studio portfolio"
+      },
+      "reservations": {
+        "title": "Reservations",
+        "description": "Search, filter, and act on bookings from anywhere.",
+        "imageAlt": "Studioz mobile reservations list"
+      },
+      "projects": {
+        "title": "Remote projects",
+        "description": "Keep delivery pipelines visible on the go.",
+        "imageAlt": "Studioz mobile projects list"
+      },
+      "workspace": {
+        "title": "Project workspace",
+        "description": "Tracks, feedback, and collaborators in one phone view.",
+        "imageAlt": "Studioz mobile project workspace"
+      },
+      "documents": {
+        "title": "Documents",
+        "description": "Invoices and receipts organized in the owner dashboard.",
+        "imageAlt": "Studioz mobile documents"
+      },
+      "manage": {
+        "title": "Studio manager",
+        "description": "Toggle spaces and services without leaving your phone.",
+        "imageAlt": "Studioz mobile studio manager"
+      }
+    }
+  },
   "showcase": {
     "calendar": {
       "title": "Your week, clear at a glance.",
@@ -99,7 +151,7 @@
     "plans": {
       "free": {
         "name": "Studio Free",
-        "price": "₪0",
+        "price": "$0",
         "period": "/ forever",
         "description": "For engineers & studios getting started.",
         "features": [

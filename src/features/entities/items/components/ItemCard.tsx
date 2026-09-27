@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { calculateDistance } from '@shared/utils/distanceUtils';
 import { featureFlags } from '@core/config/featureFlags';
 import { ItemFeatures } from './ItemFeatures';
-import '../styles/_item-card.scss';
 
 interface ItemCardProps {
   item: Item;
@@ -20,6 +19,8 @@ interface ItemCardProps {
   onEdit?: (itemId: string) => void;
   /** Whether the parent studio is active (if false, item is unavailable) */
   studioActive?: boolean;
+  /** `studioList` = denser rate-card row for the public studio page */
+  variant?: 'default' | 'studioList';
 }
 
 export const ItemCard: React.FC<ItemCardProps> = ({
@@ -28,7 +29,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   showDistanceBadge = true,
   user: propUser,
   onEdit,
-  studioActive
+  studioActive,
+  variant = 'default'
 }) => {
   const { wishlistId } = useParams();
   const { user: contextUser } = useUserContext();
@@ -39,6 +41,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   const { userLocation } = useLocationPermission();
 
   const isLoading = loadingItemId === item?._id;
+  const isStudioList = variant === 'studioList';
 
   // Get the current language (default to 'en' if not 'he')
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
@@ -82,8 +85,55 @@ export const ItemCard: React.FC<ItemCardProps> = ({
     : getTranslatedPricePer(item?.pricePer || 'hour');
 
   const titleText = item?.name?.[currentLang] || item?.name?.en || '';
+  const descriptionText = item?.description?.[currentLang] || item?.description?.en || '';
   // Item is unavailable if either the item itself or its parent studio is disabled
   const isUnavailable = item?.active === false || studioActive === false;
+
+  const priceBlock = (
+    <small className="item-price">
+      <span className="item-price__amount">₪{displayPrice}</span>
+      {displayPriceLabel && <span className="item-price__per">/{displayPriceLabel}</span>}
+    </small>
+  );
+
+  if (isStudioList) {
+    return (
+      <article
+        onMouseEnter={prefetchItem}
+        className={`item-card item-card--studio-list ${isLoading ? 'item-card--loading' : ''} ${isUnavailable ? 'item-card--unavailable' : ''}`}
+      >
+        {isLoading && (
+          <div className="item-card__loading-overlay">
+            <div className="item-card__spinner" />
+          </div>
+        )}
+
+        {isUnavailable && (
+          <div className="item-card__unavailable-overlay">
+            <span className="item-card__unavailable-badge">
+              {t('common:unavailable', 'Unavailable')}
+            </span>
+          </div>
+        )}
+
+        <div className="item-card__studio-body">
+          <div className="item-card__studio-copy">
+            <div className="item-card__studio-title-row">
+              <h3 className="title">{titleText}</h3>
+              <div className="item-card__studio-price">
+                {priceBlock}
+                <InstantBookBadge instantBook={item?.instantBook} />
+              </div>
+            </div>
+            {descriptionText ? <p className="description">{descriptionText}</p> : null}
+            <div className="item-card__studio-badges">
+              <StatusBadge createdAt={item?.createdAt} />
+            </div>
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article
@@ -96,7 +146,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
           <div className="item-card__spinner" />
         </div>
       )}
-      
+
       {/* Unavailable overlay - Wolt style */}
       {isUnavailable && (
         <div className="item-card__unavailable-overlay">
@@ -105,17 +155,12 @@ export const ItemCard: React.FC<ItemCardProps> = ({
           </span>
         </div>
       )}
-      
+
       <div className="item-card-name-and-description">
         <h3 className="title">{titleText}</h3>
-        <p className="description">{item?.description[currentLang] || item?.description.en}</p>
+        <p className="description">{descriptionText}</p>
         <div className="item-price-container">
-          <small className="item-price">
-            <span className="item-price__amount">₪{displayPrice}</span>
-            {displayPriceLabel && (
-              <span className="item-price__per">/{displayPriceLabel}</span>
-            )}
-          </small>
+          {priceBlock}
           <StatusBadge createdAt={item?.createdAt} />
           <InstantBookBadge instantBook={item?.instantBook} />
         </div>

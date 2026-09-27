@@ -1149,12 +1149,28 @@ const scenes: ScreenshotScene[] = [
     id: 'mobile-studio-services',
     order: 34,
     path: '/studio/studio-demo?view=overview',
-    readySelector: '.generic-carousel',
+    readySelector: '.studio-services-list',
     fixture: 'studio',
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'minimal',
-    actions: [{ type: 'scroll', selector: '.generic-carousel', offsetY: -24 }],
+    actions: [
+      // Same safe-area band as mobile-studio-portfolio (~y=210 @3x).
+      {
+        type: 'style',
+        css: `
+          main {
+            padding-top: 4.35rem !important;
+          }
+          .studio-details-page > .studio-details {
+            display: none !important;
+          }
+          .studio-services {
+            margin: 0 auto 1.25rem !important;
+          }
+        `
+      }
+    ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -1171,6 +1187,7 @@ const scenes: ScreenshotScene[] = [
       }
     }
   },
+
   {
     id: 'mobile-analytics-revenue',
     order: 35,

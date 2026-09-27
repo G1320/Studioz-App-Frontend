@@ -1,5 +1,4 @@
 import '../styles/_index.scss';
-import { GenericCarousel } from '@shared/components';
 import { StudioDetails } from '@features/entities/studios/components/StudioDetails';
 import { ContinueToCheckoutButton } from '@features/entities/orders/components/ContinueToCheckoutButton';
 import { ItemCard } from '@features/entities/items/components/ItemCard';
@@ -75,6 +74,9 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
   };
 
   const currentLang = (i18n.language === 'he' ? 'he' : 'en') as 'en' | 'he';
+  const servicesTitle = getStudioServicesDisplayName(
+    currStudio?.name?.[i18n.language === 'he' ? 'he' : 'en'] || currStudio?.name?.en
+  );
 
   return (
     <section className="details studio-details-page">
@@ -83,28 +85,31 @@ const StudioDetailsPage: React.FC<StudioDetailsPageProps> = ({ items, cart }) =>
 
       <StudioDetails user={user as User} studio={currStudio} />
       {currStudio?.items && currStudio.items.length > 0 && (
-        <GenericCarousel
-          title={(() =>
-            getStudioServicesDisplayName(
-              currStudio?.name?.[i18n.language === 'he' ? 'he' : 'en'] || currStudio?.name?.en
-            ))()}
-          data={filteredItems}
-          renderItem={(item) => {
-            const lang = i18n.language === 'he' ? 'he' : 'en';
-            const label =
-              item.name?.[lang] || item.name?.en || item.name?.he || (lang === 'he' ? 'פתח שירות' : 'View service');
-            return (
-              <KeyboardActivatable key={item._id} onActivate={() => handleItemClick(item)} ariaLabel={label}>
-                <ItemCard
-                  item={item}
-                  wishlists={wishlists}
-                  showDistanceBadge={false}
-                  studioActive={currStudio?.active}
-                />
-              </KeyboardActivatable>
-            );
-          }}
-        />
+        <section className="studio-services" aria-labelledby="studio-services-title">
+          <h2 id="studio-services-title" className="studio-services__title">
+            {servicesTitle}
+          </h2>
+          <ul className="studio-services-list">
+            {filteredItems.map((item) => {
+              const lang = i18n.language === 'he' ? 'he' : 'en';
+              const label =
+                item.name?.[lang] || item.name?.en || item.name?.he || (lang === 'he' ? 'פתח שירות' : 'View service');
+              return (
+                <li key={item._id} className="studio-services-list__item">
+                  <KeyboardActivatable onActivate={() => handleItemClick(item)} ariaLabel={label}>
+                    <ItemCard
+                      item={item}
+                      wishlists={wishlists}
+                      showDistanceBadge={false}
+                      studioActive={currStudio?.active}
+                      variant="studioList"
+                    />
+                  </KeyboardActivatable>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       )}
       {!selectedItemId && <ContinueToCheckoutButton cart={cart} />}
       <StickyRemoteAudioBar />

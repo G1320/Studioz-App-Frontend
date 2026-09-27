@@ -16,7 +16,13 @@
   box-sizing: border-box;
   pointer-events: none;
   direction: ltr;
+  // Dark-theme captures: light icons over dark status band
   color: #f5f5f7;
+
+  [data-theme='light'] & {
+    // Light-theme captures: dark icons over light status band
+    color: #1d1d1f;
+  }
 
   &__time {
     justify-self: start;

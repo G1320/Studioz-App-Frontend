@@ -4,6 +4,10 @@
   "newProject": "Start New Project",
   "searchProjects": "Search projects...",
   "allStatuses": "All Statuses",
+  "filter": {
+    "all": "All",
+    "statusLabel": "Project status"
+  },
   "noProjects": "No projects yet",
   "noProjectsHint": "Browse services to find remote mixing, mastering and more",
   "noResults": "No matching projects",
@@ -44,12 +48,12 @@
   },
 
   "status": {
-    "requested": "Pending Review",
+    "requested": "Pending",
     "accepted": "Accepted",
-    "inProgress": "In Progress",
+    "inProgress": "Active",
     "delivered": "Delivered",
-    "revisionRequested": "Revision Requested",
-    "completed": "Completed",
+    "revisionRequested": "Revision",
+    "completed": "Done",
     "cancelled": "Cancelled",
     "declined": "Declined"
   },

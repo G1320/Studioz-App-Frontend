@@ -1,0 +1,178 @@
+.preview-mobile-carousel {
+  padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+  border-top: 1px solid color-mix(in srgb, var(--border-secondary) 80%, transparent);
+
+  &__container {
+    width: min(100% - 2rem, 1120px);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 5vw, 3.25rem);
+    align-items: center;
+
+    @media (min-width: 900px) {
+      flex-direction: row;
+      align-items: center;
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+    }
+  }
+
+  &__copy {
+    width: 100%;
+    max-width: 28rem;
+    text-align: start;
+  }
+
+  &__header {
+    h2 {
+      margin: 0;
+      font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+  }
+
+  &__lead {
+    margin: 0.85rem 0 0;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  &__active {
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+    min-height: 6.5rem;
+
+    h3 {
+      margin: 0.45rem 0 0;
+      font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    > p {
+      margin: 0.55rem 0 0;
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+  }
+
+  &__index {
+    display: inline-block;
+    color: var(--text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+
+    span {
+      color: color-mix(in srgb, var(--text-muted) 55%, transparent);
+    }
+  }
+
+  &__phone {
+    flex-shrink: 0;
+    width: min(100%, 18.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__frame {
+    position: relative;
+    width: 100%;
+    border-radius: 2rem;
+    padding: 0.45rem;
+    background: #0b0d11;
+    border: 1px solid color-mix(in srgb, var(--border-primary) 70%, transparent);
+    box-shadow: 0 1.75rem 3.5rem rgb(0 0 0 / 32%);
+  }
+
+  &__screen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.55rem;
+    background: var(--bg-surface);
+    aspect-ratio: 9 / 19.2;
+  }
+
+  &__swiper {
+    width: 100%;
+    height: 100%;
+
+    .swiper-slide {
+      height: 100%;
+    }
+  }
+
+  &__shot {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    container-type: inline-size;
+    box-sizing: border-box;
+    background: #0a0a0f;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+  }
+
+  // Minimal enterprise dots under the phone.
+  &__dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  &__dot {
+    position: relative;
+    width: 0.35rem;
+    height: 0.35rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--text-muted) 32%, transparent);
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+      width 0.22s ease,
+      background-color 0.22s ease;
+
+    &:hover {
+      background: color-mix(in srgb, var(--text-muted) 55%, transparent);
+    }
+
+    &.is-done {
+      background: color-mix(in srgb, var(--text-secondary) 55%, transparent);
+    }
+
+    &.is-active {
+      width: 1.15rem;
+      background: color-mix(in srgb, var(--text-muted) 28%, transparent);
+    }
+  }
+
+  &__dot-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--text-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.05s linear;
+
+    [dir='rtl'] & {
+      transform-origin: right center;
+    }
+  }
+}
