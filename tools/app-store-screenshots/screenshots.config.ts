@@ -835,8 +835,23 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     template: 'full-bleed',
     textAlign: 'center',
-    // SOURCE FILES + tracks + chat. Transform-from-0; -88 matches prior hero framing.
-    actions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
+    // SOURCE FILES + tracks + chat. Hide deliverables so the densified page
+    // doesn't push that panel into the 16:10 hero crop.
+    actions: [
+      {
+        type: 'style',
+        css: `
+          .project-detail__section--tracks:has(.project-file-uploader--deliverable),
+          .project-detail__section--tracks:has(.project-file-uploader--revision),
+          .project-file-uploader--deliverable,
+          .project-file-uploader--revision,
+          .download-lock {
+            display: none !important;
+          }
+        `
+      },
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 0 }
+    ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -946,7 +961,21 @@ const scenes: ScreenshotScene[] = [
     template: 'dual',
     // Desktop: same source-files framing as desktop-project-workspace.
     // Mobile: open a track thread so the dual still shows cross-device review.
-    primaryActions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -88 }],
+    primaryActions: [
+      {
+        type: 'style',
+        css: `
+          .project-detail__section--tracks:has(.project-file-uploader--deliverable),
+          .project-detail__section--tracks:has(.project-file-uploader--revision),
+          .project-file-uploader--deliverable,
+          .project-file-uploader--revision,
+          .download-lock {
+            display: none !important;
+          }
+        `
+      },
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 0 }
+    ],
     secondaryActions: [
       { type: 'scroll', selector: '.project-file-uploader--source' },
       { type: 'click', selector: '.project-file-uploader--source .remote-audio-player__thread-toggle' },
