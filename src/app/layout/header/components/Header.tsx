@@ -104,14 +104,16 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           {/* <ShoppingCart cart={cart} aria-label="Shopping cart" /> */}
           <div className="header-desktop-preferences">
             <ThemeToggle size="sm" />
-            <button
-              type="button"
-              className="header-language-button"
-              onClick={() => changeLanguage(currentLanguage === 'he' ? 'en' : 'he')}
-              aria-label={currentLanguage === 'he' ? t('navigation.switchToEnglish') : t('navigation.switchToHebrew')}
-            >
-              {currentLanguage === 'he' ? 'EN' : 'עברית'}
-            </button>
+            {featureFlags.hebrewLocale && (
+              <button
+                type="button"
+                className="header-language-button"
+                onClick={() => changeLanguage(currentLanguage === 'he' ? 'en' : 'he')}
+                aria-label={currentLanguage === 'he' ? t('navigation.switchToEnglish') : t('navigation.switchToHebrew')}
+              >
+                {currentLanguage === 'he' ? 'EN' : 'עברית'}
+              </button>
+            )}
           </div>
           {user && featureFlags.notifications && (
             <Suspense fallback={null}>

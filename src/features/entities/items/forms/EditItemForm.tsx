@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { SteppedForm, FieldType, FormStep } from '@shared/components';
 import type { Duration } from '@shared/components';
+import { stripHebrewFormFields, stripHebrewFormSteps } from '@core/config/featureFlags';
 import { itemStepSchemasEdit } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
 import {
@@ -1302,8 +1303,8 @@ export const EditItemForm = () => {
         <SteppedForm
           className="edit-item-form"
           formId={formId}
-          steps={steps}
-          fields={fields}
+          steps={stripHebrewFormSteps(steps)}
+          fields={stripHebrewFormFields(fields)}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
           submitButtonText={t('form.submit.editItem')}

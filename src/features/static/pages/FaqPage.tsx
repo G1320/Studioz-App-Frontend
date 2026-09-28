@@ -22,7 +22,7 @@ const FaqPage = () => (
     namespace="faq"
     entries={ENTRIES}
     categoryIds={CATEGORIES}
-    alternateHref="/preview/landing#studio-faq"
+    alternateHref="/#studio-faq"
     ctaHref="/search"
     showCta
   />

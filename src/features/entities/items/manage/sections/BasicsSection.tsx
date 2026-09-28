@@ -4,6 +4,7 @@ import { Item } from 'src/types/index';
 import { useToggleItemActiveMutation } from '@shared/hooks/mutations/studios/studioMutations';
 import { ITEM_NAME_MAX, ITEM_DESCRIPTION_MAX } from '@shared/constants/fieldLimits';
 import { SectionChrome } from '@features/entities/studios/manage/sections/SectionChrome';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import { useItemSectionSave } from '../useItemSectionSave';
 
 interface BasicsSectionProps {
@@ -12,7 +13,10 @@ interface BasicsSectionProps {
 
 export const BasicsSection = ({ item }: BasicsSectionProps) => {
   const { t, i18n } = useTranslation(['forms', 'common']);
-  const [editLang, setEditLang] = useState<'en' | 'he'>(i18n.language?.startsWith('he') ? 'he' : 'en');
+  const hebrewEnabled = isFeatureEnabled('hebrewLocale');
+  const [editLang, setEditLang] = useState<'en' | 'he'>(
+    hebrewEnabled && i18n.language?.startsWith('he') ? 'he' : 'en'
+  );
   const [name, setName] = useState(item.name || { en: '', he: '' });
   const [description, setDescription] = useState(item.description || { en: '', he: '' });
   const { savePatch, isSaving } = useItemSectionSave(item, item._id);
@@ -88,23 +92,25 @@ export const BasicsSection = ({ item }: BasicsSectionProps) => {
           </div>
         </div>
 
-        <div className="studio-manage-panel__toolbar">
-          <span className="studio-manage-label studio-manage-label--inline">
-            {t('manage.overview.copyLang', 'Copy language')}
-          </span>
-          <div className="studio-manage-lang-toggle" role="group">
-            {(['en', 'he'] as const).map((lang) => (
-              <button
-                key={lang}
-                type="button"
-                className={`studio-manage-lang-toggle__btn ${editLang === lang ? 'is-active' : ''}`}
-                onClick={() => setEditLang(lang)}
-              >
-                {lang === 'en' ? 'EN' : 'HE'}
-              </button>
-            ))}
+        {hebrewEnabled && (
+          <div className="studio-manage-panel__toolbar">
+            <span className="studio-manage-label studio-manage-label--inline">
+              {t('manage.overview.copyLang', 'Copy language')}
+            </span>
+            <div className="studio-manage-lang-toggle" role="group">
+              {(['en', 'he'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  className={`studio-manage-lang-toggle__btn ${editLang === lang ? 'is-active' : ''}`}
+                  onClick={() => setEditLang(lang)}
+                >
+                  {lang === 'en' ? 'EN' : 'HE'}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="studio-manage-panel__body">
           <div className="studio-manage-field">

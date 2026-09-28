@@ -150,6 +150,7 @@ async function seedBrowserState(page: Page, scenario: CaptureScenario): Promise<
           sessionStorage.clear();
           localStorage.setItem('studioz-theme', seed.theme);
           localStorage.setItem('i18nextLng', seed.language);
+          localStorage.setItem('studioz-screenshot-capture', '1');
           localStorage.setItem('REACT_QUERY_OFFLINE_CACHE', '');
           if (seed.user) localStorage.setItem('user', JSON.stringify(seed.user));
         } catch {

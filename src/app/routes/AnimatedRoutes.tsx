@@ -145,7 +145,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             path="/:lang"
             element={
               <AnimatedRoute>
-                <ForOwnersPage />
+                <PreviewLandingPage />
               </AnimatedRoute>
             }
           />
@@ -500,13 +500,9 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
           />
           <Route
             path="/:lang?/preview/landing"
-            element={
-              <AnimatedRoute>
-                <PreviewLandingPage />
-              </AnimatedRoute>
-            }
+            element={<Navigate to={`/${i18n.language}`} replace />}
           />
-          {isFeatureEnabled('forOwnersPage') && (
+          {isFeatureEnabled('forOwnersPage') ? (
             <Route
               path="/:lang?/for-owners"
               element={
@@ -514,6 +510,11 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
                   <ForOwnersPage />
                 </AnimatedRoute>
               }
+            />
+          ) : (
+            <Route
+              path="/:lang?/for-owners"
+              element={<Navigate to={`/${i18n.language}`} replace />}
             />
           )}
           {/* Redirect old how-it-works page to home with anchor */}
@@ -537,10 +538,10 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
               </AnimatedRoute>
             }
           />
-          {/* Redirect old owner-faq page to preview landing with anchor */}
+          {/* Redirect old owner-faq page to home FAQ section */}
           <Route
             path="/:lang?/owner-faq"
-            element={<Navigate to={`/${i18n.language}/preview/landing#studio-faq`} replace />}
+            element={<Navigate to={`/${i18n.language}#studio-faq`} replace />}
           />
           <Route
             path="/:lang?/changelog"

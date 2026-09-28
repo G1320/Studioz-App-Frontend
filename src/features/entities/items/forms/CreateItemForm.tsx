@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { SteppedForm, FieldType, FormStep } from '@shared/components';
 import type { Duration } from '@shared/components';
+import { stripHebrewFormFields, stripHebrewFormSteps } from '@core/config/featureFlags';
 import { getLocalUser } from '@shared/services';
 import { itemStepSchemas } from '@shared/validation/schemas';
 import { getStepFromUrl } from '@shared/components/forms/steppedForm/utils';
@@ -1171,8 +1172,8 @@ export const CreateItemForm = () => {
         <SteppedForm
           className="create-item-form"
           formId="create-item-form"
-          steps={steps}
-          fields={fields}
+          steps={stripHebrewFormSteps(steps)}
+          fields={stripHebrewFormFields(fields)}
           onSubmit={handleSubmit}
           submitButtonText={t('form.submit.createItem')}
           nextButtonText={t('form.buttons.next') || 'Next'}

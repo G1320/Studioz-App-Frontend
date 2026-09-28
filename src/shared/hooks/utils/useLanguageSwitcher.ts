@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 
 /**
  * Headless hook for language switching functionality
@@ -17,7 +18,7 @@ export const useLanguageSwitcher = () => {
   useEffect(() => {
     const currentLang = i18n.language || 'en';
     const isRTL = currentLang === 'he';
-    
+
     document.documentElement.lang = currentLang;
     document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
   }, [i18n.language]);
@@ -26,7 +27,7 @@ export const useLanguageSwitcher = () => {
   useEffect(() => {
     const currentLang = i18n.language || 'en';
     const isRTL = currentLang === 'he';
-    
+
     // Only set if not already set
     if (!document.documentElement.dir) {
       document.documentElement.lang = currentLang;
@@ -35,6 +36,8 @@ export const useLanguageSwitcher = () => {
   }, []);
 
   const changeLanguage = (lang: string) => {
+    if (lang === 'he' && !isFeatureEnabled('hebrewLocale')) return;
+
     const currentPath = window.location.pathname;
     let newPath;
 
@@ -58,4 +61,3 @@ export const useLanguageSwitcher = () => {
     isRTL: i18n.dir() === 'rtl'
   };
 };
-

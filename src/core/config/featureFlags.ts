@@ -24,6 +24,11 @@ export interface FeatureFlags {
    * When false (default), flat 9% applies everywhere.
    */
   progressivePlatformFees: boolean;
+  /**
+   * Hebrew UI locale + bilingual create/edit translation fields.
+   * When false (default), English-only: hide lang switcher and HE form fields.
+   */
+  hebrewLocale: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -41,13 +46,15 @@ export const featureFlags: FeatureFlags = {
   headerSearchIcon: true,
   headerBackButton: false,
   dynamicCategorySelector: false,
-  forOwnersPage: true,
+  /** Legacy ForOwners landing at /for-owners. Home uses PreviewLandingPage. */
+  forOwnersPage: false,
   brevoChat: false,
   studioInfoModal: false,
   discoverPage: false,
   mobileFooterNavigation: false,
   subscriptionsPage: false,
-  progressivePlatformFees: false
+  progressivePlatformFees: false,
+  hebrewLocale: false
 };
 
 /**
@@ -68,3 +75,20 @@ export const getEnabledFeatures = (): Array<keyof FeatureFlags> => {
     .filter(([_, enabled]) => enabled === true)
     .map(([key]) => key as keyof FeatureFlags);
 };
+
+/** Drop HE translation fields + language toggle from stepped create/edit forms. */
+export function stripHebrewFormFields<T extends { name: string }>(fields: T[]): T[] {
+  if (isFeatureEnabled('hebrewLocale')) return fields;
+  return fields.filter((f) => f.name !== 'languageToggle' && !f.name.endsWith('.he'));
+}
+
+export function stripHebrewFormSteps<
+  T extends { fieldNames: string[]; languageToggle?: boolean }
+>(steps: T[]): T[] {
+  if (isFeatureEnabled('hebrewLocale')) return steps;
+  return steps.map((step) => ({
+    ...step,
+    languageToggle: false,
+    fieldNames: step.fieldNames.filter((n) => n !== 'languageToggle' && !n.endsWith('.he'))
+  }));
+}

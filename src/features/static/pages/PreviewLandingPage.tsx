@@ -350,7 +350,6 @@ export default function PreviewLandingPage() {
       <Helmet>
         <title>{t('meta.title')} | Studioz</title>
         <meta name="description" content={t('meta.description')} />
-        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <div className="preview-landing" dir={currentLang === 'he' ? 'rtl' : 'ltr'}>

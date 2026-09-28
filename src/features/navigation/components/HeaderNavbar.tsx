@@ -86,7 +86,7 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
           <button
             type="button"
             className="navbar-link"
-            onClick={() => anchorNavigate('/preview/landing', 'pricing')}
+            onClick={() => anchorNavigate('', 'pricing')}
           >
             {t('navigation.pricing')}
           </button>
@@ -101,7 +101,7 @@ export function HeaderNavbar({ user }: HeaderNavbarProps) {
           <button
             type="button"
             className="navbar-link"
-            onClick={() => anchorNavigate('/preview/landing', 'studio-faq')}
+            onClick={() => anchorNavigate('', 'studio-faq')}
           >
             {t('navigation.studioFaq')}
           </button>

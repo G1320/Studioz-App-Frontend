@@ -4,6 +4,7 @@ import { GenericForm, FieldType } from '@shared/components';
 import { useAddOn, useUpdateAddOnMutation } from '@shared/hooks';
 import { AddOn } from 'src/types/index';
 import { useTranslation } from 'react-i18next';
+import { stripHebrewFormFields } from '@core/config/featureFlags';
 
 interface FormData {
   name?: {
@@ -104,7 +105,7 @@ export const EditAddOnForm = () => {
         <GenericForm
           className="edit-addon-form"
           title="Edit Add-On"
-          fields={fields}
+          fields={stripHebrewFormFields(fields)}
           onSubmit={handleSubmit}
           btnTxt={t('form.submit.editAddOn')}
         />

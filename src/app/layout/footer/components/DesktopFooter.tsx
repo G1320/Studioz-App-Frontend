@@ -83,14 +83,14 @@ export const DesktopFooter = () => {
               </li>
               <li>
                 <a
-                  href={`${langPrefix}/preview/landing#studio-faq`}
+                  href={`${langPrefix}#studio-faq`}
                   onClick={(e) => {
                     e.preventDefault();
-                    const isPreviewLanding = location.pathname.includes('/preview/landing');
-                    if (isPreviewLanding) {
+                    const isHome = /^\/(en|he)\/?$/.test(location.pathname);
+                    if (isHome) {
                       document.getElementById('studio-faq')?.scrollIntoView({ behavior: 'smooth' });
                     } else {
-                      langNavigate('/preview/landing#studio-faq');
+                      langNavigate('/#studio-faq');
                     }
                   }}
                 >

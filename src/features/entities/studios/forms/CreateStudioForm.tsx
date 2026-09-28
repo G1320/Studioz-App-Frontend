@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { useLanguageNavigate } from '@shared/hooks/utils';
 import { FileUploader, SteppedForm, FieldType, FormStep, PortfolioStep } from '@shared/components';
+import { stripHebrewFormFields, stripHebrewFormSteps } from '@core/config/featureFlags';
 import type { CancellationPolicy } from '@shared/components';
 import { AmenitiesSelector } from '@shared/components/amenities-selector';
 import { getLocalUser } from '@shared/services';
@@ -793,8 +794,8 @@ export const CreateStudioForm = () => {
         <SteppedForm
           className="create-studio-form"
           formId={FORM_ID}
-          steps={steps}
-          fields={fields}
+          steps={stripHebrewFormSteps(steps)}
+          fields={stripHebrewFormFields(fields)}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
           submitButtonText={t('form.submit.createStudio')}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import './styles/_cancellationPolicyField.scss';
 
 export interface CancellationPolicy {
@@ -28,7 +29,9 @@ export const CancellationPolicyField = ({
   error
 }: CancellationPolicyFieldProps) => {
   const { t } = useTranslation('forms');
+  const hebrewEnabled = isFeatureEnabled('hebrewLocale');
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'he'>('en');
+  const notesLang = hebrewEnabled ? selectedLanguage : 'en';
 
   const policyTypes: Array<{ type: CancellationPolicy['type']; key: string }> = [
     { type: 'flexible', key: 'flexible' },
@@ -43,7 +46,7 @@ export const CancellationPolicyField = ({
   const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const notes = {
       ...value.notes,
-      [selectedLanguage]: e.target.value
+      [notesLang]: e.target.value
     };
     onChange({ ...value, notes });
   };
@@ -82,31 +85,33 @@ export const CancellationPolicyField = ({
           <label className="cancellation-policy-field__notes-label">
             {t('form.cancellationPolicy.notes.label')}
           </label>
-          <div className="cancellation-policy-field__language-toggle">
-            <button
-              type="button"
-              className={`cancellation-policy-field__lang-btn ${selectedLanguage === 'en' ? 'active' : ''}`}
-              onClick={() => setSelectedLanguage('en')}
-            >
-              🇺🇸 EN
-            </button>
-            <button
-              type="button"
-              className={`cancellation-policy-field__lang-btn ${selectedLanguage === 'he' ? 'active' : ''}`}
-              onClick={() => setSelectedLanguage('he')}
-            >
-              🇮🇱 HE
-            </button>
-          </div>
+          {hebrewEnabled && (
+            <div className="cancellation-policy-field__language-toggle">
+              <button
+                type="button"
+                className={`cancellation-policy-field__lang-btn ${selectedLanguage === 'en' ? 'active' : ''}`}
+                onClick={() => setSelectedLanguage('en')}
+              >
+                🇺🇸 EN
+              </button>
+              <button
+                type="button"
+                className={`cancellation-policy-field__lang-btn ${selectedLanguage === 'he' ? 'active' : ''}`}
+                onClick={() => setSelectedLanguage('he')}
+              >
+                🇮🇱 HE
+              </button>
+            </div>
+          )}
         </div>
         <textarea
-          value={value.notes?.[selectedLanguage] ?? ''}
+          value={value.notes?.[notesLang] ?? ''}
           onChange={handleNotesChange}
           placeholder={t('form.cancellationPolicy.notes.placeholder')}
           className="cancellation-policy-field__textarea"
           rows={3}
           maxLength={500}
-          dir={selectedLanguage === 'he' ? 'rtl' : 'ltr'}
+          dir={notesLang === 'he' ? 'rtl' : 'ltr'}
         />
       </div>
 

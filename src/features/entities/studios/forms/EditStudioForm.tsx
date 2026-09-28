@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FileUploader, SteppedForm, FieldType, FormStep, PortfolioStep } from '@shared/components';
+import { stripHebrewFormFields, stripHebrewFormSteps } from '@core/config/featureFlags';
 import { StudioPortfolioFiles } from '@features/entities/studios/components/StudioPortfolioFiles';
 import type { CancellationPolicy } from '@shared/components';
 import { AmenitiesSelector } from '@shared/components/amenities-selector';
@@ -853,8 +854,8 @@ export const EditStudioForm = () => {
         <SteppedForm
           className="edit-studio-form"
           formId={FORM_ID}
-          steps={steps}
-          fields={fields}
+          steps={stripHebrewFormSteps(steps)}
+          fields={stripHebrewFormFields(fields)}
           onSubmit={handleSubmit}
           onCategoryChange={handleCategoryChange}
           submitButtonText={t('form.submit.editStudio')}

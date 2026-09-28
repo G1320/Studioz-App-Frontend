@@ -22,6 +22,7 @@ import {
 } from '@shared/components/icons';
 import { useAuth0LoginHandler } from '@shared/hooks';
 import { useAccessibility } from '@core/contexts/AccessibilityContext';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 import './styles/menu-dropdown.scss';
 
 interface MenuDropdownProps {
@@ -194,43 +195,45 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
             <span>{t('common:accessibility.showWidget')}</span>
           </button>
         )}
-        <div className="menu-dropdown__lang-item-wrapper">
-          <button
-            className="menu-dropdown__item menu-dropdown__item--lang"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsLangSubmenuOpen(!isLangSubmenuOpen);
-            }}
-            aria-expanded={isLangSubmenuOpen}
-            aria-haspopup="true"
-          >
-            <LanguageIcon className="menu-dropdown__icon" />
-            <span>{t('profile.language')}</span>
-            <ChevronRightIcon className="menu-dropdown__chevron" />
-          </button>
-          {isLangSubmenuOpen && (
-            <div className="menu-dropdown__submenu">
-              <button
-                className={`menu-dropdown__submenu-item ${currentLanguage === 'en' ? 'menu-dropdown__submenu-item--active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  changeLanguage('en');
-                }}
-              >
-                English
-              </button>
-              <button
-                className={`menu-dropdown__submenu-item ${currentLanguage === 'he' ? 'menu-dropdown__submenu-item--active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  changeLanguage('he');
-                }}
-              >
-                עברית
-              </button>
-            </div>
-          )}
-        </div>
+        {isFeatureEnabled('hebrewLocale') && (
+          <div className="menu-dropdown__lang-item-wrapper">
+            <button
+              className="menu-dropdown__item menu-dropdown__item--lang"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLangSubmenuOpen(!isLangSubmenuOpen);
+              }}
+              aria-expanded={isLangSubmenuOpen}
+              aria-haspopup="true"
+            >
+              <LanguageIcon className="menu-dropdown__icon" />
+              <span>{t('profile.language')}</span>
+              <ChevronRightIcon className="menu-dropdown__chevron" />
+            </button>
+            {isLangSubmenuOpen && (
+              <div className="menu-dropdown__submenu">
+                <button
+                  className={`menu-dropdown__submenu-item ${currentLanguage === 'en' ? 'menu-dropdown__submenu-item--active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    changeLanguage('en');
+                  }}
+                >
+                  English
+                </button>
+                <button
+                  className={`menu-dropdown__submenu-item ${currentLanguage === 'he' ? 'menu-dropdown__submenu-item--active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    changeLanguage('he');
+                  }}
+                >
+                  עברית
+                </button>
+              </div>
+            )}
+          </div>
+        )}
         <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/privacy')}>
           {t('profile.legal.privacy')}
         </button>

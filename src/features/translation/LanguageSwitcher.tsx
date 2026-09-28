@@ -3,9 +3,12 @@ import { LanguageIcon } from '@shared/components/icons';
 import { IconButton } from '@mui/material';
 import { PopupDropdown } from '@shared/components/drop-downs';
 import { useLanguageSwitcher } from '@shared/hooks/utils';
+import { isFeatureEnabled } from '@core/config/featureFlags';
 
 export const LanguageSwitcher = () => {
   const { currentLanguage, changeLanguage } = useLanguageSwitcher();
+
+  if (!isFeatureEnabled('hebrewLocale')) return null;
 
   return (
     <section className="lang-switcher">

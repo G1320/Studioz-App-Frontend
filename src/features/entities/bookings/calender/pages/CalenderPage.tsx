@@ -60,7 +60,7 @@ const CalendarPage: React.FC<CalendarPageProps> = ({ studios }) => {
         actionLabel={t('emptyState.createStudio')}
         onAction={() => langNavigate('/studio/create')}
         secondaryActionLabel={t('emptyState.secondaryCta')}
-        onSecondaryAction={() => langNavigate('/preview/landing#studio-faq')}
+        onSecondaryAction={() => langNavigate('/#studio-faq')}
       />
     );
   }
