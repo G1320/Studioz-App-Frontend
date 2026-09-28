@@ -46,7 +46,6 @@
     "fullyPaid": "Fully Paid",
     "refunded": "Refunded"
   },
-
   "status": {
     "requested": "Pending",
     "accepted": "Accepted",
@@ -57,7 +56,6 @@
     "cancelled": "Cancelled",
     "declined": "Declined"
   },
-
   "projectDetails": "Project Details",
   "service": "Service",
   "studio": "Studio",
@@ -67,7 +65,6 @@
   "brief": "Project Brief",
   "referenceLinks": "Reference Links",
   "remoteService": "Remote Service",
-
   "actions": "Actions",
   "accept": "Accept Project",
   "decline": "Decline Project",
@@ -78,16 +75,13 @@
   "markComplete": "Mark as Complete",
   "cancel": "Cancel Project",
   "noActions": "No actions available at this time",
-
   "declineProject": "Decline Project",
   "declineReasonPlaceholder": "Optional: Provide a reason for declining",
   "confirmDecline": "Decline Project",
-
   "deliverProject": "Deliver Project",
   "deliveryHint": "Make sure you have uploaded all deliverable files before marking as delivered.",
   "deliveryNotesPlaceholder": "Optional: Add notes about the delivery",
   "confirmDelivery": "Confirm Delivery",
-
   "revisionHint": "You have {{count}} revision(s) remaining.",
   "paidRevisionHint": "All free revisions have been used. This revision will be charged {{price}} ILS.",
   "revisionFeedbackPlaceholder": "Describe what changes you would like made...",
@@ -98,7 +92,6 @@
   "editReferenceLinks": "Reference Links",
   "editReferencePlaceholder": "https://...",
   "saveChanges": "Save Changes",
-
   "artwork": {
     "alt": "Project artwork",
     "empty": "Add artwork for this project",
@@ -113,9 +106,7 @@
     "tooLarge": "Artwork must be 8MB or smaller",
     "confirmRemove": "Remove this project artwork?"
   },
-
   "confirmCancel": "Are you sure you want to cancel this project?",
-
   "sourceFiles": "Source Files",
   "deliverables": "Deliverables",
   "revisionFiles": "Revision Files",
@@ -143,7 +134,6 @@
   "deleteAll": "Delete All",
   "bulkActionsLabel": "For all files",
   "downloadFailed": "Failed to download file",
-
   "audioPlayer": {
     "label": "Audio player for {{name}}",
     "stickyLabel": "Now playing {{name}}",
@@ -168,7 +158,6 @@
     "cueMarkerNamed": "Comment by {{name}} at {{time}}",
     "analyzing": "Generating waveform…"
   },
-
   "trackComments": {
     "toggle": "Track comments ({{count}})",
     "count_one": "{{count}} comment",
@@ -196,7 +185,6 @@
     "chatHintTitle": "Time-coded comments are shown in each track's thread, not here.",
     "pendingInThread": "Comment at {{time}} · {{file}} — finish it in the track's thread below the player."
   },
-
   "downloadLock": {
     "title": "Customer deliverable downloads",
     "hint": "This controls customer downloads for every deliverable and revision file. Your studio can always download its own files. The lock lifts automatically when the project is completed or fully paid.",
@@ -211,7 +199,6 @@
       "autoReleased": "Unlocked — project completed"
     }
   },
-
   "messages": "Messages",
   "projectChat": "Chat",
   "collapseProjectChat": "Collapse project chat",
@@ -222,7 +209,6 @@
   "read": "Read",
   "customer": "Customer",
   "vendor": "Studio",
-
   "collaborators": {
     "title": "Collaborators",
     "hint": "Invite teammates by email. They can chat, share files, and run workflow actions.",
@@ -257,7 +243,6 @@
     "aProject": "a project",
     "someone": "Someone"
   },
-
   "requestProject": "Request Project",
   "projectTitle": "Project Title",
   "titlePlaceholder": "e.g., Mix and Master - My Song Name",
@@ -273,15 +258,12 @@
   "submitRequest": "Submit Request",
   "submitNote": "After submitting, you can upload your files. The studio will review your request within 24-48 hours.",
   "submitNoteGuest": "We'll email you updates about this request. Create an account anytime to track it in one place.",
-
   "projectPrice": "Project Price",
   "depositRequired": "Deposit Required",
   "estimatedDelivery": "Estimated Delivery",
   "revisionsIncluded": "Revisions Included",
   "days": "days",
-
   "projectNotFound": "Project not found",
-
   "common": {
     "loading": "Loading...",
     "cancel": "Cancel",

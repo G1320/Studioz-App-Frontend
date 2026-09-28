@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { getPageTitle, getMetaDescription } from '@shared/utils/seoUtils';
 
 export const SEOTags = ({ path, search = '' }: { path: string; search?: string }) => {
-  const lang = path.split('/')[1] || 'he';
-  const currentLang = lang === 'en' ? 'en' : 'he';
+  const lang = path.split('/')[1] || 'en';
+  const currentLang = lang === 'he' ? 'he' : 'en';
 
   // Remove language prefix to get the base path
   // Handle edge cases: '/', '/en', '/he', '/en/studios', etc.
@@ -37,10 +37,6 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
       height: 512
     },
     sameAs: ['https://www.instagram.com/studioz', 'https://www.facebook.com/studioz'],
-    areaServed: {
-      '@type': 'Country',
-      name: 'Israel'
-    },
     priceRange: '$$'
   };
 
@@ -81,7 +77,7 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
       <link rel="canonical" href={`https://studioz.co.il${canonicalPath}`} />
       <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="en" />
       <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="he" />
-      <link rel="alternate" href={`https://studioz.co.il${hePath}`} hrefLang="x-default" />
+      <link rel="alternate" href={`https://studioz.co.il${enPath}`} hrefLang="x-default" />
 
       {/* Open Graph for richer previews (localized) */}
       <meta property="og:type" content="website" />
@@ -91,7 +87,7 @@ export const SEOTags = ({ path, search = '' }: { path: string; search?: string }
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="512" />
       <meta property="og:image:height" content="512" />
-      <meta property="og:locale" content={currentLang === 'he' ? 'he_IL' : 'en_IL'} />
+      <meta property="og:locale" content={currentLang === 'he' ? 'he_IL' : 'en_US'} />
       <meta property="og:site_name" content="Studioz" />
 
       {/* Twitter Card */}

@@ -92,7 +92,7 @@
         "description": "Improved access to important platform information",
         "changes": {
           "statement": "Added a dedicated accessibility statement",
-          "legal": "Updated legal and compliance information for Israeli users",
+          "legal": "Updated legal and compliance information for users",
           "loginLayout": "Minor fixes and improvements across account and studio setup screens"
         }
       }

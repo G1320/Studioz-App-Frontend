@@ -174,7 +174,7 @@ export const StudioSchema: React.FC<StudioSchemaProps> = ({ studio, items, lang 
     // areaServed for local SEO boost
     areaServed: {
       '@type': 'AdministrativeArea',
-      name: studio.city || 'Israel'
+      name: studio.city || 'Worldwide'
     },
     ...(openingHoursSpecification.length > 0 && { openingHoursSpecification }),
     ...(aggregateRating && { aggregateRating }),

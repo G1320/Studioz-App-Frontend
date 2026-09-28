@@ -39,7 +39,7 @@
       "nameRequired": "Customer name is required",
       "emailRequired": "Customer email is required",
       "emailInvalid": "Enter a valid email address",
-      "phoneRequired": "A valid Israeli phone number is required",
+      "phoneRequired": "A valid phone number is required",
       "itemsRequired": "At least one item with description and price is required",
       "paymentFailed": "Payment failed"
     }

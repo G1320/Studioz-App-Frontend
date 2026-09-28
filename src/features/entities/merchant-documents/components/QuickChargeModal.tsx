@@ -113,7 +113,7 @@ export const QuickChargeModal: React.FC<QuickChargeModalProps> = ({
     }
     const phone = formData.customerPhone.trim();
     if (!phone || !isValidIsraeliPhone(phone)) {
-      setError(t('quickCharge.errors.phoneRequired', 'A valid Israeli phone number is required'));
+      setError(t('quickCharge.errors.phoneRequired', 'A valid phone number is required'));
       return false;
     }
     const email = formData.customerEmail.trim();

@@ -20,14 +20,14 @@
   },
   "intro": {
     "paragraph1": "Studioz (\"the Company\" or \"we\") is committed to making its website and digital services accessible to everyone, including people with disabilities, so that all users can enjoy equal, dignified, accessible, and independent use to the greatest extent possible.",
-    "paragraph2": "This accessibility statement was prepared in accordance with the Equal Rights for Persons with Disabilities Regulations (Accessibility Adjustments for Service), 5773-2013, and Israeli Standard SI 5568 based on WCAG 2.1 Level AA."
+    "paragraph2": "This accessibility statement was prepared in accordance with the Equal Rights for Persons with Disabilities Regulations (Accessibility Adjustments for Service), 5773-2013, and Standard SI 5568 based on WCAG 2.1 Level AA."
   },
   "general": {
     "title": "General Service Information",
-    "paragraph1": "The Studioz website (www.studioz.co.il) is a digital platform for discovering, booking, and managing creative studio spaces in Israel. The service is provided primarily online.",
+    "paragraph1": "The Studioz website (www.studioz.co.il) is a digital platform for discovering, booking, and managing creative studio spaces. The service is provided primarily online.",
     "paragraph2": "Company details:",
     "companyName": "Name: Studioz",
-    "address": "Address: 70 Allenby Street, Tel Aviv, Israel",
+    "address": "Address: 70 Allenby Street, Tel Aviv",
     "website": "Website:",
     "websiteUrl": "https://www.studioz.co.il",
     "serviceEmail": "General email: info@studioz.online"
@@ -131,7 +131,7 @@
     "phone": "058-799-4325",
     "phoneTel": "+972587994325",
     "addressLabel": "Address:",
-    "address": "70 Allenby Street, Tel Aviv, Israel",
+    "address": "70 Allenby Street, Tel Aviv",
     "responseTimeLabel": "Response time:",
     "responseTime": "Within 5 business days"
   },

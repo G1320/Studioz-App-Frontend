@@ -218,7 +218,7 @@ const StudiosPage: React.FC<StudiosPageProps> = ({ studios }) => {
           </motion.h1>
           <p className="studios-page__subtitle">
             {t('page.subtitle', {
-              defaultValue: 'Find and book professional recording, podcast, and photography spaces across Israel.'
+              defaultValue: 'Find and book professional recording, podcast, and photography spaces.'
             })}
           </p>
         </div>

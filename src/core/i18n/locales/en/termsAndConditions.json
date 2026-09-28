@@ -53,7 +53,7 @@
       },
       "company": {
         "term": "Company",
-        "definition": "(referred to as \"the Company\", \"We\", \"Us\" or \"Our\" in this Agreement) refers to Studioz, Allenby 70, Tel Aviv, Israel."
+        "definition": "(referred to as \"the Company\", \"We\", \"Us\" or \"Our\" in this Agreement) refers to Studioz, Allenby 70, Tel Aviv."
       },
       "content": {
         "term": "Content",
@@ -61,7 +61,7 @@
       },
       "country": {
         "term": "Country",
-        "definition": "refers to the State of Israel."
+        "definition": "refers to the Company's jurisdiction."
       },
       "device": {
         "term": "Device",
@@ -136,11 +136,11 @@
       "description": "As a Studio Owner, You agree to:",
       "items": {
         "accuracy": "Provide accurate and complete information in Your Listings, including descriptions, photos, availability, pricing, amenities, and any rules or restrictions.",
-        "legal": "Ensure Your Studio complies with all applicable Israeli laws, regulations, building codes, safety requirements, and licensing requirements.",
+        "legal": "Ensure Your Studio complies with all applicable laws, regulations, building codes, safety requirements, and licensing requirements.",
         "availability": "Keep Your availability calendar up to date and honor confirmed Bookings.",
         "condition": "Maintain Your Studio in a safe and clean condition as described in Your Listing.",
         "insurance": "Maintain appropriate insurance coverage for Your Studio as required by law.",
-        "taxes": "Comply with all applicable tax obligations, including reporting income from Bookings and charging VAT where required under Israeli tax law.",
+        "taxes": "Comply with all applicable tax obligations, including reporting income from Bookings and charging VAT where required under applicable tax law.",
         "accessibility": "Accurately represent the accessibility features of Your Studio in accordance with the Equal Rights for Persons with Disabilities Law, 5758-1998."
       }
     },
@@ -174,8 +174,8 @@
   "cancellation": {
     "title": "Cancellation Policy",
     "consumerRights": {
-      "title": "Your Cancellation Rights Under Israeli Law",
-      "paragraph1": "In accordance with the Israeli Consumer Protection Law, 5741-1981 (חוק הגנת הצרכן) and the Consumer Protection Regulations (Transaction Cancellation), You have the right to cancel a Booking within the following terms:",
+      "title": "Your Cancellation Rights Under Applicable Law",
+      "paragraph1": "In accordance with the applicable consumer protection law, 5741-1981 (חוק הגנת הצרכן) and the Consumer Protection Regulations (Transaction Cancellation), You have the right to cancel a Booking within the following terms:",
       "items": {
         "timeframe": "You may cancel a Booking within 14 days of making the Booking, provided that the cancellation is made at least 2 days before the scheduled Booking date.",
         "refund": "Upon valid cancellation, You are entitled to a full refund minus cancellation fees not exceeding 5% of the transaction amount or 100 ILS, whichever is lower, as permitted by law.",
@@ -184,9 +184,9 @@
     },
     "platformPolicy": {
       "title": "Platform Cancellation Policy",
-      "paragraph1": "In addition to Your statutory rights under Israeli law, the following cancellation terms apply:",
+      "paragraph1": "In addition to Your statutory rights under applicable law, the following cancellation terms apply:",
       "items": {
-        "renter": "Renters may cancel a Booking in accordance with the Studio Owner's cancellation policy as stated in the Listing, subject to the minimum rights granted by Israeli consumer protection law.",
+        "renter": "Renters may cancel a Booking in accordance with the Studio Owner's cancellation policy as stated in the Listing, subject to the minimum rights granted by consumer protection law.",
         "studioOwner": "Studio Owners who cancel a confirmed Booking may be subject to penalties, including reduced visibility in search results and potential Account suspension for repeated cancellations.",
         "noShow": "If a Renter fails to show up for a confirmed Booking without prior cancellation, the Renter forfeits the full Booking amount.",
         "force": "Cancellations due to force majeure events (as defined in these Terms) may be eligible for a full refund or credit at the Company's discretion."
@@ -203,13 +203,13 @@
     },
     "payments": {
       "title": "Payments",
-      "paragraph1": "All payments are processed in Israeli New Shekels (₪ / ILS) through secure third-party payment processors. The Company does not directly store Your payment card details.",
+      "paragraph1": "All payments are processedi New Shekels (₪ / ILS) through secure third-party payment processors. The Company does not directly store Your payment card details.",
       "paragraph2": "Payment is collected from the Renter at the time of Booking. Funds are released to the Studio Owner after the Booking is completed, minus the applicable Service Fee.",
       "paragraph3": "Payment methods include credit cards, debit cards, and other payment methods made available through the Platform (such as PayPal)."
     },
     "taxes": {
       "title": "Taxes",
-      "paragraph1": "All prices displayed on the Platform are inclusive of VAT unless otherwise stated. Studio Owners are responsible for complying with their tax obligations under Israeli tax law.",
+      "paragraph1": "All prices displayed on the Platform are inclusive of VAT unless otherwise stated. Studio Owners are responsible for complying with their tax obligations under applicable tax law.",
       "paragraph2": "The Company may be required to withhold taxes on payments to Studio Owners in accordance with applicable tax regulations."
     }
   },
@@ -246,7 +246,7 @@
   "intellectualProperty": {
     "title": "Intellectual Property",
     "paragraph1": "The Service and its original content (excluding Content provided by Users), features, and functionality are and will remain the exclusive property of the Company and its licensors.",
-    "paragraph2": "The Service is protected by copyright, trademark, and other intellectual property laws of the State of Israel and international treaties, including the Israeli Copyright Law, 5768-2007 (חוק זכות יוצרים).",
+    "paragraph2": "The Service is protected by copyright, trademark, and other intellectual property laws of the Company's jurisdiction and international treaties, including the applicable copyright law, 5768-2007 (חוק זכות יוצרים).",
     "paragraph3": "Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of the Company.",
     "infringement": {
       "title": "Intellectual Property Infringement",
@@ -264,7 +264,7 @@
     "paragraph1": "To the maximum extent permitted by applicable law, the entire liability of the Company under any provision of these Terms shall be limited to the total Service Fees actually paid by You to the Company in the twelve (12) months preceding the event giving rise to the claim, or 1,000 ILS, whichever is greater.",
     "paragraph2": "The Company shall not be liable for any disputes, claims, or damages arising from the interaction between Studio Owners and Renters, including but not limited to the condition of Studios, cancellations by either party, or personal injury.",
     "paragraph3": "To the maximum extent permitted by applicable law, in no event shall the Company be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to damages for loss of profits, loss of data, business interruption, or personal injury arising out of or in any way related to the use of the Service.",
-    "paragraph4": "Nothing in these Terms shall exclude or limit liability that cannot be excluded or limited under applicable Israeli law, including liability for fraud, willful misconduct, or death or personal injury caused by negligence."
+    "paragraph4": "Nothing in these Terms shall exclude or limit liability that cannot be excluded or limited under applicable law, including liability for fraud, willful misconduct, or death or personal injury caused by negligence."
   },
   "disclaimer": {
     "title": "\"AS IS\" and \"AS AVAILABLE\" Disclaimer",
@@ -285,9 +285,9 @@
   },
   "governingLaw": {
     "title": "Governing Law",
-    "paragraph1": "These Terms shall be governed by and construed in accordance with the laws of the State of Israel, without regard to its conflict of law principles.",
-    "paragraph2": "Any legal proceedings arising out of or in connection with these Terms shall be brought exclusively in the competent courts of Tel Aviv-Jaffa, Israel.",
-    "paragraph3": "Your use of the Service may also be subject to other applicable local, national, or international laws, including the Israeli Consumer Protection Law, 5741-1981."
+    "paragraph1": "These Terms shall be governed by and construed in accordance with the laws of the Company's jurisdiction, without regard to its conflict of law principles.",
+    "paragraph2": "Any legal proceedings arising out of or in connection with these Terms shall be brought exclusively in the competent courts of Tel Aviv-Jaffa.",
+    "paragraph3": "Your use of the Service may also be subject to other applicable local, national, or international laws, including the applicable consumer protection law, 5741-1981."
   },
   "disputeResolution": {
     "title": "Dispute Resolution",
@@ -299,7 +299,7 @@
     "withCompany": {
       "title": "Disputes with the Company",
       "paragraph1": "If You have a dispute with the Company regarding the Service, You agree to first attempt to resolve the dispute informally by contacting Us at the email address provided in the Contact Us section.",
-      "paragraph2": "If the dispute cannot be resolved informally within 30 days, You may file a complaint with the Israeli Consumer Protection Authority or pursue legal action in the competent courts of Tel Aviv-Jaffa."
+      "paragraph2": "If the dispute cannot be resolved informally within 30 days, You may file a complaint with the relevant consumer protection authority or pursue legal action in the competent courts of Tel Aviv-Jaffa."
     }
   },
   "forceMajeure": {
@@ -310,13 +310,13 @@
   },
   "privacy": {
     "title": "Privacy",
-    "paragraph1": "Your use of the Service is also governed by Our Privacy Policy, which describes how We collect, use, and protect Your personal information in accordance with the Israeli Privacy Protection Law, 5741-1981 and Amendment 13 thereto.",
+    "paragraph1": "Your use of the Service is also governed by Our Privacy Policy, which describes how We collect, use, and protect Your personal information in accordance with the applicable privacy law, 5741-1981 and Amendment 13 thereto.",
     "paragraph2": "By using the Service, You consent to the collection and use of Your information as described in Our Privacy Policy.",
     "linkText": "Read our Privacy Policy"
   },
   "accessibility": {
     "title": "Accessibility",
-    "paragraph1": "The Company is committed to making the Service accessible to all users in accordance with Israeli Standard SI 5568 and WCAG 2.1 Level AA guidelines.",
+    "paragraph1": "The Company is committed to making the Service accessible to all users in accordance with Standard SI 5568 and WCAG 2.1 Level AA guidelines.",
     "paragraph2": "If You encounter any accessibility barriers while using the Service, please contact us so we can assist You and work to improve accessibility.",
     "linkText": "Read the full Accessibility Statement"
   },
@@ -335,7 +335,7 @@
     "title": "Changes to These Terms and Conditions",
     "paragraph1": "We reserve the right to modify or replace these Terms at any time at Our sole discretion. If a revision is material, We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect.",
     "paragraph2": "By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, please stop using the Service.",
-    "paragraph3": "In the event of a conflict between the Hebrew and English versions of these Terms, the Hebrew version shall prevail for Users in Israel."
+    "paragraph3": "In the event of a conflict between the Hebrew and English versions of these Terms, the Hebrew version shall prevail for Users."
   },
   "contact": {
     "title": "Contact Us",
@@ -343,7 +343,7 @@
     "emailLabel": "By email:",
     "email": "info@studioz.online",
     "addressLabel": "By mail:",
-    "address": "Allenby 70, Tel Aviv, Israel",
+    "address": "Allenby 70, Tel Aviv",
     "websiteLabel": "Website:",
     "website": "https://www.studioz.co.il"
   }

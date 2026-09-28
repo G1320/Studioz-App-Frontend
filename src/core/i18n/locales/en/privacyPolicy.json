@@ -22,7 +22,7 @@
     "disclosure": "Disclosure of Your Personal Data",
     "security": "Security of Your Personal Data",
     "thirdPartyServices": "Detailed Information on Third-Party Services",
-    "amendment13": "Your Rights Under Israeli Law (Amendment 13)",
+    "amendment13": "Your Rights Under Applicable Law (Amendment 13)",
     "childrenPrivacy": "Children's Privacy",
     "dpo": "Data Protection Officer",
     "links": "Links to Other Websites",
@@ -52,7 +52,7 @@
       },
       "company": {
         "term": "Company",
-        "definition": "(referred to as either \"the Company\", \"We\", \"Us\" or \"Our\" in this Agreement) refers to Studioz, Allenby 70, Tel Aviv, Israel."
+        "definition": "(referred to as either \"the Company\", \"We\", \"Us\" or \"Our\" in this Agreement) refers to Studioz, Allenby 70, Tel Aviv."
       },
       "cookies": {
         "term": "Cookies",
@@ -60,7 +60,7 @@
       },
       "country": {
         "term": "Country",
-        "definition": "refers to: Israel"
+        "definition": "refers to the Company's operating jurisdiction"
       },
       "device": {
         "term": "Device",
@@ -313,7 +313,7 @@
       "transactions": {
         "title": "Transaction Records",
         "period": "7 years",
-        "description": "Financial transaction records and invoices are retained for 7 years in accordance with Israeli tax law (Income Tax Ordinance) and bookkeeping requirements."
+        "description": "Financial transaction records and invoices are retained for 7 years in accordance with applicable tax law (Income Tax Ordinance) and bookkeeping requirements."
       },
       "analytics": {
         "title": "Analytics Data",
@@ -409,8 +409,8 @@
     }
   },
   "amendment13": {
-    "title": "Your Rights Under Israeli Law (Amendment 13)",
-    "intro": "In accordance with Amendment 13 to Israel's Privacy Protection Law (5741-1981), You have the following rights regarding Your Personal Data. These rights apply to all data subjects whose personal data is processed by the Company.",
+    "title": "Your Rights Under Applicable Law (Amendment 13)",
+    "intro": "In accordance with Amendment 13 to applicable privacy law (5741-1981), You have the following rights regarding Your Personal Data. These rights apply to all data subjects whose personal data is processed by the Company.",
     "rights": {
       "access": {
         "title": "Right of Access",
@@ -474,7 +474,7 @@
     "description": "If you have any questions about this Privacy Policy, You can contact us:",
     "email": "info@studioz.online",
     "emailLabel": "By email:",
-    "address": "Allenby 70, Tel Aviv, Israel",
+    "address": "Allenby 70, Tel Aviv",
     "addressLabel": "By mail:",
     "website": "https://www.studioz.co.il",
     "websiteLabel": "Website:"

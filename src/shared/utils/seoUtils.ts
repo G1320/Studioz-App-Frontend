@@ -71,8 +71,8 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
   // Landing page (root)
   if (basePath === '/' || basePath === '') {
     return currentLang === 'he'
-      ? `השכרת אולפנים בישראל | ${brandName}`
-      : `Studio Rentals & Services in Israel | ${brandName}`;
+      ? `השכרת אולפנים | ${brandName}`
+      : `Studio Rentals & Services | ${brandName}`;
   }
 
   // Discover page
@@ -109,7 +109,7 @@ export const getPageTitle = ({ basePath, currentLang, category, subcategory, cit
       return currentLang === 'he' ? `אולפנים - ${filtersText} | ${brandName}` : `${filtersText} Studios | ${brandName}`;
     }
 
-    return currentLang === 'he' ? `אולפנים להשכרה בישראל | ${brandName}` : `Studio Rentals in Israel | ${brandName}`;
+    return currentLang === 'he' ? `אולפנים להשכרה | ${brandName}` : `Studio Rentals | ${brandName}`;
   }
 
   // Services listing pages
@@ -154,15 +154,15 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
   // Landing page (root)
   if (basePath === '/' || basePath === '') {
     return currentLang === 'he'
-      ? 'השכרת אולפנים מקצועיים בישראל – מוזיקה, פודקאסט, הקלטות, צילום ווידאו בכל הערים. השוו חללים, ציוד ומחירים, צפו בזמינות בזמן אמת והזמינו את האולפן המושלם בדקות.'
-      : 'Rent professional studios in Israel—music, podcast, recording, photo, and video across all cities. Compare spaces, gear, prices, check live availability, and book the perfect studio in minutes.';
+      ? 'השכרת אולפנים מקצועיים – מוזיקה, פודקאסט, הקלטות, צילום ווידאו. השוו חללים, ציוד ומחירים, צפו בזמינות בזמן אמת והזמינו את האולפן המושלם בדקות.'
+      : 'Rent professional studios—music, podcast, recording, photo, and video. Compare spaces, gear, prices, check live availability, and book the perfect studio in minutes.';
   }
 
   // Discover page
   if (basePath === '/discover' || basePath.startsWith('/discover')) {
     return currentLang === 'he'
-      ? 'גלו את האולפנים והשירותים הטובים ביותר בישראל. הקלטות, מיקס, מאסטרינג, פודקאסטים ועוד – הכל במקום אחד עם זמינות בזמן אמת והזמנה מהירה.'
-      : 'Discover the best studios and services in Israel. Recording, mixing, mastering, podcasts and more—all in one place with real-time availability and fast booking.';
+      ? 'גלו את האולפנים והשירותים הטובים ביותר. הקלטות, מיקס, מאסטרינג, פודקאסטים ועוד – הכל במקום אחד עם זמינות בזמן אמת והזמנה מהירה.'
+      : 'Discover the best studios and services. Recording, mixing, mastering, podcasts and more—all in one place with real-time availability and fast booking.';
   }
 
   // Studios listing pages
@@ -190,20 +190,20 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
     if (parts.length > 0) {
       const filtersText = parts.join(' ');
       return currentLang === 'he'
-        ? `אולפני ${filtersText} להשכרה בישראל עם ציוד מתקדם, חדרים אקוסטיים, חנייה נגישה וזמינות בזמן אמת. השוו מחירים, קראו ביקורות והזמינו אונליין בדקות.`
-        : `${filtersText} studios for rent in Israel with pro gear, treated rooms, easy access, real-time availability, reviews, and fast online booking.`;
+        ? `אולפני ${filtersText} להשכרה עם ציוד מתקדם, חדרים אקוסטיים, חנייה נגישה וזמינות בזמן אמת. השוו מחירים, קראו ביקורות והזמינו אונליין בדקות.`
+        : `${filtersText} studios for rent with pro gear, treated rooms, easy access, real-time availability, reviews, and fast online booking.`;
     }
 
     return currentLang === 'he'
-      ? 'אולפני מוזיקה, הקלטות, פודקאסט, צילום ווידאו להשכרה בכל רחבי ישראל. ציוד מקצועי, חדרים אקוסטיים, מחירים שקופים, זמינות מיידית והזמנה מקוונת.'
-      : 'Music, recording, podcast, photo, and video studios for rent across Israel. Pro equipment, treated rooms, transparent pricing, instant availability, and easy online booking.';
+      ? 'אולפני מוזיקה, הקלטות, פודקאסט, צילום ווידאו להשכרה. ציוד מקצועי, חדרים אקוסטיים, מחירים שקופים, זמינות מיידית והזמנה מקוונת.'
+      : 'Music, recording, podcast, photo, and video studios for rent. Pro equipment, treated rooms, transparent pricing, instant availability, and easy online booking.';
   }
 
   // Services listing pages
   if (basePath.startsWith('/services')) {
     return currentLang === 'he'
-      ? 'שירותי אולפן בישראל: מיקס, מאסטרינג, עריכה והפקה עם טכנאי סאונד מנוסים. מחירים שקופים, זמינות מהירה ותיאום אונליין.'
-      : 'Studio services in Israel: mixing, mastering, editing, and production with experienced engineers. Transparent pricing, fast availability, and easy scheduling.';
+      ? 'שירותי אולפן: מיקס, מאסטרינג, עריכה והפקה עם טכנאי סאונד מנוסים. מחירים שקופים, זמינות מהירה ותיאום אונליין.'
+      : 'Studio services: mixing, mastering, editing, and production with experienced engineers. Transparent pricing, fast availability, and easy scheduling.';
   }
 
   // Studio details page
@@ -243,6 +243,6 @@ export const getMetaDescription = ({ basePath, currentLang, category, subcategor
 
   // Default fallback
   return currentLang === 'he'
-    ? 'השכרת אולפנים ושירותים מקצועיים בישראל. מצאו את האולפן המושלם עבורכם.'
-    : 'Professional studio and service rentals in Israel. Find the perfect studio for you.';
+    ? 'השכרת אולפנים ושירותים מקצועיים. מצאו את האולפן המושלם עבורכם.'
+    : 'Professional studio and service rentals. Find the perfect studio for you.';
 };

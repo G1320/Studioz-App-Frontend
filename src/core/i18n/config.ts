@@ -183,6 +183,7 @@ i18n
       }
     },
     fallbackLng: 'en',
+    lng: 'en',
     supportedLngs: ['en', 'he'],
     nonExplicitSupportedLngs: true,
     detection: {

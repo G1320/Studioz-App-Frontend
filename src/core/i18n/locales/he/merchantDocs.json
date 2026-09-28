@@ -39,7 +39,7 @@
       "nameRequired": "נא להזין שם לקוח",
       "emailRequired": "נא להזין אימייל לקוח",
       "emailInvalid": "נא להזין כתובת אימייל תקינה",
-      "phoneRequired": "נא להזין מספר טלפון ישראלי תקין",
+      "phoneRequired": "נא להזין מספר טלפון תקין",
       "itemsRequired": "נא להזין לפחות פריט אחד עם תיאור ומחיר",
       "paymentFailed": "התשלום נכשל"
     }

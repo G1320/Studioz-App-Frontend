@@ -79,7 +79,7 @@ vi.mock('react-i18next', () => ({
         'cookieCategories.marketing.name': 'Marketing',
         'cookieCategories.marketing.purpose': 'Relevant ads.',
         'cookieCategories.marketing.duration': '90 days',
-        'amendment13.title': 'Your Rights Under Israeli Law (Amendment 13)',
+        'amendment13.title': 'Your Rights Under Applicable Law (Amendment 13)',
         'amendment13.intro': 'In accordance with Amendment 13.',
         'amendment13.rights.access.title': 'Right of Access',
         'amendment13.rights.access.description': 'You have the right to request access.',
@@ -141,7 +141,7 @@ describe('PrivacyPolicyPage', () => {
 
   it('renders Amendment 13 rights section', () => {
     render(<PrivacyPolicyPage />);
-    expect(screen.getByText('Your Rights Under Israeli Law (Amendment 13)')).toBeInTheDocument();
+    expect(screen.getByText('Your Rights Under Applicable Law (Amendment 13)')).toBeInTheDocument();
     expect(screen.getByText('Right of Access')).toBeInTheDocument();
     expect(screen.getByText('Right of Correction')).toBeInTheDocument();
     expect(screen.getByText('Right of Deletion')).toBeInTheDocument();

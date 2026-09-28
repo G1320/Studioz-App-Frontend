@@ -40,7 +40,7 @@ export const AdSetConfigStep: React.FC<AdSetConfigStepProps> = ({
           value={adSetName}
           onChange={(e) => onUpdate('adSetName', e.target.value)}
           className="meta-input"
-          placeholder="e.g., Israel 25-45 Interest Targeting"
+          placeholder="e.g., Region 25-45 Interest Targeting"
         />
       </div>
 

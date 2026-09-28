@@ -46,7 +46,6 @@
     "fullyPaid": "שולם במלואו",
     "refunded": "הוחזר"
   },
-
   "status": {
     "requested": "ממתין",
     "accepted": "אושר",
@@ -57,7 +56,6 @@
     "cancelled": "בוטל",
     "declined": "נדחה"
   },
-
   "projectDetails": "פרטי הפרויקט",
   "service": "שירות",
   "studio": "אולפן",
@@ -67,7 +65,6 @@
   "brief": "תיאור הפרויקט",
   "referenceLinks": "קישורים לייחוס",
   "remoteService": "שירות מרחוק",
-
   "actions": "פעולות",
   "accept": "קבל פרויקט",
   "decline": "דחה פרויקט",
@@ -78,16 +75,13 @@
   "markComplete": "סמן כהושלם",
   "cancel": "בטל פרויקט",
   "noActions": "אין פעולות זמינות כרגע",
-
   "declineProject": "דחיית פרויקט",
   "declineReasonPlaceholder": "אופציונלי: ספק סיבה לדחייה",
   "confirmDecline": "אשר דחייה",
-
   "deliverProject": "מסירת פרויקט",
   "deliveryHint": "וודא שהעלית את כל הקבצים לפני סימון כנמסר",
   "deliveryNotesPlaceholder": "אופציונלי: הוסף הערות למסירה",
   "confirmDelivery": "אשר מסירה",
-
   "revisionHint": "נותרו לך {{count}} תיקונים",
   "paidRevisionHint": "כל התיקונים החינמיים נוצלו. תיקון זה יחויב ב-{{price}} ₪.",
   "revisionFeedbackPlaceholder": "תאר אילו שינויים תרצה...",
@@ -98,7 +92,6 @@
   "editReferenceLinks": "קישורים לייחוס",
   "editReferencePlaceholder": "https://...",
   "saveChanges": "שמור שינויים",
-
   "artwork": {
     "alt": "תמונת הפרויקט",
     "empty": "הוסף תמונה לפרויקט",
@@ -113,9 +106,7 @@
     "tooLarge": "גודל התמונה חייב להיות עד 8MB",
     "confirmRemove": "להסיר את תמונת הפרויקט?"
   },
-
   "confirmCancel": "האם אתה בטוח שברצונך לבטל את הפרויקט?",
-
   "sourceFiles": "קבצי מקור",
   "deliverables": "קבצים למסירה",
   "revisionFiles": "קבצי תיקון",
@@ -145,7 +136,6 @@
   "deleteAll": "מחק הכל",
   "bulkActionsLabel": "לכל הקבצים",
   "downloadFailed": "הורדת הקובץ נכשלה",
-
   "audioPlayer": {
     "label": "נגן אודיו עבור {{name}}",
     "stickyLabel": "מתנגן כעת {{name}}",
@@ -170,7 +160,6 @@
     "cueMarkerNamed": "הערה של {{name}} ב-{{time}}",
     "analyzing": "מייצר צורת גל…"
   },
-
   "trackComments": {
     "toggle": "הערות על הטראק ({{count}})",
     "count_one": "הערה אחת",
@@ -208,7 +197,6 @@
     "chatHintTitle": "הערות עם חותמת זמן מוצגות בשרשור של כל טראק, לא כאן.",
     "pendingInThread": "הערה ב-{{time}} · {{file}} — השלם אותה בשרשור הטראק מתחת לנגן."
   },
-
   "downloadLock": {
     "title": "הורדת תוצרים ללקוח",
     "hint": "הגדרה זו שולטת בהורדת כל קובצי התוצרים והתיקונים עבור הלקוח. לאולפן תמיד נשארת אפשרות הורדה. הנעילה משתחררת אוטומטית כשהפרויקט מושלם או משולם במלואו.",
@@ -223,7 +211,6 @@
       "autoReleased": "פתוח — הפרויקט הושלם"
     }
   },
-
   "messages": "הודעות",
   "projectChat": "צ׳אט",
   "collapseProjectChat": "סגירת צ׳אט הפרויקט",
@@ -234,7 +221,6 @@
   "read": "נקרא",
   "customer": "לקוח",
   "vendor": "אולפן",
-
   "collaborators": {
     "title": "משתפי פעולה",
     "hint": "הזמינו שותפים באימייל. הם יוכלו לשוחח, לשתף קבצים ולבצע פעולות תהליך.",
@@ -269,7 +255,6 @@
     "aProject": "פרויקט",
     "someone": "מישהו"
   },
-
   "requestProject": "בקשת פרויקט",
   "projectTitle": "שם הפרויקט",
   "titlePlaceholder": "לדוגמה: מיקס ומאסטרינג - שם השיר",
@@ -285,15 +270,12 @@
   "submitRequest": "שלח בקשה",
   "submitNote": "לאחר השליחה תוכל להעלות את הקבצים שלך. האולפן יבדוק את הבקשה ויאשר או ידחה תוך 24-48 שעות.",
   "submitNoteGuest": "נשלח לך עדכונים במייל על הבקשה. אפשר ליצור חשבון בכל שלב כדי לעקוב אחריה במקום אחד.",
-
   "projectPrice": "מחיר הפרויקט",
   "depositRequired": "מקדמה נדרשת",
   "estimatedDelivery": "זמן אספקה משוער",
   "revisionsIncluded": "תיקונים כלולים",
   "days": "ימים",
-
   "projectNotFound": "הפרויקט לא נמצא",
-
   "common": {
     "loading": "טוען...",
     "cancel": "ביטול",

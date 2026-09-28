@@ -140,7 +140,7 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
     <AnimatePresence mode="sync" initial={false}>
       <Suspense fallback={<div className="page-loader"><div className="page-loader__spinner" /></div>}>
         <Routes location={location}>
-          <Route path="/" element={<Navigate to={`/${i18n.language}`} />} />
+          <Route path="/" element={<Navigate to="/en" replace />} />
           <Route
             path="/:lang"
             element={
