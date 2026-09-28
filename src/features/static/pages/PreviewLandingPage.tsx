@@ -295,7 +295,7 @@ export default function PreviewLandingPage() {
 
   const captureUrl = useCallback(
     (capture: string) =>
-      `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp?v=20260927q`,
+      `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp?v=20260928c`,
     [assetLocale, resolvedTheme]
   );
 

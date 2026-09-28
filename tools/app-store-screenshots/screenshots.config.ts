@@ -414,7 +414,19 @@ const scenes: ScreenshotScene[] = [
     device: 'iphone-6.9',
     template: 'minimal',
     textAlign: 'center',
-    actions: [{ type: 'scroll', selector: '.documents-table', offsetY: 72 }],
+    actions: [
+      // Clearance under iPhone status chrome (~y=210 @3x). Documents-only.
+      {
+        type: 'style',
+        css: `
+          .merchant-documents__header,
+          .merchant-documents__stats {
+            display: none !important;
+          }
+        `
+      },
+      { type: 'scroll', selector: '.page-header', offsetY: 59 }
+    ],
     deviceTransform: { scale: 0.82, y: 420, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
