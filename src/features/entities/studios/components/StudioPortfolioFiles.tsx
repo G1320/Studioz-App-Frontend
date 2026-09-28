@@ -391,9 +391,6 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
                       </div>
                     )}
                     <div className="portfolio-card__overlay" />
-                    <div className="portfolio-card__type portfolio-card__type--audio">
-                      <span>{roleLabel(file.role)}</span>
-                    </div>
                     {isPlayableAudioExtension(file.fileName) && (
                       <div className="portfolio-track-tile__play">
                         <RemoteAudioPlayer
@@ -410,6 +407,11 @@ export const StudioPortfolioFiles: React.FC<StudioPortfolioFilesProps> = ({
                     <h3 className="portfolio-card__title" title={file.fileName}>
                       {displayTrackTitle(file.fileName)}
                     </h3>
+                    {file.role && !canManage ? (
+                      <span className="portfolio-card__type portfolio-card__type--audio">
+                        {roleLabel(file.role)}
+                      </span>
+                    ) : null}
                     {canManage && (
                       <div className="portfolio-track-tile__manage">
                         <select

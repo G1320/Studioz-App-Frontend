@@ -76,7 +76,7 @@ const SHOWCASES = [
   }
 ] as const;
 
-type ShowcaseLayout = (typeof SHOWCASES)[number]['layout'];
+type ShowcaseLayout = 'solo' | 'phone' | 'overlap' | 'wide';
 
 const OPENING_PAIR = SHOWCASES.slice(0, 2);
 const CLOSING_PAIR = SHOWCASES.slice(-2);
@@ -458,15 +458,13 @@ export default function PreviewLandingPage() {
                 const mobile =
                   'mobile' in showcase && showcase.mobile ? captureUrl(showcase.mobile) : undefined;
                 const layout = showcase.layout;
-                const wide = layout === 'wide';
 
                 return (
                   <motion.article
                     key={showcase.key}
                     className={[
                       'preview-landing__showcase',
-                      wide ? 'preview-landing__showcase--wide' : '',
-                      !wide && index % 2 === 1 ? 'preview-landing__showcase--reverse' : '',
+                      index % 2 === 1 ? 'preview-landing__showcase--reverse' : '',
                       layout === 'phone' ? 'preview-landing__showcase--phone' : ''
                     ]
                       .filter(Boolean)

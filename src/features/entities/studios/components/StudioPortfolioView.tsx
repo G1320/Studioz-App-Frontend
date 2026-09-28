@@ -175,7 +175,6 @@ export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
                   transition={{ duration: 0.3 }}
                   className="portfolio-card"
                 >
-                  {/* Card Image */}
                   <div className="portfolio-card__image-wrapper">
                     {item.coverUrl ? (
                       <img src={item.coverUrl} alt={item.title} className="portfolio-card__image" />
@@ -184,33 +183,19 @@ export const StudioPortfolioView: React.FC<StudioPortfolioViewProps> = ({
                         {getTypeIcon(item.type)}
                       </div>
                     )}
-
-                    {/* Overlay Gradient */}
                     <div className="portfolio-card__overlay" />
-
-                    {/* Type Badge */}
-                    <div className={`portfolio-card__type ${getTypeClass(item.type)}`}>
-                      {getTypeIcon(item.type)}
-                      <span>{item.type}</span>
-                    </div>
-
-                    {/* Play Button */}
                     <div className="portfolio-card__play-btn">
                       <PlayIcon />
                     </div>
-
-                    {/* Role Badge */}
-                    {item.role && (
-                      <div className="portfolio-card__role">
-                        {t('form.portfolio.role', { defaultValue: 'Role' })}: {item.role}
-                      </div>
-                    )}
                   </div>
 
-                  {/* Meta Data */}
                   <div className="portfolio-card__meta">
                     <h3 className="portfolio-card__title">{item.title}</h3>
-                    <p className="portfolio-card__artist">{item.artist}</p>
+                    {item.artist ? <p className="portfolio-card__artist">{item.artist}</p> : null}
+                    <span className={`portfolio-card__type ${getTypeClass(item.type)}`}>
+                      {item.type}
+                      {item.role ? ` · ${item.role}` : ''}
+                    </span>
                   </div>
                 </motion.a>
               ))}

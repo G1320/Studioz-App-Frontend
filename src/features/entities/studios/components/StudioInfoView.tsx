@@ -1,11 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Studio } from 'src/types/index';
 import { DayOfWeek } from 'src/types/studio';
 import { useTranslation } from 'react-i18next';
 import { useDays } from '@shared/hooks';
 import {
-  ExpandMoreIcon,
-  ExpandLessIcon,
   WifiIcon,
   CoffeeIcon,
   AcIcon,
@@ -74,7 +72,6 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   const { t: tEquipment } = useTranslation('equipment');
   const { getDisplayByEnglish } = useDays();
 
-  const [showAllHours, setShowAllHours] = useState(false);
   const currentLang = i18n.language === 'he' ? 'he' : 'en';
 
   const getCleanAddress = (address: string, city?: string) => {
@@ -187,8 +184,6 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
   }, [studio?.studioAvailability, getDisplayByEnglish, i18n.language]);
 
   const hasAvailability = formattedAvailability.length > 0;
-  const visibleHours = showAllHours ? formattedAvailability : formattedAvailability.slice(0, 5);
-  const hasMoreHours = formattedAvailability.length > 5;
 
   return (
     <div className="studio-info-view">
@@ -274,7 +269,7 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
               {t('form.studioDetails.openingHours', { defaultValue: 'Opening Hours' })}
             </h3>
             <div className="info-card__hours">
-              {visibleHours.map((slot) => (
+              {formattedAvailability.map((slot) => (
                 <div
                   key={slot.day}
                   className={`info-card__hours-row ${slot.isClosed ? 'info-card__hours-row--closed' : ''}`}
@@ -283,21 +278,6 @@ export const StudioInfoView: React.FC<StudioInfoViewProps> = ({ studio }) => {
                   <span className="info-card__hours-time">{slot.hours}</span>
                 </div>
               ))}
-              {hasMoreHours && (
-                <button className="info-card__hours-toggle" onClick={() => setShowAllHours(!showAllHours)}>
-                  {showAllHours ? (
-                    <>
-                      <ExpandLessIcon className="info-card__hours-toggle-icon" />
-                      {i18n.language === 'he' ? 'הצג פחות' : 'Show less'}
-                    </>
-                  ) : (
-                    <>
-                      <ExpandMoreIcon className="info-card__hours-toggle-icon" />
-                      {i18n.language === 'he' ? 'הצג הכל' : 'Show all'}
-                    </>
-                  )}
-                </button>
-              )}
             </div>
           </section>
         )}
