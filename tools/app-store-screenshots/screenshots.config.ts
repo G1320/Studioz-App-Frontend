@@ -1149,7 +1149,13 @@ const scenes: ScreenshotScene[] = [
           }
         `
       },
-      { type: 'click', selector: '.item-modal .date-picker-container button' }
+      { type: 'click', selector: '.item-modal .date-picker-container button' },
+      // Let the picker mount, pick an evening slot, then reopen so night hours stay framed.
+      { type: 'wait', ms: 400 },
+      { type: 'click', selector: '.MuiDigitalClock-item:nth-child(21)' },
+      { type: 'wait', ms: 200 },
+      { type: 'click', selector: '.item-modal .date-picker-container button' },
+      { type: 'wait', ms: 400 }
     ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
@@ -1335,7 +1341,14 @@ const scenes: ScreenshotScene[] = [
     auth: 'customer',
     device: 'desktop-1440',
     template: 'product',
-    actions: [{ type: 'click', selector: '.item-modal .date-picker-container button' }],
+    actions: [
+      { type: 'click', selector: '.item-modal .date-picker-container button' },
+      { type: 'wait', ms: 400 },
+      { type: 'click', selector: '.MuiDigitalClock-item:nth-child(21)' },
+      { type: 'wait', ms: 200 },
+      { type: 'click', selector: '.item-modal .date-picker-container button' },
+      { type: 'wait', ms: 400 }
+    ],
     deviceTransform: { scale: 1.04, shadow: true },
     screenTreatment: {
       dark: { brightness: 1, contrast: 1, saturation: 1 },

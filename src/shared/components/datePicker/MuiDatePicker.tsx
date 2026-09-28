@@ -83,20 +83,26 @@ export const MuiDateTimePicker = ({
 
   useEffect(() => {
     if (isOpen) {
-      const scrollToInitialTime = () => {
-        // With CSS reordering, 06:00 is now at the top of the list
-        // Just scroll to top to show 06:00 first
-        const list = document.querySelector('.MuiDigitalClock-list') as HTMLElement;
-        if (list) {
-          list.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
+      const scrollToVisibleTime = () => {
+        // Hours are CSS-reordered to start at 06:00; skip past disabled early
+        // slots so the selected / first available hour is in view.
+        const list = document.querySelector('.MuiDigitalClock-list') as HTMLElement | null;
+        if (!list) return;
+        const selected = list.querySelector('.MuiDigitalClock-item.Mui-selected') as HTMLElement | null;
+        const firstAvailable = list.querySelector(
+          '.MuiDigitalClock-item:not(.Mui-disabled)'
+        ) as HTMLElement | null;
+        const target = selected ?? firstAvailable;
+        if (target) {
+          // Center so hours before and after the selection stay in view.
+          target.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+        } else {
+          list.scrollTo({ top: 0, behavior: 'auto' });
         }
       };
 
       // MUI picker needs time to fully render
-      const timers = [100, 250].map((delay) => setTimeout(scrollToInitialTime, delay));
+      const timers = [100, 280].map((delay) => setTimeout(scrollToVisibleTime, delay));
 
       return () => timers.forEach(clearTimeout);
     }

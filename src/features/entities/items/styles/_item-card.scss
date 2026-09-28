@@ -332,11 +332,14 @@
   .item-card__studio-price {
     flex: 0 0 auto;
     display: inline-flex;
+    flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     gap: 0.4rem;
     text-align: end;
     white-space: nowrap;
+    // Keep bolt → price left-to-right even when the page is RTL.
+    direction: ltr;
 
     small.item-price {
       font-size: 0.875rem;

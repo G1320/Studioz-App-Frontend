@@ -259,6 +259,10 @@ async function runNavigationAction(page: Page, action: NavigationAction): Promis
     await page.click(action.selector);
     return;
   }
+  if (action.type === 'wait') {
+    await new Promise((resolve) => setTimeout(resolve, action.ms));
+    return;
+  }
   if (action.type === 'style') {
     await page.addStyleTag({ content: action.css });
     return;
