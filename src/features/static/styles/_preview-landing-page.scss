@@ -307,6 +307,23 @@
     color: var(--text-secondary);
     font-size: 1.05rem;
     line-height: 1.65;
+
+    &--desktop {
+      display: none;
+
+      @media (min-width: 900px) {
+        display: block;
+      }
+    }
+
+    &--mobile {
+      display: block;
+      max-width: 28rem;
+
+      @media (min-width: 900px) {
+        display: none;
+      }
+    }
   }
 
   &__pillars,
@@ -327,11 +344,7 @@
     gap: clamp(1.75rem, 4vw, 2.5rem) clamp(1.5rem, 3vw, 2.25rem);
 
     @media (min-width: 640px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
@@ -372,6 +385,22 @@
     display: flex;
     flex-direction: column;
     gap: clamp(3.5rem, 8vw, 6rem);
+
+    &--desktop {
+      display: none;
+
+      @media (min-width: 900px) {
+        display: flex;
+      }
+    }
+
+    &--mobile {
+      display: flex;
+
+      @media (min-width: 900px) {
+        display: none;
+      }
+    }
   }
 
   // Operations + calendar (open) / studios + invoices (close): equal-weight pair on desktop

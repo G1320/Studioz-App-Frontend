@@ -24,11 +24,6 @@
         "description": "Files, timed feedback, and approvals attached to the project."
       },
       {
-        "id": "insights",
-        "title": "See what matters",
-        "description": "Revenue and utilization insights ready when you need to decide."
-      },
-      {
         "id": "presence",
         "title": "Earn trust online",
         "description": "A polished studio presence that converts browsers into clients."
@@ -37,12 +32,13 @@
   },
   "platform": {
     "title": "One workspace. Same context.",
-    "description": "Operations, delivery, intelligence, and presence. Share the same picture so everyone stays in the loop."
+    "description": "Operations, delivery, intelligence, and presence. Share the same picture so everyone stays in the loop.",
+    "mobileDescription": "Two desktop-led views that complete what you just saw on the phone."
   },
   "mobileCarousel": {
     "eyebrow": "On mobile",
     "title": "Every important view, in your pocket.",
-    "description": "Calendar, booking, projects, and money — the same Studioz workspace on a phone.",
+    "description": "Five core moments — schedule, book, present, deliver, and get paid.",
     "slides": {
       "calendar": {
         "title": "Month calendar",

@@ -17,14 +17,10 @@ const PROGRESS_TICK_MS = 50;
 
 export const PREVIEW_MOBILE_SLIDES = [
   { id: 'calendar', capture: 'mobile-calendar' },
-  { id: 'calendarList', capture: 'mobile-calendar-list' },
-  { id: 'studio', capture: 'mobile-studio-portfolio' },
   { id: 'booking', capture: 'mobile-booking-flow' },
-  { id: 'reservations', capture: 'mobile-reservations' },
-  { id: 'projects', capture: 'mobile-projects' },
+  { id: 'studio', capture: 'mobile-studio-portfolio' },
   { id: 'workspace', capture: 'mobile-project-workspace' },
-  { id: 'documents', capture: 'mobile-documents' },
-  { id: 'manage', capture: 'mobile-studio-manager' }
+  { id: 'documents', capture: 'mobile-documents' }
 ] as const;
 
 export type PreviewMobileSlideId = (typeof PREVIEW_MOBILE_SLIDES)[number]['id'];
@@ -139,7 +135,6 @@ export function PreviewMobileCarousel({ captureUrl }: PreviewMobileCarouselProps
         <div className="preview-mobile-carousel__copy">
           <header className="preview-mobile-carousel__header">
             <h2 id="preview-mobile-carousel-title">{t('mobileCarousel.title')}</h2>
-            <p className="preview-mobile-carousel__lead">{t('mobileCarousel.description')}</p>
           </header>
 
           <div

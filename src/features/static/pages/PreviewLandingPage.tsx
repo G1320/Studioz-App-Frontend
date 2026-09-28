@@ -5,7 +5,6 @@ import { Link, useParams } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
-  BarChart3,
   CalendarDays,
   Check,
   Headphones,
@@ -25,7 +24,6 @@ import '../styles/_faq-page.scss';
 const PILLAR_ICONS = {
   bookings: CalendarDays,
   remote: Headphones,
-  insights: BarChart3,
   presence: Store
 } as const;
 
@@ -34,8 +32,8 @@ type PillarId = keyof typeof PILLAR_ICONS;
 const OPS_ROTATE_MS = 6000;
 
 /**
- * Visual rhythm (avoid a run of identical duals):
- * opening pair → phone → overlap dual → wide dual (full row) → closing pair.
+ * Desktop: opening pair → phone → overlap → presence → money.
+ * Mobile: carousel is the product theater; platform keeps only ops + presence.
  */
 const SHOWCASES = [
   {
@@ -65,11 +63,6 @@ const SHOWCASES = [
     layout: 'solo'
   },
   {
-    key: 'studios',
-    desktop: 'desktop-studio-manager',
-    layout: 'solo'
-  },
-  {
     key: 'money',
     desktop: 'desktop-documents',
     layout: 'solo'
@@ -79,8 +72,15 @@ const SHOWCASES = [
 type ShowcaseLayout = 'solo' | 'phone' | 'overlap' | 'wide';
 
 const OPENING_PAIR = SHOWCASES.slice(0, 2);
-const CLOSING_PAIR = SHOWCASES.slice(-2);
-const MIDDLE_SHOWCASES = SHOWCASES.slice(2, -2);
+const MIDDLE_SHOWCASES = SHOWCASES.slice(2);
+/** Mobile platform: two desktop-led stories that don’t redo the pocket carousel. */
+const MOBILE_PLATFORM_SHOWCASES = [SHOWCASES[1], SHOWCASES[4]] as const;
+/** Pipeline rotate on mobile: projects → reservations → calendar. */
+const MOBILE_OPS_DESKTOPS = [
+  'desktop-projects',
+  'desktop-reservations',
+  'desktop-calendar'
+] as const;
 
 interface ProductVisualProps {
   desktopSrc?: string;
@@ -232,25 +232,16 @@ function ShowcasePair({
   captureUrl,
   t,
   fadeUp,
-  eagerFirst = false,
-  closing = false
+  eagerFirst = false
 }: {
-  items: typeof OPENING_PAIR | typeof CLOSING_PAIR;
+  items: typeof OPENING_PAIR;
   captureUrl: (capture: string) => string;
   t: (key: string) => string;
   fadeUp: Record<string, unknown>;
   eagerFirst?: boolean;
-  closing?: boolean;
 }) {
   return (
-    <div
-      className={[
-        'preview-landing__showcase-pair',
-        closing ? 'preview-landing__showcase-pair--closing' : ''
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
+    <div className="preview-landing__showcase-pair">
       {items.map((showcase, index) => {
         const desktops =
           'desktops' in showcase ? showcase.desktops.map((id) => captureUrl(id)) : undefined;
@@ -432,14 +423,33 @@ export default function PreviewLandingPage() {
 
         <PreviewMobileCarousel captureUrl={captureUrl} />
 
+        <section className="preview-landing__proof">
+          <div className="preview-landing__container">
+            <div className="preview-landing__proof-grid">
+              {(Array.isArray(proofItems) ? proofItems : []).map((item) => (
+                <motion.blockquote key={item.role} className="preview-landing__proof-item" {...fadeUp}>
+                  <p>{item.quote}</p>
+                  <footer>{item.role}</footer>
+                </motion.blockquote>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="platform" className="preview-landing__platform">
           <div className="preview-landing__container">
             <motion.header className="preview-landing__section-header" {...fadeUp}>
               <h2>{t('platform.title')}</h2>
-              <p className="preview-landing__section-lead">{t('platform.description')}</p>
+              <p className="preview-landing__section-lead preview-landing__section-lead--desktop">
+                {t('platform.description')}
+              </p>
+              <p className="preview-landing__section-lead preview-landing__section-lead--mobile">
+                {t('platform.mobileDescription')}
+              </p>
             </motion.header>
 
-            <div className="preview-landing__showcase-list">
+            {/* Desktop: full product stack */}
+            <div className="preview-landing__showcase-list preview-landing__showcase-list--desktop">
               <ShowcasePair
                 items={OPENING_PAIR}
                 captureUrl={captureUrl}
@@ -488,21 +498,46 @@ export default function PreviewLandingPage() {
                   </motion.article>
                 );
               })}
-
-              <ShowcasePair items={CLOSING_PAIR} captureUrl={captureUrl} t={t} fadeUp={fadeUp} closing />
             </div>
-          </div>
-        </section>
 
-        <section className="preview-landing__proof">
-          <div className="preview-landing__container">
-            <div className="preview-landing__proof-grid">
-              {(Array.isArray(proofItems) ? proofItems : []).map((item) => (
-                <motion.blockquote key={item.role} className="preview-landing__proof-item" {...fadeUp}>
-                  <p>{item.quote}</p>
-                  <footer>{item.role}</footer>
-                </motion.blockquote>
-              ))}
+            {/* Mobile: two desktop-led beats only — carousel already covered the phone */}
+            <div className="preview-landing__showcase-list preview-landing__showcase-list--mobile">
+              {MOBILE_PLATFORM_SHOWCASES.map((showcase, index) => {
+                const desktop =
+                  'desktop' in showcase && showcase.desktop ? captureUrl(showcase.desktop) : undefined;
+                const desktops =
+                  showcase.key === 'operations'
+                    ? MOBILE_OPS_DESKTOPS.map((id) => captureUrl(id))
+                    : 'desktops' in showcase
+                      ? showcase.desktops.map((id) => captureUrl(id))
+                      : undefined;
+
+                return (
+                  <motion.article
+                    key={`mobile-${showcase.key}`}
+                    className={[
+                      'preview-landing__showcase',
+                      index % 2 === 1 ? 'preview-landing__showcase--reverse' : ''
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    {...fadeUp}
+                  >
+                    <div className="preview-landing__showcase-copy">
+                      <h3>{t(`showcase.${showcase.key}.title`)}</h3>
+                      <p>{t(`showcase.${showcase.key}.description`)}</p>
+                    </div>
+                    <div className="preview-landing__showcase-visual">
+                      <ProductVisual
+                        desktopSrc={desktop}
+                        desktopSrcs={desktops}
+                        layout={showcase.layout}
+                        alt={t(`showcase.${showcase.key}.imageAlt`)}
+                      />
+                    </div>
+                  </motion.article>
+                );
+              })}
             </div>
           </div>
         </section>
