@@ -62,8 +62,7 @@ const SHOWCASES = [
   {
     key: 'presence',
     desktop: 'desktop-studio-portfolio',
-    mobile: 'mobile-studio-portfolio',
-    layout: 'wide'
+    layout: 'solo'
   },
   {
     key: 'studios',
