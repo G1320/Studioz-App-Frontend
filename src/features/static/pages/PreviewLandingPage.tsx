@@ -286,7 +286,7 @@ export default function PreviewLandingPage() {
 
   const captureUrl = useCallback(
     (capture: string) =>
-      `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp?v=20260928c`,
+      `/images/features-generated/${assetLocale}/${resolvedTheme}/${capture}.webp?v=20260928d`,
     [assetLocale, resolvedTheme]
   );
 
@@ -508,9 +508,7 @@ export default function PreviewLandingPage() {
                 const desktops =
                   showcase.key === 'operations'
                     ? MOBILE_OPS_DESKTOPS.map((id) => captureUrl(id))
-                    : 'desktops' in showcase
-                      ? showcase.desktops.map((id) => captureUrl(id))
-                      : undefined;
+                    : undefined;
 
                 return (
                   <motion.article

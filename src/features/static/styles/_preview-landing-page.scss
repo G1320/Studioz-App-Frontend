@@ -227,7 +227,7 @@
   // Feedback showcase: taller phone cropped short with a soft bottom fade.
   &__product-visual--mobile-only {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     padding-block: 0.35rem 0.75rem;
 
     .preview-landing__shot--mobile {
@@ -285,8 +285,8 @@
   // ----- Sections -----
   &__section-header {
     max-width: 40rem;
-    margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
-    text-align: center;
+    margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+    text-align: start;
     scroll-margin-top: 5.5rem;
 
     @media (min-width: 768px) {
@@ -302,11 +302,12 @@
   }
 
   &__section-lead {
-    margin: 1rem auto 0;
+    margin: 1rem 0 0;
     max-width: 34rem;
     color: var(--text-secondary);
     font-size: 1.05rem;
     line-height: 1.65;
+    text-align: start;
 
     &--desktop {
       display: none;
@@ -442,6 +443,7 @@
 
     .preview-landing__showcase-copy {
       max-width: none;
+      text-align: center;
 
       h3 {
         margin-top: 0;
@@ -497,8 +499,8 @@
 
       .preview-landing__showcase-copy {
         max-width: 36rem;
-        margin-inline: auto;
-        text-align: center;
+        margin-inline: 0;
+        text-align: start;
       }
 
       .preview-landing__showcase-visual {
@@ -543,6 +545,7 @@
 
   &__showcase-copy {
     max-width: 28rem;
+    text-align: start;
 
     h3 {
       margin: 0.55rem 0 0;
@@ -582,6 +585,7 @@
     padding: 0;
     border: none;
     background: transparent;
+    text-align: start;
 
     p {
       margin: 0;
@@ -812,7 +816,7 @@
     margin: 0.75rem 0 0;
     color: var(--text-muted);
     font-size: 0.8125rem;
-    text-align: center;
+    text-align: start;
   }
 
   // ----- Closing -----
@@ -822,8 +826,8 @@
 
   &__closing-inner {
     max-width: 40rem;
-    margin-inline: auto;
-    text-align: center;
+    margin-inline: 0;
+    text-align: start;
 
     h2 {
       margin: 0.65rem 0 0;
@@ -833,11 +837,15 @@
     }
 
     > p {
-      margin: 1rem auto 0;
+      margin: 1rem 0 0;
       max-width: 32rem;
       color: var(--text-secondary);
       font-size: 1.05rem;
       line-height: 1.65;
+    }
+
+    .preview-landing__hero-actions {
+      justify-content: flex-start;
     }
   }
 }

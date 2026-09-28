@@ -169,7 +169,8 @@ const scenes: ScreenshotScene[] = [
           .studioz-calendar__month-view { min-height: inherit !important; }
         `
       },
-      { type: 'scroll', y: 96 }
+      // Same safe-area band as dark calendar / documents (~y=210 @3x).
+      { type: 'scroll', selector: '.page-header', offsetY: 59 }
     ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
@@ -1140,7 +1141,29 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'iphone-6.9',
     template: 'minimal',
-    actions: [{ type: 'scroll', selector: '.project-file-uploader--source', offsetY: -48 }],
+    actions: [
+      // Same safe-area band as calendar/portfolio (~y=210 @3x). Workspace-only.
+      {
+        type: 'style',
+        css: `
+          .project-detail__header,
+          .project-detail__hero,
+          .project-chat,
+          .project-detail__section--tracks:has(.project-file-uploader--deliverable),
+          .project-detail__section--tracks:has(.project-file-uploader--revision),
+          .project-file-uploader--deliverable,
+          .project-file-uploader--revision,
+          .download-lock,
+          .page-header {
+            display: none !important;
+          }
+          main {
+            padding-top: 3.9rem !important;
+          }
+        `
+      },
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 59 }
+    ],
     deviceTransform: { scale: 0.82, y: 520, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
