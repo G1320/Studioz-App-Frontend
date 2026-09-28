@@ -14,29 +14,31 @@
     }
   }
 
+  // Override .details { place-items: center } so sections can span the page
+  width: 100%;
+  justify-items: stretch;
+  justify-self: stretch;
+
   .studio-services {
-    width: 100%;
+    // Break out of main { padding-inline: 1rem } so dividers run edge-to-edge
+    width: calc(100% + 2rem);
     max-width: none;
-    margin: 0.5rem 0 1.25rem;
-    padding-inline: 1rem;
+    margin: 0.5rem -1rem 1.25rem;
+    padding-inline: 0;
     box-sizing: border-box;
+    justify-self: stretch;
     // Override global #root { text-align: center }
     text-align: start;
 
     @media (min-width: 768px) {
-      margin-top: 1rem;
-      margin-bottom: 1.75rem;
-      padding-inline: 1.5rem;
-    }
-
-    @media (min-width: 1200px) {
-      padding-inline: 2rem;
+      width: 100%;
+      margin: 1rem 0 1.75rem;
     }
   }
 
   .studio-services__title {
     margin: 0 0 0.35rem;
-    padding-bottom: 0.65rem;
+    padding: 0 1rem 0.65rem;
     border-bottom: 1px solid var(--border-secondary);
     font-size: 1.125rem;
     font-weight: 700;
@@ -48,7 +50,11 @@
     @media (min-width: 768px) {
       font-size: 1.25rem;
       margin-bottom: 0.5rem;
-      padding-bottom: 0.75rem;
+      padding: 0 1.5rem 0.75rem;
+    }
+
+    @media (min-width: 1200px) {
+      padding-inline: 2rem;
     }
   }
 
@@ -73,8 +79,16 @@
   }
 
   .item-card--studio-list {
+    padding-inline: 1rem;
+    box-sizing: border-box;
+
     @media (min-width: 768px) {
       padding-block: 1.05rem;
+      padding-inline: 1.5rem;
+    }
+
+    @media (min-width: 1200px) {
+      padding-inline: 2rem;
     }
   }
 }

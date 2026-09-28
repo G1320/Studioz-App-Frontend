@@ -299,6 +299,14 @@
       font-weight: 720;
       line-height: 1.1;
     }
+
+    &--desktop {
+      display: none;
+
+      @media (min-width: 900px) {
+        display: block;
+      }
+    }
   }
 
   &__section-lead {
@@ -826,8 +834,8 @@
 
   &__closing-inner {
     max-width: 40rem;
-    margin-inline: 0;
-    text-align: start;
+    margin-inline: auto;
+    text-align: center;
 
     h2 {
       margin: 0.65rem 0 0;
@@ -837,15 +845,11 @@
     }
 
     > p {
-      margin: 1rem 0 0;
+      margin: 1rem auto 0;
       max-width: 32rem;
       color: var(--text-secondary);
       font-size: 1.05rem;
       line-height: 1.65;
-    }
-
-    .preview-landing__hero-actions {
-      justify-content: flex-start;
     }
   }
 }

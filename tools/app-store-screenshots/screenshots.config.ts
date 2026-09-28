@@ -1097,6 +1097,48 @@ const scenes: ScreenshotScene[] = [
     }
   },
   {
+    id: 'mobile-booking-flow',
+    order: 31,
+    path: '/studio/studio-demo?item=item-demo',
+    readySelector: '.item-modal .date-picker-container',
+    fixture: 'studio',
+    auth: 'customer',
+    device: 'iphone-6.9',
+    template: 'minimal',
+    textAlign: 'center',
+    actions: [
+      // Same safe-area band as mobile-studio-portfolio so carousel tops align.
+      {
+        type: 'style',
+        css: `
+          main {
+            padding-top: 4.35rem !important;
+          }
+          .MuiPickersPopper-root[data-popper-placement^='bottom'] .MuiPaper-root {
+            position: relative !important;
+            top: 2px !important;
+          }
+        `
+      },
+      { type: 'click', selector: '.item-modal .date-picker-container button' }
+    ],
+    deviceTransform: { scale: 0.82, y: 520, shadow: true },
+    capturePublish: {
+      directory: 'public/images/features-generated',
+      quality: 88
+    },
+    copy: {
+      'en-US': {
+        title: 'Book studio time',
+        subtitle: 'Pick a date and slot — the guest booking calendar on mobile.'
+      },
+      he: {
+        title: 'הזמנת זמן באולפן',
+        subtitle: 'בחירת תאריך ושעה — יומן ההזמנה של הלקוח בנייד.'
+      }
+    }
+  },
+  {
     id: 'mobile-studio-portfolio',
     order: 32,
     path: '/studio/studio-demo?view=overview',
@@ -1200,8 +1242,14 @@ const scenes: ScreenshotScene[] = [
           .studio-details-page > .studio-details {
             display: none !important;
           }
+          .studio-details-page {
+            width: 100% !important;
+            justify-items: stretch !important;
+          }
           .studio-services {
-            margin: 0 auto 1.25rem !important;
+            width: calc(100% + 2rem) !important;
+            margin: 0 -1rem 1.25rem !important;
+            justify-self: stretch !important;
           }
         `
       }

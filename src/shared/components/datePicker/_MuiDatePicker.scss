@@ -165,6 +165,19 @@
     box-shadow: var(--shadow-xl);
     overflow: hidden;
   }
+
+  // Popper positions via transform — slight nudge clears the focused input border
+  &[data-popper-placement^='bottom'] .MuiPickersPopper-paper,
+  &[data-popper-placement^='bottom'] > .MuiPaper-root {
+    position: relative;
+    top: 2px;
+  }
+
+  &[data-popper-placement^='top'] .MuiPickersPopper-paper,
+  &[data-popper-placement^='top'] > .MuiPaper-root {
+    position: relative;
+    top: -2px;
+  }
 }
 
 // Desktop picker layout

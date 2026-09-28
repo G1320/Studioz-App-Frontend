@@ -280,6 +280,17 @@ export const MuiDateTimePicker = ({
             dir: isRTL ? 'rtl' : 'ltr',
             error: false,
             placeholder: !label ? (isRTL ? 'DD/MM/YYYY HH:mm' : 'MM/DD/YYYY HH:mm') : undefined
+          },
+          popper: {
+            modifiers: [
+              {
+                name: 'offset',
+                options: {
+                  // Clear the focused brand border so the popper doesn't clip the input
+                  offset: [0, 2]
+                }
+              }
+            ]
           }
         }}
         slots={{

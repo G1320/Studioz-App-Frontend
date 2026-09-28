@@ -437,7 +437,7 @@ export default function PreviewLandingPage() {
 
         <section id="platform" className="preview-landing__platform">
           <div className="preview-landing__container">
-            <motion.header className="preview-landing__section-header" {...fadeUp}>
+            <motion.header className="preview-landing__section-header preview-landing__section-header--desktop" {...fadeUp}>
               <h2>{t('platform.title')}</h2>
               <p className="preview-landing__section-lead preview-landing__section-lead--desktop">
                 {t('platform.description')}
@@ -518,7 +518,11 @@ export default function PreviewLandingPage() {
                     {...fadeUp}
                   >
                     <div className="preview-landing__showcase-copy">
-                      <h3>{t(`showcase.${showcase.key}.title`)}</h3>
+                      <h3>
+                        {showcase.key === 'operations'
+                          ? t('platform.title')
+                          : t(`showcase.${showcase.key}.title`)}
+                      </h3>
                       <p>{t(`showcase.${showcase.key}.description`)}</p>
                     </div>
                     <div className="preview-landing__showcase-visual">

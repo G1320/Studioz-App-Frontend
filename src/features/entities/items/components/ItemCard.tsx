@@ -121,8 +121,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
             <div className="item-card__studio-title-row">
               <h3 className="title">{titleText}</h3>
               <div className="item-card__studio-price">
-                {priceBlock}
                 <InstantBookBadge instantBook={item?.instantBook} />
+                {priceBlock}
               </div>
             </div>
             {descriptionText ? <p className="description">{descriptionText}</p> : null}
