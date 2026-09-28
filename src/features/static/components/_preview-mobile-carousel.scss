@@ -79,8 +79,12 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    align-self: flex-start;
+    align-self: center;
     gap: 1rem;
+
+    @media (min-width: 900px) {
+      align-self: flex-start;
+    }
   }
 
   &__frame {

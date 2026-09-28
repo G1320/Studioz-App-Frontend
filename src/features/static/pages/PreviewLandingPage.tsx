@@ -443,9 +443,6 @@ export default function PreviewLandingPage() {
               <p className="preview-landing__section-lead preview-landing__section-lead--desktop">
                 {t('platform.description')}
               </p>
-              <p className="preview-landing__section-lead preview-landing__section-lead--mobile">
-                {t('platform.mobileDescription')}
-              </p>
             </motion.header>
 
             {/* Desktop: full product stack */}

@@ -31,9 +31,8 @@
     ]
   },
   "platform": {
-    "title": "One workspace. Same context.",
-    "description": "Operations, delivery, intelligence, and presence. Share the same picture so everyone stays in the loop.",
-    "mobileDescription": "Two desktop-led views that complete what you just saw on the phone."
+    "title": "One workspace. All the context.",
+    "description": "Operations, delivery, intelligence, and presence. Share the same picture so everyone stays in the loop."
   },
   "mobileCarousel": {
     "eyebrow": "On mobile",
