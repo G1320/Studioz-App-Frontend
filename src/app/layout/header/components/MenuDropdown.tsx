@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback, useAnchorNavigate } from '@shared/hooks/utils';
+import { useLanguageNavigate, useLanguageSwitcher, useSentryFeedback } from '@shared/hooks/utils';
 import { useTranslation } from 'react-i18next';
 import type { User } from 'src/types/index';
 import { LogoutButton } from '@features/auth';
@@ -15,7 +15,6 @@ import {
   EventIcon,
   WorkIcon,
   BarChartIcon,
-  PlayCircleIcon,
   LanguageIcon,
   ChevronRightIcon,
   VisibilityIcon
@@ -32,7 +31,6 @@ interface MenuDropdownProps {
 
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant = 'menu' }) => {
   const langNavigate = useLanguageNavigate();
-  const anchorNavigate = useAnchorNavigate();
   const { t } = useTranslation(['profile', 'common']);
   const { currentLanguage, changeLanguage: switchLanguage } = useLanguageSwitcher();
   const [isLangSubmenuOpen, setIsLangSubmenuOpen] = useState(false);
@@ -177,14 +175,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
           </div>
         )}
 
-        {/* Mobile-only navigation links (hidden on desktop where header nav is visible) */}
-        <button
-          className="menu-dropdown__item menu-dropdown__item--mobile-only"
-          onClick={() => anchorNavigate('', 'how-it-works')}
-        >
-          <PlayCircleIcon className="menu-dropdown__icon" />
-          <span>{t('profile.buttons.howItWorks')}</span>
-        </button>
         <div className="menu-dropdown__divider" />
         <div className="menu-dropdown__theme-item">
           <ThemeToggle variant="dropdown" size="sm" />
@@ -234,6 +224,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
             )}
           </div>
         )}
+        <div className="menu-dropdown__divider" />
         <button className="menu-dropdown__item menu-dropdown__item--link" onClick={() => handleNavigate('/privacy')}>
           {t('profile.legal.privacy')}
         </button>
