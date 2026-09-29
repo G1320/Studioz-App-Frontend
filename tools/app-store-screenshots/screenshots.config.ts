@@ -850,7 +850,8 @@ const scenes: ScreenshotScene[] = [
           }
         `
       },
-      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 0 }
+      // Slight top pad so the first track title isn’t clipped by the 16:10 crop.
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 52 }
     ],
     deviceTransform: { scale: 0.72, y: 100, shadow: true },
     capturePublish: {
@@ -931,8 +932,18 @@ const scenes: ScreenshotScene[] = [
     auth: 'vendor',
     device: 'desktop-1440',
     template: 'feature',
-    // Keep full cover; slight nudge so Overview tab isn’t flush-cut. Description may clip.
-    actions: [{ type: 'scroll', y: 90 }],
+    // Hero + overview only — keep the services block out of this showcase crop.
+    actions: [
+      {
+        type: 'style',
+        css: `
+          .studio-services {
+            display: none !important;
+          }
+        `
+      },
+      { type: 'scroll', y: 72 }
+    ],
     deviceTransform: { scale: 0.72, y: 100, rotation: -0.5, shadow: true },
     capturePublish: {
       directory: 'public/images/features-generated',
@@ -974,7 +985,7 @@ const scenes: ScreenshotScene[] = [
           }
         `
       },
-      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 0 }
+      { type: 'scroll', selector: '.project-file-uploader--source', offsetY: 52 }
     ],
     secondaryActions: [
       { type: 'scroll', selector: '.project-file-uploader--source' },
@@ -1008,7 +1019,8 @@ const scenes: ScreenshotScene[] = [
     device: 'desktop-1440',
     secondaryDevice: 'iphone-6.9',
     template: 'dual',
-    primaryActions: [{ type: 'scroll', selector: '.revenue-chart', offsetY: -24 }],
+    // Frame KPI tiles + chart/clients; avoid parking on the chart with empty page below.
+    primaryActions: [{ type: 'scroll', selector: '.merchant-stats__top', offsetY: 72 }],
     deviceTransform: { scale: 0.66, x: -300, y: 130, rotation: -1, shadow: true },
     secondaryDeviceTransform: { scale: 0.37, x: 350, y: 170, rotation: 2, shadow: true },
     capturePublish: {
