@@ -18,34 +18,35 @@
     width: 100%;
     max-width: none;
     box-sizing: border-box;
-    margin-top: 0.5rem;
-    padding: 0.625rem 0.75rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-primary);
-    border-radius: 0.5rem;
-    transition: border-color 0.15s ease;
+    margin-top: 0.35rem;
+    padding: 0.4rem 0.55rem;
+    background: color-mix(in srgb, var(--text-primary) 3.5%, var(--bg-primary));
+    border: 1px solid var(--border-secondary, var(--border-primary));
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
 
   &--active {
-    border-color: rgba(255, 209, 102, 0.45);
+    border-color: color-mix(in srgb, var(--text-primary) 22%, transparent);
+    background: color-mix(in srgb, var(--text-primary) 5.5%, var(--bg-primary));
   }
 
   &--active:focus-visible,
   &--waveform:focus-visible {
-    box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.35);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--text-primary) 18%, transparent);
   }
 
   &__row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     min-width: 0;
-    height: 2.25rem;
+    height: 2rem;
   }
 
   &--waveform &__row {
     height: auto;
-    min-height: 2.75rem;
+    min-height: 2rem;
   }
 
   &__waveform {
@@ -65,12 +66,12 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.15rem 0.45rem;
-    border: 1px solid var(--border-primary);
-    border-radius: 0.4rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border-secondary, var(--border-primary));
+    border-radius: 0.3rem;
     background: transparent;
     color: var(--text-secondary);
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
@@ -78,20 +79,20 @@
     &:hover,
     &--open {
       color: var(--text-primary);
-      border-color: var(--color-brand);
+      border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
     }
 
     &--open {
-      background: rgba(255, 209, 102, 0.08);
+      background: color-mix(in srgb, var(--text-primary) 6%, transparent);
     }
   }
 
   &__thread-open {
-    padding: 0 0.3rem;
+    padding: 0 0.28rem;
     border-radius: 9999px;
-    background: var(--color-brand);
-    color: #000;
-    font-size: 0.6rem;
+    background: color-mix(in srgb, var(--text-primary) 14%, transparent);
+    color: var(--text-primary);
+    font-size: 0.55rem;
     font-weight: 700;
   }
 
@@ -99,39 +100,38 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 1.875rem;
+    height: 1.875rem;
     flex-shrink: 0;
-    border: none;
+    border: 1px solid color-mix(in srgb, var(--text-primary) 18%, transparent);
     border-radius: 9999px;
-    background: var(--color-brand);
-    color: #000;
+    background: transparent;
+    color: var(--text-primary);
     cursor: pointer;
-    transition: opacity 0.15s ease;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
 
     svg {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 0.95rem;
+      height: 0.95rem;
       flex-shrink: 0;
     }
 
     &:hover:not(:disabled) {
-      opacity: 0.9;
+      background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
+    }
+
+    &--playing {
+      background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 32%, transparent);
     }
 
     &:disabled {
       opacity: 0.45;
       cursor: not-allowed;
-    }
-
-    @media (max-width: 768px) {
-      width: 2.75rem;
-      height: 2.75rem;
-
-      svg {
-        width: 1.65rem;
-        height: 1.65rem;
-      }
     }
   }
 
@@ -377,19 +377,19 @@
     align-items: center;
     gap: 0.3rem;
     margin-inline-start: auto;
-    padding: 0.15rem 0.45rem;
-    border: 1px solid var(--border-primary);
-    border-radius: 0.4rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border-secondary, var(--border-primary));
+    border-radius: 0.3rem;
     background: transparent;
     color: var(--text-secondary);
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
 
     &:hover {
       color: var(--text-primary);
-      border-color: var(--color-brand);
+      border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
     }
   }
 
@@ -431,22 +431,22 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.5rem 0.75rem;
-    margin-top: 0.35rem;
+    gap: 0.35rem 0.55rem;
+    margin-top: 0.25rem;
     // Align under scrubber (play button + row gap)
-    padding-inline-start: calc(2.25rem + 0.75rem);
+    padding-inline-start: calc(1.875rem + 0.5rem);
   }
 
   &__time {
     display: flex;
     gap: 0.25rem;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-secondary);
     font-variant-numeric: tabular-nums;
   }
 
   &__fidelity {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     color: var(--text-secondary);
@@ -540,38 +540,37 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.125rem;
+    height: 2.125rem;
     flex-shrink: 0;
-    border: none;
+    border: 1px solid color-mix(in srgb, var(--text-primary) 18%, transparent);
     border-radius: 9999px;
-    background: var(--color-brand);
-    color: #000;
+    background: transparent;
+    color: var(--text-primary);
     cursor: pointer;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease;
 
     &:hover:not(:disabled) {
-      opacity: 0.9;
+      background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 28%, transparent);
+    }
+
+    &--playing {
+      background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+      border-color: color-mix(in srgb, var(--text-primary) 32%, transparent);
     }
 
     svg {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.05rem;
+      height: 1.05rem;
       flex-shrink: 0;
     }
 
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-    }
-
-    @media (max-width: 768px) {
-      width: 2.65rem;
-      height: 2.65rem;
-
-      svg {
-        width: 1.45rem;
-        height: 1.45rem;
-      }
     }
   }
 
@@ -641,7 +640,7 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--color-brand);
+      color: var(--text-primary);
       background: color-mix(in srgb, var(--text-primary) 8%, transparent);
     }
   }

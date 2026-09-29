@@ -237,12 +237,12 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
       >
         <button
           type="button"
-          className="remote-audio-player__play"
+          className={`remote-audio-player__play${isPlaying ? ' remote-audio-player__play--playing' : ''}`}
           onClick={handlePlayPause}
           disabled={playDisabled || (isSelected && isBusy)}
           aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+          {isPlaying ? <Pause size={16} /> : <Play size={16} />}
         </button>
         {playDisabled && statusMessage && (
           <span className="remote-audio-player__compact-hint">
@@ -279,12 +279,12 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
       <div className="remote-audio-player__row">
         <button
           type="button"
-          className="remote-audio-player__play"
+          className={`remote-audio-player__play${isPlaying ? ' remote-audio-player__play--playing' : ''}`}
           onClick={handlePlayPause}
           disabled={playDisabled || isBusy}
           aria-label={isPlaying ? t('audioPlayer.pause') : t('audioPlayer.play')}
         >
-          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+          {isPlaying ? <Pause size={16} /> : <Play size={16} />}
         </button>
 
         <WaveformScrubber
@@ -295,7 +295,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           duration={displayDuration}
           onSeek={playDisabled ? undefined : handleSeekFraction}
           ariaLabel={t('audioPlayer.seek')}
-          height={44}
+          height={32}
         >
           {enableCues && (
             <ScrubberCueMarkers

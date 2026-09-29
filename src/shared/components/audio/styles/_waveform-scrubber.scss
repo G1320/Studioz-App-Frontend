@@ -1,8 +1,8 @@
 // Canvas waveform + scrub surface used by the remote project player and sticky bar.
 
 .waveform-scrubber {
-  --waveform-played: var(--color-brand);
-  --waveform-muted: var(--text-secondary);
+  --waveform-played: color-mix(in srgb, var(--text-primary) 78%, transparent);
+  --waveform-muted: color-mix(in srgb, var(--text-secondary) 55%, transparent);
 
   position: relative;
   width: 100%;
@@ -22,7 +22,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.45);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--text-primary) 22%, transparent);
   }
 
   &__canvas {
@@ -53,7 +53,7 @@
     bottom: 0;
     width: 1px;
     margin-left: -0.5px;
-    background: var(--color-brand);
+    background: var(--text-primary);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.12s ease;

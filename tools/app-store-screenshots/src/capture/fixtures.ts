@@ -1578,6 +1578,90 @@ const projectFiles = [
     createdAt: '2026-09-18T12:41:00.000Z'
   },
   {
+    _id: 'source-bass',
+    projectId: 'project-demo',
+    uploadedBy: customerUser,
+    type: 'source',
+    fileName: 'Bass — DI + Amp Blend.wav',
+    fileSize: 58_720_256,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/bass-blend.wav',
+    description: 'Blended DI and amp for chorus punch',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T12:48:00.000Z'
+  },
+  {
+    _id: 'source-keys',
+    projectId: 'project-demo',
+    uploadedBy: {
+      _id: 'collaborator-vendor-1',
+      name: 'Amir Halevi',
+      email: 'amir@northlinesound.example'
+    },
+    type: 'source',
+    fileName: 'Keys — Rhodes & Pad Beds.wav',
+    fileSize: 81_920_000,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/keys-beds.wav',
+    description: 'Rhodes and atmospheric pads printed at 48 kHz',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T12:55:00.000Z'
+  },
+  {
+    _id: 'source-fx',
+    projectId: 'project-demo',
+    uploadedBy: customerUser,
+    type: 'source',
+    fileName: 'FX — Risers & Textures.wav',
+    fileSize: 41_943_040,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/fx-risers.wav',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T13:02:00.000Z'
+  },
+  {
+    _id: 'source-bvox',
+    projectId: 'project-demo',
+    uploadedBy: customerUser,
+    type: 'source',
+    fileName: 'BVs — Stacked Harmonies.wav',
+    fileSize: 52_428_800,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/bvox-stack.wav',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T13:08:00.000Z'
+  },
+  {
+    _id: 'source-perc',
+    projectId: 'project-demo',
+    uploadedBy: {
+      _id: 'collaborator-customer-1',
+      name: 'Noa Shaham',
+      email: 'noa@example.test'
+    },
+    type: 'source',
+    fileName: 'Percussion — Shakers & Claps.wav',
+    fileSize: 34_603_008,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/perc-claps.wav',
+    description: 'Light percussion beds for the chorus lifts',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T13:14:00.000Z'
+  },
+  {
+    _id: 'source-ref-bounce',
+    projectId: 'project-demo',
+    uploadedBy: vendorUser,
+    type: 'source',
+    fileName: 'Reference — Rough Bounce.wav',
+    fileSize: 47_185_920,
+    mimeType: 'audio/wav',
+    storageKey: 'screenshots/projects/ref-bounce.wav',
+    description: 'Artist rough for arrangement reference',
+    waveformStatus: 'ready',
+    createdAt: '2026-09-18T13:20:00.000Z'
+  },
+  {
     _id: 'deliverable-mix-v3',
     projectId: 'project-demo',
     uploadedBy: vendorUser,
@@ -1876,6 +1960,46 @@ const projectMessages = [
     offsetSeconds: 78.1,
     readAt: '2026-09-22T12:42:00.000Z',
     createdAt: '2026-09-22T12:29:00.000Z'
+  },
+  {
+    _id: 'message-bass-1',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-vendor-1',
+      name: 'Amir Halevi',
+      email: 'amir@northlinesound.example'
+    },
+    senderRole: 'vendor_collaborator',
+    message: 'The amp side is a bit woolly under the kick — try more DI in the verse.',
+    fileId: 'source-bass',
+    offsetSeconds: 42.4,
+    createdAt: '2026-09-22T12:51:00.000Z'
+  },
+  {
+    _id: 'message-keys-1',
+    projectId: 'project-demo',
+    senderId: customerUser,
+    senderRole: 'customer',
+    message: 'Love the Rhodes in the bridge — keep it a hair brighter after the drop.',
+    fileId: 'source-keys',
+    offsetSeconds: 151.2,
+    readAt: '2026-09-22T13:10:00.000Z',
+    createdAt: '2026-09-22T13:02:00.000Z'
+  },
+  {
+    _id: 'message-fx-1',
+    projectId: 'project-demo',
+    senderId: {
+      _id: 'collaborator-vendor-2',
+      name: 'Eitan Mizrahi',
+      email: 'eitan@example.test'
+    },
+    senderRole: 'vendor_collaborator',
+    message: 'Trimmed the long riser so it clears the vocal entrance.',
+    fileId: 'source-fx',
+    offsetSeconds: 88.6,
+    readAt: '2026-09-22T13:28:00.000Z',
+    createdAt: '2026-09-22T13:18:00.000Z'
   }
 ];
 

@@ -57,7 +57,7 @@ export class WebCaptureAdapter implements CaptureAdapter {
           const start = performance.now();
           while (performance.now() - start < 2500) {
             const players = document.querySelectorAll('.project-file-uploader--source .remote-audio-player');
-            if (players.length >= 5) break;
+            if (players.length >= 11) break;
             await new Promise((r) => setTimeout(r, 50));
           }
         });
