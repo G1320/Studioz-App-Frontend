@@ -79,13 +79,14 @@ const DocumentRow = React.memo(
       className="documents-table__row"
     >
       <td className="documents-table__td">
-        <span className="documents-table__doc-number">{doc.number}</span>
+        <span className="documents-table__doc-number" title={doc.number}>
+          {doc.number}
+        </span>
       </td>
       <td className="documents-table__td">
-        <span className="documents-table__customer">{doc.customerName}</span>
-      </td>
-      <td className="documents-table__td">
-        <span className="documents-table__doc-studio">{doc.studioName}</span>
+        <span className="documents-table__customer" title={doc.customerName}>
+          {doc.customerName}
+        </span>
       </td>
       <td className="documents-table__td documents-table__td--date">
         <span className="documents-table__date" title={`${t('table.dueDate')} ${doc.dueDate}`}>
@@ -100,6 +101,11 @@ const DocumentRow = React.memo(
       </td>
       <td className="documents-table__td documents-table__td--status">
         <StatusBadge status={doc.status} t={t} />
+      </td>
+      <td className="documents-table__td">
+        <span className="documents-table__doc-studio" title={doc.studioName}>
+          {doc.studioName}
+        </span>
       </td>
       <td className="documents-table__td documents-table__td--actions">
         <div className="documents-table__actions">
@@ -612,12 +618,6 @@ const MerchantDocumentsPage: React.FC = () => {
                     <ArrowUpDown size={12} className={sortBy === 'customerName' ? 'active' : ''} />
                   </div>
                 </th>
-                <th className="documents-table__th" onClick={() => toggleSort('studioName')}>
-                  <div className="documents-table__th-content">
-                    {t('table.studio')}
-                    <ArrowUpDown size={12} className={sortBy === 'studioName' ? 'active' : ''} />
-                  </div>
-                </th>
                 <th className="documents-table__th documents-table__th--date" onClick={() => toggleSort('date')}>
                   <div className="documents-table__th-content">
                     {t('table.date')}
@@ -631,6 +631,12 @@ const MerchantDocumentsPage: React.FC = () => {
                   </div>
                 </th>
                 <th className="documents-table__th documents-table__th--status">{t('table.status')}</th>
+                <th className="documents-table__th" onClick={() => toggleSort('studioName')}>
+                  <div className="documents-table__th-content">
+                    {t('table.studio')}
+                    <ArrowUpDown size={12} className={sortBy === 'studioName' ? 'active' : ''} />
+                  </div>
+                </th>
                 <th className="documents-table__th documents-table__th--actions">{t('table.actions')}</th>
               </tr>
             </thead>
