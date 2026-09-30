@@ -297,6 +297,7 @@
 
   &__table-scroll {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     max-width: 100%;
   }
 
@@ -426,44 +427,47 @@
   }
 }
 
-// Documents Table
+// Documents Table — dense vertical rows, comfortable horizontal spacing
 .documents-table {
   width: 100%;
-  max-width: 100%;
+  min-width: 58rem; // Prefer horizontal scroll over crushed columns on narrow viewports
   text-align: start;
   border-collapse: collapse;
   table-layout: fixed;
 
-  // Column widths - adjusted for mobile
+  // Same horizontal rhythm as the prior 6-col table; studio is an extra scrollable column.
   colgroup {
     col:nth-child(1) {
-      width: 18%;
+      width: 16%;
     } // Document
     col:nth-child(2) {
-      width: 16%;
+      width: 14%;
     } // Customer
     col:nth-child(3) {
+      width: 14%;
+    } // Studio
+    col:nth-child(4) {
       width: 18%;
     } // Date
-    col:nth-child(4) {
-      width: 14%;
-    } // Amount
     col:nth-child(5) {
+      width: 12%;
+    } // Amount
+    col:nth-child(6) {
       width: 14%;
     } // Status
-    col:nth-child(6) {
-      width: 10%;
+    col:nth-child(7) {
+      width: 12%;
     } // Actions
   }
 
   &__th {
-    padding: 0.5rem vars.$spacing-sm-md;
+    padding: 0.375rem 0.75rem;
     background: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 0.6875rem;
-    font-weight: 700;
+    font-size: 0.625rem;
+    font-weight: 650;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     cursor: pointer;
     transition: color 0.15s ease;
     white-space: nowrap;
@@ -488,7 +492,7 @@
   &__th-content {
     display: flex;
     align-items: center;
-    gap: vars.$spacing-xs;
+    gap: 0.25rem;
 
     .active {
       color: var(--color-brand);
@@ -502,10 +506,10 @@
   }
 
   &__row {
-    transition: background-color 0.15s ease;
+    transition: background-color 0.12s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.03);
+      background: color-mix(in srgb, var(--text-primary) 3.5%, transparent);
 
       .documents-table__actions {
         opacity: 1;
@@ -515,14 +519,16 @@
 
   tbody {
     tr {
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid color-mix(in srgb, var(--text-primary) 6%, transparent);
     }
   }
 
   &__td {
-    padding: 0.625rem vars.$spacing-sm-md;
+    padding: 0.375rem 0.75rem;
     vertical-align: middle;
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.8125rem;
+    line-height: 1.25;
+    white-space: nowrap;
 
     &--date {
       text-align: center;
@@ -532,7 +538,6 @@
     &--status {
       text-align: center;
 
-      // Center flex/inline-flex children
       > * {
         margin-inline: auto;
       }
@@ -540,18 +545,14 @@
 
     &--actions {
       text-align: end;
+      overflow: visible;
     }
-  }
-
-  &__doc-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
   }
 
   &__loading {
     padding: 1.25rem 1rem;
     color: var(--text-muted);
+    white-space: normal;
 
     > div {
       display: flex;
@@ -563,8 +564,8 @@
   }
 
   &__spinner {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 2px solid var(--border-primary);
     border-top-color: var(--color-brand);
     border-radius: 50%;
@@ -574,73 +575,88 @@
   &__doc-number {
     color: var(--text-primary);
     font-weight: 600;
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
   }
 
   &__doc-studio {
-    color: var(--text-muted);
-    font-size: 0.6875rem;
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 450;
   }
 
   &__customer {
+    display: block;
     color: var(--text-secondary);
-    font-size: vars.$font-size-sm-md;
-  }
-
-  &__date-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1px;
+    font-size: 0.8125rem;
+    font-weight: 450;
   }
 
   &__date {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.35rem;
     color: var(--text-secondary);
-    font-size: vars.$font-size-xs;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   &__due-date {
     color: var(--text-muted);
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 450;
   }
 
   &__amount {
     color: var(--text-primary);
-    font-weight: 700;
+    font-weight: 650;
     display: block;
     text-align: center;
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
   }
 
   &__actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: vars.$spacing-xs;
-    opacity: 0;
-    transition: opacity 0.15s ease;
+    gap: 0.125rem;
+    opacity: 0.55;
+    transition: opacity 0.12s ease;
   }
 
   &__action-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: vars.$spacing-xs;
+    width: 1.625rem;
+    height: 1.625rem;
+    padding: 0;
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-medium;
+    border-radius: 0.25rem;
     color: var(--text-muted);
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background 0.12s ease, color 0.12s ease;
 
     svg {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
     }
 
-    &:hover {
-      background: var(--bg-hover);
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--text-primary) 7%, transparent);
       color: var(--text-primary);
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
   }
 
@@ -648,7 +664,8 @@
     padding: 1.5rem 1rem;
     text-align: center;
     color: var(--text-muted);
-    font-size: vars.$font-size-sm-md;
+    font-size: 0.8125rem;
+    white-space: normal;
   }
 
   &__empty-inner {
@@ -717,13 +734,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  padding: 0.125rem 0.5rem;
-  border-radius: vars.$border-radius-medium;
+  gap: 0.2rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
   border: 1px solid;
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
   white-space: nowrap;
+  line-height: 1.2;
+
+  svg {
+    width: 10px;
+    height: 10px;
+  }
 
   &--paid {
     color: #34d399; // emerald-400
@@ -758,14 +782,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.625rem;
+    height: 1.625rem;
     background: transparent;
     border: none;
-    border-radius: vars.$border-radius-small;
+    border-radius: 0.25rem;
     color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: background 0.12s ease, color 0.12s ease;
 
     &:hover {
       background: var(--bg-hover);

@@ -79,21 +79,21 @@ const DocumentRow = React.memo(
       className="documents-table__row"
     >
       <td className="documents-table__td">
-        <div className="documents-table__doc-info">
-          <span className="documents-table__doc-number">{doc.number}</span>
-          <span className="documents-table__doc-studio">{doc.studioName}</span>
-        </div>
+        <span className="documents-table__doc-number">{doc.number}</span>
       </td>
       <td className="documents-table__td">
         <span className="documents-table__customer">{doc.customerName}</span>
       </td>
+      <td className="documents-table__td">
+        <span className="documents-table__doc-studio">{doc.studioName}</span>
+      </td>
       <td className="documents-table__td documents-table__td--date">
-        <div className="documents-table__date-info">
-          <span className="documents-table__date">{doc.date}</span>
+        <span className="documents-table__date" title={`${t('table.dueDate')} ${doc.dueDate}`}>
+          {doc.date}
           <span className="documents-table__due-date">
             {t('table.dueDate')} {doc.dueDate}
           </span>
-        </div>
+        </span>
       </td>
       <td className="documents-table__td documents-table__td--amount">
         <span className="documents-table__amount">₪{doc.amount.toLocaleString()}</span>
@@ -109,7 +109,7 @@ const DocumentRow = React.memo(
             onClick={() => onDownload(doc)}
             disabled={!doc.documentUrl}
           >
-            <Download size={18} />
+            <Download size={15} />
           </button>
           <button
             className="documents-table__action-btn"
@@ -117,7 +117,7 @@ const DocumentRow = React.memo(
             onClick={() => onView(doc)}
             disabled={!doc.documentUrl}
           >
-            <ExternalLink size={18} />
+            <ExternalLink size={15} />
           </button>
           <DocumentActionsDropdown
             document={doc}
@@ -596,6 +596,7 @@ const MerchantDocumentsPage: React.FC = () => {
               <col />
               <col />
               <col />
+              <col />
             </colgroup>
             <thead>
               <tr>
@@ -609,6 +610,12 @@ const MerchantDocumentsPage: React.FC = () => {
                   <div className="documents-table__th-content">
                     {t('table.customer')}
                     <ArrowUpDown size={12} className={sortBy === 'customerName' ? 'active' : ''} />
+                  </div>
+                </th>
+                <th className="documents-table__th" onClick={() => toggleSort('studioName')}>
+                  <div className="documents-table__th-content">
+                    {t('table.studio')}
+                    <ArrowUpDown size={12} className={sortBy === 'studioName' ? 'active' : ''} />
                   </div>
                 </th>
                 <th className="documents-table__th documents-table__th--date" onClick={() => toggleSort('date')}>
@@ -630,7 +637,7 @@ const MerchantDocumentsPage: React.FC = () => {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="documents-table__loading">
+                  <td colSpan={7} className="documents-table__loading">
                     <div>
                       <div className="documents-table__spinner" />
                       <span>{t('loading')}</span>
@@ -654,7 +661,7 @@ const MerchantDocumentsPage: React.FC = () => {
                 </AnimatePresence>
               ) : (
                 <tr>
-                  <td colSpan={6} className="documents-table__empty">
+                  <td colSpan={7} className="documents-table__empty">
                     <div className="documents-table__empty-inner">
                       <p className="documents-table__empty-title">{t('table.noResults')}</p>
                       <p className="documents-table__empty-hint">
