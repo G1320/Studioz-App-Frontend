@@ -110,20 +110,24 @@ const DocumentRow = React.memo(
       <td className="documents-table__td documents-table__td--actions">
         <div className="documents-table__actions">
           <button
+            type="button"
             className="documents-table__action-btn"
             title={t('actions.download')}
+            aria-label={t('actions.download')}
             onClick={() => onDownload(doc)}
             disabled={!doc.documentUrl}
           >
-            <Download size={15} />
+            <Download size={15} aria-hidden="true" />
           </button>
           <button
+            type="button"
             className="documents-table__action-btn"
             title={t('actions.view')}
+            aria-label={t('actions.view')}
             onClick={() => onView(doc)}
             disabled={!doc.documentUrl}
           >
-            <ExternalLink size={15} />
+            <ExternalLink size={15} aria-hidden="true" />
           </button>
           <DocumentActionsDropdown
             document={doc}
@@ -535,9 +539,16 @@ const MerchantDocumentsPage: React.FC = () => {
         <div className="merchant-documents__filters-grid">
           {/* Search */}
           <div className="filter-input">
-            <Search className="filter-input__icon" size={14} />
+            <label htmlFor="merchant-docs-search" className="visually-hidden">
+              {t('filters.search')}
+            </label>
+            <Search className="filter-input__icon" size={14} aria-hidden="true" />
             <input
-              type="text"
+              id="merchant-docs-search"
+              type="search"
+              name="documentSearch"
+              autoComplete="off"
+              spellCheck={false}
               placeholder={t('filters.search')}
               className="filter-input__field"
               value={search}
@@ -550,7 +561,12 @@ const MerchantDocumentsPage: React.FC = () => {
 
           {/* Studio Filter */}
           <div className="filter-select">
+            <label htmlFor="merchant-docs-studio" className="visually-hidden">
+              {t('filters.allStudios')}
+            </label>
             <select
+              id="merchant-docs-studio"
+              name="studio"
               className="filter-select__field"
               value={selectedStudio}
               onChange={(e) => {
@@ -564,12 +580,17 @@ const MerchantDocumentsPage: React.FC = () => {
                 </option>
               ))}
             </select>
-            <ChevronDown className="filter-select__icon" size={16} />
+            <ChevronDown className="filter-select__icon" size={16} aria-hidden="true" />
           </div>
 
           {/* Status Filter */}
           <div className="filter-select">
+            <label htmlFor="merchant-docs-status" className="visually-hidden">
+              {t('status.all')}
+            </label>
             <select
+              id="merchant-docs-status"
+              name="status"
               className="filter-select__field"
               value={selectedStatus}
               onChange={(e) => {
@@ -583,7 +604,7 @@ const MerchantDocumentsPage: React.FC = () => {
                 </option>
               ))}
             </select>
-            <ChevronDown className="filter-select__icon" size={16} />
+            <ChevronDown className="filter-select__icon" size={16} aria-hidden="true" />
           </div>
 
           {/* Date Range */}

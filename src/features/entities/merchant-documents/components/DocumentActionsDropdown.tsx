@@ -121,8 +121,11 @@ export const DocumentActionsDropdown: React.FC<DocumentActionsDropdownProps> = (
         className="document-actions-dropdown__trigger"
         onClick={() => setIsOpen(!isOpen)}
         title={t('actions.moreActions')}
+        aria-label={t('actions.moreActions')}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
       >
-        <MoreVertical size={18} />
+        <MoreVertical size={18} aria-hidden="true" />
       </button>
 
       {isOpen && createPortal(menuContent, document.body)}

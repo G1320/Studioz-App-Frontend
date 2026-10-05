@@ -66,11 +66,14 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
     }
     root.setAttribute('data-theme', resolvedTheme);
 
-    // Also update meta theme-color for mobile browsers
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', resolvedTheme === 'dark' ? '#000000' : '#ffffff');
+    // Keep mobile browser chrome in sync with the active theme
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.setAttribute('name', 'theme-color');
+      document.head.appendChild(metaThemeColor);
     }
+    metaThemeColor.setAttribute('content', resolvedTheme === 'dark' ? '#000000' : '#ffffff');
 
     if (!prefersReducedMotion) {
       const timeout = window.setTimeout(() => {

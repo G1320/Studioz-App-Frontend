@@ -61,7 +61,7 @@
     "draft": "Draft"
   },
   "filters": {
-    "search": "Search by number or customer...",
+    "search": "Search by number or customer…",
     "allStudios": "All Studios",
     "customRange": "Custom Range",
     "last30Days": "Last 30 Days"
@@ -95,7 +95,7 @@
     "duplicate": "Duplicate Document",
     "void": "Void Document"
   },
-  "loading": "Loading documents...",
+  "loading": "Loading documents…",
   "empty": "No documents found",
   "loadMore": "Load More Documents",
   "remaining": "remaining",

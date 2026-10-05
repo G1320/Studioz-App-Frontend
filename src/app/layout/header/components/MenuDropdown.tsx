@@ -95,7 +95,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
         {/* Login - only for non-logged-in users */}
         {!user && (
           <button className="menu-dropdown__item" onClick={() => loginWithPopup()}>
-            <PersonOutlineIcon className="menu-dropdown__icon" />
+            <PersonOutlineIcon className="menu-dropdown__icon" aria-hidden="true" />
             <span>{t('common:buttons.loginSignup')}</span>
           </button>
         )}
@@ -104,34 +104,34 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
         {user && (
           <>
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/profile')}>
-              <PersonOutlineIcon className="menu-dropdown__icon" />
+              <PersonOutlineIcon className="menu-dropdown__icon" aria-hidden="true" />
               <span>{t('profile.buttons.profile')}</span>
             </button>
             {triggerVariant === 'menu' && (
               <>
                 <button className="menu-dropdown__item" onClick={() => handleNavigate('/reservations')}>
-                  <EventIcon className="menu-dropdown__icon" />
+                  <EventIcon className="menu-dropdown__icon" aria-hidden="true" />
                   <span>{t('profile.buttons.reservations')}</span>
                 </button>
                 <button className="menu-dropdown__item" onClick={() => handleNavigate('/projects')}>
-                  <WorkIcon className="menu-dropdown__icon" />
+                  <WorkIcon className="menu-dropdown__icon" aria-hidden="true" />
                   <span>{t('common:navigation.myProjects')}</span>
                 </button>
               </>
             )}
             <button className="menu-dropdown__item" onClick={() => handleNavigate('/wishlists')}>
-              <FavoriteIcon className="menu-dropdown__icon" />
+              <FavoriteIcon className="menu-dropdown__icon" aria-hidden="true" />
               <span>{t('profile.buttons.wishlists')}</span>
             </button>
             {triggerVariant === 'menu' && (
               <button className="menu-dropdown__item" onClick={() => handleNavigate('/dashboard')}>
-                <DashboardIcon className="menu-dropdown__icon" />
+                <DashboardIcon className="menu-dropdown__icon" aria-hidden="true" />
                 <span>{t('profile.buttons.dashboard')}</span>
               </button>
             )}
             {triggerVariant === 'menu' && isStudioOwner && (
               <button className="menu-dropdown__item" onClick={() => handleNavigate('/stats')}>
-                <BarChartIcon className="menu-dropdown__icon" />
+                <BarChartIcon className="menu-dropdown__icon" aria-hidden="true" />
                 <span>{t('common:navigation.stats')}</span>
               </button>
             )}
@@ -145,7 +145,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
           } ${triggerVariant === 'avatar' ? 'menu-dropdown__item--mobile-only' : ''}`}
           onClick={() => handleNavigate('/studio/create')}
         >
-          <AddBusinessIcon className="menu-dropdown__icon" />
+          <AddBusinessIcon className="menu-dropdown__icon" aria-hidden="true" />
           <span>{t('profile.sellerAccount.buttons.createStudio')}</span>
         </button>
 
@@ -156,14 +156,14 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
               className="menu-dropdown__item menu-dropdown__item--mobile-only"
               onClick={() => handleNavigate('/reservations')}
             >
-              <EventIcon className="menu-dropdown__icon" />
+              <EventIcon className="menu-dropdown__icon" aria-hidden="true" />
               <span>{t('profile.buttons.reservations')}</span>
             </button>
             <button
               className="menu-dropdown__item menu-dropdown__item--mobile-only"
               onClick={() => handleNavigate('/projects')}
             >
-              <WorkIcon className="menu-dropdown__icon" />
+              <WorkIcon className="menu-dropdown__icon" aria-hidden="true" />
               <span>{t('common:navigation.myProjects')}</span>
             </button>
           </>
@@ -181,7 +181,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
         </div>
         {a11ySettings.widgetHidden && (
           <button className="menu-dropdown__item" onClick={() => updateA11ySetting('widgetHidden', false)}>
-            <VisibilityIcon className="menu-dropdown__icon" />
+            <VisibilityIcon className="menu-dropdown__icon" aria-hidden="true" />
             <span>{t('common:accessibility.showWidget')}</span>
           </button>
         )}
@@ -196,9 +196,9 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ user, triggerVariant
               aria-expanded={isLangSubmenuOpen}
               aria-haspopup="true"
             >
-              <LanguageIcon className="menu-dropdown__icon" />
+              <LanguageIcon className="menu-dropdown__icon" aria-hidden="true" />
               <span>{t('profile.language')}</span>
-              <ChevronRightIcon className="menu-dropdown__chevron" />
+              <ChevronRightIcon className="menu-dropdown__chevron" aria-hidden="true" />
             </button>
             {isLangSubmenuOpen && (
               <div className="menu-dropdown__submenu">

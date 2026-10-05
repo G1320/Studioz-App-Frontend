@@ -33,10 +33,10 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
         }
         title={resolvedTheme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
       >
-        <span className="theme-toggle__icon theme-toggle__icon--sun">
+        <span className="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
           <SunIcon size={iconSize} />
         </span>
-        <span className="theme-toggle__icon theme-toggle__icon--moon">
+        <span className="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
           <MoonIcon size={iconSize} />
         </span>
       </button>
@@ -59,8 +59,9 @@ export function ThemeToggle({ variant = 'icon', size = 'md', className = '' }: T
           onClick={() => setTheme(value)}
           className={`theme-toggle-dropdown__option ${theme === value ? 'is-active' : ''}`}
           aria-pressed={theme === value}
+          aria-label={t(labelKey)}
         >
-          {icon}
+          <span aria-hidden="true">{icon}</span>
           <span>{t(labelKey)}</span>
         </button>
       ))}

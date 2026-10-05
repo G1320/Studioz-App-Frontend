@@ -472,14 +472,14 @@
       },
       "submit": {
         "text": "Total ",
-        "processing": "Processing..."
+        "processing": "Processing…"
       },
       "coupon": {
         "label": "Coupon Code",
         "placeholder": "Enter coupon code",
         "apply": "Apply",
         "remove": "Remove",
-        "validating": "Validating...",
+        "validating": "Validating…",
         "errorEmpty": "Please enter a coupon code",
         "errorInvalid": "Invalid coupon code",
         "successPercent": "{{percent}}% discount applied!",

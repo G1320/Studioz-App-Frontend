@@ -18,6 +18,7 @@
     display: grid;
     overflow-y: auto;
     overflow-x: hidden;
+    overscroll-behavior: contain;
     max-width: 35rem;
     width: 100%;
     box-sizing: border-box;

@@ -57,10 +57,10 @@
     box-shadow: var(--shadow-md);
   }
 
-  &:focus,
   &:focus-visible {
-    outline: none;
-    border: 1px solid var(--border-primary);
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-color: var(--border-focus);
   }
 
   &[aria-current='page'] {
@@ -78,10 +78,10 @@
       border-color: var(--color-brand-muted);
     }
 
-    &:focus,
     &:focus-visible {
-      outline: none;
-      border: 1px solid var(--border-primary);
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+      border-color: var(--color-brand);
     }
   }
 }

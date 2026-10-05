@@ -34,10 +34,12 @@
     font-size: ds.$font-base;
     background-color: transparent;
     outline: none;
-    transition: all 0.2s ease-in-out;
+    transition:
+      background-color 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out;
     color: var(--text-primary);
 
-    &:focus {
+    &:focus-visible {
       background-color: var(--bg-hover);
       box-shadow: var(--focus-ring);
     }

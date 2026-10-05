@@ -26,8 +26,12 @@ export const SearchInput = () => {
   };
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    // Desktop-only autofocus — avoid stealing focus / opening keyboard on mobile
+    const canAutofocus =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: fine) and (min-width: 901px)').matches;
+    if (canAutofocus) {
+      inputRef.current?.focus();
     }
   }, []);
 
@@ -40,18 +44,22 @@ export const SearchInput = () => {
   return (
     <div className="search-input-wrapper">
       <label htmlFor="search-input" className="visually-hidden">
-        Search Studios and Services
+        {t('search.placeholder', 'Search Studios and Services')}
       </label>
       <SearchIcon className="search-button" aria-hidden="true" />
       <input
+        id="search-input"
         ref={inputRef}
-        type="text"
+        type="search"
+        name="q"
+        autoComplete="off"
+        spellCheck={false}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={t('search.placeholder')}
         className="search-input"
-        aria-label="Search Studios and Services"
+        aria-label={t('search.placeholder', 'Search Studios and Services')}
       />
     </div>
   );

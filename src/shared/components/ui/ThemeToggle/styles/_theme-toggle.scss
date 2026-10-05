@@ -46,6 +46,10 @@
     justify-content: center;
     transition: transform 300ms ease, opacity 300ms ease;
 
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     svg {
       color: var(--text-primary);
     }
