@@ -41,6 +41,8 @@ export { default as AddCircleIcon } from '@mui/icons-material/AddCircleOutline';
 export { default as RemoveIcon } from '@mui/icons-material/Remove';
 export { default as RemoveCircleIcon } from '@mui/icons-material/RemoveCircleOutline';
 export { default as DeleteIcon } from '@mui/icons-material/Delete';
+export { default as ArchiveIcon } from '@mui/icons-material/Archive';
+export { default as UnarchiveIcon } from '@mui/icons-material/Unarchive';
 export { default as EditIcon } from '@mui/icons-material/Edit';
 export { default as EditNoteIcon } from '@mui/icons-material/EditNote';
 export { default as SaveIcon } from '@mui/icons-material/Save';
@@ -278,6 +280,8 @@ import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import Remove from '@mui/icons-material/Remove';
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline';
 import Delete from '@mui/icons-material/Delete';
+import Archive from '@mui/icons-material/Archive';
+import Unarchive from '@mui/icons-material/Unarchive';
 import Edit from '@mui/icons-material/Edit';
 import EditNote from '@mui/icons-material/EditNote';
 import Save from '@mui/icons-material/Save';
@@ -424,6 +428,8 @@ export const Icons = {
   Remove,
   RemoveCircle: RemoveCircleOutline,
   Delete,
+  Archive,
+  Unarchive,
   Edit,
   EditNote,
   Save,

@@ -10,6 +10,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/he';
 import {
+  ArchiveIcon,
+  UnarchiveIcon,
   DeleteIcon,
   NotificationIcon,
   CheckCircleIcon,
@@ -31,13 +33,23 @@ dayjs.extend(relativeTime);
 
 interface NotificationItemProps {
   notification: Notification;
+  variant?: 'active' | 'archived';
 }
 
-export const NotificationItem: React.FC<NotificationItemProps> = ({ notification }) => {
+export const NotificationItem: React.FC<NotificationItemProps> = ({
+  notification,
+  variant = 'active'
+}) => {
   const { t, i18n } = useTranslation('common');
-  const { markAsRead, deleteNotificationById } = useNotificationContext();
+  const {
+    markAsRead,
+    archiveNotificationById,
+    restoreNotificationById,
+    deleteNotificationById
+  } = useNotificationContext();
   const { openReservationModal } = useReservationModal();
   const closeDropdown = usePopupDropdownClose();
+  const isArchived = variant === 'archived' || Boolean(notification.archivedAt);
 
   // Check if this is a reservation-related notification
   const isReservationNotification = useMemo(() => {
@@ -61,7 +73,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
   const { data: reservation } = useReservation(reservationId || '');
 
   const handleClick = async () => {
-    if (!notification.read) {
+    if (!isArchived && !notification.read) {
       await markAsRead(notification._id);
     }
 
@@ -74,9 +86,21 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     closeDropdown();
   };
 
+  const handleArchive = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    await archiveNotificationById(notification._id);
+  };
+
+  const handleRestore = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    await restoreNotificationById(notification._id);
+  };
+
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    e.preventDefault(); // Prevent link navigation
+    e.preventDefault();
     await deleteNotificationById(notification._id);
   };
 
@@ -229,9 +253,39 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
     t
   ]);
 
+  const actions = isArchived ? (
+    <div className="notification-item__actions">
+      <button
+        className="notification-item__action notification-item__action--restore"
+        onClick={handleRestore}
+        aria-label={t('notifications.restoreNotification', 'Restore notification')}
+        title={t('notifications.restoreNotification', 'Restore notification')}
+      >
+        <UnarchiveIcon fontSize="small" />
+      </button>
+      <button
+        className="notification-item__action notification-item__action--delete"
+        onClick={handleDelete}
+        aria-label={t('notifications.deleteNotification', 'Delete notification')}
+        title={t('notifications.deleteNotification', 'Delete notification')}
+      >
+        <DeleteIcon fontSize="small" />
+      </button>
+    </div>
+  ) : (
+    <button
+      className="notification-item__action notification-item__action--archive"
+      onClick={handleArchive}
+      aria-label={t('notifications.archiveNotification', 'Archive notification')}
+      title={t('notifications.archiveNotification', 'Archive notification')}
+    >
+      <ArchiveIcon fontSize="small" />
+    </button>
+  );
+
   const content = (
     <div
-      className={`notification-item ${notification.read ? 'notification-item--read' : 'notification-item--unread'}`}
+      className={`notification-item ${notification.read ? 'notification-item--read' : 'notification-item--unread'} ${isArchived ? 'notification-item--archived' : ''}`}
       onClick={handleClick}
     >
       <div className="notification-item__icon">{getNotificationIcon()}</div>
@@ -240,14 +294,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
         <div className="notification-item__message">{message}</div>
         <div className="notification-item__time">{timeAgo}</div>
       </div>
-      <button
-        className="notification-item__delete"
-        onClick={handleDelete}
-        aria-label={t('notifications.deleteNotification', 'Delete notification')}
-        title={t('notifications.deleteNotification', 'Delete notification')}
-      >
-        <DeleteIcon fontSize="small" />
-      </button>
+      {actions}
     </div>
   );
 

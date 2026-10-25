@@ -11,7 +11,7 @@ export const NotificationList: React.FC = () => {
     notifications,
     unreadCount,
     markAllAsRead,
-    deleteAllRead,
+    archiveAllRead,
     isLoading,
     hasNextPage,
     isFetchingNextPage,
@@ -65,18 +65,18 @@ export const NotificationList: React.FC = () => {
           )}
           {readCount > 0 && (
             <button
-              className="notification-list__delete-read"
-              onClick={deleteAllRead}
-              aria-label={t('notifications.deleteAllRead', 'Clear read')}
+              className="notification-list__archive-read"
+              onClick={archiveAllRead}
+              aria-label={t('notifications.archiveAllRead', 'Archive read')}
             >
-              {t('notifications.deleteAllRead', 'Clear read')}
+              {t('notifications.archiveAllRead', 'Archive read')}
             </button>
           )}
         </div>
       </div>
       <div className="notification-list__items" onScroll={handleScroll}>
         {notifications.map((notification) => (
-          <NotificationItem key={notification._id} notification={notification} />
+          <NotificationItem key={notification._id} notification={notification} variant="active" />
         ))}
         {isFetchingNextPage && <div className="notification-list__loading-more" />}
       </div>

@@ -123,7 +123,14 @@
     text-align: end;
   }
 
-  &__delete {
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    flex-shrink: 0;
+  }
+
+  &__action {
     background: transparent;
     border: none;
     color: var(--text-muted);
@@ -141,19 +148,25 @@
     min-width: 24px;
     min-height: 24px;
 
-    &:hover {
-      color: var(--color-error);
-      background: var(--color-error-bg);
-    }
-
     svg {
       width: 14px;
       height: 14px;
     }
+
+    &--archive:hover,
+    &--restore:hover {
+      color: var(--color-brand);
+      background: var(--color-brand-bg);
+    }
+
+    &--delete:hover {
+      color: var(--color-error);
+      background: var(--color-error-bg);
+    }
   }
 
   &:hover {
-    .notification-item__delete {
+    .notification-item__action {
       opacity: 1;
     }
   }
@@ -223,7 +236,7 @@
       font-size: 0.5625rem;
     }
 
-    &__delete {
+    &__action {
       width: 22px;
       height: 22px;
       min-width: 22px;

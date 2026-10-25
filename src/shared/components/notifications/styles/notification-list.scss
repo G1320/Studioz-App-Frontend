@@ -44,7 +44,7 @@
   }
 
   &__mark-all-read,
-  &__delete-read {
+  &__archive-read {
     background: var(--color-brand-bg);
     border: none;
     color: var(--color-brand);
@@ -63,16 +63,6 @@
 
     &:active {
       transform: scale(0.95);
-    }
-  }
-
-  &__delete-read {
-    background: var(--color-error-bg, rgba(239, 68, 68, 0.1));
-    color: var(--color-error, #ef4444);
-
-    &:hover {
-      background: rgba(239, 68, 68, 0.2);
-      color: var(--color-error, #ef4444);
     }
   }
 

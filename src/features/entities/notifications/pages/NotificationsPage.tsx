@@ -23,6 +23,8 @@ type NotificationFilter =
   | 'track_comments'
   | 'comment_replies';
 
+type NotificationView = 'active' | 'archived';
+
 const PROJECT_MESSAGE_FILTERS: Array<{
   key: Exclude<NotificationFilter, 'all' | NotificationCategory>;
   types: NotificationType[];
@@ -35,7 +37,8 @@ const PROJECT_MESSAGE_FILTERS: Array<{
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('common');
   const { user } = useUserContext();
-  const { markAllAsRead, deleteAllRead } = useNotificationContext();
+  const { markAllAsRead, archiveAllRead, unreadCount } = useNotificationContext();
+  const [activeView, setActiveView] = useState<NotificationView>('active');
   const [activeFilter, setActiveFilter] = useState<NotificationFilter>('all');
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -47,10 +50,11 @@ const NotificationsPage: React.FC = () => {
   }, [activeFilter]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['notifications-page', user?._id, activeFilter],
+    queryKey: ['notifications-page', user?._id, activeView, activeFilter],
     queryFn: ({ pageParam }) =>
       getNotifications({
         ...requestFilter,
+        archived: activeView === 'archived',
         limit: ITEMS_PER_PAGE,
         cursor: pageParam as string | undefined
       }),
@@ -83,8 +87,8 @@ const NotificationsPage: React.FC = () => {
     return () => observerRef.current?.disconnect();
   }, []);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
   const readCount = notifications.filter((n) => n.read).length;
+  const isArchiveView = activeView === 'archived';
 
   return (
     <div className="notifications-page">
@@ -93,26 +97,43 @@ const NotificationsPage: React.FC = () => {
           icon={<NotificationsIcon />}
           title={t('notifications.page.title', 'Notifications')}
           meta={
-            unreadCount > 0 ? (
+            !isArchiveView && unreadCount > 0 ? (
               <span className="notifications-page__badge">{unreadCount}</span>
             ) : null
           }
         >
-          {unreadCount > 0 ? (
+          {!isArchiveView && unreadCount > 0 ? (
             <button type="button" className="page-header__ghost-btn" onClick={markAllAsRead}>
               {t('notifications.markAllRead', 'Mark all as read')}
             </button>
           ) : null}
-          {readCount > 0 ? (
-            <button
-              type="button"
-              className="page-header__ghost-btn page-header__ghost-btn--danger"
-              onClick={deleteAllRead}
-            >
-              {t('notifications.deleteRead', 'Clear read')}
+          {!isArchiveView && readCount > 0 ? (
+            <button type="button" className="page-header__ghost-btn" onClick={archiveAllRead}>
+              {t('notifications.archiveRead', 'Archive read')}
             </button>
           ) : null}
         </PageHeader>
+
+        <div className="notifications-page__views" role="tablist" aria-label={t('notifications.views.label', 'Notification views')}>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeView === 'active'}
+            className={`notifications-page__view ${activeView === 'active' ? 'notifications-page__view--active' : ''}`}
+            onClick={() => setActiveView('active')}
+          >
+            {t('notifications.views.active', 'Active')}
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeView === 'archived'}
+            className={`notifications-page__view ${activeView === 'archived' ? 'notifications-page__view--active' : ''}`}
+            onClick={() => setActiveView('archived')}
+          >
+            {t('notifications.views.archived', 'Archive')}
+          </button>
+        </div>
 
         <div className="notifications-page__filters">
           <button
@@ -149,7 +170,11 @@ const NotificationsPage: React.FC = () => {
               <span className="notifications-page__empty-icon" aria-hidden="true">
                 <NotificationsIcon />
               </span>
-              <p>{t('notifications.page.empty', 'No notifications yet')}</p>
+              <p>
+                {isArchiveView
+                  ? t('notifications.page.emptyArchive', 'No archived notifications')
+                  : t('notifications.page.empty', 'No notifications yet')}
+              </p>
               {activeFilter !== 'all' && (
                 <p className="notifications-page__empty-hint">
                   {t('notifications.page.emptyFilter', 'Try selecting a different category')}
@@ -164,7 +189,10 @@ const NotificationsPage: React.FC = () => {
                   ref={index === notifications.length - 1 ? lastItemRef : undefined}
                   className={`notifications-page__item ${notification.priority === 'high' ? 'notifications-page__item--high' : ''}`}
                 >
-                  <NotificationItem notification={notification} />
+                  <NotificationItem
+                    notification={notification}
+                    variant={isArchiveView ? 'archived' : 'active'}
+                  />
                 </div>
               ))}
               {isFetchingNextPage && (

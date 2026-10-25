@@ -7,8 +7,10 @@ import { getNotifications, getUnreadNotificationCount } from '@shared/services/n
 import {
   useMarkNotificationAsReadMutation,
   useMarkAllNotificationsAsReadMutation,
-  useDeleteNotificationMutation,
-  useDeleteAllReadNotificationsMutation
+  useArchiveNotificationMutation,
+  useArchiveAllReadNotificationsMutation,
+  useRestoreNotificationMutation,
+  useDeleteNotificationMutation
 } from '@shared/hooks/mutations';
 
 const PAGE_SIZE = 10;
@@ -22,8 +24,10 @@ interface NotificationContextType {
   fetchNextPage: () => void;
   markAsRead: (notificationId: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
+  archiveNotificationById: (notificationId: string) => Promise<void>;
+  archiveAllRead: () => Promise<void>;
+  restoreNotificationById: (notificationId: string) => Promise<void>;
   deleteNotificationById: (notificationId: string) => Promise<void>;
-  deleteAllRead: () => Promise<void>;
   refetch: () => void;
 }
 
@@ -47,7 +51,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   } = useInfiniteQuery({
     queryKey: ['notifications', user?._id],
     queryFn: ({ pageParam }) =>
-      getNotifications({ limit: PAGE_SIZE, cursor: pageParam as string | undefined }),
+      getNotifications({ limit: PAGE_SIZE, cursor: pageParam as string | undefined, archived: false }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => {
       if (lastPage.length < PAGE_SIZE) return undefined;
@@ -74,8 +78,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   // Notification mutations
   const markAsReadMutation = useMarkNotificationAsReadMutation();
   const markAllAsReadMutation = useMarkAllNotificationsAsReadMutation();
+  const archiveNotificationMutation = useArchiveNotificationMutation();
+  const archiveAllReadMutation = useArchiveAllReadNotificationsMutation();
+  const restoreNotificationMutation = useRestoreNotificationMutation();
   const deleteNotificationMutation = useDeleteNotificationMutation();
-  const deleteAllReadMutation = useDeleteAllReadNotificationsMutation();
 
   // Handle socket events
   useEffect(() => {
@@ -136,16 +142,30 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     await markAllAsReadMutation.mutateAsync();
   }, [markAllAsReadMutation]);
 
+  const archiveNotificationById = useCallback(
+    async (notificationId: string) => {
+      await archiveNotificationMutation.mutateAsync(notificationId);
+    },
+    [archiveNotificationMutation]
+  );
+
+  const archiveAllRead = useCallback(async () => {
+    await archiveAllReadMutation.mutateAsync();
+  }, [archiveAllReadMutation]);
+
+  const restoreNotificationById = useCallback(
+    async (notificationId: string) => {
+      await restoreNotificationMutation.mutateAsync(notificationId);
+    },
+    [restoreNotificationMutation]
+  );
+
   const deleteNotificationById = useCallback(
     async (notificationId: string) => {
       await deleteNotificationMutation.mutateAsync(notificationId);
     },
     [deleteNotificationMutation]
   );
-
-  const deleteAllRead = useCallback(async () => {
-    await deleteAllReadMutation.mutateAsync();
-  }, [deleteAllReadMutation]);
 
   const value: NotificationContextType = {
     notifications,
@@ -156,10 +176,13 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     fetchNextPage,
     markAsRead,
     markAllAsRead,
+    archiveNotificationById,
+    archiveAllRead,
+    restoreNotificationById,
     deleteNotificationById,
-    deleteAllRead,
     refetch: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications', user?._id] });
+      queryClient.invalidateQueries({ queryKey: ['notifications-page', user?._id] });
       queryClient.invalidateQueries({ queryKey: ['notificationCount', user?._id] });
     }
   };
@@ -176,8 +199,10 @@ const defaultContextValue: NotificationContextType = {
   fetchNextPage: () => {},
   markAsRead: async () => {},
   markAllAsRead: async () => {},
+  archiveNotificationById: async () => {},
+  archiveAllRead: async () => {},
+  restoreNotificationById: async () => {},
   deleteNotificationById: async () => {},
-  deleteAllRead: async () => {},
   refetch: () => {}
 };
 

@@ -186,10 +186,12 @@
     "loading": "טוען התראות...",
     "empty": "אין התראות",
     "markAllAsRead": "סמן הכל כנקרא",
-    "deleteAllRead": "נקה נקראות",
+    "archiveAllRead": "העבר נקראות לארכיון",
     "seeAll": "הצג את כל ההתראות",
     "markAllRead": "סמן הכל כנקרא",
-    "deleteRead": "נקה נקראות",
+    "archiveRead": "העבר נקראות לארכיון",
+    "archiveNotification": "העבר התראה לארכיון",
+    "restoreNotification": "שחזר התראה",
     "deleteNotification": "מחק התראה",
     "fallbacks": {
       "remoteProjectCustomer": "לקוח",
@@ -205,7 +207,13 @@
     "page": {
       "title": "התראות",
       "empty": "אין התראות עדיין",
+      "emptyArchive": "אין התראות בארכיון",
       "emptyFilter": "נסה לבחור קטגוריה אחרת"
+    },
+    "views": {
+      "label": "תצוגות התראות",
+      "active": "פעילות",
+      "archived": "ארכיון"
     },
     "categories": {
       "all": "הכל",
@@ -317,8 +325,10 @@
       "profileUpdated": "הפרופיל עודכן בהצלחה",
       "vendorCreated": "חשבון הספק נוצר בהצלחה",
       "notificationDeleted": "ההתראה נמחקה",
+      "notificationArchived": "ההתראה הועברה לארכיון",
+      "notificationRestored": "ההתראה שוחזרה",
       "allNotificationsRead": "כל ההתראות סומנו כנקראו",
-      "allReadNotificationsDeleted": "ההתראות שנקראו נמחקו",
+      "readNotificationsArchived": "ההתראות שנקראו הועברו לארכיון",
       "cartUpdated": "העגלה עודכנה",
       "cartCleared": "העגלה נוקתה",
       "itemsAddedToCart": "פריטים נוספו לעגלה",

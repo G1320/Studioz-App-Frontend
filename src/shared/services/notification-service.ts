@@ -40,6 +40,7 @@ const notificationEndpoint = '/notifications';
 
 export const getNotifications = async (options?: {
   read?: boolean;
+  archived?: boolean;
   category?: NotificationCategory;
   types?: NotificationType[];
   limit?: number;
@@ -50,6 +51,9 @@ export const getNotifications = async (options?: {
     const params = new URLSearchParams();
     if (options?.read !== undefined) {
       params.append('read', options.read.toString());
+    }
+    if (options?.archived !== undefined) {
+      params.append('archived', options.archived.toString());
     }
     if (options?.category) {
       params.append('category', options.category);
@@ -104,20 +108,38 @@ export const markAllNotificationsAsRead = async (): Promise<{ modifiedCount: num
   }
 };
 
+export const archiveNotification = async (notificationId: string): Promise<Notification> => {
+  try {
+    return await httpService.patch<Notification>(`${notificationEndpoint}/${notificationId}/archive`);
+  } catch (error) {
+    console.error('Error archiving notification:', error);
+    throw error;
+  }
+};
+
+export const archiveAllReadNotifications = async (): Promise<{ archivedCount: number }> => {
+  try {
+    return await httpService.patch<{ archivedCount: number }>(`${notificationEndpoint}/archive-read`);
+  } catch (error) {
+    console.error('Error archiving read notifications:', error);
+    throw error;
+  }
+};
+
+export const restoreNotification = async (notificationId: string): Promise<Notification> => {
+  try {
+    return await httpService.patch<Notification>(`${notificationEndpoint}/${notificationId}/restore`);
+  } catch (error) {
+    console.error('Error restoring notification:', error);
+    throw error;
+  }
+};
+
 export const deleteNotification = async (notificationId: string): Promise<{ message: string }> => {
   try {
     return await httpService.delete<{ message: string }>(`${notificationEndpoint}/${notificationId}`);
   } catch (error) {
     console.error('Error deleting notification:', error);
-    throw error;
-  }
-};
-
-export const deleteAllReadNotifications = async (): Promise<{ deletedCount: number }> => {
-  try {
-    return await httpService.delete<{ deletedCount: number }>(`${notificationEndpoint}/read`);
-  } catch (error) {
-    console.error('Error deleting all read notifications:', error);
     throw error;
   }
 };

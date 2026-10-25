@@ -186,10 +186,12 @@
     "loading": "Loading notifications...",
     "empty": "No notifications",
     "markAllAsRead": "Mark all as read",
-    "deleteAllRead": "Clear read",
+    "archiveAllRead": "Archive read",
     "seeAll": "See all notifications",
     "markAllRead": "Mark all as read",
-    "deleteRead": "Clear read",
+    "archiveRead": "Archive read",
+    "archiveNotification": "Archive notification",
+    "restoreNotification": "Restore notification",
     "deleteNotification": "Delete notification",
     "fallbacks": {
       "remoteProjectCustomer": "A customer",
@@ -205,7 +207,13 @@
     "page": {
       "title": "Notifications",
       "empty": "No notifications yet",
+      "emptyArchive": "No archived notifications",
       "emptyFilter": "Try selecting a different category"
+    },
+    "views": {
+      "label": "Notification views",
+      "active": "Active",
+      "archived": "Archive"
     },
     "categories": {
       "all": "All",
@@ -317,8 +325,10 @@
       "profileUpdated": "Profile updated successfully",
       "vendorCreated": "Vendor account created successfully",
       "notificationDeleted": "Notification deleted",
+      "notificationArchived": "Notification archived",
+      "notificationRestored": "Notification restored",
       "allNotificationsRead": "All notifications marked as read",
-      "allReadNotificationsDeleted": "Read notifications deleted",
+      "readNotificationsArchived": "Read notifications archived",
       "cartUpdated": "Cart updated",
       "cartCleared": "Cart cleared",
       "itemsAddedToCart": "Items added to cart",
