@@ -8,10 +8,10 @@ interface ProjectNameFallbacks {
 
 export function getProjectDisplayNames(project: RemoteProject, language: string, fallbacks: ProjectNameFallbacks) {
   const itemSnapshot = project.itemName;
-  const populatedItem = typeof project.itemId === 'object' ? project.itemId.name : undefined;
+  const populatedItem = typeof project.itemId === 'object' ? project.itemId?.name : undefined;
   const studioSnapshot = project.studioName;
-  const populatedStudio = typeof project.studioId === 'object' ? project.studioId.name : undefined;
-  const populatedCustomer = typeof project.customerId === 'object' ? project.customerId.name : undefined;
+  const populatedStudio = typeof project.studioId === 'object' ? project.studioId?.name : undefined;
+  const populatedCustomer = typeof project.customerId === 'object' ? project.customerId?.name : undefined;
 
   const localized = (name?: { en: string; he?: string }) => (language === 'he' ? name?.he || name?.en : name?.en);
 

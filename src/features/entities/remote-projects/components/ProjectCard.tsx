@@ -44,15 +44,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   // Get item/service name
   const itemName =
-    typeof project.itemId === 'object'
-      ? project.itemId.name?.[i18n.language as 'en' | 'he'] || project.itemId.name?.en
-      : project.itemName?.[i18n.language as 'en' | 'he'] || project.itemName?.en;
+    (typeof project.itemId === 'object' &&
+      (project.itemId?.name?.[i18n.language as 'en' | 'he'] || project.itemId?.name?.en)) ||
+    project.itemName?.[i18n.language as 'en' | 'he'] ||
+    project.itemName?.en;
 
   // Get studio name
   const studioName =
-    typeof project.studioId === 'object'
-      ? project.studioId.name?.[i18n.language as 'en' | 'he'] || project.studioId.name?.en
-      : project.studioName?.[i18n.language as 'en' | 'he'] || project.studioName?.en;
+    (typeof project.studioId === 'object' &&
+      (project.studioId?.name?.[i18n.language as 'en' | 'he'] || project.studioId?.name?.en)) ||
+    project.studioName?.[i18n.language as 'en' | 'he'] ||
+    project.studioName?.en;
 
   // Format deadline
   const formattedDeadline = project.deadline

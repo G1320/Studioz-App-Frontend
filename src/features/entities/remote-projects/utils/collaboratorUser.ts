@@ -2,12 +2,12 @@ import type { ProjectCollaborator } from 'src/types';
 
 export function collaboratorUserLabel(user: ProjectCollaborator['userId']): string {
   if (typeof user === 'string') return user;
-  return user.name || user.email || user._id;
+  return user?.name || user?.email || user?._id || '';
 }
 
 export function collaboratorUserTooltip(user: ProjectCollaborator['userId']): string {
   if (typeof user === 'string') return user;
-  return user.name?.trim() || user.email || user._id;
+  return user?.name?.trim() || user?.email || user?._id || '';
 }
 
 export function collaboratorAvatarUrl(user: ProjectCollaborator['userId']): string | undefined {
@@ -86,7 +86,7 @@ export function collaboratorFace(user: ProjectCollaborator['userId']): Collabora
 }
 
 export function collaboratorUserId(user: ProjectCollaborator['userId']): string {
-  return typeof user === 'string' ? user : user._id;
+  return typeof user === 'string' ? user : (user?._id ?? '');
 }
 
 export function activeCollaborators(collaborators?: ProjectCollaborator[]): ProjectCollaborator[] {

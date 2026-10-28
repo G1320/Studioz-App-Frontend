@@ -186,7 +186,7 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
 
   const collaboratorMeta = (c: ProjectCollaborator) =>
     [
-      typeof c.userId === 'object' && c.userId.email ? c.userId.email : null,
+      typeof c.userId === 'object' && c.userId?.email ? c.userId.email : null,
       c.fileIds?.length ? t('shareLinks.scopeCount', { count: c.fileIds.length }) : null,
       c.expiresAt ? t('shareLinks.expiresOn', { date: new Date(c.expiresAt).toLocaleDateString() }) : null,
       c.shareLinkId ? t('collaborators.viaLink') : null
@@ -288,7 +288,9 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
     <p className="project-collaborators__empty">{t('collaborators.empty')}</p>
   ) : (
     SIDES.map((side) => {
-      const sideCollaborators = collaborators.filter((c: ProjectCollaborator) => c.side === side);
+      const sideCollaborators = collaborators.filter(
+        (c: ProjectCollaborator) => c.side === side && c.userId != null
+      );
       const sideInvites = pending.filter((invite: ProjectInvite) => invite.side === side);
       if (sideCollaborators.length === 0 && sideInvites.length === 0) return null;
       return (
@@ -472,7 +474,7 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                                   {collaboratorUserLabel(request.userId)}
                                 </div>
                                 <div className="project-collaborators__meta">
-                                  {typeof request.userId === 'object' && request.userId.email
+                                  {typeof request.userId === 'object' && request.userId?.email
                                     ? request.userId.email
                                     : new Date(request.createdAt).toLocaleDateString()}
                                 </div>

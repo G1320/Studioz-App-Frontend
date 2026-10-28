@@ -60,7 +60,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ limit = 4, studi
     const visibleProjects =
       isStudioOwner && studioIds.length > 0
         ? projects.filter((project) => {
-            const studioId = typeof project.studioId === 'string' ? project.studioId : project.studioId._id;
+            const studioId = typeof project.studioId === 'string' ? project.studioId : project.studioId?._id;
             return studioIds.includes(studioId);
           })
         : projects;

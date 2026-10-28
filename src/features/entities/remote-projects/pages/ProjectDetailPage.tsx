@@ -244,12 +244,13 @@ const ProjectDetailContent: React.FC = () => {
     );
   }
 
-  function getVendorId(proj: RemoteProject): string {
-    return typeof proj.vendorId === 'string' ? proj.vendorId : proj.vendorId._id;
+  // Populated refs come back null when the referenced user no longer exists.
+  function getVendorId(proj: RemoteProject): string | undefined {
+    return typeof proj.vendorId === 'string' ? proj.vendorId : proj.vendorId?._id;
   }
 
-  function getCustomerId(proj: RemoteProject): string {
-    return typeof proj.customerId === 'string' ? proj.customerId : proj.customerId._id;
+  function getCustomerId(proj: RemoteProject): string | undefined {
+    return typeof proj.customerId === 'string' ? proj.customerId : proj.customerId?._id;
   }
 
   const sameUser = (a?: string, b?: string) => Boolean(a && b && String(a) === String(b));
@@ -436,13 +437,13 @@ const ProjectDetailContent: React.FC = () => {
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;
-    if (typeof project.itemId === 'object' && project.itemId.name?.en) return project.itemId.name.en;
+    if (typeof project.itemId === 'object' && project.itemId?.name?.en) return project.itemId.name.en;
     return t('remoteService');
   };
 
   const getStudioName = (): string => {
     if (project.studioName?.en) return project.studioName.en;
-    if (typeof project.studioId === 'object' && project.studioId.name?.en) return project.studioId.name.en;
+    if (typeof project.studioId === 'object' && project.studioId?.name?.en) return project.studioId.name.en;
     return t('studio');
   };
 
@@ -545,7 +546,7 @@ const ProjectDetailContent: React.FC = () => {
                   projectId={projectId}
                   access={access}
                   canInvite={canInvite}
-                  currentUserId={user._id}
+                  currentUserId={user?._id ?? ''}
                 />
               )}
 
@@ -656,7 +657,7 @@ const ProjectDetailContent: React.FC = () => {
               {user && (
                 <ProjectChat
                   projectId={projectId}
-                  currentUserId={user._id}
+                  currentUserId={user?._id ?? ''}
                   currentUserRole={userRole}
                   disabled={!canChat || ['completed', 'cancelled', 'declined'].includes(project.status)}
                   collapsed={isChatCollapsed}
